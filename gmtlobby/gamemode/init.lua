@@ -1,5 +1,5 @@
 ----------------------------------------------
-PRIVATE_TEST_MODE = false
+PRIVATE_TEST_MODE = true
 
 util.AddNetworkString("AdminMessage")
 util.AddNetworkString("gmt_gamemodestart")
@@ -45,7 +45,7 @@ include( "animation.lua" ) // for gmt_force* commands
 
 CreateConVar("gmt_srvid", 99 )
 
--- Check if they can join
+--[[ Check if they can join
 
 GM.AllowedList = {}
 GM.AllowedList["STEAM_0:0:71992617"] = true
@@ -62,22 +62,22 @@ GM.AllowedList["STEAM_0:1:4313984"] = true
 GM.AllowedList["STEAM_0:1:97372299"] = true
 GM.AllowedList["STEAM_0:1:457668257"] = true
 GM.AllowedList["STEAM_0:1:50147143"] = true
-
+--]]
 util.AddNetworkString("MultiserverJoinRemove")
-
+--[[ Not needed right now.
 timer.Create("gmt_timer_private",(60*2),0,function()
 	if !PRIVATE_TEST_MODE then timer.Destroy("gmt_timer_private") return end
-	MsgC( Color( 125, 255, 125 ), "GMTC IS IN PRIVATE MODE, SET PRIVATE_TEST_MODE TO FALSE IN GMTLOBBY/INIT.LUA:2\n" )
+	MsgC( Color( 125, 255, 125 ), "GMTD IS IN PRIVATE MODE, SET PRIVATE_TEST_MODE TO FALSE IN GMTLOBBY/INIT.LUA:2\n" )
 end)
-
+--]]
 function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
 	steam = util.SteamIDFrom64(steam)
 
-	if self.AllowedList[steam] or !PRIVATE_TEST_MODE then
+	if IsOwner(steam) or IsAdmin(steam) or IsTester(steam) or !PRIVATE_TEST_MODE then
 		return true
 	else
 		MsgC(Color(51, 204, 51),name.." <"..steam.."> ("..IP..") tried to join the server.\n")
-		return false, "You are not authorized to join the server."
+		return false, "Server is currently in development! Check back later or join our Discord. https://discord.gg/gW3EGAtfXJ"
 	end
 
 	return true
