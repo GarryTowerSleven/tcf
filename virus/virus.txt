@@ -1,0 +1,15 @@
+"virus"
+{
+	"base"		"base"
+	"title"		"Virus"
+	"version"	""
+
+	"author_name"	"GMT Krew~"
+	"author_email"	""
+	"author_url"	"http://www.gmodtower.org/"
+
+	"maps"		"^gmt_zm_"
+
+	"menusystem"	"1"
+	"help" 		"ayy"
+}

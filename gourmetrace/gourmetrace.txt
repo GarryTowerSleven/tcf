@@ -1,0 +1,8 @@
+"Gamemode"
+{
+	"base"		"base"
+	"title"		"Gourmet Race"
+	"maps"		"^gmt_gr_"
+	"menusystem"	"1"
+	"help" 		"ayy"
+}

@@ -1,0 +1,11 @@
+"Gamemode"
+{
+	"title"		"GMTower"
+	"version"	"Updating..."
+
+	"author_name"	"Nican132"
+	"author_email"	""
+	"author_url"	""
+
+	"menusystem"	"1"
+}

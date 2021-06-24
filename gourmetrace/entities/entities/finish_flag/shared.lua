@@ -1,0 +1,4 @@
+ENT.Type = "anim"
+ENT.Base = "base_anim"
+
+ENT.Model = ( "models/gmod_tower/golftriangleflag.mdl" )

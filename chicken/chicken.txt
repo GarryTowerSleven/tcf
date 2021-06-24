@@ -1,0 +1,8 @@
+"chicken"
+{
+	"title"	"Chicken Road"
+	"base"	"base"
+	"maps"		"^chicken_"
+	"menusystem"	"1"
+	"help" 		"ayy"
+}

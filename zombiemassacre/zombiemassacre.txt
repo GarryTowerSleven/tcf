@@ -1,0 +1,15 @@
+"zombiemassacre"
+{
+	"base"		"base"
+	"title"		"Zombie Massacre"
+	"version"	"1.0"
+
+	"author_name"	"GMT Krew~"
+	"author_email"	""
+	"author_url"	"http://www.gmodtower.org/"
+
+	"maps"		"^gmt_zm_"
+
+	"menusystem"	"1"
+	"help" 		"ayy"
+}

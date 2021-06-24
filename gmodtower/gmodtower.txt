@@ -1,0 +1,18 @@
+"Gamemode"
+{
+	"name"		"GMod Tower"
+	"version"	"Build 001"
+
+	"author_name"	"GMod Tower"
+	"author_email"	""
+	"author_url"	"http://www.gmodtower.org"
+	
+	"icon"		""
+	"info"		""
+	"hide"		"1"
+
+	"mappattern"
+	{
+		"1"	"^gmt_"
+	}
+}
