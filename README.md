@@ -1,1 +1,2 @@
-# DanielTower
+# GMTower: Deluxe
+Dang, that looks Deluxe!
