@@ -133,6 +133,10 @@ hook.Add( "PlayerSay", "GTChatHook", function( ply, chat, toall, type )
 		chat = chat .. " ~nyan"
 	end
 
+	if IsValid(ply.Hat) && ply.Hat:GetModel() == "models/gmod_tower/toetohat.mdl" && #chat >= 5 then
+		chat = chat .. " ~etoeto"
+	end
+
 	local rp = nil
 
 	if !toall && ply.HasGroup && ply:HasGroup() then
