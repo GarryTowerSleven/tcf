@@ -1,71 +1,128 @@
 
 -----------------------------------------------------
-payout.Register( "ThanksForPlaying", {
-	Name = "Thanks For Playing",
-	Desc = "For participating in the game!",
-	GMC = 25,
-} )
-
-payout.Register( "Completed", {
-	Name = "Completed Level",
-	Desc = "For completing the level.",
-	GMC = 25,
-	Diff = 1,
-} )
+payout.Register( "ThanksForPlaying", {
 
-payout.Register( "NoDie", {
-	Name = "Didn't Die",
-	Desc = "You didn't lose any lives.",
-	GMC = 25,
-	Diff = 1,
-} )
-
-payout.Register( "Rank1", {
-	Name = "1st Place",
-	Desc = "Congratulations!",
-	GMC = 150,
-	Diff = 3,
-} )
-
-payout.Register( "Rank2", {
-	Name = "2nd Place",
-	Desc = "Aw, so close!",
-	GMC = 100,
-	Diff = 3,
-} )
-
-payout.Register( "Rank3", {
-	Name = "3rd Place",
-	Desc = "",
-	GMC = 50,
-	Diff = 3,
-} )
+	Name = "Thanks For Playing",
 
-payout.Register( "Button", {
-	Name = "Team Player",
-	Desc = "For pressing a button.",
-	Diff = 4,
-	GMC = 50,
-} )
+	Desc = "For participating in the game!",
 
-payout.Register( "Collected", {
-	Name = "Collected Bananas",
-	Desc = "Bonus for collecting bananas (5 GMC each).",
-	Diff = 4,
+	GMC = 25,
+
+} )
+
+
+
+payout.Register( "Completed", {
+
+	Name = "Completed Level",
+
+	Desc = "For completing the level.",
+
+	GMC = 25,
+
+	Diff = 1,
+
+} )
+
+
+payout.Register( "Collected", {
+
+	Name = "Collected Bananas",
+
+	Desc = "Bonus for collecting bananas (5 GMC each).",
+
+	Diff = 2,
+
 	GMC = 0,
-} )
-
-function GM:GiveMoney()
-
-	if CLIENT then return end
-
-	--local PlayerTable = player.sqlGetAll()
+} )
 
-		for _, ply in pairs( player.GetAll() ) do
+
+payout.Register( "Button", {
+
+	Name = "Team Player",
+
+	Desc = "For pressing a button.",
+
+	Diff = 2,
+
+	GMC = 30,
+} )
+
+
+payout.Register( "NoDie", {
+
+	Name = "Didn't Die",
+
+	Desc = "You didn't lose any lives.",
+
+	GMC = 25,
+
+	Diff = 2,
+
+} )
+
+
+
+payout.Register( "Rank1", {
+
+	Name = "1st Place",
+
+	Desc = "Congratulations!",
+
+	GMC = 150,
+
+	Diff = 3,
+
+} )
+
+
+
+payout.Register( "Rank2", {
+
+	Name = "2nd Place",
+
+	Desc = "Aw, so close!",
+
+	GMC = 100,
+
+	Diff = 3,
+
+} )
+
+
+
+payout.Register( "Rank3", {
+
+	Name = "3rd Place",
+
+	Desc = "",
+
+	GMC = 50,
+
+	Diff = 3,
+
+} )
+
+
+
+function GM:GiveMoney()
+
+
+
+	if CLIENT then return end
+
+
+
+	--local PlayerTable = player.sqlGetAll()
+
+
+		for _, ply in pairs( player.GetAll() ) do
+
 
 			if ply.AFK then continue end
 
-			payout.Clear( ply )
+			payout.Clear( ply )
+
 
 
 			local placement = ply:GetNWInt("Placement")
@@ -94,8 +151,12 @@ function GM:GiveMoney()
       	payout.Give( ply, "Collected", ply:Frags() * 5 )
 			end
 
-			payout.Payout( ply )
-
-		end
-
+			payout.Payout( ply )
+
+
+
+		end
+
+
+
 end
