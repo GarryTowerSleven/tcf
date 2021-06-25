@@ -1327,7 +1327,7 @@ RegisterModel(
 
 	"Carley",
 
-	"",
+	"You think you're some tough bitch, don't you? Like nothing can hurt you, but you're just a scared little girl. Get the fuck over it.",
 
 	"models/nikout/carleypm.mdl",
 
