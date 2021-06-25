@@ -180,10 +180,10 @@ function InsertPlayer( self )
 
 	local EscapedName = SQL.getDB():Escape( self.Player:Name() )
 
- SQL.getDB():Query(
-		"INSERT INTO `gm_users`(id, steamid, name, ip, levels, pvpweapons, inventory, banklimit, bank, achivement, roomdata, clisettings, MaxItems) VALUES ("
-		..self:SQLId()..",'"..tostring(self.Player:SteamID()).."','".. EscapedName .."', '".. tostring(self:GetIP()) .."', ' ".. "" .. "', '".. "" .."', ' ".. "" .."', ' ".. "" .."', ' ".. "" .."', ' ".. "" .."', ' ".. "" .."', ' ".. "" .."', ' ".. "" .."') ON DUPLICATE KEY UPDATE name='"..EscapedName.."'", 
-		function(res)
+	 SQL.getDB():Query(
+		"INSERT INTO `gm_users`(id, steamid, name, ip) VALUES ("
+		..self:SQLId()..",'"..tostring(self.Player:SteamID()).."','".. EscapedName .."', '".. tostring(self:GetIP()) .."') ON DUPLICATE KEY UPDATE name='"..EscapedName.."'",
+		function( res )
 			if res[1].status != true then
 				print("PLAYER INSERT ERROR: "..res[1].error)
 				--SQLLog('error', "PLAYER INSERT ERROR: " .. error )
