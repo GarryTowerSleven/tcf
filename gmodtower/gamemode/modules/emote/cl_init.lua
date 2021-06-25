@@ -8,7 +8,7 @@ end )
 
 hook.Add( "KeyPress", "EmoteEndByKey", function( ply, key )
 
-	if ply:GetNWBool("Sitting") || ply:GetNWBool("Laying") then
+	if ply:GetNWBool("Sitting") || ply:GetNWBool("Laying") || ply:GetNWBool("Lounging") then
 
 		if key == IN_FORWARD || key == IN_BACK || key == IN_MOVELEFT || key == IN_MOVERIGHT || key == IN_JUMP then
 			RunConsoleCommand( "gmt_emoteend" )
@@ -22,4 +22,5 @@ hook.Add( "ForceViewSelf", "ForceViewSelfEmotes", function( ply )
 
 	return emote && emote.IsEmoting( ply )
 
-end )
+end ) 
+

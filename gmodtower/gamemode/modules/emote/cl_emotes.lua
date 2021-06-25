@@ -3,17 +3,17 @@ module( "emote", package.seeall )
 
 // List of emotes available
 Commands = {
-	[1] = "agree",
+	[1] = "wave",	
 	[2] = "beckon",
 	[3] = "bow",
-	[4] = "disagree",
 	//[5] = "give",
-	[5] = "group",
-	[6] = "no",
+	[4] = "group",
+	[5] = "agree",
+	[6] = "disagree",
 	[7] = "dance",
 	[8] = "sexydance",
-	[9] = "sit",
-	[10] = "wave",
+	[9] = "robot",
+	[10] = "no",
 	[11] = "yes",
 	[12] = "taunt",
 	[13] = "cheer",
@@ -22,12 +22,12 @@ Commands = {
 	[15] = "laugh",
 	[16] = "suicide",
 	[17] = "lay",
-	[18] = "robot",
+	[18] = "sit",
+	[19] = "lounge",
 }
 
 SitAnims = {
 	"sit_zen",
-	"zombie_slump_idle_02",
 }
 
 function IsEmoting( ply )
@@ -58,6 +58,15 @@ hook.Add( "CalcMainActivity", "Sitting", function( ply )
 		return ply.CalcIdeal, ply:LookupSequence( "zombie_slump_idle_01" )
 
 	end
+	if ply:GetNWBool("Lounging") then
+
+		if ply:GetModel() == "models/player/midna.mdl" then
+			return ply.CalcIdeal, ply:LookupSequence( "midna_float" )
+		end
+
+		return ply.CalcIdeal, ply:LookupSequence( "zombie_slump_idle_02" )
+
+	end
 end )
 
 ---
@@ -79,6 +88,15 @@ usermessage.Hook( "EmoteLay", function( um )
 	local ply = ents.GetByIndex( um:ReadShort() )
 	if IsValid( ply ) then
 		ply.IsLaying = um:ReadBool() or false
+	end
+
+end )
+
+usermessage.Hook( "EmoteLounge", function( um )
+
+	local ply = ents.GetByIndex( um:ReadShort() )
+	if IsValid( ply ) then
+		ply.IsLounging = um:ReadBool() or false
 	end
 
 end )
@@ -130,6 +148,8 @@ hook.Add( "GtowerShowContextMenus", "ShowEmote", function()
 
 		local name = string.Uppercase( emote )
 		if emote == "sexydance" then name = "Sexy Dance" end
+		if emote == "yes" then name = "Move On" end
+		if emote == "no" then name = "Stop That" end
 		if emote == "danceforever" then name = "Dance 2" end
 
 		local p = vgui.Create( "DButton" )
