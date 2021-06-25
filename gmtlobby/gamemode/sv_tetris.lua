@@ -26,7 +26,7 @@ function UpdateTetrisBoard( force, ply )
     return
   end
 
-  local Query = "SELECT `id`,`name`,`tetrisscore` FROM gm_users WHERE tetrisscore > 0 ORDER BY cast(tetrisscore as int) DESC LIMIT "..MaxPlayers
+   local Query = "SELECT `id`,`name`,`tetrisscore` FROM gm_users WHERE tetrisscore > 0 ORDER BY CAST(tetrisscore as UNSIGNED) DESC LIMIT "..MaxPlayers
 
   SQL.getDB():Query( Query, function(res)
     if !res or res == nil then return end
