@@ -11,10 +11,11 @@ GTowerAdmins = {
 	"STEAM_0:1:85508734", -- Bman
 	"STEAM_0:1:124798129", -- Amgona
 	"STEAM_0:1:30473979", -- Nano
-	
+
 }
 
 GTowerAdminPrivileged = {
+	"STEAM_0:0:38865393", -- Lame
 }
 
 GTowerSecretAdmin = {
