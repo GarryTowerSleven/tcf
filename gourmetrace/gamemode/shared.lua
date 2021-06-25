@@ -16,6 +16,7 @@ DeriveGamemode( "gmodtower" )
 TowerModules.LoadModules( {
 	"achivement",
 	"scoreboard3",
+	"commands",
 	"afk2",
 	"friends",
 	--"music",
