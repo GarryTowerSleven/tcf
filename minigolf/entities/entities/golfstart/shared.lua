@@ -24,6 +24,9 @@ function ENT:KeyValue(key, value)
 	if key == "name" then
 		self.name = value
 	end
+	if key == "Name" then
+		self.name = value
+	end
 end
 
 function ENT:GetPar()
