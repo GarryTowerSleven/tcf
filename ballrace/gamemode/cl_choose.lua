@@ -1,5 +1,3 @@
-surface.CreateFont( "GTowerHUDMainSmall", { font = Oswald, size = 14, weight = 400 } )
-
 pick_ball = CreateClientConVar( "selected_ball", "1", true, false )
 
 BallRacerChooser = {}
@@ -101,9 +99,11 @@ function BallRacerChooser:ChooseBall( name )
 	RunConsoleCommand( "selected_ball", name )
 	RunConsoleCommand( "gmt_setball", name )
 	ChosenId = name
+	Msg2("Your ball will change on next spawn.")
 end
 
 net.Receive( "pick_ball", function( len, pl )
+	RunConsoleCommand("gmt_requestballupdate")
 	BallRacerChooser:ChooseBall( pick_ball:GetInt() )
 end )
 
