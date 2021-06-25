@@ -487,8 +487,10 @@ soundscape.Register("music_duels", {})
 
 
 -- Mute any music in the duels arena
-
 soundscape.Register("music_duelarena", {})
 
 -- Mute any music in the transit station
 soundscape.Register("music_transit", {})
+
+-- Mute BG music in arcade
+soundscape.Register("music_arcade", {})
