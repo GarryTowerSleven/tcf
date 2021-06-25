@@ -219,6 +219,7 @@ GtowerLangush.AddWord( 1, "PlayerModelUpdatedLater",	"Your player model will be 
 // === HATS ===
 GtowerLangush.AddWord( 1, "HatUpdated",	"You are now wearing the {1}.")
 GtowerLangush.AddWord( 1, "HatNone",	"You are no longer wearing a hat.")
+GtowerLangush.AddWord( 1, "HatFaceNone",	"You are no longer wearing a face hat.")
 GtowerLangush.AddWord( 1, "HatNotPurchased",	"You have not purchased this hat.")
 
 

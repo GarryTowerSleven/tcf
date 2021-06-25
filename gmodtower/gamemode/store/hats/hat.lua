@@ -95,7 +95,10 @@ function GTowerHats:SetHat( ply, hat, hatSlot )
 		return
 	end
 
-	if (isFace() && ply.PlayerFaceHat == 0) or (!isFace() && ply.PlayerHat == 0) then
+	if (isFace() && ply.PlayerFaceHat == 0) then
+		ply:RemoveHat(isFace())
+		return T("HatFaceNone")
+	elseif (!isFace() && ply.PlayerHat == 0) then
 		ply:RemoveHat(isFace())
 		return T("HatNone")
 	end
