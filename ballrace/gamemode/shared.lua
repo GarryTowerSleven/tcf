@@ -27,7 +27,7 @@ GM.Tries = 2
 if game.GetMap() == "gmt_ballracer_midori02" or game.GetMap() == "gmt_ballracer_midorib5" then
 	GM.DefaultLevelTime = 120
 	GM.Lives = 3
-elseif game.GetMap() == "gmt_ballracer_memories04" then
+elseif game.GetMap() == "gmt_ballracer_memories02" then
 	GM.DefaultLevelTime = 70
 	GM.Lives = 3
 elseif game.GetMap() == "gmt_ballracer_tranquil01" then
@@ -57,7 +57,7 @@ Levels = {
 "gmt_ballracer_grassworld01",
 "gmt_ballracer_iceworld03",
 "gmt_ballracer_khromidro02",
-"gmt_ballracer_memories04",
+"gmt_ballracer_memories02",
 "gmt_ballracer_metalworld",
 "gmt_ballracer_midori02",
 "gmt_ballracer_neonlights01",

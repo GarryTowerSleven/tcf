@@ -52,7 +52,7 @@ function ENT:Touch(ent)
 		ply:AddAchivement( ACHIVEMENTS.BRSECRETICEWORLD, 1 )
 	elseif game.GetMap() == "gmt_ballracer_khromidro02" then
 		ply:AddAchivement( ACHIVEMENTS.BRSECRETKHROMIDRO, 1 )
-	elseif game.GetMap() == "gmt_ballracer_memories04" then
+	elseif game.GetMap() == "gmt_ballracer_memories02" then
 		ply:AddAchivement( ACHIVEMENTS.BRSECRETMEMORIES, 1 )
 	elseif game.GetMap() == "gmt_ballracer_metalworld" then
 		ply:AddAchivement( ACHIVEMENTS.BRSECRETMETALWORLD, 1 )

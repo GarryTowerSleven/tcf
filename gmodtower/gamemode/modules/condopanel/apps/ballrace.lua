@@ -1,28 +1,48 @@
 
 -----------------------------------------------------
-APP.NiceName = "Ballrace"
-APP.Icon = "storage"
-APP.Order = 99
+APP.NiceName = "Ballrace"
+
+APP.Icon = "storage"
+
+APP.Order = 99
+
 
 if CLIENT then
 
-GradientDown = surface.GetTextureID( "VGUI/gradient_down" )
-GradientUp = surface.GetTextureID( "VGUI/gradient_up" )
-Cursor2D = surface.GetTextureID( "cursor/cursor_default" )
-
-Backgrounds = {
-	Material( "gmod_tower/panelos/backgrounds/background1.png", "unlitsmooth" ),
-	Material( "gmod_tower/panelos/backgrounds/background2.png", "unlitsmooth" ),
-	Material( "gmod_tower/panelos/backgrounds/background3.png", "unlitsmooth" ),
-	Material( "gmod_tower/panelos/backgrounds/background4.png", "unlitsmooth" ),
-	Material( "gmod_tower/panelos/backgrounds/background5.png", "unlitsmooth" ),
-	Material( "gmod_tower/panelos/backgrounds/background6.png", "unlitsmooth" ),
-	Material( "gmod_tower/panelos/backgrounds/background7.png", "unlitsmooth" ),
-	Material( "gmod_tower/panelos/backgrounds/background8.png", "unlitsmooth" ),
-	Material( "gmod_tower/panelos/backgrounds/background9.png", "unlitsmooth" ),
-}
-
---Icons = GTowerIcons.Icons
+GradientDown = surface.GetTextureID( "VGUI/gradient_down" )
+
+GradientUp = surface.GetTextureID( "VGUI/gradient_up" )
+
+Cursor2D = surface.GetTextureID( "cursor/cursor_default" )
+
+
+
+Backgrounds = {
+
+	Material( "gmod_tower/panelos/backgrounds/background1.png", "unlitsmooth" ),
+
+	Material( "gmod_tower/panelos/backgrounds/background2.png", "unlitsmooth" ),
+
+	Material( "gmod_tower/panelos/backgrounds/background3.png", "unlitsmooth" ),
+
+	Material( "gmod_tower/panelos/backgrounds/background4.png", "unlitsmooth" ),
+
+	Material( "gmod_tower/panelos/backgrounds/background5.png", "unlitsmooth" ),
+
+	Material( "gmod_tower/panelos/backgrounds/background6.png", "unlitsmooth" ),
+
+	Material( "gmod_tower/panelos/backgrounds/background7.png", "unlitsmooth" ),
+
+	Material( "gmod_tower/panelos/backgrounds/background8.png", "unlitsmooth" ),
+
+	Material( "gmod_tower/panelos/backgrounds/background9.png", "unlitsmooth" ),
+
+}
+
+
+
+--Icons = GTowerIcons.Icons
+
 
 local path = "gmod_tower/panelos/icons/"
 
@@ -97,22 +117,29 @@ Icons = {
 	["ballrace"] = Create( "gamemode_ballrace.png" ),
 }
 
-Sounds = {
-	["accept"] = "GModTower/ui/panel_accept.wav",
-	["back"] = "GModTower/ui/panel_back.wav",
-	["error"] = "GModTower/ui/panel_error.wav",
-	["save"] = "GModTower/ui/panel_save.wav",
-}
+Sounds = {
+
+	["accept"] = "GModTower/ui/panel_accept.wav",
+
+	["back"] = "GModTower/ui/panel_back.wav",
+
+	["error"] = "GModTower/ui/panel_error.wav",
+
+	["save"] = "GModTower/ui/panel_save.wav",
+
+}
+
 
 end
 
-local sideBarWidth = 500
+local sideBarWidth = 500
+
 
 local maps = {
 	["gmt_ballracer_grassworld01"] = "Grass World",
 	["gmt_ballracer_iceworld03"] = "Ice World",
 	["gmt_ballracer_khromidro02"] = "Khromidro",
-	["gmt_ballracer_memories04"] = "Memories",
+	["gmt_ballracer_memories02"] = "Memories",
 	["gmt_ballracer_midori02"] = "Midori",
 	["gmt_ballracer_neonlights01"] = "Neon Lights",
 	["gmt_ballracer_paradise03"] = "Paradise",
@@ -128,7 +155,7 @@ local mapsLevels = {
 	["gmt_ballracer_grassworld01"] = 8,
 	["gmt_ballracer_iceworld03"] = 10,
 	["gmt_ballracer_khromidro02"] = 11,
-	["gmt_ballracer_memories04"] = 18,
+	["gmt_ballracer_memories02"] = 18,
 	["gmt_ballracer_midori02"] = 13,
 	["gmt_ballracer_neonlights01"] = 7,
 	["gmt_ballracer_paradise03"] = 13,
@@ -140,11 +167,15 @@ local mapsLevels = {
 	["gmt_ballracer_iceworld03"] = 10,
 }
 
-local tabs = {}
+local tabs = {
+}
+
 
 for name1, nicename in pairs( maps ) do
-	local tbl = 	{
-		icon = "stop",
+	local tbl = 	{
+
+		icon = "stop",
+
 		name = nicename,
 		dbname = name1,
 	}
@@ -152,160 +183,309 @@ for name1, nicename in pairs( maps ) do
 	table.insert(tabs, tbl)
 
 end
-
---Called once
-function APP:Init()
-end
-
-function APP:SetBackground(id)
-	self.E:Sound(Sounds["save"])
-	self.I.HomeBG = id
-	if CLIENT then
-		self.E:SetScreenFacade(Backgrounds[self.I.HomeBG])
-	end
-end
-
-function APP:SetDoorbell( doorbell )
-
-	if SERVER then
-		local room = self.E:GetCondo()
-		if room then
-			room:SetDoorbell( doorbell )
-		end
-	end
-
-	self.C().Doorbell = doorbell
-
-end
-
-function APP:SetCondoNameTag( name )
-
-	if SERVER then
-		local room = self.E:GetCondo()
-		if room then
-			room:SetTag(tostring(name))
-		end
-	else
-		local owner = self.C().Owner
-		if IsValid( owner ) and owner == LocalPlayer() then
-			RunConsoleCommand("gmt_condotag", name)
-		end
-	end
-
-	self.E:GetCondo().Tag = name
-
-end
-
-function APP:SetCurrentTab(tab)
-	if tab != "" then
-		self.E:Sound(Sounds["accept"])
-	end
-
-	self:StartTab(tab)
-end
-
-function APP:Start()
-
-	self.I.HomeBG = self.I.HomeBG or 1
-	self.BaseClass:Start()
-	self.C().Tag = GetConVarString( "gmt_condotag" )
-
-	if SERVER then return end
-
-	self:SetupTabs()
-
-end
-
-function APP:SetupTabs()
-
-	self.buttons = {}
-
+
+
+--Called once
+
+function APP:Init()
+
+end
+
+
+
+function APP:SetBackground(id)
+
+	self.E:Sound(Sounds["save"])
+
+	self.I.HomeBG = id
+
+	if CLIENT then
+
+		self.E:SetScreenFacade(Backgrounds[self.I.HomeBG])
+
+	end
+
+end
+
+
+
+function APP:SetDoorbell( doorbell )
+
+
+
+	if SERVER then
+
+		local room = self.E:GetCondo()
+
+		if room then
+
+			room:SetDoorbell( doorbell )
+
+		end
+
+	end
+
+
+
+	self.C().Doorbell = doorbell
+
+
+
+end
+
+
+
+function APP:SetCondoNameTag( name )
+
+
+
+	if SERVER then
+
+		local room = self.E:GetCondo()
+
+		if room then
+
+			room:SetTag(tostring(name))
+
+		end
+
+	else
+
+		local owner = self.C().Owner
+
+		if IsValid( owner ) and owner == LocalPlayer() then
+
+			RunConsoleCommand("gmt_condotag", name)
+
+		end
+
+	end
+
+
+
+	self.E:GetCondo().Tag = name
+
+
+
+end
+
+
+
+function APP:SetCurrentTab(tab)
+
+	if tab != "" then
+
+		self.E:Sound(Sounds["accept"])
+
+	end
+
+
+
+	self:StartTab(tab)
+
+end
+
+
+
+function APP:Start()
+
+
+
+	self.I.HomeBG = self.I.HomeBG or 1
+
+	self.BaseClass:Start()
+
+	self.C().Tag = GetConVarString( "gmt_condotag" )
+
+
+
+	if SERVER then return end
+
+
+
+	self:SetupTabs()
+
+
+
+end
+
+
+
+function APP:SetupTabs()
+
+
+
+	self.buttons = {}
+
+
+
 	local iconSize = 40
-	local spacing = 2
-	local x, y = 0, 100
-	local w, h = sideBarWidth, iconSize + (spacing*2)
-
-	for k,v in pairs( tabs ) do
-
-		self:CreateButton( v.name, x, y, w, h,
-			function( btn, x, y, w, h, isover ) -- draw
-				DrawButtonTab( v.name, Icons[v.icon], iconSize, x, y, w, h, isover, v.name == self.currentTab )
-			end,
-			function( btn ) -- onclick
-				self.currentTab = v.name
+	local spacing = 2
+
+	local x, y = 0, 100
+
+	local w, h = sideBarWidth, iconSize + (spacing*2)
+
+
+
+	for k,v in pairs( tabs ) do
+
+
+
+		self:CreateButton( v.name, x, y, w, h,
+
+			function( btn, x, y, w, h, isover ) -- draw
+
+				DrawButtonTab( v.name, Icons[v.icon], iconSize, x, y, w, h, isover, v.name == self.currentTab )
+
+			end,
+
+			function( btn ) -- onclick
+
+				self.currentTab = v.name
+
 				self.currentName = v.dbname
-				self:Repl("SetCurrentTab", self.currentTab )
-			end
-		)
-
-		y = y + h + (spacing*2)
-
-	end
-
-end
-
-function APP:StartTab( tab )
-
-	self:SetupTabs()
-
-	--if tab == "Sky World" then
-
-		local spacing = 2
-		local padding = 6
+				self:Repl("SetCurrentTab", self.currentTab )
+
+			end
+
+		)
+
+
+
+		y = y + h + (spacing*2)
+
+
+
+	end
+
+
+
+end
+
+
+
+function APP:StartTab( tab )
+
+
+
+	self:SetupTabs()
+
+
+
+	--if tab == "Sky World" then
+
+
+
+		local spacing = 2
+
+		local padding = 6
+
 		local x, y = sideBarWidth+32, 500
 		local w, h = 150, 50
-		local color = Color( 0, 0, 0, 150 )
-		local color_hovered = color_hovered or Color( 255, 255, 255, 50 )
-		local c, columns = 1, 5
-
-		for i=1,mapsLevels[self.currentName] do
-
-			self:CreateButton( "Level "..tostring(i), x, y, w, h,
-				function( btn, x, y, w, h, isover ) -- draw
-					/*if self.C().Doorbell == k then
-						surface.SetDrawColor( 255, 255, 255, 255 )
-						surface.DrawRect( x-2, y-2, w+4, h+4 )
-						surface.SetTextColor( 0, 0, 0 )
-					else*/
-						surface.SetTextColor( 255, 255, 255 )
-					--end
-
-					if isover then
-						surface.SetDrawColor( color_hovered )
-					else
-						surface.SetDrawColor( color )
-					end
-
-					surface.DrawRect( x, y, w, h )
-
-					surface.SetFont( "AppBarSmall" )
-					surface.SetTextPos( x+padding*2, y+padding*2-10 )
-					surface.DrawText( "Level "..tostring(i) )
-				end,
-				function( btn ) -- onclick
+		local color = Color( 0, 0, 0, 150 )
+
+		local color_hovered = color_hovered or Color( 255, 255, 255, 50 )
+
+		local c, columns = 1, 5
+
+
+
+		for i=1,mapsLevels[self.currentName] do
+
+
+
+			self:CreateButton( "Level "..tostring(i), x, y, w, h,
+
+				function( btn, x, y, w, h, isover ) -- draw
+
+					/*if self.C().Doorbell == k then
+
+						surface.SetDrawColor( 255, 255, 255, 255 )
+
+						surface.DrawRect( x-2, y-2, w+4, h+4 )
+
+						surface.SetTextColor( 0, 0, 0 )
+
+					else
+*/
+						surface.SetTextColor( 255, 255, 255 )
+
+					--end
+
+
+
+					if isover then
+
+						surface.SetDrawColor( color_hovered )
+
+					else
+
+						surface.SetDrawColor( color )
+
+					end
+
+
+
+					surface.DrawRect( x, y, w, h )
+
+
+
+					surface.SetFont( "AppBarSmall" )
+
+					surface.SetTextPos( x+padding*2, y+padding*2-10 )
+
+					surface.DrawText( "Level "..tostring(i) )
+
+				end,
+
+				function( btn ) -- onclick
+
 					RunConsoleCommand( "gmt_requeststats", self.currentName, tostring(i) )
-				end
-			)
-
-			x = x + w + spacing
-
-			if c >= columns then
-				x = sideBarWidth+32
-				y = y + h + spacing
-				c = 0
-			end
-
-			c = c + 1
-
-		end
-
-	--end
-
-end
-
-function APP:Think()
-
-end
+				end
+
+			)
+
+
+
+			x = x + w + spacing
+
+
+
+			if c >= columns then
+
+				x = sideBarWidth+32
+
+				y = y + h + spacing
+
+				c = 0
+
+			end
+
+
+
+			c = c + 1
+
+
+
+		end
+
+
+
+	--end
+
+
+
+end
+
+
+
+function APP:Think()
+
+
+
+end
+
 
 local Worlds = {
 
@@ -332,20 +512,34 @@ net.Receive("gmt_statnetwork",function()
 
 end)
 
-function APP:Draw()
-
-	surface.SetMaterial( Backgrounds[self.I.HomeBG] )
-	surface.SetDrawColor( 255, 255, 255, 100 )
-	surface.DrawTexturedRect( 0, 0, scrw, scrh )
-
-	self:DrawSideBar()
-	self:DrawItemStatus()
-
-	if self.currentTab != "" then
-		surface.SetDrawColor( 0, 0, 0, 255 )
-		surface.SetTexture( GradientUp )
-		surface.DrawTexturedRect( sideBarWidth, 0, scrw, scrh )
-	end
+function APP:Draw()
+
+
+
+	surface.SetMaterial( Backgrounds[self.I.HomeBG] )
+
+	surface.SetDrawColor( 255, 255, 255, 100 )
+
+	surface.DrawTexturedRect( 0, 0, scrw, scrh )
+
+
+
+	self:DrawSideBar()
+
+	self:DrawItemStatus()
+
+
+
+	if self.currentTab != "" then
+
+		surface.SetDrawColor( 0, 0, 0, 255 )
+
+		surface.SetTexture( GradientUp )
+
+		surface.DrawTexturedRect( sideBarWidth, 0, scrw, scrh )
+
+	end
+
 
 	local string = ""
 
@@ -378,22 +572,40 @@ function APP:Draw()
 		surface.SetDrawColor(255,255,255,200)
 		surface.DrawRect(scrw/2.5, scrh/8 + (40*(i)), 710, 2)
 	end
-
-	self:DrawButtons()
-
-end
-
-function APP:DrawItemStatus()
-end
-
-function APP:DrawSideBar()
-
-	surface.SetDrawColor( 0, 0, 0, 150 )
-	surface.SetTexture( GradientUp )
-	surface.DrawTexturedRect( 0, 0, sideBarWidth, scrh )
-
-end
-
-function APP:End()
-	self.BaseClass.End(self)
+
+
+	self:DrawButtons()
+
+
+
+end
+
+
+
+function APP:DrawItemStatus()
+
+end
+
+
+
+function APP:DrawSideBar()
+
+
+
+	surface.SetDrawColor( 0, 0, 0, 150 )
+
+	surface.SetTexture( GradientUp )
+
+	surface.DrawTexturedRect( 0, 0, sideBarWidth, scrh )
+
+
+
+end
+
+
+
+function APP:End()
+
+	self.BaseClass.End(self)
+
 end
