@@ -238,9 +238,13 @@ hook.Add("PlayerDisconnected","LeaveMessage",function(ply)
 		return
 	end
 
-	for k,v in pairs(player.GetAll()) do
-		local SanitizedName = string.SafeChatName(ply:Name())
-		v:SendLua([[GTowerChat.Chat:AddText("]]..SanitizedName..[[ has left the tower. (]]..ply:SteamID()..[[)", Color(100, 100, 100, 255))]])
+	for k, v in pairs(player.GetAll()) do
+		if engine.ActiveGamemode() != "ballrace" && v.HideRedir == false then
+			local SanitizedName = string.SafeChatName(ply:Name())
+			v:SendLua([[GTowerChat.Chat:AddText("]] .. SanitizedName .. [[ has left the tower.", Color(100, 100, 100, 255))]])
+		else
+			return
+		end
 	end
 
 	if ply.ActiveDuel then
