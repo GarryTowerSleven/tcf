@@ -15,7 +15,6 @@ GTowerAdmins = {
 }
 
 GTowerAdminPrivileged = {
-	"STEAM_0:0:38865393", -- Lame
 }
 
 GTowerSecretAdmin = {
