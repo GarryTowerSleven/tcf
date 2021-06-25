@@ -13,7 +13,8 @@ end
 local Developer = {
 	"STEAM_0:0:1384695", -- Cat
 	"STEAM_0:0:44458854", -- Bumpy
-	"STEAM_0:1:39916544" -- Anoma
+	"STEAM_0:1:39916544", -- Anomaladox
+	"STEAM_0:1:30473979" -- Nano
 }
 
 local Admin = {}
@@ -31,7 +32,8 @@ local Tester = {
 	"STEAM_0:0:59511670", -- Souper Marilogi
 	"STEAM_0:1:32372838", -- dward99
 	"STEAM_0:0:67367129", -- Solid Snake
-	"STEAM_0:1:157016146" -- Spydermann
+	"STEAM_0:1:157016146", -- Spydermann
+	"STEAM_0:1:51961500" -- Gamizard
 }
 
 function IsTester(steamid)
