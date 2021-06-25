@@ -3,7 +3,7 @@
 
 module("Location", package.seeall )
 
-local MapPositions = {
+GTowerLocation.MapPositions = {
 	--{ 3, Vector(102,13024,14460), Vector(1581,15192,15016), 'condos', 0  }, //Condo #2
 	{ 32, Vector(3504,3240,-896), Vector(5296,4492,-480), 'theater', 1  }, //Theater Main
 	--{ 12, Vector(13926,13024,14460), Vector(15405,15192,15016), 'condos', 0  }, //Condo #11
@@ -80,24 +80,93 @@ local MapPositions = {
 	{ 70, Vector( -104.52037811279, -234.23878479004, 1989.2733154297 ), Vector( 146.07402038574, 211.93109130859, 2285.6396484375 ), 'monorail', 1 }, // Monorail
 	{ 71, Vector( 11243.061523438, -5205.6533203125, -723.61163330078 ), Vector( 11666.765625, -4962.7416992188, -395.68762207031 ), 'stores', 1 } // Firework Dealer
 }
+ResortVectors()
 
-
-for _, v in pairs( MapPositions ) do
-	OrderVectors( v[2], v[3] )
-end
+GTowerLocation.Locations = {
+	[1] = "Somewhere",
+	[2] = "Condo #1",
+	[3] = "Condo #2",
+	[4] = "Condo #3",
+	[5] = "Condo #4",
+	[6] = "Condo #5",
+	[7] = "Condo #6",
+	[8] = "Condo #7",
+	[9] = "Condo #8",
+	[10] = "Condo #9",
+	[11] = "Condo #10",
+	[12] = "Condo #11",
+	[13] = "Condo #12",
+	[14] = "Tower Elevators Lobby",
+	[15] = "Tower Lobby",
+	[16] = "Center Plaza",
+	[17] = "Plaza",
+	[18] = "Stores",
+	[19] = "Arcade Loft",
+	[20] = "Tower Outfitters",
+	[21] = "Toy Stop and Pets",
+	[22] = "Sweet Suite Furnishings",
+	[23] = "Central Circuit",
+	[24] = "Casino Loft",
+	[25] = "Casino",
+	[26] = "Pulse Nightclub",
+	[27] = "Pulse Nightclub Bar",
+	[28] = "Games",
+	[29] = "Tower Condos Lobby",
+	[30] = "Duel Arena Lobby",
+	[31] = "Condo Elevator",
+	[32] = "Theater Main",
+	[33] = "Theater 1",
+	[34] = "Theater 2",
+	[35] = "Theater Game Room",
+	[36] = "Games Lobby",
+	[37] = "Songbirds",
+	[38] = "Transit Station",
+	[39] = "Station A",
+	[40] = "Station B",
+	[41] = "Duel Arena",
+	[42] = "Boardwalk",
+	[43] = "Pool",
+	[44] = "Ferris Wheel",
+	[45] = "Beach",
+	[46] = "Top of Water Slides",
+	[47] = "Ocean",
+	[48] = "Water Slides",
+	[49] = "Zombie Massacre Port",
+	[50] = "Virus Port",
+	[51] = "UCH Port",
+	[52] = "Ball Race Port",
+	[53] = "PVP Battle Port",
+	[54] = "Source Karts Port",
+	[55] = "Minigolf Port",
+	[56] = "???",
+	[57] = "Tower Garden",
+	[58] = "Arcade",
+	[59] = "Trivia",
+	[60] = "???",
+	[61] = "The Hallway",
+	[62] = "The Dev HQ?",
+	[63] = "Gourmet Race Port",
+	[64] = "Monorail",
+	[65] = "Smoothie Bar",
+	[66] = "Basical's Goods",
+	[67] = "Beach House",
+	[68] = "Back Beach",
+	[69] = "Resort Pool",
+	[70] = "Monorail",
+	[71] = "Firework Dealer"
+}
 
 function GTowerLocation:GetGroup( locid )
-	for k,v in pairs( MapPositions ) do
+	for k,v in pairs( GTowerLocation.MapPositions ) do
 		if v[1] != locid then continue end
 		return v[4]
 	end
 end
 
 function GTowerLocation:DefaultLocation( pos )
-
 	local Candidates = {}
 
-	for _, v in ipairs( MapPositions ) do
+	for _, v in ipairs( GTowerLocation.MapPositions ) do
 		if self:InBox( pos, v[2], v[3] ) then
 			table.insert(Candidates,v)
 		end
@@ -116,13 +185,6 @@ function GTowerLocation:DefaultLocation( pos )
 	end
 
 	return nil
-
-end
-
-local locDebug = false
-
-function ShowGMTALPHALocations()
-	locDebug = !locDebug
 end
 
 local NoEntsLocations = {
@@ -132,6 +194,7 @@ local NoEntsLocations = {
 	[41] = true, // Duel Arena
 	[44] = true, // Ferris Wheel
 	[58] = true, // Arcade
+	[59] = true, // Trivia
 	[25] = true, // Casino
 }
 
@@ -150,48 +213,3 @@ end
 function IsCondo(id)
 	return ( id > 1 && id < 14 )
 end
-
-concommand.Add("gmt_showlocations", function( ply, cmd, args )
-
-	for k, v in ipairs( MapPositions ) do
-		Msg( k .. ". " , GTowerLocation:GetName( v[1] ), " (".. v[1] ..")\n" )
-		Msg("\t", v[2], "\n" )
-		Msg("\t", v[3], "\n" )
-	end
-
-	if GetConVarNumber("sv_cheats") != 1 then
-		Msg("Sorry, cheats needs to be on to draw boxes")
-	end
-
-	ShowGMTALPHALocations()
-end )
-
-hook.Add("PostDrawOpaqueRenderables", "DrawDebugLoc", function(depth, sky)
-
-	if sky then return end
-
-	if not locDebug then return end
-
-
-
-	local i, c = 0, table.Count(MapPositions)
-
-	for k, v in pairs(MapPositions) do
-
-		i = i + 1
-
-		render.SetColorMaterial()
-
-		local col = HSVToColor(360/c * i, 1, 1)
-
-		col.a = 128
-
-		render.DrawBox((v[2]+v[3])/2, Angle(), (v[2]+v[3])/2 - v[2], (v[2]+v[3])/2 - v[3], col, false)
-
-		render.DrawBox((v[2]+v[3])/2, Angle(), - ((v[2]+v[3])/2 - v[2]), -((v[2]+v[3])/2 - v[3]), col, false)
-
-		render.DrawWireframeBox((v[2]+v[3])/2, Angle(), - ((v[2]+v[3])/2 - v[2]), -((v[2]+v[3])/2 - v[3]), ColorAlpha(col, 64), true)
-
-	end
-
-end)

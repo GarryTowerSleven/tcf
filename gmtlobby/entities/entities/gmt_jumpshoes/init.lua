@@ -96,7 +96,7 @@ end )
 
 hook.Add("PlayerThink", "RemoveTakeonInTheater", function( ply )
 
-	if !IsValid( ply ) || !GTowerLocation:IsTheater(( GTowerLocation:GetPlyLocation( ply ) )) then return end
+	if !IsValid( ply ) || !Location:IsTheater(( GTowerLocation:GetPlyLocation( ply ) )) then return end
 
 	if IsValid( ply.Takeon ) then
 

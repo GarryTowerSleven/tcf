@@ -2,116 +2,20 @@
 GTowerLocation = GTowerLocation or {}
 GTowerLocation.DEBUG = false
 
-include("maps/gmt_alpha.lua")
-
-if SERVER then
-	AddCSLuaFile("maps/gmt_alpha.lua")
+function ResortVectors()
+	for _, v in pairs( GTowerLocation.MapPositions ) do
+		OrderVectors( v[2], v[3] )
+	end
 end
 
-GTowerLocation.SUITETELEPORTERS = 33
+function IncludeMaps()
+	include( "maps/"..game.GetMap()..".lua" )
 
-GTowerLocation.Locations = {
-	[1] = "Somewhere",
-	[2] = "Condo #1",
-	[3] = "Condo #2",
-	[4] = "Condo #3",
-	[5] = "Condo #4",
-	[6] = "Condo #5",
-	[7] = "Condo #6",
-	[8] = "Condo #7",
-	[9] = "Condo #8",
-	[10] = "Condo #9",
-	[11] = "Condo #10",
-	[12] = "Condo #11",
-	[13] = "Condo #12",
-	[14] = "Tower Elevators Lobby",
-	[15] = "Tower Lobby",
-	[16] = "Center Plaza",
-	[17] = "Plaza",
-	[18] = "Stores",
-	[19] = "Arcade Loft",
-	[20] = "Tower Outfitters",
-	[21] = "Toy Stop and Pets",
-	[22] = "Sweet Suite Furnishings",
-	[23] = "Central Circuit",
-	[24] = "Casino Loft",
-	[25] = "Casino",
-	[26] = "Pulse Nightclub",
-	[27] = "Pulse Nightclub Bar",
-	[28] = "Games",
-	[29] = "Tower Condos Lobby",
-	[30] = "Duel Arena Lobby",
-	[31] = "Condo Elevator",
-	[32] = "Theater Main",
-	[33] = "Theater 1",
-	[34] = "Theater 2",
-	[35] = "Theater Game Room",
-	[36] = "Games Lobby",
-	[37] = "Songbirds",
-	[38] = "Transit Station",
-	[39] = "Station A",
-	[40] = "Station B",
-	[41] = "Duel Arena",
-	[42] = "Boardwalk",
-	[43] = "Pool",
-	[44] = "Ferris Wheel",
-	[45] = "Beach",
-	[46] = "Top of Water Slides",
-	[47] = "Ocean",
-	[48] = "Water Slides",
-	[49] = "Zombie Massacre Port",
-	[50] = "Virus Port",
-	[51] = "UCH Port",
-	[52] = "Ball Race Port",
-	[53] = "PVP Battle Port",
-	[54] = "Source Karts Port",
-	[55] = "Minigolf Port",
-	[56] = "???",
-	[57] = "Tower Garden",
-	[58] = "Arcade",
-	[59] = "Trivia",
-	[60] = "???",
-	[61] = "The Hallway",
-	[62] = "The Dev HQ?",
-	[63] = "Gourmet Race Port",
-	[64] = "Monorail",
-	[65] = "Smoothie Bar",
-	[66] = "Basical's Goods",
-	[67] = "Beach House",
-	[68] = "Back Beach",
-	[69] = "Resort Pool",
-	[70] = "Monorail",
-	[71] = "Firework Dealer"
-}
-
-function GTowerLocation:IsSuite( id )
-	return id >= 11 && id <= 30 or id >= 70 && id <= 73
+	if SERVER then
+		AddCSLuaFile( "maps/"..game.GetMap()..".lua" )
+	end
 end
-
-function GTowerLocation:IsTheater( id )
-	return id == 32 or id == 33
-end
-
-GTowerLocation.TeleportLocations = {
-	[8] = {
-		["name"] = "Lobby",
-		["desc"] = "A place to play and chat.",
-		["ents"] = {},
-		["failpos"] = Vector(2721.0, -1482.1, 304.4)
-	},
-	[33] = {
-		["name"] = "Suites",
-		["desc"] = "Relax and store items.",
-		["ents"] = {},
-		["failpos"] = Vector(11837.0, 10615.3, 6910.0)
-	},
-	[34] = {
-		["name"] = "Gamemodes",
-		["desc"] = "Join the gamemode servers.",
-		["ents"] = {},
-		["failpos"] = Vector(11848, 10628, 6948 )
-	}
-}
+IncludeMaps()
 
 function GTowerLocation:Add( id, name )
 
@@ -129,15 +33,6 @@ function GTowerLocation:Add( id, name )
 end
 
 function GTowerLocation:GetName( id )
-	if self.Locations[ id ] == "Suites 10-16"  then
-	    return "Suites 10-15"
-	elseif self.Locations[ id ] == "Suites 17-24" then
-	    return "Suites 16-24"
-	end
-
-	if self.Locations[ id ] == "Hat Store" then
-		return "Appearance Store"
-	end
 	return self.Locations[ id ]
 end
 
@@ -199,3 +94,56 @@ end
 RegisterNWTablePlayer({
 	{"GLocation", 0, NWTYPE_CHAR, REPL_EVERYONE, LocationChanged },
 })
+
+
+
+local locDebug = false
+
+function ShowGMTALPHALocations()
+	locDebug = !locDebug
+end
+
+concommand.Add("gmt_showlocations", function( ply, cmd, args )
+
+	for k, v in ipairs( MapPositions ) do
+		Msg( k .. ". " , GTowerLocation:GetName( v[1] ), " (".. v[1] ..")\n" )
+		Msg("\t", v[2], "\n" )
+		Msg("\t", v[3], "\n" )
+	end
+
+	if GetConVarNumber("sv_cheats") != 1 then
+		Msg("Sorry, cheats needs to be on to draw boxes")
+	end
+
+	ShowGMTALPHALocations()
+end )
+
+hook.Add("PostDrawOpaqueRenderables", "DrawDebugLoc", function(depth, sky)
+
+	if sky then return end
+
+	if not locDebug then return end
+
+
+
+	local i, c = 0, table.Count(MapPositions)
+
+	for k, v in pairs(MapPositions) do
+
+		i = i + 1
+
+		render.SetColorMaterial()
+
+		local col = HSVToColor(360/c * i, 1, 1)
+
+		col.a = 128
+
+		render.DrawBox((v[2]+v[3])/2, Angle(), (v[2]+v[3])/2 - v[2], (v[2]+v[3])/2 - v[3], col, false)
+
+		render.DrawBox((v[2]+v[3])/2, Angle(), - ((v[2]+v[3])/2 - v[2]), -((v[2]+v[3])/2 - v[3]), col, false)
+
+		render.DrawWireframeBox((v[2]+v[3])/2, Angle(), - ((v[2]+v[3])/2 - v[2]), -((v[2]+v[3])/2 - v[3]), ColorAlpha(col, 64), true)
+
+	end
+
+end)
