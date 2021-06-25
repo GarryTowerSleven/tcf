@@ -23,6 +23,18 @@ function ENT:Initialize()
 			self.BonusNextEnt = dest[1]
 		end
 	end
+
+	if game.GetMap() == "gmt_ballracer_grassworld01" or game.GetMap() == "gmt_ballracer_skyworld01" or game.GetMap() == "gmt_ballracer_iceworld03" or game.GetMap() == "gmt_ballracer_facile" or game.GetMap() == "gmt_ballracer_sandworld02" or game.GetMap() == "gmt_ballracer_flyinhigh01" or game.GetMap() == "gmt_ballracer_nightball" or game.GetMap() == "gmt_ballracer_spaceworld01" or game.GetMap() == "gmt_ballracer_prism03" or game.GetMap() == "gmt_ballracer_waterworld02" then
+		return
+		else
+		local arrow = ents.Create( "arrow" )
+		if !IsValid( arrow ) then return end
+	
+		arrow:SetPos( self:GetPos() + Vector( 0, 0, 258.57 ) )
+		arrow:SetParent( self )
+		arrow:SetOwner( self )
+		arrow:Spawn()
+	end
 end
 
 function ENT:StartTouch( ply )
