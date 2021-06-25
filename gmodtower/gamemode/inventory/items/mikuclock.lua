@@ -18,10 +18,10 @@ if SERVER then
 	for i = 1, ITEM.Songs[2] do
 		strSong = "sound/" .. str[1] .. convertNum(i) .. str[2]
 		table.insert(tbl, strSong)
-		resource.AddFile(strSong)
+		--resource.AddFile(strSong)
 		//mikuPrecacheSound(strSong)
 		//print("Caching sound file: " .. strSong)
 	end
-	resource.AddFile("models/gmod_tower/mikuclock.mdl")
-	resource.AddFile("materials/models/gmod_tower/mikuclock.vmt")
+	--resource.AddFile("models/gmod_tower/mikuclock.mdl")
+	--resource.AddFile("materials/models/gmod_tower/mikuclock.vmt")
 end

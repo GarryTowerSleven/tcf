@@ -12,11 +12,7 @@ hook.Add("PlayerSay", "GTowerLogChat", function( ply, chat )
 	end
 	
 	SQL.getDB():Query(
-		"INSERT INTO gm_chat(`ply`,`message`,`srvid`) VALUES " ..
-		"(".. ply:SQLId() ..",'"
-		.. SQL.getDB():Escape(chat) .."',"
-		.. tostring(GTowerServers:GetServerId()) ..")"
-	, SQLLogResult)
+	"INSERT INTO `gm_chat`(`ply`,`name`,`message`,`srvid`) VALUES ('".. ply:SteamID() .."','".. ply:Name() .."','".. SQL.getDB():Escape(chat) .."','".. tostring(GTowerServers:GetServerId()) .."')", SQLLogResult)
 
 
 end )

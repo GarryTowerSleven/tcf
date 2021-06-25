@@ -34,6 +34,10 @@ local Tester = {
 	"STEAM_0:1:157016146" -- Spydermann
 }
 
+function IsTester(steamid)
+	return ( Tester and table.HasValue(Tester, steamid) )
+end
+
 local PixelTail = {
 	"STEAM_0:1:19359297", -- Wergulz, GMT Artist
 	"STEAM_0:1:11414156", -- Lifeless, GMT Mapper
