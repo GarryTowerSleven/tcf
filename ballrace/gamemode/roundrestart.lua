@@ -1,5 +1,6 @@
 local preserve = {"player",
 	--"viewmodel",
+	"gmt_hat",
 	"worldspawn",
 	"predicted_viewmodel",
 	"player_manager",
