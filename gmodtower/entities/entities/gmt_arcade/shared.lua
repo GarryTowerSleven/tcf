@@ -92,6 +92,7 @@ hook.Add("LoadAchivements","AchiArcadeJunkie", function ()
 
 end )
 
-function ENT:CanUse( ply )
-		return true, "PLAY"
-end
+function ENT:CanUse( ply )
+	return true, "PLAY"
+end
+
