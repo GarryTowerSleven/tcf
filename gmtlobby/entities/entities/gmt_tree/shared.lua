@@ -11,18 +11,18 @@ ENT.PrintName	= "Palm Tree"
 ENT.Model = Model("models/map_detail/foliage/coconut_tree_01.mdl")
 ENT.LODModel = Model("models/map_detail/foliage/coconut_tree_01_lod.mdl")
 
-ENT.PalmSeq = "wind_light"
+//ENT.PalmSeq = "wind_light"
 
-function ENT:Initialize()
-    if math.random(1,2) == 1 then self.PalmSeq = "wind_light_b" end
-end
+//function ENT:Initialize()
+//    if math.random(1,2) == 1 then self.PalmSeq = "wind_light_b" end
+//end
 
 function ENT:Think()
 	if ( SERVER ) then
-		self:NextThink( CurTime() )
-    if self:GetModel() == self.Model then
-      self:ResetSequence( self.PalmSeq )
-    end
+		//self:NextThink( CurTime() )
+    //if self:GetModel() == self.Model then
+    //  self:ResetSequence( self.PalmSeq )
+    //end
 		return true
   end
 
@@ -33,7 +33,7 @@ function ENT:Think()
     else
       if self:GetModel() == self.Model then return end
       self:SetModel( self.Model )
-      self:ResetSequence( self.PalmSeq )
+      //self:ResetSequence( self.PalmSeq )
     end
   end
 
