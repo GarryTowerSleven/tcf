@@ -299,6 +299,8 @@ function PLAYER:DrawPlayerName( pos, offset )
 	pos = pos + ( offset or Vector( 0, 0, 80 ) ) + ang:Up() * ( math.sin( CurTime() ) * 2 )
 
 	if ( !LocalPlayer():GetPos():WithinDistance( self.Player:GetPos(), 800 ) ) then return end
+	
+	local dist = LocalPlayer():GetPos():Distance( self.Player:GetPos() )
 
 	local opacity = math.Clamp( 310.526 - ( 0.394737 * dist ), 0, 150 )
 	local name = self.Player:GetName()
