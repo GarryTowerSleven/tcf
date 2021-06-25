@@ -113,6 +113,26 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 
 end )
 
+concommand.Add( "gmt_forcelevel", function( ply, command, args )
+
+	if ply == NULL or ply:IsAdmin() then
+
+		local str = args[1] or ""
+
+		if str == '' then
+			ForceLevel( game.GetMap(), ply )
+		else
+			ForceLevel( str, ply )
+		end
+
+	else
+		if GTowerHackers then
+			GTowerHackers:NewAttemp( ply, 5, command, args )
+		end
+	end
+
+end )
+
 concommand.Add( "forcechangelevel", function( ply, command, args )
 
 	local str = args[1]
@@ -161,6 +181,30 @@ function ChangeLevel( map, ply )
 				FinalChangeHook(MapName)
 			end)
 		end)
+
+	else
+		ply:Msg2("'"..map.."' not found on server! Use forcechangelevel to force a level change.")
+	end
+end
+
+function ForceLevel( map, ply )
+	local FilePlace = "maps/"..map..".bsp"
+	local MapName = map
+
+	if file.Exists(FilePlace,"GAME") then
+
+		local ChangeName
+
+		if IsValid(ply) then
+			ChangeName = string.SafeChatName(ply:Nick())
+		else
+			ChangeName = "CONSOLE"
+		end
+
+		analytics.postDiscord( "Logs", engine.ActiveGamemode() .. " server changing level to " .. map .. "... [".. ChangeName .."]" )
+		analytics.postDiscord( "Logs", engine.ActiveGamemode() .. " server shutting down..." )
+
+		FinalChangeHook(MapName)
 
 	else
 		ply:Msg2("'"..map.."' not found on server! Use forcechangelevel to force a level change.")
