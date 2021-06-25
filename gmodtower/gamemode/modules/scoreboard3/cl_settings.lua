@@ -37,7 +37,6 @@ SETTINGS.TabNames = {
 	--"Gamemode", -- Automatically adds when needed.
 	"General",
 	"Graphics",
-	"Voice/Media",
 	"Chat",
 	"Scoreboard",
 	"HUD",
@@ -470,7 +469,8 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		self:Header( "Volume" )
 		if string.StartWith(game.GetMap(),"gmt_lobby") then
 			--self:Slider( "Music Volume", Volume.VarAudio, 0, 100 )
-			self:Slider( "Media Volume", "mediaplayer_volume", 0, 100 )
+			self:Slider( "Media Volume", "mediaplayer_volume", 0, 100 )
+			self:CheckBox( "Mute Mediaplayer When GMod Is Unfocused", "mediaplayer_mute_unfocused" )
 			self:Slider( "Instrument Volume", "gmt_volume_instrument", 0, 100 )
 			self:CheckBox( "Enable Background Music", "gmt_bgmusic_enable" )
 			self:Slider( "Background Music Volume", "gmt_bgmusic_volume", 1, 100, 0, "gmt_bgmusic_enable" )
@@ -521,7 +521,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 	if tabname == "Voice/Media" then
 		self:Header( "Voice/Media" )
 		--self:CheckBox( "Enable Public Voice Chat", "gmt_allowvoice" )
-		self:CheckBox( "Enable Voice Chat", "voice_enable" )
+		--self:CheckBox( "Enable Voice Chat", "voice_enable" )
 		if IsLobby then
 			self:CheckBox( "Mute Mediaplayer When GMod Is Unfocused", "mediaplayer_mute_unfocused" )
 			--self:CheckBox( "Enable Ambient Music", "gmt_ambiance_enable" )
