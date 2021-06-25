@@ -73,6 +73,7 @@ local wordfilter = {
 	bieber		= "beaver",
 	yiff		= "pencil push",
 	rabbit		= "wabbit",
+	catbot    = "catboy",
 }
 
 concommand.Add("say2", function(ply, cmd, args)
