@@ -17,7 +17,7 @@ GMode.WaitingTime = 20.0
 //Set this to false if you want people to be able to go in and out of the server at any time.
 //Set also the min amount of players to join the sevrer
 GMode.OneTimeJoin = true
-GMode.MinPlayers = 3
+GMode.MinPlayers = 2
 
 //Set this if only a group can join
 GMode.GroupJoin = false

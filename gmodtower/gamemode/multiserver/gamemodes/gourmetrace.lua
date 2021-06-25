@@ -1,51 +1,91 @@
 ---------------------------------
-GMode.Name = "Gourmet Race"
-GMode.Gamemode = "gourmetrace"
-
-//Set true if players should be kicked if their "goserver" value on the database is not the same as the local server
-GMode.Private = true
-
-//Set true if this is only played by VIPs
-GMode.VIP = false
-
-//This is amount of time between the players being server to play
-//And the players be able to join the game
-GMode.WaitingTime = 15.0
-
-//This setting is for large group join
-//When you want all people to connect at once, the server must be empty to people be able to join.
-//Set this to false if you want people to be able to go in and out of the server at any time.
-//Set also the min amount of players to join the sevrer
-GMode.OneTimeJoin = true
-GMode.MinPlayers = 2
-
-//Set this if only a group can join
-GMode.GroupJoin = false
-
-GMode.MaxPlayers = 10 //Leave nil if the maxplayers are suppost to be the server maxplayers
-GMode.Gameplay = ""
-
+GMode.Name = "Gourmet Race"
+
+GMode.Gamemode = "gourmetrace"
+
+
+
+//Set true if players should be kicked if their "goserver" value on the database is not the same as the local server
+
+GMode.Private = true
+
+
+
+//Set true if this is only played by VIPs
+
+GMode.VIP = false
+
+
+
+//This is amount of time between the players being server to play
+
+//And the players be able to join the game
+
+GMode.WaitingTime = 15.0
+
+
+
+//This setting is for large group join
+
+//When you want all people to connect at once, the server must be empty to people be able to join.
+
+//Set this to false if you want people to be able to go in and out of the server at any time.
+
+//Set also the min amount of players to join the sevrer
+
+GMode.OneTimeJoin = true
+
+GMode.MinPlayers = 1
+
+
+//Set this if only a group can join
+
+GMode.GroupJoin = false
+
+
+
+GMode.MaxPlayers = 10 //Leave nil if the maxplayers are suppost to be the server maxplayers
+
+GMode.Gameplay = ""
+
+
+
 GMode.Maps = Maps.GetMapsInGamemode( GMode.Gamemode )
 
 --setpos 6503.279297 -4229.863770 -779.566956;setang 0.004969 -0.367843 0.000000
-GMode.View = {
-	pos = Vector(6885.2109375, -4399.4521484375, -873.34979248047),
+GMode.View = {
+
+	pos = Vector(6885.2109375, -4399.4521484375, -873.34979248047),
+
 	ang = Angle(-12.70481300354, 24.638710021973, 0)
-}
-
-GMode.Tips = {
-	"Collect as many food as you can for the highest amount of GMC!",
-	"Keep an eye out for invincibility candies, they will help you out a lot!",
+}
+
+
+
+GMode.Tips = {
+
+	"Collect as many food as you can for the highest amount of GMC!",
+
+	"Keep an eye out for invincibility candies, they will help you out a lot!",
+
 	"Some maps have secret passage ways, can you find them all?",
 	"Hit people with your hammer to slow them down!",
-}
-
-GMode.Music = {
-	"gmodtower/gourmetrace/music/round/round1.mp3",
-	"gmodtower/gourmetrace/music/round/round3.mp3",
-	"gmodtower/gourmetrace/music/round/round8.mp3",
-	"gmodtower/gourmetrace/music/waiting/waiting1.mp3",
-}
+}
+
+
+
+GMode.Music = {
+
+	"gmodtower/gourmetrace/music/round/round1.mp3",
+
+	"gmodtower/gourmetrace/music/round/round3.mp3",
+
+	"gmodtower/gourmetrace/music/round/round8.mp3",
+
+	"gmodtower/gourmetrace/music/waiting/waiting1.mp3",
+
+}
+
 
 function GMode:GetMapTexture( map )
 
