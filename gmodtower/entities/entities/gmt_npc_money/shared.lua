@@ -14,3 +14,7 @@ ENT.MoneyValue = 500
 ENT.CurAnimation = "pose_standing_01"
 
 ENT.Model		= "models/player/haroldlott.mdl"
+
+function ENT:CanUse( ply )
+	return true, "GIVE ME SOME GMC"
+end
