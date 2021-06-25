@@ -209,6 +209,7 @@ function GtowerRooms:ShowRentWindow( um )
 				icon = "condo",
 				func = function()
 					RunConsoleCommand("gmt_dieroom")
+					GtowerMessages:AddNewItem( T("RoomReturnYes"), nil, nil, "condo" )
 					SelectionMenuManager.Remove()
 				end,
 			},
@@ -222,12 +223,16 @@ function GtowerRooms:ShowRentWindow( um )
 			{
 				title = "Buy Vault Slots",
 				icon = "safe",
-				func = function() self:TrunkUpgrade() end,
+				func = function()
+					self:TrunkUpgrade()
+				end,
 			},
 			{
 				title = "Information",
 				icon = "about",
-				func = function() MsgN( "wow!" ) end,
+				func = function()
+					GtowerMessages:AddNewItem( T("RoomInformation"), nil, nil, "condo" )
+				end,
 			},
 		}
 
@@ -239,12 +244,16 @@ function GtowerRooms:ShowRentWindow( um )
 			{
 				title = "Buy Vault Slots",
 				icon = "safe",
-				func = function() self:TrunkUpgrade() end,
+				func = function()
+					self:TrunkUpgrade()
+				end,
 			},
 			{
 				title = "Information",
 				icon = "about",
-				func = function() MsgN( "wow!" ) end,
+				func = function()
+					GtowerMessages:AddNewItem( T("RoomInformation"), nil, nil, "condo" )
+				end,
 			},
 		}
 
@@ -265,12 +274,16 @@ function GtowerRooms:ShowRentWindow( um )
 			{
 				title = "Buy Vault Slots",
 				icon = "safe",
-				func = function() self:TrunkUpgrade() end,
+				func = function()
+					self:TrunkUpgrade()
+				end,
 			},
 			{
 				title = "Information",
 				icon = "about",
-				func = function() MsgN( "wow!" ) end,
+				func = function()
+					GtowerMessages:AddNewItem( T("RoomInformation"), nil, nil, "condo" ) 
+				end,
 			},
 		}
 

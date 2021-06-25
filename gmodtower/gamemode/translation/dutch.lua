@@ -77,6 +77,7 @@ GtowerLangush.AddWord( 1, "RoomMaxEnts",	"Je mag niet meer dan {1} item hebben i
 
 GtowerLangush.AddWord( 1, "RoomOwnerBroke",		"Je bent niet de suite eigenaar of GtowerRooms is kapot.")
 GtowerLangush.AddWord( 1, "RoomRadioWrongID",	"Radio's suite ID is {1}.  Jij hebt {2}.")
+GtowerLangush.AddWord( 1, "RoomInformation",	"Voel je vrij om hier in te checken in een Condo, of kluisslots te kopen voor opslag!")
 
 
 GtowerLangush.AddWord( 1, "Group_menu",			"Groep")

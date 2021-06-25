@@ -77,6 +77,7 @@ GtowerLangush.AddWord( 1, "RoomMaxEnts",	"You can not have more than {1} entitie
 
 GtowerLangush.AddWord( 1, "RoomOwnerBroke",		"You aren't the condo owner or GtowerRooms broke.")
 GtowerLangush.AddWord( 1, "RoomRadioWrongID",	"Radio's condo ID is {1}.  You have {2}.")
+GtowerLangush.AddWord( 1, "RoomInformation",	"Feel free to check into a Condo here, or buy vault slots for storage!")
 
 
 GtowerLangush.AddWord( 1, "Group_menu",			"Group")
