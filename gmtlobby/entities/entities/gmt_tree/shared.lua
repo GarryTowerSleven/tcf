@@ -1,9 +1,12 @@
 
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 
-ENT.Base		= "base_entity"
-ENT.Type 		= "anim"
-ENT.PrintName	= "Palm Tree"
+ENT.Base		= "base_entity"
+
+ENT.Type 		= "anim"
+
+ENT.PrintName	= "Palm Tree"
+
 
 ENT.Model = Model("models/map_detail/foliage/coconut_tree_01.mdl")
 ENT.LODModel = Model("models/map_detail/foliage/coconut_tree_01_lod.mdl")
@@ -30,6 +33,7 @@ function ENT:Think()
     else
       if self:GetModel() == self.Model then return end
       self:SetModel( self.Model )
+      self:ResetSequence( self.PalmSeq )
     end
   end
 
