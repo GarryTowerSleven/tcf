@@ -78,7 +78,7 @@ local Changelog /*= {
 }*/
 
 function GetChangelog()
-    http.Fetch( "https://gmodtower.org/apps/changelog.json",
+    http.Fetch( "https://www.gmodtower.org/apps/changelog.json",
     function( body, len, headers, code )
         Changelog = util.JSONToTable(body)
     end,

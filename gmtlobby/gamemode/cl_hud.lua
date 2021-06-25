@@ -20,6 +20,7 @@ table.insert( GtowerHudToHide, "CHudHealth" )
 table.insert( GtowerHudToHide, "CHudAmmo" )
 table.insert( GtowerHudToHide, "CHudSecondaryAmmo" )
 table.insert( GtowerHudToHide, "CHudBattery" )
+table.insert( GtowerHudToHide, "CHudZoom" )
 
 // draw the hud?
 GTowerHUD.Enabled = CreateClientConVar( "gmt_hud", 1, true, false )
@@ -38,9 +39,12 @@ GTowerHUD.Notice = {
 
 // because native weapons don't have a way of giving us a max clip count
 // we need to cache the highest values we see
-GTowerHUD.MaxAmmo = {}
-
--- Main HUD
+GTowerHUD.MaxAmmo = {}
+
+
+
+-- Main HUD
+
 
 local HUDBackground = Material( "gmod_tower/hud/bg_gradient_deluxe.png", "unlightsmooth" )
 local HUDLogo = Material( "gmod_tower/hud/logo_flat_deluxe.png", "unlightsmooth" )
@@ -50,68 +54,128 @@ if IsHalloweenMap() then
   HUDLogo = Material( "gmod_tower/hud/logo_flat_deluxe_h.png", "unlightsmooth" )
 end
 
-GTowerHUD.Info = {
-	Enabled = CreateClientConVar( "gmt_hud_info", 1, true, false ),
+GTowerHUD.Info = {
+
+	Enabled = CreateClientConVar( "gmt_hud_info", 1, true, false ),
+
 	Texture = HUDLogo,
-	TextureWidth = 64,
-	TextureHeight = 64,
-	X = 10,
-	Y = ScrH() - 90,
-	Height = 70,
-	Width = 250,
-	OffHeight = 48,
+	TextureWidth = 64,
+
+	TextureHeight = 64,
+
+	X = 10,
+
+	Y = ScrH() - 90,
+
+	Height = 70,
+
+	Width = 250,
+
+	OffHeight = 48,
+
 	Background = HUDBackground
-}
-
--- Crosshair
-GTowerHUD.Crosshair = {
-	Enabled = CreateClientConVar( "gmt_hud_crosshair", 1, true, false ),
-	AlwaysOn = CreateClientConVar( "gmt_hud_crosshair_always", 1, true, false ),
-	Action = CreateClientConVar( "gmt_hud_crosshair_action", 0, true, false ),
-	Material = Material( "gmod_tower/hud/crosshair.png" ),
-	Size = 4,
-	MaxSize = 16,
-}
-
--- Money
-GTowerHUD.Money = {
-	LastAmount = 0,
-	Amount = 0, -- this is approached
-	Font = "GTowerHUDMainLarge",
-}
-
--- Location
-GTowerHUD.Location = {
-	Font = "GTowerHUDMainSmall",
-}
-
--- Ammo
-GTowerHUD.Ammo = {
-	Enabled = CreateClientConVar( "gmt_hud_ammo", 1, true, false ),
-	Texture = surface.GetTextureID( "gmod_tower/lobby/hud/ammo" ),
-	Width = 256,
-	Height = 256,
-	MainFont =  "GTowerhuge",
-	SecondaryFont = "GTowerbigbold",
-}
-
--- Ammo bar
-GTowerHUD.AmmoBar = {
-	Texture = surface.GetTextureID( "gmod_tower/lobby/hud/ammobar" ),
-	Width = 130 - 4,
-	Height = 130 - 4,
-	CurrentRotation = 0, -- approached in think
-	TargetRotation = 0, -- updated in draw
-}
-
-GTowerHUD.Notice = {
-	Enabled = CreateClientConVar( "gmt_notice", 1, true, false ),
-}
-
--- Location Change Notice
-GTowerHUD.LocationChangeNotice = {
-	Enabled = CreateClientConVar( "gmt_location_notice", 1, true, false ),
-	Alpha = 0,
+}
+
+
+
+-- Crosshair
+
+GTowerHUD.Crosshair = {
+
+	Enabled = CreateClientConVar( "gmt_hud_crosshair", 1, true, false ),
+
+	AlwaysOn = CreateClientConVar( "gmt_hud_crosshair_always", 1, true, false ),
+
+	Action = CreateClientConVar( "gmt_hud_crosshair_action", 0, true, false ),
+
+	Material = Material( "gmod_tower/hud/crosshair.png" ),
+
+	Size = 4,
+
+	MaxSize = 16,
+
+}
+
+
+
+-- Money
+
+GTowerHUD.Money = {
+
+	LastAmount = 0,
+
+	Amount = 0, -- this is approached
+
+	Font = "GTowerHUDMainLarge",
+
+}
+
+
+
+-- Location
+
+GTowerHUD.Location = {
+
+	Font = "GTowerHUDMainSmall",
+
+}
+
+
+
+-- Ammo
+
+GTowerHUD.Ammo = {
+
+	Enabled = CreateClientConVar( "gmt_hud_ammo", 1, true, false ),
+
+	Texture = surface.GetTextureID( "gmod_tower/lobby/hud/ammo" ),
+
+	Width = 256,
+
+	Height = 256,
+
+	MainFont =  "GTowerhuge",
+
+	SecondaryFont = "GTowerbigbold",
+
+}
+
+
+
+-- Ammo bar
+
+GTowerHUD.AmmoBar = {
+
+	Texture = surface.GetTextureID( "gmod_tower/lobby/hud/ammobar" ),
+
+	Width = 130 - 4,
+
+	Height = 130 - 4,
+
+	CurrentRotation = 0, -- approached in think
+
+	TargetRotation = 0, -- updated in draw
+
+}
+
+
+
+GTowerHUD.Notice = {
+
+	Enabled = CreateClientConVar( "gmt_notice", 1, true, false ),
+
+}
+
+
+
+-- Location Change Notice
+
+GTowerHUD.LocationChangeNotice = {
+
+	Enabled = CreateClientConVar( "gmt_location_notice", 1, true, false ),
+
+	Alpha = 0,
+
 }
 
 if GTowerHUD.VolumeSlider then GTowerHUD.VolumeSlider:Remove() GTowerHUD.VolumeSlider = nil end
@@ -212,84 +276,156 @@ end
 
 local mLastAmount = 0
 local mAmount = 0
-local gradientUp = surface.GetTextureID( "VGUI/gradient_up" )
-function GTowerHUD.DrawInfo()
-
-	if !GTowerHUD.Info.Enabled:GetBool() then return end
-	if hook.Call( "DisableHUD", GAMEMODE, ply ) then return end
-
-	surface.SetMaterial( GTowerHUD.Info.Background )
-	surface.SetDrawColor( 155, 155, 155, 200 )
-	surface.DrawTexturedRect( 0, GTowerHUD.Info.Y-2, GTowerHUD.Info.Width, GTowerHUD.Info.TextureHeight+4 )
-
-	surface.SetMaterial( GTowerHUD.Info.Texture )
-	surface.SetDrawColor( 255, 255, 255, 255 )
-	surface.DrawTexturedRect( GTowerHUD.Info.X, GTowerHUD.Info.Y, GTowerHUD.Info.TextureWidth, GTowerHUD.Info.TextureHeight )
-
-	-- Ease money
-	if GTowerHUD.Money.LastAmount != Money() then
-		GTowerHUD.Money.LastAmount = Money()
-	end
-
-	if GTowerHUD.Money.Amount != Money() then
-		local diffMoney = GTowerHUD.Money.Amount - GTowerHUD.Money.LastAmount
-		local increaseAmount = math.ceil( math.abs( diffMoney * .1 ) )
-		GTowerHUD.Money.Amount = math.Approach( GTowerHUD.Money.Amount, Money(), increaseAmount )
-	end
-
-	-- GMC
-	local money = string.FormatNumber( GTowerHUD.Money.Amount )
-	surface.SetFont( GTowerHUD.Money.Font )
-	local tw, th = surface.GetTextSize( money )
-
-	local x = GTowerHUD.Info.X + 75
-	local y = GTowerHUD.Info.Y + 22
-
-	draw.SimpleShadowText( money, GTowerHUD.Money.Font, x, y, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
-	draw.SimpleShadowText( "GMC", GTowerHUD.Location.Font, x + tw + 4, y + 6, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
-
-	-- Icon
-	--[[draw.SimpleShadowText( money, GTowerHUD.Money.Font, x + 32 - 8, y, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
-
-	surface.SetDrawColor( 255, 255, 255 )
-	surface.SetMaterial( GTowerIcons.GetIcon("money") )
-	surface.DrawTexturedRect( x - 6, y - 15, 32, 32 )]]
-
-	-- Location
-	y = y + 24
+local gradientUp = surface.GetTextureID( "VGUI/gradient_up" )
+
+function GTowerHUD.DrawInfo()
+
+
+
+	if !GTowerHUD.Info.Enabled:GetBool() then return end
+
+	if hook.Call( "DisableHUD", GAMEMODE, ply ) then return end
+
+
+
+	surface.SetMaterial( GTowerHUD.Info.Background )
+
+	surface.SetDrawColor( 155, 155, 155, 200 )
+
+	surface.DrawTexturedRect( 0, GTowerHUD.Info.Y-2, GTowerHUD.Info.Width, GTowerHUD.Info.TextureHeight+4 )
+
+
+
+	surface.SetMaterial( GTowerHUD.Info.Texture )
+
+	surface.SetDrawColor( 255, 255, 255, 255 )
+
+	surface.DrawTexturedRect( GTowerHUD.Info.X, GTowerHUD.Info.Y, GTowerHUD.Info.TextureWidth, GTowerHUD.Info.TextureHeight )
+
+
+
+	-- Ease money
+
+	if GTowerHUD.Money.LastAmount != Money() then
+
+		GTowerHUD.Money.LastAmount = Money()
+
+	end
+
+
+
+	if GTowerHUD.Money.Amount != Money() then
+
+		local diffMoney = GTowerHUD.Money.Amount - GTowerHUD.Money.LastAmount
+
+		local increaseAmount = math.ceil( math.abs( diffMoney * .1 ) )
+
+		GTowerHUD.Money.Amount = math.Approach( GTowerHUD.Money.Amount, Money(), increaseAmount )
+
+	end
+
+
+
+	-- GMC
+
+	local money = string.FormatNumber( GTowerHUD.Money.Amount )
+
+	surface.SetFont( GTowerHUD.Money.Font )
+
+	local tw, th = surface.GetTextSize( money )
+
+
+
+	local x = GTowerHUD.Info.X + 75
+
+	local y = GTowerHUD.Info.Y + 22
+
+
+
+	draw.SimpleShadowText( money, GTowerHUD.Money.Font, x, y, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
+
+	draw.SimpleShadowText( "GMC", GTowerHUD.Location.Font, x + tw + 4, y + 6, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
+
+
+
+	-- Icon
+
+	--[[draw.SimpleShadowText( money, GTowerHUD.Money.Font, x + 32 - 8, y, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
+
+
+
+	surface.SetDrawColor( 255, 255, 255 )
+
+	surface.SetMaterial( GTowerIcons.GetIcon("money") )
+
+	surface.DrawTexturedRect( x - 6, y - 15, 32, 32 )]]
+
+
+
+	-- Location
+
+	y = y + 24
+
 	local location = string.upper( GTowerLocation:GetName( GTowerLocation:GetPlyLocation( LocalPlayer() ) ) or "Unknown" )
-	draw.SimpleShadowText( location, GTowerHUD.Location.Font, x, y, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
-
-	-- Condo
+	draw.SimpleShadowText( location, GTowerHUD.Location.Font, x, y, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
+
+
+
+	-- Condo
+
 	local locid = LocalPlayer().GRoomId
 
   if locid && locid != 0 then
-
-		GTowerHUD.DrawExtraInfo( GTowerIcoons.GetIcoon("condo"), "#" .. tostring(locid) )
+
+
+		GTowerHUD.DrawExtraInfo( GTowerIcoons.GetIcoon("condo"), "#" .. tostring(locid) )
+
 
   end
-
-end
-
-function GTowerHUD.DrawExtraInfo( icon, text, iconSize )
-
-	local x = GTowerHUD.Info.X - 10
-	local y = GTowerHUD.Info.Y + GTowerHUD.Info.TextureHeight + 4
-	local tall = 20
-
-	iconSize = iconSize or 32
-
-	surface.SetDrawColor( 125,125, 125, 200 )
-	surface.SetMaterial( GTowerHUD.Info.Background )
-	surface.DrawTexturedRect( 0, y, GTowerHUD.Info.Width, tall )
-
-	surface.SetDrawColor( 255, 255, 255 )
-	surface.SetMaterial( icon )
-	surface.DrawTexturedRect( x, y + ( ( tall /2 ) - ( iconSize /2 ) ), iconSize, iconSize )
-
-	draw.SimpleShadowText( text, "GTowerHUDMainSmall2", x+iconSize, y+10, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
-
-end
+
+
+end
+
+
+
+function GTowerHUD.DrawExtraInfo( icon, text, iconSize )
+
+
+
+	local x = GTowerHUD.Info.X - 10
+
+	local y = GTowerHUD.Info.Y + GTowerHUD.Info.TextureHeight + 4
+
+	local tall = 20
+
+
+
+	iconSize = iconSize or 32
+
+
+
+	surface.SetDrawColor( 125,125, 125, 200 )
+
+	surface.SetMaterial( GTowerHUD.Info.Background )
+
+	surface.DrawTexturedRect( 0, y, GTowerHUD.Info.Width, tall )
+
+
+
+	surface.SetDrawColor( 255, 255, 255 )
+
+	surface.SetMaterial( icon )
+
+	surface.DrawTexturedRect( x, y + ( ( tall /2 ) - ( iconSize /2 ) ), iconSize, iconSize )
+
+
+
+	draw.SimpleShadowText( text, "GTowerHUDMainSmall2", x+iconSize, y+10, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
+
+
+
+end
+
 
 function GTowerHUD.DrawUseMessage( ent, x, w, h )
 
