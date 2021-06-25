@@ -65,7 +65,7 @@ GTowerLocation.MapPositions = {
 	--{ 4, Vector(-4506,13024,14460), Vector(-3027,15192,15016), 'condos', 0  }, //Condo #3
 	{ 19, Vector(1640, 1960, -921), Vector(2855, 3243, -408), 'plaza', 2  }, //Arcade Loft
 	{ 43, Vector(-4858,-2496,-952), Vector(-1722,-454,1280), 'boardwalk', 1  }, //Pool
-	{ 16, Vector(1920,-768,-992), Vector(3455.9899902344,768,-896), 'cplaza', 1  }, //Center Plaza
+	{ 16, Vector(1920,-768,-992), Vector(3455.9899902344,768,-556), 'cplaza', 1  }, //Center Plaza
 	{ 14, Vector(7072,-896,-608), Vector(7872,896,-320), 'lobby', 2  }, //Tower Elevators Lobby
 	{ 57, Vector( 6104, 1556, -674 ), Vector( 8563, 3898, 1653 ), 'plaza', 2 }, // Tower Garden
 	{ 58, Vector( 8132.3452148438, -4003.0388183594, 8380.3359375 ), Vector( 10246.016601563, -1247.9382324219, 9602.2373046875 ), 'arcade', 1 }, // Arcade
