@@ -134,9 +134,12 @@ function AWARDS:Init()
 	RequestUpdate()
 	self.NextUpdate = CurTime() + 1.0
 
-		self.Progress = vgui.Create( "ScoreboardAwardProgressBar", self )
-	self.ProgressText = Label("", self)
-	self.ProgressText:SetFont("SCAwardCategory")
+		self.Progress = vgui.Create( "ScoreboardAwardProgressBar", self )
+
+	self.ProgressText = Label("", self)
+
+	self.ProgressText:SetFont("SCAwardCategory")
+
 	self.ProgressText:SetTextColor( colorutil.Brighten(Scoreboard.Customization.ColorAwardsDescription, .5) )
 
 end
@@ -197,48 +200,76 @@ function AWARDS:PerformLayout()
 		return a.Order < b.Order
 	end )
 
-	completed = GtowerAchivements:NumUnlocked()
-
-	self.Progress:SetValue( completed / #GtowerAchivements.Achivements )
-	self.Progress:SetSize( self:GetWide(), 18 )
-	self.Progress:CenterHorizontal()
+	completed = GtowerAchivements:NumUnlocked()
+
+
+
+	self.Progress:SetValue( completed / #GtowerAchivements.Achivements )
+
+	self.Progress:SetSize( self:GetWide(), 18 )
+
+	self.Progress:CenterHorizontal()
+
 	self.Progress:SetZPos( 100 )
-	self.Progress:AlignBottom()
-
-	self.ProgressText:SetText( completed .. " / " .. #GtowerAchivements.Achivements .. "   AWARDS UNLOCKED" )
-	self.ProgressText:SizeToContents()
-	self.ProgressText:AlignBottom()
+	self.Progress:AlignBottom()
+
+
+
+	self.ProgressText:SetText( completed .. " / " .. #GtowerAchivements.Achivements .. "   AWARDS UNLOCKED" )
+
+	self.ProgressText:SizeToContents()
+
+	self.ProgressText:AlignBottom()
+
 	self.ProgressText:SetZPos( 125 )
 	self.ProgressText:CenterHorizontal()
 	self.ProgressText:SetTextColor( Color(0,0,0) )
 
 	// Get widest tab
-	for _, tab in pairs( self.Tabs ) do
-		width = math.max( width, tab:GetWide() )
+	for _, tab in pairs( self.Tabs ) do
+
+		width = math.max( width, tab:GetWide() )
+
 	end
 
 	// Set their positions and size
-	for _, tab in pairs( self.Tabs ) do
-		tab:SetTall( 24 )
-		tab:InvalidateLayout( true )
-
-		tab:SetPos( 0, position )
-		--tab:AlignLeft( self:GetWide() - width )
-		tab:SetWide( width )
-
-		position = position + tab:GetTall()
-	end
+	for _, tab in pairs( self.Tabs ) do
+
+		tab:SetTall( 24 )
+
+		tab:InvalidateLayout( true )
+
+
+
+		tab:SetPos( 0, position )
+
+		--tab:AlignLeft( self:GetWide() - width )
+
+		tab:SetWide( width )
+
+
+
+		position = position + tab:GetTall()
+
+	end
+
 
 	self.TabHeight = position + 4
 	self.TabWidth = width
 
 	// Layout active tab
-	if ValidPanel( self.ActiveTab ) then
-		local body = self.ActiveTab:GetBody()
-		body:InvalidateLayout( true )
-		body:SetPos( self.TabWidth, 4 )
-		body:SetWide( self:GetWide() - width )
-		body:AlignRight()
+	if ValidPanel( self.ActiveTab ) then
+
+		local body = self.ActiveTab:GetBody()
+
+		body:InvalidateLayout( true )
+
+		body:SetPos( self.TabWidth, 4 )
+
+		body:SetWide( self:GetWide() - width )
+
+		body:AlignRight()
+
 	end
 
 	RequestUpdate()
@@ -586,7 +617,7 @@ function AWARD:Paint( w, h )
 	surface.SetDrawColor( 255, 255, 255, 255 )
 
 	if self.IsAchieved then
-		surface.SetDrawColor( Scoreboard.Customization.ColorAwardsAchievedIcon )
+		surface.SetDrawColor( 255, 255, 255, 50 )
 
 		surface.SetMaterial( MATERIALS.AwardAchieved )
 		surface.DrawTexturedRect( 0, 0, 512, self:GetTall() )
