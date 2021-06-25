@@ -34,7 +34,6 @@ include("minigames/init.lua")
 include("tetris/highscore.lua")
 include("event/init.lua")
 include("sv_merchant.lua")
-include("sv_l2map.lua")
 include("sv_hwevent.lua")
 
 

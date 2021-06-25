@@ -244,57 +244,8 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	AddMapEntity( "gmt_npc_beach", Vector(-6133.142578, 3826.287109, -895.805359), Angle(0.000, -90, 0.000) )
 	AddMapEntity( "gmt_dopefish", Vector(-5642, -2214, -1050), Angle(1.677856, 180.635330, 0.000000) )
 
-	if IsHolidayMap() then
-		AddMapEntity( "gmt_monorail", Vector(8962, 2, -224), Angle(0,0,0) )
-	end
-
 	if time.IsThanksgiving() then
 		AddMapEntity( "gmt_npc_thanksgiving", Vector( 5497.978516, -220, -895.029480 ), Angle( 0, 90, 0 ) )
-	end
-
-	if IsChristmasMap() then
-		AddMapEntity( "gmt_presentbag", Vector( 5497.978516, -220, -895.029480 ), Angle( 0, 90, 0 ) )
-
-		// Replaces all condo doors with the christmas version
-		for k,v in pairs( ents.FindByClass("gmt_condo_door") ) do
-			v:SetModel( "models/sunabouzu/christmasdoor.mdl" )
-		end
-
-	end
-
-	if IsHalloweenMap() then
-		// Using L2Seat because it needs to be a physics object.
-		AddL2Seat( "models/gmod_tower/shopstand.mdl", Vector( 5497.978516, -187.837418, -895.029480 ), Angle(0, 90, 0), 0, Color(255, 255, 255))
-		AddMapEntity( "gmt_npc_halloween", Vector( 5497.978516, -220, -895.029480 ), Angle( 0, 90, 0 ) )
-
-		AddMapEntity( "ghost_mutant", Vector(6629.1401367188, -810.82995605469, -470.92190551758), Angle( 0, 0, 0 ) )
-
-		// Fixes AI not initializing
-		timer.Simple(5,function()
-
-			for k,v in pairs(ents.FindByClass("ghost_mutant")) do
-				v:Remove()
-			end
-
-			local e = ents.Create("ghost_mutant")
-			e:SetPos(Vector(6629.1401367188, -810.82995605469, -470.92190551758))
-			e:Spawn()
-		end)
-
-		// Remove default spinner wheels
-		for k,v in pairs( ents.FindByClass("gmt_casino_spinner") ) do
-			v:Remove()
-		end
-
-		// Alternate them between normal and Halloween spinners
-		AddMapEntity( "gmt_casino_spinner", Vector(2875.341796875,-11666.010742188,-2572.0146484375), Angle(0,90,0) )
-		AddMapEntity( "gmt_casino_spinner", Vector(3122.9431152344,-11666.673828125,-2570.873046875), Angle(0,90,0) )
-		AddMapEntity( "gmt_casino_spinner", Vector(3363.2565917969,-11666.71875,-2571.603515625), Angle(0,90,0) )
-		AddMapEntity( "gmt_casino_spinner", Vector(2632.2482910156,-11666.71875,-2571.6962890625), Angle(0,90,0) )
-		AddMapEntity( "gmt_halloween_spinner", Vector(3243.4973144531,-11666.749023438,-2571.99609375), Angle(0,90,0) )
-		AddMapEntity( "gmt_halloween_spinner", Vector(3000.7260742188,-11666.71875,-2571.93359375), Angle(0,90,0) )
-		AddMapEntity( "gmt_halloween_spinner", Vector(2752.4057617188,-11666.71875,-2572.2939453125), Angle(0,90,0) )
-
 	end
 
 	// Condo cameras
