@@ -43,7 +43,7 @@ function GM:Think()
 			umsg.End()
 
 			self:PlaySound( MUSIC_SETTINGS )
-			SetAllCams( "Waiting" )
+			SetWaitingCams()
 
 			SetGlobalBool( "HasPractice", false )
 			self.PreGame = true
@@ -96,22 +96,21 @@ function GM:Think()
 					self:SetState( STATE_ENDING )
 
 					if self.EndSoundPlayed != true then
-						timer.Simple( 1, function()
+						timer.Simple( 0, function()
 							self:PlaySound( MUSIC_ENDINGGAME )
 							FreezeAll()
 
 							GAMEMODE:GiveMoney()
+						end )
 
+						timer.Simple( 2, function()
+							SetWaitingCams()
 							umsg.Start( "ShowScores" )
 							umsg.Bool( true )
 							umsg.End()
 						end )
 
-						timer.Simple( 3, function()
-							SetAllCams("Waiting")
-						end )
-
-						timer.Simple(21,function()
+						timer.Simple(20,function()
 							self:EndServer()
 						end)
 					end
@@ -151,12 +150,13 @@ function GM:StartRound()
 	self:SetTime( 6000 )
 	self.TimeOutStarted = false
 
-	timer.Simple( 10, function()
+	timer.Simple( 8, function()
 		SetAllTeams(TEAM_PLAYING)
 		self:SetState( STATE_PLAYING )
 		SetAllCams("Playing")
 		UnpocketAllBalls()
 		SetAllMoveType(MOVETYPE_NOCLIP)
+		self:PlaySound( MUSIC_NONE )
 	end )
 end
 

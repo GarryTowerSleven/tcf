@@ -41,6 +41,14 @@ function GM:Intialize()
 	self:SetState(STATE_NOPLAY)
 end
 
+function GM:PlayerSwitchFlashlight( ply )
+	return false
+end
+
+function GM:PlayerSpray( ply )
+	return true
+end
+
 //Flag Setup
 function FlagSetup()
 	timer.Simple( 2, function()
@@ -127,7 +135,13 @@ end
 
 function SetAllCams(state)
 	for k,v in pairs (player.GetAll()) do
-		v:SetCamera( state, 1.0 )
+		v:SetCamera( state, 0 )
+	end
+end
+
+function SetWaitingCams()
+	for k,v in pairs (player.GetAll()) do
+		v:SetCamera( "Waiting", 1.0 )
 	end
 end
 
@@ -278,7 +292,7 @@ hook.Add( "PlayerSpawn", "PlayerSetup", function( ply )
 	if !GAMEMODE:IsPracticing() && ply.LateSpawned != true then
 		ply:LateJoin()
 		ply:SetupBall(CurrentHole)
-		ply:SetCamera("Playing",1.0)
+		ply:SetCamera("Playing",0)
 	end
 
 	ply:SetMoveType(MOVETYPE_NOCLIP)
