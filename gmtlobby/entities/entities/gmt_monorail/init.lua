@@ -61,8 +61,6 @@ function ENT:CheckSpeech(num)
       end
     end
 
-    print("Starting sound: " .. path)
-
   end
 
 end
