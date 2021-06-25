@@ -250,6 +250,7 @@ ACHIVEMENTS.UCHSHOWBOATING = 199
 ACHIVEMENTS.UCHEARTHBOUND = 200
 
 ACHIVEMENTS.SKMILESTONE1 = 201
+ACHIVEMENTS.GEOMETRICALLY = 202
 
 hook.Add("Initialize", "LoadAchivments", function()
 	hook.Call("LoadAchivements")
@@ -260,11 +261,16 @@ end )
 
 hook.Add("LoadAchivements","AchiSharedAwards", function ()
 
-	GtowerAchivements:Add( ACHIVEMENTS.PLAYERMODEL, {
-	Name = "My Own Man",
-	Description = "Purchase a new player model.",
-	Value = 1,
-})
+	GtowerAchivements:Add( ACHIVEMENTS.PLAYERMODEL, {
+
+	Name = "My Own Man",
+
+	Description = "Purchase a new player model.",
+
+	Value = 1,
+
+})
+
 
 	GtowerAchivements:Add( ACHIVEMENTS.drunkenbastard, {
 		Name = "Drunken Bastard",
@@ -344,6 +350,13 @@ hook.Add("LoadAchivements","AchiSharedAwards", function ()
 		Description = "Hear a song about four capital letters printed in gold.",
 		Value = 1
 	})*/
+
+	GtowerAchivements:Add( ACHIVEMENTS.GEOMETRICALLY, {
+		Name = "Geometrically Impossible",
+		Description = "Purchase all the orbs available in the Ball Race store.",
+		Value = 7,
+		GiveItem = "trophy_geometricallyimpossible"
+	})
 
 end )
 
