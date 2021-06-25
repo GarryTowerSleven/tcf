@@ -33,9 +33,11 @@ end
 
 function ENT:Use( ply )
 	if CurTime() < self.NextUse then return end
-	self.NextUse = CurTime() + 0.2
+	self.NextUse = CurTime() + 1
 
-	umsg.Start("StartDoom", ply)
-		umsg.Entity(self.Entity)
-	umsg.End()
+	ply:Msg2("Due to Adobe Flash's demise, arcade machines currently do not function.")
+
+	//umsg.Start("StartDoom", ply)
+	//	umsg.Entity(self.Entity)
+	//umsg.End()
 end
