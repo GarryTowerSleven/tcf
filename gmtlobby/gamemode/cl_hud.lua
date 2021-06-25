@@ -1,18 +1,15 @@
-    local mainfont = "CenterPrintText"
-
-	surface.CreateFont( "tiny", { font = "Arial", size = 10, weight = 100 } )
-	surface.CreateFont( "smalltiny", { font = "Arial", size = 12, weight = 100 } )
-	surface.CreateFont( "small", { font = "Arial", size = 14, weight = 400 } )
-	surface.CreateFont( "smalltitle", { font = "Arial", size = 16, weight = 600 } )
-
-	surface.CreateFont( "Gtowerhuge", { font = mainfont, size = 45, weight = 100 } )
-	surface.CreateFont( "Gtowerbig", { font = mainfont, size = 28, weight = 125 } )
-	surface.CreateFont( "Gtowerbigbold", { font = mainfont, size = 20, weight = 1200 } )
-	surface.CreateFont( "Gtowerbiglocation", { font = mainfont, size = 28, weight = 125 } )
-	surface.CreateFont( "Gtowermidbold", { font = mainfont, size = 16, weight = 1200 } )
-	surface.CreateFont( "Gtowerbold", { font = mainfont, size = 14, weight = 700 } )
-
-	surface.CreateFont( "Gtowerboldbig", { font = mainfont, size = 20, weight = 700 } )
+local mainfont = "CenterPrintText"
+surface.CreateFont( "tiny", { font = "Arial", size = 10, weight = 100 } )
+surface.CreateFont( "smalltiny", { font = "Arial", size = 12, weight = 100 } )
+surface.CreateFont( "small", { font = "Arial", size = 14, weight = 400 } )
+surface.CreateFont( "smalltitle", { font = "Arial", size = 16, weight = 600 } )
+surface.CreateFont( "Gtowerhuge", { font = mainfont, size = 45, weight = 100 } )
+surface.CreateFont( "Gtowerbig", { font = mainfont, size = 28, weight = 125 } )
+surface.CreateFont( "Gtowerbigbold", { font = mainfont, size = 20, weight = 1200 } )
+surface.CreateFont( "Gtowerbiglocation", { font = mainfont, size = 28, weight = 125 } )
+surface.CreateFont( "Gtowermidbold", { font = mainfont, size = 16, weight = 1200 } )
+surface.CreateFont( "Gtowerbold", { font = mainfont, size = 14, weight = 700 } )
+surface.CreateFont( "Gtowerboldbig", { font = mainfont, size = 20, weight = 700 } )
 
 GTowerHUD = {}
 
@@ -215,7 +212,7 @@ function GTowerHUD.DrawVolumeIcon()
   if IsValid( weapon ) && weapon:GetClass() == "gmt_camera" then showVolume = false end
 
 	if showVolume then
-		surface.SetDrawColor( 0,0,0, 200 )
+		surface.SetDrawColor( 125,125, 125, 200 )
 		surface.SetMaterial( GTowerHUD.Info.Background )
 		surface.DrawTexturedRect( 0, GTowerHUD.VolumeSlider.y - 6, GTowerHUD.Info.Width, GTowerHUD.VolumeSlider:GetTall() + 6 )
 
