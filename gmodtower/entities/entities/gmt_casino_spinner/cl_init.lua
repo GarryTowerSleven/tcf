@@ -263,8 +263,6 @@ end
 
 function ENT:Think()
 
-	if !self:GetPos():WithinDistance( LocalPlayer():GetPos(), 2500 ) then return end
-
 	self.physAcc = self.physAcc or 0
 
 	local time = CurTime()
@@ -302,7 +300,8 @@ end
 
 function ENT:DrawTranslucent()
 
-	if !self:GetPos():WithinDistance( LocalPlayer():GetPos(), 512 ) then return end
+	local distance = self:GetPos():Distance( LocalPlayer():GetPos() )
+	if distance > 512 then return end
 
 	local pos = self:GetPos() + Vector( 0, 0, 62 ) + Vector(0,0, math.sin( RealTime() ) * 4 )
 	local ang = self:GetAngles() + Angle( 0,90,90 )
