@@ -1,15 +1,21 @@
 ---------------------------------
-include("sh_init.lua")module( "payout", package.seeall )
+include("sh_init.lua")
+
+module( "payout", package.seeall )
+
 net.Receive( "Payouts", function( length, ply )
 	DisplayEarned( net.ReadTable() )
-end )
+end )
+
 --Settings
 local PAYOUT_FRAME = {
 	X = ScrW() - 400,
-	Y = ScrH() - 140,
+	Y = ScrH() - 140,
+
 	WIDTH = 400,
 	HEIGHT = 140,
-	BG_COLOR = Color( 0, 0, 0, 150 ),
+	BG_COLOR = Color( 0, 0, 0, 150 ),
+
 	TIME_BRACKETS = {
 		{5, .15},
 		{50, .25}, --Start of bracket ( values lower than this will apply ), seconds it takes to count
@@ -18,11 +24,14 @@ local PAYOUT_FRAME = {
 		{1000, 1},
 		{5000, 2},
 	},
-}
+}
+
 --Sound Stuff
-local gradient = surface.GetTextureID( "VGUI/gradient_down" )
+local gradient = surface.GetTextureID( "VGUI/gradient_down" )
+
 local blipDuration = 2.08
-local state = {}
+local state = {}
+
 local snd = {
 	brackets = {},
 	blip = Sound( "GModTower/misc/blip.wav" ),
@@ -30,61 +39,82 @@ local snd = {
 	start = Sound( "GModTower/misc/payout/payout_start.wav" ),
 	open = Sound( "GModTower/misc/payout/start.wav" ),
 	kick = Sound( "GModTower/misc/payout/kick.wav"),
-}
+}
+
 for i=1, 8 do
 	table.insert( snd.brackets, 
 		Sound( "GModTower/misc/payout/bracket" .. i .. ".wav" ) 
 	)
-end
-local blipSoundPatch = nil
+end
+
+local blipSoundPatch = nil
+
 -- Interpolators
 sinInterpolate = function( t, power )
 	t = math.Clamp( t, 0, 1 )
-	t = t * (math.pi/2)
-	local sin = math.sin( t )
+	t = t * (math.pi/2)
+
+	local sin = math.sin( t )
+
 	return math.pow( sin, power or 2 )
-end
+end
+
 cosInterpolate = function( t, power )
 	t = math.Clamp( t, 0, 1 )
-	t = t * (math.pi/2)
-	local cos = math.cos( t )
+	t = t * (math.pi/2)
+
+	local cos = math.cos( t )
+
 	return math.pow( cos, power or 2 )
-end
+end
+
 cosSinInterpolate = function( t, power )
 	local a = sinInterpolate( t, power )
-	local b = cosInterpolate( 1 - t, power )
-
+	local b = cosInterpolate( 1 - t, power )
+
+
+
 	return a + ( b - a ) * math.Clamp( t, 0, 1 )
-end
+end
+
 --Drawing stuff
 surface.CreateFont( "PayoutFinal", { font = "Bebas Neue", size = 70, weight = 500 } )
 surface.CreateFont( "PayoutTitle", { font = "Bebas Neue", size = 40, weight = 100 } )
-surface.CreateFont( "PayoutDescription", { font = "verdana", size = 18, weight = 100 } )
+surface.CreateFont( "PayoutDescription", { font = "verdana", size = 18, weight = 100 } )
+
 function GetTimeBracket( gmc )
-	local max = 0
+	local max = 0
+
 	for k, v in ipairs( PAYOUT_FRAME.TIME_BRACKETS ) do
 		if gmc <= v[1] then
 			return v[2]
 		else
 			max = v[2]
 		end
-	end
+	end
+
 	return max
-end
+end
+
 function DrawPayoutMain( x, y, width, height )
-	if not state.payoutStart then return end
-	blipSoundPatch = blipSoundPatch or CreateSound( LocalPlayer(), snd.blips )
+	if not state.payoutStart then return end
+
+	blipSoundPatch = blipSoundPatch or CreateSound( LocalPlayer(), snd.blips )
+
 	local dt = CurTime() - state.payoutStart
 	local earn = state.earnTable[state.currentPayout]
-	local payout, gmc
+	local payout, gmc
+
 	if earn then
 		payout = earn.payout
 		gmc = earn.gmc
 	else
 		gmc = 0
-	end
+	end
+
 	local cx = x + width/2
-	local cy = y + height/2
+	local cy = y + height/2
+
 	if dt < .1 then
 		--Initialize this payout
 		state.blipstart = nil
@@ -98,34 +128,44 @@ function DrawPayoutMain( x, y, width, height )
 			end
 			state.kick = state.kick + 1 
 		end
-	end
+	end
+
 	local dtx = dt * 2
-	dtx = math.Clamp(dtx, 0, 1)
-	local alpha = 1
+	dtx = math.Clamp(dtx, 0, 1)
+
+	local alpha = 1
+
 	if state.fadeout then
 		--Fade payout ui
 		alpha = 1 - (CurTime() - state.fadeout) / 3
 		alpha = math.Clamp(alpha, 0, 1)
 		dtx = dtx * alpha * alpha
-	end
+	end
+
 	local amount = 0
 	local build_delay = .4
 	local build_done = false
-	local cv_total = false
-	if not payout then dt = dt + 1 end
+	local cv_total = false
+
+	if not payout then dt = dt + 1 end
+
 	if dt > build_delay then
 		--Calculate payout amount based on bracket timescale
 		local timeScale = state.timescale
 		local build_dt = (dt - build_delay) * timeScale
-		local post_dt = (dt - build_delay) - (1 / timeScale)
+		local post_dt = (dt - build_delay) - (1 / timeScale)
+
 		if not payout then
 			--Skip payout if table is nil ( end of payouts )
 			build_dt = 1
 			post_dt = post_dt - 1
-		end
+		end
+
 		build_dt = math.Clamp(build_dt, 0, 1)
-		post_dt = math.Clamp(post_dt * 1.5, 0, 1)
-		amount = gmc * build_dt
+		post_dt = math.Clamp(post_dt * 1.5, 0, 1)
+
+		amount = gmc * build_dt
+
 		if build_dt < 1 then
 			--Run the blip track
 			if not state.blipstart then
@@ -140,8 +180,10 @@ function DrawPayoutMain( x, y, width, height )
 			end
 		else
 			--Stop blipping
-			build_done = true
-			blipSoundPatch:Stop()
+			build_done = true
+
+			blipSoundPatch:Stop()
+
 			if state.kick == 2 then
 				--Play this sound at the end of each payout bracket
 				local sndid = state.currentPayout
@@ -150,36 +192,53 @@ function DrawPayoutMain( x, y, width, height )
 				
 				if payout && !(state.currentPayout == #state.earnTable) then
 					surface.PlaySound( snd.brackets[ sndid ] ) 
-				end
-				state.kick = state.kick + 1
+				end
+
+				state.kick = state.kick + 1
+
 				--Advance over current payout to display total
 				if state.currentPayout == #state.earnTable then
 					state.done = true
 					state.fadeout = CurTime() + 2
 					state.currentPayout = state.currentPayout + 1
 					state.total = state.total + amount
-   					cv_total = true
-					surface.PlaySound( snd.brackets[ 8 ] ) 
+   					cv_total = true
+
+					surface.PlaySound( snd.brackets[ 8 ] ) 
+
 					local pitch = math.Clamp( math.Fit( state.total, 1, 500, 90, 160 ), 90, 160 )
 					LocalPlayer():EmitSound( "GModTower/misc/gmc_earn.wav", 100, math.ceil( pitch ) )
 				end
 			end
-		end
-		surface.SetDrawColor(0,0,0,50*build_dt)
-		local expand = build_dt
-		--[[if build_dt == 1 then
+		end
+
+		surface.SetDrawColor(0,0,0,50*build_dt)
+
+		local expand = build_dt
+
+		if build_dt == 1 then
 			--Expand effect when build complete
 			local dt = math.Clamp(post_dt*3,0,1)
 			local color = Scoreboard.Customization.ColorTabHighlight
 			surface.SetDrawColor(color.r,color.g,color.b,255*(1-dt))
 			expand = expand + dt * .1
-		end]]				if build_dt == 1 then			--Expand effect when build complete			local dt = math.Clamp(post_dt*3,0,1)			local color = colorutil.Brighten( Color( 61, 102, 31, 255 ), 3 )			surface.SetDrawColor(color.r,color.g,color.b,255*(1-dt))			expand = expand + dt * .1		end
+		end
+		
+		--[[if build_dt == 1 then
+			--Expand effect when build complete
+			local dt = math.Clamp(post_dt*3,0,1)
+			local color = colorutil.Brighten( Color( 61, 102, 31, 255 ), 3 )
+			surface.SetDrawColor(color.r,color.g,color.b,255*(1-dt))
+			expand = expand + dt * .1
+		end]]
+
 		--Draw bg effect
 		surface.DrawRect(
 			x + (width/2) * (1-expand),
 			y + (height/2) * (1-expand),
 			width * expand,
-			height * expand)
+			height * expand)
+
 		if post_dt == 1 then
 			if state.currentPayout <= #state.earnTable then
 				--Advance to next payout
@@ -189,32 +248,39 @@ function DrawPayoutMain( x, y, width, height )
 				cv_total = true
 			end
 		end
-	end
+	end
+
 	local total = state.total + amount
-	amount = gmc - amount
+	amount = gmc - amount
+
 	if cv_total then
 		--Total has been tally'd display that instead of total + amount
 		total = state.total
-	end
-	cy = cy + 10
+	end
+
+	cy = cy + 10
+
 	--Draw payout amount
 	local amount_y_offset = -15
 	local title_y_offset = 5
 	local align = TEXT_ALIGN_RIGHT
 	local font = "PayoutTitle"
 	local str = string.format( "%0.0f", total)
-	local po_y = cy + 50
+	local po_y = cy + 50
+
 	if build_done and state.done then
 		--Change attributes for total text
 		str = "   " .. str .. " GMC"
 		align = TEXT_ALIGN_CENTER
 		font = "PayoutFinal"
 		po_y = cy + ( 1 - cosSinInterpolate( 1 - alpha, 2 ) ) * 40 + amount_y_offset
-	end
+	end
+
 	if build_done then
 		--Center total text when done building total
 		align = TEXT_ALIGN_CENTER
-	end
+	end
+
 	if payout then
 		--Draw payout title
 		draw.SimpleTextOutlined( 
@@ -227,7 +293,8 @@ function DrawPayoutMain( x, y, width, height )
 			TEXT_ALIGN_CENTER,
 			2,
 			Color(0,0,0,100*alpha)
-		)
+		)
+
 		--Draw payout description
 		local ysub = 30
 		for k,v in pairs( string.Explode('\n', payout.Desc) ) do
@@ -244,12 +311,15 @@ function DrawPayoutMain( x, y, width, height )
 			)
 			ysub = ysub - 20
 		end
-	end
-	ysub = 10
+	end
+
+	ysub = 10
+
 	--Draw stacked payouts
 	for i=state.currentPayout, 1, -1 do
 		--Ignore current payout
-		if i == state.currentPayout then continue end
+		if i == state.currentPayout then continue end
+
 		local p = state.earnTable[i]
 		
 		--Draw stacked payout name
@@ -263,7 +333,8 @@ function DrawPayoutMain( x, y, width, height )
 			TEXT_ALIGN_CENTER,
 			2,
 			Color(0,0,0,100*alpha)
-		)
+		)
+
 		--Draw stacked payout amount
 		draw.SimpleTextOutlined( 
 			"" .. p.gmc, 
@@ -277,11 +348,13 @@ function DrawPayoutMain( x, y, width, height )
 			Color(0,0,0,100*alpha)
 		)
 		ysub = ysub + 20
-	end
+	end
+
 	if alpha ~= 1 then
 		--Smooth fadeout
 		alpha = ( 1 - cosSinInterpolate(1 - alpha, 10) )
-	end
+	end
+
 	--Draw total
 	draw.SimpleTextOutlined( 
 		str, 
@@ -293,7 +366,8 @@ function DrawPayoutMain( x, y, width, height )
 		TEXT_ALIGN_CENTER,
 		2,
 		Color(0,0,0,100*alpha)
-	)
+	)
+
 	if not build_done then
 		--Draw amount added
 		draw.SimpleTextOutlined( 
@@ -308,55 +382,72 @@ function DrawPayoutMain( x, y, width, height )
 			Color(0,0,0,100*alpha)
 		)
 	end
-end
+end
+
 function DrawPayoutDisplay()
-	local set = PAYOUT_FRAME	
-	if not state.run then return end
+	local set = PAYOUT_FRAME
+	
+	if not state.run then return end
+
 	if Scoreboard then
 		PAYOUT_FRAME.BG_COLOR = Scoreboard.Customization.ColorTabInnerActive
-	end
+	end
+
 	local frame_width = set.WIDTH
-	local frame_height = set.HEIGHT
-	local startDT = (CurTime() - state.startTime) * 2
+	local frame_height = set.HEIGHT
+
+	local startDT = (CurTime() - state.startTime) * 2
+
 	if startDT > 2 and not state.payoutStart then
 		state.payoutStart = CurTime()
-	end
+	end
+
 	--Play open sound
 	if startDT > 1 and not state.opened then
 		surface.PlaySound( snd.open )
 		state.opened = true
-	end
+	end
+
 	--Smooth open effect
-	startDT = cosSinInterpolate(startDT, 10)
+	startDT = cosSinInterpolate(startDT, 10)
+
 	local alpha = math.Clamp(startDT, 0, 1)
-	local brt = 255 * (1-alpha)
+	local brt = 255 * (1-alpha)
+
 	if state.fadeout then
 		alpha = 1 - (CurTime() - state.fadeout) / 3
-		alpha = math.Clamp(alpha, 0, 1)
+		alpha = math.Clamp(alpha, 0, 1)
+
 		if alpha == 0 then
 			state.run = nil
 		end
-	end
+	end
+
 	--Effect width using open interpolator
-	frame_width = frame_width * startDT
+	frame_width = frame_width * startDT
+
 	local x = 0 //set.X
 	local y = set.Y
-	local payout_offset = (state.currentPayout - 1) * 20
+	local payout_offset = (state.currentPayout - 1) * 20
+
 	local fy = y - payout_offset
-	local f_height = frame_height + payout_offset
+	local f_height = frame_height + payout_offset
+
 	--Copy bg color
 	local col = Color(
 		set.BG_COLOR.r,
 		set.BG_COLOR.g,
 		set.BG_COLOR.b,
 		set.BG_COLOR.a
-	)
+	)
+
 	--Add some effects to color
 	surface.SetDrawColor(
 		col.r + brt,
 		col.g + brt,
 		col.b + brt,
-		col.a * alpha)
+		col.a * alpha)
+
 	surface.SetTexture( gradient )
 	surface.DrawTexturedRect( 
 		x,
@@ -369,31 +460,40 @@ function DrawPayoutDisplay()
 		x,
 		fy,
 		frame_width,
-		f_height)
+		f_height)
+
 	--Draw seperator for payout stack
 	if state.currentPayout ~= 1 then
 		surface.SetDrawColor(0,0,0,100*alpha)
 		surface.DrawRect(x,y,frame_width,2)
-	end
+	end
+
 	DrawPayoutMain( x, y, frame_width, frame_height )
-end
-local PANEL = {}
+end
+
+local PANEL = {}
+
 function PANEL:Init()
 	self:SetPos( PAYOUT_FRAME.X, 0 )
-	self:SetSize( PAYOUT_FRAME.WIDTH, ScrH() )
+	self:SetSize( PAYOUT_FRAME.WIDTH, ScrH() )
+
 	self:SetMouseInputEnabled( false )
 	self:SetKeyBoardInputEnabled( false )
 	self:SetZPos( -100 )
-end
+end
+
 function PANEL:Think()
 	if not state.run then
 		self:Remove()
 	end
-end
+end
+
 function PANEL:Paint( w, h )
 	DrawPayoutDisplay()
-end
-vgui.Register( "PayoutPanel", PANEL )
+end
+
+vgui.Register( "PayoutPanel", PANEL )
+
 function DisplayEarned( earned )
 	// Start displaying GUI
 	state = {}
@@ -402,28 +502,38 @@ function DisplayEarned( earned )
 	state.nextStat = state.startTime + 2
 	state.earnTable = {}
 	state.currentPayout = 1
-	state.total = 0
+	state.total = 0
+
 	// Create VGUI to display the GUI
 	if !ValidPanel( PayoutPanel ) then
 		PayoutPanel = vgui.Create( "PayoutPanel" )
-	end
+	end
+
 	// Display in console
-	Msg( "\n|\n| Payouts\n|\n" )
-	local total = 0
+	Msg( "\n|\n| Payouts\n|\n" )
+
+	local total = 0
+
 	for id, gmc in pairs( earned ) do
-		local payout = earned[id]		local gmc = earned[id].GMC
+		local payout = earned[id]
+		local gmc = earned[id].GMC
+
 		table.insert( state.earnTable, {
 			payout = payout,
 			gmc = gmc,
-		})
+		})
+
 		Msg( "|   " .. payout.Name .. " (" .. gmc ..")\n" )
 		total = total + gmc
-	end
-	MsgN( "|\n\\__[ Total: " .. total .. " GMC ]" )
+	end
+
+	MsgN( "|\n\\__[ Total: " .. total .. " GMC ]" )
+
 
 	// Sort them
 	table.sort( state.earnTable, function(a,b) 
-		if a.payout.Diff < b.payout.Diff then return true end		
+		if a.payout.Diff < b.payout.Diff then return true end
+		
 		return false
 	end )
 end
