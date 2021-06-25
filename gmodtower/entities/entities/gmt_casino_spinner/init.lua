@@ -131,6 +131,9 @@ function ENT:PayOut(ply,prize)
 
 	if prize == 1 || prize == 5 then
 		self:EmitSound("GModTower/misc/sad.mp3")
+		if prize == 5 then
+			ply:AddMoney(1)
+		end
 	elseif prize == 2 || prize == 3 || prize == 4 || prize == 6 || prize == 7 || prize == 8 || prize == 10 then
 		BasicWin(self)
 		timer.Simple( 0.5, function() BasicWin(self) end)
