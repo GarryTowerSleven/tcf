@@ -1,5 +1,5 @@
 ---------------------------------
-ITEM.Name = "Piano"
+ITEM.Name = "Playable Piano"
 ITEM.Description = "Become your own personal Beethoven."
 ITEM.Model = "models/sims/piano.mdl"
 ITEM.ClassName = "gmt_piano"
