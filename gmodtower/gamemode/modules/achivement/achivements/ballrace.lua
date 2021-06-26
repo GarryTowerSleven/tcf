@@ -151,13 +151,13 @@ GtowerAchivements:Add( ACHIVEMENTS.BRSECRETNIGHTWORLD, {
 	Group = 6
 	}
 )
-GtowerAchivements:Add( ACHIVEMENTS.BRSECRETPRISM, {
+/*GtowerAchivements:Add( ACHIVEMENTS.BRSECRETPRISM, {
 	Name = "Prism Secret Banana",
 	Description = "Find the hidden banana on Prism.",
 	Value = 1,
 	Group = 6
 	}
-)
+)*/
 GtowerAchivements:Add( ACHIVEMENTS.BRSECRETSPACEWORLD, {
 	Name = "Space World Secret Banana",
 	Description = "Find the hidden banana on Space World.",
@@ -165,13 +165,13 @@ GtowerAchivements:Add( ACHIVEMENTS.BRSECRETSPACEWORLD, {
 	Group = 6
 	}
 )
-GtowerAchivements:Add( ACHIVEMENTS.BRSECRETSUMMIT, {
+/*GtowerAchivements:Add( ACHIVEMENTS.BRSECRETSUMMIT, {
 	Name = "Summit Secret Banana",
 	Description = "Find the hidden banana on Summit.",
 	Value = 1,
 	Group = 6
 	}
-)
+)*/
 GtowerAchivements:Add( ACHIVEMENTS.BRSECRETTRANQUIL, {
 	Name = "Tranquil Secret Banana",
 	Description = "Find the hidden banana on Tranquil.",
