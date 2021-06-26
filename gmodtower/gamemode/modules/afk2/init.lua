@@ -25,7 +25,7 @@ function SendAFK(warn,ply,time)
 	end
 end
 
-ChatCommands.Register( "/afk", 5, function( ply )
+ChatCommands.Register( "/afk", 60, function( ply )
 	ply.AFK = true
 	ply.AFKWarned = true
 	ply.AfkTime = (CurTime())
@@ -34,6 +34,12 @@ ChatCommands.Register( "/afk", 5, function( ply )
 	net.WriteInt( 0, 4 )
 	net.WriteInt( CurTime() , 32 )
 	net.Send(ply)
+	for k,v in pairs(player.GetAll()) do
+		for _,ply in pairs(player.GetAll()) do
+			local SanitizedName = string.SafeChatName(v:Name())
+			ply:SendLua([[GTowerChat.Chat:AddText("]]..SanitizedName..[[ is going AFK.", Color(100, 100, 100, 255))]])
+		end
+	end
 	return ""
 end )
 
