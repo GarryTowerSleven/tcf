@@ -12,21 +12,25 @@ local matSprite 		= Material( "sprites/heatwave" )
 local ModelDrawFlame = {
 	["models/gmod_tower/jetpack.mdl"] = true,
 	["models/gmod_tower/fairywings.mdl"] = false,
+	["models/gmod_tower/backpack.mdl"] = false,
 }
 
 local ModelRotate = {
 	["models/gmod_tower/jetpack.mdl"] = 0,
 	["models/gmod_tower/fairywings.mdl"] = -90,
+	["models/gmod_tower/backpack.mdl"] = 0,
 }
 
 local ModelOffsets = {
 	["models/gmod_tower/jetpack.mdl"] = Vector( 0, 0, 0 ),
-	["models/gmod_tower/fairywings.mdl"] = Vector( 0, 4, 0 )
+	["models/gmod_tower/fairywings.mdl"] = Vector( 0, 0, 0 ),
+	["models/gmod_tower/backpack.mdl"] = Vector( 0, -4, 4 ),
 }
 
 local ModelScale = {
 	["models/gmod_tower/jetpack.mdl"] = .75,
-	["models/gmod_tower/fairywings.mdl"] = .75
+	["models/gmod_tower/fairywings.mdl"] = .75,
+	["models/gmod_tower/backpack.mdl"] = 1,
 }
 
 function ENT:InitOffset()
@@ -91,6 +95,7 @@ function ENT:GetJetpackAttchment( ply )
 end
 
 function ENT:PositionItem(ply)
+
 	local pos, ang, scale = self:GetJetpackAttchment( ply )
 	if !pos || !ang then return end
 
@@ -104,13 +109,14 @@ function ENT:PositionItem(ply)
 
 	ang:RotateAroundAxis( ang:Up(), ModelRotate[ self:GetModel() ] or 0 )
 
-	//pos = pos + offsets
+	pos = pos + ModelOffsets[ self:GetModel() ]
 	
-	local scale = ( ModelScale[ self:GetModel() ] or 1 )
+	local scale = ModelScale[ self:GetModel() ]
 	
 	self:SetModelScale(scale)
 
 	return pos, ang, scale
+
 end
 
 function ENT:DrawFireAttchment( att, ply, seed )
