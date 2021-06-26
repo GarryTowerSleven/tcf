@@ -193,6 +193,10 @@ local function FixMapBugs()
 		v:Remove()
 	end
 
+	for k,v in pairs( ents.FindByClass("gmt_npc_particles") ) do
+		v:SetPos( Vector( 1277.697876, 715.775269, -893.177063 ) )
+	end
+
 	for k,v in pairs(ents.FindByClass('gmt_npc_basical')) do
 	 	v:SetAngles(v:GetAngles() - Angle(0,-15,0))
 	end

@@ -193,6 +193,10 @@ local function FixMapBugs()
 		v:Remove()
 	end
 
+	for k,v in pairs( ents.FindByClass("gmt_npc_particles") ) do
+		v:SetPos( Vector( 1277.697876, 715.775269, -893.177063 ) )
+	end
+
 	for k,v in pairs(ents.FindByClass('gmt_npc_basical')) do
 	 	v:SetAngles(v:GetAngles() - Angle(0,-15,0))
 	end
@@ -256,7 +260,7 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 
 	// Halloween
 	//===============================================
-	
+
 	// Using L2Seat because it needs to be a physics object.
 	AddL2Seat( "models/gmod_tower/shopstand.mdl", Vector( 5497.978516, -187.837418, -895.029480 ), Angle(0, 90, 0), 0, Color(255, 255, 255))
 	AddMapEntity( "gmt_npc_halloween", Vector( 5497.978516, -220, -895.029480 ), Angle( 0, 90, 0 ) )
