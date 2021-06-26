@@ -136,3 +136,6 @@ GtowerLangush.AddWord( 1, "MoneyEarned",	"Vous avez gagn� {1} GMC.")
 GtowerLangush.AddWord( 1, "GamemodeFull",	"D�sol�, {1} est plein.")
 
 GtowerLangush.AddWord( 1, "AdminNot",	"Vous n'�tes pas administrateur!")
+
+// Custom/New language
+GtowerLangush.AddWord( 1, "MerchantMove",	"Le marchand errant a été repéré près du {1}!")

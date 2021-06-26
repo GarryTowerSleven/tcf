@@ -57,6 +57,7 @@ function SpawnRandomMerchant()
 
   end
 
+  SendMessageToPlayers( "MerchantMove", GTowerLocation:GetName( GTowerLocation:FindPlacePos(CurMerchant:GetPos()) ) )
 end
 
 hook.Add("InitPostEntity","Lobby2MerchantSpawn",function()

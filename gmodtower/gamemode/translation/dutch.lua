@@ -521,3 +521,6 @@ GtowerLangush.AddWord( 1, "Electronic Store", "Electronica Winkel" )
 GtowerLangush.AddWord( 1, "Conquest", "Conquest" )
 GtowerLangush.AddWord( 1, "Chainsaw Battle!","Kettingzaag Strijd!")
 GtowerLangush.AddWord( 1, "Blizzard Storm!", "Sneeuwbal Strijd!" )
+
+// Custom/New language
+GtowerLangush.AddWord( 1, "MerchantMove",	"The Wandering Merchant is gespot in de buurt van de {1}!")
