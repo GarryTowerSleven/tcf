@@ -512,7 +512,7 @@ end
 function HandT:Evaluate()
 	if self.evaluated then return self end
 
-	if true then MsgN("Testing All Rank Functions(" .. e_handranks.MAX-1 .. ")...") end
+	if Debug then MsgN("Testing All Rank Functions(" .. e_handranks.MAX-1 .. ")...") end
 	local handKickers = nil
 	local bestHand = nil
 	local handScore = 0
@@ -532,7 +532,7 @@ function HandT:Evaluate()
 		bestHand = e_handranks.ROYAL_FLUSH
 	end
 
-	if true then
+	if Debug then
 		MsgN("------------------------")
 		MsgN("Best Hand Was " .. rankstrings[bestHand] .. " Score: " .. handScore)
 		MsgN("Kickers: ")
