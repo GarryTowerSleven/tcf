@@ -106,7 +106,7 @@ function ENT:PositionItem(ply)
 
 	//pos = pos + offsets
 	
-	local scale = ModelScale[ self:GetModel() ]
+	local scale = ( ModelScale[ self:GetModel() ] or 1 )
 	
 	self:SetModelScale(scale)
 
