@@ -254,7 +254,7 @@ Logos = {
 	["ballrace"] = {
 		mat = CreateLogo( "ballrace", "gmod_tower/ui/gamemodes/" ),
 		width = 340,
-		height = 247,
+		height = 192,
 	}
 }
 
