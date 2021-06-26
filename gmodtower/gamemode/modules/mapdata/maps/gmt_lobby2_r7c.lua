@@ -183,6 +183,8 @@ local function SetupMinigolfPort()
 	local e = ents.Create( "gmt_gmgolfball" )
 	e:SetPos( Vector(7189.2172851563, -5464.8168945313, -875.61584472656) )
 	e:Spawn()
+
+	AddMapModel( "models/sunabouzu/golf_hole.mdl", Vector( 7070, -5544, -878 ), Angle( 0, 0, 0 ) )
 end
 
 local function FixMapBugs()
