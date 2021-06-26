@@ -14,22 +14,22 @@ ENT.Model			= Model("models/gmod_tower/ferriswheel_support.mdl")
 -- Ride specific information here
 ---
 -- The number of spokes on the ferris wheel
-ENT.CarriageCount = 20 
+ENT.CarriageCount = 20
 
 -- The time it takes to complete one whole spin-stop cycle
 ENT.CycleTime = 300
 
 -- How many times to spin around before stopping
-ENT.SpinCount = 3 
+ENT.SpinCount = 3
 
 -- The ratio of time to turning vs stopped.
 -- For example, 0.75 would be 75% of the time the ferris wheel is spinning
-ENT.Distribution = 0.875
+ENT.Distribution = 0.925
 
 
 -- Offsets
-ENT.WheelRadius = 615 
-ENT.WheelCenter = Vector(0,0,0) 
+ENT.WheelRadius = 615
+ENT.WheelCenter = Vector(0,0,0)
 ENT.CarriageOffset = Vector(56.0,0,0)
 
 function ENT:GetBottomCarriage(rotation)
@@ -108,7 +108,7 @@ function TranslateToPlayerModel( model )
 end
 
 local meta = FindMetaTable( "Player" )
-if !meta then 
+if !meta then
 	return
 end
 
