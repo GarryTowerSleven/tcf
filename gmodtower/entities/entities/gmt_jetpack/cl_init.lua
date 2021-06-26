@@ -24,7 +24,7 @@ local ModelRotate = {
 local ModelOffsets = {
 	["models/gmod_tower/jetpack.mdl"] = Vector( 0, 0, 0 ),
 	["models/gmod_tower/fairywings.mdl"] = Vector( 0, 0, 0 ),
-	["models/gmod_tower/backpack.mdl"] = Vector( 0, -4, 4 ),
+	["models/gmod_tower/backpack.mdl"] = Vector( 4, -4, -0.2 ),
 }
 
 local ModelScale = {
@@ -99,17 +99,11 @@ function ENT:PositionItem(ply)
 	local pos, ang, scale = self:GetJetpackAttchment( ply )
 	if !pos || !ang then return end
 
-	/*local Offsets = ModelOffsets[ self:GetModel() ]
-
-	local offsets = ang:Up() * Offsets[1] + ang:Forward() * Offsets[2] + ang:Right() * Offsets[3]
-
-	offsets.x = offsets.x * scale
-	offsets.y = offsets.y * scale
-	offsets.z = offsets.z * scale*/
+	local offsets = ang:Up() * ModelOffsets[ self:GetModel() ][1] + ang:Forward() * ModelOffsets[ self:GetModel() ][2] + ang:Right() * ModelOffsets[ self:GetModel() ][3]
 
 	ang:RotateAroundAxis( ang:Up(), ModelRotate[ self:GetModel() ] or 0 )
 
-	pos = pos + ModelOffsets[ self:GetModel() ]
+	pos = pos + offsets
 	
 	local scale = ModelScale[ self:GetModel() ]
 	
