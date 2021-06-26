@@ -318,7 +318,9 @@ function APP:StartTab( tab )
 
 				local name = GetConVarString( "gmt_condotag" )
 
-				RunConsoleCommand("gmt_condotag", new)
+				if new != nil then
+					RunConsoleCommand("gmt_condotag", new)
+				end
 
 				if screen:IsEditingText() then
 					self.NameTagEditing = true
