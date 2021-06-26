@@ -69,10 +69,26 @@ function GM:Think()
 	end
 end
 
-function GM:Announce(message)
-	for k,v in ipairs(player.GetAll()) do
-		v:SendLua([[GTowerChat.Chat:AddText("]]..message..[[", Color(255, 255, 255, 255))]])
+function GM:Announce(message,color)
+	if ( color == nil ) then
+		color = Color(255, 255, 255, 255)
 	end
+	
+	net.Start( "br_chatannouce" )
+		net.WriteString(message)
+		net.WriteColor(color)
+	net.Broadcast()
+end
+
+function GM:PlayerAnnounce( ply, message, color )
+	if ( color == nil ) then
+		color = Color(255, 255, 255, 255)
+	end
+	
+	net.Start( "br_chatannouce" )
+		net.WriteString(message)
+		net.WriteColor(color)
+	net.Send( ply )
 end
 
 function NumPlayers(team)
@@ -138,6 +154,7 @@ timer.Create( "AchiBallerRoll", 60.0, 0, function()
 
 end )
 
+util.AddNetworkString( "br_chatannouce" )
 util.AddNetworkString( "roundmessage" )
 util.AddNetworkString( "BGM" )
 util.AddNetworkString( "br_electrify" )

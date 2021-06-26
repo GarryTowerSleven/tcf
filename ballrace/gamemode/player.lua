@@ -15,7 +15,7 @@ function GM:PlayerInitialSpawn(ply)
 		game.CleanUpMap()
 		SetTime(CurTime() + GAMEMODE.IntermissionTime)
 
-		self:Announce("You are the first to join, waiting for additional players!")
+		ply:ChatPrint("You are the first to join, waiting for additional players!")
 		timer.Simple(GAMEMODE.IntermissionTime, self.StartRound, self)
 	end
 end

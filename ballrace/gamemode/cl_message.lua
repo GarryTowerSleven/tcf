@@ -74,6 +74,15 @@ net.Receive( "roundmessage", function( len, pl )
 	ShowHudMessage(Id)
 end )
 
+net.Receive( "br_chatannouce", function( len, pl )
+	local message = net.ReadString()
+	local message_color = net.ReadColor()
+
+	if ( GTowerChat.Chat != nil ) then
+		GTowerChat.Chat:AddText( message, message_color )
+	end
+end )
+
 /*
 function UpdateState(world, name, old, new)
 	if new == STATE_INTERMISSION then

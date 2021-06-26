@@ -38,9 +38,7 @@ function ENT:Touch(ent)
 		effectdata:SetOrigin( self:GetPos() + Vector( 0, 0, 20 ) )
 	util.Effect( "bananaeatsecret", effectdata, true, true )
 
-	for k,v in pairs(player.GetAll()) do
-		v:SendLua([[GTowerChat.Chat:AddText("]]..string.SafeChatName(ent:GetOwner():Name())..[[ has found the secret banana!", Color( 255, 255, 255 ))]])
-	end
+	GAMEMODE:Announce( string.SafeChatName(ent:GetOwner():Name()).." has found the secret banana!" )
 
 	local ply = ent:GetOwner()
 

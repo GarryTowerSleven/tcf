@@ -133,7 +133,7 @@ function GM:UpdateStatus(disc)
 				for ply,afk in pairs(afks) do
 					if !afk then continue end
 					if !IsValid(ply) or !IsValid(v) then return end
-					v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ has automatically forfeited due to being AFK.", Color(100, 100, 100, 255))]])
+					self:Announce( ply:Name().." has automatically forfeited due to being AFK.", Color(100, 100, 100, 255) )
 				end
 			end
 
@@ -324,9 +324,8 @@ function GM:ResetGame()
 				net.Start("roundmessage")
 				net.WriteInt( 3, 3 )
 				net.Broadcast()
-				for k,v in pairs(player.GetAll()) do
-					v:SendLua([[GTowerChat.Chat:AddText("You've failed too many times! Ending game!", Color(255, 255, 255, 255))]])
-				end
+				self:Announce( "You've failed too many times! Ending game!" )
+
 				timer.Simple(4,function()
 					self:EndServer()
 				end)
@@ -338,9 +337,7 @@ function GM:ResetGame()
 				LateSpawn = NextLVL
 			end)
 
-			for k,v in pairs(player.GetAll()) do
-				v:SendLua([[GTowerChat.Chat:AddText("You've failed too many times! Moving to the next level!", Color(255, 255, 255, 255))]])
-			end
+			self:Announce( "You've failed too many times! Moving to the next level!" )
 		else
 			net.Start("roundmessage")
 			net.WriteInt( 3, 3 )
@@ -450,15 +447,15 @@ function GM:PlayerComplete(ply)
 	timer.Simple(0.25,function()
 
 		if ply.BestTime == nil then
-			ply:SendLua([[GTowerChat.Chat:AddText("New best time!", Color(65, 115, 200, 255))]])
+			self:PlayerAnnounce( ply, "New best time!", Color(65, 115, 200, 255) )
 			self:SaveBestTime(ply, level, ply.RaceTime, false)
 		else
 			if ply.BestTime <= ply.RaceTime then
-				ply:SendLua([[GTowerChat.Chat:AddText("Your best time is still ]]..math.Round(ply.BestTime,2)..[[", Color(65, 115, 200, 255))]])
+				self:PlayerAnnounce( ply, "Your best time is still "..math.Round(ply.BestTime,2), Color(65, 115, 200, 255) )
 			end
 
 			if ply.BestTime > ply.RaceTime then
-				ply:SendLua([[GTowerChat.Chat:AddText("New best time ]]..math.Round(ply.RaceTime,2)..[[! Old time was ]]..math.Round(ply.BestTime,2)..[[", Color(65, 115, 200, 255))]])
+				self:PlayerAnnounce( ply, "New best time "..math.Round(ply.RaceTime,2).."! Old time was "..math.Round(ply.BestTime,2), Color(65, 115, 200, 255) )
 				self:SaveBestTime(ply, level, ply.RaceTime, true)
 			end
 
@@ -486,10 +483,7 @@ function GM:PlayerComplete(ply)
 	ply:SetNWString( "CompletedTime", string.Replace(string.FormattedTime(ply.RaceTime, "%2i:%02i.%02i"), "0:", "") )
 
 	--PrintMessage( HUD_PRINTTALK, ply:Name()..' got '..PlacementPostfix(placement)..' place! Time Completed: '..string.FormattedTime(ply.RaceTime, "%02i:%02i:%02i")..'.' )
-	for k,v in pairs(player.GetAll()) do
-		--v:SendLua([[chat.AddText( Color( 255, 255, 255 ), "LVL ]]..level..[[ #]]..placement..[[ ]]..ply:Name()..[[ |]]..string.Replace(string.FormattedTime(ply.RaceTime, "%2i:%02i.%02i"), "0:", "")..[[")]])
-		v:SendLua([[GTowerChat.Chat:AddText("LVL ]]..level..[[ #]]..placement..[[ ]]..ply:Name()..[[ |]]..string.Replace(string.FormattedTime(ply.RaceTime, "%2i:%02i.%02i"), "0:", "")..[[", Color(255, 255, 255, 255))]])
-	end
+	self:Announce( "LVL "..level.." #"..placement.." "..ply:Name().." |"..ply:GetNWString( "CompletedTime" ).."." )
 end
 
 function GM:SpawnAllPlayers()
