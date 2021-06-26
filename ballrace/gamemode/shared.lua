@@ -32,6 +32,9 @@ elseif game.GetMap() == "gmt_ballracer_memories02" then
 	GM.Lives = 3
 elseif game.GetMap() == "gmt_ballracer_tranquil01" then
 	GM.DefaultLevelTime = 70
+elseif game.GetMap() == "gmt_ballracer_facile" then
+	GM.DefaultLevelTime = 70
+	GM.Lives = 3
 else
 GM.DefaultLevelTime = 60
 end
