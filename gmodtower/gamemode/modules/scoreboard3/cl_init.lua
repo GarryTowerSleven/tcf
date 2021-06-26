@@ -118,8 +118,7 @@ function SCOREBOARD:Init()
 		self.ReturnButton.DoClick = function()
 			Derma_Query( "Do you want to leave the gamemode and go back to the lobby?", "Back to Lobby",
 				"Return to Lobby", function() RunConsoleCommand("gmt_returntolobby") end,
-				"Cancel", function() end,
-				T("no"), nil
+				"Cancel", function() end
 			)
 		end
 	end
