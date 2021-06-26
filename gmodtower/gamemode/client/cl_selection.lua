@@ -1117,15 +1117,17 @@ end
 function PANEL:SetText( text )
 
 	self.Text:SetText( text )
+	self.Text:SetWrap( true )
+
 	self.Text:SizeToContents()
-	self.Text:CenterHorizontal()
+	self.Text:SetWidth( self.ButtonWidth*2 + (self.Padding*3) - 16 )
+	
+	self.Text:SetHeight( self.ButtonHeight + (self.Padding*6) )
 
 	self.Yes:MoveBelow(self.Text, self.Padding*4)
 	self.No:MoveBelow(self.Text, self.Padding*4)
-
 	self.Container:SetSize( self.ButtonWidth*2 + (self.Padding*3), self.Text:GetTall() + self.Title:GetTall() + self.ButtonHeight + (self.Padding*6) )
 	self.Container:Center()
-
 end
 
 function PANEL:SetFunctions( onaccept, ondeny )
