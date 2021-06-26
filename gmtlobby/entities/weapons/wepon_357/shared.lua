@@ -65,9 +65,15 @@ function SWEP:Think()
 		self.State = 0
 	end
 end
-
-local taunt = {"I can't take it anymore.", "I hate my life.", "I think I'll buy Tower Unite.", "Hug my life.", "Life is meaningless..."}
-
+local taunt = {
+"I can't take it anymore.",
+"I hate my life.",
+"I think I'll buy Tower Unite.",
+"Hug my life.",
+"Life is meaningless...",
+"Time to go to that Tower in the Sky...",
+"If only I was born taller.",
+"So many lives taken in PVP Battle.. Why not add another to the count?"}
 function SWEP:PrimaryAttack()
 	if self.Suicide > 0 then return end
 
