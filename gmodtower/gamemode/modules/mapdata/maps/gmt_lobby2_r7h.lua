@@ -142,6 +142,13 @@ local function SpawnCondoToilets()
 	end
 end
 
+local function SetupSKPort()
+	AddMapEntity( "gmt_sk_pickup", Vector( 6384, -6768, -900 ), Angle( 0, 0, 0 ) )
+	AddMapEntity( "gmt_sk_pickup", Vector( 6288, -6768, -900 ), Angle( 0, 0, 0 ) )
+	AddMapEntity( "gmt_sk_pickup", Vector( 6192, -6768, -900 ), Angle( 0, 0, 0 ) )
+	AddMapEntity( "gmt_sk_pickup", Vector( 6096, -6768, -900 ), Angle( 0, 0, 0 ) )
+end
+
 local function SetupUCHPort()
 	local e = ents.Create( "gmt_ai_animated" )
 	e:SetPos( Vector(2799.96875, -6533.6787109375, -895.96875) )
@@ -221,6 +228,7 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 
 	// Animated gamemode ports
 	//===============================================
+	SetupSKPort()							-- Source Karts port animations
 	SetupUCHPort()						-- UCH port animation
 	SetupBallracePort()				-- Ballrace port animations
 	SetupZombieMassacrePort()	-- Zombie Massacre port animations
