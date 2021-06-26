@@ -3,6 +3,22 @@ ClientSettings.AdminGUI = nil
 ClientSettings.AdminPly = nil
 ClientSettings.AdminAllowSend = true
 
+function SKIN:PaintCollapsibleCategory( panel, w, h )
+
+	if ( h <= panel:GetHeaderHeight() ) then
+		self.tex.CategoryList.Header( 0, 0, w, h )
+
+		-- Little hack, draw the ComboBox's dropdown arrow to tell the player the category is collapsed and not empty
+		if ( !panel:GetExpanded() ) then self.tex.Input.ComboBox.Button.Down( w - 18, h / 2 - 8, 15, 15 ) end
+		return
+	end
+
+	if self.tex.CategoryList == nil then
+		self.tex.CategoryList.InnerH( 0, 0, w, panel:GetHeaderHeight() )
+		self.tex.CategoryList.Inner( 0, panel:GetHeaderHeight(), w, h - panel:GetHeaderHeight() )
+	end
+end
+
 local function TimerCaller( PlyId, id, value )
 	RunConsoleCommand( "gmt_clientset", PlyId, id, value )
 end
@@ -141,7 +157,7 @@ function ClientSettings:OpenAdmin( ply )
 	
 	
 	Form:InvalidateLayout( true )
-	self.AdminGUI:SetTall( Form:GetTall() + 35 )
+	self.AdminGUI:SetTall( Form:GetTall() + 120 )
 	
 end
 
