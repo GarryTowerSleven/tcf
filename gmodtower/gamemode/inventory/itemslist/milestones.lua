@@ -430,7 +430,7 @@ GTowerItems.RegisterItem( "UCHPig", {
 		end
 	end
 } )
-
+--[[ Dupe?
 GTowerItems.RegisterItem( "UCHPig", {
 
 	Name = "Pigmask",
@@ -481,7 +481,7 @@ GTowerItems.RegisterItem( "UCHPig", {
 
 	end
 
-} )
+} )--]]
 
 GTowerItems.RegisterItem( "HalloweenSpider", {
 	Name = "Spider",
