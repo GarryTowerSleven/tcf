@@ -38,33 +38,60 @@ function GtowerAchivements:RequestUpdate()
 	RunConsoleCommand("gmt_reqachi")
 end
 
-function GtowerAchivements:NumUnlocked()
-
-	local completed = 0
-
-	for id, achivement in pairs( GtowerAchivements.Achivements ) do
-
-		local value = GtowerAchivements:GetValue( id )
-		local maxValue = nil
-
-		if achivement.GetMaxValue then
-			maxValue = achivement.GetMaxValue()
-		end
-
-		if maxValue then
-			if value == maxValue then
-				completed = completed + 1
-			end
-			continue
-		end
-
-		if tobool( value ) then
-			completed = completed + 1
-		end
-
-	end
-
-	return completed
+function GtowerAchivements:NumUnlocked()
+
+
+
+	local completed = 0
+
+
+
+	for id, achivement in pairs( GtowerAchivements.Achivements ) do
+
+
+
+		local value = GtowerAchivements:GetValue( id )
+
+		local maxValue = nil
+
+
+
+		if achivement.GetMaxValue then
+
+			maxValue = achivement.GetMaxValue()
+
+		end
+
+
+
+		if maxValue then
+
+			if value == maxValue then
+
+				completed = completed + 1
+
+			end
+
+			continue
+
+		end
+
+
+
+		if tobool( value ) then
+
+			completed = completed + 1
+
+		end
+
+
+
+	end
+
+
+
+	return completed
+
 end
 
 function GtowerAchivements:RecieveMessage( um )
@@ -97,13 +124,10 @@ end)
 usermessage.Hook("GTAchWin", function( um )
 	local Id = um:ReadShort()
 
-	local Achivement = GtowerAchivements:Get( Id )
+	local Achievement = GtowerAchivements:Get( Id )
 
-	if Achivement then
-		local Message = Msg2(T("AchievementsGot", Achivement.Name))
-		Message:SetColor(Color( 255, 200, 14 ))
-		Message:SetTextColor(Color(0,0,0))
-		Message:SetIcon("trophy")
+	if Achievement then
+		MsgI( "trophy", T("AchievementsGot", Achievement.Name) )
 	end
 end)
 
