@@ -73,7 +73,7 @@ function meta:AddMoney( amount, nosend )
     end
 
 		else
-			self:MsgI( "money", "MoneySpent", -amount)
+			self:MsgI( "moneylost", "MoneySpent", -amount)
       self:EmitSound("gmodtower/misc/gmc_lose.wav",60,math.Clamp((100 - amount * -1 / 25),90,100))
 		end
 	end
