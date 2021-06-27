@@ -85,26 +85,40 @@ function SellPrice( self )
 	return 0
 end
 
-function PlayMoveSound( self )
+function PlayMoveSound( self )
+
 
 	if ( !self.Ply || self.Ply == "room" )  then return end
 
 	if !self.MoveSound then
 		self.Ply:EmitSound(GTowerItems.Sounds.Move[ "default" ], 50, math.random( 90, 110 ) )
 		return
-	end
-
-	local snd = GTowerItems.Sounds.Move[ self.MoveSound ]
-
-	// Maybe it's just a direct path?
-	if !snd then
-		snd = self.MoveSound
-	end
-
-	if snd then
-		self.Ply:EmitSound( snd, 50, math.random( 90, 110 ) )
-	end
-
+	end
+
+
+
+	local snd = GTowerItems.Sounds.Move[ self.MoveSound ]
+
+
+
+	// Maybe it's just a direct path?
+
+	if !snd then
+
+		snd = self.MoveSound
+
+	end
+
+
+
+	if snd then
+
+		self.Ply:EmitSound( snd, 50, math.random( 90, 110 ) )
+
+	end
+
+
+
 end
 
 if SERVER then
@@ -122,8 +136,10 @@ if SERVER then
 				Ent:SetSkin( self.ModelSkinId )
 			end
 
-			if self.ModelColor then
-				Ent:SetColor( self.ModelColor )
+			if self.ModelColor then
+
+				Ent:SetColor( self.ModelColor )
+
 			end
 		else
 			Ent = ents.Create( self.ClassName )
@@ -169,7 +185,8 @@ if SERVER then
 
 			-- Notify them
 			if not self._NoEntsLastLoc then
-				self.Ply:MsgT( "InventoryEquipNotAllowed", self.Name, GTowerLocation:GetName(GTowerLocation:FindPlacePos(self.Ply:GetPos())) )
+				//self.Ply:MsgT( "InventoryEquipNotAllowed", self.Name, GTowerLocation:GetName(GTowerLocation:FindPlacePos(self.Ply:GetPos())) )
+				self.Ply:Msg2( T("InventoryEquipNotAllowed", self.Name, GTowerLocation:GetName(GTowerLocation:FindPlacePos(self.Ply:GetPos()))), "exclamation" )
 				self._NoEntsLastLoc = true
 			end
 
