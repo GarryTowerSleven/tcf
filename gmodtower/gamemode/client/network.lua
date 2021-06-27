@@ -24,9 +24,9 @@ usermessage.Hook("t7", function( um )
 	end
 	
 	if Icon == "" then
-		GtowerMessages:AddNewItem( T( Name, unpack( Values ) ) )
+		GTowerMessages:AddNewItem( T( Name, unpack( Values ) ) )
 	else
-		GtowerMessages:AddNewItem( T( Name, unpack( Values ) ), nil, nil, Icon )
+		GTowerMessages:AddNewItem( T( Name, unpack( Values ) ), nil, nil, Icon )
 	end
 	
 end ) 
