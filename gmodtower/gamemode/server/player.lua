@@ -49,6 +49,10 @@ function meta:AddMoney( amount, nosend )
 		return ( val - valMin ) * ( outMax - outMin ) / ( valMax - valMin ) + outMin
 	end
 
+	function math.Fit2( val, valMin, valMax, outMin, outMax )
+		return ( val - valMax ) * ( outMax - outMin ) / ( valMin - valMax ) + outMin
+	end
+
 	if amount == 0 then return end
 
     self:SetMoney( self:Money() + amount )
@@ -77,7 +81,8 @@ function meta:AddMoney( amount, nosend )
 
 		else
 			self:MsgI( "moneylost", "MoneySpent", -amount)
-      self:EmitSound("gmodtower/misc/gmc_lose.wav",60,math.Clamp((100 - amount * -1 / 25),90,100))
+	  local pitch = math.Clamp( math.Fit2( -amount, 1, 500, 90, 160 ), 90, 160 )
+      self:EmitSound( "gmodtower/misc/gmc_lose.wav", 50, math.ceil( pitch ) )
 		end
 	end
 
