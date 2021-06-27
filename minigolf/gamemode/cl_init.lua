@@ -23,8 +23,8 @@ include( "cl_scoreboard.lua");
 include( "sh_payout.lua" );
 
 //===============================================================
-ConVarDisplayHUD = CreateClientConVar( "mg_hud", 1, true )
-ConVarDrawBlur = CreateClientConVar( "mg_blur", 1, true )
+ConVarDisplayHUD = CreateClientConVar( "gmt_minigolf_hud", 1, true )
+ConVarDrawBlur = CreateClientConVar( "gmt_minigolf_blur", 1, true )
 //ConVarDLights = CreateClientConVar( "mg_dlights", 2, true )
 //===============================================================
 

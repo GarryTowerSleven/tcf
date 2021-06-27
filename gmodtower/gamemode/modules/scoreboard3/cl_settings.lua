@@ -5,7 +5,7 @@ local GAMEMODE = GAMEMODE
 -----------------------------------------------------
 module( "Scoreboard.Settings", package.seeall )
 
-
+local IsLobby = ( engine.ActiveGamemode() == "gmtlobby" )
 
 // TAB
 
@@ -174,7 +174,6 @@ function SETTINGS:Init()
 
 
 		// Skip tabs that are lobby only
-
 		if !IsLobby and table.HasValue( self.LobbyOnlyTabs, name ) then continue end
 
 
