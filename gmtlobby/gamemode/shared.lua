@@ -20,7 +20,7 @@ TowerModules.LoadModules( {
 	---------------------------------------------------------
 	"commands",							-- Chat commands
 	"achivement",						-- Achievements
-	--"boss",									-- WIP boss battle
+	"boss",									-- WIP boss battle
 	"soundscape",						-- Soundscapes and background music
 	"condopanel",						-- Condo OS
 	"multicore",						-- Forces multicore, improves FPS
