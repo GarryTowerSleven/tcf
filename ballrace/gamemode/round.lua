@@ -337,7 +337,7 @@ function GM:ResetGame()
 				LateSpawn = NextLVL
 			end)
 
-			self:Announce( "You've failed this level twice! Moving to the next level!" )
+			self:Announce( "You've failed too many times! Moving to the next level!" )
 		else
 			net.Start("roundmessage")
 			net.WriteInt( 3, 3 )
