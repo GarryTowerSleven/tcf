@@ -512,7 +512,7 @@ end
 
 function GTowerHUD.DrawHealth()
 
-	if !LocalPlayer():GetNWBool("IsDueling") then return end
+	if GTowerLocation:FindPlacePos(LocalPlayer():GetPos()) != 41 then return end
 
 	local w = GTowerHUD.Info.Width
 	local h = 8
@@ -521,10 +521,10 @@ function GTowerHUD.DrawHealth()
 	local iconSize = 32
 	local health = LocalPlayer():Health()
 	if health < 0 then health = 0 end
-	local maxHealth = 100
-	--if Dueling && Dueling.IsDueling( LocalPlayer() ) then
+	local maxHealth = LocalPlayer():GetMaxHealth()
+	--[[if Dueling && Dueling.IsDueling( LocalPlayer() ) then
 		maxHealth = 300
-	--end
+	end--]]
 	local percent = ( health / maxHealth )
 	local ratio = 1 - ( percent )
 	local oppred = 200 - ratio * math.sin( CurTime() * ratio * 3 ) * 55 + ( 1 - ratio ) * 55
@@ -546,7 +546,6 @@ function GTowerHUD.DrawHealth()
 	-- Draw health bar
 	surface.SetDrawColor( 255, 255, 255, 255 )
 	draw.RectFillBorder( x+iconSize, y-4, w, h, 1, percent, Color( 125, 125, 125, 0 ), Color( 255, oppred, oppred ) )
-
 end
 
 function GTowerHUD.DrawAmmo()

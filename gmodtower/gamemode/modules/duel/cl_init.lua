@@ -31,7 +31,6 @@ function StartDuelClient()
 		PlayDuelMusic()
 	end)
 
-	LocalPlayer().ShowHealth = true
  	vgui.CloseDermaMenus()
 end
 
@@ -46,7 +45,6 @@ local function EndDuelClient( won )
 		DuelMusic = nil
 	end
 
-	LocalPlayer().ShowHealth = false
 
 	if !LocalPlayer():GetNWBool("IsDueling") then return end
 

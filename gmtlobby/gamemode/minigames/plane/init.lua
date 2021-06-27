@@ -116,6 +116,7 @@ function SpawnPlayer( ply )
 	ply:GodDisable()
 
 	if !ply:HasWeapon("weapon_planegun") then
+		ply:StripWeapons()
 		ply.CanPickupWeapons = true
 		ply:Give( "weapon_planegun" )
 		ply.CanPickupWeapons = false
@@ -280,7 +281,7 @@ function Start( flags )
 	if !IsValid( BallEntity ) then
 		BallEntity = ents.Create("gmt_minigame_entrance")
 		BallEntity:SetModel("models/Combine_Helicopter/helicopter_bomb01.mdl")
-		BallEntity:SetPos( Vector(928.023315, -672.636230, 64.031250) )
+		BallEntity:SetPos( Vector(2685, 0, -940) )
 		BallEntity:Spawn()
 		BallEntity:SetUse( OnEntUse )
 	end
@@ -291,6 +292,7 @@ function Start( flags )
 	hook.Add("Location", "PlaneLocation", CheckNontheater )
 	hook.Add("ShouldCollide", "PlaneShouldCollide", ShouldCollide )
 	hook.Add("PlayerThink", "PlaneCheckRemoveBall", CheckRemoveBall )
+	hook.Add("AllowWeapons", "PlaneAllowWeapons", function(ply) if IsValid(ply.plane) then return false end end )
 
 	//Shared hooks
 	hook.Add("Move", "PlaneMove", HookPlayerMove )
@@ -319,6 +321,7 @@ function End()
 	hook.Remove("Location", "PlaneLocation" )
 	hook.Remove("ShouldCollide", "PlaneShouldCollide" )
 	hook.Remove("PlayerThink", "PlaneCheckRemoveBall" )
+	hook.Remove("AllowWeapons", "PlaneAllowWeapons" )
 
 	//Shared hooks
 	hook.Remove("Move", "PlaneMove" )

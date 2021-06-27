@@ -80,10 +80,13 @@ function AddHooks()
 	hook.Add("ShouldDrawLocalPlayer", "PlaneShouldDrawLocalPlayer", ShouldDrawLocalPlayer )
 
 	hook.Add("Move", "PlaneMove", HookPlayerMove )
-	--hook.Add("CalcView", "PlaneCalcView", CalcView )
+	hook.Add("CalcView", "PlaneCalcView", CalcView )
 	hook.Add("OpenSideMenu", "PlaneOpenSideMenu", OpenSideMenu )
 	hook.Add("ShouldCollide", "PlaneShouldCollide", ShouldCollide )
 	hook.Add("CalcMainActivity", "PlaneAnim", HookPlayerAnim )
+	hook.Add("PreDrawViewModel", "PlaneViewmodel", function() return true end )
+	hook.Add("ForceCrosshair", "PlaneCrosshair", function() return true end )
+	hook.Add("3DCrosshair", "Plane3DCrosshair", function() return true end )
 	_G.GAMEMODE.AddDeathNotice = function() return true end
 
 	LocalPlayerInGame = true
@@ -105,15 +108,21 @@ end
 function RemoveHooks()
 	hook.Remove("InputMouseApply", "PlaneInputMouseApply" )
 	hook.Remove("ShouldDrawLocalPlayer", "PlaneShouldDrawLocalPlayer" )
+
 	hook.Remove("Move", "PlaneMove" )
-	--hook.Remove("CalcView", "PlaneCalcView" )
+	hook.Remove("CalcView", "PlaneCalcView" )
 	hook.Remove("OpenSideMenu", "PlaneOpenSideMenu")
 	hook.Remove("ShouldCollide", "PlaneShouldCollide" )
 	hook.Remove("CalcMainActivity", "PlaneAnim" )
+	hook.Remove("PreDrawViewModel", "PlaneViewmodel" )
+	hook.Remove("ForceCrosshair", "PlaneCrosshair" )
+	hook.Remove("3DCrosshair", "Plane3DCrosshair" )
 	_G.GAMEMODE.AddDeathNotice = _G.GAMEMODE.BaseClass.AddDeathNotice
 
 	LocalPlayerInGame = false
 end
+
+local plane
 
 function InputMouseApply( cmd, x, y, angle )
 
@@ -124,7 +133,7 @@ function InputMouseApply( cmd, x, y, angle )
 		return
 	end
 
-	angle.roll = math.Approach( angle.roll, 0, angle.roll / 400 )
+	--[[angle.roll = math.Approach( angle.roll, 0, angle.roll / 400 )
 	angle.yaw = angle.yaw + angle.roll * -0.0025
 
 	local Ang = angle
@@ -141,13 +150,25 @@ function InputMouseApply( cmd, x, y, angle )
 		pitchchange = pitchchange + (rate ^ 10.0) * 20
 	end
 
+	if !IsValid(plane) then
+		return
+	end
+
 	--Ang:Rotate( Angle( pitchchange, yawchange, rollchange ) )
 
-	local Ang = Ang:GetAngles()
+	if !IsValid(plane) then
+		for _, ent in ipairs(ents.FindByClass("plane")) do
+			if ent:GetOwner() == ply then
+				plane = ent
+			end
+		end
+	end
+
+	local Ang = plane:GetAngles()
 	Ang.roll = math.Clamp( Ang.roll, -90, 90 )
 
 	cmd:SetViewAngles( Ang )
-	return true
+	return true]]
 
 end
 

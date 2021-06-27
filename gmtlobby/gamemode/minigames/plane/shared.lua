@@ -95,7 +95,7 @@ end
 
 Aim = {0,30,0}
 
-function CalcView( ply, origin, angles, fov )
+--[[function CalcView( ply, origin, angles, fov )
 	
 	if !InGame( ply ) then return end
 	if !ply:Alive() then return end
@@ -108,4 +108,52 @@ function CalcView( ply, origin, angles, fov )
 		fov = fov	
 	}
 
+end]]
+
+local plane
+local lang = Angle(0, 0, 0)
+local lfov = 0
+
+function CalcView(ply, pos, ang, fov)
+	if !InGame(ply) then return end
+	if !ply:Alive() then return end
+
+	if !IsValid(plane) then
+		for _, ent in ipairs(ents.FindByClass("plane")) do
+			if ent:GetOwner() == ply then
+				plane = ent
+			end
+		end
+	end
+
+	if ply:ShouldDrawLocalPlayer() then lang = ang return end -- don't override third person stuff
+
+	if IsValid(plane) then
+		if !lang then
+			lang = ang
+		end
+
+		print(ply:GetViewPunchAngles())
+
+		local view = {}
+		local newang = plane:GetAngles() + Angle(0, 0, ang.r) - ply:GetViewPunchAngles()
+
+		if ply:KeyDown(IN_JUMP) then
+			lfov = math.Clamp(lfov + FrameTime() * 35, 0, 8)
+		elseif lfov ~= 0 then
+			lfov = math.Clamp(lfov - FrameTime() * 35, 0, 8)
+		end
+
+		lang = LerpAngle(FrameTime() * 25, lang, newang)
+
+		view.origin = plane:GetPos() + ang:Up() * math.sin(CurTime()) * 0.1
+		view.angles = lang
+		view.fov = fov + lfov
+
+		return view
+	else
+		if lang then
+			lang = nil
+		end
+	end
 end
