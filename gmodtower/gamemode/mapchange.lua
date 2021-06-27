@@ -156,7 +156,7 @@ function ChangeLevel( map, ply )
 
 	if file.Exists(FilePlace,"GAME") then
 		for k,v in pairs(player.GetAll()) do
-			v:SendLua([[GTowerChat.Chat:AddText("Restarting map for update in ]]..DefaultTime..[[ seconds...", Color(225, 20, 20, 255))]])
+			v:SendLua([[GTowerChat.Chat:AddText("Changing map to ]]..map..[[ in ]]..DefaultTime..[[ seconds...", Color(225, 20, 20, 255))]])
 			v:SendLua([[surface.PlaySound( "gmodtower/misc/changelevel.wav" )]])
 		end
 
@@ -172,7 +172,7 @@ function ChangeLevel( map, ply )
 
 		timer.Create("ChangeLevelTimer", (DefaultTime - 0.5), 1, function()
 			for k,v in pairs(player.GetAll()) do
-				v:SendLua([[GTowerChat.Chat:AddText("Restarting map for update...", Color(225, 20, 20, 255))]])
+				v:SendLua([[GTowerChat.Chat:AddText("Changing map to ]]..map..[[...", Color(225, 20, 20, 255))]])
 			end
 
 			analytics.postDiscord( "Logs", engine.ActiveGamemode() .. " server shutting down..." )
