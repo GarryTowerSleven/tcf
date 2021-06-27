@@ -42,7 +42,7 @@ concommand.Add( "gmt_invtobank", function( ply, command, args )
 	Slot:ItemChanged()
 	ItemSlot:Remove()
 	ItemSlot:ItemChanged()
-	ply:Msg2("Item has been moved to your vault.")
+	ply:Msg2( T("InventorySendVaultSuccess", Item.Name) )
 	hook.Call("InvRemove", GAMEMODE, ItemSlot )
 end )
 

@@ -448,6 +448,9 @@ function meta:InvRemove( slot, force )
 
 	if GiveMoney > 0 and !force then
 		self:AddMoney( GiveMoney )
+		self:Msg2( T("InventorySold", Item.Name) )
+	else
+		self:Msg2( T("InventoryDiscard", Item.Name) )
 	end
 
 	ItemSlot:Remove()
