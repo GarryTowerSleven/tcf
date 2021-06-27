@@ -120,6 +120,10 @@ MultiUsers = {}
 
 -- Modules
 for k,v in pairs (file.Find("gmodtower/gamemode/oboy/*.lua","LUA")) do
+	if ( v == "math.lua" ) then
+		include("gmodtower/gamemode/oboy/" .. v)
+	end
+
 	AddCSLuaFile("gmodtower/gamemode/oboy/" .. v);
 end
 

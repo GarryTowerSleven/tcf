@@ -33,10 +33,6 @@ local function GetCenterPos( ent )
 
 end
 
-local function Fit( val, valMin, valMax, outMin, outMax )
-	return ( val - valMin ) * ( outMax - outMin ) / ( valMax - valMin ) + outMin
-end
-
 function ENT:DrawParticles()
 
 	local owner = self:GetOwner()

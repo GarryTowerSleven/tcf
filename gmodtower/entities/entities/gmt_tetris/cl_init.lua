@@ -202,7 +202,7 @@ end
 
 function ENT:AdjustMusic( score )
 
-	self.MusicRate = Fit( score, 0, 5000, .85, 1.8 )
+	self.MusicRate = math.Fit( score, 0, 5000, .85, 1.8 )
 
 	if self.Music then
 		self.Music:ChangePitch( 100 * self.MusicRate, 0 )
@@ -299,10 +299,6 @@ function ENT:RecieveDataFull( um )
 		end
 	end
 
-end
-
-function Fit( val, valMin, valMax, outMin, outMax )
-	return ( val - valMin ) * ( outMax - outMin ) / ( valMax - valMin ) + outMin
 end
 
 usermessage.Hook("Tetr", function(um)

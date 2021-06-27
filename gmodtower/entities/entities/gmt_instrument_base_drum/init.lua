@@ -181,11 +181,6 @@ function ENT:NetworkKey( key )
 
 end
 
-// Returns the approximate "fitted" number based on linear regression.
-function math.Fit( val, valMin, valMax, outMin, outMax )
-	return 1
-end
-
 net.Receive( "InstrumentNetworkDrum", function( length, client )
 	local ent = net.ReadEntity()
 	if !IsValid( ent ) then return end
@@ -212,7 +207,8 @@ net.Receive( "InstrumentNetworkDrum", function( length, client )
 
 			// Offset the note effect
 			local pos = string.sub( key, 2, 3 )
-			pos = math.Fit( tonumber( pos ), 1, 36, -3.8, 4 )
+			--pos = math.Fit( tonumber( pos ), 1, 36, -3.8, 4 )
+			pos = math.Fit( 36, 1, 36, -3.8, 4 )
 
 			// Note effect
 			local eff = EffectData()

@@ -142,12 +142,9 @@ function HSV(h,s,v,...)
 	return unpack(out)
 end
 
-module( "math", package.seeall )
-
-function Fit( val, valMin, valMax, outMin, outMax )
-	return math.ceil( ( val - valMin ) * ( outMax - outMin ) / ( valMax - valMin ) + outMin )
-end
-
+module( "math", package.seeall )
+
+
 function IsBetween( num, min, max )
 	return num >= min && num <= max
 end

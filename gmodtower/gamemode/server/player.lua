@@ -45,10 +45,6 @@ function meta:SetMoney( amount )
 end
 
 function meta:AddMoney( amount, nosend )
-	function math.Fit( val, valMin, valMax, outMin, outMax )
-		return ( val - valMin ) * ( outMax - outMin ) / ( valMax - valMin ) + outMin
-	end
-
 	function math.Fit2( val, valMin, valMax, outMin, outMax )
 		return ( val - valMax ) * ( outMax - outMin ) / ( valMin - valMax ) + outMin
 	end

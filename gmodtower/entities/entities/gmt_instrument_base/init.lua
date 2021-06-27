@@ -158,11 +158,6 @@ function ENT:NetworkKey( key )
 
 end
 
-// Returns the approximate "fitted" number based on linear regression.
-function math.Fit( val, valMin, valMax, outMin, outMax )
-	return ( val - valMin ) * ( outMax - outMin ) / ( valMax - valMin ) + outMin
-end
-
 net.Receive( "InstrumentNetwork", function( length, client )
 
 	local ent = net.ReadEntity()

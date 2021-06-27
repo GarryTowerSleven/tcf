@@ -61,11 +61,6 @@ end
 
 module( "math", package.seeall )
 
-// Returns the approximate "fitted" number based on linear regression.
-function Fit( val, valMin, valMax, outMin, outMax )
-	return ( val - valMin ) * ( outMax - outMin ) / ( valMax - valMin ) + outMin
-end
-
 // Returns if a value has gone beyond the maximum value.
 function IsBeyond( val, max )
 	return ( val % max ) == 0

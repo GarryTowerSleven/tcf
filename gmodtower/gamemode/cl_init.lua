@@ -239,9 +239,6 @@ local function GetCenterPos( ent )
 
 end
 
-local function Fit( val, valMin, valMax, outMin, outMax )
-	return ( val - valMin ) * ( outMax - outMin ) / ( valMax - valMin ) + outMin
-end
 
 surface.CreateFont( "TargetIDText", { font = "Impact", size = 32, weight = 500, antialias = true } )
 surface.CreateFont( "TargetIDTextSmall", { font = "Impact", size = 20, weight = 500, antialias = true } )
@@ -286,7 +283,7 @@ function GM:HUDDrawPlayerName( ply, fade, remain )
 
 		local dist = LocalPlayer():GetPos():Distance( ply:GetPos() )
 		if ( !LocalPlayer():GetPos():WithinDistance( ply:GetPos(), DrawPlayerDist ) ) then return end // no need to draw anything if the player is far away
-		opacity = Fit( dist, 100, DrawPlayerDist, 1, 0 )
+		opacity = math.Fit( dist, 100, DrawPlayerDist, 1, 0 )
 
 	end
 
