@@ -50,33 +50,33 @@ usermessage.Hook("GRoom", function(um)
 	elseif id == 5 then
 		local Minutes = um:ReadChar()
 
-		GtowerMessages:AddNewItem( T("RoomLongAway", Minutes) )
+		GTowerMessages:AddNewItem( T("RoomLongAway", Minutes) )
 	//elseif id == 6 then
 	//	local itemid = um:ReadChar()
 	//
-	//	GtowerMessages:AddNewItem( GetTranslation("RoomNotEnoughMoney", GtowerRooms.RoomUps[ itemid ].name ) )
+	//	GTowerMessages:AddNewItem( GetTranslation("RoomNotEnoughMoney", GtowerRooms.RoomUps[ itemid ].name ) )
 	//elseif id == 7 then
 	//	local itemid = um:ReadChar()
 	//	local level = um:ReadChar()
 	//
 	//	GtowerRooms:AskNewRoom( itemid, level )
 	elseif id == 8 then
-		GtowerMessages:AddNewItem( T("RoomInventoryOwnRoom") )
+		GTowerMessages:AddNewItem( T("RoomInventoryOwnRoom") )
 	//elseif id == 9 then
 	//	GtowerRooms:RecieveRefEnts( um )
 	elseif id == 10 then
-		GtowerMessages:AddNewItem( T("RoomNotOwner") )
+		GTowerMessages:AddNewItem( T("RoomNotOwner") )
 	elseif id == 11 then
-		GtowerMessages:AddNewItem( T("RoomCheckedOut"), nil, nil, "condo" )
+		GTowerMessages:AddNewItem( T("RoomCheckedOut"), nil, nil, "condo" )
 	elseif id == 12 then
-		GtowerMessages:AddNewItem( T("RoomAdminDisabled"), nil, nil, "condo" )
+		GTowerMessages:AddNewItem( T("RoomAdminDisabled"), nil, nil, "condo" )
 	elseif id == 13 then
 		local Maximun = um:ReadChar() + 120
-		GtowerMessages:AddNewItem( T("RoomMaxEnts", Maximun ), nil, nil, "condo" )
+		GTowerMessages:AddNewItem( T("RoomMaxEnts", Maximun ), nil, nil, "condo" )
 	elseif id == 14 then
-		GtowerRooms:GetEntIndexs( um )
+		GTowerRooms:GetEntIndexs( um )
 	elseif id == 15 then
-		GtowerMessages:AddNewItem( T("RoomAdminRemoved"), nil, nil, "condo" )
+		GTowerMessages:AddNewItem( T("RoomAdminRemoved"), nil, nil, "condo" )
 	else
 		Msg("Recieved GRoom of unkown id: " .. tostring(id) .. "\n")
 	end
@@ -132,8 +132,8 @@ function GtowerRooms:ShowNewRoom( um )
 		Text = T("RoomGet", RoomId )
 	})*/
 
-	GtowerMessages:AddNewItem( T( "RoomGetSmall", RoomId ), nil, nil, "condo" )
-	--GtowerMessages:AddNewItem( "NOTE: Selling condos for profit is illegal.", nil, nil, "exclamation" )
+	GTowerMessages:AddNewItem( T( "RoomGetSmall", RoomId ), nil, nil, "condo" )
+	--GTowerMessages:AddNewItem( "NOTE: Selling condos for profit is illegal.", nil, nil, "exclamation" )
 end
 
 
@@ -209,7 +209,7 @@ function GtowerRooms:ShowRentWindow( um )
 				icon = "condo",
 				func = function()
 					RunConsoleCommand("gmt_dieroom")
-					GtowerMessages:AddNewItem( T("RoomReturnYes"), nil, nil, "condo" )
+					GTowerMessages:AddNewItem( T("RoomReturnYes"), nil, nil, "condo" )
 					SelectionMenuManager.Remove()
 				end,
 			},
@@ -231,7 +231,7 @@ function GtowerRooms:ShowRentWindow( um )
 				title = "Information",
 				icon = "about",
 				func = function()
-					GtowerMessages:AddNewItem( T("RoomInformation"), nil, nil, "condo" )
+					GTowerMessages:AddNewItem( T("RoomInformation"), nil, nil, "condo" )
 				end,
 			},
 		}
@@ -252,7 +252,7 @@ function GtowerRooms:ShowRentWindow( um )
 				title = "Information",
 				icon = "about",
 				func = function()
-					GtowerMessages:AddNewItem( T("RoomInformation"), nil, nil, "condo" )
+					GTowerMessages:AddNewItem( T("RoomInformation"), nil, nil, "condo" )
 				end,
 			},
 		}
@@ -282,7 +282,7 @@ function GtowerRooms:ShowRentWindow( um )
 				title = "Information",
 				icon = "about",
 				func = function()
-					GtowerMessages:AddNewItem( T("RoomInformation"), nil, nil, "condo" ) 
+					GTowerMessages:AddNewItem( T("RoomInformation"), nil, nil, "condo" ) 
 				end,
 			},
 		}

@@ -40,7 +40,7 @@ end
 function GTowerGroup:RequestJoin( ply )
     if ply == LocalPlayer() then return end
 
-    GtowerMessages:AddNewItem( T("Group_invite_send", ply:GetName() ) )
+    GTowerMessages:AddNewItem( T("Group_invite_send", ply:GetName() ) )
 
     RunConsoleCommand("gmt_groupinvite", ply:EntIndex() )
 
@@ -61,7 +61,7 @@ function GTowerGroup:RecieveInvite( id, ent )
 
 	surface.PlaySound("gmodtower/misc/notifygroup.wav")
 
-	local Question = GtowerMessages:AddNewItem( T("GroupInvite", Inviter:GetName() ) , 25.0)
+	local Question = GTowerMessages:AddNewItem( T("GroupInvite", Inviter:GetName() ) , 25.0)
 	local function EndRequest( rtn )
 		if rtn == 1 then
 			RunConsoleCommand("gmt_acceptgroup", GroupId )

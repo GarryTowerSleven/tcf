@@ -122,7 +122,7 @@ function GTowerTrade:RecieveRequest( ply, bool )
 
 	if IgnoreTrade:GetBool() then return end
 
-	local Question = GtowerMessages:AddNewItem( T("send_trade_recive", Inviter:GetName() ) , 25.0)
+	local Question = GTowerMessages:AddNewItem( T("send_trade_recive", Inviter:GetName() ) , 25.0)
 
 	Question:SetupQuestion(
 		function() RunConsoleCommand("gmt_trade", PlyId ) end , //accept

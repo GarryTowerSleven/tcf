@@ -148,16 +148,16 @@ net.Receive("GGroup",function()
 	elseif MsgId == 2 then
 
 
-		GtowerMessages:AddNewItem( GetTranslation("Group_he_already_in_group", ply:GetName() ) )
+		GTowerMessages:AddNewItem( GetTranslation("Group_he_already_in_group", ply:GetName() ) )
 
 	elseif MsgId == 3 then
 		GTowerGroup:LeaveGroup()
 
 	elseif MsgId == 4 then
-		GtowerMessages:AddNewItem( GetTranslation("Group_already_in_group" ) )
+		GTowerMessages:AddNewItem( GetTranslation("Group_already_in_group" ) )
 
 	elseif MsgId == 5 then
-		GtowerMessages:AddNewItem( "The group no longer exists." )
+		GTowerMessages:AddNewItem( "The group no longer exists." )
 
 	elseif MsgId == 8 then
 		local ply = ents.GetByIndex( net.ReadInt(16) )
@@ -167,9 +167,9 @@ net.Receive("GGroup",function()
 		end
 
 		if ply == LocalPlayer() then
-			GtowerMessages:AddNewItem( GetTranslation("Group_younewowner" ) )
+			GTowerMessages:AddNewItem( GetTranslation("Group_younewowner" ) )
 		else
-			GtowerMessages:AddNewItem( T("Group_himnewowner", ply:GetName() ) )
+			GTowerMessages:AddNewItem( T("Group_himnewowner", ply:GetName() ) )
 		end
 	elseif MsgId == 9 then
 
@@ -179,7 +179,7 @@ net.Receive("GGroup",function()
 			return
 		end
 
-		GtowerMessages:AddNewItem( T("GroupDeny", ply:Name() ) )
+		GTowerMessages:AddNewItem( T("GroupDeny", ply:Name() ) )
 
 	end
 

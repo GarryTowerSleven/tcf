@@ -40,7 +40,7 @@ usermessage.Hook("GServ", function(um)
 		Server.RedirectingTime = Endtime
 
 		//TODO: Give message game is starting
-		//GtowerMessages:AddNewItem( "Server " .. GTowerServers.ServerNames[ ServerId ] .. " ready to play in: " .. Endtime .. " seconds ", Endtime - 0.75 )
+		//GTowerMessages:AddNewItem( "Server " .. GTowerServers.ServerNames[ ServerId ] .. " ready to play in: " .. Endtime .. " seconds ", Endtime - 0.75 )
 
 	elseif MsgId == 10 then
 		//This message is to give that server that was ready, is no longer ready
