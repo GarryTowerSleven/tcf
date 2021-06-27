@@ -81,7 +81,11 @@ function StartRandomStore()
 	math.randomseed(os.time())
 	local store = table.Random(shopslist)
 	local value = math.Clamp(math.Rand(minsale,maxsale), -math.huge, 1)
-	SendMessageToPlayers( "EventSetSale", GTowerStore.Stores[ store ].WindowTitle )
+	local value = math.Round(value*100)
+	local value = 5*( math.Round(value/5) )
+	local valueDisplay = value
+	local value = value*.01
+	SendMessageToPlayers( "MiniStoreGameStart", valueDisplay, GTowerStore.Stores[ store ].WindowTitle )
 	for k,v in pairs(player.GetAll()) do v:SendLua([[surface.PlaySound("]]..EventSound..[[")]]) end
 	SendMessageToPlayers( "EventEndingTime", SecondsToFormat( saletime ) )
 	GTowerStore:BeginSale(store, value)
