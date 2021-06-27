@@ -135,16 +135,20 @@ function ENT:PayOut(ply,prize)
 			ply:AddMoney(1)
 		end
 	elseif prize == 2 || prize == 3 || prize == 4 || prize == 6 || prize == 7 || prize == 8 || prize == 10 then
+		local realprize = self.SLOTS[prize][1]
 		BasicWin(self)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		self:EmitSound("GModTower/misc/win_gameshow.mp3")
 		self:SendItem(ply,entity_name)
+		ply:Msg2("You won: " .. realprize)
 	else
+		local realprize = self.SLOTS[prize][1]
 		BasicWin(self)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		self:EmitSound("GModTower/misc/win_crowd.mp3")
 		self:SendItem(ply,entity_name)
+		ply:Msg2("You won: " .. realprize)
 	end
 
 	if prize != 5 && string.EndsWith(self.SLOTS[prize][1],'GMC') then

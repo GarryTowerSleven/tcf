@@ -132,16 +132,20 @@ function ENT:PayOut(ply,prize)
 	if prize == 1 || prize == 2 || prize == 8 || prize == 16 then
 		self:EmitSound(self.LoseSound)
 	elseif prize == 4 || prize == 5 || prize == 10 || prize == 11 || prize == 13 then
+		local realprize = self.SLOTS[prize][1]
 		BasicWin(self)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		self:EmitSound(self.SoundSet)
 		self:SendItem(ply,entity_name)
+		ply:Msg2("You won: " .. realprize)
 	else
+		local realprize = self.SLOTS[prize][1]
 		BasicWin(self)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		self:EmitSound(self.SoundSet)
 		self:SendItem(ply,entity_name)
+		ply:Msg2("You won: " .. realprize)
 	end
 
 	if string.StartWith(self.SLOTS[prize][1],'Lose') then
