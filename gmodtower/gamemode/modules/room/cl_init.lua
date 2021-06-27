@@ -67,16 +67,16 @@ usermessage.Hook("GRoom", function(um)
 	elseif id == 10 then
 		GtowerMessages:AddNewItem( T("RoomNotOwner") )
 	elseif id == 11 then
-		GtowerMessages:AddNewItem( T("RoomCheckedOut") )
+		GtowerMessages:AddNewItem( T("RoomCheckedOut"), nil, nil, "condo" )
 	elseif id == 12 then
-		GtowerMessages:AddNewItem( T("RoomAdminDisabled") )
+		GtowerMessages:AddNewItem( T("RoomAdminDisabled"), nil, nil, "condo" )
 	elseif id == 13 then
 		local Maximun = um:ReadChar() + 120
-		GtowerMessages:AddNewItem( T("RoomMaxEnts", Maximun ) )
+		GtowerMessages:AddNewItem( T("RoomMaxEnts", Maximun ), nil, nil, "condo" )
 	elseif id == 14 then
 		GtowerRooms:GetEntIndexs( um )
 	elseif id == 15 then
-		GtowerMessages:AddNewItem( T("RoomAdminRemoved") )
+		GtowerMessages:AddNewItem( T("RoomAdminRemoved"), nil, nil, "condo" )
 	else
 		Msg("Recieved GRoom of unkown id: " .. tostring(id) .. "\n")
 	end
