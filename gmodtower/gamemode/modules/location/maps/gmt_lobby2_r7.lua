@@ -74,7 +74,7 @@ GTowerLocation.MapPositions = {
 	{ 61, Vector( -11890.712890625, -1017.3403320313, -13591.706054688 ), Vector( -11558.913085938, 1141.0163574219, -12187.041015625 ), 'easteregg', 1 }, // The Hallway
 	{ 62, Vector( -11890.712890625, 659.70471191406, -14196.90234375 ), Vector( -11366.8359375, 1141.0163574219, -13591.706054688 ), 'easteregg', 1 }, // The Dev HQ?
 	{ 63, Vector( 6660.8193359375, -4530.859375, -963.35620117188 ), Vector( 6931.3486328125, -3974.4975585938, -564.21759033203 ), 'gourmetrace', 2 }, // The Dev HQ?
-	{ 64, Vector( 2947.888671875, -1673.8067626953, 1967.8983154297 ), Vector( 3354.8662109375, -1010.9487304688, 2426.4399414063 ), 'monorail', 1 }, // The Dev HQ?
+	{ 64, Vector( 2947.888671875, -1673.8067626953, 1967.8983154297 ), Vector( 3354.8662109375, -1010.9487304688, 2426.4399414063 ), 'monorail', 1 }, // old Monorail
 	{ 65, Vector( -2048.1362304688, 551.70574951172, -704.39056396484 ), Vector( -710.53399658203, 1427.9038085938, -343.13128662109 ), 'stores', 1 }, // The Dev HQ?
 	{ 66, Vector( -2048.1362304688, 548.626953125, -981.62939453125 ), Vector( -756.32775878906, 1427.9038085938, -704.39056396484 ), 'stores', 1 }, // The Dev HQ?
 	{ 70, Vector( -104.52037811279, -234.23878479004, 1989.2733154297 ), Vector( 146.07402038574, 211.93109130859, 2285.6396484375 ), 'monorail', 1 }, // Monorail
@@ -196,9 +196,11 @@ local NoEntsLocations = {
 	[58] = true, // Arcade
 	[59] = true, // Trivia
 	[25] = true, // Casino
+	[64] = true, // Monorail
+	[70] = true, // Monorail
 }
 
-function IsNoEntsLoc( id )
+function IsNoEntsLoc(id)
 	return NoEntsLocations[id] != nil
 end
 
@@ -212,4 +214,16 @@ end
 
 function IsCondo(id)
 	return ( id > 1 && id < 14 )
+end
+
+function IsDuelLobby(id)
+	return ( id == 30 )
+end
+
+function IsDuelArena(id)
+    return ( id == 41 )
+end
+
+function IsMonorail(id)
+	return ( id == 64 || id == 70 )
 end

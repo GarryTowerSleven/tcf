@@ -647,7 +647,7 @@ function initHud()
 	function GTowerHUD.DrawHealth()
 
 		// i dont see why not
-		if !HUDStyle_Lobby1AB && LocalPlayer().GLocation != 41 then return end
+		if !HUDStyle_Lobby1AB && !Location.IsDuelArena( LocalPlayer().GLocation ) then return end
 		//if !LocalPlayer():GetNWBool("IsDueling") then return end
 
 		// Lobby 1 Health

@@ -196,6 +196,8 @@ local NoEntsLocations = {
 	[58] = true, // Arcade
 	[59] = true, // Trivia
 	[25] = true, // Casino
+	[64] = true, // Monorail
+	[70] = true, // Monorail
 }
 
 function IsNoEntsLoc( id )
@@ -212,4 +214,16 @@ end
 
 function IsCondo(id)
 	return ( id > 1 && id < 14 )
+end
+
+function IsDuelLobby(id)
+	return ( id == 30 )
+end
+
+function IsDuelArena(id)
+    return ( id == 41 )
+end
+
+function IsMonorail(id)
+	return ( id == 70 )
 end
