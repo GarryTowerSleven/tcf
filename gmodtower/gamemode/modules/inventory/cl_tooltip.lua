@@ -1,6 +1,8 @@
 GTowerItems.ToolTip = nil
 GTowerItems.ToolTipPanel = nil
 
+local ShouldDraw = false
+
 function GTowerItems:ShowTooltip( title, description, panel )
 	
 	if !GTowerItems.ToolTip then
@@ -34,5 +36,17 @@ function GTowerItems:RemoveTooltip()
 end
 
 hook.Add("GtowerHideMenus", "HideInvToolTip", function()
+	ShouldDraw = false
 	GTowerItems:HideTooltip()
 end )
+
+
+hook.Add("GtowerShowMenus", "HideInvToolTip", function()
+	ShouldDraw = true
+end )
+
+hook.Add("Think", "HideInvToolTip", function()
+	if !ShouldDraw then
+		GTowerItems:HideTooltip()
+	end
+end)
