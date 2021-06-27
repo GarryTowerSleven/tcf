@@ -52,10 +52,14 @@ end
 
 function SWEP:Think()
 	if CurTime() > self.Suicide + 0.15 && self.State == 1 then
-		if CLIENT then self:EmitSound( self.SoundTrigger ) end
+		if SERVER then
+			self.Owner:EmitSound( self.SoundTrigger )
+		end
 		self.State = 2
 	elseif CurTime() > self.Suicide + 0.75 && self.State == 2 then
-		if CLIENT then self:EmitSound( self.SoundReady ) end
+		if SERVER then
+			self.Owner:EmitSound( self.SoundReady )
+		end
 		self.State = 3
 	elseif CurTime() > self.Suicide + 1 && self.State == 3 then
 		self:Shoot()
@@ -92,8 +96,9 @@ function SWEP:Shoot()
 	self.Weapon:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
 	self.Owner:MuzzleFlash()
 	self.Owner:SetAnimation( PLAYER_ATTACK1 )
-
-	if CLIENT then self:EmitSound( self.SoundShoot, 5, 100 ) end
+	if SERVER then
+		self.Owner:EmitSound( self.SoundShoot, 5, 100 )
+	end
 
 end
 
