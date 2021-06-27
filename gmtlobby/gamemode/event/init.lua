@@ -80,14 +80,11 @@ end
 function StartRandomStore()
 	math.randomseed(os.time())
 	local store = table.Random(shopslist)
-	local value = math.Clamp(math.Rand(minsale,maxsale), -math.huge, 1)
-	local value = math.Round(value*100)
-	local value = 5*( math.Round(value/5) )
-	local valueDisplay = value
-	local value = value*.01
-	SendMessageToPlayers( "MiniStoreGameStart", valueDisplay, GTowerStore.Stores[ store ].WindowTitle )
+	local value = math.Clamp( math.Rand(minsale,maxsale), -math.huge, 1 )
+
+	SendMessageToPlayers( "MiniNext", 30 ) // temp until we get random times
+	SendMessageToPlayers( "MiniStoreGameStart", math.Round(value, 2)*100, GTowerStore.Stores[ store ].WindowTitle )
 	for k,v in pairs(player.GetAll()) do v:SendLua([[surface.PlaySound("]]..EventSound..[[")]]) end
-	SendMessageToPlayers( "EventEndingTime", SecondsToFormat( saletime ) )
 	GTowerStore:BeginSale(store, value)
 	endtime = os.time() + saletime
 	eventtype = "sale"
@@ -117,7 +114,7 @@ function StartRandomMiniGame()
 	end
 
 	endtime = os.time() + minitime
-	SendMessageToPlayers( "EventEndingTime", SecondsToFormat( minitime ) )
+	//SendMessageToPlayers( "EventEndingTime", SecondsToFormat( minitime ) )
 	eventtype = "minigame"
 	eventname = MiniGameStr
 end
@@ -131,7 +128,7 @@ end
 function EndEvent()
 	if eventtype == "sale" then
 		GTowerStore:EndSale(eventname)
-		SendMessageToPlayers( "EventEndSale", GTowerStore.Stores[ eventname ].WindowTitle )
+		//SendMessageToPlayers( "EventEndSale", GTowerStore.Stores[ eventname ].WindowTitle )
 	elseif eventtype == "minigame" then
 		local MiniGame = minigames[ eventname ]
 		SafeCall( MiniGame.End )
