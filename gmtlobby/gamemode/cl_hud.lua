@@ -24,7 +24,7 @@ table.insert( GtowerHudToHide, "CHudZoom" )
 GTowerHUD.Enabled = CreateClientConVar( "gmt_hud", 1, true, false )
 local HideBetaMessage = CreateClientConVar( "gmt_hidebetamsg", 0, true, false )
 
-GTowerHUD.Style = CreateClientConVar( "gmt_hud_style", 1, true, false, nil, 0, 4 )
+GTowerHUD.Style = CreateClientConVar( "gmt_hud_style", 0, true, false, nil, 0, 4 )
 
 local HUDStyle_Deluxe = false
 local HUDStyle_Lobby2 = false
