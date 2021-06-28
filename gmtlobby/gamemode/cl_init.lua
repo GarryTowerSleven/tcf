@@ -418,11 +418,7 @@ net.Receive("AdminMessage",function()
 
 	if ( IsValid(ply) && !ply:IsAdmin() ) then return end
 
-	local Message = Msg2(Text)
-	Message:SetColor(Color( 255, 50, 50 ))
-	Message:SetTargetAlpha(255)
-	Message:SetTextColor(Color(0,0,0,255))
-	Message:SetIcon("admin")
+	MsgI( "admin", Text )
 
 
 end)
