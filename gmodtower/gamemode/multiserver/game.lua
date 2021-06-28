@@ -191,27 +191,24 @@ function GTowerServers:EmptyServer()
 
 end
 
+function GTowerServers:ResetServer()
+	timer.Simple( 10, function()
+		local map = GTowerServers:GetRandomMap()
+		GAMEMODE:ColorNotifyAll( T( "AdminChangeMap", map ), Color(225, 20, 20, 255) )
+		hook.Call("LastChanceMapChange", GAMEMODE, map)
+		RunConsoleCommand("changelevel", map)
+	end )
+end
+
 local function EmptyNow()
 	if !GTowerServers.EmptyingServer then return end
 
 	for k,v in pairs(player.GetAll()) do
-		v:Kick("Not redirected!")
-	end
-end
-
-local function GoAway()
-	if !GTowerServers.EmptyingServer then return end
-
-	gatekeeper.DropAllClients("The game has ended")
-
-	local clients = gatekeeper.GetNumClients()
-	if clients.total > 0 then
-		SQLLog( "multiserver", "Server is changing level but numClients > 0 !!!!!" )
+		v:Kick("The game has ended")
 	end
 end
 
 hook.Add("MapChange", "EmptyServerForReal", EmptyNow)
-hook.Add("LastChanceMapChange", "EmptyServerLast", GoAway)
 
 local function UpdatedDatabaseEmptyResult(res)
 	if res[1].status != true then
