@@ -130,7 +130,7 @@ function GTowerItems.CreateMysteryItem(ply)
 
 		for k,v in pairs(player.GetAll()) do
 			if IsValid(v) then
-				v:ChatPrint(ply:Name() .. " JUST FOUND A SUNABOUZU SHRINE FROM THE MYSTERIOUS CAT SACK")
+				v:SendLua([[GTowerChat.Chat:AddText("]]..string.upper(ply:Name())..[[ JUST FOUND A SUNABOUZU SHRINE FROM THE MYSTERIOUS CAT SACK", Color(161, 3, 252, 255))]])
 			end
 		end
 
