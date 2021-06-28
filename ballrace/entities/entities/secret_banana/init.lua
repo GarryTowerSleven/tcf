@@ -38,7 +38,7 @@ function ENT:Touch(ent)
 		effectdata:SetOrigin( self:GetPos() + Vector( 0, 0, 20 ) )
 	util.Effect( "bananaeatsecret", effectdata, true, true )
 
-	GAMEMODE:Announce( string.SafeChatName(ent:GetOwner():Name()).." has found the secret banana!" )
+	GAMEMODE:ColorNotifyAll( string.SafeChatName(ent:GetOwner():Name()).." has found the secret banana!" )
 
 	local ply = ent:GetOwner()
 
