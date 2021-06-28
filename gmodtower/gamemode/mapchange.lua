@@ -72,10 +72,9 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 		local str = args[1] or ""
 
 		if timer.Exists("ChangeLevelTimer") then
-
 			timer.Destroy("ChangeLevelTimer")
 			GAMEMODE:ColorNotifyAll( "Halting map restart...", Color(225, 20, 20, 255) )
-
+			return
 		end
 
 		local DuelGoingOn = false
@@ -90,7 +89,7 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 			if ply:IsValid() then
 				ply:MsgT("FailedMapChange")
 			else
-				print("You cannot change levels while there is poker or duel going. Use forcechangelevel to override this.")
+				print("You cannot change levels while there is poker or duel going. Use gmt_forcelevel to override this.")
 			end
 			return
 		end
@@ -128,16 +127,6 @@ concommand.Add( "gmt_forcelevel", function( ply, command, args )
 
 end )
 
-concommand.Add( "forcechangelevel", function( ply, command, args )
-
-	local str = args[1]
-
-	if ply == NULL or ply:IsAdmin() then
-		RunConsoleCommand("changelevel", str)
-	end
-
-end )
-
 local function FinalChangeHook(MapName)
 	hook.Call("LastChanceMapChange", GAMEMODE, MapName)
 
@@ -151,7 +140,11 @@ function ChangeLevel( map, ply )
 
 	if file.Exists(FilePlace,"GAME") then
 
-		GAMEMODE:ColorNotifyAll( "Changing map to "..map.." in "..DefaultTime.." seconds...", Color(225, 20, 20, 255) )
+		if game.GetMap() == MapName then
+			GAMEMODE:ColorNotifyAll( T( "AdminRestartMapSec", DefaultTime ), Color(225, 20, 20, 255) )
+		else
+			GAMEMODE:ColorNotifyAll( T( "AdminChangeMapSec", map, DefaultTime ), Color(225, 20, 20, 255) )
+		end
 
 		for k,v in pairs(player.GetAll()) do
 			v:SendLua([[surface.PlaySound( "gmodtower/misc/changelevel.wav" )]])
@@ -168,7 +161,7 @@ function ChangeLevel( map, ply )
 		analytics.postDiscord( "Logs", engine.ActiveGamemode() .. " server changing level to " .. map .. "... [".. ChangeName .."]" )
 
 		timer.Create("ChangeLevelTimer", (DefaultTime - 0.5), 1, function()
-			GAMEMODE:ColorNotifyAll( "Changing map to "..map.."...", Color(225, 20, 20, 255) )
+			GAMEMODE:ColorNotifyAll( T( "AdminChangeMap", map ), Color(225, 20, 20, 255) )
 
 			analytics.postDiscord( "Logs", engine.ActiveGamemode() .. " server shutting down..." )
 
@@ -178,7 +171,7 @@ function ChangeLevel( map, ply )
 		end)
 
 	else
-		ply:Msg2("'"..map.."' not found on server! Use forcechangelevel to force a level change.")
+		ply:Msg2("'"..map.."' not found on server!")
 	end
 end
 
@@ -202,6 +195,6 @@ function ForceLevel( map, ply )
 		FinalChangeHook(MapName)
 
 	else
-		ply:Msg2("'"..map.."' not found on server! Use forcechangelevel to force a level change.")
+		ply:Msg2("'"..map.."' not found on server!")
 	end
 end
