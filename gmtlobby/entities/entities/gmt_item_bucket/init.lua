@@ -51,9 +51,7 @@ function ENT:GivePresent(ply)
 	ply:AddAchivement( ACHIVEMENTS.HALLOWEENBUCKET, 1 )
 
 	if #ents.FindByClass("gmt_item_bucket") == 1 then
-		for k,v in pairs(player.GetAll()) do
-			v:SendLua([[GTowerChat.Chat:AddText("All candy buckets have been collected.", Color(255, 140, 0, 255))]])
-		end
+		GAMEMODE:ColorNotifyAll( "All candy buckets have been collected.", Color(255, 140, 0, 255) )
 	end
 
 	local vPoint = self:GetPos()
