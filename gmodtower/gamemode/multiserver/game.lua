@@ -57,9 +57,10 @@ function GTowerServers:RedirectPlayers( ip, port, password, players, NoCheckGone
 		for _, v in ipairs( player.GetAll() ) do
 			if IsValid( v ) then
 				v.HideRedir = true
-				v:SendLua([[GTowerChat.Chat:AddText("Starting a game of ]]..gameName..[[ with ]]..tostring( numPlayers )..[[ players!", Color(154, 218, 235, 255))]])
 			end
 		end
+
+		GAMEMODE:ColorNotifyAll( "Starting a game of "..gameName.." with "..tostring( numPlayers ).." players!" , Color(154, 218, 235, 255) )
 	end
 
 	local ips = {}

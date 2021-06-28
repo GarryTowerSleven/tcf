@@ -4,9 +4,7 @@
 local Interval = 60 * 5
 
 local function SendHolidayMsg( msg, clr )
-  for k,v in pairs(player.GetAll()) do
-    v:SendLua([[GTowerChat.Chat:AddText("]]..msg..[[", ]]..clr..[[)]])
-  end
+	GAMEMODE:ColorNotifyAll( msg, clr )
 end
 
 hook.Add("InitPostEntity","HolidayManager",function()

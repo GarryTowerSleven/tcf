@@ -114,62 +114,65 @@ concommand.Add( "gt_act", function(ply, command, args)
     if TargetPly == nil then return end
     if !TargetPly:IsPlayer() then return end
 
+	local ActionTable = {
+		"ungagged",
+		"gagged",
+		"unmuted",
+		"muted"	
+	}
+
+	local CommandActionMessage = function( Name1, Name2, Action )
+		Name1 = string.SafeChatName( Name1 )
+		
+		GAMEMODE:ColorNotifyAll( Name1.." has "..Action.." "..Name2..".", Color(150, 35, 35, 255) )
+	end
+
     if args[1] == "slay" && !hook.Call("DisableAdminCommand", GAMEMODE, args[1]) then
 
         TargetPly:Kill()
 
 		elseif args[1] == "givemoney" then
 
-				player.GetByID(args[2]):AddMoney(tonumber(args[3]))
+			player.GetByID(args[2]):AddMoney(tonumber(args[3]))
 
-				if ply != TargetPly then
+			if ply != TargetPly then
 				net.Start("AdminMessage")
-				net.WriteEntity(nil)
-				net.WriteString(ply:Name().." gave you "..tonumber(args[3]).." GMC")
+					net.WriteEntity(nil)
+					net.WriteString(ply:Name().." gave you "..tonumber(args[3]).." GMC")
 				net.Send(player.GetByID(args[2]))
-				end
+			end
 
 		elseif args[1] == "gag" then
 
-				local SanitizedName = string.SafeChatName(player.GetByID(args[2]):Name())
+			local SanitizedName = string.SafeChatName(player.GetByID(args[2]):Name())
 
-				if player.GetByID(args[2]):GetNWBool("GlobalGag") then
-					ply:Msg2( SanitizedName .. " is no longer gagged for this session")
-					player.GetByID(args[2]):SetNWBool("GlobalGag",false)
-					for k,v in pairs(player.GetAll()) do
-						local SanitizedName2 = string.SafeChatName( ply:Name() )
-						v:SendLua([[GTowerChat.Chat:AddText("]]..SanitizedName2..[[ has ungagged ]]..SanitizedName..[[.", Color(150, 35, 35, 255))]])
-					end
-					return
-				end
+			if player.GetByID(args[2]):GetNWBool("GlobalGag") then
+				ply:Msg2( SanitizedName .. " is no longer gagged for this session")
+				player.GetByID(args[2]):SetNWBool("GlobalGag",false)
+				CommandActionMessage( ply:Name(), SanitizedName, ActionTable[1] )
+				return
+			end
 
-				ply:Msg2( SanitizedName .. " is now gagged for this session")
-				player.GetByID(args[2]):SetNWBool("GlobalGag",true)
-				player.GetByID(args[2]):Msg2("You have been chat gagged. Your chat was not sent on the public channel.")
-				for k,v in pairs(player.GetAll()) do
-					local SanitizedName2 = string.SafeChatName( ply:Name() )
-					v:SendLua([[GTowerChat.Chat:AddText("]]..SanitizedName2..[[ has gagged ]]..SanitizedName..[[.", Color(150, 35, 35, 255))]])
-				end
+			ply:Msg2( SanitizedName .. " is now gagged for this session")
+			player.GetByID(args[2]):SetNWBool("GlobalGag",true)
+			player.GetByID(args[2]):Msg2("You have been chat gagged. Your chat was not sent on the public channel.")
+			CommandActionMessage( ply:Name(), SanitizedName, ActionTable[2] )
 
 		elseif args[1] == "mute" then
 
 			local SanitizedName = string.SafeChatName(player.GetByID(args[2]):Name())
-				if player.GetByID(args[2]):GetNWBool("GlobalMute") then
-					ply:Msg2( SanitizedName .. " is no longer muted for this session")
-					player.GetByID(args[2]):SetNWBool("GlobalMute",false)
-					for k,v in pairs(player.GetAll()) do
-						local SanitizedName2 = string.SafeChatName( ply:Name() )
-						v:SendLua([[GTowerChat.Chat:AddText("]]..SanitizedName2..[[ has unmuted ]]..SanitizedName..[[.", Color(150, 35, 35, 255))]])
-					end
-					return
-				end
+
+			if player.GetByID(args[2]):GetNWBool("GlobalMute") then
+				ply:Msg2( SanitizedName .. " is no longer muted for this session")
+				player.GetByID(args[2]):SetNWBool("GlobalMute",false)
+				CommandActionMessage( ply:Name(), SanitizedName, ActionTable[3] )
+				return
+			end
+
 			ply:Msg2(SanitizedName .. " is now muted for this session")
 			player.GetByID(args[2]):SetNWBool("GlobalMute",true)
 
-			for k,v in pairs(player.GetAll()) do
-				local SanitizedName2 = string.SafeChatName( ply:Name() )
-				v:SendLua([[GTowerChat.Chat:AddText("]]..SanitizedName2..[[ has muted ]]..SanitizedName..[[.", Color(150, 35, 35, 255))]])
-			end
+			CommandActionMessage( ply:Name(), SanitizedName, ActionTable[4] )
 
 		elseif args[1] == "revive" then
 
@@ -231,17 +234,15 @@ end )
 hook.Add("PlayerDisconnected","LeaveMessage",function(ply)
 
 	if ply.HasResetData then
-		for k,v in pairs(player.GetAll()) do
-			local SanitizedName = string.SafeChatName(ply:Name())
-			v:SendLua([[GTowerChat.Chat:AddText("]]..SanitizedName..[[ has reset his data and left the tower.", Color(100, 100, 100, 255))]])
-		end
+		local SanitizedName = string.SafeChatName(ply:Name())
+		GAMEMODE:ColorNotifyAll( SanitizedName.." has reset their data and left the tower.", Color(100, 100, 100, 255) )
 		return
 	end
 
 	for k, v in pairs(player.GetAll()) do
 		if engine.ActiveGamemode() != "ballrace" && v.HideRedir == false then
 			local SanitizedName = string.SafeChatName(ply:Name())
-			v:SendLua([[GTowerChat.Chat:AddText("]] .. SanitizedName .. [[ has left the tower.", Color(100, 100, 100, 255))]])
+			GAMEMODE:ColorNotifyPlayer( v, SanitizedName.." has left the tower.", Color(100, 100, 100, 255) )
 		else
 			return
 		end
@@ -260,7 +261,7 @@ hook.Add("PlayerInitialSpawn", "GTowerCheckAdmin", function(ply)
 	for k,v in pairs(player.GetAll()) do
 		if v == ply then continue end
 		local SanitizedName = string.SafeChatName(ply:Name())
-		v:SendLua([[GTowerChat.Chat:AddText("]]..SanitizedName..[[ is now in the tower. (]]..ply:SteamID()..[[)", Color(65, 115, 200, 255))]])
+		GAMEMODE:ColorNotifyPlayer( v, SanitizedName.." is now in the tower.", Color(65, 115, 200, 255) )
 	end
 
 	if table.HasValue(GTowerAdmins, ply:SteamID()) || game.SinglePlayer() then

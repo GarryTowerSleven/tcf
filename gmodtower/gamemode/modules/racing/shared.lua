@@ -112,11 +112,7 @@ if SERVER then
 	function Destroy( race, pl )
 
 		if SERVER then
-			if IsValid(pl) then
-				for k,v in pairs(player.GetAll()) do
-					v:SendLua([[GTowerChat.Chat:AddText("]]..pl:Name()..[[ has finished the race, winning 10,000 GMC!", Color(85, 225, 100, 255))]])
-				end
-			end
+			GAMEMODE:ColorNotifyAll( pl:Name().." has finished the race, winning 10,000 GMC!", Color(85, 225, 100, 255) )
 		end
 
 		if IsValid(race.root) then race.root:Remove() end
