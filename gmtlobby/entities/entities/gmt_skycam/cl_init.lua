@@ -288,11 +288,13 @@ local function GetSkyBoxOffset(loc)
 		local monorail
 
 		for k,v in pairs( ents.FindByClass("gmt_monorail") ) do
-			pos = v.Cars[1]:GetPos()
-			ang = v.Cars[1]:GetAngles()
-			scl = 1
-			CamFound = true
-			monorail = v
+			if v.Cars != nil then
+				pos = v.Cars[1]:GetPos()
+				ang = v.Cars[1]:GetAngles()
+				scl = 1
+				CamFound = true
+				monorail = v
+			end
 		end
 
 		if CamFound /*&& RefFound*/ then

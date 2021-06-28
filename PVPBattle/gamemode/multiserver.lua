@@ -1,18 +1,8 @@
 local function ChangeRandomLevel()
+
 	GTowerServers:EmptyServer()
-	timer.Simple(10,function()
-		for k,v in pairs(player.GetAll()) do
-			v:Kick("Not redirected!")
-		end
+	GTowerServers:ResetServer()
 
-		local map = (GTowerServers:GetRandomMap() or GAMEMODE:RandomMap( "gmt_pvp" ))
-		for k,v in pairs(player.GetAll()) do
-			v:SendLua([[GTowerChat.Chat:AddText("Changing map to ]]..map..[[...", Color(225, 20, 20, 255))]])
-		end
-		hook.Call("LastChanceMapChange", GAMEMODE, map)
-		RunConsoleCommand("changelevel", map)
-
-	end)
 end
 
 hook.Add("GTowerMsg", "GamemodeMessage", function()
