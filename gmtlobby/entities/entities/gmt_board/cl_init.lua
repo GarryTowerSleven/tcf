@@ -48,7 +48,7 @@ local content = {
 	"Press E on this board to download content",
 	"",
 	"Discord Link",
-	"https://discord.gg/CYJG7paNH9"
+	"https://discord.gg/6Ty2avgn2C"
 }
 
 local OffsetUp = 106.25

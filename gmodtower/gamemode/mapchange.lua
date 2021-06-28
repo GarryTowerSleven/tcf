@@ -25,7 +25,7 @@ timer.Create("gmt_autorestart",10,0,function()
 
 		GMT_IS_PREPARING_TO_RESTART = true
 
-		GAMEMODE:ColorNotifyAll( "GMod Tower will be restarted in 5 minutes. Your items and stats will be saved.", Color(225, 20, 20, 255) )
+		GAMEMODE:ColorNotifyAll( T( "AutoRestartMap", 5 ), Color(225, 20, 20, 255) )
 		analytics.postDiscord( "Logs", "Performing midnight restart in 5 minutes..." )
 
 		timer.Simple(5*60,function()
