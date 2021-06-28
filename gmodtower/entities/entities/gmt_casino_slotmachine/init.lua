@@ -437,7 +437,7 @@ end
 function ENT:BroadcastJackpot(ply, amount)
 	for _, v in ipairs(player.GetAll()) do
 		if v != ply then
-			v:MsgI( "slots", "SlotsJackpotAll", ply:Name(), amount )
+			v:MsgI( "slots", "SlotsJackpotAll", ply:Name(), string.FormatNumber(amount) )
 		end
 	end
 end
@@ -469,7 +469,7 @@ function ENT:SendWinnings( ply, amount, bJackpot )
 
 	else
 		self:EmitSound( Casino.SlotWinSound, 75, 100 )
-		ply:MsgI( "slots", "SlotsWin", amount )
+		ply:MsgI( "slots", "SlotsWin", string.FormatNumber(amount) )
 		ply:AddMoney(amount,true)
 
 		local bzr = ents.Create("gmt_money_bezier")
