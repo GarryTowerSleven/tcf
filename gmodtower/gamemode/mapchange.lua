@@ -161,7 +161,11 @@ function ChangeLevel( map, ply )
 		analytics.postDiscord( "Logs", engine.ActiveGamemode() .. " server changing level to " .. map .. "... [".. ChangeName .."]" )
 
 		timer.Create("ChangeLevelTimer", (DefaultTime - 0.5), 1, function()
+			if game.GetMap() == MapName then
+			GAMEMODE:ColorNotifyAll( T( "AdminRestartMap" ), Color(225, 20, 20, 255) )
+			else
 			GAMEMODE:ColorNotifyAll( T( "AdminChangeMap", map ), Color(225, 20, 20, 255) )
+			end
 
 			analytics.postDiscord( "Logs", engine.ActiveGamemode() .. " server shutting down..." )
 
