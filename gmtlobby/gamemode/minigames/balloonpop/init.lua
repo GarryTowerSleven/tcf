@@ -78,23 +78,29 @@ local function BalloonPopped( ent, dmg )
 
 		local ply = dmg:GetAttacker()
 
+		local magni
+
 		if IsValid(ply) then
 			local distance = ent:GetPos().z - ply:GetPos().z
 			if distance < 0 then distance = 0 end
 			if ent:GetNWBool("Golden") then
 				dmg:GetAttacker():AddMoney( 100 )
 				ply:SetNWInt("MinigameScore", ( ply:GetNWInt("MinigameScore") + 100 * 5 ) )
+				magni = 100
+				TotalMoney = TotalMoney + 100
 			else
 				dmg:GetAttacker():AddMoney( math.Round(distance / 50) )
 				ply:SetNWInt("MinigameScore", ( ply:GetNWInt("MinigameScore") + math.Round(distance / 50) * 5 ) )
+				magni = math.Round(distance / 50)
+				TotalMoney = TotalMoney + math.Round(distance / 50)
 			end
 
 			local vPoint = ent:GetPos()
 			local effectdata = EffectData()
 			effectdata:SetOrigin( vPoint )
-			effectdata:SetMagnitude( math.Round(distance / 50) )
+			effectdata:SetMagnitude( magni )
 			util.Effect( "gmt_money", effectdata )
-			TotalMoney = TotalMoney + math.Round(distance / 50)
+			//TotalMoney = TotalMoney + math.Round(distance / 50)
 		end
 	end
 end
