@@ -128,11 +128,7 @@ function GTowerItems.CreateMysteryItem(ply)
 	elseif p <= 0.801 then
 		SQLLog( "game", tostring(ply) .. " found a sunabouzu shrine from a cat sack" )
 
-		for k,v in pairs(player.GetAll()) do
-			if IsValid(v) then
-				v:SendLua([[GTowerChat.Chat:AddText("]]..string.upper(ply:Name())..[[ JUST FOUND A SUNABOUZU SHRINE FROM THE MYSTERIOUS CAT SACK", Color(161, 3, 252, 255))]])
-			end
-		end
+		GAMEMODE:ColorNotifyAll( string.upper(ply:Name()).." JUST FOUND A SUNABOUZU SHRINE FROM THE MYSTERIOUS CAT SACK", Color(161, 3, 252, 255) )
 
 		return ITEMS.sunshrine
 	elseif p <= 0.9 then

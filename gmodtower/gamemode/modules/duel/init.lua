@@ -177,9 +177,7 @@ function StartDueling(Weapon, Requester, Arriver, Amount)
 		Arriver.DesiredPosition = Spawn2
 	end
 
-	for k,v in pairs(player.GetAll()) do
-		v:SendLua([[GTowerChat.Chat:AddText("]]..Requester:Name()..[[ has challenged ]]..Arriver:Name()..[[ to a duel for ]]..(Amount or 0)..[[ GMC!", Color(150, 35, 35, 255))]])
-	end
+	GAMEMODE:ColorNotifyAll( Requester:Name().." has challenged "..Arriver:Name().." to a duel for "..(Amount or 0).." GMC!", Color(150, 35, 35, 255) )
 
 	Requester:StripWeapons()
 	Arriver:StripWeapons()
@@ -325,9 +323,7 @@ local function ClearDeathCheck(ply)
 			ply:SetNWBool("IsDueling",false)
 			ply:SetCustomCollisionCheck(true)
 
-			for k,v in pairs(player.GetAll()) do
-				v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ has won the duel!", Color(150, 35, 35, 255))]])
-			end
+			GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel!", Color(150, 35, 35, 255) )
 		else
 			ply.ActiveDuel = false
 			ply:SetCustomCollisionCheck(true)
@@ -336,10 +332,7 @@ local function ClearDeathCheck(ply)
 			Opponent.ActiveDuel = false
 			Opponent:SetCustomCollisionCheck(true)
 
-		for k,v in pairs(player.GetAll()) do
-			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ has won the duel with ]]..Opponent:Name()..[[, winning ]]..Amount..[[ GMC!", Color(150, 35, 35, 255))]])
-		end
-
+			GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel with "..Opponent:Name()..", winning "..Amount.." GMC!", Color(150, 35, 35, 255) )
 		end
 	else
 
@@ -351,9 +344,7 @@ local function ClearDeathCheck(ply)
 				ply:SetCustomCollisionCheck(true)
 			end
 
-			for k,v in pairs(player.GetAll()) do
-				v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ has won the duel!", Color(150, 35, 35, 255))]])
-			end
+			GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel!", Color(150, 35, 35, 255) )
 
 		else
 
@@ -369,9 +360,7 @@ local function ClearDeathCheck(ply)
 				Opponent:SetCustomCollisionCheck(true)
 			end
 
-			for k,v in pairs(player.GetAll()) do
-				v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ has won the duel with ]]..Opponent:Name()..[[!", Color(150, 35, 35, 255))]])
-			end
+			GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel with "..Opponent:Name().."!", Color(150, 35, 35, 255) )
 
 		end
 

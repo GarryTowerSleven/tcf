@@ -70,18 +70,17 @@ for _, emote in pairs(Commands) do
 	local emoteName = emote[1]
 	local Action 	= emote[2]
 	local Duration	= emote[3]
+
+	local emoteMessage = function( ply, emoteName ) GAMEMODE:ColorNotifyAll( ply:Name().." "..GetGrammar(emoteName), Color(150, 150, 150, 255) ) end
 	
 	if emoteName == "sit" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
 		if !ply:OnGround() then return end
 		ply:SetNWBool("Emoting",true)
 		ply:SetNWBool("Sitting",true)
-		
-		for k,v in pairs(player.GetAll()) do
-			if ply.GLocation != v.GLocation then continue end
-			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
-		end
-		
+
+		emoteMessage( ply, emoteName )
+
 		return ""
 		end )
 	elseif emoteName == "lay" then
@@ -89,12 +88,9 @@ for _, emote in pairs(Commands) do
 		if !ply:OnGround() then return end
 		ply:SetNWBool("Emoting",true)
 		ply:SetNWBool("Laying",true)
-		
-		for k,v in pairs(player.GetAll()) do
-			if ply.GLocation != v.GLocation then continue end
-			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
-		end
-		
+
+		emoteMessage( ply, emoteName )
+
 		return ""
 		end )
 	elseif emoteName == "lounge" then
@@ -102,23 +98,17 @@ for _, emote in pairs(Commands) do
 		if !ply:OnGround() then return end
 		ply:SetNWBool("Emoting",true)
 		ply:SetNWBool("Lounging",true)
-		
-		for k,v in pairs(player.GetAll()) do
-			if ply.GLocation != v.GLocation then continue end
-			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
-		end
-		
+
+		emoteMessage( ply, emoteName )
+
 		return ""
 		end )
 	elseif emoteName == "suicide" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
 		ply:Kill()
-		
-		for k,v in pairs(player.GetAll()) do
-			if ply.GLocation != v.GLocation then continue end
-			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
-		end
-		
+
+		emoteMessage( ply, emoteName )
+
 		return ""
 		end )
 	else
@@ -149,10 +139,7 @@ for _, emote in pairs(Commands) do
 			end
 		end)
 
-		for k,v in pairs(player.GetAll()) do
-			if ply.GLocation != v.GLocation then continue end
-			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
-		end
+		emoteMessage( ply, emoteName )
 
 		return ""
 		end )

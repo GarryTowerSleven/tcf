@@ -59,13 +59,9 @@ function meta:SetAchivement( id, value, add )
 		self:EmitSound( "GModTower/music/award_deluxe.wav", 100, 100 )
 		self:AddMoney( ( Achivement.GMC or 500 ) )
 
-		for k,v in ipairs( player.GetAll() ) do
-			if IsValid( v ) then
-				--v:ChatPrint( self:Name() .. " just achieved " .. Achivement.Name )
-				local SanitizedName = string.SafeChatName(self:Name())
-				v:SendLua([[GTowerChat.Chat:AddText( "]]..SanitizedName..[[ earned the achievement ]]..Achivement.Name..[[",Color( 255, 200, 0 ) )]])
-			end
-		end
+		local SanitizedName = string.SafeChatName(self:Name())
+
+		GAMEMODE:ColorNotifyAll( SanitizedName.." earned the achievement "..Achivement.Name, Color( 255, 200, 0, 255 ) )
 
 		hook.Call("Achivement", GAMEMODE, self, id )
 	end
