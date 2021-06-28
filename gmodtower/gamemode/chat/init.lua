@@ -333,6 +333,10 @@ function GM:DrunkSay(pl, text, team)
 end
 
 function GM:ColorNotifyAll(message,color)
+	if ( color == nil ) then
+		color = Color( 255, 255, 255, 255 )
+	end
+
 	net.Start( "ColorNotify" )
 		net.WriteString( message) 
 		net.WriteColor( color )
@@ -340,6 +344,10 @@ function GM:ColorNotifyAll(message,color)
 end
 
 function GM:ColorNotifyPlayer(ply,message,color)
+	if ( color == nil ) then
+		color = Color( 255, 255, 255, 255 )
+	end
+
 	net.Start( "ColorNotify" )
 		net.WriteString( message ) 
 		net.WriteColor( color )

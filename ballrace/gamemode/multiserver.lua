@@ -10,7 +10,7 @@ function GM:EndServer()
 		end
 
 		local map = (GTowerServers:GetRandomMap() or GAMEMODE:RandomMap( "gmt_ballracer" ))
-		self:Announce( "Changing map to "..map.."...", Color(225, 20, 20, 255) )
+		self:ColorNotifyAll( "Changing map to "..map.."...", Color(225, 20, 20, 255) )
 		hook.Call("LastChanceMapChange", GAMEMODE, map)
 		RunConsoleCommand("changelevel", map)
 

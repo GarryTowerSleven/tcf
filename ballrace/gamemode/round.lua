@@ -133,7 +133,7 @@ function GM:UpdateStatus(disc)
 				for ply,afk in pairs(afks) do
 					if !afk then continue end
 					if !IsValid(ply) or !IsValid(v) then return end
-					self:Announce( ply:Name().." has automatically forfeited due to being AFK.", Color(100, 100, 100, 255) )
+					self:ColorNotifyPlayer( ply:Name().." has automatically forfeited due to being AFK.", Color(100, 100, 100, 255) )
 				end
 			end
 
@@ -324,7 +324,7 @@ function GM:ResetGame()
 				net.Start("roundmessage")
 				net.WriteInt( 3, 3 )
 				net.Broadcast()
-				self:Announce( "You've failed too many times! Ending game!" )
+				self:ColorNotifyAll( "You've failed too many times! Ending game!" )
 
 				timer.Simple(4,function()
 					self:EndServer()
@@ -337,7 +337,7 @@ function GM:ResetGame()
 				LateSpawn = NextLVL
 			end)
 
-			self:Announce( "You've failed too many times! Moving to the next level!" )
+			self:ColorNotifyAll( "You've failed too many times! Moving to the next level!" )
 		else
 			net.Start("roundmessage")
 			net.WriteInt( 3, 3 )
@@ -447,15 +447,15 @@ function GM:PlayerComplete(ply)
 	timer.Simple(0.25,function()
 
 		if ply.BestTime == nil then
-			self:PlayerAnnounce( ply, "New best time!", Color(65, 115, 200, 255) )
+			self:ColorNotifyPlayer( ply, "New best time!", Color(65, 115, 200, 255) )
 			self:SaveBestTime(ply, level, ply.RaceTime, false)
 		else
 			if ply.BestTime <= ply.RaceTime then
-				self:PlayerAnnounce( ply, "Your best time is still "..math.Round(ply.BestTime,2), Color(65, 115, 200, 255) )
+				self:ColorNotifyPlayer( ply, "Your best time is still "..math.Round(ply.BestTime,2), Color(65, 115, 200, 255) )
 			end
 
 			if ply.BestTime > ply.RaceTime then
-				self:PlayerAnnounce( ply, "New best time "..math.Round(ply.RaceTime,2).."! Old time was "..math.Round(ply.BestTime,2), Color(65, 115, 200, 255) )
+				self:ColorNotifyPlayer( ply, "New best time "..math.Round(ply.RaceTime,2).."! Old time was "..math.Round(ply.BestTime,2), Color(65, 115, 200, 255) )
 				self:SaveBestTime(ply, level, ply.RaceTime, true)
 			end
 
@@ -483,7 +483,7 @@ function GM:PlayerComplete(ply)
 	ply:SetNWString( "CompletedTime", string.Replace(string.FormattedTime(ply.RaceTime, "%2i:%02i.%02i"), "0:", "") )
 
 	--PrintMessage( HUD_PRINTTALK, ply:Name()..' got '..PlacementPostfix(placement)..' place! Time Completed: '..string.FormattedTime(ply.RaceTime, "%02i:%02i:%02i")..'.' )
-	self:Announce( "LVL "..level.." #"..placement.." "..ply:Name().." |"..ply:GetNWString( "CompletedTime" ).."." )
+	self:ColorNotifyAll( "LVL "..level.." #"..placement.." "..ply:Name().." |"..ply:GetNWString( "CompletedTime" ).."." )
 end
 
 function GM:SpawnAllPlayers()
