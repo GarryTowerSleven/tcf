@@ -25,10 +25,8 @@ timer.Create("gmt_autorestart",10,0,function()
 
 		GMT_IS_PREPARING_TO_RESTART = true
 
-		for k,v in pairs(player.GetAll()) do
-			v:SendLua([[GTowerChat.Chat:AddText("GMod Tower will be restarted in 5 minutes. Your items and stats will be saved.", Color(225, 20, 20, 255))]])
-			analytics.postDiscord( "Logs", "Performing midnight restart in 5 minutes..." )
-		end
+		GAMEMODE:ColorNotifyAll( "GMod Tower will be restarted in 5 minutes. Your items and stats will be saved.", Color(225, 20, 20, 255) )
+		analytics.postDiscord( "Logs", "Performing midnight restart in 5 minutes..." )
 
 		timer.Simple(5*60,function()
 
@@ -76,11 +74,8 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 		if timer.Exists("ChangeLevelTimer") then
 
 			timer.Destroy("ChangeLevelTimer")
+			GAMEMODE:ColorNotifyAll( "Halting map restart...", Color(225, 20, 20, 255) )
 
-			for k,v in pairs(player.GetAll()) do
-				v:SendLua([[GTowerChat.Chat:AddText("Halting map restart...", Color(225, 20, 20, 255))]])
-			end
-			return
 		end
 
 		local DuelGoingOn = false
@@ -155,8 +150,10 @@ function ChangeLevel( map, ply )
 	local MapName = map
 
 	if file.Exists(FilePlace,"GAME") then
+
+		GAMEMODE:ColorNotifyAll( "Changing map to "..map.." in "..DefaultTime.." seconds...", Color(225, 20, 20, 255) )
+
 		for k,v in pairs(player.GetAll()) do
-			v:SendLua([[GTowerChat.Chat:AddText("Changing map to ]]..map..[[ in ]]..DefaultTime..[[ seconds...", Color(225, 20, 20, 255))]])
 			v:SendLua([[surface.PlaySound( "gmodtower/misc/changelevel.wav" )]])
 		end
 
@@ -171,9 +168,7 @@ function ChangeLevel( map, ply )
 		analytics.postDiscord( "Logs", engine.ActiveGamemode() .. " server changing level to " .. map .. "... [".. ChangeName .."]" )
 
 		timer.Create("ChangeLevelTimer", (DefaultTime - 0.5), 1, function()
-			for k,v in pairs(player.GetAll()) do
-				v:SendLua([[GTowerChat.Chat:AddText("Changing map to ]]..map..[[...", Color(225, 20, 20, 255))]])
-			end
+			GAMEMODE:ColorNotifyAll( "Changing map to "..map.."...", Color(225, 20, 20, 255) )
 
 			analytics.postDiscord( "Logs", engine.ActiveGamemode() .. " server shutting down..." )
 
