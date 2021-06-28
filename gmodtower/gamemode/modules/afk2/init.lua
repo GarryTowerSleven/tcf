@@ -34,10 +34,6 @@ ChatCommands.Register( "/afk", 60, function( ply )
 	net.WriteInt( 0, 4 )
 	net.WriteInt( CurTime() , 32 )
 	net.Send(ply)
-	for k,v in pairs(player.GetAll()) do
-		local SanitizedName = string.SafeChatName(v:Name())
-		v:SendLua([[GTowerChat.Chat:AddText("]]..SanitizedName..[[ is going AFK.", Color(100, 100, 100, 255))]])
-	end	
 	return ""
 end )
 
