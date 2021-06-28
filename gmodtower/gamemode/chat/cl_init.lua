@@ -269,3 +269,18 @@ hook.Add( "ShutDown", "RemoveChatBox", function()
 	end
 
 end )
+
+
+net.Receive( "ColorNotify", function( len, pl )
+
+	local msg = net.ReadString()
+	local msgcolor = net.ReadColor()
+
+	if ( msgcolor == nil ) then
+		msgcolor = Color( 255, 255, 255, 255 )
+	end
+
+	GTowerChat.Chat:AddText( msg, msgcolor )
+
+end )
+

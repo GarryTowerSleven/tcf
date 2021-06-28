@@ -1,5 +1,6 @@
 ---------------------------------
 util.AddNetworkString("ChatBubble")
+util.AddNetworkString("ColorNotify")
 
 AddCSLuaFile("cl_autocomplete.lua")
 AddCSLuaFile("richformat.lua")
@@ -329,4 +330,18 @@ function GM:DrunkSay(pl, text, team)
 	// done
 	return table.concat( words, " " );
 
+end
+
+function GM:ColorNotifyAll(message,color)
+	net.Start( "ColorNotify" )
+		net.WriteString( message) 
+		net.WriteColor( color )
+	net.Broadcast()
+end
+
+function GM:ColorNotifyPlayer(ply,message,color)
+	net.Start( "ColorNotify" )
+		net.WriteString( message ) 
+		net.WriteColor( color )
+	net.Send(ply)
 end
