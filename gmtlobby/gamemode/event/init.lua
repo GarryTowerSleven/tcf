@@ -1,123 +1,35 @@
---Some Settings
 
-//DEFAULT
 local EventSound = "gmodtower/misc/notifyevent.wav"
 if time.IsChristmas() then EventSound = "gmodtower/music/christmas/eventnotify.mp3" end
 
-local minigameslist = { "balloonpop", "chainsaw", "snowbattle", "obamasmash", "tronarnia" }
-local shopslist = { 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 15, 16, 17, 20, 22, 23, 24, 25, 26, 27 }
-minsale = 0.1
-maxsale = 0.5
---local repeattimemin = 1800
---local repeattimemax = 5400
-minitime = 120 -- 600
-saletime = 120 -- 60
-local ministarttime = 0
+local minigameslist = { "balloonpop", "chainsaw", "snowbattle", "obamasmash" }
+local eventlist = { "balloon", "battle", "obama", "storesale", "tronarnia" }
+local shopslist = { 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 15, 16, /*17,*/ 20, 22, 23, 24, 25, 26, 27 }
+
 local enabled = true
+local curevent = "Unknown"
+local nextevent = "Unknown"
+local nexttype = "Unknown"
 local endtime = 0
-local started = false
-local currenttype = ""
-local currentname = ""
 
-function SecondsToFormat(Seconds)
-	if(!Seconds) then
-		return "N/A"
-	end
-	local Original 	= tonumber(Seconds)
-	if(!Original) then
-		return "N/A"
-	end
-	local Hours 	= math.floor(Seconds / 60 / 60)
-	local Minutes 	= math.floor(Seconds / 60)
-	local Seconds 	= math.floor(Seconds - (Minutes * 60))
-	local Timeleft 	= ""
-	if(Minutes >= 60) then
-		while(Minutes >= 60) do
-			Minutes = Minutes - 60
-		end
-	end
-	if(Seconds >= 60) then
-		while(Seconds >= 60) do
-			Seconds = Seconds - 60
-		end
-	end
-	if(Hours > 0) then
-		Timeleft = Hours.." hour(s) "
-	end
-	if(Minutes > 0 and Minutes < 10) then
-		Timeleft = Timeleft.."0"..Minutes.." minute(s) "
-	elseif(Minutes >= 10) then
-	    Timeleft = Timeleft..Minutes.." minute(s) "
-	end
-	if(Seconds >= 10) then
-		Timeleft = Timeleft..Seconds.." second(s)"
-	else
-		Timeleft = Timeleft.."0"..Seconds.." second(s)"
-	end
-	return Timeleft
-end
+local lastevent = 0
 
-function StartEvent()
-    --[[if #player.GetAll() < 10 then
-		SendMessageToPlayers( "EventNeedMorePlayers", nil )
-		endtime = 0
-		timer.Create( "GMTEventReset", 60, 1, function() started = false end ) -- Just one non-critical to execution time timer
-		return
-	end]]
-	math.randomseed(os.time())
-	started = true
+// Min/max Time Interval
+local mininterval = 20
+local maxinterval = 45
 
-	local rnd = math.random(3, 4)
-	if rnd == 3 and ministarttime <= os.time() then
-		StartRandomMiniGame()
-	elseif rnd == 4 then
-		StartRandomStore()
-	else
-		StartRandomStore()
-	end
-end
+local nexttime = 0
 
-function StartRandomStore()
-	math.randomseed(os.time())
-	local store = table.Random(shopslist)
-	local value = math.Clamp( math.Rand(minsale,maxsale), -math.huge, 1 )
+// Percentage
+local minsale = 10
+local maxsale = 50
 
-	SendMessageToPlayers( "MiniNext", 30 ) // temp until we get random times
-	SendMessageToPlayers( "MiniStoreGameStart", math.Round(value, 2)*100, GTowerStore.Stores[ store ].WindowTitle )
-	for k,v in pairs(player.GetAll()) do v:SendLua([[surface.PlaySound("]]..EventSound..[[")]]) end
-	GTowerStore:BeginSale(store, value)
-	endtime = os.time() + saletime
-	eventtype = "sale"
-	eventname = store
-end
+local cursale = nil
+local curmini = nil
 
-function StartRandomMiniGame()
-	math.randomseed(os.time())
-	ministarttime = os.time() + 18000
-	local MiniGameStr = table.Random(minigameslist)
-	for k,v in pairs(player.GetAll()) do v:SendLua([[surface.PlaySound("]]..EventSound..[[")]]) end
-	local MiniGame = minigames[ MiniGameStr ]
-	if !MiniGame then
-		SendMessageToPlayers( "EventError" )
-		enabled = false
-		return
-	end
-
-	SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
-
-    if MiniGameStr == "snowbattle" then
-		SafeCall( MiniGame.Start, "a" )
-	elseif MiniGameStr == "chainsaw" || MiniGameStr == "plane" then
-		SafeCall( MiniGame.Start, "b" )
-	else
-		SafeCall( MiniGame.Start, "" )
-	end
-
-	endtime = os.time() + minitime
-	//SendMessageToPlayers( "EventEndingTime", SecondsToFormat( minitime ) )
-	eventtype = "minigame"
-	eventname = MiniGameStr
-end
+// Lengths
+local minitime = 120 -- 2 minutes
+local saletime = 120 -- 2 minutes
 
 function SendMessageToPlayers(msgtype, ...)
 	for _, v in ipairs(player.GetAll()) do
@@ -125,89 +37,257 @@ function SendMessageToPlayers(msgtype, ...)
 	end
 end
 
+function getEventType()
+    return table.Random( eventlist )
+end
+
+function StartEvent( event )
+
+    curevent = event
+
+    local time = math.Round( math.Rand( mininterval, maxinterval ) )
+    nexttime = CurTime()+(time*60)
+    nextevent = getEventType()
+
+    if event == "storesale" then
+        local store = table.Random(shopslist)
+        local discount = math.Round( math.Rand(minsale,maxsale) )
+
+        cursale = store
+
+        endtime = CurTime() + saletime
+
+        //for k,v in pairs(player.GetAll()) do v:SendLua([[surface.PlaySound("]]..EventSound..[[")]]) end
+
+        //print( "[EVENTS] " .. T( "MiniNext", time ) )
+        print("[EVENTS] Starting " ..  discount .. "% sale at " .. GTowerStore.Stores[ store ].WindowTitle )
+
+        SendMessageToPlayers( "MiniStoreGameStart", discount, GTowerStore.Stores[ store ].WindowTitle )
+
+        GTowerStore:BeginSale(store, discount*.01)
+    elseif event == "balloon" then
+        local MiniGame = minigames[ "balloonpop" ]
+
+        if !MiniGame then
+            SendMessageToPlayers( "EventError" )
+            enabled = false
+            return
+        end
+
+        curmini = "balloonpop"
+        
+        SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
+    
+        SafeCall( MiniGame.Start, "" )
+        print("[EVENTS] Starting balloonpop!" )
+
+        endtime = CurTime() + minitime
+
+    elseif event == "obama" then
+        local MiniGame = minigames[ "obamasmash" ]
+
+        if !MiniGame then
+            SendMessageToPlayers( "EventError" )
+            enabled = false
+            return
+        end
+
+        curmini = "balloonpop"
+        
+        SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
+    
+        SafeCall( MiniGame.Start, "" )
+        print("[EVENTS] Starting obama smash!" )
+
+        endtime = CurTime() + minitime
+
+    elseif event == "battle" then
+        local MiniGame = minigames[ "chainsaw" ]
+
+        if !MiniGame then
+            SendMessageToPlayers( "EventError" )
+            enabled = false
+            return
+        end
+
+        curmini = "chainsaw"
+        
+        SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
+    
+        SafeCall( MiniGame.Start, "" )
+        print("[EVENTS] Starting chainsaw!" )
+
+        endtime = CurTime() + minitime
+
+    elseif event == "tronarnia" then
+        local MiniGame = minigames[ "tronarnia" ]
+
+        if !MiniGame then
+            SendMessageToPlayers( "EventError" )
+            enabled = false
+            return
+        end
+
+        curmini = "tronarnia"
+        
+        SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
+    
+        SafeCall( MiniGame.Start, "" )
+        print("[EVENTS] Starting tronarnia!" )
+
+        endtime = CurTime() + minitime
+
+    end
+
+end
+
 function EndEvent()
-	if eventtype == "sale" then
-		GTowerStore:EndSale(eventname)
-		//SendMessageToPlayers( "EventEndSale", GTowerStore.Stores[ eventname ].WindowTitle )
-	elseif eventtype == "minigame" then
-		local MiniGame = minigames[ eventname ]
-		SafeCall( MiniGame.End )
-		--SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
-	else
-		SendMessageToPlayers( "EventError" )
-		enabled = false
-	end
-	eventtype = ""
-	eventname = ""
-	started = false
-	endtime = 0
+
+    if curevent == "storesale" then
+        GTowerStore:EndSale(cursale)
+        print( "[EVENTS] Sale ended at " .. GTowerStore.Stores[ cursale ].WindowTitle )
+    elseif curevent == "balloon" then
+        SafeCall( minigames[ "balloonpop" ].End )
+        print( "[EVENTS] Balloonpop ended" )
+    elseif curevent == "obama" then
+        SafeCall( minigames[ "obamasmash" ].End )
+        print( "[EVENTS] Obamasmash ended" )
+    elseif curevent == "battle" then
+        SafeCall( minigames[ "chainsaw" ].End )
+        print( "[EVENTS] Chainsaw ended" )
+    elseif curevent == "tronarnia" then
+        SafeCall( minigames[ "tronarnia" ].End )
+        print( "[EVENTS] Tronarnia ended" )
+    end
+
+    curevent = "Unknown"
+    cursale = nil
+    endtime = 0
+
 end
 
-function Checkforstart()
+function StartEventSys()
+    if !enabled then return end
+
+    // next event time
+    local time = math.Round( math.Rand( mininterval, maxinterval ) )
+    
+    // next event
+    nextevent = getEventType()
+
+    print("[EVENTS] Starting next event (" .. nextevent .. ") in " .. time .. " min(s)" )
+    SendMessageToPlayers( "MiniNext", time )
+
+    nexttime = CurTime()+(time*60)
+end
+
+StartEventSys()
+
+local delay = 0
+
+function MiniCheck()
 	if !enabled then return end
-	if endtime > 0 and endtime <= os.time() then
-		EndEvent()
-	end
-	if (os.date("%M") == "00" or os.date("%M") == "30") and !started then StartEvent() started = true end
+
+    // debug
+    //if CurTime() > delay then
+    //    print( "NEXTIME " .. math.Round( (nexttime - CurTime())/60, 2 ) )
+    //    print( "ENDTIME " .. math.Round( (endtime - CurTime())/60, 2 ) )
+    //    delay = CurTime() + 10
+    //end
+
+    if endtime > 0 && CurTime() > endtime then
+        //lastevent = curevent
+        EndEvent()
+        endtime = 0
+    end
+
+    if nexttime > CurTime() then return end
+
+    StartEvent( nextevent )
+
+    local time = math.Round( math.Rand( mininterval, maxinterval ) )
+    nexttime = CurTime()+(time*60)
+    nextevent = getEventType()
+
+    print("[EVENTS] Starting next event (" .. nextevent .. ") in " .. time .. " min(s)" )
+    SendMessageToPlayers( "MiniNext", time )
+	
 end
-hook.Add("Think", "GMTEventCheckStart", Checkforstart)
+hook.Add("Think", "GMTEventCheckStart", MiniCheck)
 
-concommand.Add("gmt_enableevent", function( ply, cmd, args )
+concommand.Add("gmt_event_toggle", function( ply )
 
-	if !ply:IsAdmin() then
-		return
-	end
+	if !ply:IsAdmin() then return end
 
 	if !enabled then
+        local time = math.Round( math.Rand( mininterval, maxinterval ) )
+        nexttime = CurTime()+(time*60)
 		enabled = true
-		SendMessageToPlayers( "EventAdminEnabled", ply:Name() )
-	end
+        for k,v in pairs( player.GetAll() ) do
+            v:Msg2( T( "EventAdminEnabled", ply:Nick() ), "admin" )
+        end
+        SendMessageToPlayers( "MiniNext", time )
+    else
+
+        if endtime > 0 then
+            EndEvent()
+        end
+
+        enabled = false
+
+        nexttime = 0
+        endtime = 0
+        cursale = nil
+        curmini = nil
+
+        for k,v in pairs( player.GetAll() ) do
+            v:Msg2( T( "EventAdminDisabled", ply:Nick() ), "admin" )
+        end
+    end
 
 end )
 
-/*
-concommand.Add("gmt_eventsettings", function( ply, cmd, args )
+concommand.Add("gmt_event_skip", function( ply )
 
-	if !ply:IsAdmin() || #args != 4 then
-		return
-	end
-	minsale = args[1]
-	maxsale = args[2]
-	minitime = args[3]
-	saletime = args[4]
-end )
-*/
+	if !ply:IsAdmin() then return end
 
-concommand.Add("gmt_manualevent", function( ply, cmd, args )
-
-	if !ply:IsAdmin() then
-		return
-	end
-
-	StartEvent()
-	SendMessageToPlayers( "EventAdminManual", ply:Name() )
+    if enabled && endtime > 0 then
+        EndEvent()
+        for k,v in pairs( player.GetAll() ) do
+            v:Msg2( T( "EventAdminManual", ply:Nick() ), "admin" )
+        end
+    end
 
 end )
 
-concommand.Add("gmt_disableevent", function( ply, cmd, args )
+concommand.Add("gmt_event_start", function( ply, cmd, args )
 
-	if !ply:IsAdmin() then
-		return
-	end
+	if !ply:IsAdmin() then return end
 
-	if enabled then
-		SendMessageToPlayers( "EventAdminDisabled", ply:Name() )
-		enabled = false
-	end
+    if endtime > 0 then
+        EndEvent()
+    end
+
+    for k,v in pairs( player.GetAll() ) do
+        //SendMessageToPlayers( "EventAdminManual", ply:Nick(), "admin" )
+        v:Msg2( T( "EventAdminManual", ply:Nick() ), "admin" )
+    end
+	StartEvent( args[1] )
 
 end )
 
-concommand.Add("gmt_skipevent", function( ply, cmd, args )
+concommand.Add("gmt_event_rand", function( ply, cmd, args )
 
-	if !ply:IsAdmin() then
-		return
-	end
+	if !ply:IsAdmin() then return end
 
-	if enabled and started then EndEvent() end
+    if endtime > 0 then
+        EndEvent()
+    end
+
+    for k,v in pairs( player.GetAll() ) do
+        //SendMessageToPlayers( "EventAdminManual", ply:Nick(), "admin" )
+        v:Msg2( T( "EventAdminManual", ply:Nick() ), "admin" )
+    end
+	StartEvent( getEventType() )
 
 end )

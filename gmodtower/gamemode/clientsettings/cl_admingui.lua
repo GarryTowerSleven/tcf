@@ -301,112 +301,43 @@ function CreateEventControls()
 	local disableeventbutton = vgui.Create( "DButton", ClientSettings.TabEvent );
 	disableeventbutton:SetSize( 100, 30 );
 	disableeventbutton:SetPos( 10, 10 );
-	disableeventbutton:SetText( "Disable event system" );
+	disableeventbutton:SetText( "Disable/Enable event system" );
 	disableeventbutton.DoClick = function( button )
 	if !ClientSettings.AdminAllowSend and !LocalPlayer:IsSuperAdmin() then return nil end
 		Derma_Query(
-			"Are you sure you want to disable event system?",
+			"Are you sure you want to disable/enable event system?",
 			"Event System",
-			"Yes", function() RunConsoleCommand( "gmt_disableevent" ) end,
-			"No", EmptyFunction
-		)
-	end
-
-	local enableeventbutton = vgui.Create( "DButton", ClientSettings.TabEvent );
-	enableeventbutton:SetSize( 100, 30 );
-	enableeventbutton:SetPos( 10, 50 );
-	enableeventbutton:SetText( "Enable event system" );
-	enableeventbutton.DoClick = function( button )
-	if !ClientSettings.AdminAllowSend and !LocalPlayer:IsSuperAdmin() then return nil end
-		Derma_Query(
-			"Are you sure you want to enable event system?",
-			"Event System",
-			"Yes", function() RunConsoleCommand( "gmt_enableevent" ) end,
+			"Yes", function() RunConsoleCommand( "gmt_event_toggle" ) end,
 			"No", EmptyFunction
 		)
 	end
 
 	local manualeventbutton = vgui.Create( "DButton", ClientSettings.TabEvent );
 	manualeventbutton:SetSize( 100, 30 );
-	manualeventbutton:SetPos( 10, 90 );
+	manualeventbutton:SetPos( 10, 50 );
 	manualeventbutton:SetText( "Start event" );
 	manualeventbutton.DoClick = function( button )
 	if !ClientSettings.AdminAllowSend and !LocalPlayer:IsSuperAdmin() then return nil end
 		Derma_Query(
 			"Are you sure you want to start event?",
 			"Event System",
-			"Yes", function() RunConsoleCommand( "gmt_manualevent" ) end,
+			"Yes", function() RunConsoleCommand( "gmt_event_rand" ) end,
 			"No", EmptyFunction
 		)
 	end
 
 	local skipeventbutton = vgui.Create( "DButton", ClientSettings.TabEvent );
 	skipeventbutton:SetSize( 100, 30 );
-	skipeventbutton:SetPos( 10, 130 );
+	skipeventbutton:SetPos( 10, 90 );
 	skipeventbutton:SetText( "Skip event" );
 	skipeventbutton.DoClick = function( button )
 	if !ClientSettings.AdminAllowSend and !LocalPlayer:IsSuperAdmin() then return nil end
 		Derma_Query(
 			"Are you sure you want to skip current event?",
 			"Event System",
-			"Yes", function() RunConsoleCommand( "gmt_skipevent" ) end,
+			"Yes", function() RunConsoleCommand( "gmt_event_skip" ) end,
 			"No", EmptyFunction
 		)
-	end
-
---[[	ClientSettings.Events = vgui.Create( "DComboBox", ClientSettings.TabEvent )
-	ClientSettings.Events:SetPos( 0, 0 )
-	ClientSettings.Events:SetSize( ClientSettings.TabEvent:GetWide() - 420 , ClientSettings.TabEvent:GetTall() - 19 )
-	ClientSettings.Events:SetMultiple( false )
-	ClientSettings.Events.DoClick = function()
-		--for _, v in pairs(ClientSettings.PlayerMenuItems) do if v.InvalidateLayout then v:InvalidateLayout() end end
-	end
-	ClientSettings.Events:AddItem( "Sale" )
-	ClientSettings.Events:AddItem( "Mini Game" )]]
-
-	minimumsale = vgui.Create("DLabel", ClientSettings.TabEvent)
-	minimumsale:SetText("Minimum sale (max 1)")
-	minimumsale:SetPos( 200, 0 )
-	minimumsale:SizeToContents()
-
-	minimumsaleval = vgui.Create("DTextEntry", ClientSettings.TabEvent)
-	minimumsaleval:SetText("0.1")
-	minimumsaleval:SetPos( 200, 20 )
-
-	maximumsale = vgui.Create("DLabel", ClientSettings.TabEvent)
-	maximumsale:SetText("Maximum sale (max 1)")
-	maximumsale:SetPos( 200, 50 )
-	maximumsale:SizeToContents()
-
-	maximumsaleval = vgui.Create("DTextEntry", ClientSettings.TabEvent)
-	maximumsaleval:SetText("0.5")
-	maximumsaleval:SetPos( 200, 70 )
-
-	saletime = vgui.Create("DLabel", ClientSettings.TabEvent)
-	saletime:SetText("Sale duration (in sec)")
-	saletime:SetPos( 200, 100 )
-	saletime:SizeToContents()
-
-	saletimeval = vgui.Create("DTextEntry", ClientSettings.TabEvent)
-	saletimeval:SetText("60")
-	saletimeval:SetPos( 200, 120 )
-
-	minigametime = vgui.Create("DLabel", ClientSettings.TabEvent)
-	minigametime:SetText("Mini Game duration (in sec)")
-	minigametime:SetPos( 200, 150 )
-	minigametime:SizeToContents()
-
-	minigametimeval = vgui.Create("DTextEntry", ClientSettings.TabEvent)
-	minigametimeval:SetText("600")
-	minigametimeval:SetPos( 200, 170 )
-
-	local saveeventsettingsbutton = vgui.Create( "DButton", ClientSettings.TabEvent );
-	saveeventsettingsbutton:SetSize( 100, 30 );
-	saveeventsettingsbutton:SetPos( 200, 200 );
-	saveeventsettingsbutton:SetText( "Save settings" );
-	saveeventsettingsbutton.DoClick = function( button )
-	if !LocalPlayer():IsPrivAdmin() then return nil end
-		RunConsoleCommand("gmt_eventsettings", minimumsaleval:GetValue(), maximumsaleval:GetValue(), minigametimeval:GetValue(), saletimeval:GetValue())
 	end
 
 end
