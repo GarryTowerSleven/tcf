@@ -82,11 +82,30 @@ concommand.Add("gmt_storesetdiscount", function(ply, cmd, args)
 
 	if value == 0 then
 		GTowerStore:EndSale(store)
-
-			AdminNotify( T("AdminEndSale", ply:GetName(), GTowerStore.Stores[ store ].WindowTitle) )
+		AdminNotify( T("AdminEndSale", ply:GetName(), GTowerStore.Stores[ store ].WindowTitle) )
 	else
-			AdminNotify( T("AdminSetSale", ply:GetName(), GTowerStore.Stores[ store ].WindowTitle) )
-
+		AdminNotify( T("AdminSetSale", ply:GetName(), GTowerStore.Stores[ store ].WindowTitle, value*100) )
 		GTowerStore:BeginSale(store, value)
 	end
+end)
+
+concommand.Add("gmt_store_allsale", function(ply, cmd, args)
+	
+	if !ply == NULL or IsValid(ply) && !ply:IsAdmin() then return end
+
+	local value = math.Clamp( tonumber(args[1]*.01), -math.huge, 1 ) or 0
+
+	if value == 0 then
+		AdminNotify( T( "AdminEndSaleAll", ply:GetName() ) )
+		for k,_ in pairs( GTowerStore.Stores ) do
+			GTowerStore:EndSale( k )
+		end
+		return 
+	end
+
+	AdminNotify( T( "AdminSetSaleAll", ply:GetName(), value*100 ) )
+	for k,_ in pairs( GTowerStore.Stores ) do
+		GTowerStore:BeginSale( k, value )
+	end
+
 end)
