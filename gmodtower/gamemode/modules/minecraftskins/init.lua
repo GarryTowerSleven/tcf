@@ -8,24 +8,28 @@ util.AddNetworkString("minecraft_send_updates")
 
 net.Receive("minecraft_skin_updated", function(len, ply)
 
-  local skin = net.ReadString()
+	local skin = net.ReadString()
 
-  ply:SetNWString( "MinecraftSkin", skin )
+	ply:SetNWString( "MinecraftSkin", skin )
 
-  net.Start( "minecraft_send_updates" )
-    net.WriteInt( ply:EntIndex(), 16 )
-  net.Broadcast()
+	timer.Simple( 3, function()
+		net.Start( "minecraft_send_updates" )
+			net.WriteInt( ply:EntIndex(), 16 )
+		net.Broadcast()
+	end )
 
 end )
 
 hook.Add( "PlayerInitialSpawn", "JoinMCSkin", function(ply)
-  timer.Simple(10,function()
-    if IsValid(ply) && ply:GetModel() == mcmdl then
-      local skin = ply:GetInfo("cl_minecraftskin")
-      ply:SetNWString("MinecraftSkin",skin)
-      net.Start( "minecraft_send_updates" )
-        net.WriteInt( ply:EntIndex(), 16 )
-      net.Broadcast()
-    end
-  end)
+	timer.Simple( 10, function()
+		if IsValid(ply) && ply:GetModel() == mcmdl then
+			local skin = ply:GetInfo("cl_minecraftskin")
+
+			ply:SetNWString("MinecraftSkin",skin)
+
+			net.Start( "minecraft_send_updates" )
+				net.WriteInt( ply:EntIndex(), 16 )
+			net.Broadcast()
+		end
+	end )
 end)
