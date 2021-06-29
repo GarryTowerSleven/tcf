@@ -33,6 +33,8 @@ hook.Add("PostDrawOpaqueRenderables","DrawFakeMonorailPlayers",function()
 
 			if v == LocalPlayer() && !v.ThirdPerson then continue end
 
+			if Monorail == nil then continue end
+
 			local newPos = Monorail:GetPlayerOffset( v ) - (Monorail:GetUp() * 70)
 			local ang = Monorail:GetAngles()
 			ang.z = 0
