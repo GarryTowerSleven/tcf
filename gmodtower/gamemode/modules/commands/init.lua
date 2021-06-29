@@ -47,7 +47,7 @@ hook.Add( "GTCommands", "GChatCommands", function( ply, chat )
 
 	else
 
-		ply:Msg2( "Slow down!" )
+		ply:Msg2( T( "ChatCommandTooFast" ), "exclamation" )
 
 	end
 

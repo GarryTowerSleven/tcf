@@ -153,13 +153,13 @@ hook.Add("OpenSideMenu", "ShopAdmin", function()
 	local ChangeDiscount = Form:Button( "Set Discount")
 	ChangeDiscount.DoClick = function()
 		Derma_StringRequest( "Set Store Discount" ,
-			"Set discount for store " .. tostring(storeid) .. " (0 <-> 1)",
+			"Set discount for " .. GTowerStore.Stores[ storeid ].WindowTitle .. " (0% <-> 100%)",
 			0,
 			function( strTextOut )
 				local Output = tonumber( strTextOut )
 				if Output then
-					Msg2("You set store " .. tostring(storeid) .. " to " .. Output )
-					RunConsoleCommand("gmt_storesetdiscount", storeid, Output )
+					//Msg2( "You set a " .. Output .. "% discount on " .. GTowerStore.Stores[ storeid ].WindowTitle )
+					RunConsoleCommand("gmt_storesetdiscount", storeid, Output*.01 )
 				end
 			end,
 			EmptyFunction,

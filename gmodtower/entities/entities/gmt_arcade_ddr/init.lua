@@ -23,7 +23,7 @@ function ENT:Use( ply )
 	if CurTime() < self.NextUse then return end
 	self.NextUse = CurTime() + 1
 
-	ply:Msg2("Due to Adobe Flash's demise, arcade machines currently do not function.")
+	ply:Msg2("Due to Adobe Flash's demise, arcade machines currently do not function.", "arcade")
 
 	//umsg.Start("StartDDR", ply)
 	//	umsg.Entity(self.Entity)

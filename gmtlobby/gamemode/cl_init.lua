@@ -400,15 +400,16 @@ net.Receive("gmt_gamemodestart",function()
 
 	Gmode = NiceNames[Gmode] or Gmode
 
-	local Question = Msg2( Gmode .. " is about to begin with " .. plys .. " players, join?" )
+	local Question = Msg2( T( "GamemodeStarting", Gmode, plys ) )
 	Question:SetupQuestion(
-	function() RunConsoleCommand( "gmt_mtsrv", 1, id ) end,
-	function() end,
-	function() end,
-	nil,
-	{120, 160, 120},
-	{160, 120, 120}
-)
+		function() RunConsoleCommand( "gmt_mtsrv", 1, id ) end,
+		function() end,
+		function() end,
+		nil,
+		{120, 160, 120},
+		{160, 120, 120}
+	)
+
 end)
 
 net.Receive("AdminMessage",function()

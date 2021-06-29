@@ -240,6 +240,8 @@ concommand.Add("gmt_roomkick", function( ply, cmd, args )
 		end
 	end
 
+	ply:Msg2( T( "RoomKickedAll" ), "condo" )
+
 	local Room = ply:GetRoom()
 
 	if Room then
