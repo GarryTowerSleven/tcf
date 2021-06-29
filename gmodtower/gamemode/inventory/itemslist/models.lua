@@ -1607,7 +1607,7 @@ GTowerItems.RegisterItem( "mdl_blockdude", {
 		timer.Simple( 0.2, function()
 			if IsValid(self.Ply) then
 				self.Ply.LastMdl = self.Ply:GetInfo( "cl_playermodel" )
-				self.Ply:ConCommand( "cl_playermodel "..mdlname.."-0" )
+				self.Ply:ConCommand( "cl_playermodel steve-0" )
 				self.Ply:ConCommand( "gmt_updateplayermodel" )
 			end
 		end )
