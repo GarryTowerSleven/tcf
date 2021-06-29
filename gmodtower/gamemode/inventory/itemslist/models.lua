@@ -1603,7 +1603,24 @@ GTowerItems.RegisterItem( "mdl_blockdude", {
 
 	MoveSound = "cloth",
 
+	OnEquip = function( self )
+		timer.Simple( 0.2, function()
+			if IsValid(self.Ply) then
+				self.Ply.LastMdl = self.Ply:GetInfo( "cl_playermodel" )
+				self.Ply:ConCommand( "cl_playermodel "..mdlname.."-0" )
+				self.Ply:ConCommand( "gmt_updateplayermodel" )
+			end
+		end )
+	end,
 
+	OnUnEquip = function( self )
+		timer.Simple( 0.2, function()
+			if ((self.Ply.UCHType == nil || self.Ply.UCHType <= 0) && IsValid(self.Ply)) then
+				self.Ply:ConCommand( "cl_playermodel barney" )
+				self.Ply:ConCommand( "gmt_updateplayermodel" )
+			end
+		end )
+	end,
 
 	ExtraMenuItems = function ( item, menu )
 

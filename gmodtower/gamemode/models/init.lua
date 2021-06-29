@@ -12,6 +12,7 @@ local pairs, tonumber, Msg, PrintTable = pairs, tonumber, Msg, PrintTable
 local _G = _G
 local player_manager = player_manager
 local string = string
+local GTowerModels = GTowerModels
 
 
 module("GTowerModels")
@@ -140,6 +141,14 @@ concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 	local modelname = modelinfo[1]
 	local modelskin = modelinfo[2]
 	local model = player_manager.TranslatePlayerModel(modelname)
+
+	if ( CLIENT ) then
+		MinecraftSendUpdatedSkin(self.Ply:GetInfo( "cl_minecraftskin" ) or "")
+	end
+
+	local size = ( GTowerModels.List[model] or 1 )
+
 	ply:SetModel(model)
 	ply:SetSkin((modelskin || 0))
+	ply:SetModelScale(size)
 end )
