@@ -297,6 +297,7 @@ function PANEL:PerformLayout()
 
 	self.inputpanel:SetPos( self.x + pwidth + 6, self.y + ny )
 	self.inputpanel:SetSize( w - pwidth - (buttonWidth) - 14, 18)
+	self.inputpanel:SetParent(self)
 	self.inputpanel:InvalidateLayout()
 
 	if self.Resizer then
