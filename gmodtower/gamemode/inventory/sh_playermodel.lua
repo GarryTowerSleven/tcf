@@ -33,11 +33,12 @@ if CLIENT then
 
 					"Blockdude Skin",
 
-					"Please enter a valid Minecraft skin image URL. (64x32)",
+					//"Please enter a valid Minecraft user account to use as your skin. This is case sensative. \nWarning: Using explicit skins is bannable.",
+					"Please enter a valid Minecraft user account to use as your skin. Using explicit skins is bannable.",
 
 					LocalPlayer():GetInfo( "cl_minecraftskin" ) or "",
 
-					function(text) MinecraftSendUpdatedSkin(text) end
+					function(text) MinecraftSendUpdatedSkin( string.lower( text ) ) end
 
 				)
 

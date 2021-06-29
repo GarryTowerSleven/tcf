@@ -1,30 +1,23 @@
 
 -----------------------------------------------------
-mcmdl = "models/player/mcsteve.mdl"
-
-local function MinecraftSkinUpdated( ply, new )
-
-	if CLIENT /*and old != new*/ then
+mcmdl = "models/player/mcsteve.mdl"
 
-		local skinname = new
-
-		-- Add the minecraft url only if there's actual text - else it'll reset to steve
-		if skinname and #skinname > 0 then
-			--skinname = string.format( "http://s3.amazonaws.com/MinecraftSkins/%s.png", skinname )
-		--end
-
-			if skinname then
-				ply:SetMinecraftSkin( skinname )
-			end
+local function MinecraftSkinUpdated( ply, new )
 
-		end
-
-	end
-
-end
+	if CLIENT /*and old != new*/ then
+		local skinname = new
+
+			//if skinname and #skinname > 0 then
+				ply:SetMinecraftSkin( skinname )
+			//end
+
+	end
+
+end
+
 
 function GetMCSkin(ply)
-		MinecraftSkinUpdated( ply, ply:GetNWString("MinecraftSkin") )
+	MinecraftSkinUpdated( ply, ply:GetNWString("MinecraftSkin") )
 end
 
 net.Receive("minecraft_send_updates",function()
