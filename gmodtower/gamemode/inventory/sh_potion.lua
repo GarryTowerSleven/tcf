@@ -28,7 +28,8 @@ hook.Add("LoadInventory","LoadSizeChangingPotion", function()
 
 
 
-			local size = defaultsize or self.PlayerChangeSize
+			local size_translation = ( GTowerModels.List[self.Ply:GetModel()] or 1 )
+			local size = size_translation * self.PlayerChangeSize
 
 
 
