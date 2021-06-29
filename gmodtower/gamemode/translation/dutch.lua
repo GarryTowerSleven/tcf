@@ -524,3 +524,4 @@ GtowerLangush.AddWord( 1, "Blizzard Storm!", "Sneeuwbal Strijd!" )
 
 // Custom/New language
 GtowerLangush.AddWord( 1, "MerchantMove",	"The Wandering Merchant is gespot in de buurt van de {1}!")
+GtowerLangush.AddWord( 1, "MCSkinChange",	"Je huid zal in een korte tijd veranderd zijn.")

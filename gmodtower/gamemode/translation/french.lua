@@ -139,3 +139,4 @@ GtowerLangush.AddWord( 1, "AdminNot",	"Vous n'�tes pas administrateur!")
 
 // Custom/New language
 GtowerLangush.AddWord( 1, "MerchantMove",	"Le marchand errant a été repéré près du {1}!")
+GtowerLangush.AddWord( 1, "MCSkinChange",	"Votre peau sera changée en peu de temps.")
