@@ -12,6 +12,7 @@ net.Receive("minecraft_skin_updated", function(len, ply)
 
 	ply:SetNWString( "MinecraftSkin", skin )
 
+	ply:Msg2( T( "MCSkinChange" ) )
 	timer.Simple( 3, function()
 		net.Start( "minecraft_send_updates" )
 			net.WriteInt( ply:EntIndex(), 16 )
@@ -33,3 +34,12 @@ hook.Add( "PlayerInitialSpawn", "JoinMCSkin", function(ply)
 		end
 	end )
 end)
+
+hook.Add( "Location", "SkinRefresh", function(ply)
+	local skin = ply:GetInfo("cl_minecraftskin")
+	ply:SetNWString("MinecraftSkin",skin)
+	
+	net.Start( "minecraft_send_updates" )
+	    net.WriteInt( ply:EntIndex(), 16 )
+	net.Broadcast()
+end )

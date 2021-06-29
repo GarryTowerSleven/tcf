@@ -43,12 +43,40 @@ local function SetSkin( ply, mat, uri )
 
 end
 
+local skinResult = {}
 
+function checkSkin( username )
+
+	local URL = "https://gmodtower.org/apps/minecraft/?skin=" .. username
+
+	http.Fetch( URL,
+	function( body, len, headers, code )
+		skinResult = util.JSONToTable(body)
+	end,
+	function( error )
+
+	end)
+
+	timer.Simple( 3, function()
+		//print( skinResult.status )
+
+		if ( skinResult.status == "red" ) then
+			LocalPlayer():ChatPrint( "Skin Error! : " .. skinResult.reason )
+			result = false
+		else
+			result = true
+		end
+	end )
+
+	return result
+end
 
 function meta:SetMinecraftSkin( uri )
 	if !AllowSkins:GetBool() then return end
 
 	if self:GetModel() != mcmdl then return end
+
+	//if !checkSkin( uri ) then print("dumbass 2`") return end
 
 	local URL = "https://gmodtower.org/apps/minecraft/?skin=" .. uri .. "&img=true"
 

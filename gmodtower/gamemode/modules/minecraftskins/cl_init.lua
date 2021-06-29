@@ -21,9 +21,35 @@ hook.Add( "PostPlayerDraw", "MinecraftSkin", function( ply )
 
 end )
 
-function MinecraftSendUpdatedSkin( text )
+local skinResult = {}
 
-	print("SKIN: GOT ".. text)
+function checkSkin( username )
+
+	local URL = "https://gmodtower.org/apps/minecraft/?skin=" .. username
+
+	http.Fetch( URL,
+	function( body, len, headers, code )
+		skinResult = util.JSONToTable(body)
+	end,
+	function( error )
+
+	end)
+
+	timer.Simple( 3, function()
+		//print( skinResult.status )
+
+		if ( skinResult.status == "red" ) then
+			LocalPlayer():ChatPrint( "Skin Error! : " .. skinResult.reason )
+			result = false
+		else
+			result = true
+		end
+	end )
+
+	return result
+end
+
+function MinecraftSendUpdatedSkin( text )
 	
 	if !isstring(text) then return end
 
@@ -32,17 +58,17 @@ function MinecraftSendUpdatedSkin( text )
 
 	-- Check if they set the same skin
 	if string.lower( LocalPlayer():GetInfo( "cl_minecraftskin" ) ) == text then return end
-	print("SKIN: NOT SAME")
+
+	-- fok off if skin doesnt exist
+	//if !checkSkin( text ) then print("dumbass") return end
 
 	RunConsoleCommand( "cl_minecraftskin", text )
 
 	if #text > 0 then
 
-		print("SKIN: SENDING...")
 		net.Start("minecraft_skin_updated")
 			net.WriteString(text)
 		net.SendToServer()
-		print("SKIN: SENT")
 
 	end
 

@@ -526,3 +526,4 @@ GtowerLangush.AddWord( 1, "Blizzard Storm!", "Blizzard Storm!" )
 
 // Custom/New language
 GtowerLangush.AddWord( 1, "MerchantMove",	"The Wandering Merchant has been spotted near the {1}!")
+GtowerLangush.AddWord( 1, "MCSkinChange",	"Your skin will be set a few seconds.")
