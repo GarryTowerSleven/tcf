@@ -241,7 +241,7 @@ function VIDEO:Init()
 		RequestVideoURL( self.Video.url )
 	end
 	self.RequestVideo.Think = function()
-		if IsMouseOver( self.RequestVideo ) then
+		if IsTheaterMouseOver( self.RequestVideo ) then
 			self.RequestVideo:SetAlpha( 255 )
 		else
 			self.RequestVideo:SetAlpha( 25 )
@@ -262,7 +262,7 @@ function VIDEO:Init()
 		
 	end
 	self.DeleteVideo.Think = function()
-		if IsMouseOver( self.DeleteVideo ) then
+		if IsTheaterMouseOver( self.DeleteVideo ) then
 			self.DeleteVideo:SetAlpha( 255 )
 		else
 			self.DeleteVideo:SetAlpha( 25 )

@@ -320,7 +320,7 @@ vgui.Register( "ScoreboardVideo", VIDEO )
 local VIDEOVOTE = {}
 VIDEOVOTE.Padding = 8
 	
-function IsMouseOver( self )
+function IsTheaterMouseOver( self )
 
 	local x,y = self:CursorPos()
 	return x >= 0 and y >= 0 and x <= self:GetWide() and y <= self:GetTall()
@@ -366,7 +366,7 @@ function VIDEOVOTE:Init()
 	
 	end
 	self.VoteUp.Think = function()
-		if IsMouseOver( self.VoteUp ) or self.VoteUp.Voted then
+		if IsTheaterMouseOver( self.VoteUp ) or self.VoteUp.Voted then
 			self.VoteUp:SetAlpha( 255 )
 		else
 			self.VoteUp:SetAlpha( 25 )
@@ -389,7 +389,7 @@ function VIDEOVOTE:AddRemoveButton()
 		end
 	end
 	self.RemoveBtn.Think = function()
-		if IsMouseOver( self.RemoveBtn ) or self.RemoveBtn.Voted then
+		if IsTheaterMouseOver( self.RemoveBtn ) or self.RemoveBtn.Voted then
 			self.RemoveBtn:SetAlpha( 255 )
 			self.RemoveBtn:SetColor( Color(255,0,0) )
 		else
@@ -494,7 +494,7 @@ function VIDEOCONTROLS:AddRemoveButton()
 		end
 	end
 	self.RemoveBtn.Think = function()
-		if IsMouseOver( self.RemoveBtn ) or self.RemoveBtn.Voted then
+		if IsTheaterMouseOver( self.RemoveBtn ) or self.RemoveBtn.Voted then
 			self.RemoveBtn:SetAlpha( 255 )
 			self.RemoveBtn:SetColor( Color(255,0,0) )
 		else

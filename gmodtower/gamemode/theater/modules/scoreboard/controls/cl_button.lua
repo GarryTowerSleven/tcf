@@ -52,7 +52,7 @@ function PANEL:Paint( w, h )
 		return
 	end
 
-	if ( self:IsMouseOver() ) then
+	if ( self:IsTheaterMouseOver() ) then
 		surface.SetDrawColor( self.HoverColor )
 		surface.DrawRect( 0, 0, w, h )
 		return
@@ -71,7 +71,7 @@ function PANEL:UpdateColours( skin )
 	end
 end
 
-function PANEL:IsMouseOver()
+function PANEL:IsTheaterMouseOver()
 
 	local x,y = self:CursorPos()
 	return x >= 0 and y >= 0 and x <= self:GetWide() and y <= self:GetTall()
