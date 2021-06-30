@@ -12,7 +12,7 @@ module( "Cards", package.seeall )
 hook.Add( "HUDPaint", "DrawChips", function()
 
 
-
+	if !GTowerHUD.Enabled:GetBool() then return end
 	if (LocalPlayer().GLocation != 25) then return end
 
 	local chips = LocalPlayer():PokerChips()

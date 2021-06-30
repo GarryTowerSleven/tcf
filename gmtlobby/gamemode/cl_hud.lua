@@ -466,37 +466,39 @@ function initHud()
 		-- Location
 		local location = GTowerLocation:GetName( GTowerLocation:GetPlyLocation( LocalPlayer() ) ) or "Unknown"
 
-		if HUDStyle_L2 then
-			local location = string.upper( location )
+		if GTowerHUD.Location.Enabled:GetBool() then
+			if HUDStyle_L2 then
+				local location = string.upper( location )
 
-			y = y + 24
-			draw.SimpleShadowText( location, GTowerHUD.Location.Font, x, y, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
-		elseif HUDStyle_Lobby1 then
-			local location = string.upper( location )
-			
-			surface.SetFont( GTowerHUD.Location.Font )
-			local mTextW, mTextH = surface.GetTextSize( location )
-			local mTextX = GTowerHUD.Info.X + 91
-			local mTextY = GTowerHUD.Info.Y + 103 - ( mTextH / 2 )
+				y = y + 24
+				draw.SimpleShadowText( location, GTowerHUD.Location.Font, x, y, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
+			elseif HUDStyle_Lobby1 then
+				local location = string.upper( location )
+				
+				surface.SetFont( GTowerHUD.Location.Font )
+				local mTextW, mTextH = surface.GetTextSize( location )
+				local mTextX = GTowerHUD.Info.X + 91
+				local mTextY = GTowerHUD.Info.Y + 103 - ( mTextH / 2 )
 
-			draw.SimpleText( location, GTowerHUD.Location.Font, mTextX, mTextY, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
-		elseif HUDStyle_Lobby1AB then
-			surface.SetFont( GTowerHUD.Location.Font )
-			local w, h = surface.GetTextSize( location )
+				draw.SimpleText( location, GTowerHUD.Location.Font, mTextX, mTextY, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
+			elseif HUDStyle_Lobby1AB then
+				surface.SetFont( GTowerHUD.Location.Font )
+				local w, h = surface.GetTextSize( location )
 
-			local x = ( ScrW() / 2 ) - ( w / 2 )
-			local y = ScrH() - h
+				local x = ( ScrW() / 2 ) - ( w / 2 )
+				local y = ScrH() - h
 
-			local bgColor = Color( 0, 139, 239, 100 )
-			if HUDStyle_Lobby1A then
-				bgColor = Color( 0, 0, 0, 100 )
+				local bgColor = Color( 0, 139, 239, 100 )
+				if HUDStyle_Lobby1A then
+					bgColor = Color( 0, 0, 0, 100 )
+				end
+
+				// Background
+				draw.RoundedBox( 6, x - 10, y, w + 20, h + 10, bgColor )
+
+				// Texty
+				draw.SimpleText( location, GTowerHUD.Location.Font, (ScrW() / 2) - (w / 2), ScrH() - h, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
 			end
-
-			// Background
-			draw.RoundedBox( 6, x - 10, y, w + 20, h + 10, bgColor )
-
-			// Texty
-			draw.SimpleText( location, GTowerHUD.Location.Font, (ScrW() / 2) - (w / 2), ScrH() - h, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
 		end
 
 		-- Condo
@@ -855,7 +857,7 @@ function initHud()
 			GTowerHUD.DrawHealth()
 		end
 		GTowerHUD.DrawInfo()
-		GTowerHUD.DrawLocation()
+		--GTowerHUD.DrawLocation()
 		GTowerHUD.DrawAmmo()
 		if HUDStyle_L2 or HUDStyle_Lobby1AB then
 			GTowerHUD.DrawHealth()
