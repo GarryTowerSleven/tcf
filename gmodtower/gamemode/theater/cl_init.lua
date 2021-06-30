@@ -123,7 +123,7 @@ end
 
 hook.Add("PostDrawOpaqueRenderables", "TheaterExterior3D2D", function(b, sky)
 	-- Let's not draw this in the sky
-	if sky or !IsLobby() then return end
+	if sky or !IsLobby then return end
 
 	for k, pos in pairs(screenPositions) do
 		if LocalPlayer():GetPos():WithinDistance(pos, 5000) then

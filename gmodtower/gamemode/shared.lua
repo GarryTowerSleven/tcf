@@ -6,24 +6,25 @@ GM.Website  = ""
 GM.ContentPrefix = "../addons/gmodtower/"
 GM.DownloadsEnabled = false
 
-IsLobby = true
-
 //=====================================================
 function IsLobby()
-	return string.StartWith( game.GetMap(), "gmt_lobby" )
+	return ( engine.ActiveGamemode() == "gmtlobby" )
 end
 
 function IsHalloweenMap()
-	return game.GetMap() == "gmt_lobby2_r7h"
+	return string.EndsWith(game.GetMap(), "h")
 end
 
 function IsChristmasMap()
-	return game.GetMap() == "gmt_lobby2_r7c"
+	return string.EndsWith(game.GetMap(), "c")
 end
 
 function IsHolidayMap()
 	return ( IsHalloweenMap() || IsChristmasMap() )
 end
+
+IsLobby = IsLobby()
+
 //=====================================================
 
 GM.WebsiteUrl = "http://www.gmtower.org/apps/"

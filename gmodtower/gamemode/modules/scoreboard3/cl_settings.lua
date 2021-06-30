@@ -5,8 +5,6 @@ local GAMEMODE = GAMEMODE
 -----------------------------------------------------
 module( "Scoreboard.Settings", package.seeall )
 
-local IsLobby = ( engine.ActiveGamemode() == "gmtlobby" )
-
 // TAB
 
 
