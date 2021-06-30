@@ -12,8 +12,7 @@ local pairs, tonumber, Msg, PrintTable = pairs, tonumber, Msg, PrintTable
 local _G = _G
 local player_manager = player_manager
 local string = string
-local GTowerModels = GTowerModels
-
+local IsLobby = IsLobby
 
 module("GTowerModels")
 
@@ -146,9 +145,17 @@ concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 		MinecraftSendUpdatedSkin(self.Ply:GetInfo( "cl_minecraftskin" ) or "")
 	end
 
-	local size = ( GTowerModels.List[model] or 1 )
+	local size = ( List[model] or 1 )
+
+	if ( IsLobby ) then
+		if ( ( ply:GetModelScale() != size && ply:GetModel() == model ) ) then
+			size = ply.OldPlayerSize
+			ply.OldPlayerSize = size
+		end
+	end
 
 	ply:SetModel(model)
 	ply:SetSkin((modelskin || 0))
 	ply:SetModelScale(size)
+	Set( ply, size )
 end )

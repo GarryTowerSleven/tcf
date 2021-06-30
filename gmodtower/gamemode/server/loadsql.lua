@@ -64,6 +64,8 @@ function RetrieveSQLData(ply)
 
 					GTowerModels.Set( ply, tonumber( (plysize or 1) ) )
 
+					ply.OldPlayerSize = ( plysize or 1 )
+
 					timer.Simple( 0.0, function()
 						GTowerHats.SetHat( GTowerHats, ply, hat, 1 )
 						GTowerHats.SetHat( GTowerHats, ply, faceHat, 2 )
