@@ -132,7 +132,7 @@ kart.flashlight2:Input( "SpotlightTexture", NULL, NULL, "effects/flashlight001" 
 	kart:EmitSound(Sound(FlashSound))
 
 	else
-		kart:EmitSound(Sound(FlashSound))
+		kart:EmitSound(Sound(FlashSound), 100, 75)
 		if IsValid(kart.flashlight) then
 			kart.flashlight:Remove()
 		end
