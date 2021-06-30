@@ -26,12 +26,12 @@ hook.Add("LoadInventory","LoadSizeChangingPotion", function()
 
 			if not string.StartWith(game.GetMap(),"gmt_lobby") then return end
 
-
-
 			local size_translation = ( GTowerModels.List[self.Ply:GetModel()] or 1 )
 			local size = size_translation * self.PlayerChangeSize
 
-
+			if !temp then
+				size = size_translation * defaultsize
+			end
 
 			if self.Ply:Alive() && not self.Ply:InVehicle() then
 
