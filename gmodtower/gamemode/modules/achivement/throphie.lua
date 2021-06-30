@@ -19,10 +19,10 @@ hook.Add("Achivement", "GiveThrophie", function( ply, id )
 		local Slot = GTowerItems:NewItemSlot( ply, "-2" ) //In the bank!
 		
 		if !Item then
-			ply:Msg2( T("AchievementsTrophyFailed") )
+			ply:Msg2( T("AchievementsTrophyFailed"), "trophy" )
 		return end
 
-		ply:Msg2( T("AchievementsTrophyGot", Item.Name) )
+		ply:Msg2( T("AchievementsTrophyGot", Item.Name), "trophy" )
 
 		if Achivement.NotGiveSlot != true then
 			//You are getting a raise! A free slot!
