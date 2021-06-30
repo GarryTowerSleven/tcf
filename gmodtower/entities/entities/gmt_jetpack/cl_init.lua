@@ -1,5 +1,7 @@
 include('shared.lua')
 
+local GTowerModels = GTowerModels
+
 ENT.RenderGroup 		= RENDERGROUP_TRANSLUCENT
 
 CreateClientConVar( "gmt_jetpackpower", .4, true, true )
@@ -98,8 +100,10 @@ function ENT:PositionItem(ply)
 
 	local pos, ang, scale = self:GetJetpackAttchment( ply )
 	if !pos || !ang then return end
-
-	local offsets = ang:Up() * ModelOffsets[ self:GetModel() ][1] + ang:Forward() * ModelOffsets[ self:GetModel() ][2] + ang:Right() * ModelOffsets[ self:GetModel() ][3]
+	
+	local player_scale = LocalPlayer():GetModelScale()
+	
+	local offsets = ang:Up() * (ModelOffsets[ self:GetModel() ][1]*player_scale) + ang:Forward() * (ModelOffsets[ self:GetModel() ][2]*player_scale) + ang:Right() * (ModelOffsets[ self:GetModel() ][3]*player_scale)
 
 	ang:RotateAroundAxis( ang:Up(), ModelRotate[ self:GetModel() ] or 0 )
 
@@ -107,7 +111,7 @@ function ENT:PositionItem(ply)
 	
 	local scale = ModelScale[ self:GetModel() ]
 	
-	self:SetModelScale(scale)
+	self:SetModelScale(player_scale*scale)
 
 	return pos, ang, scale
 
