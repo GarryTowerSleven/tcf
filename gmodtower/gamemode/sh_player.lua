@@ -11,17 +11,16 @@ function IsOwner(steamid)
 end
 
 local Developer = {
-	"STEAM_0:0:1384695", -- Cat
-	"STEAM_0:0:44458854", -- Bumpy
-	"STEAM_0:1:39916544", -- Anomaladox
-	"STEAM_0:1:30473979" -- Nano
 }
 
-local Admin = {}
+local Admin = {
+	"STEAM_0:0:1384695", -- Cat
+	"STEAM_0:1:30473979", -- Nano
+	"STEAM_0:1:124798129" -- Amgona
+}
 
 local Mod = {
 	"STEAM_0:1:85508734", -- Bman
-	"STEAM_0:1:124798129" -- Amgona
 }
 
 local Tester = {
