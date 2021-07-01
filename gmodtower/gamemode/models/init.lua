@@ -150,14 +150,12 @@ concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 	if ( IsLobby ) then
 		if ( ( ply:GetModelScale() != size && ply:GetModel() == model ) ) then
 			size = ply.OldPlayerSize
+			ply.OldPlayerSize = size
 		end
 	end
-
-	ply.OldPlayerSize = size
 
 	ply:SetModel(model)
 	ply:SetSkin((modelskin || 0))
 	ply:SetModelScale(size)
 	Set( ply, size )
-	ChangeHull2( ply )
 end )
