@@ -89,7 +89,7 @@ if CLIENT then
 				TEXTAlpha = 65
 			end
 			
-			local ang = ply:EyeAngles()
+			local ang = EyeAngles()
 			local pos = ply:WorldSpaceCenter()
 	
 			local name = ply:Nick()
