@@ -101,7 +101,7 @@ function ENT:PositionItem(ply)
 	local pos, ang, scale = self:GetJetpackAttchment( ply )
 	if !pos || !ang then return end
 	
-	local player_scale = LocalPlayer():GetModelScale()
+	local player_scale = ply:GetModelScale()
 	
 	local offsets = ang:Up() * (ModelOffsets[ self:GetModel() ][1]*player_scale) + ang:Forward() * (ModelOffsets[ self:GetModel() ][2]*player_scale) + ang:Right() * (ModelOffsets[ self:GetModel() ][3]*player_scale)
 
