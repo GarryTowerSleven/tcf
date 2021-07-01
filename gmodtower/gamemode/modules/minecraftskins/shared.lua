@@ -79,7 +79,7 @@ if CLIENT then
 		for k,ply in pairs( player.GetAll() ) do
 
 			if ply:GetModel() != mcmdl then return end
-			if !localenabled then return end
+			if !localenabled && ply == LocalPlayer() then return end
 			//if !LocalPlayer().ThirdPerson && ply == LocalPlayer() then return end
 
 			//if LocalPlayer():GetPos():Distance( ply:GetPos() ) >= 2048 then return end
