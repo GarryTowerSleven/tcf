@@ -13,6 +13,7 @@ local _G = _G
 local player_manager = player_manager
 local string = string
 local IsLobby = IsLobby
+local engine = engine
 
 module("GTowerModels")
 
