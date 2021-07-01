@@ -152,6 +152,10 @@ concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 			size = ply.OldPlayerSize
 			ply.OldPlayerSize = size
 		end
+	else
+		if ( engine.ActiveGamemode() != "ballrace" ) then
+			size = 1
+		end
 	end
 
 	ply:SetModel(model)
