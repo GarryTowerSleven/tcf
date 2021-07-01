@@ -37,6 +37,8 @@ end)
 
 if CLIENT then
 
+	if engine.ActiveGamemode() != "gmtlobby" then return end
+
 	local convar = CreateClientConVar( "gmt_minecraft_names", 1, true, false )
 	local enabled = convar:GetBool()
 
@@ -70,7 +72,7 @@ if CLIENT then
 		outline = false,
 	} )
 	
-	hook.Add("PostDrawTranslucentRenderables", "TEST", function()
+	hook.Add("PostDrawTranslucentRenderables", "DrawMCName", function()
 
 		if !enabled then return end
 	
@@ -78,8 +80,9 @@ if CLIENT then
 
 			if ply:GetModel() != mcmdl then return end
 			if !localenabled && ply == LocalPlayer() then return end
+			//if !LocalPlayer().ThirdPerson && ply == LocalPlayer() then return end
 
-			if LocalPlayer():GetPos():Distance( ply:GetPos() ) >= 2048 then return end
+			//if LocalPlayer():GetPos():Distance( ply:GetPos() ) >= 2048 then return end
 
 			local BGAlpha = 65
 			local TEXTAlpha = 255
