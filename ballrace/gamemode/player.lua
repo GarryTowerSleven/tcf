@@ -70,7 +70,7 @@ function GM:PlayerSpawn(ply)
 		ply:UnSpectate()
 		ply:SetTeam(TEAM_PLAYERS)
 
-		ply:SetColor(0,0,0,0)
+		ply:SetColor( Color( 0,0,0,0 ) )
 		ply:SetNotSolid(true)
 		ply:SetMoveType(MOVETYPE_NOCLIP)
 
