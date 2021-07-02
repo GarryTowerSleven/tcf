@@ -25,7 +25,7 @@ function EFFECT:Render()
 	local Fraction = (self.LifeTime - CurTime()) / self.Time
 	Fraction = math.Clamp( Fraction, 1, 0 )
 	
-	self:SetColor( 255, 255, 255, 1 + math.sin( Fraction * math.pi ) * 100 )
+	self:SetColor( 	Color(255, 255, 255, 1 + math.sin( Fraction * math.pi ) * 100) )
 
 	local EyeNormal = self:GetPos() - EyePos()
 	local Distance = EyeNormal:Length()
