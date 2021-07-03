@@ -1,7 +1,7 @@
 ---------------------------------
 include('shared.lua')
 
-ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.LastModel = ""
 ENT.LastPlayerModel = ""
 ENT.LastScale = Vector(0,0,0)
