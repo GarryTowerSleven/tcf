@@ -36,7 +36,8 @@ function GTowerItems:CreateStoreItemEnd( item )
 		price = item.StorePrice or 0,
 		IsNew = item.NewItem,
 		canbuy = CanBuyItem,
-		ModelSkin = item.ModelSkinId
+		ModelSkin = item.ModelSkinId,
+		PreviewURL = item.PreviewURL or ""
 	} )
 
 	item.StoreItem = StoreItem

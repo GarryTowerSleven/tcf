@@ -571,6 +571,8 @@ GTowerItems.RegisterItem( "ParticleSystemVIP", {
 	Tradable = false,
 	UniqueInventory = true,
 
+	PreviewURL = "particles/beauty-cone.webp",
+
 	EquippableEntity = true,
 	RemoveOnDeath = true,
 	RemoveOnNoEntsLoc = true,
@@ -608,6 +610,8 @@ GTowerItems.RegisterItem( "ParticleSystemBanana", {
 
 	Tradable = false,
 	UniqueInventory = true,
+
+	PreviewURL = "particles/bananas.webp",
 
 	EquippableEntity = true,
 	RemoveOnDeath = true,
@@ -648,6 +652,8 @@ GTowerItems.RegisterItem( "ParticleSystemNotes", {
 	Tradable = false,
 	UniqueInventory = true,
 
+	PreviewURL = "particles/music-notes.webp",
+
 	EquippableEntity = true,
 	RemoveOnDeath = true,
 	RemoveOnNoEntsLoc = true,
@@ -686,6 +692,8 @@ GTowerItems.RegisterItem( "ParticleSystemOrbs", {
 
 	Tradable = false,
 	UniqueInventory = true,
+
+	PreviewURL = "particles/orbs.webp",
 
 	EquippableEntity = true,
 	RemoveOnDeath = true,

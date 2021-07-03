@@ -165,7 +165,8 @@ concommand.Add( "selectiontest", function( ply, cmd, args )
 					ItemLevel = v.level,
 					ItemMaxLevel = v.maxlevel,
 					hasDiscount = isDiscount,
-					ModelSkin = v.ModelSkin or 1
+					ModelSkin = v.ModelSkin or 1,
+					PreviewURL = v.PreviewURL or ""
 				}
 
 			table.insert(menu,tbl)
@@ -267,9 +268,9 @@ PANEL.HeightPadding = 75
 PANEL.WidthPadding = 20
 PANEL.Width = 400
 PANEL.Height = 720
-
+local GIFUrl = ""
 function PANEL:Init()
-
+	GIFUrl = "about:blank"
 	-- Don't break for lower resolutions
 	if self.Height > ScrH() then
 		self.Height = ScrH()
@@ -284,10 +285,9 @@ function PANEL:Init()
 	local y = (ScrH()/2)-(self.Height/2) --self.HeightPadding
 	local w = self.Width + ScrollBarWidth + 4
 	local h = self.Height -- - (self.HeightPadding * 2)
-
 	self.Side = vgui.Create( "SelectionMenuSide", self )
 	self.Side:SetPos( x, y )
-	self.Side:SetSize( w, h - 32 )
+	self.Side:SetSize( w, h - 32 )
 
 	self.ModelPanel = vgui.Create("DModelPanel2", self.Side )
 	self.ModelPanel:SetAnimated( true )
@@ -630,7 +630,7 @@ PANEL.DescPadding = 10
 PANEL.BackgroundColor = Color( 0, 0, 0 )
 PANEL.NormalColor = Color( 240, 240, 240 )
 PANEL.LargeColor = Color( 124, 77, 144 )
-
+PANEL.PreviewPrefix = "https://gmodtower.org/game/previews/"
 function PANEL:Init()
 
 	self:SetPos( 0, 0 )
@@ -673,6 +673,10 @@ function PANEL:ProgessData( data )
 		self:SetDescription( data.desc )
 	end
 
+	if data.PreviewURL then
+		self:SetPreviewURL( data.PreviewURL )
+	end
+
 	if data.mdl then
 		self:SetModel( data.mdl )
 	end
@@ -706,6 +710,14 @@ function PANEL:SetTitle( title, padding )
 	self.Title.x = padding or self.Padding
 
 end
+function PANEL:SetPreviewURL( url )
+	if url == "" then
+		url = "about:blank"
+		return
+	end
+	
+	self.PreviewURL = self.PreviewPrefix .. url
+end
 
 function PANEL:SetModel( mdl )
 	self.Model = mdl
@@ -826,12 +838,18 @@ function PANEL:CanHover()
 	return true
 end
 
-PANEL.MouseEntered = false
+PANEL.MouseEntered = false
+
 function PANEL:Think()
 
 	if self:IsHovered() and self:CanHover() then
 		if not self.MouseEntered then
-			self.MouseEntered = true
+			self.MouseEntered = true
+
+			if self.PreviewURL then
+				GIFUrl = self.PreviewURL
+			end
+
 			surface.PlaySound( "GModTower/casino/videopoker/click.wav" )
 			if self.Model then StoreModel = self.Model end
 			ModelSkin = tonumber(self.ModelSkin)
@@ -1179,7 +1197,8 @@ derma.DefineControl( "SelectionMenuConfirmation", "", PANEL, "DPanel" )
 ------------------------
 -- Side panel
 ------------------------
-local BGPath = "gmod_tower/ui/images/"
+local BGPath = "gmod_tower/ui/images/"
+
 local function CreateBG( png )
 	return { mat = Material( BGPath .. png .. ".png", "unlitsmooth" ), alpha = 0, time = 0 }
 end
@@ -1196,12 +1215,29 @@ PANEL.ActiveBG = nil
 PANEL.ImageDuration = 4
 PANEL.ImageWidth = 1280
 PANEL.ImageHeight = 720
+PANEL._url = ""
+
 
 function PANEL:Paint( w, h )
 
-	self:DrawBackgrounds( w, h )
-	draw.RectBorder( 5, 5, w-10, h-10, 2, Color( 255, 255, 255 ) )
+	self:DrawBackgrounds( w, h )
 
+	draw.RectBorder( 5, 5, w-10, h-10, 2, Color( 255, 255, 255 ) )
+
+	if !self.GifViewer then
+		self.GifViewer = vgui.Create( "HTML", self )
+		self.GifViewer:SetPos( 0, 0 )
+		self.GifViewer:SetSize( w, h )
+		self.GifViewer.PaintOver = function()
+			surface.SetDrawColor( 255, 0, 255, 255 )
+			draw.RectBorder( 5, 5, self:GetWide()-10, self:GetTall()-10, 2, Color( 255, 255, 255 ) )
+		end
+	end
+
+	if GIFUrl != self._url then
+		self.GifViewer:OpenURL( GIFUrl )
+		self._url = GIFUrl
+	end
 end
 
 function PANEL:SetBackgrounds( logo )
