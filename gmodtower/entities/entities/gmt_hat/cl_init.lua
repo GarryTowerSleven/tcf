@@ -46,22 +46,29 @@ function ENT:PositionItem(ply)
 		pos, ang = EyeTbl.Pos, EyeTbl.Ang
 	end
 
-	local scale = ply:GetModelScale()
-	if !string.StartWith(game.GetMap(),"gmt_lobby") && !string.StartWith(game.GetMap(),"gmt_ballracer") then scale = 1 end
-	local Offsets = GTowerHats:GetTranslation( self.HatModel, self.PlyModel )
+	if engine.ActiveGamemode() == "minigolf" then
+		local ball = ply:GetGolfBall()
 
-	ang:RotateAroundAxis(ang:Right(), Offsets[4])
-	ang:RotateAroundAxis(ang:Up(), Offsets[5])
-	ang:RotateAroundAxis(ang:Right(), Offsets[6])
+		if IsValid(ball) then
+			pos, ang = hook.Run("PositionHatOverride", ball)
+		end
+	else
+		local scale = ply:GetModelScale()
+		if !string.StartWith(game.GetMap(),"gmt_lobby") && !string.StartWith(game.GetMap(),"gmt_ballracer") then scale = 1 end
+		local Offsets = GTowerHats:GetTranslation( self.HatModel, self.PlyModel )
 
-	local HatOffsets = ang:Up() * Offsets[1] + ang:Forward() * Offsets[2] + ang:Right() * Offsets[3]
+		ang:RotateAroundAxis(ang:Right(), Offsets[4])
+		ang:RotateAroundAxis(ang:Up(), Offsets[5])
+		ang:RotateAroundAxis(ang:Right(), Offsets[6])
 
-	HatOffsets.x = HatOffsets.x * scale
-	HatOffsets.y = HatOffsets.y * scale
-	HatOffsets.z = HatOffsets.z * scale
+		local HatOffsets = ang:Up() * Offsets[1] + ang:Forward() * Offsets[2] + ang:Right() * Offsets[3]
 
-	pos = pos + HatOffsets
+		HatOffsets.x = HatOffsets.x * scale
+		HatOffsets.y = HatOffsets.y * scale
+		HatOffsets.z = HatOffsets.z * scale
 
+		pos = pos + HatOffsets
+	end
 	return pos, ang
 end
 

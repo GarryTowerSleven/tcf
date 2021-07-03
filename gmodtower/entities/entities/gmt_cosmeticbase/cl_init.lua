@@ -8,7 +8,7 @@ ENT.LastScale = Vector(0,0,0)
 
 local HatsGM = {}
 HatsGM["ballrace"] = true
-HatsGM["minigolf"] = false
+HatsGM["minigolf"] = true
 
 function ENT:Initialize()
 	self:SetRenderBounds( Vector(-60, -60, -60), Vector(60, 60, 60) )
@@ -50,11 +50,16 @@ function ENT:UpdatedModel()
 end
 
 function ENT:Draw()
+	local ply = self:GetOwner()
 	if self:Position() == nil then return end
 	local pos, ang = self:Position()
 	if pos != false then
 		self:SetPos(pos)
 		self:SetAngles(ang)
+		if ply.GetBallColor then
+			local color = ply:GetBallColor()
+			render.SetColorModulation(color.r, color.g, color.b)
+		end
 		self:DrawModel()
 	end
 end
@@ -67,8 +72,6 @@ function ENT:Position()
 	local ply = self:GetOwner()
 
 	if !self:Check( ply ) then return false end
-
-	if engine.ActiveGamemode() == "minigolf" then return end
 
 	//if !IsValid(ply) || ( ply == LocalPlayer() && !GAMEMODE:ShouldDrawLocalPlayer( true ) ) then return false end
 

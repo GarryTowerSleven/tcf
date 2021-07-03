@@ -32,7 +32,8 @@ hook.Add( "InitPostEntity", "SetDetail", function()
 	if tonumber( LocalPlayer():GetInfo( "cl_detaildist" ) ) > 500 then
 		RunConsoleCommand( "cl_detaildist", 500 )
 	end
-end )
+end )
+
 function GM:ChatBubbleOverride(ply)
     if !IsValid( ply ) then
         return false
@@ -45,55 +46,62 @@ function GM:ChatBubbleOverride(ply)
     end
 
     return false
-end
-hook.Add( "PositionHatOverride", "OverrideHatBall", function( ent, data, pos, ang, scale )
-	if ent:GetClass() == "golfball" then
-		if ent.CurAngle then
-			ang = ent.CurAngle
-		else
-			ang = Angle( 0, 0, 0 )
-		end
-		
-		if ent:GetVelocity():Length() > 10 then
-			local vec = ent:GetVelocity():Angle()
-			ang = vec
-			ent.CurAngle = ang
-		end
+end
 
-		/*if Swing.power > 0 && ent:GetOwner() == LocalPlayer() then
+hook.Add("PositionHatOverride", "OverrideHatBall", function(ent, data, pos, ang, scale)
+    if ent:GetClass() == "golfball" then
+        if ent.CurAngle then
+            ang = ent.CurAngle
+        else
+            ang = Angle(0, 0, 0)
+        end
+
+        if ent:GetVelocity():Length() > 10 then
+            local vec = ent:GetVelocity():Angle()
+            ang = vec
+            ent.CurAngle = ang
+        end
+
+        /*if Swing.power > 0 && ent:GetOwner() == LocalPlayer() then
 			local normal = RenderSettings.aimplane
 			local dir = RenderSettings.direction
 			local vec = normal:Angle() + Angle( 90, 0, 0 )
 			vec:RotateAroundAxis( normal, dir )
 			//ang = vec
 		end*/
+        local z = data && data[1] || 0
+        pos = ent:GetPos() + Vector(0, 0, z)
 
-		local z = data[1]
-		pos = ent:GetPos() + Vector( 0, 0, z )
+        return pos, ang, scale
+    end
+end)
 
-		return pos, ang, scale
-	end
-end )
 hook.Add( "HUDPaint", "ToyTownEffect", function()
 	if !ConVarDrawBlur:GetBool() then return end
-	if !render.SupportsPixelShaders_2_0() then return end
+	if !render.SupportsPixelShaders_2_0() then return end
+
     local NumPasses = 3
-    local H = ScrH() * .2
+    local H = ScrH() * .2
+
     DrawToyTown( NumPasses, H )
-end )
+end )
+
 hook.Add( "Think", "LateJoinCameraDefault", function()
 	if GAMEMODE:GetState() == STATE_WAITING then
 		camsystem.LateJoinCamera = "Waiting"
-	end
+	end
+
 	if GAMEMODE:IsPlaying() then
 		camsystem.LateJoinCamera = "Playing"
 	end
-end )
+end )
+
 function GM:Think()
 	//Scoreboard.Customization.PlayerActionBoxEnabled = !( self:GetState() == STATE_WAITING || self:GetState() == STATE_SETTINGS )
 	vgui.GetWorldPanel():SetCursor( "default" )
 	self:FadeBrushes()
-end
+end
+
 function GM:FadeBrushes()
 	// Preform fade
 	local entities = ents.FindByClass( "func_brush" )
@@ -102,29 +110,36 @@ function GM:FadeBrushes()
 	for _, ent in pairs( entities ) do
 		if !ent.Alpha then
 			ent.Alpha = 255
-		end
+		end
+
 		if ent.ShouldFade then
 			ent.Alpha = math.Approach( ent.Alpha, 150, 4 )
 		else
 			ent.Alpha = math.Approach( ent.Alpha, 255, 4 )
-		end
+		end
+
 		ent:SetColor( Color( 255, 255, 255, ent.Alpha ) )
 		ent:SetRenderMode( RENDERMODE_TRANSALPHA )
 		ent.ShouldFade = false
-	end
-	local ball = LocalPlayer():GetGolfBall()
+	end
+
+	local ball = LocalPlayer():GetGolfBall()
+
 	if IsValid( LocalPlayer().Spectating ) then
 		ball = LocalPlayer().Spectating:GetGolfBall()
-	end
+	end
+
 	if IsValid( ball ) then
 		local trace = util.TraceLine( { start = ball:GetPos(), endpos = LocalPlayer().CameraPos, filter = ball } ) 
-		local balltrace = ball:GetDownTrace()
+		local balltrace = ball:GetDownTrace()
+
 		if IsValid( trace.Entity ) then
 			if IsValid( balltrace.Entity ) and ( balltrace.Entity == trace.Entity ) and balltrace.Entity:GetClass() != "func_rotating" then return end -- Don't fade the object the ball is on
 			trace.Entity.ShouldFade = true
 		end
 	end
-end
+end
+
 local PANEL = {}
 
 RADIAL_ALIGN_NONE = 0
@@ -689,16 +704,20 @@ concommand.Add( "radial_test", function( ply, cmd, args )
 	p:SetFont( "DermaLarge" )
 	p:SizeToContents()
 	RADIAL:SetCenterPanel( p )
-end ) 
+end ) 
+
 usermessage.Hook( "ShowScores", function( um )
-	local display = um:ReadBool()
-	GAMEMODE:DisplayScorecard( display )
+	local display = um:ReadBool()
+
+	GAMEMODE:DisplayScorecard( display )
+
 	/*if display == true then
 		RunConsoleCommand( "mg_showscores", 1 )
 	else
 		RunConsoleCommand( "mg_showscores" )
 	end*/
-end )
+end )
+
 --[[usermessage.Hook( "SendHole", function(um )
 	GAMEMODE.CurrentHolePos = um:ReadVector()
 end )]]
