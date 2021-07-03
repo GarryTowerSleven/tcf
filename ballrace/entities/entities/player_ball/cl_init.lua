@@ -225,7 +225,7 @@ function ENT:DrawTranslucent()
 		if ply.CosmeticEquipment then
 			for k,v in pairs(ply.CosmeticEquipment) do
 				if !IsValid(v) then continue end
-				v:SetModelScale( ScaledModels[self.PlayerModel:GetModel()] or 1 )
+				--v:SetModelScale( ScaledModels[self.PlayerModel:GetModel()] or 1 )
 			end
 		end
 

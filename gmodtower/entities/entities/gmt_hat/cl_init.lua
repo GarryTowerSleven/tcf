@@ -47,7 +47,7 @@ function ENT:PositionItem(ply)
 	end
 
 	local scale = ply:GetModelScale()
-	if !string.StartWith(game.GetMap(),"gmt_lobby") then scale = 1 end
+	if !string.StartWith(game.GetMap(),"gmt_lobby") && !string.StartWith(game.GetMap(),"gmt_ballracer") then scale = 1 end
 	local Offsets = GTowerHats:GetTranslation( self.HatModel, self.PlyModel )
 
 	ang:RotateAroundAxis(ang:Right(), Offsets[4])
