@@ -164,25 +164,3 @@ function ENT:PayOut(ply,prize)
 		ply.Candy = (ply.Candy or 0) + 10
 	end
 end
-
-function BasicWin(ply)
-	local effectdata = EffectData();
-	effectdata:SetOrigin(ply:GetPos());
-	effectdata:SetStart(Vector(1, 1, 1));
-	util.Effect("confetti", effectdata);
-
-	timer.Create("FunniEffects"..tostring(ply:EntIndex()),0.5,3,function()
-		local eff = EffectData()
-
-		eff:SetOrigin( ply:GetPos() + (ply:GetForward() * 2) + ( ply:GetRight() * math.random(-50,50) ) + ( ply:GetUp() * math.random(-50,50) )  )
-		eff:SetEntity( ply )
-
-		util.Effect( "firework_npc", eff )
-
-		ply:EmitSound( "GModTower/lobby/firework/firework_explode.wav",
-			eff:GetOrigin(),
-			30,
-			math.random( 150, 200 ) )
-	end)
-
-end

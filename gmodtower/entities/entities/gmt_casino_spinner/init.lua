@@ -176,7 +176,7 @@ function BasicWin(ply)
 		util.Effect( "firework_npc", eff )
 
 		ply:EmitSound( "GModTower/lobby/firework/firework_explode.wav",
-			eff:GetOrigin(),
+			/*eff:GetOrigin(),*/
 			30,
 			math.random( 150, 200 ) )
 	end)
