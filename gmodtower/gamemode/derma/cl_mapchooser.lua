@@ -391,6 +391,9 @@ function PANEL:SetupMaps()
 
 				self:UpdatePreview()
 
+			elseif panel.btnMap.Disabled then
+				surface.PlaySound("gmodtower/ui/panel_error.wav")
+				Msg2( T( "GamemodeCooldown", panel.btnMap:GetText() ) )
 			else
 				surface.PlaySound("gmodtower/ui/panel_error.wav")
 			end
