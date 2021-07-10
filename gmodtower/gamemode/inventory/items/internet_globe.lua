@@ -4,12 +4,14 @@ ITEM.Description = "Der Strato Homepage Baukasten. (Wearable!)"
 ITEM.Model = "models/gmod_tower/internet_globe.mdl"
 ITEM.DrawModel = true
 
+ITEM.CanEntCreate = false
+
 ITEM.Equippable = true
 ITEM.UniqueEquippable = false
 
 ITEM.RemoveOnNarnia = true
 
-ITEM.EquippableEntity = true //Should an entity be created from CreateEquipEntity ?
+ITEM.EquippableEntity = true // Should an entity be created from CreateEquipEntity ?
 
 ITEM.CanRemove = false
 ITEM.Tradable = false
