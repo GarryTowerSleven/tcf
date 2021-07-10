@@ -627,3 +627,25 @@ net.Receive( "ClientFullyConnected", function( len, ply )
 end )
 
 util.AddNetworkString( "ClientFullyConnected" )
+
+local function giveTester( ply )
+
+	if !ply:GetNWBool("IsNewPlayer") then return end
+	if !IsTester( ply:SteamID() ) then return end
+
+	local ItemID = GTowerItems:FindByFile( "internet_globe" )
+
+	local Item = GTowerItems:CreateById( ItemID, ply ) 
+	local Slot = GTowerItems:NewItemSlot( ply, "-2" )
+
+	Slot:FindUnusedSlot( Item, true )
+
+	Slot:Set( Item )
+	Slot:ItemChanged()
+
+	ply:AddMoney( 1500 )
+	ply:Msg2( "Thanks for testing GMod Tower: Deluxe! An exclusive item has appeared in your vault.", "heart" )
+  
+end
+
+hook.Add( "PlayerFullyJoined", "TesterReward", giveTester )

@@ -11,10 +11,14 @@ ITEM.RemoveOnNarnia = true
 
 ITEM.EquippableEntity = true //Should an entity be created from CreateEquipEntity ?
 
-ITEM.StoreId = 16
-ITEM.StorePrice = 5000
+ITEM.CanRemove = false
+ITEM.Tradable = false
+
+//ITEM.StoreId = 16
+//ITEM.StorePrice = 5000
 
 if SERVER then
+
 	ITEM.AllowEntBackup = true
 
 	function ITEM:OnCreate( data )
