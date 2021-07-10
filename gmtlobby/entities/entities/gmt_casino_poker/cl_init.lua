@@ -140,7 +140,7 @@ local function CreateMainPanel( ent, invisible )
 end
 
 hook.Add( "CanOpenMenu", "CanOpenMenuPoker", function()
-	if PokerPanel then
+	if IsValid(PokerPanel) then
 		return false
 	end
 end )

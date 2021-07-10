@@ -22,10 +22,17 @@ end
 
 function ENT:SetCurrentActivePlayer()
 
-	if self:GetCurrentPlayerID() != table.Count(self.Players) then
-		self:SetCurrentPlayerID( self:GetCurrentPlayerID()+1 )
-	end
+	self:SetCurrentPlayerID( self:GetCurrentPlayerID()+1 )
 
+end
+
+function ENT:ClearPlayerActions(ply)
+	net.Start( "ClientPoker" )
+		net.WriteEntity( ply.PokerTable )
+		net.WriteEntity( ply )
+		net.WriteInt( self.Network.ACTION, 4 )
+		net.WriteInt( self.Actions.NONE, 4 )
+	net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
 end
 
 // CONCOMMANDS
@@ -37,10 +44,22 @@ concommand.Add( "gmt_poker_call", function( ply, cmd, args )
 
 	local self = Entity(args[1])
 
-	if ply:EntIndex() != self:GetCurrentPlayerID() && self:GetState() != self.States.BET then return end
+	local AllowedStates = {
+		3,
+		5,
+	}
+
+	if ply:EntIndex() != self:GetCurrentPlayerID() && !table.HasValue(AllowedStates, self:GetState()) then return end
 
 	self:SetIn( ply, self:GetIn(ply)+self:GetTopBet(), 4 )
 	self:SetPot( self:GetPot()+self:GetTopBet() )
+
+	net.Start( "ClientPoker" )
+		net.WriteEntity( ply.PokerTable )
+		net.WriteEntity( ply )
+		net.WriteInt( self.Network.ACTION, 4 )
+		net.WriteInt( self.Actions.CALL, 4 )
+	net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
 
 	self:SetTime(self.BetTime+CurTime())
 	self:SetCurrentActivePlayer()
@@ -54,10 +73,22 @@ concommand.Add( "gmt_poker_raise", function( ply, cmd, args )
 
 	local self = Entity(args[1])
 
-	if ply:EntIndex() != self:GetCurrentPlayer() && self:GetState() != self.States.BET then return end
+	local AllowedStates = {
+		3,
+		5,
+	}
+
+	if ply:EntIndex() != self:GetCurrentPlayerID() && !table.HasValue(AllowedStates, self:GetState()) then return end
 
 	self:SetIn( ply, self:GetIn(ply)+args[2], 4 )
 	self:SetPot( self:GetPot()+args[2] )
+
+	net.Start( "ClientPoker" )
+		net.WriteEntity( ply.PokerTable )
+		net.WriteEntity( ply )
+		net.WriteInt( self.Network.ACTION, 4 )
+		net.WriteInt( self.Actions.RAISE, 4 )
+	net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
 
 	self:SetTime(self.BetTime+CurTime())
 	self:SetCurrentActivePlayer()
@@ -73,13 +104,24 @@ concommand.Add( "gmt_poker_fold", function( ply, cmd, args )
 
 	local self = Entity(args[1])
 
-	if ply:EntIndex() != self:GetCurrentPlayer() && self:GetState() != self.States.BET then return end
+	local AllowedStates = {
+		3,
+		5,
+	}
+
+	if ply:EntIndex() != self:GetCurrentPlayerID() && !table.HasValue(AllowedStates, self:GetState()) then return end
+	
+	local fold_action = self.Actions.FOLD
+
+	if args[2] == "auto" then
+		fold_action = self.Actions.FOLDAUTO
+	end
 
 	net.Start( "ClientPoker" )
-		net.WriteEntity( self )
+		net.WriteEntity( ply.PokerTable )
 		net.WriteEntity( ply )
 		net.WriteInt( self.Network.ACTION, 4 )
-		net.WriteInt( self.Actions.FOLD, 4 )
+		net.WriteInt( fold_action, 4 )
 	net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
 
 	self:SetTime(self.BetTime+CurTime())
@@ -96,25 +138,30 @@ concommand.Add( "gmt_poker_discard", function( ply, cmd, args )
 
 	if ply:EntIndex() != self:GetCurrentPlayer() && self:GetState() != self.States.DRAW then return end
 
-	local discarded = string.Explode( "|", args[2], true )
-	local discardint = tonumber(table.concat( discarded, "", 1, #discarded ))
-
-	ply:ChatPrint(discardint)
-
-
-	/*net.Start( "ClientPokerCards" )
-		net.WriteEntity(self)
-		net.WriteEntity(v)
-		net.WriteInt(ply.Hand,32)
-	net.Send(v)*/
+	local discarded = string.Explode( "|", args[2] )
+	local discardint = (#discarded-1)
 
 	net.Start( "ClientPoker" )
-		net.WriteEntity( self )
+		net.WriteEntity( ply.PokerTable )
 		net.WriteEntity( ply )
 		net.WriteInt( self.Network.ACTION, 4 )
 		net.WriteInt( self.Actions.DISCARD, 4 )
 		net.WriteInt( discardint, 4 )
 	net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
+
+	for k,v in pairs(discarded) do
+		if v != "" then
+			ply.HandT.cards[tonumber(v)] = self.deck:GetCard()
+		end
+	end
+
+	ply.Hand = ply.HandT:ToInt()
+	
+	net.Start( "ClientPokerCards" )
+		net.WriteEntity(self)
+		net.WriteEntity(ply)
+		net.WriteInt(ply.Hand,32)
+	net.Send(ply)
 
 end )
 
@@ -256,9 +303,8 @@ end
 
 function ENT:Use(caller)
 
-	caller:Msg2( "Poker is currently in development, check back later!", "cards" )
-
-	do return end
+	/*caller:Msg2( "Poker is currently in development, check back later!", "cards" )
+	do return end*/
 
 	if !(self:GetState() <= self.States.STARTING) then return end
 
@@ -278,8 +324,8 @@ function ENT:Use(caller)
 			net.WriteTable( self.Players )
 		net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
 
-		if #self.Players <= self.MaxPlayers then
-			if (self:GetState() == self.States.NOPLAY && #self.Players >= self.MinPlayers && self:GetTime() == 0) then
+		if table.Count(self.Players) <= self.MaxPlayers then
+			if (self:GetState() == self.States.NOPLAY && table.Count(self.Players) >= self.MinPlayers && self:GetTime() == 0) then
 				self:SetTime(self.StartDelay+CurTime())
 				self:SetState(self.States.STARTING)
 			end
@@ -305,6 +351,10 @@ end
 
 function ENT:NewRound()
 
+	for _,ply in pairs(self.Players) do
+		self:ClearPlayerActions(ply)
+	end
+
 	net.Start( "ClientPoker" )
 		net.WriteEntity( self )
 		net.WriteEntity( caller )
@@ -325,20 +375,23 @@ end
 function ENT:EndGame()
 
 	self:SeatRelease()
-	self:SetState(self.States.NOPLAY)
-	self:SetTime(0)
-	self:SetPot(0)
-	self:SetCurrentPlayerID(0)
-	self:SetRound(0)
-	self.deck = nil
 
-	self.Players = {}
+	timer.Simple( 0.5, function()
+		self:SetState(self.States.NOPLAY)
+		self:SetTime(0)
+		self:SetPot(0)
+		self:SetCurrentPlayerID(0)
+		self:SetRound(0)
+		self.deck = nil
 
-	net.Start( "ClientPoker" )
-		net.WriteEntity( self )
-		net.WriteEntity( ply )
-		net.WriteInt( self.Network.CLEAR, 4 )
-	net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
+		self.Players = {}
+
+		net.Start( "ClientPoker" )
+			net.WriteEntity( self )
+			net.WriteEntity( ply )
+			net.WriteInt( self.Network.CLEAR, 4 )
+		net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
+	end )
 
 end
 
@@ -348,7 +401,7 @@ hook.Add( "PlayerLeaveVehicle", "LeavePokerTable", function( ply )
 
 	if IsValid( self ) then
 
-		table.remove( self.Players, table.KeyFromValue( self.Players, caller ) )
+		table.remove( self.Players, table.KeyFromValue( self.Players, ply ) )
 
 		net.Start( "ClientPoker" )
 			net.WriteEntity( self )
@@ -357,7 +410,7 @@ hook.Add( "PlayerLeaveVehicle", "LeavePokerTable", function( ply )
 			net.WriteTable( self.Players )
 		net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
 
-		if (self:GetState() == self.States.STARTING && #self.Players < self.MinPlayers) then
+		if (self:GetState() == self.States.STARTING && table.Count(self.Players) < self.MinPlayers) then
 			self:SetTime(0)
 			self:SetState(self.States.NOPLAY)
 		end
@@ -377,17 +430,20 @@ end )
 function ENT:Think()
 
 	if (self:GetState() == self.States.NOPLAY) then return end
-	if (self:GetState() > self.States.STARTING && #self.Players <= 1) then self:EndGame() return end
+	if (self:GetState() > self.States.STARTING && table.Count(self.Players) <= 1) then self:EndGame() return end
 
-	if (self:GetState() == self.States.STARTING && self:GetTimeLeft() == 0) then
+	if ( self:GetState() == self.States.STARTING && self:GetTimeLeft() == 0 ) then
 		self:SetState(self.States.DEAL)
+		self:SetTime(0)
 	elseif self:GetState() == self.States.DEAL then
-		if self.deck == nil then
+		if ( self:GetTime() == 0 && self:GetTimeLeft() <= 0 ) then
 			self.deck = Cards.Deck()
 			self.deck:Shuffle()
 
 			for k,v in pairs(self.Players) do
-				v.Hand = self.deck:GetHand():ToInt()
+				v.HandT = self.deck:GetHand()
+				v.Hand = v.HandT:ToInt()
+
 				net.Start( "ClientPokerCards" )
 					net.WriteEntity(self)
 					net.WriteEntity(v)
@@ -395,20 +451,29 @@ function ENT:Think()
 				net.Send(v)
 
 				self:SetIn( v, self.DefaultMinBet, 4 )
+				v:GivePokerChips( self.DefaultMinBet, v, self )
 				self:SetPot( self:GetPot()+self.DefaultMinBet )
-
-				if k == #self.Players then
-					self:SetState(self.States.BET)
-					self:SetRound(1)
-					self:SetCurrentPlayerID(1)
-					self:SetTime(0)
-				end
 			end
+
+			self:SetTime(2+CurTime())
+		end
+
+		if ( self:GetTimeLeft() <= 0 ) then
+			self:SetState(self.States.BET)
+			self:SetRound(1)
+			self:SetCurrentPlayerID(1)
+			self:SetTime(0)
 		end
 	elseif self:GetState() == self.States.BET then
-		if self:GetTime() == 0 && self:GetTimeLeft() <= 0 then
+		if ( self:GetTime() == 0 && self:GetTimeLeft() <= 0 ) then
 			self:SetTime(self.BetTime+CurTime())
-		elseif self:GetTimeLeft() <= 0 then
+		end
+		
+		if ( IsValid(self:GetCurrentPlayer()) && IsValid(self.Players[self:GetCurrentPlayerID()+1]) && self:GetTimeLeft() <= 0 ) then
+			self:GetCurrentPlayer():ConCommand( "gmt_poker_fold "..self:EntIndex().." auto" )
+		end
+	
+		if ( !IsValid(self:GetCurrentPlayer()) || self:GetTimeLeft() <= 0 ) then
 			self:SetState(self.States.DRAW)
 			self:SetTime(0)
 			self:NewRound()
@@ -417,7 +482,9 @@ function ENT:Think()
 	elseif self:GetState() == self.States.DRAW then
 		if self:GetTime() == 0 && self:GetTimeLeft() <= 0 then
 			self:SetTime(self.DrawTime+CurTime())
-		elseif self:GetTimeLeft() <= 0 then
+		end
+
+		if self:GetTimeLeft() <= 0 then
 			self:SetState(self.States.BETFINAL)
 			self:SetTime(0)
 			self:NewRound()
@@ -430,7 +497,14 @@ function ENT:Think()
 			self:SetState(self.States.REVEAL)
 			self:SetTime(0)
 			self:NewRound()
-			self:SetCurrentPlayerID(1)
+			
+			for k,v in pairs(self.Players) do
+				net.Start( "ClientPokerCards" )
+					net.WriteEntity(self)
+					net.WriteEntity(v)
+					net.WriteInt(v.Hand,32)
+				net.Send(self.Players)
+			end
 		end
 	elseif self:GetState() == self.States.REVEAL then
 		if self:GetTime() == 0 && self:GetTimeLeft() <= 0 then
