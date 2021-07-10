@@ -30,6 +30,9 @@ SitAnims = {
 	"sit_zen",
 }
 
+local GradColor1 = Color( 21, 100, 110, 250 )
+local GradColor2 = colorutil.Brighten( Color( 84, 44, 97, 225 ), 1.2 )
+
 function IsEmoting( ply )
 
 	return ply:GetNWBool("Emoting") --ply.EmoteID && ply.EmoteID > 0
@@ -71,8 +74,10 @@ end )
 
 ---
 module( "emote", package.seeall )
+
 surface.CreateFont( "MikuHUDMainLarge", { font = "Oswald", size = 38, weight = 400 } )
 surface.CreateFont( "MikuHUDMain", { font = "Oswald", size = 24, weight = 400 } )
+
 usermessage.Hook( "EmoteSit", function( um )
 
 	local ply = ents.GetByIndex( um:ReadShort() )
@@ -120,19 +125,9 @@ hook.Add( "GtowerShowContextMenus", "ShowEmote", function()
 	RADIAL:SetSize( ScrH(), ScrH() )
 	-- RADIAL:SetPaintDebug( true )
 	-- RADIAL:SetRadiusPadding( 50 )
-	RADIAL:SetRadiusScale( 0.5 )
-	-- RADIAL:SetDegreeOffset( 90 )
-	-- RADIAL:SetAlignMode( RADIAL_ALIGN_CENTER )
+	RADIAL:SetRadiusScale( 0.55 )
 	RADIAL:Center()
-	RADIAL:SetPaintSelectColor( Color( 0, 150, 255, 255 ) )
-	-- RADIAL:MakePopup()
-	/*RADIAL.Paint = function( self, w, h )
-		local x, y = self:LocalCursorPos()
-		surface.SetDrawColor( Color( 16, 77, 121, 200 ) )
-		for i=0, 4 do
-			surface.DrawLine( w/2, h/2, x + i, y + i )
-		end
-	end*/
+	RADIAL:SetPaintSelectColor( colorutil.Brighten( GradColor1, 1.5 ) )
 
 	local commands = emote.Commands
 
@@ -166,7 +161,7 @@ hook.Add( "GtowerShowContextMenus", "ShowEmote", function()
 		end
 		p.Paint = function( self, w, h )
 			p:SetColor( Color( 255, 255, 255, 150 ) )
-			draw.RoundedBox( 8, 0, 0, w, h, Color( 16, 77, 121, 150 ) )
+			draw.RoundedBox( 8, 0, 0, w, h, GradColor1 )
 			/*surface.SetDrawColor( Color( 16, 77, 121, 200, 255 ) )
 			surface.SetTexture( gradient )
 			surface.DrawTexturedRect( 0, 0, w, h )*/
@@ -177,8 +172,7 @@ hook.Add( "GtowerShowContextMenus", "ShowEmote", function()
 				surface.SetTexture( gradient )
 				surface.DrawTexturedRect( 0, 0, w, h )*/
 				//surface.DrawRect( 0, 0, w, h )
-				draw.RoundedBox( 8, 0, 0, w, h, Color( 16 - 30, 77 - 30, 121 - 30, 255 ) )
-				draw.RoundedBox( 8, 0, 0, w, h - 2, Color( 16 + 30, 77 + 30, 121 + 30, 255 ) )
+				draw.RoundedBox( 8, 0, 0, w, h, GradColor2 )
 			end
 		end
 
@@ -193,7 +187,7 @@ hook.Add( "GtowerShowContextMenus", "ShowEmote", function()
 		p:SetFont( "MikuHUDMainLarge" )
 		p:SetContentAlignment(5)
 		p.Paint = function( self, w, h )
-			draw.RoundedBox( 8, 0, 0, w, h, Color( 16 - 30, 77 - 30, 121 - 30, 225 ) )
+			draw.RoundedBox( 8, 0, 0, w, h, GradColor1 )
 		end
 	RADIAL:SetCenterPanel( p )
 
