@@ -15,22 +15,26 @@ hook.Add( "SetupPlayerVisibility", "CondoCrapIntoPVS", function( pPlayer, pViewE
 
   if Location.IsCondo(pPlayer.GLocation) then
 
-	   for k,v in pairs( ents.FindByClass("gmt_skycam") ) do
-       --AddOriginToPVS( v:GetPos() )
-     end
+		for k,v in pairs( ents.FindByClass("gmt_skycam") ) do
+			AddOriginToPVS( v:GetPos() )
+		end
 
   end
 
   if pPlayer.GLocation == 30 then
-    for k,v in pairs( ents.FindByClass("gmt_duelcamera") ) do
-      --AddOriginToPVS( v:GetPos() )
-    end
+
+		for k,v in pairs( ents.FindByClass("gmt_duelcamera") ) do
+			AddOriginToPVS( v:GetPos() )
+		end
+
   end
 
   if pPlayer.GLocation == 64 then
-    for k,v in pairs( ents.FindByClass("gmt_monorail") ) do
-      --AddOriginToPVS( v:GetPos() )
-    end
+
+		for k,v in pairs( ents.FindByClass("gmt_monorail") ) do
+			AddOriginToPVS( v:GetPos() )
+		end
+
   end
 
 end )
