@@ -260,12 +260,6 @@ end)
 
 hook.Add("PlayerInitialSpawn", "GTowerCheckAdmin", function(ply)
 
-	for k,v in pairs(player.GetAll()) do
-		if v == ply then continue end
-		local SanitizedName = string.SafeChatName(ply:Name())
-		GAMEMODE:ColorNotifyPlayer( v, SanitizedName.." is now in the tower.", Color(65, 115, 200, 255) )
-	end
-
 	if table.HasValue(GTowerAdmins, ply:SteamID()) || game.SinglePlayer() then
 		ply:SetUserGroup( "superadmin" )
 	elseif table.HasValue(GTowerAdminPrivileged, ply:SteamID()) then
@@ -275,13 +269,16 @@ hook.Add("PlayerInitialSpawn", "GTowerCheckAdmin", function(ply)
 		ply:SetNWBool( "SecretAdmin", true )
 	end
 
-	timer.Simple(0.5,function()
-		net.Start("JoinFriendCheck")
-		net.WriteEntity(ply)
-		net.Broadcast()
-	end)
-
 end )
+
+hook.Add( "PlayerFullyJoined", "JoinedMessage", function(ply)
+	if engine.ActiveGamemode() == "gmtlobby" then
+		GAMEMODE:ColorNotifyAll( T( "JoinLobby", string.SafeChatName(ply:Name()) ), Color(65, 115, 200, 255) )
+	end
+	net.Start("JoinFriendCheck")
+	net.WriteEntity(ply)
+	net.Broadcast()
+end)
 
 function GetAdminRP()
 
