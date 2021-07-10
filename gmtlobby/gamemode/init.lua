@@ -622,12 +622,6 @@ hook.Add( "Location", "BWDev", function( ply, loc )
 
  end )
 
-net.Receive( "ClientFullyConnected", function( len, ply )
-	hook.Call("PlayerFullyJoined",GAMEMODE,ply)
-end )
-
-util.AddNetworkString( "ClientFullyConnected" )
-
 local function giveTester( ply )
 
 	if !ply:GetNWBool("IsNewPlayer") then return end

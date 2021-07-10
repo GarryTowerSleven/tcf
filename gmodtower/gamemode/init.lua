@@ -308,3 +308,9 @@ end
 function GM:AllowModel( ply, model )
 	return GTowerModels.AdminModels[ model ] == nil || ply:IsAdmin()
 end
+
+net.Receive( "ClientFullyConnected", function( len, ply )
+	hook.Call("PlayerFullyJoined",GAMEMODE,ply)
+end )
+
+util.AddNetworkString( "ClientFullyConnected" )

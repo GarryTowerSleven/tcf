@@ -464,13 +464,6 @@ hook.Add( "KeyPress", "UsePlayerMenu", function( ply, key )
 	end
 end )
 
-hook.Add( "CalcView", "FullyConnected", function()
-	hook.Remove( "CalcView", "FullyConnected" )
-	
-	net.Start( "ClientFullyConnected" )
-	net.SendToServer()
-end ) 
-
 /*hook.Add( "PostDrawTranslucentRenderables", "CurveDebug", function(b, sky)
 	if STORED_CURVES && !sky then
 
