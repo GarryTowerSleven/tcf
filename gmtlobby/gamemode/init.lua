@@ -621,3 +621,9 @@ hook.Add( "Location", "BWDev", function( ply, loc )
 	end
 
  end )
+
+net.Receive( "ClientFullyConnected", function( len, ply )
+	hook.Call("PlayerFullyJoined",GAMEMODE,ply)
+end )
+
+util.AddNetworkString( "ClientFullyConnected" )
