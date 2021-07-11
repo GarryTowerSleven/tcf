@@ -368,7 +368,7 @@ RegisterItem("bed",{
 	ClassName = "gmt_suitebed",
 	UniqueInventory = false,
 	DrawModel = true,
-	CanRemove = false,
+	//CanRemove = false,
 	InvCategory = "1", // suite
 	MoveSound = "furniture"
 })
@@ -1772,7 +1772,7 @@ RegisterItem("tv_large",{
 	ClassName = "mediaplayer_tv",
 	UniqueInventory = true,
 	DrawModel = true,
-	CanRemove = false,
+	//CanRemove = false,
 	StoreId = 7,
 	StorePrice = 3150,
 })
