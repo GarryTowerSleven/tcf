@@ -21,34 +21,57 @@ include( "itemslist/posters.lua" )
 include( "itemslist/food.lua" )
 include( "itemslist/bonemods.lua" )
 
-RegisterItem("wooddeskwow",{
-	Name = "Wooden Desk",
-	Description = "This desk is imported directly from the Swedish furniture store, Bullseye.",
-	Model = "models/splayn/rp/of/desk1.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 1,
-	StorePrice = 1300,
-	MoveSound = "furniture3",
+RegisterItem("wooddeskwow",{
+
+	Name = "Wooden Desk",
+
+	Description = "This desk is imported directly from the Swedish furniture store, Bullseye.",
+
+	Model = "models/splayn/rp/of/desk1.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 1,
+
+	StorePrice = 1300,
+
+	MoveSound = "furniture3",
+
 })
 
-RegisterItem( "gmt_texthat", {	Name = "Text Hat",
+RegisterItem( "gmt_texthat", {
+	Name = "Text Hat",
 	Description = "A customizable text hat. Wear your words.",
 	Model = "models/gmod_tower/fedorahat.mdl",
 	UniqueInventory = true,
-	UniqueEquippable = true,
+	UniqueEquippable = true,
+
 	DrawModel = true,
 	Equippable = true,
 	EquipType = "TextHat",
-	ClassName = "gmt_wearable_texthat",
-	CanEntCreate = false,	CanRemove = true,	DrawName = true,	Tradable = true,
-	StoreId = 8,	StorePrice = 30000,
-	RemoveOnDeath = true,	RemoveOnNoEntsLoc = true,
-	ExtraMenuItems = function ( item, menu )
+	ClassName = "gmt_wearable_texthat",
+
+	CanEntCreate = false,
+	CanRemove = true,
+	DrawName = true,
+	Tradable = true,
+
+	StoreId = 8,
+	StorePrice = 30000,
+
+	RemoveOnDeath = true,
+	RemoveOnNoEntsLoc = true,
+
+	ExtraMenuItems = function ( item, menu )
+
 		table.insert( menu, {
 			[ "Name" ] = "Set Height Offset",
-			[ "function" ] = function()
-				local curHeight = LocalPlayer():GetInfoNum( "gmt_hatheight", 0 ) or 0
+			[ "function" ] = function()
+
+				local curHeight = LocalPlayer():GetInfoNum( "gmt_hatheight", 0 ) or 0
+
 				Derma_SliderRequest(
 					"Hat Height",
 					"Please enter the height you wish the text to float above your head.",
@@ -56,11 +79,17 @@ RegisterItem( "gmt_texthat", {	Name = "Text Hat",
 					-50, 50,
 					0,
 					function ( val ) RunConsoleCommand( "gmt_hatheight", val ) end
-				)
+				)
+
 			end
-		} )
-		table.insert( menu, {			[ "Name" ] = "Set Text",			[ "function" ] = function()
-				local curText = LocalPlayer():GetInfo( "gmt_hattext" ) or ""
+		} )
+
+		table.insert( menu, {
+			[ "Name" ] = "Set Text",
+			[ "function" ] = function()
+
+				local curText = LocalPlayer():GetInfo( "gmt_hattext" ) or ""
+
 				Derma_StringRequest(
 					"Hat Text",
 					"Please enter the text you would like to float above your head.",
@@ -71,18 +100,31 @@ RegisterItem( "gmt_texthat", {	Name = "Text Hat",
 						end
 						RunConsoleCommand( "gmt_hattext", text )
 					end
-				)
+				)
+
 			end
-		} )
+		} )
+
 	end,
 
 	EquippableEntity = true,
-	OverrideOnlyEquippable = true,	CreateEquipEntity = function( self )
-		local hatEnt = ents.Create( "gmt_wearable_texthat" )
-		if IsValid( hatEnt ) then			hatEnt.IsActiveEquippable = true			hatEnt:SetPos( self.Ply:GetPos() )			hatEnt:SetOwner( self.Ply )			hatEnt:SetParent( self.Ply )			hatEnt.Owner = self.Ply
+	OverrideOnlyEquippable = true,
+	CreateEquipEntity = function( self )
+
+		local hatEnt = ents.Create( "gmt_wearable_texthat" )
+
+		if IsValid( hatEnt ) then
+			hatEnt.IsActiveEquippable = true
+			hatEnt:SetPos( self.Ply:GetPos() )
+			hatEnt:SetOwner( self.Ply )
+			hatEnt:SetParent( self.Ply )
+			hatEnt.Owner = self.Ply
+
 			hatEnt:Spawn()
-		end
-		return hatEnt
+		end
+
+		return hatEnt
+
 	end
 } )
 
@@ -163,7 +205,7 @@ RegisterItem("endtable",{
 	StoreId = 1,
 	StorePrice = 250,
 	MoveSound = "furniture",
-	NewItem = true
+	
 })
 
 RegisterItem("dustpatiochair",{
@@ -175,7 +217,7 @@ RegisterItem("dustpatiochair",{
 	StoreId = 28,
 	StorePrice = 150,
 	MoveSound = "furniture",
-	NewItem = true
+	
 })
 
 RegisterItem("dustumbrella",{
@@ -187,7 +229,7 @@ RegisterItem("dustumbrella",{
 	StoreId = 28,
 	StorePrice = 500,
 	MoveSound = "furniture",
-	NewItem = true
+	
 })
 
 RegisterItem("infernochair",{
@@ -199,7 +241,7 @@ RegisterItem("infernochair",{
 	StoreId = 1,
 	StorePrice = 350,
 	MoveSound = "furniture",
-	NewItem = true
+	
 })
 
 RegisterItem("nukechair",{
@@ -211,7 +253,7 @@ RegisterItem("nukechair",{
 	StoreId = 1,
 	StorePrice = 200,
 	MoveSound = "furniture",
-	NewItem = true
+	
 })
 
 RegisterItem("nukeofficechair",{
@@ -223,7 +265,7 @@ RegisterItem("nukeofficechair",{
 	StoreId = 1,
 	StorePrice = 500,
 	MoveSound = "furniture",
-	NewItem = true
+	
 })
 
 RegisterItem("nukeofficedesk",{
@@ -235,7 +277,7 @@ RegisterItem("nukeofficedesk",{
 	StoreId = 1,
 	StorePrice = 750,
 	MoveSound = "furniture",
-	NewItem = true
+	
 })
 
 RegisterItem("nukedeskmonitor",{
@@ -247,7 +289,7 @@ RegisterItem("nukedeskmonitor",{
 	StoreId = 7,
 	StorePrice = 800,
 	MoveSound = "furniture",
-	NewItem = true
+	
 })
 
 RegisterItem("boothtable",{
@@ -259,7 +301,7 @@ RegisterItem("boothtable",{
 	StoreId = 1,
 	StorePrice = 275,
 	MoveSound = "furniture",
-	NewItem = true
+	
 })
 
 
@@ -272,7 +314,7 @@ RegisterItem("vintageradio",{
 	StoreId = 7,
 	StorePrice = 350,
 	MoveSound = "furniture",
-	NewItem = true
+	
 })
 
 RegisterItem("basketwood",{
@@ -284,7 +326,7 @@ RegisterItem("basketwood",{
 	StoreId = 1,
 	StorePrice = 75,
 	MoveSound = "wood",
-	NewItem = true
+	
 })
 RegisterItem("tcrack",{
 	Name = "Time Card Rack",
@@ -294,7 +336,7 @@ RegisterItem("tcrack",{
 	DrawModel = true,
 	StoreId = 1,
 	StorePrice = 175,
-	NewItem = true
+	
 })
 RegisterItem("svase",{
 	Name = "Skull Vase",
@@ -305,7 +347,7 @@ RegisterItem("svase",{
 	StoreId = 1,
 	StorePrice = 1000,
 	MoveSound = "concrete",
-	NewItem = true
+	
 })
 
 RegisterItem("barstool",{
@@ -385,7 +427,7 @@ RegisterItem("rbrchrwhite",{
 	DrawModel = true,
 	StoreId = 1,
 	StorePrice = 375,
-	NewItem = true,
+	
 	MoveSound = "furniture3"
 })
 
@@ -397,7 +439,7 @@ RegisterItem("rbrchrblue",{
 	DrawModel = true,
 	StoreId = 1,
 	StorePrice = 375,
-	NewItem = true,
+	
 	MoveSound = "furniture3"
 })
 
@@ -409,7 +451,7 @@ RegisterItem("whitebench",{
 	DrawModel = true,
 	StoreId = 1,
 	StorePrice = 400,
-	NewItem = true,
+	
 	MoveSound = "furniture3"
 })
 
@@ -551,34 +593,62 @@ RegisterItem("computer_monitor",{
 	StorePrice = 130,
 })
 
-RegisterItem("medchair",{
-	Name = "Modern Desk Chair",
-	Description = "A modern chair for your desk.",
-	Model = "models/gmod_tower/medchair.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 1,
-	StorePrice = 400,
-})
-
-RegisterItem("meddesk",{
-	Name = "Modern Desk",
-	Description = "A large modern desk.",
-	Model = "models/gmod_tower/meddesk.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 1,
-	StorePrice = 1000,
-})
-
-RegisterItem("meddeskcor",{
-	Name = "Fancy Desk Corner",
-	Description = "A large fancy desk corner.",
-	Model = "models/gmod_tower/meddeskcor.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 1,
-	StorePrice = 400,
+RegisterItem("medchair",{
+
+	Name = "Modern Desk Chair",
+
+	Description = "A modern chair for your desk.",
+
+	Model = "models/gmod_tower/medchair.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 1,
+
+	StorePrice = 400,
+
+})
+
+
+
+RegisterItem("meddesk",{
+
+	Name = "Modern Desk",
+
+	Description = "A large modern desk.",
+
+	Model = "models/gmod_tower/meddesk.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 1,
+
+	StorePrice = 1000,
+
+})
+
+
+
+RegisterItem("meddeskcor",{
+
+	Name = "Fancy Desk Corner",
+
+	Description = "A large fancy desk corner.",
+
+	Model = "models/gmod_tower/meddeskcor.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 1,
+
+	StorePrice = 400,
+
 })
 
 RegisterItem("couch",{
@@ -859,7 +929,7 @@ RegisterItem("bball",{
 	StoreId = 28,
 	StorePrice = 500,
 	ClassName = "gmt_beachball",
-	NewItem = true
+	
 })
 
 RegisterItem("thermos",{
@@ -870,7 +940,7 @@ RegisterItem("thermos",{
 	DrawModel = true,
 	StoreId = 6,
 	StorePrice = 75,
-	NewItem = true
+	
 })
 /*RegisterItem("juicecup",{
 	Name = "Juice Cup",
@@ -880,7 +950,7 @@ RegisterItem("thermos",{
 	DrawModel = true,
 	StoreId = 6,
 	StorePrice = 70,
-	NewItem = true
+	
 })*/
 RegisterItem("pot01a",{
 	Name = "Tea Kettle",
@@ -891,14 +961,22 @@ RegisterItem("pot01a",{
 	StoreId = 6,
 	StorePrice = 5,
 })
-RegisterItem("compositionnotebook",{
-	Name = "Notebook",
-	Description = "Well, maybe there's something useful written in it related to smoothies. Then again, maybe it's just amusing drawings.",
-	Model = "models/sunabouzu/notebook_elev.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 25,
-	StorePrice = 400,
+RegisterItem("compositionnotebook",{
+
+	Name = "Notebook",
+
+	Description = "Well, maybe there's something useful written in it related to smoothies. Then again, maybe it's just amusing drawings.",
+
+	Model = "models/sunabouzu/notebook_elev.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 25,
+
+	StorePrice = 400,
+
 })
 RegisterItem("lsaber",{
 	Name = "Toy Light Saber",
@@ -910,7 +988,7 @@ RegisterItem("lsaber",{
 	StorePrice = 5000,
 	ClassName = "gmt_lightsaber",
 	MoveSound = "lightsaber",
-	NewItem = true
+	
 })
 RegisterItem( "toytrainsmall", {
 	Name = "Toy Train Small",
@@ -942,7 +1020,7 @@ RegisterItem( "toytrain", {
 	StoreId = 22,
 	StorePrice = 350,
 	ClassName = "gmt_tinybumper",
-	NewItem = true
+	
 })*/
 RegisterItem("plush_fox",{
 	Name = "Plushy: Fox",
@@ -953,7 +1031,7 @@ RegisterItem("plush_fox",{
 	StoreId = 22,
 	StorePrice = 1500,
 	ModelSkinId = 0,
-	NewItem = true,
+	
 	UseSound = "move_plush.wav",
 	MoveSound = "plush"
 })
@@ -987,7 +1065,7 @@ RegisterItem("plush_penguin",{
 	StorePrice = 1800,
 	ModelSkinId = 0,
 	UseSound = "use_penguin.wav",
-	NewItem = true
+	
 })
 
 RegisterItem("plush_penguin2",{
@@ -1021,7 +1099,7 @@ RegisterItem("shotglass",{
 	DrawModel = true,
 	StoreId = 6,
 	StorePrice = 100,
-	NewItem = true,
+	
 	MoveSound = "glass"
 })
 RegisterItem("ppiece",{
@@ -1032,7 +1110,7 @@ RegisterItem("ppiece",{
 	DrawModel = true,
 	StoreId = 6,
 	StorePrice = 75,
-	NewItem = true
+	
 })
 RegisterItem("nbottle",{
 	Name = "Noir Bottle",
@@ -1042,7 +1120,7 @@ RegisterItem("nbottle",{
 	DrawModel = true,
 	StoreId = 6,
 	StorePrice = 200,
-	NewItem = true,
+	
 	MoveSound = "glass"
 })
 RegisterItem("pot02a",{
@@ -1143,27 +1221,47 @@ RegisterItem("1984",{
 	StoreId = 6,
 	StorePrice = 250,
 })
-RegisterItem("book3",{
-	Name = "Coverless Book",
-	Description = "Blue coverless book",
-	Model = "models/sunabouzu/book_single1.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 6,
-	StorePrice = 250,
-	ModelSkinId = 3,
-	MoveSound = "paper",
+RegisterItem("book3",{
+
+	Name = "Coverless Book",
+
+	Description = "Blue coverless book",
+
+	Model = "models/sunabouzu/book_single1.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 6,
+
+	StorePrice = 250,
+
+	ModelSkinId = 3,
+
+	MoveSound = "paper",
+
 })
-RegisterItem("book2",{
-	Name = "Coverless Book",
-	Description = "Red coverless book",
-	Model = "models/sunabouzu/book_single1.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 6,
-	StorePrice = 250,
-	ModelSkinId = 1,
-	MoveSound = "paper",
+RegisterItem("book2",{
+
+	Name = "Coverless Book",
+
+	Description = "Red coverless book",
+
+	Model = "models/sunabouzu/book_single1.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 6,
+
+	StorePrice = 250,
+
+	ModelSkinId = 1,
+
+	MoveSound = "paper",
+
 })
 RegisterItem("pilepaper",{
 	Name = "Pile Of Papers",
@@ -1204,7 +1302,7 @@ RegisterItem("remotecontrol",{
 	Model = "models/gmod_tower/casino/slotmachine.mdl",
 	ClassName = "gmt_toyslots",
 	UniqueInventory = false,
-	NewItem = true,
+	
 	DrawModel = true,
 	StoreId = 7,
 	StorePrice = 4250,
@@ -1216,7 +1314,7 @@ RegisterItem("remotecontrol",{
 	Name = "Light Cube",
 	Description = "Decorate your suite with some shiny ambient lighting, totally not from Rave.",
 	Model = "models/gmod_tower/kartracer/rave/light_cube.mdl",
-	NewItem = true,
+	
 	DrawModel = true,
 	StoreId = 7,
 	StorePrice = 2500,
@@ -1225,7 +1323,7 @@ RegisterItem("glowdonut",{
 	Name = "Glowing Donut",
 	Description = "A big glowing, RGB donut. Perfect for rave parties.",
 	Model = "models/gmod_tower/kartracer/rave/glowing_donut.mdl",
-	NewItem = true,
+	
 	DrawModel = true,
 	StoreId = 7,
 	StorePrice = 5000,
@@ -1240,7 +1338,7 @@ RegisterItem("neon_tube1",{
 	StoreId = 7,
 	StorePrice = 125,
 	ModelSkinId = 0,
-	NewItem = true
+	
 })
 
 RegisterItem("neon_tube2",{
@@ -1282,7 +1380,7 @@ RegisterItem("oldtv",{
 	DrawModel = true,
 	StoreId = 7,
 	StorePrice = 250,
-	NewItem = true
+	
 })
 RegisterItem("modernlamp",{
 	Name = "Modern Lamp",
@@ -1293,7 +1391,7 @@ RegisterItem("modernlamp",{
 	ClassName = "gmt_modernlamp",
 	StoreId = 7,
 	StorePrice = 500,
-	NewItem = true,
+	
 	MoveSound = "furniture"
 })
 RegisterItem("wcooler",{
@@ -1304,7 +1402,7 @@ RegisterItem("wcooler",{
 	DrawModel = true,
 	StoreId = 7,
 	StorePrice = 750,
-	NewItem = true
+	
 })
 RegisterItem("handscan",{
 	Name = "Hand Scanner",
@@ -1314,7 +1412,7 @@ RegisterItem("handscan",{
 	DrawModel = true,
 	StoreId = 7,
 	StorePrice = 525,
-	NewItem = true
+	
 })
 RegisterItem("turntab",{
 	Name = "Turn Table",
@@ -1334,7 +1432,7 @@ RegisterItem("oldpcmonitor",{
 	DrawModel = true,
 	StoreId = 7,
 	StorePrice = 145,
-	NewItem = true
+	
 })
 
 RegisterItem("restauranttable",{
@@ -1402,14 +1500,22 @@ RegisterItem("comfbed",{
 	MoveSound = "cloth"
 })
 
-RegisterItem("filingcabinetwithbooze",{
-	Name = "Filing Cabinet",
-	Description = "These are the only things that ever need to be filed anyway.",
-	Model = "models/sunabouzu/noir_cabinet.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 1,
-	StorePrice = 1000,
+RegisterItem("filingcabinetwithbooze",{
+
+	Name = "Filing Cabinet",
+
+	Description = "These are the only things that ever need to be filed anyway.",
+
+	Model = "models/sunabouzu/noir_cabinet.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 1,
+
+	StorePrice = 1000,
+
 })
 
 RegisterItem("kitchtable",{
@@ -1420,7 +1526,7 @@ RegisterItem("kitchtable",{
 	DrawModel = true,
 	StoreId = 1,
 	StorePrice = 750,
-	NewItem = true,
+	
 	MoveSound = "furniture"
 })
 RegisterItem("comfchair",{
@@ -1441,7 +1547,7 @@ RegisterItem("beachchair",{
 	DrawModel = true,
 	StoreId = 28,
 	StorePrice = 150,
-	NewItem = true,
+	
 	MoveSound = "furniture"
 })
 RegisterItem("poolrailings",{
@@ -1452,7 +1558,7 @@ RegisterItem("poolrailings",{
 	DrawModel = true,
 	StoreId = 28,
 	StorePrice = 100,
-	NewItem = true
+	
 })
 RegisterItem("cocosapling",{
 	Name = "Palm Sapling",
@@ -1462,7 +1568,7 @@ RegisterItem("cocosapling",{
 	DrawModel = true,
 	StoreId = 28,
 	StorePrice = 250,
-	NewItem = true
+	
 })
 RegisterItem("illusive",{
 	Name = "Desk Chair",
@@ -1492,7 +1598,7 @@ RegisterItem("blackcurtain",{
 	DrawModel = true,
 	StoreId = 1,
 	StorePrice = 275,
-	NewItem = true
+	
 })
 RegisterItem("mpillar",{
 	Name = "Big Pillar",
@@ -1502,7 +1608,7 @@ RegisterItem("mpillar",{
 	DrawModel = true,
 	StoreId = 1,
 	StorePrice = 500,
-	NewItem = true,
+	
 	MoveSound = "concrete"
 })
 RegisterItem("mshelf",{
@@ -1513,7 +1619,7 @@ RegisterItem("mshelf",{
 	DrawModel = true,
 	StoreId = 1,
 	StorePrice = 400,
-	NewItem = true
+	
 })
 
 RegisterItem("sofachair",{
@@ -1643,7 +1749,7 @@ RegisterItem("tv",{
 	Model = "models/gmod_tower/suitetv.mdl",
 	ClassName = "gmt_room_tv",
 	DrawModel = true,
-	CanRemove = false,
+	//CanRemove = false,
 	StoreId = 7,
 	StorePrice = 750,
 })
@@ -1700,7 +1806,7 @@ RegisterItem("tseat",{
 	DrawModel = true,
 	StoreId = 1,
 	StorePrice = 525,
-	NewItem = true
+	
 })
 
 RegisterItem("picnic_table",{
@@ -1800,14 +1906,22 @@ RegisterItem("plazaboothstore",{
 	StorePrice = 150,
 })
 
-RegisterItem("coffeetable",{
-	Name = "Modern Coffee Table",
-	Description = "A nice coffee table for your drinks.",
-	Model = "models/gmod_tower/coffeetable.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 1,
-	StorePrice = 800,
+RegisterItem("coffeetable",{
+
+	Name = "Modern Coffee Table",
+
+	Description = "A nice coffee table for your drinks.",
+
+	Model = "models/gmod_tower/coffeetable.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 1,
+
+	StorePrice = 800,
+
 })
 
 RegisterItem("pianostool",{
@@ -1819,16 +1933,26 @@ RegisterItem("pianostool",{
 	StoreId = 27,
 	StorePrice = 150,
 })
-RegisterItem("rave_ball",{
-	Name = "Rave Ball",
-	Description = "Get your rave on with this musical orb. Splashes colorful bursts, and unlike the disco ball, can give people seizures (use responsively).",
-	Model = "models/gmod_tower/discoball.mdl",
-	ClassName = "gmt_raveball",
-	UniqueInventory = true,
-	EnablePhyiscs = true,
-	DrawModel = true,
-	StoreId = 27,
-	StorePrice = 30000,
+RegisterItem("rave_ball",{
+
+	Name = "Rave Ball",
+
+	Description = "Get your rave on with this musical orb. Splashes colorful bursts, and unlike the disco ball, can give people seizures (use responsively).",
+
+	Model = "models/gmod_tower/discoball.mdl",
+
+	ClassName = "gmt_raveball",
+
+	UniqueInventory = true,
+
+	EnablePhyiscs = true,
+
+	DrawModel = true,
+
+	StoreId = 27,
+
+	StorePrice = 30000,
+
 })
 RegisterItem("autopiano",{
 	Name = "Piano",
@@ -1847,7 +1971,7 @@ RegisterItem("drumset",{
 	UniqueInventory = false,
 	DrawModel = true,
 	ClassName = "gmt_instrument_drums",
-	NewItem = true,
+	
 	StoreId = 27,
 	StorePrice = 10000,
 })
@@ -1858,7 +1982,7 @@ RegisterItem("woodcrate",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 75,
-	NewItem = true,
+	
 	MoveSound = "wood"
 })
 RegisterItem("ballarrow",{
@@ -1868,7 +1992,7 @@ RegisterItem("ballarrow",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 500,
-	NewItem = true
+	
 })
 RegisterItem("jerrycan",{
 	Name = "Jerrycan",
@@ -1877,7 +2001,7 @@ RegisterItem("jerrycan",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 1250,
-	NewItem = true
+	
 })
 RegisterItem("cardbox",{
 	Name = "Cardboard Box",
@@ -1886,7 +2010,7 @@ RegisterItem("cardbox",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 25,
-	NewItem = true,
+	
 	MoveSound = "cloth"
 })
 RegisterItem("tire",{
@@ -1896,7 +2020,7 @@ RegisterItem("tire",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 125,
-	NewItem = true,
+	
 	MoveSound = "cloth"
 })
 RegisterItem("andalouse",{
@@ -1906,7 +2030,7 @@ RegisterItem("andalouse",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 250,
-	NewItem = true,
+	
 })
 RegisterItem("redvalve",{
 	Name = "Red Valve",
@@ -1915,7 +2039,7 @@ RegisterItem("redvalve",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 50,
-	NewItem = true
+	
 })
 RegisterItem("goldingot",{
 	Name = "Pure Gold Ingot",
@@ -1924,7 +2048,7 @@ RegisterItem("goldingot",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 100000,
-	NewItem = true
+	
 })
 RegisterItem("woodpile",{
 	Name = "Wood Pile",
@@ -1933,7 +2057,7 @@ RegisterItem("woodpile",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 175,
-	NewItem = true
+	
 })
 RegisterItem("mopbucket",{
 	Name = "Mop And Bucket",
@@ -1942,7 +2066,7 @@ RegisterItem("mopbucket",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 100,
-	NewItem = true
+	
 })
 RegisterItem("waterspigot",{
 	Name = "Water Spigot",
@@ -1952,7 +2076,7 @@ RegisterItem("waterspigot",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 275,
-	NewItem = true
+	
 })
 RegisterItem("anomalabook",{
 	Name = "How I Remade GMod Tower.",
@@ -1961,18 +2085,28 @@ RegisterItem("anomalabook",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 10000,
-	NewItem = true
+	
 })
-RegisterItem("woodgametable",{
-	Name = "Wooden Table",
-	Description = "A wooden multipurpose table.",
-	Model = "models/gmod_tower/gametable.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 1,
-	StorePrice = 1000,
-	MoveSound = "furniture2",
-	DateAdded = 1399291083,
+RegisterItem("woodgametable",{
+
+	Name = "Wooden Table",
+
+	Description = "A wooden multipurpose table.",
+
+	Model = "models/gmod_tower/gametable.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 1,
+
+	StorePrice = 1000,
+
+	MoveSound = "furniture2",
+
+	DateAdded = 1399291083,
+
 })
 
 RegisterItem("ttttable",{
@@ -1983,7 +2117,7 @@ RegisterItem("ttttable",{
 	DrawModel = true,
 	StoreId = 22,
 	StorePrice = 2000,
-	NewItem = true,
+	
 	MoveSound = "furniture2"
 })
 RegisterItem("suitetetris",{
@@ -2001,7 +2135,7 @@ RegisterItem("modelrocket",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 2250,
-	NewItem = true
+	
 })
 RegisterItem("weathervane",{
 	Name = "Weather Vane",
@@ -2010,7 +2144,7 @@ RegisterItem("weathervane",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 500,
-	NewItem = true
+	
 })
 RegisterItem("trafficcone",{
 	Name = "Traffic Cone",
@@ -2019,7 +2153,7 @@ RegisterItem("trafficcone",{
 	DrawModel = true,
 	StoreId = 16,
 	StorePrice = 50,
-	NewItem = true
+	
 })
 RegisterItem("turkeydish",{
 	Name = "Turkey Dinner",
@@ -2158,7 +2292,6 @@ RegisterItem("grain",{
 	DrawModel = true,
 	StoreId = 20,
 	StorePrice = 500,
-	NewItem = true,
 	MoveSound = "cloth"
 })
 RegisterItem("bushsmall",{
@@ -2168,7 +2301,6 @@ RegisterItem("bushsmall",{
 	DrawModel = true,
 	StoreId = 20,
 	StorePrice = 250,
-	NewItem = true
 })
 RegisterItem("bushbig",{
 	Name = "Big Bush",
@@ -2177,7 +2309,6 @@ RegisterItem("bushbig",{
 	DrawModel = true,
 	StoreId = 20,
 	StorePrice = 350,
-	NewItem = true
 })
 RegisterItem("bushred",{
 	Name = "Small Red Bush",
@@ -2186,7 +2317,6 @@ RegisterItem("bushred",{
 	DrawModel = true,
 	StoreId = 20,
 	StorePrice = 150,
-	NewItem = true
 })
 RegisterItem("ferns",{
 	Name = "Ferns",
@@ -2195,7 +2325,6 @@ RegisterItem("ferns",{
 	DrawModel = true,
 	StoreId = 20,
 	StorePrice = 175,
-	NewItem = true
 })
 RegisterItem("wildbush",{
 	Name = "Wild Bush",
@@ -2204,7 +2333,6 @@ RegisterItem("wildbush",{
 	DrawModel = true,
 	StoreId = 20,
 	StorePrice = 175,
-	NewItem = true
 })
 RegisterItem("lavenderbushes",{
 	Name = "Lavender Bush",
@@ -2213,7 +2341,7 @@ RegisterItem("lavenderbushes",{
 	DrawModel = true,
 	StoreId = 20,
 	StorePrice = 200,
-	NewItem = true
+	
 })
 RegisterItem("rosebush",{
 	Name = "Rose Bush",
@@ -2222,7 +2350,7 @@ RegisterItem("rosebush",{
 	DrawModel = true,
 	StoreId = 20,
 	StorePrice = 210,
-	NewItem = true
+	
 })
 RegisterItem("hydrabush",{
 	Name = "Big Hydrangea Bush",
@@ -2231,7 +2359,7 @@ RegisterItem("hydrabush",{
 	DrawModel = true,
 	StoreId = 20,
 	StorePrice = 375,
-	NewItem = true
+	
 })
 RegisterItem("fallentree",{
 	Name = "Fallen Tree Trunk",
@@ -2240,7 +2368,7 @@ RegisterItem("fallentree",{
 	DrawModel = true,
 	StoreId = 20,
 	StorePrice = 750,
-	NewItem = true
+	
 })
 RegisterItem("treestump",{
 	Name = "Tree Stump",
@@ -2249,7 +2377,7 @@ RegisterItem("treestump",{
 	DrawModel = true,
 	StoreId = 20,
 	StorePrice = 375,
-	NewItem = true
+	
 })
 RegisterItem("bigrock",{
 	Name = "Big Rock",
@@ -2258,7 +2386,7 @@ RegisterItem("bigrock",{
 	DrawModel = true,
 	StoreId = 20,
 	StorePrice = 250,
-	NewItem = true
+	
 })
 RegisterItem("rockpile",{
 	Name = "Rock Pile",
@@ -2267,7 +2395,7 @@ RegisterItem("rockpile",{
 	DrawModel = true,
 	StoreId = 20,
 	StorePrice = 175,
-	NewItem = true,
+	
 })
 RegisterItem("ggnome",{
 	Name = "Garden Gnome",
@@ -2276,73 +2404,127 @@ RegisterItem("ggnome",{
 	DrawModel = true,
 	StoreId = 20,
 	StorePrice = 1000,
-	NewItem = true,
+	
 })
 
-RegisterItem("leatherarmchair",{
-	Name = "Leather Armchair",
-	Description = "No* cows were harmed in the making of this chair. *Lots of",
-	Model = "models/props_vtmb/armchair.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 1,
-	StorePrice = 700,
-	MoveSound = "furniture2",
+RegisterItem("leatherarmchair",{
+
+	Name = "Leather Armchair",
+
+	Description = "No* cows were harmed in the making of this chair. *Lots of",
+
+	Model = "models/props_vtmb/armchair.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 1,
+
+	StorePrice = 700,
+
+	MoveSound = "furniture2",
+
 })
 
-RegisterItem("leathersofa",{
-	Name = "Leather Sofa",
-	Description = "Triple the Leather Armchair fun! Wow!",
-	Model = "models/props_vtmb/sofa.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 1,
-	StorePrice = 1700,
-	MoveSound = "furniture3",
+RegisterItem("leathersofa",{
+
+	Name = "Leather Sofa",
+
+	Description = "Triple the Leather Armchair fun! Wow!",
+
+	Model = "models/props_vtmb/sofa.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 1,
+
+	StorePrice = 1700,
+
+	MoveSound = "furniture3",
+
 })
 
-RegisterItem("chairfancyhotel",{
-	Name = "Hotel Chair",
-	Description = "We stole this chair from a hotel just for you. Don't tell anybody.",
-	Model = "models/props_vtmb/chairfancyhotel.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 1,
-	StorePrice = 1100,
-	MoveSound = "furniture",
+RegisterItem("chairfancyhotel",{
+
+	Name = "Hotel Chair",
+
+	Description = "We stole this chair from a hotel just for you. Don't tell anybody.",
+
+	Model = "models/props_vtmb/chairfancyhotel.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 1,
+
+	StorePrice = 1100,
+
+	MoveSound = "furniture",
+
 })
 
-RegisterItem("brownarmchair",{
-	Name = "Brown Armchair",
-	Description = "Only has one cushion, and it makes a really awful cushion fort.",
-	Model = "models/splayn/rp/lr/chair.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 1,
-	StorePrice = 800,
-	MoveSound = "furniture2",
+RegisterItem("brownarmchair",{
+
+	Name = "Brown Armchair",
+
+	Description = "Only has one cushion, and it makes a really awful cushion fort.",
+
+	Model = "models/splayn/rp/lr/chair.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 1,
+
+	StorePrice = 800,
+
+	MoveSound = "furniture2",
+
 })
 
-RegisterItem("brownsofa",{
-	Name = "Brown Sofa",
-	Description = "Comes with three cushions, for a fort that's way better than the Brown Armchair one.",
-	Model = "models/splayn/rp/lr/couch.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 1,
-	StorePrice = 2000,
-	MoveSound = "furniture3",
+RegisterItem("brownsofa",{
+
+	Name = "Brown Sofa",
+
+	Description = "Comes with three cushions, for a fort that's way better than the Brown Armchair one.",
+
+	Model = "models/splayn/rp/lr/couch.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 1,
+
+	StorePrice = 2000,
+
+	MoveSound = "furniture3",
+
 })
 
-RegisterItem("moderncouchpt",{
-	Name = "Modern Couch",
-	Description = "Made from the finest yak hair and goose down, you'd think this would be comfortable. Unfortunately, the inside is yak hair and the outside is goose down. Also, it's modern.",
-	Model = "models/pt/lobby/pt_couch.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 1,
-	StorePrice = 1400,
-	MoveSound = "furniture3",
+RegisterItem("moderncouchpt",{
+
+	Name = "Modern Couch",
+
+	Description = "Made from the finest yak hair and goose down, you'd think this would be comfortable. Unfortunately, the inside is yak hair and the outside is goose down. Also, it's modern.",
+
+	Model = "models/pt/lobby/pt_couch.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 1,
+
+	StorePrice = 1400,
+
+	MoveSound = "furniture3",
+
 })
 
 RegisterItem("btoilet",{
@@ -2537,226 +2719,431 @@ RegisterItem( "Duel357", {
 	WeaponName = ".357",
 } )
 
--- Virus weapons
-RegisterItem( "Duel9mm", {
-	Base = "DuelMain",
-	Name = "Duel - 9mm",
-	Model = "models/weapons/w_vir_9mm1.mdl",
-	StorePrice = 200,
-	WeaponClass = "weapon_9mm",
-	WeaponName = "9mm",
-} )
-
-RegisterItem( "DuelDoubleBarrel", {
-	Base = "DuelMain",
-	Name = "Duel - Double Barrel",
-	Model = "models/weapons/w_vir_doubleb.mdl",
-	StorePrice = 250,
-	WeaponClass = "weapon_doublebarrel",
-	WeaponName = "Double Barrel",
-} )
-
-RegisterItem( "DuelFlak", {
-	Base = "DuelMain",
-	Name = "Duel - Flak Handgun",
-	Model = "models/weapons/w_vir_flakhg.mdl",
-	StorePrice = 800,
-	WeaponClass = "weapon_flakhandgun",
-	WeaponName = "Flak",
-} )
-
-RegisterItem( "DuelPlasma", {
-	Base = "DuelMain",
-	Name = "Duel - Plasma Autorifle",
-	Model = "models/weapons/w_vir_par.mdl",
-	StorePrice = 250,
-	WeaponClass = "weapon_plasmaautorifle",
-	WeaponName = "Plasma Autorifle",
-} )
-
-RegisterItem( "DuelRCP120", {
-	Base = "DuelMain",
-	Name = "Duel - RCP120",
-	Model = "models/weapons/w_rcp120.mdl",
-	StorePrice = 250,
-	WeaponClass = "weapon_rcp120",
-	WeaponName = "RCP120",
-} )
-
-RegisterItem( "DuelSciFi", {
-	Base = "DuelMain",
-	Name = "Duel - Sci-Fi Handgun",
-	Model = "models/weapons/w_vir_scifihg.mdl",
-	StorePrice = 250,
-	WeaponClass = "weapon_scifihandgun",
-	WeaponName = "Sci-Fi Handgun",
-} )
-
-RegisterItem( "DuelSilencers", {
-	Base = "DuelMain",
-	Name = "Duel - Dual Silencers",
-	Model = "models/weapons/w_vir_dsilen.mdl",
-	StorePrice = 200,
-	WeaponClass = "weapon_silencers",
-	WeaponName = "Dual Silencers",
-} )
-
-RegisterItem( "DuelSniperV", {
-	Base = "DuelMain",
-	Name = "Duel - Scope Enhanced Sniper Rifle",
-	Model = "models/weapons/w_pvp_as50.mdl",
-	StorePrice = 200,
-	WeaponClass = "weapon_sniperrifle",
-	WeaponName = "Scope Enhanced Sniper Rifle",
-} )
-
-RegisterItem( "DuelSonicShotgun", {
-	Base = "DuelMain",
-	Name = "Duel - Sonic Shotgun",
-	Model = "models/weapons/w_vir_scattergun.mdl",
-	StorePrice = 250,
-	WeaponClass = "weapon_sonicshotgun",
-	WeaponName = "Sonic Shotgun",
-} )
-
-RegisterItem( "DuelTommygun", {
-	Base = "DuelMain",
-	Name = "Duel - Tommygun",
-	Model = "models/weapons/w_pvp_tom.mdl",
-	StorePrice = 250,
-	WeaponClass = "weapon_tommygun",
-	WeaponName = "Tommygun",
+-- Virus weapons
+
+RegisterItem( "Duel9mm", {
+
+	Base = "DuelMain",
+
+	Name = "Duel - 9mm",
+
+	Model = "models/weapons/w_vir_9mm1.mdl",
+
+	StorePrice = 200,
+
+	WeaponClass = "weapon_9mm",
+
+	WeaponName = "9mm",
+
 } )
 
-RegisterItem("stocking",{
-	Name = "Stocking",
-	Description = "A decorative stocking for all your small gifts.",
-	Model = "models/wilderness/stocking.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = 10,
-	StorePrice = 125,
-
-	/*Manipulator = function( ang, pos, normal )
-		ang:RotateAroundAxis( ang:Right(), 270 )
-		ang:RotateAroundAxis( ang:Up(), 180 )
-		ang:RotateAroundAxis( ang:Forward(), 180 )
-
-		pos = pos + ( normal * -15 )
-
-		return pos
-	end*/
-})
-
-for i=0, 8 do
-	RegisterItem("presenta" .. i,{
-		Name = "Big Present #" ..( i + 1 ),
-		Description = "A decorative large present to put under your christmas tree.",
-		Model = "models/wilderness/presenta.mdl",
-		UniqueInventory = false,
-		DrawModel = true,
-		StoreId = 10,
-		ModelSkinId = i,
-		StorePrice = 180,
-	})
-end
-
-for i=0, 7 do
-	RegisterItem("present2b" .. i,{
-		Name = "Present #" ..( i + 1 ),
-		Description = "A decorative present to put under your christmas tree.",
-		Model = "models/wilderness/presentb.mdl",
-		UniqueInventory = false,
-		DrawModel = true,
-		StoreId = 10,
-		ModelSkinId = i,
-		StorePrice = 80,
-	})
-end
-
-RegisterItem("christmastree",{
-	Name = "Christmas Tree w/ Lights and Train",
-	Description = "A celebrative christmas tree with its own train set and lights!",
-	Model = "models/wilderness/hanukkahtree.mdl",
-	ClassName = "gmt_christmas_tree",
-	UniqueInventory = true,
-	DrawModel = true,
-	CanRemove = true,
-	StoreId = 10,
-	StorePrice = 10000,
-})
-
-RegisterItem("christmastreesimple",{
-	Name = "Christmas Tree",
-	Description = "A celebrative christmas tree!",
-	Model = "models/wilderness/hanukkahtree.mdl",
-	ClassName = "gmt_christmas_tree_simple",
-	UniqueInventory = true,
-	DrawModel = true,
-	CanRemove = true,
-	StoreId = 10,
-	StorePrice = 3000,
+
+
+RegisterItem( "DuelDoubleBarrel", {
+
+	Base = "DuelMain",
+
+	Name = "Duel - Double Barrel",
+
+	Model = "models/weapons/w_vir_doubleb.mdl",
+
+	StorePrice = 250,
+
+	WeaponClass = "weapon_doublebarrel",
+
+	WeaponName = "Double Barrel",
+
+} )
+
+
+
+RegisterItem( "DuelFlak", {
+
+	Base = "DuelMain",
+
+	Name = "Duel - Flak Handgun",
+
+	Model = "models/weapons/w_vir_flakhg.mdl",
+
+	StorePrice = 800,
+
+	WeaponClass = "weapon_flakhandgun",
+
+	WeaponName = "Flak",
+
+} )
+
+
+
+RegisterItem( "DuelPlasma", {
+
+	Base = "DuelMain",
+
+	Name = "Duel - Plasma Autorifle",
+
+	Model = "models/weapons/w_vir_par.mdl",
+
+	StorePrice = 250,
+
+	WeaponClass = "weapon_plasmaautorifle",
+
+	WeaponName = "Plasma Autorifle",
+
+} )
+
+
+
+RegisterItem( "DuelRCP120", {
+
+	Base = "DuelMain",
+
+	Name = "Duel - RCP120",
+
+	Model = "models/weapons/w_rcp120.mdl",
+
+	StorePrice = 250,
+
+	WeaponClass = "weapon_rcp120",
+
+	WeaponName = "RCP120",
+
+} )
+
+
+
+RegisterItem( "DuelSciFi", {
+
+	Base = "DuelMain",
+
+	Name = "Duel - Sci-Fi Handgun",
+
+	Model = "models/weapons/w_vir_scifihg.mdl",
+
+	StorePrice = 250,
+
+	WeaponClass = "weapon_scifihandgun",
+
+	WeaponName = "Sci-Fi Handgun",
+
+} )
+
+
+
+RegisterItem( "DuelSilencers", {
+
+	Base = "DuelMain",
+
+	Name = "Duel - Dual Silencers",
+
+	Model = "models/weapons/w_vir_dsilen.mdl",
+
+	StorePrice = 200,
+
+	WeaponClass = "weapon_silencers",
+
+	WeaponName = "Dual Silencers",
+
+} )
+
+
+
+RegisterItem( "DuelSniperV", {
+
+	Base = "DuelMain",
+
+	Name = "Duel - Scope Enhanced Sniper Rifle",
+
+	Model = "models/weapons/w_pvp_as50.mdl",
+
+	StorePrice = 200,
+
+	WeaponClass = "weapon_sniperrifle",
+
+	WeaponName = "Scope Enhanced Sniper Rifle",
+
+} )
+
+
+
+RegisterItem( "DuelSonicShotgun", {
+
+	Base = "DuelMain",
+
+	Name = "Duel - Sonic Shotgun",
+
+	Model = "models/weapons/w_vir_scattergun.mdl",
+
+	StorePrice = 250,
+
+	WeaponClass = "weapon_sonicshotgun",
+
+	WeaponName = "Sonic Shotgun",
+
+} )
+
+
+
+RegisterItem( "DuelTommygun", {
+
+	Base = "DuelMain",
+
+	Name = "Duel - Tommygun",
+
+	Model = "models/weapons/w_pvp_tom.mdl",
+
+	StorePrice = 250,
+
+	WeaponClass = "weapon_tommygun",
+
+	WeaponName = "Tommygun",
+
+} )
+
+RegisterItem("stocking",{
+
+	Name = "Stocking",
+
+	Description = "A decorative stocking for all your small gifts.",
+
+	Model = "models/wilderness/stocking.mdl",
+
+	UniqueInventory = false,
+
+	DrawModel = true,
+
+	StoreId = 10,
+
+	StorePrice = 125,
+
+
+
+	/*Manipulator = function( ang, pos, normal )
+
+		ang:RotateAroundAxis( ang:Right(), 270 )
+
+		ang:RotateAroundAxis( ang:Up(), 180 )
+
+		ang:RotateAroundAxis( ang:Forward(), 180 )
+
+
+
+		pos = pos + ( normal * -15 )
+
+
+
+		return pos
+
+	end*/
+
+})
+
+
+
+for i=0, 8 do
+
+	RegisterItem("presenta" .. i,{
+
+		Name = "Big Present #" ..( i + 1 ),
+
+		Description = "A decorative large present to put under your christmas tree.",
+
+		Model = "models/wilderness/presenta.mdl",
+
+		UniqueInventory = false,
+
+		DrawModel = true,
+
+		StoreId = 10,
+
+		ModelSkinId = i,
+
+		StorePrice = 180,
+
+	})
+
+end
+
+
+
+for i=0, 7 do
+
+	RegisterItem("present2b" .. i,{
+
+		Name = "Present #" ..( i + 1 ),
+
+		Description = "A decorative present to put under your christmas tree.",
+
+		Model = "models/wilderness/presentb.mdl",
+
+		UniqueInventory = false,
+
+		DrawModel = true,
+
+		StoreId = 10,
+
+		ModelSkinId = i,
+
+		StorePrice = 80,
+
+	})
+
+end
+
+
+
+RegisterItem("christmastree",{
+
+	Name = "Christmas Tree w/ Lights and Train",
+
+	Description = "A celebrative christmas tree with its own train set and lights!",
+
+	Model = "models/wilderness/hanukkahtree.mdl",
+
+	ClassName = "gmt_christmas_tree",
+
+	UniqueInventory = true,
+
+	DrawModel = true,
+
+	CanRemove = true,
+
+	StoreId = 10,
+
+	StorePrice = 10000,
+
+})
+
+
+
+RegisterItem("christmastreesimple",{
+
+	Name = "Christmas Tree",
+
+	Description = "A celebrative christmas tree!",
+
+	Model = "models/wilderness/hanukkahtree.mdl",
+
+	ClassName = "gmt_christmas_tree_simple",
+
+	UniqueInventory = true,
+
+	DrawModel = true,
+
+	CanRemove = true,
+
+	StoreId = 10,
+
+	StorePrice = 3000,
+
 })
 
 // New Halloween stuff
 //-----------------------------
 
-RegisterItem("flaskpotion",{
-	Name = "Flask Potion",
-	Description = "Please, do not drink this.",
-	Model = "models/props_halloween/hwn_flask_vial.mdl",
-	DrawModel = true,
-	StorePrice = 100,
+RegisterItem("flaskpotion",{
+
+	Name = "Flask Potion",
+
+	Description = "Please, do not drink this.",
+
+	Model = "models/props_halloween/hwn_flask_vial.mdl",
+
+	DrawModel = true,
+
+	StorePrice = 100,
+
 })
-RegisterItem("hwpumpkin1",{
-	Name = "Pumpkin #1",
-	Description = "A pumpkin.",
-	Model = "models/map_detail/halloween/pumpkin_face_01.mdl",
-	DrawModel = true,
-	StorePrice = 100,
+RegisterItem("hwpumpkin1",{
+
+	Name = "Pumpkin #1",
+
+	Description = "A pumpkin.",
+
+	Model = "models/map_detail/halloween/pumpkin_face_01.mdl",
+
+	DrawModel = true,
+
+	StorePrice = 100,
+
 })
-RegisterItem("hwpumpkin2",{
-	Name = "Pumpkin #2",
-	Description = "A pumpkin.",
-	Model = "models/map_detail/halloween/pumpkin_face_02.mdl",
-	DrawModel = true,
-	StorePrice = 100,
+RegisterItem("hwpumpkin2",{
+
+	Name = "Pumpkin #2",
+
+	Description = "A pumpkin.",
+
+	Model = "models/map_detail/halloween/pumpkin_face_02.mdl",
+
+	DrawModel = true,
+
+	StorePrice = 100,
+
 })
-RegisterItem("hwpumpkin3",{
-	Name = "Pumpkin #3",
-	Description = "A pumpkin.",
-	Model = "models/map_detail/halloween/pumpkins_01.mdl",
-	DrawModel = true,
-	StorePrice = 100,
+RegisterItem("hwpumpkin3",{
+
+	Name = "Pumpkin #3",
+
+	Description = "A pumpkin.",
+
+	Model = "models/map_detail/halloween/pumpkins_01.mdl",
+
+	DrawModel = true,
+
+	StorePrice = 100,
+
 })
-RegisterItem("hwpumpkin4",{
-	Name = "Pumpkin #4",
-	Description = "A pumpkin.",
-	Model = "models/map_detail/halloween/pumpkins_03.mdl",
-	DrawModel = true,
-	StorePrice = 100,
+RegisterItem("hwpumpkin4",{
+
+	Name = "Pumpkin #4",
+
+	Description = "A pumpkin.",
+
+	Model = "models/map_detail/halloween/pumpkins_03.mdl",
+
+	DrawModel = true,
+
+	StorePrice = 100,
+
 })
-RegisterItem("cardboardzombie",{
-	Name = "Zombie Cutout",
-	Description = "Braaiinsss...",
-	Model = "models/zerochain/props_halloween/cardboard_zombie01.mdl",
-	DrawModel = true,
+RegisterItem("cardboardzombie",{
+
+	Name = "Zombie Cutout",
+
+	Description = "Braaiinsss...",
+
+	Model = "models/zerochain/props_halloween/cardboard_zombie01.mdl",
+
+	DrawModel = true,
+
 	DrawName = true,
-	StorePrice = 100,
+	StorePrice = 100,
+
 })
-RegisterItem("scarecrow",{
-	Name = "Scarecrow",
-	Description = "That's a scary crow you got there!",
-	Model = "models/props_manor/gmt_scarycrowman.mdl",
-	DrawModel = true,
-	StorePrice = 100,
+RegisterItem("scarecrow",{
+
+	Name = "Scarecrow",
+
+	Description = "That's a scary crow you got there!",
+
+	Model = "models/props_manor/gmt_scarycrowman.mdl",
+
+	DrawModel = true,
+
+	StorePrice = 100,
+
 })
-RegisterItem("coffin",{
-	Name = "Coffin",
-	Description = "Bell not included.",
-	Model = "models/props_manor/coffin_02.mdl",
-	DrawModel = true,
-	StorePrice = 100,
+RegisterItem("coffin",{
+
+	Name = "Coffin",
+
+	Description = "Bell not included.",
+
+	Model = "models/props_manor/coffin_02.mdl",
+
+	DrawModel = true,
+
+	StorePrice = 100,
+
 	UseSound = "misc/halloween/spell_skeleton_horde_cast.wav",
 })
 
