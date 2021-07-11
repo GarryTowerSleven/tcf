@@ -209,10 +209,12 @@ local function FixMapBugs()
 	 	v:SetAngles(v:GetAngles() - Angle(0,-15,0))
 	end
 
-	//for k,v in pairs( ents.FindByClass("env_projectedtexture") ) do
-	//	v:Remove()
-	//end
 
+    for k,v in pairs( ents.FindInSphere( Vector(2688, 0, -556), 600 ) ) do
+		if v:GetClass() == "C_EnvProjectedTexture" then
+			v:Remove()
+		end
+	end
 end
 
 local function SpawnGameBanner()
