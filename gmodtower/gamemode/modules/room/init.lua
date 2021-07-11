@@ -2,7 +2,6 @@
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("room_maps.lua")
---AddCSLuaFile("cl_closet.lua")
 
 module("GtowerRooms", package.seeall )
 
@@ -11,7 +10,6 @@ include("sql.lua")
 include("room_maps.lua")
 include("concommand.lua")
 include("hook.lua")
---include("closet.lua")
 include("network.lua")
 include("player.lua")
 include("room/room.lua")

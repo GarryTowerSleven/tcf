@@ -519,7 +519,7 @@ concommand.Add( "gmt_resetroom", function(ply)
 
 		local ItemId = GTowerItems:FindByEntity( v )
 		if !ItemId then
-			print(ply:Name().." is resetting their condo, but the following entity failed to remove: "..tostring(v))
+			MsgC( co_color2, ply:Name().." is resetting their condo, but the following entity failed to remove: "..tostring(v) )
 		end
 
 		local Item = GTowerItems:CreateById( ItemId, ply )

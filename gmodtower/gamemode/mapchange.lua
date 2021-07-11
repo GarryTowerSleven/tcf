@@ -89,7 +89,7 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 			if ply:IsValid() then
 				ply:MsgT("FailedMapChange")
 			else
-				print("You cannot change levels while there is poker or duel going. Use gmt_forcelevel to override this.")
+				MsgC( co_color2, "You cannot change levels while there is poker or duel going. Use gmt_forcelevel to override this." )
 			end
 			return
 		end

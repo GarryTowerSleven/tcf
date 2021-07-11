@@ -138,7 +138,6 @@ end
 local function SpawnCondoToilets()
 	for k,v in pairs( ents.FindByClass("gmt_roomloc") ) do
 		AddL2Seat( "models/map_detail/condo_toilet.mdl", v:GetPos() + Vector( -35, -155, 5 ), Angle(0, 180, 0), 0, Color(255, 255, 255))
-		print(tostring(v:GetPos() + Vector( 20, 5, 0 )))
 	end
 end
 

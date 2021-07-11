@@ -59,7 +59,7 @@ function THEATER:Init( locId, info )
 		o._Video = VIDEO:Init( info )
 
 	end
-	PrintTable(info)
+	//PrintTable(info)
 	return o
 
 end
