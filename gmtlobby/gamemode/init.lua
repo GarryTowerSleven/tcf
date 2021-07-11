@@ -638,7 +638,17 @@ local function giveTester( ply )
 	Slot:ItemChanged()
 
 	ply:AddMoney( 1500 )
-	ply:Msg2( "Thanks for testing GMod Tower: Deluxe! An exclusive item has appeared in your vault.", "heart" )
+
+	local msg
+	local rand = math.random( 1, 3 )
+
+	if rand == 2 then
+		msg = "Danke, dass du GMod Tower: Deluxe getestet hast! Ein exklusiver Gegenstand ist in Ihrem Tresor aufgetaucht."
+	else 
+		msg = "Thanks for testing GMod Tower: Deluxe! An exclusive item has appeared in your vault."
+	end
+
+	ply:Msg2( msg, "heart" )
   
 end
 

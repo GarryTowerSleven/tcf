@@ -30,7 +30,7 @@ SitAnims = {
 	"sit_zen",
 }
 
-local GradColor1 = Color( 21, 100, 110, 250 )
+local GradColor1 = Color( 21, 100, 110, 230 )
 local GradColor2 = colorutil.Brighten( Color( 84, 44, 97, 225 ), 1.2 )
 
 function IsEmoting( ply )
