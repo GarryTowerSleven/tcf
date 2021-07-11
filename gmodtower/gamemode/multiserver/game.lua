@@ -60,7 +60,7 @@ function GTowerServers:RedirectPlayers( ip, port, password, players, NoCheckGone
 			end
 		end
 
-		GAMEMODE:ColorNotifyAll( "Starting a game of "..gameName.." with "..tostring( numPlayers ).." players!" , Color(154, 218, 235, 255) )
+		GAMEMODE:ColorNotifyAll( T("GamemodeStartingChat", gameName, tostring( numPlayers )), Color(154, 218, 235, 255) )
 	end
 
 	local ips = {}
