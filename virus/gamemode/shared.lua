@@ -50,6 +50,7 @@ function GM:GetTimeLeft()
 end
 
 Loadables.Load( {
+	"clientsettings",
 	"achivement",
 	"friends",
 	"afk2",

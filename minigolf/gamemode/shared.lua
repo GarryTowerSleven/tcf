@@ -150,6 +150,7 @@ TEAM_PLAYING = 1
 TEAM_FINISHED = 2
 
 Loadables.Load( {
+	"clientsettings",
 	"achivement",
 	"friends",
 	"commands",

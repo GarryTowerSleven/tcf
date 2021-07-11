@@ -4,6 +4,7 @@ GM.Name 	= "GMod Tower: Source Karts"
 DeriveGamemode( "gmodtower" )
 
 Loadables.Load( {
+	"clientsettings",
 	"achivement",
 	"friends",
 	"commands",
