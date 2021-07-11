@@ -63,7 +63,8 @@ end
 
 function ENT:CheckOwnerFix()
 	timer.Simple(2,function()
-		if IsValid(self:GetOwner()) then
+		if self:GetOwner() == null then return end
+		if IsValid( self:GetOwner() ) then
 			self:CheckOwnerFix()
 		else
 			self:Remove()
