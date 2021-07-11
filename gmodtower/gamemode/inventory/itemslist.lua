@@ -1770,7 +1770,7 @@ RegisterItem("tv_large",{
 	Description = "Watch YouTube and other videos on a larger screen.",
 	Model = "models/gmod_tower/suitetv_large.mdl",
 	ClassName = "mediaplayer_tv",
-	UniqueInventory = true,
+	UniqueInventory = false,
 	DrawModel = true,
 	//CanRemove = false,
 	StoreId = 7,
