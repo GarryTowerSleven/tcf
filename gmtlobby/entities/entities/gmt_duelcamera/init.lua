@@ -48,8 +48,10 @@ function ENT:Think()
     local rot = ents.FindByClass("gmt_duelrot")[1]
     if !IsValid(rot) then return end
 
-    self:SetPos( rot:GetPos() + Vector( 2000, 0, 0 ) + (rot:GetForward() * -750) + (rot:GetUp() * 5000) )
-    self:SetAngles(Angle(50,0,0))
+	--self:SetPos( rot:GetPos() + Vector( 2000, 0, 0 ) + (rot:GetForward() * -750) + (rot:GetUp() * 5000) )
+	--self:SetAngles(Angle(50,0,0))
+	self:SetPos( rot:GetPos() + Vector(500,0,3000) + ( self:GetAngles():Forward() * -750 ) + self:GetAngles():Up() )
+	self:SetAngles(Angle(35,0,0))
 
   end
 
