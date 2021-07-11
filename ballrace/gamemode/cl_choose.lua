@@ -99,7 +99,6 @@ function BallRacerChooser:ChooseBall( name )
 	RunConsoleCommand( "selected_ball", name )
 	RunConsoleCommand( "gmt_setball", name )
 	ChosenId = name
-	Msg2("Your ball will change on next spawn.")
 end
 
 net.Receive( "pick_ball", function( len, pl )
@@ -110,6 +109,7 @@ end )
 
 local function DoClickSetBall( panel )
 	BallRacerChooser:ChooseBall( panel.NameId )
+	Msg2( "Your ball will change on next spawn." )
 end
 
 local function DrawLayout( panel, entity )
@@ -123,6 +123,7 @@ local function DrawLayout( panel, entity )
 
 	if panel.NameId == ChosenId then
 		draw.RoundedBox( 8, 0, 0, panel:GetWide(), panel:GetTall(), Color(10, 10, 60, 245 ) )
+		panel.Title:SetColor( Color( 100, 100, 255 ) )
 	else
 		draw.RoundedBox( 8, 0, 0, panel:GetWide(), panel:GetTall(), Color(10, 10, 10, 210 ) )
 	end
