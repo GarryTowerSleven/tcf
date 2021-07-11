@@ -3,8 +3,9 @@ include("cl_hud.lua")
 include("cl_hwhud.lua")
 include("cl_post_events.lua")
 include("cl_scoreboard.lua")
-include("cl_gamemode.lua")
 --include("cl_soundscapes.lua")
+
+include("cl_playermenu.lua")
 
 include("cl_soundscape.lua")
 include("cl_soundscape_music.lua")

@@ -8,7 +8,7 @@ GM.Website  = "http://www.gmtower.org/"
 
 DeriveGamemode( "gmodtower" )
 
-TowerModules.LoadModules( {
+Loadables.Load( {
 	"achivement",
 	"commands",
 	"afk2",
@@ -121,7 +121,7 @@ TEAM_PLAYERS = 1
 TEAM_DEAD = 2
 TEAM_COMPLETED = 3
 
---GTowerModules:RequireModule( "scoreboard" )
+--GLoadables:RequireModule( "scoreboard" )
 
 function SetState(state)
 	SetGlobalInt("GamemodeState", state);

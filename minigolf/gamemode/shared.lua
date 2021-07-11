@@ -149,7 +149,7 @@ end
 TEAM_PLAYING = 1
 TEAM_FINISHED = 2
 
-TowerModules.LoadModules( {
+Loadables.Load( {
 	"achivement",
 	"friends",
 	"commands",

@@ -1,19 +1,20 @@
 
 -----------------------------------------------------
-include( "shared.lua" )
+include( "shared.lua" )
+
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.ClientModel = nil
 
 function ENT:Draw()
 	//self:DrawModel()
-end
+end
+
 
 function ENT:CheckModel(ply)
 
 	local hide = ply == LocalPlayer() && !LocalPlayer().ThirdPerson
 
 	if IsValid( self.ClientModel ) && hide then
-		print("a")
 		self.ClientModel:Remove()
 		return
 	end
@@ -46,7 +47,8 @@ function ENT:OnRemove()
 	end
 end
 
-function ENT:Think()
+function ENT:Think()
+
 	local ply = self:GetOwner()
 
 	if !IsValid( self:GetOwner() ) then return end

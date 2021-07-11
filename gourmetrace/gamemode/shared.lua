@@ -13,7 +13,7 @@ GM.NumRounds = 4
 
 DeriveGamemode( "gmodtower" )
 
-TowerModules.LoadModules( {
+Loadables.Load( {
 	"achivement",
 	"scoreboard3",
 	"commands",
@@ -145,12 +145,17 @@ payout.Register( "Rank3", {
 	Diff = 3,
 } )
 
-payout.Register( "Collected", {
-	Name = "Collected Food",
-	Desc = "Bonus for collecting food (5 GMC each up to 25).",
-	Diff = 4,
+payout.Register( "Collected", {
+
+	Name = "Collected Food",
+
+	Desc = "Bonus for collecting food (5 GMC each up to 25).",
+
+	Diff = 4,
+
 	GMC = 0,
-} )
+} )
+
 
 function GM:GiveMoney()
 

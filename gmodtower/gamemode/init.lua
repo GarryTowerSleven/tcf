@@ -3,115 +3,114 @@
 co_color = Color( 50, 255, 50 )
 co_color2 = Color( 255, 50, 50 )
 
-include("nwtranslator.lua")
-AddCSLuaFile("nwtranslator.lua")
+include("base/sh_global_net.lua")
+AddCSLuaFile("base/sh_global_net.lua")
 
-include("exnet/shared.lua")
-AddCSLuaFile("exnet/shared.lua")
+include("base/exnet/shared.lua")
+AddCSLuaFile("base/exnet/shared.lua")
 
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_init.lua")
-AddCSLuaFile("helper.lua")
-
-include("sv_analytics.lua")
 
 // Fake clients
-include("fakeclient/init.lua")
-AddCSLuaFile("fakeclient/cl_init.lua")
-AddCSLuaFile("fakeclient/shared.lua")
-include("fakeclient/shared.lua")
+include("base/fakeclient/init.lua")
+AddCSLuaFile("base/fakeclient/cl_init.lua")
+AddCSLuaFile("base/fakeclient/shared.lua")
+include("base/fakeclient/shared.lua")
 
-include("maps/shared.lua")
-AddCSLuaFile("maps/shared.lua")
+include("base/maps/shared.lua")
+AddCSLuaFile("base/maps/shared.lua")
 
-AddCSLuaFile("anti_script_hook/cl_scripthookpwnd.lua")
-AddCSLuaFile("client/messages.lua")
-AddCSLuaFile("client/network.lua")
-AddCSLuaFile("client/menu.lua")
-AddCSLuaFile("client/alltalk.lua")
-AddCSLuaFile("client/helper.lua")
-AddCSLuaFile("client/clientmenu.lua")
-AddCSLuaFile("client/sidemenu.lua")
-AddCSLuaFile("client/hud_hide.lua")
-AddCSLuaFile("client/cl_admin.lua")
-AddCSLuaFile("client/cl_selection.lua")
-AddCSLuaFile("client/cl_admin_usermessage.lua")
-AddCSLuaFile("client/cl_dbug_profiler.lua")
-AddCSLuaFile("client/dmodel.lua")
-AddCSLuaFile("client/cl_question.lua")
-AddCSLuaFile("client/clientmenu_action.lua")
-AddCSLuaFile("client/cl_resizer.lua")
+AddCSLuaFile("base/anti_script_hook/cl_scripthookpwnd.lua")
+
+AddCSLuaFile("base/gui/cl_messages.lua")
+AddCSLuaFile("base/gui/cl_icons.lua")
+AddCSLuaFile("base/gui/cl_icons2.lua")
+AddCSLuaFile("base/gui/cl_clientmenu.lua")
+AddCSLuaFile("base/gui/cl_clientmenu_action.lua")
+AddCSLuaFile("base/gui/cl_sidemenu.lua")
+AddCSLuaFile("base/gui/cl_voice.lua")
+AddCSLuaFile("base/gui/cl_menu.lua")
+AddCSLuaFile("base/gui/cl_gamemode.lua")
+
+AddCSLuaFile("base/admin/cl_admin.lua")
+
+AddCSLuaFile("base/gui/cl_selection.lua")
+
+AddCSLuaFile("base/admin/cl_admin_usermessage.lua")
+AddCSLuaFile("base/admin/cl_dbug_profiler.lua")
+
 AddCSLuaFile("sh_extensions.lua")
-AddCSLuaFile("sh_player.lua")
-AddCSLuaFile("sh_spray.lua")
+
+AddCSLuaFile("base/sh_player.lua")
+
+AddCSLuaFile("base/sh_money.lua")
+
+AddCSLuaFile("base/admin/sh_spray.lua")
 
 
-AddCSLuaFile( "translation/shared.lua" )
-AddCSLuaFile( "postprocess/init.lua" )
-AddCSLuaFile( "cl_debug.lua" )
-AddCSLuaFile( "cl_playermenu.lua" )
+AddCSLuaFile( "base/translation/shared.lua" )
 
-AddCSLuaFile( "modules/modules.lua" )
+AddCSLuaFile( "base/postevents/init.lua" )
 
-include("network_queue.lua")
-AddCSLuaFile("network_queue.lua")
+// LOADABLES
+AddCSLuaFile( "sh_loadables.lua" )
+
+include("base/sh_net_queue.lua")
+AddCSLuaFile("base/sh_net_queue.lua")
 
 //Obligatory at first
 
-include("anti_script_hook/sv_scripthookpwnd.lua")
+include("base/anti_script_hook/sv_scripthookpwnd.lua")
 
-include("debug/init.lua")
-include("nwvar/nwvars.lua")
+include("base/debug/init.lua")
+include("nwvar/shared.lua")
 include("sh_extensions.lua")
 
 //Nornal loads
 include("shared.lua")
-include("helper.lua")
-include("sh_player.lua")
-include("sh_spray.lua")
+include("base/sh_player.lua")
+include("base/sh_money.lua")
 
-include( "translation/init.lua" )
-include("enchant/init.lua")
+include("base/admin/sh_spray.lua")
 
-include("server/mysql.lua")
-include("server/basicsql.lua")
+include("base/admin/powers.lua")
 
-include("server/player.lua")
-include("icons/init.lua")
-include("server/betatester.lua")
-include("server/network.lua")
-include("gtrivia/init.lua")
-include("clientsettings/init.lua")
-include("postprocess/init.lua")
-include( "modules/modules.lua" )
-include("chat/init.lua")
-include("store/init.lua")
-include("server/question.lua")
-include("server/admin.lua")
-include("server/loadsql.lua")
-include("server/admin/noclip.lua")
-include("server/admin/god.lua")
-include("server/admin/teleport.lua")
-include("server/admin/entityreset.lua")
-include("server/admin/decal.lua")
-include("server/entitydump.lua")
-include("server/admin/rement.lua")
-include("multiserver/init.lua")
-include("inventory/init.lua")
-include("models/init.lua")
-include("mapchange.lua")
-include("server/alltalk.lua")
+include( "base/translation/init.lua" )
 
+include("base/enchant/init.lua")
 
-include("server/rocket.lua")
-include("bit/bit.lua")
-include("bit/hex.lua")
+include("base/database/mysql.lua")
+include("base/database/basicsql.lua")
 
-AddCSLuaFile( 'theater/cl_init.lua' )
-AddCSLuaFile( 'theater/init.lua' )
+include("base/database/player.lua")
+//include("server/betatester.lua")
+include("base/database/network.lua")
 
---include( 'theater/cl_init.lua' )
-include( 'theater/init.lua' )
+include("base/gtrivia/init.lua")
+
+include("base/postevents/init.lua")
+
+// LOADABLES
+include( "sh_loadables.lua" )
+
+include("base/chat/init.lua")
+include("base/store/init.lua")
+
+include("base/admin/admin.lua")
+include("base/database/loadsql.lua")
+
+include("base/multiserver/init.lua")
+
+include("base/inventory/init.lua")
+include("base/models/init.lua")
+//include("server/alltalk.lua")
+
+include("base/bit/bit.lua")
+include("base/bit/hex.lua")
+
+AddCSLuaFile( 'base/theater/cl_init.lua' )
+include( 'base/theater/init.lua' )
 
 RunConsoleCommand("sv_hibernate_think", "1")
 
@@ -121,18 +120,9 @@ resource.AddWorkshop( 104548572 ) -- Playable piano.
 
 MultiUsers = {}
 
--- Modules
-for k,v in pairs (file.Find("gmodtower/gamemode/oboy/*.lua","LUA")) do
-	if ( v == "math.lua" ) then
-		include("gmodtower/gamemode/oboy/" .. v)
-	end
-
-	AddCSLuaFile("gmodtower/gamemode/oboy/" .. v);
-end
-
 -- Derma
-for k,v in pairs (file.Find("gmodtower/gamemode/derma/*.lua","LUA")) do
-	AddCSLuaFile("gmodtower/gamemode/derma/" .. v);
+for k,v in pairs (file.Find("gmodtower/gamemode/base/derma/*.lua","LUA")) do
+	AddCSLuaFile("gmodtower/gamemode/base/derma/" .. v);
 end
 
 /*require("luaerror")

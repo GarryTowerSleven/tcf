@@ -9,7 +9,7 @@ GM.NumRounds = 15
 GM.RoundTime = 2 * 60
 
 DeriveGamemode( "gmodtower" )
-TowerModules.LoadModules( {
+Loadables.Load( {
 	"achivement",
 	"friends",
 	"scoreboard3",

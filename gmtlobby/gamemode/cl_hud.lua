@@ -118,7 +118,7 @@ function initHud()
 	// Lobby 2
 	if HUDStyle_Lobby2 then
 		HUDBackground = Material( "gmod_tower/hud/bg_gradient.png", "unlightsmooth" )
-		HUDLogo = GTowerIcoons.GetIcoon("gmt")
+		HUDLogo = GTowerIcons2.GetIcon("gmt")
 		HUDBGColor = Color( 0, 0, 0, 200 )
 	end
 
@@ -325,7 +325,7 @@ function initHud()
 			surface.DrawTexturedRect( 0, GTowerHUD.VolumeSlider.y - 6, GTowerHUD.Info.Width, GTowerHUD.VolumeSlider:GetTall() + 6 )
 
 			surface.SetDrawColor( 255, 255, 255 )
-			surface.SetMaterial( GTowerIcoons.GetIcoon("volume16") )
+			surface.SetMaterial( GTowerIcons2.GetIcon("volume16") )
 			surface.DrawTexturedRect( x, y+11, 16, 16 )
 		end
 
@@ -504,7 +504,7 @@ function initHud()
 		-- Condo
 		local locid = LocalPlayer().GRoomId
 	  	if HUDStyle_L2 && locid && locid != 0 then
-			GTowerHUD.DrawExtraInfo( GTowerIcoons.GetIcoon("condo"), "#" .. tostring(locid) )
+			GTowerHUD.DrawExtraInfo( GTowerIcons2.GetIcon("condo"), "#" .. tostring(locid) )
 	  	end
 
 	end
@@ -712,7 +712,7 @@ function initHud()
 
 		-- Draw heart
 		surface.SetDrawColor( 255, 255, 255 )
-		surface.SetMaterial( GTowerIcoons.GetIcoon("heart") )
+		surface.SetMaterial( GTowerIcons2.GetIcon("heart") )
 		surface.DrawTexturedRect( x, y-16, iconSize, iconSize )
 
 		-- Draw background
@@ -886,7 +886,7 @@ function initHud()
 	  draw.DrawText("- SCORE -","GTowerSkyMsgSmall",16,ScrH()/2-52,Color( 255, 255, 255, 255 ),TEXT_ALIGN_LEFT)
 	  draw.DrawText( LocalPlayer():GetNWInt("MinigameScore"), "VoteTitle", 16, ScrH()/2, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
 
-	  surface.SetMaterial(GTowerIcoons.GetIcoon("time"))
+	  surface.SetMaterial(GTowerIcons2.GetIcon("time"))
 	  surface.SetDrawColor(255,255,255,255)
 	  surface.DrawTexturedRect(0,52,80,80)
 

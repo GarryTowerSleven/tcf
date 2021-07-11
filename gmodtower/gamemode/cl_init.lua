@@ -4,98 +4,77 @@
 co_color = Color( 50, 255, 50 )
 co_color2 = Color( 255, 50, 50 )
 
-include("nwtranslator.lua")
-include("exnet/shared.lua")
+include("base/sh_global_net.lua")
+include("base/exnet/shared.lua")
 
-include("debug/cl_init.lua")
-include("nwvar/nwvars.lua")
+include("base/debug/cl_init.lua")
+include("nwvar/shared.lua")
 include("sh_extensions.lua")
 
 include("shared.lua")
-include("cl_debug.lua")
 
-include("anti_script_hook/cl_scripthookpwnd.lua")
-include("network_queue.lua")
+include("base/anti_script_hook/cl_scripthookpwnd.lua")
+include("base/sh_net_queue.lua")
 
 // Fake clients
-include("fakeclient/cl_init.lua")
-include("fakeclient/shared.lua")
+include("base/fakeclient/cl_init.lua")
+include("base/fakeclient/shared.lua")
 
-include("maps/shared.lua")
+include("base/maps/shared.lua")
 
-include("enchant/cl_init.lua")
-include("translation/shared.lua")
-include("client/hud_hide.lua")
-include("client/alltalk.lua")
-include("client/cl_selection.lua")
-include("client/helper.lua")
-include("helper.lua")
-include("client/cl_question.lua")
-include("client/clientmenu.lua")
-include("client/menu.lua")
-include("icons/cl_init.lua")
-include("gtrivia/cl_init.lua")
+include("base/enchant/cl_init.lua")
+
+include("base/translation/shared.lua")
+
+include("base/gui/cl_selection.lua")
+
+include("base/gtrivia/cl_init.lua")
 
 //For gamemode
-include("client/clientmenu_action.lua")
-include("client/cl_admin.lua")
-include("client/cl_admin_usermessage.lua")
-include("client/cl_dbug_profiler.lua")
-include("client/messages.lua")
-include("client/network.lua")
-include("client/dmodel.lua")
-include("client/cl_resizer.lua")
-include("clientsettings/cl_init.lua")
-include("postprocess/init.lua")
-include("modules/modules.lua" )
-include("client/sidemenu.lua")
-include("chat/cl_init.lua" )
-include("store/cl_init.lua")
-include("multiserver/cl_init.lua" )
-include("inventory/cl_init.lua")
-include("models/cl_init.lua")
-include("cl_playermenu.lua")
+include("base/admin/cl_admin.lua")
+include("base/admin/cl_admin_usermessage.lua")
+include("base/admin/cl_dbug_profiler.lua")
 
-include("theater/cl_init.lua")
+include("base/gui/cl_icons.lua")
+include("base/gui/cl_icons2.lua")
+include("base/gui/cl_messages.lua")
+include("base/gui/cl_clientmenu.lua")
+include("base/gui/cl_clientmenu_action.lua")
+include("base/gui/cl_sidemenu.lua")
+include("base/gui/cl_voice.lua")
+include("base/gui/cl_menu.lua")
+include("base/gui/cl_gamemode.lua")
 
-include("sh_player.lua")
-include("sh_spray.lua")
+include("base/postevents/init.lua")
 
--- Modules
-for k,v in pairs (file.Find("gmodtower/gamemode/oboy/*.lua","LUA")) do
-	include("gmodtower/gamemode/oboy/" .. v);
-end
+// LOADABLES
+include("sh_loadables.lua" )
+
+include("base/chat/cl_init.lua" )
+include("base/store/cl_init.lua")
+
+include("base/multiserver/cl_init.lua" )
+
+include("base/inventory/cl_init.lua")
+
+include("base/models/cl_init.lua")
+
+include("base/theater/cl_init.lua")
+
+include("base/sh_player.lua")
+include("base/sh_money.lua")
+
+include("base/admin/sh_spray.lua")
 
 -- Derma
-for k,v in pairs (file.Find("gmodtower/gamemode/derma/*.lua","LUA")) do
-	include("gmodtower/gamemode/derma/" .. v);
+for k,v in pairs (file.Find("gmodtower/gamemode/base/derma/*.lua","LUA")) do
+	include("gmodtower/gamemode/base/derma/" .. v);
 end
 
 CreateConVar( "cl_playercolor", "0.24 0.34 0.41", { FCVAR_ARCHIVE, FCVAR_USERINFO, FCVAR_DONTRECORD }, "The value is a Vector - so between 0-1 - not between 0-255" )
 
 CurMap = ""
 SafeToSend = false
-
-function Money()
-    return LocalPlayer().GTMoney or 0
-end
-
-function Afford( price )
-	return Money() >= price
-end
-
-function string.FormatNumber( num )
-	local formatted = num
-
-	while true do
-		formatted, k = string.gsub( formatted, "^(-?%d+)(%d%d%d)", '%1,%2' )
-		if ( k == 0 ) then
-			break
-		end
-	end
-
-	return formatted
-end
 
 concommand.Add("gmt_modules", function()
 	if BASS then

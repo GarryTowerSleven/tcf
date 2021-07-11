@@ -11,12 +11,13 @@ AddCSLuaFile("cl_soundscape.lua")
 AddCSLuaFile("cl_soundscape_music.lua")
 AddCSLuaFile("cl_soundscape_songlengths.lua")
 
+AddCSLuaFile("cl_playermenu.lua")
+
 AddCSLuaFile("cl_hud.lua")
 AddCSLuaFile("cl_hwhud.lua")
 AddCSLuaFile("cl_post_events.lua")
 AddCSLuaFile("calcview.lua")
 AddCSLuaFile("cl_scoreboard.lua")
-AddCSLuaFile("cl_gamemode.lua")
 AddCSLuaFile("minigames/shared.lua")
 AddCSLuaFile("cl_webboard.lua")
 AddCSLuaFile("cl_hudchat.lua")
@@ -29,12 +30,12 @@ include("playerhook.lua")
 include("uch_anims.lua")
 include("shared.lua")
 include("sv_tetris.lua")
-include("42.lua")
 include("minigames/init.lua")
 include("tetris/highscore.lua")
 include("event/init.lua")
 include("sv_merchant.lua")
 include("sv_hwevent.lua")
+include("mapchange.lua")
 
 
 include( "animation.lua" ) // for gmt_force* commands

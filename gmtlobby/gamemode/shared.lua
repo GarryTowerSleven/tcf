@@ -8,7 +8,7 @@ GM.AllowJetpack = true
 
 DeriveGamemode("gmodtower")
 
-TowerModules.LoadModules( {
+Loadables.Load( {
 
 	-- Old/Unused
 	--------------------------------------------------------
@@ -30,6 +30,7 @@ TowerModules.LoadModules( {
 	"hacker",								-- Hacker logs
 	--"racing",								-- Silly little minigame
 	"inventory",						-- Inventory module
+	"clientsettings",						-- Client systems (GMC networking, etc.)
 	"duel",									-- Dueling
 	"room",									-- Condo module
 	"ping",									-- Lost connection prompt
@@ -46,6 +47,7 @@ TowerModules.LoadModules( {
 	"animation",						-- Player animation
 	"legs",									-- First person legs
 	"fakeclientmodel",			-- Fake player models for use such as the monorail
+	"question",					-- Global voting
 
 	-- Items Depend On These
 	---------------------------------------------------------
@@ -60,6 +62,7 @@ TowerModules.LoadModules( {
 	---------------------------------------------------------
 	"weaponfix",						-- Fixes weapon viewmodels
 	"errortrace",						-- Error debugging tracing
+
 } )
 
 function CanPlayerUse( arg1, arg2 )

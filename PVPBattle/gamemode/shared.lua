@@ -4,7 +4,7 @@ GM.Website  = "http://www.gmodtower.org/"
 
 DeriveGamemode("gmodtower")
 
-TowerModules.LoadModules( {
+Loadables.Load( {
 	"achivement",
 	"friends",
 	"commands",

@@ -138,7 +138,7 @@ function ENT:DrawPanel( scrw, scrh )
 	if not canuse then
 
 		surface.SetDrawColor( self:GetLightColor() )
-		surface.SetMaterial( GTowerIcoons.GetIcoon("light") )
+		surface.SetMaterial( GTowerIcons2.GetIcon("light") )
 		surface.DrawTexturedRect( scrw/2 - iconLargeSize/2, scrh/2 - iconLargeSize/2, iconLargeSize, iconLargeSize )
 
 		surface.SetTextColor( 255, 255, 255 )
@@ -165,7 +165,7 @@ function ENT:DrawPanel( scrw, scrh )
 					surface.SetDrawColor( color.r, color.g, color.b, math.Clamp( 255 * (self:GetLightValue() or 1), 50, 255 ) )
 				end
 
-				surface.SetMaterial( GTowerIcoons.GetIcoon("light") )
+				surface.SetMaterial( GTowerIcons2.GetIcon("light") )
 				surface.DrawTexturedRect( x, y, w, h )
 			end,
 			function( btn ) -- onclick
@@ -200,7 +200,7 @@ function ENT:DrawVIPPanel( scrw, scrh )
 				surface.SetDrawColor( color.r, color.g, color.b, math.Clamp( 255 * (self:GetLightValue() or 1), 50, 255 ) )
 			end
 
-			surface.SetMaterial( GTowerIcoons.GetIcoon("light") )
+			surface.SetMaterial( GTowerIcons2.GetIcon("light") )
 			surface.DrawTexturedRect( x, y, w, h )
 		end,
 		function( btn ) -- onclick

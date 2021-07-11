@@ -49,7 +49,7 @@ function GM:GetTimeLeft()
 	return GetGlobalFloat("Time") - CurTime()
 end
 
-TowerModules.LoadModules( {
+Loadables.Load( {
 	"achivement",
 	"friends",
 	"afk2",
