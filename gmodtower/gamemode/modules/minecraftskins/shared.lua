@@ -34,7 +34,7 @@ end)
 //plynet.Register( "String", "MinecraftSkin", { callback = MinecraftSkinUpdated } )
 
 // Name Tag
-
+/*
 if CLIENT then
 
 	if engine.ActiveGamemode() != "gmtlobby" then return end
@@ -42,7 +42,7 @@ if CLIENT then
 	local convar = CreateClientConVar( "gmt_minecraft_names", 1, true, false )
 	local enabled = convar:GetBool()
 
-	local convar2 = CreateClientConVar( "gmt_minecraft_local", 1, true, false )
+	local convar2 = CreateClientConVar( "gmt_minecraft_local", 0, true, false )
 	local localenabled = convar2:GetBool()
 
 	cvars.AddChangeCallback("gmt_minecraft_names", function(_, _, newval)
@@ -126,3 +126,4 @@ if CLIENT then
 	end )
 
 end
+*/
