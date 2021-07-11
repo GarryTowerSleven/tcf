@@ -12,8 +12,13 @@ include("room_maps.lua")
 net.Receive("gmt_partymessage", function()
 	if NoPartyMsg:GetBool() then return end
 	if LocalPlayer():GetNWBool("IsDueling") then return end
+
 	local invString = net.ReadString()
 	local roomid = net.ReadString()
+
+	// Do not give the player throwing the party the notif
+	local condoID = LocalPlayer().GRoomId
+	if condoID && tostring(condoID) == tostring(roomid) then return end
 
 	local Question = Msg2( invString )
 	Question:SetupQuestion(
@@ -78,7 +83,7 @@ usermessage.Hook("GRoom", function(um)
 	elseif id == 15 then
 		GTowerMessages:AddNewItem( T("RoomAdminRemoved"), nil, nil, "condo" )
 	else
-		Msg("Recieved GRoom of unkown id: " .. tostring(id) .. "\n")
+		Msg( "[Room] Recieved Room of unknown ID: " .. tostring(id) .. "\n" )
 	end
 
 end )
@@ -372,7 +377,7 @@ function GtowerRooms:FindRefEnts()
 	local MapData = self.RoomMapData[ game.GetMap() ]
 
 	if !MapData then
-		Msg("GtowerRooms: map data not found\n")
+		Msg( "[Room] Map data not found.\n" )
 		return
 	end
 

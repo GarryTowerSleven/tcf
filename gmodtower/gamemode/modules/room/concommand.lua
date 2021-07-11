@@ -26,13 +26,23 @@ net.Receive("gmt_closevault",function(len, ply)
 end)
 
 net.Receive("gmt_lockcondo",function(len, ply)
+	
+	if ply:GetNWBool("Party") then
+		return
+	end
+
 	local room = net.ReadInt(16)
 	local lock = net.ReadBool()
-	print("GOT ROOM "..tostring(room).." WITH LOCK TO: "..tostring(lock))
+	//if lock then
+	//	Msg( "[Room] Locking Condo #" .. tostring(room) .. "\n")
+	//else
+	//	Msg( "[Room] Unlocking Condo #" .. tostring(room) .. "\n")
+	//end
+	
 	if !ply.GRoom then return end
 
 	if ply.GRoomId != room then return end
-	print("Setting GRoomLock")
+	//Msg( "[Room] Setting GRoomLock \n")
 	ply.GRoomLock = lock
 
 end)
@@ -138,12 +148,18 @@ function StartParty( ply, flags )
 
 	if !flags then return end
 
+	//ply:Msg2( tostring( ply.GRoomLock ) )
+	if ply.GRoomLock then
+		ply:Msg2( "Please unlock your condo before throwing a party.", "condo" )
+		return
+	end
+
 	if ply:GetNWBool("Party") then return end
 
 	if !ply.NextParty then ply.NextParty = 0 end
 
 	if CurTime() < ply.NextParty then
-		ply:Msg2("You cannot throw another party for 1 minute.")
+		ply:Msg2( T( "RoomPartyFailedDelay", tostring( 1 ) ), "condo" )
 		return
 	end
 
@@ -151,30 +167,32 @@ function StartParty( ply, flags )
 
 	local amount = 0
 
-	local invString = ply:Name() .. " is throwing a Party in Condo #" .. tostring(ply.GRoomId) .. "!"
+	local invString = T( "RoomPartyMainMessage", ply:Nick(), tostring(ply.GRoomId) )
 
-	invString = invString .. " There will be "
+	local flagString = ""
 
 	for k,v in pairs(flags) do
 
 		if !v then continue end
 
 		if k == #flags then
-			invString = invString .. "and " .. Settings[tonumber(v)] .. ". Join?"
+			flagString = flagString .. "and " .. Settings[tonumber(v)]
 		elseif #flags > 1 then
-			invString = invString .. Settings[tonumber(v)] .. ", "
+			flagString = flagString .. Settings[tonumber(v)] .. ", "
 		else
-			invString = invString .. Settings[tonumber(v)] .. ". Join?"
+			flagString = flagString .. Settings[tonumber(v)]
 		end
 
 	end
+
+	invString = invString .. " " .. T( "RoomPartyActivityMessage", flagString ) .. " Join?"
 
 	local roomid = ply.GRoomId
 
 	if roomid == 0 then return end
 
 	if !ply:Afford( 250 ) then
-		ply:Msg2("You cannot afford to start a party!")
+		ply:Msg2( T( "RoomPartyFailedMoney" ), "condo" )
 		return
 	end
 
@@ -191,7 +209,7 @@ function StartParty( ply, flags )
 	timer.Simple( 60*2, function()
 		if IsValid(ply) && ply:GetNWBool("Party") then
 			ply:SetNWBool("Party",false)
-			ply:Msg2("Your condo party has ended.")
+			ply:Msg2( T( "RoomPartyEnded" ), "condo" )
 		end
 	end)
 
@@ -208,7 +226,7 @@ end)
 
 concommand.Add("gmt_endroomparty", function( ply, cmd, args )
 	ply:SetNWBool("Party",false)
-	ply:Msg2("You have ended your condo party.")
+	ply:Msg2( T( "RoomPartyEnd" ) )
 end)
 
 concommand.Add("gmt_joinparty", function(ply, cmd, args)
@@ -240,7 +258,10 @@ concommand.Add("gmt_roomkick", function( ply, cmd, args )
 		end
 	end
 
-	ply:Msg2( T( "RoomKickedAll" ), "condo" )
+	//if ply:GetNWBool("Party") then
+	//	ply:Msg2( T( "RoomPartyLock" ), "condo" )
+	//	return 
+	//end
 
 	local Room = ply:GetRoom()
 

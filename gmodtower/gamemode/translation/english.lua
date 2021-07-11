@@ -76,6 +76,21 @@ GtowerLangush.AddWord( 1, "RoomAdminRemoved",	"An admin has removed you from you
 GtowerLangush.AddWord( 1, "RoomMaxEnts",	"You can not have more than {1} entities in your condo.")
 GtowerLangush.AddWord( 1, "RoomKickedAll",		"Kicked everyone out of your condo.")
 
+GtowerLangush.AddWord( 1, "RoomStartParty",				"This radio's condo ID is {1}. Yours is {2}." )
+GtowerLangush.AddWord( 1, "RoomPartyLock",				"You cannot lock your condo while you are throwing a party." )
+GtowerLangush.AddWord( 1, "RoomPartyFailedDelay",		"You cannot throw another party for {1} minutes." )
+GtowerLangush.AddWord( 1, "RoomPartyFailedNoCondo",		"You cannot start a party if you don't have a condo!" )
+GtowerLangush.AddWord( 1, "RoomPartyFailedMoney",		"You cannot afford to start a party!" )
+GtowerLangush.AddWord( 1, "RoomPartyEnd",				"You have ended your condo party." )
+GtowerLangush.AddWord( 1, "RoomPartyEnded",				"Your condo party has ended." )
+GtowerLangush.AddWord( 1, "RoomPartyMainMessage",		"{1} is throwing a Party in condo #{2}!" )
+GtowerLangush.AddWord( 1, "RoomPartyActivityMessage",	"There will be {1}!" )
+GtowerLangush.AddWord( 1, "RoomPartyJoin",				"{1} has entered your party." )
+GtowerLangush.AddWord( 1, "RoomPartyDesc",				"You can start a party for {1} GMC.\n" .. 
+														  "This will announce to everyone on the server and provide a teleport to your condo. Parties can last up to {2} minutes.\n\n" ..
+														  "If you leave your condo or lock your condo, the party will end.\n\n" .. 
+														  "Select what will be part of your party:" )
+
 GtowerLangush.AddWord( 1, "RoomOwnerBroke",		"You aren't the condo owner or GtowerRooms broke.")
 GtowerLangush.AddWord( 1, "RoomRadioWrongID",	"Radio's condo ID is {1}.  You have {2}.")
 GtowerLangush.AddWord( 1, "RoomInformation",	"Feel free to check into a Condo here, or buy vault slots for storage!")
