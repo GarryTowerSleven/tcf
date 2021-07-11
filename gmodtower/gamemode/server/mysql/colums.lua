@@ -45,7 +45,7 @@ function Init( data )
 	end
 --PrintTable(data)
 	--if DEBUG then
-		print("Loading column: " .. data.column )
+		//MsgC( co_color, "[SQL] Loading column: " .. data.column .. "\n" )
 	--end
 	table.insert(SQL.ColumnInfo,data)
 	local o = {}

@@ -79,8 +79,8 @@ function ExecuteSelect( self )
 		if !self:Valid() then
 			return
 		end
-		--PrintTable(res)
-		print("ExecuteSelect SQL player.lua")
+		//PrintTable(res)
+		//MsgC( co_color, "ExecuteSelect SQL player.lua")
 
 		local status = res[1].status
 

@@ -1,6 +1,9 @@
 ---------------------------------
 //Obligatory at first
 
+co_color = Color( 50, 255, 50 )
+co_color2 = Color( 255, 50, 50 )
+
 include("nwtranslator.lua")
 include("exnet/shared.lua")
 

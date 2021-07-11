@@ -15,12 +15,16 @@ end
 do
 
 	local MiniGames = file.FindDir( "gmtlobby/gamemode/minigames/*", "LUA" )
-	
-	print("====Loaded Minigames====")
-	
+
+	if SERVER then
+		MsgC( co_color, "\n[Minigames] Loading Minigames...\n")
+	end
+
 	for _, v in ipairs( MiniGames ) do
 		if ( !string.EndsWith( v, ".lua" ) ) then
-			print(v)
+			if SERVER then
+				MsgC( co_color, "Loading: " .. v .. " \n")
+			end
 		end
 		if v != "." && v != ".." && v != ".svn" && string.sub( v, -4 ) != ".lua" then
 			if SERVER then
@@ -32,7 +36,7 @@ do
 		end
 
 	end
-	
-	print("========================")
+
+	Msg( "\n")
 	
 end

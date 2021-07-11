@@ -83,7 +83,7 @@ usermessage.Hook("GRoom", function(um)
 	elseif id == 15 then
 		GTowerMessages:AddNewItem( T("RoomAdminRemoved"), nil, nil, "condo" )
 	else
-		Msg( "[Room] Recieved Room of unknown ID: " .. tostring(id) .. "\n" )
+		MsgC( co_color2 ,"[Room] Recieved Room of unknown ID: " .. tostring(id) .. "\n")
 	end
 
 end )
@@ -377,7 +377,7 @@ function GtowerRooms:FindRefEnts()
 	local MapData = self.RoomMapData[ game.GetMap() ]
 
 	if !MapData then
-		Msg( "[Room] Map data not found.\n" )
+		MsgC( co_color2, "[Room] Map data not found.\n")
 		return
 	end
 

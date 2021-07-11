@@ -2,7 +2,7 @@
 local meta = FindMetaTable( "Player" )
 
 if (!meta) then 
-    Msg("ALERT! Could not hook Player Meta Table\n")
+	MsgC( co_color2, "[Room] ALERT! Could not hook Player Meta Table\n" )
 	return
 end
 

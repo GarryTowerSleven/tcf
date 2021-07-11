@@ -35,9 +35,14 @@ function LoadModule( Name )
 end
 
 function LoadModules( list )
+
+	//MsgC( co_color, " -- Starting Modules -- \n")
 	
 	for _, Name in pairs( list ) do
+		//MsgC( co_color, "[Modules] Loaded: " .. Name .. "\n")
 		LoadModule( Name )
 	end
+	
+	//MsgC( co_color, " ----------------------\n\n")
 	
 end 

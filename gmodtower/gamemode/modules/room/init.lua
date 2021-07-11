@@ -156,7 +156,7 @@ hook.Add("InitPostEntity", "RoomsAddOtherEnts", function()
 		end
 
 		if #EntList == 0 then
-			Msg("ROOM: Could not find suites for entity: " .. MapTbl.refobj .. "\n")
+			MsgC( co_color2, "[Room] Could not find condos for entity: " .. MapTbl.refobj .. "\n")
 		end
 
 	end

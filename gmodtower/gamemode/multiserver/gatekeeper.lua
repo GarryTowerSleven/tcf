@@ -45,15 +45,15 @@ function gateKeep:CreateBanList()
 	SQL.getDB():Query("SELECT * FROM gm_bans", function(res)
 
 		if res[1].status != true then
-			print("Error getting bans: " .. res[1].error)
+			MsgC( co_color2, "[GateKeeper] Error getting bans: " .. res[1].error .. "\n" )
 			return
 		end
 
 		if #res[1].data then
-			print("Retriving bans from MySQL")
+			MsgC( co_color, "[GateKeeper] Retriving bans from MySQL\n" )
 			gateKeep:RetrieveBans(res[1].data)
 		else
-			print("Setting up Legacy Bans")
+			MsgC( co_color, "[GateKeeper] Setting up Legacy Bans\n" )
 			gateKeep:LegacyBans()
 		end
 

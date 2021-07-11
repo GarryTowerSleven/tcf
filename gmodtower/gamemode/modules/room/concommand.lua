@@ -34,15 +34,15 @@ net.Receive("gmt_lockcondo",function(len, ply)
 	local room = net.ReadInt(16)
 	local lock = net.ReadBool()
 	//if lock then
-	//	Msg( "[Room] Locking Condo #" .. tostring(room) .. "\n")
+	//	MsgC( co_color, "[Room] Locking Condo #" .. tostring(room) .. "\n")
 	//else
-	//	Msg( "[Room] Unlocking Condo #" .. tostring(room) .. "\n")
+	//	MsgC( co_color, "[Room] Unlocking Condo #" .. tostring(room) .. "\n")
 	//end
 	
 	if !ply.GRoom then return end
 
 	if ply.GRoomId != room then return end
-	//Msg( "[Room] Setting GRoomLock \n")
+	//MsgC( co_color, "[Room] Setting GRoomLock \n")
 	ply.GRoomLock = lock
 
 end)

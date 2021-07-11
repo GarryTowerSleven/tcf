@@ -7,16 +7,17 @@ local DeletedExtensions = {
 
 local files, folders = file.Find("gmodtower/gamemode/extensions/*", "LUA")
 
-MsgC(Color(255, 255, 255), "====Loading Extensions==== \n")
+MsgC( co_color, "\n[Extensions] Loading Extensions...\n")
 
 for k, v in pairs(files) do
 	if DeletedExtensions[v] then continue end
 	ExtensionList[k] = v
 
-	MsgC(Color(0, 255, 0), "Loaded: " .. v .. " \n")
+	//MsgC( co_color, "[Extensions] Loaded: " .. v .. " \n")
+	MsgC( co_color, "Loading: " .. v .. "\n")
 end
 
-MsgC(Color(255, 255, 255), "========================== \n")
+MsgC( co_color, "\n")
 
 local function LoadExtensions( base )
 

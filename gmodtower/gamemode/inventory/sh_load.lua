@@ -81,7 +81,11 @@ local function CreateNewItem( Name, Item )
 	
 	//Check if the ID already exists
 	if GTowerItems.Items[ Item.MysqlId ] || Item.MysqlId > 65535 then
-		print("id collision", Item.MysqlId, Item.UniqueName, GTowerItems.Items[Item.MysqlId].UniqueName)
+		//print("id collision", Item.MysqlId, Item.UniqueName, GTowerItems.Items[Item.MysqlId].UniqueName)
+		
+		if SERVER then
+			MsgC( co_color2, "\n[Items] ITEM ID COLLISION: " .. Item.MysqlId .. ", \"" .. Item.UniqueName .. "\" and \"" .. GTowerItems.Items[Item.MysqlId].UniqueName .. "\"\n\n")
+		end
 		
 		//Not Error... You don't want the whole thing stopping because of one item.
 		--ErrorNoHalt("id collision")
