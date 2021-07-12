@@ -48,6 +48,7 @@ Loadables.Load( {
 	"legs",									-- First person legs
 	"fakeclientmodel",			-- Fake player models for use such as the monorail
 	"question",					-- Global voting
+	"contentmanager",			-- Missing Content Notification
 
 	-- Items Depend On These
 	---------------------------------------------------------
