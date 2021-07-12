@@ -89,8 +89,8 @@ function ENT:NumToXY2( num1, num2 )
 
 	local NumBlocks = 8 //self:WidthSize()
 
-	local x = num2 % NumBlocks
-	local y = (num1*NumBlocks) / -(NumBlocks)
+	local x = ( (num1*NumBlocks) / NumBlocks ) + 7
+	local y = ( num2 % NumBlocks ) + 2
 
 	return x,y
 
