@@ -8,7 +8,7 @@ util.AddNetworkString("NPCCasino")
 concommand.Add( "gmt_casino_chips_cash", function( ply, cmd, args )
 
 	if ply:PokerChips() > 0 then
-		ply:MsgI( "chips", "PokerChipSpent", ply:PokerChips() )
+		ply:MsgI( "chips", "PokerChipSpent", string.FormatNumber(ply:PokerChips()) )
 		ply:AddMoney( ply:PokerChips()*Cards.ChipCost )
 		ply:SetPokerChips(0)
 	end
