@@ -429,7 +429,7 @@ function ENT:CalcWinnings( random )
 
 	// Player lost
 	self:SetJackpot( self:GetJackpot() + self.BetAmount )
-	print(self:GetJackpot())
+	//print( self:GetJackpot() )
 	ply:MsgI( "slots", "SlotsLose" )
 
 end
