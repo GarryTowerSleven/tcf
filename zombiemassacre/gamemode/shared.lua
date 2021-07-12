@@ -14,6 +14,7 @@ DeriveGamemode( "gmodtower" )
 Loadables.Loadse
 
 Loadables.LoadModules( {
+	"clientsettings",
 	"achivement",
 	"friends",
 	"commands",
