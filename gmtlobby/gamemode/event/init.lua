@@ -15,8 +15,8 @@ local endtime = 0
 local lastevent = 0
 
 // Min/max Time Interval
-local mininterval = 20
-local maxinterval = 45
+local mininterval = 25
+local maxinterval = 35
 
 local nexttime = 0
 
