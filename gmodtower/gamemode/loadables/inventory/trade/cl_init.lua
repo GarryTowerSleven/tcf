@@ -141,7 +141,7 @@ hook.Add( "ExtraMenuPlayer", "AddTradeItem", function( ply )
 		return {
 			["Name"] = T("MenuTrade"),
 			["function"] = function() RunConsoleCommand("gmt_trade", ply:EntIndex() ) end,
-			["icon"] = GtowerIcons:GetIcon( 'trade' ),
+			["icon"] = GTowerIcons:GetIcon( 'trade' ),
 			["order"] = 1
 		}
 

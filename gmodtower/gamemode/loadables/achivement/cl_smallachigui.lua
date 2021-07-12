@@ -52,7 +52,7 @@ function PANEL:OnMouseReleased()
 	for k, v in pairs( AchiTbl.values ) do
 		
 		table.insert( tabl, {
-			["icon"] = GtowerIcons:GetIcon( AchiTbl.val >= v and 'checkmark' or 'cancel' ),
+			["icon"] = GTowerIcons:GetIcon( AchiTbl.val >= v and 'checkmark' or 'cancel' ),
 			["Name"] = "Level " .. k .. ": " .. v
 		} )
 	

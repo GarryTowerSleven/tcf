@@ -1,4 +1,4 @@
----------------------------------
+
 GTowerIcons = {}
 
 if CLIENT then
@@ -22,6 +22,9 @@ function GTowerIcons:AddIcon(fileName, Name, width, height, actw, acth )
     self.Icons[ Name ] = tbl
 end
 
+function GTowerIcons:GetIcon( Name )
+    return self.Icons[ Name ]
+end
 
 GTowerIcons:AddIcon('playermenu_icons_pm', 'pm',         25, 25)
 GTowerIcons:AddIcon('playermenu_icons_trade', 'trade',       25, 25 )

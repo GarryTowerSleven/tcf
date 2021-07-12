@@ -86,7 +86,7 @@ hook.Add("ExtraMenuPlayer", "GroupRequest", function(ply)
 		return {
 	        ["Name"] = T("Group_menu"),
 	        ["order"] = 6,
-	        ["icon"] = GtowerIcons:GetIcon( 'group' ),
+	        ["icon"] = GTowerIcons:GetIcon( 'group' ),
 			["sub"] = {
 				[1] = {
 	                    ["Name"] = T("Group_makeowner"),
@@ -108,7 +108,7 @@ hook.Add("ExtraMenuPlayer", "GroupRequest", function(ply)
 		return {
             ["Name"] = T("Group_inviteroup"),
             ["order"] = 6,
-            ["icon"] = GtowerIcons:GetIcon( 'group' ),
+            ["icon"] = GTowerIcons:GetIcon( 'group' ),
 			["extra"] = ply,
 			["function"] = function( ply ) GTowerGroup:RequestJoin( ply ) end,
         }
