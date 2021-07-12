@@ -187,3 +187,5 @@ hook.Add("CanTool", "DisableTetris", function(pl, tr)
 
 	return true
 end )
+
+util.AddNetworkString( "TetrisNextBlock" )

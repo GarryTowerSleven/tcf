@@ -81,9 +81,18 @@ function ENT:CreateNewBlock()
 
 	math.randomseed( SysTime() )
 
-	self.CurBlock = math.random( 1, #self.TETRISBLOCKS )
+	self.CurBlock = self.NextBlockGo || math.random( 1, #self.TETRISBLOCKS )
 	self.CurBlockX = math.floor( self.WidthSize / 2 )
 	self.CurBlockY = 0
+
+	self.NextBlockGo = math.random( 1, #self.TETRISBLOCKS )
+
+	if IsValid(self.Ply) then
+		net.Start( "TetrisNextBlock" )
+			net.WriteEntity( self )
+			net.WriteTable( self.TETRISBLOCKS[ self.NextBlockGo ] )
+		net.Send( self.Ply )
+	end
 
 	self.BlockArea = self.TETRISBLOCKS[ self.CurBlock ]
 

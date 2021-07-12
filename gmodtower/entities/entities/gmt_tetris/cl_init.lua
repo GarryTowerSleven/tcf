@@ -79,12 +79,12 @@ local function DrawBoard( self )
 			end
 
 		end
-
+		
 		for k, v in pairs( self.NextBlock ) do
-			local Posx,Posy = self:NumToXY( k )
+			local Posx,Posy = self:NumToXY2( v[1], v[2] )
 			local col = Color( 255, 255, 255, 255 )
 			surface.SetDrawColor( col.r, col.g, col.b, 10 )
-			surface.DrawRect( x + EachBlockX * Posx, y + EachBlockY * (Posy-1) + 1, EachBlockX - 1, EachBlockY - 1 )
+			surface.DrawRect( (x + EachBlockX * Posx) + 100, (y + EachBlockY * (Posy-1) + 1) + 40, EachBlockX - 1, EachBlockY - 1 )
 		end
 
 		surface.SetFont( "TetrisScore" )
@@ -143,6 +143,7 @@ function ENT:Think()
 	else
 		self.ImageZoom = 0.4
 		self.Draw = DrawWaiting
+		self.NextBlock = {}
 	end
 
 
