@@ -1,3 +1,10 @@
+module("GTowerMapChange", package.seeall )
+
+DefaultTime = 10
+
+SetGlobalInt( "NewTime", 0 )
+SetGlobalBool( "ShowChangelevel", false )
+
 concommand.Add( "gmt_changelevel", function( ply, command, args )
 
 	if ply == NULL or ply:IsAdmin() then

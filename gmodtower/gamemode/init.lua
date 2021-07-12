@@ -84,7 +84,6 @@ include("base/database/mysql.lua")
 include("base/database/basicsql.lua")
 
 include("base/database/player.lua")
-//include("server/betatester.lua")
 include("base/database/network.lua")
 
 include("base/gtrivia/init.lua")
@@ -95,6 +94,7 @@ include("base/postevents/init.lua")
 include( "sh_loadables.lua" )
 
 include("base/chat/init.lua")
+
 include("base/store/init.lua")
 
 include("base/admin/admin.lua")
@@ -104,7 +104,6 @@ include("base/multiserver/init.lua")
 
 include("base/inventory/init.lua")
 include("base/models/init.lua")
-//include("server/alltalk.lua")
 
 include("base/bit/bit.lua")
 include("base/bit/hex.lua")

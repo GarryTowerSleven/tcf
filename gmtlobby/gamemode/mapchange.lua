@@ -1,11 +1,3 @@
-
-module("GTowerMapChange", package.seeall )
-
-DefaultTime = 10
-
-SetGlobalInt( "NewTime", 0 )
-SetGlobalBool( "ShowChangelevel", false )
-
 GMT_IS_PREPARING_TO_RESTART = false
 
 if string.StartWith(game.GetMap(),"gmt_lobby") then
