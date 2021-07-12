@@ -645,6 +645,23 @@ function initHud()
 	
 	end
 
+	function GTowerHUD.DrawShutdownNotice( title, message )
+
+		-- Handle notice
+		local w, h = ScrW() / 2, ScrH() / 2
+		h = ( h * 2 ) - 150
+	
+		surface.SetDrawColor( 0, 0, 0, 230 )
+		surface.DrawRect( w - 512, h, 1024, 110 )
+	
+		-- Draw title
+		draw.SimpleText( title, "GTowerHudCText", w, h + 20, Color( 255, 255, 255, 255 ), 1, 1 )
+	
+		-- Draw text
+		draw.DrawText( message or "", "GTowerHudCSubText", w, h + 30, Color( 255, 255, 255, 255 ), 1 )
+	
+	end
+
 	function GTowerHUD.DrawHealth()
 
 		// i dont see why not
@@ -840,7 +857,6 @@ function initHud()
 			GTowerHUD.DrawHealth()
 		end
 		GTowerHUD.DrawVolumeIcon()
-		--GTowerHUD.DrawNotice()
 
 		if LocalPlayer():GetNWBool("MinigameOn") then
 			GTowerHUD.MinigameHUD()

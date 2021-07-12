@@ -112,14 +112,21 @@ hook.Add( "HUDPaint", "ContentNotice", function()
 
 end )
 
+local depression = false
 
 // *Shivers*
-/*local HideShutdownMessage = CreateClientConVar( "gmt_hideshutdown", 0, true, false )
+concommand.Add("gmt_enditall", function( ply, cmd, args )
+	if depression then
+		depression = false
+	else
+		depression = true
+	end
+end)
 
-hook.Add( "HUDPaint", "EarlyAccessNotice", function()
+hook.Add( "HUDPaint", "ShutdownNotice", function()
 
-	if HideShutdownMessage:GetBool() then return end
+	if !depression then return end
 
 	GTowerHUD.DrawShutdownNotice( "GMTower Closing", "On April 8th @ 11:59 PST we are shutting down GMTower.\nWe are releasing its standalone successor, Tower Unite, on the same day.\nwww.towerunite.com" )
 
-end )*/
+end )
