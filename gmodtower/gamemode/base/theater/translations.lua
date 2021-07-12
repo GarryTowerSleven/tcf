@@ -122,7 +122,7 @@ if CLIENT then
 end
 
 -- Load language files
-local LanguageFiles = file.Find( GM.FolderName .. "/gamemode/theater/localization/*", "LUA" )
+local LanguageFiles = file.Find( GM.FolderName .. "/gamemode/base/theater/localization/*", "LUA" )
 for _, filename in pairs( LanguageFiles ) do
 	if SERVER then
 		AddCSLuaFile( "localization/" .. filename )		

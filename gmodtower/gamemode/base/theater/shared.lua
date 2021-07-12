@@ -8,7 +8,7 @@ Loader.Load( "extensions" )
 Loader.Load( "modules" )
 
 -- Load Map configuration file
-local strMap = GM.FolderName .. "/gamemode/theater/maps/" .. game.GetMap() .. ".lua"
+local strMap = GM.FolderName .. "/gamemode/base/theater/maps/" .. game.GetMap() .. ".lua"
 if file.Exists( strMap, "LUA" ) then
 	if SERVER then
 		AddCSLuaFile( strMap )

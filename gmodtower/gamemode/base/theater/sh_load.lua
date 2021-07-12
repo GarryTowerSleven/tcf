@@ -7,7 +7,7 @@ local function GetFileList( strDirectory, strGamemode )
 	
 	local files = {}
 
-	local realDirectory = strGamemode .. "/gamemode/theater/" .. strDirectory .. "/*"
+	local realDirectory = strGamemode .. "/gamemode/base/theater/" .. strDirectory .. "/*"
 	local findFiles, findFolders = file.Find( realDirectory, "LUA" )
 
 	for k, v in pairs( table.Add(findFiles, findFolders) ) do
@@ -33,7 +33,7 @@ end
 local function LoadFile( strDirectory, strGamemode, strFile )
 	
 	local prefix = string.sub( strFile, 0, 3 )
-	local realFile = strGamemode .. "/gamemode/theater/" .. strDirectory .. "/" .. strFile
+	local realFile = strGamemode .. "/gamemode/base/theater/" .. strDirectory .. "/" .. strFile
 
 	if ( prefix == "cl_" ) then
 		
