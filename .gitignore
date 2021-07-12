@@ -1,5 +1,5 @@
 
-gmodtower/gamemode/server/mysql.lua
+gmodtower/gamemode/base/database/mysql.lua
 base
 sandbox
 terrortown
