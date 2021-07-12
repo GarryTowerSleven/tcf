@@ -1212,7 +1212,7 @@ RegisterItem("pottery09",{
 	StoreId = 6,
 	StorePrice = 5,
 })
-RegisterItem("1984",{
+RegisterItem("book1",{
 	Name = "1984",
 	Description = "Think GMT is an Orwellian soceity? Don't know what that means? Read 1984, then.",
 	Model = "models/sunabouzu/book_single1.mdl",
