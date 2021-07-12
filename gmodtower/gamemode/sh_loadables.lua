@@ -10,11 +10,11 @@ function Load( name )
 
 	if type( name ) == "table" then
 		if DEBUG then
-			MsgC( co_color, "Loadables table:\n")
+			Msg("Loadables table:\n")
 		end
 		for _, v in pairs( name ) do
 			if DEBUG then
-				MsgC( co_color, "\t" .. v .. "\n")
+				Msg("\t" .. v .. "\n")
 			end
 			Load( v )
 		end

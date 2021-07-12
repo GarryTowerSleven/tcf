@@ -437,20 +437,6 @@ concommand.Add("gmt_tourmsg",function(ply)
 	 function() end )*/
 end)
 
-concommand.Add( "fuckerass", function(ply)
-
-	local Question = Msg2( T( "GamemodeStarting", "Virus", "11" ), 13 )
-	Question:SetupQuestion(
-		function() end,
-		function() end,
-		function() end,
-		nil,
-		{120, 160, 120},
-		{160, 120, 120}
-	)
-
-end)
-
 concommand.Add("gmt_removefog", function( ply, cmd, args )
 
 	if !args[1] then
