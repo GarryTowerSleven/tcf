@@ -623,27 +623,26 @@ function initHud()
 
 	end
 
-	function GTowerHUD.DrawNotice(title,msg)
+	function GTowerHUD.DrawNotice( title, message )
 
 		if !GTowerHUD.Notice.Enabled:GetBool() then return end
-
+	
 		-- Handle notice
 		local w, h = ScrW() / 2, ScrH() / 2
 		h = ( h * 2 ) - 150
-
+	
 		-- Draw gradient boxes
 		--draw.GradientBox( w - 512, h, 256, 110, 0, Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 230 ) )
 		--draw.GradientBox( w + 256, h, 256, 110, 0, Color( 0, 0, 0, 230 ), Color( 0, 0, 0, 0 ) )
 		surface.SetDrawColor( 0, 0, 0, 230 )
 		surface.DrawRect( w - 512, h, 1024, 110 )
-
+	
 		-- Draw title
-		draw.SimpleText( title or "", "GTowerHudCText", w, h + 20, Color( 255, 255, 255, 255 ), 1, 1 )
-
+		draw.SimpleText( title, "GTowerHudCText", w, h + 20, Color( 255, 255, 255, 255 ), 1, 1 )
+	
 		-- Draw text
-		draw.DrawText( msg or "", "GTowerHudCSubText", w, h + 50, Color( 255, 255, 255, 255 ), 1 )
-
-
+		draw.DrawText( message or "", "GTowerHudCSubText", w, h + 30, Color( 255, 255, 255, 255 ), 1 )
+	
 	end
 
 	function GTowerHUD.DrawHealth()
@@ -821,34 +820,12 @@ function initHud()
 
 	function GTowerHUD.Paint()
 
-	  if LocalPlayer().GLocation == 60 then
-	    local dist = LocalPlayer():GetPos():Distance(Vector(2550, 5009, -780))
-	    GTowerHUD.DrawStatic( math.Clamp(255 - (dist/3),0,200) )
-	  end
+		if LocalPlayer().GLocation == 60 then
+		  local dist = LocalPlayer():GetPos():Distance(Vector(2550, 5009, -780))
+		  GTowerHUD.DrawStatic( math.Clamp(255 - (dist/3),0,200) )
+		end
 
 		if !GTowerHUD.Enabled:GetBool() then return end
-
-	  // Missing Games!
-
-	  if #MissingGames > 0 then
-
-	    local gamesmissing = ""
-	    for id, gamename in pairs( MissingGames ) do
-	      gamesmissing = gamesmissing .. gamename
-
-	      if id != #MissingGames then
-	        gamesmissing = gamesmissing .. ", "
-	      end
-	    end
-
-	    message = "It appears that you are missing the required " .. Pluralize( "game", #MissingGames ) .. ": " .. gamesmissing .. "\n" ..
-	          "Please mount the "  .. Pluralize( "game", #MissingGames ) .. " to remove errors."
-
-	  end
-
-	  if message then
-	    GTowerHUD.DrawNotice( "Missing Content", message .. "\nYou can disable this notice in the settings." )
-	  end
 
 		// disable hud for camera swep
 		local weapon = LocalPlayer():GetActiveWeapon()
@@ -865,11 +842,11 @@ function initHud()
 		GTowerHUD.DrawVolumeIcon()
 		--GTowerHUD.DrawNotice()
 
-	  if LocalPlayer():GetNWBool("MinigameOn") then
-	  	GTowerHUD.MinigameHUD()
-	  end
+		if LocalPlayer():GetNWBool("MinigameOn") then
+			GTowerHUD.MinigameHUD()
+		end
 
-	  GTowerHUD.DrawCrosshair()
+		GTowerHUD.DrawCrosshair()
 
 	end
 
