@@ -274,6 +274,8 @@ concommand.Add("gmt_event_start", function( ply, cmd, args )
         EndEvent()
     end
 
+    MsgC( co_color2, "[EVENTS] "..ply:Nick().." has forced the event system.\n" )
+
     for k,v in pairs( player.GetAll() ) do
         //SendMessageToPlayers( "EventAdminManual", ply:Nick(), "admin" )
         v:Msg2( T( "EventAdminManual", ply:Nick() ), "admin" )

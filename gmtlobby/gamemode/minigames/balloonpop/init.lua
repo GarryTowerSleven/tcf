@@ -31,6 +31,8 @@ local util = util
 local SetGlobalFloat = SetGlobalFloat
 local net = net
 
+local goldenAmount = 100
+
 local BALLOON_GAME_ACTIVE = false
 
 module("minigames.balloonpop" )
@@ -53,7 +55,7 @@ function BalloonPopStart()
 		ent:SetAngles(Angle(0,0,0))
 		ent:SetPos( Vector(entposX,entposY,-812.135010) )
 		ent.MiniGame = true
-		if math.random(1,10) == 1 then ent:SetNWBool("Golden",true) end
+		if math.random(1,15) == 1 then ent:SetNWBool("Golden",true) end
 		ent:SetColor(Color(math.random(100,255),math.random(100,255),math.random(100,255),255))
 		ent:Spawn()
 		ent:SetForce(12.5)
@@ -84,10 +86,10 @@ local function BalloonPopped( ent, dmg )
 			local distance = ent:GetPos().z - ply:GetPos().z
 			if distance < 0 then distance = 0 end
 			if ent:GetNWBool("Golden") then
-				dmg:GetAttacker():AddMoney( 100 )
-				ply:SetNWInt("MinigameScore", ( ply:GetNWInt("MinigameScore") + 100 * 5 ) )
-				magni = 100
-				TotalMoney = TotalMoney + 100
+				dmg:GetAttacker():AddMoney( goldenAmount )
+				ply:SetNWInt("MinigameScore", ( ply:GetNWInt("MinigameScore") + goldenAmount * 5 ) )
+				magni = goldenAmount
+				TotalMoney = TotalMoney + goldenAmount
 			else
 				dmg:GetAttacker():AddMoney( math.Round(distance / 50) )
 				ply:SetNWInt("MinigameScore", ( ply:GetNWInt("MinigameScore") + math.Round(distance / 50) * 5 ) )
