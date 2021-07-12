@@ -1,1 +1,0 @@
-AddCSLuaFile( "scripthookpwnd.lua" )
