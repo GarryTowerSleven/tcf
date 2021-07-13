@@ -49,3 +49,29 @@ if Player then
         return self._GLastLocation
     end
 end
+
+local kickoutTime = 2
+hook.Add( "Location", "KickOut", function( ply, loc )
+
+    if ply:IsAdmin() then return end
+
+    if loc != 1 then
+        ply.OutOfBounds = false
+        return
+    end
+
+    if !ply.OutOfBounds then
+        ply:Msg2( T( "LocationIsNil", tostring( kickoutTime ) ), "exclamation" )
+    end
+
+    ply.OutOfBounds = true
+
+    timer.Simple( kickoutTime, function()
+        if ply.OutOfBounds then
+            ply:Kill()
+		    ply:Spawn()
+            ply.OutOfBounds = false
+        end
+    end)
+	
+end)
