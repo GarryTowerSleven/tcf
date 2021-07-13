@@ -141,13 +141,9 @@ local maps = {
 	["gmt_ballracer_khromidro02"] = "Khromidro",
 	["gmt_ballracer_memories02"] = "Memories",
 	["gmt_ballracer_midori02"] = "Midori",
-	["gmt_ballracer_neonlights01"] = "Neon Lights",
 	["gmt_ballracer_paradise03"] = "Paradise",
 	["gmt_ballracer_sandworld02"] = "Sand World",
 	["gmt_ballracer_skyworld01"] = "Sky World",
-	["gmt_ballracer_spaceworld01"] = "Space World",
-	["gmt_ballracer_tranquil01"] = "Tranquil",
-	["gmt_ballracer_waterworld02"] = "Water World",
 	["gmt_ballracer_iceworld03"] = "Ice World",
 }
 
@@ -157,13 +153,9 @@ local mapsLevels = {
 	["gmt_ballracer_khromidro02"] = 11,
 	["gmt_ballracer_memories02"] = 18,
 	["gmt_ballracer_midori02"] = 13,
-	["gmt_ballracer_neonlights01"] = 7,
 	["gmt_ballracer_paradise03"] = 13,
 	["gmt_ballracer_sandworld02"] = 10,
 	["gmt_ballracer_skyworld01"] = 9,
-	["gmt_ballracer_spaceworld01"] = 7,
-	["gmt_ballracer_tranquil01"] = 13,
-	["gmt_ballracer_waterworld02"] = 7,
 	["gmt_ballracer_iceworld03"] = 10,
 }
 

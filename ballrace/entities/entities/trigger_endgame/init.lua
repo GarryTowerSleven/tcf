@@ -10,7 +10,7 @@ function ENT:Initialize()
 		end
 	end
 
-	if game.GetMap() == "gmt_ballracer_grassworld01" or game.GetMap() == "gmt_ballracer_skyworld01" or game.GetMap() == "gmt_ballracer_iceworld03" or game.GetMap() == "gmt_ballracer_facile" or game.GetMap() == "gmt_ballracer_sandworld02" or game.GetMap() == "gmt_ballracer_flyinhigh01" or game.GetMap() == "gmt_ballracer_nightball" or game.GetMap() == "gmt_ballracer_spaceworld01" or game.GetMap() == "gmt_ballracer_prism03" or game.GetMap() == "gmt_ballracer_waterworld02" then
+	if game.GetMap() == "gmt_ballracer_grassworld01" or game.GetMap() == "gmt_ballracer_skyworld01" or game.GetMap() == "gmt_ballracer_iceworld03" or game.GetMap() == "gmt_ballracer_sandworld02" then
 		return
 		else
 		local arrow = ents.Create( "arrow" )

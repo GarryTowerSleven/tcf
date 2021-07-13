@@ -62,21 +62,10 @@ Levels = {
 "gmt_ballracer_iceworld03",
 "gmt_ballracer_khromidro02",
 "gmt_ballracer_memories02",
-"gmt_ballracer_metalworld",
 "gmt_ballracer_midori02",
-"gmt_ballracer_neonlights01",
-"gmt_ballracer_nightball",
 "gmt_ballracer_paradise03",
---"gmt_ballracer_prism03",
 "gmt_ballracer_sandworld02",
 "gmt_ballracer_skyworld01",
-"gmt_ballracer_spaceworld01",
---"gmt_ballracer_summit",
-"gmt_ballracer_waterworld02",
-"gmt_ballracer_facile",
-"gmt_ballracer_flyinhigh01",
-"gmt_ballracer_tranquil01",
-"gmt_ballracer_rainbowworld"
 }
 
 LevelMusic = {
@@ -84,21 +73,10 @@ LevelMusic = {
 	{"balls/ballsmusicwice",225},
 	{"balls/ballsmusicwkhromidro",322.377143},
 	{"balls/ballsmusicwmemories",260.127347},
-	{"balls/ballsmusicwmetal",169},
 	{"balls/midori_vox",259},
-	{"pikauch/music/manzaibirds",164},
-	{"balls/ballsmusicwnight",162},
 	{"balls/ballsmusicwparadise",305.057959},
-	--{"balls/ballsmusicwprism",132},
 	{"balls/ballsmusicwsand",71},
 	{"balls/ballsmusicwsky",83.644082},
-	{"balls/ballsmusicwspace",119},
-	--{"balls/ballswmusicsummit",200},
-	{"balls/ballsmusicwwater",195},
-	{"balls/ballsmusicwfacile",143},
-	{"balls/ballsmusicwflyinhigh",195},
-	{"balls/ballsmusicwtranquil",145},
-	{"rainbow_world/ravenholm",77}
 }
 
 LevelMapSelect = table.KeyFromValue( Levels, game.GetMap() )

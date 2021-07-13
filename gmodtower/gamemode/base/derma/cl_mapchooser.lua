@@ -213,130 +213,22 @@ MapsRegister( "gmt_ballracer_iceworld03", {
 	Priority = 7,
 } )
 
-MapsRegister( "gmt_ballracer_nightball", {
-	Name = "Night World",
-	Desc = "Roll trough this gravity defying world with moving obstacles, lasers, and lots of speed!",
-	Author = "Bumpy",
-	DateAdded = 13439137397,
-	DateModified = 1439252668,
-	Priority = 8,
-} )
-
-MapsRegister( "gmt_ballracer_facile", {
-	Name = "Facile",
-	Desc = "A simplisic, but difficult world. Avoid repellers in space, or go full hyperspeed while magnetized.",
-	Author = "Bumpy",
-	DateAdded = 13439137397,
-	DateModified = 1439252668,
-	Priority = 8,
-} )
-
-MapsRegister( "gmt_ballracer_flyinhigh01", {
-	Name = "Flyin' High",
-	Desc = "Easy levels with fun mechanics. Also home to the one and only Bumper Island.",
-	Author = "Muffin",
-	DateAdded = 13439137397,
-	DateModified = 1439252668,
-	Priority = 8,
-} )
-
-MapsRegister( "gmt_ballracer_metalworld", {
-	Name = "Metal World",
-	Desc = "Hard levels in a world made of metal, also introducing new objects such as crushers, lava and gears.",
-	Author = "Bumpy",
-	DateAdded = 13439137397,
-	DateModified = 1439252668,
-	Priority = 8,
-} )
-
-MapsRegister( "gmt_ballracer_memories04", {
+/*MapsRegister( "gmt_ballracer_memories04", {
 	Name = "Memories",
 	Desc = "New gameplay gimmicks - repellers and attracters that twist the concept of gravity. Being the hardest, most difficult Ball Race map, it contains the highest level count and randomly chosen left or right paths for replay value.",
 	Author = "MacDGuy/Mr. Sunabouzu",
 	DateAdded = 13439137397,
 	DateModified = 1439252668,
 	Priority = 7,
-} )
-
-/*MapsRegister( "gmt_ballracer_summit", {
-	Name = "Summit",
-	Desc = "A cold, lighthearted world that focuses on the racing aspect of Ballrace.",
-	Author = "Bumpy",
-	DateAdded = 13439137397,
-	DateModified = 1439252668,
-	Priority = 4,
 } )*/
 
-MapsRegister( "gmt_ballracer_neonlights", {
-	Name = "Neon Lights",
-	Desc = "Bounce around in this funky world full of colorful lights!",
-	Author = "PikaUCH",
-	DateAdded = 13439137397,
-	DateModified = 1439252668,
-	Priority = 8,
-} )
-
-MapsRegister( "gmt_ballracer_waterworld02", {
-	Name = "Water World",
-	Desc = "Meet water physics in this fun, fast paced world. Float, dive and bounce to victory!",
-	Author = "Bumpy",
-	DateAdded = 13439137397,
-	DateModified = 1439252668,
-	Priority = 8,
-} )
-
-MapsRegister( "gmt_ballracer_spaceworld", {
-	Name = "Space World",
-	Desc = "Hard, more dynamic levels with new obstacles such as a catapult.",
-	Author = "Bumpy",
-	DateAdded = 13439137397,
-	DateModified = 1439252668,
-	Priority = 8,
-} )
-
-MapsRegister( "gmt_ballracer_rainbowworld", {
-	Name = "Rainbow World",
-	Desc = "A very FAST paced, yet somewhat difficult map filled with LOADS of bananas and bumpers in the setting of SPACE! Come play and become a Ball-stronaut!",
-	Author = "IrZipher",
-	DateAdded = 1339137397,
-	DateModified = 1339252668,
-	Priority = 8,
-} )
-
-MapsRegister( "gmt_ballracer_midorib5", {
+/*MapsRegister( "gmt_ballracer_midorib5", {
 	Name = "Midori",
 	Desc = "Wait a minute... is that a Robot in the sky?",
 	Author = "Lifeless",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
 	Priority = 7,
-} )
-
-/*MapsRegister( "gmt_ballracer_prism03", {
-	Name = "Prism",
-	Desc = "A world with a new concept, blocks that move to the rythm of the music! This map is not for beginners.",
-	Author = "Bumpy",
-	DateAdded = 1339137397,
-	DateModified = 1339252668,
-	Priority = 4,
-} )*/
-
-MapsRegister( "gmt_ballracer_tranquil", {
-	Name = "Tranquil",
-	Desc = "A magical world full of... RAINBOWS!",
-	Author = "Bumpy",
-	DateAdded = 13439137397,
-	DateModified = 1439252668,
-	Priority = 8,
-} )
-
-/*MapsRegister( "gmt_ballracer_miracle", {
-	Name = "Miracle",
-	Desc = "Venture off into a world of miracles, but be aware of the evil!",
-	Author = "Zoephix",
-	DateAdded = 1339137397,
-	DateModified = 1339252668,
-	Priority = 5,
 } )*/
 
 MapsRegister( "gmt_pvp_construction01", {
@@ -411,33 +303,6 @@ MapsRegister( "gmt_pvp_shard01", {
 	DateModified = 1355168548,
 } )
 
-MapsRegister( "gmt_pvp_aether", {
-	Name = "Aether",
-	Desc = "Some island floating above the clouds, are now a battleground for some worthy combatants. Some say that this is the home to the gods and that some are even watching these battles, so you better be on your best today. You wouldn't want to embarrass yourself in front of gods.",
-	Author = "Bumpy",
-	DateAdded = 1249150914,
-	DateModified = 1249150914,
-	Priority = 4,
-} )
-
-MapsRegister( "gmt_pvp_mars", {
-	Name = "Mars",
-	Desc = "A small group of survivors were discovered living in a secret military base. They were also found to be endlessly shooting each other and respawning.",
-	Author = "Bumpy / Zoki",
-	DateAdded = 1249150914,
-	DateModified = 1249150914,
-	Priority = 4,
-} )
-
-MapsRegister( "gmt_pvp_neo", {
-	Name = "Neo",
-	Desc = "A virtual world that you somehow ended up in. I guess the best thing to do now is to kill people.",
-	Author = "Bumpy",
-	DateAdded = 1249150914,
-	DateModified = 1249150914,
-	Priority = 4,
-} )
-
 MapsRegister( "gmt_virus_facility202", {
 	Name = "Facility",
 	Desc = "Ripped straight out of Goldeneye 64, Facility offers twisting corridors and fast-paced combat.",
@@ -498,14 +363,6 @@ MapsRegister( "gmt_virus_derelict01", {
 	Name = "Derelict Station",
 	Desc = "In space, no one can hear you scream. Good thing screaming won't help you anyway.",
 	Author = "Matt",
-	DateAdded = 1354508003,
-	DateModified = 1354508003,
-} )
-
-MapsRegister( "gmt_virus_parkinglot", {
-	Name = "Parking Lot",
-	Desc = "You're stuck deep down in an abandoned parking lot and on top of that a virus broke out... Could it get any worse, nevermind, it just did.",
-	Author = "Bumpy",
 	DateAdded = 1354508003,
 	DateModified = 1354508003,
 } )
@@ -612,50 +469,6 @@ MapsRegister( "gmt_sk_lifelessraceway01", {
 
 } )
 
-
-
-MapsRegister( "gmt_sk_island01_fix", {
-
-	Name = "Drift Island",
-
-	Desc = "This island is home of the famous loop, which is the most representative landmark of the mysterious Island.",
-
-	Author = "Matt",
-
-	DateAdded = 1345328453,
-
-	DateModified = 1345506617,
-
-} )
-
-MapsRegister( "gmt_sk_rave", {
-
-	Name = "Rave",
-
-	Desc = "Someone build a racing course inside of a rave party, this better be fun!",
-
-	Author = "Madmijk",
-
-	DateAdded = 1345328453,
-
-	DateModified = 1345506617,
-
-} )
-
-/*MapsRegister( "gmt_sk_stadium", {
-
-	Name = "Stadium",
-
-	Desc = "Now is your time to shine. Race at your best infront of a live audience. Be careful though! One small mistake and you'll end up in the water.",
-
-	Author = "Bumpy",
-
-	DateAdded = 1345328453,
-
-	DateModified = 1345506617,
-
-} )*/
-
 MapsRegister( "gmt_minigolf_sandbar06", {
 
 	Name = "Sand Bar",
@@ -743,62 +556,6 @@ MapsRegister( "gmt_minigolf_forest04", {
 	Desc = "This course will take you through a delightful forest with challenging courses.",
 
 	Author = "madmijk and IrZipher",
-
-	DateAdded = 1374298302,
-
-	DateModified = 1374298302,
-
-} )
-
-MapsRegister( "gmt_minigolf_desert", {
-
-	Name = "Desert",
-
-	Desc = "Golf your way through the hot desert, on courses build by the pharaohs. Be sure to take a bottle of water with you!",
-
-	Author = "Bumpy",
-
-	DateAdded = 1374298302,
-
-	DateModified = 1374298302,
-
-} )
-
-MapsRegister( "gmt_mono_main", {
-
-	Name = "Monotone",
-
-	Desc = "Welcome to the world of Monotone! Shoot ink of the opposite color to navigate your way through the map. Both teams are racing to gather all artifacts spread through the map as quickly as possible.",
-
-	Author = "Bumpy",
-
-	DateAdded = 1374298302,
-
-	DateModified = 1374298302,
-
-} )
-
-MapsRegister( "gmt_gr_nile", {
-
-	Name = "The Nile",
-
-	Desc = "A small Egyptic town with food... lots of food.",
-
-	Author = "Bumpy",
-
-	DateAdded = 1374298302,
-
-	DateModified = 1374298302,
-
-} )
-
-MapsRegister( "gmt_gr_ruins", {
-
-	Name = "Ruins",
-
-	Desc = "Explore the ancient ruins left behind in this big swamp.",
-
-	Author = "Bumpy",
 
 	DateAdded = 1374298302,
 
