@@ -27,17 +27,13 @@ GMode.Gameplay = "Kart Racing"
 GMode.Maps = Maps.GetMapsInGamemode( GMode.Gamemode )
 
 GMode.View = {
-	pos = Vector(6042.3500976563, -6094.8198242188, -854.36846923828),
-	ang = Angle(-8.4661426544189, -57.77360534668, 0)
+	pos = Vector( 6142, -6152, -785 ),
+	ang = Angle( 10, -56, 0 )
 }
 
 function GMode:GetMapTexture( map )
 
-	if map == "gmt_sk_island01_fix" && map == "gmt_sk_rave" && map == "gmt_sk_stadium" then
-		map = map
-	else
-		map = string.sub(map,0,#map-2)
-	end
+	map = string.sub(map,0,#map-2)
 
 	return "gmod_tower/maps/" .. map
 

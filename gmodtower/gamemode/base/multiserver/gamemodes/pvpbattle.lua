@@ -31,7 +31,8 @@ GMode.Music = {
 	"GModTower/pvpbattle/StartOfMeadowRound.mp3",
 	"GModTower/pvpbattle/StartOfOneSlipRound.mp3",
 	"GModTower/pvpbattle/StartOfThePitRound.mp3",
-}
+}
+
 GMode.Tips = {
 	"Pickup the Rage powerup and punch smash all your foes with your fists", -- Frost Bite & Colony
 	"With the Headphones On Your Heart powerup, you'll regain health", -- Construction
@@ -60,11 +61,7 @@ GMode.MaxPlayers = 8 //Leave nil if the maxplayers are suppost to be the server 
 GMode.Gameplay = "FPS"
 
 function GMode:GetMapTexture( map )
-	if map == "gmt_pvp_neo" or map == "gmt_pvp_mars" or map == "gmt_pvp_aether" then
-		map = map
-	else
-		map = string.sub(map,0,#map-2)
-	end
+	map = string.sub(map,0,#map-2)
 
 	return "gmod_tower/maps/" .. map
 

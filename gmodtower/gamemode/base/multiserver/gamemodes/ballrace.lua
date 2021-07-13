@@ -33,7 +33,8 @@ GMode.Tips = {
 	"Collect the most bananas to get the most GMC.",
 	"In Memories, be weary of the Repellers and Attractors, they can be quite dangerous!",
 	"New to Ball Race? Play Skyworld first."
-}
+}
+
 GMode.Music = {
 	"GModTower/balls/BallsMusicWGrass.mp3",
 	"GModTower/balls/BallsMusicWKhromidro.mp3",
@@ -46,11 +47,7 @@ GMode.Maps = Maps.GetMapsInGamemode( GMode.Gamemode )
 
 function GMode:GetMapTexture( map )
 
-	if map == "gmt_ballracer_nightball" /*or map == "gmt_ballracer_miracle"*/ or map == "gmt_ballracer_neonlights" or map == "gmt_ballracer_metalworld" or map == "gmt_ballracer_summit" or map == "gmt_ballracer_tranquil" or map == "gmt_ballracer_facile" or map == "gmt_ballracer_waterworld" or map == "gmt_ballracer_spaceworld" or map == "gmt_ballracer_rainbowworld" then
-		map = map
-	else
-		map = string.sub(map,0,#map-2)
-	end
+	map = string.sub(map,0,#map-2)
 
 	return "gmod_tower/maps/" .. map
 
