@@ -191,6 +191,11 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	--ent:SetAngles( Angle(0, -135, 0) )
 	--ent:Spawn()
 
+	local ent = ents.Create("gmt_npc_money")
+	ent:SetPos( Vector(7404, 162, -1039) )
+	ent:SetAngles( Angle(2.1120045185089, -121.5997467041, 0) )
+	ent:Spawn()
+
 	AddL2Camera( Vector( -1154, 60.18159866333, 15100 ), Angle(0, 180, 0) )
 	AddL2Camera( Vector( -672, 60.18159866333, 15100 ), Angle(0, 180, 0) )
 	AddL2Camera( Vector( -192, 60.181701660156, 15100 ), Angle(0, 180, 0) )
