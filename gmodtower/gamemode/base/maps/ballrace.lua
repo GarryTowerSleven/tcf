@@ -131,11 +131,11 @@ Maps.Register( "gmt_ballracer_iceworld03", {
 	Priority = 4,
 } )*/
 
-Maps.Register( "gmt_ballracer_midori02", {
+/*Maps.Register( "gmt_ballracer_midori02", {
 	Name = "Midori",
 	Desc = "Wait a minute... is that a Robot in the sky?",
 	Author = "Lifeless",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
 	Priority = 4,
-} )
+} )*/
