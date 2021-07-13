@@ -141,6 +141,7 @@ function PANEL:PerformLayout()
 		//To add the model icon
 		if Item.model && self.ModelPanel then
 
+			self.ModelPanel.OverrideError = true
 			self.ModelPanel:SetModel( Item.model, Item.ModelSkin )
 			self.ModelPanel:SetSize( 62, 62 )
 
