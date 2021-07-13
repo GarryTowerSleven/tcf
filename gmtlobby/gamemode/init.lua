@@ -619,35 +619,3 @@ hook.Add( "Location", "BWDev", function( ply, loc )
 	end
 
  end )
-
-local function giveTester( ply )
-
-	if !ply:GetNWBool("IsNewPlayer") then return end
-	if !IsTester( ply:SteamID() ) then return end
-
-	local ItemID = GTowerItems:FindByFile( "internet_globe" )
-
-	local Item = GTowerItems:CreateById( ItemID, ply ) 
-	local Slot = GTowerItems:NewItemSlot( ply, "-2" )
-
-	Slot:FindUnusedSlot( Item, true )
-
-	Slot:Set( Item )
-	Slot:ItemChanged()
-
-	ply:AddMoney( 1500 )
-
-	local msg
-	local rand = math.random( 1, 3 )
-
-	if rand == 2 then
-		msg = "Danke, dass du GMod Tower: Deluxe getestet hast! Ein exklusiver Gegenstand ist in Ihrem Tresor aufgetaucht."
-	else 
-		msg = "Thanks for testing GMod Tower: Deluxe! An exclusive item has appeared in your vault."
-	end
-
-	ply:Msg2( msg, "heart" )
-  
-end
-
-hook.Add( "PlayerFullyJoined", "TesterReward", giveTester )
