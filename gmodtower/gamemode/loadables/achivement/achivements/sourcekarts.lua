@@ -85,10 +85,3 @@ GtowerAchivements:Add( ACHIVEMENTS.SKTURBO, {
     Value = 30,
     Group = 11
 } )
-
-GtowerAchivements:Add( ACHIVEMENTS.SKDISCODRIVER, {
-    Name = "Disco Driver",
-    Description = "Boogie with the Disco Ball 4 times.",
-    Value = 4,
-    Group = 11
-} )
