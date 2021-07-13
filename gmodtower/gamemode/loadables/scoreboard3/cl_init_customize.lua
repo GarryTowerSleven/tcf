@@ -43,7 +43,6 @@ CollapsablesFont = "GTowerHUDMain"
 
 
 // PLAYER
-
 PlayersSort = function( a, b )
 	return string.lower( a:Name() ) < string.lower( b:Name() )
 end
@@ -63,24 +62,18 @@ end
 
 // Background
 PlayerBackgroundMaterial = function( ply )
-
 	return nil
-
 end
 
 // Notification (above avatar)
 PlayerNotificationIcon = function( ply )
-
 	return nil
-
 end
 PlayerNotificationIconSize = 24
 
 // Jazz the player avatar? (for winner only)
 PlayerAvatarJazz = function( ply )
-
 	return false
-
 end
 
 // Info Value

@@ -75,7 +75,7 @@ function ENT:DrawPlayerList( List, PlyCount )
 
 	draw.RoundedBox( 2, x, y, self.PlayerWidth, TotalHeight, BackgroundColor )
 
-	surface.SetFont( "MikuHUDMainSmall" )
+	surface.SetFont( "GTowerHUDMainSmall" )
 	surface.SetTextColor( 255, 255, 255, 255 )
 	surface.SetTextPos( x + 4, CurY - 2 )
 	surface.DrawText( List.Title )
