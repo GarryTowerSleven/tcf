@@ -1150,8 +1150,6 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 		if IsLobby then
 
-			self:Slider( "Hud Style", "gmt_hud_style", 0, 2 )
-
 			self:CheckBox( "Enable HUD", "gmt_hud" )
 
 			self:CheckBox( "Enable HUD Location", "gmt_hud_location", "gmt_hud" )
