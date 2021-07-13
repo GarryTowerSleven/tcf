@@ -899,6 +899,8 @@ function PANEL:SetupMaps()
 
 		panel.btnMap.OnCursorEntered = function()
 
+			if panel.btnMap.DisableVote then return end
+
 			self.HoveredMap = mapData
 
 			self:UpdatePreview()
@@ -909,6 +911,8 @@ function PANEL:SetupMaps()
 
 		panel.btnMap.OnCursorExited = function()
 
+			if panel.btnMap.DisableVote then return end
+
 			self.HoveredMap = nil
 
 			self:UpdatePreview()
@@ -918,6 +922,12 @@ function PANEL:SetupMaps()
 
 
 		panel.btnMap.DoClick = function()
+
+			if panel.btnMap.DisableVote then return end
+
+			if panel.btnMap.Disabled then
+				Msg2( T( "GamemodeCooldown", panel.btnMap:GetText() ) )
+			end
 
 			if GTowerServers:CanStillVoteMap() && !panel.btnMap.Disabled then
 
@@ -1259,9 +1269,9 @@ function PANEL:UpdateVotes()
 
 
 
-			if ( panel.btnMap:GetDisabled() ) then
+			if ( panel.btnMap:GetDisabled() || panel.btnMap.DisableVote ) then
 
-				col = Color( 0, 0, 0, 84 )
+				col = Color( 150, 150, 150, 5 )
 
 			elseif ( panel.btnMap.Depressed ) then
 
@@ -1412,9 +1422,13 @@ function PANEL:FinishVote( map )
 
 	for _, v in pairs( self.MapList:GetItems() ) do
 
-		if v.btnMap && v.btnMap:GetText() == MapsList[map].Name then
+		if v.btnMap then
 
-			bar = v.btnMap
+			if v.btnMap:GetText() == MapsList[map].Name then
+				bar = v.btnMap
+			end
+
+			v.btnMap.DisableVote = true
 
 		end
 
@@ -1426,15 +1440,15 @@ function PANEL:FinishVote( map )
 
 	//	- Maybe animate buttons outward and focus winning map panel in the center?
 
-	timer.Simple( 0.0, function() bar.bgColor = Color( 0, 255, 255 ) surface.PlaySound( "gmodtower/misc/blip.wav" ) end )
+	timer.Simple( 0.0, function() bar.bgColor = Color( 57, 131, 181 ) surface.PlaySound( "gmodtower/misc/blip.wav" ) end )
 
 	timer.Simple( 0.2, function() bar.bgColor = nil end )
 
-	timer.Simple( 0.4, function() bar.bgColor = Color( 0, 255, 255 ) surface.PlaySound( "gmodtower/misc/blip.wav" ) end )
+	timer.Simple( 0.4, function() bar.bgColor = Color( 57, 131, 181 ) surface.PlaySound( "gmodtower/misc/blip.wav" ) end )
 
 	timer.Simple( 0.6, function() bar.bgColor = nil end )
 
-	timer.Simple( 0.8, function() bar.bgColor = Color( 0, 255, 255 ) surface.PlaySound( "gmodtower/misc/blip.wav" ) end )
+	timer.Simple( 0.8, function() bar.bgColor = Color( 57, 131, 181 ) surface.PlaySound( "gmodtower/misc/blip.wav" ) end )
 
 	timer.Simple( 1.0, function() bar.bgColor = Color( 100, 100, 100 ) end )
 
