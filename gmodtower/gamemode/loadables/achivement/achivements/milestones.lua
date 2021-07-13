@@ -8,13 +8,20 @@ GtowerAchivements:Add( ACHIVEMENTS.VIRUSMILESTONE1, {
 	}
 )
 
-GtowerAchivements:Add( ACHIVEMENTS.VIRUSMILESTONE2, {
-	Name = "Virus Milestone #2",
-	Description = "Use the adrenaline 80 times and get your own unlimited use Adrenaline!",
-	Value = 80,
-	Group = 2,
-	GiveItem = "VirusAdrenaline"
-	}
+GtowerAchivements:Add( ACHIVEMENTS.VIRUSMILESTONE2, {
+
+	Name = "Virus Milestone #2",
+
+	Description = "Use the adrenaline 80 times and get your own unlimited use Adrenaline!",
+
+	Value = 80,
+
+	Group = 2,
+
+	GiveItem = "VirusAdrenaline"
+
+	}
+
 )
 
 GtowerAchivements:Add( ACHIVEMENTS.BRMILESTONE1, {
@@ -89,38 +96,18 @@ GtowerAchivements:Add( ACHIVEMENTS.UCHMILESTONE2, {
 	}
 )
 
-GtowerAchivements:Add( ACHIVEMENTS.UCHMILESTONE3, {
-	Name = "UCH Milestone #3",
-	Description = "Press the button on the Chimera 150 times and get a Ultimate Chimera pet!",
-	Value = 150,
-	Group = 2,
-	GiveItem = "ChimeraPet"
-	}
-)
+GtowerAchivements:Add( ACHIVEMENTS.UCHMILESTONE3, {
 
-GtowerAchivements:Add( ACHIVEMENTS.GRMILESTONE1, {
-	Name = "Gourmet Race Milestone #1",
-	Description = "Use 100 items to get the mystery sack!",
-	Value = 100,
-	Group = 2,
-	GiveItem = "MysterySack"
-	}
-)
+	Name = "UCH Milestone #3",
 
-GtowerAchivements:Add( ACHIVEMENTS.GRMILESTONE2, {
-	Name = "Gourmet Race Milestone #2",
-	Description = "Play 60 rounds of Gourmet Race and get the hammer in the lobby!",
-	Value = 60,
-	Group = 2,
-	GiveItem = "KirbyHammer"
-	}
-)
+	Description = "Press the button on the Chimera 150 times and get a Ultimate Chimera pet!",
 
-GtowerAchivements:Add( ACHIVEMENTS.SKMILESTONE1, {
-	Name = "Source Karts Milestone #1",
-	Description = "Play 50 rounds of Source Karts and get a driveable RC kart!",
-	Value = 50,
-	Group = 2,
-	GiveItem = "SKKart"
-	}
+	Value = 150,
+
+	Group = 2,
+
+	GiveItem = "ChimeraPet"
+
+	}
+
 )
