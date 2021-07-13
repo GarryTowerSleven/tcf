@@ -1,5 +1,32 @@
 local pScoreBoard = nil
+module( "Scoreboard.Customization", package.seeall )
 
+// COLORS
+ColorFont = color_white
+ColorFontShadow = Color( 6, 76, 127, 255 )
+
+ColorNormal = Color( 34, 100, 156, 255 )
+ColorBright = Color( 57, 131, 181, 255 )
+ColorDark = Color( 17, 50, 78, 255 )
+
+ColorBackground = colorutil.Brighten( ColorNormal, 0.75 )
+
+ColorTabActive = Color( 0, 0, 64, 64 )
+ColorTabDivider = ColorBright
+ColorTabInnerActive = colorutil.Brighten( ColorDark, 0.75, 200 )
+ColorTabHighlight = Color( 77, 151, 201, 255 )
+
+ColorAwardsDescription = Color( 162, 203, 233, 255 )
+ColorAwardsBarAchieved = Color( 178, 215, 243, 255 )
+ColorAwardsBarNotAchieved = Color( 3 + 10, 67 + 10, 114 + 10, 200 )
+ColorAwardsAchievedIcon = Color( 32, 255, 4, 150 )
+
+
+// HEADER
+HeaderTitle = "GMTower"
+HeaderMatHeader = Scoreboard.GenTexture( "ScoreboardLogo", "main_header" )
+HeaderMatFiller = Scoreboard.GenTexture( "ScoreboardFiller", "main_filler" )
+HeaderMatRightBorder = Scoreboard.GenTexture( "ScoreboardRightBorder", "main_rightborder" )
 
 /*---------------------------------------------------------
    Name: gamemode:CreateScoreboard( )
