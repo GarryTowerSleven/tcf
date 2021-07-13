@@ -51,8 +51,6 @@ function ENT:Use(ply)
 
       self:ResetSequence(CloseSeq)
 
-      if self.TeleportName == "secret_exit2" then ply:AddAchivement(ACHIVEMENTS.WTF, 1) end
-
       if ( ply.BallRaceBall && IsValid(ply.BallRaceBall) ) then
         ply.BallRaceBall:SetAngles(self.TeleportEnt:GetAngles())
         ply:SetEyeAngles(self.TeleportEnt:GetAngles())

@@ -407,10 +407,6 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 
 						attacker:EmitSound( Sound("gmodtower/pvpbattle/patriot/patriotkill.wav"), 80 )
 
-						if game.GetMap() == "gmt_pvp_meadow01" then
-							attacker:AddAchivement( ACHIVEMENTS.PVPBIGBOSS, 1 )
-						end
-
 					end
 				end
 

@@ -33,9 +33,6 @@ function ENT:Think()
 			--v:Fire("kill")
 
 			self.KillCount = self.KillCount + 1
-			if self.KillCount > 14 then
-				self:GetOwner():AddAchivement( ACHIVEMENTS.ZMOUTOFMYWAY, 1 )
-			end
 
 		end
 	end

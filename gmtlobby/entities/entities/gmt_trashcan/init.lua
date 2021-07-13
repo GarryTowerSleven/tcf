@@ -17,8 +17,6 @@ function ENT:Use(ply)
 
   self.NO = true
 
-  ply:AddAchivement( ACHIVEMENTS.TRASHMAN, 1 )
-
   net.Start("trashcan")
     net.WriteEntity(self)
   net.Broadcast()

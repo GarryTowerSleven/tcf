@@ -172,8 +172,6 @@ function GM:Complete( ply )
   ply:SetTeam( TEAM_FINISHED )
   ply:ClearItems()
 
-	ply:AddAchivement( ACHIVEMENTS.SKMILESTONE1, 1 )
-
 	if ply:GetPosition() == 1 then
     music.Play( 1, MUSIC_WIN, ply )
 		ply:AddAchivement( ACHIVEMENTS.SKCHAMP, 1 )
@@ -357,7 +355,6 @@ function GM:Think()
 	v.PassedPoints = {}
         self:SpawnPlayerKart( v, false )
         v:ClearItems()
-		--v:AddAchivement(ACHIVEMENTS.SKMILESTONE1, 1)
       end
 
       self:SetTime( self.CameraTime * self.Cameras + 6 )
@@ -465,7 +462,6 @@ function GM:Think()
         self:SpawnPlayerKart( v, true )
         v:SetCamera( "Battle", 0 )
         v:ClearItems()
-		--v:AddAchivement(ACHIVEMENTS.SKMILESTONE1, 1)
       end
 
       timer.Simple(13,function()
