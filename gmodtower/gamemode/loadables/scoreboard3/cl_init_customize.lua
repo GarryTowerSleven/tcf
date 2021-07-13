@@ -44,7 +44,9 @@ CollapsablesFont = "GTowerHUDMain"
 
 // PLAYER
 PlayersSort = function( a, b )
-	return string.lower( a:Name() ) < string.lower( b:Name() )
+	if IsValid(a) && IsValid(b) then
+		return string.lower( a:Name() ) < string.lower( b:Name() )
+	end
 end
 
 // Subtitle (under name)
