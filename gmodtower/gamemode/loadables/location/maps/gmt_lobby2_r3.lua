@@ -35,7 +35,7 @@ GTowerLocation.MapPositions = {
 	{ 42, Vector(-8120,-5375.9794921875,-1144), Vector(-1720,4351.9599609375,1032), 'boardwalk', 1  }, //Boardwalk
 	{ 40, Vector(5424,-1256,-1328), Vector(8832,-704,-1024), 'transit', 0  }, //Station B
 	{ 37, Vector(288,-2208,-671.97998046875), Vector(1024,-1440,-428.00302124023), 'stores', 1  }, //Songbirds
-	{ 35, Vector(4118,4110,-896), Vector(4682,4492,-480), 'theater', 2  }, //Theater Game Room
+	{ 35, Vector(4118,4110,-896), Vector(4682,4492,-480), 'theaterarcade', 2  }, //Theater Game Room
 	{ 31, Vector(8166, 827, -446), Vector(7846, -825, -751), 'elevators', 4  }, //Condo Elevator
 	{ 31, Vector(-1866, 864, 14783), Vector(-1624, 1753, 15160), 'elevators', 4  }, //Condo Elevator
 	{ 31, Vector(7318, -768, -657), Vector(7551, -294, -449), 'elevators', 4  }, //Condo Elevator
