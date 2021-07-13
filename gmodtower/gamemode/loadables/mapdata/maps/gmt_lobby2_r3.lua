@@ -190,10 +190,17 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	--ent:SetPos( Vector(7434, 221, -1088) )
 	--ent:SetAngles( Angle(0, -135, 0) )
 	--ent:Spawn()
-
+	
+	// Beta Money NPC
 	local ent = ents.Create("gmt_npc_money")
-	ent:SetPos( Vector(7404, 162, -1039) )
-	ent:SetAngles( Angle(2.1120045185089, -121.5997467041, 0) )
+	ent:SetPos( Vector( 7425, 218, -1088 ) ) // 7425.170898 218.442490 -1087.977783
+	ent:SetAngles( Angle( 0, -135, 0 ) )
+	ent:Spawn()
+	
+	// The Board
+	local ent = ents.Create( "gmt_streamer_board" )
+	ent:SetPos( Vector( 2580, 4930, -911 ) )
+	ent:SetAngles( Angle(0, 75, 0) )
 	ent:Spawn()
 
 	AddL2Camera( Vector( -1154, 60.18159866333, 15100 ), Angle(0, 180, 0) )
