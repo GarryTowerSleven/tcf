@@ -61,18 +61,6 @@ function ENT:Use( activator, caller )
 				caller.IsSpinning = true
 				caller:AddMoney(-self.Cost)
 
-				local bzr = ents.Create("gmt_money_bezier")
-
-				if IsValid( bzr ) then
-					bzr:SetPos( caller:GetPos() )
-					bzr.GoalEntity = self
-					bzr.GMC = self.Cost
-					bzr.RandPosAmount = 10
-					bzr:Spawn()
-					bzr:Activate()
-					bzr:Begin()
-				end
-
 				self:SetSpinTime(self.SpinDuration)
 				self:SetState(4)
 
