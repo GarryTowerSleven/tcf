@@ -395,13 +395,8 @@ function ENT:DrawTranslucent()
 
 			if DrawScreen then
 
-				surface.SetDrawColor( 31, 8, 62 )
+				surface.SetDrawColor( Color( 0, 0, 128 ) )
 				surface.DrawRect( -self.Width / 2 - 50, -self.Height / 2 - 50, self.Width + 100, self.Height + 100 )
-
-				surface.SetDrawColor( 161, 138, 192, 115 )
-				surface.SetMaterial( DeluxeGradient )
-				//surface.DrawTexturedRect( -self.Width / 2 - 50, -self.Height / 2 - 50, self.Width + 100, self.Height + 100 )
-				surface.DrawTexturedRectUV( -self.Width / 2 - 50, -self.Height / 2 - 50, self.Width + 100, self.Height + 100, .4, .4, .6, .6)
 
 				local function MainText( text, x, y, ax, ay )
 					draw.SimpleTextOutlined( text, "poker_2", x + 2, y + 2, Color( 0, 0, 0 ), ax, ay, 1, Color( 0, 0, 0 ) )
