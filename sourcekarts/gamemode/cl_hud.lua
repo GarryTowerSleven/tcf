@@ -276,18 +276,6 @@ function GM:DrawHUDMaterials( outx, outy )
 
 	if LocalPlayer():Team() != TEAM_PLAYING then return end
 
-	surface.SetDrawColor( Color( 255, 255, 255, 255 ) )
-	surface.SetMaterial( KeyMat )
-	surface.DrawTexturedRect( 16, ScrH() - 32 - 16, 32, 32 )
-	surface.SetTextColor( Color( 0, 0, 0, 255 ) )
-	surface.SetTextPos(16 + 3, ScrH() - 32 - 16 - 2.5)
-	surface.SetFont("HudSmallAlt")
-	surface.DrawText("R")
-	surface.SetTextColor( Color( 255, 255, 255, 255 ) )
-	surface.SetFont("HudSmall")
-	surface.SetTextPos(16 + 3 + 35, ScrH() - 32 - 16 - 6)
-	surface.DrawText("RESPAWN")
-
 	outx = outx or 0
 
 	outy = outy or 0
