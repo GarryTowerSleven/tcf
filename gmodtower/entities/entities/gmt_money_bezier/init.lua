@@ -16,7 +16,7 @@ function ENT:Initialize()
 end
 
 function ENT:Begin()
-  timer.Simple(0.5,function()
+  timer.Simple(0.25,function()
 
   net.Start( "gmt_bezier_start" )
     net.WriteEntity(self.Entity)
@@ -24,8 +24,8 @@ function ENT:Begin()
     net.WriteVector(self.Offset)
     net.WriteShort(math.Clamp( (self.GMC / 4), 1, 150 ))
     net.WriteFloat(self.RandPosAmount)
-    net.WriteFloat(1)
-    net.WriteFloat(2)
+    net.WriteFloat(0.5)
+    net.WriteFloat(2.5)
   net.Broadcast()
 
   end)
