@@ -600,7 +600,7 @@ function APP:Draw()
 
 
 
-	self:DrawNewsTicker()
+	//self:DrawNewsTicker()
 
 	self:DrawNowPlaying( 0, 70 )
 
