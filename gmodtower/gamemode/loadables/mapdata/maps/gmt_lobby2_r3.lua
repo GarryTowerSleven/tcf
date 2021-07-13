@@ -101,6 +101,7 @@ local function AddL2Door( ent, name, pos )
 	door:SetModel( condodoorModel or 'models/map_detail/condo_slidingdoor.mdl' )
 	door:SetParent( ent )
 	door:Spawn()
+	door:DrawShadow( false )
 
 end
 
