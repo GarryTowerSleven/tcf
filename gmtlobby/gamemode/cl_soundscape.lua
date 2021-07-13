@@ -273,7 +273,7 @@ for n=1, ElevatorMusicCount do
 
 end
 
-soundscape.Register("elevator", 
+soundscape.Register("elevators", 
 
 {
 

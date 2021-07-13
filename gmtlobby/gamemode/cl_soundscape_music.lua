@@ -262,7 +262,7 @@ soundscape.Register("music_lobby",
 
 -- Mute BG music in elevator
 
-soundscape.Register("music_elevator", {})
+soundscape.Register("music_elevators", {})
 
 
 
