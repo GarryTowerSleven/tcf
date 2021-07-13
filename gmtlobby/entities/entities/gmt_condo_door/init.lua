@@ -112,7 +112,6 @@ local bells = {
   "vocoder1",
   "vocoder2",
 
-  "deluxe",
   "assi"
 }
 

@@ -321,7 +321,7 @@ function ENT:DrawTranslucent()
 
 	// statistics
 	local Data = {
-		"Welcome to the GMod Tower: Deluxe casino!",
+		"Welcome to the GMod Tower casino!",
 		"This machine's jackpot is being displayed below (in credits). In GMC, it is worth: " .. string.Comma( self:GetJackpot() * self.GMCPerCredit ) .. " GMC.",
 		self.GMCPerCredit .. " GMC = 1 credit"
 	}
