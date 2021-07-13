@@ -3,54 +3,92 @@
 module("Location", package.seeall )
 
 GTowerLocation.MapPositions = {
-	{ 32, Vector(3504,3240,-896), Vector(5296,4492,-480), 'theater', 1  }, //Theater Main
-	{ 28, Vector(1456.0200195313,-6256,-996), Vector(7072.009765625,-3440,176), 'games', 0  }, //Games
-	{ 24, Vector(1784,-3000,-864.00006103516), Vector(2856,-1960,-576), '', 1  }, //Casino Loft
-	{ 20, Vector(-472,1440,-672), Vector(240,2240,-372), 'stores', 1  }, //Tower Outfitters
-	{ 41, Vector(-9984,-16096,2304), Vector(256,-5856,12544), 'duels', 0  }, //Duel Arena
-	{ 33, Vector(2852,4896,-2944), Vector(4112,5864,-2304), 'theater', 1  }, //Theater 1
-	{ 56, Vector(2856,3048,-188), Vector(3120,3224,-1000), '', 2  }, //???
-	{ 29, Vector(-4294,-1006,14883), Vector(250,1886,15711), 'condos', 0  }, //Tower Condos Lobby
-	{ 53, Vector(5120,-6128,-896), Vector(5632,-5872,-640), 'pvpbattle', 1  }, //PVP Battle Port
-	{ 50, Vector(1888,-5712,-896), Vector(2144,-5200,-640), 'virus', 1  }, //Virus Port
-	{ 25, Vector(2168,-11780,-2648), Vector(3835.9899902344,-9220,-2288), '', 0  }, //Casino
-	{ 34, Vector(4688,4896,-2944), Vector(5952,5864,-2304), 'theater', 1  }, //Theater 2
-	{ 55, Vector(6656,-5712,-896), Vector(6912,-5200,-640), 'minigolf', 1  }, //Minigolf Port
-	{ 21, Vector(288,1440,-672), Vector(1032,2296,-372), 'stores', 1  }, //Toy Stop and Pets
-	{ 52, Vector(3168.1899414063,-6128.2202148438,-896), Vector(3680.1899414063,-5872.2202148438,-640), 'ballrace', 1  }, //Ball Race Port
-	{ 47, Vector(-6134,-2304,-1144), Vector(-4858,2110,1280), 'boardwalk', 2  }, //Ocean
-	{ 17, Vector(1024,-3328,-1024), Vector(6136,3240,1636), 'plaza', 0  }, //Plaza
-	{ 22, Vector( -2038.3122558594, -1430.8845214844, -1000.1024780273 ), Vector( -716.17419433594, -556.38677978516, -264.75384521484 ), 'stores', 1  }, //Sweet Suite Furnishings
-	{ 39, Vector(5424,704,-1328), Vector(8832,1256,-1024), 'transit', 0  }, //Station A
-	{ 15, Vector(6112,-1568,-608), Vector(9216,1568,1024), 'lobby', 1  }, //Tower Lobby
-	{ 54, Vector(5984,-6128,-896), Vector(6496,-5872,-640), 'sourcekarts', 1  }, //Source Karts Port
-	{ 49, Vector(1888,-4496,-896), Vector(2144,-3984,-640), 'zombiemassacre', 1  }, //Zombie Massacre Port
-	{ 46, Vector(-4472,-4864,-232), Vector(-3768,-4480,136), 'boardwalk', 4  }, //Top of Water Slides
-	{ 48, Vector(-4858,-4864,-952), Vector(-1720,-2240,1280), 'boardwalk', 2  }, //Water Slides
-	{ 38, Vector(5720,-704.00006103516,-1328), Vector(7512.0004882813,704,-640), 'transit', 1  }, //Transit Station
-	{ 36, Vector(3984,-3968,-896), Vector(4816,-2944,-544), '', 1  }, //Games Lobby
-	{ 45, Vector(-4920,-454,-1144), Vector(-3192,1408,1280), 'boardwalk', 2  }, //Beach
-	{ 44, Vector(-7178,566,-896), Vector(-6134,2110.3334960938,1280), 'boardwalk', 2  }, //Ferris Wheel
-	{ 18, Vector(-1856,-1448,-966.10906982422), Vector(1023.9899902344,1440,1636), 'stores', 0  }, //Stores
-	{ 42, Vector(-8120,-5375.9794921875,-1144), Vector(-1720,4351.9599609375,1032), 'boardwalk', 1  }, //Boardwalk
-	{ 40, Vector(5424,-1256,-1328), Vector(8832,-704,-1024), 'transit', 0  }, //Station B
-	{ 37, Vector(288,-2208,-671.97998046875), Vector(1024,-1440,-428.00302124023), 'stores', 1  }, //Songbirds
-	{ 35, Vector(4118,4110,-896), Vector(4682,4492,-480), 'theaterarcade', 2  }, //Theater Game Room
+    // Transit Station
+    { 38, Vector(5720,-704,-1328), Vector(7512,704,-640), 'transit', 1 }, // Transit Station
+    { 39, Vector(5424,704,-1328), Vector(8832,1256,-1024), 'transit', 0 }, // Station A
+    { 40, Vector(5424,-1256,-1328), Vector(8832,-704,-1024), 'transit', 0 }, // Station B
+
+    // Plaza
+    { 17, Vector(1024,-3328,-1024), Vector(6136,3240,-36), 'plaza', 0 }, // Plaza
+    { 16, Vector(1920,-768,-992), Vector(3456,768,-896), 'plaza', 1 }, // Center Plaza
+    { 19, Vector(1656,1536,-864), Vector(1960,1960,-608), 'plaza', 1 }, // Arcade Loft
+    { 24, Vector(1784,-3000,-864), Vector(2856,-1960,-576), '', 1 }, // Casino Loft
+
+    // Stores
+    { 18, Vector(-1856,-1448,-966), Vector(1024,1440,-36), 'stores', 0 }, // Stores
+
+    { 20, Vector(-472,1440,-672), Vector(240,2240,-372), 'stores', 1 }, // Tower Outfitters
+    { 21, Vector(288,1440,-671), Vector(1032,2296,-432), 'stores', 1 }, // Toy Stop and Pets
+    { 37, Vector(288,-2208,-672), Vector(1024,-1440,-428), 'stores', 1 }, // Songbirds
+    { 23, Vector(-672,-2208,-672), Vector(256,-1440,-428), 'stores', 1 }, // Central Circuit
+    { 22, Vector(-720,-1472,-896), Vector(-288,-796,-696), 'stores', 1 }, // Sweet Suite Furnishings
+
+    // Theater
+    { 32, Vector(3504,3240,-896), Vector(5296,4492,-480), 'theater', 1 }, // Theater Main
+    { 35, Vector(4118,4110,-896), Vector(4682,4492,-480), 'theater', 2 }, // Theater Game Room
+    { 33, Vector(2852,4896,-2944), Vector(4112,5864,-2304), 'theater', 1 }, // Theater 1
+    { 34, Vector(4688,4896,-2944), Vector(5952,5864,-2304), 'theater', 1 }, // Theater 2
+
+    // Casino
+    { 25, Vector(2168,-11780,-2648), Vector(3836,-9220,-2288), '', 0 }, // Casino
+    { 30, Vector(3314,-1472,-3584), Vector(4982,64,-2816), '', 0 }, // Duel Arena Lobby
+
+    // Nightclub
+    { 26, Vector(1472,-5760,-2688), Vector(2880,-4304,-2240), 'nightclub', 0 }, // Pulse Nightclub
+    { 27, Vector(1472,-4736,-2688), Vector(2144,-4304,-2240), 'nightclub', 1 }, // Pulse Nightclub Bar
+
+    // Boardwalk
+    { 42, Vector(-8120,-5376,-1144), Vector(-1720,4352,1032), 'boardwalk', 0 }, // Boardwalk
+    { 45, Vector(-4920,-454,-1144), Vector(-3192,1408,1280), 'boardwalk', 2 }, // Beach
+    { 47, Vector(-6134,-2304,-1144), Vector(-4858,2110,1280), 'boardwalk', 1 }, // Ocean
+    { 43, Vector(-4858,-2496,-952), Vector(-1722,-454,1280), 'boardwalk', 1 }, // Pool
+    { 48, Vector(-4858,-4864,-952), Vector(-1720,-2240,1280), 'boardwalk', 1 }, // Water Slides
+    { 46, Vector(-4472,-4864,-232), Vector(-3768,-4480,136), 'boardwalk', 2 }, // Top of Water Slides
+    { 44, Vector(-7178,566,-896), Vector(-6134,2110,1280), 'boardwalk', 1 }, // Ferris Wheel
+
+    // Games
+    { 28, Vector(1456,-6256,-896), Vector(7072,-3440,176), 'games', 0 }, // Games
+    { 36, Vector(3984,-3968,-896), Vector(4816,-2944,-544), '', 1 }, // Games Lobby
+
+    { 55, Vector(6656,-5712,-896), Vector(6912,-5200,-640), 'games', 1 }, // Minigolf Port
+    { 54, Vector(5984,-6128,-896), Vector(6496,-5872,-640), 'games', 1 }, // Source Karts Port
+    { 53, Vector(5120,-6128,-896), Vector(5632,-5872,-640), 'games', 1 }, // PVP Battle Port
+    { 52, Vector(3168,-6128,-896), Vector(3680,-5872,-640), 'games', 1 }, // Ball Race Port
+    { 51, Vector(2304,-6128,-896), Vector(2816,-5872,-640), 'games', 1 }, // UCH Port
+    { 50, Vector(1888,-5712,-896), Vector(2144,-5200,-640), 'games', 1 }, // Virus Port
+    { 49, Vector(1888,-4496,-896), Vector(2144,-3984,-640), 'games', 1 }, // Zombie Massacre Port
+
+    // Tower
+    { 15, Vector(6112,-1568,-608), Vector(9216,1568,1024), 'lobby', 1 }, // Tower Lobby
+    { 14, Vector(7072,-896,-608), Vector(7872,896,-320), 'lobby', 2 }, // Tower Elevators Lobby
+    { 29, Vector(-4294,-1006,14983), Vector(250,1886,15711), 'condos', 0 }, // Tower Condos Lobby
+
+    // Elevators
+    //{ 31, Vector(7864,-600,-608), Vector(8056,-407,-480), 'elevators', 3 }, // Condo Elevator
 	{ 31, Vector(8166, 827, -446), Vector(7846, -825, -751), 'elevators', 4  }, //Condo Elevator
 	{ 31, Vector(-1866, 864, 14783), Vector(-1624, 1753, 15160), 'elevators', 4  }, //Condo Elevator
 	{ 31, Vector(7318, -768, -657), Vector(7551, -294, -449), 'elevators', 4  }, //Condo Elevator
 	{ 31, Vector(7295, 334, -663), Vector(7554, 661, -468), 'elevators', 4  }, //Condo Elevator
 	{ 31, Vector(-2395, 862, 14929), Vector(-2169, 1088, 15165), 'elevators', 4  }, //Condo Elevator
 	{ 31, Vector(-2386, 1468, 14853), Vector(-2166, 1754, 15156), 'elevators', 4  }, //Condo Elevator
-	{ 30, Vector(3313.759765625,-1472,-3584), Vector(4981.759765625,64,-2816), 'duelarena', 0  }, //Duel Arena Lobby
-	{ 27, Vector(1472,-4736,-2688), Vector(2144,-4304,-2240), 'nightclub', 1  }, //Pulse Nightclub Bar
-	{ 23, Vector(-672,-2208,-672), Vector(256,-1440,-428.02304077148), 'stores', 1  }, //Central Circuit
-	{ 26, Vector(1472,-5760,-2688), Vector(2880,-4304,-2240), 'nightclub', 0  }, //Pulse Nightclub
-	{ 51, Vector(2304,-6128,-896), Vector(2816,-5872,-640), 'ultimatechimerahunt', 1  }, //UCH Port
-	{ 19, Vector(1640, 1960, -921), Vector(2855, 3243, -408), 'plaza', 2  }, //Arcade Loft
-	{ 43, Vector(-4858,-2496,-952), Vector(-1722,-454,1280), 'boardwalk', 1  }, //Pool
-	{ 16, Vector(1920,-768,-992), Vector(3455.9899902344,768,-556), 'plaza', 1  }, //Center Plaza
-	{ 14, Vector(7072,-896,-608), Vector(7872,896,-320), 'lobby', 2  }, //Tower Elevators Lobby
+
+    // Misc
+    { 30, Vector(-9984,-16096,2304), Vector(256,-5856,12544), '', 0 }, // Duel Arena
+    { 60, Vector(2856,3048,-888), Vector(3120,3224,-616), '', 2 }, // ???
+
+    // Condos (Unused)
+    //{ 45, Vector(102,8416,14460), Vector(1581,10584,15016), 'condos', 0 }, // Condo #1
+    //{ 46, Vector(102,13024,14460), Vector(1581,15192,15016), 'condos', 0 }, // Condo #2
+    //{ 47, Vector(-4506,13024,14460), Vector(-3027,15192,15016), 'condos', 0 }, // Condo #3
+    //{ 48, Vector(-9114,13024,14460), Vector(-7635,15192,15016), 'condos', 0 }, // Condo #4
+    //{ 49, Vector(-13722,13024,14460), Vector(-12243,15192,15016), 'condos', 0 }, // Condo #5
+    //{ 50, Vector(-4506,8416,14460), Vector(-3027,10584,15016), 'condos', 0 }, // Condo #6
+    //{ 51, Vector(4710,13024,14460), Vector(6189,15192,15016), 'condos', 0 }, // Condo #7
+    //{ 52, Vector(9318,13024,14460), Vector(10797,15192,15016), 'condos', 0 }, // Condo #8
+    //{ 53, Vector(4710,8416,14460), Vector(6189,10584,15016), 'condos', 0 }, // Condo #9
+    //{ 54, Vector(9318,8416,14460), Vector(10797,10584,15016), 'condos', 0 }, // Condo #10
+    //{ 55, Vector(13926,13024,14460), Vector(15405,15192,15016), 'condos', 0 }, // Condo #11
+    //{ 56, Vector(13926,8416,14460), Vector(15405,10584,15016), 'condos', 0 }, // Condo #12
 }
 ResortVectors()
 
