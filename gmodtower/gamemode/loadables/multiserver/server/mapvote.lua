@@ -1,4 +1,6 @@
----------------------------------
+
+CooldownLimit = 2
+
 function ServerMeta:StartMapVote()
 
 	local Gamemode = self:GetGamemode()
@@ -77,10 +79,12 @@ function ServerMeta:CountMapVotes()
 	self.MapChangeSent = true
 
 	Maps.PlayedMap( Gamemode.Maps[ HighestId ] )
-
+	
 	net.Start("VoteScreenFinish")
 	net.WriteString(tostring(Gamemode.Maps[ HighestId ]))
 	net.Send(MovingPlayers)
+	
+	PlayedMap(Gamemode.Maps[ HighestId ])
 
 end
 
@@ -94,7 +98,69 @@ net.WriteInt(id,32)
 net.Broadcast()
 end
 
-function ServerMeta:SendMapVote()
+MapPlays = {}
+
+timer.Create( "gmt_checkplaycount", 10, 0, function() 
+	local query = "SELECT * FROM `gm_maps`"
+
+	local playcount = 0
+
+	SQL.getDB():Query( query, function(res) 
+		if res[1].status != true then print(res[1].error) return end
+		for k,v in pairs(res[1].data) do
+			local map = v.map
+			playcount = v.playedCount
+			
+			MapPlays[map] = playcount
+			
+		end
+	end)
+end)
+
+local GamemodePrefixes =
+{
+	"gmt_ballracer_",
+	"gmt_pvp_",
+	"gmt_virus_",
+	"gmt_uch_",
+	"gmt_zm_",
+	"gmt_minigolf_",
+	"gmt_sk_",
+}
+
+function PlayedMap(map)
+
+	local prefix = ""
+
+	for k,v in pairs(GamemodePrefixes) do
+		if string.StartWith( map, v ) then
+			prefix = v
+		end
+	end
+
+	local query = "UPDATE `gm_maps` SET playedCount = 0 WHERE map LIKE '%"..prefix.."%'"
+	
+	SQL.getDB():Query( query, function(res) 
+		if res[1].status != true then print(res[1].error) return end
+	end)
+
+	timer.Simple( 10, function()
+
+	local query = "REPLACE INTO `gm_maps`(`map`,`playedCount`) VALUES ('"..map.."',1)"
+
+	SQL.getDB():Query( query, function(res) 
+		if res[1].status != true then print(res[1].error) return end
+	end)
+	
+	end)
+	
+end
+
+function CanPlay(map)
+	return MapPlays[map] != 0
+end
+
+function ServerMeta:SendMapVote( responded )
 
 	local Players = self:GetMovingPlayers()
 
@@ -103,10 +169,16 @@ function ServerMeta:SendMapVote()
 	local Gamemode = self:GetGamemode()
 	local rp = RecipientFilter()
 	local Votes = {}
+	local CanPlayNums = {}
 
 	for k, v in ipairs( Gamemode.Maps ) do
 		Votes[ k ] = 0
 	end
+	
+	for k, v in ipairs( Gamemode.Maps ) do
+		CanPlayNums[ k ] = 0
+	end
+	
 
 	for _, ply in pairs( Players ) do
 
@@ -115,14 +187,19 @@ function ServerMeta:SendMapVote()
 			if ply._MultiChoosenMap == v then
 				Votes[ k ] = Votes[ k ]  + 1
 			end
+			
+			if CanPlay(v) then
+				CanPlayNums[k] = 1
+			end
+			
 		end
 
 		rp:AddPlayer( ply )
 
 	end
-
+	
 	SendGMMsg( self.GamemodeValue, #Players, self.Id )
-
+	
 	umsg.Start("GServ", rp )
 		umsg.Char( 11 )
 
@@ -135,12 +212,10 @@ function ServerMeta:SendMapVote()
 			umsg.Char( v )
 		end
 		
-		umsg.Char( #Maps.GetNonPlayableMaps(Gamemode.Gamemode) )
-		
-		for _, v in ipairs( Maps.GetNonPlayableMaps(Gamemode.Gamemode) ) do
-			umsg.String( v )
+		for _, v in ipairs( CanPlayNums ) do
+			umsg.Char( v )
 		end
-		
+
 	umsg.End()
 
 end
