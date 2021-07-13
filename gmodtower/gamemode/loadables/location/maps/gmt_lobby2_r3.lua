@@ -50,13 +50,13 @@ GTowerLocation.MapPositions = {
     { 28, Vector(1456,-6256,-896), Vector(7072,-3440,176), 'games', 0 }, // Games
     { 36, Vector(3984,-3968,-896), Vector(4816,-2944,-544), '', 1 }, // Games Lobby
 
-    { 55, Vector(6656,-5712,-896), Vector(6912,-5200,-640), 'games', 1 }, // Minigolf Port
-    { 54, Vector(5984,-6128,-896), Vector(6496,-5872,-640), 'games', 1 }, // Source Karts Port
-    { 53, Vector(5120,-6128,-896), Vector(5632,-5872,-640), 'games', 1 }, // PVP Battle Port
-    { 52, Vector(3168,-6128,-896), Vector(3680,-5872,-640), 'games', 1 }, // Ball Race Port
-    { 51, Vector(2304,-6128,-896), Vector(2816,-5872,-640), 'games', 1 }, // UCH Port
-    { 50, Vector(1888,-5712,-896), Vector(2144,-5200,-640), 'games', 1 }, // Virus Port
-    { 49, Vector(1888,-4496,-896), Vector(2144,-3984,-640), 'games', 1 }, // Zombie Massacre Port
+    { 55, Vector(6656,-5712,-896), Vector(6912,-5200,-640), 'minigolf', 1 }, // Minigolf Port
+    { 54, Vector(5984,-6128,-896), Vector(6496,-5872,-640), 'sourcekarts', 1 }, // Source Karts Port
+    { 53, Vector(5120,-6128,-896), Vector(5632,-5872,-640), 'pvpbattle', 1 }, // PVP Battle Port
+    { 52, Vector(3168,-6128,-896), Vector(3680,-5872,-640), 'ballrace', 1 }, // Ball Race Port
+    { 51, Vector(2304,-6128,-896), Vector(2816,-5872,-640), 'ultimatechimerahunt', 1 }, // UCH Port
+    { 50, Vector(1888,-5712,-896), Vector(2144,-5200,-640), 'virus', 1 }, // Virus Port
+    { 49, Vector(1888,-4496,-896), Vector(2144,-3984,-640), 'zombiemassacre', 1 }, // Zombie Massacre Port
 
     // Tower
     { 15, Vector(6112,-1568,-608), Vector(9216,1568,1024), 'lobby', 1 }, // Tower Lobby
