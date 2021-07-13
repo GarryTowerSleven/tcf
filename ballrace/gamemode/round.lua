@@ -380,7 +380,7 @@ function GM:PlayerComplete(ply)
 
 	self:GetBestTime(ply, level)
 
-	timer.Simple(0.25,function()
+	timer.Simple(1,function()
 
 		if ply.BestTime == nil then
 			self:ColorNotifyPlayer( ply, "New best time!", Color(65, 115, 200, 255) )
