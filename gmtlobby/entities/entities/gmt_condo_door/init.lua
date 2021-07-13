@@ -31,56 +31,14 @@ function ENT:Think()
 
       local room = GtowerRooms.Get(self:GetCondoID())
 
-      if room && IsValid(room.Owner) then
-        if room.Owner:GetNWBool("Party") then
-          self:SpawnDancers()
-        else
-          self:RemoveDancers()
-        end
-      else
-        self:RemoveDancers()
-      end
-
     end
-end
-
-ENT.Dancers = {}
-
-function ENT:SpawnDancers()
-
-  if #self.Dancers > 0 then return end
-
-  local posSide = {
-    [1] = 50,
-    [2] = 1,
-    [3] = -50,
-  }
-
-  for i=1, 3 do
-    local e = ents.Create("gmt_ai_dancer")
-    e:SetPos( self:GetPos() + (self:GetForward() * -35) + (self:GetRight() * posSide[i]) )
-    e:SetAngles( Angle( 0, math.random( 0, 360 ), 0 ) )
-    e:Spawn()
-
-    table.insert( self.Dancers, e )
-
-  end
-
-end
-
-function ENT:RemoveDancers()
-  for k,v in pairs(self.Dancers) do
-    if IsValid(v) then v:Remove() end
-  end
-  self.Dancers = {}
 end
 
 local bells = {
   "standard1",
-  "",
   "standard2",
 
-  "Ambient1",
+  "ambient1",
 
   "happy1",
   "happy2",
@@ -110,9 +68,7 @@ local bells = {
   "robot2",
 
   "vocoder1",
-  "vocoder2",
-
-  "assi"
+  "vocoder2"
 }
 
 function ENT:Use( ply )
