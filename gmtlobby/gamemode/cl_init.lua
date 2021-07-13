@@ -27,10 +27,10 @@ NoPartyMsg 			= CreateClientConVar( "gmt_ignore_party", "0", true, false )
 
 VoiceDistance 	= CreateClientConVar( "gmt_voice_distance", "1024", true, true )
 
-CondoSkyBox 		= CreateClientConVar( "gmt_condoskybox" , "1", true, true )
+//CondoSkyBox 		= CreateClientConVar( "gmt_condoskybox" , "1", true, true )
 CondoDoorbell 	= CreateClientConVar( "gmt_condodoorbell" , "1", true, true )
 CondoBackground = CreateClientConVar( "gmt_condobg" , "1", true, true )
-CondoBlinds 		= CreateClientConVar( "gmt_condoblinds" , "1", true, true )
+//CondoBlinds 		= CreateClientConVar( "gmt_condoblinds" , "1", true, true )
 
 //GMTMCore 				= CreateClientConVar( "gmt_usemcore", "1", true, true )
 
