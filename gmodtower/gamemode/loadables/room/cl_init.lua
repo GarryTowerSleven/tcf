@@ -234,9 +234,7 @@ function GtowerRooms:ShowRentWindow( um )
 			{
 				title = "Information",
 				icon = "about",
-				func = function()
-					GTowerMessages:AddNewItem( T("RoomInformation"), nil, nil, "condo" )
-				end,
+				func = function() MsgN( "wow!" ) end,
 			},
 		}
 
@@ -255,9 +253,7 @@ function GtowerRooms:ShowRentWindow( um )
 			{
 				title = "Information",
 				icon = "about",
-				func = function()
-					GTowerMessages:AddNewItem( T("RoomInformation"), nil, nil, "condo" )
-				end,
+				func = function() MsgN( "wow!" ) end,
 			},
 		}
 
@@ -285,9 +281,7 @@ function GtowerRooms:ShowRentWindow( um )
 			{
 				title = "Information",
 				icon = "about",
-				func = function()
-					GTowerMessages:AddNewItem( T("RoomInformation"), nil, nil, "condo" ) 
-				end,
+				func = function() MsgN( "wow!" ) end,
 			},
 		}
 

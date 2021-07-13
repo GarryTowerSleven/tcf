@@ -1,79 +1,40 @@
------------------------------------------------------
+
 local PANEL = {}
-
 PANEL.DEBUG = false
-
 local OpenTime = 1 / 0.5 // 0.5 seconds
-
-
 
 local GhostEntity =  nil
 
-
-
 local BackgroundColor = Color( 255, 255, 255, 150 )
-
 local SelectedBackgroundColor = Color( 155, 255, 155, 255 )
-
-if IsHalloweenMap() then
-	BackgroundColor = Color( 45, 45, 45, 150 )
-	SelectedBackgroundColor = Color( 55, 55, 55, 255 )
-end
 
 function PANEL:Init()
 
-
-
 	self.ReadyToDraw = true
-
 	self.CanDrawBackground = true
-
 	self.Id = nil
-
 	self.ItemName = ""
-
 	self.CanEntCreate = true
-
-
-
+	
 	self.OriginX = 0
-
 	self.OriginY = 0
-
-
 
 	self.Ticker = draw.NewTicker( 4, 2, math.random( 2, 3 ) )
 
-
-
 	self.MouseRotation = 0
-
-
-
+	
 	self.FuncDrawItem = EmptyFunction
-
 	self.NormalPaint = self.Paint
-
 	self.ItemBackgroundColor = BackgroundColor
-
-
-
+	
 	self.BaseClass.Init( self )
-
-
-
+	
 	self:SetSize( GTowerItems.InvItemSize, GTowerItems.InvItemSize )
-
-
 
 end
 
-
-
-
-
 function PANEL:DrawName()
-
+	
 	local x, y = 2, 2
 	local w, h = self:GetWide(), 16
 
@@ -91,97 +52,50 @@ function PANEL:DrawName()
 
 end
 
-
 local gradient = surface.GetTextureID("vgui/gradient_up")
-
-
 
 function PANEL:DrawBackground()
 
-
-
 	local w, h = GTowerItems.InvItemSize, GTowerItems.InvItemSize
 
-
-
 	-- Gradient
-
 	surface.SetDrawColor( 0, 0, 0, 100 )
-
 	surface.SetTexture( gradient )
-
 	surface.DrawTexturedRect( 1, 1, w, h )
 
-
-
 	-- Main black
-
 	surface.SetDrawColor( 0, 0, 0, 75 )
-
 	surface.DrawRect( 1, 1, w, h )
 
-
-
 	-- Invalid drop
-
 	if IsValid( self.InvalidDrop ) then
-
 		surface.SetDrawColor( 255, 0, 0, 150 )
-
 		surface.SetTexture( gradient )
-
 		surface.DrawTexturedRect( 0, 0, w, h )
-
 		return
-
 	end
-
-
 
 	-- Highlight drop
-
 	if self.HighlightDrop then
-
 		surface.SetDrawColor( 255, 200, 15, SinBetween(150,255,RealTime()*10) )
-
 		surface.SetTexture( gradient )
-
 		surface.DrawTexturedRect( 0, 0, w, h )
-
 		return
-
 	end
-
-
 
 	-- Selected
-
 	if self:IsMouseInWindow() then
-
-		surface.SetDrawColor( 148, 120, 150, 50 )
-
+		surface.SetDrawColor( 56, 142, 203, 50 )
 		surface.SetTexture( gradient )
-
 		surface.DrawTexturedRect( 0, 0, w, h )
-
 	end
 
-
-
 	-- Draw ID
-
 	--draw.SimpleShadowText( tostring(self.Id), "GTowerHUDMainTiny2", w/2, h-8, color_white, color_black, TEXT_ALIGN_CENTER, 1, 1 )
-
-
-
+	
 	-- Border
-
 	--surface.SetDrawColor( 255, 255, 255, 50 )
-
 	--surface.DrawOutlinedRect( 0, 0, w-4, h-4 )
-
-
-
 
 
 end
@@ -1374,85 +1288,44 @@ end
 
 function PANEL:DraggingEntThink()
 
-
-
 	if !IsValid( GhostEntity ) then
-
 		return
-
 	end
-
-
 
 	local Trace = self:GetTrace()
-
 	local min = GhostEntity:OBBMins()
 
-
-
 	if Trace.Hit && self:AllowDrop( Trace ) then
-
 		self.GhostHitNormal = Trace.HitNormal
-
 		if Trace.HitTexture == "**displacement**" then self.GhostHitNormal = Vector(0,0,1) end
-
 		GhostEntity:SetColor( Color( 100, 255, 100, 190 ) )
-
 	else
-
 		self.GhostHitNormal = Vector(0,0,1)
-
 		GhostEntity:SetColor( Color( 255, 100, 100, 190 ) )
-
 	end
-
-
 
 	self:DragUpdateRotation()
 
-
-
 	local NewPos = Trace.HitPos - self.GhostHitNormal * min.z
-
 	local itm = GhostEntity.Item
-
 	local BaseAngle = GhostEntity:GetAngles()
-
-
-
+		
 	if itm.Manipulator then
-
 		NewPos = itm.Manipulator( BaseAngle, NewPos, self.GhostHitNormal )
-
 	end
-
-
 
 	if GTowerItems.EntGrab.Snapping then
-
 		local snap = math.Clamp( GTowerItems.SnapGridSize:GetInt(), 2, 16 )
-
 		NewPos.x = math.Round( NewPos.x/snap ) * snap
-
 		NewPos.y = math.Round( NewPos.y/snap ) * snap
-
 		NewPos.z = math.Round( NewPos.z/snap ) * snap
-
 	end
-
-
 
 	GhostEntity:SetPos( NewPos )
 
-
-
 	if !self:CheckTraceHull() then
-
 		GhostEntity:SetColor( Color( 255, 100, 100, 190 ) )
-
 	end
-
-
 
 end
 

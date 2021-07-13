@@ -243,6 +243,7 @@ local function GetCenterPos( ent )
 
 end
 
+HudToHide = {}
 
 surface.CreateFont( "TargetIDText", { font = "Impact", size = 32, weight = 500, antialias = true } )
 

@@ -1,7 +1,4 @@
----------------------------------
--- GMTD Yo
----------------------------------
-Location.Add( "gmt_lobby2_r5",
+Location.Add( "gmt_lobby2_r3",
 {
 	[ "Theater 1" ] =
 	{

@@ -1,3 +1,43 @@
+// TEMP
+
+//lua_run_cl Msg( LocalPlayer():GetEyeTrace().HitPos )
+
+module("Location", package.seeall )
+
+local NameOrder = { "Transit Station", "Station A", "Station B", "Plaza", "Center Plaza", "Arcade Loft", "Casino Loft", "Stores", "Tower Outfitters", "Toy Stop and Pets", "Songbirds", "Central Circuit", "Sweet Suite Furnishings", "Theater Main", "Theater Game Room", "Theater 1", "Theater 2", "Casino", "Duel Arena Lobby", "Pulse Nightclub", "Pulse Nightclub Bar", "Boardwalk", "Beach", "Ocean", "Pool", "Water Slides", "Top of Water Slides", "Ferris Wheel", "Games", "Games Lobby", "Minigolf Port", "Source Karts Port", "PVP Battle Port", "Ball Race Port", "UCH Port", "Virus Port", "Zombie Massacre Port", "Tower Lobby", "Tower Elevators Lobby", "Tower Condos Lobby", "Condo Elevator", "Duel Arena", "???", "Condo #1", "Condo #2", "Condo #3", "Condo #4", "Condo #5", "Condo #6", "Condo #7", "Condo #8", "Condo #9", "Condo #10", "Condo #11", "Condo #12" }
+
+GTowerLocation.MapPositions = {}
+GTowerLocation.Locations = {}
+
+local function AddLoc( id, min, max, group, prio, name )
+    table.insert( GTowerLocation.MapPositions, id, { id, min, max, group, prio } )
+    table.insert( GTowerLocation.Locations, id, name )
+end
+
+local id = 0
+
+local function LoadMapData( table )
+
+	local locs = {}
+
+	for k,v in pairs( table ) do
+		id = id + 1
+		locs[id] = { v.FriendlyName, v.Name, v.Group, v.Regions[1]['min'], v.Regions[1]['max'], v.Priority }
+	end
+
+	id = 0
+	for k,v in pairs( NameOrder ) do
+		id = id + 1
+
+		for k,v in pairs( locs ) do
+			if v[1] == NameOrder[id] then
+                AddLoc( id, v[4], v[5], v[3], v[6], v[1] )
+			end
+		end
+	end
+
+end
+
 LoadMapData( {
 
 	[1] = {
@@ -5641,3 +5681,73 @@ LoadMapData( {
 	},
 
 } )
+
+ResortVectors()
+
+function GTowerLocation:GetGroup( locid )
+	for k,v in pairs( GTowerLocation.MapPositions ) do
+		if v[1] != locid then continue end
+		return v[4]
+	end
+end
+
+function GTowerLocation:DefaultLocation( pos )
+	local Candidates = {}
+
+	for _, v in ipairs( GTowerLocation.MapPositions ) do
+		if self:InBox( pos, v[2], v[3] ) then
+			table.insert(Candidates,v)
+		end
+	end
+
+	if #Candidates > 1 then
+		local Prio = {}
+		for k,v in pairs(Candidates) do
+			Prio[v[5]] = v[1]
+		end
+		table.SortByKey( Prio )
+		return Prio[#Prio]
+	else
+		if Candidates[1] == nil then return 1 end
+		return Candidates[1][1]
+	end
+
+	return nil
+end
+
+local NoEntsLocations = {
+	[41] = true, // Condo Elevators
+	[16] = true, // Theater 1
+	[17] = true, // Theater 2
+	[42] = true, // Duel Arena
+	[28] = true, // Ferris Wheel
+	[18] = true, // Casino
+}
+
+function IsNoEntsLoc(id)
+	return NoEntsLocations[id] != nil
+end
+
+function IsTheater(id)
+	return ( id == 34 || id == 33 )
+end
+
+function IsNightclub(id)
+	return ( id == 26 || id == 27 )
+end
+
+function IsCondo(id)
+	return ( id > 1 && id < 14 )
+end
+
+function IsDuelLobby(id)
+	return ( id == 30 )
+end
+
+function IsDuelArena(id)
+    return ( id == 41 )
+end
+
+function IsMonorail(id)
+	return false
+end

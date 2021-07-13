@@ -42,9 +42,13 @@ function ENT:DrawMain()
 		BGColor = BackgroundColor
 	end
 
-	draw.RoundedBox( 2, self.TotalMinX + 5, self.TotalMinY + 5, self.TotalWidth  - 10, self.TopHeight - 5, BGColor  )
+	draw.RoundedBox( 2, self.TotalMinX + 5, self.TotalMinY + 5, self.TotalWidth - 10, self.TopHeight - 5, BGColor )
+	//draw.RoundedBox( 8, self.TotalMinX + 5, self.TotalMinY + 5, self.TotalWidth  - 10, self.TopHeight - 5, BackgroundColor  )
 
-	//draw.RoundedBox( 2, self.TotalMinX + 5, self.TotalMinY + 5, self.TotalWidth  - 10, self.TopHeight - 5, BackgroundColor  )
+	// WIP Logo support
+	/*surface.SetDrawColor( 255, 255, 255 )
+	surface.SetMaterial( HeaderMatHeader )
+	surface.DrawTexturedRect( self.TotalMinX + 5, self.TotalMinY + 5, self.TotalWidth - 10, self.TopHeight - 5 )*/
 
 	surface.SetFont( MainTextFont )
 	surface.SetTextColor( 0xFF, 0xFF, 0xFF, 0xFF )

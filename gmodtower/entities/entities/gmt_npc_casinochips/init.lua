@@ -45,7 +45,6 @@ end
 
 function ENT:UpdateModel()
 	self:SetModel( self.Model )
-	self:SetSubMaterial(0,self.Material)
 end
 
 function ENT:AcceptInput( name, activator, ply )

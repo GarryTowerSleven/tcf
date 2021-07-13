@@ -85,9 +85,7 @@ local function AddL2Door( ent, name, pos )
 	local doorID = string.sub( doorRaw, 1, 2 )
 	local doorName = string.sub( doorRaw, 14 )
 
-	local condodoorAng = ''
-	local condodoorPos = ''
-	local condodoorModel = ''
+	local condodoorAng, condodoorPos, condodoorModel
 
 	for k,v in pairs(condoDoorData) do
 		if v[1] == doorName then
@@ -96,7 +94,6 @@ local function AddL2Door( ent, name, pos )
 			condodoorModel = v[2]
 		end
 	end
-
 
 	local door = ents.Create( "prop_dynamic" )
 	door:SetPos( condodoorPos or pos )
@@ -113,7 +110,6 @@ local function NetworkCondoPanelIDs()
 		local condoID = (entloc - 1)
 
 		v:SetNWInt( "condoID", condoID )
-
 	end
 end
 
@@ -129,7 +125,6 @@ local function SpawnCondoPlayers()
 
 		e:SetNoDraw(true)
 		e:SetSolid(SOLID_NONE)
-
 	end
 end
 

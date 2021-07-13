@@ -284,9 +284,6 @@ local function CreateWheel(self)
 	wheel:SetAngles(angs)
 	wheel:SetParent(self)
 
-	-- Deluxify the wheel.
-	wheel:SetSubMaterial( 1, "models/gmod_tower/ferriswheel/ferriswheel_lights_d" )
-
 	return wheel
 end
 

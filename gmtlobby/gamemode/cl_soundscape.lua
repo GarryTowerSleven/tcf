@@ -157,7 +157,7 @@ local STATE_LEAVING 	= 4
 
 
 
-local PSASounds =
+local PSASounds = 
 
 {
 
@@ -176,32 +176,8 @@ local PSASounds =
 local ApproachSound = { Sound("GModTower/voice/station/approaching.mp3"), 8}
 
 
-local ElevatorMusicName = "GModTower/soundscapes/music/elevator"
 
-local ElevatorMusicCount = 21 -- Define the number of music files for ambient lobby jams
-
-local ElevatorSongs = {}
-
-for n=1, ElevatorMusicCount do
-
-	table.insert(ElevatorSongs, {ElevatorMusicName .. n .. ".mp3", 10} )
-
-end
-
-
-local TransitMusicName = "GModTower/soundscapes/music/elevator"
-
-local TransitSongs = {}
-
-local TransitNums = { 1, 4, 6, 8, 9, 11, 12, 16, 18, 19 }
-for k, v in pairs( TransitNums ) do
-
-	table.insert(TransitSongs, {TransitMusicName .. tostring(v) .. ".mp3", 10} )
-
-end
-
-
-soundscape.Register("transit",
+soundscape.Register("transit", 
 
 {
 
@@ -231,7 +207,7 @@ soundscape.Register("transit",
 
 		sounds = function()
 
-
+		
 
 			-- If the train is approaching, play the arrival sound
 
@@ -279,36 +255,31 @@ soundscape.Register("transit",
 
 	},
 
-	{
-
-	type = "playlist",
-
-		time = 2, -- Play the next sound 2 seconds after this one ends
-
-		pitch = 100, -- Normal pitch
-
-		volume = 1,
-		soundlevel = 575,
-		position = Vector(7125.896484375, 2.7194547653198, -881.10290527344),
-
-
-		-- Override the sound selector function with our own
-
-		sounds = TransitSongs,
-
-	},
-
 })
 
 
 
-soundscape.Register("elevators",
+
+
+local ElevatorMusicName = "GModTower/soundscapes/music/elevator"
+
+local ElevatorMusicCount = 21 -- Define the number of music files for ambient lobby jams
+
+local ElevatorSongs = {}
+
+for n=1, ElevatorMusicCount do 
+
+	table.insert(ElevatorSongs, {ElevatorMusicName .. n .. ".mp3", 10} )
+
+end
+
+soundscape.Register("elevator", 
 
 {
 
 	-- Tell the soundscape system that when this is usually removed and faded out, keep it alive
 
-	--idle = true,
+	--idle = true, 
 
 
 
@@ -336,7 +307,7 @@ soundscape.Register("elevators",
 
 
 
-soundscape.Register("lobby",
+soundscape.Register("lobby", 
 
 {
 
@@ -362,42 +333,13 @@ soundscape.Register("lobby",
 
 	},
 
-	{
-		type = "playlooping",
-
-		-- Limit the volume
-
-		volume = 1,
-
-
-
-		-- Worldsound position of the looping sound
-
-		position = Vector(8199.96875, -1176.2622070313, -595),
-
-
-
-		-- Control the falloff of the sound
-
-		-- Note the values are different than source's builtin soundlevel, I need to figure out the math for this
-
-		soundlevel = 150,
-
-
-
-		-- All sounds are in a table format of {soundpath, soundlength}
-
-		sound = {Sound("GModTower/soundscapes/creature.mp3"), 15},
-
-	},
-
 
 
 })
 
 
 
-soundscape.Register("theater",
+soundscape.Register("theater", 
 
 {
 
@@ -405,7 +347,7 @@ soundscape.Register("theater",
 
 	--dsp = 2,
 
-
+	
 
 	-- Create a looping sound rule
 
@@ -463,7 +405,7 @@ soundscape.Register("theater",
 
 
 
-
+	
 
 	{
 
@@ -481,7 +423,7 @@ soundscape.Register("theater",
 
 		position = 1500,
 
-		sounds =
+		sounds = 
 
 		{
 
@@ -502,7 +444,8 @@ soundscape.Register("theater",
 })
 
 
-soundscape.Register("easteregg",
+
+soundscape.Register("theaterarcade", 
 
 {
 
@@ -510,121 +453,7 @@ soundscape.Register("easteregg",
 
 	--dsp = 2,
 
-
-
-	-- Create a looping sound rule
-
-	{
-
-	type = "playlooping",
-
-		-- Limit the volume
-
-		volume = 0.75,
-
-		-- All sounds are in a table format of {soundpath, soundlength}
-
-		sound = {Sound("GModTower/soundscapes/creature.mp3"), 15},
-
-	},
-
-
-	{
-
-	type = "playlooping",
-
-		-- Limit the volume
-
-		volume = 1,
-
-		-- All sounds are in a table format of {soundpath, soundlength}
-
-		sound = {Sound("GModTower/soundscapes/drone.wav"), 10},
-
-	},
-
-
-	{
-
-	type = "playlooping",
-
-		-- Limit the volume
-
-		volume = 1,
-
-		position = Vector(2550, 5009, -780),
-		soundlevel = 450,
-		-- All sounds are in a table format of {soundpath, soundlength}
-
-		sound = {Sound("GModTower/soundscapes/trans2.wav"), 10},
-
-	},
-
-
-	{
-
-	type = "playlooping",
-
-		volume = 0.6,
-
-		position = Vector(2550, 5009, -780),
-
-		soundlevel = 250,
-
-
-
-		-- All sounds are in a table format of {soundpath, soundlength}
-
-		sound = {"GModTower/soundscapes/trans1.wav", 15},
-
-	},
-
-	{
-
-	type = "playrandom",
-
-
-
-		time = {15, 20},
-
-		volume = {0.8, 1},
-
-		pitch = {90, 110},
-
-		soundlevel = 340, -- Sound level in decibels
-
-		position = 1500,
-
-		sounds =
-
-		{
-
-			{"ambient/levels/citadel/strange_talk7.wav", 10 },
-
-			{"ambient/levels/citadel/strange_talk8.wav", 10 },
-
-			{"ambient/levels/citadel/strange_talk9.wav", 10 },
-
-			{"ambient/levels/citadel/strange_talk10.wav", 10 },
-
-			{"ambient/levels/citadel/strange_talk11.wav", 10 },
-
-		},
-
-	},
-
-})
-
-
-soundscape.Register("arcade",
-
-{
-
-	dsp = 0,
-
-	--dsp = 2,
-
-
+	
 
 	-- Create a looping sound rule
 
@@ -640,7 +469,7 @@ soundscape.Register("arcade",
 
 		sound = {"GModTower/music/arcade.mp3", 2},
 
-	},
+	},	
 
 	{
 
@@ -658,7 +487,7 @@ soundscape.Register("arcade",
 
 		position = 1500,
 
-		sounds =
+		sounds = 
 
 		{
 
@@ -680,7 +509,7 @@ soundscape.Register("arcade",
 
 
 
-soundscape.Register("theater_inside",
+soundscape.Register("theater_inside", 
 
 {
 
@@ -690,7 +519,7 @@ soundscape.Register("theater_inside",
 
 
 
-soundscape.Register("monorail",
+soundscape.Register("monorail", 
 
 {
 
@@ -700,7 +529,7 @@ soundscape.Register("monorail",
 
 
 
-soundscape.Register("casino",
+soundscape.Register("casino", 
 
 {
 
@@ -744,7 +573,7 @@ soundscape.Register("casino",
 
 
 
-soundscape.Register("casinoloft",
+soundscape.Register("casinoloft", 
 
 {
 
@@ -786,7 +615,7 @@ soundscape.Register("casinoloft",
 
 
 
-soundscape.Register("duels",
+soundscape.Register("duels", 
 
 {
 
@@ -814,7 +643,7 @@ soundscape.Register("duels",
 
 
 
-soundscape.Register("plaza",
+soundscape.Register("plaza", 
 
 {
 
@@ -869,41 +698,12 @@ soundscape.Register("plaza",
 	},
 
 
-		{
-
-	type = "playlooping",
-
-		-- Limit the volume
-
-		volume = 0.87,
-
-
-
-		-- Worldsound position of the looping sound
-
-		position = Vector(2793.5168457031, 2444.3571777344, 352.03125),
-
-
-
-		-- Control the falloff of the sound
-
-		-- Note the values are different than source's builtin soundlevel, I need to figure out the math for this
-
-		soundlevel = 100,
-
-
-
-		-- All sounds are in a table format of {soundpath, soundlength}
-
-		sound = {Sound("GModTower/soundscapes/lobbyone.mp3"), 10},
-
-	},
-
 
 })
 
 
-soundscape.Register("games",
+
+soundscape.Register("games", 
 
 {
 
@@ -964,69 +764,8 @@ soundscape.Register("games",
 })
 
 
-soundscape.Register("towergarden",
 
-{
-
-	dsp = 0,
-
-
-
-	-- Create a looping sound rule
-
-	{
-
-	type = "playlooping",
-
-		-- Limit the volume
-
-		volume = 1,
-
-		-- All sounds are in a table format of {soundpath, soundlength}
-
-		sound = {Sound("ambient/deluxe_nature.mp3"), 120},
-
-	},
-
-		-- Create a looping sound rule
-
-	{
-
-	type = "playlooping",
-
-		-- Limit the volume
-
-		volume = 0.20,
-
-		-- All sounds are in a table format of {soundpath, soundlength}
-
-		sound = {Sound("GModTower/soundscapes/plaza.wav"), 8},
-
-	},
-
-
-
-	{
-
-	type = "playlooping",
-
-		-- Limit the volume
-
-		volume = 0.006,
-
-		-- All sounds are in a table format of {soundpath, soundlength}
-
-		sound = {Sound("ambient/forest_day.wav"), 16},
-
-	},
-
-
-
-})
-
-
-
-soundscape.Register("gameslobby",
+soundscape.Register("gameslobby", 
 
 {
 
@@ -1088,7 +827,7 @@ soundscape.Register("gameslobby",
 
 
 
-soundscape.Register("boardwalk",
+soundscape.Register("boardwalk", 
 
 {
 
@@ -1128,7 +867,7 @@ soundscape.Register("boardwalk",
 
 		position = 5500,
 
-		sounds =
+		sounds = 
 
 		{
 
@@ -1150,7 +889,7 @@ soundscape.Register("boardwalk",
 
 
 
-soundscape.Register("pool",
+soundscape.Register("pool", 
 
 {
 
@@ -1176,7 +915,7 @@ soundscape.Register("pool",
 
 		position = 500,
 
-		sounds =
+		sounds = 
 
 		{
 
@@ -1202,7 +941,7 @@ soundscape.Register("pool",
 
 
 
-
+	
 
 	-- Duplicate the beach soundscape
 
@@ -1240,7 +979,7 @@ soundscape.Register("pool",
 
 		position = 5500,
 
-		sounds =
+		sounds = 
 
 		{
 
@@ -1264,7 +1003,7 @@ soundscape.Register("pool",
 
 
 
-soundscape.Register("stores",
+soundscape.Register("stores", 
 
 {
 
@@ -1290,7 +1029,7 @@ soundscape.Register("stores",
 
 
 
-soundscape.Register("stores_inside",
+soundscape.Register("stores_inside", 
 
 {
 
@@ -1316,78 +1055,13 @@ soundscape.Register("stores_inside",
 
 	},
 
-		/*{
-	type = "playlooping",
-
-		-- Limit the volume
-
-		volume = 1,
-
-
-
-		-- Worldsound position of the looping sound
-
-		position = Vector(974, -2103, -606),
-
-
-
-		-- Control the falloff of the sound
-
-		-- Note the values are different than source's builtin soundlevel, I need to figure out the math for this
-
-		soundlevel = 300,
-
-
-
-		-- All sounds are in a table format of {soundpath, soundlength}
-
-		sound = {Sound("GModTower/soundscapes/music/deluxe_musicstore.mp3"), 240},
-
-	},
-*/
-})
-
-
-soundscape.Register("songbirds",
-
-{
-
-	dsp = 0,
-
-	{
-	type = "playlooping",
-
-		-- Limit the volume
-
-		volume = 1,
-
-
-
-		-- Worldsound position of the looping sound
-
-		position = Vector(974, -2103, -606),
-
-
-
-		-- Control the falloff of the sound
-
-		-- Note the values are different than source's builtin soundlevel, I need to figure out the math for this
-
-		soundlevel = 300,
-
-
-
-		-- All sounds are in a table format of {soundpath, soundlength}
-
-		sound = {Sound("GModTower/soundscapes/music/deluxe_musicstore_shout.mp3"), 46},
-
-	},
-
 })
 
 
 
-soundscape.Register("condolobby",
+
+
+soundscape.Register("condolobby", 
 
 {
 
@@ -1415,7 +1089,7 @@ soundscape.Register("condolobby",
 
 })
 
-soundscape.Register("condo",
+soundscape.Register("condo", 
 
 {
 
@@ -1427,7 +1101,7 @@ soundscape.Register("condo",
 
 -- TODO: Add playsoundscape rule
 
-soundscape.Register("duels",
+soundscape.Register("duels", 
 
 {
 
@@ -1469,7 +1143,7 @@ soundscape.Register("duels",
 
 		position = 1500,
 
-		sounds =
+		sounds = 
 
 		{
 
@@ -1497,7 +1171,7 @@ soundscape.Register("duels",
 
 -- SPOOK ZONE: ACTIVATE
 
-soundscape.Register("somewhere",
+soundscape.Register("somewhere", 
 
 {
 
@@ -1539,7 +1213,7 @@ soundscape.Register("somewhere",
 
 		position = 1500,
 
-		sounds =
+		sounds = 
 
 		{
 

@@ -1107,8 +1107,6 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 			self:CheckBox( "Enable Player Particle Effects", "gmt_enableparticles" )
 
-			self:CheckBox( "Enable Multi Core Rendering ( MIGHT CAUSE ISSUES )", "gmt_usemcore" )
-
 
 			self:Divider()
 

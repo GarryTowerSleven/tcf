@@ -26,12 +26,6 @@ function GTowerStore:OpenStore( ply, id )
 
 	local discount = GTowerStore.Discount[id] or 0
 
-	// NEW STORE MENU OVERRIDE
-	-------------------
-	ply:ConCommand("selectiontest " .. tostring(id) .. " " .. tostring(discount))
-	if true then return end
-	-------------------
-
 	net.Start( "Store" )
 		net.WriteInt( 0, 16 )
 		net.WriteInt( id, 16 )

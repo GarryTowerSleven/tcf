@@ -205,36 +205,6 @@ RegisterModel(
 
 RegisterModel(
 
-	"mdl_sunabouzu",
-
-	"Mr. Sunabouzu",
-
-	"Finally some recognition for - wait.",
-
-	"models/player/Sunabouzu.mdl",
-
-	"sunabouzu",
-
-	4000 )
-
-	RegisterModel(
-
-	"mdl_infoplayerstart",
-
-	"info_player_start",
-
-	"Powered by Source.",
-
-	"models/player/infoplayerstart.mdl",
-
-	"infoplayerstart",
-
-	12500 )
-
-
-
-RegisterModel(
-
 	"mdl_libertyprime",
 
 	"Liberty Prime",

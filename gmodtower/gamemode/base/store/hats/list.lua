@@ -788,14 +788,3 @@ table.insert( GTowerHats.Hats, {
 		storeid = 19,
 		slot = SLOT_HEAD
 	} )
-	table.insert( GTowerHats.Hats, {
-		Name = "Spooktacles",
-		description = "Get spook'd.",
-		unique_Name = "spooktacles",
-		price = 1000,
-		model = "models/gmodcruiseline/base/hats/spooktacles/spooktacles.mdl",
-		closetrow = 2,
-		storeid = 19,
-		slot = SLOT_FACE,
-		IsNew = true
-	} )

@@ -82,7 +82,7 @@ function ENT:DrawTranslucent()
 
 end
 
-local MainBackground = Color(0x14, 0x48, 0x74, 255 * 0.15)
+local MainBackground = Color(14, 48, 74, 50)
 
 function ENT:Draw()
 end
@@ -102,27 +102,16 @@ function ENT:DrawTranslucent()
 
 	local pos = EntPos + Eye:Up() * self.UpPos + Eye:Forward() * self.FowardsPos + Eye:Right()
 
-	local grad = Material("vgui/gradient_up")
-
 	cam.Start3D2D( pos, ang, self.ImageZoom )
-
-		draw.RoundedBox( 2,
-			self.TotalMinX,
-			self.TotalMinY,
-			self.TotalWidth,
-			self.TotalHeight,
-			Color( 11, 100, 110, 120 )
+	
+		draw.RoundedBox( 2, 
+			self.TotalMinX, 
+			self.TotalMinY, 
+			self.TotalWidth, 
+			self.TotalHeight, 
+			MainBackground
 		)
-
-		surface.SetMaterial(grad)
-		surface.SetDrawColor( Color( 51, 18, 82, 150 ) )
-		surface.DrawTexturedRect(
-			self.TotalMinX,
-			self.TotalMinY,
-			self.TotalWidth,
-			self.TotalHeight
-		)
-
+		
 	cam.End3D2D()
 
 	local pos = EntPos + Eye:Up() * self.UpPos + Eye:Forward() * ( self.FowardsPos + 5 ) + Eye:Right()

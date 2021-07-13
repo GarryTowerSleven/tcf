@@ -1,4 +1,4 @@
----------------------------------
+
 
 -----------------------------------------------------
 local function UpdateMapList( List )
@@ -86,7 +86,7 @@ function Derma_MapRequest()
 	Button2:MoveRightOf( Button1, 5 )
 	Button2.DoClick = function()
 		Window:Close()
-		RunConsoleCommand( "forcechangelevel", ListView.Maps[ ListView.SelectedMap ] )
+		RunConsoleCommand( "gmt_forcechangelevel", ListView.Maps[ ListView.SelectedMap ] )
 	end
 	Button2.Think = function( self )
 		if ListView.SelectedMap then
@@ -108,7 +108,7 @@ function Derma_MapRequest()
 	Button3:MoveRightOf( Button2, 5 )
 	Button3.DoClick = function()
 		Window:Close()
-		RunConsoleCommand( "gmt_changelevel" )
+		RunConsoleCommand( "gmt_forcechangelevel" )
 	end
 
 	// Cancel

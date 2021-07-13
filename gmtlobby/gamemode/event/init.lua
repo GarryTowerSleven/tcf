@@ -2,9 +2,8 @@
 local EventSound = "gmodtower/misc/notifyevent.wav"
 if time.IsChristmas() then EventSound = "gmodtower/music/christmas/eventnotify.mp3" end
 
-local minigameslist = { "balloonpop", "chainsaw", "snowbattle", "obamasmash" }
 local eventlist = { "balloon", "battle", "obama", "tronarnia", "storesale", "storesale" }
-local shopslist = { 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 15, 16, /*17,*/ 20, 22, 23, 24, 25, 26, 27 }
+local shopslist = { 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 15, 20, 22, 23, 24, 25, 26, 27 }
 
 local enabled = true
 local curevent = "Unknown"
@@ -38,7 +37,7 @@ function SendMessageToPlayers(msgtype, ...)
 end
 
 function getEventType()
-    return table.Random( eventlist )
+    return "storesale"
 end
 
 function StartEvent( event )
@@ -57,9 +56,6 @@ function StartEvent( event )
 
         endtime = CurTime() + saletime
 
-        //for k,v in pairs(player.GetAll()) do v:SendLua([[surface.PlaySound("]]..EventSound..[[")]]) end
-
-        //MsgC( co_color, "[EVENTS] " .. T( "MiniNext", time ) )
         MsgC( co_color, "[EVENTS] Starting " ..  discount .. "% sale at " .. GTowerStore.Stores[ store ].WindowTitle .. "\n" )
 
         SendMessageToPlayers( "MiniStoreGameStart", discount, GTowerStore.Stores[ store ].WindowTitle )

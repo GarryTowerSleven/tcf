@@ -9,14 +9,6 @@ function ENT:Initialize()
     self:SetSolid(SOLID_VPHYSICS)
 end
 
-function ENT:Think()
-    if self.Model == "models/map_detail/billboard.mdl" then
-      self:SetSubMaterial( 1, "models/map_detail/deluxe_map" )
-    else
-      self:SetSubMaterial( 2, "models/map_detail/deluxe_map_station" )
-    end
-end
-
 function ENT:KeyValue(key,value)
     if key == "model" then
       self.Model = value
@@ -34,11 +26,6 @@ MapDestinations["South Stores"] = { Vector(-174.17324829102,-1154.1518554688,-67
 MapDestinations["Boardwalk"] = { Vector(-2513.4077148438,1.7793444395065,-895.96875), Angle(0,0,0) }
 MapDestinations["Pulse Nightclub"] = { Vector(1536.000000,-5008.000000,-2624.000000), Angle(0,0,0) }
 MapDestinations["Sweet Suites"] = { Vector(-1120.023560,-132.051636,-895.968750), Angle(0,90,0) }
-MapDestinations["Arcade"] = {Vector(10046.82324, -1794.755371, 8688.031250), Angle( 0, 90, 0 )}
-MapDestinations["Trivia"] = {Vector(7973.235352, -2135.462646, 8944.031250), Angle( 0, 90, 0 )}
-MapDestinations["Tower Garden"] = {Vector(6790.8364257813, 1317.8966064453, -607.96875), Angle(0, -90, 0)}
-MapDestinations["Smoothie Bar"] = {Vector(-177.35861206055, 888.43981933594, -671.96875), Angle(0, 90, 0)}
-MapDestinations["Basical's Goods"] = {Vector(-1119.9777832031, 137.43188476563, -895.96875), Angle(0, -90, 0)}
 
 net.Receive("MapBoardTeleport",function( len, ply )
   local ent = net.ReadEntity()

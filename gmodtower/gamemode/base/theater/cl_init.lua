@@ -120,19 +120,3 @@ local function DrawThumbnail(theater)
     render.SetStencilEnable(false)
 
 end
-
-hook.Add("PostDrawOpaqueRenderables", "TheaterExterior3D2D", function(b, sky)
-	-- Let's not draw this in the sky
-	if sky or !IsLobby then return end
-
-	for k, pos in pairs(screenPositions) do
-		if LocalPlayer():GetPos():WithinDistance(pos, 5000) then
-			GetThumbnail(k)
-
-			cam.Start3D2D(pos, Angle(0, 0, 90), 0.25)
-				DrawThumbnail(k)
-			cam.End3D2D()
-		end
-	end
-
-end)

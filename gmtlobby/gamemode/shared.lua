@@ -20,10 +20,10 @@ Loadables.Load( {
 	---------------------------------------------------------
 	"commands",							-- Chat commands
 	"achivement",						-- Achievements
-	"boss",									-- WIP boss battle
+	//"boss",									-- WIP boss battle
 	"soundscape",						-- Soundscapes and background music
 	"condopanel",						-- Condo OS
-	"multicore",						-- Forces multicore, improves FPS
+	//"multicore",						-- Forces multicore, improves FPS
 	"friends",							-- Friend and blocking system
 	"group",								-- Player group system
 	"clsound",							-- Clientside sounds

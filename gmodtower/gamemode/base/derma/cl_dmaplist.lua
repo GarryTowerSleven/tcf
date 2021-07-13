@@ -42,9 +42,7 @@ function PANEL:Init()
 	self:SetDrawBackground( true )
 	self:SetBottomUp( false )
 	self:SetNoSizing( false )
-
-	--self:EnableVerticalScrollbar(true)
-
+
 	self:SetMouseInputEnabled( true )
 
 	// This turns off the engine drawing
@@ -167,9 +165,6 @@ end
 /*---------------------------------------------------------
    Name: Rebuild
 ---------------------------------------------------------*/
-
-surface.CreateFont( "VoteText2", { font = "TodaySHOP-BoldItalic", size = 22, weight = 200, shadow = true, antialias = true,} )
-
 function PANEL:Rebuild()
 
 	local Offset = 0
@@ -177,28 +172,18 @@ function PANEL:Rebuild()
 	for k, panel in pairs( self.Items ) do
 
 		if ( panel:IsVisible() ) then
-
-			local sideOffset = 0
-			if k%2==0 then sideOffset = 1 end
-
-			panel:SetSize( 300,75 )
-			panel:SetPos( -200,-100 )
-			if panel.btnMap then
-				panel.btnMap:SetFont("VoteText2")
-				panel.btnMap:SetTextInset( 8, 50 )
-
-			end
-
-			panel:MoveTo(self.Padding + 254 + ((254)*sideOffset), self.Padding + Offset,1,0,0.5 * (k/10))
+
+			panel:SetSize( self:GetCanvas():GetWide() - self.Padding * 2, panel:GetTall() )
+			panel:SetPos( 0 - self:GetWide(), self.Padding + Offset )
+			panel:MoveTo( self.pnlCanvas:GetWide()/2 - 250/2, self.Padding + Offset, 0.5 + (0.15 * k) ) // hacky x pos
 
 			// Changing the width might ultimately change the height
 			// So give the panel a chance to change its height now,
 			// so when we call GetTall below the height will be correct.
 			// True means layout now.
-			--panel:InvalidateLayout( true )
-
-			if k%2==0 then Offset = Offset + panel:GetTall() + self.Spacing end
-
+			panel:InvalidateLayout( true )
+
+			Offset = Offset + panel:GetTall() + self.Spacing
 
 		end
 
@@ -237,49 +222,8 @@ end
 /*---------------------------------------------------------
    Name: Paint
 ---------------------------------------------------------*/
-
-local grad = Material( "gmod_tower/hud/bg_gradient_deluxe.png", "unlightsmooth" )
-
 function PANEL:Paint()
-
-	surface.SetDrawColor( Color( 155, 155, 155, 200 ) )
-
-	for k,v in pairs(self.Items) do
-
-		local x, y = v:GetPos()
-		local w, h = v:GetWide(), v:GetTall()
-
-		if v.Map then
-			surface.SetDrawColor( Color( 155, 155, 155, 255 ) )
-			local mat = MapsGetPreviewIcon(v.Map)
-			if mat then
-				mat = Material(mat)
-				surface.SetMaterial(mat)
-
-				surface.SetDrawColor( Color(255, 255, 255, 255) )
-
-				--render.SetScissorRect(x, y, x+w-50, y+235, true)
-				render.SetScissorRect(x, y+160, x+w-50, y+235, true)
-					surface.DrawTexturedRect( x - (400/4), y - (200/4), 400, 200 )
-				render.SetScissorRect(0, 0, 0, 0, false)
-
-				surface.SetDrawColor( Color( 155, 155, 155, 200 ) )
-
-				surface.SetMaterial(grad)
-				surface.DrawTexturedRect(x, y, 250, 75)
-
-				if v.Votes then
-					surface.SetTextPos( x+4,y+4 )
-					surface.SetTextColor(255,255,255,255)
-					surface.SetFont("VoteText2")
-					surface.DrawText(v.Votes or "")
-				end
-
-				draw.OutlinedBox( x, y, 250, 75, 4, Color( 25, 25, 25, 200 ) )
-			end
-		end
-	end
-
+
 	derma.SkinHook( "Paint", "PanelList", self )
 	return true
 

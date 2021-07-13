@@ -7,13 +7,7 @@ timer.Create("gmt_autorestart",10,0,function()
 	local CurSysTime = os.date( '%H:%M' , os.time() )
 	if CurSysTime == "07:00" then
 
-		GMT_CHANGE_MAP = "gmt_lobby2_r7"
-
-		if time.IsHalloween() then
-			GMT_CHANGE_MAP = GMT_CHANGE_MAP .. "h"
-		elseif time.IsChristmas() then
-			GMT_CHANGE_MAP = GMT_CHANGE_MAP .. "c"
-		end
+		GMT_CHANGE_MAP = "gmt_lobby2_r3"
 
 		GMT_IS_PREPARING_TO_RESTART = true
 

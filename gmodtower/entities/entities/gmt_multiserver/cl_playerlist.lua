@@ -5,21 +5,21 @@
 
 local BackgroundColor = Color( 0x16, 0x34, 0x55, 0.7 * 255 )
 
+local function CalculateYPos( self, Tbl )
+
+	if !Tbl.MinList then
+		Tbl.MinList = table.Count( Tbl.PlayerList )
+	end
+
+	Tbl.Height = Tbl.MinList * self.DefaultTextHeight
+	Tbl.y = self.PlayerStartY
+
+end
+
 function ENT:UpdatePlayerList()
 
 	local EachHeight = self.DefaultTextHeight + 4
 	local MaxSpace = math.floor( (self.TotalHeight - self.TopHeight) / EachHeight ) - 2
-
-	local function CalculateYPos( Tbl )
-
-		if !Tbl.MinList then
-			Tbl.MinList = table.Count( Tbl.PlayerList )
-		end
-
-		Tbl.Height = Tbl.MinList * self.DefaultTextHeight
-		Tbl.y = self.PlayerStartY
-
-	end
 
 	self.PlayerGui =  {
 		Title = "CURRENT PLAYERS",
@@ -39,8 +39,8 @@ function ENT:UpdatePlayerList()
 		EachHeight = EachHeight
 	}
 
-	CalculateYPos( self.PlayerGui )
-	CalculateYPos( self.WaitingGui )
+	CalculateYPos( self, self.PlayerGui )
+	CalculateYPos( self, self.WaitingGui )
 
 
 	//Fill the empty slots with something
@@ -57,11 +57,10 @@ function ENT:DrawPlayers()
 	if self.WaitingGui then  self:DrawPlayerList( self.WaitingGui, self.ServerMinPlayers ) end
 
 end
-surface.CreateFont( "MikuHUDMainSmall", { font = "Oswald", size = 18, weight = 400 } )
+
 function ENT:DrawPlayerList( List, PlyCount )
 
-	local x = List.x
-	local y = List.y
+	local x, y = List.x, List.y
 	local players = List.PlayerList
 
 	local Count = math.max( table.Count( players ), List.MinList ) + 1
@@ -81,9 +80,10 @@ function ENT:DrawPlayerList( List, PlyCount )
 	surface.SetTextPos( x + 4, CurY - 2 )
 	surface.DrawText( List.Title )
 
-		// Draw player count
+	// Draw player count
+	if #players > 0 || PlyCount then
 
-		local count = (#players or 0)
+		local count = #players
 		local cx = x + 155
 
 		if PlyCount && PlyCount > 0 then
@@ -94,7 +94,7 @@ function ENT:DrawPlayerList( List, PlyCount )
 		surface.SetTextPos( cx, CurY - 2 )
 		surface.DrawText( count )
 
-
+	end
 
 	local DrawDark = true
 	CurY = CurY + List.EachHeight
