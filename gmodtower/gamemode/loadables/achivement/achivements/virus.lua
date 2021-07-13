@@ -97,12 +97,3 @@ GtowerAchivements:Add( ACHIVEMENTS.VIRUSTIMESPLIT, {
 	Group = 8
 	}
 )
-
-GtowerAchivements:Add( ACHIVEMENTS.VIRUSPROLIFERATION, {
-	Name = "Proliferation",
-	Description = "Infect 3 survivors within 6 seconds of the first one.",
-	Value = 1,
-	Group = 8,
-	GMC = 1500,
-	}
-)

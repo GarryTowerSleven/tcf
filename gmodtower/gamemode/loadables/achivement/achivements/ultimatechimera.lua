@@ -88,35 +88,3 @@ GtowerAchivements:Add( ACHIVEMENTS.UCHHOMERUN, {
 	Group = 9
 	}
 )
-
-GtowerAchivements:Add( ACHIVEMENTS.UCHSPEEDRUN, {
-	Name = "Speedrun",
-	Description = "Deactive the Chimera within 20 seconds.",
-	Value = 1,
-	Group = 9
-	}
-)
-
-GtowerAchivements:Add( ACHIVEMENTS.UCHMOTHER, {
-	Name = "MOTHER Of All Chimeras",
-	Description = "Win as the Chimera more than 20 times.",
-	Value = 20,
-	Group = 9
-	}
-)
-
-GtowerAchivements:Add( ACHIVEMENTS.UCHSHOWBOATING, {
-	Name = "Showboating Is Prohibited",
-	Description = "Kill 5 Pigmasks while they are taunting.",
-	Value = 5,
-	Group = 9
-	}
-)
-
-GtowerAchivements:Add( ACHIVEMENTS.UCHEARTHBOUND, {
-	Name = "Earthbound",
-	Description = "Win a round as the Chimera without jumping.",
-	Value = 1,
-	Group = 9
-	}
-)

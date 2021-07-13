@@ -61,13 +61,6 @@ GtowerAchivements:Add( ACHIVEMENTS.MINIGREENGREENS, {
 	Group = 12
 })
 
-GtowerAchivements:Add( ACHIVEMENTS.MINIOVERACHIEVER, {
-	Name = "Overachiever",
-	Description = "Get 3 hole in ones in one game.",
-	Value = 1,
-	Group = 12
-})
-
 /*GtowerAchivements:Add( ACHIVEMENTS.MINIWATERHOLEPAR, {
 	Name = "Master of the Waterhole",
 	Description = "Get a Par Score On 'Waterhole'",

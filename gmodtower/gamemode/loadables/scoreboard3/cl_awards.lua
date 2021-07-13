@@ -60,7 +60,6 @@ AWARDS.GroupNames = {
 	[10] = "Zombie Massacre",
 	[11] = "Source Karts",
 	[12] = "Minigolf",
-	[13] = "Gourmet Race",
 }
 
 AWARDS.GamemodeNames = {
@@ -76,7 +75,6 @@ AWARDS.GamemodeNames = {
 	[10] = "zombiemassacre",
 	[11] = "sourcekarts",
 	[12] = "minigolf",
-	[13] = "gourmetrace",
 	[20] = "intothechaos",
 }
 

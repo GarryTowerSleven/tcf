@@ -1,6 +1,6 @@
 
 -----------------------------------------------------
-GtowerAchivements:Add( ACHIVEMENTS.GRHAMMER, {
+/*GtowerAchivements:Add( ACHIVEMENTS.GRHAMMER, {
   Name = "Hammer'd",
   Description = "Hit other players with your hammer more than 50 times.",
   Value = 50,
@@ -37,4 +37,4 @@ GtowerAchivements:Add( ACHIVEMENTS.GRMALNOURISHED, {
   Description = "Finish 4 rounds without picking up any food.",
   Value = 4,
 	Group = 13
-})
+})*/
