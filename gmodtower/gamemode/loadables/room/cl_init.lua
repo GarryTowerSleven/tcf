@@ -15,10 +15,6 @@ net.Receive("gmt_partymessage", function()
 	local invString = net.ReadString()
 	local roomid = net.ReadString()
 
-	// Do not give the player throwing the party the notif
-	local condoID = LocalPlayer().GRoomId
-	if condoID && tostring(condoID) == tostring(roomid) then return end
-
 	local Question = Msg2( invString )
 	Question:SetupQuestion(
 	function() RunConsoleCommand( "gmt_joinparty", roomid ) end,
