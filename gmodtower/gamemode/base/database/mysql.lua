@@ -10,6 +10,7 @@ ColumnInfo = ColumnInfo or {}
 function connectToDatabase()
 	if tmysql then
 		Msg("[MYSQL] Attempting connection to mysql\n")
+		// ("ip", "user", "pw", "database")
 		databaseObject, err = tmysql.initialize("", "", "", "", 3306, 3, 3)
 		Msg("[MYSQL] Connected to mysql\n")
 	end
