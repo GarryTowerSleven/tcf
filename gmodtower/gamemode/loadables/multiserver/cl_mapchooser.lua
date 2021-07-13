@@ -1,4 +1,4 @@
----------------------------------
+
 GTowerServers.MapChooserGUI = nil
 
 GTowerServers.MapEndTime = 0
@@ -6,6 +6,7 @@ GTowerServers.MapTotalTime = 0
 GTowerServers.ChoosenServer = 0
 GTowerServers.ChoosenMap = ""
 GTowerServers.ChoosenVotes = {}
+GTowerServers.CooldownVotes = {}
 GTowerServers.ChoosenServerId = 0
 GTowerServers.CurrentGamemode = nil
 GTowerServers.Music = nil
@@ -31,12 +32,11 @@ function GTowerServers:NoLongerWorking( serverid )
 
 end
 
-function GTowerServers:OpenChooser( ServerId, EndTime, GamemodeName, Votes, NonPlayableMaps )
+function GTowerServers:OpenChooser( ServerId, EndTime, GamemodeName, Votes, CooldownVotes )
 
 	GTowerServers.ChoosenVotes = Votes
+	GTowerServers.CooldownVotes = CooldownVotes
 	GTowerServers.ChoosenServerId = ServerId
-
-	GTowerServers.NonPlayableMaps = NonPlayableMaps
 
 	// No need to reopen this, just update votes
 	if self.MapChooserGUI && EndTime == GTowerServers.MapEndTime then
@@ -66,9 +66,8 @@ function GTowerServers:OpenGamemodeChooser( Gamemode )
 	self.MapChooserGUI:MakePopup()*/
 
 	self.MapChooserGUI:SetGamemode( Gamemode )
-
 	self.CurrentGamemode = Gamemode
-	//// Music
+	// Music
 	if Gamemode.Music then
 		local song = table.Random( Gamemode.Music )
 		GTowerServers.Music = CreateSound( LocalPlayer(), song )
@@ -110,21 +109,17 @@ function GTowerServers:GetVotes( mapname )
 end
 
 function GTowerServers:CanPlayMap( mapname )
-
 	for id, map in pairs( self.MapChooserGUI.Gamemode.Maps ) do
-
+	
 		if map == mapname then
-			if GTowerServers.CooldownVotes[ id ] == 1 then
+			if GTowerServers.CooldownVotes[id] == 1 then
 				return false
 			end
 		end
-
+	
 	end
-
 	return true
-
 end
-
 
 function GTowerServers:GetTotalVotes()
 
