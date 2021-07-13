@@ -1,6 +1,6 @@
 local gateKeep = {}
 
-local ServerName = "GMod Tower Deluxe"
+local ServerName = "GMTower"
 
 gateKeep.Bans = {} --Used to hold all the bans server-side, rather than query every time.
 

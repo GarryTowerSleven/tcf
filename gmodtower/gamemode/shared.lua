@@ -1,5 +1,5 @@
 ---------------------------------
-GM.Name     = "GMod Tower: Deluxe"
+GM.Name     = "GMod Tower"
 GM.Author   = "GTower Team"
 GM.Email    = ""
 GM.Website  = ""

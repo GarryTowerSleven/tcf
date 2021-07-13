@@ -315,8 +315,6 @@ ENT.Width = 350
 ENT.Height = 350
 ENT.Scale = 0.035
 
-local DeluxeGradient = Material( "gmod_tower/hud/bg_gradient_deluxe.png", "unlightsmooth" )
-
 function ENT:DrawTranslucent()
 
 	// statistics
