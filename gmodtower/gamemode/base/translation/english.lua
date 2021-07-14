@@ -252,7 +252,7 @@ GtowerLangush.AddWord( 1, "AdminRestartMap",	"Restarting map for update...")
 GtowerLangush.AddWord( 1, "AdminRestartMapSec",	"Restarting map for update in {1} seconds...")
 GtowerLangush.AddWord( 1, "AdminChangeMap",	"Changing map to {1}...")
 GtowerLangush.AddWord( 1, "AdminChangeMapSec",	"Changing map to {1} in {2} seconds...")
-GtowerLangush.AddWord( 1, "AutoRestartMap",	"GMod Tower will be restarted in {1}. Your items and stats will be saved.")
+GtowerLangush.AddWord( 1, "AutoRestartMap",	"GMod Tower: Deluxe will be restarted in {1} minutes. Your items and stats will be saved.")
 GtowerLangush.AddWord( 1, "FailedMapChange",	"You cannot change levels while there is poker or duel going. Use gmt_forcelevel to override this.")
 
 
