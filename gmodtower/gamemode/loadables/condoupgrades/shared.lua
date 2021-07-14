@@ -42,51 +42,32 @@ List = {
 	},
 }
 
-if SERVER then
-	hook.Add( "GTowerStoreLoad", "AddCondoUpgrades", function()
+hook.Add( "GTowerStoreLoad", "AddCondoUpgrades", function()
 
-		for _, v in pairs( List ) do
-		
-			if v.unique_name then
+	for _, v in pairs( List ) do
+	
+		if v.unique_name then
 
-				MsgN( "Adding ", v.unique_name )
+			MsgN( "Adding ", v.unique_name )
 
-				v.storeid = StoreID
-				v.upgradable = true
-				v.ClientSide = true
-
-				local NewItemId = GTowerStore:SQLInsert( v )
-				v.id = NewItemId
-				
-			end
-
-		end
-
-	end )
-
-else -- CLIENT
-
-	hook.Add("GTowerStoreLoad", "AddCondoUpgrades", function()
-		for _, v in pairs( List ) do
-			
-			if v.unique_name then
-			
-				local NewItem = {}
-				
-				NewItem.storeid = StoreID
-				NewItem.Name = v.name
-				NewItem.price = v.price
-				NewItem.unique_Name = v.unique_name
-
-				local NewItemId = GTowerStore:SQLInsert( NewItem )
-				v.id = NewItemId
-				
-			end
+			local NewItemId = GTowerStore:SQLInsert( {
+				Name = v.name,
+				description = "",
+				unique_Name = v.unique_name,
+				price = v.price,
+				doors = v.doors,
+				model = "",
+				ClientSide = true,
+				upgradable = true,
+				storeid = CondoUpgrades.StoreID
+			} )
+			v.id = NewItemId
 			
 		end
-	end )
 
-end
+	end
+
+end )
 
 function HasUpgrade( ply, unique_name )
 

@@ -185,4 +185,7 @@ GTowerStore.Stores = {
 		ModelSize = 400,
 		CameraZPos = 25,
 	},
+	[50] = {
+		NpcClass = nil -- Handled internally
+	},
 }
