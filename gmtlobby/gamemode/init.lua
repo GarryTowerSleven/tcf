@@ -609,13 +609,3 @@ hook.Add("Location","DisableLocJetpack",function(ply,loc)
 		ply._DisabledJetpack = false
 	end
 end)
-
-hook.Add( "Location", "BWDev", function( ply, loc )
-
-	if loc == 61 || loc == 62 then
-		PostEvent( ply, "bw_on" )
-	else
-		PostEvent( ply, "bw_off" )
-	end
-
- end )
