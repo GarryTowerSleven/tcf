@@ -75,7 +75,7 @@ GTowerLocation.MapPositions = {
 
     // Misc
     { 30, Vector(-9984,-16096,2304), Vector(256,-5856,12544), '', 0 }, // Duel Arena
-    { 60, Vector(2856,3048,-888), Vector(3120,3224,-616), '', 2 }, // ???
+    { 56, Vector(2856,3048,-188), Vector(3120,3224,-1000), '', 2  }, //???
 
     // Condos (Unused)
     //{ 45, Vector(102,8416,14460), Vector(1581,10584,15016), 'condos', 0 }, // Condo #1
