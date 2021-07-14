@@ -91,6 +91,16 @@ function GTowerLocation:GetPlayersInLocation( location )
 
 end
 
+function GTowerLocation:GetCondoID( location )
+	// this sucks but it'll do until we switch to lobby 2's systems
+	local na = GTowerLocation:GetName( location )
+	if na then
+		if !string.StartWith( string.lower( na ), "condo #" ) then return end
+
+		return tonumber( string.Replace( string.lower( na ), "condo #", "" ) )
+	end
+end
+
 RegisterNWTablePlayer({
 	{"GLocation", 0, NWTYPE_CHAR, REPL_EVERYONE, LocationChanged },
 })

@@ -304,7 +304,7 @@ function APP:Start()
 
 		"camera",
 
-		--"condo",
+		"condo",
 
 		"players",
 

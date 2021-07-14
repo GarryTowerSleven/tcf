@@ -23,6 +23,7 @@ Loadables.Load( {
 	//"boss",									-- WIP boss battle
 	"soundscape",						-- Soundscapes and background music
 	"condopanel",						-- Condo OS
+	"condoupgrades",						-- Condo Upgrades
 	//"multicore",						-- Forces multicore, improves FPS
 	"friends",							-- Friend and blocking system
 	"group",								-- Player group system
