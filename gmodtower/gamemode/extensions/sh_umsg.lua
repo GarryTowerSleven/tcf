@@ -1,5 +1,3 @@
----------------------------------
-
 local DEBUG = false
 
 if CLIENT then

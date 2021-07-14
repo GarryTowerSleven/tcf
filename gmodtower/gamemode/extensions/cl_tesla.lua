@@ -1,6 +1,3 @@
----------------------------------
-
-
 module("tesla", package.seeall )
 
 local MetaTable = {
@@ -32,7 +29,7 @@ function AttemptFindList( self, Start, End )
 	end
 	
 	//Try a double trace, around a wall or something.
-	local Dir = ( End - Start ):Normalize()
+	local Dir = ( End - Start ):GetNormal()
 			
 	Dir:Rotate( Angle( math.Rand( -90, 90 ), math.Rand( -90, 90 ), 0 ) )
 			
@@ -71,7 +68,7 @@ end
 function RandTrace( self, Cur, Next ) 
 
 	local Lenght = Cur:Distance( Next )
-	local Normal = (Next-Cur):Normalize()
+	local Normal = (Next-Cur):GetNormal()
 	
 	math.randomseed( CurTime() * Lenght )
 		

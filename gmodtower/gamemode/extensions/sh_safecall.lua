@@ -1,7 +1,15 @@
----------------------------------
+local xpcall = xpcall
+local unpack = unpack
+local debug = debug
+local SQLLog = SQLLog
+local ErrorNoHalt = ErrorNoHalt
+local print = print
+local _G = _G
+local SERVER = SERVER
+local LocalPlayer= LocalPlayer
+local table = table
 
-
-module( "hook2", package.seeall )
+module("hook2")
 
 local HandleError
 local ErrorMemory = {}
@@ -19,11 +27,7 @@ if SERVER then
 		end
 		
 		table.insert( ErrorMemory, err )
-		
-		// this is gross
-		// but it should be safe to assume this function always exists at this point
-		//Sql.Log( "error", ErrorMsg )
-		
+		SQLLog('error', ErrorMsg ) 
 		ErrorNoHalt( "\n\n" .. ErrorMsg .. "\n\n" )
 		
 		return ErrorMsg
@@ -42,9 +46,7 @@ else
 			print( err )
 		end
 		
-		local trace = debug.traceback()
-		
-		print( trace .. "\n" )
+		print( debug.traceback() .. "\n" )
 		
 		return err
 	end
@@ -59,7 +61,7 @@ function SafeCall( func, ... )
 	end
 	
 	return xpcall( function()
-		return func( unpack(argcache) )
+		return func( unpack( argcache ) )
 	end, HandleError )
 
 end
