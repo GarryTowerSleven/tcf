@@ -297,16 +297,6 @@ end
 
 function GM:StartBossRound()
 
-	if game.GetMap() == "gmt_zm_arena_trainyard01" then
-		for k,v in pairs(player.GetAll()) do
-			v:AddAchivement( ACHIVEMENTS.ZMSPIDER, 1 )
-		end
-	elseif game.GetMap() == "gmt_zm_arena_thedocks01" then
-		for k,v in pairs(player.GetAll()) do
-			v:AddAchivement( ACHIVEMENTS.ZMDINO, 1 )
-		end
-	end
-
 	local SpawnPoint = ents.FindByClass("info_boss_spawn")[1]
 
 	if !IsValid(SpawnPoint) then return end

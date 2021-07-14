@@ -387,7 +387,15 @@ function GM:GiveMoney()
 
 		if self.WonBossRound then
 
-
+			if game.GetMap() == "gmt_zm_arena_trainyard01" then
+				for k,v in pairs(player.GetAll()) do
+					v:AddAchivement( ACHIVEMENTS.ZMSPIDER, 1 )
+				end
+			elseif game.GetMap() == "gmt_zm_arena_thedocks01" then
+				for k,v in pairs(player.GetAll()) do
+					v:AddAchivement( ACHIVEMENTS.ZMDINO, 1 )
+				end
+			end
 
 			payout.Give( ply, "BossDefeat" )
 
