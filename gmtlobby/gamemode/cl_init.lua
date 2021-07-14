@@ -104,31 +104,6 @@ hook.Add("CalcView", "GMTViewBob", function( ply, origin, angle, fov)
 
 end )
 
-//Halloween map only
-local function RemoveAllFogs()
-	Msg("REMOVING ALL FOG!\n")
-	for _, v in pairs( ents.FindByClass("func_smokevolume") ) do
-		v:Remove()
-	end
-end
-
-local allowfog = cookie.GetNumber("gmtallowfog", 0 )
-
-hook.Add("OnEntityCreated", "GMTRemoveFog", function( ent )
-	if IsValid(ent) && allowfog > 0 && ent:GetClass() == "func_smokevolume" then
-		timer.Simple(3.0, RemoveAllFogs )
-	end
-end )
-
-hook.Add("InitPostEntity", "GMTRemoveFog", function()
-	timer.Simple(5.0, function()
-		if allowfog > 0 then
-			Msg("Start: REMOVING ALL FOG!\n")
-			RemoveAllFogs()
-		end
-	end )
-end )
-
 hook.Add("HUDPaint", "PaintMapChanging", function()
 
 	if !GetGlobalBool("ShowChangelevel") then return end
@@ -223,25 +198,6 @@ concommand.Add("gmt_tourmsg",function(ply)
 	 function() end )*/
 end)
 
-concommand.Add("gmt_removefog", function( ply, cmd, args )
-
-	if !args[1] then
-		Msg("Usage: gmt_removefog <1/0>\n")
-		return
-	end
-
-	local val = tonumber( args[1] ) or 0
-	cookie.Set("gmtallowfog", val )
-
-	if val > 0 then
-		Msg2("All fog entites have been removed.")
-		timer.Simple(0, RemoveAllFogs )
-	else
-		Msg2("Fog entities will not be removed next time you join the server.")
-	end
-
-end )
-
 hook.Add( "KeyPress", "UsePlayerMenu", function( ply, key )
 	if ( key == IN_USE ) then
 		local ent = LocalPlayer():GetEyeTrace().Entity
@@ -250,46 +206,3 @@ hook.Add( "KeyPress", "UsePlayerMenu", function( ply, key )
 		end
 	end
 end )
-
-/*hook.Add( "PostDrawTranslucentRenderables", "CurveDebug", function(b, sky)
-	if STORED_CURVES && !sky then
-
-		for curveName, curve in pairs( STORED_CURVES ) do
-
-			for num, point in pairs( curve.Points ) do
-
-				if LocalPlayer():GetPos():Distance(point.Pos) > 3000 then continue end
-
-				render.SetColorMaterialIgnoreZ()
-
-				// Forward
-				render.DrawBeam( point.Pos, point.Pos + point.Angle:Forward() * 50, 4, 0, 0, Color(0,255,0,255) )
-
-				// Pre Magnitude
-				render.DrawBeam( point.Pos, point.Pos + point.Angle:Forward() * -point.PreMagnitude, 2, 0, 0, Color(255,255,0,255) )
-
-				// Post Magnitude
-				render.DrawBeam( point.Pos, point.Pos + point.Angle:Forward() * point.PostMagnitude, 2, 0, 0, Color(255,255,0,255) )
-
-				// Origin
-				render.DrawSphere( point.Pos, 16, 24, 24, Color(255,0,0,255) )
-
-				local camAng = LocalPlayer():EyeAngles()
-				camAng:RotateAroundAxis( LocalPlayer():GetForward(), 90)
-				camAng:RotateAroundAxis( LocalPlayer():GetUp(), -90)
-				cam.Start3D2D( point.Pos + Vector(0,0,150), camAng, .5 )
-					draw.DrawText(num,"GTowerSkyMsg",0,0,Color( 255, 255, 255, 255 ),TEXT_ALIGN_CENTER)
-					draw.DrawText(tostring(point.Angle),"GTowerSkyMsgSmall",0,-30,Color( 255, 255, 255, 255 ),TEXT_ALIGN_CENTER)
-
-					if point.Speed then
-						draw.DrawText("SPEED: " .. point.Speed,"GTowerSkyMsgSmall",0,-80,Color( 255, 255, 255, 255 ),TEXT_ALIGN_CENTER)
-					end
-
-				cam.End3D2D()
-
-			end
-
-		end
-
-	end
-end)*/

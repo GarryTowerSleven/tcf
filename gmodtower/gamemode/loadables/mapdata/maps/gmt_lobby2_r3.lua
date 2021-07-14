@@ -20,7 +20,7 @@ local condoDoorData = {
 	{ 'pool2', 'models/map_detail/condo_slidingdoor.mdl', Angle(0, 90, 0), Vector(-4, -6, 10)  },
 	{ 'bedroom', 'models/map_detail/condo_slidingdoor.mdl', Angle(0, 0, 0), Vector(-6, 4, 10)  },
 	{ 'shower', 'models/map_detail/condo_shower_door.mdl', Angle(0, -90, 0), Vector(0, -34, -39)  },
-	{ 'pool', 'models/map_detail/condo_slidingbackdoor.mdl', Angle(0, -90, 0), Vector(2, 0, -0.29375)  },
+	{ 'pool', 'models/map_detail/condo_slidingbackdoor.mdl', Angle(0, -90, 0), Vector(2, 0, -0.3)  },
 }
 
 local function GetNearestCondo( pos )
@@ -167,6 +167,14 @@ local function MapFixes()
 	banner:SetPos(Vector(4398.583496, -2909.327881, 137.968750))
 	banner:Spawn()
 
+	// Remove Fog
+	timer.Simple( 3, function()
+		for _, v in pairs( ents.FindByClass("func_smokevolume") ) do
+			//print( "removing : " .. tostring( v ) .. " @ " .. tostring( v:GetBrushPlane( 1 ) ) )
+			v:Remove()
+		end
+	end)
+
 end
 
 hook.Add("InitPostEntity","AddL2Ents",function()
@@ -194,7 +202,7 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	
 	// Beta Money NPC
 	local ent = ents.Create("gmt_npc_money")
-	ent:SetPos( Vector( 7425, 218, -1088 ) ) // 7425.170898 218.442490 -1087.977783
+	ent:SetPos( Vector( 7425, 218, -1090 ) ) // 7425.170898 218.442490 -1087.977783
 	ent:SetAngles( Angle( 0, -135, 0 ) )
 	ent:Spawn()
 	
