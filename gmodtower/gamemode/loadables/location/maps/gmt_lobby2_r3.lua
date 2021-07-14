@@ -26,7 +26,7 @@ GTowerLocation.MapPositions = {
 
     // Theater
     { 32, Vector(3504,3240,-896), Vector(5296,4492,-480), 'theater', 1 }, // Theater Main
-    { 35, Vector(4118,4110,-896), Vector(4682,4492,-480), 'theater', 2 }, // Theater Game Room
+    { 35, Vector(4118,4110,-896), Vector(4682,4492,-480), 'theaterarcade', 2 }, // Theater Game Room
     { 33, Vector(2852,4896,-2944), Vector(4112,5864,-2304), 'theater', 1 }, // Theater 1
     { 34, Vector(4688,4896,-2944), Vector(5952,5864,-2304), 'theater', 1 }, // Theater 2
 
