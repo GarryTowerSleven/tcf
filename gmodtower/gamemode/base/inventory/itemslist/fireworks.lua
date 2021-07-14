@@ -28,7 +28,7 @@ local function RegisterFirework( intName, Name, desc, model, skin, price )
 		--RemoveOnTheater = true, // disallow dropping in theater
 		RemoveOnNoEntsLoc = true,
 		
-		StoreId = 14,
+		StoreId = GTowerStore.FIREWORKS,
 		StorePrice = price
 	} )
 end

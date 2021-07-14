@@ -1,8 +1,31 @@
 ---------------------------------
-GTowerStore.SuiteStore = 1
+GTowerStore.SUITE 		= 1
+GTowerStore.HAT 		= 2
+GTowerStore.PVPBATTLE 	= 3
+GTowerStore.BAR 		= 4
+GTowerStore.BALLRACE 	= 5
+GTowerStore.SOUVENIR 	= 6
+GTowerStore.ELECTRONIC 	= 7
+GTowerStore.MERCHANT 	= 8
+--GTowerStore.VIP 		= 9
+GTowerStore.HOLIDAY 	= 10
+GTowerStore.BUILDING 	= 11
+GTowerStore.PLAYERMODEL = 13
+GTowerStore.FIREWORKS 	= 14
+GTowerStore.POSTERS 	= 15
+GTowerStore.VENDING 	= 17
+GTowerStore.THANKSGIVING = 18
+GTowerStore.HALLOWEEN	= 19
+GTowerStore.BATHROOM	= 21
+GTowerStore.TOY = 22
+GTowerStore.PARTICLES	= 23
+GTowerStore.DUEL		= 24
+GTowerStore.FOOD	= 25
+GTowerStore.PET = 26
+GTowerStore.MUSIC	= 27
 
 GTowerStore.Stores = {
-	[GTowerStore.SuiteStore] = {
+	[GTowerStore.SUITE] = {
 		NpcClass = "gmt_npc_suitesell",
 		WindowTitle = "Furniture Store",
 		ModelStore = true,
@@ -10,7 +33,7 @@ GTowerStore.Stores = {
 		CameraZPos = 25,
 		Logo = "sweetsuite"
 	},
-	[2] = {
+	[GTowerStore.HAT] = {
 		NpcClass = "gmt_npc_hat",
 		WindowTitle = "Hat Store",
 		ModelStore = true,
@@ -18,31 +41,31 @@ GTowerStore.Stores = {
 		CameraZPos = -2.5,
 		Logo = "toweroutfitters"
 	},
-	[3] = {
+	[GTowerStore.PVPBATTLE] = {
 		NpcClass = "gmt_npc_pvpbattle",
 		WindowTitle = "PVP Battle Store",
 	},
-	[4] = {
+	[GTowerStore.BAR] = {
 		NpcClass = "gmt_npc_bar",
 		WindowTitle = "Bar",
 		ModelSize = 400,
 		CameraZPos = -2.5,
 	},
-	[5] = {
+	[GTowerStore.BALLRACE] = {
 		NpcClass = "gmt_npc_ballracer",
 		WindowTitle = "Ball Race Store",
 		ModelSize = 300,
 		CameraZPos = -2.5,
 		Logo = "ballrace"
 	},
-	[6] = {
+	[GTowerStore.SOUVENIR] = {
 		NpcClass = "gmt_npc_souvenir",
 		WindowTitle = "Decorations",
 		Logo = "sweetsuite",
 		ModelSize = 600,
 		CameraZPos = 50,
 	},
-	[7] = {
+	[GTowerStore.ELECTRONIC] = {
 		NpcClass = "gmt_npc_electronic",
 		WindowTitle = "Electronic Store",
 		ModelStore = true,
@@ -50,7 +73,7 @@ GTowerStore.Stores = {
 		ModelSize = 400,
 		CameraZPos = 25,
 	},
-	[8] = {
+	[GTowerStore.MERCHANT] = {
 		NpcClass = "gmt_npc_merchant",
 		WindowTitle = "Wandering Merchant",
 		ModelSize = 500,
@@ -63,13 +86,13 @@ GTowerStore.Stores = {
 		CameraZPos = 55,
 		ModelSize = 450
 	},
-	[10] = {
+	[GTowerStore.HOLIDAY] = {
 		NpcClass = "gmt_presentbag",
 		WindowTitle = "Happy Holidays!",
 		ModelSize = 400,
 		CameraZPos = -2.5,
 	},
-	[11] = {
+	[GTowerStore.BUILDING] = {
 		NpcClass = "gmt_npc_building",
 		WindowTitle = "Building Blocks Store",
 		ModelStore = true,
@@ -81,7 +104,7 @@ GTowerStore.Stores = {
 		NpcClass = "gmt_npc_digi",
 		WindowTitle = "HyenaShack"
 	},
-	[13] = {
+	[GTowerStore.PLAYERMODEL] = {
 		NpcClass = "gmt_npc_models",
 		WindowTitle = "Player Models",
 		ModelStore = true,
@@ -89,13 +112,13 @@ GTowerStore.Stores = {
 		CameraZPos = 45,
 		Logo = "toweroutfitters"
 	},
-	[14] = {
+	[GTowerStore.FIREWORKS] = {
 		NpcClass = "gmt_npc_fireworks",
 		WindowTitle = "Fireworks Store",
 		ModelSize = 400,
 		CameraZPos = -2.5,
 	},
-	[15] = {
+	[GTowerStore.POSTERS] = {
 		NpcClass = "gmt_npc_posters",
 		WindowTitle = "Poster Store",
 		ModelStore = true,
@@ -103,87 +126,66 @@ GTowerStore.Stores = {
 		CameraZPos = 25,
 		Logo = "sweetsuite"
 	},
-	[16] = {
-		NpcClass = "gmt_npc_basical",
-		WindowTitle = "Basical's Goods",
-		ModelStore = true,
-		ModelSize = 400,
-		CameraZPos = 15,
-		Logo = "basicalsgoods",
-	},
-	[17] = {
+	[GTowerStore.VENDING] = {
 		NpcClass = "gmt_vending_machine",
 		WindowTitle = "Vending Machine",
 		ModelSize = 1000,
 		CameraZPos = 15,
 	},
-	[18] = {
+	[GTowerStore.THANKSGIVING] = {
 		NpcClass = "gmt_npc_thanksgiving",
 		WindowTitle = "Thanksgiving",
 		ModelSize = 1000,
 		CameraZPos = -2.5,
 	},
-	[19] = {
+	[GTowerStore.HALLOWEEN] = {
 		NpcClass = "gmt_npc_halloween",
 		WindowTitle = "Spooky Scary Halloween",
 		ModelStore = true,
 		ModelSize = 500,
 		CameraZPos = -2.5,
 	},
-	[20] = {
-		NpcClass = "gmt_npc_nature",
-		WindowTitle = "Nature Store",
-		ModelStore = true,
-		ModelSize = 400,
-		CameraZPos = -2.5,
-	},
-	[21] = {
+	[GTowerStore.BATHROOM] = {
 		NpcClass = "gmt_npc_bathroom",
 		WindowTitle = "Bathroom Attendant",
 	},
-	[22] = {
+	[GTowerStore.TOY] = {
 		NpcClass = "gmt_npc_toys",
 		WindowTitle = "Toys and Gizmos",
 		Logo = "thetoystop",
 		ModelSize = 400,
 		CameraZPos = -2.5,
 	},
-	[23] = {
+	[GTowerStore.PARTICLES] = {
 		NpcClass = "gmt_npc_particles",
 		WindowTitle = "Particles",
 	},
-	[24] = {
+	[GTowerStore.DUEL] = {
 		NpcClass = "gmt_npc_duel",
 		WindowTitle = "Duels",
 		ModelSize = 500,
 		CameraZPos = -2.5,
 	},
-	[25] = {
+	[GTowerStore.FOOD] = {
 		NpcClass = "gmt_npc_food",
 		WindowTitle = "Smoothie Bar",
 		Logo = "smoothiebar",
 		ModelSize = 1000,
 		CameraZPos = 25,
 	},
-	[26] = {
+	[GTowerStore.PET] = {
 		NpcClass = "gmt_npc_pets",
 		WindowTitle = "Pets",
 		Logo = "thetoystop",
 		ModelSize = 1000,
 		CameraZPos = 10,
 	},
-	[27] = {
+	[GTowerStore.MUSIC] = {
 		NpcClass = "gmt_npc_music",
 		WindowTitle = "Music Store",
 		Logo = "songbirds",
 		ModelSize = 300,
 		CameraZPos = 10,
-	},
-	[28] = {
-		NpcClass = "gmt_npc_beach",
-		WindowTitle = "Beach Store",
-		ModelSize = 400,
-		CameraZPos = 25,
 	},
 	[50] = {
 		NpcClass = nil -- Handled internally
