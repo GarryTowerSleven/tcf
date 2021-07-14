@@ -19,7 +19,10 @@ local TETRISCOLORS = {
 ENT.NextBlock = {}
 
 net.Receive( "TetrisNextBlock", function( len )
-	net.ReadEntity().NextBlock = net.ReadTable()
+	local self = net.ReadEntity()
+
+	self.NextBlock = net.ReadTable()
+	self.NextBlockColor = net.ReadInt(4)
 end )
 
 local function DrawBoard( self )
@@ -82,7 +85,7 @@ local function DrawBoard( self )
 		
 		for k, v in pairs( self.NextBlock ) do
 			local Posx,Posy = self:NumToXY2( v[1], v[2] )
-			local col = Color( 255, 255, 255, 255 )
+			local col = TETRISCOLORS[ self.NextBlockColor ]
 			surface.SetDrawColor( col.r, col.g, col.b, 10 )
 			surface.DrawRect( (x + EachBlockX * Posx), (y + EachBlockY * (Posy-1) + 1), EachBlockX - 1, EachBlockY - 1 )
 		end

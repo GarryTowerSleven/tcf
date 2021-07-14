@@ -91,6 +91,7 @@ function ENT:CreateNewBlock()
 		net.Start( "TetrisNextBlock" )
 			net.WriteEntity( self )
 			net.WriteTable( self.TETRISBLOCKS[ self.NextBlockGo ] )
+			net.WriteInt( self.NextBlockGo, 4 )
 		net.Send( self.Ply )
 	end
 
