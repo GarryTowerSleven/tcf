@@ -513,190 +513,96 @@ end
 
 function APP:Draw()
 
-
-
-	--print("SET MATERIAL " .. tostring(self.I.HomeBG))
-
-
-
 	surface.SetDrawColor( 150, 150, 150, 255 )
-
 	surface.SetMaterial(Backgrounds[math.Clamp(CondoBackground:GetInt(),1,9) or 1])
 
-
 	surface.SetDrawColor( 255, 255, 255, 100 )
-
 	for i=1, 4 do
-
 		local scroll0 = (1 + math.cos(self:GetTime() / 2 + i)) * scrw
-
 		local scroll1 = (1 + math.sin(self:GetTime() / 2 + i)) * scrh
-
 		surface.DrawTexturedRect( -scroll0, -scroll1, scrw * 4, scrh * 4 )
-
 	end
-
-
 
 	local iconSize = 128
-
 	local spacing = 16
-
 	local x = (scrw/2) - ((spacing/2 + iconSize) * table.Count(self.homebuttons))/2 - (iconSize/2)
-
 	local y = (scrh/2)-(iconSize/2)
 
-
-
 	local Dividers = { {}, {} }
-
 	for k,v in pairs(self.homebuttons) do
-
 		local over = DrawButton( v.icon, x, y, iconSize )
-
 		if over then
-
 			draw.DrawText(v.name, "AppBarSmall", x + iconSize/2, y + iconSize, Color(255, 255, 255, 80), TEXT_ALIGN_CENTER)
-
 		end
-
 		v.over = over
-
 		if k == 4 then
-
 			Dividers[1][1] = x + iconSize
-
 			x = x + iconSize/2
-
 		elseif k == 5 then
-
 			Dividers[1][2] = x
-
 		elseif k == 6 then
-
 			Dividers[2][1] = x + iconSize
-
 			x = x + iconSize/2
-
 		elseif k == 7 then
-
 			Dividers[2][2] = x
-
 		end
-
 		x = x + iconSize + spacing
-
 	end
 
-
-
 	local h = iconSize/2
-
 	surface.SetDrawColor( 255, 255, 255, 20 )
-
 	surface.DrawRect( ( Dividers[1][1] + Dividers[1][2] ) / 2 - 1, y+h/2, 4, h )
+	surface.DrawRect( ( Dividers[2][1] + Dividers[2][2] ) / 2 - 1, y+h/2, 4, h )
 
-	--surface.DrawRect( ( Dividers[2][1] + Dividers[2][2] ) / 2 - 1, y+h/2, 4, h )
-
-
-
-	//self:DrawNewsTicker()
-
+	--self:DrawNewsTicker()
 	self:DrawNowPlaying( 0, 70 )
 
-
-
 	self.LASTM = self.LASTM or 0
-
 	local dt = 1 - math.min(CurTime() - self.LASTM - 3, 1)
-
-
 
 	if self.MX and self.MY then
 
-
-
 		self.LMX = self.LMX or 0
-
 		self.LMY = self.LMY or 0
 
-
-
 		self.LMX = self.LMX + (self.MX - self.LMX) * .1
-
 		self.LMY = self.LMY + (self.MY - self.LMY) * .1
-
-
 
 		local cursorSize = 64
 
-
-
 		surface.SetDrawColor( 255, 255, 255, 255 * dt )
-
 		surface.SetTexture( Cursor2D )
-
 		--draw.DrawText(tostring(self.TestValue) .. " " .. tostring(self), "AppBarSmall", self.LMX or 0, self.LMY or 0, Color(255,255,255,100))
 
-
-
 		local offset = cursorSize / 2
-
 		surface.DrawTexturedRect( self.LMX - offset + 15, self.LMY - offset + 15, cursorSize, cursorSize )
-
-
 
 	end
 
 
 
 	-- Lock border
-
 	if self:IsCondoLocked() then
 
-
-
 		local thickness = 16
-
 		surface.SetDrawColor( Color( 255, 0, 0, 150 ) )
-
 		surface.DrawRect( 0, 0, scrw, thickness - 6 ) -- Top
-
 		surface.DrawRect( 0, scrh - thickness + 6, scrw, thickness ) -- Bottom
-
 		surface.DrawRect( 0, thickness-6, thickness, scrh - thickness ) -- Left
-
 		surface.DrawRect( scrw - thickness, thickness-6, thickness, scrh - thickness ) -- Right
-
-
 
 		local text = "CONDO LOCKED: ONLY FRIENDS OR GROUP MEMBERS CAN ENTER"
 
-
-
 		surface.SetFont( "AppBarSmall" )
-
 		local tw, th = surface.GetTextSize( text )
-
 		local padding = 8
-
-
 
 		tw = tw + ( padding * 2 )
 
-
-
 		surface.DrawRect( scrw/2 - tw/2, scrh - 50 - padding, tw, th + padding ) -- Text BG
-
 		draw.DrawText( text, "AppBarSmall", scrw/2, scrh - 50, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER)
 
-
-
-
-
 	end
-
-
 
 end
 

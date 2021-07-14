@@ -341,41 +341,6 @@ concommand.Add( "gmt_buybankslots", function( ply, cmd, args )
 	end
 end )
 
-concommand.Add( "gmt_condorocket", function( ply, cmd, args )
-	if !ply:IsAdmin() then return end
-
-	local id = args[1]
-
-	local ent = ents.GetByIndex(id)
-
-	if IsValid(ent) then
-
-		local missile = ents.Create("rpg_missile")
-		missile:SetOwner( ply )
-		missile:SetPos( ent:GetPos() + ent:GetForward() * 10 + Vector(0,0,-10)	)
-		missile:SetAngles( Angle(90,0,0) )
-		missile:SetVelocity( ent:GetForward() * 10 )
-		missile.EntityOwner = ply
-
-		missile:Spawn()
-
-		for k,v in pairs( ents.FindInSphere(ent:GetPos(),2000) ) do
-			if v:IsPlayer() && !missile.target then
-				missile:PointAtEntity(v)
-				missile.target = true
-			end
-		end
-
-		missile:DrawShadow( false )
-
-		missile.Damage = 100
-
-		table.insert( ValidExplodeRockets, missile )
-		hook.Add("EntityRemoved", "ExplodeRocket", MakeRocketDoDamage )
-	end
-
-end)
-
 concommand.Add( "gmt_dieroom", function( ply, cmd, args )
 
 	if !IsValid( TalkingTo[ ply ] ) then
