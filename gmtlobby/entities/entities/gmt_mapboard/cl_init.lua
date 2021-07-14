@@ -497,64 +497,52 @@ function ENT:DrawMap(scr,mx,my,w,h)
 
 	if self.selectedButton then
 
-
-
 		local btn = self.selectedButton
-
 		surface.SetFont("MapLabelSmall")
-
 		btnsize1 = surface.GetTextSize( "GO TO")
 
+		local manglebet = {
+			"╜","▓","ì","╛","φ","ï","₧","←",
+			"≥","╜","╔","ƒ","Ω","‼","┌","÷",
+			"¢","¿","�","￼","Ë","?","ß","█",
+			"▄","©","ÿ"
+		}
+		local buttonMangle = function()
+			local s = ""
+			for i=1, 4 do s = s .. manglebet[ math.random(1, #manglebet ) ] end
+			return s
+		end
 
+		local btntext = btn[2]
+		while btntext == "Unknown" do
+			btntext = buttonMangle()
+		end
 
 		surface.SetFont("SelectMapLabel")
-
-		btnsize2 = surface.GetTextSize(btn[2])
-
-
+		btnsize2 = surface.GetTextSize(btntext)
 
 		draw.SimpleTextOutlined(
-
 			"GO TO",
-
 			"MapLabelSmall",
-
 			mx-(btnsize1/2),
-
 			my-30,
-
 			fg,
-
 			TEXT_ALIGN_LEFT,
-
 			TEXT_ALIGN_TOP,
-
 			2,
-
 			bg
-
 		)
 
 		draw.SimpleTextOutlined(
-
-			btn[2],
-
+			btntext,
 			"SelectMapLabel",
-
 			mx-(btnsize2/2),
-
 			my,
-
 			fg,
-
 			TEXT_ALIGN_LEFT,
-
 			TEXT_ALIGN_TOP,
-
 			2,
-
 			bg )
-
 	end
 
 
@@ -670,6 +658,9 @@ function ENT:InitXML()
 	<g id="Theatre">
 		<polygon fill-rule="evenodd" clip-rule="evenodd" cx="862" cy="78" fill="#6A8CBA" points="774,51 774,110 807,110 807,204 838,204 
 			838,216 889,216 889,204 919,204 919,110 952,110 952,51 952,52			"/>
+	</g>
+	<g id="Unknown">
+		<rect x="773" y="160" fill="red" width="33" height="29"/>
 	</g>
 	<g id="South_Stores">
 		<rect x="551" y="467.866" fill="#6ABA6C" width="105" height="51.134"/>

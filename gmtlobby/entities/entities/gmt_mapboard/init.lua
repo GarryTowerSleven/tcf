@@ -27,6 +27,8 @@ MapDestinations["Boardwalk"] = { Vector(-2513.4077148438,1.7793444395065,-895.96
 MapDestinations["Pulse Nightclub"] = { Vector(1536.000000,-5008.000000,-2624.000000), Angle(0,0,0) }
 MapDestinations["Sweet Suites"] = { Vector(-1120.023560,-132.051636,-895.968750), Angle(0,90,0) }
 
+MapDestinations["Unknown"] = { Vector(3310, 4112, -846), Angle(0,90,0) }
+
 net.Receive("MapBoardTeleport",function( len, ply )
   local ent = net.ReadEntity()
   local Loc = net.ReadString()
