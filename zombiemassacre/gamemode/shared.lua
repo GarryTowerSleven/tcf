@@ -11,9 +11,9 @@ GM.Website  = "http://www.gmtower.org/"
 
 DeriveGamemode( "gmodtower" )
 
-Loadables.Loadse
+GM.AllowChangeSize = false
 
-Loadables.LoadModules( {
+Loadables.Load( {
 	"clientsettings",
 	"achivement",
 	"friends",
