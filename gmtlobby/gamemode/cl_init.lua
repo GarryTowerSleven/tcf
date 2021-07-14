@@ -401,7 +401,7 @@ net.Receive("gmt_gamemodestart",function()
 
 	Gmode = NiceNames[Gmode] or Gmode
 
-	local Question = Msg2( T( "GamemodeStarting", Gmode, plys ), 13 )
+	local Question = Msg2( T( "GamemodeStarting", Gmode, plys ), 18 )
 	Question:SetupQuestion(
 		function() RunConsoleCommand( "gmt_mtsrv", 1, id ) end,
 		function() end,

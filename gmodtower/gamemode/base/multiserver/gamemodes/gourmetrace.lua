@@ -21,7 +21,7 @@ GMode.VIP = false
 
 //And the players be able to join the game
 
-GMode.WaitingTime = 15.0
+GMode.WaitingTime = 20.0
 
 
 

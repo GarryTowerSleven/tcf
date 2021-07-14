@@ -7,7 +7,7 @@ GMode.Private = true
 
 //This is amount of time between the players being server to play
 //And the players be able to join the game
-GMode.WaitingTime = 15.0
+GMode.WaitingTime = 20.0
 
 //This setting is for large group join
 //When you want all people to connect at once, the server must be empty to people be able to join.
