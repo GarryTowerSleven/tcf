@@ -3,27 +3,23 @@ module( "emote", package.seeall )
 
 // List of emotes available
 Commands = {
-	[1] = "wave",	
-	[2] = "beckon",
-	[3] = "bow",
-	//[5] = "give",
-	[4] = "group",
-	[5] = "agree",
-	[6] = "disagree",
-	[7] = "dance",
-	[8] = "sexydance",
-	[9] = "robot",
-	[10] = "no",
-	[11] = "yes",
-	[12] = "taunt",
-	[13] = "cheer",
-	//[14] = "zombie",
-	[14] = "flail",
-	[15] = "laugh",
-	[16] = "suicide",
-	[17] = "lay",
-	[18] = "sit",
-	[19] = "lounge",
+	[1] = "agree",
+	[2] = "disagree",
+	[3] = "beckon",
+	[4] = "bow",
+	[5] = "group",
+	[6] = "dance",
+	[7] = "sexydance",
+	[8] = "robot",
+	[9] = "lounge",
+	[10] = "sit",
+	[11] = "lay",
+	[12] = "wave",
+	[13] = "taunt",
+	[14] = "cheer",
+	[15] = "flail",
+	[16] = "laugh",
+	[17] = "suicide",
 }
 
 SitAnims = {
@@ -137,8 +133,6 @@ hook.Add( "GtowerShowContextMenus", "ShowEmote", function()
 
 		local name = string.Uppercase( emote )
 		if emote == "sexydance" then name = "Sexy Dance" end
-		if emote == "yes" then name = "Move On" end
-		if emote == "no" then name = "Stop That" end
 		if emote == "danceforever" then name = "Dance 2" end
 
 		local p = vgui.Create( "DButton" )
