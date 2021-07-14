@@ -32,7 +32,8 @@ local Tester = {
 	"STEAM_0:1:32372838", -- dward99
 	"STEAM_0:0:67367129", -- Solid Snake
 	"STEAM_0:1:157016146", -- Spydermann
-	"STEAM_0:1:51961500" -- Gamizard
+	"STEAM_0:1:51961500", -- Gamizard
+	"STEAM_0:0:193442077" -- Nyantendo
 }
 
 function IsTester(steamid)
