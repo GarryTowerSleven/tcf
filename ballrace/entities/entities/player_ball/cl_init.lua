@@ -243,13 +243,11 @@ function ENT:DrawTranslucent()
 	local pos = ( self.Entity:GetPos() + Vector( 0, 0, 48) ):ToScreen()
 
 	if ply != LocalPlayer() then
-		if LocalPlayer():GetPos():Distance(self.Entity:GetPos()) < 800 then
-			local x, y = pos.x, pos.y
-			cam.Start2D()
-				draw.SimpleText(name, "BallPlayerName", x + 2, y + 2, color_black, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-				draw.SimpleText(name, "BallPlayerName", x, y, color_gray, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-			cam.End2D()
-		end
+		local x, y = pos.x, pos.y
+		cam.Start2D()
+			draw.SimpleText(name, "BallPlayerName", x + 2, y + 2, color_black, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			draw.SimpleText(name, "BallPlayerName", x, y, color_gray, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		cam.End2D()
 	end
 
 end
