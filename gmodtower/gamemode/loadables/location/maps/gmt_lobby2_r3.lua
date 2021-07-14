@@ -18,10 +18,11 @@ GTowerLocation.MapPositions = {
     { 18, Vector(-1856,-1448,-966), Vector(1024,1440,-36), 'stores', 0 }, // Stores
 
     { 20, Vector(-472,1440,-672), Vector(240,2240,-372), 'stores', 1 }, // Tower Outfitters
-    { 21, Vector(288,1440,-671), Vector(1032,2296,-432), 'stores', 1 }, // Toy Stop and Pets
+    { 21, Vector(288,1440,-672), Vector(1032,2296,-372), 'stores', 1  }, //Toy Stop and Pets
     { 37, Vector(288,-2208,-672), Vector(1024,-1440,-428), 'stores', 1 }, // Songbirds
     { 23, Vector(-672,-2208,-672), Vector(256,-1440,-428), 'stores', 1 }, // Central Circuit
-    { 22, Vector(-720,-1472,-896), Vector(-288,-796,-696), 'stores', 1 }, // Sweet Suite Furnishings
+	{ 22, Vector(-720,-1472,-896), Vector(-288,-796,-696), 'stores', 1 }, // Sweet Suite Furnishings
+    { 22, Vector( -2038.3122558594, -1430.8845214844, -1000.1024780273 ), Vector( -716.17419433594, -556.38677978516, -264.75384521484 ), 'stores', 1  }, //Sweet Suite Furnishings
 
     // Theater
     { 32, Vector(3504,3240,-896), Vector(5296,4492,-480), 'theater', 1 }, // Theater Main
