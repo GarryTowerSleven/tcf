@@ -1,3 +1,3 @@
-IdleScreen = "https://www.youtube.com/watch?v=Q6KfWTNbozY"
-IdleScreenTitle = "Idlescreen"
-IdleScreenDuration = 124
+IdleScreen = "https://youtu.be/zWBLwrdRkm4"
+IdleScreenTitle = "Tower Unite: Early Access Trailer"
+IdleScreenDuration = (1*60) + 40
