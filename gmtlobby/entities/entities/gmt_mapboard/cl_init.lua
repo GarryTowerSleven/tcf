@@ -660,8 +660,8 @@ function ENT:InitXML()
 			838,216 889,216 889,204 919,204 919,110 952,110 952,51 952,52			"/>
 	</g>
 	<g id="Unknown">
-		<rect x="773" y="110" fill="#6A8CBA" width="33" height="33"/>
-	</g>
+		<polygon fill-rule="evenodd" clip-rule="evenodd" cx="862" cy="862" fill="#6A8CBA" points="783,125 806,125 806,109 783,109"/>
+		</g>
 	<g id="South_Stores">
 		<rect x="551" y="467.866" fill="#6ABA6C" width="105" height="51.134"/>
 	</g>
