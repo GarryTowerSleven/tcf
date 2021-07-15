@@ -630,4 +630,9 @@ hook.Add( "CalcView", "FullyConnected", function()
 	
 	net.Start( "ClientFullyConnected" )
 	net.SendToServer()
-end ) 
+end )
+
+VoiceEnable = CreateConVar( "gmt_voice_enable", 1, nil, nil, 0, 1 )
+hook.Add( "PlayerCanHearPlayersVoice", "Maximum Range", function( listener, talker )
+	if !VoiceEnable then return false end
+end )

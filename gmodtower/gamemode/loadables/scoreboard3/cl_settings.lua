@@ -510,7 +510,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 	if tabname == "Voice/Media" then
 		self:Header( "Voice/Media" )
 		--self:CheckBox( "Enable Public Voice Chat", "gmt_allowvoice" )
-		self:CheckBox( "Enable Voice Chat", "voice_enable" )
+		self:CheckBox( "Enable Voice Chat", "gmt_voice_enable" )
 
 		if IsLobby then
 			self:CheckBox( "Mute Mediaplayer When GMod Is Unfocused", "mediaplayer_mute_unfocused" )
