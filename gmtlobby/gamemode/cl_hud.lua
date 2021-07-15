@@ -103,15 +103,12 @@ GTowerHUD.MaxAmmo = {}
 			end
 		end
 
-	  local weapon = LocalPlayer():GetActiveWeapon()
-	  if IsValid( weapon ) && weapon:GetClass() == "gmt_camera" then showVolume = false end
-
 		if showVolume then
 			surface.SetDrawColor( Color( 0, 0, 0, 200 ) )
 			surface.SetMaterial( GTowerHUD.Info.Background )
 			surface.DrawTexturedRect( 0, GTowerHUD.VolumeSlider.y - 6, GTowerHUD.Info.Width, GTowerHUD.VolumeSlider:GetTall() + 6 )
 
-			surface.SetDrawColor( 255, 255, 255 )
+			surface.SetDrawColor( Color( 255, 255, 255 ) )
 			surface.SetMaterial( GTowerIcons2.GetIcon("volume16") )
 			surface.DrawTexturedRect( x, y+11, 16, 16 )
 		end
@@ -482,12 +479,20 @@ GTowerHUD.MaxAmmo = {}
 		// disable hud for camera swep
 		local weapon = LocalPlayer():GetActiveWeapon()
 		if IsValid( weapon ) && weapon:GetClass() == "gmt_camera" then return end
-		GTowerHUD.DrawInfo()
-		GTowerHUD.DrawAmmo()
+		
 		GTowerHUD.DrawHealth()
+		GTowerHUD.DrawInfo()
 		GTowerHUD.DrawVolumeIcon()
 
+		GTowerHUD.DrawAmmo()
+		--GTowerHUD.DrawNotice()
+		--GTowerHUD.DrawNews()
 		GTowerHUD.DrawCrosshair()
+
+		--[[if !( HideBetaMessage:GetBool() and LocalPlayer():IsAdmin()  ) then
+			draw.SimpleShadowText( "This game is still a work in progress, this beta may not represent the final quality of the product.", "GTowerHudCSubText", ScrW()/2, ScrH() - 50, Color( 255, 255, 255, 255 ), Color( 0, 0, 0, 230 ), 1, 1, 1 )
+			draw.SimpleShadowText( "Follow us at http://www.gmtower.org/", "GTowerHudCSubText", ScrW()/2, ScrH() - 25, Color( 255, 255, 255, 255 ), Color( 0, 0, 0, 230 ), 1, 1, 1 )
+		end]]
 
 	end
 
