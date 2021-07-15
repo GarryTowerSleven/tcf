@@ -135,31 +135,38 @@ GTowerHUD.MaxAmmo = {}
 
 		if LocalPlayer():ShouldDrawLocalPlayer() || !LocalPlayer():Alive() then return end
 
-		local ent = GAMEMODE:PlayerUseTrace( LocalPlayer() )
-
-		if !GTowerHUD.Crosshair.AlwaysOn:GetBool() && !IsValid( ent ) && !CanPlayerUse( ent ) then return end
-
-		// no crosshair if using condOS or mapboard
-		if LocalPlayer().UsingPanel or IsValid( ent ) and ( ent:GetClass() == "gmt_mapboard" ) then
-			return
-		end
-
 		local w, h = ScrW() / 2, ScrH() / 2
 		local color = Color( 255, 255, 255 )
 		local x = 0
-
-		-- Draw Use message
 		
+		--if GTowerHUD.Crosshair.AlwaysOn:GetBool() then
+		
+		-- Draw Use message
+		local ent = GAMEMODE:PlayerUseTrace( LocalPlayer() )
 		if IsValid( ent ) and CanPlayerUse( ent ) then
 			GTowerHUD.DrawUseMessage( ent, x, w, h )
 			return
 		end
-
-		surface.SetMaterial( GTowerHUD.Crosshair.Material )
-
-		local size = GTowerHUD.Crosshair.Size
-		surface.SetDrawColor( color.r, color.g, color.b, 100 )
-		surface.DrawTexturedRect( w - size/2, h - size/2, size, size )
+	
+		-- Don't draw crosshair on condo panels
+		--local ent = GAMEMODE:PlayerUseTrace( LocalPlayer() )
+		if LocalPlayer().UsingPanel then -- IsValid( ent ) and ( ent:GetClass() == "gmt_mapboard" ) then
+			return
+		end
+	
+		-- Draw crosshair
+		if GTowerHUD.Crosshair.Enabled:GetBool() then
+		
+			local size = GTowerHUD.Crosshair.Size
+			surface.SetMaterial( GTowerHUD.Crosshair.Material )
+			surface.SetDrawColor( color.r, color.g, color.b, 100 )
+			surface.DrawTexturedRect( w - size/2, h - size/2, size, size )
+		
+			--[[if GTowerHUD.Crosshair.Action:GetBool() then
+				GTowerHUD.DrawActionCrosshair()
+			end]]
+		
+		end
 
 	end
 

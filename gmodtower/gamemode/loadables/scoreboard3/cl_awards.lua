@@ -57,14 +57,14 @@ AWARDS.GroupNames = {
 	[6] = "Ball Race",
 	[7] = "PVP Battle",
 	[8] = "Virus",
-	[9] = "UCH",
+	[9] = "UCH" ,
 	[10] = "Zombie Massacre",
 	[11] = "Source Karts",
 	[12] = "Minigolf",
 }
 
 AWARDS.GamemodeNames = {
-	[1] = nil,
+	[1] = "gmtlobby",
 	[2] = nil,
 	[3] = nil,
 	[4] = nil,
@@ -76,7 +76,7 @@ AWARDS.GamemodeNames = {
 	[10] = "zombiemassacre",
 	[11] = "sourcekarts",
 	[12] = "minigolf",
-	[20] = "intothechaos",
+	[20] = "gmodtowerhalloween",
 	[21] = nil,
 }
 
@@ -98,28 +98,24 @@ function AWARDS:Init()
 		tab:SetBody( group )
 		tab:SetText( Name )
 
-		if self.GamemodeNames[id] && gamemode.Get( self.GamemodeNames[id] ) then
+		if self.GamemodeNames[id] && engine.ActiveGamemode() == self.GamemodeNames[id] then
 			tab:SetOrder( 0 )
 			firstTab = tab
 		else
 
-			if id == 20 then // Override for holiday tab
-				tab:SetOrder( 2 )
-			elseif id == 21 then
-				tab:SetOrder( 5 )
-			else
-				tab:SetOrder( id )
-			end
+			tab:SetOrder( id )
 
-			if id == 1 then
+			if order == 0 then
 				firstTab = tab
 			end
+
 		end
 
 		self:AddTab( tab )
 		self.Groups[ id ] = group
 
 	end
+
     for k, v in pairs( GtowerAchivements.Achivements ) do
         if v.Group then
             self.Groups[ v.Group ]:AddAchievement( v )
@@ -202,76 +198,46 @@ function AWARDS:PerformLayout()
 		return a.Order < b.Order
 	end )
 
-	completed = GtowerAchivements:NumUnlocked()
-
-
-
-	self.Progress:SetValue( completed / #GtowerAchivements.Achivements )
-
-	self.Progress:SetSize( self:GetWide(), 18 )
-
-	self.Progress:CenterHorizontal()
-
-	self.Progress:SetZPos( 100 )
-	self.Progress:AlignBottom()
-
-
-
-	self.ProgressText:SetText( completed .. " / " .. #GtowerAchivements.Achivements .. "   AWARDS UNLOCKED" )
-
-	self.ProgressText:SizeToContents()
-
-	self.ProgressText:AlignBottom()
-
-	self.ProgressText:SetZPos( 125 )
-	self.ProgressText:CenterHorizontal()
-	self.ProgressText:SetTextColor( Color(0,0,0) )
-
 	// Get widest tab
 	for _, tab in pairs( self.Tabs ) do
-
 		width = math.max( width, tab:GetWide() )
-
 	end
-
+	
 	// Set their positions and size
 	for _, tab in pairs( self.Tabs ) do
-
 		tab:SetTall( 24 )
-
 		tab:InvalidateLayout( true )
-
-
-
+		
 		tab:SetPos( 0, position )
-
 		--tab:AlignLeft( self:GetWide() - width )
-
 		tab:SetWide( width )
 
-
-
 		position = position + tab:GetTall()
-
 	end
 
+	// Count number of achievements unlocked
+	completed = GtowerAchivements:NumUnlocked()
 
-	self.TabHeight = position + 4
+	self.Progress:SetValue( completed / #GtowerAchivements.Achivements )
+	self.Progress:SetSize( self:GetWide(), 18 )
+	self.Progress:CenterHorizontal()
+	self.Progress:AlignBottom()
+
+	self.ProgressText:SetText( completed .. " / " .. #GtowerAchivements.Achivements .. "   AWARDS UNLOCKED" )
+	self.ProgressText:SizeToContents()
+	self.ProgressText:AlignBottom()
+	self.ProgressText:CenterHorizontal()
+
+	self.TabHeight = position + 4 + self.Progress:GetTall()
 	self.TabWidth = width
 
 	// Layout active tab
 	if ValidPanel( self.ActiveTab ) then
-
 		local body = self.ActiveTab:GetBody()
-
 		body:InvalidateLayout( true )
-
 		body:SetPos( self.TabWidth, 4 )
-
 		body:SetWide( self:GetWide() - width )
-
 		body:AlignRight()
-
 	end
 
 	RequestUpdate()

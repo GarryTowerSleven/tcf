@@ -1,4 +1,5 @@
----------------------------------
+local AllowButton = CreateClientConVar( "gmt_thirdpersonbutton", 1, true, false )
+
 local PANEL = {}
 local OpenTime = 1 / 0.5 // 0.5 seconds
 
@@ -7,16 +8,20 @@ function PANEL:Init()
 	self.TargeYPos = 0
 	self.CurYPos = self.TargeYPos
 
-	self:SetSize( 75, 32 )
+	self:SetSize( 80, 32 )
 	
-	--[[self.Button = vgui.Create( "DButton", self )
-	self.Button:SetText( "Third Person" )
-	self.Button:SetConsoleCommand( "changethirdperson" )]]
+	self.Button = vgui.Create( "DButton", self )
+	self.Button:SetText( "THIRD PERSON" )
+	self.Button:SetFont( "GTowerHUDMainSmall" )
+	self.Button:SetConsoleCommand( "gmt_thirdperson" )
+
+	self:SetAlpha( 200 )
 	
 end
 
 function PANEL:ChangingThink()
 
+	self.x = 440 - 80
 	local NewYPos = math.Approach( self.CurYPos, self.TargeYPos, FrameTime() * self:GetTall() * OpenTime )
 	
 	if NewYPos == self.TargeYPos then
@@ -32,25 +37,20 @@ function PANEL:ChangingThink()
 
 end
 
-function PANEL:Paint()
+function PANEL:Paint( w, h )
 	//surface.SetDrawColor( 255, 0, 0, 255 )
 	//surface.DrawOutlinedRect( 0,0, self:GetWide(), self:GetTall() )
 end
 
 function PANEL:PerformLayout()
 	
-	self:SetPos( ( ScrW() / 2 ) - 290, self.CurYPos - 6 )
+	self:SetPos( ( ScrW() / 2 ) - 360, self.CurYPos - 6 )
 	self:SetZPos( 2 )
 	
-	--self.Button:SetSize( self:GetWide() - 4, self:GetTall() - 4 )
-	--self.Button:SetPos( 0, 0 )
+	self.Button:SetSize( self:GetWide() - 4, self:GetTall() - 4 )
+	self.Button:SetPos( 0, 0 )
 		
 end
-
-
-/*===========================
- == External functions
-=============================*/
 
 function PANEL:Open()
 	
@@ -76,10 +76,6 @@ function PANEL:ForceClose()
 	self:SetVisible( false )
 end
 
-
-/*===========================
- == Internal functions
-=============================*/
 
 function PANEL:UpdateChangingThink()
 	self.Think = self.ChangingThink
@@ -109,11 +105,14 @@ function ThirdPerson.CloseMenu()
 	
 end
 
-
-hook.Add( "GtowerShowMenus", "OpenTPPanel", function()
-	ThirdPerson.ShowMenu()
+hook.Add( "GTowerShowMenus", "OpenTPPanel", function()
+	--[[if AllowButton:GetBool() then
+		ThirdPerson.ShowMenu()
+	else
+		ThirdPerson.CloseMenu()
+	end]]
 end )
 
-hook.Add( "GtowerHideMenus", "CloseTPPanel", function()
-	ThirdPerson.CloseMenu()
+hook.Add( "GTowerHideMenus", "CloseTPPanel", function()
+	--ThirdPerson.CloseMenu()
 end )
