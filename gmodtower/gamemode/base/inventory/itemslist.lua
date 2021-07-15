@@ -11,6 +11,8 @@ AddCSLuaFile( "itemslist/pets.lua" )
 AddCSLuaFile( "itemslist/posters.lua" )
 AddCSLuaFile( "itemslist/food.lua" )
 AddCSLuaFile( "itemslist/bonemods.lua" )
+AddCSLuaFile( "itemslist/toys.lua" )
+AddCSLuaFile( "itemslist/holiday.lua" )
 
 include( "itemslist/trophies.lua" )
 include( "itemslist/milestones.lua" )
@@ -22,6 +24,8 @@ include( "itemslist/models.lua" )
 include( "itemslist/posters.lua" )
 include( "itemslist/food.lua" )
 include( "itemslist/bonemods.lua" )
+include( "itemslist/toys.lua" )
+include( "itemslist/holiday.lua" )
 
 RegisterItem( "gmt_texthat", {
 	Name = "Text Hat",
