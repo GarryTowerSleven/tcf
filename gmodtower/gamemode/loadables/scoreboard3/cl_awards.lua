@@ -47,20 +47,20 @@ AWARDS = {}
 
 AWARDS.LineHeight = 64
 AWARDS.GroupNames = {
-	[1] = "General",
-	[2] = "Milestones",
-	[20] = "Holiday",
-	[3] = "Condo",
-	[4] = "Arcade",
-	[21] = "Casino",
-	[5] = "Minigames",
-	[6] = "Ball Race",
-	[7] = "PVP Battle",
-	[8] = "Virus",
-	[9] = "UCH" ,
-	[10] = "Zombie Massacre",
-	[11] = "Source Karts",
-	[12] = "Minigolf",
+	[1] = { 1, "General" },
+	[2] = { 2, "Milestones" },
+	[20] = { 3, "Holiday" },
+	[3] = { 4, "Condo" },
+	[4] = { 5, "Arcade" },
+	[21] = { 6, "Casino" },
+	[5] = { 7, "Minigames" },
+	[6] = { 8, "Ball Race" },
+	[7] = { 9, "PVP Battle" },
+	[8] = { 10, "Virus" },
+	[9] = { 11, "UCH" },
+	[10] = { 12, "Zombie Massacre" },
+	[11] = { 13, "Source Karts" },
+	[12] = { 14, "Minigolf" },
 }
 
 AWARDS.GamemodeNames = {
@@ -90,20 +90,23 @@ function AWARDS:Init()
 
 	self.Groups = {}
 
-	for id, Name in pairs( self.GroupNames ) do
+	for id, groupinfo in pairs( self.GroupNames ) do
 
 		local tab = vgui.Create( "ScoreboardTabInner", self )
 		local group = vgui.Create( "ScoreboardAwardCategoryTab", tab )
 
+		order = groupinfo[1]
+		name = groupinfo[2]
+
 		tab:SetBody( group )
-		tab:SetText( Name )
+		tab:SetText( name )
 
 		if self.GamemodeNames[id] && engine.ActiveGamemode() == self.GamemodeNames[id] then
 			tab:SetOrder( 0 )
 			firstTab = tab
 		else
 
-			tab:SetOrder( id )
+			tab:SetOrder( order )
 
 			if order == 0 then
 				firstTab = tab
