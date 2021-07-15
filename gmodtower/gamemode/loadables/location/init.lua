@@ -68,7 +68,6 @@ hook.Add( "Location", "KickOut", function( ply, loc )
 
     timer.Simple( kickoutTime, function()
         if ply.OutOfBounds then
-            ply:Kill()
 		    ply:Spawn()
             ply.OutOfBounds = false
         end
