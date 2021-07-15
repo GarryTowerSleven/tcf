@@ -76,6 +76,8 @@ GTowerLocation.MapPositions = {
     // Misc
     { 30, Vector(-9984,-16096,2304), Vector(256,-5856,12544), '', 0 }, // Duel Arena
     { 56, Vector(2856,3048,-188), Vector(3120,3224,-1000), '', 2  }, //???
+	
+    { 57, Vector(1792, 3244, 865), Vector(3496, 5041, -950), 'somewhere', 0  }, // Somewhere (Board Area)
 
     // Condos (Unused)
     //{ 45, Vector(102,8416,14460), Vector(1581,10584,15016), 'condos', 0 }, // Condo #1
@@ -150,21 +152,8 @@ GTowerLocation.Locations = {
 	[54] = "Source Karts Port",
 	[55] = "Minigolf Port",
 	[56] = "???",
-	[57] = "Tower Garden",
-	[58] = "Arcade",
-	[59] = "Trivia",
-	[60] = "???",
-	[61] = "The Hallway",
-	[62] = "The Dev HQ?",
-	[63] = "Gourmet Race Port",
-	[64] = "Monorail",
-	[65] = "Smoothie Bar",
-	[66] = "Basical's Goods",
-	[67] = "Beach House",
-	[68] = "Back Beach",
-	[69] = "Resort Pool",
-	[70] = "Monorail",
-	[71] = "Firework Dealer"
+	
+	[57] = "Somewhere",
 }
 
 function GTowerLocation:GetGroup( locid )
