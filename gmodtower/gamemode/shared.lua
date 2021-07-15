@@ -25,6 +25,14 @@ end
 
 IsLobby = IsLobby()
 
+if CLIENT then
+	CreateConVar( "gmt_voice_enable", 1, FCVAR_USERINFO )
+else
+	hook.Add( "PlayerCanHearPlayersVoice", "Maximum Range", function( listener, talker )
+		if !tobool(listener:GetInfoNum( "gmt_voice_enable", 1 )) then return false end
+	end )
+end
+
 //=====================================================
 
 GM.WebsiteUrl = "http://www.gmtower.org/apps/"
