@@ -166,7 +166,7 @@ GTowerStore.Stores = {
 		CameraZPos = 25,
 	},
 	[26] = {
-		NpcClass = "gmt_npc_pets",
+		NpcClass = "gmt_npc_pet",
 		WindowTitle = "Pets",
 		Logo = "thetoystop",
 		ModelSize = 1000,
