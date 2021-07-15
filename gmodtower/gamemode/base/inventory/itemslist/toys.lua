@@ -59,7 +59,7 @@ RegisterItem("trampoline",{
 	InvCategory = "toy"
 })
 
-RegisterItem("checkers",{
+/*RegisterItem("checkers",{
 	Name = "Checkers",
 	Description = "An in-game variant of the classic game, checkers. Made by Clockwork.",
 	Model = "models/gmod_tower/gametable.mdl",
@@ -70,7 +70,7 @@ RegisterItem("checkers",{
 	StoreId = GTowerStore.TOY,
 	StorePrice = 2000,
 	InvCategory = "toy"
-})
+})*/
 
 RegisterItem("obamacutout",{
 	Name = "Obama Cutout",
