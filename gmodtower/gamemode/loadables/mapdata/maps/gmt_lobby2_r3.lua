@@ -145,7 +145,7 @@ local function MapFixes()
 
 	// Condo Bathroom
 	for k,v in pairs( ents.FindByClass("gmt_roomloc") ) do
-		AddL2Seat( "models/map_detail/condo_toilet.mdl", v:GetPos() + Vector( -35, -155, 5 ), Angle(0, 180, 0), 0, Color(255, 255, 255))
+		AddL2Seat( "models/map_detail/condo_toilet.mdl", v:GetPos() + Vector(-32, -148, 0), Angle(0, 180, 0), 0, Color(255, 255, 255))
 
 		local sink = ents.Create( "prop_dynamic" )
 		sink:SetPos( v:GetPos() + Vector(-184,-264,-0.3) )
@@ -153,6 +153,23 @@ local function MapFixes()
 		sink:SetModel( "models/map_detail/bathroomsink.mdl" )
 		sink:SetSolid( SOLID_VPHYSICS )
 		sink:Spawn()
+		sink:DrawShadow( false )
+
+		local mirror = ents.Create( "prop_dynamic" )
+		mirror:SetPos( v:GetPos() + Vector(-188, -300, 64) )
+		mirror:SetAngles( Angle(0,90,0) )
+		mirror:SetModel( "models/map_detail/mirrorfixture.mdl" )
+		mirror:SetSolid( SOLID_VPHYSICS )
+		mirror:Spawn()
+		mirror:DrawShadow( false )
+
+		local bath = ents.Create( "prop_dynamic" )
+		bath:SetPos( v:GetPos() + Vector(-116, -152, -0.3) )
+		bath:SetAngles( Angle(0,270,0) )
+		bath:SetModel( "models/map_detail/bathtub1.mdl" )
+		bath:SetSolid( SOLID_VPHYSICS )
+		bath:Spawn()
+		bath:DrawShadow( false )
 	end
 
 	// Mapboard in Station
