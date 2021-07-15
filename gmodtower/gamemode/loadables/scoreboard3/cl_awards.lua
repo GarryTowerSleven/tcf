@@ -48,10 +48,11 @@ AWARDS = {}
 AWARDS.LineHeight = 64
 AWARDS.GroupNames = {
 	[1] = "General",
-	[20] = "Holiday",
 	[2] = "Milestones",
+	[20] = "Holiday",
 	[3] = "Condo",
 	[4] = "Arcade",
+	[21] = "Casino",
 	[5] = "Minigames",
 	[6] = "Ball Race",
 	[7] = "PVP Battle",
@@ -76,6 +77,7 @@ AWARDS.GamemodeNames = {
 	[11] = "sourcekarts",
 	[12] = "minigolf",
 	[20] = "intothechaos",
+	[21] = nil,
 }
 
 AWARDS.NextUpdate = 0
@@ -102,7 +104,9 @@ function AWARDS:Init()
 		else
 
 			if id == 20 then // Override for holiday tab
-				tab:SetOrder( 1 )
+				tab:SetOrder( 2 )
+			elseif id == 21 then
+				tab:SetOrder( 5 )
 			else
 				tab:SetOrder( id )
 			end
