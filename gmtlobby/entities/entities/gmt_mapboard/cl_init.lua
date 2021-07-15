@@ -660,7 +660,7 @@ function ENT:InitXML()
 			838,216 889,216 889,204 919,204 919,110 952,110 952,51 952,52			"/>
 	</g>
 	<g id="Unknown">
-		<rect x="773" y="110" fill="red" width="33" height="33"/>
+		<rect x="773" y="110" fill="#6A8CBA" width="33" height="33"/>
 	</g>
 	<g id="South_Stores">
 		<rect x="551" y="467.866" fill="#6ABA6C" width="105" height="51.134"/>
