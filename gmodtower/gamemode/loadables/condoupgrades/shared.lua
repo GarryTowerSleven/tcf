@@ -5,7 +5,7 @@ if SERVER then
 	util.AddNetworkString( "CondoDoorStatus" )
 end
 
-StoreID = 50
+StoreID = GTowerStore.CONDO
 
 local doorNamePattern = "^autoinstance..%-suitedoor_(.+)"
 

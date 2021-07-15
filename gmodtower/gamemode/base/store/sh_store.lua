@@ -17,12 +17,13 @@ GTowerStore.VENDING 	= 17
 GTowerStore.THANKSGIVING = 18
 GTowerStore.HALLOWEEN	= 19
 GTowerStore.BATHROOM	= 21
-GTowerStore.TOY = 22
+GTowerStore.TOY 		= 22
 GTowerStore.PARTICLES	= 23
 GTowerStore.DUEL		= 24
-GTowerStore.FOOD	= 25
-GTowerStore.PET = 26
-GTowerStore.MUSIC	= 27
+GTowerStore.FOOD		= 25
+GTowerStore.PET 		= 26
+GTowerStore.MUSIC		= 27
+GTowerStore.CONDO		= 50
 
 GTowerStore.Stores = {
 	[GTowerStore.SUITE] = {
@@ -79,13 +80,6 @@ GTowerStore.Stores = {
 		ModelSize = 500,
 		CameraZPos = 25,
 	},
-	[9] = {
-		NpcClass = "gmt_npc_rabbit",
-		WindowTitle = "Rabbits!",
-		ModelStore = true,
-		CameraZPos = 55,
-		ModelSize = 450
-	},
 	[GTowerStore.HOLIDAY] = {
 		NpcClass = "gmt_presentbag",
 		WindowTitle = "Happy Holidays!",
@@ -99,10 +93,6 @@ GTowerStore.Stores = {
 		CameraZPos = 0,
 		ModelSize = 450,
 		Logo = "sweetsuite"
-	},
-	[12] = {
-		NpcClass = "gmt_npc_digi",
-		WindowTitle = "HyenaShack"
 	},
 	[GTowerStore.PLAYERMODEL] = {
 		NpcClass = "gmt_npc_models",
@@ -187,7 +177,7 @@ GTowerStore.Stores = {
 		ModelSize = 300,
 		CameraZPos = 10,
 	},
-	[50] = {
+	[GTowerStore.CONDO] = {
 		NpcClass = nil -- Handled internally
 	},
 }

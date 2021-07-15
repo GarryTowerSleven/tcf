@@ -2,8 +2,25 @@
 local EventSound = "gmodtower/misc/notifyevent.wav"
 if time.IsChristmas() then EventSound = "gmodtower/music/christmas/eventnotify.mp3" end
 
-local eventlist = { "balloon", "battle", "obama", "tronarnia", "storesale", "storesale" }
-local shopslist = { 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 15, 20, 22, 23, 24, 25, 26, 27 }
+local shopslist = {
+    GTowerStore.SUITE,
+	GTowerStore.HAT, 
+	GTowerStore.PVPBATTLE, 
+	GTowerStore.BAR,
+	GTowerStore.BALLRACE, 
+	GTowerStore.SOUVENIR, 
+	GTowerStore.ELECTRONIC, 
+	GTowerStore.MERCHANT, 
+	GTowerStore.BUILDING, 
+	GTowerStore.VENDING,
+	GTowerStore.PLAYERMODEL, 
+	GTowerStore.POSTERS,
+	GTowerStore.FOOD,
+	--GTowerStore.DUEL,
+	GTowerStore.TOY,
+	GTowerStore.PET,
+	GTowerStore.MUSIC,
+}
 
 local enabled = true
 local curevent = "Unknown"
