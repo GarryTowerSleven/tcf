@@ -261,35 +261,22 @@ soundscape.Register("music_lobby",
 
 
 -- Mute BG music in elevator
-
 soundscape.Register("music_elevators", {})
 
-
-
 -- Mute any music in the theater
-
 soundscape.Register("music_theater_inside", {} )
 
-
-
 -- Mute any music in the condo
-
 soundscape.Register("music_condos", {})
 
-
-
 -- Mute any music in the nightclub
-
 soundscape.Register("music_nightclub", {})
 
-
-
 -- Mute any music in the duels lobby
-
 soundscape.Register("music_duels", {})
 
-
-
 -- Mute any music in the duels arena
-
 soundscape.Register("music_duelarena", {})
+
+-- Mute any music in somewhere
+soundscape.Register("music_somewhere", {})
