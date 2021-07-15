@@ -69,6 +69,8 @@ SETTINGS.TabNames = {
 
 	"Graphics",
 
+	"Voice/Media",
+
 	"Chat",
 
 	"Scoreboard",
@@ -1028,6 +1030,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		--self:CheckBox( "Enable Public Voice Chat", "gmt_allowvoice" )
 
 		--self:CheckBox( "Enable Voice Chat", "voice_enable" )
+		self:CheckBox( "Enable Voice Chat", "gmt_voice_enable" )
 
 		if IsLobby then
 
