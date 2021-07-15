@@ -373,7 +373,7 @@ GTowerItems.RegisterItem( "YoshiEggs", {
 RegisterItem("fishbowl",{
 	Name = "Fish Bowl",
 	Description = "A nice little goldfish pet.",
-	Classname = "gmt_item_fishbowl",
+	ClassName = "gmt_item_fishbowl",
 	Model = "models/map_detail/toystore_fishbowl.mdl",
 	DrawModel = true,
 	StorePrice = 2500,
