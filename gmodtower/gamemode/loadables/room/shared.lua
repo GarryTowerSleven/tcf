@@ -5,7 +5,55 @@ module("GtowerRooms", package.seeall )
 DEBUG = false
 StoreId = 1
 NPCClassName = "gmt_npc_roomlady"
-NPCMaxTalkDistance = 512
+NPCMaxTalkDistance = 128
+
+DefaultSkybox = util.FindSkyboxEnt( "condo_normal" )
+PartyCost = 250
+
+-- Doorbells
+local DoorbellPath = "GModTower/lobby/condo/doorbells/"
+local function NewDoorbell( name, wav )
+	local snd = nil
+	if wav then snd = clsound.Register( DoorbellPath .. wav .. ".wav" ) end
+	return { name = name, snd = snd }
+end
+Doorbells = {
+	NewDoorbell( "Standard", "standard1" ),
+	NewDoorbell( "Silent", nil ),
+
+	NewDoorbell( "Ding-Dong", "standard2" ),
+	NewDoorbell( "Ambient", "Ambient1" ),
+
+	NewDoorbell( "Happy", "happy1" ),
+	NewDoorbell( "Happy 2", "happy2" ),
+
+	NewDoorbell( "Spooky", "spooky1" ),
+	NewDoorbell( "Spooky 2", "spooky2" ),
+	NewDoorbell( "Spooky 3", "spooky3" ),
+
+	NewDoorbell( "Disco", "disco1" ),
+	NewDoorbell( "Disco 2", "disco2" ),
+	NewDoorbell( "Disco 3", "disco3" ),
+
+	NewDoorbell( "French", "french1" ),
+	NewDoorbell( "French 2", "french2" ),
+	NewDoorbell( "French 3", "french3" ),
+
+	NewDoorbell( "Jazzy", "jazzy1" ),
+	NewDoorbell( "Jazzy 2", "jazzy2" ),
+	NewDoorbell( "Jazzy 3", "jazzy3" ),
+
+	NewDoorbell( "Funky", "funky1" ),
+	NewDoorbell( "Funky 2", "funky2" ),
+	NewDoorbell( "Funky 3", "funky3" ),
+	NewDoorbell( "Funky 4", "funky4" ),
+
+	NewDoorbell( "Robot", "robot1" ),
+	NewDoorbell( "Robot 2", "robot2" ),
+
+	NewDoorbell( "Vocoder", "vocoder1" ),
+	NewDoorbell( "Vocoder 2", "vocoder2" ),
+}
 
 LocationTranslation = {
 	[1] = 2,
@@ -21,6 +69,17 @@ LocationTranslation = {
 	[11] = 12,
 	[12] = 13
 }
+
+function CanManagePanel( room, ply )
+
+	if not room then return false end
+
+	local canuse = room.RefEnt and ply == room.RefEnt:GetOwner()
+	if ply:IsAdmin() then return true, not canuse end -- Admins can always use panels.
+
+	return canuse
+
+end
 
 hook.Add("FindLocation", "GTowerRooms", function( pos )
 	local Room = PositionInRoom( pos )
@@ -76,7 +135,6 @@ hook.Add("LoadAchivements","AchiSuite", function ()
 	})
 
 end )
-
 
 function PositionInRoom( pos )
 

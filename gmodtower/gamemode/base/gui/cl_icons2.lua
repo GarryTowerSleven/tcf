@@ -1,17 +1,12 @@
----------------------------------
 local surface = surface
 local Material = Material
-
 module("GTowerIcons2")
 
-
 local path = "gmod_tower/panelos/icons/"
-
 local function Create( png, filter, path_override )
 	return Material( (path_override or path).. png, filter or "unlitsmooth" )
 end
-
-Icons2 = {
+Icons = {
 	["gmt"] = Create( "logo_flat.png", "unlitsmooth", "gmod_tower/hud/" ),
 	["gmtsmall"] = Create( "gmt.png" ),
 	["home"] = Create( "home.png" ),
@@ -77,7 +72,6 @@ Icons2 = {
 	["chips"] = Create( "chip.png", nil, "gmod_tower/icons/" ),
 }
 
-
-function GetIcon( name )
-	return Icons2[ name ]
+function GetIcon( name )    
+	return Icons[ name ]
 end

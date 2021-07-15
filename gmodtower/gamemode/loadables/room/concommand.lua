@@ -148,6 +148,8 @@ function StartParty( ply, flags )
 
 	if !flags then return end
 
+	print( flags )
+
 	//ply:Msg2( tostring( ply.GRoomLock ) )
 	if ply.GRoomLock then
 		ply:Msg2( "Please unlock your condo before throwing a party.", "condo" )
@@ -172,9 +174,7 @@ function StartParty( ply, flags )
 	local flagString = ""
 
 	for k,v in pairs(flags) do
-
 		if !v then continue end
-
 		if k == #flags then
 			flagString = flagString .. "and " .. Settings[tonumber(v)]
 		elseif #flags > 1 then
@@ -182,7 +182,6 @@ function StartParty( ply, flags )
 		else
 			flagString = flagString .. Settings[tonumber(v)]
 		end
-
 	end
 
 	invString = invString .. " " .. T( "RoomPartyActivityMessage", flagString ) .. " Join?"
