@@ -13,8 +13,13 @@ ENT.Base		= "base_anim"
 ENT.Type		= "anim"
 ENT.PrintName	= "Tree"
 
-ENT.Model        = Model( "models/map_detail/foliage/coconut_tree_01.mdl" )
-ENT.ModelLOD     = Model("models/map_detail/foliage/coconut_tree_01_lod.mdl")
+if IsChristmasMap() then
+	ENT.Model        = Model( "models/wilderness/snowtree.mdl" )
+	ENT.ModelLOD     = Model("models/wilderness/snowtree.mdl")
+else
+	ENT.Model        = Model( "models/map_detail/foliage/coconut_tree_01.mdl" )
+	ENT.ModelLOD     = Model("models/map_detail/foliage/coconut_tree_01_lod.mdl")
+end
 
 
 hook.Add( "PhysgunPickup", "TreeGrab", function( ply, ent )

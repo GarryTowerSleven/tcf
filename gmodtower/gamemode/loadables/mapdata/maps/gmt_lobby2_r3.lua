@@ -105,6 +105,21 @@ local function AddL2Door( ent, name, pos )
 
 end
 
+local function AddMapEntity( class, pos, ang )
+
+	if !class then return end
+
+	if !pos then
+		print("Not spawning map entity " .. class .. ". No position specified.")
+		return
+	end
+
+	local e = ents.Create( class )
+	e:SetPos( pos )
+	e:SetAngles( ang or Angle(0,0,0) )
+	e:Spawn()
+end
+
 local function SpawnDynamicProp( model, pos, ang, shadow )
 	local prop = ents.Create( "prop_dynamic" )
 	prop:SetPos( pos )
@@ -203,6 +218,17 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	ent:ResetSequenceInfo()
 	ent:SetSequence( "idle" )
 
+	// Halloween Shop
+	if IsHalloweenMap() then
+		AddL2Seat( "models/gmod_tower/shopstand.mdl", Vector( 5497.978516, -187.837418, -895.029480 ), Angle(0, 90, 0), 0, Color(255, 255, 255))
+		AddMapEntity( "gmt_npc_halloween", Vector( 5497.978516, -220, -895.029480 ), Angle( 0, 90, 0 ) )
+	end
+
+	// Christmas Sack
+	if IsChristmasMap() then
+		AddMapEntity( "gmt_presentbag", Vector( 4927.875, 208.3125, -894.718750 ), Angle( 0, 120, 0 ) )
+	end
+
 	// Particles Store
 	--local ent = ents.Create("gmt_npc_particles")
 	--ent:SetPos( Vector(7434, 221, -1088) )
@@ -210,12 +236,7 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	--ent:Spawn()
 	
 	// Beta Money NPC
-	timer.Simple( 10, function()
-		local ent = ents.Create("gmt_npc_money")
-		ent:SetPos( Vector( 7425, 218, -1090 ) ) // 7425.170898 218.442490 -1087.977783
-		ent:SetAngles( Angle( 0, -135, 0 ) )
-		ent:Spawn()
-	end)
+	AddMapEntity( "gmt_npc_money", Vector( 7425, 218, -1090 ), Angle( 0, -135, 0 ) )
 	
 	// The Board
 	local ent = ents.Create( "gmt_streamer_board" )

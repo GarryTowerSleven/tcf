@@ -12,11 +12,11 @@ function IsLobby()
 end
 
 function IsHalloweenMap()
-	return string.EndsWith(game.GetMap(), "h")
+	return false
 end
 
 function IsChristmasMap()
-	return string.EndsWith(game.GetMap(), "c")
+	return false
 end
 
 function IsHolidayMap()
