@@ -2,7 +2,6 @@
 -----------------------------------------------------
 include( "shared.lua" )
 include( "sh_player.lua" )
-
 CreateConVar( "cl_playerglowcolor", "0.24 0.34 0.41", { FCVAR_ARCHIVE, FCVAR_USERINFO }, "The value is a Vector - so between 0-1 - not between 0-255" )
 
 //local VIPColor = Color( 163, 73, 164 )
@@ -23,7 +22,7 @@ function CheckVIPHalos(ply)
 			if LocalPlayer().GLocation != ply2.GLocation then continue end
 		end
 
-		if !ply2:IsPlayer() || !ply2:IsVIP() then continue end
+		if !ply2:IsPlayer() then continue end
 		--if ply2:IsTransparent() or ply2:IsNoDrawAll() then continue end
 
 		if IsValid( ply2 ) and ply2:Alive() and ply2:GetColor().a == 255 and ply2:GetGlowColor() then
@@ -46,7 +45,7 @@ function CheckVIPHalos(ply)
 				table.insert( objects, ply2.GolfBall )
 
 			else
-			
+
 
 				-- Player is not using a drivable
 				table.insert( objects, ply2 )

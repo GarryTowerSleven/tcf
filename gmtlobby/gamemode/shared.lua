@@ -48,8 +48,9 @@ Loadables.Load( {
 	"animation",						-- Player animation
 	"legs",									-- First person legs
 	"fakeclientmodel",			-- Fake player models for use such as the monorail
-	"question",					-- Global voting
-	"contentmanager",			-- Missing Content Notification
+	"question",					    -- Global voting
+	"contentmanager",			  -- Missing Content Notification
+	"vipglow", 						  -- Glow for players
 
 	-- Items Depend On These
 	---------------------------------------------------------

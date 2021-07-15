@@ -773,10 +773,6 @@ function APPEARANCE:GenerateColorSelection()
 
 	// Glow Color
 
-	if LocalPlayer().IsVIP && LocalPlayer():IsVIP() then
-
-
-
 		local GlowColorSelection, GlowColorCategoryList = self:NewCategory( "Glow Color" )
 
 		GlowColorSelection:SetCookieName( "GTSetGlowColorListOpen" )
@@ -820,10 +816,6 @@ function APPEARANCE:GenerateColorSelection()
 		GlowColor.OnActivePanelChanged = function() timer.Simple( 0.1, UpdateFromConvars ) end
 
 		GlowColorCategoryList:AddItem( GlowColor )
-
-
-
-	end
 
 
 
