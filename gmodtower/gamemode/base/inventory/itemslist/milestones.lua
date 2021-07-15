@@ -72,30 +72,54 @@ GTowerItems.RegisterItem( "GolfBall", {
 	end
 } )
 
-GTowerItems.RegisterItem( "VirusRadar", {
-	Name = "Radar",
-	Description = "Equip this to activate the radar display.",
-	Model = "",
-	UniqueInventory = true,
-	DrawModel = false,
-	Equippable = true,
-	UniqueEquippable = true,
-	EquipType = "HUD",
-	CanEntCreate = false,
-	DrawName = true,
-	CanRemove = false,
-	NoBank = true,
-	Tradable = false,
-	OnEquip = function( self, locationchange )
-		--if ClientSettings and not locationchange then
-			self.Ply:SetNWBool("VirusRadar",true)
-		--end
-	end,
-	OnUnEquip = function( self )
-		--if ClientSettings then
-			self.Ply:SetNWBool("VirusRadar",false)
-		--end
-	end
+GTowerItems.RegisterItem( "VirusRadar", {
+
+	Name = "Radar",
+
+	Description = "Equip this to activate the radar display.",
+
+	Model = "",
+
+	UniqueInventory = true,
+
+	DrawModel = false,
+
+	Equippable = true,
+
+	UniqueEquippable = true,
+
+	EquipType = "HUD",
+
+	CanEntCreate = false,
+
+	DrawName = true,
+
+	CanRemove = false,
+
+	NoBank = true,
+
+	Tradable = false,
+
+	OnEquip = function( self, locationchange )
+
+		--if ClientSettings and not locationchange then
+
+			self.Ply:SetNWBool("VirusRadar",true)
+
+		--end
+
+	end,
+
+	OnUnEquip = function( self )
+
+		--if ClientSettings then
+
+			self.Ply:SetNWBool("VirusRadar",false)
+
+		--end
+
+	end
+
 } )
 
 GTowerItems.RegisterItem( "BallRaceBall", {
@@ -134,48 +158,46 @@ GTowerItems.RegisterItem( "BallRaceBall", {
 	end
 } )
 
-GTowerItems.RegisterItem( "VirusAdrenaline", {
-	Name = "Adrenaline",
-	Description = "Stab this into your boss's wife to prevent her from dying of drug overdose.",
-	Model = "models/weapons/w_vir_adrenaline.mdl",
-	MoveSound = Sound( "GModTower/virus/weapons/Adrenaline/deploy.wav" ),
-	ClassName = "gmt_adrenaline",
-	UniqueInventory = true,
-	DrawModel = true,
-	Equippable = true,
-	CanEntCreate = false,
-	DrawName = true,
-	CanRemove = false,
-	EquipType = "Weapon",
-	Equippable = true,
-	WeaponSafe = true,
-	NoBank = true,
-	Tradable = false,
-	IsWeapon = function( self )
-		return true
-	end
-} )
+GTowerItems.RegisterItem( "VirusAdrenaline", {
 
-GTowerItems.RegisterItem( "KirbyHammer", {
-	Name = "Gourmet Race Hammer",
-	Description = "Double jump, run faster, and hammer away!",
-	Model = "models/bumpy/kirby_hammer.mdl",
-	MoveSound = Sound( "GModTower/gourmetrace/actions/hammer1.wav" ),
-	ClassName = "gmt_kirby_hammer",
-	UniqueInventory = true,
-	DrawModel = true,
-	Equippable = true,
-	CanEntCreate = false,
-	DrawName = true,
-	CanRemove = false,
-	EquipType = "Weapon",
-	Equippable = true,
-	WeaponSafe = true,
-	NoBank = true,
-	Tradable = false,
-	IsWeapon = function( self )
-		return true
-	end
+	Name = "Adrenaline",
+
+	Description = "Stab this into your boss's wife to prevent her from dying of drug overdose.",
+
+	Model = "models/weapons/w_vir_adrenaline.mdl",
+
+	MoveSound = Sound( "GModTower/virus/weapons/Adrenaline/deploy.wav" ),
+
+	ClassName = "gmt_adrenaline",
+
+	UniqueInventory = true,
+
+	DrawModel = true,
+
+	Equippable = true,
+
+	CanEntCreate = false,
+
+	DrawName = true,
+
+	CanRemove = false,
+
+	EquipType = "Weapon",
+
+	Equippable = true,
+
+	WeaponSafe = true,
+
+	NoBank = true,
+
+	Tradable = false,
+
+	IsWeapon = function( self )
+
+		return true
+
+	end
+
 } )
 
 GTowerItems.RegisterItem( "TakeOnBall", {
@@ -215,53 +237,20 @@ GTowerItems.RegisterItem( "TakeOnBall", {
 		return TakeOn
 
 	end,
-	OnUse = function( self )
-		if IsValid( self.Ply ) && self.Ply:IsPlayer() && IsValid( self.Ply.TakeOn ) then
-			self.Ply.TakeOn:ToggleMaterial()
-		end
-
-		return self
-	end
-} )
+	OnUse = function( self )
 
-GTowerItems.RegisterItem( "JumpShoes", {
-	Name = "Jump Shoes",
-	Description = "Jump up way high with these special shoes! (crouch jumping makes you go even higher)",
-	Model = "models/props_junk/shoe001a.mdl",
-	UniqueInventory = true,
-	DrawModel = true,
-	Equippable = true,
-	UniqueEquippable = true,
-	EquipType = "TakeOnBall",
-	CanEntCreate = false,
-	DrawName = true,
-	Tradable = true,
+		if IsValid( self.Ply ) && self.Ply:IsPlayer() && IsValid( self.Ply.TakeOn ) then
 
-  StoreId = 22,
-  StorePrice = 10000,
-  NewItem = true,
+			self.Ply.TakeOn:ToggleMaterial()
 
-	EquippableEntity = true,
-	RemoveOnDeath = true,
-	RemoveOnNoEntsLoc = true,
-	OverrideOnlyEquippable = true,
-	CreateEquipEntity = function( self )
-
-		local Shoes = ents.Create( "gmt_jumpshoes" )
-
-		if IsValid( Shoes ) then
-			Shoes:SetOwner( self.Ply )
-			Shoes:SetParent( self.Ply )
-			Shoes:Spawn()
-			Shoes:SetShoeOwner( self.Ply )
-			self.Ply:EmitSound( "GModTower/balls/TubePop.wav", 30, math.random( 170, 200 ) )
 		end
 
-		return Shoes
+
+
+		return self
 
 	end
 } )
-
 
 GTowerItems.RegisterItem( "StealthBox", {
 	Name = "Stealth Box",
@@ -315,120 +304,108 @@ GTowerItems.RegisterItem( "Bumper", {
 	Tradable = false,
 } )
 
-GTowerItems.RegisterItem( "MysterySack", {
-	Name = "Mystery Sack",
-	Description = "A mysterious sack that once had powerups inside, I think it's empty now.",
-	Model = "models/legoj15/ssb3ds/items/carryitem.mdl",
-	MoveSound = Sound( "physics/metal/chain_impact_hard1.wav" ),
-	ClassName = "gmt_mystery_sack",
-	UniqueInventory = true,
-	DrawModel = true,
-	CanEntCreate = true,
-	DrawName = true,
-	CanRemove = false,
-	--BankAdminOnly = true,
-	Tradable = false,
-} )
+GTowerItems.RegisterItem( "UCHGhost", {
 
-GTowerItems.RegisterItem( "UCHGhost", {
-	Name = "Ghost",
-	Description = "You could have been the life of the party, if you weren't already dead.",
-	Model = "models/UCH/mghost.mdl",
-	MoveSound = Sound( "UCH/pigs/die.wav" ),
-	UniqueInventory = true,
-	DrawModel = true,
-	Equippable = true,
-	UniqueEquippable = true,
-	EquipType = "Model",
-	CanEntCreate = false,
-	DrawName = true,
-	CanRemove = false,
-	NoBank = true,
-	Tradable = false,
-	OnEquip = function( self )
-		if UCHAnim && SERVER then
-			UCHAnim.SetupPlayer( self.Ply, UCHAnim.TYPE_GHOST )
-		end
-	end,
-	OnUnEquip = function( self )
-		if UCHAnim && SERVER then
-			UCHAnim.ClearPlayer( self.Ply )
-		end
-	end
-} )
+	Name = "Ghost",
 
-GTowerItems.RegisterItem( "SKKart", {
-	Name = "Driveable RC Kart",
-	Description = "Kart racing, but smaller!",
-	Model = "models/gmod_tower/kart/kart_frame.mdl",
-	MoveSound = Sound( "gmodtower/sourcekarts/effects/rev.wav" ),
+	Description = "You could have been the life of the party, if you weren't already dead.",
+
+	Model = "models/UCH/mghost.mdl",
+
+	MoveSound = Sound( "UCH/pigs/die.wav" ),
+
 	UniqueInventory = true,
+
 	DrawModel = true,
+
 	Equippable = true,
+
 	UniqueEquippable = true,
-	EquipType = "BallRaceBall",
+
+	EquipType = "Model",
+
 	CanEntCreate = false,
+
 	DrawName = true,
+
 	CanRemove = false,
+
 	NoBank = true,
+
 	Tradable = false,
 
-	EquippableEntity = true,
-	RemoveOnDeath = true,
-	RemoveOnNoEntsLoc = true,
-	OnlyEquippable = true,
-	OnEquip = function( self )
-		self.Ply:SetNoDraw(true)
-		self.Ply:SetNoDrawAll(true)
-	end,
-	OnUnEquip = function( self )
-		self.Ply:SetNoDraw(false)
-		self.Ply:SetNoDrawAll(false)
-		local curEyeAng = self.Ply:EyeAngles()
-		curEyeAng.r = 0
-		self.Ply:SetEyeAngles(curEyeAng)
-	end,
-	CreateEquipEntity = function( self )
+	OnEquip = function( self )
 
-		local BallRaceBall = ents.Create( "gmt_kart" )
+		if UCHAnim && SERVER then
 
-		if IsValid( BallRaceBall ) then
-			BallRaceBall:SetOwner( self.Ply )
-			BallRaceBall:SetPos( self.Ply:GetPos() )
-			BallRaceBall:Spawn()
-			self.Ply:EmitSound( "gmodtower/sourcekarts/effects/start.wav", 80, math.random( 120, 140 ) )
+			UCHAnim.SetupPlayer( self.Ply, UCHAnim.TYPE_GHOST )
+
 		end
 
-		return BallRaceBall
+	end,
+
+	OnUnEquip = function( self )
+
+		if UCHAnim && SERVER then
+
+			UCHAnim.ClearPlayer( self.Ply )
+
+		end
 
 	end
-} )
 
-GTowerItems.RegisterItem( "UCHPig", {
-	Name = "Pigmask",
-	Description = "Suiciding does not cause a Bag of Pork Chops to drop.",
-	Model = "models/UCH/pigmask.mdl",
-	MoveSound = Sound( "UCH/pigs/snort1.wav" ),
-	UniqueInventory = true,
-	DrawModel = true,
-	Equippable = true,
-	UniqueEquippable = true,
-	EquipType = "Model",
-	CanEntCreate = false,
-	DrawName = true,
-	CanRemove = false,
-	NoBank = true,
-	Tradable = false,
-	OnEquip = function( self )
-		if UCHAnim && SERVER then
-			UCHAnim.SetupPlayer( self.Ply, UCHAnim.TYPE_PIG )
-		end
-	end,
-	OnUnEquip = function( self )
-		if UCHAnim && SERVER then
-			UCHAnim.ClearPlayer( self.Ply )
-		end
-	end
+} )
+
+GTowerItems.RegisterItem( "UCHPig", {
+
+	Name = "Pigmask",
+
+	Description = "Suiciding does not cause a Bag of Pork Chops to drop.",
+
+	Model = "models/UCH/pigmask.mdl",
+
+	MoveSound = Sound( "UCH/pigs/snort1.wav" ),
+
+	UniqueInventory = true,
+
+	DrawModel = true,
+
+	Equippable = true,
+
+	UniqueEquippable = true,
+
+	EquipType = "Model",
+
+	CanEntCreate = false,
+
+	DrawName = true,
+
+	CanRemove = false,
+
+	NoBank = true,
+
+	Tradable = false,
+
+	OnEquip = function( self )
+
+		if UCHAnim && SERVER then
+
+			UCHAnim.SetupPlayer( self.Ply, UCHAnim.TYPE_PIG )
+
+		end
+
+	end,
+
+	OnUnEquip = function( self )
+
+		if UCHAnim && SERVER then
+
+			UCHAnim.ClearPlayer( self.Ply )
+
+		end
+
+	end
+
 } )
 --[[ Dupe?
 GTowerItems.RegisterItem( "UCHPig", {
@@ -482,29 +459,3 @@ GTowerItems.RegisterItem( "UCHPig", {
 	end
 
 } )--]]
-
-GTowerItems.RegisterItem( "HalloweenSpider", {
-	Name = "Spider",
-	Description = "Making webs not included.",
-	Model = "models/npc/spider_regular/npc_spider_regular.mdl",
-	MoveSound = Sound( "gmodtower/zom/creatures/spider/taunt1.wav" ),
-	DrawModel = true,
-	Equippable = true,
-	UniqueEquippable = true,
-	EquipType = "Model",
-	CanEntCreate = false,
-	DrawName = true,
-	StorePrice = 250,
-	OnEquip = function( self )
-		if SERVER then
-			self.Ply.BeforeSpider = self.Ply:GetModel()
-			self.Ply:SetModel( "models/npc/spider_regular/npc_spider_regular.mdl" )
-			self.Ply:SetSkin( 0 )
-		end
-	end,
-	OnUnEquip = function( self )
-		if SERVER then
-			self.Ply:SetModel( self.Ply.BeforeSpider )
-		end
-	end
-} )
