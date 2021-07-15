@@ -105,6 +105,16 @@ local function AddL2Door( ent, name, pos )
 
 end
 
+local function SpawnDynamicProp( model, pos, ang, shadow )
+	local prop = ents.Create( "prop_dynamic" )
+	prop:SetPos( pos )
+	prop:SetAngles( ang )
+	prop:SetModel( model )
+	prop:SetSolid( SOLID_VPHYSICS )
+	prop:Spawn()
+	prop:DrawShadow( shadow )
+end
+
 local function NetworkCondoPanelIDs()
 	for k,v in pairs(ents.FindByClass("gmt_condo_panel")) do
 		local entloc = GTowerLocation:FindPlacePos( v:GetPos() )
@@ -147,45 +157,11 @@ local function MapFixes()
 	for k,v in pairs( ents.FindByClass("gmt_roomloc") ) do
 		AddL2Seat( "models/map_detail/condo_toilet.mdl", v:GetPos() + Vector(-32, -148, 0.3), Angle(0, 180, 0), 0, Color(255, 255, 255))
 
-		local paper = ents.Create( "prop_dynamic" )
-		paper:SetPos( v:GetPos() + Vector(-0, -160, 28.8) )
-		paper:SetAngles( Angle(0,180,0) )
-		paper:SetModel( "models/map_detail/condo_toiletpaper.mdl" )
-		paper:SetSolid( SOLID_VPHYSICS )
-		paper:Spawn()
-		paper:DrawShadow( false )
-
-		local towels = ents.Create( "prop_dynamic" )
-		towels:SetPos( v:GetPos() + Vector(-0, -212, 60) )
-		towels:SetAngles( Angle(0,180,0) )
-		towels:SetModel( "models/map_detail/condo_towelrack.mdl" )
-		towels:SetSolid( SOLID_VPHYSICS )
-		towels:Spawn()
-		towels:DrawShadow( false )
-
-		local sink = ents.Create( "prop_dynamic" )
-		sink:SetPos( v:GetPos() + Vector(-184, -264, 0) )
-		sink:SetAngles( Angle(0,180,0) )
-		sink:SetModel( "models/map_detail/bathroomsink.mdl" )
-		sink:SetSolid( SOLID_VPHYSICS )
-		sink:Spawn()
-		sink:DrawShadow( false )
-
-		local mirror = ents.Create( "prop_dynamic" )
-		mirror:SetPos( v:GetPos() + Vector(-188, -299, 65) )
-		mirror:SetAngles( Angle(0,90,0) )
-		mirror:SetModel( "models/map_detail/mirrorfixture.mdl" )
-		mirror:SetSolid( SOLID_VPHYSICS )
-		mirror:Spawn()
-		mirror:DrawShadow( false )
-
-		local bath = ents.Create( "prop_dynamic" )
-		bath:SetPos( v:GetPos() + Vector(-116, -151, 0.3) )
-		bath:SetAngles( Angle(0,270,0) )
-		bath:SetModel( "models/map_detail/bathtub1.mdl" )
-		bath:SetSolid( SOLID_VPHYSICS )
-		bath:Spawn()
-		bath:DrawShadow( false )
+		SpawnDynamicProp( "models/map_detail/condo_toiletpaper.mdl", v:GetPos() + Vector(-0, -160, 28.8), Angle(0,180,0), false )
+		SpawnDynamicProp( "models/map_detail/condo_towelrack.mdl", v:GetPos() + Vector(-0, -212, 60), Angle(0,180,0), false )
+		SpawnDynamicProp( "models/map_detail/bathroomsink.mdl", v:GetPos() + Vector(-184, -264, 0), Angle(0,180,0), false )
+		SpawnDynamicProp( "models/map_detail/mirrorfixture.mdl", v:GetPos() + Vector(-188, -299, 65), Angle(0,90,0), false )
+		SpawnDynamicProp( "models/map_detail/bathtub1.mdl", v:GetPos() + Vector(-116, -151, 0.3), Angle(0,270,0), false )
 	end
 
 	// Mapboard in Station
@@ -234,10 +210,12 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	--ent:Spawn()
 	
 	// Beta Money NPC
-	local ent = ents.Create("gmt_npc_money")
-	ent:SetPos( Vector( 7425, 218, -1090 ) ) // 7425.170898 218.442490 -1087.977783
-	ent:SetAngles( Angle( 0, -135, 0 ) )
-	ent:Spawn()
+	timer.Simple( 10, function()
+		local ent = ents.Create("gmt_npc_money")
+		ent:SetPos( Vector( 7425, 218, -1090 ) ) // 7425.170898 218.442490 -1087.977783
+		ent:SetAngles( Angle( 0, -135, 0 ) )
+		ent:Spawn()
+	end)
 	
 	// The Board
 	local ent = ents.Create( "gmt_streamer_board" )
