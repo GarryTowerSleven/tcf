@@ -134,7 +134,6 @@ function GtowerRooms:ShowNewRoom( um )
 	})*/
 
 	GTowerMessages:AddNewItem( T( "RoomGetSmall", RoomId ), nil, nil, "condo" )
-	GTowerMessages:AddNewItem( "NOTE: Selling condos for profit is illegal.", nil, nil, "exclamation" )
 end
 
 
