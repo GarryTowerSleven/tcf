@@ -54,27 +54,37 @@ end
 
 local function AddL2Seat( model, pos, angle, skin, color )
 
-  local seat = ents.Create( "prop_physics_multiplayer" )
-  seat:SetPos( pos )
-  seat:SetAngles( angle )
-  seat:SetModel( model )
-  seat:SetSkin( skin )
-  seat:Spawn()
+	local seat
 
-  if model == "models/map_detail/beach_chair.mdl" then
-    seat:SetColor( table.Random( BeachChairColors ) )
-  end
+	if model == "models/sunabouzu/theater_curve_couch.mdl" then
+		seat = ents.Create( "prop_dynamic" )
+		seat:SetSolid( SOLID_VPHYSICS )
+	else
+		seat = ents.Create( "prop_physics_multiplayer" )
+	end
+
+	seat:SetPos( pos )
+	seat:SetAngles( angle )
+	seat:SetModel( model )
+	seat:SetSkin( skin )
+	seat:Spawn()
+
+	if model == "models/map_detail/beach_chair.mdl" then
+		seat:SetColor( table.Random( BeachChairColors ) )
+	end
 
 	if color != Color(255, 255, 255) then
 		seat:SetColor( color )
 	end
 
-  seat:SetSaveValue("fademindist", 2048)
-  seat:SetSaveValue("fademaxdist", 4096)
-  local phys = seat:GetPhysicsObject()
-  if IsValid(phys) then
-    phys:EnableMotion(false)
-  end
+	seat:SetSaveValue("fademindist", 2048)
+	seat:SetSaveValue("fademaxdist", 4096)
+	if model != "models/sunabouzu/theater_curve_couch.mdl" then
+		local phys = seat:GetPhysicsObject()
+		if IsValid( phys ) then
+			phys:EnableMotion(false)
+		end
+	end
 
 end
 
