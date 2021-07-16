@@ -857,7 +857,7 @@ function PANEL:SetupMaps()
 
 		mapData.PreviewIcon = MapsGetPreviewIcon( map )
 
-		local canPlay = GTowerServers:CanPlayMap( map )
+		local canPlay = !table.HasValue( GTowerServers.NonPlayableMaps, map )
 
 		// Setup panel
 
@@ -1269,7 +1269,7 @@ function PANEL:UpdateVotes()
 
 
 
-			if ( panel.btnMap:GetDisabled() || panel.btnMap.DisableVote ) then
+			if ( panel.btnMap.Disabled || panel.btnMap.DisableVote ) then
 
 				col = Color( 150, 150, 150, 5 )
 

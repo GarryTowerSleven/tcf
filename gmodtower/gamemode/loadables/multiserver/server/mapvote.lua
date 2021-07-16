@@ -212,8 +212,10 @@ function ServerMeta:SendMapVote( responded )
 			umsg.Char( v )
 		end
 		
-		for _, v in ipairs( CanPlayNums ) do
-			umsg.Char( v )
+		umsg.Char( #Maps.GetNonPlayableMaps(Gamemode.Gamemode) )
+		
+		for _, v in ipairs( Maps.GetNonPlayableMaps(Gamemode.Gamemode) ) do
+			umsg.String( v )
 		end
 
 	umsg.End()

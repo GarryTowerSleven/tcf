@@ -6,7 +6,6 @@ GTowerServers.MapTotalTime = 0
 GTowerServers.ChoosenServer = 0
 GTowerServers.ChoosenMap = ""
 GTowerServers.ChoosenVotes = {}
-GTowerServers.CooldownVotes = {}
 GTowerServers.ChoosenServerId = 0
 GTowerServers.CurrentGamemode = nil
 GTowerServers.Music = nil
@@ -32,10 +31,10 @@ function GTowerServers:NoLongerWorking( serverid )
 
 end
 
-function GTowerServers:OpenChooser( ServerId, EndTime, GamemodeName, Votes, CooldownVotes )
+function GTowerServers:OpenChooser( ServerId, EndTime, GamemodeName, Votes, NonPlayableMaps )
 
 	GTowerServers.ChoosenVotes = Votes
-	GTowerServers.CooldownVotes = CooldownVotes
+	GTowerServers.NonPlayableMaps = NonPlayableMaps
 	GTowerServers.ChoosenServerId = ServerId
 
 	// No need to reopen this, just update votes
