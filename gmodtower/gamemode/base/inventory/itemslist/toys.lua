@@ -3,7 +3,7 @@ module( "GTowerItems", package.seeall )
 RegisterItem( "toytrainsmall", {
 	Name = "Toy Train Small",
 	Description = "Choo Choo (but small)",
-	Classname = "gmt_toy_train_small",
+	ClassName = "gmt_toy_train_small",
 	Model = "models/minitrains/loco/swloco007.mdl",
 	DrawModel = true,
 	StorePrice = 5000,
@@ -14,7 +14,7 @@ RegisterItem( "toytrainsmall", {
 RegisterItem( "toytrain", {
 	Name = "Toy Train",
 	Description = "Choo Choo!",
-	Classname = "gmt_toy_train",
+	ClassName = "gmt_toy_train",
 	Model = "models/minitrains/loco/swloco007.mdl",
 	DrawModel = true,
 	StorePrice = 6000,
@@ -50,7 +50,7 @@ RegisterItem("trampoline",{
 	Name = "Trampoline",
 	Description = "Jump around all crazy like!",
 	Model = "models/gmod_tower/trampoline.mdl",
-	Classname = "gmt_trampoline",
+	ClassName = "gmt_trampoline",
 	UniqueInventory = false,
 	DrawModel = true,
 	CanRemove = true,
@@ -63,7 +63,7 @@ RegisterItem("trampoline",{
 	Name = "Checkers",
 	Description = "An in-game variant of the classic game, checkers. Made by Clockwork.",
 	Model = "models/gmod_tower/gametable.mdl",
-	Classname = "gmt_game_checkers",
+	ClassName = "gmt_game_checkers",
 	UniqueInventory = false,
 	DrawModel = true,
 	CanRemove = true,
@@ -160,7 +160,7 @@ RegisterItem("lightsabertoy",{
 	StorePrice = 5000,
 	MoveSound = "lightsaber",
 	InvCategory = "toy",
-	Classname = "gmt_toy_lightsaber",
+	ClassName = "gmt_toy_lightsaber",
 	DateAdded = 1399271681,
 })
 

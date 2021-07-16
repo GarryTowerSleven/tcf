@@ -90,7 +90,7 @@ RegisterItem("christmastree",{
 	Name = "Christmas Tree w/ Lights and Train",
 	Description = "A celebrative christmas tree with its own train set and lights!",
 	Model = "models/wilderness/hanukkahtree.mdl",
-	Classname = "gmt_christmas_tree",
+	ClassName = "gmt_christmas_tree",
 	UniqueInventory = true,
 	DrawModel = true,
 	CanRemove = true,
@@ -103,7 +103,7 @@ RegisterItem("christmastreesimple",{
 	Name = "Christmas Tree",
 	Description = "A celebrative christmas tree!",
 	Model = "models/wilderness/hanukkahtree.mdl",
-	Classname = "gmt_christmas_tree_simple",
+	ClassName = "gmt_christmas_tree_simple",
 	UniqueInventory = true,
 	DrawModel = true,
 	CanRemove = true,
@@ -207,7 +207,7 @@ RegisterItem("toysmokemachine",{
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 3000,
 	InvCategory = "holiday",
-	Classname = "gmt_smokemachine",
+	ClassName = "gmt_smokemachine",
 	DateAdded = 1416196221
 })
 
@@ -242,7 +242,7 @@ RegisterItem("lantern",{
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 1000,
 	InvCategory = "holiday",
-	Classname = "gmt_room_lamp_lantern",
+	ClassName = "gmt_room_lamp_lantern",
 	DateAdded = 1416196221
 })
 
