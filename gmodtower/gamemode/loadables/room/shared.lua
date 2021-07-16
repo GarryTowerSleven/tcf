@@ -1,5 +1,3 @@
----------------------------------
-
 module("GtowerRooms", package.seeall )
 
 DEBUG = false

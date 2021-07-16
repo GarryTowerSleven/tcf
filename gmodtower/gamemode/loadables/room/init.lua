@@ -2,6 +2,7 @@
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("room_maps.lua")
+AddCSLuaFile("upgrades.lua")
 
 module("GtowerRooms", package.seeall )
 
@@ -13,6 +14,7 @@ include("hook.lua")
 include("network.lua")
 include("player.lua")
 include("room/room.lua")
+include("upgrades.lua")
 
 Rooms = {}
 AddingEntsRooms = {}
