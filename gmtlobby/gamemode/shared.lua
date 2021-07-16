@@ -92,7 +92,7 @@ function CanPlayerUse( arg1, arg2 )
 	local class = ent:GetClass()
 
 	-- Seats
-	if ChairOffsets[ ent:GetModel() ] then return "SIT" end
+	if seats.ChairOffsets[ ent:GetModel() ] then return "SIT" end
 
 	-- Support custom prop sounds
 	if class == "prop_physics_multiplayer" and ( (ply._NextUse or 0) < CurTime() ) then

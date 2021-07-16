@@ -1,5 +1,4 @@
----------------------------------
-//
+module( "seats", package.seeall )
 
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
@@ -7,25 +6,6 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 
 DEBUGMODE = false
-
-NotRight = {	["models/props/de_tides/patio_chair2.mdl"]	= 180,
-	 	["models/props/cs_militia/couch.mdl"]		= 0,
-		["models/gmod_tower/stealth box/box.mdl"]	= 180,
-		["models/gmod_tower/theater_seat.mdl"]	= 180,
-		["models/haxxer/me2_props/illusive_chair.mdl"]	= 90,
-		["models/haxxer/me2_props/reclining_chair.mdl"]	= 0,
-		["models/mirrorsedge/seat_blue2.mdl"] = 180,
-		["models/mirrorsedge/seat_blue1.mdl"] = 180,
-		["models/mirrorsedge/bench_wooden.mdl"] = 90,
-		["models/props_vtmb/armchair.mdl"] = 0,
-		["models/props_vtmb/sofa.mdl"] = 0,
-		["models/map_detail/beach_chair.mdl"] = 180,
-		["models/map_detail/sofa_lobby.mdl"] = 180,
-		["models/map_detail/chair_lobby.mdl"] = 180,
-		["models/map_detail/lobby_cafechair.mdl"] = 90,
-		["models/props/de_dust/hr_dust/dust_patio_set/dust_patio_chair.mdl"] = 0,
-		["models/map_detail/condo_toilet.mdl"] = 0,
-}
 
 local function HandleRollercoasterAnimation( vehicle, player )
 	return player:SelectWeightedSequence( ACT_GMOD_SIT_ROLLERCOASTER )
@@ -74,17 +54,18 @@ hook.Add("KeyRelease", "EnterSeat", function(ply, key)
 		local bestpos, bestdist = -1
 
 		for k,v in pairs(offsets) do
-			local dist = localpos:Distance(v)
+			local dist = localpos:Distance(v.Pos)
 			if !usetable[k] && (bestpos == -1 || dist < bestdist) then
 				bestpos, bestdist = k, dist
 			end
 		end
 
 		if bestpos == -1 then return end
-		pos = bestpos
-	elseif !usetable[1] then
-		pos = 1
-	else
+			pos = bestpos
+		elseif !usetable[1] then
+			pos = 1
+		else
+
 		return
 	end
 
@@ -100,17 +81,21 @@ hook.Add("KeyRelease", "EnterSeat", function(ply, key)
 	ply.JetpackStart = 0
 
 	local ang = trace.Entity:GetAngles()
-	if NotRight[model] then
-		ang:RotateAroundAxis(trace.Entity:GetUp(), NotRight[model])
+	if ( offsets[pos].Ang != nil ) then
+		ang:RotateAroundAxis(seat:GetForward(), offsets[pos].Ang.p)
+		ang:RotateAroundAxis(seat:GetUp(), offsets[pos].Ang.y)
+		ang:RotateAroundAxis(seat:GetRight(), offsets[pos].Ang.r)
 	else
 		ang:RotateAroundAxis(trace.Entity:GetUp(), -90)
 	end
 
-	local s = CreateSeatAtPos(trace.Entity:LocalToWorld(offsets[pos]), ang)
+	local s = CreateSeatAtPos(trace.Entity:LocalToWorld(offsets[pos].Pos), ang)
 	s:SetParent(trace.Entity)
 	s:SetOwner(ply)
 
 	ply:EnterVehicle(s)
+
+	s:EmitSound( ChairSitSounds[model] || DefaultSitSound, 100, 100 )
 end)
 
 hook.Add("CanPlayerEnterVehicle", "EnterSeat", function(ply, vehicle)
