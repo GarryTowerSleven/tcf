@@ -148,6 +148,8 @@ function ENT:DrawPanel( scrw, scrh )
 
 	self:DrawButtons()
 
+	self:DrawVIPPanel( scrw, scrh )
+--[[
 	local vip = LocalPlayer():IsVIP()
 
 	if vip then
@@ -180,7 +182,7 @@ function ENT:DrawPanel( scrw, scrh )
 		surface.SetTextColor( 255, 255, 255 )
 		draw.DrawText( "DONATE FOR\nMORE CONTROL", "GTowerHUDMainLarge", scrw/2, scrh-80, Color( 255, 255, 255, 15 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 
-	end
+	end]]
 
 end
 
