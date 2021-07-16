@@ -141,7 +141,7 @@ function THEATER:IsPlaying()
 	end ]]
 	
 	for i, v in pairs(theater.Theaters) do
-		if v._Video._VideoTitle == "NoVideoPlaying" or v._Video._VideoTitle == "Idlescreen" then
+		if v._Video._VideoTitle == "NoVideoPlaying" or v._Video._VideoTitle == IdleScreenTitle then
 			SetGlobalString("CurVideo" .. i, "No Video Playing" )
 			SetGlobalString("CurVideoThumbnail" .. i, "theater/static" )
 		else
