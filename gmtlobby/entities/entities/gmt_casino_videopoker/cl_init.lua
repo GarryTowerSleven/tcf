@@ -148,6 +148,7 @@ function ENT:MouseOn( x, y, w, h )
 
 end
 
+local Cursor2D = surface.GetTextureID( "cursor/cursor_default.vtf" )
 function ENT:DrawCursor( cur_x, cur_y )
 	local cursorSize = 32
 	surface.SetTexture( Cursor2D )
