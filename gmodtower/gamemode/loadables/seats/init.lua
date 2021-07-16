@@ -82,9 +82,9 @@ hook.Add("KeyRelease", "EnterSeat", function(ply, key)
 
 	local ang = trace.Entity:GetAngles()
 	if ( offsets[pos].Ang != nil ) then
-		ang:RotateAroundAxis(seat:GetForward(), offsets[pos].Ang.p)
-		ang:RotateAroundAxis(seat:GetUp(), offsets[pos].Ang.y)
-		ang:RotateAroundAxis(seat:GetRight(), offsets[pos].Ang.r)
+		ang:RotateAroundAxis(trace.Entity:GetForward(), offsets[pos].Ang.p)
+		ang:RotateAroundAxis(trace.Entity:GetUp(), offsets[pos].Ang.y)
+		ang:RotateAroundAxis(trace.Entity:GetRight(), offsets[pos].Ang.r)
 	else
 		ang:RotateAroundAxis(trace.Entity:GetUp(), -90)
 	end
