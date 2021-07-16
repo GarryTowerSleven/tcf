@@ -54,18 +54,11 @@ end
 
 local function AddL2Seat( model, pos, angle, skin, color )
 
-	local seat
-
-	if model == "models/sunabouzu/theater_curve_couch.mdl" then
-		seat = ents.Create( "prop_dynamic" )
-		seat:SetSolid( SOLID_VPHYSICS )
-	else
-		seat = ents.Create( "prop_physics_multiplayer" )
-	end
-
+	local seat = ents.Create( "prop_dynamic" )
 	seat:SetPos( pos )
 	seat:SetAngles( angle )
 	seat:SetModel( model )
+	seat:SetSolid( SOLID_VPHYSICS )
 	seat:SetSkin( skin )
 	seat:Spawn()
 
@@ -79,12 +72,6 @@ local function AddL2Seat( model, pos, angle, skin, color )
 
 	seat:SetSaveValue("fademindist", 2048)
 	seat:SetSaveValue("fademaxdist", 4096)
-	if model != "models/sunabouzu/theater_curve_couch.mdl" then
-		local phys = seat:GetPhysicsObject()
-		if IsValid( phys ) then
-			phys:EnableMotion(false)
-		end
-	end
 
 end
 
