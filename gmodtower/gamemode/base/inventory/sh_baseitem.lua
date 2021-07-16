@@ -49,6 +49,8 @@ OverrideOnlyEquippable = false
 
 // This lets you always drop an inventory item, for things like fireworks!
 AllowAnywhereDrop = false
+// For Dropping in Specific Locations
+AllowDropLocation = nil
 
 
 

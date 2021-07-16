@@ -311,12 +311,11 @@ function meta:DropItem( slot, aim, rotation )
 
 	end
 
-	if !Item.AllowAnywhereDrop then
+	if !Item.AllowDropLocation && !Item.AllowAnywhereDrop then
 		if hook.Call("GTowerInvDrop", GAMEMODE, self, Trace, Item ) != true && ClientSettings:Get( self, "GTAllowInvAllEnts" ) == false then
 			return
 		end
 	end
-
 
 	if Item.RemoveOnTheater == true && GTowerLocation:FindPlacePos(self:GetPos()) == 33 || Item.RemoveOnTheater == true && GTowerLocation:FindPlacePos(self:GetPos()) == 34 then
 		return
@@ -365,8 +364,13 @@ function meta:DropItem( slot, aim, rotation )
 		e:SetEntity( DropEnt )
 		util.Effect( 'spawneffect', e, true, true )
 
-		if Item.AllowAnywhereDrop then // if they're droppable anywhere, lets assign the owner here so we can count how many items we dropped
+		if Item.AllowDropLocation or Item.AllowAnywhereDrop then // if they're droppable anywhere, lets assign the owner here so we can count how many items we dropped
 			DropEnt.PlayerOwner = self
+		end
+
+		if Item.AllowDropLocation && GTowerLocation:FindPlacePos( DropEnt:GetPos() ) != Item.AllowDropLocation then
+			DropEnt:Remove()
+			return 
 		end
 
 		if !GTowerItems:CheckTraceHull( DropEnt ) then //Not a really good place to put it, eh?

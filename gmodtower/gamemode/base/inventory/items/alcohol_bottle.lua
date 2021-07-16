@@ -8,6 +8,7 @@ ITEM.DrawModel = true
 ITEM.CanUse = true
 ITEM.MoveSound = "glass"
 ITEM.UseDesc = "Drink"
+ITEM.AllowDropLocation = 27 -- Nightclub Bar
 
 ITEM.StoreId = GTowerItems.BarStoreId
 ITEM.StorePrice = 8
