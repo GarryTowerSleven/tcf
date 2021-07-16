@@ -56,8 +56,11 @@ AddCSLuaFile( "base/postevents/init.lua" )
 // LOADABLES
 AddCSLuaFile( "sh_loadables.lua" )
 
-include("base/sh_net_queue.lua")
 AddCSLuaFile("base/sh_net_queue.lua")
+include("base/sh_net_queue.lua")
+
+AddCSLuaFile("base/exnet/shared.lua")
+include("base/exnet/shared.lua")
 
 //Obligatory at first
 
@@ -86,7 +89,7 @@ include("base/database/basicsql.lua")
 include("base/database/player.lua")
 include("base/database/network.lua")
 
-include("base/gtrivia/init.lua")
+//include("base/gtrivia/init.lua")
 
 include("base/postevents/init.lua")
 

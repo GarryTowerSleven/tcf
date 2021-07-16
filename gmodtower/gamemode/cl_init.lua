@@ -16,6 +16,8 @@ include("shared.lua")
 include("base/anti_script_hook/cl_scripthookpwnd.lua")
 include("base/sh_net_queue.lua")
 
+include( "base/exnet/shared.lua" )
+
 // Fake clients
 include("base/fakeclient/cl_init.lua")
 include("base/fakeclient/shared.lua")
@@ -28,7 +30,7 @@ include("base/translation/shared.lua")
 
 include("base/gui/cl_selection.lua")
 
-include("base/gtrivia/cl_init.lua")
+//include("base/gtrivia/cl_init.lua")
 
 //For gamemode
 include("base/admin/cl_admin.lua")
