@@ -242,7 +242,7 @@ hook.Add("PlayerDisconnected","LeaveMessage",function(ply)
 	end
 
 	for k, v in pairs(player.GetAll()) do
-		if engine.ActiveGamemode() != "ballrace" && v.HideRedir == false then
+		if engine.ActiveGamemode() == "gmtlobby" && v.HideRedir == false then
 			local SanitizedName = string.SafeChatName(ply:Name())
 			GAMEMODE:ColorNotifyPlayer( v, SanitizedName.." has left the tower.", Color(100, 100, 100, 255) )
 		else
