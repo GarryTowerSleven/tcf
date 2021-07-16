@@ -151,18 +151,22 @@ local function PlayerLeaveVehice( vehicle, ply )
 	ply.ExitTime = CurTime()
 	ply:ExitVehicle()
 
-	ply:SetEyeAngles(ply:GetNWAngle("SeatEntryAng"))
+	ply:SetEyeAngles(ply.EntryAngles)
 
-	local trace = util.TraceEntity({start=ply:GetNWVector("SeatEntry"), endpos=ply:GetNWVector("SeatEntry")}, ply)
+	local trace = util.TraceEntity({start=ply.EntryPoint, endpos=ply.EntryPoint}, ply)
 
-	ply:SetPos(ply:GetNWVector("SeatEntry"))
+	if vehicle:GetPos():Distance(ply.EntryPoint) < 128 && !trace.StartSolid && trace.Fraction > 0 then
+		ply:SetPos(ply.EntryPoint)
+	else
+		TryPlayerExit(ply, vehicle)
+	end
 
 	vehicle.Removing = true
 	vehicle:Remove()
 
 	ply:ResetEquipmentAfterVehicle()
 	ply:CrosshairDisable()
-	--ply:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
+	ply:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
 
 	return false
 
