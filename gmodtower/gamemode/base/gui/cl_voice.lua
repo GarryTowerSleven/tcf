@@ -11,6 +11,8 @@ PANEL.Font = "GTowerHudCSubText"
 
 function PANEL:Init()
 
+	if ( !GetConVar( "gmt_voice_enable" ):GetBool() ) then return end
+
 	self.Avatar = vgui.Create( "AvatarImage", self )
 	self.Avatar:SetSize( 32, 32 )
 	self.Avatar:SetPos( self.Padding / 2, self.Padding / 2 )
@@ -26,6 +28,7 @@ end
 function PANEL:Setup( ply )
 
 	self.ply = ply
+	if self.Avatar == nil then return end
 
 	--if ply:IsHidden() then
 	--	self.Avatar:SetPlayer( nil )
@@ -42,6 +45,7 @@ end
 function PANEL:Paint( w, h )
 
 	if ( !IsValid( self.ply ) ) then return end
+	if ( !GetConVar( "gmt_voice_enable" ):GetBool() ) then return end
 
 	local nick = self.ply:Name()
 
