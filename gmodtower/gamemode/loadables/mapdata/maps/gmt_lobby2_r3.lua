@@ -127,6 +127,21 @@ local function SpawnDynamicProp( model, pos, ang, shadow )
 	prop:DrawShadow( shadow )
 end
 
+local function RespawnEnt( ent )
+	print(ent)
+	local class = ent:GetClass()
+	local pos = ent:GetPos()
+	pos.y = pos.y + 1.5
+	local ang = ent:GetAngles()
+
+	ent:Remove()
+
+	local new = ents.Create( class )
+	new:SetPos( pos )
+	new:SetAngles( ang )
+	new:Spawn()
+end
+
 local function NetworkCondoPanelIDs()
 	for k,v in pairs(ents.FindByClass("gmt_condo_panel")) do
 		local entloc = GTowerLocation:FindPlacePos( v:GetPos() )
@@ -193,6 +208,13 @@ local function MapFixes()
 		for _, v in pairs( ents.FindByClass("func_smokevolume") ) do
 			//print( "removing : " .. tostring( v ) .. " @ " .. tostring( v:GetBrushPlane( 1 ) ) )
 			v:Remove()
+		end
+	end)
+
+	// Respawn Electronic NPC
+	timer.Simple( 5, function()
+		for k,v in pairs( ents.FindByClass("gmt_npc_electronic") ) do
+			RespawnEnt( v )
 		end
 	end)
 
