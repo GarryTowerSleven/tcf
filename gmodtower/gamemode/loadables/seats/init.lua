@@ -71,9 +71,9 @@ hook.Add("KeyRelease", "EnterSeat", function(ply, key)
 
 	usetable[pos] = true
 	trace.Entity.UseTable = usetable
-
-	ply:SetNWVector("SeatEntry",ply:GetPos())
-	ply:SetNWVector("SeatEntryAng",ply:EyeAngles())
+	
+	//ply.EntryPoint = ply:GetPos()
+	//ply.EntryAngles = ply:EyeAngles()
 	ply.SeatEnt = trace.Entity
 	ply.SeatPos = pos
 
@@ -151,15 +151,15 @@ local function PlayerLeaveVehice( vehicle, ply )
 	ply.ExitTime = CurTime()
 	ply:ExitVehicle()
 
-	ply:SetEyeAngles(ply.EntryAngles)
+	//ply:SetEyeAngles(ply.EntryAngles)
 
-	local trace = util.TraceEntity({start=ply.EntryPoint, endpos=ply.EntryPoint}, ply)
+	//local trace = util.TraceEntity({start=ply.EntryPoint, endpos=ply.EntryPoint}, ply)
 
-	if vehicle:GetPos():Distance(ply.EntryPoint) < 128 && !trace.StartSolid && trace.Fraction > 0 then
-		ply:SetPos(ply.EntryPoint)
-	else
+	//if vehicle:GetPos():Distance(ply.EntryPoint) < 128 && !trace.StartSolid && trace.Fraction > 0 then
+		//ply:SetPos(ply.EntryPoint)
+	//else
 		TryPlayerExit(ply, vehicle)
-	end
+	//end
 
 	vehicle.Removing = true
 	vehicle:Remove()
