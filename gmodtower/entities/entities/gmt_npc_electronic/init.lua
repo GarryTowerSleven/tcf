@@ -7,7 +7,7 @@ function ENT:SpawnFunction( ply, tr )
 	if ( !tr.Hit ) then return end
 
 	local ent = ents.Create( "gmt_npc_electronic" )
-	ent:SetPos( tr.HitPos + Vector(0,0,1) )
+	ent:SetPos( tr.HitPos + Vector(0,0,5) )
 	ent:Spawn()
 	ent:Activate()
 
