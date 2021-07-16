@@ -1,7 +1,7 @@
 module( "GTowerItems", package.seeall )
 
 // LAMPS
-RegisterItem( "workinglamp", {
+RegisterItem( "suitelamp", {
 	Name = "Lamp",
 	Description = "A decorative lamp that can be turned off and on.",
 	ClassName = "gmt_lamp",
