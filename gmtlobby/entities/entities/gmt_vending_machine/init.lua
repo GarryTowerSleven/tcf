@@ -6,8 +6,8 @@ function ENT:Initialize()
 
 	self:SetModel(self.Model)
 	self:PhysicsInit( SOLID_VPHYSICS )
-  self:SetMoveType( MOVETYPE_NONE )
-  self:SetSolid( SOLID_VPHYSICS )
+	self:SetMoveType( MOVETYPE_NONE )
+	self:SetSolid( SOLID_VPHYSICS )
 
 	self:SetUseType( SIMPLE_USE ) // Or else it'll go WOBLBLBLBLBLBLBLBL
 
@@ -17,4 +17,8 @@ function ENT:Initialize()
 	end
 
 	--self:SetPos(self:GetPos() + Vector(0,0,45))
+end
+
+function ENT:SetSale( sale )
+	self:SetNWBool("Sale",sale)
 end

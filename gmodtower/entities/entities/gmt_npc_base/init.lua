@@ -149,9 +149,7 @@ function ENT:Initialize()
 end
 
 function ENT:SetSale( sale )
-
 	self:SetNWBool("Sale",sale)
-
 end
 
 function ENT:TypeOnComp()
