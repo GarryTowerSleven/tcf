@@ -483,7 +483,7 @@ if SERVER then
 			-- Successful request, queue video
 			self:QueueVideo( vid )
 
-			if string.StartWith(self:VideoTitle(),"Idlescreen") then
+			if string.StartWith(self:VideoTitle(),IdleScreenTitle) then
 				self:SkipVideo()
 			end
 
