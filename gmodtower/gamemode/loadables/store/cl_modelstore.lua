@@ -7,50 +7,50 @@ local ModelPanelSize = 700
 
 local gradient = "VGUI/gradient_up"
 
-function OpenModelStore( id, title, zpos, modelsize )
+function OpenModelStore( id, title, zpos, modelsize, camerafar )
 
 	if ValidPanel( StoreGUI ) then
 		CloseStorePanel()
 	end
 
-	CameraZPos = zpos or 30
-	ModelSize = modelsize or 475
-
+	CameraZPos = ( zpos or 25 ) - ( ScrW() / 400 )
+	ModelSize = ( ScrW() * 0.35 ) or 375
+	CameraFar = ( camerafar or 100 ) + ( ScrW() / 400 )	
 
 	StoreGUI = vgui.Create("DFrame")
 	StoreGUI:SetSize( ScrW() * 0.75, ScrH() * 0.525 )
-
+	
 	StoreGUI:SetPos( ScrW() * 0.5 - StoreGUI:GetWide() * 0.5, ScrH() * 0.5 - StoreGUI:GetTall() * 0.5 )
 	StoreGUI:SetTitle( title )
-
-	local StoreGrad = vgui.Create( "DImage", StoreGUI )
-	StoreGrad:SetPos( 0, 0 )
-	StoreGrad:SetSize( StoreGUI:GetWide(), StoreGUI:GetTall() )
-	StoreGrad:SetImage( gradient )
-	StoreGrad:SetImageColor(Color( 0, 15, 30, 255 ))
-
+	
 	StoreGUI:SetVisible( true )
 	StoreGUI:SetDraggable( false ) // Draggable by mouse?
 	StoreGUI:ShowCloseButton( true )
 	StoreGUI:MakePopup()
-	StoreGUI.Close = function()
-		 CloseStorePanel()
+	StoreGUI.Close = function( self )
+		CloseStorePanel()
 	end
 
-	StoreGUI.PanelList = vgui.Create("DPanelList", StoreGUI )
-	StoreGUI.PanelList:SetPos( ModelPanelSize + 4, 28 )
-	StoreGUI.PanelList:SetSize( StoreGUI:GetWide() - ModelPanelSize - 8, StoreGUI:GetTall() - 28 - 4 )
+	StoreGUI.PanelList = vgui.Create("DPanelList3", StoreGUI )
+	StoreGUI.PanelList:SetPos( ModelSize + 4, 28 )
+	StoreGUI.PanelList:SetSize( StoreGUI:GetWide() - ModelSize - 8, StoreGUI:GetTall() - 28 - 4 )
 	StoreGUI.PanelList:EnableVerticalScrollbar()
-	StoreGUI.PanelList:SetSpacing( 2 )
+	StoreGUI.PanelList:SetSpacing( 2 ) 
 	StoreGUI.PanelList:SetPadding( 2 )
 
 	local Canvas = vgui.Create("Panel", StoreGUI )
 	Canvas:SetPos( 4, 28 )
-	Canvas:SetSize( ModelPanelSize, StoreGUI:GetTall() - 28 - 4 )
+	Canvas:SetSize( ModelSize, StoreGUI:GetTall() - 28 - 4 )
 
 	StoreGUI.ModelPanel = vgui.Create("DModelPanel2", Canvas )
 	StoreGUI.ModelPanel:SetAnimated( true )
 
+	local gradient = surface.GetTextureID( "VGUI/gradient_up" )
+	StoreGUI.ModelPanel.BackgroundDraw = function()
+		surface.SetDrawColor( 0, 0, 0, 200 )
+		surface.SetTexture( gradient )
+		surface.DrawTexturedRect( 0, 0, StoreGUI.ModelPanel:GetSize() )
+	end
 
 	GTowerStore:UpdateStoreList()
 	GtowerMainGui:GtowerShowMenus()
