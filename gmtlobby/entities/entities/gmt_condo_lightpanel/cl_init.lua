@@ -148,7 +148,7 @@ function ENT:DrawPanel( scrw, scrh )
 
 	self:DrawButtons()
 
-	local vip = true--LocalPlayer().IsVIP and LocalPlayer():IsVIP()
+	local vip = LocalPlayer():IsVIP()
 
 	if vip then
 		self:DrawVIPPanel( scrw, scrh )
@@ -178,7 +178,7 @@ function ENT:DrawPanel( scrw, scrh )
 		)
 
 		surface.SetTextColor( 255, 255, 255 )
-		draw.DrawText( "COLOR SUPPORT\nCOMING SOON", "GTowerHUDMainLarge", scrw/2, scrh-80, Color( 255, 255, 255, 15 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		draw.DrawText( "DONATE FOR\nMORE CONTROL", "GTowerHUDMainLarge", scrw/2, scrh-80, Color( 255, 255, 255, 15 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 
 	end
 
