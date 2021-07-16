@@ -53,9 +53,6 @@ GMode.Music = {
 	"GModTower/sourcekarts/music/raceway_race1.mp3",
 	"GModTower/sourcekarts/music/raceway_race2.mp3",
 	"GModTower/sourcekarts/music/raceway_race3.mp3",
-	"GModTower/sourcekarts/music/rave_race1.mp3",
-	"GModTower/sourcekarts/music/rave_race2.mp3",
-	"GModTower/sourcekarts/music/rave_rave3.mp3",
 }
 
 function GMode:ProcessData( ent, data )
