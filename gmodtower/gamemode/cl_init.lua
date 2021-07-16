@@ -68,12 +68,12 @@ include("base/sh_money.lua")
 
 include("base/admin/sh_spray.lua")
 
+include("base/vip/cl_init.lua")
+
 -- Derma
 for k,v in pairs (file.Find("gmodtower/gamemode/base/derma/*.lua","LUA")) do
 	include("gmodtower/gamemode/base/derma/" .. v);
 end
-
-CreateConVar( "cl_playercolor", "0.24 0.34 0.41", { FCVAR_ARCHIVE, FCVAR_USERINFO, FCVAR_DONTRECORD }, "The value is a Vector - so between 0-1 - not between 0-255" )
 
 CurMap = ""
 SafeToSend = false

@@ -49,7 +49,7 @@ Loadables.Load( {
 	"fakeclientmodel",			-- Fake player models for use such as the monorail
 	"question",					    -- Global voting
 	"contentmanager",			  -- Missing Content Notification
-	"vipglow", 						  -- Glow for players
+	"vip",						-- Goobers
 
 	-- Items Depend On These
 	---------------------------------------------------------

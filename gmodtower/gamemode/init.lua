@@ -114,6 +114,8 @@ include("base/bit/hex.lua")
 AddCSLuaFile( "base/theater/cl_init.lua" )
 include( "base/theater/init.lua" )
 
+include("base/vip/init.lua")
+
 RunConsoleCommand("sv_hibernate_think", "1")
 
 resource.AddWorkshop( 148215278 ) -- Accessories.

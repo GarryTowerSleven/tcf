@@ -636,14 +636,17 @@ function APPEARANCE:GenerateModelSelection()
 
 	end
 
-	for name, model in pairs( player_manager.AllValidModels() ) do
+	for name, model in pairs( player_manager.AllValidModels() ) do
+
 		if !LocalPlayer()._ModelTable then LocalPlayer()._ModelTable = {} end
 		if !GTowerModels.NormalModels[name] && !table.HasValue( LocalPlayer()._ModelTable, model ) then
 			if string.StartWith( name, "medic" ) || string.StartWith( name, "hostage" ) || string.StartWith( name, "dod_" ) then continue end
 			if name == "kdedede_pm" or name == "bond" or name == "classygentleman" || name == "maskedbreen" or name == "windrunner" || name == "grayfox" then continue end
-			AddSpawnIcon( name, model, skin, IconSetModel, CategoryList, 0, 0, "A standard player model." )
+			AddSpawnIcon( name, model, skin, IconSetModel, CategoryList, 0, 0, "A standard player model." )
+
 		end
-	end
+	end
+
 
 
 
@@ -772,52 +775,32 @@ function APPEARANCE:GenerateColorSelection()
 
 
 	// Glow Color
+	if LocalPlayer().IsVIP && LocalPlayer():IsVIP() then
 
 		local GlowColorSelection, GlowColorCategoryList = self:NewCategory( "Glow Color" )
-
 		GlowColorSelection:SetCookieName( "GTSetGlowColorListOpen" )
-
 		self.GlowColorSelection = GlowColorSelection
 
-
-
 		local GlowColor = vgui.Create( "DColorMixer", self )
-
 		GlowColor:SetAlphaBar( false )
-
 		GlowColor:SetPalette( false )
-
 		GlowColor:SetWangs( false )
-
 		GlowColor:SetSize( ModelSizeX - 10, 80 )
-
 		GlowColor.NextConVarCheck = SysTime()
-
 		GlowColor:SetVector( Vector( GetConVarString( "cl_playerglowcolor" ) ) )
-
 		GlowColor.ValueChanged = function()
-
 			RunConsoleCommand( "cl_playerglowcolor", tostring( GlowColor:GetVector() ) )
-
 			LocalPlayer()._NextGlow = CurTime() + 1
-
 		end
-
-
 
 		local function UpdateFromConvars()
-
 			GlowColor:SetVector( Vector( GetConVarString( "cl_playerglowcolor" ) ) )
-
 		end
 
-
-
 		GlowColor.OnActivePanelChanged = function() timer.Simple( 0.1, UpdateFromConvars ) end
-
 		GlowColorCategoryList:AddItem( GlowColor )
 
-
+	end
 
 end
 

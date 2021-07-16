@@ -9,7 +9,8 @@ end
 
 
 function meta:IsVIP()
-	return self.Vip == 1
+	//return self.Vip == 1
+	return true
 end
 
 meta.IsVip = meta.IsVIP
