@@ -121,7 +121,7 @@ table.insert( GTowerHats.Hats, {
 	slot = SLOT_FACE
 } )
 
-table.insert( GTowerHats.Hats, {
+/*table.insert( GTowerHats.Hats, {
 	Name = "Really Hat Top Hat",
 	description = "You're actually not part of the dev team.",
 	unique_Name = "ReallyHatTopHat",
@@ -130,7 +130,7 @@ table.insert( GTowerHats.Hats, {
 	closetrow = 3,
 	slot = SLOT_HEAD,
 	admin = true
-} )
+} )*/
 
 table.insert( GTowerHats.Hats, {
 	Name = "Afro",
