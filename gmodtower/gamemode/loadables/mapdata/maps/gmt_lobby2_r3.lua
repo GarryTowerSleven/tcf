@@ -128,7 +128,6 @@ local function SpawnDynamicProp( model, pos, ang, shadow )
 end
 
 local function RespawnEnt( ent )
-	print(ent)
 	local class = ent:GetClass()
 	local pos = ent:GetPos()
 	pos.y = pos.y + 1.5
