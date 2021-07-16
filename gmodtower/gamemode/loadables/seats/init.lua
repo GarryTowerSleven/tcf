@@ -72,8 +72,8 @@ hook.Add("KeyRelease", "EnterSeat", function(ply, key)
 	usetable[pos] = true
 	trace.Entity.UseTable = usetable
 
-	ply:SetNWVector("SeatEntry",ply:GetPos())
-	ply:SetNWVector("SeatEntryAng",ply:EyeAngles())
+	//ply:SetNWVector("SeatEntry",ply:GetPos())
+	//ply:SetNWVector("SeatEntryAng",ply:EyeAngles())
 	ply.SeatEnt = trace.Entity
 	ply.SeatPos = pos
 
