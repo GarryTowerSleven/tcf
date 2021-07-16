@@ -53,6 +53,16 @@ Doorbells = {
 	NewDoorbell( "Vocoder 2", "vocoder2" ),
 }
 
+-- Skyboxes
+local SkyboxPreviewPath = "gmod_tower/panelos/skys/"
+local function NewSkybox( name, cam, preview )
+	return { name = name, cam = cam, preview = Material( SkyboxPreviewPath .. preview .. ".png" ) }
+end
+Skyboxes = {
+	NewSkybox( "Default", DefaultSkybox, "default.png" ),
+	NewSkybox( "Beach", "condo_beach", "beach.png" ),
+}
+
 LocationTranslation = {
 	[1] = 2,
 	[2] = 3,

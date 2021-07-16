@@ -122,7 +122,7 @@ function APP:StartTab( tab )
 		local w, h = iconSize, iconSize
 		local c, columns = 1, 5
 
-		for id, skybox in pairs(GTowerRooms.Skyboxes) do
+		for id, skybox in pairs(GtowerRooms.Skyboxes) do
 
 			-- todo: support for: skybox.cam, skybox.name
 
