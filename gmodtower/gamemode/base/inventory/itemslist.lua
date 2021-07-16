@@ -173,17 +173,17 @@ RegisterItem("blender",{
 	StorePrice = 4000
 })
 
-/*RegisterItem("disco_ball",{
-	Name = "Disco ball",
-	Description = "Spawns a colorful ball",
+RegisterItem("disco_ball",{
+	Name = "Disco Ball",
+	Description = "A colorful disco ball that plays music. Comes with lasers.",
 	Model = "models/gmod_tower/discoball.mdl",
-	ClassName = "gmt_disco",
+	ClassName = "gmt_visualizer_disco",
 	UniqueInventory = true,
 	EnablePhyiscs = true,
 	DrawModel = true,
 	StoreId = 27,
-	StorePrice = 4387,
-})*/
+	StorePrice = 4000,
+})
 
 RegisterItem("bar01",{
 	Name = "Bar Table",
@@ -1941,7 +1941,7 @@ RegisterItem("rave_ball",{
 
 	Model = "models/gmod_tower/discoball.mdl",
 
-	ClassName = "gmt_raveball",
+	ClassName = "gmt_visualizer_raveball",
 
 	UniqueInventory = true,
 
