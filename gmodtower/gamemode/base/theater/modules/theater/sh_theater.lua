@@ -141,7 +141,7 @@ function THEATER:IsPlaying()
 	end ]]
 	
 	for i, v in pairs(theater.Theaters) do
-		if v._Video._VideoTitle == "NoVideoPlaying" or v._Video._VideoTitle == "Idlescreen" then
+		if v._Video._VideoTitle == "NoVideoPlaying" or v._Video._VideoTitle == IdleScreenTitle then
 			SetGlobalString("CurVideo" .. i, "No Video Playing" )
 			SetGlobalString("CurVideoThumbnail" .. i, "theater/static" )
 		else
@@ -483,7 +483,7 @@ if SERVER then
 			-- Successful request, queue video
 			self:QueueVideo( vid )
 
-			if string.StartWith(self:VideoTitle(),"Idlescreen") then
+			if string.StartWith(self:VideoTitle(),IdleScreenTitle) then
 				self:SkipVideo()
 			end
 
