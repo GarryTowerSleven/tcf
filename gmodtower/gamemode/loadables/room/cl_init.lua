@@ -16,7 +16,7 @@ net.Receive("gmt_partymessage", function()
 	local invString = net.ReadString()
 	local roomid = net.ReadString()
 
-	local Question = Msg2( invString )
+	local Question = Msg2( invString, 30 )
 	Question:SetupQuestion(
 	function() RunConsoleCommand( "gmt_joinparty", roomid ) end,
 	function() end,
