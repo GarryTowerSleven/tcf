@@ -1,12 +1,17 @@
 
 -----------------------------------------------------
-include( "shared.lua" )
-
--- Name of the material proxy that causes things to glow to the visualizer color
-local VisualizerProxyName = "VisualizerGlowColor"
+include( "shared.lua" )
+
+
+
+-- Name of the material proxy that causes things to glow to the visualizer color
+
+local VisualizerProxyName = "VisualizerGlowColor"
+
 
 local bgModels = {
-	["models/map_detail/nightclub_sign.mdl"] = true
+	["models/map_detail/nightclub_sign.mdl"] = true,
+	["models/map_detail/nightclub_sign_foohy.mdl"] = true
 }
 
 local vis_mountains 	= surface.GetTextureID( "gmod_tower/nightclub/panel_mountains" )
@@ -48,25 +53,39 @@ function ENT:Draw2D()
 	cam.End3D2D()
 end
 
-function ENT:Draw()
-	self.Entity:DrawModel()
+function ENT:Draw()
+
+	self.Entity:DrawModel()
+
 
 	if bgModels[self:GetModel()] && LocalPlayer():GetPos():WithinDistance(self:GetPos(), 5000) then
 		self:Draw2D()
 	end
 
-end
-
--- Same as the rainbow function but the colors match for all clients
-local function Rainbow( speed, offset, saturation, value )
-	-- HSVToColor doesn't actually return a color object, just something that mimics one
-	clr = HSVToColor( ( CurTime() * (speed or 50) % 360 ) + ( offset or 0 ),
-		saturation or 1, value or 1 )
-
-	return Color(clr.r, clr.g, clr.b, clr.a)
-end
-
-function ENT:Think()
+end
+
+
+
+-- Same as the rainbow function but the colors match for all clients
+
+local function Rainbow( speed, offset, saturation, value )
+
+	-- HSVToColor doesn't actually return a color object, just something that mimics one
+
+	clr = HSVToColor( ( CurTime() * (speed or 50) % 360 ) + ( offset or 0 ),
+
+		saturation or 1, value or 1 )
+
+
+
+	return Color(clr.r, clr.g, clr.b, clr.a)
+
+end
+
+
+
+function ENT:Think()
+
 	local Controller = self:GetOwner()
 
 	if !IsValid(Controller) then
@@ -74,27 +93,48 @@ function ENT:Think()
 			if IsValid(v) then self:SetOwner(v) end
 		end
 	end
-
-	-- Get the theme color from the controller itself
-	if IsValidController(Controller) then
-		self.VisualizerGlowVector = Controller:GetThemeColor():ToVector()
-
-	-- Uhhh just kinda guess what it is
-	else
-		self.VisualizerGlowVector = Rainbow(10):ToVector()
-	end
-end
-
-
--- Material proxy for the prop_visualizers
-matproxy.Add( {
-	name = VisualizerProxyName,
-	init = function( self, mat, values )
-		self.ColorVar = values.resultvar
-	end,
-
-	bind = function( self, mat, ent )
-		if ent and ent.VisualizerGlowVector then
+
+
+	-- Get the theme color from the controller itself
+
+	if IsValidController(Controller) then
+
+		self.VisualizerGlowVector = Controller:GetThemeColor():ToVector()
+
+
+
+	-- Uhhh just kinda guess what it is
+
+	else
+
+		self.VisualizerGlowVector = Rainbow(10):ToVector()
+
+	end
+
+end
+
+
+
+
+
+-- Material proxy for the prop_visualizers
+
+matproxy.Add( {
+
+	name = VisualizerProxyName,
+
+	init = function( self, mat, values )
+
+		self.ColorVar = values.resultvar
+
+	end,
+
+
+
+	bind = function( self, mat, ent )
+
+		if ent and ent.VisualizerGlowVector then
+
 
 			local Multiplier = 10
 
@@ -102,7 +142,11 @@ matproxy.Add( {
 				Multiplier = 100
 			end
 
-			mat:SetVector(self.ColorVar, ent.VisualizerGlowVector * Multiplier)
-		end
-	end
-})
+			mat:SetVector(self.ColorVar, ent.VisualizerGlowVector * Multiplier)
+
+		end
+
+	end
+
+})
+
