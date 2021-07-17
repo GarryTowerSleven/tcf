@@ -58,9 +58,9 @@ GTowerLocation.MapPositions = {
 	{ 31, Vector(-2386, 1468, 14853), Vector(-2166, 1754, 15156), 'elevators', 4  }, //Condo Elevator
 	--{ 5, Vector(-9114,13024,14460), Vector(-7635,15192,15016), 'condos', 0  }, //Condo #4
 	{ 30, Vector(3313.759765625,-1472,-3584), Vector(4981.759765625,64,-2816), 'duelarena', 0  }, //Duel Arena Lobby
-	{ 27, Vector(1472,-4736,-2688), Vector(2144,-4304,-2240), 'nightclub', 1  }, //Pulse Nightclub Bar
+	{ 27, Vector(1472,-4736,-2688), Vector(2144,-4304,-2240), 'nightclub', 1  }, //Foohy Nightclub Bar
 	{ 23, Vector(-672,-2208,-672), Vector(256,-1440,-428.02304077148), 'stores', 1  }, //Central Circuit
-	{ 26, Vector(1472,-5760,-2688), Vector(2880,-4304,-2240), 'nightclub', 0  }, //Pulse Nightclub
+	{ 26, Vector(1472,-5760,-2688), Vector(2880,-4304,-2240), 'nightclub', 0  }, //Foohy Nightclub
 	{ 51, Vector(2304,-6128,-896), Vector(2816,-5872,-640), 'ultimatechimerahunt', 1  }, //UCH Port
 	--{ 4, Vector(-4506,13024,14460), Vector(-3027,15192,15016), 'condos', 0  }, //Condo #3
 	{ 19, Vector(1640, 1960, -921), Vector(2855, 3243, -408), 'plaza', 2  }, //Arcade Loft
@@ -108,8 +108,8 @@ GTowerLocation.Locations = {
 	[23] = "Central Circuit",
 	[24] = "Casino Loft",
 	[25] = "Casino",
-	[26] = "Pulse Nightclub",
-	[27] = "Pulse Nightclub Bar",
+	[26] = "Foohy Nightclub",
+	[27] = "Foohy Nightclub Bar",
 	[28] = "Games",
 	[29] = "Tower Condos Lobby",
 	[30] = "Duel Arena Lobby",
