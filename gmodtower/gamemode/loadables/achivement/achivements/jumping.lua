@@ -4,7 +4,7 @@ GtowerAchivements:Add( ACHIVEMENTS.JUMPINGJACK, {
 	Description = "Jump 200,000 times.",
 	Value = 200000,
 	GiveItem = "trophy_jackrabbit",
-	GMC = 50000
+	//GMC = 50000
 })
 
 if SERVER then

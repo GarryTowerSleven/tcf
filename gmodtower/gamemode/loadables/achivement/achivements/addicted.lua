@@ -4,7 +4,7 @@ GtowerAchivements:Add( ACHIVEMENTS.GTOWERADDICTION, {
 	Description = "Stay in a GMod Tower server for ".. (60*24*7) .." minutes.",
 	Value = 60*24*7,
 	GiveItem = "trophy_gmodtoweraddiction",
-	GMC = 50000
+	//GMC = 50000
 	}
 )
 

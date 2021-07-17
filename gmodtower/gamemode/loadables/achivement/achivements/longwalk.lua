@@ -5,7 +5,7 @@ GtowerAchivements:Add( ACHIVEMENTS.WALKTOOLONG, {
 	Description = "Walk more than 200000 feet.",
 	Value = 200000,
 	GiveItem = "trophy_longwalk",
-	GMC = 20000,
+	//GMC = 20000,
 })
 
 if CLIENT then return end
