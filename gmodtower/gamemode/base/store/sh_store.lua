@@ -24,7 +24,7 @@ GTowerStore.Stores = {
 	},
 	[4] = {
 		NpcClass = "gmt_npc_bar",
-		WindowTitle = "Bar",
+		WindowTitle = "Foohy's Bar",
 		ModelSize = 400,
 		CameraZPos = -2.5,
 	},
