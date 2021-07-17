@@ -8,7 +8,6 @@ RegisterItem("ingredient_apple",{
 	Description = "An ingredient to make smoothies with the blender.",
 	Model = "models/sunabouzu/fruit/apple.mdl",
 	DrawModel = true,
-	InvCategory = "food",
 	StoreId = GTowerStore.FOOD,
 	StorePrice = 35,
 	DrawName = true,

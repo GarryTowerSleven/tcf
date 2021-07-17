@@ -8,7 +8,6 @@ RegisterItem( "toytrainsmall", {
 	DrawModel = true,
 	StorePrice = 5000,
 	StoreId = GTowerStore.TOY,
-	InvCategory = "toy"
 } )
 
 RegisterItem( "toytrain", {
@@ -19,7 +18,6 @@ RegisterItem( "toytrain", {
 	DrawModel = true,
 	StorePrice = 6000,
 	StoreId = GTowerStore.TOY,
-	InvCategory = "toy"
 } )
 
 RegisterItem("rubikscube",{
@@ -30,7 +28,6 @@ RegisterItem("rubikscube",{
 	DrawModel = true,
 	StoreId = GTowerStore.TOY,
 	StorePrice = 800,
-	InvCategory = "toy"
 })
 
 RegisterItem("portaltoy",{
@@ -42,7 +39,6 @@ RegisterItem("portaltoy",{
 	StoreId = GTowerStore.TOY,
 	StorePrice = 1000,
 	MoveSound = "paper",
-	InvCategory = "toy",
 	UseSound = "use_portal.wav"
 })
 
@@ -56,7 +52,6 @@ RegisterItem("trampoline",{
 	CanRemove = true,
 	StoreId = GTowerStore.TOY,
 	StorePrice = 500,
-	InvCategory = "toy"
 })
 
 /*RegisterItem("checkers",{
@@ -69,7 +64,6 @@ RegisterItem("trampoline",{
 	CanRemove = true,
 	StoreId = GTowerStore.TOY,
 	StorePrice = 2000,
-	InvCategory = "toy"
 })*/
 
 RegisterItem("obamacutout",{
@@ -80,7 +74,6 @@ RegisterItem("obamacutout",{
 	DrawModel = true,
 	StoreId = GTowerStore.TOY,
 	StorePrice = 1500,
-	InvCategory = "toy"
 })
 
 RegisterItem("huladoll",{
@@ -91,7 +84,6 @@ RegisterItem("huladoll",{
 	DrawModel = true,
 	StoreId = GTowerStore.TOY,
 	StorePrice = 5,
-	InvCategory = "toy",
 	UseSound = "use_hula.wav",
 	UseAnim = "Shake",
 	UseScale = true,
@@ -107,7 +99,6 @@ RegisterItem("sunshrine",{
 	StorePrice = 150000,
 	OverrideSellPrice = 5,
 	MoveSound = "furniture",
-	InvCategory = "toy"
 })
 
 RegisterItem("plush_fox",{
@@ -118,7 +109,6 @@ RegisterItem("plush_fox",{
 	DrawModel = true,
 	StoreId = GTowerStore.TOY,
 	StorePrice = 1500,
-	InvCategory = "toy",
 	MoveSound = "plush",
 	UseSound = "move_plush.wav",
 	UseScale = true,
@@ -159,7 +149,6 @@ RegisterItem("lightsabertoy",{
 	StoreId = GTowerStore.TOY,
 	StorePrice = 5000,
 	MoveSound = "lightsaber",
-	InvCategory = "toy",
 	ClassName = "gmt_toy_lightsaber",
 	DateAdded = 1399271681,
 })
@@ -172,7 +161,6 @@ RegisterItem("plush_penguin",{
 	DrawModel = true,
 	StoreId = GTowerStore.TOY,
 	StorePrice = 1800,
-	InvCategory = "toy",
 	MoveSound = "plush",
 	UseSound = "use_penguin.wav",
 	UseScale = true,

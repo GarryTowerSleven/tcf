@@ -10,7 +10,6 @@ RegisterItem("sack_plushie",{
 	DrawModel = true,
 	StoreId = GTowerStore.HOLIDAY,
 	StorePrice = 3500,
-	InvCategory = "holiday",
 })
 
 RegisterItem("snowman",{
@@ -21,7 +20,6 @@ RegisterItem("snowman",{
 	DrawModel = true,
 	StoreId = GTowerStore.HOLIDAY,
 	StorePrice = 600,
-	InvCategory = "holiday",
 	UseSound = "use_snowman.mp3",
 })
 
@@ -33,7 +31,6 @@ RegisterItem("candycane",{
 	DrawModel = true,
 	StoreId = GTowerStore.HOLIDAY,
 	StorePrice = 80,
-	InvCategory = "holiday",
 	UseSound = "use_candycane.wav",
 })
 
@@ -45,7 +42,6 @@ RegisterItem("stocking",{
 	DrawModel = true,
 	StoreId = GTowerStore.HOLIDAY,
 	StorePrice = 125,
-	InvCategory = "holiday",
 	
 	/*Manipulator = function( ang, pos, normal )
 		ang:RotateAroundAxis( ang:Right(), 270 )
@@ -68,7 +64,6 @@ for i=0, 8 do
 		StoreId = GTowerStore.HOLIDAY,
 		ModelSkinId = i,
 		StorePrice = 180,
-		InvCategory = "holiday",
 	})
 end
 
@@ -82,7 +77,6 @@ for i=0, 7 do
 		StoreId = GTowerStore.HOLIDAY,
 		ModelSkinId = i,
 		StorePrice = 80,
-		InvCategory = "holiday",
 	})
 end
 
@@ -96,7 +90,6 @@ RegisterItem("christmastree",{
 	CanRemove = true,
 	StoreId = GTowerStore.HOLIDAY,
 	StorePrice = 10000,
-	InvCategory = "holiday",
 })
 
 RegisterItem("christmastreesimple",{
@@ -109,7 +102,6 @@ RegisterItem("christmastreesimple",{
 	CanRemove = true,
 	StoreId = GTowerStore.HOLIDAY,
 	StorePrice = 3000,
-	InvCategory = "holiday",
 })
 
 // Thanksgiving
@@ -122,7 +114,6 @@ RegisterItem("turkeydinnerthanks",{
 	DrawModel = true,
 	StoreId = GTowerStore.THANKSGIVING,
 	StorePrice = 1000,
-	InvCategory = "holiday",
 })
 
 // Halloween
@@ -135,7 +126,6 @@ RegisterItem("scarytoyhouse",{
 	DrawModel = true,
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 1600,
-	InvCategory = "holiday",
 	UseSound = "use_hauntedhouse.mp3",
 })
 
@@ -147,7 +137,6 @@ RegisterItem("gravestone",{
 	DrawModel = true,
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 1800,
-	InvCategory = "holiday",
 	UseSound = "use_ripstone.mp3",
 })
 
@@ -159,7 +148,6 @@ RegisterItem("candybucket",{
 	DrawModel = true,
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 500,
-	InvCategory = "holiday",
 	UseSound = "use_candy.wav",
 })
 
@@ -171,7 +159,6 @@ RegisterItem("cauldron",{
 	DrawModel = true,
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 1000,
-	InvCategory = "holiday",
 	UseSound = "use_cauldron.mp3",
 })
 
@@ -183,7 +170,6 @@ RegisterItem("toyspider",{
 	DrawModel = true,
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 800,
-	InvCategory = "holiday",
 	UseSound = "use_spider.wav",
 })
 
@@ -195,7 +181,6 @@ RegisterItem("toytraincart",{
 	DrawModel = true,
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 3000,
-	InvCategory = "holiday",
 })
 
 RegisterItem("toysmokemachine",{
@@ -206,7 +191,6 @@ RegisterItem("toysmokemachine",{
 	DrawModel = true,
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 3000,
-	InvCategory = "holiday",
 	ClassName = "gmt_smokemachine",
 	DateAdded = 1416196221
 })
@@ -218,7 +202,6 @@ RegisterItem("cutoutcat",{
 	DrawModel = true,
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 600,
-	InvCategory = "holiday",
 	DateAdded = 1416196221
 })
 
@@ -229,7 +212,6 @@ RegisterItem("cutoutbat",{
 	DrawModel = true,
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 600,
-	InvCategory = "holiday",
 	DateAdded = 1416196221
 })
 
@@ -241,7 +223,6 @@ RegisterItem("lantern",{
 	DrawModel = true,
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 1000,
-	InvCategory = "holiday",
 	ClassName = "gmt_room_lamp_lantern",
 	DateAdded = 1416196221
 })

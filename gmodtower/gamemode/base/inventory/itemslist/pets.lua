@@ -16,7 +16,6 @@ GTowerItems.RegisterItem( "MelonPet", {
 	UniqueEquippable = true, 
 	
 	EquipType = "Pet",
-	InvCategory = "pet",
 	
 	CanEntCreate = false,
 	DrawName = true,
@@ -85,7 +84,6 @@ GTowerItems.RegisterItem( "RubikPet", {
 	UniqueEquippable = true, 
 	
 	EquipType = "Pet",
-	InvCategory = "pet",
 	
 	CanEntCreate = false,
 	DrawName = true,
@@ -157,7 +155,6 @@ GTowerItems.RegisterItem( "TurtlePet", {
 	UniqueEquippable = true, 
 	
 	EquipType = "Pet",
-	InvCategory = "pet",
 	
 	CanEntCreate = false,
 	DrawName = true,
@@ -228,7 +225,6 @@ GTowerItems.RegisterItem( "BalloonicornPet", {
 	UniqueEquippable = true, 
 	
 	EquipType = "Pet",
-	InvCategory = "pet",
 	
 	CanEntCreate = false,
 	DrawName = true,
