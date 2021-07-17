@@ -57,7 +57,7 @@ function ENT:ReloadOBBBounds()
 end
 
 
-hook.Add("LoadAchivements","AchiTriviaMaster", function ()
+/*hook.Add("LoadAchivements","AchiTriviaMaster", function ()
 
 	GtowerAchivements:Add( ACHIVEMENTS.TRIVIAMASTER, {
 		Name = "Trivia Master",
@@ -74,3 +74,4 @@ hook.Add("LoadAchivements","AchiTriviaMaster", function ()
 	})
 
 end )
+*/

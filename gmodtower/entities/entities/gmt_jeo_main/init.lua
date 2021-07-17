@@ -423,7 +423,7 @@ function ENT:EndGame()
 	local maxPoints = self.NumQuestions * 10
 	local answerScale = ( self.NumQuestionAnswered - 1 ) / self.NumQuestions
 	
-	winners[1].Player:SetAchivement( ACHIVEMENTS.TRIVIAMASTER, 1 )
+	--winners[1].Player:SetAchivement( ACHIVEMENTS.TRIVIAMASTER, 1 )
 	
 	for i = 1, maxWinners do
 	
@@ -438,7 +438,7 @@ function ENT:EndGame()
 		ply:AddMoney( money )
 		
 		--ply:SetAchivement( ACHIVEMENTS.TRIVIAMASTER, 1 )
-		ply:AddAchivement( ACHIVEMENTS.MILLIONAIRE, 1 )
+		--ply:AddAchivement( ACHIVEMENTS.MILLIONAIRE, 1 )
 		
 		local sfx = EffectData()
 			sfx:SetOrigin( ply:GetPos() )
