@@ -590,9 +590,9 @@ function ClearPlayedMaps()
 
 
 	for mapcool, mapDataCool in pairs( List ) do
-
-		mapDataCool.Cooldown = 0
-
+		if mapDataCool.Cooldown == 2 then
+			mapDataCool.Cooldown = 0
+		end
 	end
 
 
@@ -642,9 +642,9 @@ function PlayedMap( map )
 		// Clear cool down
 
 		if map != mapcool then
-
-			mapDataCool.Cooldown = 0
-
+			if mapDataCool.Cooldown == 2 then
+				mapDataCool.Cooldown = 0
+			end
 		end
 
 
