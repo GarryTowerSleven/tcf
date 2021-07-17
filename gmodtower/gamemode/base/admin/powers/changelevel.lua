@@ -9,7 +9,8 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 
 	if ply == NULL or ply:IsAdmin() then
 
-		local str = args[1] or ""
+		local map = args[1] or ""
+		local time = tonumber(args[2]) or 10
 
 		if timer.Exists("ChangeLevelTimer") then
 			timer.Destroy("ChangeLevelTimer")
@@ -34,10 +35,10 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 			return
 		end
 
-		if str == '' then
-			ChangeLevel( game.GetMap(), ply )
+		if map == '' then
+			ChangeLevel( ply, game.GetMap(), time )
 		else
-			ChangeLevel( str, ply )
+			ChangeLevel( ply, map, time )
 		end
 	else
 		if GTowerHackers then
@@ -73,7 +74,7 @@ local function FinalChangeHook(MapName)
 	RunConsoleCommand("changelevel", MapName)
 end
 
-function ChangeLevel( map, ply )
+function ChangeLevel( ply, map, time )
 
 	local FilePlace = "maps/"..map..".bsp"
 	local MapName = map
@@ -81,9 +82,9 @@ function ChangeLevel( map, ply )
 	if file.Exists(FilePlace,"GAME") then
 
 		if game.GetMap() == MapName then
-			GAMEMODE:ColorNotifyAll( T( "AdminRestartMapSec", DefaultTime ), Color(225, 20, 20, 255) )
+			GAMEMODE:ColorNotifyAll( T( "AdminRestartMapSec", time ), Color(225, 20, 20, 255) )
 		else
-			GAMEMODE:ColorNotifyAll( T( "AdminChangeMapSec", map, DefaultTime ), Color(225, 20, 20, 255) )
+			GAMEMODE:ColorNotifyAll( T( "AdminChangeMapSec", map, time ), Color(225, 20, 20, 255) )
 		end
 
 		for k,v in pairs(player.GetAll()) do
@@ -100,7 +101,7 @@ function ChangeLevel( map, ply )
 
 		analytics.postDiscord( "Logs", engine.ActiveGamemode() .. " server changing level to " .. map .. "... [".. ChangeName .."]" )
 
-		timer.Create("ChangeLevelTimer", (DefaultTime - 0.5), 1, function()
+		timer.Create("ChangeLevelTimer", (time), 1, function()
 			if game.GetMap() == MapName then
 			GAMEMODE:ColorNotifyAll( T( "AdminRestartMap" ), Color(225, 20, 20, 255) )
 			else
