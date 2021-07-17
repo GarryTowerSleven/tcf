@@ -14,6 +14,7 @@ RegisterItem( "suitelamp", {
 RegisterItem("lamp01",{
 	Name = "Desk Lamp",
 	Description = "A fancy lamp for your desk.",
+	ClassName = "gmt_desklamp",
 	Model = "models/gmod_tower/lamp01.mdl",
 	DrawModel = true,
 	StorePrice = 150,
@@ -33,6 +34,7 @@ RegisterItem("lamp02",{
 RegisterItem("lamp",{
 	Name = "Desktop Lamp",
 	Description = "Add some light to your desktop.",
+	ClassName = "gmt_desktoplamp",
 	Model = "models/props_lab/desklamp01.mdl",
 	DrawModel = true,
 	StorePrice = 15,
@@ -42,6 +44,7 @@ RegisterItem("lamp",{
 RegisterItem("desklampspecial",{
 	Name = "Desk Lamp",
 	Description = "Perfect for reading a book, or for interrogating a suspect.",
+	ClassName = "gmt_desklampspecial",
 	Model = "models/sunabouzu/special_lamp.mdl",
 	DrawModel = true,
 	StorePrice = 600,
