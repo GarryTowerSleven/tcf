@@ -368,9 +368,9 @@ function meta:DropItem( slot, aim, rotation )
 			DropEnt.PlayerOwner = self
 		end
 
-		if Item.AllowDropLocation && GTowerLocation:FindPlacePos( DropEnt:GetPos() ) != Item.AllowDropLocation then
+		if Item.AllowDropLocation && !ClientSettings:Get( self, "GTAllowInvAllEnts" ) && !Item.AllowAnywhereDrop && !Location.IsCondo(GTowerLocation:FindPlacePos(DropEnt:GetPos())) && GTowerLocation:FindPlacePos( DropEnt:GetPos() ) != Item.AllowDropLocation then
 			DropEnt:Remove()
-			return 
+			return
 		end
 
 		if !GTowerItems:CheckTraceHull( DropEnt ) then //Not a really good place to put it, eh?
