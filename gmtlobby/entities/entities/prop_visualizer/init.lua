@@ -6,6 +6,9 @@ include("shared.lua")
 function ENT:KeyValue(key,val)
     if key == "model" then
       self.Model = val
+      if val == "models/map_detail/nightclub_sign.mdl" then
+        self.Model = "models/map_detail/nightclub_sign_foohy.mdl"
+      end
     elseif key == "modelscale" then
       self:SetModelScale( tonumber(val) )
     elseif key == "skin" then
