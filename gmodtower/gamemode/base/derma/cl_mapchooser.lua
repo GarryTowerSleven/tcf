@@ -508,7 +508,7 @@ MapsRegister( "gmt_minigolf_sandbar06", {
 
 	DateModified = 1345506617,
 
-	Priority = 5,
+	Priority = 3,
 
 } )
 
@@ -526,7 +526,7 @@ MapsRegister( "gmt_minigolf_waterhole04", {
 
 	DateModified = 1345506617,
 
-	Priority = 6,
+	Priority = 4,
 
 } )
 
@@ -544,7 +544,7 @@ MapsRegister( "gmt_minigolf_garden05", {
 
 	DateModified = 1345506617,
 
-	Priority = 4,
+	Priority = 2,
 
 } )
 
@@ -562,7 +562,7 @@ MapsRegister( "gmt_minigolf_moon01", {
 
 	DateModified = 1374298302,
 
-	Priority = 2,
+	Priority = 6,
 
 } )
 
@@ -598,7 +598,7 @@ MapsRegister( "gmt_minigolf_forest04", {
 
 	DateModified = 1374298302,
 
-	Priority = 3,
+	Priority = 5,
 
 } )
 
