@@ -3,6 +3,10 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include("shared.lua")
 
+ENT.OpenSound = Sound("doors/door1_move.wav")
+ENT.CloseSound = Sound("doors/door_wood_close1.wav")
+ENT.LockedSound = Sound("doors/latchlocked2.wav")
+
 function ENT:KeyValue( key, value )
     if key == "model" then
       self.Model = value
