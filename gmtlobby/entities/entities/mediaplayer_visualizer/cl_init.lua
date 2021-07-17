@@ -15,15 +15,16 @@ function ENT:Think()
 end
 
 local CurrentCondo
+local CurrentMediaPlayer
 
 function ENT:GetFirstMediaPlayerInLocation()
 	CurrentCondo = GTowerLocation.Locations[GTowerLocation:FindPlacePos( self:GetPos() )]
 
 	for k,v in pairs( ents.FindByClass("gmt_condoplayer") ) do
-		if CurrentCondo == GTowerLocation.Locations[GTowerLocation:FindPlacePos( v:GetPos() )] then ent = v end
+		if CurrentCondo == GTowerLocation.Locations[GTowerLocation:FindPlacePos( v:GetPos() )] then CurrentMediaPlayer = v end
 	end
 
-	return ent:GetMediaPlayer()
+	return CurrentMediaPlayer:GetMediaPlayer()
 end
 
 function ENT:GetStream()

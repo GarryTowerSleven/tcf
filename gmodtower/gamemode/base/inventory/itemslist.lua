@@ -1274,16 +1274,16 @@ RegisterItem("pilepaper",{
 	UseSound = "use_paperstack.wav",
 	MoveSound = "paper"
 })
-/*RegisterItem("radio",{
+
+RegisterItem("radio",{
 	Name = "Radio",
-	Description = "Listen to some music and chill out.",
+	Description = "Visualize your music and chill out.",
 	Model = "models/props/cs_office/radio.mdl",
-	ClassName = "gmt_radio",
-	UniqueInventory = true,
+	ClassName = "gmt_visualizer_radio",
 	DrawModel = true,
-	CanRemove = false,
-	InvCategory = "7", // electronics
-})*/
+	StoreId = 7,
+	StorePrice = 150,
+})
 
 RegisterItem("remotecontrol",{
 	Name = "Remote Control",
