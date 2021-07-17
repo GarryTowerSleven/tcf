@@ -92,7 +92,7 @@ function GTowerServers:RedirectPlayers( ip, port, password, players, NoCheckGone
 	umsg.End()
 
 	if gameMode then
-		timer.Simple( 2, function() GTowerServers.StopRedirecting( self ) end)
+		timer.Simple( 30, function() GTowerServers.StopRedirecting( self ) end)
 	end
 
 end
