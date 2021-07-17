@@ -389,7 +389,7 @@ MapsRegister( "gmt_uch_tazmily01", {
 	Author = "Charles Wenzel",
 	DateAdded = 1285014233,
 	DateModified = 1285014233,
-	Priority = 8,
+	Priority = 7,
 } )
 
 MapsRegister( "gmt_uch_clubtitiboo04", {
@@ -398,7 +398,7 @@ MapsRegister( "gmt_uch_clubtitiboo04", {
 	Author = "Lifeless",
 	DateAdded = 1285014233,
 	DateModified = 1285014233,
-	Priority = 10,
+	Priority = 11,
 } )
 
 MapsRegister( "gmt_uch_shadyoaks03", {
@@ -407,7 +407,7 @@ MapsRegister( "gmt_uch_shadyoaks03", {
 	Author = "Aska",
 	DateAdded = 1285014233,
 	DateModified = 1285014233,
-	Priority = 4,
+	Priority = 2,
 } )
 
 MapsRegister( "gmt_uch_laboratory01", {
@@ -416,7 +416,7 @@ MapsRegister( "gmt_uch_laboratory01", {
 	Author = "Aska",
 	DateAdded = 1285014233,
 	DateModified = 1285014233,
-	Priority = 11,
+	Priority = 9,
 } )
 
 MapsRegister( "gmt_uch_camping01", {
@@ -425,7 +425,7 @@ MapsRegister( "gmt_uch_camping01", {
 	Author = "Batandy",
 	DateAdded = 1285014233,
 	DateModified = 1285014233,
-	Priority = 1,
+	Priority = 10,
 } )
 
 MapsRegister( "gmt_uch_headquarters02", {
@@ -434,7 +434,7 @@ MapsRegister( "gmt_uch_headquarters02", {
 	Author = "Lifeless",
 	DateAdded = 1294179714,
 	DateModified = 1345329515,
-	Priority = 9,
+	Priority = 1,
 } )
 
 MapsRegister( "gmt_uch_downtown04", {
@@ -443,7 +443,7 @@ MapsRegister( "gmt_uch_downtown04", {
 	Author = "Matt",
 	DateAdded = 1345329515,
 	DateModified = 1347455325,
-	Priority = 3,
+	Priority = 4,
 } )
 
 MapsRegister( "gmt_uch_mrsaturnvalley02", {
@@ -452,7 +452,7 @@ MapsRegister( "gmt_uch_mrsaturnvalley02", {
 	Author = "Lifeless",
 	DateAdded = 1345329515,
 	DateModified = 1347187690,
-	Priority = 2,
+	Priority = 6,
 } )
 
 MapsRegister( "gmt_uch_woodland03", {
@@ -461,7 +461,7 @@ MapsRegister( "gmt_uch_woodland03", {
 	Author = "Matt",
 	DateAdded = 1345329515,
 	DateModified = 1347455325,
-	Priority = 5,
+	Priority = 3,
 } )
 
 MapsRegister( "gmt_uch_falloff01", {
@@ -470,7 +470,7 @@ MapsRegister( "gmt_uch_falloff01", {
 	Author = "Matt",
 	DateAdded = 1347798381,
 	DateModified = 1347798381,
-	Priority = 6,
+	Priority = 8,
 } )
 
 MapsRegister( "gmt_uch_snowedin01", {
@@ -479,7 +479,7 @@ MapsRegister( "gmt_uch_snowedin01", {
 	Author = "Matt",
 	DateAdded = 1354507791,
 	DateModified = 1354507791,
-	Priority = 7,
+	Priority = 5,
 } )
 
 MapsRegister( "gmt_sk_lifelessraceway01", {
@@ -508,7 +508,7 @@ MapsRegister( "gmt_minigolf_sandbar06", {
 
 	DateModified = 1345506617,
 
-	Priority = 3,
+	Priority = 5,
 
 } )
 
@@ -526,7 +526,7 @@ MapsRegister( "gmt_minigolf_waterhole04", {
 
 	DateModified = 1345506617,
 
-	Priority = 4,
+	Priority = 6,
 
 } )
 
@@ -544,7 +544,7 @@ MapsRegister( "gmt_minigolf_garden05", {
 
 	DateModified = 1345506617,
 
-	Priority = 2,
+	Priority = 4,
 
 } )
 
@@ -562,7 +562,7 @@ MapsRegister( "gmt_minigolf_moon01", {
 
 	DateModified = 1374298302,
 
-	Priority = 6,
+	Priority = 2,
 
 } )
 
@@ -598,7 +598,7 @@ MapsRegister( "gmt_minigolf_forest04", {
 
 	DateModified = 1374298302,
 
-	Priority = 5,
+	Priority = 3,
 
 } )
 
