@@ -699,7 +699,7 @@ RegisterItem("radio",{
 	Name = "Radio",
 	Description = "Visualize your music and chill out.",
 	Model = "models/props/cs_office/radio.mdl",
-	ClassName = "gmt_radio",
+	ClassName = "gmt_visualizer_radio",
 	DrawModel = true,
 	StoreId = GTowerStore.ELECTRONIC,
 	StorePrice = 150,
