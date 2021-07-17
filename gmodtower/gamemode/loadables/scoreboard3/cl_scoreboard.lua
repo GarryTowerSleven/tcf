@@ -849,7 +849,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 
 		for _, ply in ipairs( player.GetAll() ) do
 
-			if ( ply:IsAdmin() && ply:SteamID() == "STEAM_0:0:71992617" ) then
+			if ( ply:IsAdmin() && !ply:GetNWBool("SecretAdmin") ) then
 
 				table.insert( players, ply )
 
