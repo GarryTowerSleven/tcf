@@ -32,14 +32,11 @@ function ENT:DrawTranslucent()
 	cam.Start3D2D( EntPos , ang, 0.1)
 		
 		pcall( function()
-			local Stream = self:GetStream()
-			if not Stream or not self.MediaPlayer then return end
-
-			local Media = self.MediaPlayer:GetMedia()
-			local Title = self.DefaultTitle
-			local Color = RedBox
+			local Title
+			local Color
+			local Media = self:GetFirstMediaPlayerInLocation():GetMedia()
 			
-			if Media:IsPlaying() then
+			if ( Media != nil ) then
 				
 				Color = GreenBox
 				Title = T( "RadioPlaying" ) .. " " .. Media:Title()
@@ -49,6 +46,11 @@ function ENT:DrawTranslucent()
 				if Media:IsTimed() then
 					self:DrawDuration( Media, Alpha )
 				end
+
+			else
+
+				Title = self.DefaultTitle
+				Color = RedBox
 
 			end
 			
@@ -131,7 +133,7 @@ function ENT:DrawDuration(Media, Alpha)
 
 	local TimeLeft = duration - curTime
 	local lval = 1 - TimeLeft / duration
-	local sTime = string.FormatSeconds(TimeLeft)
+	local sTime = string.FormatSeconds(math.Clamp(math.Round(curTime), 0, duration))
 
 	surface.DrawRect( ox + 2, oy + 3, Lerp(lval, 0, 8*(BANDS-1) - 4), 14 )
 
