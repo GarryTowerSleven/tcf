@@ -12,26 +12,26 @@ GTowerLocation.MapPositions = {
     { 17, Vector(1024,-3328,-1024), Vector(6136,3240,-36), 'plaza', 0 }, // Plaza
     { 16, Vector(1920,-768,-992), Vector(3456,768,-896), 'plaza', 1 }, // Center Plaza
     { 19, Vector(1656,1536,-864), Vector(1960,1960,-608), 'plaza', 1 }, // Arcade Loft
-    { 24, Vector(1784,-3000,-864), Vector(2856,-1960,-576), '', 1 }, // Casino Loft
+    { 24, Vector(1784,-3000,-864), Vector(2856,-1960,-576), 'casinoloft', 1 }, // Casino Loft
 
     // Stores
     { 18, Vector(-1856,-1448,-966), Vector(1024,1440,-36), 'stores', 0 }, // Stores
 
-    { 20, Vector(-472,1440,-672), Vector(240,2240,-372), 'stores', 1 }, // Tower Outfitters
-    { 21, Vector(288,1440,-672), Vector(1032,2296,-372), 'stores', 1  }, //Toy Stop and Pets
-    { 37, Vector(288,-2208,-672), Vector(1024,-1440,-428), 'stores', 1 }, // Songbirds
-    { 23, Vector(-672,-2208,-672), Vector(256,-1440,-428), 'stores', 1 }, // Central Circuit
-	{ 22, Vector(-720,-1472,-896), Vector(-288,-796,-696), 'stores', 1 }, // Sweet Suite Furnishings
-    { 22, Vector( -2038.3122558594, -1430.8845214844, -1000.1024780273 ), Vector( -716.17419433594, -556.38677978516, -264.75384521484 ), 'stores', 1  }, //Sweet Suite Furnishings
+    { 20, Vector(-472,1440,-672), Vector(240,2240,-372), 'stores_inside', 1 }, // Tower Outfitters
+    { 21, Vector(288,1440,-672), Vector(1032,2296,-372), 'stores_inside', 1  }, //Toy Stop and Pets
+    { 37, Vector(288,-2208,-672), Vector(1024,-1440,-428), 'stores_inside', 1 }, // Songbirds
+    { 23, Vector(-672,-2208,-672), Vector(256,-1440,-428), 'stores_inside', 1 }, // Central Circuit
+	{ 22, Vector(-720,-1472,-896), Vector(-288,-796,-696), 'stores_inside', 1 }, // Sweet Suite Furnishings
+    { 22, Vector( -2038.3122558594, -1430.8845214844, -1000.1024780273 ), Vector( -716.17419433594, -556.38677978516, -264.75384521484 ), 'stores_inside', 2  }, //Sweet Suite Furnishings
 
     // Theater
     { 32, Vector(3504,3240,-896), Vector(5296,4492,-480), 'theater', 1 }, // Theater Main
     { 35, Vector(4118,4110,-896), Vector(4682,4492,-480), 'theaterarcade', 2 }, // Theater Game Room
-    { 33, Vector(2852,4896,-2944), Vector(4112,5864,-2304), 'theater', 1 }, // Theater 1
-    { 34, Vector(4688,4896,-2944), Vector(5952,5864,-2304), 'theater', 1 }, // Theater 2
+    { 33, Vector(2852,4896,-2944), Vector(4112,5864,-2304), 'theater_inside', 1 }, // Theater 1
+    { 34, Vector(4688,4896,-2944), Vector(5952,5864,-2304), 'theater_inside', 1 }, // Theater 2
 
     // Casino
-    { 25, Vector(2168,-11780,-2648), Vector(3836,-9220,-2288), '', 0 }, // Casino
+    { 25, Vector(2168,-11780,-2648), Vector(3836,-9220,-2288), 'casino', 0 }, // Casino
     { 30, Vector(3314,-1472,-3584), Vector(4982,64,-2816), '', 0 }, // Duel Arena Lobby
 
     // Nightclub
@@ -62,7 +62,7 @@ GTowerLocation.MapPositions = {
     // Tower
     { 15, Vector(6112,-1568,-608), Vector(9216,1568,1024), 'lobby', 1 }, // Tower Lobby
     { 14, Vector(7072,-896,-608), Vector(7872,896,-320), 'lobby', 2 }, // Tower Elevators Lobby
-    { 29, Vector(-4294,-1006,14983), Vector(250,1886,15711), 'condos', 0 }, // Tower Condos Lobby
+    { 29, Vector(-4294,-1006,14983), Vector(250,1886,15711), 'condolobby', 0 }, // Tower Condos Lobby
 
     // Elevators
     //{ 31, Vector(7864,-600,-608), Vector(8056,-407,-480), 'elevators', 3 }, // Condo Elevator
