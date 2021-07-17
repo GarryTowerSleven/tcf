@@ -262,6 +262,14 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	ent:SetAngles( Angle(0, 75, 0) )
 	ent:Spawn()
 
+	// Ball Race Port Goal
+	local ent = ents.Create( "prop_dynamic" )
+	ent:SetModel( "models/props_memories/memories_levelend.mdl" )
+	ent:SetPos( Vector(3424, -6400, -904) )
+	ent:SetAngles( Angle(0, 0, 0) )
+	ent:Spawn()
+	ent:DrawShadow(false)
+
 	AddL2Camera( Vector( -1154, 54, 15100 ), Angle(0, 90, 0) )
 	AddL2Camera( Vector( -672, 54, 15100 ), Angle(0, 90, 0) )
 	AddL2Camera( Vector( -192, 54, 15100 ), Angle(0, 90, 0) )
