@@ -174,7 +174,7 @@ MapsRegister( "gmt_ballracer_memories02", {
 	Author = "MacDGuy/Mr. Sunabouzu",
 	DateAdded = 1280871103,
 	DateModified = 1280871103,
-	Priority = 3,
+	Priority = 7,
 } )
 
 MapsRegister( "gmt_ballracer_khromidro02", {
@@ -183,7 +183,7 @@ MapsRegister( "gmt_ballracer_khromidro02", {
 	Author = "Lifeless",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 4,
+	Priority = 5,
 } )
 
 MapsRegister( "gmt_ballracer_paradise03", {
@@ -192,7 +192,7 @@ MapsRegister( "gmt_ballracer_paradise03", {
 	Author = "Matt",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 5,
+	Priority = 3,
 } )
 
 MapsRegister( "gmt_ballracer_sandworld02", {
@@ -210,7 +210,7 @@ MapsRegister( "gmt_ballracer_iceworld03", {
 	Author = "Angry Penguin",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 7,
+	Priority = 4,
 } )
 
 /*MapsRegister( "gmt_ballracer_memories04", {
