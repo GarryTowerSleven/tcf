@@ -131,10 +131,14 @@ function GTowerTrade:OpenTrade( ply )
 
 				value = tonumber( panel:GetValue() )
 
-		if !value || value < 0 || value > Money() then
-			value = math.Clamp( value or 0, 0, Money() )
-			panel:SetText( value )
-		end
+		if !value || value < 0 || value > Money() then
+
+			value = math.Clamp( value or 0, 0, Money() )
+
+			panel:SetText( value )
+
+		end
+
 
 				if GTowerTrade.TradingMoney == value then
 					return
@@ -145,14 +149,22 @@ function GTowerTrade:OpenTrade( ply )
 			end )
 		end
 		TextEntry.UpdateConvarValue = TextEntry.OnValueChange
-		TextEntry.AllowInput = function( panel, sInt )
-		local strNumericNumber = "1234567890"
-
-		-- We're going to make it only allow numbers ONLY, fuck floats, fuck negatives
-		if sInt == "." || sInt == "-" || sInt == "[" || sInt == "]" || sInt == "(" || sInt == "%" then return true end
-		if !string.find(strNumericNumber, sInt) then return true end
-
-		return false
+		TextEntry.AllowInput = function( panel, sInt )
+
+		local strNumericNumber = "1234567890"
+
+
+
+		-- We're going to make it only allow numbers ONLY, fuck floats, fuck negatives
+
+		if sInt == "." || sInt == "-" || sInt == "[" || sInt == "]" || sInt == "(" || sInt == "%" then return true end
+
+		if !string.find(strNumericNumber, sInt) then return true end
+
+
+
+		return false
+
 		end
 		TextEntry.CheckNumeric = function( panel, strValue )
 			if strValue == "y" || strValue == "u" then
@@ -212,7 +224,7 @@ end
 	end
 
 	local AcceptLabel = Label( "ACCEPT", AcceptButton )
-	AcceptLabel:SetFont("MikuHUDMainSmall")
+	AcceptLabel:SetFont("TradeButton")
 	AcceptLabel:SizeToContents()
 	AcceptLabel:Center()
 
@@ -232,7 +244,7 @@ end
 	end
 
 	local AcceptLabel = Label( string.upper(ply:Name()), AcceptButton )
-	AcceptLabel:SetFont("MikuHUDMainSmall")
+	AcceptLabel:SetFont("TradeButton")
 	AcceptLabel:SizeToContents()
 	AcceptLabel:Center()
 
@@ -258,7 +270,7 @@ end
 	end
 
 	local FinishLabel = Label( "FINISH", FinishButton )
-	FinishLabel:SetFont("MikuHUDMainSmall")
+	FinishLabel:SetFont("TradeButton")
 	FinishLabel:SizeToContents()
 	FinishLabel:Center()
 
@@ -278,7 +290,7 @@ end
 	end
 
 	local FinishLabel = Label( string.upper(ply:Name()), FinishButton )
-	FinishLabel:SetFont("MikuHUDMainSmall")
+	FinishLabel:SetFont("TradeButton")
 	FinishLabel:SizeToContents()
 	FinishLabel:Center()
 end
