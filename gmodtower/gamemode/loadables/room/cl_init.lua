@@ -19,7 +19,7 @@ net.Receive("gmt_partymessage", function()
 	local condoID = LocalPlayer().GRoomId
 	if condoID && tostring(condoID) == tostring(roomid) then return end
 
-	local Question = Msg2( invString )
+	local Question = Msg2( invString, 30 )
 	Question:SetupQuestion(
 	function() RunConsoleCommand( "gmt_joinparty", roomid ) end,
 	function() end,
