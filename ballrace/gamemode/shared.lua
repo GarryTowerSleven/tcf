@@ -40,7 +40,7 @@ else
 GM.DefaultLevelTime = 60
 end
 GM.IntermissionTime = 6
-GM.WaitForPlayersTime = 60
+GM.WaitForPlayersTime = 35
 
 default_pm = 'models/player/kleiner.mdl'
 
