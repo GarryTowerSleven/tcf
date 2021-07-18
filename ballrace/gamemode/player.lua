@@ -13,10 +13,10 @@ function GM:PlayerInitialSpawn(ply)
 
 	if GetState() == STATUS_WAITING && #player.GetAll() == 1 then
 		game.CleanUpMap()
-		SetTime(CurTime() + GAMEMODE.IntermissionTime)
+		SetTime(CurTime() + GAMEMODE.WaitForPlayersTime)
 
 		ply:ChatPrint("You are the first to join, waiting for additional players!")
-		timer.Simple(GAMEMODE.IntermissionTime, self.StartRound, self)
+		timer.Simple(GAMEMODE.WaitForPlayersTime, self.StartRound, self)
 	end
 end
 

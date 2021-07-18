@@ -150,7 +150,7 @@ function GM:UpdateStatus(disc)
 				net.Start("roundmessage")
 				net.WriteInt( 3, 3 )
 				net.Broadcast()
-				timer.Simple(8,function()
+				timer.Simple(GAMEMODE.IntermissionTime,function()
 					self:EndServer()
 				end)
 			else
@@ -169,7 +169,7 @@ function GM:UpdateStatus(disc)
 				timer.Simple( 0.2, function() GAMEMODE:GiveMoney() end )
 			else
 				net.Start("roundmessage")
-				if tries < 1 then
+				if tries < 2 then
 					net.WriteInt( 2, 3 )
 				else
 					net.WriteInt( 1, 3 )
@@ -181,7 +181,7 @@ function GM:UpdateStatus(disc)
 
 		SetState(STATUS_INTERMISSION)
 
-		timer.Simple(8, self.StartRound, self)
+		timer.Simple(GAMEMODE.IntermissionTime, self.StartRound, self)
 	end
 end
 
@@ -297,7 +297,7 @@ function GM:ResetGame()
 		v:SetFrags(0)
 	end
 
-	timer.Simple(1, function()
+	timer.Simple(0, function()
 		game.CleanUpMapEx()
 		GAMEMODE.SpawnPoints = nil
 	end)

@@ -23,7 +23,7 @@ Loadables.Load( {
 
 
 GM.Lives = 2
-GM.Tries = 2
+GM.Tries = 3
 
 if game.GetMap() == "gmt_ballracer_midori02" or game.GetMap() == "gmt_ballracer_midorib5" then
 	GM.DefaultLevelTime = 120
@@ -39,7 +39,8 @@ elseif game.GetMap() == "gmt_ballracer_facile" then
 else
 GM.DefaultLevelTime = 60
 end
-GM.IntermissionTime = 35
+GM.IntermissionTime = 6
+GM.WaitForPlayersTime = 60
 
 default_pm = 'models/player/kleiner.mdl'
 

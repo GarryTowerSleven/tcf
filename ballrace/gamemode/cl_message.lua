@@ -23,9 +23,9 @@ local function PanelGuiThink()
 	
 	//If going from the left to the middle screen
 	//Takes one second
-	if TimeLeft > 8 - 1 then
+	if TimeLeft > GAMEMODE.IntermissionTime - 1 then
 		
-		local Perc = 8 - TimeLeft
+		local Perc = GAMEMODE.IntermissionTime - TimeLeft
 		local Source = PanelGui:GetWide() * -1
 		local Target = ScrW() / 2 - PanelGui:GetWide() / 2
 		
@@ -55,7 +55,7 @@ function ShowHudMessage( id )
 		PanelGui = nil
 	end
 	
-	MessagEndTime = CurTime() + 8
+	MessagEndTime = CurTime() + GAMEMODE.IntermissionTime
 	
 	PanelGui = vgui.Create("DImage")
 	PanelGui:SetImage( Textures[ id ] )
