@@ -243,7 +243,7 @@ function MEDIAPLAYER:CanPlayerRequestMedia( ply, media )
 		return false, msg
 	end
 	
-	if ply.Location == 26 or ply.Location == 27 then
+	if ply:Location() == 26 or ply:Location() == 27 then
 		if !table.HasValue( NightclubServices, media.Id ) then
 			return false, "The requested media type is not supported in the Nightclub."
 		end

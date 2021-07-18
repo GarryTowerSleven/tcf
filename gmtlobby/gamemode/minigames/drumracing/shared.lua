@@ -13,7 +13,7 @@ SpawnThrow = Angle(10,90,0)
 function ShouldCollide( a, b )
 
 	if IsValid(a) && IsValid(b) && a:IsPlayer() && b:IsPlayer() then
-		if a:Location() == LocationBattle || b.Location == LocationBattle then
+		if a:Location() == LocationBattle || b:Location() == LocationBattle then
 			if (a.DisableCollision && a.DisableCollision > CurTime()) || (b.DisableCollision && b.DisableCollision > CurTime()) then
 				return
 			end

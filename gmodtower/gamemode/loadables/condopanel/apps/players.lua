@@ -83,7 +83,7 @@ function APP:GetGuests()
 
 	for _, ply in pairs( player.GetAll() ) do
 		if ply == LocalPlayer() then continue end
-		if ply.Location != loc then continue end
+		if ply:Location() != loc then continue end
 		table.insert( playerfiltered, ply )
 	end
 

@@ -106,7 +106,7 @@ hook.Add("Location", "MusicscapeChangeLocation", function(ply, loc)
 
 		--print(soundscape.IsPlaying("music_global_ambient"))
 		 -- Only stop the soundscape if they're in no man's land
-		if loc == 1 or ply.Location == 1 then
+		if loc == 1 or ply:Location() == 1 then
 			soundscape.StopChannel("music")
 
 		-- Just play an ambient music track if there's no music override here

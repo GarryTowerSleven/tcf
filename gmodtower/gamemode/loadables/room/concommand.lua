@@ -16,7 +16,7 @@ net.Receive("gmt_closevault",function(len, ply)
 	if ply:Location().CondoID then
 
 	for k,v in pairs( ents.FindByClass("gmt_condo_vault") ) do
-		if ply.Location == Location.Find( v:GetPos() ) then
+		if ply:Location() == Location.Find( v:GetPos() ) then
 			v:CloseVault()
 		end
 	end

@@ -29,7 +29,7 @@ function ENT:Think()
     local tbl = {}
 
     for k,v in pairs( player.GetAll() ) do
-      if v.Location == 26 then
+      if v:Location() == 26 then
         table.insert(tbl, v)
       end
     end

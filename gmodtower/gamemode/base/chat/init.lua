@@ -89,7 +89,7 @@ hook.Add( "PlayerCanSeePlayersChat", "GTChatHookLocal", function( text, team, li
 	if speaker:GetNWBool("GlobalGag") then return false end
 
 	if string.StartWith( text, "(Local)" ) then
-		if (listener.Location == speaker.Location) then return true else return false end
+		if (listener:Location() == speaker:Location()) then return true else return false end
 	else
 		return true
 	end

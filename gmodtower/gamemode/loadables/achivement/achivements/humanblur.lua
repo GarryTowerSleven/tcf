@@ -1,4 +1,4 @@
-
+/*
 GtowerAchivements:Add( ACHIVEMENTS.HUMANBLUR, {
 	Name = "Human Blur",
 	Description = "Fall from the top of the lobby.",
@@ -21,8 +21,9 @@ end )]]
 
 hook.Add("OnPlayerHitGround", "CheckHumanBlur", function( ply, inWater, onFloater, speed )
 
-	if (ply.Location == 2 && ply.LastLocation == 43) then
+	if (ply:Location() == 2 && ply.LastLocation == 43) then
 		ply:SetAchivement( ACHIVEMENTS.HUMANBLUR, 1 )
 	end
 
 end )
+*/

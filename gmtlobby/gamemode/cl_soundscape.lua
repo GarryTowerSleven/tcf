@@ -111,7 +111,7 @@ hook.Add("Location", "SoundscapeChangeLocation", function(ply, loc)
 
 		 -- spook their pants off
 
-		if loc == 1 or ply.Location == 1 then
+		if loc == 1 or ply:Location() == 1 then
 
 			soundscape.Play("somewhere", "background")
 

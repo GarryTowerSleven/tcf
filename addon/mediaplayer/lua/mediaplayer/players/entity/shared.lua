@@ -71,7 +71,7 @@ function MEDIAPLAYER:GetPos()
 end
 
 function MEDIAPLAYER:GetLocation()
-	if IsValid(self.Entity) and self.Entity.Location then
+	if IsValid(self.Entity) and self.Entity:Location() then
 		return self.Entity:Location()
 	end
 	return self._Location

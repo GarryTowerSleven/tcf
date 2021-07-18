@@ -19,7 +19,7 @@ function RemovePlayer( ply )
 	local ent
 
 	for k,v in pairs(ents.FindByClass("gmt_condo_door")) do
-		if v:GetCondoDoorType() == 1 && v:GetCondoID() == (ply.Location + 1) then
+		if v:GetCondoDoorType() == 1 && v:GetCondoID() == ply:Location() then
 			ent = v
 		end
 	end

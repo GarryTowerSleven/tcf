@@ -122,7 +122,7 @@ function ENT:Use( ply )
     if CurTime() < (ply.RingDelay or 0) then return end
     ply.RingDelay = CurTime() + 5
     self:EmitSound( Sound("GModTower/lobby/condo/doorbells/" .. bells[owner:GetInfoNum( "gmt_condodoorbell", 1 )]) .. ".wav", 80 )
-    if (owner.Location - 1) == self:GetCondoID() then
+    if (owne:Location()) == self:GetCondoID() then
       owner:EmitSound( Sound("GModTower/lobby/condo/doorbells/" .. bells[owner:GetInfoNum( "gmt_condodoorbell", 1 )]) .. ".wav" )
     end
 

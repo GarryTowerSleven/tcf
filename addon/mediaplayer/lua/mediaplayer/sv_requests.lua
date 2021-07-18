@@ -36,7 +36,7 @@ local songpick
 
 net.Receive( "MEDIAPLAYER.VoteMedia", RequestWrapper(function(mp, ply)
 
-	if (ply.Location != Location.Find(mp.Entity:GetPos())) then return end
+	if (ply:Location() != Location.Find(mp.Entity:GetPos())) then return end
 
 	if songpick == nil then
 		songpick = MediaPlayer.VoteManager:New( mp )
@@ -55,11 +55,11 @@ local MediaVoteSkip
 
 net.Receive( "MEDIAPLAYER.Voteskip", RequestWrapper(function(mp, ply)
 
-	if (ply.Location != Location.Find(mp.Entity:GetPos())) then return end
+	if (ply:Location() != Location.Find(mp.Entity:GetPos())) then return end
 
-	local LastMediaLocation = ply.Location
+	local LastMediaLocation = ply:Location()
 
-	if (MediaVoteSkip == nil || LastMediaLocation != ply.Location) then
+	if (MediaVoteSkip == nil || LastMediaLocation != ply:Location()) then
 		MediaVoteSkip = MediaPlayer.VoteskipManager:New( mp, ratio )
 	end
 
@@ -129,7 +129,7 @@ net.Receive( "MEDIAPLAYER.RequestMedia", RequestWrapper(function(mp, ply)
 
 	local allowWebpage = MediaPlayer.Cvars.AllowWebpages:GetBool()
 
-	if ply.Location == 26 || ply.Location == 27 then
+	if ply:Location() == 26 || ply:Location() == 27 then
 		allowWebpage = false // Prevent webpage requests in the Nightclub
 	end
 

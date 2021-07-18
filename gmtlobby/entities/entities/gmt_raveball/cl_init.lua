@@ -39,7 +39,7 @@ end)
 
 local function DrawRave(self)
 	local myloc = (LocalPlayer():Location() or 0)
-	if myloc == self.Location then return true end
+	if myloc == self:Location() then return true end
 	return false
 end
 
