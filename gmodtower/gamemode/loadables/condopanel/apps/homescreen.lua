@@ -31,7 +31,7 @@ end
 
 local function NetLock(ply,lock)
 	if (LocalPlayer() != ply) then return end
-	local num = (LocalPlayer().Location - 1)
+	local num = (LocalPlayer():Location() - 1)
 
 	RunConsoleCommand("gmt_roomkick")
 	net.Start("gmt_lockcondo")
@@ -53,7 +53,7 @@ function APP:Start()
 	self.condoUnLockButton = {
 		icon = Icons["lock"],
 		name = "Unlock Condo",
-		func = function() local owner = GtowerRooms:RoomOwner( LocalPlayer().Location - 1 )
+		func = function() local owner = GtowerRooms:RoomOwner( LocalPlayer():Location() - 1 )
 			owner.GRoomLock = false
 			NetLock(owner,false)
 			self.homebuttons[1] = self.condoLockButton
@@ -64,7 +64,7 @@ function APP:Start()
 		icon = Icons["unlock"],
 		name = "Lock Condo",
 		func = function()
-			local owner = GtowerRooms:RoomOwner( LocalPlayer().Location - 1 )
+			local owner = GtowerRooms:RoomOwner( LocalPlayer():Location() - 1 )
 			if owner:GetNWBool("Party") then return end
 			owner.GRoomLock = true
 			NetLock(owner,true)
@@ -114,7 +114,7 @@ end
 
 function APP:IsCondoLocked()
 
-	local loc = LocalPlayer().Location
+	local loc = LocalPlayer():Location()
 	local owner = GtowerRooms:RoomOwner( loc - 1 )
 	return IsValid(owner) and owner.GRoomLock
 

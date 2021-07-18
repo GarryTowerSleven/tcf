@@ -15,6 +15,7 @@ local IsValid = IsValid
 local _G = _G
 local print = print
 local string = string
+local Location = Location
 
 module("Suite")
 
@@ -176,11 +177,11 @@ end
 
 function PlayerInRoom( self, ply )
 	--return ply:Location() == self.LocationId
-	return Location.Find(ply:GetPos()) == self.LocationId
+	return ply:Location() == self.LocationId
 end
 
 function OwnerInRoom( self )
-	return Location.Find(self.Owner:GetPos()) == self.LocationId
+	return self.Owner:Location() == self.LocationId
 end
 
 function EntCount( self )

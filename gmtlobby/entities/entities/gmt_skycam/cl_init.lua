@@ -171,7 +171,7 @@ hook.Add("OverrideSkyCamera", "GMTSkyCameraTest", function(eyepos, eyeangles, sk
 
 
 
-	local locID = LocalPlayer().Location
+	local locID = LocalPlayer():Location()
 	local offsets, isOffset = GetSkyBoxOffset(locID)
 
 

@@ -219,7 +219,7 @@ if CLIENT then
 
 		-- Only bother updating when they're in the boardwalk
 
-		local plyLoc = LocalPlayer().Location--Location.Get(LocalPlayer():Location())
+		local plyLoc = LocalPlayer():Location()--Location.Get(LocalPlayer():Location())
 
 		--if not plyLoc or plyLoc.Group ~= "boardwalk" then return end
 

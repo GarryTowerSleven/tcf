@@ -338,7 +338,7 @@ function APP:DrawItemStatus()
 	DrawLabel( "CONDO STORAGE", 0, 70, sideBarWidth )
 
 	local items, max = 0, 100
-	local room = LocalPlayer().Location - 1
+	local room = LocalPlayer():Location() - 1
 
 	if room and IsValid( GtowerRooms:RoomOwner(room) ) then
 		items = GtowerRooms:RoomOwner(room).GRoomEntityCount

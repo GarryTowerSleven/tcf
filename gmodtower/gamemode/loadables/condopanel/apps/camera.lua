@@ -151,7 +151,7 @@ if CLIENT then
 		end
 
 		-- Check if the local player is in the same room as this
-		local plyLoc = LocalPlayer().Location--Location.Get(LocalPlayer():Location())
+		local plyLoc = LocalPlayer():Location()--Location.Get(LocalPlayer():Location())
 		local selfLoc = self.E:GetNWInt("condoID")+1--Location.Get(self.E:Location())
 		if not plyLoc or not selfLoc then
 			return
