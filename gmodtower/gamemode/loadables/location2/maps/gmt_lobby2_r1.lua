@@ -14,7 +14,7 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,0,-1),
-						dist = -14460,
+						dist = -14450,
 					},
 					[4] = {
 						normal = Vector(1,0,0),
@@ -29,7 +29,7 @@ Location.LoadMapData( {
 						dist = 15016,
 					},
 				},
-				min = Vector(102,8416,14460),
+				min = Vector(102,8416,14450),
 			},
 		},
 		FriendlyName = "Condo #1",
@@ -53,7 +53,7 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,0,-1),
-						dist = -14460,
+						dist = -14450,
 					},
 					[4] = {
 						normal = Vector(1,0,0),
@@ -68,7 +68,7 @@ Location.LoadMapData( {
 						dist = 15016,
 					},
 				},
-				min = Vector(102,13024,14460),
+				min = Vector(102,13024,14450),
 			},
 		},
 		FriendlyName = "Condo #2",
@@ -92,7 +92,7 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,0,-1),
-						dist = -14460,
+						dist = -14450,
 					},
 					[4] = {
 						normal = Vector(1,0,0),
@@ -107,7 +107,7 @@ Location.LoadMapData( {
 						dist = 15016,
 					},
 				},
-				min = Vector(-4506,13024,14460),
+				min = Vector(-4506,13024,14450),
 			},
 		},
 		FriendlyName = "Condo #3",
@@ -131,7 +131,7 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,0,-1),
-						dist = -14460,
+						dist = -14450,
 					},
 					[4] = {
 						normal = Vector(1,0,0),
@@ -146,7 +146,7 @@ Location.LoadMapData( {
 						dist = 15016,
 					},
 				},
-				min = Vector(-9114,13024,14460),
+				min = Vector(-9114,13024,14450),
 			},
 		},
 		FriendlyName = "Condo #4",
@@ -170,7 +170,7 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,0,-1),
-						dist = -14460,
+						dist = -14450,
 					},
 					[4] = {
 						normal = Vector(1,0,0),
@@ -185,7 +185,7 @@ Location.LoadMapData( {
 						dist = 15016,
 					},
 				},
-				min = Vector(-13722,13024,14460),
+				min = Vector(-13722,13024,14450),
 			},
 		},
 		FriendlyName = "Condo #5",
@@ -209,7 +209,7 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,0,-1),
-						dist = -14460,
+						dist = -14450,
 					},
 					[4] = {
 						normal = Vector(1,0,0),
@@ -224,7 +224,7 @@ Location.LoadMapData( {
 						dist = 15016,
 					},
 				},
-				min = Vector(-4506,8416,14460),
+				min = Vector(-4506,8416,14450),
 			},
 		},
 		FriendlyName = "Condo #6",
@@ -248,7 +248,7 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,0,-1),
-						dist = -14460,
+						dist = -14450,
 					},
 					[4] = {
 						normal = Vector(1,0,0),
@@ -263,7 +263,7 @@ Location.LoadMapData( {
 						dist = 15016,
 					},
 				},
-				min = Vector(4710,13024,14460),
+				min = Vector(4710,13024,14450),
 			},
 		},
 		FriendlyName = "Condo #7",
@@ -287,7 +287,7 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,0,-1),
-						dist = -14460,
+						dist = -14450,
 					},
 					[4] = {
 						normal = Vector(1,0,0),
@@ -302,7 +302,7 @@ Location.LoadMapData( {
 						dist = 15016,
 					},
 				},
-				min = Vector(9318,13024,14460),
+				min = Vector(9318,13024,14450),
 			},
 		},
 		FriendlyName = "Condo #8",
@@ -326,7 +326,7 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,0,-1),
-						dist = -14460,
+						dist = -14450,
 					},
 					[4] = {
 						normal = Vector(1,0,0),
@@ -341,7 +341,7 @@ Location.LoadMapData( {
 						dist = 15016,
 					},
 				},
-				min = Vector(4710,8416,14460),
+				min = Vector(4710,8416,14450),
 			},
 		},
 		FriendlyName = "Condo #9",
@@ -365,7 +365,7 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,0,-1),
-						dist = -14460,
+						dist = -14450,
 					},
 					[4] = {
 						normal = Vector(1,0,0),
@@ -380,7 +380,7 @@ Location.LoadMapData( {
 						dist = 15016,
 					},
 				},
-				min = Vector(9318,8416,14460),
+				min = Vector(9318,8416,14450),
 			},
 		},
 		FriendlyName = "Condo #10",
@@ -404,7 +404,7 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,0,-1),
-						dist = -14460,
+						dist = -14450,
 					},
 					[4] = {
 						normal = Vector(1,0,0),
@@ -419,7 +419,7 @@ Location.LoadMapData( {
 						dist = 15016,
 					},
 				},
-				min = Vector(13926,13024,14460),
+				min = Vector(13926,13024,14450),
 			},
 		},
 		FriendlyName = "Condo #11",
@@ -443,7 +443,7 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,0,-1),
-						dist = -14460,
+						dist = -14450,
 					},
 					[4] = {
 						normal = Vector(1,0,0),
@@ -458,7 +458,7 @@ Location.LoadMapData( {
 						dist = 15016,
 					},
 				},
-				min = Vector(13926,8416,14460),
+				min = Vector(13926,8416,14450),
 			},
 		},
 		FriendlyName = "Condo #12",
@@ -622,15 +622,15 @@ Location.LoadMapData( {
 	[17] = {
 		Regions = {
 			[1] = {
-				max = Vector(1023.9899902344,1440,-36),
+				max = Vector(1023.9949951172,1440,-36),
 				planes = {
 					[1] = {
 						normal = Vector(-1,0,0),
-						dist = 1856,
+						dist = 1856.0050048828,
 					},
 					[2] = {
 						normal = Vector(1,0,0),
-						dist = 1023.9899902344,
+						dist = 1023.9949951172,
 					},
 					[3] = {
 						normal = Vector(0,-1,0),
@@ -649,7 +649,7 @@ Location.LoadMapData( {
 						dist = -36,
 					},
 				},
-				min = Vector(-1856,-1448,-966.10906982422),
+				min = Vector(-1856.0050048828,-1448,-966.10906982422),
 			},
 		},
 		FriendlyName = "Stores",
@@ -1848,7 +1848,7 @@ Location.LoadMapData( {
 	[36] = {
 		Regions = {
 			[1] = {
-				max = Vector(1024,-1440,-428.00302124023),
+				max = Vector(1024,-1440,-428.00106811523),
 				planes = {
 					[1] = {
 						normal = Vector(-1,0,0),
@@ -1868,14 +1868,14 @@ Location.LoadMapData( {
 					},
 					[5] = {
 						normal = Vector(0,0,-1),
-						dist = 671.97998046875,
+						dist = 671.97802734375,
 					},
 					[6] = {
 						normal = Vector(0,0,1),
-						dist = -428.00302124023,
+						dist = -428.00106811523,
 					},
 				},
-				min = Vector(288,-2208,-671.97998046875),
+				min = Vector(288,-2208,-671.97802734375),
 			},
 			[2] = {
 				max = Vector(592.00012207031,-1395,-484),
@@ -1946,7 +1946,7 @@ Location.LoadMapData( {
 	[37] = {
 		Regions = {
 			[1] = {
-				max = Vector(7512.0004882813,704,-640),
+				max = Vector(7512.0004882813,703.99993896484,-640),
 				planes = {
 					[1] = {
 						normal = Vector(-1,0,0),
@@ -1958,11 +1958,11 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,-1,0),
-						dist = 704,
+						dist = 704.00006103516,
 					},
 					[4] = {
 						normal = Vector(0,1,0),
-						dist = 704,
+						dist = 703.99993896484,
 					},
 					[5] = {
 						normal = Vector(0,0,-1),
@@ -1974,17 +1974,17 @@ Location.LoadMapData( {
 					},
 					[7] = {
 						normal = Vector(0.001917123910971,0.49717572331429,0.86764770746231),
-						dist = -385.23238679202,
+						dist = -385.23242472352,
 					},
 					[8] = {
 						normal = Vector(0,-0.51711565256119,0.85591554641724),
-						dist = -382.30897734732,
+						dist = -382.30893789452,
 					},
 				},
 				min = Vector(5720,-704.00006103516,-1328),
 			},
 			[2] = {
-				max = Vector(5720,272,-640),
+				max = Vector(5720,271.9997253418,-640),
 				planes = {
 					[1] = {
 						normal = Vector(-1,0,0),
@@ -1996,11 +1996,11 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,-1,0),
-						dist = 272,
+						dist = 272.0002746582,
 					},
 					[4] = {
 						normal = Vector(0,1,0),
-						dist = 272,
+						dist = 271.9997253418,
 					},
 					[5] = {
 						normal = Vector(0,0,-1),
@@ -2011,7 +2011,7 @@ Location.LoadMapData( {
 						dist = -640,
 					},
 				},
-				min = Vector(5384,-272,-928),
+				min = Vector(5384,-272.0002746582,-928),
 			},
 		},
 		FriendlyName = "Transit Station",
@@ -2442,7 +2442,7 @@ Location.LoadMapData( {
 	[46] = {
 		Regions = {
 			[1] = {
-				max = Vector(-4858,2110,1280),
+				max = Vector(-4858,2109.9997558594,1280),
 				planes = {
 					[1] = {
 						normal = Vector(-1,0,0),
@@ -2454,11 +2454,11 @@ Location.LoadMapData( {
 					},
 					[3] = {
 						normal = Vector(0,-1,0),
-						dist = 2304,
+						dist = 2304.0002441406,
 					},
 					[4] = {
 						normal = Vector(0,1,0),
-						dist = 2110,
+						dist = 2109.9997558594,
 					},
 					[5] = {
 						normal = Vector(0,0,-1),
@@ -2469,7 +2469,7 @@ Location.LoadMapData( {
 						dist = 1280,
 					},
 				},
-				min = Vector(-6134,-2304,-1144),
+				min = Vector(-6134,-2304.0002441406,-1144),
 			},
 		},
 		FriendlyName = "Ocean",
@@ -2780,43 +2780,5 @@ Location.LoadMapData( {
 		Name = "minigolf",
 		Priority = 1,
 		Group = "games",
-	},
-	[55] = {
-		Regions = {
-			[1] = {
-				max = Vector(3120,3224,-616),
-				planes = {
-					[1] = {
-						normal = Vector(-1,0,0),
-						dist = -2856,
-					},
-					[2] = {
-						normal = Vector(1,0,0),
-						dist = 3120,
-					},
-					[3] = {
-						normal = Vector(0,-1,0),
-						dist = -3048,
-					},
-					[4] = {
-						normal = Vector(0,1,0),
-						dist = 3224,
-					},
-					[5] = {
-						normal = Vector(0,0,-1),
-						dist = 888,
-					},
-					[6] = {
-						normal = Vector(0,0,1),
-						dist = -616,
-					},
-				},
-				min = Vector(2856,3048,-888),
-			},
-		},
-		FriendlyName = "???",
-		Name = "secret1",
-		Priority = 2,
-		Group = "",
 	},
 } )
