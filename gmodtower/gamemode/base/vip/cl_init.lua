@@ -18,7 +18,7 @@ function CheckVIPHalos( ply )
 
 	VIPHalos = {}
 
-	for _, ply2 in pairs( GTowerLocation:GetPlayersInLocation( ply.GLocation ) ) do
+	for _, ply2 in pairs( Location.GetPlayersInLocation( ply.Location ) ) do
 
 		if !ply2:IsPlayer() || !ply2:IsVIP() then continue end
 		--if ply2:IsTransparent() or ply2:IsNoDrawAll() then continue end

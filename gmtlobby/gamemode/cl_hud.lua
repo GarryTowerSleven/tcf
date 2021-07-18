@@ -221,7 +221,7 @@ GTowerHUD.MaxAmmo = {}
 		draw.SimpleShadowText( "GMC", GTowerHUD.Location.Font, x + tw + 4, y + 6, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
 		
 		-- Location
-		local location = GTowerLocation:GetName( GTowerLocation:GetPlyLocation( LocalPlayer() ) ) or "Unknown"
+		local location = Location.GetFriendlyName( LocalPlayer():Location() ) or "Unknown"
 
 		if GTowerHUD.Location.Enabled:GetBool() then
 				local location = string.upper( location )
@@ -356,7 +356,7 @@ GTowerHUD.MaxAmmo = {}
 	function GTowerHUD.DrawHealth()
 
 		// i dont see why not
-		if !HUDStyle_Lobby1AB && !Location.IsDuelArena( LocalPlayer().GLocation ) then return end
+		if !HUDStyle_Lobby1AB && !Location.Is( LocalPlayer():Location(), "duelarena" ) then return end
 
 		local w = GTowerHUD.Info.Width
 		local h = 8

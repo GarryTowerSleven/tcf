@@ -2,7 +2,7 @@ local Vector, Angle = Vector, Angle
 local CurTime = CurTime
 
 local IsValid = IsValid
-local GTowerLocation = GTowerLocation
+local Location = Location
 
 module("minigames.balloonpop")
 

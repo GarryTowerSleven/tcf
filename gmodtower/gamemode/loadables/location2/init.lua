@@ -1,17 +1,21 @@
-AddCSLuaFile("shared.lua")
-AddCSLuaFile("cl_init.lua")
-include("shared.lua")
-include("teleport.lua")
-module("Location", package.seeall)
+AddCSLuaFile( "cl_init.lua" )
+AddCSLuaFile( "sh_meta.lua" )
+AddCSLuaFile( "shared.lua" )
+
+include( "shared.lua" )
+include( "sh_meta.lua" )
+
 local lastupdate = 0
 
 hook.Add("Think", "GTowerLocation", function(ply)
     if lastupdate < CurTime() then
-        for _, ply in ipairs(player.GetAll()) do
-            local PlyPlace = Location.Find(ply:GetPos())
+        for _, ply in ipairs( player.GetAll() ) do
+            local PlyPlace = Location.Find( ply:GetPos() )
+            local friendlyname = Location.GetFriendlyName( PlyPlace )
 
             if PlyPlace != ply.Location then
                 ply.LastLocation = ply.Location
+                ply.LocationName = friendlyname
                 ply.Location = PlyPlace
                 hook.Call("Location", GAMEMODE, ply, ply.Location)
             end
@@ -21,29 +25,7 @@ hook.Add("Think", "GTowerLocation", function(ply)
     end
 end)
 
-/* We'll fix later since there's no players anyway lol */
-//hook.Add("PlayerCanHearPlayersVoice", "GMTBarTalk", function(listener, talker) 
-//	local group = talker:GetGroup() --Maybe i should add some check if groups module turned on?
-//	if group then return end
-//	if (listener:Location() == 39 and talker:Location() == 39) or (listener:Location() == 40 and talker:Location() == 40) then
-//		return true
-//	end
-//end)
-function LocationRP(pos)
-    local rp = RecipientFilter()
-
-    for _, v in pairs(player.GetAll()) do
-        if v:Location() == pos then
-            rp:AddPlayer(v)
-        end
-    end
-
-    return rp
-end
-
-RP = LocationRP //Alias to get RP
 local Player = FindMetaTable("Player")
-
 if Player then
     function Player:LastLocation()
         return self._LastLocation

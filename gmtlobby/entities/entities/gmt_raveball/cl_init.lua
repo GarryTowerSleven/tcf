@@ -38,7 +38,7 @@ net.Receive("gmt_raveset",function()
 end)
 
 local function DrawRave(self)
-	local myloc = (GTowerLocation:GetPlyLocation( LocalPlayer() ) or 0)
+	local myloc = (LocalPlayer():Location() or 0)
 	if myloc == self.Location then return true end
 	return false
 end

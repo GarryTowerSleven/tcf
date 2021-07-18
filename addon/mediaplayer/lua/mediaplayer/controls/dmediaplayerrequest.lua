@@ -54,7 +54,7 @@ function PANEL:Init()
 	end )
 
 	local requestUrl = MediaPlayer.GetConfigValue( 'request.url' )
-	if LocalPlayer().GLocation == 26 || LocalPlayer().GLocation == 27 then
+	if LocalPlayer().Location == 26 || LocalPlayer().Location == 27 then
 		requestUrl = "http://ruch.site.nfoservers.com/clubrequest/request.html"
 	end
 	self.Browser:OpenURL( requestUrl )

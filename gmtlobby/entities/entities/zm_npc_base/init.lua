@@ -45,7 +45,7 @@ function ENT:Initialize()
 
 	if self:GetClass() == "ghost_mutant" && IsHalloweenMap() then
 		timer.Create( "CheckInsideTower"..self:EntIndex(), 2, 0, function()
-			if GTowerLocation:FindPlacePos( self:GetPos() ) != 15 then
+			if Location.Find( self:GetPos() ) != 15 then
 				self:SetPos(Vector(6629.1401367188, -810.82995605469, -470.92190551758))
 			end
 		end)

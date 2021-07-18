@@ -177,7 +177,7 @@ function ENT:SetIn( ply, amt, network )
 			net.WriteEntity( ply )
 			net.WriteInt( self.Network.IN, 4 )
 			net.WriteInt( self:GetIn( ply ), 32 )
-		net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
+		net.Send( Location.GetPlayersInLocation( Location.Find( self:GetPos() ) ) )
 
 	end
 

@@ -220,7 +220,7 @@ if SERVER then
 	end )
 
 	hook.Add( "Location", "UpdateDoorUpgrades", function( ply, loc )
-		local condoid = GTowerLocation:GetCondoID( loc )
+		local condoid = Location.GetCondoID( loc )
 		if condoid then
 			local room = GtowerRooms.GetOwner( condoid ):GetRoom()
 			if room then

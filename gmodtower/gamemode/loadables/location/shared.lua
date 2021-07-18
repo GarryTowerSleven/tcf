@@ -32,11 +32,11 @@ function GTowerLocation:Add( id, name )
 
 end
 
-function GTowerLocation:GetName( id )
+function Location.GetFriendlyName( id )
 	return self.Locations[ id ]
 end
 
-function GTowerLocation:FindPlacePos( pos )
+function Location.Find( pos )
 	local HookTbl = hook.GetTable().FindLocation
 
 	if HookTbl then
@@ -54,7 +54,7 @@ function GTowerLocation:FindPlacePos( pos )
 end
 
 function GTowerLocation:GetPlyLocation( ply )
-	return (ply.GLocation || 0)
+	return (ply.Location || 0)
 end
 
 function GTowerLocation:InBox( pos, vec1, vec2 )
@@ -67,7 +67,7 @@ local function LocationChanged( ply, var, old, new )
 	hook.Call("Location", GAMEMODE, ply, new )
 end
 
-function GTowerLocation:GetPlayersInLocation( location )
+function Location.GetPlayersInLocation( location )
 
 	if isstring( location ) then
 
@@ -91,9 +91,9 @@ function GTowerLocation:GetPlayersInLocation( location )
 
 end
 
-function GTowerLocation:GetCondoID( location )
+function Location.GetCondoID( location )
 	// this sucks but it'll do until we switch to lobby 2's systems
-	local na = GTowerLocation:GetName( location )
+	local na = Location.GetFriendlyName( location )
 	if na then
 		if !string.StartWith( string.lower( na ), "condo #" ) then return end
 
@@ -102,7 +102,7 @@ function GTowerLocation:GetCondoID( location )
 end
 
 RegisterNWTablePlayer({
-	{"GLocation", 0, NWTYPE_CHAR, REPL_EVERYONE, LocationChanged },
+	{"Location", 0, NWTYPE_CHAR, REPL_EVERYONE, LocationChanged },
 })
 
 
@@ -116,7 +116,7 @@ end
 concommand.Add("gmt_showlocations", function( ply, cmd, args )
 
 	for k, v in ipairs( MapPositions ) do
-		Msg( k .. ". " , GTowerLocation:GetName( v[1] ), " (".. v[1] ..")\n" )
+		Msg( k .. ". " , Location.GetFriendlyName( v[1] ), " (".. v[1] ..")\n" )
 		Msg("\t", v[2], "\n" )
 		Msg("\t", v[3], "\n" )
 	end

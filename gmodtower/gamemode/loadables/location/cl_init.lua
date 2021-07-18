@@ -10,7 +10,7 @@ hook.Add("GTowerScorePlayer", "AddLocation", function()
 		4, 
 		150, 
 		function(ply) 
-			ply.GLocation = nil
+			ply.Location = nil
 			return ply:LocationName()
 		end, 
 		95 

@@ -118,7 +118,7 @@ if CLIENT then
 			render.RenderView(CamData)
 
 			local pos
-			for _, ply in pairs( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos(CamData.origin) ) ) do
+			for _, ply in pairs( Location.GetPlayersInLocation( Location.Find(CamData.origin) ) ) do
 
 				if ply:GetNoDraw() then continue end
 				pos = util.GetCenterPos( ply )
@@ -151,7 +151,7 @@ if CLIENT then
 		end
 
 		-- Check if the local player is in the same room as this
-		local plyLoc = LocalPlayer().GLocation--Location.Get(LocalPlayer():Location())
+		local plyLoc = LocalPlayer().Location--Location.Get(LocalPlayer():Location())
 		local selfLoc = self.E:GetNWInt("condoID")+1--Location.Get(self.E:Location())
 		if not plyLoc or not selfLoc then
 			return
@@ -206,10 +206,14 @@ end
 if SERVER then
 	-- Since the camera is in a different part of the map, the client needs to know about it
 	hook.Add("SetupPlayerVisibility", "GMTViewCurrentCamera", function(ply)
-		local loc = ply.GLocation--Location.Get(ply:Location())
+		local loc = Location.Get(ply:Location())
+		if not loc or not loc.CondoID then return end 
 
-		if Location.IsCondo(loc) then
-			AddOriginToPVS( Vector(-2013.2415771484, 300.142578125, 15113.93359375) )
+		-- Get the room object and the door camera within
+		local room = GTowerRooms:Get(loc.CondoID)
+		if (room and IsValid(room.DoorCam)) then
+			-- Add the door camera position to the pvs so clients can see it 
+			AddOriginToPVS( room.DoorCam:GetPos() )
 		end
 	end )
 

@@ -13,10 +13,10 @@ util.AddNetworkString("NetworkScores")
 
 net.Receive("gmt_closevault",function(len, ply)
 
-	if Location.IsCondo(ply.GLocation) then
+	if ply:Location().CondoID then
 
 	for k,v in pairs( ents.FindByClass("gmt_condo_vault") ) do
-		if ply.GLocation == GTowerLocation:FindPlacePos( v:GetPos() ) then
+		if ply.Location == Location.Find( v:GetPos() ) then
 			v:CloseVault()
 		end
 	end

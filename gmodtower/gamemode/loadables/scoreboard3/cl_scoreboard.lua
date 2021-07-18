@@ -719,7 +719,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 		if Location then
 
 			--players = FilteredPlayerList( Location.GetPlayersInLocation( LocalPlayer():Location(), true ) )
-			players = FilteredPlayerList( GTowerLocation:GetPlayersInLocation( GTowerLocation:GetPlyLocation( LocalPlayer() ) ) )
+			players = FilteredPlayerList( Location.GetPlayersInLocation( LocalPlayer():Location(), true ) )
 
 
 
@@ -730,34 +730,18 @@ function PLAYERS:GetPlayerList( tabname, count )
 
 
 				-- Get location name
-
-				local title = GTowerLocation:GetName( GTowerLocation:GetPlyLocation( LocalPlayer() ) )
-
-
+				local title = LocalPlayer():LocationName()
 
 				-- Get room owner
-
-				if Location.IsCondo(LocalPlayer().GLocation) then
-
-				local RoomID = (LocalPlayer().GLocation - 1)--Location.GetCondoID( GTowerLocation:GetPlyLocation( LocalPlayer() ) )
-
+				local RoomID = Location.GetCondoID( LocalPlayer():Location() )
 				if RoomID then
-
-					local Room = GtowerRooms:Get( RoomID )
-
+					local Room = GTowerRooms:Get( RoomID )
 					if Room and IsValid( Room.Owner ) then
-
 						title = title .. " - Owner: " .. Room.Owner:GetName()
-
 					end
-
 				end
-
-
 
 				self:SetTitle( title )
-
-				end
 
 
 

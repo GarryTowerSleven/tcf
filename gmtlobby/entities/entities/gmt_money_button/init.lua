@@ -119,7 +119,7 @@ self:NetworkVar( "Entity", 1, "NextUsePlayer" )	--Who's the next in line to hold
 */
 
 hook.Add( "KeyPress", "MoneyBtnPress", function( ply, key )
-  if key != IN_USE || ply.GLocation != 56 then return end
+  if key != IN_USE || ply.Location != 56 then return end
 
   local button = ents.FindByClass("gmt_money_button")[1]
 

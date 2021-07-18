@@ -208,27 +208,27 @@ function MediaPlayer.ShowSidebar( mp )
 		end
 	end
 
-	if LocalPlayer().GLocation == 39 then
+	if LocalPlayer().Location == 39 then
 		local ent
 		for k,v in pairs(ents.FindByClass('gmt_jukebox')) do
-			if GTowerLocation:FindPlacePos(v:GetPos()) == 39 then ent = v end
+			if Location.Find(v:GetPos()) == 39 then ent = v end
 		end
 		
 		if IsValid(ent) then
 			mp = MediaPlayer.GetByObject( ent )
 		end
-	elseif LocalPlayer().GLocation == 10 then
+	elseif LocalPlayer().Location == 10 then
 		local ent
 		for k,v in pairs(ents.FindByClass('gmt_jukebox')) do
-			if GTowerLocation:FindPlacePos(v:GetPos()) == 10 then ent = v end
+			if Location.Find(v:GetPos()) == 10 then ent = v end
 		end
 		
 		if IsValid(ent) then
 			mp = MediaPlayer.GetByObject( ent )
 		end
-	elseif LocalPlayer().GLocation == 26 || LocalPlayer().GLocation == 27 then
+	elseif LocalPlayer().Location == 26 || LocalPlayer().Location == 27 then
 		for k,v in pairs(ents.FindByClass('gmt_club_dj')) do
-			if GTowerLocation:FindPlacePos(v:GetPos()) == 26 then ent = v end
+			if Location.Find(v:GetPos()) == 26 then ent = v end
 		end
 		
 		if IsValid(ent) then

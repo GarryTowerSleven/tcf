@@ -54,10 +54,10 @@ function soundscape.GetMusicSoundscape(loc)
 		return "music_condos"
 	end
 
-	if GTowerLocation:GetGroup(loc) == nil then return end
+	if Location.GetGroup(loc) == nil then return end
 
 	-- First, see if there's a soundscape defined for the current specific location
-	local scape = soundscape.IsDefined("music_" .. GTowerLocation:GetGroup(loc)) and "music_" .. GTowerLocation:GetGroup(loc) or nil
+	local scape = soundscape.IsDefined("music_" .. Location.GetGroup(loc)) and "music_" .. Location.GetGroup(loc) or nil
 	scape = scape and string.lower(scape) or nil
 
 	-- if it's registered, return
@@ -65,17 +65,17 @@ function soundscape.GetMusicSoundscape(loc)
 
 	-- Move on to any overrides before we get to a 'group' soundscape
 	-- Play a super quiet soundscape when they're in the movie theater itself
-	if GTowerLocation:GetGroup(loc) == "theater" and GTowerLocation:GetName(loc) ~= "theatermain" then
+	if Location.GetGroup(loc) == "theater" and Location.GetFriendlyName(loc) ~= "theatermain" then
 		return "music_theater_inside"
 	end
 
 	-- When in the stores, stop playing the plaza soundscape
-	if GTowerLocation:GetGroup(loc) == "stores" and GTowerLocation:GetName(loc) ~= "stores" then
+	if Location.GetGroup(loc) == "stores" and Location.GetFriendlyName(loc) ~= "stores" then
 		return "music_stores_inside"
 	end
 
 	-- Just use default methods to find the soundscape
- 	scape = GTowerLocation:GetGroup(loc)
+ 	scape = Location.GetGroup(loc)
 
 	-- Return what we've got
 	return (scape and soundscape.IsDefined("music_" .. scape) ) and string.lower("music_" .. scape) or nil
@@ -92,7 +92,7 @@ hook.Add("Location", "MusicscapeChangeLocation", function(ply, loc)
 	if not Enabled:GetBool() then return end
 
 	-- Retrieve the two locations
-	local gLoc = GTowerLocation:GetGroup(loc)
+	local gLoc = Location.GetGroup(loc)
 
 	if gLoc == nil then gLoc = "" end
 
@@ -106,7 +106,7 @@ hook.Add("Location", "MusicscapeChangeLocation", function(ply, loc)
 
 		--print(soundscape.IsPlaying("music_global_ambient"))
 		 -- Only stop the soundscape if they're in no man's land
-		if loc == 1 or ply.GLocation == 1 then
+		if loc == 1 or ply.Location == 1 then
 			soundscape.StopChannel("music")
 
 		-- Just play an ambient music track if there's no music override here
@@ -179,10 +179,10 @@ soundscape.Register("music_global_ambient",
 
 -- Dynamically create the soundscapes based on gamemode names
 
-for k, v in pairs(GTowerLocation.Locations) do
+for k, v in pairs(Location.Locations) do
 
 
-	local name = GTowerLocation:GetGroup(k)
+	local name = Location.GetGroup(k)
 
 	local gmode = GTowerServers:GetGamemode( name )
 

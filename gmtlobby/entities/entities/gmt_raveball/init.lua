@@ -52,7 +52,7 @@ function ENT:Initialize()
 
 		if self.StartPos == 0 then self.StartPos = self:GetPos() end
 
-		local curloc = GTowerLocation:FindPlacePos(self:GetPos())
+		local curloc = Location.Find(self:GetPos())
 
 		if self.StartLoc == 0 then self.StartLoc = curloc end
 

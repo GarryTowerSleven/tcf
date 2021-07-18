@@ -317,11 +317,11 @@ function meta:DropItem( slot, aim, rotation )
 		end
 	end
 
-	if Item.RemoveOnTheater == true && GTowerLocation:FindPlacePos(self:GetPos()) == 33 || Item.RemoveOnTheater == true && GTowerLocation:FindPlacePos(self:GetPos()) == 34 then
+	if Item.RemoveOnTheater == true && Location.Find(self:GetPos()) == 33 || Item.RemoveOnTheater == true && Location.Find(self:GetPos()) == 34 then
 		return
 	end
 
-	if Item.RemoveOnNarnia == true && GTowerLocation:FindPlacePos(self:GetPos()) == 51 then
+	if Item.RemoveOnNarnia == true && Location.Find(self:GetPos()) == 51 then
 		return
 	end
 
@@ -368,7 +368,7 @@ function meta:DropItem( slot, aim, rotation )
 			DropEnt.PlayerOwner = self
 		end
 
-		if Item.AllowDropLocation && !ClientSettings:Get( self, "GTAllowInvAllEnts" ) && !Item.AllowAnywhereDrop && !Location.IsCondo(GTowerLocation:FindPlacePos(DropEnt:GetPos())) && GTowerLocation:FindPlacePos( DropEnt:GetPos() ) != Item.AllowDropLocation then
+		if Item.AllowDropLocation && !ClientSettings:Get( self, "GTAllowInvAllEnts" ) && !Item.AllowAnywhereDrop && !Location.Find(DropEnt:GetPos()).CondoID && Location.Find( DropEnt:GetPos() ) != Item.AllowDropLocation then
 			DropEnt:Remove()
 			return
 		end

@@ -13,7 +13,7 @@ local MusicLocs = {
 
 function KickInBeats()
 
-  if !MusicLocs[LocalPlayer().GLocation] then return end
+  if !MusicLocs[LocalPlayer().Location] then return end
 
   sound.PlayURL("http://k007.kiwi6.com/hotlink/2zpezorup1/aiboss.mp3",
   "",

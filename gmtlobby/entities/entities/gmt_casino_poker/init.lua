@@ -32,7 +32,7 @@ function ENT:ClearPlayerActions(ply)
 		net.WriteEntity( ply )
 		net.WriteInt( self.Network.ACTION, 4 )
 		net.WriteInt( self.Actions.NONE, 4 )
-	net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
+	net.Send( Location.GetPlayersInLocation( Location.Find( self:GetPos() ) ) )
 end
 
 // CONCOMMANDS
@@ -59,7 +59,7 @@ concommand.Add( "gmt_poker_call", function( ply, cmd, args )
 		net.WriteEntity( ply )
 		net.WriteInt( self.Network.ACTION, 4 )
 		net.WriteInt( self.Actions.CALL, 4 )
-	net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
+	net.Send( Location.GetPlayersInLocation( Location.Find( self:GetPos() ) ) )
 
 	self:SetTime(self.BetTime+CurTime())
 	self:SetCurrentActivePlayer()
@@ -88,7 +88,7 @@ concommand.Add( "gmt_poker_raise", function( ply, cmd, args )
 		net.WriteEntity( ply )
 		net.WriteInt( self.Network.ACTION, 4 )
 		net.WriteInt( self.Actions.RAISE, 4 )
-	net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
+	net.Send( Location.GetPlayersInLocation( Location.Find( self:GetPos() ) ) )
 
 	self:SetTime(self.BetTime+CurTime())
 	self:SetCurrentActivePlayer()
@@ -122,7 +122,7 @@ concommand.Add( "gmt_poker_fold", function( ply, cmd, args )
 		net.WriteEntity( ply )
 		net.WriteInt( self.Network.ACTION, 4 )
 		net.WriteInt( fold_action, 4 )
-	net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
+	net.Send( Location.GetPlayersInLocation( Location.Find( self:GetPos() ) ) )
 
 	self:SetTime(self.BetTime+CurTime())
 	self:SetCurrentActivePlayer()
@@ -147,7 +147,7 @@ concommand.Add( "gmt_poker_discard", function( ply, cmd, args )
 		net.WriteInt( self.Network.ACTION, 4 )
 		net.WriteInt( self.Actions.DISCARD, 4 )
 		net.WriteInt( discardint, 4 )
-	net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
+	net.Send( Location.GetPlayersInLocation( Location.Find( self:GetPos() ) ) )
 
 	for k,v in pairs(discarded) do
 		if v != "" then
@@ -322,7 +322,7 @@ function ENT:Use(caller)
 			net.WriteEntity( caller )
 			net.WriteInt( self.Network.JOIN, 4 )
 			net.WriteTable( self.Players )
-		net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
+		net.Send( Location.GetPlayersInLocation( Location.Find( self:GetPos() ) ) )
 
 		if table.Count(self.Players) <= self.MaxPlayers then
 			if (self:GetState() == self.States.NOPLAY && table.Count(self.Players) >= self.MinPlayers && self:GetTime() == 0) then
@@ -360,7 +360,7 @@ function ENT:NewRound()
 		net.WriteEntity( caller )
 		net.WriteInt( self.Network.NEW, 4 )
 		net.WriteTable( self.Players )
-	net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
+	net.Send( Location.GetPlayersInLocation( Location.Find( self:GetPos() ) ) )
 
 end
 
@@ -390,7 +390,7 @@ function ENT:EndGame()
 			net.WriteEntity( self )
 			net.WriteEntity( ply )
 			net.WriteInt( self.Network.CLEAR, 4 )
-		net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
+		net.Send( Location.GetPlayersInLocation( Location.Find( self:GetPos() ) ) )
 	end )
 
 end
@@ -408,7 +408,7 @@ hook.Add( "PlayerLeaveVehicle", "LeavePokerTable", function( ply )
 			net.WriteEntity( ply )
 			net.WriteInt( self.Network.LEAVE, 4 )
 			net.WriteTable( self.Players )
-		net.Send( GTowerLocation:GetPlayersInLocation( GTowerLocation:FindPlacePos( self:GetPos() ) ) )
+		net.Send( Location.GetPlayersInLocation( Location.Find( self:GetPos() ) ) )
 
 		if (self:GetState() == self.States.STARTING && table.Count(self.Players) < self.MinPlayers) then
 			self:SetTime(0)

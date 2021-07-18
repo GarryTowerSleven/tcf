@@ -16,6 +16,27 @@ NWTYPE_ANGLE = 6
 NWTYPE_VECTOR = 7
 NWTYPE_ENTITY = 8
 
+DTVarToTransmitTools = {
+	["String"] = NWTYPE_STRING,
+	["Bool"] = NWTYPE_BOOL,
+	["Float"] = NWTYPE_FLOAT,
+	["Char"] = NWTYPE_CHAR,
+	["Short"] = NWTYPE_SHORT,
+	["Int"] = NWTYPE_NUMBER,
+	["Vector"] = NWTYPE_VECTOR,
+	["Angle"] = NWTYPE_ANGLE,
+	["Entity"] = NWTYPE_ENTITY,
+}
+DTVarDefaults = {
+	["String"] = "",
+	["Bool"] = false,
+	["Float"] = 0.0,
+	["Int"] = 0,
+	["Vector"] = Vector(0,0,0),
+	["Angle"] = Angle(0,0,0),
+	["Entity"] = Entity(0),
+}
+
 if CLIENT then
 	include("packet.lua")
 end
@@ -218,4 +239,37 @@ end
 function RegisterNWTablePlayer(nwtable)
 	// LUAJIT:
 	GetGlobalTables().Player = MergeTablesI(GetGlobalTables().Player, nwtable)
+end
+
+function ImplementNW()
+
+	ENT.__OldSetupDataTables = ENT.SetupDataTables
+
+	local function OverrideNetworkVar( self, nwType, nwIndex, nwName, nwExtend )
+
+		local default = nil
+		if type(nwExtend) != "table" then default = nwExtend end
+
+		table.insert( self.__varTable,
+			{ nwName, default or DTVarDefaults[ nwType ], DTVarToTransmitTools[ nwType ], REPL_EVERYONE }
+ 		)
+
+		self["Get" .. nwName] = function( e ) return e:GetNet( nwName ) end
+		self["Set" .. nwName] = function( e, value ) e:SetNet( nwName, value ) end
+
+	end
+
+	ENT.SetupDataTables = function( self )
+
+		self.__varTable = {}
+
+		self.NetworkVar = OverrideNetworkVar
+		self.__OldSetupDataTables( self )
+
+		RegisterNWTable( self, self.__varTable )
+
+		self.__varTable = nil
+
+	end
+
 end

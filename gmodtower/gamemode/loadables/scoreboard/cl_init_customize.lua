@@ -54,7 +54,7 @@ end
 // Subtitle (under Name)
 PlayerSubtitleText = function( ply )
 	if string.StartWith(game.GetMap(),"gmt_lobby") then
-		local text = GTowerLocation:GetName( GTowerLocation:GetPlyLocation( ply ) ) or "Unknown"
+		local text = Location.GetFriendlyName( ply:Location() ) or "Unknown"
 		return text
 	else
 		return nil
@@ -73,8 +73,8 @@ end
 // Background
 PlayerBackgroundMaterial = function( ply )
 	if game.GetMap() == "gmt_lobby2_r3" then
-	if GTowerLocation:GetPlyLocation( ply ) then
-		local location = GTowerLocation:GetPlyLocation( ply )
+	if ply:Location() then
+		local location = ply:Location()
 
 		for material, ids in pairs( Scoreboard.PlayerList.LOCATIONVALS ) do
 			if table.HasValue( ids, location ) then

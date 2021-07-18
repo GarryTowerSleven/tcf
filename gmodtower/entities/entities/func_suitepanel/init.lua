@@ -65,7 +65,7 @@ function ENT:DoorFire(str, ti)
 						if ( str == "Lock" ) then
 							v:Fire("close","")
 							for _,ply in pairs(player.GetAll()) do
-								if GtowerRooms.GetOwner(self:Id()) != ply and !ply:IsAdmin() and GTowerLocation:FindPlacePos(ply:GetPos()) == GTowerLocation:FindPlacePos(GtowerRooms.Get( self:Id() ).RefEnt:GetPos()) then
+								if GtowerRooms.GetOwner(self:Id()) != ply and !ply:IsAdmin() and Location.Find(ply:GetPos()) == Location.Find(GtowerRooms.Get( self:Id() ).RefEnt:GetPos()) then
 									Suite.RemovePlayer(ply)
 									ply:Msg2("You have been removed from a locked condo.")
 								end

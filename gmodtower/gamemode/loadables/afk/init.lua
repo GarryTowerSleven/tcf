@@ -73,7 +73,7 @@ local function GetAFKTime( ply )
 	if ( !Location ) then return AntiAFK.Time end
 	
 	--if Location.IsTheater( ply:Location() ) then
-	if GTowerLocation:IsTheater( GTowerLocation:GetName( GTowerLocation:GetPlyLocation( ply ) ) ) then
+	if Location.IsTheater( ply:Location() ) then
 		return AntiAFK.Time * 2
 	end
 	

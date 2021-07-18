@@ -183,12 +183,12 @@ if SERVER then
 		end
 
 		-- Check if they can equip it in certain locations
-		if ( Location.IsNoEntsLoc( GTowerLocation:FindPlacePos(self.Ply:GetPos()) ) ) then
+		if ( Location.IsEquippablesNotAllowed( Location.Find(self.Ply:GetPos()) ) ) then
 
 			-- Notify them
 			if not self._NoEntsLastLoc then
-				//self.Ply:MsgT( "InventoryEquipNotAllowed", self.Name, GTowerLocation:GetName(GTowerLocation:FindPlacePos(self.Ply:GetPos())) )
-				self.Ply:Msg2( T("InventoryEquipNotAllowed", self.Name, GTowerLocation:GetName(GTowerLocation:FindPlacePos(self.Ply:GetPos()))), "exclamation" )
+				//self.Ply:MsgT( "InventoryEquipNotAllowed", self.Name, Location.GetFriendlyName(Location.Find(self.Ply:GetPos())) )
+				self.Ply:Msg2( T("InventoryEquipNotAllowed", self.Name, Location.GetFriendlyName(Location.Find(self.Ply:GetPos()))), "exclamation" )
 				self._NoEntsLastLoc = true
 			end
 

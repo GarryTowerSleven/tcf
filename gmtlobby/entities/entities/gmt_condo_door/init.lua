@@ -82,11 +82,11 @@ function ENT:Use( ply )
 
   for k,v in pairs(ents.FindByClass("gmt_condo_door")) do
     if self:GetCondoDoorType() == 1 then
-      if (GTowerLocation:FindPlacePos(v:GetPos()) - 1) == self:GetCondoID() then
+      if (Location.Find(v:GetPos()) - 1) == self:GetCondoID() then
         self.TeleportEnt = v
       end
     else
-      if (GTowerLocation:FindPlacePos(self:GetPos()) - 1) == v:GetCondoID() then
+      if (Location.Find(self:GetPos()) - 1) == v:GetCondoID() then
         self.TeleportEnt = v
       end
     end
@@ -122,7 +122,7 @@ function ENT:Use( ply )
     if CurTime() < (ply.RingDelay or 0) then return end
     ply.RingDelay = CurTime() + 5
     self:EmitSound( Sound("GModTower/lobby/condo/doorbells/" .. bells[owner:GetInfoNum( "gmt_condodoorbell", 1 )]) .. ".wav", 80 )
-    if (owner.GLocation - 1) == self:GetCondoID() then
+    if (owner.Location - 1) == self:GetCondoID() then
       owner:EmitSound( Sound("GModTower/lobby/condo/doorbells/" .. bells[owner:GetInfoNum( "gmt_condodoorbell", 1 )]) .. ".wav" )
     end
 

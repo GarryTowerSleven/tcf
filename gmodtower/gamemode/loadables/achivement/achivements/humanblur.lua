@@ -21,7 +21,7 @@ end )]]
 
 hook.Add("OnPlayerHitGround", "CheckHumanBlur", function( ply, inWater, onFloater, speed )
 
-	if (ply.GLocation == 2 && ply.GLastLocation == 43) then
+	if (ply.Location == 2 && ply.LastLocation == 43) then
 		ply:SetAchivement( ACHIVEMENTS.HUMANBLUR, 1 )
 	end
 

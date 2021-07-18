@@ -181,7 +181,7 @@ end
 function Ambiance:ALocation()
 	if Ambiance.Enabled:GetBool() then
 
-		loc = GTowerLocation:GetPlyLocation( LocalPlayer() )
+		loc = LocalPlayer():Location()
 
 		// Find ambiance based on the location ID
 		local nextID = 0

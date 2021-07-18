@@ -183,7 +183,7 @@ function ENT:DrawFireAttchment( att, ply, seed )
 	render.SetMaterial( matSprite )
 	render.DrawSprite( vOffset, Scale * 32, Scale * 32, Color( 255, 0, 0, 128) )
 
-	if not Location.IsTheater( GTowerLocation:FindPlacePos(ply:GetPos()) ) then
+	if not Location.IsTheater( Location.Find(ply:GetPos()) ) then
 		self:DrawSmoke( vOffset, Scale, vNormal )
 	end
 

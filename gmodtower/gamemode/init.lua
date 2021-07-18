@@ -70,6 +70,9 @@ include("base/debug/init.lua")
 include("nwvar/shared.lua")
 include("sh_extensions.lua")
 
+include("sh_player_net.lua")
+AddCSLuaFile("sh_player_net.lua")
+
 //Nornal loads
 include("shared.lua")
 include("base/sh_player.lua")

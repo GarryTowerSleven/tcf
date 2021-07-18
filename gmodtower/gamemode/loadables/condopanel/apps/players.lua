@@ -78,12 +78,12 @@ end
 function APP:GetGuests()
 
 	local loc = self.E:GetNWInt("condoID") + 1
-	local players = GTowerLocation:GetPlayersInLocation( loc )
+	local players = Location.GetPlayersInLocation( loc )
 	local playerfiltered = {}
 
 	for _, ply in pairs( player.GetAll() ) do
 		if ply == LocalPlayer() then continue end
-		if ply.GLocation != loc then continue end
+		if ply.Location != loc then continue end
 		table.insert( playerfiltered, ply )
 	end
 

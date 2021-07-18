@@ -24,7 +24,7 @@ local _G = _G
 local print = print
 local CurTime = CurTime
 local ACHIVEMENTS = ACHIVEMENTS
-local GTowerLocation = GTowerLocation
+local Location = Location
 local EffectData = EffectData
 local util = util
 
@@ -164,7 +164,7 @@ function Start( flags )
 	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissallowResize )
 
 	for _, v in pairs( player.GetAll() ) do
-		SafeCall( CheckGiveWeapon, v, GTowerLocation:GetPlyLocation( v ) )
+		SafeCall( CheckGiveWeapon, v, v:Location() )
 	end
 
 	TotalMoney = 0
@@ -199,7 +199,7 @@ end
 
 hook.Add("ScalePlayerDamage","ObamaDamage",function(ply, h, d)
 
-	if ( OBAMA_GAME_ACTIVE and GTowerLocation:GetPlyLocation(ply) == 29 ) then
+	if ( OBAMA_GAME_ACTIVE and ply:Location() == 29 ) then
 		return true
 	end
 

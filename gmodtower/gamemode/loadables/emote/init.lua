@@ -124,7 +124,7 @@ for _, emote in pairs(Commands) do
 
 		if ply:GetModel() == "models/player/hatman.mdl" && emoteName == "dance" then
 		
-			if !Location.IsTheater( ply.GLocation ) && !Location.IsNightclub( ply.GLocation ) && !Location.IsCondo( ply.GLocation ) then
+			if !Location.IsTheater( ply.Location ) && !Location.IsNightclub( ply.Location ) && !ply:Location().CondoID then
 		
 				ply.DanceSND = CreateSound( ply, "misc/halloween/hwn_dance_loop.wav" )
 				ply.DanceSND:PlayEx( 80, 100 )

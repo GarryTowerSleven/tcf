@@ -221,8 +221,8 @@ end )
 		return
 	end
 
-	if GTowerLocation:FindPlacePos(listener:GetPos()) == nil or GTowerLocation:FindPlacePos(talker:GetPos()) == nil or Room.Owner == nil then return end
-	if GTowerLocation:FindPlacePos(listener:GetPos()) == GTowerLocation:FindPlacePos(talker:GetPos()) and Location.IsSuite(GTowerLocation:FindPlacePos(listener:GetPos())) and Room.Owner:GetSetting( 20 ) then
+	if Location.Find(listener:GetPos()) == nil or Location.Find(talker:GetPos()) == nil or Room.Owner == nil then return end
+	if Location.Find(listener:GetPos()) == Location.Find(talker:GetPos()) and Location.IsSuite(Location.Find(listener:GetPos())) and Room.Owner:GetSetting( 20 ) then
 		return true
 	end
 end)*/

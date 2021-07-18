@@ -1,27 +1,44 @@
 
 -----------------------------------------------------
-include('shared.lua')
-
-ENT.SmokeScale = 1.2
-ENT.SmokeEjectVelocity = Vector( 0, 0, 110 ) -- The vertical velocity the smoke is ejected from the engine
-ENT.SmokeOffset = Vector(6,0,6)
-
-ENT.EngineModelPath  = Model("models/sunabouzu/golf_ball.mdl")
+include('shared.lua')
+
+
+
+ENT.SmokeScale = 1.2
+
+ENT.SmokeEjectVelocity = Vector( 0, 0, 110 ) -- The vertical velocity the smoke is ejected from the engine
+
+ENT.SmokeOffset = Vector(6,0,6)
+
+
+
+ENT.EngineModelPath  = Model("models/sunabouzu/golf_ball.mdl")
+
 ENT.CarModelPath 	 = Model("models/sunabouzu/golf_ball.mdl")
 ENT.CabooseModelPath = Model("models/sunabouzu/golf_ball.mdl")
 
 ENT.LastNum = 0
 
-local ChuggaSound  = Sound( "GModTower/lobby/stores/train/track.wav" )
-local ChooChooSound = Sound( "GModTower/lobby/stores/train/whistle.wav")
-
-function ENT:Initialize()
-	self.Cars = {}
-
-	-- Generate the clientside train models
-	self:CheckModels()
-	self:DrawShadow(false)
-end
+local ChuggaSound  = Sound( "GModTower/lobby/stores/train/track.wav" )
+
+local ChooChooSound = Sound( "GModTower/lobby/stores/train/whistle.wav")
+
+
+
+function ENT:Initialize()
+
+	self.Cars = {}
+
+
+
+	-- Generate the clientside train models
+
+	self:CheckModels()
+
+	self:DrawShadow(false)
+
+end
+
 
 function ENT:DrawSmokeParticles( vel, color )
 
@@ -90,9 +107,10 @@ end
 
 local HIOStartPos = Vector(7068.599609375, -5543.7153320313, -886.65618896484)
 
-function ENT:Think()
+function ENT:Think()
 
-	if LocalPlayer().GLocation != 28 && LocalPlayer().GLocation != 55 && LocalPlayer().GLocation != 54 then
+
+	if LocalPlayer():Location() != 28 && LocalPlayer():Location() != 55 && LocalPlayer():Location() != 54 then
 		if LocalPlayer().FixedBall then return end
 		LocalPlayer().FixedBall = true
 
@@ -141,41 +159,68 @@ function ENT:Think()
 		end
 	end
 
-	self:CheckModels()
-
-	-- Go through each car, finding its accordant position
-	for i=1, self.CarCount do
-		local car = self.Cars[i]
-
-		-- Something is wrong, have CheckModels run another frame
-		if not IsValid(car) then break end
-
-		local pos, ang, num = self:GetPosAngle(i * -18, car.Num )
-
-		-- Use to give a hint for the linear curve distance for performance
-		car.Num = num
-
-		ang:RotateAroundAxis(ang:Up(), 90)
-		pos = pos - Vector(0,0,3)
-
-		-- Just store the position for the first one for useful things
-		if i == 1 then self.TrainPos = pos end
+	self:CheckModels()
+
+
+
+	-- Go through each car, finding its accordant position
+
+	for i=1, self.CarCount do
+
+		local car = self.Cars[i]
+
+
+
+		-- Something is wrong, have CheckModels run another frame
+
+		if not IsValid(car) then break end
+
+
+
+		local pos, ang, num = self:GetPosAngle(i * -18, car.Num )
+
+
+
+		-- Use to give a hint for the linear curve distance for performance
+
+		car.Num = num
+
+
+
+		ang:RotateAroundAxis(ang:Up(), 90)
+
+		pos = pos - Vector(0,0,3)
+
+
+
+		-- Just store the position for the first one for useful things
+
+		if i == 1 then self.TrainPos = pos end
+
 
 		local curPos = car:GetPos()
 		local pos2 = LerpVector(5*FrameTime(),curPos,pos)
 
-		car:SetPos(pos)
-		car:SetAngles(Angle(CurTime() * -1400,0,0))
+		car:SetPos(pos)
+
+		car:SetAngles(Angle(CurTime() * -1400,0,0))
+
 
 		local num
 
-	for k=1, #self.Curve.KeyPoints do
-		if self.Curve.KeyPoints[k].TotalDistance > self:GetDistance() then
-			num = k
+	for k=1, #self.Curve.KeyPoints do
+
+		if self.Curve.KeyPoints[k].TotalDistance > self:GetDistance() then
+
+			num = k
+
 			self:DoEffects(k)
-			break
-		end
-	end
+			break
+
+		end
+
+	end
+
 
 		local colors = {
 			Color( 200, 0, 0 ),
@@ -192,58 +237,110 @@ function ENT:Think()
 			car:SetColor( clr )
 		end
 
-	end
+	end
 
-
-end
-
--- Return the train model based on its position in the track
-function ENT:GetTrainModel( index )
-
-	if index == 1 then
-		return self.EngineModelPath
-	elseif index == self.CarCount then return
-		self.CabooseModelPath
-	end
-
-	return self.CarModelPath
-end
-
--- Check the validity of the clientside models, recreating/refreshing as necessary
-function ENT:CheckModels()
-
-	-- If our car count changed, regenerate the cars
-	if #self.Cars ~= self.CarCount then
-		self:RemoveModels()
-	end
-
-	for i=1, self.CarCount do
-		if not IsValid(self.Cars[i]) then
-
-			-- Create the clientside model
-			self.Cars[i] = ClientsideModel(self:GetTrainModel(i))
-			self.Cars[i]:SetModelScale(1,0)
-		end
-	end
-end
-
--- Remove all clientside models
-function ENT:RemoveModels()
-	for i=1, table.Count(self.Cars) do
-		if IsValid(self.Cars[i]) then self.Cars[i]:Remove() end
-
-		self.Cars[i] = nil
-	end
-end
-
-function ENT:SmokeThink( pos )
 
-end
-
-function ENT:Draw()
-
-end
-
-function ENT:OnRemove()
-	self:RemoveModels()
+
+
+end
+
+
+
+-- Return the train model based on its position in the track
+
+function ENT:GetTrainModel( index )
+
+
+
+	if index == 1 then
+
+		return self.EngineModelPath
+
+	elseif index == self.CarCount then return
+
+		self.CabooseModelPath
+
+	end
+
+
+
+	return self.CarModelPath
+
+end
+
+
+
+-- Check the validity of the clientside models, recreating/refreshing as necessary
+
+function ENT:CheckModels()
+
+
+
+	-- If our car count changed, regenerate the cars
+
+	if #self.Cars ~= self.CarCount then
+
+		self:RemoveModels()
+
+	end
+
+
+
+	for i=1, self.CarCount do
+
+		if not IsValid(self.Cars[i]) then
+
+
+
+			-- Create the clientside model
+
+			self.Cars[i] = ClientsideModel(self:GetTrainModel(i))
+
+			self.Cars[i]:SetModelScale(1,0)
+
+		end
+
+	end
+
+end
+
+
+
+-- Remove all clientside models
+
+function ENT:RemoveModels()
+
+	for i=1, table.Count(self.Cars) do
+
+		if IsValid(self.Cars[i]) then self.Cars[i]:Remove() end
+
+
+
+		self.Cars[i] = nil
+
+	end
+
+end
+
+
+
+function ENT:SmokeThink( pos )
+
+
+end
+
+
+
+function ENT:Draw()
+
+
+
+end
+
+
+
+function ENT:OnRemove()
+
+	self:RemoveModels()
+
 end

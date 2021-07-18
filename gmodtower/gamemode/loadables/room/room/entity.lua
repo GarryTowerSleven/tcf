@@ -176,11 +176,11 @@ end
 
 function PlayerInRoom( self, ply )
 	--return ply:Location() == self.LocationId
-	return GTowerLocation:FindPlacePos(ply:GetPos()) == self.LocationId
+	return Location.Find(ply:GetPos()) == self.LocationId
 end
 
 function OwnerInRoom( self )
-	return GTowerLocation:FindPlacePos(self.Owner:GetPos()) == self.LocationId
+	return Location.Find(self.Owner:GetPos()) == self.LocationId
 end
 
 function EntCount( self )

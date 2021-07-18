@@ -9,7 +9,7 @@ local IsValid = IsValid
 local Msg = Msg
 local ACHIVEMENTS = ACHIVEMENTS
 local _G = _G
-local GTowerLocation = GTowerLocation
+local Location = Location
 
 module("minigames.plane")
 
@@ -17,7 +17,7 @@ MinigameName = "Plane Battle"
 MinigameLocation = 17
 MinigameMessage = "MiniBattleGameStart"
 MinigameArg1 = "Airplane Fight"
-MinigameArg2 = GTowerLocation:GetName( MinigameLocation )
+MinigameArg2 = Location.GetFriendlyName( MinigameLocation )
 
 function HookPlayerMove( pl, mv )
 

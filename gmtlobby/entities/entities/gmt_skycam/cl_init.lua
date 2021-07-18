@@ -138,130 +138,29 @@ CondoSkyLoc[2] = Vector(-9376, 9144, 14600)
 
 
 local function GetSkyBoxOffset(loc)
-
-
-	if GTowerLocation:GetGroup(loc) == "condos" then
-		return LocationOffsets["condolobby"], true
-	end
-
-	if Location.IsCondo(loc) then
-		local e
-		for k,v in pairs( ents.FindByClass("gmt_condoplayer") ) do
-			if v:GetNWInt("condoID") == (loc - 1) then e = v end
-		end
-
-		if e then
-
-			return { Pos = Vector(-11904, 3408, 14600) - e:GetPos(), Ang = Angle(0,0,0), Scale = 1}, false
-		end
-
-	end
-
-	if Location.IsMonorail(loc) then
-
-		local CamFound = false
-
-		local monorail
-
-		for k,v in pairs( ents.FindByClass("gmt_monorail") ) do
-			if v.Cars != nil then
-				pos = v.Cars[1]:GetPos()
-				ang = v.Cars[1]:GetAngles()
-				scl = 1
-				CamFound = true
-				monorail = v
-			end
-		end
-
-		if CamFound /*&& RefFound*/ then
-			return { Pos = pos-Vector(3152, -1344, 2060), Ang = Angle(0,0,0), Scale = scl }, false
-		end
-	end
-
-	if Location.IsDuelLobby(loc) then
-
-		local CamFound = false
-
-		local cam
-
-		for k,v in pairs( ents.FindByClass("gmt_duelcamera") ) do
-			pos = v:GetPos()
-			ang = v:GetAngles()
-			scl = 1
-			CamFound = true
-			cam = v
-		end
-		if CamFound then
-
-			if !DOldPos then DOldPos = pos end
-
-			DNewPos = LerpVector( FrameTime() * 4, DOldPos, pos )
-
-			DOldPos = DNewPos
-
-			return { Pos = DNewPos - Vector(4913.728515625, -708.27087402344, -3487.96875), Ang = ang, Scale = scl }, false
-		else
-			return LocationHardcodes["duels"], false
-		end
-	elseif LocationOffsets[GTowerLocation:GetGroup(loc)] then
-		return LocationOffsets[GTowerLocation:GetGroup(loc)], true
-	end
-
-	local name = GTowerLocation:GetGroup( loc )
-	local gmode = GTowerServers:GetGamemode( name )
-
-	if gmode then
-		return LocationOffsets["games"], true
-	end
-
-	/*local location = Location.Get(loc)
-
-	if not location then return end
-
-
+	local location = Location.Get(loc)
+	if not location then return end 
 
 	local locName = string.lower(location.Name)
 
-
-
 	-- Location has priority
-
-	if locName then
-
+	if locName then 
 		if LocationOffsets[locName] then
-
-			return LocationOffsets[locName], true
-
+			return LocationOffsets[locName], true 
 		elseif LocationHardcodes[locName] then
-
-			return LocationHardcodes[locName], false
-
+			return LocationHardcodes[locName], false 
 		end
-
 	end
-
-
 
 	-- If the name matches a group, use that
-
 	locName = string.lower(location.Group) or ""
-
 	if locName then
-
 		if LocationOffsets[locName] then
-
-			return LocationOffsets[locName], true
-
+			return LocationOffsets[locName], true 
 		elseif LocationHardcodes[locName] then
-
-			return LocationHardcodes[locName], false
-
+			return LocationHardcodes[locName], false 
 		end
-
 	end
-*/
-
-
 end
 
 
@@ -272,7 +171,7 @@ hook.Add("OverrideSkyCamera", "GMTSkyCameraTest", function(eyepos, eyeangles, sk
 
 
 
-	local locID = LocalPlayer().GLocation
+	local locID = LocalPlayer().Location
 	local offsets, isOffset = GetSkyBoxOffset(locID)
 
 

@@ -46,7 +46,7 @@ local function GiveSword( ply )
 	end*/
 	SetRabbit( ply )
 	
-	ply:SendLua('hook.Add("ShouldCollide", "a", function(a,b) if a.GLocation == '..LocationBattle..' || b.GLocation == '..LocationBattle..' then return true end end )')
+	ply:SendLua('hook.Add("ShouldCollide", "a", function(a,b) if a.Location == '..LocationBattle..' || b.Location == '..LocationBattle..' then return true end end )')
 end
 
 hook.Add("Location","RemoveWeapons", function( ply, loc )
@@ -58,13 +58,13 @@ hook.Add("Location","RemoveWeapons", function( ply, loc )
 end )
 
 hook.Add("ShouldCollide", "LobbyColide", function( a, b )
-	if a.GLocation == LocationBattle || b.GLocation == LocationBattle then
+	if a.Location == LocationBattle || b.Location == LocationBattle then
 		return true
 	end
 end )
 
 for _, v in pairs( player.GetAll() ) do
-	if v.GLocation == LocationBattle then
+	if v.Location == LocationBattle then
 		GiveSword( v )
 	else
 		v:StripWeapons()

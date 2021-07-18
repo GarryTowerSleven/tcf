@@ -22,7 +22,7 @@ local _G = _G
 local print = print
 local CurTime = CurTime
 local ACHIVEMENTS = ACHIVEMENTS
-local GTowerLocation = GTowerLocation
+local Location = Location
 local util = util
 local SetGlobalFloat = SetGlobalFloat
 local net = net
@@ -75,7 +75,7 @@ end
 
 function CheckRemoveBall( ply )
 
-	if GTowerLocation:GetPlyLocation( ply ) == MinigameLocation then
+	if ply:Location() == MinigameLocation then
 
 		if IsValid( ply.BallRaceBall ) then
 
@@ -108,7 +108,7 @@ end
 
 function playerDies( ply, inflictor, killer )
 
-	if GTowerLocation:GetPlyLocation( ply ) == MinigameLocation then
+	if ply:Location() == MinigameLocation then
 		table.insert( PlayerSpawnOnLobby, ply )
 
 		//print( ply, inflictor, killer )
@@ -139,7 +139,7 @@ end
 
 function PlayerSpawn( ply )
 
-	local Pos = GTowerLocation:GetPlyLocation( ply )
+	local Pos = ply:Location()
 
 	if Pos == MinigameLocation then
 
@@ -192,7 +192,7 @@ function Start( flags )
 
 	for _, v in pairs( player.GetAll() ) do
 		v:SetNWInt("MinigameScore",0)
-		SafeCall( CheckGiveWeapon, v, GTowerLocation:GetPlyLocation( v ) )
+		SafeCall( CheckGiveWeapon, v, v:Location() )
 	end
 
 	SetGlobalFloat("MinigameRoundTime",CurTime()+120)

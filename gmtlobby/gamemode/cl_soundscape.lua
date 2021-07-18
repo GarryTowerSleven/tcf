@@ -22,7 +22,7 @@ function soundscape.GetSoundscape(loc)
 
 	-- First, see if there's a soundscape defined for the current specific location
 
-	local scape = soundscape.IsDefined( GTowerLocation:GetGroup(loc) ) and GTowerLocation:GetGroup(loc) or nil
+	local scape = soundscape.IsDefined( Location.GetGroup(loc) ) and Location.GetGroup(loc) or nil
 
 	scape = scape and string.lower(scape) or nil
 
@@ -38,7 +38,7 @@ function soundscape.GetSoundscape(loc)
 
 	-- Play a super quiet soundscape when they're in the movie theater itself
 
-	if GTowerLocation:GetGroup(loc) == "theater" and GTowerLocation:GetName(loc) ~= "theatermain" then
+	if Location.GetGroup(loc) == "theater" and Location.GetFriendlyName(loc) ~= "theatermain" then
 
 		return "theater_inside"
 
@@ -48,7 +48,7 @@ function soundscape.GetSoundscape(loc)
 
 	-- When in the stores, stop playing the plaza soundscape
 
-	if GTowerLocation:GetGroup(loc) and GTowerLocation:GetName(loc) ~= "stores" then
+	if Location.GetGroup(loc) and Location.GetFriendlyName(loc) ~= "stores" then
 
 		return "stores_inside"
 
@@ -58,7 +58,7 @@ function soundscape.GetSoundscape(loc)
 
 	-- Fix for the condos
 
-	if Location.IsCondo(loc) then
+	if location.CondoID then
 
 		return "condo"
 
@@ -68,7 +68,7 @@ function soundscape.GetSoundscape(loc)
 
 	-- Just use default methods to find the soundscape
 
- 	scape = GTowerLocation:GetGroup(loc)
+ 	scape = Location.GetGroup(loc)
 
 
 
@@ -89,7 +89,7 @@ hook.Add("Location", "SoundscapeChangeLocation", function(ply, loc)
 
 	-- Retrieve the two locations
 
-	local gLoc = GTowerLocation:GetGroup(loc)
+	local gLoc = Location.GetGroup(loc)
 
 	if gLoc == nil then gLoc = "" end
 
@@ -111,7 +111,7 @@ hook.Add("Location", "SoundscapeChangeLocation", function(ply, loc)
 
 		 -- spook their pants off
 
-		if loc == 1 or ply.GLocation == 1 then
+		if loc == 1 or ply.Location == 1 then
 
 			soundscape.Play("somewhere", "background")
 

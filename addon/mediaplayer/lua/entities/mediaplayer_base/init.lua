@@ -46,7 +46,7 @@ hook.Add("Location", "TurnOffTV", function( ply, loc )
 			return
 		end
 
-		if loc == GTowerLocation:FindPlacePos(v:GetPos()) then
+		if loc == Location.Find(v:GetPos()) then
 			if !mp:HasListener(ply) then
 				mp:AddListener(ply)
 			end
@@ -67,7 +67,7 @@ hook.Add("Location", "TurnOffTV", function( ply, loc )
 			return
 		end
 
-		if loc == GTowerLocation:FindPlacePos(v:GetPos()) then
+		if loc == Location.Find(v:GetPos()) then
 			if !mp:HasListener(ply) then
 				mp:AddListener(ply)
 			end
@@ -88,7 +88,7 @@ hook.Add("Location", "TurnOffTV", function( ply, loc )
 			return
 		end
 
-		if loc == GTowerLocation:FindPlacePos(v:GetPos()) then
+		if loc == Location.Find(v:GetPos()) then
 			if !mp:HasListener(ply) then
 				mp:AddListener(ply)
 			end

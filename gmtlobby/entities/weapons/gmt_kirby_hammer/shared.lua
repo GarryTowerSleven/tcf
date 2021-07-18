@@ -41,7 +41,7 @@ end
 function SWEP:PrimaryAttack()
 	if !self:CanPrimaryAttack() then return end
 
-	if Location.IsTheater( GTowerLocation:FindPlacePos(self:GetOwner():GetPos()) ) then return end
+	if Location.IsTheater( Location.Find(self:GetOwner():GetPos()) ) then return end
 
 	self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
 
@@ -120,7 +120,7 @@ end
 hook.Add( "KeyPress", "keypress_jump_super_l", function( ply, key )
 	if not IsFirstTimePredicted() then return end
 	if !IsValid( ply:GetActiveWeapon() ) or ply:GetActiveWeapon():GetClass() != "gmt_kirby_hammer" then return end
-	if Location.IsTheater( GTowerLocation:FindPlacePos(ply:GetPos()) ) then return end
+	if Location.IsTheater( Location.Find(ply:GetPos()) ) then return end
 	if ( key == IN_JUMP ) then
 		if ply:CanDoubleJump() && SERVER then
 			ply:DoubleJump()

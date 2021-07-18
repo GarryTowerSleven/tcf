@@ -25,7 +25,7 @@ local print = print
 local CurTime = CurTime
 local math = math
 local ACHIVEMENTS = ACHIVEMENTS
-local GTowerLocation = GTowerLocation
+local Location = Location
 local EffectData = EffectData
 local util = util
 local SetGlobalFloat = SetGlobalFloat
@@ -203,7 +203,7 @@ function Start( flags )
 	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissalowResize )
 
 	for _, v in pairs( player.GetAll() ) do
-		SafeCall( CheckGiveWeapon, v, GTowerLocation:GetPlyLocation( v ) )
+		SafeCall( CheckGiveWeapon, v, v:Location() )
 	end
 
 	TotalMoney = 0

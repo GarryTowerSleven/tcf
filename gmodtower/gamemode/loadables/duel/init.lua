@@ -262,7 +262,7 @@ end
 local function RespawnWinner(ply)
     timer.Simple(5,function()
 		if !IsValid(ply) then return end
-		if ply.ActiveDuel or GTowerLocation:FindPlacePos(ply:GetPos()) != 41 then return end
+		if ply.ActiveDuel or Location.Find(ply:GetPos()) != 41 then return end
         ply:StripWeapons()
         ply.DesiredPosition = Vector(7128.354980, 991.272339, -1255.968750)
         ply:SetEyeAngles(Angle(0, -90, 0))
@@ -384,7 +384,7 @@ end
 local function EndDuel(victim, disconnected)
     local target = victim.Opponent
 
-	if disconnected and !IsValid(victim) and GTowerLocation:FindPlacePos(target:GetPos()) == 41 then
+	if disconnected and !IsValid(victim) and Location.Find(target:GetPos()) == 41 then
 		ClearDeathCheck(target)
 
 		target = nil
@@ -458,7 +458,7 @@ hook.Add("Location","MoonAchiCheck",function(ply,loc)
 		if loc == 41 then
 			ply.MoonStoreModel = ply:GetModel()
 			ply:SetModel("models/player/anon/anon.mdl")
-		elseif loc != 41 && ply.GLastLocation == 41 then
+		elseif loc != 41 && ply.LastLocation == 41 then
 			ply:SetModel(ply.MoonStoreModel)
 		end
 

@@ -18,13 +18,15 @@ local CurrentCondo
 local CurrentMediaPlayer
 
 function ENT:GetFirstMediaPlayerInLocation()
-	CurrentCondo = GTowerLocation.Locations[GTowerLocation:FindPlacePos( self:GetPos() )]
+	-- Return already valid media player
+	if IsValid(self.MediaPlayer) then return self.MediaPlayer end
 
-	for k,v in pairs( ents.FindByClass("gmt_condoplayer") ) do
-		if CurrentCondo == GTowerLocation.Locations[GTowerLocation:FindPlacePos( v:GetPos() )] then CurrentMediaPlayer = v end
+	-- Find new one
+	local mp = Location.GetMediaPlayersInLocation( self:Location() )[1]
+	if mp then
+		self.MediaPlayer = mp
+		return self.MediaPlayer
 	end
-
-	return CurrentMediaPlayer:GetMediaPlayer()
 end
 
 function ENT:GetStream()

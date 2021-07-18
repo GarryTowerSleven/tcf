@@ -42,7 +42,7 @@ function PANEL:Think()
 		end
 
 		local ply = self:GetPlayer()
-		self.LocationName:SetText( string.upper( GTowerLocation:GetName( GTowerLocation:FindPlacePos( ply:GetPos() ) ) or "UNKNOWN" ) )
+		self.LocationName:SetText( string.upper( Location.GetFriendlyName( Location.Find( ply:GetPos() ) ) or "UNKNOWN" ) )
 		self.LocationName:SizeToContents()
 	end
 
@@ -83,7 +83,7 @@ function PANEL:PerformLayout()
 	end
 
 	self.PlayerName:SetText( ply:Name() )
-	--self.LocationName:SetText( string.upper( GTowerLocation:GetName( GTowerLocation:FindPlacePos( ply:GetPos() ) ) ) )
+	--self.LocationName:SetText( string.upper( Location.GetFriendlyName( Location.Find( ply:GetPos() ) ) ) )
 
 	self.Avatar:SetPos( 0, 0 )
 	self.Avatar:SetSize( GTowerGroup.AvatarSize, GTowerGroup.AvatarSize )

@@ -52,7 +52,7 @@ end
 // Subtitle (under name)
 PlayerSubtitleText = function( ply )
 	if string.StartWith(game.GetMap(),"gmt_lobby") then
-		local text = GTowerLocation:GetName( GTowerLocation:GetPlyLocation( ply ) ) or "Unknown"
+		local text = Location.GetFriendlyName( ply:Location() ) or "Unknown"
 		return text
 	else
 		return nil

@@ -9,7 +9,7 @@ hook.Add("Location","MoonAchiCheck",function(ply,loc)
 			ply.MoonStoreModel = ply:GetModel()
 			ply:SetModel("models/player/spacesuit.mdl")
 			ply:SetGravity(0.4)
-		elseif loc != 50 && ply.GLastLocation == 50 then
+		elseif loc != 50 && ply.LastLocation == 50 then
 			ply:SetGravity(0)
 			ply:SetModel(ply.MoonStoreModel)
 		end
@@ -17,7 +17,7 @@ hook.Add("Location","MoonAchiCheck",function(ply,loc)
 		if loc == 51 then 
 			ply.MoonStoreModel = ply:GetModel()
 			ply:SetModel("models/player/normal.mdl")
-		elseif loc != 51 && ply.GLastLocation == 51 then
+		elseif loc != 51 && ply.LastLocation == 51 then
 			ply:SetModel(ply.MoonStoreModel)
 		end
 		

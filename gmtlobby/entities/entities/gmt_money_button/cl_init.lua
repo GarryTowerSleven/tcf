@@ -47,7 +47,7 @@ function ENT:GetRenderingFraction() return /*self.CurrFraction*/ barFrac end
 function ENT:ShouldRenderFX()
 	--No FX if the player isn't in the location
 	--if not Location.Is( LocalPlayer():Location(), "secret1" ) then return end
-	if LocalPlayer().GLocation != 56 then return end
+	if LocalPlayer().Location != 56 then return end
 	return self:GetRenderingFraction() > 0
 end
 

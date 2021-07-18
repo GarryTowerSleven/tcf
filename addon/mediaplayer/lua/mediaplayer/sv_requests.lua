@@ -36,7 +36,7 @@ local songpick
 
 net.Receive( "MEDIAPLAYER.VoteMedia", RequestWrapper(function(mp, ply)
 
-	if (ply.GLocation != GTowerLocation:FindPlacePos(mp.Entity:GetPos())) then return end
+	if (ply.Location != Location.Find(mp.Entity:GetPos())) then return end
 
 	if songpick == nil then
 		songpick = MediaPlayer.VoteManager:New( mp )
@@ -55,11 +55,11 @@ local MediaVoteSkip
 
 net.Receive( "MEDIAPLAYER.Voteskip", RequestWrapper(function(mp, ply)
 
-	if (ply.GLocation != GTowerLocation:FindPlacePos(mp.Entity:GetPos())) then return end
+	if (ply.Location != Location.Find(mp.Entity:GetPos())) then return end
 
-	local LastMediaLocation = ply.GLocation
+	local LastMediaLocation = ply.Location
 
-	if (MediaVoteSkip == nil || LastMediaLocation != ply.GLocation) then
+	if (MediaVoteSkip == nil || LastMediaLocation != ply.Location) then
 		MediaVoteSkip = MediaPlayer.VoteskipManager:New( mp, ratio )
 	end
 
@@ -67,10 +67,10 @@ net.Receive( "MEDIAPLAYER.Voteskip", RequestWrapper(function(mp, ply)
 		MediaVoteSkip:RemoveVote( ply )
 	else
 		MediaVoteSkip:AddVote( ply, 1 )
-		VoteSkipAnnounce(ply,GTowerLocation:GetPlayersInLocation( ply.GLocation ))
+		VoteSkipAnnounce(ply,Location.GetPlayersInLocation( ply:Location() ))
 	end
 
-	if MediaVoteSkip:ShouldSkip( #GTowerLocation:GetPlayersInLocation( ply.GLocation ) ) then
+	if MediaVoteSkip:ShouldSkip( #Location.GetPlayersInLocation( ply:Location() ) ) then
 		mp:OnMediaFinished()
 		MediaVoteSkip:Clear()
 	end
@@ -129,7 +129,7 @@ net.Receive( "MEDIAPLAYER.RequestMedia", RequestWrapper(function(mp, ply)
 
 	local allowWebpage = MediaPlayer.Cvars.AllowWebpages:GetBool()
 
-	if ply.GLocation == 26 || ply.GLocation == 27 then
+	if ply.Location == 26 || ply.Location == 27 then
 		allowWebpage = false // Prevent webpage requests in the Nightclub
 	end
 

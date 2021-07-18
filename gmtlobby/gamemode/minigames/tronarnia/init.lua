@@ -26,7 +26,7 @@ local SnowSpawnPoints = {
 //local hook, util = hook, util
 //local Msg = Msg
 //local Vector = Vector
-local GTowerLocation = GTowerLocation
+local Location = Location
 
 module("minigames.tronarnia",package.seeall )
 
@@ -39,7 +39,7 @@ RandomWeapons = true
 
 function CheckLocation( ply )
 
-	if GTowerLocation:GetPlyLocation( ply ) != 41 then
+	if ply:Location() != 41 then
 
 		local Random = table.Random( SnowSpawnPoints )
 

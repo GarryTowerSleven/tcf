@@ -11,6 +11,8 @@ include("base/debug/cl_init.lua")
 include("nwvar/shared.lua")
 include("sh_extensions.lua")
 
+include("sh_player_net.lua")
+
 include("shared.lua")
 
 include("base/anti_script_hook/cl_scripthookpwnd.lua")

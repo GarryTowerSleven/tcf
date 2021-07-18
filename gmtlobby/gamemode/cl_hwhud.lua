@@ -33,7 +33,7 @@ local tab = {
 }
 
 hook.Add( "RenderScreenspaceEffects", "SpookyTower", function()
-  if (!ShouldDrawHW || (LocalPlayer().GLocation != 15 && LocalPlayer().GLocation != 14)) then return end
+  if (!ShouldDrawHW || (LocalPlayer().Location != 15 && LocalPlayer().Location != 14)) then return end
 	DrawColorModify( tab ) --Draws Color Modify effect
 end)
 
@@ -146,7 +146,7 @@ end
 
 hook.Add("HUDPaint", "HWHUDPaint", function()
 
-    if (!ShouldDrawHW || (LocalPlayer().GLocation != 15 && LocalPlayer().GLocation != 14)) then return end
+    if (!ShouldDrawHW || (LocalPlayer().Location != 15 && LocalPlayer().Location != 14)) then return end
 
     // DRAW STUFF
 

@@ -156,7 +156,7 @@ GTowerLocation.Locations = {
 	[57] = "Somewhere",
 }
 
-function GTowerLocation:GetGroup( locid )
+function Location.GetGroup( locid )
 	for k,v in pairs( GTowerLocation.MapPositions ) do
 		if v[1] != locid then continue end
 		return v[4]

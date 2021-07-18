@@ -12,7 +12,7 @@ end
 
 function ENT:Think()
     if self:GetNWInt("condoID") == 0 then
-      local loc = GTowerLocation:FindPlacePos( self:GetPos() )
+      local loc = Location.Find( self:GetPos() )
       self:SetNWInt( "condoID", loc-1 )
     end
 

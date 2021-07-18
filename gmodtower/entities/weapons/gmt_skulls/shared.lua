@@ -133,7 +133,7 @@ function SWEP:PrimaryAttack()
 
 	if !self:CanPrimaryAttack() then return end
 
-	if Location.IsTheater( self.Owner.GLocation ) then return end
+	if Location.IsTheater( self.Owner.Location ) then return end
 
 	if self.Owner:IsAdmin() then
 
