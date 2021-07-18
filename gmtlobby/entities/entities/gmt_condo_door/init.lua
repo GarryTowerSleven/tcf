@@ -82,11 +82,11 @@ function ENT:Use( ply )
 
   for k,v in pairs(ents.FindByClass("gmt_condo_door")) do
     if self:GetCondoDoorType() == 1 then
-      if (Location.Find(v:GetPos()) - 1) == self:GetCondoID() then
+      if Location.Find(v:GetPos()) == self:GetCondoID() then
         self.TeleportEnt = v
       end
     else
-      if (Location.Find(self:GetPos()) - 1) == v:GetCondoID() then
+      if Location.Find(self:GetPos()) == v:GetCondoID() then
         self.TeleportEnt = v
       end
     end

@@ -77,7 +77,7 @@ end
 
 function APP:GetGuests()
 
-	local loc = self.E:GetNWInt("condoID") + 1
+	local loc = self.E:GetNWInt("condoID")
 	local players = Location.GetPlayersInLocation( loc )
 	local playerfiltered = {}
 

@@ -147,9 +147,9 @@ hook.Add("InitPostEntity", "RoomsAddOtherEnts", function()
 
 		local EntList = ents.FindByClass( "gmt_roomloc" )
 
-		OrderVectors( MapTbl.min, MapTbl.max )
+		--OrderVectors( MapTbl.min, MapTbl.max )
 
-		OrderEntities( EntList )
+		--OrderEntities( EntList )
 
 		for _, v in pairs( EntList ) do
 			SafeCall( Suite.New, v:LocalToWorld( MapTbl.min ), v:LocalToWorld( MapTbl.max ), v )

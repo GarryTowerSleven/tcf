@@ -73,7 +73,7 @@ end
 function ENT:GetCondoID()
 
 	if not self.CondoID then
-		self.CondoID = (Location.Find(self:GetPos()) - 1)
+		self.CondoID = (Location.Find(self:GetPos()))
 	end
 
 	return self.CondoID

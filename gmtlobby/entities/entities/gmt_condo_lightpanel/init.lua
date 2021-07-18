@@ -23,7 +23,7 @@ local IDS = {
 function ENT:Think()
     if self:GetNWInt("condoID") == 0 then
       local loc = Location.Find( self:GetPos() )
-      self:SetNWInt( "condoID", loc-1 )
+      self:SetNWInt( "condoID", loc )
     end
 end
 

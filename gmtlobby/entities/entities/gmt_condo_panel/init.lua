@@ -12,13 +12,13 @@ end
 function ENT:Think()
     if self:GetNWInt("condoID") == 0 then
       local loc = Location.Find( self:GetPos() )
-      self:SetNWInt( "condoID", loc-1 )
+      self:SetNWInt( "condoID", loc )
     end
 
     for k,v in pairs(ents.FindByClass("gmt_condoplayer")) do
       if v:GetNWInt("condoID") == 0 then
         local loc = Location.Find( v:GetPos() )
-        v:SetNWInt( "condoID", loc-1 )
+        v:SetNWInt( "condoID", loc )
       end
     end
 end

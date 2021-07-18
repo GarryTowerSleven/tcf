@@ -41,7 +41,7 @@ function New( pos1, pos2, refent )
 	}, { __index = modenv } )
 
 	o.Id = table.insert( _G.GtowerRooms.Rooms, o )
-	o.LocationId = _G.GtowerRooms.LocationTranslation[ o.Id ]
+	o.LocationId = o.Id
 
 	refent:SetId( o.Id )
 	o:SaveDefault()
@@ -77,7 +77,7 @@ function CanManageDoor( self, ply )
 end
 
 function Location( self )
-	return _G.GtowerRooms.LocationTranslation[ self.Id ]
+	return self.Id
 end
 
 local function CheckPlayer( ply, room, group, owner )

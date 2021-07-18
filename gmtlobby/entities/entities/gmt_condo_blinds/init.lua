@@ -13,7 +13,7 @@ end
 function ENT:Think()
     if self:GetNWInt("condoID") == 0 then
       local loc = Location.Find( self:GetPos() )
-      self:SetNWInt( "condoID", loc-1 )
+      self:SetNWInt( "condoID", loc )
     end
 
     if GtowerRooms.Get(self:GetNWInt("condoID")) then

@@ -168,10 +168,10 @@ function ENT:DrawMainGUI()
 		surface.SetMaterial( Icons["about"] )
 		surface.DrawTexturedRect( 16, 0, 64, 64 )
 
-		local info = "Condo #"..tostring(LocalPlayer():Location() - 1)
+		local info = "Condo #"..tostring( LocalPlayer():Location() )
 		local condo = self:GetCondo()
 		if condo then
-			info = info .. " | Welcome, " .. GtowerRooms:RoomOwnerName(LocalPlayer():Location() - 1)
+			info = info .. " | Welcome, " .. GtowerRooms:RoomOwnerName( LocalPlayer():Location() )
 		end
 		draw.DrawText(info, "AppBarSmall", 16+2+64, 10, Color(255, 255, 255, 200), TEXT_ALIGN_LEFT)
 	end

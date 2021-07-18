@@ -63,21 +63,6 @@ Skyboxes = {
 	NewSkybox( "Beach", "condo_beach", "beach.png" ),
 }
 
-LocationTranslation = {
-	[1] = 2,
-	[2] = 3,
-	[3] = 4,
-	[4] = 5,
-	[5] = 6,
-	[6] = 7,
-	[7] = 8,
-	[8] = 9,
-	[9] = 10,
-	[10] = 11,
-	[11] = 12,
-	[12] = 13
-}
-
 function CanManagePanel( room, ply )
 
 	if not room then return false end
@@ -88,14 +73,6 @@ function CanManagePanel( room, ply )
 	return canuse
 
 end
-
-hook.Add("FindLocation", "GTowerRooms", function( pos )
-	local Room = PositionInRoom( pos )
-
-	if !Room then return end
-
-	return LocationTranslation[ Room ]
-end)
 
 hook.Add("LoadAchivements","AchiSuite", function ()
 
