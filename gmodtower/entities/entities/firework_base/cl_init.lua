@@ -344,6 +344,12 @@ function ENT:OnRemove()
 
 end
 
+function ENT:CanUse( ply )
+	if not self.Used then
+		return true, "IGNITE"
+	end
+end
+
 usermessage.Hook( "FireworkUsed", function( um )
 
 	local ent = um:ReadEntity()
