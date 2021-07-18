@@ -1,4 +1,4 @@
-Location.Add( "gmt_lobby2_r3",
+TLocation.Add( "gmt_lobby2_r3",
 {
 	[ "Theater 1" ] =
 	{

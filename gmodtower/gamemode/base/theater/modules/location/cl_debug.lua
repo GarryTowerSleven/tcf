@@ -7,7 +7,7 @@
 
 */
 
-module( "Location", package.seeall )
+module( "TLocation", package.seeall )
 
 DebugEnabled = CreateClientConVar( "cinema_debug_locations", "0", false, false )
 

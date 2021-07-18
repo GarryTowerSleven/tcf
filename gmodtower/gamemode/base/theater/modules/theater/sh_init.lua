@@ -42,7 +42,7 @@ function GetByRTLocation( locId, setup )
 
 	if SERVER and !Theater and setup then
 
-		local loc = Location.GetRTLocationByIndex( locId )
+		local loc = TLocation.GetRTLocationByIndex( locId )
 
 		-- Theater defined in location code
 		local info = loc.Theater

@@ -1,5 +1,5 @@
 ---------------------------------
-module( "Location", package.seeall )
+module( "TLocation", package.seeall )
 
 Debug = false
 Maps = {}

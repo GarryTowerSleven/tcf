@@ -321,7 +321,7 @@ function ReceiveTheaters()
 	for _, v in pairs( tbl ) do
 
 		-- Merge shared theater data
-		local loc = Location.GetRTLocationByIndex( v.Location )
+		local loc = TLocation.GetRTLocationByIndex( v.Location )
 		if loc and loc.Theater then
 			v = table.Merge( loc.Theater, v )
 		end

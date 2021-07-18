@@ -20,12 +20,12 @@ function Initialize()
 	end
 
 	-- Make sure we can depends on the Location module
-	if !Location then
-		return Error("Location module not found! Theaters can't be initialized.\n")
+	if !TLocation then
+		return Error("TLocation module not found! Theaters can't be initialized.\n")
 	end
 
 	-- Get the map locations
-	local locations = Location.GetRTLocations()
+	local locations = TLocation.GetRTLocations()
 	if !locations then return end
 
 	for name, loc in pairs(locations) do

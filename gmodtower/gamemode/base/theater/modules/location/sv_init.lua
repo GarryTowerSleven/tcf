@@ -1,5 +1,5 @@
 ---------------------------------
-module( "Location", package.seeall )
+module( "TLocation", package.seeall )
 
 -- Prevent sending clients a theater video too early
 local DelayThinkSeconds = 3
