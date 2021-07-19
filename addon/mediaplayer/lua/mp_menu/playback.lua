@@ -43,7 +43,7 @@ function PANEL:Init()
 		self:AddButton( self.SkipBtn )
 	end
 	
-	if LocalPlayer():Location() == 26 || LocalPlayer():Location() == 33 || LocalPlayer():Location() == 34 then
+	if Location.IsNightclub( LocalPlayer():Location() ) || Location.IsTheater( LocalPlayer():Location() ) then
 		self.VoteSkipBtn = vgui.Create( "MP.VoteSkipButton" )
 		self:AddButton( self.VoteSkipBtn )
 	end

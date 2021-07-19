@@ -129,7 +129,7 @@ net.Receive( "MEDIAPLAYER.RequestMedia", RequestWrapper(function(mp, ply)
 
 	local allowWebpage = MediaPlayer.Cvars.AllowWebpages:GetBool()
 
-	if ply:Location() == 26 || ply:Location() == 27 then
+	if Location.IsNightclub( ply:Location() ) then
 		allowWebpage = false // Prevent webpage requests in the Nightclub
 	end
 
