@@ -206,11 +206,11 @@ end
 if SERVER then
 	-- Since the camera is in a different part of the map, the client needs to know about it
 	hook.Add("SetupPlayerVisibility", "GMTViewCurrentCamera", function(ply)
-		local loc = Location.Get(ply:Location())
+		local loc = Location.Get(Location.Find(ply:GetPos()))
 		if not loc or not loc.CondoID then return end 
 
 		-- Get the room object and the door camera within
-		local room = GTowerRooms:Get(loc.CondoID)
+		local room = loc
 		if (room and IsValid(room.DoorCam)) then
 			-- Add the door camera position to the pvs so clients can see it 
 			AddOriginToPVS( room.DoorCam:GetPos() )

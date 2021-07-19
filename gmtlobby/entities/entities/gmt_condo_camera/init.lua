@@ -19,5 +19,7 @@ function ENT:Initialize()
     local ID = closestDoor:GetNWInt("CondoID")
 
     self:SetNWInt("condoID",(ID or 0))
+	
+	Location.Get(ID).DoorCam = self.Entity
 
 end

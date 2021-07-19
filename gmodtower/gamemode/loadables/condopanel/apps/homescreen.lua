@@ -141,7 +141,7 @@ function APP:DrawNowPlaying( tx, ty )
 		local ent
 
 		for k,v in pairs( ents.FindByClass("gmt_condoplayer") ) do
-			if v:GetNWInt("condoID") == self.E:GetNWInt("condoID") then ent = v end
+			if v:GetNWInt("condoID") == Location.Find( self.E:GetPos() ) then ent = v end
 		end
 
 		if IsValid(ent) then

@@ -51,6 +51,6 @@ if Player then
 			return self._Location
 		end
 
-		return self:GetNet( "Location" )
+		return self:GetNWInt("Location")
 	end
 end

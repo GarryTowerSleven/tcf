@@ -3,7 +3,7 @@ module("Location", package.seeall )
 DEBUG = false
 Locations = Locations or {}
 
-plynet.Register( "Int", "Location" )
+--plynet.Register( "Int", "Location" )
 
 function LoadMapData( data )
 

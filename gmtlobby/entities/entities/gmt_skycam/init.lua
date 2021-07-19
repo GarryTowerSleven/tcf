@@ -13,13 +13,13 @@ end
 hook.Add( "SetupPlayerVisibility", "CondoCrapIntoPVS", function( pPlayer, pViewEntity )
 	-- Adds any view entity
 
-  //if pPlayer:Location().CondoID then
+  if Location.GetCondoID( pPlayer:Location() ) != nil then
 
-		//for k,v in pairs( ents.FindByClass("gmt_skycam") ) do
-		//	AddOriginToPVS( v:GetPos() )
-		//end
+		for k,v in pairs( ents.FindByClass("gmt_skycam") ) do
+			AddOriginToPVS( v:GetPos() )
+		end
 
-  //end
+  end
 
   if pPlayer:Location() == 30 then
 

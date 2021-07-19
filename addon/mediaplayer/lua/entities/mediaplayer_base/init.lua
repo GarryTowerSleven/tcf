@@ -93,7 +93,7 @@ hook.Add("Location", "TurnOffTV", function( ply, loc )
 				mp:AddListener(ply)
 			end
 		else
-			if mp:HasListener(ply) && loc != 27 then
+			if mp:HasListener(ply) && loc != 26 then
 				mp:RemoveListener(ply)
 			end
 		end

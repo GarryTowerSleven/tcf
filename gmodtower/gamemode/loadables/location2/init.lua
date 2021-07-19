@@ -12,6 +12,15 @@ if Player then
     end
 end
 
+net.Receive( "LocationRefresh", function( len, pl )
+	local loc = net.ReadInt(10)
+	local lastloc = net.ReadInt(10)
+	pl._Location = loc
+	pl._LastLocation = lastloc
+	pl:SetNWInt( "Location", loc )
+	hook.Call( "Location", GAMEMODE, pl, loc )
+end )
+
 local kickoutTime = 2
 hook.Add( "Location", "KickOut", function( ply, loc )
 
@@ -36,3 +45,5 @@ hook.Add( "Location", "KickOut", function( ply, loc )
     end)
 	
 end)
+
+util.AddNetworkString( "LocationRefresh" )

@@ -14,21 +14,6 @@ function ENT:Think()
 
 end
 
-local CurrentCondo
-local CurrentMediaPlayer
-
-function ENT:GetFirstMediaPlayerInLocation()
-	-- Return already valid media player
-	if IsValid(self.MediaPlayer) then return self.MediaPlayer end
-
-	-- Find new one
-	local mp = Location.GetMediaPlayersInLocation( self:Location() )[1]
-	if mp then
-		self.MediaPlayer = mp
-		return self.MediaPlayer
-	end
-end
-
 function ENT:GetStream()
 
 	-- Return already valid stream

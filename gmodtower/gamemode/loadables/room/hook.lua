@@ -61,7 +61,7 @@ hook.Add("PlayerTeleport", "CheckUncheckSuite", function( ply, goplace )
 
 end )
 
-local SuitePlaces = {1,2,3,4,5,6,7,8,9,10,11,12,13,29}
+local SuitePlaces = {1,2,3,4,5,6,7,8,9,10,11,12,13,28}
 
 hook.Add("Location", "GetOffSuite", function( ply, loc )
 

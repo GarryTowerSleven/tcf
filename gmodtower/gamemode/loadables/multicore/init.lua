@@ -34,7 +34,7 @@ hook.Add( "Location", "ResetMQueueClub", function( ply, new, old )
   end
 
   // Enable when they leave the club
-  if new != 26 and new != 27 and ply.NightClubMCore then
+  if new != 25 and new != 26 and ply.NightClubMCore then
     ply:SendLua( [[RunConsoleCommand("mat_queue_mode","-1")]] )
     ply.NightClubMCore = false
   end
