@@ -455,10 +455,10 @@ end)
 hook.Add("Location","MoonAchiCheck",function(ply,loc)
 	if IsValid( ply ) then
 
-		if loc == 41 then
+		if Location.Is(loc, "duelarena") then
 			ply.MoonStoreModel = ply:GetModel()
 			ply:SetModel("models/player/anon/anon.mdl")
-		elseif loc != 41 && ply.LastLocation == 41 then
+		elseif !Location.Is(loc, "duelarena") && ply.LastLocation == 40 then
 			ply:SetModel(ply.MoonStoreModel)
 		end
 
