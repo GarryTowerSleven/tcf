@@ -35,6 +35,7 @@ local CamMaterial = CreateMaterial("GMTSkyCameraMaterial" .. CurTime(),"UnlitGen
 	["$basetexture"] = "GMTSkyCamera", 
 })
 
+
 -- Render our custom skybox here
 local ShouldOverride = false 
 hook.Add("RenderScene", "GMT_SkyboxRender", function(eyepos, eyeangles, fov )
@@ -110,36 +111,32 @@ hook.Add("PostDraw2DSkyBox", "GMT_Override_Skybox", function()
 
 end )
 
-
 ---
-
 -- OVERRIDES
-
 -- Quick fixes for the map because they DON'T WANT TO RECOMPILE
-
 ---
-
 local LocationOffsets = {}
-
 LocationOffsets["games"] = {Pos = Vector(0,0,100), Ang = Angle(), Scale = SKYBOX_SCALE}
 LocationOffsets["gameslobby"] = {Pos = Vector(0,0,100), Ang = Angle(), Scale = SKYBOX_SCALE}
 LocationOffsets["condolobby"] = {Pos = Vector(700,0,100),Ang = Angle(), Scale = SKYBOX_SCALE}
 
-
-
 local LocationHardcodes = {}
-
-LocationHardcodes["duels"] = { Pos = Vector(2000, -11670, 11500), Ang = Angle(0,180,0), Scale = 1}
-
-
-CondoSkyLoc = {}
-CondoSkyLoc[1] = Vector(-11904, 3408, 14600)
-CondoSkyLoc[2] = Vector(-9376, 9144, 14600)
-
+--LocationHardcodes["duels"] = { Pos = Vector(2000, -11670, 11500), Ang = Angle(0,180,0),Scale = 1}
 
 local function GetSkyBoxOffset(loc)
 	local location = Location.Get(loc)
-	if not location then return end 
+	if not location then return end
+
+	if Location.GetCondoID( loc ) then
+		local e
+		for k,v in pairs( ents.FindByClass("gmt_condoplayer") ) do
+			if v:GetNWInt("condoID") == Location.GetCondoID(loc) then e = v end
+		end
+
+		if e then
+			return { Pos = Vector(-11904, 3408, 14600) - e:GetPos(), Ang = Angle(0,0,0), Scale = 1}, false
+		end
+	end
 
 	local locName = string.lower(location.Name)
 
@@ -161,37 +158,21 @@ local function GetSkyBoxOffset(loc)
 			return LocationHardcodes[locName], false 
 		end
 	end
+
 end
 
-
-
 local SkyPos = Vector()
-
 hook.Add("OverrideSkyCamera", "GMTSkyCameraTest", function(eyepos, eyeangles, skyboxscale )
-
-
 
 	local locID = LocalPlayer():Location()
 	local offsets, isOffset = GetSkyBoxOffset(locID)
-
-
 	if not offsets then return end
 
 
-
-
-
 	local SkyPos = offsets.Pos
-
 	if isOffset then SkyPos = SkyPos + DefaultPosition end
-
-
 
 	local pos, ang = LocalToWorld(eyepos * offsets.Scale, eyeangles, SkyPos, offsets.Ang)
 
-
-
 	return pos, ang, offsets.Scale
-
 end )
-
