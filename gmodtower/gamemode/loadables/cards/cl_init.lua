@@ -21,7 +21,7 @@ local chipsMat = Material( "gmod_tower/icons/chip.png" )
 hook.Add( "HUDPaint", "DrawChips", function()
 
 	if !GTowerHUD.Enabled:GetBool() then return end
-	if (LocalPlayer():Location() != 24) then return end
+	if !Location.IsCasino( LocalPlayer():Location() ) then return end
 
 	local chips = LocalPlayer():PokerChips()
 
