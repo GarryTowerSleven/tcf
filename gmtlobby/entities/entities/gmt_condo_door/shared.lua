@@ -70,7 +70,7 @@ function ENT:CanUse( ply )
 	if not room or not IsValid( owner ) then
 
 		-- No owner, no entry (from lobby)
-		if Location.Find(self:GetPos()) == 29 /*Location.Is( self:Location(), "condolobby" )*/ then
+		if Location.Is( self:Location(), "condolobby" ) then
 			return false
 		end
 
