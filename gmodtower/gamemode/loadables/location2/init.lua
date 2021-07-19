@@ -26,7 +26,7 @@ hook.Add( "Location", "KickOut", function( ply, loc )
 
     if ply:IsAdmin() then return end
 
-    if loc != 1 then
+    if loc != 0 then
         ply.OutOfBounds = false
         return
     end
