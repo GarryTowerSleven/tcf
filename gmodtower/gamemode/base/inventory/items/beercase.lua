@@ -8,7 +8,7 @@ ITEM.UniqueInventory = false
 ITEM.DrawModel = true
 ITEM.CanUse = true
 ITEM.UseDesc = "Drink"
-ITEM.AllowDropLocation = 27 -- Nightclub Bar
+ITEM.AllowDropLocation = "nightclubbar"
 
 ITEM.StoreId = GTowerItems.BarStoreId
 ITEM.StorePrice = 100

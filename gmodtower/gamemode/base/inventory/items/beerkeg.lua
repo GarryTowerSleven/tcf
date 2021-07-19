@@ -5,7 +5,7 @@ ITEM.Model = "models/props/de_inferno/wine_barrel.mdl"
 ITEM.ClassName = "gmt_beerkeg"
 ITEM.UniqueInventory = false
 ITEM.DrawModel = true
-ITEM.AllowDropLocation = 27 -- Nightclub Bar
+ITEM.AllowDropLocation = "nightclubbar"
 
 ITEM.StoreId = GTowerItems.BarStoreId
 ITEM.StorePrice = 250
