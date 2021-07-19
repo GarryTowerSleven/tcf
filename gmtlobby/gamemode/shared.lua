@@ -1,12 +1,32 @@
-
 GM.Name     = "GMTower"
-GM.Author   = "GMT: Deluxe Team"
-GM.Website  = "http://www.gmtdeluxe.org/"
+GM.Author   = "pixelTail Games & GMT: Deluxe Team"
+GM.Website  = "http://www.gmtower.org/"
 GM.AllowSpecialModels = true
 GM.AllowEquippables = true
 GM.AllowJetpack = true
 
-DeriveGamemode("gmodtower")
+GM.UsesHands = true
+IsLobby = true
+
+DeriveGamemode( "GModTower" )
+
+//include("player_class/player_lobby.lua")
+
+if IsHalloweenMap() then
+	if SERVER then AddCSLuaFile("sh_halloween.lua") end
+	include("sh_halloween.lua")
+end
+
+//=====================================================
+game.AddParticles( "particles/lobby_2.pcf" )
+
+local ParticleSystems = { "condo_fireplace", "condo_fireplace_embers", "condo_fireplace_burner",
+"ocean_splash", "condo_fireplace_flames_2", "condo_fireplace_flames_3" }
+						  
+for _, part in pairs( ParticleSystems ) do
+	PrecacheParticleSystem( part )
+end
+//=====================================================
 
 Loadables.Load( {
 
@@ -51,6 +71,7 @@ Loadables.Load( {
 	"contentmanager",			  -- Missing Content Notification
 	"vip",						-- Goobers
 	//"theater2",						-- Theater 2
+	"multicore",
 
 	-- Items Depend On These
 	---------------------------------------------------------
