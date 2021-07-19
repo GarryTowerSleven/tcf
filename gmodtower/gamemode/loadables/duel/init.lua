@@ -384,7 +384,7 @@ end
 local function EndDuel(victim, disconnected)
     local target = victim.Opponent
 
-	if disconnected and !IsValid(victim) and Location.Find(target:GetPos()) == 41 then
+	if disconnected and !IsValid(victim) and Location.Is( target:Location(), "duelarena" ) then
 		ClearDeathCheck(target)
 
 		target = nil
@@ -454,11 +454,10 @@ end)
 
 hook.Add("Location","MoonAchiCheck",function(ply,loc)
 	if IsValid( ply ) then
-
 		if Location.Is(loc, "duelarena") then
 			ply.MoonStoreModel = ply:GetModel()
 			ply:SetModel("models/player/anon/anon.mdl")
-		elseif !Location.Is(loc, "duelarena") && ply.LastLocation == 40 then
+		else
 			ply:SetModel(ply.MoonStoreModel)
 		end
 
