@@ -14,9 +14,21 @@ local PLAYER = {}
 --PLAYER.TauntCam = TauntCamera()
 
 PLAYER.DisplayName			= "Lobby Class"
-PLAYER.AvoidPlayers			= false
-PLAYER.WalkSpeed 			= 200		-- How fast to move when not running
-PLAYER.RunSpeed				= 400		-- How fast to move when running
+--PLAYER.DisplayName			= "Lobby"
+
+PLAYER.CanUseFlashlight     = true		-- Can we use the flashlight
+PLAYER.MaxHealth			= 100		-- Max health we can have
+PLAYER.StartHealth			= 100		-- How much health we start with
+PLAYER.StartArmor			= 0			-- How much armour we start with
+PLAYER.DropWeaponOnDie		= false		-- Do we drop our weapon when we die
+PLAYER.TeammateNoCollide 	= true		-- Do we collide with teammates or run straight through them
+PLAYER.AvoidPlayers			= false		-- Automatically swerves around other players
+
+PLAYER.DuckSpeed			= .3		-- How fast to go from not ducking, to ducking
+PLAYER.UnDuckSpeed			= .25		-- How fast to go from ducking, to not ducking
+
+PLAYER.WalkSpeed 			= 180
+PLAYER.RunSpeed				= 320
 
 
 --
