@@ -165,17 +165,6 @@ umsg.End = function()
 	s = false
 end
 
-// 1 second tick player think, this should be pretty efficient
-timer.Create( "GTowerPlayerThink", 1.0, 0, function()
-
-	for _, v in ipairs( player.GetAll() ) do
-		if IsValid(v) then
-			hook.Call("PlayerThink", GAMEMODE, v)
-		end
-	end
-
-end)
-
 hook.Add("InitPostEntity", "AddTempBot", function()
 
 	if GetConVarNumber("sv_voiceenable") != 1 then
