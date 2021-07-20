@@ -43,14 +43,6 @@ function ENT:Initialize()
 
 	self:SetHealth( self.HP )
 
-	if self:GetClass() == "ghost_mutant" && IsHalloweenMap() then
-		timer.Create( "CheckInsideTower"..self:EntIndex(), 2, 0, function()
-			if Location.Find( self:GetPos() ) != 15 then
-				self:SetPos(Vector(6629.1401367188, -810.82995605469, -470.92190551758))
-			end
-		end)
-	end
-
 end
 
 function ENT:OnRemove()
@@ -142,7 +134,7 @@ function ENT:Attack( enemy, hit )
 	if hit then
 		enemy:TakeDamage( self.Damage, self )
 
-		if enemy:IsPlayer() && self:GetClass() == "ghost_mutant" && IsHalloweenMap() then
+		if enemy:IsPlayer() && self:GetClass() == "ghost_ghost" && IsHalloweenMap() then
 			enemy:AddAchivement( ACHIVEMENTS.HALLOWEENCREATURE, 1 )
 		end
 
