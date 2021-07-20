@@ -1,6 +1,8 @@
 // Hook into timers for debugging
-local OldTimerCreate = timer.Create
+--[[local OldTimerCreate = timer.Create
 local OldTimerSimple = timer.Simple
+
+local OldTimerLeft = timer.TimeLeft
 
 timer.Create = function( a,b,c,d, ...)
 	
@@ -18,7 +20,7 @@ timer.Simple = function( a,b,...)
 	end
 	
 	OldTimerSimple(a,b,...)
-end
+end]]
 
 
 // 1 second tick player think, this should be pretty efficient
@@ -43,7 +45,7 @@ timer.Create( "GTowerPlayerThink", 1.0, 0, function()
 end)
 
 
-require( 'hook' )
+--[[require( 'hook' )
 
 // Globals that we need.
 local CurTime = CurTime
@@ -260,4 +262,4 @@ function Simple( delay, func, ... )
 	
 end
 
-hook.Add( "Think", "CheckTimers", Check )
+hook.Add( "Think", "CheckTimers", Check )]]

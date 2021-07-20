@@ -12,7 +12,7 @@ function IsLobby()
 end
 
 function IsHalloweenMap()
-	return false
+	return true
 end
 
 function IsChristmasMap()
