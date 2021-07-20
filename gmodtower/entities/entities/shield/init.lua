@@ -1,9 +1,6 @@
----------------------------------
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include("shared.lua")
-
-ENT.Radius = 100
 
 function ENT:Think()
 	local owner = self:GetOwner()
@@ -23,6 +20,11 @@ end
 function ENT:Initialize()
 	//Hey~ Hey~  Don't remove this Mr.!
 
+	self:SetModel(self.Model)
+	self:SetPos(self:GetPos()+Vector(0,0,10))
+	self:SetMaterial("models/wireframe")
+	self:SetColor(Color(255,102,0,255))
+
 	self:SetMoveType( MOVETYPE_NONE )
 	self:SetSolid( SOLID_NONE )
 	self:DrawShadow( false )
@@ -38,6 +40,11 @@ function ENT:Initialize()
 	self:SetNotSolid( true )
 
 	self:SetCollisionBounds( Vector( -self.Radius, -self.Radius, -self.Radius), Vector( self.Radius, self.Radius, self.Radius ) )
+	
+	self.sheildsound = CreateSound( self, self.Sound )
+	self.sheildsound:Play()
+
+	timer.Simple( self.RemoveDelay, function() self.sheildsound:Stop() self:Remove() end )
 end
 
 function ENT:StartTouch( entity )
@@ -56,7 +63,7 @@ function ENT:StartTouch( entity )
 	util.Effect("shield_block", effect)
 
 	//This sound makes me hurl, but leave it anyways~
-	//entity:EmitSound("ambient/machines/zap" .. math.random(1,3) .. ".wav")
+	entity:EmitSound("ambient/machines/zap" .. math.random(1,3) .. ".wav")
 end
 
 function ENT:Touch( entity )
