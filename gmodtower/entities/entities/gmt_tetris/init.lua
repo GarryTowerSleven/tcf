@@ -109,7 +109,7 @@ function ENT:SetPly( ply )
 
 	self.OldMoveType = self.Ply:GetMoveType()
 
-	self.Ply:SetVelocity( Vector(0,0,0) )
+	self.Ply:SetAbsVelocity( Vector(0,0,0) )
 	self.Ply:SetMoveType( MOVETYPE_NONE )
 	self.Ply:GodEnable()
 	self.Ply:SetPos( self:GetPos() + self:GetForward() * 128 )
