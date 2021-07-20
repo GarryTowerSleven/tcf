@@ -337,7 +337,7 @@ end )
 
 hook.Add( "KeyPress", "ThirdPersonViewSelfKeyPress", function( ply, key )
 
-	if key == IN_ATTACK2 && !ply.ViewingSelf && LocalPlayer():Location() != 41 then
+	if key == IN_ATTACK2 && !ply.ViewingSelf && !Location.Is( LocalPlayer():Location(), "duelarena" ) then
 		ThirdPerson.ViewSelfToggle( ply, true )
 	end
 
@@ -349,7 +349,7 @@ end )
 
 hook.Add( "KeyRelease", "ThirdPersonViewSelfKeyRelease", function( ply, key )
 
-	if key == IN_ATTACK2 && ply.ViewingSelf && LocalPlayer():Location() != 41 then
+	if key == IN_ATTACK2 && ply.ViewingSelf && !Location.Is( LocalPlayer():Location(), "duelarena" ) then
 		ThirdPerson.ViewSelfToggle( ply, false )
 	end
 
