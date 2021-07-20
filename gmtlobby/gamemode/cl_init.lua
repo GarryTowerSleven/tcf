@@ -31,7 +31,7 @@ CondoDoorbell 	= CreateClientConVar( "gmt_condodoorbell" , "1", true, true )
 CondoBackground = CreateClientConVar( "gmt_condobg" , "1", true, true )
 //CondoBlinds 		= CreateClientConVar( "gmt_condoblinds" , "1", true, true )
 
-//GMTMCore 				= CreateClientConVar( "gmt_usemcore", "1", true, true )
+GMTMCore 				= CreateClientConVar( "gmt_usemcore", "1", true, true )
 
 // holy shit cosmetics
 function GM:OverrideHatEntity(ply)
