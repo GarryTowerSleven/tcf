@@ -21,7 +21,7 @@ function ENT:Initialize()
 	//Hey~ Hey~  Don't remove this Mr.!
 
 	self:SetModel(self.Model)
-	self:SetPos(self:GetPos()+Vector(0,0,10))
+	self:SetPos(self:GetPos()+Vector(0,0,15))
 	self:SetMaterial("models/wireframe")
 	self:SetColor(Color(255,102,0,255))
 
@@ -41,10 +41,12 @@ function ENT:Initialize()
 
 	self:SetCollisionBounds( Vector( -self.Radius, -self.Radius, -self.Radius), Vector( self.Radius, self.Radius, self.Radius ) )
 	
-	self.sheildsound = CreateSound( self, self.Sound )
-	self.sheildsound:Play()
+	self:GetOwner().shieldsound = CreateSound( self, self.Sound )
+	self:GetOwner().shieldsound:Play()
+end
 
-	timer.Simple( self.RemoveDelay, function() self.sheildsound:Stop() self:Remove() end )
+function ENT:OnRemove()
+	self:GetOwner().shieldsound:Stop()
 end
 
 function ENT:StartTouch( entity )
