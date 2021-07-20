@@ -1,7 +1,6 @@
 
 include("shared.lua")
 include("cl_hud.lua")
-include("cl_hwhud.lua")
 include("cl_post_events.lua")
 include("cl_scoreboard.lua")
 

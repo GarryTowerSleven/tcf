@@ -14,7 +14,6 @@ AddCSLuaFile("cl_soundscape_songlengths.lua")
 AddCSLuaFile("cl_playermenu.lua")
 
 AddCSLuaFile("cl_hud.lua")
-AddCSLuaFile("cl_hwhud.lua")
 AddCSLuaFile("cl_post_events.lua")
 AddCSLuaFile("calcview.lua")
 AddCSLuaFile("cl_scoreboard.lua")
