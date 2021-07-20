@@ -36,6 +36,7 @@ function ENT:ClearTetris()
 
 	self.ChangeMade = false
 	self.BlockArea = self.TETRISBLOCKS[1]
+	self.NextBlockGo = math.random( 1, #self.TETRISBLOCKS )
 
 	self:CreateNewBlock()
 end
@@ -116,6 +117,13 @@ function ENT:SetPly( ply )
 
 	self.NextMove = SysTime() + 0.9
 	self.GameStart = SysTime()
+
+	self.NextBlockGo = math.random( 1, #self.TETRISBLOCKS )
+
+	net.Start( "TetrisNextBlock" )
+		net.WriteEntity( self )
+		net.WriteTable( self.TETRISBLOCKS[ self.NextBlockGo ] )
+	net.Send( self.Ply )
 
 	self:AddPlayerHook()
 end

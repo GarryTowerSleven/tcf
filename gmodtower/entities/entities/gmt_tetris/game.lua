@@ -81,7 +81,7 @@ function ENT:CreateNewBlock()
 
 	math.randomseed( SysTime() )
 
-	self.CurBlock = self.NextBlockGo || math.random( 1, #self.TETRISBLOCKS )
+	self.CurBlock = self.NextBlockGo
 	self.CurBlockX = math.floor( self.WidthSize / 2 )
 	self.CurBlockY = 0
 
