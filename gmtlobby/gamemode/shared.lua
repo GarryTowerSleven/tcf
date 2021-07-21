@@ -49,6 +49,7 @@ Loadables.Load( {
 	"fakeclientmodel",			-- Fake player models for use such as the monorail
 	"question",					-- Global voting
 	"contentmanager",			-- Missing Content Notification
+	"mediaplayer",
 
 	-- Items Depend On These
 	---------------------------------------------------------
