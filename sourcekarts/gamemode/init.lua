@@ -218,6 +218,8 @@ end
 
 function GM:SpawnPlayerKart( ply, engineon )
 
+  ply:SetNWInt("BAL",0)
+  ply:UnDrunk()
   for k,v in pairs(ents.FindByClass("info_kart_spawn")) do
     if ( !v.Player && tostring(v.Track) == tostring(self:GetTrack()) ) then
       if IsValid( ply:GetKart() ) then ply:GetKart():Remove() end
