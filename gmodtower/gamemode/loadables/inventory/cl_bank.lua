@@ -19,6 +19,8 @@ function GTowerItems:OpenBank()
 	--self:CloseBank()
 	GtowerMainGui:GtowerShowMenus()
 
+	if IsValid(self.BankMainGui) then return end
+
 	self.BankMainGui = vgui.Create("DFrame")
 	self.BankMainGui:SetSize( 610, 400 )
 	self.BankMainGui:SetPos( ScrW() - self.BankMainGui:GetWide() * 1.1, 100 )
