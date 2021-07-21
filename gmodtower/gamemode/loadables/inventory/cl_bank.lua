@@ -12,6 +12,42 @@ function GTowerItems:GetBankItem( id )
 	end
 end
 
+function GTowerItems:UpdateBankTitle()
+
+	local count = 0
+
+	for k, v in pairs( GTowerItems:GetBankTable() ) do
+
+		if !v._VGUI then
+			v._VGUI = vgui.Create("GTowerInvItem")
+			GTowerItems:UpdateBankGuiItem( v._VGUI )
+			v._VGUI:SetId( k )
+			v._VGUI:UpdateParent()
+			v._VGUI.CheckParentLimit = self.BankMainGui.ItemList
+
+			self.BankMainGui.ItemList:AddItem( v._VGUI )
+			if v.Item then
+				count = count + 1
+			end
+		else
+			if v.Item then
+				count = count + 1
+			end
+		end
+
+	end
+
+	local title = "Vault | " .. count .. " items"
+
+	local max = #GTowerItems:GetBankTable()
+	title = title .. " | " .. ( max - count ) .. "/" .. max .. " slots"
+
+	if self.BankMainGui then
+		self.BankMainGui:SetTitle( title )
+	end
+
+end
+
 function GTowerItems:OpenBank()
 
 	--surface.PlaySound('gmodtower/lobby/misc/trunk_open.wav')
@@ -22,7 +58,7 @@ function GTowerItems:OpenBank()
 	if IsValid(self.BankMainGui) then return end
 
 	self.BankMainGui = vgui.Create("DFrame")
-	self.BankMainGui:SetSize( 610, 400 )
+	self.BankMainGui:SetSize( 560, 400 )
 	self.BankMainGui:SetPos( ScrW() - self.BankMainGui:GetWide() * 1.1, 100 )
 	self.BankMainGui:SetVisible( true )
 	self.BankMainGui.Close = function()
@@ -38,24 +74,7 @@ function GTowerItems:OpenBank()
 
 	self:ReloadMaxItems()
 
-	local count = 0
-
-	for k, v in pairs( GTowerItems:GetBankTable() ) do
-
-		if !v._VGUI then
-			v._VGUI = vgui.Create("GTowerInvItem")
-			GTowerItems:UpdateBankGuiItem( v._VGUI )
-			v._VGUI:SetId( k )
-			v._VGUI:UpdateParent()
-			v._VGUI.CheckParentLimit = self.BankMainGui.ItemList
-
-			self.BankMainGui.ItemList:AddItem( v._VGUI )
-			count = count + 1
-		end
-
-	end
-
-	self.BankMainGui:SetTitle( "Vault | " .. tostring(count) .. " items | " .. tostring( #GTowerItems:GetBankTable() ) .. "/" .. tostring(GTowerItems.MaxBankCount) .. " slots" )
+	self:UpdateBankTitle()
 
 end
 
@@ -115,6 +134,7 @@ hook.Add("InvDropCheckClose", "GTowerBank", function()
 			if v._VGUI && v._VGUI:IsDragging() then
 				return false
 			end
+			GTowerItems:UpdateBankTitle()
 		end
 	end
 
@@ -124,4 +144,5 @@ hook.Add("GTowerInvHover", "GTowerBank", function( panel )
 	if GTowerItems.BankMainGui && GTowerItems:MouseInBank() then
 		return GTowerItems.BankMainGui
 	end
+	GTowerItems:UpdateBankTitle()
 end )
