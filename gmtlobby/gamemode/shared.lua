@@ -72,6 +72,7 @@ Loadables.Load( {
 	"vip",						-- Goobers
 	//"theater2",						-- Theater 2
 	"multicore",
+	"mediaplayer",
 
 	-- Items Depend On These
 	---------------------------------------------------------
