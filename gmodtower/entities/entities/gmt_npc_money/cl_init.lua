@@ -1,14 +1,10 @@
 ---------------------------------
 include('shared.lua')
 
-function ENT:Initialize()
-    self:SetSequence(self.CurAnimation)
-    timer.Create("AnimationLoop",0.5,0,function()
-      self:SetSequence(self.CurAnimation)
-    end)
+function ENT:Draw()
+	self:DrawModel()
 end
 
-function ENT:OnRemove()
-    if !timer.Exists("AnimationLoop") then return end
-    timer.Destroy("AnimationLoop")
+function ENT:Think()
+	self:SetSequence("pose_standing_01")
 end
