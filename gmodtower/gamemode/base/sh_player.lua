@@ -34,7 +34,8 @@ local Tester = {
 	"STEAM_0:1:157016146", -- Spydermann
 	"STEAM_0:1:51961500", -- Gamizard
 	"STEAM_0:0:193442077", -- Nyantendo
-	"STEAM_0:0:603700165" -- Anomaladox Alt
+	"STEAM_0:0:603700165", -- Anomaladox Alt
+	"STEAM_0:0:72050508"   -- Glypherson
 }
 
 function IsTester(steamid)
@@ -73,7 +74,7 @@ end
 
 function meta:GetTitle()
 	local Titles = {}
-	
+
 	for k, v in pairs(PixelTail) do
 		Titles[v] = "Original GMT Staff"
 	end
@@ -81,7 +82,7 @@ function meta:GetTitle()
 	for k, v in pairs(Owner) do
 		Titles[v] = "Lead Developer"
 	end
-	
+
 	for k, v in pairs(Developer) do
 		Titles[v] = "Developer"
 	end
@@ -97,7 +98,7 @@ function meta:GetTitle()
 	for k, v in pairs(Tester) do
 		Titles[v] = "Tester"
 	end
-	
+
 	if Titles[self:SteamID()] then return Titles[self:SteamID()] end
 end
 
