@@ -1,160 +1,66 @@
----------------------------------
-local TypeOnComp = ai_schedule.New( "TypeComp" ) //creates the schedule used on this npc
-TypeOnComp:EngTask( "TASK_WAIT_FOR_MOVEMENT", 	0 )
-TypeOnComp:AddTask( "PlaySequence", { Name = "canals_arlene_tinker", Speed = 1.0  } )
-TypeOnComp:EngTask( "TASK_STOP_MOVING", 			0 )
-
-local schdChase = ai_schedule.New( "AIFighter Chase" )
-schdChase:EngTask( "TASK_GET_PATH_TO_RANDOM_NODE", 	128 )
-schdChase:EngTask( "TASK_WAIT_FOR_MOVEMENT", 	0 )
-schdChase:AddTask( "PlaySequence", 				{ Name = "canals_arlene_tinker", Speed = 1 } )
-schdChase:EngTask( "TASK_GET_PATH_TO_RANGE_ENEMY_LKP_LOS", 	0 )
-schdChase:EngTask( "TASK_RUN_PATH", 				0 )
-schdChase:EngTask( "TASK_WAIT_FOR_MOVEMENT", 	0 )
-schdChase:EngTask( "TASK_STOP_MOVING", 			0 )
-schdChase:EngTask( "TASK_FACE_ENEMY", 			0 )
-schdChase:EngTask( "TASK_ANNOUNCE_ATTACK", 		0 )
-schdChase:EngTask( "TASK_RANGE_ATTACK1", 		0 )
-schdChase:EngTask( "TASK_RELOAD", 				0 )
-
-//TypeOnComp:AddTask( "PlaySequence", { Name = "canals_arlene_tinker", Speed = 1.0  } )
-//TypeOnComp:AddTask( "PlaySequence", { Name = "canals_arlene_tinker", Speed = 1.0  } )
-//TypeOnComp:EngTask( "TASK_WAIT", 2.2 )
-
-
-/*schdChase:EngTask( "ACT_GESTURE_TURN_RIGHT180", 49.0 )
-schdChase:EngTask( "TASK_RUN_PATH_TIMED", 0.2 )
-schdChase:EngTask( "TASK_WAIT", 0.2 )
-    */
-
 AddCSLuaFile( "cl_init.lua" )
+AddCSLuaFile( "cl_expression.lua" )
 AddCSLuaFile( "shared.lua" )
 
 include( "shared.lua" )
-include( "tasks.lua" )
 include( "schedules.lua" )
+include( "tasks.lua" )
 
-function ENT:OnRemove()
-	if timer.Exists("PidgeonSounds") then
-		timer.Destroy("PidgeonSounds")
-	end
-end
+ENT.m_fMaxYawSpeed = 200
+ENT.m_iClass = CLASS_CITIZEN_REBEL
+
+AccessorFunc( ENT, "m_iClass", "NPCClass" )
+AccessorFunc( ENT, "m_fMaxYawSpeed", "MaxYawSpeed" )
 
 function ENT:Initialize()
+
 	self:UpdateModel()
 
-	self:SetHullType( HULL_HUMAN );
-	self:SetHullSizeNormal();
-
+	-- Some default calls to make the NPC function
+	self:SetHullType( HULL_HUMAN )
+	self:SetHullSizeNormal()
 	self:SetSolid( SOLID_BBOX )
 	self:SetMoveType( MOVETYPE_STEP )
-	self:SetCollisionGroup( COLLISION_GROUP_NONE )
-
-	self:CapabilitiesAdd( CAP_MOVE_GROUND || CAP_ANIMATEDFACE || CAP_AIM_GUN || CAP_USE || CAP_OPEN_DOORS || CAP_FRIENDLY_DMG_IMMUNE || CAP_SQUAD )
-
-	if self.PrintName == "Nature Store" then
-		timer.Create("PidgeonSounds",25,0,function()
-			self:EmitSound("ambient/creatures/pigeon_idle"..math.random(1,4)..".wav")
-		end)
-	end
+	--self:CapabilitiesAdd( bit.bor( CAP_MOVE_GROUND, CAP_OPEN_DOORS, CAP_ANIMATEDFACE, CAP_SQUAD, CAP_USE_WEAPONS, CAP_DUCK, CAP_MOVE_SHOOT, CAP_TURN_HEAD, CAP_USE_SHOT_REGULATOR, CAP_AIM_GUN ) )
+	--self:CapabilitiesAdd( bit.bor( CAP_ANIMATEDFACE, CAP_TURN_HEAD ) )
+	self:CapabilitiesAdd( bit.bor( CAP_ANIMATEDFACE ) )
+	self:Expression("happy")
 
 	self:SetHealth( 100 )
-	self:SetSchedule( 1 )
 
-	if self.PrintName == "Hat Store" then
-		local hat = ents.Create( "prop_dynamic" )
-		local HatOffset = Vector(0,-1.8,3)
+	local GMTNPC = self.Entity
 
-		hat:SetModel("models/gmod_tower/seusshat.mdl")
-		hat:SetPos( self:GetPos() + HatOffset )
-		hat:SetModelScale(0.89)
-
-		hat:Spawn()
-
-		hat:FollowBone( self, 7 )
-	end
-
-	if self.PrintName == "Music Store" then
-		local hat = ents.Create( "prop_dynamic" )
-		local HatOffset = Vector(2,0,3)
-
-		hat:SetModel("models/gmod_tower/headphones.mdl")
-		hat:SetPos( self:GetPos() + HatOffset )
-		hat:SetModelScale(0.89)
-
-		hat:Spawn()
-
-		hat:FollowBone( self, 7 )
-	end
-
-	if self.PrintName == "Pet Store" then
-		local hat = ents.Create( "prop_dynamic" )
-		local HatOffset = Vector(0,-2,3)
-
-		hat:SetModel("models/gmod_tower/catears.mdl")
-		hat:SetPos( self:GetPos() + HatOffset )
-		hat:SetAngles( self:GetAngles() + Angle(0,0,0) )
-		hat:SetModelScale(0.89)
-
-		hat:Spawn()
-
-		hat:FollowBone( self, 7 )
-	end
-
-	if self.PrintName == "General Goods" then
-		local hat = ents.Create( "prop_dynamic" )
-		local HatOffset = Vector(-2.2,0,3.2)
-		local HatAngle = Angle(0,180,0)
-
-		hat:SetModel("models/gmod_tower/drinkcap.mdl")
-		hat:SetPos( self:GetPos() + HatOffset )
-		hat:SetAngles( HatAngle )
-		hat:SetModelScale(0.97)
-
-		hat:Spawn()
-
-		hat:FollowBone( self, 7 )
-	end
-
-	if self.PrintName == "Electronic Store" then
-		local hat = ents.Create( "prop_dynamic" )
-		local HatOffset = Vector(-1.5,.25,64.7)
-
-		hat:SetModel("models/gmod_tower/klienerglasses.mdl")
-		hat:SetPos( self:GetPos() + HatOffset )
-		hat:SetAngles(Angle(180,90,-100))
-		--hat:SetModelScale(0.97)
-
-		hat:Spawn()
-
-		hat:FollowBone( self, 7 )
-	end
-
-	if self.PrintName == "Dueling Station" then
-		local hat = ents.Create( "prop_dynamic" )
-		local HatOffset = Vector(2.5,-28.5,33.5)
-
-		hat:SetModel("models/gmod_tower/fedorahat.mdl")
-		hat:SetPos( self:GetPos() + HatOffset )
-		hat:SetAngles(Angle(0,0,110))
-
-		hat:Spawn()
-
-		hat:FollowBone( self, self:LookupBone("ValveBiped.Bip01_Head1") )
+	if ( GMTNPC.StoreId == GTowerStore.BALLRACE || GMTNPC.StoreId == GTowerStore.PVPBATTLE ) then
+		GMTNPC:SetPos(GMTNPC:GetPos() - Vector( 0, 0, 0.3 ))
 	end
 
 	GTowerNPCSharedInit(self)
 
+end
 
+function ENT:OnTakeDamage( dmginfo )
+end
+
+function ENT:AcceptInput( name, activator, ply )
+
+    if name == "Use" && ply:IsPlayer() && ply:KeyDownLast(IN_USE) == false then
+		
+		timer.Simple( 0.0, function()
+			GTowerStore:OpenStore( ply, self.StoreId )
+		end )
+		
+    end 
 end
 
 function ENT:SetSale( sale )
 	self:SetNWBool("Sale",sale)
 end
 
+/*
 function ENT:TypeOnComp()
 	self:StartSchedule( schdChase )
 end
+*/
 
 function ENT:UpdateModel()
 	self:SetModel( self.Model )
@@ -163,5 +69,39 @@ end
 function ENT:OnCondition( iCondition )
 end
 
+function ENT:StartTouch( entity )
+end
+
+function ENT:EndTouch( entity )
+end
+
+function ENT:Touch( entity )
+end
+
 function ENT:GetRelationship( entity )
+end
+
+function ENT:ExpressionFinished( strExp )
+end
+
+function ENT:OnChangeActivity( act )
+end
+
+function ENT:Think()
+end
+
+function ENT:GetSoundInterests()
+end
+
+function ENT:OnMovementFailed()
+end
+
+function ENT:OnMovementComplete()
+end
+
+function ENT:OnActiveWeaponChanged( old, new )
+end
+
+function ENT:GetAttackSpread( Weapon, Target )
+	return 0.1
 end

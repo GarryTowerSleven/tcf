@@ -1,15 +1,7 @@
----------------------------------
-ENT.Base		= "gmt_npc_base"
-ENT.Type 		= "ai"
-ENT.PrintName	= "Toys and Gizmos Store"
-ENT.Author		= "GMT Krew~"
-ENT.Contact		= ""
-ENT.Purpose		= "For GMod Tower"
-ENT.Instructions	= ""
+ENT.Base			= "gmt_npc_base"
+ENT.Type 			= "ai"
 ENT.Spawnable		= true
 ENT.AdminSpawnable	= true
 
-ENT.Model		= "models/Humans/Group01/Female_04.mdl"
-ENT.Material		= "models/Humans/female/GMTsui1/citizen_sheet"
-
-GtowerPrecacheModel( ENT.Model )
+ENT.Model		= Model( "models/Humans/GMTsui1/female_03.mdl")
+ENT.StoreId 	= GTowerStore.TOY

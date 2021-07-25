@@ -24,32 +24,19 @@ concommand.Add( "gmt_casino_chips_buy", function( ply, cmd, args )
 
 	if ply:Money() >= cost then
 		ply:AddMoney( -cost, false )
-		ply:GivePokerChips( chips, NPCCHIPSELLER, ply )
+		ply:GivePokerChips( chips, ply.ChipSeller, ply )
 	else
 		ply:MsgI( "chips", "PokerCannotAffordChips" )
 	end
 	
 end )
 
-function ENT:SpawnFunction( ply, tr )
-	if ( !tr.Hit ) then return end
-
-	local ent = ents.Create( "gmt_npc_casinochips" )
-	ent:SetPos( tr.HitPos + Vector(0,0,1) )
-	ent:Spawn()
-	ent:Activate()
-	NPCCHIPSELLER = ent
-
-	return ent
-end
-
-function ENT:UpdateModel()
-	self:SetModel( self.Model )
-end
-
 function ENT:AcceptInput( name, activator, ply )
 	
     if name == "Use" && ply:IsPlayer() && ply:KeyDownLast(IN_USE) == false then
+
+		ply.ChipSeller = self
+
 		timer.Simple( 0.0, function()
 			net.Start("NPCCasino")
 			net.Send(ply)

@@ -156,7 +156,7 @@ end
 					  doing this current task
 ---------------------------------------------------------*/
 function ENT:TaskTime()
-	return CurTime() - self.TaskStartTime
+	return CurTime()
 end
 
 
@@ -208,8 +208,8 @@ end
    These functions handle the engine schedules
    When an engine schedule is set the engine calls StartEngineSchedule
    Then when it's finished it calls EngineScheduleFinishHelp me decide
----------------------------------------------------------*/
+---------------------------------------------------------
 function ENT:StartEngineSchedule( scheduleID )	self:ScheduleFinished()	self.bDoingEngineSchedule = true end
 function ENT:EngineScheduleFinish() self.bDoingEngineSchedule = nil 	end
-function ENT:DoingEngineSchedule()	return self.bDoingEngineSchedule 	end
+function ENT:DoingEngineSchedule()	return self.bDoingEngineSchedule 	end*/
 

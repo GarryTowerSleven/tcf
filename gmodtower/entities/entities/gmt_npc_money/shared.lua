@@ -1,19 +1,14 @@
----------------------------------
-ENT.Base		= "gmt_npc_base"
-ENT.Type 		= "ai"
-ENT.PrintName	= "Money Giver"
-ENT.Author		= "GMT Krew~"
-ENT.Contact		= ""
-ENT.Purpose		= "For GMod Tower"
-ENT.Instructions	= ""
+ENT.Base			= "gmt_npc_base"
+ENT.Type 			= "ai"
 ENT.Spawnable		= true
 ENT.AdminSpawnable	= true
+ENT.PrintName = "Money Giver"
 
-ENT.MoneyValue = 500
+ENT.Model		= Model( "models/player/haroldlott.mdl" )
+ENT.StoreID = GTowerStore.MONEY
 
-ENT.CurAnimation = "pose_standing_01"
-
-ENT.Model		= "models/player/haroldlott.mdl"
+ENT.AnimMale		= Model( "models/player/gmt_shared.mdl" )
+ENT.AnimFemale		= Model( "models/player/gmt_shared.mdl" ) -- temp hack
 
 function ENT:CanUse( ply )
 	return true, "GIVE ME SOME GMC"
