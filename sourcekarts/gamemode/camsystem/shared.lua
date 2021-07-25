@@ -129,7 +129,7 @@ end
 local view = {}
 local function locationThink(location, ply, origin, ang, fov)
 	loc = Locations[location]
-	if loc == nil || loc.Type == nil || loc.Function == nil then return origin, ang, fov end
+	if loc == nil || loc.Type == nil then return origin, ang, fov end
 
 	if !view then view = {} end
 
