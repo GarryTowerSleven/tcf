@@ -141,7 +141,7 @@ local function locationThink(location, ply, origin, ang, fov)
 		view.origin = loc.Position
 		view.angles = loc.Angles
 	elseif loc.Type == FUNCTION then
-		if loc.Function == nil then return origin, ang, fov end
+		if loc.Function == then return origin, ang, fov end
 		view = loc.Function( ply, origin, ang, fov )
 	elseif loc.Type == SPLINE then
 		if loc.Spline then
