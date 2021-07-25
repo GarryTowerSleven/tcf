@@ -18,7 +18,7 @@ function GTowerItems:UpdateBankTitle()
 
 	for k, v in pairs( GTowerItems:GetBankTable() ) do
 
-		if !v._VGUI then
+		if !v._VGUI && IsValid(self.BankMainGui) then
 			v._VGUI = vgui.Create("GTowerInvItem")
 			GTowerItems:UpdateBankGuiItem( v._VGUI )
 			v._VGUI:SetId( k )
