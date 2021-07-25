@@ -21,7 +21,7 @@ function ENT:Initialize()
 	//Hey~ Hey~  Don't remove this Mr.!
 
 	self:SetModel(self.Model)
-	self:SetPos(self:GetPos()+Vector(0,0,15))
+	self:SetPos(self:GetPos()+Vector(0,0,10))
 	self:SetMaterial("models/wireframe")
 	self:SetColor(Color(255,102,0,255))
 
