@@ -308,10 +308,10 @@ hook.Add("CalcView","TemporarySKCalcView", function( ply, origin, angles, fov )
 		// Drunk
 
 
-    // TODO, use Anomaladox' GetNet() wrapper.
+    // TODO, use Anomaladox GetNet() wrapper.
 		if ply:GetNWInt("BAL") > 0 then
 
-			local multiplier = ( 50 / 100 ) * ply:GetNet("BAL")
+			local multiplier = ( 50 / 100 ) * ply:GetNWInt("BAL")
 
 			newAngles.pitch = newAngles.pitch + math.sin( RealTime() ) * multiplier
 
