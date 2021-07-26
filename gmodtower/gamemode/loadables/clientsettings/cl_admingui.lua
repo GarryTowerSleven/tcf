@@ -145,9 +145,9 @@ function ClientSettings:CreateAdminPanel()
 	button:SetPos( 10, 50 );
 	button:SetText( "Your Settings" );
 	button.DoClick = function( button )
-		GtowerClintClick:ClickOnPlayer( LocalPlayer(), 0 )
+		GTowerClick:ClickOnPlayer( LocalPlayer(), 0 )
 		timer.Simple(0.1,function()
-			GtowerClintClick:ClickOnPlayer( LocalPlayer(), 0 )
+			GTowerClick:ClickOnPlayer( LocalPlayer(), 0 )
 		end)
 	end
 

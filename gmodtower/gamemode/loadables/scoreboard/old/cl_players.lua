@@ -259,7 +259,7 @@ end
 
 function PANEL:OnMousePressed( mc )
     
-    GtowerClintClick:ClickOnPlayer( self.Player, mc )
+    GTowerClick:ClickOnPlayer( self.Player, mc )
 
 end
 

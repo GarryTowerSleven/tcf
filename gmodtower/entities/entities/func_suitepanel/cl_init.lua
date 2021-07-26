@@ -214,7 +214,7 @@ hook.Add("GtowerMouseEnt", "GtowerMouseSuitePanel", function(ent, mc)
 
 		if !IsValid(owner) then return end
 
-		GtowerClintClick:ClickOnPlayer( owner , mc )
+		GTowerClick:ClickOnPlayer( owner , mc )
 
 	elseif ent:LocalOwner() || LocalPlayer():IsAdmin() then
 

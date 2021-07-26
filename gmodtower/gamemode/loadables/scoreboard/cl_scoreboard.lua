@@ -671,7 +671,7 @@ function PLAYER:OnMousePressed( mc )
 		return
 	end
 
-    GtowerClintClick:ClickOnPlayer( self.Player, mc )
+    GTowerClick:ClickOnPlayer( self.Player, mc )
 
 end
 
