@@ -12,7 +12,7 @@ function ENT:Initialize()
 
 end
 
-local BG, FG, RED = Color( 25, 15, 38 ), Color( 255, 255, 51 ), Color( 175, 35, 25 )
+local BG, FG, RED = Color( 25, 15, 38 ), Color( 180, 185, 90 ), Color( 175, 35, 25 )
 
 local FontSizes = { 12, 24, 32, 48, 64, 96, 18 }
 for k, v in pairs( FontSizes ) do
@@ -80,17 +80,17 @@ function ENT:DrawCard( x, y, w, value, suit, held )
 	local h = w * 1.443
 	x, y, w, h = math.Round( x ), math.Round( y ), math.Round( w ), math.Round( h )
 	local color = Color( 0, 0, 0 )
-	if held then color = Color( 0, 255, 255 ) end
+	if held then color = Color( 0, 255, 0 ) end
 	draw.RoundedBox( 2, x, y, w, h, color )
 	surface.SetMaterial( Materials[ suit ] or Materials[ 1 ] )
 	local back = ( value == 0 or suit == 0 ) and 0.445 or 0
 	value = back > 0 and 1 or value
-	local mult = 0.07674 * ( value - 1 )
+	local mult = 0.07674 * ( value - 1 ) 
 	surface.SetDrawColor( 255, 255, 255 )
 	surface.DrawTexturedRectUV( x + 1, y + 1, w - 2, h - 2, mult + 0.001, 0.01 + back, 0.078 + mult, 0.456 + back )
 
 	if held then
-		draw.RoundedBox( 2, x, y, w, h, Color( 0, 0, 255, 100 ) )
+		draw.RoundedBox( 2, x, y, w, h, Color( 0, 0, 255, 50 ) )
 	end
 	//surface.DrawTexturedRectUV( x, y, w, h, 0.001, 0.01, 1 / 13 + 0.001, 0.456 )
 
@@ -310,17 +310,16 @@ text template
 */
 ENT.Buttons = {}
 ENT.Text = {
-
+	
 }
 ENT.Width = 350
 ENT.Height = 350
 ENT.Scale = 0.035
-
 function ENT:DrawTranslucent()
 
 	// statistics
 	local Data = {
-		"Welcome to the GMod Tower casino!",
+		"Welcome to the tower casino!",
 		"This machine's jackpot is being displayed below (in credits). In GMC, it is worth: " .. string.Comma( self:GetJackpot() * self.GMCPerCredit ) .. " GMC.",
 		self.GMCPerCredit .. " GMC = 1 credit"
 	}
@@ -379,7 +378,7 @@ function ENT:DrawTranslucent()
 	cx, cy = self:GetCursorPos( pos, ang )
 	self.mX, self.mY = cx or -99999, cy or -99999
 	if cx and self:MouseOn( w / -2, h / -2, w, h ) then CursorVisible = true end
-	local DrawScreen = self:GetPlayer() == LocalPlayer() or LocalPlayer():EyePos():WithinDistance( pos, 100 ) or CursorVisible
+	local DrawScreen = self:GetPlayer() == LocalPlayer() or LocalPlayer():EyePos():Distance( pos ) < 100 or CursorVisible
 
 	cam.Start3D2D( pos, ang, self.Scale )
 
@@ -482,9 +481,6 @@ function ENT:DrawTranslucent()
 						y = 70 + 30,
 						w = 20,
 						h = 20,
-						text = "✓",
-						tcol = Color( 0, 200, 0 ),
-						font = "poker_7",
 						col = Color( 0, 66, 0 ),
 						border = Color( 0, 200, 0 ),
 						bordersize = 2,
@@ -553,7 +549,7 @@ function ENT:DrawTranslucent()
 
 					if self:GetScore() > 1 then
 
-						MainText( string.upper( self.Prizes[ self:GetScore() ].Name ), 0, -70, 1 )
+						MainText( string.upper( self.Prizes[ self:GetScore() ].Name ), 0, -55, 1 )
 						if self:GetState() == self.States.NOPLAY then
 							local Score = self.Prizes[self:GetScore()][self:GetBet()]
 							if Score == -1 then Score = "JACKPOT" end
@@ -567,8 +563,8 @@ function ENT:DrawTranslucent()
 				do
 					// prizes
 					local w2, h2 = w, h
-					local w, h = w + 90, 110
-					local x, y = w / -1.616 + 55, h2 / -1.885
+					local w, h = w - 00, 110
+					local x, y = w / -2, h2 / -2 + 10
 					draw.RoundedBox( 0, x, y, w, h, BG )
 					draw.RoundedBox( 0, x + 2, y + 2, w - 4, h - 4, FG )
 					draw.RoundedBox( 0, x + 4, y + 4, 110, h - 8, BG )
@@ -576,10 +572,15 @@ function ENT:DrawTranslucent()
 					y = y + 4
 					w = w - 8
 					h = h - 8
+					/*
+					draw.RoundedBox( 0, x + 150, y, 2, h, FG )
+					draw.RoundedBox( 0, x + 190, y, 2, h, FG )
+					draw.RoundedBox( 0, x + 230, y, 2, h, FG )
+					draw.RoundedBox( 0, x + 270, y, 2, h, FG )*/
 					for i = 1, 5 do
 						// inside of each box
 						//draw.RoundedBox( 0, x + 110 + 40 * ( i - 1 ), y, 2, h, FG )
-						draw.RoundedBox( 0, x + 112 + 44 * ( i - 1 ), y, i == 5 and 144 or 42, h, self:GetBet() == i and RED or BG )
+						draw.RoundedBox( 0, x + 112 + 44 * ( i - 1 ), y, i == 5 and 53 or 42, h, self:GetBet() == i and RED or BG )
 					end
 					local Count = 0
 
@@ -596,7 +597,7 @@ function ENT:DrawTranslucent()
 							local w, h = surface.GetTextSize( Text )
 							if w < 100 then
 								//Text = Text .. ( i % 2 == 0 and "+" or "-" )
-								Text = Text .. "·"
+								Text = Text .. "-"
 							else break end
 						end
 						local y2 = y + 6 + 10 * ( 9 - Count )
@@ -629,6 +630,7 @@ function ENT:DrawTranslucent()
 			else
 				surface.SetDrawColor( 0, 0, 0 )
 				surface.DrawRect( -self.Width / 2 - 50, -self.Height / 2 - 50, self.Width + 100, self.Height + 100 )
+				--draw.SimpleText( "PLAY ME", "poker_5", 0, SinBetween(-50,50,CurTime()), Color( 255,255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, Color( 0,0,0 ) )
 			end
 
 		end, function( error, stack )
@@ -680,7 +682,7 @@ function ENT:DrawTranslucent()
 
 	self.Width = 180
 	self.Height = 24
-	self.Scale = .1
+	self.Scale = 0.1
 
 	local mx, my = self:GetCursorPos( pos, ang, self.Scale, self.Width, self.Height )
 	self.mX, self.mY = mx or -99999, my or -99999
