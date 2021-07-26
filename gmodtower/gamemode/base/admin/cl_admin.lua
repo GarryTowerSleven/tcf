@@ -1905,7 +1905,6 @@ hook.Add( "PostDrawTranslucentRenderables", "AdminShowRenders", function()
 
 end )
 
-
 net.Receive("AdminWarnMessage",function()
 
 	local ply = net.ReadEntity()
@@ -1916,7 +1915,7 @@ net.Receive("AdminWarnMessage",function()
 
 	if LocalPlayer() != ply2 then return end
 
-	ply2:Msg2(  "[WARNING] ".. Text, "admin" )
+	Msg2( "[WARNING] " .. Text, nil, nil, "admin" )
 
 end)
 
