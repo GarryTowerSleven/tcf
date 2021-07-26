@@ -280,7 +280,7 @@ function GM:Think()
 
           --v:ChatPrint(tostring( "Rev time was: "..RevDelay.." seconds..." ))
 
-          if RevDelay < 1 then
+          if RevDelay < 2 then
             --v:ChatPrint(tostring( "Boosting!..." ))
             v:GetKart():SetIsBoosting( true )
 			v:AddAchivement(ACHIVEMENTS.SKROLLING, 1)
