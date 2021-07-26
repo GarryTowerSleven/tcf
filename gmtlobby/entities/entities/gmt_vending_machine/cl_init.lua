@@ -45,6 +45,6 @@ end
 
 hook.Add("StoreFinishBuy", "PlayBuySound", function()
 	if GTowerStore.StoreId == GTowerStore.VENDING then
-		self2:EmitSound("gmodtower/stores/purchase_vending.wav")
+		LocalPlayer():EmitSound("gmodtower/stores/purchase_vending.wav")
 	end
 end )
