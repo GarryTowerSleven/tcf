@@ -44,7 +44,7 @@ local function RegisterModel( name, friendlyName, desc, model, mdlname, price, s
 
 		AlwaysAllowModel = true,
 
-		StoreId = GTowerStore.PLAYERMODEL,
+		StoreId = store or GTowerStore.PLAYERMODEL,
 
 		StorePrice = price,
 

@@ -189,7 +189,7 @@ table.insert( GTowerHats.Hats, {
 	price = 150,
 	model = "models/gmod_tower/witchhat.mdl",
 	closetrow = 1,
-	storeid = 8,
+	storeid = GTowerStore.HALLOWEEN,
 	slot = SLOT_HEAD
 } )
 

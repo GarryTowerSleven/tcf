@@ -12,3 +12,4 @@ ENT.AdminSpawnable	= true
 ENT.CurAnimation = "idle_all_01"
 
 ENT.Model		= "models/player/skeleton.mdl"
+ENT.StoreId     = GTowerStore.HALLOWEEN

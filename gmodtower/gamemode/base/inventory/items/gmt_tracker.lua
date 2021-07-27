@@ -1,13 +1,13 @@
 ---------------------------------
 ITEM.Name = "Paranormal Detector"
 ITEM.ClassName = "gmt_tracker"
-ITEM.Description = "From Halloween 2019."
+ITEM.Description = "Track ghosts, reveal the truth."
 ITEM.Model = "models/weapons/w_pvp_ragingb.mdl"
 ITEM.UniqueInventory = false
 ITEM.DrawModel = true
 ITEM.Tradable = false
 
-ITEM.StorePrice = 250
+ITEM.StorePrice = 500
 ITEM.StoreId = 19
 
 ITEM.EquipType = "Weapon"
