@@ -6,7 +6,7 @@ function AnimatePig( ply, velocity )
 
 		if len2d > 0 then
 
-			if ply:GetNWBool("IsSprintting") then
+			if ply:GetNWBool("IsSprinting") then
 				ply.CalcSeqOverride = "run"
 			else
 				ply.CalcSeqOverride = "walk"
@@ -94,7 +94,7 @@ function AnimateUC( ply, velocity )
 		
 		if len2d > 0 then
 		
-			if ply:GetNWBool("IsSprintting") then		
+			if ply:GetNWBool("IsSprinting") then		
 				ply.CalcSeqOverride = "run"
 			else
 				ply.CalcSeqOverride = "walk"

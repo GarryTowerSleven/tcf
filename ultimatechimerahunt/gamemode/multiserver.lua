@@ -1,4 +1,4 @@
-game.ConsoleCommand("sv_scriptenforcer 1\n")
+//game.ConsoleCommand("sv_scriptenforcer 1\n")
 GTowerServers:SetRandomPassword()
 
 hook.Add("GTowerMsg", "GamemodeMessage", function()

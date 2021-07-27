@@ -2,13 +2,13 @@ local PANEL = {}
 local COLOR = Color( 255, 255, 255, 255 )
 local OUTLINECOLOR = Color( 0, 0, 0, 255 )
 
-HudMessages = {
+local HudMessages = {
 	[MSG_FIRSTJOIN] = "You are the first to join, waiting for additional players!",
 	[MSG_WAITJOIN] = "Waiting for next round!",
-	[MSG_UCSELECT] = "%s is The Ultimate Chimera!",
-	[MSG_UCNOTIFY] = "You are the The Ultimate Chimera, eat the Pigmasks!",
-	[MSG_PIGNOTIFY] = "You are a %s PigMask, turn off The Ultimate Chimera!",
-	[MSG_PIGWIN] = "Pigmasks have conquered The Ultimate Chimera!",
+	[MSG_UCSELECT] = "%s is the Ultimate Chimera!",
+	[MSG_UCNOTIFY] = "You are the Ultimate Chimera, eat the Pigmasks!",
+	[MSG_PIGNOTIFY] = "You are a%s Pigmask, turn off the Ultimate Chimera!",
+	[MSG_PIGWIN] = "Pigmasks have conquered the Ultimate Chimera!",
 	[MSG_UCWIN] = "The Ultimate Chimera has devoured all the Pigmasks!",
 	[MSG_TIEGAME] = "Time's up!  Round draw!",
 	[MSG_30SEC] = "Less than 30 seconds left!",
@@ -37,6 +37,9 @@ function PANEL:Init()
 	
 	self.CreatedTime = CurTime()
 	self.Font = "UCH_KillFont3"
+
+	self:SetMouseInputEnabled( false )
+	self:MouseCapture( false )
 
 end
 
@@ -160,8 +163,14 @@ local function ClientHudMsg( um )
 	if index == MSG_PIGNOTIFY then
 		
 		local rankName = ""
-		if IsValid( ent ) && ent:IsPlayer() then
-			rankName = ent:GetRankName()
+		if IsValid( ent ) && ent:IsPlayer() && !ent:GetNWBool( "IsChimera" ) then
+
+			if ent:GetRankName() == "Ensign" then
+				rankName = "n " .. ent:GetRankName()
+			else
+				rankName = " " .. ent:GetRankName()
+			end
+
 		end
 
 		message = string.format( message, rankName )

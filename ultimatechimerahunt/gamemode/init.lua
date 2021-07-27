@@ -30,7 +30,7 @@ CreateConVar("gmt_srvid", 7 )
 
 function GM:Initialize()
 	RegisterNWTableG()
-	self:SetGameState( STATUS_WAITING )
+	self:SetGameState( STATE_WAITING )
 	
 	//timer.Simple( .1, GAMEMODE:CacheStuff() ) //Precaching stuff
 	timer.Simple(.1, function() GAMEMODE:CacheStuff() end)

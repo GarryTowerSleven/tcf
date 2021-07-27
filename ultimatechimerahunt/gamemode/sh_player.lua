@@ -1,6 +1,6 @@
 function GM:KeyPress( ply, key )
 	
-	if !ply:GetNWBool("IsGhost") then
+	if !ply:GetNWBool( "IsGhost" ) then
 
 		self:SprintKeyPress( ply, key )
 
@@ -12,7 +12,7 @@ function GM:KeyPress( ply, key )
 
 			local t, num = "taunt", 1.1
 
-			if ply:GetNWInt("Rank") == 4 then
+			if ply:GetNWInt( "Rank" ) == 4 then
 				t, num = "taunt2", 1
 			end
 
@@ -33,7 +33,7 @@ function GM:KeyPress( ply, key )
 			if ply:IsPig() then
 				
 				if ply:CanPressButton() then
-				
+
 					local uc = self:GetUC()
 					uc:EmitSound( "UCH/chimera/button.wav", 80, math.random( 94, 105 ) )
 					
@@ -54,11 +54,10 @@ function GM:KeyPress( ply, key )
 
 				end
 				
-				if key == IN_ATTACK && ply:GetNWBool("HasSaturn") && !ply:GetNWBool("IsScared") && !ply:GetNWBool("IsTaunting") then
+				if key == IN_ATTACK && ply:GetNWBool( "HasSaturn" ) && !ply:GetNWBool( "IsScared" ) && !ply:GetNWBool( "IsTaunting" ) then
 
 					ply:EmitSound( "UCH/saturn/saturn_throw.wav", 80, 100 )
-					
-					timer.Simple( 0.01, function() if IsValid(ply) then ply:SetNWBool("HasSaturn",false) end end )
+					ply:SetNWBool( "HasSaturn", false )
 					
 					if IsValid( ply.HeldSaturn ) then
 						ply.HeldSaturn:Remove()
@@ -91,13 +90,13 @@ function GM:KeyPress( ply, key )
 
 		end
 
-		if ply:GetNWBool("IsChimera") then
+		if ply:GetNWBool( "IsChimera" ) then
 			self:UCKeyPress( ply, key )
 		end
 	
 	else
 		
-		if !ply:GetNWBool("IsGhost") && key == IN_ATTACK || key == IN_USE then
+		if !ply:GetNWBool( "IsGhost" ) && key == IN_ATTACK || key == IN_USE then
 			LocalPlayer().XHairAlpha = 242
 		end
 		
@@ -109,30 +108,30 @@ function GM:Move( ply, move )
 
 	if !IsValid( ply ) then return end
 		
-	if ply:GetNWBool("IsGhost") then
+	if ply:GetNWBool( "IsGhost" ) then
 		
 		local move = ply.GhostMove( move )
 		return move
 		
 	else
 
-		if ply:GetNWBool("IsTaunting") || ply:GetNWBool("IsBiting") || ply:GetNWBool("IsRoaring") || ( ply:GetNWBool("IsChimera") && !ply:Alive() ) then
+		if ply:GetNWBool( "IsTaunting" ) || ply:GetNWBool( "IsBiting" ) || ply:GetNWBool( "IsRoaring" ) || ( ply:GetNWBool( "IsChimera" ) && !ply:Alive() ) then
 
 			ply:SetLocalVelocity( Vector( 0, 0, 0 ) )
 			
-			if !ply.LockTauntAng then
+			/*if !ply.LockTauntAng then
 				ply.LockTauntAng = ply:EyeAngles()
 			end
 			
 			if ply:Alive() then
 				ply:SetEyeAngles( ply.LockTauntAng )
-			end
+			end*/
 			
 			return true
 
 		else
 
-			ply.LockTauntAng = nil
+			//ply.LockTauntAng = nil
 			return self.BaseClass:Move( ply, move )
 
 		end
@@ -143,7 +142,7 @@ end
 
 function GM:PlayerFootstep( ply, pos, foot, sound, volume, players )
 	
-	if ply:GetNWBool("IsChimera") || ply:GetNWBool("IsGhost") then
+	if ply:GetNWBool( "IsChimera" ) || ply:GetNWBool( "IsGhost" ) then
 		return true
 	end
 	

@@ -25,7 +25,7 @@ function ENT:Touch(ply)
         ply:SetEyeAngles(respawn:GetAngles())
         ply:SetVelocity(ply:GetVelocity() * -1)
         ply:Stun()
-    elseif ply:Alive() && ply:Team() == TEAM_PIGS && GAMEMODE:GetGameState() == STATUS_PLAYING then
+    elseif ply:Alive() && ply:Team() == TEAM_PIGS && GAMEMODE:GetGameState() == STATE_PLAYING then
         ply:Kill()
     end
 end

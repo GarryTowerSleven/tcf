@@ -4,33 +4,38 @@ function GM:DrawSaturn()
 
 	if !LocalPlayer():IsPig() then return end
 
-	for k, v in ipairs( ents.FindByClass( "mr_saturn" ) ) do
+	local saturns = ents.FindByClass( "mr_saturn" )
+	if #saturns == 0 then return end
 
-		if !IsValid( v ) then return end
+	for k, v in pairs( saturns ) do
 
-		local name = "Mr. Saturn"
-		local pos = ( v:GetPos() + Vector( 0, 0, 25 ) ):ToScreen()
+		if IsValid( v ) then
 
-		local dist = LocalPlayer():GetPos():Distance( v:GetPos() )
+			local name = "Mr. Saturn"
+			local pos = ( v:GetPos() + Vector( 0, 0, 25 ) ):ToScreen()
 
-		if dist <= 250 || dist >= 1024 then return end
-		local opacity = math.Clamp( 310.526 - ( 0.394737 * dist ), 0, 200 ) // woot mathematica
+			local dist = LocalPlayer():GetPos():Distance( v:GetPos() )
 
-		if pos.visible then
+			if dist <= 250 || dist >= 1024 then return end
+			local opacity = math.Clamp( 310.526 - ( 0.394737 * dist ), 0, 200 ) // woot mathematica
 
-			local x, y = pos.x, pos.y
-			local size = 64 //math.Clamp( dist / 64, 0, 64 )
+			if pos.visible then
 
-			cam.Start2D()
+				local x, y = pos.x, pos.y
+				local size = 64 //math.Clamp( dist / 64, 0, 64 )
 
-				surface.SetTexture( saturn )
-				surface.SetDrawColor( Color( 255, 255, 255, opacity ) )
-				surface.DrawTexturedRect( x - (size/2), y - (size/2), size, size )
+				cam.Start2D()
 
-				/*draw.SimpleText( name, "UCH_TargetIDName", x + 2, y + 2, color_black, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-				draw.SimpleText( name, "UCH_TargetIDName", x, y, color_gray, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )*/
+					surface.SetTexture( saturn )
+					surface.SetDrawColor( Color( 255, 255, 255, opacity ) )
+					surface.DrawTexturedRect( x - (size/2), y - (size/2), size, size )
 
-			cam.End2D()
+					/*draw.SimpleText( name, "UCH_TargetIDName", x + 2, y + 2, color_black, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+					draw.SimpleText( name, "UCH_TargetIDName", x, y, color_gray, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )*/
+
+				cam.End2D()
+
+			end
 
 		end
 
@@ -95,7 +100,7 @@ function PANEL:LayoutEntity( ent )
 
 	ent:SetPos( Vector( 0, 0, 0 ) )
 	ent:SetAngles( dir + Angle( 0, 90, 0 ) )
-	ent:SetModelScale( Vector( .5, .5, .5 ) )
+	ent:SetModelScale( .5, 0 )
 
 end
 

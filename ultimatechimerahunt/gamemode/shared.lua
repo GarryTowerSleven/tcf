@@ -51,7 +51,7 @@ function RegisterNWTableP(ply)
 	
 	/* Sprint */
 	ply:SetNWFloat("Sprint",1)
-	ply:SetNWBool("IsSprintting",false)
+	ply:SetNWBool("IsSprinting",false)
 	//ply:SetNWBool("IsSwimming",false)
 	
 	/* Animations */
@@ -65,9 +65,9 @@ end
 
 /* WONDERFUL ARRAY OF INDEXES */
 
-STATUS_WAITING		= 1
-STATUS_PLAYING		= 2
-STATUS_INTERMISSION	= 3
+STATE_WAITING		= 1
+STATE_PLAYING		= 2
+STATE_INTERMISSION	= 3
 
 TEAM_PIGS		= 1
 TEAM_CHIMERA	= 2
@@ -208,11 +208,11 @@ function GM:GetGameState()
 end
 
 function GM:IsPlaying()
-	return self:GetGameState() == STATUS_PLAYING
+	return self:GetGameState() == STATE_PLAYING
 end
 
 function GM:IsRoundOver()
-	return GetGlobalInt("State") == STATUS_INTERMISSION
+	return GetGlobalInt("State") == STATE_INTERMISSION
 end
 
 function GM:GetUC()

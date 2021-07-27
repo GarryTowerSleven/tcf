@@ -1,6 +1,6 @@
 function GM:ShouldDrawLocalPlayer()
 	
-	if ( LocalPlayer():GetNWBool("IsChimera") && LocalPlayer():Alive() ) || LocalPlayer():GetNWBool("IsTaunting") || LocalPlayer():GetNWBool("IsScared") then
+	if ( LocalPlayer():GetNWBool( "IsChimera" ) && LocalPlayer():Alive() ) || LocalPlayer():GetNWBool( "IsTaunting" ) || LocalPlayer():GetNWBool( "IsScared" ) then
 		return true
 	end
 	
@@ -10,8 +10,8 @@ end
 
 function GM:CreateMove( cmd )
 
-	if cmd:KeyDown( IN_ATTACK ) && !cmd:KeyDown( IN_USE ) && !LocalPlayer():GetNWBool("HasSaturn") then
-		cmd:SetButtons( cmd:GetButtons() + IN_USE ) // how do i bitwise?
+	if cmd:KeyDown( IN_ATTACK ) && !cmd:KeyDown( IN_USE ) then
+		cmd:SetButtons( cmd:GetButtons() + IN_USE )
 	end
 
 end
@@ -21,6 +21,33 @@ function GM:PlayerBindPress( ply, bind, pressed )
 	if bind == "+duck" && !ply:IsPig() then
 		return true
 	end
+
+	/*if bind == "+jump" && pressed then
+		// Bhop prevention
+		if LocalPlayer():Team() == TEAM_PIGS && ply:IsOnGround() then
+
+			if !ply._CurJump then 
+				ply._CurJump = CurTime()
+			end
+
+			if !ply._LastJump then
+				ply._LastJump = ply._CurJump
+			else
+				ply._LastJump = nil
+				ply._CurJump = CurTime()
+				return false
+			end
+
+			local diff = ply._CurJump - ply._LastJump
+			ply:ChatPrint( tostring( "last: " .. ply._LastJump .. " cur: " .. ply._CurJump .. " diff: " .. diff ) )
+
+			if diff < .5 then
+				return true
+			end
+
+		end
+
+	end*/
 
 	return false
 
@@ -42,9 +69,9 @@ function GM:InputMouseApply( cmd, x, y, ang )
 
 	local ply = LocalPlayer()
 	
-	if ply:GetNWBool("IsGhost") then return end
+	if ply:GetNWBool( "IsGhost" ) then return end
 
-	if ply:GetNWBool("IsTaunting") || ply:GetNWBool("IsRoaring") then
+	if ply:GetNWBool( "IsTaunting" ) || ply:GetNWBool( "IsRoaring" ) || ( ply:GetNWBool( "IsChimera" ) && !ply:Alive() ) then
 
 		TauntAngSafeGuard( ply )
 
@@ -53,7 +80,7 @@ function GM:InputMouseApply( cmd, x, y, ang )
 		local y = ( x * -GetConVar( "m_yaw" ):GetFloat() )
 		
 		ang.y = ang.y + y
-		//ang = ang:GetAngle()
+		//ang = ang:GetAngles()
 
 		ang.p = 16
 
@@ -63,7 +90,7 @@ function GM:InputMouseApply( cmd, x, y, ang )
 
 	end
 
-	if ply:GetNWBool("IsBiting") || ( ply:GetNWBool("IsChimera") && !ply:Alive() ) then
+	if ply:GetNWBool( "IsBiting" ) then
 		return true
 	end
 		
@@ -87,14 +114,43 @@ local function ThirdPersonCamera( ply, pos, ang, fov, dis )
 	view.origin = trpos
 	view.angles = ( ply:GetShootPos() - trpos ):Angle()
 	view.fov = fov
-
+	
 	return view
+
+	/*local dist = 150
+	local center = ply:GetPos() + Vector( 0, 0, 75 )
+
+	// Check for intersections
+	local tr = util.TraceLine( { start = center, 
+								 endpos = center + ( ang:Forward() * -dist * 0.95 ),
+								 filter = filters } )
+	if tr.Fraction < 1 then
+		dist = dist * ( tr.Fraction * 0.95 )
+	end
+
+	// Check for walls
+	local trWall = util.TraceHull( { start = center,
+								 endpos = center + ( ang:Forward() * -dist * 0.95 ),
+								 mins= Vector( -8, -8, -8 ), maxs = Vector( 8, 8, 8 ),
+								 filter = filters } )
+	if trWall.Fraction < 1 then
+		dist = dist * ( trWall.Fraction * 0.95 )
+	end
+
+	// Final position
+	local finalPos = center + ( ang:Forward() * -dist * 0.95 )
+
+	
+	return {
+		["origin"] = finalPos,
+		["angles"] = Angle(ang.p + 2, ang.y, ang.r)
+	}*/
 
 end
 
 function GM:CalcView( ply, pos, ang, fov )
 
-	if ply:GetNWBool("IsGhost") then
+	if ply:GetNWBool( "IsGhost" ) then
 
 		local num = 3
 		local view = {}
@@ -111,7 +167,7 @@ function GM:CalcView( ply, pos, ang, fov )
 	
 	local tang = ply.TauntAng
 
-	if ply:GetNWBool("IsTaunting") || ply:GetNWBool("IsRoaring") then
+	if ply:GetNWBool( "IsTaunting" ) || ply:GetNWBool( "IsRoaring" ) then
 		
 		TauntAngSafeGuard( ply )
 		tang = ply.TauntAng
@@ -140,7 +196,7 @@ function GM:CalcView( ply, pos, ang, fov )
 
 		if tang && ply:Alive() then
 			
-			if !ply:GetNWBool("IsChimera") then
+			if !ply:GetNWBool( "IsChimera" ) then
 				tang.p = 0
 			end
 
@@ -151,13 +207,13 @@ function GM:CalcView( ply, pos, ang, fov )
 			
 		end
 		
-		if ply:GetNWBool("IsScared") then
+		if ply:GetNWBool( "IsScared" ) then
 			return ThirdPersonCamera( ply, pos, ang, fov, 100 )
 		end
 		
 	end
 	
-	if ply:GetNWBool("IsChimera") then
+	if ply:GetNWBool( "IsChimera" ) then
 		
 		if ply:Alive() then
 			return ThirdPersonCamera( ply, pos, ang, fov, 125 )
@@ -189,7 +245,9 @@ end
 local function RestartAnimation( um )
 
 	local ply = um:ReadEntity()
-	ply:AnimRestartMainSequence()
+	if ply.AnimRestartMainSequence then
+		ply:AnimRestartMainSequence()
+	end
 
 end
 usermessage.Hook( "UC_RestartAnimation", RestartAnimation )

@@ -1,5 +1,5 @@
-surface.CreateFont( "UCH_TargetID", { font = "AlphaFridgeMagnets ", size = ScreenScale( 14), weight = 500 } )
-surface.CreateFont( "UCH_TargetIDName", { font = "AlphaFridgeMagnets ", size = ScreenScale( 10), weight = 500 } )
+surface.CreateFont( "UCH_TargetID", { font = "AlphaFridgeMagnets ", size = ScreenScale( 14 ), weight = 500 } )
+surface.CreateFont( "UCH_TargetIDName", { font = "AlphaFridgeMagnets ", size = ScreenScale( 10 ), weight = 500 } )
 
 function GM:DrawTargetID()
 	
@@ -9,8 +9,9 @@ function GM:DrawTargetID()
 	ply.TargetAlpha = ply.TargetAlpha or 0
 	
 	ply.TargetInfo = ply.TargetInfo or {}
-	
-	if IsValid( tr.Entity ) && tr.Entity:IsPlayer() && ( ply:GetNWBool("IsGhost") || ( ply:Team() == TEAM_PIGS && !tr.Entity:GetNWBool("IsGhost") && !tr.Entity:GetNWBool("IsChimera") ) ) then
+
+
+	if IsValid( tr.Entity ) && tr.Entity:IsPlayer() && !( tr.Entity:GetNWBool( "IsGhost" ) && !ply:GetNWBool( "IsGhost" ) ) then
 
 		if ply.TargetAlpha != 255 then
 
@@ -58,9 +59,9 @@ function GM:DrawTargetID()
 		clr = Color( color.r, color.g, color.b, 255 )
 		name = ply:GetName()
 
-		if ply:GetNWBool("IsGhost") then
+		if ply:GetNWBool( "IsGhost" ) then
 
-			if ply:GetNWBool("IsFancy") then
+			if ply:GetNWBool( "IsFancy" ) then
 				rank = "Fancy Ghostie"
 			else
 				rank = "Spooky Ghostie"
@@ -70,7 +71,7 @@ function GM:DrawTargetID()
 
 		end
 
-		if ply:GetNWBool("IsChimera") then
+		if ply:GetNWBool( "IsChimera" ) then
 
 			rank = "The Ultimate Chimera"
 			clr = Color( 230, 30, 110, 255 )

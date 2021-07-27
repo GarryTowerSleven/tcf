@@ -8,22 +8,30 @@ if SERVER then
 
 	function meta:Pancake()
 		
-		if (self:GetNWBool("IsChimera") || self:GetNWBool("IsPancake") || self.Bit || !GAMEMODE:IsPlaying()) then return end
+		if self:GetNWBool( "IsChimera" ) || self:GetNWBool( "IsPancake" ) || self.Bit || !GAMEMODE:IsPlaying() then return end
 		
 		//Msg( "Pancaking Pig: " .. tostring( self ), "\n" )
 
-		self:SetNWBool("IsPancake",true)
+		self:SetNWBool( "IsPancake", true )
 		self:Squeal()
 
 		timer.Simple( .5, function()
 
-			self.Squished = true
-			self:Kill()
+			if IsValid( self ) then
 
-			GAMEMODE:GetUC():HighestRankKill( self:GetNWInt("Rank") )
-			GAMEMODE:GetUC():AddAchievement( ACHIEVEMENTS.UCHPANCAKE, 1 )
+				self.Squished = true
+				self:Kill()
 
-			self:ResetRank()
+				local uc = GAMEMODE:GetUC()
+
+				if IsValid( uc ) then
+					uc:HighestRankKill( self:GetNWInt( "Rank" ) )
+					uc:AddAchievement( ACHIEVEMENTS.UCHPANCAKE, 1 )
+				end
+
+				self:ResetRank()
+
+			end
 
 		end )
 
@@ -39,10 +47,7 @@ else
 
 		self.PancakeNum = math.Approach( self.PancakeNum, .2, ( FrameTime() * ( self.PancakeNum * spd ) ) )
 
-		local scale = Vector(1, 1, self.PancakeNum)
-		local mat = Matrix()
-		mat:Scale( scale )
-		self:EnableMatrix( "RenderMultiply", mat )
+		SetModelScaleVector( Vector( 1, 1, self.PancakeNum ) )
 
 	end
 

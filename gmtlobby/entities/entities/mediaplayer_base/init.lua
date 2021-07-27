@@ -99,7 +99,32 @@ hook.Add("Location", "TurnOffTV", function( ply, loc )
 		end
 
 	end
-	
+
+	for k,v in pairs(ents.FindByClass('gmt_theater_screen')) do
+		local mp = v:GetMediaPlayer()
+
+		if not mp then
+			ErrorNoHalt("MediaPlayer test entity doesn't have player installed\n")
+			debug.Trace()
+			return
+		end
+		
+		if !v:GetNoDraw() then
+			v:SetNoDraw( true )
+		end
+
+		if loc == Location.Find(v:GetPos()) then
+			if !mp:HasListener(ply) then
+				mp:AddListener(ply)
+			end
+		else
+			if mp:HasListener(ply) then
+				mp:RemoveListener(ply)
+			end
+		end
+
+	end
+
 	for k,v in pairs(ents.FindByClass('gmt_radio')) do
 		local mp = v:GetMediaPlayer()
 
@@ -165,5 +190,44 @@ end
 function ENT:KeyValue( key, value )
 	if key == "model" then
 		self.Model = value
+	end
+end
+
+local function CreateMedia( title, duration, url, ownerName, ownerSteamID, startTime )
+	local media = MediaPlayer.GetMediaForUrl( url )
+
+	media._metadata = {
+		title = title,
+		duration = duration
+	}
+
+	media._OwnerName = ownerName
+	media._OwnerSteamID = ownerSteamID
+	media:StartTime( startTime or RealTime() )
+
+	return media
+end
+
+function ENT:StartIdleScreen(mp)
+	self.IdleScreenTitle = "Tower Unite: Early Access Trailer"
+	mp:AddMedia( CreateMedia(
+		self.IdleScreenTitle,
+		(1*60) + 40,
+		"https://www.youtube.com/watch?v=zWBLwrdRkm4",
+		"",
+		""
+	) )
+end
+
+function ENT:Think()
+	if self:GetClass() == "gmt_theater_screen" then
+		local mp = self:GetMediaPlayer()
+		if !mp:IsPlaying() then
+			self:StartIdleScreen(mp)
+		else
+			if #mp._Queue > 0 && mp:GetMedia():Title() == self.IdleScreenTitle then
+				mp:OnMediaFinished()
+			end
+		end
 	end
 end

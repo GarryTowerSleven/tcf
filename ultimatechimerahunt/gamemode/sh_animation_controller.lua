@@ -5,20 +5,20 @@ if !meta then
 end
 
 function meta:PlaybackRateOV( rate )
-	self:SetNWFloat("PlaybackRate",rate)
-	self:SetNWBool("PlaybackRateOV",true)
+	self:SetNWFloat( "PlaybackRate", math.Round( rate, 2 ) )
+	self:SetNWBool( "PlaybackRateOver", true )
 end
 
 function meta:PlaybackReset()
-	self:SetNWFloat("PlaybackRate",1)
-	self:SetNWBool("PlaybackRateOV",false)
+	self:SetNWFloat( "PlaybackRate", 1 )
+	self:SetNWBool( "PlaybackRateOver", false )
 end
 
-function GM:UpdateAnimation(  ply, velocity, maxseqgroundspeed  )
+function GM:UpdateAnimation( ply, velocity, maxseqgroundspeed )
 	
 	local eye = ply:EyeAngles()
 	
-	local estyaw = math.Clamp(  math.atan2( velocity.y, velocity.x ) * 180 / math.pi, -180, 180  )
+	local estyaw = math.Clamp( math.atan2( velocity.y, velocity.x ) * 180 / math.pi, -180, 180 )
 	local myaw = math.NormalizeAngle( math.NormalizeAngle( eye.y ) - estyaw )
 	
     // set the move_yaw ( because it's not an hl2mp model )
@@ -47,7 +47,7 @@ function GM:UpdateAnimation(  ply, velocity, maxseqgroundspeed  )
 			// correct player angles
 			ply:SetLocalAngles(  Angle( 0, y, 0 )  )
 
-			if CLIENT then
+			/*if CLIENT then
 
 				local rang = ply:GetRenderAngles()
 
@@ -56,7 +56,7 @@ function GM:UpdateAnimation(  ply, velocity, maxseqgroundspeed  )
 				if len2d <= 0 then
 					local num = 65
 					
-					if ply:GetNWBool("IsGhost") then
+					if ply:GetNWBool( "IsGhost" ) then
 						num = 25
 					end
 					
@@ -75,15 +75,15 @@ function GM:UpdateAnimation(  ply, velocity, maxseqgroundspeed  )
 
 				ply.SmoothBodyAnglesCL = math.ApproachAngle( ply.SmoothBodyAnglesCL, eye.y, num )
 
-				ply:SetRenderAngles( Angle( 0, ply.SmoothBodyAnglesCL, 0 ) )
+				//ply:SetRenderAngles( Angle( 0, ply.SmoothBodyAnglesCL, 0 ) )
 
-			end
+			end*/
 			
 		end
 		
 		if CLIENT then
 		
-			if !ply:GetNWBool("IsGhost") && !ply:GetNWBool("IsChimera") then
+			if !ply:GetNWBool( "IsGhost" ) && !ply:GetNWBool( "IsChimera" ) then
 			
 				if ply.IsMicOpen then
 					
@@ -107,18 +107,16 @@ function GM:UpdateAnimation(  ply, velocity, maxseqgroundspeed  )
 
 		ply:SetLocalAngles( Angle( 0, eye.y, 0 ) )
 
-		if CLIENT then
-
+		/*if CLIENT then
 			ply:SetRenderAngles( Angle( 0, eye.y, 0 ) )
-
-		end
+		end*/
 
 	end
 	
 	rate = math.Clamp( rate, 0, 1 )
 	
-	if ply:GetNWBool("PlaybackRateOV") then
-		rate = ply:GetNWFloat("PlaybackRate")
+	if ply:GetNWBool( "PlaybackRateOver" ) then
+		rate = ply:GetNWFloat( "PlaybackRate" )
 	end
 
 	ply:SetPlaybackRate( rate )
@@ -130,12 +128,12 @@ function GM:CalcMainActivity(  ply, velocity  )
 	ply.CalcIdeal = ACT_IDLE
 	ply.CalcSeqOverride = "idle"
 
-	if ply:GetNWBool("IsChimera") then
+	if ply:GetNWBool( "IsChimera" ) then
 		AnimateUC( ply, velocity )
 		return ply.CalcIdeal, ply:LookupSequence( ply.CalcSeqOverride )
 	end
 
-	if ply:GetNWBool("IsGhost") then
+	if ply:GetNWBool( "IsGhost" ) then
 		AnimateGhost( ply, velocity )
 		return ply.CalcIdeal, ply:LookupSequence( ply.CalcSeqOverride )
 	end

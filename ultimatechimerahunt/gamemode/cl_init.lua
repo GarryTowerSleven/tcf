@@ -40,7 +40,7 @@ end )
 
 hook.Add( "ShouldHideHats", "ShouldHideHats", function( ply )
 
-	if ply:GetNWBool("IsChimera") then
+	if ply:GetNWBool( "IsChimera" ) then
 		return true
 	end
 
@@ -125,13 +125,13 @@ end
 
 function GM:RenderScreenspaceEffects()
 	
-	if LocalPlayer():GetNWBool("IsGhost") then
+	if LocalPlayer():GetNWBool( "IsGhost" ) then
 		DoGhostEffects()
 	end
 
 	for k, ply in pairs( player.GetAll() ) do
 
-		if !LocalPlayer():GetNWBool("IsGhost") && ply:GetNWBool("IsGhost") || ( ply:GetNWBool("IsChimera") && !ply:Alive() ) then
+		if !LocalPlayer():GetNWBool( "IsGhost" ) && ply:GetNWBool( "IsGhost" ) || ( ply:GetNWBool( "IsChimera" ) && !ply:Alive() ) then
 			ply:SetRenderMode( RENDERMODE_NONE )
 		else
 			ply:SetRenderMode( RENDERMODE_NORMAL )
@@ -147,7 +147,7 @@ function GM:RenderScreenspaceEffects()
 
 		local rag = ply:GetRagdollEntity()
 		if IsValid( rag ) then
-			if !ply:GetNWBool("IsChimera") then
+			if !ply:GetNWBool( "IsChimera" ) then
 				rag:SetSkin( ply.skin or 1 )
 				rag:SetBodygroup( 1, ply.bgroup or 1 )
 				rag:SetBodygroup( 2, ply.bgroup2 or 1 )
@@ -173,14 +173,11 @@ function GM:RenderScreenspaceEffects()
 			end
 		end
 		
-		if ply:GetNWBool("IsPancake") then
-			ply:DoPancakeEffect();
+		if ply:GetNWBool( "IsPancake" ) then
+			ply:DoPancakeEffect()
 		else
-			ply.PancakeNum = 1;
-			local scale = Vector( 1,1,1 )
-			local mat = Matrix();
-			mat:Scale( scale );
-			ply:EnableMatrix( "RenderMultiply", mat );
+			ply.PancakeNum = 1
+			ply:SetModelScale( 1, 0 )
 		end
 		
 	end
@@ -189,7 +186,7 @@ end
 
 function GM:PrePlayerDraw( ply )
 	
-	if ( !LocalPlayer():GetNWBool("IsGhost") && ply:GetNWBool("IsGhost") || ( ply:GetNWBool("IsChimera") && !ply:Alive() ) || ( ply:GetNWBool("IsGhost") && ply:GetModel() != "models/uch/mghost.mdl" ) ) then
+	if ( !LocalPlayer():GetNWBool( "IsGhost" ) && ply:GetNWBool( "IsGhost" ) || ( ply:GetNWBool( "IsChimera" ) && !ply:Alive() ) || ( ply:GetNWBool( "IsGhost" ) && ply:GetModel() != "models/uch/mghost.mdl" ) ) then
 		return true
 	end
 	
@@ -280,7 +277,7 @@ hook.Add("PostDrawOpaqueRenderables", "UCAngry", function()
 
 	if GAMEMODE:IsLastPigmasks() then
 		local uch = GAMEMODE:GetUC()
-		if IsValid( uch ) && uch:Alive() then
+		if IsValid( uch ) then
 
 			local LEye = GetEyeAttach( uch, "L_eye" )
 			local REye = GetEyeAttach( uch, "R_eye" )

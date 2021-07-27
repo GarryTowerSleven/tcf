@@ -5,7 +5,7 @@ function GM:PlayerInitialSpawn( ply )
 	
 	if ply:IsBot() then return end
 
-	if self:GetGameState() == STATUS_WAITING then
+	if self:GetGameState() == STATE_WAITING then
 
 		local plys = player.GetAll()
 
@@ -40,7 +40,7 @@ function GM:PlayerSpawn( ply )
 
 	if ply:IsBot() then return end
 
-	if self:GetGameState() == STATUS_WAITING then
+	if self:GetGameState() == STATE_WAITING then
 
 		timer.Simple( 1, function()
 			self:SetMusic( ply, MUSIC_WAITING )
@@ -64,7 +64,7 @@ function GM:PlayerSpawn( ply )
 		if self:IsPlaying() then
 
 			if ply:GetNWBool("IsFancy") then
-				if IsValid( ply ) && ply:AchievementLoaded() then ply:AddAchievement( ACHIEVEMENTS.UCHDRUNKEN, 1 ) end
+				if IsValid( ply ) && ply:AchivementLoaded() then ply:AddAchievement( ACHIEVEMENTS.UCHDRUNKEN, 1 ) end
 			end
 
 		end

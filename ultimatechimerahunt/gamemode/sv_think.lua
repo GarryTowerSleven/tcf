@@ -2,7 +2,7 @@ function GM:Think()
 
 	if self.Ending then return end
 
-	if self.FirstPlySpawned && self:GetTimeLeft() <= 0 && self:GetGameState() == STATUS_WAITING then
+	if self.FirstPlySpawned && self:GetTimeLeft() <= 0 && self:GetGameState() == STATE_WAITING then
 		hook.Call("StartRound", GAMEMODE )
 	end
 
@@ -14,7 +14,7 @@ function GM:Think()
 		end
 	end
 
-	if self:GetGameState() == STATUS_INTERMISSION && GetGlobalInt("Round") + 1 > self.NumRounds then
+	if self:GetGameState() == STATE_INTERMISSION && GetGlobalInt("Round") + 1 > self.NumRounds then
 
 		for _,ply in ipairs( player.GetAll() ) do
 

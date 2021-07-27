@@ -38,7 +38,7 @@ function GM:StartRound()
 
 	Msg( "Starting round! " .. tostring( GetGlobalInt("Round") ) .. "\n" )
 
-	self:SetGameState( STATUS_PLAYING )
+	self:SetGameState( STATE_PLAYING )
 
 	self:CleanUp()
 	//self.CanStartDead = CurTime() + 5
@@ -78,7 +78,7 @@ function GM:WaitRound( force )
 
 	Msg( "Waiting for players.", "\n" )
 
-	self:SetGameState( STATUS_WAITING )
+	self:SetGameState( STATE_WAITING )
 
 	if !self.FirstPlySpawned || force then
 		SetGlobalFloat("Time", CurTime() + self.WaitingTime)
@@ -110,7 +110,7 @@ function GM:EndRound( teamid )
 
 	Msg( "Ending Round...\n" )
 
-	self:SetGameState( STATUS_INTERMISSION )
+	self:SetGameState( STATE_INTERMISSION )
 
 	for _, v in ipairs( player.GetAll() ) do
 

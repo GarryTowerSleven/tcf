@@ -218,6 +218,16 @@ function MediaPlayer.ShowSidebar( mp )
 		end
 	end
 
+	if Location.IsTheater( LocalPlayer():Location() ) then
+		for k,v in pairs(ents.FindByClass('gmt_theater_screen')) do
+			if v:Location() == LocalPlayer():Location() then ent = v end
+		end
+		
+		if IsValid(ent) then
+			mp = MediaPlayer.GetByObject( ent )
+		end
+	end
+
 
 	-- Else, maybe the gamemode handles this some other way (location system, etc.)
 	if not mp then

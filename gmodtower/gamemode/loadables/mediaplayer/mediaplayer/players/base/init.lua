@@ -332,7 +332,8 @@ function MEDIAPLAYER:RequestMedia( media, ply )
 		self:AddMedia( media )
 		self:QueueUpdated()
 
-		local msg = string.format( "Added '%s' to the queue", media:Title() )
+		--local msg = string.format( "Added '%s' to the queue", media:Title() )
+		local msg = T( "Theater_VideoAddedToQueue", media:Title() )
 		self:NotifyPlayer( ply, msg )
 
 		self:BroadcastUpdate()

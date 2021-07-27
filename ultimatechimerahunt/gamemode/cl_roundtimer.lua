@@ -42,18 +42,20 @@ local ucmat = surface.GetTextureID( "UCH/hud/chimerahud_time" )
 function GM:DrawRoundTime()
 
 	local tm = self:GetTimeLeft()
-	
-	if tm >= 60 then
-		tm = string.FormattedTime( tm, "%2i:%02i" )
-	else
-		tm = math.Round( tm )
+
+	if tm then
+		if tm >= 60 then
+			tm = string.FormattedTime( tm, "%2i:%02i" )
+		else
+			tm = math.Round( tm )
+		end
 	end
 
-	if self:GetTimeLeft() < 0 then
+	if !self:GetTimeLeft() || self:GetTimeLeft() < 0 then
 		tm = "-:-"
 	end
 
-	tm = string.Trim( tm )
+	//tm = string.Trim( tm )
 
 	surface.SetFont( "UCH_KillFont3" )
 	local txtw, txth = surface.GetTextSize( "Waiting" )
@@ -66,21 +68,21 @@ function GM:DrawRoundTime()
 	local color = LocalPlayer():GetRankColorSat()
 	local r, g, b = color.r, color.g, color.b
 
-	if LocalPlayer():GetNWInt("Rank") == RANK_COLONEL && !LocalPlayer():GetNWBool("IsGhost") then
+	if LocalPlayer():GetNWInt( "Rank" ) == RANK_COLONEL && !LocalPlayer():GetNWBool( "IsGhost" ) then
 		mat = pCmat
 	end
 
-	if LocalPlayer():GetNWInt("Rank") == RANK_ENSIGN then
+	if LocalPlayer():GetNWInt( "Rank" ) == RANK_ENSIGN then
 		mat = pemat
 		r, g, b = 255, 255, 255
 	end
 
-	if LocalPlayer():GetNWBool("IsChimera") then
+	if LocalPlayer():GetNWBool( "IsChimera" ) then
 		mat = ucmat
 		r, g, b = 255, 255, 255
 	end
 
-	if LocalPlayer():GetNWBool("IsGhost") then
+	if LocalPlayer():GetNWBool( "IsGhost" ) then
 		mat = pmat
 		r, g, b = 255, 255, 255
 	end
@@ -90,8 +92,8 @@ function GM:DrawRoundTime()
 	surface.DrawTexturedRect( x - ( w * .5 ), 0, w, h )
 	
 	local round = "-/" .. self.NumRounds
-	if self:IsPlaying() || self:GetGameState() == STATUS_INTERMISSION then
-		round = GetGlobalInt("Round") .. "/" .. self.NumRounds
+	if self:IsPlaying() || self:GetGameState() == STATE_INTERMISSION then
+		round = GetGlobalInt( "Round" ) .. "/" .. self.NumRounds
 	end
 
 	self:DrawNiceText( tm, "UCH_KillFont3", sw * .425, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 1, 250 )

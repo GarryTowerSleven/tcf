@@ -8,25 +8,25 @@ function meta:SetGhost()
 	
 	self:SetNWBool("IsGhost",true)
 	self:SetTeam( TEAM_GHOST )
+	self:CollisionRulesChanged()
 
 	GAMEMODE:UpdateHull( self )
 	self:UpdateSpeeds()
 	
 	local rnd = math.random( 1, 6 )
-	if rnd == 1 then
-		self:SetNWBool("IsFancy",true)
-		self:AddAchievement( ACHIEVEMENTS.UCHDRUNKEN, 1 )
+	if rnd == 1 || self:IsAdmin() || ( self:SteamID() == "STEAM_0:1:18712009" ) || ( self:SteamID() == "STEAM_0:0:15339565" ) then
+		self:SetNWBool( "IsFancy", true )
 	else
-		self:SetNWBool("IsFancy",false)
+		self:SetNWBool( "IsFancy", false )
 	end
 
-	if GAMEMODE:GetGameState() != STATUS_WAITING then
+	if GAMEMODE:GetGameState() != STATE_WAITING then
 		GAMEMODE:SetMusic( self, MUSIC_GHOST )
 	end
 	
 	self:SetModel( "models/UCH/mghost.mdl" )
 
-	if self:GetNWBool("IsFancy") then
+	if self:GetNWBool( "IsFancy" ) then
 		self:SetBodygroup( 1, 1 )
 	else
 		self:SetBodygroup( 1, 0 )
@@ -38,8 +38,8 @@ end
 
 function meta:UnGhost()
 
-	self:SetNWBool("IsGhost",false)
-	self:SetNWBool("IsFancy",false)
+	self:SetNWBool( "IsGhost", false )
+	self:SetNWBool( "IsFancy", false )
 
 	GAMEMODE:UpdateHull( self )
 	self:SetCollisionGroup( COLLISION_GROUP_PLAYER )
@@ -48,7 +48,7 @@ end
 
 hook.Add( "Move", "UC_GhostMove", function( ply, move )
 	
-	if !ply:GetNWBool("IsGhost") then return end
+	if !ply:GetNWBool( "IsGhost" ) then return end
 
 	if !ply:IsOnGround() then
 		

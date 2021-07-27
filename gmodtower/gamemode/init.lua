@@ -114,8 +114,8 @@ include("base/models/init.lua")
 include("base/bit/bit.lua")
 include("base/bit/hex.lua")
 
-AddCSLuaFile( "base/theater/cl_init.lua" )
-include( "base/theater/init.lua" )
+--AddCSLuaFile( "base/theater/cl_init.lua" )
+--include( "base/theater/init.lua" )
 
 include("base/vip/init.lua")
 

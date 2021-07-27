@@ -107,7 +107,7 @@ function GM:DrawHUD()
 	local mat = pigmat
 
 	// Current alive pigs
-	if self:GetGameState() == STATUS_PLAYING then
+	if self:GetGameState() == STATE_PLAYING then
 		local pigs = #team.GetPlayers( TEAM_PIGS )
 		surface.SetTexture( ensignLogo )
 		surface.SetDrawColor( Color( 250, 255, 255 ) )
@@ -176,11 +176,11 @@ function GM:HUDPaint()
 
 	local txt = nil
 	
-	if self:GetGameState() == STATUS_WAITING then
+	if self:GetGameState() == STATE_WAITING then
 		
 		txt = "Waiting for players..."
 		
-	elseif self:GetGameState() == STATUS_INTERMISSION then
+	elseif self:GetGameState() == STATE_INTERMISSION then
 		
 		txt = "Starting new round..."
 		
