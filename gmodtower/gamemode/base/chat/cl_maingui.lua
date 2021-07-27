@@ -404,11 +404,13 @@ function PANEL:Think()
 
 	-- Hide when using camera
 
-	if ( LocalPlayer():IsCameraOut() != nil && LocalPlayer():IsCameraOut() ) then
+	if ( LocalPlayer():IsCameraOut() != nil ) then
 
-		if not self.washidden then self.washidden = self.textpanel:IsVisible() end
+		if LocalPlayer():IsCameraOut() then
+			if not self.washidden then self.washidden = self.textpanel:IsVisible() end
 
-		self.textpanel:SetVisible( false )
+			self.textpanel:SetVisible( false )
+		end
 
 	else
 
