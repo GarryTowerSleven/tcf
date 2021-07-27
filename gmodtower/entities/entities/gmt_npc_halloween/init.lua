@@ -2,14 +2,8 @@ AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
 include('shared.lua')
 
-function ENT:AcceptInput( name, activator, ply )
-
-    if name == "Use" && ply:IsPlayer() && ply:KeyDownLast(IN_USE) == false then
-		timer.Simple( 0.0, function()
-			GTowerStore:OpenStore( ply, 19 )
-		end)
-
-
-    end
-
+function ENT:Think()
+	if self.TaskSequenceEnd == nil then
+		self:PlaySequence(nil, "idle_all_01", nil, 1)
+	end
 end

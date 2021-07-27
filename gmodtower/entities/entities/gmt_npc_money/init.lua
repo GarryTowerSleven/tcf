@@ -4,6 +4,12 @@ include('shared.lua')
 
 ENT.MoneyValue = 500
 
+function ENT:Think()
+	if self.TaskSequenceEnd == nil then
+		self:PlaySequence(nil, "pose_standing_01", nil, 1)
+	end
+end
+
 function ENT:AcceptInput( name, activator, ply )
 
     if name == "Use" && ply:IsPlayer() && ply:KeyDownLast(IN_USE) == false then

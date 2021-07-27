@@ -88,14 +88,23 @@ end
 /* ----------------------------------
 	Animations
 ---------------------------------- */
-function ENT:PlaySequence(str)
+function ENT:PlaySequence(id, name, wait, speed)
 
-	if self.bAnimating then return end
+    --data.ID 	- sequence id
+	--data.Name 	- sequence name (Must provide either id or name)
+	--data.Wait	- Optional. Should we wait for sequence to finish
+	--data.Speed	- Optional. Playback speed of sequence
 
-	local seq = self:LookupSequence(str)
-	self:ResetSequence(seq)
+	if SERVER then
+		local data = {
+			ID = id,
+			Name = name,
+			Wait = wait,
+			Speed = speed or 1
+		}
 
-	self.bAnimating = true
+		self:TaskStart_PlaySequence( data )
+	end
 
 end
 
