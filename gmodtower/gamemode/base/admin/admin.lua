@@ -3,7 +3,7 @@ util.AddNetworkString("JoinFriendCheck")
 GTowerAdmins = {
 	--"STEAM_0:0:44458854", -- Bumper From Ballrace
 	--"STEAM_0:0:50197118", Zoephix
-	"STEAM_0:1:39916544", -- Anomaladox
+	--"STEAM_0:1:39916544", -- Anomaladox
 	--"STEAM_0:1:97372299", NotGaylien
 	--"STEAM_0:0:156132358", Basical
 	"STEAM_0:0:71992617", -- Haina, praise be
