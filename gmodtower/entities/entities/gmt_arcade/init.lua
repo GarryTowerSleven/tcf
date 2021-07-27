@@ -66,7 +66,7 @@ function ENT:Think()
 					ply._ArcadeTimers[ Skin ] = ply._ArcadeTimers[ Skin ] + 10
 
 					if ply._ArcadeTimers[ Skin ] >= 300 then
-						ply:SetAchivement( ACHIVEMENTS.ArcadeJunkie, nil, Skin - 2 )
+						ply:SetAchievement( ACHIEVEMENTS.ArcadeJunkie, nil, Skin - 2 )
 					end
 				end
 
@@ -91,7 +91,7 @@ function ENT:Use( ply )
 	if PlyHat != nil then
 
 		if self.GameIDs[ self:GetSkin() ] == "Fancy Pants" && GTowerHats.Hats[ PlyHat ] && GTowerHats.Hats[ PlyHat ].Name == "Top Hat"  then
-			ply:SetAchivement( ACHIVEMENTS.FANCYPANTS, 1 )
+			ply:SetAchievement( ACHIEVEMENTS.FANCYPANTS, 1 )
 		end
 
 	end
@@ -108,12 +108,12 @@ concommand.Add("gmt_arcadejunkie", function( ply, cmd, args )
 	end
 	ply._LastCheckGameTime = CurTime() + 0.4
 
-	local Achivements = bit.tobits( ply:GetAchivement( ACHIVEMENTS.ArcadeJunkie, true ) )
+	local Achievements = bit.tobits( ply:GetAchievement( ACHIEVEMENTS.ArcadeJunkie, true ) )
 	local NotFound = {}
 
 	for i=2, 22 do
 
-		if Achivements[ i - 1 ] == 0 then
+		if Achievements[ i - 1 ] == 0 then
 			Msg("Not found: " .. i .."\n")
 			table.insert( NotFound, i )
 		end

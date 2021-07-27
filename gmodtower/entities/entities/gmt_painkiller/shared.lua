@@ -37,7 +37,7 @@ function ENT:Use(ply)
 	ply:Freeze( false )
 	ply:UnDrunk()
 	PostEvent( ply, "ppainkiller" )
-	ply:AddAchivement( ACHIVEMENTS.PILLSHERE, 1 )
+	ply:AddAchievement( ACHIEVEMENTS.PILLSHERE, 1 )
 
 	self:Remove()
 end

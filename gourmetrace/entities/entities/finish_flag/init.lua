@@ -17,10 +17,10 @@ function ENT:StartTouch( entity )
 
 		pos = pos + 1
 
-		entity:AddAchivement( ACHIVEMENTS.GRMILESTONE2, 1 )
+		entity:AddAchievement( ACHIEVEMENTS.GRMILESTONE2, 1 )
 
 		if entity:GetNWInt("Points") == 0 then
-			entity:AddAchivement(ACHIVEMENTS.GRMALNOURISHED,1)
+			entity:AddAchievement(ACHIEVEMENTS.GRMALNOURISHED,1)
 		end
 
 		entity:Freeze(true)
@@ -53,7 +53,7 @@ function ENT:StartTouch( entity )
 		end
 
 		if pos == 1 then
-			entity:AddAchivement(ACHIVEMENTS.GRRACER,1)
+			entity:AddAchievement(ACHIEVEMENTS.GRRACER,1)
 		end
 
 	end

@@ -161,8 +161,8 @@ function GM:Think()
 
 		for k,v in pairs(player.GetAll()) do
 			v:SendLua([[RunConsoleCommand( "gmt_showscores", "1" )]])
-			v:AddAchivement( ACHIVEMENTS.ZMDAWNOFTHEDEAD, 1 )
-			v:AddAchivement( ACHIVEMENTS.ZM28DAYS, 1 )
+			v:AddAchievement( ACHIEVEMENTS.ZMDAWNOFTHEDEAD, 1 )
+			v:AddAchievement( ACHIEVEMENTS.ZM28DAYS, 1 )
 		end
 
 		self.LostRound = false

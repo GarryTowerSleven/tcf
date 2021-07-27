@@ -7,7 +7,7 @@ local Angle = Angle
 local math = math
 local IsValid = IsValid
 local Msg = Msg
-local ACHIVEMENTS = ACHIVEMENTS
+local ACHIEVEMENTS = ACHIEVEMENTS
 local _G = _G
 local GTowerLocation = GTowerLocation
 

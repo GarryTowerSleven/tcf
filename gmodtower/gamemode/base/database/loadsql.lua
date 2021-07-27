@@ -5,7 +5,7 @@ local function SetDefaultSQLData(ply)
 
 	if ply:IsBot() then return end
 
-	GtowerAchivements:Load( ply, 0x0 )
+	GTowerAchievements:Load( ply, 0x0 )
 
 	ply:LoadInventoryData( 0x0, 1 )
 	ply:LoadInventoryData( 0x0, 2 )
@@ -75,7 +75,7 @@ function RetrieveSQLData(ply)
 						ply._TetrisHighScore = tetrisscore
 					end
 
-					GtowerAchivements:Load(ply,tostring(achi))
+					GTowerAchievements:Load(ply,tostring(achi))
 					ClientSettings:LoadSQLSave(ply,tostring(settings))
 
 					ply:LoadInventoryData( tostring(inv), 1 )

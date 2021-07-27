@@ -190,15 +190,15 @@ ACHIEVEMENTS.MINIMILESTONE1 = 154
 
 /*
 	Data = {
-		Name = "" //Name of the achivement
+		Name = "" //Name of the achievement
 		Description = ""
 		Group  = "" //Group of the achivmement, for organazing the score board, leave "nil" for Other
-		Value = 1 //A value for what is the maximun value of the achivement
+		Value = 1 //A value for what is the maximun value of the achievement
 		GetValue = function( val ) return val / 10 end // This function will be called client side when you want to get the value to be shown in the scoreboard
 		GetMaxValue = function() return 30 end //This function will be called client side when you want to get the max value to be shown in the scoreboard
-		GiveItem = nil //MysqlID of a item to deposit in the bank when the achivement is earned
-		NotGiveSlot = false //By default, a slot in the bank will be added when an achivement with an GiveItem is earned, set this true if no slots should be added (WARNING: If it is true and the bank is full, no item will be given )
-		BitValue = //If set to true, the achivement will be bit values, the "AddAchievement" takes an extra argument, and Value is the lenght of the string
+		GiveItem = nil //MysqlID of a item to deposit in the bank when the achievement is earned
+		NotGiveSlot = false //By default, a slot in the bank will be added when an achievement with an GiveItem is earned, set this true if no slots should be added (WARNING: If it is true and the bank is full, no item will be given )
+		BitValue = //If set to true, the achievement will be bit values, the "AddAchievement" takes an extra argument, and Value is the lenght of the string
 	}
 */
 
@@ -211,12 +211,12 @@ local Values = {
 function GtowerAchievements:Add( id, Data )
 
 	if !id then
-		ErrorNoHalt("Attention: Attempting to add " .. tostring(Data.Name) .. " with achivement id '0'\n")
+		ErrorNoHalt("Attention: Attempting to add " .. tostring(Data.Name) .. " with achievement id '0'\n")
 		return
 	end
 	
 	if self.Achievements[ id ] != nil then
-		ErrorNoHalt("Attention: Attempting to add " .. tostring(Data.Name) .. " with achivement id of '"..id.."', a key that already exists\n")
+		ErrorNoHalt("Attention: Attempting to add " .. tostring(Data.Name) .. " with achievement id of '"..id.."', a key that already exists\n")
 		return
 	end
 	

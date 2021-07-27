@@ -48,7 +48,7 @@ function ENT:GivePresent(ply)
 	ply.Candy = (ply.Candy or 0) + 1
 	ply:SetNWInt( "Candy", ply.Candy )
 
-	ply:AddAchivement( ACHIVEMENTS.HALLOWEENBUCKET, 1 )
+	ply:AddAchievement( ACHIEVEMENTS.HALLOWEENBUCKET, 1 )
 
 	if #ents.FindByClass("gmt_item_bucket") == 1 then
 		GAMEMODE:ColorNotifyAll( "All candy buckets have been collected.", Color(255, 140, 0, 255) )

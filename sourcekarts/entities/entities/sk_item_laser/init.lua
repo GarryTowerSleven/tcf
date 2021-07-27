@@ -27,7 +27,7 @@ function ENT:Think()
         net.WriteString( "YOU HIT "..string.upper( self.HitEntity:GetOwner():Name() ) )
       net.Send( self:GetOwner() )
 
-	  self:GetOwner():AddAchivement( ACHIVEMENTS.SKLASER, 1 )
+	  self:GetOwner():AddAchievement( ACHIEVEMENTS.SKLASER, 1 )
 
       self:GetOwner():GetKart():EmitSound(SOUND_LASERHIT,80)
 

@@ -10,7 +10,7 @@ DeriveGamemode( "gmodtower" )
 
 Loadables.Load( {
 	"clientsettings",
-	"achivement",
+	"achievement",
 	"commands",
 	"afk2",
 	"friends",

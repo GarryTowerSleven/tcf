@@ -115,7 +115,7 @@ function AWARDS:Init()
 		self.Groups[ id ] = group
 
 	end
-    for k, v in pairs( GtowerAchivements.Achivements ) do
+    for k, v in pairs( GTowerAchievements.Achievements ) do
         if v.Group then
             self.Groups[ v.Group ]:AddAchievement( v )
         else

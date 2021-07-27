@@ -16,7 +16,7 @@ local LastPlayerSend = {}
 
 concommand.Add("gmt_reqachi", function( ply, cmd, args )
 	
-	if !ply._Achivements then
+	if !ply._Achievements then
 		return
 	end
 	
@@ -26,16 +26,16 @@ concommand.Add("gmt_reqachi", function( ply, cmd, args )
 	
 	ply._NextReqAchi = CurTime() + 1.0
 	
-	for k, v in pairs( GtowerAchivements.Achivements ) do
+	for k, v in pairs( GTowerAchievements.Achievements ) do
 	
-		if !ply._AchivementSentValues then
-			ply._AchivementSentValues = {}
+		if !ply._AchievementSentValues then
+			ply._AchievementSentValues = {}
 		end
 		
-		local Value = ply:GetAchivement( k )
+		local Value = ply:GetAchievement( k )
 		
-		if Value != 0 && math.floor( Value ) != ply._AchivementSentValues[ k ] then
-			GtowerAchivements:NetworkUpdate( ply, k )
+		if Value != 0 && math.floor( Value ) != ply._AchievementSentValues[ k ] then
+			GTowerAchievements:NetworkUpdate( ply, k )
 		end
 	
 	end
@@ -53,7 +53,7 @@ concommand.Add("gmt_achidebug", function( ply, cmd, args )
 	local Value = tonumber( args[2] )
 	
 	if Id && Value then
-		ply:SetAchivement( Id, Value, tonumber(args[3]) )
+		ply:SetAchievement( Id, Value, tonumber(args[3]) )
 	end
 	
 end )

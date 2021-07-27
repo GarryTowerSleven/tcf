@@ -29,7 +29,7 @@ end
 function ENT:Touch(ent)
 	if !self.RemovedNow && CurTime() > self.PickupTime && IsValid(ent) && ent:IsPlayer() then
 		self.RemovedNow = true
-		//ent:AddAchivement( ACHIVEMENTS.CANDYCORNCONSUMER, self.Value )
+		//ent:AddAchievement( ACHIEVEMENTS.CANDYCORNCONSUMER, self.Value )
 		self:Remove()
 	end
 end

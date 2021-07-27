@@ -40,7 +40,7 @@ function ENT:Think()
 				table.insert(self.ComboEnts,v)
 				self.Combo = self.Combo + 1
 				if self.Combo == 15 then
-					self.Shocker:AddAchivement(ACHIVEMENTS.ZMTESLA,1)
+					self.Shocker:AddAchievement(ACHIEVEMENTS.ZMTESLA,1)
 				end
 			end
 

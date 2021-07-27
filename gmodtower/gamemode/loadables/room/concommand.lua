@@ -127,10 +127,10 @@ function ShowRentWindow( ent, ply )
     umsg.End()
 
 	if ply.BAL > 0 then
-		ply:SetAchivement( ACHIVEMENTS.SUITEPICKUPLINE, 1 )
+		ply:SetAchievement( ACHIEVEMENTS.SUITEPICKUPLINE, 1 )
 	end
 
-	ply:AddAchivement( ACHIVEMENTS.SUITELADYAFF, 1 )
+	ply:AddAchievement( ACHIEVEMENTS.SUITELADYAFF, 1 )
 
 end
 
@@ -272,13 +272,13 @@ concommand.Add("gmt_roomkick", function( ply, cmd, args )
 
 			if Specific && ply == ents.GetByIndex(args[1]) && !ply:IsAdmin() then
 				Suite.RemovePlayer( ply )
-				Room.Owner:AddAchivement( ACHIVEMENTS.SUITELEAVEMEALONE, 1 )
+				Room.Owner:AddAchievement( ACHIEVEMENTS.SUITELEAVEMEALONE, 1 )
 				continue
 			end
 
 			if ply != Room.Owner && !IsFriendsWith( Room.Owner, ply ) && !ply:IsAdmin() then
 				Suite.RemovePlayer( ply )
-				Room.Owner:AddAchivement( ACHIVEMENTS.SUITELEAVEMEALONE, 1 )
+				Room.Owner:AddAchievement( ACHIEVEMENTS.SUITELEAVEMEALONE, 1 )
 			end
 		end
 

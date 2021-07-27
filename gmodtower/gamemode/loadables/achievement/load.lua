@@ -1,12 +1,10 @@
 
-hook.Add("LoadAchivements", "LoadBasicAchi", function()
+hook.Add("LoadAchievements", "LoadBasicAchi", function()
 
-	local AchimentsFolder = Loadables.LoadablesFolder .. "achivement/achivements/"
+	local AchimentsFolder = Loadables.LoadablesFolder .. "achievement/achievements/"
 
-	local Achivements = {
-		'addicted',
-		'longwalk',
-		'jumping',
+	local Achievements = {
+		'lobby',
 		'pvpbattle',
 		'holiday',
 		'ballrace',
@@ -18,11 +16,10 @@ hook.Add("LoadAchivements", "LoadBasicAchi", function()
 		'virus',
 		'milestones',
 		'ultimatechimera',
-		'zombierp',
 		'zombiemassacre',
 	}
 
-	for _, v in pairs( Achivements ) do
+	for _, v in pairs( Achievements ) do
 
 		if SERVER then
 			AddCSLuaFile( AchimentsFolder .. v .. ".lua" )

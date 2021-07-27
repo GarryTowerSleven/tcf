@@ -1,18 +1,18 @@
 
-hook.Add("Achivement", "GiveThrophie", function( ply, id )
+hook.Add("Achievement", "GiveThrophie", function( ply, id )
 
-	local Achivement = GtowerAchivements:Get( id )
+	local Achievement = GTowerAchievements:Get( id )
 	
-	if Achivement.GiveItem then
+	if Achievement.GiveItem then
 	
-		local ItemId = GTowerItems:FindByFile( Achivement.GiveItem )
+		local ItemId = GTowerItems:FindByFile( Achievement.GiveItem )
 		
 		if ply:HasItemById( ItemId ) then 
 			return
 		end
 		
 		if !ItemId then
-			Error("Could not give ".. Achivement.Name .. " thophy " .. tostring(Achivement.GiveItem) )
+			Error("Could not give ".. Achievement.Name .. " thophy " .. tostring(Achievement.GiveItem) )
 		end
 	
 		local Item = GTowerItems:CreateById( ItemId, ply ) 
@@ -24,7 +24,7 @@ hook.Add("Achivement", "GiveThrophie", function( ply, id )
 
 		ply:Msg2( T("AchievementsTrophyGot", Item.Name), "trophy" )
 
-		if Achivement.NotGiveSlot != true then
+		if Achievement.NotGiveSlot != true then
 			//You are getting a raise! A free slot!
 			ply:SetMaxBank( ply:BankLimit() + 1 )
 		end
@@ -57,11 +57,11 @@ concommand.Add("gmt_resettrophies", function( ply, cmd, args )
 	
 	local TrophiesGiven = 0
 	
-	for k, Achivement in pairs( GtowerAchivements.Achivements ) do
+	for k, Achievement in pairs( GTowerAchievements.Achievements ) do
 		
-		if ply:Achived( k ) && Achivement.GiveItem then
+		if ply:Achived( k ) && Achievement.GiveItem then
 			
-			local ItemId = GTowerItems:FindByFile( Achivement.GiveItem )
+			local ItemId = GTowerItems:FindByFile( Achievement.GiveItem )
 			
 			if !ply:HasItemById( ItemId ) then 
 				

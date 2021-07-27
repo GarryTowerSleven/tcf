@@ -26,8 +26,8 @@ function PANEL:SetId( id )
 	self.Id = id
 end
 
-function PANEL:GetAchivement()
-	return GtowerAchivements:Get( self.Id )
+function PANEL:GetAchievement()
+	return GTowerAchievements:Get( self.Id )
 end
 
 	
@@ -36,7 +36,7 @@ function PANEL:OnMouseReleased()
 	GtowerMenu:CloseAll()
 	
 	/*
-	local AchiTbl = GtowerAchivements.Achivements[ self.Id ]
+	local AchiTbl = GTowerAchievements.Achievements[ self.Id ]
 	
 	if AchiTbl == nil then return end
 	if AchiTbl.hasvalues == false then return end
@@ -85,21 +85,21 @@ function PANEL:PerformLayout()
 	
 	if !self.Id then return end
 	
-	local Achivement = self:GetAchivement()
+	local Achievement = self:GetAchievement()
 	
-	if !Achivement then return end
+	if !Achievement then return end
 	
-	self.TitleLabel:SetText( Achivement.Name )
-	self.DescriptionLabel:SetText( Achivement.Description )
+	self.TitleLabel:SetText( Achievement.Name )
+	self.DescriptionLabel:SetText( Achievement.Description )
 	
 	self.TitleLabel:SizeToContents()
 	self.DescriptionLabel:SizeToContents()
 	
-	local MaxValue = Achivement.Value
-	local Value = GtowerAchivements:GetValue( self.Id )
+	local MaxValue = Achievement.Value
+	local Value = GTowerAchievements:GetValue( self.Id )
 	
-	if Achivement.GetMaxValue then
-		MaxValue = Achivement.GetMaxValue()
+	if Achievement.GetMaxValue then
+		MaxValue = Achievement.GetMaxValue()
 	end
 	
 	//If it is not a boolean value
@@ -129,7 +129,7 @@ function PANEL:PerformLayout()
 		end
 	end
 	
-	if self.DEBUG then Msg(  Achivement.Name .. " - process value: " .. self.ProgressValue .. " ("..tostring(Value).."/"..MaxValue..")\n" ) end
+	if self.DEBUG then Msg(  Achievement.Name .. " - process value: " .. self.ProgressValue .. " ("..tostring(Value).."/"..MaxValue..")\n" ) end
 	
 end
 

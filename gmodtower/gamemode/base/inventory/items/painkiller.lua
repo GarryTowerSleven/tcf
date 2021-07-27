@@ -18,7 +18,7 @@ if SERVER then
 			self.Ply:Freeze( false )
 			self.Ply:UnDrunk()
 			PostEvent( self.Ply, "ppainkiller" )
-			self.Ply:AddAchivement( ACHIVEMENTS.PILLSHERE, 1 )
+			self.Ply:AddAchievement( ACHIEVEMENTS.PILLSHERE, 1 )
 
 			return nil
 		end

@@ -321,8 +321,8 @@ function ENT:Spin( ply, hitSelf )
 
 	if IsValid(ply) then
 
-		ply:AddAchivement( ACHIVEMENTS.SKHITPOWERUP, 1 )
-		self:GetOwner():AddAchivement( ACHIVEMENTS.SKPOWERUP, 1 )
+		ply:AddAchievement( ACHIEVEMENTS.SKHITPOWERUP, 1 )
+		self:GetOwner():AddAchievement( ACHIEVEMENTS.SKPOWERUP, 1 )
 
 		if !hitSelf then
 			net.Start( "HUDMessage" )

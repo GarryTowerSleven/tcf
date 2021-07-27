@@ -38,7 +38,7 @@ function ENT:Think()
 			if v:IsPlayer() && v != self:GetOwner() then
 				self:GetOwner():Spawn()
 				self:GetOwner():SetPos( self:GetPos() )
-				v:AddAchivement( ACHIVEMENTS.ZMGRAVESAVE, 1 )
+				v:AddAchievement( ACHIEVEMENTS.ZMGRAVESAVE, 1 )
 				self:Remove()
 			end
 		end

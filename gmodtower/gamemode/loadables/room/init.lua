@@ -238,7 +238,7 @@ end)
 
 timer.Create( "AchiSuiteParty", 60.0, 0, function()
 	for _, v in pairs( player.GetAll() ) do
-		if !v:AchivementLoaded() then return end
+		if !v:AchievementLoaded() then return end
 
 		local Room = v:GetRoom()
 
@@ -246,7 +246,7 @@ timer.Create( "AchiSuiteParty", 60.0, 0, function()
 			local Players = Room:GetPlayers()
 
 			if #Players >= 5 then
-				v:AddAchivement(  ACHIVEMENTS.SUITEPARTY, 1 )
+				v:AddAchievement(  ACHIEVEMENTS.SUITEPARTY, 1 )
 			end
 		end
 	end

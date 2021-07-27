@@ -78,29 +78,29 @@ function GM:EndRound( virusWins )
 		v:RemoveAllAmmo()
 		
 		if !v:GetNWBool("IsVirus") then
-			v:AddAchivement( ACHIVEMENTS.VIRUSSTRONG, 1 )
+			v:AddAchievement( ACHIEVEMENTS.VIRUSSTRONG, 1 )
 		end
 		
 		if v:GetNWInt("Rank") == 1 then
-			v:AddAchivement( ACHIVEMENTS.VIRUSBRAGGING, 1 )
+			v:AddAchievement( ACHIEVEMENTS.VIRUSBRAGGING, 1 )
 		end
 		
-		v:AddAchivement( ACHIVEMENTS.VIRUSTIMESPLIT, 1 )
-		v:AddAchivement( ACHIVEMENTS.VIRUSMILESTONE1, 1 )
+		v:AddAchievement( ACHIEVEMENTS.VIRUSTIMESPLIT, 1 )
+		v:AddAchievement( ACHIEVEMENTS.VIRUSMILESTONE1, 1 )
 
 	end
 	
 	local lastSurvivor = team.GetPlayers( TEAM_PLAYERS )[ 1 ]
 	
 	if IsValid( lastSurvivor ) then
-		lastSurvivor:AddAchivement( ACHIVEMENTS.VIRUSLASTALIVE, 1 )
+		lastSurvivor:AddAchievement( ACHIEVEMENTS.VIRUSLASTALIVE, 1 )
 	end
 	
 	if #team.GetPlayers( TEAM_PLAYERS ) >=4 then
 		
 		for _, v in ipairs( team.GetPlayers( TEAM_PLAYERS ) ) do
 
-			v:SetAchivement( ACHIVEMENTS.VIRUSTEAMPLAYER, 1 )
+			v:SetAchievement( ACHIEVEMENTS.VIRUSTEAMPLAYER, 1 )
 
 		end
 

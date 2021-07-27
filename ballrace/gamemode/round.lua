@@ -144,9 +144,9 @@ function GM:UpdateStatus(disc)
 
 			if NextMap then
 				if string.StartWith(game.GetMap(),"gmt_ballracer_memories") then
-					for k,v in pairs(player.GetAll()) do v:AddAchivement( ACHIVEMENTS.BRMEMORIES, 1 ) end
+					for k,v in pairs(player.GetAll()) do v:AddAchievement( ACHIEVEMENTS.BRMEMORIES, 1 ) end
 				end
-				for k,v in pairs(player.GetAll()) do if !v:GetNWBool("Popped") then v:AddAchivement( ACHIVEMENTS.BRUNPOPABLE, 1 ) end end
+				for k,v in pairs(player.GetAll()) do if !v:GetNWBool("Popped") then v:AddAchievement( ACHIEVEMENTS.BRUNPOPABLE, 1 ) end end
 				net.Start("roundmessage")
 				net.WriteInt( 3, 3 )
 				net.Broadcast()
@@ -371,10 +371,10 @@ function GM:PlayerComplete(ply)
 	ply.NextSpawn = CurTime()
 	ply:KillSilent()
 
-	ply:AddAchivement( ACHIVEMENTS.BRMASTER, 1 )
-	ply:AddAchivement( ACHIVEMENTS.BRMILESTONE1, 1 )
+	ply:AddAchievement( ACHIEVEMENTS.BRMASTER, 1 )
+	ply:AddAchievement( ACHIEVEMENTS.BRMILESTONE1, 1 )
 
-	if ply:Frags() == 0 then ply:AddAchivement( ACHIVEMENTS.BRLASTINLINE, 1 ) end
+	if ply:Frags() == 0 then ply:AddAchievement( ACHIEVEMENTS.BRLASTINLINE, 1 ) end
 
 	if tmysql and SQL.getDB() != false then
 

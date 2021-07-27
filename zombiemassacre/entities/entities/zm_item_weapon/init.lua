@@ -22,7 +22,7 @@ function ENT:PickUp( ply )
 
 	self.BaseClass:PickUp( ply )
 
-	ply:AddAchivement( ACHIVEMENTS.ZMWEAPONS, 1 )
+	ply:AddAchievement( ACHIEVEMENTS.ZMWEAPONS, 1 )
 
 	--if ( ply:IsFullyEquipped() ) then
 		--ply:GiveWeapon( self.Weapon, ply.SelectedWeapon )

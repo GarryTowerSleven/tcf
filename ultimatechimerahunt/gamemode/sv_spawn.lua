@@ -64,7 +64,7 @@ function GM:PlayerSpawn( ply )
 		if self:IsPlaying() then
 
 			if ply:GetNWBool("IsFancy") then
-				if IsValid( ply ) && ply:AchivementLoaded() then ply:AddAchivement( ACHIVEMENTS.UCHDRUNKEN, 1 ) end
+				if IsValid( ply ) && ply:AchievementLoaded() then ply:AddAchievement( ACHIEVEMENTS.UCHDRUNKEN, 1 ) end
 			end
 
 		end

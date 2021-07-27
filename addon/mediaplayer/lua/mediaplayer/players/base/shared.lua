@@ -205,7 +205,7 @@ function MEDIAPLAYER:Think()
 		
 		for _, ply in pairs( self._Listeners ) do
 			if !IsValid(ply) then continue end
-			ply:AddAchivement( ACHIVEMENTS.SUITEYOUTUBE, 1/300 )
+			ply:AddAchievement( ACHIEVEMENTS.SUITEYOUTUBE, 1/300 )
 		end
 		
 	end

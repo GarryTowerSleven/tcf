@@ -17,7 +17,7 @@ function ENT:PowerUpOn( ply )
 
 	if ply:Health() < 100 then
 		if ply:Health() < 10 then
-			ply:SetAchivement( ACHIVEMENTS.PVPONTHEBRINK, 1 )
+			ply:SetAchievement( ACHIEVEMENTS.PVPONTHEBRINK, 1 )
 		end
 
 		ply:SetHealth( math.min( ply:Health() + 50, 100 ) )

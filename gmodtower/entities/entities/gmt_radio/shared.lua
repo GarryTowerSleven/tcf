@@ -12,9 +12,9 @@ ENT.Model		= "models/props/cs_office/radio.mdl"
 
 GtowerPrecacheModel( ENT.Model )
 
-/*hook.Add("LoadAchivements","AchiPokerFace", function ()
+/*hook.Add("LoadAchievements","AchiPokerFace", function ()
 
-	GtowerAchivements:Add( ACHIVEMENTS.SUITEPOKERFACE, {
+	GTowerAchievements:Add( ACHIEVEMENTS.SUITEPOKERFACE, {
 		Name = "Poker Face� 2009",
 		Description = "Play a song about poker faces.",
 		Value = 1,

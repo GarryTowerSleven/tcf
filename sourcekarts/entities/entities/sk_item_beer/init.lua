@@ -54,7 +54,7 @@ function ENT:Touch(v)
 
 v:GetOwner():SetNWInt("BAL",50)
 v:GetOwner():Drink(60)
-v:GetOwner():AddAchivement( ACHIVEMENTS.SKDWI, 1 )
+v:GetOwner():AddAchievement( ACHIEVEMENTS.SKDWI, 1 )
 
 timer.Simple( 12, function()
   v:GetOwner():SetNWInt("BAL",0)
@@ -86,7 +86,7 @@ function ENT:Think()
 
 		v:GetOwner():SetNWInt("BAL",50)
 		v:GetOwner():Drink(60)
-		v:GetOwner():AddAchivement( ACHIVEMENTS.SKDWI, 1 )
+		v:GetOwner():AddAchievement( ACHIEVEMENTS.SKDWI, 1 )
 
 		timer.Simple( 12, function()
 			v:GetOwner():SetNWInt("BAL",0)

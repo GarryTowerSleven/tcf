@@ -52,7 +52,7 @@ end
 Loadables.Load( {
 	"clientsettings",
 	"commands",
-	"achivement",
+	"achievement",
 	"friends",
 	"afk2",
 	"scoreboard3",

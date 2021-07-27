@@ -34,40 +34,6 @@ ENT.DoorWidth = 44
 ENT.NegativeStartX = ENT.DoorWidth / -2
 ENT.NegativeStartY = -ENT.DoorHeight
 
-
-hook.Add("LoadAchivements","AchiTetris", function ()
-
-	GtowerAchivements:Add( ACHIVEMENTS.TETRISMANYPOINTS, {
-		Name = "Tetris Jesus",
-		Description = "Gain more than 5000 points in Tetris.",
-		Value = 5000,
-		Group = 4
-	})
-
-	GtowerAchivements:Add( ACHIVEMENTS.TETRISMUCHTIME, {
-		Name = "Tetris Lover",
-		Description = "Play Tetris for more than 4 hours.",
-		Value = 240,
-		Group = 4
-	})
-
-	GtowerAchivements:Add( ACHIVEMENTS.TETRIS4ONETIME, {
-		Name = "Long Savior",
-		Description = "Clean 4 rows at once.",
-		Value = 1,
-		Group = 4
-	})
-
-	GtowerAchivements:Add( ACHIVEMENTS.TETRIS1000AGAME, {
-		Name = "Patience and Skill",
-		Description = "Get more than 1000 points in one game.",
-		Value = 1000,
-		Group = 4
-	})
-
-
-end )
-
 hook.Add( "PlayerFootstep", "TetrisFootstep", function(ply)
 
 	if ply.InTetris then return true end
@@ -116,6 +82,8 @@ hook.Add("GTowerPhysgunPickup", "DisableTetris", function(pl, ent)
 	end
 end )
 
-function ENT:CanUse( ply )
+function ENT:CanUse( ply )
+
 		return true, "PLAY"
-end
+end
+

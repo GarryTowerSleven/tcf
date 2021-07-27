@@ -68,30 +68,6 @@ ENT.StartId = 2
 ENT.AchiCount = #ENT.GameIDs - ENT.StartId + 1
 local Count = ENT.AchiCount
 
-hook.Add("LoadAchivements","AchiArcadeJunkie", function ()
-
-/* the achievement has issues + the arcades aren't all there
-
-	GtowerAchivements:Add( ACHIVEMENTS.ArcadeJunkie, {
-		Name = "Arcade Junkie",
-		Description = "Play each flash arcade game. ",
-		Value = Count,
-		Group = 4,
-		BitValue = true,
-		GiveItem = "trophy_arcadejunkie"
-	})
-*/
-
-	GtowerAchivements:Add( ACHIVEMENTS.FANCYPANTS, {
-		Name = "Fancy Pants",
-		Description = "Play Fancy Pants Adventure while wearing a top hat.",
-		Value = 1,
-		Group = 4,
-		GiveItem = "trophy_fancypants"
-	})
-
-end )
-
 function ENT:CanUse( ply )
 	return true, "PLAY"
 end

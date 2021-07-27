@@ -120,8 +120,8 @@ function GM:EndRound( teamid )
 
 		v:ConCommand("gmt_showscores 1")
 
-		v:AddAchivement( ACHIVEMENTS.UCHMILESTONE1, 1 )
-		v:AddAchivement( ACHIVEMENTS.UCHMILESTONE2, 1 )
+		v:AddAchievement( ACHIEVEMENTS.UCHMILESTONE1, 1 )
+		v:AddAchievement( ACHIEVEMENTS.UCHMILESTONE2, 1 )
 
 		if endofgame then
 
@@ -137,9 +137,9 @@ function GM:EndRound( teamid )
 
 			if v:Team() == TEAM_PIGS then
 
-				v:AddAchivement( ACHIVEMENTS.UCHENTERTHEPIG, 1 )
+				v:AddAchievement( ACHIEVEMENTS.UCHENTERTHEPIG, 1 )
 				if team.AlivePigs() >= 3 then
-					v:AddAchivement( ACHIVEMENTS.UCHDYNASTY, 1 )
+					v:AddAchievement( ACHIEVEMENTS.UCHDYNASTY, 1 )
 				end
 
 			end

@@ -13,7 +13,7 @@ ENT.Model = "models/props_lab/blastdoor001c.mdl"
 
 GtowerPrecacheModel( ENT.Model )
 
-hook.Add("LoadAchivements","AchiJeoperty", function ()
+hook.Add("LoadAchievements","AchiJeoperty", function ()
 
 end )
 
@@ -57,16 +57,16 @@ function ENT:ReloadOBBBounds()
 end
 
 
-/*hook.Add("LoadAchivements","AchiTriviaMaster", function ()
+/*hook.Add("LoadAchievements","AchiTriviaMaster", function ()
 
-	GtowerAchivements:Add( ACHIVEMENTS.TRIVIAMASTER, {
+	GTowerAchievements:Add( ACHIEVEMENTS.TRIVIAMASTER, {
 		Name = "Trivia Master",
 		Description = "Win a round of GMT Trivia.",
 		Value = 1,
 		Group = 4
 	})
 
-	GtowerAchivements:Add( ACHIVEMENTS.MILLIONAIRE, {
+	GTowerAchievements:Add( ACHIEVEMENTS.MILLIONAIRE, {
 		Name = "Trivia Millionaire",
 		Description = "Win 100 GMT Trivia games.",
 		Value = 100,

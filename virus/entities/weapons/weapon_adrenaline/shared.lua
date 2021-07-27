@@ -38,11 +38,11 @@ function SWEP:PrimaryAttack()
 	if !IsFirstTimePredicted() || self.Owner.UsingAdrenaline || self.AdrenalineUsed then return end
 
 	if SERVER then
-		self.Owner:AddAchivement( ACHIVEMENTS.VIRUSDRUGGIE, 1 )
-		self.Owner:AddAchivement( ACHIVEMENTS.VIRUSMILESTONE2, 1 )
+		self.Owner:AddAchievement( ACHIEVEMENTS.VIRUSDRUGGIE, 1 )
+		self.Owner:AddAchievement( ACHIEVEMENTS.VIRUSMILESTONE2, 1 )
 
 		if ( #team.GetPlayers( TEAM_PLAYERS ) == 1 ) then
-			self.Owner:AddAchivement( ACHIVEMENTS.VIRUSOVERDOSE, 1 )
+			self.Owner:AddAchievement( ACHIEVEMENTS.VIRUSOVERDOSE, 1 )
 		end
 	end
 

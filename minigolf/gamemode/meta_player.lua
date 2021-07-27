@@ -151,14 +151,14 @@ if SERVER then
 	end
 
 	function meta:AwardSwing( swing )
-		self:AddAchivement( ACHIVEMENTS.MINIMILESTONE1, 1 )
-		self:AddAchivement( ACHIVEMENTS.MINIGREENGREENS, 1 )
-		--self:AddAchivement( ACHIVEMENTS.MINIMILESTONE1, 1 )
+		self:AddAchievement( ACHIEVEMENTS.MINIMILESTONE1, 1 )
+		self:AddAchievement( ACHIEVEMENTS.MINIGREENGREENS, 1 )
+		--self:AddAchievement( ACHIEVEMENTS.MINIMILESTONE1, 1 )
 
 		if swing == 1 then
 
-			self:SetAchivement( ACHIVEMENTS.MINIHOLEINONE, 1 )
-			self:AddAchivement( ACHIVEMENTS.MINIMASTERS, 1 )
+			self:SetAchievement( ACHIEVEMENTS.MINIHOLEINONE, 1 )
+			self:AddAchievement( ACHIEVEMENTS.MINIMASTERS, 1 )
 			
 			return
 		end
@@ -166,15 +166,15 @@ if SERVER then
 		local pardiff = self:GetParDiff( swing )
 
 		if pardiff == -3 then
-			self:AddAchivement( ACHIVEMENTS.MINIALBATROSS, 1 )
+			self:AddAchievement( ACHIEVEMENTS.MINIALBATROSS, 1 )
 		end
 
 		if pardiff == -2 then
-			self:AddAchivement( ACHIVEMENTS.MINIEAGLES, 1 )
+			self:AddAchievement( ACHIEVEMENTS.MINIEAGLES, 1 )
 		end
 
 		if pardiff == -1 then
-			self:AddAchivement( ACHIVEMENTS.MINIBIRDIE, 1 )
+			self:AddAchievement( ACHIEVEMENTS.MINIBIRDIE, 1 )
 		end
 	end
 

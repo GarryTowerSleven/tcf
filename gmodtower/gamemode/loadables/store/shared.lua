@@ -15,19 +15,3 @@ function GTowerStore:CalculatePrice( PriceTbl, CurMax, GoMax )
 	return MoneyNeeded
 
 end
-
-hook.Add("LoadAchivements","AchiSpendingMoney", function () 
-
-	GtowerAchivements:Add( ACHIVEMENTS.SMARTINVESTER, {
-		Name = "'Smart' Investor", 
-		Description = "Spend a total of 1,000 GMC on beer.", 
-		Value = 1000
-	})
-
-	GtowerAchivements:Add( ACHIVEMENTS.HOLEINPOCKET, {
-		Name = "Hole In Your Pocket", 
-		Description = "Spend a total of 5,000 GMC.", 
-		Value = 5000
-	})
-
-end )

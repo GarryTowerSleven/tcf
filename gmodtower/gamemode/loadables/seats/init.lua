@@ -195,7 +195,7 @@ timer.Create("GTowerCheckVehicle", 10.0, 0, function()
 		local Vehicle = ply:GetVehicle()
 
 		if IsValid( Vehicle ) then
-			ply:AddAchivement( ACHIVEMENTS.LONGSEATGETALIFE, 10/60 )
+			ply:AddAchievement( ACHIEVEMENTS.LONGSEATGETALIFE, 10/60 )
 		end
 	end
 end )

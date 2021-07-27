@@ -13,7 +13,7 @@ ENT.Model = "models/props_lab/blastdoor001c.mdl"
 
 //GtowerPrecacheModel( ENT.Model )
 
-hook.Add("LoadAchivements","AchiJeoperty", function ()
+hook.Add("LoadAchievements","AchiJeoperty", function ()
 
 end )
 
@@ -45,8 +45,10 @@ function ENT:ReloadOBBBounds()
 
 end
 
-function ENT:CanUse( ply )
-
+function ENT:CanUse( ply )
+
+
+
 	return true, "JOIN"
 
 end

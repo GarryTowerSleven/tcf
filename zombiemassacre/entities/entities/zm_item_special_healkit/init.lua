@@ -1,5 +1,8 @@
-AddCSLuaFile("cl_init.lua")
-AddCSLuaFile("shared.lua")
+AddCSLuaFile("cl_init.lua")
+
+AddCSLuaFile("shared.lua")
+
+
 include("shared.lua")
 
 function ENT:Initialize()
@@ -20,7 +23,7 @@ function ENT:Think()
 	for k,v in ipairs(ents.FindInSphere(self:GetPos(),self.Radius)) do
 		if v:IsPlayer() then
 			v:SetHealth( math.Clamp( ( v:Health() + 10 ),0, 100 ) )
-			self:GetOwner():AddAchivement(ACHIVEMENTS.ZMHEALKIT,10)
+			self:GetOwner():AddAchievement(ACHIEVEMENTS.ZMHEALKIT,10)
 		end
 	end
 

@@ -51,7 +51,7 @@ function ENT:StartTouch(ply)
 			ply:SetNWBool("Invincible",true)
 			ply:EmitSound("Invincibility")
 
-			ply:AddAchivement(ACHIVEMENTS.GRUNTOUCHABLE,1)
+			ply:AddAchievement(ACHIEVEMENTS.GRUNTOUCHABLE,1)
 
 			timer.Create("FlashyShit"..ply:EntIndex(),0.1,160,function()
 				if IsValid(ply) and ply:GetNWBool("Invincible") then

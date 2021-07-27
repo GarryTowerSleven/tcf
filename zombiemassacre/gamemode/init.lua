@@ -68,29 +68,27 @@ hook.Add("EntityTakeDamage","WeaponAchiCheck",function( target, dmginfo )
 		local wepclass = ply:GetActiveWeapon():GetClass()
 
 		if wepclass == "weapon_zm_special_focus" then
-			ply:AddAchivement( ACHIVEMENTS.ZMFOCUS, 1 )
+			ply:AddAchievement( ACHIEVEMENTS.ZMFOCUS, 1 )
 		elseif wepclass == "weapon_zm_ghostbuster" then
-			ply:AddAchivement( ACHIVEMENTS.ZMGHOSTBUSTER, 1 )
+			ply:AddAchievement( ACHIEVEMENTS.ZMGHOSTBUSTER, 1 )
 		elseif wepclass == "weapon_zm_nesguitar" then
-			ply:AddAchivement( ACHIVEMENTS.ZMNESGUITAR, 1 )
-		elseif wepclass == "weapon_zm_glauncher" then
-			ply:AddAchivement( ACHIVEMENTS.ZMMIRACLE, 1 )
+			ply:AddAchievement( ACHIEVEMENTS.ZMNESGUITAR, 1 )
 		end
 
 		local melee = { "weapon_zm_nesguitar", "weapon_zm_baseballbat", "weapon_zm_chainsaw", "weapon_zm_katana", "weapon_zm_medevilsword", "weapon_zm_melee_survivor", "weapon_zm_sledgehammer" }
 
 		if table.HasValue( melee, wepclass ) then
-			ply:AddAchivement( ACHIVEMENTS.ZMMELEE, 1 )
+			ply:AddAchievement( ACHIEVEMENTS.ZMMELEE, 1 )
 		end
 
 		if target:GetClass() == "zm_npc_dog" then
-			ply:AddAchivement( ACHIVEMENTS.ZMDOGKILL, 1 )
+			ply:AddAchievement( ACHIEVEMENTS.ZMDOGKILL, 1 )
 		end
 
 		if target:GetClass() == "zm_npc_zombie" then
-			ply:AddAchivement( ACHIVEMENTS.ZMMASSACRE, 1 )
+			ply:AddAchievement( ACHIEVEMENTS.ZMMASSACRE, 1 )
 		else
-			ply:AddAchivement( ACHIVEMENTS.ZMMUTANT, 1 )
+			ply:AddAchievement( ACHIEVEMENTS.ZMMUTANT, 1 )
 		end
 
 	end

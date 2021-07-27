@@ -105,7 +105,7 @@ end
 function ENT:Death( ply )
 	ply:AddFrags( self.Points )
 	ply:AddMoney( 25 )
-	ply:AddAchivement( ACHIVEMENTS.HALLOWEENGHOST, 1 )
+	ply:AddAchievement( ACHIEVEMENTS.HALLOWEENGHOST, 1 )
 	--ply:AddPoints( self.Points * 2 )
 	--ply:AddCombo()
 
@@ -135,7 +135,7 @@ function ENT:Attack( enemy, hit )
 		enemy:TakeDamage( self.Damage, self )
 
 		if enemy:IsPlayer() && self:GetClass() == "ghost_ghost" && IsHalloweenMap() then
-			enemy:AddAchivement( ACHIVEMENTS.HALLOWEENCREATURE, 1 )
+			enemy:AddAchievement( ACHIEVEMENTS.HALLOWEENCREATURE, 1 )
 		end
 
 		self:EmitSoundTable( self.SAttack )

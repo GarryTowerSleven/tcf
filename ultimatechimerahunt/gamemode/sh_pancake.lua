@@ -21,7 +21,7 @@ if SERVER then
 			self:Kill()
 
 			GAMEMODE:GetUC():HighestRankKill( self:GetNWInt("Rank") )
-			GAMEMODE:GetUC():AddAchivement( ACHIVEMENTS.UCHPANCAKE, 1 )
+			GAMEMODE:GetUC():AddAchievement( ACHIEVEMENTS.UCHPANCAKE, 1 )
 
 			self:ResetRank()
 

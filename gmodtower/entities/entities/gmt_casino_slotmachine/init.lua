@@ -281,7 +281,7 @@ concommand.Add( "slotm_spin", function( ply, cmd, args )
 	else
 		if IsValid(ent) && !ent.SlotsSpinning && !ent.Jackpot then
 			ply:AddMoney(-bet)
-			ply:AddAchivement( ACHIVEMENTS.SOREFINGER, 1 )
+			ply:AddAchievement( ACHIEVEMENTS.SOREFINGER, 1 )
 			ent.LastSpin = CurTime()
 			ent.BetAmount = bet
 			ent:PullLever()
@@ -449,7 +449,7 @@ function ENT:SendWinnings( ply, amount, bJackpot )
 		self:BroadcastJackpot(ply, amount)
 		ply:MsgI( "slots", "SlotsJackpot" )
 		ply:AddMoney(amount)
-		ply:AddAchivement( ACHIVEMENTS.MONEYWASTER, 1 )
+		ply:AddAchievement( ACHIEVEMENTS.MONEYWASTER, 1 )
 		self:EmitSound( Casino.SlotJackpotSound, 100, 100 )
 		self.Jackpot = CurTime() + 25
 

@@ -15,7 +15,7 @@ function meta:SetGhost()
 	local rnd = math.random( 1, 6 )
 	if rnd == 1 then
 		self:SetNWBool("IsFancy",true)
-		self:AddAchivement( ACHIVEMENTS.UCHDRUNKEN, 1 )
+		self:AddAchievement( ACHIEVEMENTS.UCHDRUNKEN, 1 )
 	else
 		self:SetNWBool("IsFancy",false)
 	end

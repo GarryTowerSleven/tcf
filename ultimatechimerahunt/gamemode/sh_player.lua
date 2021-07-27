@@ -41,11 +41,11 @@ function GM:KeyPress( ply, key )
 					uc.Presser = ply
 
 					ply:RankUp()
-					ply:AddAchivement( ACHIVEMENTS.UCHBUTTON, 1 )
-					ply:AddAchivement( ACHIVEMENTS.UCHMILESTONE3, 1 )
+					ply:AddAchievement( ACHIEVEMENTS.UCHBUTTON, 1 )
+					ply:AddAchievement( ACHIEVEMENTS.UCHMILESTONE3, 1 )
 					
 					if !ply:IsOnGround() then
-						ply:SetAchivement( ACHIVEMENTS.UCHAERIAL, 1 )
+						ply:SetAchievement( ACHIEVEMENTS.UCHAERIAL, 1 )
 					end
 
 					uc:Kill()

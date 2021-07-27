@@ -71,7 +71,7 @@ function ENT:Use( ply )
 	self.Opened = true
 
 	self:EmitSound( self.Nyan[math.random(1, #self.Nyan)] )
-	ply:AddAchivement( ACHIVEMENTS.CURIOUSCAT, 1 )
+	ply:AddAchievement( ACHIEVEMENTS.CURIOUSCAT, 1 )
 
 	self:Remove()
 

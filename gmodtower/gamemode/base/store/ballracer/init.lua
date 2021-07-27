@@ -10,9 +10,9 @@ end
 
 hook.Add("PlayerLevel", "Geometrically", function( ply )
 
-	if GtowerAchivements && !ply:Achived( ACHIVEMENTS.GEOMETRICALLY ) then
+	if GTowerAchievements && !ply:Achived( ACHIEVEMENTS.GEOMETRICALLY ) then
 
-		ply:SetAchivement( ACHIVEMENTS.GEOMETRICALLY , ply:GetLevel("BallRacerCube") + ply:GetLevel("BallRacerIcosahedron") + ply:GetLevel("BallRacerCatBall") + ply:GetLevel("BallRacerBomb") + ply:GetLevel("BallRacerGeo") + ply:GetLevel("BallRacerSoccerBall") + ply:GetLevel("BallRacerSpikedd") )
+		ply:SetAchievement( ACHIEVEMENTS.GEOMETRICALLY , ply:GetLevel("BallRacerCube") + ply:GetLevel("BallRacerIcosahedron") + ply:GetLevel("BallRacerCatBall") + ply:GetLevel("BallRacerBomb") + ply:GetLevel("BallRacerGeo") + ply:GetLevel("BallRacerSoccerBall") + ply:GetLevel("BallRacerSpikedd") )
 
 	end
 

@@ -22,7 +22,7 @@ local _G = _G
 local print = print
 local CurTime = CurTime
 local Location = Location
-local ACHIVEMENTS = ACHIVEMENTS
+local ACHIEVEMENTS = ACHIEVEMENTS
 local util = util
 local SetGlobalFloat = SetGlobalFloat
 local net = net
@@ -117,7 +117,7 @@ function playerDies( ply, inflictor, killer )
 		if killer != ply && IsValid( killer ) &&  killer:IsPlayer() then
 			killer:AddMoney( MoneyPerKill )
 			killer:SetNWInt("MinigameScore", ( killer:GetNWInt("MinigameScore") + 100 ) )
-			killer:AddAchivement(ACHIVEMENTS.MGGIBBIG,1)
+			killer:AddAchievement(ACHIEVEMENTS.MGGIBBIG,1)
 			TotalMoney = TotalMoney + MoneyPerKill
 		end
 

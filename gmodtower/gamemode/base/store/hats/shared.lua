@@ -124,14 +124,3 @@ hook.Add( "CanWearHat", "CheckStoreAllow", function( ply, uniquename )
 	end
 
 end)
-
-hook.Add("LoadAchivements","ZeldaFanboy", function ()
-
-	GtowerAchivements:Add( ACHIVEMENTS.ZELDAFANBOY, {
-		Name = "Zelda Fanboy",
-		Description = "Buy all Zelda-related hats.",
-		Value = 3,
-		GiveItem = "trophy_zeldafanboy"
-	})
-
-end )

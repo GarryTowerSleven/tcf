@@ -33,7 +33,7 @@ function ENT:Touch(ent)
 	ent:GetOwner():AddFrags(self.PointValue)
 
 	ent:GetOwner():EmitSound( self.EatSound )
-	ent:GetOwner():AddAchivement( ACHIVEMENTS.BRBANANABINGER, 1 )
+	ent:GetOwner():AddAchievement( ACHIEVEMENTS.BRBANANABINGER, 1 )
 	local effectdata = EffectData()
 		effectdata:SetOrigin( self:GetPos() + Vector( 0, 0, 20 ) )
 	util.Effect( "bananaeat", effectdata, true, true )

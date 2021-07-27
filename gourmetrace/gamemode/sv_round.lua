@@ -105,7 +105,7 @@ function GM:EndRound( teamid )
 
 	for _, ply in ipairs( player.GetAll() ) do
 
-		ply:AddAchivement(ACHIVEMENTS.GRMILESTONE1,1)
+		ply:AddAchievement(ACHIEVEMENTS.GRMILESTONE1,1)
 
 		ply:ConCommand("gmt_showscores 0")
 		self:SetRankSpawn( ply )

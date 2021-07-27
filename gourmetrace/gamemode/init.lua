@@ -68,7 +68,7 @@ function GM:PlayerButtonDown( ply, button )
 	if button == KEY_E then
 		if ply:GetNWString("Powerup") != "" then
 
-			ply:AddAchivement(ACHIVEMENTS.GRMILESTONE1,1)
+			ply:AddAchievement(ACHIEVEMENTS.GRMILESTONE1,1)
 
 			if ply:GetNWString("Powerup") == "warpstar" then
 
@@ -81,7 +81,7 @@ function GM:PlayerButtonDown( ply, button )
 					if !IsValid(first) then return end
 					ply:SetPos(first:GetPos())
 					if ply != first then
-						ply:AddAchivement(ACHIVEMENTS.GRBOTTOM,1)
+						ply:AddAchievement(ACHIEVEMENTS.GRBOTTOM,1)
 					end
 				end)
 				timer.Simple(0.6,function()

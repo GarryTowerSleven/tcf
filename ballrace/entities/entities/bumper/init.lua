@@ -45,7 +45,7 @@ function ENT:PhysicsCollide(data, phys)
 		self.Lit = CurTime()
 		self:EmitSound(self.BumpSound)
 
-		data.HitEntity:GetOwner():AddAchivement( ACHIVEMENTS.BRMILESTONE2, 1 )
+		data.HitEntity:GetOwner():AddAchievement( ACHIEVEMENTS.BRMILESTONE2, 1 )
 
 	end
 end

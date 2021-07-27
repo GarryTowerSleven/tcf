@@ -115,7 +115,7 @@ function GM:Infect( ply, infector )
 	if ( infector == nil ) then
 
 		infector = game.GetWorld()
-		if ply:AchivementLoaded() then ply:AddAchivement( ACHIVEMENTS.VIRUSLOSTHOPE, 1 ) end
+		if ply:AchievementLoaded() then ply:AddAchievement( ACHIEVEMENTS.VIRUSLOSTHOPE, 1 ) end
 
 		self:HudMessage( nil, 16 /* %s has been infected! */, 5, ply, nil, VirusColor )
 
@@ -129,7 +129,7 @@ function GM:Infect( ply, infector )
 		}
 		if tr.HitWorld then return end
 
-		infector:AddAchivement( ACHIVEMENTS.VIRUSPANDEMIC, 1 )
+		infector:AddAchievement( ACHIEVEMENTS.VIRUSPANDEMIC, 1 )
 		self:AddScore( infector, 1 )
 
 		ply:AddDeaths( 1 ) // todo: should being infected add 1 to deaths?

@@ -308,8 +308,8 @@ function ENT:ResetData()
 end
 
 function ENT:WinPlayer( LastBlock, x1, y1, x2, y2 )
-	self.Ply1:AddAchivement( ACHIVEMENTS.TICTACTOEPERSITANT, 1 )
-	self.Ply2:AddAchivement( ACHIVEMENTS.TICTACTOEPERSITANT, 1 )
+	self.Ply1:AddAchievement( ACHIEVEMENTS.TICTACTOEPERSITANT, 1 )
+	self.Ply2:AddAchievement( ACHIEVEMENTS.TICTACTOEPERSITANT, 1 )
 
 	local ply = self.Ply1
 
@@ -317,7 +317,7 @@ function ENT:WinPlayer( LastBlock, x1, y1, x2, y2 )
 		ply = self.Ply2
 	end
 
-	ply:AddAchivement( ACHIVEMENTS.TICTACTOEWIN, 1 )
+	ply:AddAchievement( ACHIEVEMENTS.TICTACTOEWIN, 1 )
 
 	local sfx = EffectData()
 		sfx:SetOrigin( ply:GetPos() )

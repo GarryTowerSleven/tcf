@@ -151,7 +151,7 @@ TEAM_FINISHED = 2
 
 Loadables.Load( {
 	"clientsettings",
-	"achivement",
+	"achievement",
 	"friends",
 	"commands",
 	"afk2",

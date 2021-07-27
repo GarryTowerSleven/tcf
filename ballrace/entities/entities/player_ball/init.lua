@@ -60,7 +60,7 @@ function ENT:PhysicsSimulate( phys, deltatime )
 	local anglevel = phys:GetAngleVelocity()
 
 	if velocity:Length() >= 3000 then
-		ply:SetAchivement( ACHIVEMENTS.BRSPEEDSTER, 1 )
+		ply:SetAchievement( ACHIEVEMENTS.BRSPEEDSTER, 1 )
 	end
 
 	if ( ply:KeyDown( IN_FORWARD ) ) then vMove = vMove + aEyes:Forward() end

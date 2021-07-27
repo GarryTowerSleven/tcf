@@ -157,14 +157,14 @@ end
 
 function ENT:EndGame()
 	if IsValid(self.Ply) then
-		if GtowerAchivements then
+		if GTowerAchievements then
 
 			self:EmitSound("gmodtower/arcade/tetris_Gameover.wav",70)
-			self.Ply:AddAchivement( ACHIVEMENTS.TETRISMANYPOINTS, self.Points )
-			self.Ply:AddAchivement( ACHIVEMENTS.TETRISMUCHTIME, (SysTime() - self.GameStart) / 60 )
+			self.Ply:AddAchievement( ACHIEVEMENTS.TETRISMANYPOINTS, self.Points )
+			self.Ply:AddAchievement( ACHIEVEMENTS.TETRISMUCHTIME, (SysTime() - self.GameStart) / 60 )
 
-			if self.Points > self.Ply:GetAchivement( ACHIVEMENTS.TETRIS1000AGAME ) then
-				self.Ply:SetAchivement( ACHIVEMENTS.TETRIS1000AGAME, self.Points )
+			if self.Points > self.Ply:GetAchievement( ACHIEVEMENTS.TETRIS1000AGAME ) then
+				self.Ply:SetAchievement( ACHIEVEMENTS.TETRIS1000AGAME, self.Points )
 			end
 
 		end

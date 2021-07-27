@@ -38,7 +38,7 @@ function ENT:Think()
 		if string.StartWith( v:GetClass(), "zm_npc_" ) then
 			self:EmitSound(self.SliceSound)
 			v:TakeDamage( 100, self:GetOwner() )
-			self:GetOwner():AddAchivement(ACHIVEMENTS.ZMBLADETRAP,1)
+			self:GetOwner():AddAchievement(ACHIEVEMENTS.ZMBLADETRAP,1)
 		end
 	end
 

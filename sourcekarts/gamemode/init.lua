@@ -174,7 +174,7 @@ function GM:Complete( ply )
 
 	if ply:GetPosition() == 1 then
     music.Play( 1, MUSIC_WIN, ply )
-		ply:AddAchivement( ACHIVEMENTS.SKCHAMP, 1 )
+		ply:AddAchievement( ACHIEVEMENTS.SKCHAMP, 1 )
   else
     music.Play( 1, MUSIC_LOSE, ply )
   end
@@ -283,7 +283,7 @@ function GM:Think()
           if RevDelay < 2 then
             --v:ChatPrint(tostring( "Boosting!..." ))
             v:GetKart():SetIsBoosting( true )
-			v:AddAchivement(ACHIVEMENTS.SKROLLING, 1)
+			v:AddAchievement(ACHIEVEMENTS.SKROLLING, 1)
             timer.Simple(2,function()
 			if IsValid(v) && IsValid(v:GetKart()) then
               v:GetKart():SetIsBoosting( false )

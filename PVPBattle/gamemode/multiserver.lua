@@ -57,8 +57,8 @@ end )
 		local Money = PrizeMoney[ k ] or ThanksForPlaying
 
 		ply:AddMoney( Money )
-		ply:AddAchivement( ACHIVEMENTS.PVPVETERAN, 1 )
-		ply:AddAchivement( ACHIVEMENTS.PVPMILESTONE1, 1 )
+		ply:AddAchievement( ACHIEVEMENTS.PVPVETERAN, 1 )
+		ply:AddAchievement( ACHIEVEMENTS.PVPMILESTONE1, 1 )
 
 		ply._HackerAmt = 0
 		ply._TheKid = 0

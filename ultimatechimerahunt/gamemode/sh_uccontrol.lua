@@ -511,11 +511,11 @@ if SERVER then
 			v.Bit = true
 			v:Kill()
 
-			v:AddAchivement( ACHIVEMENTS.UCHBACON, 1 )
-			self:AddAchivement( ACHIVEMENTS.UCHCHOMP, 1 )
+			v:AddAchievement( ACHIEVEMENTS.UCHBACON, 1 )
+			self:AddAchievement( ACHIEVEMENTS.UCHCHOMP, 1 )
 
 			if v:GetNWBool("IsTaunting") then
-				self:AddAchivement( ACHIVEMENTS.UCHSHOWBOATING, 1 )
+				self:AddAchievement( ACHIEVEMENTS.UCHSHOWBOATING, 1 )
 			end
 
 			self:HighestRankKill( v:GetNWInt("Rank") )

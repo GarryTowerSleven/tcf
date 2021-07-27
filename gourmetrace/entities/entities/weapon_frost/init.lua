@@ -22,7 +22,7 @@ end
 function ENT:StartTouch(ply)
     if ply:IsPlayer() and self:GetOwner() != ply and !ply:GetNWBool("Invincible") then
 
-			self:GetOwner():AddAchivement(ACHIVEMENTS.GROFFYOUGO,1)
+			self:GetOwner():AddAchievement(ACHIEVEMENTS.GROFFYOUGO,1)
 
 			timer.Create("ForceWalk",0.1,50,function() // Try making players go slow or be slippery in Gourmet Race. It won't work...
 				if ply:GetNWBool("Invincible") then

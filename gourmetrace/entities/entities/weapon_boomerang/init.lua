@@ -44,7 +44,7 @@ end
 function ENT:StartTouch(ply)
     if ply:IsPlayer() and self:GetOwner() != ply and !ply:GetNWBool("Invincible") then
 
-			self:GetOwner():AddAchivement(ACHIVEMENTS.GROFFYOUGO,1)
+			self:GetOwner():AddAchievement(ACHIEVEMENTS.GROFFYOUGO,1)
 
 			ply:SetVelocity(Vector(0,0,255))
 			self:SetTrigger(false)

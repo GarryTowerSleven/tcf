@@ -298,12 +298,12 @@ function GM:PlayerDeath( Victim, Inflictor, Attacker )
 	if IsValid(Inflictor) && Inflictor:GetClass() == "pvp_babynade" then
 		Inflictor.Kills = (Inflictor.Kills or 0) + 1
 		if Inflictor.Kills == 2 && IsValid(Attacker) then
-			Attacker:AddAchivement( ACHIVEMENTS.PVPFAMILY, 1 )
+			Attacker:AddAchievement( ACHIEVEMENTS.PVPFAMILY, 1 )
 		end
 	end
 
 	if IsValid(Inflictor) && Inflictor:GetClass() == "pvp_babynade" && IsValid(Attacker) && Attacker:IsPlayer() && string.StartWith( game.GetMap(), "gmt_pvp_aether" ) then
-		Attacker:AddAchivement( ACHIVEMENTS.PVPMAFIA, 1 )
+		Attacker:AddAchievement( ACHIEVEMENTS.PVPMAFIA, 1 )
 	end
 
 	if IsValid(Attacker) && Attacker:IsPlayer() && IsValid(Victim) && Victim:IsPlayer() then
@@ -332,11 +332,11 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 			if ply.HackerLastGroup == HITGROUP_HEAD then
 				if IsValid(attacker) && attacker:IsPlayer() then
 
-					attacker:AddAchivement( ACHIVEMENTS.PVPTRUEHACKER, 1 )
+					attacker:AddAchievement( ACHIEVEMENTS.PVPTRUEHACKER, 1 )
 					attacker._HackerAmt = attacker._HackerAmt + 1
 
 					if attacker._HackerAmt >= 10 then
-						attacker:SetAchivement( ACHIVEMENTS.PVPHACKER, 1 )
+						attacker:SetAchievement( ACHIEVEMENTS.PVPHACKER, 1 )
 					end
 
 				end
@@ -359,15 +359,15 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 
 			if IsValid( attacker ) && attacker:IsPlayer() then
 				attacker:AddFrags( 1 )
-				attacker:AddAchivement( ACHIVEMENTS.PVPOVERKILL , 1 )
+				attacker:AddAchievement( ACHIEVEMENTS.PVPOVERKILL , 1 )
 
 				if attacker.IsTakeOn then
-					attacker:AddAchivement( ACHIVEMENTS.PVPMILESTONE2, 1 )
+					attacker:AddAchievement( ACHIEVEMENTS.PVPMILESTONE2, 1 )
 				end
 
 				local dist = attacker:GetPos():Distance( ply:GetPos() )
 				if dist >= 2400 then
-					attacker:SetAchivement( ACHIVEMENTS.PVPEAGLEEYE, 1 )
+					attacker:SetAchievement( ACHIEVEMENTS.PVPEAGLEEYE, 1 )
 				end
 
 				if IsValid( attacker:GetActiveWeapon() ) then
@@ -376,7 +376,7 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 
 					if weapon == "weapon_neszapper" then
 
-						attacker:AddAchivement( ACHIVEMENTS.PVPDAMNEDDOG, 1 )
+						attacker:AddAchievement( ACHIEVEMENTS.PVPDAMNEDDOG, 1 )
 						attacker:EmitSound( Sound("gmodtower/pvpbattle/neszapper/neskill.wav"), 80 )
 
 					elseif weapon == "weapon_ragingbull" then
@@ -385,14 +385,14 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 						print(attacker._TheKid)
 
 						if attacker._TheKid >= 10 then
-							attacker:SetAchivement( ACHIVEMENTS.PVPTHEKID, 1 )
+							attacker:SetAchievement( ACHIEVEMENTS.PVPTHEKID, 1 )
 							attacker._TheKid = 0
 						end
 
 					elseif weapon == "weapon_toyhammer" then
 
 						if attacker._LaserOn then
-							attacker:SetAchivement( ACHIVEMENTS.PVPLAZOR, 1 )
+							attacker:SetAchievement( ACHIEVEMENTS.PVPLAZOR, 1 )
 						end
 
 					elseif weapon == "weapon_pulsesmartpen" then
@@ -412,7 +412,7 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 
 			elseif IsValid( attacker:GetOwner() ) then
 				attacker:GetOwner():AddFrags( 1 )
-				attacker:GetOwner():AddAchivement( ACHIVEMENTS.PVPOVERKILL , 1 )
+				attacker:GetOwner():AddAchievement( ACHIEVEMENTS.PVPOVERKILL , 1 )
 			else
 				ErrorNoHalt("Unhandled attacker " .. tostring(attacker) .. " owner: " .. tostring(attacker:GetOwner()))
 			end
@@ -485,8 +485,8 @@ function GM:EndRound()
 	for _, ply in ipairs( plys ) do
 		if ply.PowerUp > 0 then ply.PowerUp = CurTime() - 1 end
 		ply:Freeze( true )
-		ply:AddAchivement( ACHIVEMENTS.PVPVETERAN, 1 )
-		ply:AddAchivement( ACHIVEMENTS.PVPMILESTONE1, 1 )
+		ply:AddAchievement( ACHIEVEMENTS.PVPVETERAN, 1 )
+		ply:AddAchievement( ACHIEVEMENTS.PVPMILESTONE1, 1 )
 	end
 
 	local rp = RecipientFilter()

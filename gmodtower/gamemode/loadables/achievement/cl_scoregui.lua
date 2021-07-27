@@ -1,5 +1,5 @@
 
-hook.Add("GTowerScoreBoard", "AddAchivements", function()
+hook.Add("GTowerScoreBoard", "AddAchievements", function()
 
 	return {
 		["Name"] = "Awards",
@@ -20,7 +20,7 @@ function PANEL:Init()
 	localScoreGui = self
 	self.Groups = {}
 
-	for k, v in pairs( GTowerAchivements.Achivements ) do
+	for k, v in pairs( GTowerAchievements.Achievements ) do
 
 		local Group = v.Group or "Lobby"
 
@@ -59,17 +59,17 @@ function PANEL:Init()
 
 	//Time check on the function
 	self.NextUpdate = CurTime() + 1.0
-	GTowerAchivements:RequestUpdate()
+	GTowerAchievements:RequestUpdate()
 end
 
 function PANEL:ScoreboardOpen()
-	GTowerAchivements:RequestUpdate()
+	GTowerAchievements:RequestUpdate()
 	self.NextUpdate = CurTime() + 1.0
 end
 
 function PANEL:Think()
 	if CurTime() > self.NextUpdate then
-		GTowerAchivements:RequestUpdate()
+		GTowerAchievements:RequestUpdate()
 		self.NextUpdate = CurTime() + 1.0
 	end
 end
@@ -106,7 +106,7 @@ function PANEL:PerformLayout()
 		CurY = CurY + v:GetTall() + 2
 	end
 
-	for _, v in pairs( GTowerAchivements.Achivements ) do
+	for _, v in pairs( GTowerAchievements.Achievements ) do
 
 		if ValidPanel( v.panel ) then
 			v.panel:SetWidth( self:GetWide() / 2 - 10 )
@@ -122,16 +122,16 @@ function PANEL:PerformLayout()
 	self:SetSize( self:GetWide(), CurY )
 	self.ItemParent:SetTargetTall( CurY, self )
 
-	GTowerAchivements:RequestUpdate()
+	GTowerAchievements:RequestUpdate()
 
 end
 
 vgui.Register("GTowerAchivMain", PANEL )
 
 
-hook.Add("AchivementUpdate", "GTowerUpdateGUI", function()
+hook.Add("AchievementUpdate", "GTowerUpdateGUI", function()
 
-	/*for _, v in pairs( GTowerAchivements.Achivements ) do
+	/*for _, v in pairs( GTowerAchievements.Achievements ) do
 		if ValidPanel( v.panel ) then
 			v.panel:InvalidateLayout()
 		end

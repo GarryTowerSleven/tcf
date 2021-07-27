@@ -125,8 +125,8 @@ end
 
 timer.Create( "AchiBallerRoll", 60.0, 0, function()
 	for _, v in pairs( player.GetAll() ) do
-		if v:AchivementLoaded() then
-			v:AddAchivement( ACHIVEMENTS.BRBALLERROLL, 1 )
+		if v:AchievementLoaded() then
+			v:AddAchievement( ACHIEVEMENTS.BRBALLERROLL, 1 )
 		end
 	end
 

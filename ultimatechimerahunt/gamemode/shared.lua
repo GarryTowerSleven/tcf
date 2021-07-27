@@ -11,7 +11,7 @@ GM.RoundTime = 2 * 60
 DeriveGamemode( "gmodtower" )
 Loadables.Load( {
 	"clientsettings",
-	"achivement",
+	"achievement",
 	"friends",
 	"scoreboard3",
 	"payout",

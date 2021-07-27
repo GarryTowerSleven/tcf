@@ -119,7 +119,7 @@ function AWARDS:Init()
 
 	end
 
-    for k, v in pairs( GtowerAchivements.Achivements ) do
+    for k, v in pairs( GTowerAchievements.Achievements ) do
         if v.Group then
             self.Groups[ v.Group ]:AddAchievement( v )
         else
@@ -219,14 +219,14 @@ function AWARDS:PerformLayout()
 	end
 
 	// Count number of achievements unlocked
-	completed = GtowerAchivements:NumUnlocked()
+	completed = GTowerAchievements:NumUnlocked()
 
-	self.Progress:SetValue( completed / #GtowerAchivements.Achivements )
+	self.Progress:SetValue( completed / #GTowerAchievements.Achievements )
 	self.Progress:SetSize( self:GetWide(), 18 )
 	self.Progress:CenterHorizontal()
 	self.Progress:AlignBottom()
 
-	self.ProgressText:SetText( completed .. " / " .. #GtowerAchivements.Achivements .. "   AWARDS UNLOCKED" )
+	self.ProgressText:SetText( completed .. " / " .. #GTowerAchievements.Achievements .. "   AWARDS UNLOCKED" )
 	self.ProgressText:SizeToContents()
 	self.ProgressText:AlignBottom()
 	self.ProgressText:CenterHorizontal()

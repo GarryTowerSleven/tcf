@@ -18,7 +18,7 @@ if SERVER then
 	function ITEM:OnUse()
 		if IsValid( self.Ply ) && self.Ply:IsPlayer() then
 			self.Ply:EmitSound( self.Nyan[math.random(1, #self.Nyan)] )
-			self.Ply:AddAchivement( ACHIVEMENTS.CURIOUSCAT, 1 )
+			self.Ply:AddAchievement( ACHIEVEMENTS.CURIOUSCAT, 1 )
 
 			return GTowerItems:CreateById( GTowerItems.CreateMysteryItem(self.Ply), self.Ply )
 		end

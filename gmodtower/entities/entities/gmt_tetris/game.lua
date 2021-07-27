@@ -44,8 +44,8 @@ function ENT:EraseFullRows()
 		return
 	end
 
-	if RowCount == 4 && GtowerAchivements then
-		self.Ply:SetAchivement( ACHIVEMENTS.TETRIS4ONETIME, 1 )
+	if RowCount == 4 && GTowerAchievements then
+		self.Ply:SetAchievement( ACHIEVEMENTS.TETRIS4ONETIME, 1 )
 	end
 
 	self:AddPoints( RowCount * 10 + (RowCount-1) * 5 )

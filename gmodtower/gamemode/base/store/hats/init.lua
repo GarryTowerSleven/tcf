@@ -131,9 +131,9 @@ end )
 
 hook.Add("PlayerLevel", "ZeldaFanboy", function( ply )
 
-	if GtowerAchivements && !ply:Achived( ACHIVEMENTS.ZELDAFANBOY ) then
+	if GTowerAchievements && !ply:Achived( ACHIEVEMENTS.ZELDAFANBOY ) then
 
-		ply:SetAchivement( ACHIVEMENTS.ZELDAFANBOY , ply:GetLevel("hatlinkhat") + ply:GetLevel("hatfairywings") + ply:GetLevel("hatmajorasmask") )
+		ply:SetAchievement( ACHIEVEMENTS.ZELDAFANBOY , ply:GetLevel("hatlinkhat") + ply:GetLevel("hatfairywings") + ply:GetLevel("hatmajorasmask") )
 
 	end
 

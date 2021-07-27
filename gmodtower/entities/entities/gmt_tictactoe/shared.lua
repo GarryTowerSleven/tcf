@@ -15,25 +15,6 @@ ENT.Model		= "models/gmod_tower/gametable.mdl"
 
 GtowerPrecacheModel( ENT.Model )
 
-hook.Add("LoadAchivements","AchiTicTacToe", function ()
-	GtowerAchivements:Add( ACHIVEMENTS.TICTACTOEWIN, {
-		Name = "30 Wins",
-		Description = "Win a total of 30 Tic-Tac-Toe games.",
-		Value = 30,
-		Group = 4
-		}
-	)
-
-	GtowerAchivements:Add( ACHIVEMENTS.TICTACTOEPERSITANT, {
-		Name = "Toe Fetish",
-		Description = "Play 100 Tic-Tac-Toe games.",
-		Value = 100,
-		Group = 4
-		}
-	)
-
-end )
-
 ENT.TblSize = 60 //Actually 64, but do not include the borders
 ENT.NegativeSize = ENT.TblSize / 2
 ENT.UpPos = 20.25

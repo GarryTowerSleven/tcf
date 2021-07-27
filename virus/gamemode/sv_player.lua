@@ -85,7 +85,7 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 
 			if IsValid( attacker:GetActiveWeapon() ) then
 				if attacker:GetActiveWeapon():GetClass() == "weapon_sniperrifle" then
-					attacker:AddAchivement( ACHIVEMENTS.VIRUSPOINTANDCLICK, 1 )
+					attacker:AddAchievement( ACHIEVEMENTS.VIRUSPOINTANDCLICK, 1 )
 				end
 			end
 
@@ -96,7 +96,7 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 			local ent = dmginfo:GetInflictor():GetClass()
 			if ent == "tnt" then
 
-				attacker:AddAchivement( ACHIVEMENTS.VIRUSEXPLOSIVE, 1 )  // yippee ki-yay mother huger
+				attacker:AddAchievement( ACHIEVEMENTS.VIRUSEXPLOSIVE, 1 )  // yippee ki-yay mother huger
 
 			elseif ent == "player" then
 
@@ -108,7 +108,7 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 						attacker._Shell = attacker._Shell + 1
 						if attacker._Shell >= 2 then
 
-							attacker:SetAchivement( ACHIVEMENTS.VIRUSSHELLAWARE, 1 )
+							attacker:SetAchievement( ACHIEVEMENTS.VIRUSSHELLAWARE, 1 )
 							attacker._Shell = 0
 
 						end

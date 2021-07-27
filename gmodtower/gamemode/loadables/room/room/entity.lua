@@ -62,7 +62,7 @@ function PlayRadio( self, ply, music )
 
 		/*if string.sub(music, -4) == ".mp3" then
 			if music == "Lady%20GaGa%20-%20Poker%20Face.mp3" then
-				ply:AddAchivement( ACHIVEMENTS.SUITEPOKERFACE, 1 )
+				ply:AddAchievement( ACHIEVEMENTS.SUITEPOKERFACE, 1 )
 			end
 		end*/
 

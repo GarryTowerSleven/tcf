@@ -61,7 +61,7 @@ function SWEP:ShootMelee( dmg, hitworld_sound, hitply_sound, miss_sound )
 		if IsValid(trace.Entity) && trace.Entity:IsPlayer() and trace.Entity:Team() != TEAM_COMPLETED then
 			trace.Entity:SetVelocity(self.Owner:GetForward() * 800 + Vector(0,0,200))
 			if SERVER then
-				self.Owner:AddAchivement(ACHIVEMENTS.GRHAMMER,1)
+				self.Owner:AddAchievement(ACHIEVEMENTS.GRHAMMER,1)
 			end
 			sound = hitply_sound
 		elseif IsValid(trace.Entity) && trace.Entity:GetClass() == "star_block" then

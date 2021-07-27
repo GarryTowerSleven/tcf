@@ -4,30 +4,30 @@ include("load.lua")
 include("cl_scoregui.lua")
 include("cl_smallachigui.lua")
 
-GtowerAchivements.NextUpdate = 0
+GTowerAchievements.NextUpdate = 0
 
 local DEBUG = false
 
-function GtowerAchivements:GetValue( id )
+function GTowerAchievements:GetValue( id )
 
-	local Achivement = self.Achivements[ id ]
+	local Achievement = self.Achievements[ id ]
 
-	if Achivement == nil then
-		Msg("ACHIVEMENT: Attemping to get value of " .. id .. ", a nonexistance achivement.")
+	if Achievement == nil then
+		Msg("ACHIEVEMENT: Attemping to get value of " .. id .. ", a nonexistance achievement.")
 		return
 	end
 
-	local Value = Achivement.PlyVal or 0 //or cookie.GetNumber("GTachivement" .. id, 0 )
+	local Value = Achievement.PlyVal or 0 //or cookie.GetNumber("GTachievement" .. id, 0 )
 
-	if Achivement.GetValue then
-		return Achivement.GetValue( Value )
+	if Achievement.GetValue then
+		return Achievement.GetValue( Value )
 	end
 
 	return Value
 
 end
 
-function GtowerAchivements:RequestUpdate()
+function GTowerAchievements:RequestUpdate()
 
 	if self.NextUpdate > CurTime() then
 		return
@@ -38,7 +38,7 @@ function GtowerAchivements:RequestUpdate()
 	RunConsoleCommand("gmt_reqachi")
 end
 
-function GtowerAchivements:NumUnlocked()
+function GTowerAchievements:NumUnlocked()
 
 
 
@@ -46,19 +46,19 @@ function GtowerAchivements:NumUnlocked()
 
 
 
-	for id, achivement in pairs( GtowerAchivements.Achivements ) do
+	for id, achievement in pairs( GTowerAchievements.Achievements ) do
 
 
 
-		local value = GtowerAchivements:GetValue( id )
+		local value = GTowerAchievements:GetValue( id )
 
 		local maxValue = nil
 
 
 
-		if achivement.GetMaxValue then
+		if achievement.GetMaxValue then
 
-			maxValue = achivement.GetMaxValue()
+			maxValue = achievement.GetMaxValue()
 
 		end
 
@@ -94,7 +94,7 @@ function GtowerAchivements:NumUnlocked()
 
 end
 
-function GtowerAchivements:RecieveMessage( um )
+function GTowerAchievements:RecieveMessage( um )
 
 	while true do
 
@@ -113,18 +113,18 @@ function GtowerAchivements:RecieveMessage( um )
 
 	end
 
-	hook.Call("AchivementUpdate", GAMEMODE )
+	hook.Call("AchievementUpdate", GAMEMODE )
 
 end
 
 usermessage.Hook("GTAch", function( um )
-	GtowerAchivements:RecieveMessage( um )
+	GTowerAchievements:RecieveMessage( um )
 end)
 
 usermessage.Hook("GTAchWin", function( um )
 	local Id = um:ReadShort()
 
-	local Achievement = GtowerAchivements:Get( Id )
+	local Achievement = GTowerAchievements:Get( Id )
 
 	if Achievement then
 		MsgI( "trophy", T("AchievementsGot", Achievement.Name) )
@@ -140,11 +140,11 @@ usermessage.Hook("GTAchRest", function( um )
 end )
 
 /*
-concommand.Add("gmt_resetachivement", function()
-	Msg("Clearing client-side achivement cookies!\n")
-	sql.Query("DELETE FROM cookies WHERE key='GTachivement%'")
+concommand.Add("gmt_resetachievement", function()
+	Msg("Clearing client-side achievement cookies!\n")
+	sql.Query("DELETE FROM cookies WHERE key='GTachievement%'")
 
-	for _, v in pairs( GtowerAchivements.Achivements ) do
+	for _, v in pairs( GTowerAchievements.Achievements ) do
 		if v.HasRecieved != true then
 			v.PlyVal = 0
 		end

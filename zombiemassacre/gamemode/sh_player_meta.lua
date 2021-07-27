@@ -1,10 +1,12 @@
 
 -----------------------------------------------------
-local meta = FindMetaTable( "Player" )
+local meta = FindMetaTable( "Player" )
+
 if !meta then
 	Msg("ALERT! Could not hook Player Meta Table\n")
 	return
-end
+end
+
 function meta:IsHidden()
 	return false
 end
@@ -15,7 +17,7 @@ end
 
 function meta:PowerStart()
 	if self:GetNWBool( "IsPowerCombo" ) then
-		self:AddAchivement( ACHIVEMENTS.ZMCOMBO, 1 )
+		self:AddAchievement( ACHIEVEMENTS.ZMCOMBO, 1 )
 		local CLASS = classmanager.Get(string.lower(self:GetNWString( "ClassName" )))
 		CLASS:PowerStart(self)
 	end
@@ -35,10 +37,12 @@ end
 
 function meta:IsHealthFull()
 	return self:Health() >= self:MaxHealth()
-end
+end
+
 function meta:MaxHealth()
 	return 100
-end
+end
+
 function meta:AddPoints(sum)
 	self:SetNWInt( "Points", (self:GetNWInt( "Points" ) + sum) )
 	umsg.Start( "HUDNotes" )
@@ -54,7 +58,8 @@ function meta:AddCombo()
 end
 
 function meta:GetBackWeapon()
-	local weps = self:GetWeapons()
+	local weps = self:GetWeapons()
+
 	for _, wep in pairs( weps ) do
 		if wep != self:GetActiveWeapon() then
 			return wep

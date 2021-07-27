@@ -39,7 +39,7 @@ Loadables.Load( {
 	-- Base Modules
 	---------------------------------------------------------
 	"commands",							-- Chat commands
-	"achivement",						-- Achievements
+	"achievement",						-- Achievements
 	//"boss",									-- WIP boss battle
 	"soundscape",						-- Soundscapes and background music
 	"condopanel",						-- Condo OS

@@ -121,11 +121,11 @@ end
 function meta:DrunkThink()
 	if CurTime() > self.NextSoberTime then
 
-		if self._DrunkStartTime && !self:Achived( ACHIVEMENTS.drunkenbastard ) then
+		if self._DrunkStartTime && !self:Achived( ACHIEVEMENTS.DRUNKENBASTARD ) then
 			local Time = CurTime() - self._DrunkStartTime
 
-			if Time > self:GetAchivement( ACHIVEMENTS.drunkenbastard ) then
-				self:SetAchivement( ACHIVEMENTS.drunkenbastard, Time )
+			if Time > self:GetAchievement( ACHIEVEMENTS.DRUNKENBASTARD ) then
+				self:SetAchievement( ACHIEVEMENTS.DRUNKENBASTARD, Time )
 			end
 		end
 
