@@ -66,6 +66,18 @@ timer.Create("gmt_timer_private",(60*2),0,function()
 	MsgC( Color( 125, 255, 125 ), "GMTD IS IN PRIVATE MODE, SET PRIVATE_TEST_MODE TO FALSE IN GMTLOBBY/INIT.LUA:2\n" )
 end)
 --]]
+
+function GM:PlayerSpawn( pl )
+
+	player_manager.SetPlayerClass( pl, "player_lobby" )
+	player_manager.OnPlayerSpawn( pl )
+	player_manager.RunClass( pl, "Spawn" )
+
+	-- Set player model
+	hook.Call( "PlayerSetModel", GAMEMODE, pl )
+
+end
+
 function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
 	steam = util.SteamIDFrom64(steam)
 
