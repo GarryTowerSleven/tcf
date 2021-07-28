@@ -73,6 +73,10 @@ function GM:PlayerSpawn( pl )
 	player_manager.OnPlayerSpawn( pl )
 	player_manager.RunClass( pl, "Spawn" )
 
+	local col = pl:GetInfo( "cl_playercolor" )
+	pl:SetPlayerColor( Vector( col ) )
+	pl:SetCustomCollisionCheck(true)
+
 	-- Set player model
 	hook.Call( "PlayerSetModel", GAMEMODE, pl )
 
