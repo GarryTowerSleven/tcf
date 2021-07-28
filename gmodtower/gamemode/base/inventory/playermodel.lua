@@ -23,6 +23,8 @@ hook.Add("AllowModel", "InventoryCheck", function( ply, model, skin )
 	if Model && ply:HasItemById( Model.MysqlId ) then
 		return true
 	end
+
+	return GAMEMODE:DefaultPlayerModel(model)
 	
 end )
 

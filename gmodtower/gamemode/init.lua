@@ -165,7 +165,27 @@ umsg.End = function()
 	s = false
 end
 
+local DefaultPlayerModels = {}
+
+function CatalogDefaultModels()
+	for name, model in pairs( player_manager.AllValidModels() ) do
+		if !GTowerModels.NormalModels[name] then
+
+			if string.StartWith( name, "medic" ) || string.StartWith( name, "hostage" ) || string.StartWith( name, "dod_" ) then continue end
+			if name == "kdedede_pm" or name == "bond" or name == "classygentleman" || name == "maskedbreen" or name == "windrunner" || name == "grayfox" then continue end
+			table.insert( DefaultPlayerModels, model )
+
+		end
+	end
+end
+
+function GM:DefaultPlayerModel(model)
+	return table.HasValue( DefaultPlayerModels, model )
+end
+
 hook.Add("InitPostEntity", "AddTempBot", function()
+
+	CatalogDefaultModels()
 
 	if GetConVarNumber("sv_voiceenable") != 1 then
 		RunConsoleCommand("sv_voiceenable","1")
@@ -259,6 +279,8 @@ local function CanUseFuckingModel(ply,model,skin)
 	if Model && ply:HasItemById( Model.MysqlId ) then
 		return true
 	end
+
+	return GAMEMODE:DefaultPlayerModel(model)
 end
 
 function GM:PlayerSetModel( ply )
