@@ -57,11 +57,13 @@ net.Receive( "MEDIAPLAYER.Voteskip", RequestWrapper(function(mp, ply)
 
 	if (ply:Location() != Location.Find(mp.Entity:GetPos())) then return end
 
-	local LastMediaLocation = ply:Location()
+	local LastMedia = ply.LastMediaPlayer
 
-	if (MediaVoteSkip == nil || LastMediaLocation != ply:Location()) then
+	if ( MediaVoteSkip == nil || ( IsValid( LastMedia.Entity ) && LastMedia.Entity != mp.Entity ) ) then
 		MediaVoteSkip = MediaPlayer.VoteskipManager:New( mp, ratio )
 	end
+
+	ply.LastMediaPlayer = mp
 
 	if MediaVoteSkip:HasVoted( ply ) then
 		MediaVoteSkip:RemoveVote( ply )

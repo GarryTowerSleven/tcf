@@ -8,6 +8,10 @@ include "shared.lua"
 
 ENT.UseDelay = 0.5 -- seconds
 
+ENT.IdleScreenTitle = "Tower Unite: Early Access Trailer"
+ENT.IdleScreenDuration = (1*60) + 40
+ENT.IdleScreenURL = "https://www.youtube.com/watch?v=zWBLwrdRkm4"
+
 hook.Add("Location", "TurnOffTV", function( ply, loc )
 	for k,v in pairs(ents.FindByClass('mediaplayer_*')) do
 		local mp = v:GetMediaPlayer()
@@ -209,11 +213,10 @@ local function CreateMedia( title, duration, url, ownerName, ownerSteamID, start
 end
 
 function ENT:StartIdleScreen(mp)
-	self.IdleScreenTitle = "Tower Unite: Early Access Trailer"
 	mp:AddMedia( CreateMedia(
 		self.IdleScreenTitle,
-		(1*60) + 40,
-		"https://www.youtube.com/watch?v=zWBLwrdRkm4",
+		self.IdleScreenDuration,
+		self.IdleScreenURL,
 		"",
 		""
 	) )
@@ -225,8 +228,10 @@ function ENT:Think()
 		if !mp:IsPlaying() then
 			self:StartIdleScreen(mp)
 		else
-			if #mp._Queue > 0 && mp:GetMedia():Title() == self.IdleScreenTitle then
-				mp:OnMediaFinished()
+			if #mp._Queue > 0 then
+				if ( mp:GetMedia():Title() == self.IdleScreenTitle && mp:GetMedia():OwnerName() == "" && mp:GetMedia():OwnerSteamID() == "" ) then
+					mp:OnMediaFinished()
+				end
 			end
 		end
 	end
