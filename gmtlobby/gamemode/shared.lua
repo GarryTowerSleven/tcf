@@ -10,7 +10,7 @@ IsLobby = true
 
 DeriveGamemode( "GModTower" )
 
-//include("player_class/player_lobby.lua")
+include("player_class/player_lobby.lua")
 
 if IsHalloweenMap() then
 	if SERVER then AddCSLuaFile("sh_halloween.lua") end
