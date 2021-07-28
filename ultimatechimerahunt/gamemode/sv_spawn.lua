@@ -61,13 +61,13 @@ function GM:PlayerSpawn( ply )
 		end
 		ply.IsDead = false
 
-		if self:IsPlaying() then
+		--if self:IsPlaying() then
 
 			if ply:GetNWBool("IsFancy") then
-				if IsValid( ply ) && ply:AchivementLoaded() then ply:AddAchievement( ACHIEVEMENTS.UCHDRUNKEN, 1 ) end
+				if IsValid( ply ) && ply:AchievementLoaded() then ply:AddAchievement( ACHIEVEMENTS.UCHDRUNKEN, 1 ) end
 			end
 
-		end
+		--end
 
 	end
 

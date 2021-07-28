@@ -198,8 +198,10 @@ function ENT:OnTakeDamage( dmg )
 end
 
 function ENT:MakeBalloon( force, length, offset )
-	
-	for i=1,20 do
+
+	local balloon_count = (2*(#player.GetAll() - 1))
+
+	for i=1,balloon_count do
 		local balloon = ents.Create( "saturn_balloon" )
 		/*if !balloon:IsValid() then
 			return
