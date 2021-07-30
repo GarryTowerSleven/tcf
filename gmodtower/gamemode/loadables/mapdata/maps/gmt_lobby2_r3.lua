@@ -217,6 +217,11 @@ local function MapFixes()
 		end
 	end)
 
+	// Arcade Tables
+	SpawnDynamicProp( "models/wilderness/wildernesstable1.mdl", Vector(4064, 4111, -896), Angle(0,60,0), false )
+	SpawnDynamicProp( "models/wilderness/wildernesstable1.mdl", Vector(4656, 4364, -896), Angle(0,75,0), false )
+	SpawnDynamicProp( "models/wilderness/wildernesstable1.mdl", Vector(4656, 4413, -896), Angle(0,55,0), false )
+
 end
 
 hook.Add("InitPostEntity","AddL2Ents",function()
