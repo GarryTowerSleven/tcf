@@ -3,6 +3,7 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 
 util.AddNetworkString("GTAfk")
+util.AddNetworkString("ResetAFK")
 
 AFKTime = 60
 AFKWarnTime = 15

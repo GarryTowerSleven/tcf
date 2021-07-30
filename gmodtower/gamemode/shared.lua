@@ -40,7 +40,7 @@ end
 
 //=====================================================
 
-GM.WebsiteUrl = "http://www.gmtower.org/apps/"
+GM.WebsiteUrl = "https://gmodtower.org/apps/"
 
 function GtowerAddResourceDirectory(Directory, Types)
 
