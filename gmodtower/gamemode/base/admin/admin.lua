@@ -233,31 +233,6 @@ concommand.Add( "gt_act", function(ply, command, args)
 
 end )
 
-hook.Add("PlayerDisconnected","LeaveMessage",function(ply)
-
-	if ply.HasResetData then
-		local SanitizedName = string.SafeChatName(ply:Name())
-		GAMEMODE:ColorNotifyAll( SanitizedName.." has reset their data and left the tower.", Color(100, 100, 100, 255) )
-		return
-	end
-
-	for k, v in pairs(player.GetAll()) do
-		if engine.ActiveGamemode() == "gmtlobby" && v.HideRedir == false then
-			local SanitizedName = string.SafeChatName(ply:Name())
-			GAMEMODE:ColorNotifyPlayer( v, SanitizedName.." has left the tower.", Color(100, 100, 100, 255) )
-		else
-			return
-		end
-	end
-
-	if ply.ActiveDuel then
-		local Timestamp = os.time()
-		local TimeString = os.date( "%H:%M:%S - %d/%m/%Y" , Timestamp )
-		SQLLog( 'duel', ply:Name() .. " has left the game during a duel. (" .. TimeString .. ")" )
-	end
-
-end)
-
 hook.Add("PlayerInitialSpawn", "GTowerCheckAdmin", function(ply)
 
 	if table.HasValue(GTowerAdmins, ply:SteamID()) || game.SinglePlayer() then
@@ -271,13 +246,51 @@ hook.Add("PlayerInitialSpawn", "GTowerCheckAdmin", function(ply)
 
 end )
 
-hook.Add( "PlayerFullyJoined", "JoinedMessage", function(ply)
-	if engine.ActiveGamemode() == "gmtlobby" then
-		GAMEMODE:ColorNotifyAll( T( "JoinLobby", string.SafeChatName(ply:Name()) ), Color(65, 115, 200, 255) )
+local function SendLeaveJoinMsg( ply, type, col )
+	local admins, nonAdmins = player.GetAdmins()
+
+	local msgNormal = T( type, ply:Name() )
+	local msgAdmin = msgNormal .. " [" .. ply:SteamID() .. "]"
+
+	//MsgC( msgAdmin .. "\n", col )
+
+	for k,v in pairs( nonAdmins ) do
+		if v.HideRedir then return end
+		GAMEMODE:ColorNotifyPlayer( v, msgNormal, col )
 	end
+
+	for k,v in pairs( admins ) do
+		if v.HideRedir then return end
+		GAMEMODE:ColorNotifyPlayer( v, msgAdmin, col )
+	end
+end
+
+hook.Add( "PlayerFullyJoined", "JoinedMessage", function(ply)
+	if IsLobby then
+		SendLeaveJoinMsg( ply, "JoinLobby", Color(65, 115, 200, 255) )
+	end
+
 	net.Start("JoinFriendCheck")
-	net.WriteEntity(ply)
+		net.WriteEntity(ply)
 	net.Broadcast()
+end)
+
+hook.Add("PlayerDisconnected","LeaveMessage",function(ply)
+	/*if ply.HasResetData then
+		local SanitizedName = string.SafeChatName(ply:Name())
+		GAMEMODE:ColorNotifyAll( SanitizedName.." has reset their data and left the tower.", Color(100, 100, 100, 255) )
+		return
+	end*/
+
+	if IsLobby then
+		SendLeaveJoinMsg( ply, "LeaveLobby", Color( 100, 100, 100, 255 ) )
+	end
+
+	if ply.ActiveDuel then
+		local Timestamp = os.time()
+		local TimeString = os.date( "%H:%M:%S - %d/%m/%Y" , Timestamp )
+		SQLLog( 'duel', ply:Nick() .. " has left the game during a duel. (" .. TimeString .. ")" )
+	end
 end)
 
 function GetAdminRP()
