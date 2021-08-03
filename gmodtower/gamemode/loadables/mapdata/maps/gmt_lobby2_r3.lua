@@ -222,6 +222,9 @@ local function MapFixes()
 	SpawnDynamicProp( "models/wilderness/wildernesstable1.mdl", Vector(4656, 4364, -896), Angle(0,75,0), false )
 	SpawnDynamicProp( "models/wilderness/wildernesstable1.mdl", Vector(4656, 4413, -896), Angle(0,55,0), false )
 
+	// Ballrace Port Goal
+	SpawnDynamicProp( "models/props_memories/memories_levelend.mdl", Vector(3424, -6400, -904), Angle(0, 0, 0), false )
+
 end
 
 hook.Add("InitPostEntity","AddL2Ents",function()
@@ -258,22 +261,15 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	--ent:SetAngles( Angle(0, -135, 0) )
 	--ent:Spawn()
 	
-	// Beta Money NPC
-	AddMapEntity( "gmt_npc_money", Vector( 7425, 218, -1090 ), Angle( 0, -135, 0 ) )
+	// Transit Station NPCs
+	AddMapEntity( "gmt_npc_vip", Vector( 7425, 218, -1090 ), Angle( 0, -135, 0 ) )
+	AddMapEntity( "gmt_npc_money", Vector( 7425, -212, -1087 ), Angle( 0, 135, 0 ) )
 	
 	// The Board
 	local ent = ents.Create( "gmt_streamer_board" )
 	ent:SetPos( Vector( 2580, 4930, -911 ) )
 	ent:SetAngles( Angle(0, 75, 0) )
 	ent:Spawn()
-
-	// Ball Race Port Goal
-	local ent = ents.Create( "prop_dynamic" )
-	ent:SetModel( "models/props_memories/memories_levelend.mdl" )
-	ent:SetPos( Vector(3424, -6400, -904) )
-	ent:SetAngles( Angle(0, 0, 0) )
-	ent:Spawn()
-	ent:DrawShadow(false)
 
 	AddL2Camera( Vector( -1154, 54, 15100 ), Angle(0, 90, 0) )
 	AddL2Camera( Vector( -672, 54, 15100 ), Angle(0, 90, 0) )
