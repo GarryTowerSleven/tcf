@@ -1,21 +1,23 @@
+include('shared.lua')
 
------------------------------------------------------
-include( "shared.lua" )
-
-ENT.RenderGroup = RENDERGROUP_OPAQUE
-
-function ENT:Draw()
-	self:DrawModel()
-end
+ENT.RenderGroup = RENDERGROUP_BOTH
 
-net.Receive("imac_open",function()
-	local Arcades = vgui.Create( "DFrame" )
-	Arcades:SetTitle("iMac")
-	Arcades:SetSize( 1000, 600 )
-	Arcades:Center()
-	Arcades:MakePopup()
+function ENT:Initialize()
+	self.BrowserState = false
+end
 
-	local html = vgui.Create( "HTML", Arcades )
+function ENT:Draw()
+	self:DrawModel()
+end
+
+net.Receive("ShowiMac",function()
+	local imac = vgui.Create( "DFrame" )
+	imac:SetTitle( "Windows 93" )
+	imac:SetSize( 1000, 600 )
+	imac:Center()
+	imac:MakePopup()
+
+	local html = vgui.Create( "HTML", imac )
 	html:Dock( FILL )
 	html:OpenURL( "https://windows93.net" )
 end)

@@ -3,7 +3,7 @@ include("shared.lua")
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_init.lua")
 
-util.AddNetworkString("imac_open")
+util.AddNetworkString("ShowiMac")
 
 function ENT:Initialize()
     self:SetModel(self.Model)
@@ -12,6 +12,6 @@ function ENT:Initialize()
 end
 
 function ENT:Use(ply)
-  net.Start("imac_open")
+  net.Start("ShowiMac")
   net.Send(ply)
 end
