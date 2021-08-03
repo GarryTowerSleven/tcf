@@ -58,7 +58,7 @@ Loadables.Load( {
 	"scoreboard3",					-- Scoreboard
 	"store",								-- Stores and items
 	"multiserver",					-- Join panels and gamemode definitions
-	"location2",							-- Location system
+	"location",							-- Location system
 	"mapdata",							-- Map Specific Fixes
 	--"gibsystem",					-- Bloody gibs for Chainsaw battle
 	"afk2",									-- AFK system
