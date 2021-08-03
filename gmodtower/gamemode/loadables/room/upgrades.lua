@@ -48,7 +48,7 @@ hook.Add( "GTowerStoreLoad", "AddCondoUpgrades", function()
 	
 		if v.unique_name then
 
-			MsgN( "Adding ", v.unique_name )
+			//MsgN( "Adding ", v.unique_name )
 
 			local NewItemId = GTowerStore:SQLInsert( {
 				Name = v.name,

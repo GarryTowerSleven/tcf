@@ -147,7 +147,7 @@ for _, v in pairs(Location.Locations) do
 	end
 
 	-- Create the rule to insert into the soundscape system
-	print("Registering soundscape", v.Name)
+	//print("Registering soundscape", v.Name)
 	soundscape.Register("music_" .. v.Name, 
 	{ 
 		dsp = 0,
