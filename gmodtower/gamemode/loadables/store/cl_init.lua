@@ -148,7 +148,7 @@ hook.Add("OpenSideMenu", "ShopAdmin", function()
 	if storeid == -1 then return end
 
 	local Form = vgui.Create("DForm")
-	Form:SetName( "Store " .. tostring(storeid) )
+	Form:SetName( GTowerStore.Stores[ storeid ].WindowTitle .. " (" .. tostring(storeid) .. ")" )
 
 	local ChangeDiscount = Form:Button( "Set Discount")
 	ChangeDiscount.DoClick = function()
