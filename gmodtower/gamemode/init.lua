@@ -92,8 +92,6 @@ include("base/database/basicsql.lua")
 include("base/database/player.lua")
 include("base/database/network.lua")
 
-//include("base/gtrivia/init.lua")
-
 include("base/postevents/init.lua")
 
 // LOADABLES

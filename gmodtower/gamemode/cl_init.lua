@@ -32,8 +32,6 @@ include("base/translation/shared.lua")
 
 include("base/gui/cl_selection.lua")
 
-//include("base/gtrivia/cl_init.lua")
-
 //For gamemode
 include("base/admin/cl_admin.lua")
 include("base/admin/cl_admin_usermessage.lua")
