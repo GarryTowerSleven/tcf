@@ -7,7 +7,7 @@ usermessage.Hook( "StartGame", function( um )
 
 	local ent = um:ReadEntity()
 	local game = ent.GameIDs[ ent:GetSkin() + ( ent.StartId or 1 ) ] or "Patapon"
-	ent:DisplayControls( game, GAMEMODE.WebsiteUrl .. "arcade/?flash=" .. game /*, function() net.Start( "LeaveArcade" ) net.SendToServer() end*/ )
+	ent:DisplayControls( game .. " - Powered by Ruffle", GAMEMODE.WebsiteUrl .. "arcade/?flash=" .. game /*, function() net.Start( "LeaveArcade" ) net.SendToServer() end*/ )
 
 end )
 
