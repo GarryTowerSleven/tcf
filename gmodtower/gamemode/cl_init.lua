@@ -61,8 +61,6 @@ include("base/inventory/cl_init.lua")
 
 include("base/models/cl_init.lua")
 
-include("base/theater/cl_init.lua")
-
 include("base/sh_player.lua")
 include("base/sh_money.lua")
 
