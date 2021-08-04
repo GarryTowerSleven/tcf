@@ -11,15 +11,12 @@ function ENT:Think()
 end
 
 function ENT:AcceptInput( name, activator, ply )
-
     if name == "Use" && ply:IsPlayer() && ply:KeyDownLast(IN_USE) == false then
 		timer.Simple( 0.0, function()
-			if ply:GetNWBool("MoneyNpcTimeout") then ply:SendLua([[Msg2("Whoa, slow down there! You already got some dosh!")]]) return end
+			if ply:GetNWBool("MoneyNpcTimeout") then /*ply:SendLua([[Msg2("Whoa, slow down there! You already got some dosh!")]])*/ return end
 			ply:AddMoney( self.MoneyValue )
 			ply:SetNWBool("MoneyNpcTimeout",true)
 			timer.Simple(10,function() ply:SetNWBool("MoneyNpcTimeout",false) end)
 		end)
-
     end
-
 end
