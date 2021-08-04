@@ -55,26 +55,25 @@ end)
 end)]]--
 
 local wordfilter = {
-	fuck		= "hug",
-	slap		= "kick",
-	punch		= "ban",
-	nigger		= "racist",
-	nigga		= "racist",
-	fag			= "log",
-	furry		= "coat hanger",
-	tetris		= "blockles",
-	abuse		= "kill me",
-	aboose		= "kill me please~",
-	abose		= "kill me now",
-	abusive		= "kill me i'm a bug~",
-	abusing		= "letting me live",
-	baconbot	= "bacon and eggs",
-	serenity	= "titanic",
-	shit		= "smith",
-	bieber		= "beaver",
-	yiff		= "pencil push",
-	rabbit		= "wabbit",
-	catbot    = "catboy",
+	{"fuck", "hug"},
+	{"shit", "s***"},
+	{"rape", "r***"},
+	{"cunt", "c***"},
+	{"clit", "c***"},
+	{"cock", "c***"},
+	{"faggot", "f*****"},
+	{"nigga", "n****"},
+	{"nigger", "n*****"},
+	{"coon", "c***"},
+	{"faggot", "f*****"},
+	{"jizz", "j***"},
+	{"whore", "w****"},
+	{"slut", "s***"},
+	{"tits", "t***"},
+	{"piss", "p***"},
+	{"tranny", "t*****"},
+	{"trannie", "t******"},
+	{" ͡° ͜ʖ ͡°", "no"},
 }
 
 concommand.Add("say2", function(ply, cmd, args)
@@ -120,9 +119,9 @@ hook.Add( "PlayerSay", "GTChatHook", function( ply, chat, toall, type )
 		return ""
 	end
 
-	if !ply:GetSetting( "GTAllowAllTalk" ) and !ply:IsAdmin() then
+	if !ply:GetSetting( "GTAllowAllTalk" ) /*&& !ply:IsAdmin()*/ then
 		for k,v in pairs(wordfilter) do
-			chat = string.Replace(chat, k, v)
+			chat = string.Replace(chat, v[1], v[2])
 		end
 	end
 
@@ -279,7 +278,7 @@ function GM:DrunkSay(pl, text, team)
 			local word = random_words[ num ];
 
 			for k, v in pairs( wordfilter ) do
-				word = string.Replace( word, k, v )
+				word = string.Replace( word, v[1], v[2] )
 			end
 
 			// add it
