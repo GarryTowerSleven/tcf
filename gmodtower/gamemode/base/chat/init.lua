@@ -56,24 +56,24 @@ end)]]--
 
 local wordfilter = {
 	{"fuck", "hug"},
-	{"shit", "s***"},
-	{"rape", "r***"},
-	{"cunt", "c***"},
-	{"clit", "c***"},
-	{"cock", "c***"},
-	{"faggot", "f*****"},
-	{"nigga", "n****"},
-	{"nigger", "n*****"},
-	{"coon", "c***"},
-	{"faggot", "f*****"},
-	{"jizz", "j***"},
-	{"whore", "w****"},
-	{"slut", "s***"},
-	{"tits", "t***"},
-	{"piss", "p***"},
-	{"tranny", "t*****"},
-	{"trannie", "t******"},
 	{" ͡° ͜ʖ ͡°", "no"},
+	{"shit"},
+	{"rape"},
+	{"cunt"},
+	{"clit"},
+	{"cock"},
+	{"faggot"},
+	{"nigga"},
+	{"nigger"},
+	{"coon"},
+	{"faggot"},
+	{"jizz"},
+	{"whore"},
+	{"slut"},
+	{"tits"},
+	{"piss"},
+	{"tranny"},
+	{"trannie"},
 }
 
 concommand.Add("say2", function(ply, cmd, args)
@@ -127,8 +127,14 @@ hook.Add( "PlayerSay", "GTChatHook", function( ply, chat, toall, type )
 			if string.find( chatlower, v[1] ) then
 				while string.find( chatlower, v[1] ) do
 					local s, e = string.find( chatlower, v[1] )
-					chatFiltered = string.sub( chatFiltered, 0, s-1 ) .. v[2] .. string.sub( chatFiltered, e+1 )
-					chatlower = string.sub( chatlower, 0, s-1 ) .. v[2] .. string.sub( chatlower, e+1 )
+					local censored
+					if v[2] then
+						censored = v[2]
+					else
+						censored = string.sub( v[1], 0, 1 ) .. string.rep( "*", #v[1] - 1 )
+					end
+					chatFiltered = string.sub( chatFiltered, 0, s-1 ) .. censored .. string.sub( chatFiltered, e+1 )
+					chatlower = string.sub( chatlower, 0, s-1 ) .. censored .. string.sub( chatlower, e+1 )
 				end
 			end
 
