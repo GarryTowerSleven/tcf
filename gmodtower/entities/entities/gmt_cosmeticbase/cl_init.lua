@@ -1,10 +1,10 @@
----------------------------------
 include('shared.lua')
 
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 ENT.LastModel = ""
 ENT.LastPlayerModel = ""
 ENT.LastScale = Vector(0,0,0)
+ENT.MaxDist = 800
 
 local HatsGM = {}
 HatsGM["ballrace"] = true
@@ -21,20 +21,27 @@ function ENT:InitOffset()
 end
 
 function ENT:Think()
-	local ply = self:GetOwner()
 
+	local ply = self:GetOwner()
 	if !IsValid(ply) then return end
 
-	local r,g,b,a = ply:GetColor()
-	self:SetColor(r,g,b,a)
-	self:SetMaterial(ply:GetMaterial())
+	local color = ply:GetColor()
+
+	self:SetColor( color )
+
+	if color.a < 255 then
+		self:SetRenderMode( RENDERMODE_TRANSALPHA )
+	else
+		self:SetRenderMode( RENDERMODE_NORMAL )
+	end
+
+	self:SetMaterial( ply:GetMaterial() )
 
 	if self.PlayerEquipIndex == 0 then
 		self:AddToEquipment()
 	end
 
 	if self:GetModel() != self.LastModel || ply:GetModel() != self.LastPlayerModel || ply:GetModelScale() != self.LastScale then
-
 		self.LastModel = self:GetModel()
 		self.LastPlayerModel = ply:GetModel()
 		self.LastScale = ply:GetModelScale()
@@ -46,16 +53,24 @@ function ENT:Think()
 end
 
 function ENT:UpdatedModel()
-
 end
 
 function ENT:Draw()
+
+	if IsLobby then
+		// Hide for distance
+		local dist = LocalPlayer():EyePos():Distance( self:GetPos() )
+		if dist > self.MaxDist then
+			return false
+		end
+	end
+
 	local ply = self:GetOwner()
-	if self:Position() == nil then return end
+
 	local pos, ang = self:Position()
 	if pos != false then
-		self:SetPos(pos)
-		self:SetAngles(ang)
+		self:SetPos( pos )
+		self:SetAngles( ang )
 		if ply.GetBallColor then
 			local color = ply:GetBallColor()
 			render.SetColorModulation(color.r, color.g, color.b)
@@ -72,8 +87,6 @@ function ENT:Position()
 	local ply = self:GetOwner()
 
 	if !self:Check( ply ) then return false end
-
-	//if !IsValid(ply) || ( ply == LocalPlayer() && !GAMEMODE:ShouldDrawLocalPlayer( true ) ) then return false end
 
 	if GAMEMODE.OverrideHatEntity then
 		ply = GAMEMODE:OverrideHatEntity(ply)
