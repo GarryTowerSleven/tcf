@@ -121,7 +121,18 @@ hook.Add( "PlayerSay", "GTChatHook", function( ply, chat, toall, type )
 
 	if !ply:GetSetting( "GTAllowAllTalk" ) /*&& !ply:IsAdmin()*/ then
 		for k,v in pairs(wordfilter) do
-			chat = string.Replace(chat, v[1], v[2])
+			local chatFiltered = chat
+			local chatlower = string.lower(chat)
+
+			if string.find( chatlower, v[1] ) then
+				while string.find( chatlower, v[1] ) do
+					local s, e = string.find( chatlower, v[1] )
+					chatFiltered = string.sub( chatFiltered, 0, s-1 ) .. v[2] .. string.sub( chatFiltered, e+1 )
+					chatlower = string.sub( chatlower, 0, s-1 ) .. v[2] .. string.sub( chatlower, e+1 )
+				end
+			end
+
+			chat = chatFiltered
 		end
 	end
 
