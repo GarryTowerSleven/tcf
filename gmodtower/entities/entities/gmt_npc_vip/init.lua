@@ -4,7 +4,7 @@ include('shared.lua')
 
 function ENT:Think()
 	if self.TaskSequenceEnd == nil then
-		self:PlaySequence(2, nil, nil, 1)
+		self:PlaySequence(5, nil, nil, 1)
 	end
 end
 
