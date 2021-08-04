@@ -5,7 +5,7 @@ ENT.Spawnable		= true
 ENT.AdminSpawnable	= true
 
 ENT.Model			= Model( "models/gmod_tower/arcadecab_lightgun.mdl")
-ENT.StartId 		= 0
+ENT.StartId 		= 1
 
 ENT.GameIDs			= {	
 	"Doom",
