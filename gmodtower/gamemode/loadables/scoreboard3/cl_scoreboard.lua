@@ -833,7 +833,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 
 		for _, ply in ipairs( player.GetAll() ) do
 
-			if ( ply:IsAdmin() && !ply:GetNWBool("SecretAdmin") ) then
+			if ( ply:IsAdmin() && !ply:IsHidden() && !ply:GetNWBool("SecretAdmin") ) then
 
 				table.insert( players, ply )
 
@@ -849,7 +849,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 
 		for _, ply in ipairs( FilteredPlayerList( player.GetAll() ) ) do
 
-			if ply:GetFriendStatus() == "friend" then
+			if ply:GetFriendStatus() == "friend" && !ply:IsHidden() then
 
 				table.insert( players, ply )
 
@@ -866,7 +866,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 		for _, ply in ipairs( player.GetAll() ) do
 
 			--if Friends.IsFriend( LocalPlayer(), ply ) and not ply:IsHidden() then
-			if CheckFriendCache( ply ) then
+			if CheckFriendCache( ply ) && !ply:IsHidden() then
 
 				table.insert( players, ply )
 
@@ -1104,13 +1104,10 @@ function PLAYERAVATAR:Init()
 	self.SteamProfile:SetMouseInputEnabled( true )
 
 	self.SteamProfile.DoClick = function()
-
 		if self.Player then
-
+			if self.Player:IsHidden() then return end
 			self.Player:ShowProfile()
-
 		end
-
 	end
 
 	self.SteamProfile.Paint = function()
@@ -1198,7 +1195,9 @@ end
 
 
 function PLAYERAVATAR:Think()
-	if type(self.Player) != "table" then
+	if self.Player:IsHidden() then
+		self.Avatar:SetPlayer( nil )
+	else
 		self.Avatar:SetPlayer( self.Player, self.Size )
 	end
 end
@@ -2455,10 +2454,9 @@ end
 
 function PLAYERINFO:HasRespect()
 
+	if self.Player:IsHidden() then return end
 
 	return self.Player:GetTitle()
-
-
 
 end
 

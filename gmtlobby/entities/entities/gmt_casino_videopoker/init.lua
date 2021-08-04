@@ -401,11 +401,11 @@ hook.Add( "PlayerLeaveVehicle", "ResetCollisionVehicle", function( ply )
       timer.Destroy("VideoPokerFuckoff"..ply:EntIndex())
     end
 
-    ply.VideoPoker:SetLastPlayer(ply:Nick())
+    ply.VideoPoker:SetLastPlayer(ply:Name())
     ply.VideoPoker:SetLastPlayerValue(math.Clamp( ply.VideoPoker:GetCredits()-ply.VideoPoker:GetBeginCredits(),0,100000)*2)
 
     if (ply.VideoPoker:GetMostGMCSpentValue() < (ply.VideoPoker:GetBeginCredits() * 2)) then
-      ply.VideoPoker:SetMostGMCSpent(ply:Nick())
+      ply.VideoPoker:SetMostGMCSpent(ply:Name())
       ply.VideoPoker:SetMostGMCSpentValue(ply.VideoPoker:GetBeginCredits() * 2)
     end
 

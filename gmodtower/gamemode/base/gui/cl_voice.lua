@@ -30,11 +30,11 @@ function PANEL:Setup( ply )
 	self.ply = ply
 	if self.Avatar == nil then return end
 
-	--if ply:IsHidden() then
-	--	self.Avatar:SetPlayer( nil )
-	--else
+	if ply:IsHidden() then
+		self.Avatar:SetPlayer( nil )
+	else
 		self.Avatar:SetPlayer( ply )
-	--end
+	end
 
 	self.Color = Color(255,0,0)
 

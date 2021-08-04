@@ -336,39 +336,25 @@ end
 
 function DUELNAME:SetPlayer( ply )
 
-
-
 	if !IsValid( ply ) then return end
 
-
-
+	if ply:IsHidden() then
+		self.Avatar:SetPlayer( nil )
+	else
 		self.Avatar:SetPlayer( ply, 64 )
-
+	end
 	//self.AvatarBG:SetPlayer( ply, 512 )
-
 	self.Player = ply
 
-
-
 	//self.AvatarBGY = 128
-
 	//self.AvatarBGYEnd = -128
 
-
-
 	local name = ply:Name() or ""
-
 	if ply == LocalPlayer() then
-
 		name = "YOU"
-
 	end
 
-
-
 	self.Title:SetText( name )
-
-
 
 end
 

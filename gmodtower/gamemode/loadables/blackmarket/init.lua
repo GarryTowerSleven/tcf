@@ -72,8 +72,8 @@ concommand.Add("gmt_bmcontact", function(ply, cmd, args)
 		if !args[1] then return end
 		local selply = BM:FindPlayer(string.sub(args[1], 2, 6)) --Do not use long player Name for this function
 		if selply and BM:CheckPlayer(selply) then
-			selply:Msg2("Black Market: "..ply:Nick().." want to talk with you about your offer")
-			ply:Msg2("Black Market: Please wait for an answer from "..selply:Nick())
+			selply:Msg2("Black Market: "..ply:Name().." want to talk with you about your offer")
+			ply:Msg2("Black Market: Please wait for an answer from "..selply:Name())
 		end
 	end)
 	

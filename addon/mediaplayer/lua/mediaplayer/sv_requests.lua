@@ -80,9 +80,9 @@ end) )
 function VoteSkipAnnounce(ply,location)
 	for k,v in pairs(location) do
 		if MediaVoteSkip:GetNumRemainingVotes( #location ) == 0 then
-			v:ChatPrint(ply:Nick().." has voted to skip the song ("..MediaVoteSkip:GetNumVotes().."/"..#location..") Votes. SKIPPED")
+			v:ChatPrint(ply:Name().." has voted to skip the song ("..MediaVoteSkip:GetNumVotes().."/"..#location..") Votes. SKIPPED")
 		else
-			v:ChatPrint(ply:Nick().." has voted to skip the song ("..MediaVoteSkip:GetNumVotes().."/"..#location..") Votes. "..MediaVoteSkip:GetNumRemainingVotes( #location ).." more votes need to skip.")
+			v:ChatPrint(ply:Name().." has voted to skip the song ("..MediaVoteSkip:GetNumVotes().."/"..#location..") Votes. "..MediaVoteSkip:GetNumRemainingVotes( #location ).." more votes need to skip.")
 		end
 	end
 end

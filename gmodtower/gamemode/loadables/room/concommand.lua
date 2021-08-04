@@ -169,7 +169,7 @@ function StartParty( ply, flags )
 
 	local amount = 0
 
-	local invString = T( "RoomPartyMainMessage", ply:Nick(), tostring(ply.GRoomId) )
+	local invString = T( "RoomPartyMainMessage", ply:Name(), tostring(ply.GRoomId) )
 
 	local flagString = ""
 

@@ -239,7 +239,7 @@ concommand.Add("gmt_event_toggle", function( ply )
         nexttime = CurTime()+(time*60)
 		enabled = true
         for k,v in pairs( player.GetAll() ) do
-            v:Msg2( T( "EventAdminEnabled", ply:Nick() ), "admin" )
+            v:Msg2( T( "EventAdminEnabled", ply:Name() ), "admin" )
         end
         MsgC( co_color, "[EVENTS] Starting next event (" .. nextevent .. ") in " .. time .. " min(s)\n" )
         SendMessageToPlayers( "MiniNext", time )
@@ -259,7 +259,7 @@ concommand.Add("gmt_event_toggle", function( ply )
         curmini = nil
 
         for k,v in pairs( player.GetAll() ) do
-            v:Msg2( T( "EventAdminDisabled", ply:Nick() ), "admin" )
+            v:Msg2( T( "EventAdminDisabled", ply:Name() ), "admin" )
         end
     end
 
@@ -273,7 +273,7 @@ concommand.Add("gmt_event_skip", function( ply )
         MsgC( co_color2, "[EVENTS] "..ply:Nick().." has forced the event system.\n" )
         EndEvent()
         for k,v in pairs( player.GetAll() ) do
-            v:Msg2( T( "EventAdminManual", ply:Nick() ), "admin" )
+            v:Msg2( T( "EventAdminManual", ply:Name() ), "admin" )
         end
     end
 
@@ -290,8 +290,8 @@ concommand.Add("gmt_event_start", function( ply, cmd, args )
     MsgC( co_color2, "[EVENTS] "..ply:Nick().." has forced the event system.\n" )
 
     for k,v in pairs( player.GetAll() ) do
-        //SendMessageToPlayers( "EventAdminManual", ply:Nick(), "admin" )
-        v:Msg2( T( "EventAdminManual", ply:Nick() ), "admin" )
+        //SendMessageToPlayers( "EventAdminManual", ply:Name(), "admin" )
+        v:Msg2( T( "EventAdminManual", ply:Name() ), "admin" )
     end
 	StartEvent( args[1] )
 
@@ -308,8 +308,8 @@ concommand.Add("gmt_event_rand", function( ply, cmd, args )
     end
 
     for k,v in pairs( player.GetAll() ) do
-        //SendMessageToPlayers( "EventAdminManual", ply:Nick(), "admin" )
-        v:Msg2( T( "EventAdminManual", ply:Nick() ), "admin" )
+        //SendMessageToPlayers( "EventAdminManual", ply:Name(), "admin" )
+        v:Msg2( T( "EventAdminManual", ply:Name() ), "admin" )
     end
 	StartEvent( getEventType() )
 

@@ -61,7 +61,12 @@ end
 function PANEL:SetPlayer( ply )
 
 	self.Player = ply
-	self.Avatar:SetPlayer( ply )
+
+	if ply:IsHidden() then
+		self.Avatar:SetPlayer( nil )
+	else
+		self.Avatar:SetPlayer( ply )
+	end
 
 end
 

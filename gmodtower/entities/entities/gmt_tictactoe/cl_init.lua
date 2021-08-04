@@ -50,7 +50,7 @@ function ENT:DrawSidePlayer( ply )
 
 	if IsValid( ply ) && ply:IsPlayer() then
 		col = Color( 0, 255, 0, 50 )
-		PlyName = ply:Nick()
+		PlyName = ply:Name()
 	end
 
 	local x,y = -self.NegativeSize / self.ImageZoom, 2
@@ -66,23 +66,40 @@ end
 
 function ENT:DrawRotatingBoard( pos, ang )
 
-	local LocalPos = LocalPlayer():EyePos()
-
-	ang:RotateAroundAxis( ang:Up(), RealTime() * 25 % 360 )
-
-	if (LocalPos - pos ):DotProduct( ang:Right() ) < 0 then
-		ang:RotateAroundAxis( ang:Up(), 180 )
-	end
-
-	ang:RotateAroundAxis( ang:Forward(), 90 )
-
-	local Scale = .35 //math.Clamp( LocalPos:Distance( pos ) / 450, 0.25, 1.0 )
-
-	cam.Start3D2D( pos, ang, Scale )
-
-		draw.RoundedBox(2, -40, -16, 80, 32, Color( 25,25,25,250) )
-		draw.SimpleText("TIC TAC TOE", "GTowerHUDMain", 0,0, Color(255,255,255,255),1,1)
-
+	local LocalPos = LocalPlayer():EyePos()
+
+
+
+	ang:RotateAroundAxis( ang:Up(), RealTime() * 25 % 360 )
+
+
+
+	if (LocalPos - pos ):DotProduct( ang:Right() ) < 0 then
+
+		ang:RotateAroundAxis( ang:Up(), 180 )
+
+	end
+
+
+
+	ang:RotateAroundAxis( ang:Forward(), 90 )
+
+
+
+	local Scale = .35 //math.Clamp( LocalPos:Distance( pos ) / 450, 0.25, 1.0 )
+
+
+
+	cam.Start3D2D( pos, ang, Scale )
+
+
+
+		draw.RoundedBox(2, -40, -16, 80, 32, Color( 25,25,25,250) )
+
+		draw.SimpleText("TIC TAC TOE", "GTowerHUDMain", 0,0, Color(255,255,255,255),1,1)
+
+
+
 	cam.End3D2D()
 
 end

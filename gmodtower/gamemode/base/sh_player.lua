@@ -58,6 +58,16 @@ local PixelTail = {
 
 local Jameskii = {}
 
+function meta:IsHidden()
+	if IsValid( self ) then
+		local fakename = self:GetNWString( "FakeName" )
+		if fakename then
+			return self:GetNWString( "FakeName" ) != ""
+		end
+	end
+	return false
+end
+
 function meta:IsPrivAdmin()
 	return self:IsUserGroup("privadmin") or self:IsAdmin()
 end
@@ -67,13 +77,13 @@ function meta:IsSecretAdmin()
 end
 
 function meta:IsDeveloper()
-
 	return self:IsUserGroup( "developer" ) || self:IsUserGroup( "superadmin" )
-
 end
 
 function meta:GetTitle()
 	local Titles = {}
+
+	if self:IsHidden() then return end
 
 	for k, v in pairs(PixelTail) do
 		Titles[v] = "Original GMT Staff"
@@ -113,7 +123,9 @@ local color_pixeltail = Color( 216, 31, 42, 255 )
 local color_jameskii = Color( 0, 255, 255, 255 )
 
 function meta:GetDisplayTextColor()
-	if table.HasValue(PixelTail, self:SteamID()) then
+	if self:IsHidden() then
+		return team.GetColor(self:Team())
+	elseif table.HasValue(PixelTail, self:SteamID()) then
 		return color_pixeltail
 	elseif table.HasValue(Owner, self:SteamID()) then
 		return color_owner
@@ -128,6 +140,22 @@ function meta:GetDisplayTextColor()
 	end
 
 	return team.GetColor(self:Team())
+end
+
+function meta:GetName()
+	if !IsValid( self ) then return "" end
+	if self:IsBot() then return self:Nick() end
+	if self:IsHidden() then return self:GetNWString( "FakeName" ) end
+
+	return self:Nick()
+end
+
+function meta:Name()
+	if !IsValid( self ) then return "" end
+	if self:IsBot() then return self:Nick() end
+	if self:IsHidden() then return self:GetNWString( "FakeName" ) end
+
+	return self:Nick()
 end
 
 function meta:IsCameraOut()
