@@ -6,4 +6,4 @@ ENT.Spawnable		= true
 ENT.AdminSpawnable 	= true
 
 ENT.Model			= Model( "models/props_lab/blastdoor001a.mdl")
-ENT.Webpage 		= "http://kity.tests/towerunite/small/" //"http://www.gmtower.org/apps/latest/"
+ENT.Webpage 		= "http://gmodtower.org/towerunite/small/" //"http://www.gmtower.org/apps/latest/"

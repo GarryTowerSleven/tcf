@@ -1,8 +1,7 @@
 include('shared.lua')
 
---SetupBrowser( ENT, 800, 700, .125 )
---SetupBrowser( ENT, 1200, 1200, .125 )
-SetupBrowser( ENT, 2680, 2000, .125 )
+local mm = 2
+SetupBrowser( ENT, 2680/mm, 900/mm, .125*mm )
 
 ENT.RenderGroup = RENDERGROUP_BOTH
 ENT.Material = nil
@@ -26,7 +25,6 @@ end
 
 function ENT:Initialize()
 	self:StartBrowser()
-	self:SetRenderBounds( Vector( 2, 200, 0 ), Vector( -2, -200, 350 ) )
 end
  
 function ENT:DrawMaterial()
