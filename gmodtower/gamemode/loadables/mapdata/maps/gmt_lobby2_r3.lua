@@ -198,14 +198,12 @@ local function MapFixes()
 	end
 
 	// Gamemodes Banner
-	local banner = ents.Create("gmt_gamebanner")
-	banner:SetPos(Vector(4398.583496, -2909.327881, 137.968750))
-	banner:Spawn()
+	AddMapEntity( "gmt_gamebanner", Vector( 4400, -2915, 118 ), Angle( 0, 0, 0 ) )
+	--SpawnDynamicProp( "models/map_detail/gmbanners.mdl", Vector( 4400, -2915, 118 ), Angle( 0, 90, 0 ), true )
 
 	// Remove Fog
 	timer.Simple( 3, function()
 		for _, v in pairs( ents.FindByClass("func_smokevolume") ) do
-			//print( "removing : " .. tostring( v ) .. " @ " .. tostring( v:GetBrushPlane( 1 ) ) )
 			v:Remove()
 		end
 	end)
@@ -223,10 +221,7 @@ local function MapFixes()
 	SpawnDynamicProp( "models/wilderness/wildernesstable1.mdl", Vector(4656, 4413, -896), Angle(0,55,0), false )
 
 	// Web Board
-	local webboard = ents.Create( "gmt_webboard" )
-	webboard:SetPos( Vector( 7503.833984, 0.342745, -1112.968750 ) )
-	webboard:SetAngles( Angle( 0, 180, 0 ) )
-	webboard:Spawn()
+	AddMapEntity( "gmt_webboard", Vector( 7504, 0, -975 ), Angle( 0, 180, 0 ) )
 
 	// Ballrace Port Goal
 	SpawnDynamicProp( "models/props_memories/memories_levelend.mdl", Vector(3424, -6400, -904), Angle(0, 0, 0), false )
@@ -262,20 +257,14 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	end
 
 	// Particles Store
-	--local ent = ents.Create("gmt_npc_particles")
-	--ent:SetPos( Vector(7434, 221, -1088) )
-	--ent:SetAngles( Angle(0, -135, 0) )
-	--ent:Spawn()
+	--AddMapEntity( "gmt_npc_particles", Vector( 7434, 221, -1088 ), Angle( 0, -135, 0 ) )
 	
 	// Transit Station NPCs
-	AddMapEntity( "gmt_npc_vip", Vector( 7425, 218, -1090 ), Angle( 0, -135, 0 ) )
-	AddMapEntity( "gmt_npc_money", Vector( 7425, -212, -1087 ), Angle( 0, 135, 0 ) )
+	AddMapEntity( "gmt_npc_vip", Vector( 7425, 218, -1085 ), Angle( 0, -135, 0 ) )
+	AddMapEntity( "gmt_npc_money", Vector( 7425, -212, -1085 ), Angle( 0, 135, 0 ) )
 	
 	// The Board
-	local ent = ents.Create( "gmt_streamer_board" )
-	ent:SetPos( Vector( 2580, 4930, -911 ) )
-	ent:SetAngles( Angle(0, 75, 0) )
-	ent:Spawn()
+	AddMapEntity( "gmt_streamer_board", Vector( 2580, 4930, -911 ), Angle( 0, 75, 0 ) )
 
 	AddL2Camera( Vector( -1154, 54, 15100 ), Angle(0, 90, 0) )
 	AddL2Camera( Vector( -672, 54, 15100 ), Angle(0, 90, 0) )
