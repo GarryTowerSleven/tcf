@@ -5,7 +5,7 @@ ENT.Base		= "base_anim"
 ENT.Type		= "anim"
 ENT.PrintName	= "Beer Keg"
 
-ENT.Model		= Model("models/props/de_inferno/hr_i/barrel_a/barrel_a_full.mdl")
+ENT.Model		= Model("models/props/de_inferno/wine_barrel.mdl")
 ENT.Sound		= Sound("physics/glass/glass_impact_hard3.wav")
 
 function ENT:Initialize()
@@ -42,6 +42,6 @@ function ENT:ChangeColor()
 	--self:SetColor( self.Color, self.Color, self.Color, 255 )
 end
 
-function ENT:CanUse( ply )
-		return true, "DRINK"
+function ENT:CanUse( ply )
+	return true, "DRINK"
 end
