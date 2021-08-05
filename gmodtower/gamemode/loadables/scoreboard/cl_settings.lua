@@ -176,7 +176,7 @@ function SETTINGS:Create()
 	Lobby Settings
 	============*/
 
-	if game.GetMap() == "gmt_lobby2_r3" then
+	if IsLobby then
 
 		local LobbyCanvas = self:NewCategory( "Lobby Settings", 2 )
 

@@ -72,7 +72,7 @@ end
 
 // Background
 PlayerBackgroundMaterial = function( ply )
-	if game.GetMap() == "gmt_lobby2_r3" then
+	if IsLobby then
 	if ply:Location() then
 		local location = ply:Location()
 

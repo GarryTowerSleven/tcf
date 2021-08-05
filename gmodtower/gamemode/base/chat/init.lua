@@ -67,7 +67,6 @@ local wordfilter = {
 	{"cunt"},
 	{"clit"},
 	{"cock"},
-	{"faggot"},
 	{"nigga"},
 	{"nigger"},
 	{"coon"},

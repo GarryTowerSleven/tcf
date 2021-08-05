@@ -487,7 +487,7 @@ end
 
 -- sorry foohy, I don't want your STUPID tubes on flatgrass
 
-if not string.find(game.GetMap(), "gmt_lobby2") then
+if not IsLobby then
 
 	return
 

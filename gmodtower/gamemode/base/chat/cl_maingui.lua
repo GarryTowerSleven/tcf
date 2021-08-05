@@ -240,7 +240,7 @@ function PANEL:Init()
 
 
 
-	if GTowerChat.ChatGroups and game.GetMap() == "gmt_lobby2_r3" then
+	if GTowerChat.ChatGroups and IsLobby then
 
 
 
