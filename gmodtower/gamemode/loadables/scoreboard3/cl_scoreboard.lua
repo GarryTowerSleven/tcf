@@ -735,7 +735,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 				-- Get room owner
 				local RoomID = Location.GetCondoID( LocalPlayer():Location() )
 				if RoomID then
-					local Room = GTowerRooms:Get( RoomID )
+					local Room = GtowerRooms:Get( RoomID )
 					if Room and IsValid( Room.Owner ) then
 						title = title .. " - Owner: " .. Room.Owner:GetName()
 					end
