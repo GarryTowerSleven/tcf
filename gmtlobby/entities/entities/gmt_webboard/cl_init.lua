@@ -11,8 +11,7 @@ function ENT:DrawTranslucent()
 	local pos, ang = self:GetPosBrowser(), self:GetAngles()
 	local up, right = self:GetUp(), self:GetRight()
 
-	--pos = pos + (up * self.Height * self.Scale) + (right * (self.Width/2) * self.Scale)
-	pos = pos + (up * self.Height * self.Scale) + (right * (self.Width/2) * self.Scale) - Vector( 0, 0, 105 ) + Vector( 5, 0, 0 )
+	pos = pos + (up * self.Height * self.Scale) + (right * (self.Width/2) * self.Scale)
 
 	ang:RotateAroundAxis(ang:Up(), 90)
 	ang:RotateAroundAxis(ang:Forward(), 90)
@@ -67,6 +66,10 @@ function ENT:OnRemove()
 	self:EndBrowser()
 end
 
+function ENT:CanUse( ply )
+	return true, "MORE INFO"
+end
+
 concommand.Add( "gmt_clearwebboard", function( ply, cmd, args )
 
 	for _, ent in pairs( ents.FindByClass( "gmt_webboard" ) ) do
@@ -76,5 +79,14 @@ concommand.Add( "gmt_clearwebboard", function( ply, cmd, args )
 		ent:StartBrowser()
 
 	end
+
+end )
+
+usermessage.Hook( "OpenTowerUnite", function( um ) 
+
+	local URL = "http://www.gmtower.org/reunion/play/towerunite/"
+	local Title = "Buy Tower Unite Today"
+
+	browser.OpenURL( URL, Title )
 
 end )

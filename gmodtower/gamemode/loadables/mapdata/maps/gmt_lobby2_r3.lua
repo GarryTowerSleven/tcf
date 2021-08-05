@@ -221,7 +221,7 @@ local function MapFixes()
 	SpawnDynamicProp( "models/wilderness/wildernesstable1.mdl", Vector(4656, 4413, -896), Angle(0,55,0), false )
 
 	// Web Board
-	AddMapEntity( "gmt_webboard", Vector( 7504, 0, -975 ), Angle( 0, 180, 0 ) )
+	AddMapEntity( "gmt_webboard", Vector( 7504, 0, -1080 ), Angle( 0, 180, 0 ) )
 
 	// Ballrace Port Goal
 	SpawnDynamicProp( "models/props_memories/memories_levelend.mdl", Vector(3424, -6400, -904), Angle(0, 0, 0), false )
