@@ -56,6 +56,11 @@ end)]]--
 
 local wordfilter = {
 	{"fuck", "hug"},
+	{"kek", "gun"},
+	{"lel", "lol"},
+	{"lels", "lols"},
+	{"lelz", "lolz"},
+	{"lulz", "I hate myself"},
 	{" ͡° ͜ʖ ͡°", "no"},
 	{"shit"},
 	{"rape"},
@@ -218,18 +223,17 @@ local random_words = {
 	"tree","sammich","jeebus","pickle","lumpin","cracker",
 	"elephant","llama","egor","taco","humpy","dumpy","eggo",
 	"funky","hanky","panky","elmer","popsicle","disco",
-	"donut","nipple","penis","boobies","wooters","buttsecks",
+	"donut","nipple","penis","boobies","wooters",
 	"popcat","domo","invisible","jackalope","chupicabra",
 	"explode","qwerty","mingebag","kurplunk","apple","lazy",
 	"moar","boar","scrotum","garry","chad","brandon","jinto",
 	"foszor","mario","lugi","donkey kong","jackass","yoshi",
 	"thar","bubble bobble","lego","viagra","spam","lag","wtf",
 	"squiggle","giggle","google","yahoo","disney","steam","dunce",
-	"testicle","tickle","sushi","erection","explosive diarrhea",
-	"buttplug","assrape","earrape","blarg","huzzah","retard",
-	"midget","dwarf","ufo","alien","cup o noodle","meatball",
+	"testicle","tickle","sushi","explosive diarrhea",
+	"blarg","huzzah","earrape", "ufo","alien","cup o noodle","meatball",
 	"dingdong","ding","dong","twinkey","mule","stool","toilet",
-	"digimon","roofie","bunghole","indian","bull sperm","ass wrinkle",
+	"roofie","bunghole","indian","bull sperm","ass wrinkle",
 	"gadar","radar","boobiefart","humperstien","yoddle","circus",
 	"plumber","weenie","huge knockers","dilbert","frog","boogie",
 	"snotrocket","hippofartomus","Jessica Alba","poptart","pringles",
@@ -238,11 +242,13 @@ local random_words = {
 	"poopcat","beesechurger","tardy","#$@#$","&*#$@#","@!","crapple",
 	"mudkipz","seaking","fluffy","emo","indiana jones","privates",
 	"nuttsack","buttfuck","ass","fuck","dick","pussy","damn",
-	"weaksauce","poker face","poker","face","sex","furry","yiff",
-	"anime","hentai","weeaboo","otaku","irrelephant","buntcag","bouchedag",
-	"porn","mail","azuisleet","voided","rabbit","bunny","frankenstien","money",
+	"weaksauce","poker face","poker","face","sex","anime","irrelephant","buntcag","bouchedag",
+	"porn","mail","azuisleet","voided","voidy","rabbit","bunny","frankenstien","money",
 	"shnoz","groin","gayben","gaben","foobama","obama","ACTA","tool","RIAA","MPAA",
-	"piracy","weenis","auntymay","how r u hi","nerd","voidy","fishing"
+	"piracy","weenis","auntymay","how r u hi","nerd","fishing",
+
+	"troll","2012","tony stark","robert downey jr","multidimensional","quantum space", "frank sinatra", "helpmepleasegod",
+	"daytona","lumpin","ron paul","beesechurger","kony 2012","goon","wambam","donate","friday",
 }
 
 function GM:DrunkSay(pl, text, team)
