@@ -1,4 +1,4 @@
-if string.StartWith(game.GetMap(),"gmt_lobby") then return end
+if IsLobby then return end
 
 local pairs = pairs
 local unpack = unpack
