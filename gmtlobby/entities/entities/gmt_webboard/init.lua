@@ -20,6 +20,6 @@ function ENT:Use( ply )
 	if CurTime() < self.NextUse then return end
 	self.NextUse = CurTime() + 1
 
-	SendUserMessage( "OpenTowerUnite", Entity(1) )
+	SendUserMessage( "OpenTowerUnite", ply )
 end
 
