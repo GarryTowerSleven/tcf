@@ -1,2 +1,2 @@
 # GMTower: Deluxe
-Dang, that looks Deluxe!
+Dang, that surely looks Deluxe!
