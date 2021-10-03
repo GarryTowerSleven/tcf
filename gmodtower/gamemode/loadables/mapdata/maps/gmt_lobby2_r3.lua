@@ -220,9 +220,6 @@ local function MapFixes()
 	SpawnDynamicProp( "models/wilderness/wildernesstable1.mdl", Vector(4656, 4364, -896), Angle(0,75,0), false )
 	SpawnDynamicProp( "models/wilderness/wildernesstable1.mdl", Vector(4656, 4413, -896), Angle(0,55,0), false )
 
-	// Web Board
-	AddMapEntity( "gmt_webboard", Vector( 7504, 0, -1080 ), Angle( 0, 180, 0 ) )
-
 	// Ballrace Port Goal
 	SpawnDynamicProp( "models/props_memories/memories_levelend.mdl", Vector(3424, -6400, -904), Angle(0, 0, 0), false )
 
@@ -262,6 +259,9 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	// Transit Station NPCs
 	AddMapEntity( "gmt_npc_vip", Vector( 7425, 218, -1085 ), Angle( 0, -135, 0 ) )
 	AddMapEntity( "gmt_npc_money", Vector( 7425, -212, -1085 ), Angle( 0, 135, 0 ) )
+
+	// Web Board
+	AddMapEntity( "gmt_webboard", Vector( 7504, 0, -1080 ), Angle( 0, 180, 0 ) )
 	
 	// The Board
 	AddMapEntity( "gmt_streamer_board", Vector( 2580, 4930, -911 ), Angle( 0, 75, 0 ) )
@@ -475,9 +475,15 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(2809.1298828125, -2490.2399902344, -863.81097412109), Angle(0, 244, 0), 1, Color(196, 0, 0, 255))
 	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(2820, -2428.6499023438, -863.81097412109), Angle(0, 269.5, 0), 1, Color(196, 0, 0, 255))
 	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(2810.3898925781, -2364, -863.81097412109), Angle(0, 277.5, 0), 1, Color(196, 0, 0, 255))
-	AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(2818.1101074219, -2104.9299316406, -864), Angle(0, 279, 0), 1, Color(196, 0, 0, 255))
-	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(2696.0700683594, -2015.6300048828, -863.81097412109), Angle(0, 19, 0), 1, Color(196, 0, 0, 255))
-	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(2756, -2024, -863.81097412109), Angle(0, 334, 0), 1, Color(196, 0, 0, 255))
+
+	//AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(2818.1101074219, -2104.9299316406, -864), Angle(0, 279, 0), 1, Color(196, 0, 0, 255))
+	//AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(2696.0700683594, -2015.6300048828, -863.81097412109), Angle(0, 19, 0), 1, Color(196, 0, 0, 255))
+	//AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(2756, -2024, -863.81097412109), Angle(0, 334, 0), 1, Color(196, 0, 0, 255))
+
+	AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(2770.7399902344, -2047.4300537109, -863.81097412109), Angle(0, 315, 0), 1, Color(196, 0, 0, 255))
+	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(2816, -2128, -863.81097412109), Angle(0, 285, 0), 1, Color(196, 0, 0, 255))
+	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(2688, -2000, -863.81097412109), Angle(0, 345, 0), 1, Color(196, 0, 0, 255))
+
 	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(2386.9799804688, -1994.2800292969, -864), Angle(0, 7.5, 0), 1, Color(196, 0, 0, 255))
 	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(2451.6298828125, -1984.6800537109, -864), Angle(0, 359.5, 0), 1, Color(196, 0, 0, 255))
 	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(2513.2199707031, -1995.5500488281, -864), Angle(0, 334, 0), 1, Color(196, 0, 0, 255))
@@ -672,18 +678,26 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(6288.58984375, -1210.5200195313, -606.80999755859), Angle(0, 90, 0), 0, Color(255, 255, 255, 255))
 	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(6444.3901367188, -1341.5500488281, -606.80999755859), Angle(0, 270, 0), 0, Color(255, 255, 255, 255))
 	AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(6374.1201171875, -1423.1600341797, -606.80999755859), Angle(0, 180, 0), 0, Color(255, 255, 255, 255))
-	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7000, -816, -608), Angle(0, 239.5, 0), 0, Color(255, 255, 255, 255))
-	AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(7016, -720, -608), Angle(0, 270, 0), 0, Color(255, 255, 255, 255))
-	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7008, -632, -608), Angle(0, 287, 0), 0, Color(255, 255, 255, 255))
-	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7000, -464, -608), Angle(0, 239.5, 0), 0, Color(255, 255, 255, 255))
-	AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(7016, -368, -608), Angle(0, 270, 0), 0, Color(255, 255, 255, 255))
-	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7008, -280, -608), Angle(0, 287, 0), 0, Color(255, 255, 255, 255))
-	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7000, 256, -608), Angle(0, 239.5, 0), 0, Color(255, 255, 255, 255))
-	AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(7016, 352, -608), Angle(0, 270, 0), 0, Color(255, 255, 255, 255))
-	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7008, 440, -608), Angle(0, 287, 0), 0, Color(255, 255, 255, 255))
-	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7000, 608, -608), Angle(0, 239.5, 0), 0, Color(255, 255, 255, 255))
-	AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(7016, 704, -608), Angle(0, 270, 0), 0, Color(255, 255, 255, 255))
-	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7008, 792, -608), Angle(0, 287, 0), 0, Color(255, 255, 255, 255))
+	
+	//AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7000, -816, -608), Angle(0, 239.5, 0), 0, Color(255, 255, 255, 255))
+	//AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(7016, -720, -608), Angle(0, 270, 0), 0, Color(255, 255, 255, 255))
+	//AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7008, -632, -608), Angle(0, 287, 0), 0, Color(255, 255, 255, 255))
+	//AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7000, -464, -608), Angle(0, 239.5, 0), 0, Color(255, 255, 255, 255))
+	//AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(7016, -368, -608), Angle(0, 270, 0), 0, Color(255, 255, 255, 255))
+	//AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7008, -280, -608), Angle(0, 287, 0), 0, Color(255, 255, 255, 255))
+	//AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7000, 256, -608), Angle(0, 239.5, 0), 0, Color(255, 255, 255, 255))
+	//AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(7016, 352, -608), Angle(0, 270, 0), 0, Color(255, 255, 255, 255))
+	//AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7008, 440, -608), Angle(0, 287, 0), 0, Color(255, 255, 255, 255))
+	//AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7000, 608, -608), Angle(0, 239.5, 0), 0, Color(255, 255, 255, 255))
+	//AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(7016, 704, -608), Angle(0, 270, 0), 0, Color(255, 255, 255, 255))
+	//AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7008, 792, -608), Angle(0, 287, 0), 0, Color(255, 255, 255, 255))
+
+	// Inaccurate, but better
+	AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(7004, 712, -607.81097412109), Angle(0, 270, 0), 0, Color(255, 255, 255, 255))
+	AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(7004, 392, -607.81097412109), Angle(0, 270, 0), 0, Color(255, 255, 255, 255))
+	AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(7004, -380, -607.81097412109), Angle(0, 270, 0), 0, Color(255, 255, 255, 255))
+	AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(7004, -704, -607.81097412109), Angle(0, 270, 0), 0, Color(255, 255, 255, 255))
+	
 	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7504, 1512, -608), Angle(0, 343, 0), 0, Color(255, 255, 255, 255))
 	AddL2Seat( "models/map_detail/sofa_lobby.mdl", Vector(7416, 1520, -608), Angle(0, 0, 0), 0, Color(255, 255, 255, 255))
 	AddL2Seat( "models/map_detail/chair_lobby.mdl", Vector(7320, 1504, -608), Angle(0, 31, 0), 0, Color(255, 255, 255, 255))
