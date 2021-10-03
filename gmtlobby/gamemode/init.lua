@@ -616,11 +616,3 @@ hook.Add("PhysgunDrop", "ResetPISCollisions", function(pl, ent)
 		ent:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
 	end
 end)
-
-hook.Add("Location","DisableLocJetpack",function(ply,loc)
-	if loc == 51 then
-		ply._DisabledJetpack = true
-	else
-		ply._DisabledJetpack = false
-	end
-end)

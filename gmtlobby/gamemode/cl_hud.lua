@@ -479,6 +479,11 @@ GTowerHUD.MaxAmmo = {}
 		// disable hud for camera swep
 		local weapon = LocalPlayer():GetActiveWeapon()
 		if IsValid( weapon ) && weapon:GetClass() == "gmt_camera" then return end
+
+		// shit shit shit
+		/*if ActiveJetpack && ActiveJetpack:IsValid() then
+			jetpack.JetpackFuelDraw( GTowerHUD.Info.X, GTowerHUD.Info.Y, GTowerHUD.Info.Width, GTowerHUD.Info.Height-4 )
+		end*/
 		
 		GTowerHUD.DrawHealth()
 		GTowerHUD.DrawInfo()

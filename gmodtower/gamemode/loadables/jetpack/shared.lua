@@ -1,71 +1,186 @@
+local MOVETYPE_NONE = MOVETYPE_NONE
+local SERVER = SERVER
+local IN_FORWARD, IN_BACK, IN_MOVELEFT, IN_MOVERIGHT, IN_DUCK, IN_JUMP = IN_FORWARD, IN_BACK, IN_MOVELEFT, IN_MOVERIGHT, IN_DUCK, IN_JUMP
+local Angle = Angle
+local FrameTime = FrameTime
+local _G = _G
+local CurTime = CurTime
+local math = math
+local hook = hook
+local IsValid = IsValid
+local NoVector = Vector(0,0,0)
+local meta = FindMetaTable( "Player" )
+local print = print
 
-if !string.StartWith(game.GetMap(),"gmt_lobby") then return end
+//plynet.Register( "Bool", "IsJetpackOn" )
+//plynet.Register( "Float", "JetpackStart" )
+//plynet.Register( "String", "JetpackTexture" )
 
-local function HasJetpack(ply)
-	if ply.CosmeticEquipment == nil then return false end
-	
-	for k,v in pairs(ply.CosmeticEquipment) do
-		if v:GetClass() == "gmt_jetpack" and v:GetModel() != "models/gmod_tower/backpack.mdl" then return true end
+module("jetpack", package.seeall)
+
+local function CalculateAccumulatedFuelRemaining( ply, state )
+	local JetPack = ply:GetJetpack()
+	if !JetPack then return 1 end
+
+	local availableFuel = JetPack.JetpackFuel
+	if JetPack.JetpackFuel == -1 then
+			ply._DisplayFuelAmount = 1
+			return 1
 	end
 	
-	return false
+	local flightTime = state._AccumulatedFlightTime or 0
+	
+	if state._InJetpackFlight then
+		flightTime = flightTime + engine.TickInterval()
+	else
+		local rechargeTime = (state._JetpackFlightEnd or 0) + JetPack.JetpackStartRecharge
+		if CurTime() >= rechargeTime then
+			local rechargeTime = (engine.TickInterval() * (1/JetPack.JetpackRecharge))
+			flightTime = math.max(0, flightTime - rechargeTime)
+		end
+	end
+	
+	state._AccumulatedFlightTime = flightTime
+	ply._DisplayFuelAmount = (availableFuel - flightTime) / availableFuel
+	return availableFuel - flightTime
 end
 
-hook.Add("Move", "Inventory.JetPack.Move", function(ply, mv, cmd)
+local function JetpackBegin( ply )
+	//ply:SetNet("JetpackStart", CurTime())
+	//ply:SetNet("IsJetpackOn", true)
+	ply:SetNWInt("JetpackStart", CurTime())
+	ply:SetNWBool("IsJetpackOn", true)
+end
 
-	if HasJetpack(ply) then
-		if mv:KeyDown(IN_JUMP) and not ply:IsOnGround() and ply:WaterLevel() < 2 then
-			if not ply:GetNWBool("IsJetpackOn") then
-				ply:SetNWFloat("JetpackStart", CurTime())
-				ply:SetNWBool("IsJetpackOn", true)
+local function JetpackEnd( ply )
+	//ply:SetNet("JetpackStart", 0)
+	//ply:SetNet("IsJetpackOn", false)
+	ply:SetNWInt("JetpackStart", 0)
+	ply:SetNWBool("IsJetpackOn", false)
+end
+
+local function GetRollingState( ply )
+	local t = CurTime()
+	
+	if not ply._LatestMoveState or t > ply._LatestMoveState then
+		if not ply._MoveStateData then ply._MoveStateData = {} end
+		ply._LatestMoveState = t
+
+		for time, data in pairs(ply._MoveStateData) do
+			if time < (t - 2) then
+				ply._MoveStateData[time] = nil
 			end
+		end
+	end
 
-			local oVec = mv:GetVelocity()
-			local finalVec = Vector(0, 0, 15)
-			local dirPower = ply:GetWalkSpeed()
-			local powerSetting = 1--ply.CurInventory[TYPE.ACCESSORY].Settings.power
-			local frameTime = FrameTime()
-
-			local ang = mv:GetMoveAngles()
-			local forwardVec = ang:Forward()
-			local rightVec = ang:Right()
-			forwardVec.z = 0
-			rightVec.z = 0
-
-			if mv:KeyDown(IN_SPEED) and mv:KeyDown(IN_DUCK) then
-				dirPower = ply:GetRunSpeed()*5
-			elseif mv:KeyDown(IN_SPEED) then
-				dirPower = ply:GetRunSpeed()
-			end
-
-			finalVec = finalVec + forwardVec * math.Clamp(mv:GetForwardSpeed(), -1, 1) * dirPower * frameTime
-			finalVec = finalVec + rightVec * math.Clamp(mv:GetSideSpeed(), -1, 1) * dirPower * frameTime
-			finalVec = finalVec + oVec
-
-			finalVec.x = math.Clamp(finalVec.x, -dirPower*4, dirPower*4)
-			finalVec.y = math.Clamp(finalVec.y, -dirPower*4, dirPower*4)
-			finalVec.z = math.min(finalVec.z, dirPower)
-
-			mv:SetVelocity(finalVec)
-
-			if mv:KeyDown(IN_DUCK) then
-				mv:SetButtons(mv:GetButtons() - IN_DUCK) -- There's no CMoveData:RemoveKey function, so...bitwise operations
-			end
-		else
-			if ply:GetNWBool("IsJetpackOn") then
-				ply:SetNWFloat("JetpackStart", 0)
-				ply:SetNWBool("IsJetpackOn", false)
-			end
-			if IsFirstTimePredicted() and ply.RocketShoesSound then
-				ply.RocketShoesSound:Stop()
+	local isFirstPredicted = false
+	
+	if t < ply._LatestMoveState then
+		for time, data in pairs(ply._MoveStateData) do
+			if time >= t then
+				ply._MoveStateData[time] = nil
 			end
 		end
 	else
-		if ply:GetNWBool("IsJetpackOn") then
-			ply:SetNWBool("IsJetpackOn", false)
+		isFirstPredicted = true
+	end
+	
+	return isFirstPredicted, ply._MoveStateData[table.maxn(ply._MoveStateData)] or {}
+end
+
+local function CommitRollingState( ply, data )
+	local t = CurTime()
+	ply._MoveStateData[t] = {}
+	for k, v in pairs(data) do
+		ply._MoveStateData[t][k] = v
+	end
+end
+
+local function JetpackMove( ply, mv, state, firstPredicted )
+
+	if !IsValid(ply) then return end
+
+	if ply:GetMoveType() == MOVETYPE_NONE then
+		mv:SetVelocity(NoVector)
+		return
+	end
+	
+	local Jetpack = ply:GetJetpack()
+	
+	if !Jetpack || hook.Call("DisableJetpack", _G.GAMEMODE, ply ) == true then
+		return
+	end
+
+	local fuelRemaining = CalculateAccumulatedFuelRemaining( ply, state )
+	
+	if not ply:KeyDown( IN_JUMP ) or fuelRemaining <= 0 then
+		if state._InJetpackFlight then
+			JetpackEnd( ply )
+			state._InJetpackFlight = false
+			state._JetpackFlightEnd = CurTime()
 		end
-		if IsFirstTimePredicted() and ply.RocketShoesSound then
-			ply.RocketShoesSound:Stop()
+		return
+	end
+	
+	local vel = mv:GetVelocity()
+	local onGround = ply:IsOnGround()
+	local mang = mv:GetMoveAngles()
+	local fwd = mang:Forward()
+	local right = mang:Right()
+	fwd.z, right.z = 0, 0
+	
+	local power = Jetpack.JetpackPower
+
+	if power > 1 && Jetpack.JetpackFuel == -1 && (ply:IsVIP() or ply:IsAdmin()) then
+		power = math.Clamp( ply:GetInfoNum( "gmt_jetpackpower", 1 ), 1, 4.0 )
+	end
+	
+	local flightVector = Vector(0,0,0)
+	local directionalPower = 150 * power
+	local upPower = 700
+	
+	if ply:KeyDown( IN_DUCK ) and not onGround then
+		directionalPower = 2000
+		upPower = 550
+	end
+	
+	if not onGround and power < 1 then
+		upPower = upPower * power
+	end
+	
+	if not state._InJetpackFlight then
+		JetpackBegin( ply )
+		state._InJetpackFlight = true
+
+		if onGround then
+			directionalPower = directionalPower * Jetpack.ExtraOnFloor
+			upPower = upPower * Jetpack.ExtraOnFloor
 		end
 	end
-end)
+	if not state._InJetpackFlight and onGround then
+
+	end
+	
+	fwdVector = (fwd * math.Clamp(mv:GetForwardSpeed(), -1, 1) * directionalPower * FrameTime())
+	rightVector = (right * math.Clamp(mv:GetSideSpeed(), -1, 1) * directionalPower * FrameTime())
+	flightVector = flightVector + fwdVector + rightVector + (Vector(0,0,1) * upPower * FrameTime())
+	
+	local maxvel = 1600
+	if vel:Length() > maxvel then
+		flightVector = flightVector - (vel * ( (vel:Length() - maxvel) / vel:Length() ) ) 
+	end
+		
+	mv:SetVelocity(vel + flightVector)
+end
+
+local function JetpackMoveOuter( ply, mv )
+	local firstPredicted, state = GetRollingState( ply )
+	JetpackMove( ply, mv, state, firstPredicted )
+	CommitRollingState( ply, state )
+end
+
+function meta:GetJetpack()
+	return GetJetpack( self )
+end
+
+hook.Add("Move", "JetpackMove", JetpackMoveOuter )
