@@ -380,19 +380,25 @@ function GM:PlayerComplete(ply)
 
 	self:GetBestTime(ply, level)
 
-	timer.Simple(1,function()
+	timer.Simple(0.25,function()
 
 		if ply.BestTime == nil then
-			self:ColorNotifyPlayer( ply, "New best time!", Color(100, 100, 255, 255) )
 			self:SaveBestTime(ply, level, ply.RaceTime, false)
+			timer.Simple(0.75, function()
+				self:ColorNotifyPlayer( ply, "New best time!", Color(100, 100, 255, 255) )
+			end)
 		else
 			if ply.BestTime <= ply.RaceTime then
-				self:ColorNotifyPlayer( ply, "Your best time is still "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
+				timer.Simple(0.75, function()
+					self:ColorNotifyPlayer( ply, "Your best time is still "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
+				end)
 			end
 
 			if ply.BestTime > ply.RaceTime then
-				self:ColorNotifyPlayer( ply, "New best time "..math.Round(ply.RaceTime,2).."! Old time was "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
 				self:SaveBestTime(ply, level, ply.RaceTime, true)
+				timer.Simple(0.75, function()
+					self:ColorNotifyPlayer( ply, "New best time "..math.Round(ply.RaceTime,2).."! Old time was "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
+				end)
 			end
 
 		end
