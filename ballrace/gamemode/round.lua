@@ -380,7 +380,7 @@ function GM:PlayerComplete(ply)
 
 	self:GetBestTime(ply, level)
 
-	timer.Simple(0.25,function()
+	timer.Simple(0.5,function()
 
 		if ply.BestTime == nil then
 			self:SaveBestTime(ply, level, ply.RaceTime, false)
