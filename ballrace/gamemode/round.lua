@@ -137,7 +137,7 @@ function GM:UpdateStatus(disc)
 				end
 			end
 
-			timer.Simple( 0.5, function() level = level + 1 end )
+			timer.Simple( 1.25, function() level = level + 1 end )
 			tries = 0
 			// Fokin' network delay
 			timer.Simple( 0.2, function() GAMEMODE:GiveMoney() end )
@@ -380,7 +380,7 @@ function GM:PlayerComplete(ply)
 
 	self:GetBestTime(ply, level)
 
-	timer.Simple(0.5,function()
+	timer.Simple(1,function()
 
 		if ply.BestTime == nil then
 			self:SaveBestTime(ply, level, ply.RaceTime, false)
