@@ -133,7 +133,7 @@ function GM:UpdateStatus(disc)
 				for ply,afk in pairs(afks) do
 					if !afk then continue end
 					if !IsValid(ply) or !IsValid(v) then return end
-					self:ColorNotifyPlayer( ply:Name().." has automatically forfeited due to being AFK.", Color(100, 100, 100, 255) )
+					GAMEMODE:ColorNotifyAll( ply:Name().." has automatically forfeited due to being AFK.", Color(100, 100, 100, 255) )
 				end
 			end
 
@@ -384,21 +384,15 @@ function GM:PlayerComplete(ply)
 
 		if ply.BestTime == nil then
 			self:SaveBestTime(ply, level, ply.RaceTime, false)
-			timer.Simple(0.75, function()
-				self:ColorNotifyPlayer( ply, "New best time!", Color(100, 100, 255, 255) )
-			end)
+			self:ColorNotifyPlayer( ply, "New best time!", Color(100, 100, 255, 255) )
 		else
 			if ply.BestTime <= ply.RaceTime then
-				timer.Simple(0.75, function()
-					self:ColorNotifyPlayer( ply, "Your best time is still "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
-				end)
+				self:ColorNotifyPlayer( ply, "Your best time is still "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
 			end
 
 			if ply.BestTime > ply.RaceTime then
 				self:SaveBestTime(ply, level, ply.RaceTime, true)
-				timer.Simple(0.75, function()
-					self:ColorNotifyPlayer( ply, "New best time "..math.Round(ply.RaceTime,2).."! Old time was "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
-				end)
+				self:ColorNotifyPlayer( ply, "New best time "..math.Round(ply.RaceTime,2).."! Old time was "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
 			end
 
 		end
