@@ -189,7 +189,7 @@ concommand.Add("gmt_tourmsg",function(ply)
 
 	/*if tourmsgnotice:GetInt() == 0 then return end
 
-	local tourmsg = Msg2('Welcome to GMod Tower: Classic, would you like to watch a quick tour?')
+	local tourmsg = Msg2('Welcome to GMod Tower, would you like to watch a quick tour?')
 	tourmsg:SetupQuestion( function() RunConsoleCommand("gmt_starttour") end, function()
 		 RunConsoleCommand("gmt_enabletournotice","0")
 		 Msg2("Okay, we won't show you this again.")
