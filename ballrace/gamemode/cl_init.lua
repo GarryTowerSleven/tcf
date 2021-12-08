@@ -92,7 +92,7 @@ function GM:HUDPaint()
 		buffer = "INTERMISSION"]]
 	end
 
-	if state != STATUS_INTERMISSION || state != STATUS_INTERMISSION then
+	if state != STATUS_INTERMISSION then
 		surface.SetDrawColor( 255, 255, 255, 255 )
 
 		if state != STATUS_WAITING then
@@ -177,7 +177,8 @@ function GM:HUDPaint()
 		end
 	end
 
-	if  state == STATUS_WAITING || state == STATUS_PLAYING && (LocalPlayer():Team() == 2 || LocalPlayer():Team() == 3) then
+	if buffer != "" then
+	--if  state == STATUS_WAITING || state == STATUS_PLAYING && (LocalPlayer():Team() == 2 || LocalPlayer():Team() == 3) then
 		surface.SetDrawColor( 0, 0, 0, 250 )
 		surface.DrawRect( 0, ScrH()/1.058, ScrW(), 60 )
 		surface.DrawRect( 0, ScrH()/1.058, ScrW(), 3 )
@@ -186,8 +187,6 @@ function GM:HUDPaint()
 		--surface.DrawRect( 0, 0, ScrW(), 3 )
 
 		draw.SimpleText( buffer, "BallMessage", ScrW() / 2, ScrH()/1.028, Color( 255, 255, 255, 255 ), 1, 1 )
-	elseif state == STATUS_PLAYING || state == STATUS_INTERMISSION then
-		return
 	end
 end
 
@@ -320,62 +319,6 @@ net.Receive( "BGM", function( len, pl )
 end )
 ConVarPlayerFade = CreateClientConVar( "gmt_ballrace_fade", 255, true )
 
-//hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDepth, bDrawingSkybox )
-//	local pf = ConVarPlayerFade:GetInt()
-//
-//	for _, ply in pairs( player.GetAll() ) do
-//		if ply:Alive() and ply:Team() == TEAM_PLAYERS then // Leave dem spectators alone
-//			if ply == LocalPlayer() then continue end // Skip ourselves
-//			local ball = ply:GetBall()
-//			if IsValid( ball ) then
-//				if !LocalPlayer():Alive() or LocalPlayer():Team() != TEAM_PLAYERS then // Spectating
-//					ball:SetRenderMode( RENDERMODE_TRANSALPHA )
-//					ball:SetColor( Color( 255, 255, 255, 255 ) )
-//					continue
-//				end
-//				local c = ply:GetColor() // GMod 13
-//				local r,g,b,a = c.r, c.g, c.b, c.a
-//				ball:SetRenderMode( RENDERMODE_TRANSALPHA )
-//				ply:SetColorAll(Color(r, g, b, pf))
-//				ball:SetColor( Color( 255, 255, 255, pf ) )
-//			end
-//			local c = ply:GetColor() // GMod 13
-//				local r,g,b,a = c.r, c.g, c.b, c.a
-//				ply:SetRenderMode( RENDERMODE_TRANSALPHA )
-//			ply:SetColor(Color(r, g, b, 0))
-//		end
-//	end
-//end )
-
-hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDepth, bDrawingSkybox )
-	local pf = ConVarPlayerFade:GetInt()
-	if pf < 1 then return end // Fk player fade man
-
-	for _, ply in pairs( player.GetAll() ) do
-		if ply == LocalPlayer() then return end // Skip ourselves
-		if ply:Alive() and ply:Team() == TEAM_PLAYERS then // Leave dem spectators alone
-			local ball = ply:GetBall()
-			if IsValid( ball ) then
-				if !LocalPlayer():Alive() or LocalPlayer():Team() != TEAM_PLAYERS then // Spectating
-					ball:SetRenderMode( RENDERMODE_TRANSALPHA )
-					ball:SetColor( Color( 255, 255, 255, 255 ) )
-					return
-				end
-				local c = ply:GetColor() // GMod 13
-				local r,g,b,a = c.r, c.g, c.b, c.a
-				local distance = LocalPlayer():EyePos():Distance( ball:GetPos() )
-				local opacity = math.Clamp( (distance / math.Clamp(pf, 1, 2048)) * 255, 0, 255 ) // Close enough
-				ply:SetColorAll(Color(r, g, b, opacity))
-				ball:SetRenderMode( RENDERMODE_TRANSALPHA )
-				ball:SetColor( Color( 255, 255, 255, opacity ) )
-			end
-		end
-		local c = ply:GetColor() // GMod 13
-		local r,g,b,a = c.r, c.g, c.b, c.a
-		ply:SetRenderMode( RENDERMODE_TRANSALPHA )
-		ply:SetColor(Color(r, g, b, 0))
-	end
-end )
 --[[hook.Add("GTowerScorePlayer", "AddKBananasDeaths", function()
 
 	GtowerScoreBoard.Players:Add(
