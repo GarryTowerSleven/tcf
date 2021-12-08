@@ -152,6 +152,7 @@ function GM:UpdateStatus(disc)
 				net.Broadcast()
 				timer.Simple(GAMEMODE.IntermissionTime,function()
 					self:EndServer()
+					SetState(STATUS_ENDING)
 				end)
 			else
 				net.Start("roundmessage")

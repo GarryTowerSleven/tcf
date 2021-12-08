@@ -27,7 +27,6 @@ local Tester = {
 	"STEAM_0:1:85513145", -- Dan
 	"STEAM_0:1:57386100", -- Squibbus
 	"STEAM_0:1:72402171", -- Umbre
-	"STEAM_0:0:37654169", -- Pixel
 	"STEAM_0:0:59511670", -- Souper Marilogi
 	"STEAM_0:1:32372838", -- dward99
 	"STEAM_0:0:67367129", -- Solid Snake
