@@ -74,7 +74,6 @@ function GM:HUDPaint()
 		buffer = "WAITING FOR PLAYERS"
 	elseif state == STATUS_PLAYING then
 		if IsValid(LocalPlayer()) then
-			local team = LocalPlayer():Team()
 			if IsValid(ball) && ball:GetClass() == "player_ball" then
 				if LocalPlayer():Team() == 2 || LocalPlayer():Team() == 3  then
 					if IsValid(ball:GetOwner()) then
@@ -82,9 +81,9 @@ function GM:HUDPaint()
 					end
 				end
 			else
-				if team == TEAM_PLAYERS then
+				if LocalPlayer():Team() == 2 then
 					buffer = "YOU ARE DEAD"
-				else
+				elseif LocalPlayer():Team() == 3 then
 					buffer = "SPECTATING"
 				end
 			end
