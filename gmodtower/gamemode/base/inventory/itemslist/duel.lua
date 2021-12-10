@@ -42,7 +42,7 @@ RegisterItem( "DuelMain", {
 					"CANCEL"
 				)]]
 
-				ply:Msg2( "Dueling is currently disabled!" )
+				Msg2( "Dueling is currently disabled!" )
 
 			end
 		} )
