@@ -21,11 +21,11 @@ local Admin = {
 
 local Mod = {
 	"STEAM_0:1:85508734", -- Bman
+	"STEAM_0:1:57386100", -- Squibbus
 }
 
 local Tester = {
 	"STEAM_0:1:85513145", -- Dan
-	"STEAM_0:1:57386100", -- Squibbus
 	"STEAM_0:1:72402171", -- Umbre
 	"STEAM_0:0:59511670", -- Souper Marilogi
 	"STEAM_0:1:32372838", -- dward99

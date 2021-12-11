@@ -11,6 +11,7 @@ GTowerAdmins = {
 	"STEAM_0:1:85508734", -- Bman
 	"STEAM_0:1:124798129", -- Amgona
 	"STEAM_0:1:30473979", -- Nano
+	"STEAM_0:1:57386100", -- Squibbus
 
 }
 
