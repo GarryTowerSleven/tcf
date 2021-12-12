@@ -170,7 +170,7 @@ function GM:UpdateStatus(disc)
 				timer.Simple( 0.2, function() GAMEMODE:GiveMoney() end )
 			else
 				net.Start("roundmessage")
-				if tries < 2 then
+				if tries < 3 then
 					net.WriteInt( 2, 3 )
 				else
 					net.WriteInt( 1, 3 )
@@ -259,14 +259,15 @@ function GM:ResetGame()
 			level = level + 1
 			local NextLVL = GetNextSpawn()
 
-			if (!IsValid(GetNextSpawn()) || GetNextSpawn() == false) then
+			if NextLVL == false then
 				net.Start("roundmessage")
-				net.WriteInt( 3, 3 )
+				net.WriteInt( 2, 3 )
 				net.Broadcast()
 				self:ColorNotifyAll( "You've failed too many times! Ending game!" )
 
 				timer.Simple(4,function()
 					self:EndServer()
+					SetState(STATUS_ENDING)
 				end)
 				return
 			end
@@ -279,10 +280,12 @@ function GM:ResetGame()
 			self:ColorNotifyAll( "You've failed too many times! Moving to the next level!" )
 		else
 			net.Start("roundmessage")
-			net.WriteInt( 3, 3 )
+			net.WriteInt( 2, 3 )
 			net.Broadcast()
+			self:ColorNotifyAll( "You've failed too many times! Ending game!" )
 			timer.Simple(4,function()
 				self:EndServer()
+				SetState(STATUS_ENDING)
 			end)
 		end
 

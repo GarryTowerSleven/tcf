@@ -89,15 +89,12 @@ function GM:PlayerSpawn(ply)
 		self:UpdateSpecs(ply)
 
 	else
-		timer.Simple(1.25, function()
-			for _, ply in pairs( player.GetAll() ) do
-				ply:Spectate(OBS_MODE_ROAMING)
 
-				self:SpectateNext(ply)
+		ply:Spectate(OBS_MODE_ROAMING)
 
-				self:UpdateStatus()
-			end
-		end)
+		self:SpectateNext(ply)
+
+		self:UpdateStatus()
 
 	end
 
