@@ -15,7 +15,7 @@ Loadables.Load( {
 	"weaponfix",
 	"music",
 	//"gibsystem",
-	"jetpack"
+	//"jetpack"
 } )
 
 GM.MaxRoundsPerGame = 6
