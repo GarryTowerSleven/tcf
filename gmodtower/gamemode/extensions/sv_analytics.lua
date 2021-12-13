@@ -5,7 +5,7 @@ module( "analytics", package.seeall )
 
 function postDiscord( Type, text )
 
-	/*text = "["..(Type or "Logs").."] " .. text
+	text = "["..(Type or "Logs").."] " .. text
 
 	local authKey = "PaLy5TCoJ5RZjqWZtVccQpRVFgXkzwwm"
 	local AnalyticsURL = "http://ruch.site.nfoservers.com/deluxeanalytics.php"
@@ -15,7 +15,7 @@ function postDiscord( Type, text )
 	function( failed )
 		MsgC( Color( 255, 0, 0 ), "/!\\---Deluxe Analytics Error---/!\\\n")
 		MsgC( Color( 255, 0, 0 ), failed )
-	end )*/
+	end )
 end
 
 hook.Add( "InitPostEntity", "InitAnalytics", function()
