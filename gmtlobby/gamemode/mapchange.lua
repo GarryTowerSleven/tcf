@@ -21,7 +21,11 @@ timer.Create("gmt_autorestart",10,0,function()
 
 		GAMEMODE:ColorNotifyAll( T( "AutoRestartMap", 5 ), Color(225, 20, 20, 255) )
 		MsgC( co_color2, "[Server] The server will restart for an update or 24 hour restart in 5 minutes." )
-		analytics.postDiscord( "Logs", "Performing midnight restart in 5 minutes..." )
+		if ADMIN_RESTART then
+			analytics.postDiscord( "Logs", "The server will restart for an update or 24 hour restart in 5 minutes." )
+		else
+			analytics.postDiscord( "Logs", "Performing midnight restart in 5 minutes..." )
+		end
 
 		timer.Simple(5*60,function()
 
