@@ -8,4 +8,4 @@ ITEM.DrawModel = true
 ITEM.Tradable = true
 
 ITEM.StoreId = 27
-ITEM.StorePrice = 8000
+ITEM.StorePrice = 15000
