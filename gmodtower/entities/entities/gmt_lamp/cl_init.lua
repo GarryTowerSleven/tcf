@@ -68,6 +68,10 @@ function ENT:EnableLamp(isOn)
 	self.On = isOn
 end
 
+function ENT:CanUse( ply )
+	if self.On then return true, "TURN OFF" else return true, "TURN ON" end
+end
+
 usermessage.Hook("ToggleLamp", function(um)
 		local ent = um:ReadEntity()
 		if !IsValid(ent) then return end
