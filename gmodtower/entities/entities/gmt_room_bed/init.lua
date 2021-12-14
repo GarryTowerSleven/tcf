@@ -4,8 +4,7 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 
 function ENT:Initialize()
-	self:SetModel( "models/props_vtmb/heartbed.mdl" )
-
+	self:SetModel( self.Model )
 	self.Entity:PhysicsInit(SOLID_VPHYSICS)
 	self.Entity:SetMoveType(MOVETYPE_VPHYSICS)
 	self.Entity:SetSolid(SOLID_VPHYSICS)
@@ -16,7 +15,7 @@ function ENT:Initialize()
 	if (phys:IsValid()) then
 		phys:EnableMotion( false )
 	end
-
+	
 	self.HealingPlayers = {}
 end
 
@@ -28,11 +27,11 @@ function ENT:HealingThink()
 			self:WakePlayer( ply )
 		elseif CurTime() > time then
 			local Health = math.min( ply:Health() + 1, 100 )
-
+			
 			ply:Extinguish()
 			ply:SetHealth( Health )
 			ply:EmitSound( self.HealSound )
-
+			
 			if Health >= 100 then
 				self:WakePlayer( ply )
 			else
@@ -40,7 +39,7 @@ function ENT:HealingThink()
 			end
 		end
 	end
-
+	
 	if table.Count( self.HealingPlayers ) == 0 then
 		self.Think = EmptyFunction
 	end
@@ -50,7 +49,7 @@ function ENT:WakePlayer( ply )
 	PostEvent( ply, "sleepoff" )
 	ply:Freeze( false )
 	ply:DrawWorldModel( true )
-
+	
 	self.HealingPlayers[ ply ] = nil
 end
 
@@ -60,7 +59,7 @@ function ENT:Use( ply )
 	PostEvent( ply, "sleepon" )
 	ply:Freeze( true )
 	ply:EmitSound( self.SleepSound )
-
+	
 	ply:UnDrunk()
 	self.HealingPlayers[ ply ] = CurTime() + 4.0
 	self.Think = self.HealingThink

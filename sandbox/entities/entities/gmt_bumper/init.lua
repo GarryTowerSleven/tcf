@@ -44,7 +44,7 @@ local function ValidPhysics( ent )
 		"prop_snowball", "ammo_candycorn", "candycorn*",
 
 		//buyable electronics
-		"gmt_clock", "gmt_lamp",
+		"gmt_clock", "gmt_room_lamp",
 
 		//alcoholics
 		"gmt_beer*", "alcohol_bottle",

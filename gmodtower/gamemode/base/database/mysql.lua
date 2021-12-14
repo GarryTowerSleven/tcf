@@ -11,7 +11,7 @@ function connectToDatabase()
 	if tmysql then
 		Msg("[MYSQL] Attempting connection to mysql\n")
 		// ("ip", "user", "pw", "database")
-		databaseObject, err = tmysql.initialize("", "", "", "", 3306, 3, 3)
+		databaseObject, err = tmysql.initialize("localhost", "root", "amgonasqlpass", "gmtlobbydata", 3306, 3, 3)
 		Msg("[MYSQL] Connected to mysql\n")
 	end
 end
