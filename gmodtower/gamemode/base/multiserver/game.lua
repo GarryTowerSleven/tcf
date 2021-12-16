@@ -195,6 +195,9 @@ function GTowerServers:ResetServer()
 	timer.Simple( 10, function()
 		local map = GTowerServers:GetRandomMap()
 		GAMEMODE:ColorNotifyAll( T( "AdminChangeMap", map ), Color(225, 20, 20, 255) )
+		for k,v in pairs(player.GetAll()) do
+			v:Kick("Not redirected.")
+		end
 		hook.Call("LastChanceMapChange", GAMEMODE, map)
 		RunConsoleCommand("changelevel", map)
 	end )
