@@ -16,7 +16,7 @@ function IsHalloweenMap()
 end
 
 function IsChristmasMap()
-	return false
+	return true
 end
 
 function IsHolidayMap()
