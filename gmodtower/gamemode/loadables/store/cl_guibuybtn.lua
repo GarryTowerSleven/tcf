@@ -93,7 +93,7 @@ function PANEL:Paint( w, h )
 		end
 
 		surface.SetTextPos( xtextpos, ypos )
-		surface.DrawText( string.FormatNumber( pricestr ) )
+		surface.DrawText( stringmod.FormatNumber( pricestr ) )
 	end
 
 	//surface.SetDrawColor( 255, 255, 255, 255 )

@@ -135,7 +135,7 @@ function GetTimeLeft()
 
 
 
-	return string.FormattedTime( Diff, "%02i:%02i")
+	return stringmod.FormattedTime( Diff, "%02i:%02i")
 
 end
 

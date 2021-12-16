@@ -14,7 +14,7 @@ hook.Add( "HUDPaint", "DrawNextEventTime", function()
 			timeleft = 0
 		end
 
-		local timeformat = string.FormattedTime( timeleft, "%02i:%02i" )
+		local timeformat = stringmod.FormattedTime( timeleft, "%02i:%02i" )
 		local time = "NEXT EVENT (" .. string.upper( eventname ) .. ") IN " .. timeformat
 
 		surface.SetFont( "GTowerHUDMainSmall" )

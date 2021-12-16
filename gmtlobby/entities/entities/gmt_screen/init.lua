@@ -121,7 +121,7 @@ function ENT:Initialize()
 		local SecondsLeft = net.ReadFloat() * 60
 		local EndText = net.ReadString()
 		timer.Create("Counter",1,SecondsLeft,function()
-			self:SetNWString("CenterText",string.NiceTime(SecondsLeft).." left...")
+			self:SetNWString("CenterText",stringmod.NiceTime(SecondsLeft).." left...")
 			SecondsLeft = SecondsLeft - 1
 		end)
 		timer.Simple(SecondsLeft+1,function()

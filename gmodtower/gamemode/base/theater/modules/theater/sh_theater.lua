@@ -189,7 +189,7 @@ function THEATER:VideoTime()
 		return ""
 	end
 
-	return string.FormatSeconds(self:VideoCurrentTime(true)) .. " / " .. string.FormatSeconds(self:VideoDuration())
+	return stringmod.FormatSeconds(self:VideoCurrentTime(true)) .. " / " .. stringmod.FormatSeconds(self:VideoDuration())
 
 end
 

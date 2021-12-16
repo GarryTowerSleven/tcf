@@ -125,7 +125,7 @@ local function ExitTransition(ply, index)
 
 	if LocalPlayer() == ply && !LocalPlayer().HasWelcomed then
 		LocalPlayer().HasWelcomed = true
-		local name = string.SafeChatName( ply:Name() )
+		local name = stringmod.SafeChatName( ply:Name() )
 
 		if ply:GetNWBool("IsNewPlayer") then
 			local m = Msg2( T( "LobbyWelcomeNew" ) )

@@ -285,7 +285,7 @@ function GTowerHUD.DrawInfo()
 
 	end
 
-	local money = string.FormatNumber( mAmount )
+	local money = stringmod.FormatNumber( mAmount )
 
 	surface.SetFont("GTowerHUDMainLarge")
 		local mTextW, mTextH = surface.GetTextSize( money )

@@ -527,7 +527,7 @@ function AWARD:PerformLayout()
 	if maxValue != 1 then
 
 		self.Progress:SetValue( value / maxValue )
-		self.CollapseText:SetProgressText( string.FormatNumber( value ) .. " / " .. string.FormatNumber( maxValue ) )
+		self.CollapseText:SetProgressText( stringmod.FormatNumber( value ) .. " / " .. stringmod.FormatNumber( maxValue ) )
 
 		self.CollapseText:SetTall( self:GetTall() - 16 )
 
@@ -546,7 +546,7 @@ function AWARD:PerformLayout()
 	end
 	//if self.Achievement.GMC then
 
-		self.GMC:SetText( string.FormatNumber( self.Achievement.GMC or 500 ) )
+		self.GMC:SetText( stringmod.FormatNumber( self.Achievement.GMC or 500 ) )
 
 		self.GMC:SizeToContents()
 		//self.Item:SizeToContents()

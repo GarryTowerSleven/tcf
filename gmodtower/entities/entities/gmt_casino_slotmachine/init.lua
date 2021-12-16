@@ -201,7 +201,7 @@ function ENT:Use( ply )
 	end
 
 	if IsValid(self.LastPly) && ply != self.LastPly then
-		local name = string.SafeChatName( self.LastPly:Name() )
+		local name = stringmod.SafeChatName( self.LastPly:Name() )
 		ply:MsgI( "slots", "SlotsLocked", name, math.floor(self:GetLastPlayerTime() - CurTime()) )
 		return
 	end
@@ -438,7 +438,7 @@ end
 function ENT:BroadcastJackpot(ply, amount)
 	for _, v in ipairs(player.GetAll()) do
 		if v != ply then
-			v:MsgI( "slots", "SlotsJackpotAll", ply:Name(), string.FormatNumber(amount) )
+			v:MsgI( "slots", "SlotsJackpotAll", ply:Name(), stringmod.FormatNumber(amount) )
 		end
 	end
 end
@@ -471,7 +471,7 @@ function ENT:SendWinnings( ply, amount, bJackpot )
 
 	else
 		self:EmitSound( Casino.SlotWinSound, 75, 100 )
-		ply:MsgI( "slots", "SlotsWin", string.FormatNumber(amount) )
+		ply:MsgI( "slots", "SlotsWin", stringmod.FormatNumber(amount) )
 		ply:AddMoney(amount)
 
 		local bzr = ents.Create("gmt_money_bezier")

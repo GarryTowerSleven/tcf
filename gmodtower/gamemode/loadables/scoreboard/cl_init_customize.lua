@@ -109,7 +109,7 @@ end
 
 PlayerInfoValueIcon = MatDirectory .. "icon_money.png"
 PlayerInfoValueGet = function( ply )
-	return string.FormatNumber( Money() or 0 )
+	return stringmod.FormatNumber( Money() or 0 )
 end
 
 // Action Box

@@ -1577,7 +1577,7 @@ function PANEL:Think()
 
 
 
-	local ElapsedTime = string.FormattedTime( TimeLeft )
+	local ElapsedTime = stringmod.FormattedTime( TimeLeft )
 
 	ElapsedTime = math.Round( ElapsedTime.s )
 

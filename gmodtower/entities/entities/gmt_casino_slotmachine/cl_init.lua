@@ -2,7 +2,7 @@
 include('shared.lua')
 ENT.RenderGroup = RENDERGROUP_BOTH
 
-function string.FormatNumber( num )
+function stringmod.FormatNumber( num )
 	local formatted = num
 
 	while true do
@@ -301,19 +301,32 @@ function ENT:DrawTranslucent()
 
 end
 
-surface.CreateFont( "SlotText", {
-		font = "Tahoma",
-		size = 22,
-		weight = 300,
-		antialias = true,
-} )
-
-surface.CreateFont( "SlotTextSmall", {
-		font = "Tahoma",
-		size = 18,
-		weight = 300,
-		antialias = true,
-} )
+surface.CreateFont( "SlotText", {
+
+		font = "Tahoma",
+
+		size = 22,
+
+		weight = 300,
+
+		antialias = true,
+
+} )
+
+
+
+surface.CreateFont( "SlotTextSmall", {
+
+		font = "Tahoma",
+
+		size = 18,
+
+		weight = 300,
+
+		antialias = true,
+
+} )
+
 
 function ENT:DrawDisplay()
 
@@ -330,21 +343,36 @@ function ENT:DrawDisplay()
 
 	cam.Start3D2D( pos, ang, scale )
 
-		pcall(function()
-		draw.SimpleText( "Jackpot: " .. string.FormatNumber( self:GetJackpot() ), "SlotText", 5, 10, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
-
-		if self:GetLastPlayerName() != "" then
-			draw.SimpleText( "Locked To: " .. self:GetLastPlayerName(), "SlotTextSmall", 5, 10 + 20, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
-			local sec = math.ceil(self:GetLastPlayerTime() - CurTime())
-			local min = 0
-			while sec >= 60 do sec = sec - 60 min = min + 1 end
-			draw.SimpleText( "Lock Time: " .. string.format( "%02d:%02d", min, sec ) , "SlotTextSmall", 5, 10 + 20 + 15, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
-		end
-
-		if Casino.SlotsLocalPlaying == self then
-			draw.SimpleText( "Bet Amount: " .. Casino.SlotsLocalBet, "SlotText", 190, 190, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM )
-		end
-		end)
+		pcall(function()
+
+		draw.SimpleText( "Jackpot: " .. stringmod.FormatNumber( self:GetJackpot() ), "SlotText", 5, 10, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+
+
+
+		if self:GetLastPlayerName() != "" then
+
+			draw.SimpleText( "Locked To: " .. self:GetLastPlayerName(), "SlotTextSmall", 5, 10 + 20, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+
+			local sec = math.ceil(self:GetLastPlayerTime() - CurTime())
+
+			local min = 0
+
+			while sec >= 60 do sec = sec - 60 min = min + 1 end
+
+			draw.SimpleText( "Lock Time: " .. string.format( "%02d:%02d", min, sec ) , "SlotTextSmall", 5, 10 + 20 + 15, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+
+		end
+
+
+
+		if Casino.SlotsLocalPlaying == self then
+
+			draw.SimpleText( "Bet Amount: " .. Casino.SlotsLocalBet, "SlotText", 190, 190, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM )
+
+		end
+
+		end)
+
 
 	cam.End3D2D()
 

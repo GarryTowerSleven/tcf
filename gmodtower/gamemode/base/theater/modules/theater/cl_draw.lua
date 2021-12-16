@@ -118,7 +118,7 @@ function DrawVideoInfo( w, h, scale )
 	if LastTitle != TRA( Video:Title() ) or WasFullscreen != theater.Fullscreen then
 		LastTitle = TRA( Video:Title() )
 		WasFullscreen = theater.Fullscreen
-		Title = string.reduce( LastTitle, "VideoInfoMedium", w )
+		Title = stringmod.reduce( LastTitle, "VideoInfoMedium", w )
 	end
 	draw.TheaterText( Title, "VideoInfoMedium", 10, 10, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
 
@@ -143,11 +143,11 @@ function DrawVideoInfo( w, h, scale )
 		draw.RoundedBox( 0, 0, h - bh, w * (percent/100), bh, Color( 255, 255, 255, 255 ) )
 
 		-- Current Time
-		local strSeconds = string.FormatSeconds(math.Clamp(math.Round(current), 0, Video:Duration()))
+		local strSeconds = stringmod.FormatSeconds(math.Clamp(math.Round(current), 0, Video:Duration()))
 		draw.TheaterText( strSeconds, "VideoInfoMedium", 16, h - bh, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM )
 
 		-- Duration
-		local strDuration = string.FormatSeconds(Video:Duration())
+		local strDuration = stringmod.FormatSeconds(Video:Duration())
 		draw.TheaterText( strDuration, "VideoInfoMedium", w - 16, h - bh, Color(255,255,255,255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM )
 	end
 

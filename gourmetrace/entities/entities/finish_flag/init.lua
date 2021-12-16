@@ -49,7 +49,7 @@ function ENT:StartTouch( entity )
 		GAMEMODE:SetMusic(MUSIC_FINISH,entity)
 
 		for k,v in pairs(player.GetAll()) do
-			v:SendLua([[GTowerChat.Chat:AddText("#]].. pos ..[[ | ]]..entity:Name()..[[ has finished in ]]..string.FormattedTime( CurTime() - v.StartTime, "%02i:%02i:%02i" )..[[!", Color(0, 96, 255, 255))]])
+			v:SendLua([[GTowerChat.Chat:AddText("#]].. pos ..[[ | ]]..entity:Name()..[[ has finished in ]]..stringmod.FormattedTime( CurTime() - v.StartTime, "%02i:%02i:%02i" )..[[!", Color(0, 96, 255, 255))]])
 		end
 
 		if pos == 1 then

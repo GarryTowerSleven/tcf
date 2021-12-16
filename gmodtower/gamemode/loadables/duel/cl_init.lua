@@ -100,10 +100,10 @@ function DrawHUDTimer()
 		end
 	end
 
-	/*local ElapsedTime = string.FormattedTime( TimeLeft )
+	/*local ElapsedTime = stringmod.FormattedTime( TimeLeft )
 	ElapsedTime = math.Round( ElapsedTime.s )*/
 
-	local ElapsedTime = string.FormattedTime( TimeLeft, "%02i:%02i")
+	local ElapsedTime = stringmod.FormattedTime( TimeLeft, "%02i:%02i")
 
 	draw.SimpleTextOutlined( ElapsedTime, "DuelTime", ScrW() / 2, 20, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0 ) )
 end

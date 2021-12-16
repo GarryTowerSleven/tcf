@@ -261,7 +261,7 @@ if CLIENT then
 
 			local function onmove(slide)
 				slide.value = math.ceil( ( slide.x / w ) * duration )
-				draw.SimpleText( string.FormatSeconds( slide.value ), "AppBarLabelSmall", slide.x + slide.w, slide.y + 36, Color( 255, 255, 255, 25 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+				draw.SimpleText( stringmod.FormatSeconds( slide.value ), "AppBarLabelSmall", slide.x + slide.w, slide.y + 36, Color( 255, 255, 255, 25 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 			end
 
 			-- Draw slider
@@ -280,11 +280,11 @@ if CLIENT then
 
 
 			-- Current time
-			local durationStr = string.FormatSeconds( duration )
+			local durationStr = stringmod.FormatSeconds( duration )
 			draw.SimpleText( durationStr, "AppBarLabelSmall", tx + w - 16, ty + 120 + 5, Color( 255, 255, 255, 25 ), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER )
 
 			-- Duration
-			local curTimeStr = string.FormatSeconds(math.Clamp(math.Round(curTime), 0, duration))
+			local curTimeStr = stringmod.FormatSeconds(math.Clamp(math.Round(curTime), 0, duration))
 			draw.SimpleText( curTimeStr, "AppBarLabelSmall", tx + 16, ty + 120 + 5, Color( 255, 255, 255, 25 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 
 		end
@@ -294,7 +294,7 @@ if CLIENT then
 		local align = TEXT_ALIGN_CENTER
 		local titlex = scrw/2
 		if media then
-			title = string.RestrictStringWidth( media:Title(), "AppBarSmall", w - (padding*2) )
+			title = stringmod.RestrictStringWidth( media:Title(), "AppBarSmall", w - (padding*2) )
 			align = TEXT_ALIGN_LEFT
 			titlex = tx + padding
 		end
@@ -356,12 +356,12 @@ if CLIENT then
 
 			-- Duration
 			if media:IsTimed() then
-				local duration = string.FormatSeconds(media:Duration())
+				local duration = stringmod.FormatSeconds(media:Duration())
 				draw.SimpleText( duration, "AppBarLabelSmall", tx + (w - padding), ty+(spacing/2), Color( 255, 255, 255, 25 ), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER )
 			end
 
 			-- Title
-			local title = string.RestrictStringWidth( media:Title(), "AppBarLabel", w - padding )
+			local title = stringmod.RestrictStringWidth( media:Title(), "AppBarLabel", w - padding )
 			draw.SimpleText( title, "AppBarLabelSmall", tx + (numw + (padding*2)), ty+(spacing/2), Color( 255, 255, 255, 200 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 
 			-- Highlight shuffle item
@@ -377,7 +377,7 @@ if CLIENT then
 		-- Arrow (if there's too many songs)
 		if additional > 0 then
 			local songs = (#queue-additional)
-			local songstr = songs .. " more " .. string.Pluralize( "track", songs )
+			local songstr = songs .. " more " .. stringmod.Pluralize( "track", songs )
 		end
 
 	end

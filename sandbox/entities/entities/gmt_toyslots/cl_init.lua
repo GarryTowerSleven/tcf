@@ -1,7 +1,7 @@
 include('shared.lua')
 ENT.RenderGroup = RENDERGROUP_BOTH
 
-function string.FormatNumber( num )
+function stringmod.FormatNumber( num )
 	local formatted = num
 
 	while true do
@@ -308,7 +308,7 @@ function ENT:DrawDisplay()
 
 		//draw.RoundedBox(8, 10, 7, 64, 32, Color( 200,200,255,75) )
 		//if LocalPlayer():IsAdmin() then
-			draw.SimpleText( "Jackpot: " .. string.FormatNumber( self:GetJackpot() ), "ScoreboardTextSmall", 10, 7, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+			draw.SimpleText( "Jackpot: " .. stringmod.FormatNumber( self:GetJackpot() ), "ScoreboardTextSmall", 10, 7, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 			//draw.SimpleText( "Jackpot: 800", "ScoreboardText", 10, 14, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 		//end
 
