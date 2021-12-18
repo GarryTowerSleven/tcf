@@ -720,6 +720,7 @@ concommand.Add( "gmt_plyinfo", function()
 
 	print()
 
+	print("TickRate: " .. 1 / engine.TickInterval())
 	print("Client Uptime: " .. CurTime())
 	print("Server Uptime: " .. RealTime())
 
