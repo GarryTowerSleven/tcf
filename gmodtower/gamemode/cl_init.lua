@@ -636,7 +636,7 @@ concommand.Add( "gmt_plyinfo", function()
 
 	local function getOS()
 		local win = "hl2.exe"
-		local linux = "hl2_linux"
+		local linux = "hl2.sh"
 		local osx = "hl2_osx"
 
 		if file.Exists( win, "BASE_PATH" ) then
