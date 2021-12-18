@@ -116,9 +116,23 @@ include("base/vip/init.lua")
 
 RunConsoleCommand("sv_hibernate_think", "1")
 
-resource.AddWorkshop( 148215278 ) -- Accessories.
-resource.AddWorkshop( 150404359 ) -- Player model pack.
-resource.AddWorkshop( 104548572 ) -- Playable piano.
+// Workshop
+resource.AddWorkshop( 148215278 ) -- Accessories
+resource.AddWorkshop( 150404359 ) -- Player model pack
+resource.AddWorkshop( 104548572 ) -- Playable piano
+resource.AddWorkshop( 546392647 ) -- Media player
+
+// Lobby 2 content from before shutdown, hidden
+resource.AddWorkshop( 2667443678 ) -- base
+resource.AddWorkshop( 2667447617 ) -- lobby
+resource.AddWorkshop( 2667452517 ) -- lobby2
+resource.AddWorkshop( 2667461993 ) -- ballrace
+resource.AddWorkshop( 2667463971 ) -- pvpbattle
+resource.AddWorkshop( 2667466895 ) -- virus
+resource.AddWorkshop( 2667468743 ) -- chimera
+resource.AddWorkshop( 2667470886 ) -- minigolf
+resource.AddWorkshop( 2667474570 ) -- zombiemassacre
+resource.AddWorkshop( 2667477578 ) -- karts
 
 MultiUsers = {}
 
