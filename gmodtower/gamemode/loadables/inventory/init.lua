@@ -134,6 +134,6 @@ function GTowerItems.CreateMysteryItem(ply)
 	elseif p <= 0.9 then
 		return ITEMS.clipboard
 	else
-		return ITEMS.wepon_357
+		return ITEMS.weapon_357
 	end
 end
