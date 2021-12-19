@@ -269,6 +269,23 @@ end
 hook.Add( "PlayerFullyJoined", "JoinedMessage", function(ply)
 	if IsLobby then
 		SendLeaveJoinMsg( ply, "JoinLobby", Color(65, 115, 200, 255) )
+
+		if ply:GetNWBool("IsNewPlayer") then
+			ply:MsgI("gmtsmall", "LobbyWelcomeNew" )
+		else
+			ply:MsgI("gmtsmall", "LobbyWelcome",ply:Name() )
+		end
+	
+		if ply.CosmeticEquipment then
+	
+			for k,v in pairs( ply.CosmeticEquipment ) do
+				for _, hat in pairs( GTowerHats.Hats ) do
+					if v:GetModel() == hat.model then
+						ply:MsgI("hat", "HatUpdated",hat.Name)
+					end
+				end
+			end
+		end
 	end
 
 	net.Start("JoinFriendCheck")
