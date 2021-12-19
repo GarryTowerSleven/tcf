@@ -1,6 +1,5 @@
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
-AddCSLuaFile("draw_extras.lua")
 AddCSLuaFile("cl_choose.lua")
 AddCSLuaFile("cl_message.lua")
 AddCSLuaFile("sh_mapnames.lua")

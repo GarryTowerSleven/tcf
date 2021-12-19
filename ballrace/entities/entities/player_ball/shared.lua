@@ -1,14 +1,17 @@
 ENT.Type 			= "anim"
 ENT.Base			= "base_anim"
-ENT.PrintName			= "Ball"
-ENT.Author			= "AzuiSleet"
 
-ENT.RenderGroup 		= RENDERGROUP_TRANSLUCENT
+ENT.RenderGroup 	= RENDERGROUP_TRANSLUCENT
 
-ENT.Model			= Model("models/gmod_tower/BALL.mdl")
+ENT.RollSound		= Sound( "GModTower/balls/BallRoll.wav" )
 
-ENT.RollSound			= Sound("GModTower/balls/BallRoll.wav")
+function ENT:Center()
+	local attach = self.Entity:LookupAttachment("gmt_ball_center")
 
-function ENT:Initialize()
-    self:SetCustomCollisionCheck( true )
+	if attach > 0 then
+		local attach = self.Entity:GetAttachment(attach)
+		return attach.Pos
+	end
+
+	return self:LocalToWorld(self:OBBCenter())
 end

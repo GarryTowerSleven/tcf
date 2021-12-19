@@ -163,3 +163,23 @@ else
 end
 
 music.Register( MUSIC_BONUS, "balls/bonusstage" )
+
+
+function Player:CameraTrace(ball, dist, angles)
+
+	local ballorigin = ball:Center()
+	local maxview = ballorigin + angles:Forward() * -dist
+
+	local trace = util.TraceLine( { start = ballorigin,
+									endpos = maxview,
+									mask = MASK_OPAQUE,
+									filter = GAMEMODE.FilteredEnts } )
+
+	if trace.Fraction < 1 then
+		dist = dist * trace.Fraction
+	end
+
+	return ballorigin + angles:Forward() * -dist * 0.95, dist
+	//MASK_SOLID_BRUSHONLY
+
+end

@@ -95,7 +95,7 @@ function ENT:PhysicsSimulate( phys, deltatime )
 
 end
 
-local repellers
+//local repellers
 function ENT:ApplyRepellers(phys, deltatime, vMove)
 	//if !repellers then
 		local repellers = ents.FindByClass("repeller")
