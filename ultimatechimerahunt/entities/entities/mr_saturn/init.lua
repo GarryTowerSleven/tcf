@@ -199,7 +199,7 @@ end
 
 function ENT:MakeBalloon( force, length, offset )
 
-	local balloon_count = (2*(#player.GetAll() - 1))
+	local balloon_count = math.Clamp( 2*player.GetCount(), 1, 8 )
 
 	for i=1,balloon_count do
 		local balloon = ents.Create( "saturn_balloon" )

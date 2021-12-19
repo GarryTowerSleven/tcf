@@ -303,8 +303,8 @@ end
 
 function ENT:Use(caller)
 
-	/*caller:Msg2( "Poker is currently in development, check back later!", "cards" )
-	do return end*/
+	caller:Msg2( "Poker is currently in development, check back later!", "cards" )
+	do return end
 
 	if !(self:GetState() <= self.States.STARTING) then return end
 
