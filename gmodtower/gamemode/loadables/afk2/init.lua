@@ -38,7 +38,7 @@ ChatCommands.Register( "/afk", 60, function( ply )
 
 	local SanitizedName = stringmod.SafeChatName(ply:Name())
 
-	GAMEMODE:ColorNotifyAll( T("AfkBecome", SanitizedName ), Color(100, 100, 100, 255) )
+	GAMEMODE:ColorNotifyAll( T("AfkBecome", SanitizedName ), Color(200, 200, 200, 255) )
 
 	return ""
 end )
@@ -69,7 +69,7 @@ hook.Add("Think","GTAfkThink",function()
 
 				local SanitizedName = stringmod.SafeChatName(v:Name())
 
-				GAMEMODE:ColorNotifyAll( T("AfkBecome", SanitizedName ), Color(100, 100, 100, 255) )
+				GAMEMODE:ColorNotifyAll( T("AfkBecome", SanitizedName ), Color(200, 200, 200, 255) )
 
 				if engine.ActiveGamemode() == "gmtlobby" and !v:IsAdmin() then
 					if (game.MaxPlayers() - player.GetCount()) < 5 then
@@ -85,7 +85,7 @@ hook.Add("Think","GTAfkThink",function()
 
 				local SanitizedName = stringmod.SafeChatName(v:Name())
 
-				GAMEMODE:ColorNotifyAll( T("AfkBack", SanitizedName ), Color(100, 100, 100, 255) )
+				GAMEMODE:ColorNotifyAll( T("AfkBack", SanitizedName ), Color(200, 200, 200, 255) )
 			end
 		end
 

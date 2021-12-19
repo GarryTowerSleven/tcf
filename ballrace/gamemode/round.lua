@@ -133,7 +133,7 @@ function GM:UpdateStatus(disc)
 				for ply,afk in pairs(afks) do
 					if !afk then continue end
 					if !IsValid(ply) or !IsValid(v) then return end
-					GAMEMODE:ColorNotifyAll( ply:Name().." has automatically forfeited due to being AFK.", Color(100, 100, 100, 255) )
+					GAMEMODE:ColorNotifyAll( ply:Name().." has automatically forfeited due to being AFK.", Color(200, 200, 200, 255) )
 				end
 			end
 

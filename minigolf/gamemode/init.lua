@@ -192,7 +192,7 @@ function GM:AreAllPlayersFinished()
 					ply:SetSwing(15)
 					ply:AutoFail( "AFK" )
 					for k,v in pairs(player.GetAll()) do
-						v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ has automatically forfeited due to being AFK.", Color(100, 100, 100, 255))]])
+						GAMEMODE:ColorNotifyAll( ply:Name().." has automatically forfeited due to being AFK.", Color(200, 200, 200, 255) )
 					end
 				end
 			end
