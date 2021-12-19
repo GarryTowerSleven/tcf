@@ -15,7 +15,7 @@ include("playerhook.lua")
 include("tetris/cl_init.lua")
 include("cl_webboard.lua")
 include("cl_hudchat.lua")
-include("cl_tetris.lua")
+//include("cl_tetris.lua")
 include("uch_anims.lua")
 
 local tourmsgnotice = CreateClientConVar( "gmt_enabletournotice", "1", true, true )
@@ -31,7 +31,7 @@ CondoDoorbell 	= CreateClientConVar( "gmt_condodoorbell" , "1", true, true )
 CondoBackground = CreateClientConVar( "gmt_condobg" , "1", true, true )
 //CondoBlinds 		= CreateClientConVar( "gmt_condoblinds" , "1", true, true )
 
-GMTMCore 				= CreateClientConVar( "gmt_usemcore", "1", true, true )
+GMTMCore 				= CreateClientConVar( "gmt_usemcore", "0", true, true )
 
 // holy shit cosmetics
 function GM:OverrideHatEntity(ply)
