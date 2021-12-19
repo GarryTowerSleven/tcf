@@ -2,7 +2,7 @@
 
 
 
-function string.hash( str )
+function stringmod.hash( str )
 	
 	local bytes = {string.byte( str, 0, string.len( str ) )}
 	local hash = 0
@@ -19,7 +19,7 @@ function string.hash( str )
 	
 end
 
-function string.FormatSeconds(sec)
+function stringmod.FormatSeconds(sec)
 
 	local hours = math.floor(sec / 3600)
 	local minutes = math.floor((sec % 3600) / 60)
@@ -41,7 +41,7 @@ function string.FormatSeconds(sec)
 
 end
 
-function string.reduce( str, font, width )
+function stringmod.reduce( str, font, width )
 
 	surface.SetFont( font )
 
@@ -55,7 +55,7 @@ function string.reduce( str, font, width )
 
 end
 
-function string.findFromTable( str, tbl )
+function stringmod.findFromTable( str, tbl )
 
 	for _, v in pairs( tbl ) do
 		if string.find( str, v ) then

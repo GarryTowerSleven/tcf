@@ -125,7 +125,7 @@ concommand.Add( "gt_act", function(ply, command, args)
 	}
 
 	local CommandActionMessage = function( Name1, Name2, Action )
-		Name1 = string.SafeChatName( Name1 )
+		Name1 = stringmod.SafeChatName( Name1 )
 		
 		GAMEMODE:ColorNotifyAll( Name1.." has "..Action.." "..Name2..".", Color(150, 35, 35, 255) )
 	end
@@ -147,7 +147,7 @@ concommand.Add( "gt_act", function(ply, command, args)
 
 		elseif args[1] == "gag" then
 
-			local SanitizedName = string.SafeChatName(player.GetByID(args[2]):Name())
+			local SanitizedName = stringmod.SafeChatName(player.GetByID(args[2]):Name())
 
 			if player.GetByID(args[2]):GetNWBool("GlobalGag") then
 				ply:Msg2( SanitizedName .. " is no longer gagged for this session")
@@ -163,7 +163,7 @@ concommand.Add( "gt_act", function(ply, command, args)
 
 		elseif args[1] == "mute" then
 
-			local SanitizedName = string.SafeChatName(player.GetByID(args[2]):Name())
+			local SanitizedName = stringmod.SafeChatName(player.GetByID(args[2]):Name())
 
 			if player.GetByID(args[2]):GetNWBool("GlobalMute") then
 				ply:Msg2( SanitizedName .. " is no longer muted for this session")
@@ -278,7 +278,7 @@ end)
 
 hook.Add("PlayerDisconnected","LeaveMessage",function(ply)
 	/*if ply.HasResetData then
-		local SanitizedName = string.SafeChatName(ply:Name())
+		local SanitizedName = stringmod.SafeChatName(ply:Name())
 		GAMEMODE:ColorNotifyAll( SanitizedName.." has reset their data and left the tower.", Color(100, 100, 100, 255) )
 		return
 	end*/

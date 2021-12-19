@@ -1124,7 +1124,7 @@ hook.Add( "PlayerActionBoxPanel", "ActionBoxDefault", function( panel )
 
 			if ply:Team() == TEAM_PLAYING && !GAMEMODE:IsBattle() then
 
-				return string.FormattedTime( GAMEMODE:GetTimeElapsed( ply:GetLapTime() ), "%02i:%02i:%02i" )
+				return stringmod.FormattedTime( GAMEMODE:GetTimeElapsed( ply:GetLapTime() ), "%02i:%02i:%02i" )
 
 			end
 
@@ -1150,7 +1150,7 @@ hook.Add( "PlayerActionBoxPanel", "ActionBoxDefault", function( panel )
 
 			if ply:Team() == TEAM_FINISHED && !GAMEMODE:IsBattle() then
 
-				return string.FormattedTime( ply:GetBestLapTime() or 0, "%02i:%02i:%02i" )
+				return stringmod.FormattedTime( ply:GetBestLapTime() or 0, "%02i:%02i:%02i" )
 
 			end
 

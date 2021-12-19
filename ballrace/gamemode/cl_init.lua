@@ -64,7 +64,7 @@ function GM:HUDPaint()
 	local endtime = GetTime()
 
 	local timeleft = endtime - CurTime()
-	local timeformat = string.FormattedTime(timeleft, "%02i:%02i")
+	local timeformat = stringmod.FormattedTime(timeleft, "%02i:%02i")
 
 	local buffer = ""
 	local ball = LocalPlayer():GetBall()

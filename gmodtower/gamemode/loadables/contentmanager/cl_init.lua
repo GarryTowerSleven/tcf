@@ -92,8 +92,8 @@ hook.Add( "HUDPaint", "ContentNotice", function()
 				end
 			end
 
-			message = "It appears that you are missing the required " .. string.Pluralize( "game", #MissingGames ) .. ": " .. gamesmissing .. "\n" ..
-					  "Please mount the "  .. string.Pluralize( "game", #MissingGames ) .. " to remove errors."
+			message = "It appears that you are missing the required " .. stringmod.Pluralize( "game", #MissingGames ) .. ": " .. gamesmissing .. "\n" ..
+					  "Please mount the "  .. stringmod.Pluralize( "game", #MissingGames ) .. " to remove errors."
 
 		end
 

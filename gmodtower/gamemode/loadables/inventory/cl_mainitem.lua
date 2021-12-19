@@ -470,7 +470,7 @@ function PANEL:OpenMenu()
 
 		if SellPrice > 0 then
 
-			Name = "Sell for ".. string.FormatNumber( SellPrice ) .." GMC"
+			Name = "Sell for ".. stringmod.FormatNumber( SellPrice ) .." GMC"
 
 		end
 

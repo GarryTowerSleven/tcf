@@ -70,7 +70,7 @@ function ENT:DrawSubtitle( str, height )
 	tw = tw + tw * 0.05 -- add additional padding
 
 	-- Calculate hangs
-	if string.findFromTable( str, hangs ) then th = th + ( th / 6 ) end
+	if stringmod.findFromTable( str, hangs ) then th = th + ( th / 6 ) end
 
 	-- Calculate scale for fitting text
 	scale = tw / ThumbWidth

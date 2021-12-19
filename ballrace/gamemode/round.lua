@@ -133,7 +133,7 @@ function GM:UpdateStatus(disc)
 				for ply,afk in pairs(afks) do
 					if !afk then continue end
 					if !IsValid(ply) or !IsValid(v) then return end
-					GAMEMODE:ColorNotifyAll( ply:Name().." has automatically forfeited due to being AFK.", Color(100, 100, 100, 255) )
+					GAMEMODE:ColorNotifyAll( ply:Name().." has automatically forfeited due to being AFK.", Color(200, 200, 200, 255) )
 				end
 			end
 
@@ -420,9 +420,9 @@ function GM:PlayerComplete(ply)
 	placement = placement + 1
 
 	ply:SetNWInt( "Placement", placement )
-	ply:SetNWString( "CompletedTime", string.Replace(string.FormattedTime(ply.RaceTime, "%2i:%02i.%02i"), "0:", "") )
+	ply:SetNWString( "CompletedTime", string.Replace(stringmod.FormattedTime(ply.RaceTime, "%2i:%02i.%02i"), "0:", "") )
 
-	--PrintMessage( HUD_PRINTTALK, ply:Name()..' got '..PlacementPostfix(placement)..' place! Time Completed: '..string.FormattedTime(ply.RaceTime, "%02i:%02i:%02i")..'.' )
+	--PrintMessage( HUD_PRINTTALK, ply:Name()..' got '..PlacementPostfix(placement)..' place! Time Completed: '..stringmod.FormattedTime(ply.RaceTime, "%02i:%02i:%02i")..'.' )
 	self:ColorNotifyAll( "LVL "..level.." #"..placement.." "..ply:Name().." |"..ply:GetNWString( "CompletedTime" ).."." )
 end
 

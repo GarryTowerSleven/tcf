@@ -55,7 +55,7 @@ function meta:AddMoney( amount, nosend )
 
 	if nosend != true then
 		if amount > 0 then
-			self:MsgI( "money", "MoneyEarned", string.FormatNumber( amount ) )
+			self:MsgI( "money", "MoneyEarned", stringmod.FormatNumber( amount ) )
 
       local pitch = math.Clamp( math.Fit( amount, 1, 500, 90, 160 ), 90, 160 )
       self:EmitSound( "GModTower/misc/gmc_earn.wav", 50, math.ceil( pitch ) )
@@ -76,7 +76,7 @@ function meta:AddMoney( amount, nosend )
     end
 
 		else
-			self:MsgI( "moneylost", "MoneySpent", string.FormatNumber( -amount ))
+			self:MsgI( "moneylost", "MoneySpent", stringmod.FormatNumber( -amount ))
 	  local pitch = math.Clamp( math.Fit2( -amount, 1, 500, 90, 160 ), 90, 160 )
       self:EmitSound( "gmodtower/misc/gmc_lose.wav", 50, math.ceil( pitch ) )
 		end

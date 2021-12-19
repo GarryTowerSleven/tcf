@@ -52,7 +52,7 @@ for k,v in pairs(player.GetAll()) do
   if WaitTime == 0 or WaitTime == 60 then
     --Placed nothing here so it wouldn't spam 2 messages.
   else
-		v:SendLua([[GTowerChat.Chat:AddText("4th of July Show Starting In ]]..string.NiceTime( WaitTime )..[[!", Color( 255, 50, 50, 255 ))]])
+		v:SendLua([[GTowerChat.Chat:AddText("4th of July Show Starting In ]]..stringmod.NiceTime( WaitTime )..[[!", Color( 255, 50, 50, 255 ))]])
   end
 end
 

@@ -59,7 +59,7 @@ function meta:SetAchievement( id, value, add )
 		self:EmitSound( "GModTower/music/award.wav", 100, 100 )
 		self:AddMoney( ( Achievement.GMC or 500 ) )
 
-		local SanitizedName = string.SafeChatName(self:Name())
+		local SanitizedName = stringmod.SafeChatName(self:Name())
 
 		GAMEMODE:ColorNotifyAll( SanitizedName.." earned the achievement "..Achievement.Name, Color( 255, 200, 0, 255 ) )
 

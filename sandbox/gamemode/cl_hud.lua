@@ -126,7 +126,7 @@ GTowerHUD.UseEnts = {
   "gmt_trunk",
   "mysterycatsack",
   "gmt_instrument_", "gmt_piano",
-  "gmt_lamp", "gmt_lantern", "gmt_lightsaber",
+  "gmt_room_lamp", "gmt_lantern", "gmt_lightsaber",
   "gmt_magicscroll", "gmt_modelrocket", "gmt_modernlamp", "gmt_nesguitar", "gmt_painkiller", "gmt_pooltube", "gmt_radio", "gmt_room_remote", "gmt_spigot", "gmt_room_tv", "gmt_room_tv_large"
 }
 
@@ -285,7 +285,7 @@ function GTowerHUD.DrawInfo()
 
 	end
 
-	local money = string.FormatNumber( mAmount )
+	local money = stringmod.FormatNumber( mAmount )
 
 	surface.SetFont("GTowerHUDMainLarge")
 		local mTextW, mTextH = surface.GetTextSize( money )

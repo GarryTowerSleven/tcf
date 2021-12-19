@@ -593,7 +593,7 @@ function GM:DrawHUDLaps( outx, outy )
 
 	y = 110 - outy
 
-	local ElapsedTime = string.FormattedTime( self:GetTimeElapsed(LocalPlayer():GetTotalTime()), "%02i:%02i:%02i" )
+	local ElapsedTime = stringmod.FormattedTime( self:GetTimeElapsed(LocalPlayer():GetTotalTime()), "%02i:%02i:%02i" )
 
 	draw.SimpleShadowText( ElapsedTime, "HudTime", x + 20, y, color, black, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, 2 )
 
@@ -605,7 +605,7 @@ function GM:DrawHUDLaps( outx, outy )
 
 		y = 170 - outy
 
-		local ElapsedTime = string.FormattedTime( self:GetTimeElapsed(LocalPlayer():GetLapTime()), "%02i:%02i:%02i" )
+		local ElapsedTime = stringmod.FormattedTime( self:GetTimeElapsed(LocalPlayer():GetLapTime()), "%02i:%02i:%02i" )
 
 		draw.SimpleShadowText( "LAP", "HudSmallAlt", x - 150 + 8, y, color2, black, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, 2 )
 
@@ -615,7 +615,7 @@ function GM:DrawHUDLaps( outx, outy )
 
 		y = 215 - outy
 
-		local ElapsedTime = string.FormattedTime( LocalPlayer():GetBestLapTime(), "%02i:%02i:%02i" )
+		local ElapsedTime = stringmod.FormattedTime( LocalPlayer():GetBestLapTime(), "%02i:%02i:%02i" )
 
 
 
@@ -1607,7 +1607,7 @@ function GM:DrawHUDBattle()
 
 
 
-	draw.SimpleShadowText( string.FormattedTime( self:GetTimeLeft(), "%02i:%02i" ), "HudNormalAlt", ScrW()/2, 80, Color( 255, 255, 255 ), Color( 0, 0, 0, 220 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 0, 0, 2 )
+	draw.SimpleShadowText( stringmod.FormattedTime( self:GetTimeLeft(), "%02i:%02i" ), "HudNormalAlt", ScrW()/2, 80, Color( 255, 255, 255 ), Color( 0, 0, 0, 220 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 0, 0, 2 )
 
 
 
@@ -2392,7 +2392,7 @@ function GM:DrawHUDResults()
 
 
 
-				score = string.FormattedTime( time, "%02i:%02i:%02i" )
+				score = stringmod.FormattedTime( time, "%02i:%02i:%02i" )
 
 
 
@@ -2407,7 +2407,7 @@ function GM:DrawHUDResults()
 
 			if ply:GetBestLapTime() > 0 then
 
-				score2 = string.FormattedTime( ply:GetBestLapTime(), "%02i:%02i:%02i" )
+				score2 = stringmod.FormattedTime( ply:GetBestLapTime(), "%02i:%02i:%02i" )
 
 				score2title = "BEST LAP"
 

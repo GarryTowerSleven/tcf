@@ -258,7 +258,7 @@ function APP:SetCurrentRoom(roomname)
 					if self:IsRoomsShown() or purchase then
 						if purchase and not unlocked then
 							self:CreateConfirmation( 
-								"PURCHASE " .. roomname .. " for " .. string.FormatNumber( upgrade.price ) .. " GMC?", 
+								"PURCHASE " .. roomname .. " for " .. stringmod.FormatNumber( upgrade.price ) .. " GMC?", 
 								function() CondoUpgrades.BuyUpgrade( LocalPlayer(), unique_name ) end
 							)
 						end

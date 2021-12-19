@@ -116,9 +116,23 @@ include("base/vip/init.lua")
 
 RunConsoleCommand("sv_hibernate_think", "1")
 
-resource.AddWorkshop( 148215278 ) -- Accessories.
-resource.AddWorkshop( 150404359 ) -- Player model pack.
-resource.AddWorkshop( 104548572 ) -- Playable piano.
+// Workshop
+resource.AddWorkshop( 148215278 ) -- Accessories
+resource.AddWorkshop( 150404359 ) -- Player model pack
+resource.AddWorkshop( 104548572 ) -- Playable piano
+resource.AddWorkshop( 546392647 ) -- Media player
+
+// Lobby 2 content from before shutdown, hidden
+resource.AddWorkshop( 2667443678 ) -- base
+resource.AddWorkshop( 2667447617 ) -- lobby
+resource.AddWorkshop( 2667452517 ) -- lobby2
+resource.AddWorkshop( 2667461993 ) -- ballrace
+resource.AddWorkshop( 2667463971 ) -- pvpbattle
+resource.AddWorkshop( 2667466895 ) -- virus
+resource.AddWorkshop( 2667468743 ) -- chimera
+resource.AddWorkshop( 2667470886 ) -- minigolf
+resource.AddWorkshop( 2667474570 ) -- zombiemassacre
+resource.AddWorkshop( 2667477578 ) -- karts
 
 MultiUsers = {}
 
@@ -223,7 +237,7 @@ function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
 	if IsAdmin(steam) or IsTester(steam) or MultiUsers[IP] then
 		return true
 	else
-		MsgC( co_color2, string.SafeChatName(name) .. " <" .. steam .. "> (" .. IP .. ") tried to join the server.\n" )
+		MsgC( co_color2, stringmod.SafeChatName(name) .. " <" .. steam .. "> (" .. IP .. ") tried to join the server.\n" )
 		return false, "You must join from the lobby server, IP: join.gmtdeluxe.org"
 	end
 
@@ -320,3 +334,26 @@ net.Receive( "ClientFullyConnected", function( len, ply )
 end )
 
 util.AddNetworkString( "ClientFullyConnected" )
+
+// precache these so clients can test
+local modelsToCheck = {
+	{ "CSS", {"models/props/de_cbble/cb_doorarch32.mdl","models/props/de_prodigy/ammo_can_03.mdl"} },
+	{ "TF2", {"models/props_trainyard/beer_keg001.mdl","models/props_manor/banner_01.mdl"} },
+
+	{ "GMTBase", {"models/gmt_money/fifty.mdl","models/gmod_tower/plant/largebush01.mdl"} },
+	{ "GMTLobby", {"models/func_touchpanel/terminal04.mdl","models/gmod_tower/propper/bar_elev.mdl"} },
+	{ "GMTLobby2", {"models/sunabouzu/elevator_roof.mdl","models/map_detail/appearance_stand.mdl"} },
+	{ "GMTMinigolf", {"models/props/gmt_minigolf_moon/light_sphere.mdl","models/gmod_tower/golftriangleflag.mdl"} },
+	{ "GMTPVPBattle", {"models/gmod_tower/future_doorframe.mdl","models/weapons/v_pvp_ire.mdl"} },
+	{ "GMTKarts", {"models/gmt_turnright.mdl","models/gmod_tower/sourcekarts/flux.mdl"} },
+	{ "GMTChimera", {"models/uch/mghost.mdl","models/uch/pigmask.mdl"} },
+	{ "GMTVirus", {"models/gmod_tower/facility/gmt_facilitydoor.mdl","models/weapons/v_vir_snp.mdl"} },
+	{ "GMTZombie", {"models/weapons/w_flamethro.mdl","models/zom/dog.mdl"} },
+	{ "GMTBallrace", {"models/gmod_tower/ballcrate.mdl","models/props_memories/memories_levelend.mdl"} },
+}
+
+for k,v in pairs(modelsToCheck) do
+	for j,c in pairs( v[2] ) do
+		util.PrecacheModel(c)
+	end
+end
