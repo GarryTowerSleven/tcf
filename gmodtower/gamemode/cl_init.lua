@@ -620,6 +620,17 @@ function GM:ShouldDrawLocalPlayer()
 	end
 end
 
+hook.Add("GTowerAdminPly", "ForceQuitClient", function( ply )
+
+	if !ply:IsBot() then
+		return {
+			["Name"] = "Force Quit",
+			["function"] = function() ply:ConCommand('gamemenucommand quit') end
+		}
+	end
+
+end )
+
 concommand.Add("gmt_printminres", function()
 	Msg("Minimun found size: ", rtw, "/", rth, "\n")
 end )
