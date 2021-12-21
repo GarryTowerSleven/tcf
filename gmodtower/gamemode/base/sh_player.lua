@@ -24,6 +24,7 @@ local Mod = {
 	"STEAM_0:1:57386100", -- Squibbus
 }
 
+/*
 local Tester = {
 	"STEAM_0:1:85513145", -- Dan
 	"STEAM_0:1:72402171", -- Umbre
@@ -36,10 +37,11 @@ local Tester = {
 	"STEAM_0:0:603700165", -- Anomaladox Alt
 	"STEAM_0:0:72050508"   -- Glypherson
 }
+*/
 
-function IsTester(steamid)
+/*function IsTester(steamid)
 	return ( Tester and table.HasValue(Tester, steamid) )
-end
+end*/
 
 local PixelTail = {
 	"STEAM_0:1:19359297", -- Wergulz, GMT Artist
@@ -104,9 +106,9 @@ function meta:GetTitle()
 		Titles[v] = "Moderator"
 	end
 
-	for k, v in pairs(Tester) do
+	/*for k, v in pairs(Tester) do
 		Titles[v] = "Tester"
-	end
+	end*/
 
 	if Titles[self:SteamID()] then return Titles[self:SteamID()] end
 end
@@ -117,7 +119,7 @@ local color_mod = Color(255, 128, 0, 255)
 local color_developer = Color(125, 177, 30, 255)
 local color_vip = Color(185, 100, 255, 255)
 local color_pink = Color(255, 166, 241, 255)
-local color_tester = Color(122, 178, 342, 255 )
+//local color_tester = Color(122, 178, 342, 255 )
 local color_pixeltail = Color( 216, 31, 42, 255 )
 local color_jameskii = Color( 0, 255, 255, 255 )
 
@@ -134,8 +136,8 @@ function meta:GetDisplayTextColor()
 		return color_admin
 	elseif table.HasValue(Mod, self:SteamID()) then
 		return color_mod
-	elseif table.HasValue(Tester, self:SteamID()) then
-		return color_tester
+	/*elseif table.HasValue(Tester, self:SteamID()) then
+		return color_tester*/
 	end
 
 	return team.GetColor(self:Team())

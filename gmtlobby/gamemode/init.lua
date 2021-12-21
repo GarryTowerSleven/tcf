@@ -83,9 +83,10 @@ function GM:PlayerSpawn( pl )
 end
 
 function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
-	steam = util.SteamIDFrom64(steam)
+	local steam64 = steam
+	local steam = util.SteamIDFrom64(steam)
 
-	if IsAdmin(steam) or IsTester(steam) or !PRIVATE_TEST_MODE then
+	if IsAdmin(steam) or IsTester(steam64) or !PRIVATE_TEST_MODE then
 		return true
 	else
 		MsgC(Color(51, 204, 51),name.." <"..steam.."> ("..IP..") tried to join the server.\n")

@@ -221,11 +221,87 @@ hook.Add("CanPlayerUnfreeze", "GMTOnPhysgunReload", function(ply, ent, physObj)
 		return ply:GetSetting( "GTAllowPhysGun" )
 end)
 
+/////////////////////////////
+// Tester Steam Group Shit //
+/////////////////////////////
+TesterGroupData = ""
+
+local testerCachePath = "tester_cache.txt"
+
+// check for cache and use it immediately for startup
+if file.Exists( testerCachePath, "DATA" ) then
+	MsgC( co_color, "[Testers] Cached testers found, using...\n" )
+	TesterGroupData = file.Read( testerCachePath, "DATA" )
+end
+
+local groupID = "103582791471194784"
+local updateAttempts = 0
+function UpdateTesters()
+	MsgC( co_color, "[Testers] Fetching group members...\n" )
+
+	local url = "https://steamcommunity.com/gid/" .. groupID .. "/memberslistxml/?xml=1"
+
+	http.Fetch( url,
+		function( body, length, headers, code )
+			MsgC( co_color, "[Testers] Successfully got group members!\n" )
+			updateAttempts = 0
+			TesterGroupData = body
+			// Cache testers if they've changed
+			if file.Exists( testerCachePath, "DATA" ) then
+				if body != file.Read( testerCachePath, "DATA" ) then
+					MsgC( co_color, "[Testers] Testers have changed!\n" )
+					cacheTesters( body )	
+				end
+			end
+		end,
+
+		function( message )
+			if updateAttempts <= 5 then
+				MsgC( co_color2, "[Testers] Failed to get group members. \"" .. message .. "\"\n" )
+				MsgC( co_color2, "[Testers] Retrying...\n" )
+				updateAttempts = updateAttempts + 1
+				UpdateTesters()
+			else
+				MsgC( co_color2, "[Testers] Failed to get group members 5 times, giving up.\n" )
+				updateAttempts = 0
+			end
+		end
+	)
+end
+
+timer.Simple( 2, function()
+	UpdateTesters()
+end )
+
+// cache the groupdata to use incase steam is down 
+function cacheTesters( data )
+
+	// check for certain user in the data before caching (incase steam breaks)
+	local checkfor = "76561197963035118" // kity
+
+	if !string.find( data, checkfor ) then
+		MsgC( co_color, "[Testers] Data is incomplete, not caching!\n" )
+		return
+	end
+
+
+	MsgC( co_color, "[Testers] Caching testerdata in \"".. "garrysmod/data/" .. testerCachePath .."\".\n" )
+	file.Write( testerCachePath, data )
+end
+
+function IsTester( steam64 )
+	return string.find( TesterGroupData, steam64 )
+end
+
+concommand.Add( "gmt_refreshtesters", UpdateTesters )
+/////////////////////////////
+
 function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
 
 	if engine.ActiveGamemode() == "gmtlobby" then return end
 
-	steam = util.SteamIDFrom64(steam)
+	local steam64 = steam
+	local steam = util.SteamIDFrom64(steam)
 
 	local PortRemove = string.find(IP,"%:")
 
@@ -234,7 +310,7 @@ function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
 	--PrintTable(MultiUsers)
 	--print("IP:"..tostring(IP))
 
-	if IsAdmin(steam) or IsTester(steam) or MultiUsers[IP] then
+	if IsAdmin(steam) or IsTester(steam64) or MultiUsers[IP] then
 		return true
 	else
 		MsgC( co_color2, stringmod.SafeChatName(name) .. " <" .. steam .. "> (" .. IP .. ") tried to join the server.\n" )
