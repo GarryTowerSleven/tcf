@@ -229,12 +229,13 @@ TesterGroupData = ""
 local testerCachePath = "tester_cache.txt"
 
 // check for cache and use it immediately for startup
-if file.Exists( testerCachePath, "DATA" ) then
+if PRIVATE_TEST_MODE && file.Exists( testerCachePath, "DATA" ) then
 	MsgC( co_color, "[Testers] Cached testers found, using...\n" )
 	TesterGroupData = file.Read( testerCachePath, "DATA" )
 end
 
 local groupID = "103582791471194784"
+local checkfor = "76561197963035118" // kity
 local updateAttempts = 0
 function UpdateTesters()
 	MsgC( co_color, "[Testers] Fetching group members...\n" )
@@ -243,17 +244,32 @@ function UpdateTesters()
 
 	http.Fetch( url,
 		function( body, length, headers, code )
-			MsgC( co_color, "[Testers] Successfully got group members!\n" )
+
 			updateAttempts = 0
-			TesterGroupData = body
+
+			// Check if data has a specific user (checkfor) before doing anything, just to be safe
+			if !string.find( body, checkfor ) then
+				MsgC( co_color2, "[Testers] Data received is incomplete, not using.\n" )
+				return
+			end
+
+			MsgC( co_color, "[Testers] Successfully got group members!\n" )
+
+			// get only the members portion of the XML
+			local t1, t2 = string.find( body, "<members>" )
+			local tt1, tt2 = string.find( body, "</members>" )
+			local memberData = string.sub( body, t1, tt2 )
+
+			TesterGroupData = memberData
+
 			// Cache testers if they've changed
 			if file.Exists( testerCachePath, "DATA" ) then
-				if body != file.Read( testerCachePath, "DATA" ) then
+				if memberData != file.Read( testerCachePath, "DATA" ) then
 					MsgC( co_color, "[Testers] Testers have changed!\n" )
-					cacheTesters( body )	
+					cacheTesters( memberData )	
 				end
 			else
-				cacheTesters( body )
+				cacheTesters( memberData )
 			end
 		end,
 
@@ -271,22 +287,24 @@ function UpdateTesters()
 	)
 end
 
-timer.Simple( 2, function()
-	UpdateTesters()
-end )
+local testerTimeDelay = ( 5*60 )
+local testerTimeSince = CurTime() + testerTimeDelay
+if PRIVATE_TEST_MODE then
+	timer.Simple( 2, function()
+		UpdateTesters()
+	end )
+
+	// refresh testers every X minutes
+	hook.Add("Think", "TesterUpdater", function()
+		if testerTimeSince < CurTime() then
+			testerTimeSince = CurTime() + testerTimeDelay
+			UpdateTesters()
+		end
+	end)
+end
 
 // cache the groupdata to use incase steam is down 
 function cacheTesters( data )
-
-	// check for certain user in the data before caching (incase steam breaks)
-	local checkfor = "76561197963035118" // kity
-
-	if !string.find( data, checkfor ) then
-		MsgC( co_color, "[Testers] Data is incomplete, not caching!\n" )
-		return
-	end
-
-
 	MsgC( co_color, "[Testers] Caching testerdata in \"".. "garrysmod/data/" .. testerCachePath .."\".\n" )
 	file.Write( testerCachePath, data )
 end
@@ -298,6 +316,7 @@ end
 concommand.Add( "gmt_refreshtesters", function( ply, cmd, args )
 	if ply:IsAdmin() then
 		ply:Msg2("Attempting to refresh testers...", "admin")
+		testerTimeSince = CurTime() + testerTimeDelay
 		UpdateTesters()
 	end
 end)
