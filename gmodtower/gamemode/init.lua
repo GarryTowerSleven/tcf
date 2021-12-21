@@ -252,6 +252,8 @@ function UpdateTesters()
 					MsgC( co_color, "[Testers] Testers have changed!\n" )
 					cacheTesters( body )	
 				end
+			else
+				cacheTesters( body )
 			end
 		end,
 
