@@ -89,7 +89,7 @@ function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
 		return true
 	else
 		MsgC(Color(51, 204, 51),name.." <"..steam.."> ("..IP..") tried to join the server.\n")
-		return false, "Server is currently in development! Check back later or join our Discord. https://discord.gg/6Ty2avgn2C"
+		return false, "Server is currently in development! Check back later or join our Discord. gmtdeluxe.org/chat"
 	end
 
 	return true
