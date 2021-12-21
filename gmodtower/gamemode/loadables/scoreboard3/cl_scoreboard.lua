@@ -1192,17 +1192,15 @@ function PLAYERAVATAR:Init()
 
 end
 
-
-
 function PLAYERAVATAR:Think()
-	if self.Player:IsHidden() then
+	if self.Player.IsLoading then
+		self.Avatar:SetSteamID( util.SteamIDTo64(self.Player:SteamID64()), self.Size )
+	elseif self.Player:IsHidden() then
 		self.Avatar:SetPlayer( nil )
 	else
 		self.Avatar:SetPlayer( self.Player, self.Size )
 	end
 end
-
-
 
 /*PLAYERAVATAR.HideYPos = PLAYERAVATAR.Size + PLAYERAVATAR.ButtonSize
 
@@ -1865,7 +1863,7 @@ function PLAYER:PaintBG( w, h )
 
 	local bgcolor = Scoreboard.Customization.ColorNormal
 
-	if self.Player.IsLoading then bgcolor = Scoreboard.Customization.ColorDark end
+	//if self.Player.IsLoading then bgcolor = Scoreboard.Customization.ColorDark end
 
 
 
@@ -2316,69 +2314,36 @@ end
 
 function PLAYERINFO:PerformLayout()
 
-
-
 	local wide = self.Padding
-
-
 
 	if Scoreboard.Customization.PlayerInfoValueVisible( self.Player ) then
 
-
-
 		self.Value:SetVisible( true )
-
 		self.Value:SizeToContents()
-
 		self.Value:AlignBottom(2)
 
-
-
 		self.ValueIconPanel:SetVisible( true )
-
 		self.ValueIconPanel:AlignRight(self.Ping:GetWide()+self.Value:GetWide()+(self.Padding*3))
-
 		self.ValueIconPanel:AlignBottom(2)
-
-
 
 		self.Value:MoveRightOf( self.ValueIconPanel, self.Padding )
 
-
-
 		wide = wide + self.Value:GetWide() + self.ValueIconPanel:GetWide() + ( self.Padding * 4 )
 
-
-
 	else
-
 		self.Value:SetVisible( false )
-
 		self.ValueIconPanel:SetVisible( false )
-
 	end
-
-
 
 	self.Ping:InvalidateLayout( true )
-
 	self.Ping:AlignBottom(4)
-
 	self.Ping:AlignRight(2)
 
-
-
 	if self.Ping:IsVisible() then
-
 		wide = wide + self.Ping:GetWide()
-
 	end
 
-
-
 	if ValidPanel( self.RespectIcon ) then
-
-
 
 		local name = self.Player:GetTitle()
 
@@ -2386,67 +2351,38 @@ function PLAYERINFO:PerformLayout()
 			name = name .. " and friend"
 		end
 
-
-
 		if name then
 
-
-
 			self.RespectIcon:SetText( name )
-
 			self.RespectIcon:SetMouseInputEnabled( false )
-
 			self.RespectIcon:InvalidateLayout( true )
-
 			self.RespectIcon:AlignBottom(2)
-
 			self.RespectIcon:AlignRight( wide + 4 )
-
-
 
 			local wideto = wide + self.RespectIcon:GetWide() + ( self.Padding * 2 )
 
 			if wide < wideto then
-
 				wide = wideto
-
 			end
 
 		end
 
-
-
 	end
-
-
 
 	if ValidPanel( self.SubtitleRight ) && self.SubtitleRight:GetText() != "" then
 
-
-
 		self.SubtitleRight:SizeToContents()
-
 		self.SubtitleRight:SetColor( Color( 255, 255, 255, 100 ) )
-
 		self.SubtitleRight:AlignBottom(2)
 
-
-
 		local wideto = wide + self.SubtitleRight:GetWide() + ( self.Padding * 2 ) + 2
-
 		if wide < wideto then
-
 			wide = wideto
-
 		end
 
 	end
 
-
-
 	self:SetWide( wide )
-
-
 
 end
 
@@ -2876,14 +2812,15 @@ function LABELPING:Think()
 
 	self.PingBars:SetPing( self.Player:Ping() )
 
-
+	if self.Player.IsLoading then
+		//self.Ping:SetVisible( false )
+		self.Mute:SetVisible( false )
+		return
+	end
 
 	if self.Player == LocalPlayer() then
-
 		self.Mute:SetVisible( false )
-
 		return
-
 	end
 
 
