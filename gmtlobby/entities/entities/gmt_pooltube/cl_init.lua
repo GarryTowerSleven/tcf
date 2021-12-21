@@ -90,9 +90,6 @@ function ENT:Draw()
 
 	self:DrawModel()
 
-end
-
-function ENT:DrawTranslucent()
 	local ply = self:GetOwner()
 
 	if !IsValid(ply) then return end
@@ -119,8 +116,8 @@ function ENT:DrawTranslucent()
 		draw.DrawText( name, "ClPlayerName", 0, 0, Color( 255, 255, 255, opacity ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 
 	cam.End3D2D()
+	
 end
-
 
 function ENT:Think()
 
