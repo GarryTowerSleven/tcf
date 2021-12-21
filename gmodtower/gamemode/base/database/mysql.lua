@@ -72,7 +72,7 @@ function StartColums()
 end
 
 function SqlError( error )
-	local Match = string.match( error, "Table '([%a_]+)' is marked as crashed and should be repaired" )
+	local Match = stringmod.match( error, "Table '([%a_]+)' is marked as crashed and should be repaired" )
 
 	analytics.postDiscord( "SQL ERROR", Match .. " marked as crashed. Repairing it." )
 
