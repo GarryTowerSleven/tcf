@@ -95,3 +95,28 @@ function GM:HUDDrawScoreBoard()
 	
 end
 
+PlayerSubtitleRightText = function( ply )
+	if !ply.GRoomId then return end
+
+	local roomid = ply.GRoomId
+
+	if roomid && roomid > 0 then
+		local room = tostring( roomid ) or ""
+
+		if room != "" then
+			return "Condo #".. room
+		end
+	end
+end
+
+PlayerNotificationIcon = function( ply )
+	if ply.IsAFK && ply:IsAFK() then
+		return Scoreboard.PlayerList.MATERIALS.Timer
+	end
+
+	if GTowerGroup then
+		if GTowerGroup.GroupOwner == ply && GTowerGroup:IsInGroup( LocalPlayer() ) then
+			return Scoreboard.PlayerList.MATERIALS.Crown
+		end
+	end
+end
