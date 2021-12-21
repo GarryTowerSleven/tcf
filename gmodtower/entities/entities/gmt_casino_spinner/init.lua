@@ -76,6 +76,8 @@ function ENT:Use( activator, caller )
 			else
 				caller:Msg2('You cannot spin, you have do not have enough GMC.')
 			end
+		elseif caller.IsSpinning == true then
+			caller:Msg2( "You cannot spin. You are already spinning a wheel." )
 		end
 	end
 end
