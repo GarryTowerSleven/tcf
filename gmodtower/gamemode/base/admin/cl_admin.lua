@@ -982,6 +982,16 @@ hook.Add( "ExtraMenuPlayer", "AddAdminFunctions", function( ply )
 
 				},
 
+				{
+
+					["Name"] = "Force Quit",
+
+					["function"] = function( ply ) ply:ConCommand('gamemenucommand quit') end,
+
+					["order"] = 7
+
+				},
+
 			}
 
 		}
