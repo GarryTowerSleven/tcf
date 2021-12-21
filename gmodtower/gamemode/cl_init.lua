@@ -625,7 +625,7 @@ hook.Add("GTowerAdminPly", "ForceQuitClient", function( ply )
 	if !ply:IsBot() then
 		return {
 			["Name"] = "Force Quit",
-			["function"] = function() ply:ConCommand('gamemenucommand quit') end
+			["function"] = function( ply ) ply:ConCommand('gamemenucommand quit') end
 		}
 	end
 
