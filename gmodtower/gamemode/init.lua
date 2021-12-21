@@ -295,7 +295,12 @@ function IsTester( steam64 )
 	return string.find( TesterGroupData, steam64 )
 end
 
-concommand.Add( "gmt_refreshtesters", UpdateTesters )
+concommand.Add( "gmt_refreshtesters", function( ply, cmd, args )
+	if ply:IsAdmin() then
+		ply:Msg2("Attempting to refresh testers...", "admin")
+		UpdateTesters()
+	end
+end)
 /////////////////////////////
 
 function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
