@@ -2883,7 +2883,14 @@ function LABELPING:Think()
 				self.Mute:SetImage( Scoreboard.Customization.MatDirectory .. "icon_mic.png" )
 			end
 
-			self.Mute.DoClick = function() self.Player:SetMuted( !self.Muted ) end
+			self.Mute.DoClick = function()
+				self.Player:SetMuted( !self.Muted )
+				if !self.Muted then
+					Msg2("You have muted "..self.Player:GetName())
+				else
+					Msg2("You have unmuted "..self.Player:GetName())
+				end
+			end
 
 		end
 
