@@ -1,25 +1,18 @@
 ---------------------------------
 util.AddNetworkString("JoinFriendCheck")
 GTowerAdmins = {
-	--"STEAM_0:0:44458854", -- Bumper From Ballrace
-	--"STEAM_0:0:50197118", Zoephix
-	--"STEAM_0:1:39916544", -- Anomaladox
-	--"STEAM_0:1:97372299", NotGaylien
-	--"STEAM_0:0:156132358", Basical
-	"STEAM_0:0:71992617", -- Haina, praise be
-	"STEAM_0:0:1384695", -- Cat
-	"STEAM_0:1:85508734", -- Bman
+	//"STEAM_0:0:71992617", -- Haina, praise be
+	"STEAM_0:0:1384695", -- Kity
 	"STEAM_0:1:124798129", -- Amgona
-	"STEAM_0:1:30473979", -- Nano
+	"STEAM_0:1:85508734", -- Breezy
 	"STEAM_0:1:57386100", -- Squibbus
-
+	"STEAM_0:0:156132358", -- Basical
 }
 
 GTowerAdminPrivileged = {
 }
 
 GTowerSecretAdmin = {
-	"STEAM_0:0:38865393", -- Lame
 	"STEAM_0:0:44458854", -- Bumpy
 	"STEAM_0:1:39916544", -- Anomaladox
 }

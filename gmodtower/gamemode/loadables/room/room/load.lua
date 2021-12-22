@@ -170,6 +170,8 @@ function Finish( self )
 		self.Owner.SQL:Update( false, true )
 	end
 
+	self.Owner:SetNWBool( "RoomID", 0 )
+
 	self:Cleanup()
 
 end
