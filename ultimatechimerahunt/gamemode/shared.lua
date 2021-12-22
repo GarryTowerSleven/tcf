@@ -156,7 +156,7 @@ team.SetSpawnPoint( TEAM_GHOST, { "info_player_start", "info_player_teamspawn" }
 
 /* PLAYER VARIABLES */
 GM.SprintRecharge = .0062
-GM.SprintDrain = .015
+GM.SprintDrain = .01
 GM.DJumpPenalty = .042
 
 

@@ -175,7 +175,7 @@ else
 
 		local ply = LocalPlayer()
 
-		if ( ply:Team() == TEAM_PIGS && !ply:Alive() ) then
+		if !ply:GetNWFloat( "Sprint" ) || ( ply:Team() == TEAM_PIGS && !ply:Alive() ) then
 			return
 		end
 
