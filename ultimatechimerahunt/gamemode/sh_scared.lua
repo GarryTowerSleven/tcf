@@ -25,7 +25,7 @@ function meta:Scare( t )
 	local num = ( 6.5 + ( ( t * ( 1 - ( self:GetNWInt( "Rank" ) / 5 ) ) ) * .5 ) )
 	self.UnScareTime = CurTime() + num
 	
-	self:EmitSound( "vo/halloween_scream" .. tostring( math.random( 1, 8 ) ) .. ".wav", 75, math.random( 94, 105))
+	self:EmitSound( "vo/halloween_scream" .. tostring( math.random( 1, 8 ) ) .. ".mp3", 75, math.random( 94, 105))
 	
 end
 
