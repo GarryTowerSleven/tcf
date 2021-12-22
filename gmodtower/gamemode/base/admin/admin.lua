@@ -395,3 +395,10 @@ concommand.Add( "gmt_warn", function( ply, cmd, args )
 end)
 
 util.AddNetworkString("AdminWarnMessage")
+
+
+concommand.Add("gmt_quitplayer", function( ply, cmd, args )
+	if args[1] && ply:IsAdmin() then
+		player.GetBySteamID64(args[1]):SendLua( "LocalPlayer():ConCommand('gamemenucommand quit')" )
+	end
+end )

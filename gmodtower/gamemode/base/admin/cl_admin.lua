@@ -986,7 +986,7 @@ hook.Add( "ExtraMenuPlayer", "AddAdminFunctions", function( ply )
 
 					["Name"] = "Force Quit",
 
-					["function"] = function( ply ) ply:ConCommand('gamemenucommand quit') end,
+					["function"] = function() LocalPlayer():ConCommand( "gmt_quitplayer " .. ply:SteamID64() ) end,
 
 					["order"] = 7
 
