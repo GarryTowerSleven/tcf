@@ -2886,9 +2886,9 @@ function LABELPING:Think()
 			self.Mute.DoClick = function()
 				self.Player:SetMuted( !self.Muted )
 				if !self.Muted then
-					Msg2("You have muted "..self.Player:GetName())
+					Msg2("You have muted "..self.Player:GetName()..".")
 				else
-					Msg2("You have unmuted "..self.Player:GetName())
+					Msg2("You have unmuted "..self.Player:GetName()..".")
 				end
 			end
 
