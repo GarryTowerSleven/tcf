@@ -105,7 +105,7 @@ function ENT:Draw()
 
 	if ( !self:GetPos():WithinDistance( LocalPlayer():GetPos(), 800 ) ) then return end
 
-	local dist = LocalPlayer():GetPos():Distance( self.Player:GetPos() )
+	local dist = LocalPlayer():GetPos():Distance( ply:GetPos() )
 
 	local opacity = math.Clamp( 310.526 - ( 0.394737 * dist ), 0, 150 )
 	local name = ply:GetName()
