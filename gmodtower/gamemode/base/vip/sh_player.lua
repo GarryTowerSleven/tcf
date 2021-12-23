@@ -5,6 +5,10 @@ if !meta then
 	return
 end
 
+function meta:IsVIP()
+	return self:GetNWBool( "VIP" )
+end
+
 function meta:GetGlowColor()
-	return self:GetNWVector("GlowColor") --self:GetNet( "GlowColor" )
+	return self:GetNWVector( "GlowColor" )
 end

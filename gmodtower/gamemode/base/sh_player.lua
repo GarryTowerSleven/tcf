@@ -66,10 +66,6 @@ function meta:IsTester()
 	return false
 end
 
-function meta:IsVIP()
-	return true
-end
-
 function meta:GetTitle()
 	if self:IsHidden() then return end
 
@@ -134,21 +130,23 @@ function meta:GetDisplayTextColor()
 	return default_color
 end
 
-function meta:GetName()
-	if !IsValid( self ) then return "" end
-	if self:IsBot() then return self:Nick() end
-	if self:IsHidden() then return self:GetNWString( "FakeName" ) end
-
-	return self:Nick()
-end
-
 function meta:Name()
 	if !IsValid( self ) then return "" end
 	if self:IsBot() then return self:Nick() end
-	if self:IsHidden() then return self:GetNWString( "FakeName" ) end
+	if self:IsHidden() then
+		if CLIENT && LocalPlayer():IsAdmin() then
+			return self:GetNWString( "FakeName" ) .. " (" .. self:Nick() .. ")"
+		end
+		return self:GetNWString( "FakeName" )
+	end
 
 	return self:Nick()
 end
+
+function meta:GetName()
+	return self:Name()
+end
+
 
 function meta:IsCameraOut()
 	if IsValid( self ) then
