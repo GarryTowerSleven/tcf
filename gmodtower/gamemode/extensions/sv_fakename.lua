@@ -17,7 +17,7 @@ local function SetFakeName(ply, name)
 end
 
 concommand.Add( "gmt_fakename", function( ply, cmd, args )
-    if not ply:IsAdmin() then return end
+    if !ply:IsAdmin() then return end
     local name
     if !args[1] then
         name = nil
@@ -28,7 +28,7 @@ concommand.Add( "gmt_fakename", function( ply, cmd, args )
 end )
 
 hook.Add( "PlayerInitialSpawn", "FakeNameSpawn", function( ply )
-    if ply:IsBot() then return end
+    if !ply:IsValid() || ply:IsBot() || !ply:IsAdmin() then return end
     SQL.getDB():Query("SELECT `fakename` FROM `gm_users` WHERE `steamid` = '" .. ply:SteamID() .. "'", function(res)
         local name = res[1]["data"][1]["fakename"]
         if name then
