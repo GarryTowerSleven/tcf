@@ -148,28 +148,32 @@ net.Receive("gmt_gamemodestart",function()
 	local plys = net.ReadInt(32)
 	local id = net.ReadInt(32)
 
-	local NiceNames = {}
-	NiceNames["ballrace"] = "Ball Race"
-	NiceNames["minigolf"] = "Minigolf"
-	NiceNames["pvpbattle"] = "PvP Battle"
-	NiceNames["virus"] = "Virus"
-	NiceNames["zombiemassacre"] = "Zombie Massacre"
-	NiceNames["sourcekarts"] = "Source Karts"
-	NiceNames["ultimatechimerahunt"] = "UCH"
-	NiceNames["gourmetrace"] = "Gourmet Race"
-	NiceNames["monotone"] = "Monotone"
+	timer.Simple( .1, function()
+		if LocalPlayer():GetNWString("QueuedGamemode") == Gmode then return end
 
-	Gmode = NiceNames[Gmode] or Gmode
+		local Gamemode = GTowerServers:GetGamemode( Gmode )
+		local max_plys
+		
+		if Gamemode then
+			Gmode = Gamemode.Name
+			max_plys = Gamemode.MaxPlayers
+		end
 
-	local Question = Msg2( T( "GamemodeStarting", Gmode, plys ), 18 )
-	Question:SetupQuestion(
-		function() RunConsoleCommand( "gmt_mtsrv", 1, id ) end,
-		function() end,
-		function() end,
-		nil,
-		{120, 160, 120},
-		{160, 120, 120}
-	)
+		local Question = Msg2( T( "GamemodeStarting", Gmode, plys ), 18 )
+
+		if max_plys && plys >= max_plys then
+			Question = Msg2( T( "GamemodeStartingFull", Gmode, plys ), 18 )
+		end
+
+		Question:SetupQuestion(
+			function() RunConsoleCommand( "gmt_mtsrv", 1, id ) end,
+			function() end,
+			function() end,
+			nil,
+			{120, 160, 120},
+			{160, 120, 120}
+		)
+	end )
 
 end)
 
