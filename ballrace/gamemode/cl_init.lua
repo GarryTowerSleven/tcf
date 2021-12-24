@@ -20,11 +20,12 @@ surface.CreateFont( "BallMessageCaption", { font = "Bebas Neue", size = 26, weig
 surface.CreateFont( "BallPlayerName", { font = "Coolvetica", size = 32, weight = 500 } )
 surface.CreateFont( "BallFont", { font = "Coolvetica", size = 48, weight = 200 } )
 
+local chat_offset = Vector(0, 0, 64)
 function GM:ChatBubbleOverride(ply)
 	local ball = ply:GetBall()
 
 	if ply:Team() == TEAM_PLAYERS && IsValid(ball) && ball:GetOwner() == ply then
-		return ball:GetPos() + Vector(0, 0, 64)
+		return ball:GetPos() + chat_offset
 	end
 
 	return ply:EyePos()
@@ -76,10 +77,8 @@ function GM:HUDPaint()
 		if IsValid(LocalPlayer()) then
 			local team = LocalPlayer():Team()
 			if IsValid(ball) && ball:GetClass() == "player_ball" then
-				if LocalPlayer():Team() == 2 || LocalPlayer():Team() == 3  then
-					if IsValid(ball:GetOwner()) then
-						buffer = "SPECTATING " .. tostring(ball:GetOwner():Name())
-					end
+				if ball:GetOwner() != LocalPlayer() then
+					buffer = "SPECTATING " .. string.upper( tostring( ball:GetOwner():Name() ) )
 				end
 			else
 				if team == TEAM_PLAYERS then
@@ -234,20 +233,11 @@ function GM:CalcView( ply, origin, angles, fov )
 	view.angles	= angles
 	view.fov 	= fov
 
-	if !IsValid(ball) then
+	if !IsValid(ball) || !ball.Center then
 		return lastview or view
 	end
 
-	local ballorigin = ball:GetPos()
-	local maxview = ballorigin + angles:Forward() * -dist
-
-	local trace = util.TraceLine({start=ballorigin, endpos = maxview, mask=MASK_OPAQUE, filter=GAMEMODE.FilteredEnts})
-
-	if trace.Fraction < 1 then
-		dist = dist * trace.Fraction
-	end
-
-	view.origin = ballorigin + angles:Forward() * -dist * 0.95
+	view.origin, dist = ply:CameraTrace(ball, dist, angles)
 
 	lastview = view
 
@@ -319,27 +309,3 @@ net.Receive( "BGM", function( len, pl )
 	MusicSystem(Id)
 end )
 ConVarPlayerFade = CreateClientConVar( "gmt_ballrace_fade", 255, true )
-
---[[hook.Add("GTowerScorePlayer", "AddKBananasDeaths", function()
-
-	GtowerScoreBoard.Players:Add(
-		"Bananas",
-		5,
-		75,
-		function(ply)
-			return ply:Frags()
-		end,
-		10
-	)
-
-	GtowerScoreBoard.Players:Add(
-		"Lives",
-		5,
-		75,
-		function(ply)
-			return ply:Deaths()
-		end,
-		15
-	)
-
-end )]]

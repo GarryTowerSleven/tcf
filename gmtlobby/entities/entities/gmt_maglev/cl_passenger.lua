@@ -127,13 +127,6 @@ local function ExitTransition(ply, index)
 		LocalPlayer().HasWelcomed = true
 		local name = stringmod.SafeChatName( ply:Name() )
 
-		if ply:GetNWBool("IsNewPlayer") then
-			local m = Msg2( T( "LobbyWelcomeNew" ) )
-			m:SetIcon("gmtsmall")
-		else
-			local m = Msg2( T("LobbyWelcome",name), nil, nil, "gmtsmall" )
-		end
-
 		if ply:GetNWInt("VideoPokerAmount") > 0 then
 			Msg2( T("VideoPokerRefound",ply:GetNWInt("VideoPokerAmount")) )
 		end
@@ -153,18 +146,6 @@ local function ExitTransition(ply, index)
 			if v:GetModel() == mcmdl then
 				GetMCSkin(v)
 			end
-		end
-
-		if LocalPlayer().CosmeticEquipment then
-
-		for k,v in pairs( LocalPlayer().CosmeticEquipment ) do
-			for _, hat in pairs( GTowerHats.Hats ) do
-				if v:GetModel() == hat.model then
-					Msg2( T("HatUpdated",hat.Name), nil, nil, "hat" )
-				end
-			end
-		end
-
 		end
 
 	end

@@ -1,4 +1,3 @@
----------------------------------
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_init_customize.lua" )
 AddCSLuaFile( "cl_tabbase.lua" )

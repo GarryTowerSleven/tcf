@@ -6,12 +6,7 @@ CreateConVar( "cl_playerglowcolor", "0.24 0.34 0.41", { FCVAR_ARCHIVE, FCVAR_USE
 local haloVIP = CreateClientConVar( "gmt_vipglow", 1, true, false )
 local VIPHalos = {}
 
-net.Receive("CLPlayerThink", function()
-	local ply = net.ReadEntity()
-	CheckVIPHalos(ply)
-end)
-
-function CheckVIPHalos( ply )
+hook.Add( "PlayerThink", "VIPHaloCheck", function( ply )
 
 	if !IsLobby then return end
 	if !haloVIP:GetBool() then return end
@@ -21,7 +16,7 @@ function CheckVIPHalos( ply )
 	for _, ply2 in pairs( Location.GetPlayersInLocation( ply:Location() ) ) do
 
 		if !ply2:IsPlayer() || !ply2:IsVIP() then continue end
-		--if ply2:IsTransparent() or ply2:IsNoDrawAll() then continue end
+		//if ply2:IsTransparent() or ply2:IsNoDrawAll() then continue end
 
 		if IsValid( ply2 ) and ply2:Alive() and ply2:GetColor().a == 255 and ply2:GetGlowColor() then
 
@@ -29,12 +24,13 @@ function CheckVIPHalos( ply )
 
 			-- Update instantly for client
 			if CLIENT and ply2 == LocalPlayer() then
-				color = Vector( GetConVar("cl_playerglowcolor"):GetString() ) * 255
+				color = Vector( ply:GetInfo( "cl_playerglowcolor" ) ) * 255
 			end
 
 			local objects = {}
 
 			-- Support driving object glow
+			//local ent = ply2:GetNet("DrivingObject")
 			local ent = ply2.PoolTube
 			if IsValid( ent ) then
 				table.insert( objects, ent )
@@ -62,7 +58,7 @@ function CheckVIPHalos( ply )
 
 	end
 
-end
+end )
 
 hook.Add( "PreDrawHalos", "VIPHalos", function()
 

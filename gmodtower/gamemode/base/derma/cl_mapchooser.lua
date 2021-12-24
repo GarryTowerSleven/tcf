@@ -428,7 +428,7 @@ MapsRegister( "gmt_uch_camping01", {
 	Priority = 10,
 } )
 
-MapsRegister( "gmt_uch_headquarters02", {
+MapsRegister( "gmt_uch_headquarters03", {
 	Name = "Headquarters",
 	Desc = "The Pigmasks all thought they'd be safe in their secret headquarters. The Chimera set out to prove them wrong.",
 	Author = "Lifeless",

@@ -11,6 +11,8 @@ concommand.Add( "gmt_casino_chips_cash", function( ply, cmd, args )
 		ply:MsgI( "chips", "PokerChipSpent", stringmod.FormatNumber(ply:PokerChips()) )
 		ply:AddMoney( ply:PokerChips()*Cards.ChipCost )
 		ply:SetPokerChips(0)
+	else
+		ply:MsgI( "chips", "PokerChipNoCash" )
 	end
 
 end )

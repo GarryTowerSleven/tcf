@@ -10,11 +10,12 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 	if ply == NULL or ply:IsAdmin() then
 
 		local map = args[1] or ""
-		local time = tonumber(args[2]) or 10
+		local time = tonumber(args[2]) or 30
 
 		if timer.Exists("ChangeLevelTimer") then
 			timer.Destroy("ChangeLevelTimer")
-			GAMEMODE:ColorNotifyAll( "Halting map restart...", Color(225, 20, 20, 255) )
+			timer.Destroy("ChangeLevelWarning")
+			GAMEMODE:ColorNotifyAll( "Halting map restart...", Color(255, 50, 50, 255) )
 			return
 		end
 
@@ -82,14 +83,14 @@ function ChangeLevel( ply, map, time )
 	if file.Exists(FilePlace,"GAME") then
 
 		if game.GetMap() == MapName then
-			GAMEMODE:ColorNotifyAll( T( "AdminRestartMapSec", time ), Color(225, 20, 20, 255) )
+			GAMEMODE:ColorNotifyAll( T( "AdminRestartMapSec", time ), Color(255, 50, 50, 255) )
 		else
-			GAMEMODE:ColorNotifyAll( T( "AdminChangeMapSec", map, time ), Color(225, 20, 20, 255) )
+			GAMEMODE:ColorNotifyAll( T( "AdminChangeMapSec", map, time ), Color(255, 50, 50, 255) )
 		end
 
-		for k,v in pairs(player.GetAll()) do
+		/*for k,v in pairs(player.GetAll()) do
 			v:SendLua([[surface.PlaySound( "gmodtower/misc/changelevel.wav" )]])
-		end
+		end*/
 
 		local ChangeName
 
@@ -101,11 +102,21 @@ function ChangeLevel( ply, map, time )
 
 		analytics.postDiscord( "Logs", engine.ActiveGamemode() .. " server changing level to " .. map .. "... [".. ChangeName .."]" )
 
+		if time > 10 then
+			timer.Create("ChangeLevelWarning", time - 10, 1, function()
+				if game.GetMap() == MapName then
+					GAMEMODE:ColorNotifyAll( T( "AdminRestartMapSec", 10), Color(255, 50, 50, 255) )
+				else
+					GAMEMODE:ColorNotifyAll( T( "AdminChangeMapSec", map, 10 ), Color(255, 50, 50, 255) )
+				end
+			end)
+		end
+
 		timer.Create("ChangeLevelTimer", (time), 1, function()
 			if game.GetMap() == MapName then
-			GAMEMODE:ColorNotifyAll( T( "AdminRestartMap" ), Color(225, 20, 20, 255) )
+			GAMEMODE:ColorNotifyAll( T( "AdminRestartMap" ), Color(255, 50, 50, 255) )
 			else
-			GAMEMODE:ColorNotifyAll( T( "AdminChangeMap", map ), Color(225, 20, 20, 255) )
+			GAMEMODE:ColorNotifyAll( T( "AdminChangeMap", map ), Color(255, 50, 50, 255) )
 			end
 
 			analytics.postDiscord( "Logs", engine.ActiveGamemode() .. " server shutting down..." )
@@ -127,6 +138,12 @@ function ForceLevel( map, ply )
 	if file.Exists(FilePlace,"GAME") then
 
 		local ChangeName
+
+		if game.GetMap() == MapName then
+			GAMEMODE:ColorNotifyAll( T( "AdminRestartMap" ), Color(255, 50, 50, 255) )
+		else
+			GAMEMODE:ColorNotifyAll( T( "AdminChangeMap", map ), Color(255, 50, 50, 255) )
+		end
 
 		if IsValid(ply) then
 			ChangeName = stringmod.SafeChatName(ply:Nick())

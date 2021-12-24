@@ -1,25 +1,18 @@
 ---------------------------------
 util.AddNetworkString("JoinFriendCheck")
 GTowerAdmins = {
-	--"STEAM_0:0:44458854", -- Bumper From Ballrace
-	--"STEAM_0:0:50197118", Zoephix
-	--"STEAM_0:1:39916544", -- Anomaladox
-	--"STEAM_0:1:97372299", NotGaylien
-	--"STEAM_0:0:156132358", Basical
-	"STEAM_0:0:71992617", -- Haina, praise be
-	"STEAM_0:0:1384695", -- Cat
-	"STEAM_0:1:85508734", -- Bman
+	//"STEAM_0:0:71992617", -- Haina, praise be
+	"STEAM_0:0:1384695", -- Kity
 	"STEAM_0:1:124798129", -- Amgona
-	"STEAM_0:1:30473979", -- Nano
+	"STEAM_0:1:85508734", -- Breezy
 	"STEAM_0:1:57386100", -- Squibbus
-
+	"STEAM_0:0:156132358", -- Basical
 }
 
 GTowerAdminPrivileged = {
 }
 
 GTowerSecretAdmin = {
-	"STEAM_0:0:38865393", -- Lame
 	"STEAM_0:0:44458854", -- Bumpy
 	"STEAM_0:1:39916544", -- Anomaladox
 }
@@ -269,6 +262,23 @@ end
 hook.Add( "PlayerFullyJoined", "JoinedMessage", function(ply)
 	if IsLobby then
 		SendLeaveJoinMsg( ply, "JoinLobby", Color(65, 115, 200, 255) )
+
+		if ply:GetNWBool("IsNewPlayer") then
+			ply:MsgI("gmtsmall", "LobbyWelcomeNew" )
+		else
+			ply:MsgI("gmtsmall", "LobbyWelcome",ply:Name() )
+		end
+	
+		if ply.CosmeticEquipment then
+	
+			for k,v in pairs( ply.CosmeticEquipment ) do
+				for _, hat in pairs( GTowerHats.Hats ) do
+					if v:GetModel() == hat.model then
+						ply:MsgI("hat", "HatUpdated",hat.Name)
+					end
+				end
+			end
+		end
 	end
 
 	net.Start("JoinFriendCheck")
@@ -378,3 +388,10 @@ concommand.Add( "gmt_warn", function( ply, cmd, args )
 end)
 
 util.AddNetworkString("AdminWarnMessage")
+
+
+concommand.Add("gmt_quitplayer", function( ply, cmd, args )
+	if args[1] && ply:IsAdmin() then
+		player.GetBySteamID64(args[1]):SendLua( "LocalPlayer():ConCommand('gamemenucommand quit')" )
+	end
+end )

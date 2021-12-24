@@ -6,7 +6,6 @@ function ENT:Draw()
 	
 end
 
-
 function EffectMsg( um )
 
 	local msgType = um:ReadBool()

@@ -5,7 +5,6 @@ table.uinsert( GtowerHudToHide, "CHudHealth" )
 table.uinsert( GtowerHudToHide, "CHudAmmo" )
 table.uinsert( GtowerHudToHide, "CHudSecondaryAmmo" )
 table.uinsert( GtowerHudToHide, "CHudBattery" )
-table.uinsert( GtowerHudToHide, "CHudZoom" )
 
 // draw the hud?
 GTowerHUD.Enabled = CreateClientConVar( "gmt_hud", 1, true, false )

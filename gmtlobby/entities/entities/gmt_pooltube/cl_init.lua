@@ -90,9 +90,6 @@ function ENT:Draw()
 
 	self:DrawModel()
 
-end
-
-function ENT:DrawTranslucent()
 	local ply = self:GetOwner()
 
 	if !IsValid(ply) then return end
@@ -108,7 +105,7 @@ function ENT:DrawTranslucent()
 
 	if ( !self:GetPos():WithinDistance( LocalPlayer():GetPos(), 800 ) ) then return end
 
-	local dist = LocalPlayer():GetPos():Distance( self.Player:GetPos() )
+	local dist = LocalPlayer():GetPos():Distance( ply:GetPos() )
 
 	local opacity = math.Clamp( 310.526 - ( 0.394737 * dist ), 0, 150 )
 	local name = ply:GetName()
@@ -119,8 +116,8 @@ function ENT:DrawTranslucent()
 		draw.DrawText( name, "ClPlayerName", 0, 0, Color( 255, 255, 255, opacity ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 
 	cam.End3D2D()
+	
 end
-
 
 function ENT:Think()
 

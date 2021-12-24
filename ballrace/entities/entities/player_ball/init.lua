@@ -25,7 +25,7 @@ function ENT:Initialize()
 	self:SphereInit(self.radius)
 
 	if ply.ModelSet == nil then
-		self:SetModel( self.Model )
+		self:SetModel( "models/gmod_tower/BALL.mdl" )
 	else
 		self:SetModel( ply.ModelSet )
 	end
@@ -95,7 +95,7 @@ function ENT:PhysicsSimulate( phys, deltatime )
 
 end
 
-local repellers
+//local repellers
 function ENT:ApplyRepellers(phys, deltatime, vMove)
 	//if !repellers then
 		local repellers = ents.FindByClass("repeller")

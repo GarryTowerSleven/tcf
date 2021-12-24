@@ -451,6 +451,8 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 
 	end)
 
+	ply:SetNWBool( "RoomID", PlyRoom.Id )
+
 	//Congratilaions!
 
 

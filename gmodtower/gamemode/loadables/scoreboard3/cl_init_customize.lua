@@ -1,4 +1,3 @@
-
 module( "Scoreboard.Customization", package.seeall )
 
 MatDirectory = "gmod_tower/scoreboard/"
@@ -43,21 +42,14 @@ CollapsablesFont = "GTowerHUDMain"
 
 
 // PLAYER
+
 PlayersSort = function( a, b )
-	if IsValid(a) && IsValid(b) then
-		return string.lower( a:Name() ) < string.lower( b:Name() )
-	end
+	return string.lower( a:Name() ) < string.lower( b:Name() )
 end
 
 // Subtitle (under name)
 PlayerSubtitleText = function( ply )
-	if string.StartWith(game.GetMap(),"gmt_lobby") then
-		local text = Location.GetFriendlyName( ply:Location() ) or "Unknown"
-		return text
-	else
-		return nil
-	end
-
+	return ""
 end
 
 // Subtitle right (under name)
@@ -70,18 +62,24 @@ end
 
 // Background
 PlayerBackgroundMaterial = function( ply )
+
 	return nil
+
 end
 
 // Notification (above avatar)
 PlayerNotificationIcon = function( ply )
+
 	return nil
+
 end
 PlayerNotificationIconSize = 24
 
 // Jazz the player avatar? (for winner only)
 PlayerAvatarJazz = function( ply )
+
 	return false
+
 end
 
 // Info Value

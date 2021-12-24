@@ -146,10 +146,6 @@ end )
 
 function GTowerClick:ClickOnPlayer( ply, mc )
 
-
-		if string.StartWith(game.GetMap(),"gmt_minigolf") then return end
-		if string.StartWith(game.GetMap(),"gmt_zm") then return end
-
     if !IsValid( ply ) then return end
 
 

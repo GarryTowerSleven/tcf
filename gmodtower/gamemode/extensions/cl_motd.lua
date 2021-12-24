@@ -72,7 +72,8 @@ function OpenMOTD( URL, title, time )
 	Browser:OpenURL( URL )
 	Browser:MakePopup()
 
-	CloseIn = CurTime() + (time or 30)
+	//CloseIn = CurTime() + (time or 30)
+	CloseIn = 0
 
 end
 

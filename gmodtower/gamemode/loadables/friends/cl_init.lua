@@ -251,6 +251,22 @@ function GetRelationship(ply)
 	return relationship
 end
 
+function CheckBlockedCache(ply)
+	if ply.BlockStatus == nil then
+		ply.BlockStatus = CheckBlocked(ply)
+	end
+
+	return ply.BlockStatus
+end
+
+function CheckFriendCache(ply)
+	if ply.FriendStatus == nil then
+		ply.FriendStatus = CheckFriendship(ply)
+	end
+
+	return ply.FriendStatus
+end
+
 hook.Add( "ExtraMenuPlayer", "AddBlockButton", function( ply )
     if ply != LocalPlayer() then
 
