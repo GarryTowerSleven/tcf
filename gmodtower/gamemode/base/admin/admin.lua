@@ -327,9 +327,7 @@ concommand.Add("gmt_runlua", function( ply, cmd, args )
 		MsgC( Color( 255, 255 ,0), ply:Nick() .. " is running lua: " )
 		MsgC( Color( 255, 255 ,0), Lua .. "\n" )
 
-		for k,v in pairs( player.GetAdmins() ) do
-			GAMEMODE:ColorNotifyPlayer( v, ply:Nick() .. " has ran lua. See server console for details.", Color( 255, 255 ,0) )
-		end
+		AdminLog( ply:Nick() .. " has ran lua. See server console for details.", Color( 255, 255 ,0) )
 
 		RunString("function GmtRunLua() " .. Lua .. " end ")
 

@@ -437,6 +437,13 @@ end )
 
 util.AddNetworkString( "ClientFullyConnected" )
 
+function AdminLog( message, color )
+	for k,v in pairs( player.GetAdmins() ) do
+		if v:GetInfoNum( "gmt_admin_log", 1 ) == 0 then return end
+		GAMEMODE:ColorNotifyPlayer( v, message, color )
+	end
+end
+
 // precache these so clients can test
 local modelsToCheck = {
 	{ "CSS", {"models/props/de_cbble/cb_doorarch32.mdl","models/props/de_prodigy/ammo_can_03.mdl"} },
