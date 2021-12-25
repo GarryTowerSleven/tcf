@@ -125,7 +125,7 @@ function ENT:DrawTranslucent()
 		// Draw Pot Amount
 		else
 
-			local pot = "POT: " .. stringmod.FormatNumber( self:GetPot() ) .. " Chips"
+			local pot = "POT: " .. string.FormatNumber( self:GetPot() ) .. " Chips"
 			surface.SetFont( "PokerText" )
 			local width = surface.GetTextSize( pot )
 			draw.TextBackground( pot, "PokerText", 0, 0, 8 )

@@ -125,7 +125,7 @@ local function ExitTransition(ply, index)
 
 	if LocalPlayer() == ply && !LocalPlayer().HasWelcomed then
 		LocalPlayer().HasWelcomed = true
-		local name = stringmod.SafeChatName( ply:Name() )
+		local name = string.SafeChatName( ply:Name() )
 
 		if ply:GetNWInt("VideoPokerAmount") > 0 then
 			Msg2( T("VideoPokerRefound",ply:GetNWInt("VideoPokerAmount")) )

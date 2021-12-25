@@ -200,7 +200,7 @@ end
 
 function DrawCostLabel( cost, x, y )
 
-	cost = stringmod.FormatNumber(cost)
+	cost = string.FormatNumber(cost)
 
 	surface.SetFont( "AppBarLabel" )
 	local tw, th = surface.GetTextSize(cost)

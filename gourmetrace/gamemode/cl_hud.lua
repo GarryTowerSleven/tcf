@@ -79,7 +79,7 @@ end
 function GM:PaintTimer()
 
 	local TimeLeft = self:GetTimeLeft()
-	local ElapsedTime = stringmod.FormattedTime( TimeLeft, "%02i:%02i" )
+	local ElapsedTime = string.FormattedTime( TimeLeft, "%02i:%02i" )
 
 	if TimeLeft < 0 then return end
 

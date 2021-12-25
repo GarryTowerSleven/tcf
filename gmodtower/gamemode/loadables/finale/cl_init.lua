@@ -38,10 +38,10 @@ local function AfkTimerThink()
 	local TimeLeft = CountDownEnd - CurTime()
 	local Sine = math.sin( math.fmod( TimeLeft, 1 ) * math.pi ) * 200
 
-  local timestring = stringmod.FormattedTime( TimeLeft, "%02i:%02i.%02i" )
+  local timestring = string.FormattedTime( TimeLeft, "%02i:%02i.%02i" )
 
   if !BlinkDot then
-    timestring = stringmod.FormattedTime( TimeLeft, "%02i %02i %02i" )
+    timestring = string.FormattedTime( TimeLeft, "%02i %02i %02i" )
   end
 
   // Stay at 00:00.00 when we reach the end.

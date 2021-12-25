@@ -129,7 +129,7 @@ function ENT:GetNameText()
 
 	local name = self._Name or "Player"
 
-	name = stringmod.RestrictStringWidth( name, "CondoNameText", maxNameSize )
+	name = string.RestrictStringWidth( name, "CondoNameText", maxNameSize )
 
 	return name
 

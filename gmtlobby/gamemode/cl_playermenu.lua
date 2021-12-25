@@ -219,7 +219,7 @@ function Show( ply )
 
 
 
-		local name = info[1] //stringmod.Uppercase( info[1] )
+		local name = info[1] //string.Uppercase( info[1] )
 
 		local func = info[2]
 

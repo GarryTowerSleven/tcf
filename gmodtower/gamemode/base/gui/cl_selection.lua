@@ -732,7 +732,7 @@ function PANEL:SetCost( cost )
 	self.Cost = cost
 
 	-- Update the text
-	self.CostText:SetText( stringmod.FormatNumber(cost) )
+	self.CostText:SetText( string.FormatNumber(cost) )
 	self.CostText:SizeToContents()
 
 	-- Size up container

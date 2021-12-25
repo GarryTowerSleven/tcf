@@ -409,7 +409,7 @@ function ENT:SetupControlPanel()
 
 					if !LocalPlayer():IsAdmin() or !self:GetTimerMode() then return end
 
-					local time = stringmod.FormattedTime( self:GetTimerLength() )
+					local time = string.FormattedTime( self:GetTimerLength() )
 
 					Derma_StringRequest(
 

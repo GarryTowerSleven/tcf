@@ -301,7 +301,7 @@ function Derma_NumberRequest( strTitle, strText, fnEnter, fnCancel, strButtonTex
 
 
 
-		TextEntryDesc:SetText( stringmod.FormatNumber( value * Cards.ChipCost ) .. " " .. typeName )
+		TextEntryDesc:SetText( string.FormatNumber( value * Cards.ChipCost ) .. " " .. typeName )
 
 		TextEntryDesc:SizeToContents()
 

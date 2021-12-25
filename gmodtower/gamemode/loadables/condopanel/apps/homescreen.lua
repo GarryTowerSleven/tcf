@@ -174,17 +174,17 @@ function APP:DrawNowPlaying( tx, ty )
 		surface.DrawRect( tx, ty + 40, scrw * percent, 8 )
 
 		-- Current time
-		local durationStr = stringmod.FormatSeconds( duration )
+		local durationStr = string.FormatSeconds( duration )
 		draw.SimpleText( durationStr, "AppBarLabelSmall", tx + scrw - 16, ty + 18 + 5, Color( 255, 255, 255, 25 ), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER )
 
 		-- Duration
-		local curTimeStr = stringmod.FormatSeconds(math.Clamp(math.Round(curTime), 0, duration))
+		local curTimeStr = string.FormatSeconds(math.Clamp(math.Round(curTime), 0, duration))
 		draw.SimpleText( curTimeStr, "AppBarLabelSmall", tx + 16, ty + 18 + 5, Color( 255, 255, 255, 25 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 
 	end
 
 	-- Title
-	title = stringmod.RestrictStringWidth( media:Title(), "AppBarSmall", scrw - (padding*2) )
+	title = string.RestrictStringWidth( media:Title(), "AppBarSmall", scrw - (padding*2) )
 	draw.SimpleText( "Now playing: " .. title, "AppBarLabel", tx + padding, ty + 18, Color( 255, 255, 255, 200 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 
 end

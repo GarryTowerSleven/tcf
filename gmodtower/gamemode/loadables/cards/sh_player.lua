@@ -100,11 +100,11 @@ if SERVER then
 
 		if amount > 0 then //earned
 
-			self:MsgI( "chips", "PokerChipEarned", stringmod.FormatNumber( amount ) )
+			self:MsgI( "chips", "PokerChipEarned", string.FormatNumber( amount ) )
 
 		elseif amount < 0 then //lost
 
-			self:MsgI( "chips", "PokerChipSpent", stringmod.FormatNumber( math.abs( amount ) ) )
+			self:MsgI( "chips", "PokerChipSpent", string.FormatNumber( math.abs( amount ) ) )
 
 		end
 

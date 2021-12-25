@@ -391,7 +391,7 @@ function PANEL:Paint( w, h )
 
 
 	// Draw pot
-	local pot = stringmod.FormatNumber( tbl:GetPot() ) .. " Chips"
+	local pot = string.FormatNumber( tbl:GetPot() ) .. " Chips"
 	draw.SimpleText( "POT", "PokerNames", w / 2, h / 2 - 40 - 30, Color( 0, 0, 0, 200 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 	draw.SimpleShadowText( pot, "PokerText", w/2, h/2 - 40 )
 
@@ -405,7 +405,7 @@ function PANEL:Paint( w, h )
 	local raise = tbl:GetIn( LocalPlayer() )
 	if raise && raise > 0 then
 
-		raise = stringmod.FormatNumber( raise )
+		raise = string.FormatNumber( raise )
 		draw.SimpleShadowText( "YOUR IN: " .. raise, "PokerNames", w/2 + 240, h/2 + 70, nil, nil, TEXT_ALIGN_RIGHT )
 
 	end

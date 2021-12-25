@@ -62,7 +62,7 @@ for k, score in pairs( MoneyScores ) do
 
 	payout.Register( Scores[k], {
 
-		Name = stringmod.Uppercase( Scores[k] ), // .. " (" .. k .. ")",
+		Name = string.Uppercase( Scores[k] ), // .. " (" .. k .. ")",
 
 		Desc = score[2],
 

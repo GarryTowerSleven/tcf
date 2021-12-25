@@ -778,7 +778,7 @@ function ENT:DrawFacts( w, h )
 	// Show timer
 
 	local timeleft = ShowTimeRemaining
-	local timeformat = stringmod.NiceTime( timeleft )
+	local timeformat = string.NiceTime( timeleft )
 
 	self2 = self
 	if timeleft > 4 then

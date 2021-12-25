@@ -152,7 +152,7 @@ function PANEL:Paint( w, h )
 		local tx, ty = surface.GetTextSize( "in" )
 
 		draw.SimpleText( "in", "PokerTiny", x, y + offsetY + 4, Color( 150, 150, 150, 150 ), TEXT_ALIGN_LEFT )
-		draw.SimpleText( stringmod.FormatNumber( raise ), "PokerSmall", x + tx + 2, y + offsetY, color_white, TEXT_ALIGN_LEFT )
+		draw.SimpleText( string.FormatNumber( raise ), "PokerSmall", x + tx + 2, y + offsetY, color_white, TEXT_ALIGN_LEFT )
 
 	end
 
@@ -193,7 +193,7 @@ function PANEL:Paint( w, h )
 			local tw, ty = surface.GetTextSize( name )
 			draw.SimpleText( name, "PokerTiny", x, y + offsetY + 4, Color( 150, 150, 150, 150 ), TEXT_ALIGN_LEFT )
 
-			local actionvar = stringmod.FormatNumber( self.Player._PActionVar )
+			local actionvar = string.FormatNumber( self.Player._PActionVar )
 			draw.SimpleText( actionvar, "PokerSmall", x + tw - 4, y + offsetY, color_white, TEXT_ALIGN_LEFT )
 
 			return
@@ -212,7 +212,7 @@ function PANEL:Paint( w, h )
 
 		// Any extra info on that action? (raise or discard amount)
 		if self.Player._PLastActionVar && ( self.Player._PLastAction == self.Table.Actions.RAISE || self.Player._PLastAction == self.Table.Actions.DISCARD ) then
-			lastaction = lastaction .. ": " .. stringmod.FormatNumber( self.Player._PLastActionVar )
+			lastaction = lastaction .. ": " .. string.FormatNumber( self.Player._PLastActionVar )
 		end
 
 		offsetY = 40

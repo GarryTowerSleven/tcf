@@ -150,7 +150,7 @@ local function TrunkSlot( num )
 		desc = "",
 		icon = "safe",
 		func = function()
-			SelectionMenuManager.CreateConfirmation( "Purchase " .. num .. " vault slot" .. plural .. " for " .. stringmod.FormatNumber(cost) .. " GMC",
+			SelectionMenuManager.CreateConfirmation( "Purchase " .. num .. " vault slot" .. plural .. " for " .. string.FormatNumber(cost) .. " GMC",
 				function()
 					RunConsoleCommand( "gmt_buybankslots", num )
 					SelectionMenuManager.Remove()

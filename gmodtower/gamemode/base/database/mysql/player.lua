@@ -298,7 +298,7 @@ function Update(  self, ondisconnect, force )
 
 	self.UpdateInProgress = true
 	hook.Call("GTowerClientUpdated", GAMEMODE, self.Player, ondisconnect )
-	//MsgC( Color( 255,105,180 ), "[MySQL] Updating " .. stringmod.SafeChatName(self.Player:Nick()) .. "\n" )
+	//MsgC( Color( 255,105,180 ), "[MySQL] Updating " .. string.SafeChatName(self.Player:Nick()) .. "\n" )
 	if ondisconnect == true then
 
 		//Well, all data should have been commited, and no longer should be updated
