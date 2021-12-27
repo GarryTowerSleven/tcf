@@ -169,13 +169,13 @@ function ENT:DrawMediaQueue( w, h )
 		-- Title
 		local alpha = 255
 		if i > 1 then alpha = 50 end
-		local titleStr = stringmod.RestrictStringWidth( media:Title(), "MediaQueue", maxw )
+		local titleStr = string.RestrictStringWidth( media:Title(), "MediaQueue", maxw )
 		DrawText( titleStr, "MediaQueue", padding+numwidth, ty, 0, 0, Color( 255, 255, 255, alpha ) )
 
 		-- Duration
 		local durx = 0
 		if media:IsTimed() then
-			local durStr = stringmod.FormatSeconds(media:Duration())
+			local durStr = string.FormatSeconds(media:Duration())
 			surface.SetFont( "MediaQueueSmall" )
 			durx = surface.GetTextSize( durStr )
 			DrawText( durStr, "MediaQueueSmall", maxw-(durx/2)+2, ty+nextline, 0, 0, Color( 255, 255, 255, alpha ) )
@@ -183,7 +183,7 @@ function ENT:DrawMediaQueue( w, h )
 
 		-- Added by
 		if media:OwnerName() then
-			local ownerStr = stringmod.RestrictStringWidth( media:OwnerName(), "MediaQueue", maxw-durx )
+			local ownerStr = string.RestrictStringWidth( media:OwnerName(), "MediaQueue", maxw-durx )
 			DrawText( ownerStr, "MediaQueueSmall", padding+numwidth, ty+nextline, 0, 0, Color( 255, 255, 255, alpha ) )
 		end
 
@@ -194,7 +194,7 @@ function ENT:DrawMediaQueue( w, h )
 		surface.SetDrawColor( TextBoxColorDark )
 		surface.DrawRect( 0, h-arrowh, w, arrowh ) -- background
 		local songs = (#queue-additional)
-		DrawText( songs .. " more " .. stringmod.Pluralize( "track", songs ), "MediaQueueTitle", w/2, h-arrowh-2, TEXT_ALIGN_CENTER )
+		DrawText( songs .. " more " .. string.Pluralize( "track", songs ), "MediaQueueTitle", w/2, h-arrowh-2, TEXT_ALIGN_CENTER )
 	end
 
 	-- Divider
@@ -215,7 +215,7 @@ function ENT:DrawMediaInfo( media, w, h )
 	local TextBoxColor = colorutil.Brighten( Controller:GetThemeColor(), .55, 150 )
 
 	-- Title background
-	local titleStr = stringmod.RestrictStringWidth( media:Title(), "MediaTitle",
+	local titleStr = string.RestrictStringWidth( media:Title(), "MediaTitle",
 		(w-ListWidth) - (TextPaddingX * 2 + TextBoxPaddingX * 2) )
 	local titleY = h - 220
 
@@ -227,7 +227,7 @@ function ENT:DrawMediaInfo( media, w, h )
 		TextPaddingY + TextBoxPaddingY + titleY )
 
 	-- Owner background
-	local ownerStr = stringmod.RestrictStringWidth( media:OwnerName() .. " added", "MediaOwner",
+	local ownerStr = string.RestrictStringWidth( media:OwnerName() .. " added", "MediaOwner",
 		(w-ListWidth) - (TextPaddingX * 2 + TextBoxPaddingX * 2) )
 	local titleY = h - 220 - 52
 
@@ -260,7 +260,7 @@ function ENT:DrawMediaInfo( media, w, h )
 		local timeY = h - bh - TextPaddingY * 2
 
 		-- Current time
-		local curTimeStr = stringmod.FormatSeconds(math.Clamp(math.Round(curTime), 0, duration))
+		local curTimeStr = string.FormatSeconds(math.Clamp(math.Round(curTime), 0, duration))
 
 		DrawTextBox( curTimeStr, "MediaTitle", ListWidth + TextPaddingX, timeY,
 			TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM, TextBoxColor )
@@ -268,7 +268,7 @@ function ENT:DrawMediaInfo( media, w, h )
 			TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP )
 
 		-- Duration
-		local durationStr = stringmod.FormatSeconds( duration )
+		local durationStr = string.FormatSeconds( duration )
 
 		DrawTextBox( durationStr, "MediaTitle", w - TextPaddingX * 2, timeY,
 			TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM, TextBoxColor )

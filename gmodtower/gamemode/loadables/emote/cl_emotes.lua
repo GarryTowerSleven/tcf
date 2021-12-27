@@ -100,7 +100,7 @@ RADIAL = nil
 
 local gradient = surface.GetTextureID( "VGUI/gradient_up" )
 local gradientdown = surface.GetTextureID( "VGUI/gradient_down" )
-function stringmod.Uppercase( str )
+function string.Uppercase( str )
 
 	return str:gsub("^%l", string.upper)
 
@@ -131,7 +131,7 @@ hook.Add( "GtowerShowContextMenus", "ShowEmote", function()
 			continue
 		end
 
-		local name = stringmod.Uppercase( emote )
+		local name = string.Uppercase( emote )
 		if emote == "sexydance" then name = "Sexy Dance" end
 		if emote == "danceforever" then name = "Dance 2" end
 

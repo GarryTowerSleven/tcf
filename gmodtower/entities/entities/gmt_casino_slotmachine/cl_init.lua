@@ -2,7 +2,7 @@
 include('shared.lua')
 ENT.RenderGroup = RENDERGROUP_BOTH
 
-function stringmod.FormatNumber( num )
+function string.FormatNumber( num )
 	local formatted = num
 
 	while true do
@@ -345,7 +345,7 @@ function ENT:DrawDisplay()
 
 		pcall(function()
 
-		draw.SimpleText( "Jackpot: " .. stringmod.FormatNumber( self:GetJackpot() ), "SlotText", 5, 10, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+		draw.SimpleText( "Jackpot: " .. string.FormatNumber( self:GetJackpot() ), "SlotText", 5, 10, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 
 
 

@@ -70,7 +70,7 @@ function GM:DrawHUDTimer()
 			TimeLeft = 0
 		end
 
-		local ElapsedTime = stringmod.FormattedTime( TimeLeft )
+		local ElapsedTime = string.FormattedTime( TimeLeft )
 		local sElapsedTime = math.Round( ElapsedTime.s )
 
 		if showMili then

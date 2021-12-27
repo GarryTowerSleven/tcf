@@ -143,7 +143,7 @@ function GM:DrawHUDTime()
 		TimeLeft = 0
 	end
 
-	local ElapsedTime = stringmod.FormattedTime( TimeLeft, "%02i:%02i")
+	local ElapsedTime = string.FormattedTime( TimeLeft, "%02i:%02i")
 
 	if self:GetState() == STATE_WAITING then
 		draw.SimpleText( "TIME REMAINING", "HudSmall", 118, 28, Color( 200, 200, 200, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 1 )

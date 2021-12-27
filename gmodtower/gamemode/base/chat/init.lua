@@ -109,7 +109,15 @@ hook.Add( "PlayerSay", "GTChatHook", function( ply, chat, toall, type )
 	if ply:IsAdmin() then
 		if ( string.sub( string.lower(chat), 1, 2 ) == "!l" ) then
 			me = ply
-			RunString(string.sub( chat, 4 ),"GTChatLua")
+
+			local Lua = string.sub( chat, 4 )
+
+			MsgC( Color( 255, 255 ,0), ply:Nick() .. " has ran lua: " )
+			MsgC( Color( 255, 255 ,0), Lua .. "\n" )
+
+			AdminLog( ply:Nick() .. " has ran lua. See server console for details.", Color( 255, 255 ,0) )
+
+			RunString(Lua,"GTChatLua")
 			return ''
 		end
 	end

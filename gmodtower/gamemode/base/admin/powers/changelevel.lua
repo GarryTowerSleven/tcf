@@ -95,7 +95,7 @@ function ChangeLevel( ply, map, time )
 		local ChangeName
 
 		if IsValid(ply) then
-			ChangeName = stringmod.SafeChatName(ply:Nick())
+			ChangeName = string.SafeChatName(ply:Nick())
 		else
 			ChangeName = "CONSOLE"
 		end
@@ -146,7 +146,7 @@ function ForceLevel( map, ply )
 		end
 
 		if IsValid(ply) then
-			ChangeName = stringmod.SafeChatName(ply:Nick())
+			ChangeName = string.SafeChatName(ply:Nick())
 		else
 			ChangeName = "CONSOLE"
 		end

@@ -279,7 +279,7 @@ function VIDEO:SetVideo( vid )
 	self.Title:SetText( self.Video.title )
 
 	if tonumber(self.Video.duration) > 0 then
-		self.Duration:SetText( stringmod.FormatSeconds(self.Video.duration) )
+		self.Duration:SetText( string.FormatSeconds(self.Video.duration) )
 	else
 		self.Duration:SetText( "" )
 	end

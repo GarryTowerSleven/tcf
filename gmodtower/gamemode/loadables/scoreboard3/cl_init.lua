@@ -413,7 +413,7 @@ function GMC:Init() end
 function GMC:PerformLayout()
 
 	surface.SetFont( "GTowerHUDMain" )
-	local w, h = surface.GetTextSize( stringmod.FormatNumber( Money() or 0 ) )
+	local w, h = surface.GetTextSize( string.FormatNumber( Money() or 0 ) )
 
 	self:SetSize( w + self.Padding + 16 + 1, h )
 
@@ -428,7 +428,7 @@ function GMC:Paint( w, h )
 	surface.SetDrawColor( Color( 255, 255, 255, 255 ) )
 	surface.DrawTexturedRect( 2, 4, 16, 16 )
 
-	draw.NiceText( stringmod.FormatNumber( Money() or 0 ), "GTowerHUDMain", 16 + (self.Padding/2), 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, 250 )
+	draw.NiceText( string.FormatNumber( Money() or 0 ), "GTowerHUDMain", 16 + (self.Padding/2), 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, 250 )
 
 end
 

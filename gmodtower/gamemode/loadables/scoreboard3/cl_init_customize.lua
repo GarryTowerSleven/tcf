@@ -89,7 +89,7 @@ end
 
 PlayerInfoValueIcon = MatDirectory .. "icon_money.png"
 PlayerInfoValueGet = function( ply )
-	return nil --stringmod.FormatNumber( Money() or 0 )
+	return nil --string.FormatNumber( Money() or 0 )
 end
 
 // Action Box

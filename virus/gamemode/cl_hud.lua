@@ -67,7 +67,7 @@ function GM:HUDPaint()
 		timeleft = 0
 	end
 	
-	local timeformat = stringmod.FormattedTime( timeleft, "%02i:%02i" )
+	local timeformat = string.FormattedTime( timeleft, "%02i:%02i" )
 
 	local hudRank = HudSurRank
 	local hudScore = HudSurScore

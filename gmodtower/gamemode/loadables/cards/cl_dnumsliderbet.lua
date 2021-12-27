@@ -396,7 +396,7 @@ function PANEL:Paint( w, h )
 
 		surface.SetFont( "BetSlider" )
 
-		local w, h = surface.GetTextSize( stringmod.FormatNumber( val ) .. "  Chips" )
+		local w, h = surface.GetTextSize( string.FormatNumber( val ) .. "  Chips" )
 
 		surface.SetTextColor( 200, 200, 200, 255 )
 
@@ -406,7 +406,7 @@ function PANEL:Paint( w, h )
 
 		surface.SetTextPos( self:GetWide() - w, 0 )
 
-		surface.DrawText( stringmod.FormatNumber( val ) .. "  Chips" )
+		surface.DrawText( string.FormatNumber( val ) .. "  Chips" )
 
 
 

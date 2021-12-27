@@ -213,7 +213,7 @@ GTowerHUD.MaxAmmo = {}
 		local x = GTowerHUD.Info.X + 75
 		local y = GTowerHUD.Info.Y + 22
 
-		local money = stringmod.FormatNumber( GTowerHUD.Money.Amount )
+		local money = string.FormatNumber( GTowerHUD.Money.Amount )
 		local tw, th = surface.GetTextSize( money )
 
 		draw.SimpleShadowText( money, GTowerHUD.Money.Font, x, y, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )

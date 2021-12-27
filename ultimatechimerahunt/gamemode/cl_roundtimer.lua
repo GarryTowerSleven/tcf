@@ -45,7 +45,7 @@ function GM:DrawRoundTime()
 
 	if tm then
 		if tm >= 60 then
-			tm = stringmod.FormattedTime( tm, "%2i:%02i" )
+			tm = string.FormattedTime( tm, "%2i:%02i" )
 		else
 			tm = math.Round( tm )
 		end

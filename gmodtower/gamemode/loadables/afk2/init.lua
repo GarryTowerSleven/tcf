@@ -36,7 +36,7 @@ ChatCommands.Register( "/afk", 60, function( ply )
 	net.WriteInt( CurTime() , 32 )
 	net.Send(ply)
 
-	local SanitizedName = stringmod.SafeChatName(ply:Name())
+	local SanitizedName = string.SafeChatName(ply:Name())
 
 	GAMEMODE:ColorNotifyAll( T("AfkBecome", SanitizedName ), Color(200, 200, 200, 255) )
 
@@ -67,7 +67,7 @@ hook.Add("Think","GTAfkThink",function()
 				v:SetNWBool("AFK",true)
 				hook.Run("GTAfk",true,v)
 
-				local SanitizedName = stringmod.SafeChatName(v:Name())
+				local SanitizedName = string.SafeChatName(v:Name())
 
 				GAMEMODE:ColorNotifyAll( T("AfkBecome", SanitizedName ), Color(200, 200, 200, 255) )
 
@@ -83,7 +83,7 @@ hook.Add("Think","GTAfkThink",function()
 				v:SetNWBool("AFK",false)
 				hook.Run("GTAfk",false,v)
 
-				local SanitizedName = stringmod.SafeChatName(v:Name())
+				local SanitizedName = string.SafeChatName(v:Name())
 
 				GAMEMODE:ColorNotifyAll( T("AfkBack", SanitizedName ), Color(200, 200, 200, 255) )
 			end

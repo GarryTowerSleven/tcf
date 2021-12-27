@@ -110,7 +110,7 @@ hook.Add("HUDPaint", "PaintMapChanging", function()
 	local curClientTime = os.date("*t")
 	local timeUntilChange = GetGlobalInt("NewTime") - CurTime()
 
-	local timeUntilChangeFormatted = stringmod.FormattedTime(timeUntilChange,"%02i:%02i")
+	local timeUntilChangeFormatted = string.FormattedTime(timeUntilChange,"%02i:%02i")
 
 	draw.RoundedBox(0, 0, 0, ScrW(), 40, Color(25,25,25,200))
 	draw.SimpleText("RESTARTING FOR UPDATE IN: " .. timeUntilChangeFormatted, "GTowerHUDMainLarge", ScrW()/2, 20, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)

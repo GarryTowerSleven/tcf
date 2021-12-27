@@ -339,7 +339,7 @@ function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
 	if IsAdmin(steam) or IsTester(steam64) or MultiUsers[IP] then
 		return true
 	else
-		MsgC( co_color2, stringmod.SafeChatName(name) .. " <" .. steam .. "> (" .. IP .. ") tried to join the server.\n" )
+		MsgC( co_color2, string.SafeChatName(name) .. " <" .. steam .. "> (" .. IP .. ") tried to join the server.\n" )
 		return false, "You must join from the lobby server, IP: join.gmtdeluxe.org"
 	end
 
@@ -436,6 +436,13 @@ net.Receive( "ClientFullyConnected", function( len, ply )
 end )
 
 util.AddNetworkString( "ClientFullyConnected" )
+
+function AdminLog( message, color )
+	for k,v in pairs( player.GetAdmins() ) do
+		if v:GetInfoNum( "gmt_admin_log", 1 ) == 0 then return end
+		GAMEMODE:ColorNotifyPlayer( v, message, color )
+	end
+end
 
 // precache these so clients can test
 local modelsToCheck = {

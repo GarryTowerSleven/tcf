@@ -133,7 +133,7 @@ function ENT:DrawDuration(Media, Alpha)
 
 	local TimeLeft = duration - curTime
 	local lval = 1 - TimeLeft / duration
-	local sTime = stringmod.FormatSeconds(math.Clamp(math.Round(curTime), 0, duration))
+	local sTime = string.FormatSeconds(math.Clamp(math.Round(curTime), 0, duration))
 
 	surface.DrawRect( ox + 2, oy + 3, Lerp(lval, 0, 8*(BANDS-1) - 4), 14 )
 

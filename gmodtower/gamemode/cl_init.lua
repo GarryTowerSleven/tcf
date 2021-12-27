@@ -370,3 +370,5 @@ concommand.Add( "gmt_plyinfo", function()
 	print("--------------")
 
 end )
+
+CreateConVar( "gmt_admin_log", 1, { FCVAR_ARCHIVE, FCVAR_USERINFO }, "Enable admin logging." )

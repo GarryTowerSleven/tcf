@@ -37,7 +37,7 @@ function ENT:CanEnterWhileLocked( ply, room )
 	local room = room or self:GetCondo()
 
 	if room then
-		return room.Owner == ply --or Friends.IsFriend( room.Owner, ply )
+		return room.Owner == ply or IsFriendsWith( room.Owner, ply )
 	end
 
 	return false

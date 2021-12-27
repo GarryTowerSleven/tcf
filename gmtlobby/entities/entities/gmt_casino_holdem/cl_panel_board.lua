@@ -502,7 +502,7 @@ function PANEL:Paint( w, h )
 	surface.SetFont( "PokerNames" )
 	local Width1 = surface.GetTextSize( "POT" ) + 6
 	surface.SetFont( "PokerText" )
-	local pot = stringmod.FormatNumber( tbl:GetPot() ) .. " Chip" .. ( tbl:GetPot() == 1 and "" or "s" )
+	local pot = string.FormatNumber( tbl:GetPot() ) .. " Chip" .. ( tbl:GetPot() == 1 and "" or "s" )
 	local Width2 = surface.GetTextSize( pot )
 	local Total = Width1 + Width2
 	draw.SimpleText( "POT", "PokerNames", w / 2 - Total / 2, h / 2 - 90, Color( 0, 0, 0, 200 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
@@ -518,7 +518,7 @@ function PANEL:Paint( w, h )
 	local raise = tbl:GetIn( LocalPlayer() )
 	if raise && raise > 0 then
 
-		raise = stringmod.FormatNumber( raise )
+		raise = string.FormatNumber( raise )
 		draw.SimpleShadowText( "YOUR IN: " .. raise, "PokerNames", w/2 + 240, h/2 + 100, nil, nil, TEXT_ALIGN_RIGHT )
 		draw.SimpleShadowText( "PROFIT: " .. tbl:GetPot() - raise, "PokerSmall", w / 2 + 240, h / 2 + 120, nil, nil, TEXT_ALIGN_RIGHT )
 

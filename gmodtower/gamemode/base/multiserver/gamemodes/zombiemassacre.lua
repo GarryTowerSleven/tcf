@@ -95,7 +95,7 @@ function GMode:ProcessData( ent, data )
 
 	// Time
 	local Timeleft = tonumber( Exploded[1] )
-	local leftString = stringmod.NiceTimeShort( Timeleft, true )
+	local leftString = string.NiceTimeShort( Timeleft, true )
 
 	// Rounds
 	local roundExploded = string.Explode( "/", Exploded[2] )

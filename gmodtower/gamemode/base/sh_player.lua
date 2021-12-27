@@ -103,12 +103,12 @@ function meta:GetDisplayTextColor()
 
 	if self:IsHidden() then return default_color end
 
-	if GetRole( self:SteamID() ) == "Lead Developer" then
+	/*if GetRole( self:SteamID() ) == "Lead Developer" then
 		return color_lead
-	end
+	end*/
 
 	if self:IsDeveloper() then
-		return color_developer
+		return color_lead //color_developer
 	end
 
 	if self:IsModerator() then
