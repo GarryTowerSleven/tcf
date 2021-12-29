@@ -70,6 +70,33 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHMILESTONE3, {
 	}
 )
 
+GTowerAchievements:Add( ACHIEVEMENTS.GRMILESTONE1, {
+	Name = "Gourmet Race Milestone #1",
+	Description = "Use 100 items to get the mystery sack!",
+	Value = 100,
+	Group = 2,
+	GiveItem = "MysterySack"
+	}
+)
+
+GTowerAchievements:Add( ACHIEVEMENTS.GRMILESTONE2, {
+	Name = "Gourmet Race Milestone #2",
+	Description = "Play 60 rounds of Gourmet Race and get the hammer in the lobby!",
+	Value = 60,
+	Group = 2,
+	GiveItem = "KirbyHammer"
+	}
+)
+
+GTowerAchievements:Add( ACHIEVEMENTS.SKMILESTONE1, {
+	Name = "Source Karts Milestone #1",
+	Description = "Play 50 rounds of Source Karts and get a driveable RC kart!",
+	Value = 50,
+	Group = 2,
+	GiveItem = "SKKart"
+	}
+)
+
 GTowerAchievements:Add( ACHIEVEMENTS.VIRUSMILESTONE2, {
 	Name = "Virus Milestone #2", 
 	Description = "Use the adrenaline 80 times and get your own unlimited use Adrenaline!",

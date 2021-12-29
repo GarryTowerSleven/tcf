@@ -85,3 +85,35 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHHOMERUN, {
 	Group = 9
 	}
 )
+
+GTowerAchievements:Add( ACHIEVEMENTS.UCHSPEEDRUN, {
+	Name = "Speedrun",
+	Description = "Deactive the Chimera within 20 seconds.",
+	Value = 1,
+	Group = 9
+	}
+)
+
+GTowerAchievements:Add( ACHIEVEMENTS.UCHMOTHER, {
+	Name = "MOTHER Of All Chimeras",
+	Description = "Win as the Chimera more than 20 times.",
+	Value = 20,
+	Group = 9
+	}
+)
+
+GTowerAchievements:Add( ACHIEVEMENTS.UCHSHOWBOATING, {
+	Name = "Showboating Is Prohibited",
+	Description = "Kill 5 Pigmasks while they are taunting.",
+	Value = 5,
+	Group = 9
+	}
+)
+
+GTowerAchievements:Add( ACHIEVEMENTS.UCHEARTHBOUND, {
+	Name = "Earthbound",
+	Description = "Win a round as the Chimera without jumping.",
+	Value = 1,
+	Group = 9
+	}
+)

@@ -60,6 +60,14 @@ GTowerAchievements:Add( ACHIEVEMENTS.MINIGREENGREENS, {
 	Value = 340,
 	Group = 12
 } )
+
+GTowerAchievements:Add( ACHIEVEMENTS.MINIOVERACHIEVER, {
+	Name = "Overachiever",
+	Description = "Get 3 hole in ones in one game.",
+	Value = 1,
+	Group = 12
+})
+
 /*GTowerAchievements:Add( ACHIEVEMENTS.MINIWATERHOLEPAR, {
 	Name = "Master of the Waterhole", 
 	Description = "Get a Par Score On 'Waterhole'", 

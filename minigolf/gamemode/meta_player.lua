@@ -156,9 +156,16 @@ if SERVER then
 		--self:AddAchievement( ACHIEVEMENTS.MINIMILESTONE1, 1 )
 
 		if swing == 1 then
+			if !self.HIOAmount then self.HIOAmount = 0 end
 
 			self:SetAchievement( ACHIEVEMENTS.MINIHOLEINONE, 1 )
 			self:AddAchievement( ACHIEVEMENTS.MINIMASTERS, 1 )
+
+			self.HIOAmount = self.HIOAmount + 1
+
+			if self.HIOAmount == 3 then
+				self:AddAchievement( ACHIEVEMENTS.MINIOVERACHIEVER, 1 )
+			end
 			
 			return
 		end

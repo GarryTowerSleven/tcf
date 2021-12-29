@@ -145,11 +145,21 @@ function StartDueling(Weapon, Requester, Arriver, Amount)
 		end
 	end
 
+	local CanAchi = false
+
 	for k,v in pairs( player.GetAll() ) do
 		if v:GetNWBool("IsDueling") then
 			CanAchi = true
 		end
 	end
+
+	if CanAchi then
+		Requester:AddAchievement( ACHIEVEMENTS.SIDEBYSIDE, 1 )
+		Arriver:AddAchievement( ACHIEVEMENTS.SIDEBYSIDE, 1 )
+	end
+
+	Requester:AddAchievement( ACHIEVEMENTS.ITCHING, 1 )
+	Arriver:AddAchievement( ACHIEVEMENTS.ITCHING, 1 )
 
 	if Requester.BallRaceBall and IsValid( Requester.BallRaceBall ) then
 		Requester.BallRaceBall:SetPos(Spawn1)

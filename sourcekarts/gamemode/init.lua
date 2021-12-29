@@ -171,6 +171,7 @@ function GM:Complete( ply )
 
   ply:SetTeam( TEAM_FINISHED )
   ply:ClearItems()
+  ply:AddAchievement( ACHIEVEMENTS.SKMILESTONE, 1 )
 
 	if ply:GetPosition() == 1 then
     music.Play( 1, MUSIC_WIN, ply )

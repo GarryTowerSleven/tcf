@@ -130,3 +130,10 @@ GTowerAchievements:Add( ACHIEVEMENTS.ZMCAMERA, {
 	Value = 800,
 	Group = 10
 } )
+
+GTowerAchievements:Add( ACHIEVEMENTS.ZMOUTOFMYWAY, {
+	Name = "Out Of My Way!",
+	Description = "Kill more than 15 zombies with one charge of the Survivor's Ramming Shield.",
+	Value = 1,
+	Group = 10
+} )

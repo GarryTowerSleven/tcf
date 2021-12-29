@@ -231,6 +231,63 @@ function GM:StartRound()
 		timer.Create("RoundEnd", GAMEMODE.DefaultLevelTime, 1, GAMEMODE.StopRound, GAMEMODE)
 		SetTime(CurTime() + GAMEMODE.DefaultLevelTime)
 	end
+	local banana = ents.Create( "secret_banana" )
+
+	if game.GetMap() == "gmt_ballracer_facile" then
+		banana:SetPos( Vector( 6529.704102, -2639.191895, 976.031250 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_grassworld01" then
+		banana:SetPos( Vector( -11604.712891, 1274.085327, -87.976440 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_iceworld03" then
+		banana:SetPos( Vector( -8052.416016, -1020.629761, 3399.081299 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_khromidro02" then
+		banana:SetPos( Vector( -3301.433105, 894.710388, 816.031250 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_memories02" then
+		banana:SetPos( Vector( -7167.748535, -3720.391846, 313.542908 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_metalworld" then
+		banana:SetPos( Vector( 12423.720703, 2957.742188, 616.031250 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_midori02" then
+		banana:SetPos( Vector( 3265.398926, -2512.039307, 688.281250 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_nightball" then
+		banana:SetPos( Vector( 5349.190430, 1247.135376, -105.520416 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_paradise03" then
+		banana:SetPos( Vector( 4976.476563, 13198.571289, -227.520325 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_prism03" then
+		banana:SetPos( Vector( 2617.929688, 5062.750488, 959.974976 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_sandworld02" then
+		banana:SetPos( Vector( 584.904602, 7399.568848, 370.634308 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_skyworld01" then
+		banana:SetPos( Vector( 1216.430298, -223.383209, 408.031250 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_spaceworld01" then
+		banana:SetPos( Vector( -5632.618652, -4192.765137, -127.968750 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_summit" then
+		banana:SetPos( Vector( -8089.092773, -5857.746094, 208.031250 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_waterworld02" then
+		banana:SetPos( Vector( 8755.546875, -1417.295654, 288.031250 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_flyinhigh01" then
+		banana:SetPos( Vector( -1664.000000, -9344.000000, 16.031250 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_neonlights01" then
+		banana:SetPos( Vector( -1076.816895, -3247.885742, -336.675140 ) )
+		banana:Spawn()
+	elseif game.GetMap() == "gmt_ballracer_tranquil01" then
+		banana:SetPos( Vector( -6645.774414, 6593.495117, 110 ) )
+		banana:Spawn()
+	end
 
 	placement = 0
 end
@@ -335,6 +392,8 @@ function GM:SaveBestTime(ply, lvl, time, update)
 	if update then
 		SQL.getDB():Query(
 		"UPDATE gm_ballrace SET time=".. time .." WHERE ply='"..ply:SteamID64().."' AND name='"..ply:Name().."' AND map='"..game.GetMap().."' AND lvl='"..lvl.."'", SQLLogResult)
+		ply:AddAchievement( ACHIEVEMENTS.BRTHATSARECORD, 1 )
+		ply:AddAchievement( ACHIEVEMENTS.BRHARDERBETTERFASTERSTRONGER, 1 )
 		return
 	end
 	SQL.getDB():Query("CREATE TABLE IF NOT EXISTS gm_ballrace(ply TINYTEXT, name TINYTEXT,map TINYTEXT, lvl TINYTEXT, time FLOAT NOT NULL)")

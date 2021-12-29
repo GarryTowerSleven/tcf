@@ -154,6 +154,14 @@ function GM:EndRound( teamid )
 
 			local uc = self:GetUC()
 
+			if IsValid(uc) then
+				uc:AddAchievement( ACHIEVEMENTS.UCHMOTHER, 1 )
+
+				if !uc.Jumped then
+					uc:AddAchievement( ACHIEVEMENTS.UCHEARTHBOUND, 1 )
+				end
+			end
+
 		else
 			self:HUDMessage( v, MSG_TIEGAME, 10 )
 		end

@@ -28,6 +28,8 @@ ITEM.MaxPos = 3
 
 function ITEM:Start( ply, kart )
 
+	ply:AddAchievement( ACHIEVEMENTS.SKDISCODRIVER, 1 )
+
 	ply:SpawnItem( self.Entity )
 
 	kart:SetIsInvincible( true )

@@ -34,6 +34,10 @@ function GM:KeyPress( ply, key )
 				
 				if ply:CanPressButton() then
 
+					if CurTime() - GetGlobalFloat("RoundStart") <= 20 then
+						ply:AddAchievement( ACHIEVEMENTS.UCHSPEEDRUN, 1 )
+					end
+
 					local uc = self:GetUC()
 					uc:EmitSound( "UCH/chimera/button.wav", 80, math.random( 94, 105 ) )
 					

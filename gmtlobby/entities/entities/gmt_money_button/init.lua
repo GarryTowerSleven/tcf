@@ -25,6 +25,7 @@ function ENT:Think()
 
       if IsValid(ply) then
         ply:AddMoney(1)
+        ply:AddAchievement( ACHIEVEMENTS.ANTICLIMAX, 1 )
         ply.CanHoldBtn = false
         self:SetPressed(false)
         self:SetUsePlayer( nil )

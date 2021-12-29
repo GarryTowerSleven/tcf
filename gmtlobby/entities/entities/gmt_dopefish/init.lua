@@ -19,6 +19,8 @@ function ENT:Use(ply)
   if CurTime() < (ply.NextFishTime or 0) then return end
   ply.NextFishTime = (CurTime() + 15)
 
+  local hasAchi = ply:Achived( ACHIEVEMENTS.DOPEFISH )
+
   ply:Lock()
 
   timer.Simple(10,function()
@@ -28,4 +30,12 @@ function ENT:Use(ply)
   net.Start( "fishTalk" )
     net.WriteBool( hasAchi )
   net.Send( ply )
+
+  if !hasAchi then
+    timer.Simple(0.75, function()
+      if IsValid( ply ) then
+        ply:AddAchievement( ACHIEVEMENTS.DOPEFISH, 1 )
+      end
+    end)
+  end
 end

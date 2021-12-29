@@ -21,6 +21,8 @@ function ENT:Use(ply)
 
   self.NO = true
 
+  ply:AddAchievement( ACHIEVEMENTS.TRASHMAN, 1 )
+
   if math.random( 1, 10 ) == 1 then
     ply:AddMoney( math.random( 1, 5 ) )
     ply:Msg2( T("TrashFind") )

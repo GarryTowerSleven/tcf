@@ -224,6 +224,42 @@ GTowerAchievements:Add( ACHIEVEMENTS.PLAYERMODEL, {
 	Group = "Suite",
 })*/
 
+GTowerAchievements:Add( ACHIEVEMENTS.DOPEFISH, {
+	Name = "HELLO MY NAME IS DOPEFISH",
+	Description = "Find and talk to Dope Fish.",
+	Value = 1,
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.TRASHMAN, {
+	Name = "The Trashman",
+	Description = "Open more than 100 trash cans.",
+	Value = 100,
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.SIDEBYSIDE, {
+	Name = "Fighting Side by Side",
+	Description = "Go into a duel while there already is a duel active.",
+	Value = 1,
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.ITCHING, {
+	Name = "Itching For Fights",
+	Description = "Commence in more than 15 duels.",
+	Value = 15,
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.ANTICLIMAX, {
+	Name = "Anticlimax",
+	Description = "Find and hold the money button.",
+	Value = 1,
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.WTF, {
+	Name = "What Was That?",
+	Description = "???",
+	Value = 1
+})
+
 /* the achievement has issues + the arcades aren't all there
 GTowerAchievements:Add( ACHIEVEMENTS.ARCADEJUNKIE, {
 	Name = "Arcade Junkie", 
