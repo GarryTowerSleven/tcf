@@ -6,6 +6,10 @@ ENT.AdminSpawnable	= false
 --ENT.AnimMale		= Model( "models/player/gmt_shared.mdl" )
 ENT.AnimMale		= Model( "models/Humans/GMTsui1/Male_03.mdl" )
 ENT.AnimFemale		= Model( "models/Humans/GMTsui1/Female_01.mdl" )
+
+ENT.FemaleSheet = "models/Humans/female/GMTsui1/citizen_sheet_d"
+ENT.MaleSheet = "models/Humans/male/GMTsui1/citizen_sheet_d"
+
 ENT.AutomaticFrameAdvance = false
 
 ENT.StoreId = -1

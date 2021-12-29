@@ -111,5 +111,15 @@ soundLengths["sound/gmodtower/soundscapes/music/elevator8.mp3"] = 132.414694
 soundLengths["sound/gmodtower/soundscapes/music/elevator10.mp3"] = 122.017959
 soundLengths["sound/gmodtower/soundscapes/music/elevator11.mp3"] = 214.543673
 
+soundLengths["gmodtower/soundscapes/music/deluxe_plaza1.mp3"] = 2*60+54
+soundLengths["gmodtower/soundscapes/music/deluxe_plaza2.mp3"] = 2*60+2
+soundLengths["gmodtower/soundscapes/music/deluxe_plaza3.mp3"] = 2*60+37
+soundLengths["gmodtower/soundscapes/music/deluxe_plaza4.mp3"] = 7*60+28
+soundLengths["gmodtower/soundscapes/music/deluxe_plaza5.mp3"] = 60+36
+soundLengths["gmodtower/soundscapes/music/deluxe_plaza6.mp3"] = 2*60+20
+soundLengths["gmodtower/soundscapes/music/deluxe_plaza7.mp3"] = 60+39
+soundLengths["gmodtower/soundscapes/music/deluxe_plaza8.mp3"] = 60+30
+soundLengths["gmodtower/soundscapes/music/deluxe_plaza9.mp3"] = 60+57
+
 soundscape = soundscape or {}
 soundscape.SoundLengths = soundLengths

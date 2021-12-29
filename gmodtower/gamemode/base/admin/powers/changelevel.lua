@@ -88,9 +88,9 @@ function ChangeLevel( ply, map, time )
 			GAMEMODE:ColorNotifyAll( T( "AdminChangeMapSec", map, time ), Color(255, 50, 50, 255) )
 		end
 
-		/*for k,v in pairs(player.GetAll()) do
+		for k,v in pairs(player.GetAll()) do
 			v:SendLua([[surface.PlaySound( "gmodtower/misc/changelevel.wav" )]])
-		end*/
+		end
 
 		local ChangeName
 

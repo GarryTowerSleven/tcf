@@ -62,8 +62,26 @@ function ENT:TypeOnComp()
 end
 */
 
+local modelSub = {}
+modelSub["models/humans/gmtsui1/female_01.mdl"] = 3
+modelSub["models/humans/gmtsui1/female_02.mdl"] = 4
+modelSub["models/humans/gmtsui1/female_03.mdl"] = 4
+modelSub["models/humans/gmtsui1/female_04.mdl"] = 2
+modelSub["models/humans/gmtsui1/female_06.mdl"] = 5
+modelSub["models/humans/gmtsui1/female_07.mdl"] = 3
+modelSub["models/humans/gmtsui1/male_02.mdl"] = 3
+modelSub["models/humans/gmtsui1/male_04.mdl"] = 5
+modelSub["models/humans/gmtsui1/male_09.mdl"] = 3
+
 function ENT:UpdateModel()
 	self:SetModel( self.Model )
+
+	// deluxifgy
+	if ( string.StartWith( string.lower(self.Model), "models/humans/gmtsui1/female_" ) ) then
+		self:SetSubMaterial( modelSub[string.lower(self.Model)] - 1, self.FemaleSheet )
+	elseif ( string.StartWith( string.lower(self.Model), "models/humans/gmtsui1/male_" ) ) then
+		self:SetSubMaterial( modelSub[string.lower(self.Model)] - 1, self.MaleSheet )
+	end
 end
 
 function ENT:OnCondition( iCondition )

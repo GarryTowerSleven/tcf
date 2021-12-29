@@ -2,6 +2,8 @@
 local EventSound = "gmodtower/misc/notifyevent.wav"
 if time.IsChristmas() then EventSound = "gmodtower/music/christmas/eventnotify.mp3" end
 
+local eventlist = { "balloon", "battle", "obama", "storesale", "storesale" }
+
 local shopslist = {
     GTowerStore.SUITE,
 	GTowerStore.HAT, 
@@ -54,7 +56,12 @@ function SendMessageToPlayers(msgtype, ...)
 end
 
 function getEventType()
-    return "storesale"
+    return table.Random( eventlist )
+end
+
+local function updateGlobals( time, event )
+    SetGlobalInt( "NextEventTime", time )
+    SetGlobalString( "NextEvent", event )
 end
 
 function StartEvent( event )
@@ -64,6 +71,8 @@ function StartEvent( event )
     local time = math.Round( math.Rand( mininterval, maxinterval ) )
     nexttime = CurTime()+(time*60)
     nextevent = getEventType()
+
+    updateGlobals( nexttime, nextevent )
 
     if event == "storesale" then
         local store = table.Random(shopslist)
@@ -192,6 +201,8 @@ function StartEventSys()
     SendMessageToPlayers( "MiniNext", time )
 
     nexttime = CurTime()+(time*60)
+
+    updateGlobals( nexttime, nextevent )
 end
 
 StartEventSys()
@@ -200,13 +211,6 @@ local delay = 0
 
 function MiniCheck()
 	if !enabled then return end
-
-    // debug
-    //if CurTime() > delay then
-    //    print( "NEXTIME " .. math.Round( (nexttime - CurTime())/60, 2 ) )
-    //    print( "ENDTIME " .. math.Round( (endtime - CurTime())/60, 2 ) )
-    //    delay = CurTime() + 10
-    //end
 
     if endtime > 0 && CurTime() > endtime then
         //lastevent = curevent
@@ -221,6 +225,8 @@ function MiniCheck()
     local time = math.Round( math.Rand( mininterval, maxinterval ) )
     nexttime = CurTime()+(time*60)
     nextevent = getEventType()
+
+    updateGlobals( nexttime, nextevent )
 
     MsgC( co_color, "[EVENTS] Starting next event (" .. nextevent .. ") in " .. time .. " min(s)\n" )
     SendMessageToPlayers( "MiniNext", time )
@@ -257,6 +263,8 @@ concommand.Add("gmt_event_toggle", function( ply )
         endtime = 0
         cursale = nil
         curmini = nil
+
+        updateGlobals( nil, nil )
 
         for k,v in pairs( player.GetAll() ) do
             v:Msg2( T( "EventAdminDisabled", ply:Name() ), "admin" )

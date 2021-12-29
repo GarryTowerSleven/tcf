@@ -2,28 +2,36 @@ module("minievent", package.seeall )
 
 local DrawTimer = CreateClientConVar( "gmt_draweventtimer", 1, true, false )
 
-/*hook.Add( "HUDPaint", "DrawNextEventTime", function()
+local endtime = GetGlobalInt( "NextEventTime" )
+local eventname = GetGlobalString( "NextEvent" )
 
-	if DrawTimer:GetBool() then
+function UpdateEventTimer()
+	endtime = GetGlobalInt( "NextEventTime" )
+	eventname = GetGlobalString( "NextEvent" )
+end
 
-		local endtime = GetWorldEntity().NextEventTime or CurTime()
-		local eventname = GetWorldEntity().NextEvent or "N/A"
-		local timeleft = 1800000 - os.time() % 1800000
+local timeSinceUpdate = 0
+hook.Add( "HUDPaint", "DrawNextEvent", function()
+	if GTowerHUD.Enabled:GetBool() && HUDStyle_Lobby1 && DrawTimer:GetBool() then
+		local timeleft = endtime - CurTime()
 
 		if timeleft <= 0 then
 			timeleft = 0
+			if timeSinceUpdate < CurTime() then
+				UpdateEventTimer()
+				timeSinceUpdate = CurTime() + 1
+			end
 		end
+
+		if !endtime or !eventname then return end
 
 		local timeformat = string.FormattedTime( timeleft, "%02i:%02i" )
 		local time = "NEXT EVENT (" .. string.upper( eventname ) .. ") IN " .. timeformat
 
 		surface.SetFont( "GTowerHUDMainSmall" )
 
-    local infoX = 25
-    local infoY = ScrH() - 150
-
 		local tw, th = surface.GetTextSize( time )
-		local tx, ty = infoX + GTowerHUD.Info.Width-24-tw, infoY + GTowerHUD.Info.Height - 10
+		local tx, ty = GTowerHUD.Info.X + GTowerHUD.Info.Width-24-tw, GTowerHUD.Info.Y + GTowerHUD.Info.TextureHeight - 10
 
 		surface.SetTextColor( 0, 0, 0, 255 )
 		surface.SetTextPos( tx + 1, ty + 1 )
@@ -34,5 +42,4 @@ local DrawTimer = CreateClientConVar( "gmt_draweventtimer", 1, true, false )
 		surface.DrawText( time )
 
 	end
-
-end )*/
+end )

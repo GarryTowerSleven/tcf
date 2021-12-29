@@ -114,8 +114,22 @@ end )
 -- TODO: Better place to put these? --
 --------------------------------------
 
-local LobbyMusicName = "GModTower/soundscapes/music/lobby"
-local LobbyMusicCount = 10 -- Define the number of music files for ambient lobby jams
+//local LobbyMusicName = "GModTower/soundscapes/music/lobby"
+//local LobbyMusicCount = 10 -- Define the number of music files for ambient lobby jams
+
+local LobbyMusicName = "GModTower/soundscapes/music/deluxe_plaza"
+local LobbyMusicCount = 13 -- Define the number of music files for ambient lobby jams
+
+if IsHalloweenMap() then
+	LobbyMusicName = "GModTower/soundscapes/music/halloween/deluxe_plaza"
+	LobbyMusicCount = 3
+end
+
+if IsChristmasMap() then
+	LobbyMusicName = "GModTower/soundscapes/music/christmas/deluxe_plaza"
+	LobbyMusicCount = 4
+end
+
 local LobbySongs = {}
 for n=1, LobbyMusicCount do 
 	table.insert(LobbySongs, {LobbyMusicName .. n .. ".mp3", 10} )
@@ -132,6 +146,28 @@ soundscape.Register("music_global_ambient",
 
 		-- Override the sound selector function with our own
 		sounds = LobbySongs,
+	},
+})
+
+local GameMusicName = "GModTower/soundscapes/music/deluxe_games"
+local GameMusicCount = 2
+local GameSongs = {}
+for n=1, GameMusicCount do
+	table.insert(GameSongs, {GameMusicName .. n .. ".mp3", 10} )
+end
+
+soundscape.Register("music_games",
+{
+	-- Tell the soundscape system that when this is usually removed and faded out, keep it alive
+	idle = true,
+
+	-- Select a random song to play every once in a while
+	{
+	type = "playlist",
+		time = {60 * 0.5, 60 * 5}, -- Play the next song 0.5 to 5 minutes after the song ends
+
+		-- Override the sound selector function with our own
+		sounds = GameSongs,
 	},
 })
 
@@ -160,6 +196,9 @@ for _, v in pairs(Location.Locations) do
 	})
 end
 
+local TowerLobby = Sound("GModTower/soundscapes/music/towermainlobby1.mp3")
+if IsHalloweenMap() then TowerLobby = Sound("gmodtower/soundscapes/music/halloween/condo_lobby.mp3") end
+
 soundscape.Register("music_lobby", 
 {
 	{
@@ -171,8 +210,34 @@ soundscape.Register("music_lobby",
 		--sync = true,
 
 		-- All sounds are in a table format of {soundpath, soundlength}
-		sound = {Sound("GModTower/soundscapes/music/towermainlobby1.mp3"), 234},
+		sound = {TowerLobby, 234},
 	},
+})
+
+soundscape.Register("music_store",
+{
+	{
+		type = "playlooping",
+		-- Limit the volume
+		volume = .7,
+
+		-- All sounds are in a table format of {soundpath, soundlength}
+		sound = {Sound("gmodtower/music/store_deluxe.mp3"), 67},
+	},
+})
+
+soundscape.Register("music_store_merchant",
+{
+	{
+		type = "playlooping",
+
+		-- Limit the volume
+		volume = .7,
+
+		-- All sounds are in a table format of {soundpath, soundlength}
+		sound = {Sound("gmt_minigolf_desert/desert_radio.wav"), (120+51)},
+	},
+
 })
 
 -- Mute BG music in elevator
@@ -192,3 +257,15 @@ soundscape.Register("music_duels", {})
 
 -- Mute any music in the duels arena
 soundscape.Register("music_duelarena", {})
+
+-- Mute any music in the transit station
+soundscape.Register("music_transit", {})
+
+-- Mute BG music in arcade
+soundscape.Register("music_arcade", {})
+
+-- Mute any music in the hallway and dev hq
+soundscape.Register("music_secret", {})
+
+-- Mute any music in the hallway entrance
+soundscape.Register("music_secret_entrance", {})

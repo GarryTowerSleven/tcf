@@ -10,6 +10,5 @@ ENT.Spawnable		= true
 ENT.AdminSpawnable	= true
 
 ENT.Model		= "models/Humans/GMTsui1/female_02.mdl"
-ENT.Material		= "models/Humans/female/GMTsui1/citizen_sheet_d"
 
 GtowerPrecacheModel( ENT.Model )

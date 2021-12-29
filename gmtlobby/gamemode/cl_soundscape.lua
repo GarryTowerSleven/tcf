@@ -85,10 +85,16 @@ local PSASounds =
 }
 local ApproachSound = { Sound("GModTower/voice/station/approaching.mp3"), 8}
 
+local ElevatorMusicName = "GModTower/soundscapes/music/elevator"
+local ElevatorMusicCount = 21 -- Define the number of music files for ambient lobby jams
+local ElevatorSongs = {}
+for n=1, ElevatorMusicCount do 
+	table.insert(ElevatorSongs, {ElevatorMusicName .. n .. ".mp3", 10} )
+end
+
 soundscape.Register("transit", 
 {
 	dsp = 0,
-	--dsp = 2,
 
 	-- Create a new rule that plays a random sound
 	{
@@ -124,15 +130,20 @@ soundscape.Register("transit",
 		-- All sounds are in a table format of {soundpath, soundlength}
 		sound = {Sound("GModTower/soundscapes/trainstation.wav"), 3},
 	},
+
+	{
+	type = "playlist",
+		time = 2, -- Play the next sound 2 seconds after this one ends
+		pitch = 100, -- Normal pitch
+		volume = 1,
+		soundlevel = 575,
+		position = Vector(7125.896484375, 2.7194547653198, -881.10290527344),
+
+		-- Override the sound selector function with our own
+		sounds = ElevatorSongs,
+	},
 })
 
-
-local ElevatorMusicName = "GModTower/soundscapes/music/elevator"
-local ElevatorMusicCount = 21 -- Define the number of music files for ambient lobby jams
-local ElevatorSongs = {}
-for n=1, ElevatorMusicCount do 
-	table.insert(ElevatorSongs, {ElevatorMusicName .. n .. ".mp3", 10} )
-end
 soundscape.Register("elevator", 
 {
 	-- Tell the soundscape system that when this is usually removed and faded out, keep it alive
@@ -153,7 +164,6 @@ soundscape.Register("elevator",
 soundscape.Register("lobby", 
 {
 	dsp = 0,
-	--dsp = 3,
 
 	-- Create a looping sound rule
 	{
@@ -164,12 +174,28 @@ soundscape.Register("lobby",
 		sound = {Sound("GModTower/soundscapes/tower_lobby.wav"), 2},
 	},
 
+	{
+		type = "playlooping",
+
+		-- Limit the volume
+		volume = 1,
+
+		-- Worldsound position of the looping sound
+		position = Vector(8199.96875, -1176.2622070313, -595),
+
+		-- Control the falloff of the sound
+		-- Note the values are different than source's builtin soundlevel, I need to figure out the math for this
+		soundlevel = 150,
+
+		-- All sounds are in a table format of {soundpath, soundlength}
+		sound = {Sound("GModTower/soundscapes/creature.mp3"), 15},
+	},
+
 })
 
 soundscape.Register("theater", 
 {
 	dsp = 0,
-	--dsp = 2,
 	
 	-- Create a looping sound rule
 	{
@@ -222,7 +248,6 @@ soundscape.Register("theater",
 soundscape.Register("theaterarcade", 
 {
 	dsp = 0,
-	--dsp = 2,
 	
 	-- Create a looping sound rule
 	{
@@ -344,6 +369,23 @@ soundscape.Register("plaza",
 
 		-- All sounds are in a table format of {soundpath, soundlength}
 		sound = {Sound("GModTower/lobby/club/club_exterior.mp3"), 10},
+	},
+
+	{
+	type = "playlooping",
+
+		-- Limit the volume
+		volume = 0.87,
+
+		-- Worldsound position of the looping sound
+		position = Vector(2793.5168457031, 2444.3571777344, 352.03125),
+		
+		-- Control the falloff of the sound
+		-- Note the values are different than source's builtin soundlevel, I need to figure out the math for this
+		soundlevel = 100,
+
+		-- All sounds are in a table format of {soundpath, soundlength}
+		sound = {Sound("GModTower/soundscapes/lobbyone.mp3"), 10},
 	},
 
 })
@@ -530,7 +572,6 @@ soundscape.Register("stores_inside",
 soundscape.Register("condolobby", 
 {
 	dsp = 0,
-	--dsp = 2,
 
 	-- Create a looping sound rule
 	{
@@ -541,12 +582,12 @@ soundscape.Register("condolobby",
 		sound = {Sound("GModTower/soundscapes/condocorridor.wav"), 4},
 	},
 })
+
 soundscape.Register("condo", 
 {
 	dsp = 0,
 })
 
--- TODO: Add playsoundscape rule
 soundscape.Register("duels", 
 {
 	dsp = 0,
@@ -555,30 +596,101 @@ soundscape.Register("duels",
 	{
 	type = "playlooping",
 		-- Limit the volume
-		volume = 0.05,
+		volume = .1,
 		-- All sounds are in a table format of {soundpath, soundlength}
-		sound = {Sound("ambient/atmosphere/town_ambience.wav"), 9.2833560090703},
+		sound = {Sound("GModTower/soundscapes/tower_lobby.wav"), 2},
 	},
+})
 
+soundscape.Register("arcade",
+{
+	dsp = 0,
+
+	-- Create a looping sound rule
+	{
+	type = "playlooping",
+		-- Limit the volume
+		volume = 1,
+
+		-- All sounds are in a table format of {soundpath, soundlength}
+		sound = {"GModTower/music/arcade.mp3", 2},
+	},
 	{
 	type = "playrandom",
-
-		time = {6, 12},
-		volume = 1,
-		pitch = {50, 140},
+		time = {300, 600},
+		volume = {0.5, 0.75},
+		pitch = {90, 110},
 		soundlevel = 140, -- Sound level in decibels
 		position = 1500,
-		sounds = 
+		sounds =
 		{
-			{"GModTower/lobby/void/void1.mp3", 10 },
-			{"GModTower/lobby/void/void2.mp3", 10 },
-			{"GModTower/lobby/void/void3.mp3", 10 },
-			{"GModTower/lobby/void/void4.mp3", 10 },
-			{"GModTower/lobby/void/void5.mp3", 10 },
+			{"ambient/levels/citadel/strange_talk7.wav", 10 },
+			{"ambient/levels/citadel/strange_talk8.wav", 10 },
+			{"ambient/levels/citadel/strange_talk9.wav", 10 },
+			{"ambient/levels/citadel/strange_talk10.wav", 10 },
+			{"ambient/levels/citadel/strange_talk11.wav", 10 },
 		},
 	},
 })
 
+soundscape.Register("secret",
+{
+	dsp = 0,
+
+	-- Create a looping sound rule
+	{
+	type = "playlooping",
+		-- Limit the volume
+		volume = 0.75,
+
+		-- All sounds are in a table format of {soundpath, soundlength}
+		sound = {Sound("GModTower/soundscapes/creature.mp3"), 15},
+	},
+	{
+	type = "playlooping",
+		-- Limit the volume
+		volume = 1,
+
+		-- All sounds are in a table format of {soundpath, soundlength}
+		sound = {Sound("GModTower/soundscapes/drone.wav"), 10},
+	},
+	{
+	type = "playlooping",
+		-- Limit the volume
+		volume = 1,
+
+		position = Vector(2550, 5009, -780),
+		soundlevel = 450,
+
+		-- All sounds are in a table format of {soundpath, soundlength}
+		sound = {Sound("GModTower/soundscapes/trans2.wav"), 10},
+	},
+	{
+	type = "playlooping",
+		volume = 0.6,
+		position = Vector(2550, 5009, -780),
+		soundlevel = 250,
+
+		-- All sounds are in a table format of {soundpath, soundlength}
+		sound = {"GModTower/soundscapes/trans1.wav", 15},
+	},
+	{
+	type = "playrandom",
+		time = {15, 20},
+		volume = {0.8, 1},
+		pitch = {90, 110},
+		soundlevel = 340, -- Sound level in decibels
+		position = 1500,
+		sounds =
+		{
+			{"ambient/levels/citadel/strange_talk7.wav", 10 },
+			{"ambient/levels/citadel/strange_talk8.wav", 10 },
+			{"ambient/levels/citadel/strange_talk9.wav", 10 },
+			{"ambient/levels/citadel/strange_talk10.wav", 10 },
+			{"ambient/levels/citadel/strange_talk11.wav", 10 },
+		},
+	},
+})
 
 
 -- SPOOK ZONE: ACTIVATE

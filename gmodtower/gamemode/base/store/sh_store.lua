@@ -55,7 +55,7 @@ GTowerStore.Stores = {
 	},
 	[GTowerStore.BAR] = {
 		NpcClass = "gmt_npc_bar",
-		WindowTitle = "Pulse Nightclub Bar"
+		WindowTitle = "Nightclub Bar"
 	},
 	[GTowerStore.BALLRACE] = {
 		NpcClass = "gmt_npc_ballracer",

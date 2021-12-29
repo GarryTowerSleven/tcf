@@ -15,8 +15,12 @@ include("playerhook.lua")
 include("tetris/cl_init.lua")
 include("cl_webboard.lua")
 include("cl_hudchat.lua")
-//include("cl_tetris.lua")
+include("cl_tetris.lua")
 include("uch_anims.lua")
+
+include("minigames/shared.lua")
+
+include("cl_changelog.lua")
 
 local tourmsgnotice = CreateClientConVar( "gmt_enabletournotice", "1", true, true )
 

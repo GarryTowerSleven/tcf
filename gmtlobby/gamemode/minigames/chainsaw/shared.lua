@@ -8,7 +8,7 @@ local Location = Location
 module("minigames.chainsaw")
 
 MinigameName = "Chainsaw Battle"
-MinigameLocation = 16
+MinigameLocation = "centerplaza"
 MinigameMessage = "MiniBattleGameStart"
 MinigameArg1 = MinigameName
 MinigameArg2 = Location.GetFriendlyName( MinigameLocation )

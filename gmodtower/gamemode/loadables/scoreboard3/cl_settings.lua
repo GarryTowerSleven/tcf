@@ -410,6 +410,8 @@ function SETTINGSCATEGORYTAB:Divider( drawline )
 	local divider = vgui.Create( "DPanel", canvas )
 	divider:SetWidth( 300 )
 	divider:SetTall( 10 )
+
+	divider:SetDrawBackground(false)
 	
 	if drawline then
 		divider.Paint = function()
@@ -442,6 +444,42 @@ function SETTINGSCATEGORYTAB:Slider( title, convar, min, max, decimal, toggle, t
 
 	return newSlider
 
+end
+
+function SETTINGSCATEGORYTAB:DropDown( title, convar, options, toggle, tip )
+
+	local canvas = self.Contents
+
+	local newBox = self:NewSetting( "DComboBox", canvas, title, convar, tip )
+
+	if toggle then
+		self.Togglables[toggle] = newBox
+	end
+
+	newBox:SetText( title )
+	newBox:SetTextColor( Color( 255, 255, 255 ) )
+	//newBox:SetWidth( 300 )
+
+	newBox:SetSortItems( false )
+
+	for k, v in pairs(options) do
+		newBox:AddChoice( v[1], v[2] )
+	end
+
+	newBox.OnSelect = function( self, index, value )
+		local cvar = GetConVar(convar)
+		cvar:SetInt( newBox:GetOptionData(index) )
+	end
+
+	canvas:AddItem( newBox )
+	newBox.Canvas = canvas
+
+	function newBox:Paint( w, h )
+		draw.RoundedBox( 4, 0, 0, w, h, Color( 0, 0, 0, 50 ) )
+		draw.RoundedBox( 4, 1, 1, w - 2, h - 2, colorutil.Brighten( Scoreboard.Customization.ColorBackground, 1.01 ) )
+	end
+
+	return newBox
 end
 
 function SETTINGSCATEGORYTAB:CreateContents( tab )
@@ -577,16 +615,29 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		self:Header( "HUD" )
 		if IsLobby then
 			self:CheckBox( "Enable HUD", "gmt_hud" )
+			self:DropDown( "Hud Style", "gmt_hud_style", {
+				{"Deluxe", 0},
+				{"Lobby 2", 1},
+				{"Lobby 1", 2},
+				{"Lobby 1 (2010)", 3},
+				{"Lobby 1 (2009)", 4},
+			}, "gmt_hud" )
+			self:Divider()
 			//self:CheckBox( "Enable HUD Location", "gmt_hud_location", "gmt_hud" )
-			--self:CheckBox( "Enable Event Timer", "gmt_draweventtimer", "gmt_hud" )
-
+			self:CheckBox( "Enable Event Timer", "gmt_draweventtimer", "gmt_hud" )
 			self:CheckBox( "Enable Crosshair", "gmt_hud_crosshair", "gmt_hud" )
-			--self:CheckBox( "Crosshair Always Visible", "gmt_hud_crosshair_always", "gmt_hud_crosshair" )
-			//self:CheckBox( LobbyCanvas, "Enable Action Crosshair", "gmt_hud_crosshair_action", "gmt_hud_crosshair" )
-			self:CheckBox( "Enable Third Person Button", "gmt_thirdpersonbutton" )
+			self:CheckBox( "Crosshair Always Visible", "gmt_hud_crosshair_always", "gmt_hud_crosshair" )
+			self:CheckBox( "Enable Hover Prompts", "gmt_hud_crosshair_action", "gmt_hud_crosshair" )
+			//self:CheckBox( "Enable Third Person Button", "gmt_thirdpersonbutton" )
 			//self:CheckBox( LobbyCanvas, "Enable Gamemode Notice", "gmt_gmnotice" )
 			//self:CheckBox( LobbyCanvas, "Enable News Ticker", "gmt_newsticker" )
 			//self:CheckBox( LobbyCanvas, "Allow Sound Spam", "gmt_allowSoundSpam" )
+
+			self:Divider()
+			
+			self:Header( "Store" )
+			self:CheckBox( "Enable Old Store GUI", "gmt_oldstore" )
+			self:CheckBox( "Enable Compact Store GUI", "gmt_compactstores", "gmt_oldstore" )
 		end
 	end
 

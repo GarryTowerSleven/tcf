@@ -31,12 +31,11 @@ function ENT:Initialize()
 
 
 	//self:SharedInit()
-	self.NextUpdate = 0.0
+	self.NextUpdate = 1.0
 	self:DrawShadow( false )
 
 	self.DefaultTextHeight = draw.GetFontHeight("Default")
 	self:ReloadPositions()
-
 end
 
 function ENT:Id()
@@ -49,12 +48,9 @@ function ENT:GetServer()
 	if GTowerServers.Servers[ Id ] then
 		return GTowerServers:Get( Id )
 	end
-
 end
 
 function ENT:UpdateBoundries()
-
-
 	self.TotalMinX   = -self.NegativeX   / self.ImageZoom
 	self.TotalMinY   = -self.NegativeY   / self.ImageZoom
 	self.TotalWidth  =  self.TableWidth  / self.ImageZoom
@@ -68,7 +64,6 @@ function ENT:UpdateBoundries()
 
 	//Start Y Posistion for the player boards
 	self.PlayerStartY = self.TotalMinY + self.TopHeight + 20
-
 end
 
 function ENT:ReloadPositions()
@@ -78,13 +73,8 @@ function ENT:ReloadPositions()
 	self:UpdatePlayerList()
 end
 
-function ENT:DrawTranslucent()
-
-end
-
-local MainBackground = Color(14, 48, 74, 50)
-
 function ENT:Draw()
+	return
 end
 
 function ENT:DrawTranslucent()
@@ -102,16 +92,27 @@ function ENT:DrawTranslucent()
 
 	local pos = EntPos + Eye:Up() * self.UpPos + Eye:Forward() * self.FowardsPos + Eye:Right()
 
+	local grad = Material("vgui/gradient_up")
+
 	cam.Start3D2D( pos, ang, self.ImageZoom )
-	
-		draw.RoundedBox( 2, 
-			self.TotalMinX, 
-			self.TotalMinY, 
-			self.TotalWidth, 
-			self.TotalHeight, 
-			MainBackground
+
+		draw.RoundedBox( 2,
+			self.TotalMinX,
+			self.TotalMinY,
+			self.TotalWidth,
+			self.TotalHeight,
+			Color( 11, 100, 110, 120 )
 		)
-		
+
+		surface.SetMaterial(grad)
+		surface.SetDrawColor( Color( 51, 18, 82, 150 ) )
+		surface.DrawTexturedRect(
+			self.TotalMinX,
+			self.TotalMinY,
+			self.TotalWidth,
+			self.TotalHeight
+		)
+
 	cam.End3D2D()
 
 	local pos = EntPos + Eye:Up() * self.UpPos + Eye:Forward() * ( self.FowardsPos + 5 ) + Eye:Right()

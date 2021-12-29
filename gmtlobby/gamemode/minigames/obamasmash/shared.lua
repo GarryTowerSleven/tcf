@@ -7,6 +7,6 @@ module("minigames.obamasmash")
 
 MinigameName = "Obama Smash"
 MinigameMessage = "MiniObamaGameStart"
-MinigameLocation = 29
+MinigameLocation = "condolobby"
 
 WeaponName = "weapon_crowbar"

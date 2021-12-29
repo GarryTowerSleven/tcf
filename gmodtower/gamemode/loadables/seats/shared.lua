@@ -136,6 +136,11 @@ ChairOffsets = {
 		{ Pos = Vector(3, 0, 15) },
 		{ Pos = Vector(3, -25, 15) },
 	},
+	["models/map_detail/plaza_bench2.mdl"] = {
+		{ Pos = Vector(3, 25, 15) },
+		{ Pos = Vector(3, 0, 15) },
+		{ Pos = Vector(3, -25, 15) },
+	},
 	["models/map_detail/plaza_bench_metal.mdl"] = {
 		{ Pos = Vector(3, 25, 5) },
 		{ Pos = Vector(3, 0, 5) },

@@ -150,7 +150,7 @@ function IsCasino( id )
 end
 
 function IsArcade( id )
-	return Is( id, "arcade" )
+	return IsGroup( id, "arcade" )
 end
 
 function IsNightclub( id )
@@ -161,8 +161,12 @@ function IsCondo( id, condoid )
 	return Is( id, "condo" .. condoid )
 end
 
+function IsMonorail( id )
+	return Is( id, "monorail" )
+end
+
 function IsEquippablesNotAllowed( id )
-	return IsArcade( id ) or IsTheater( id ) or Is( id, "duelarena" )
+	return /*IsArcade( id ) or*/ IsTheater( id ) or Is( id, "duelarena" ) or IsMonorail( id ) or IsGroup( id, "secret" )
 end
 
 function IsSuicideNotAllowed( id, ply )

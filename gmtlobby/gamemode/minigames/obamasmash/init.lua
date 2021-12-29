@@ -49,7 +49,7 @@ end
 
 function CheckGiveWeapon( ply, loc )
 
-	if loc == MinigameLocation  then
+	if Location.Is( loc, MinigameLocation )  then
 		GiveWeapon( ply )
 	else
 		RemoveWeapon( ply )
@@ -198,9 +198,7 @@ function End()
 end
 
 hook.Add("ScalePlayerDamage","ObamaDamage",function(ply, h, d)
-
-	if ( OBAMA_GAME_ACTIVE and ply:Location() == 29 ) then
+	if ( OBAMA_GAME_ACTIVE and Location.Is( ply:Location(), "condolobby" ) ) then
 		return true
 	end
-
 end)

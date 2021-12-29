@@ -48,7 +48,7 @@ end
 
 function CheckGiveWeapon( ply, loc )
 
-	if loc == MinigameLocation  then
+	if Location.Is( loc, MinigameLocation )  then
 		GiveWeapon( ply )
 		ply:SetNWBool("MinigameOn",true)
 

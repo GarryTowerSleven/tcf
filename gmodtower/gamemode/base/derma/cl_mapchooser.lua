@@ -1,13 +1,13 @@
 
-surface.CreateFont( "VoteTitle", { font = "Bebas Neue", size = 68, weight = 200 } )
+surface.CreateFont( "VoteTitle", { font = "TodaySHOP-BoldItalic", size = 68, weight = 200 } )
 
 surface.CreateFont( "VoteGMTitle", { font = "Bebas Neue", size = 40, weight = 200 } )
 
-surface.CreateFont( "VoteCancel", { font = "TodaySHOP-MediumItalic", size = 40, weight = 200 } )
+surface.CreateFont( "VoteCancel", { font = "Oswald", size = 42, weight = 400 } )
 
 surface.CreateFont( "VoteTip", { font = "Bebas Neue", size = 32, weight = 200 } )
 
-surface.CreateFont( "VoteText", { font = "Calibri", size = 22, weight = 20 } )
+surface.CreateFont( "VoteText", { font = "TodaySHOP-BoldItalic", size = 22, weight = 20 } )
 
 
 
@@ -77,6 +77,8 @@ function PANEL:Init()
 
 	self.CancelButton.OnMousePressed = function()
 
+		surface.PlaySound("gmodtower/ui/select.wav")
+
 		Derma_Query("Are you sure you no longer want to join this server (you will leave your group)?", "Are you sure?",
 
 			"Yes", function()
@@ -100,16 +102,17 @@ function PANEL:Init()
 end
 
 MapsList = {}
+
 GamemodePrefixes =
 {
-	["ballracer_"] 	= "ballrace",
+	["ballracer_"] 	= "br",
 	["pvp_"] 		= "pvpbattle",
 	["virus_"] 		= "virus",
 	["uch_"] 		= "ultimatechimerahunt",
-	["zm_"]			= "zombiemassacre",
 	["minigolf_"] 	= "minigolf",
-	["sk_"]			= "sourcekarts",
+	["gr_"] 		= "gourmetrace",
 }
+
 function MapsGetGamemode( map )
 
 	// Get gamemode name based on prefix
@@ -122,620 +125,16 @@ function MapsGetGamemode( map )
 	return "gmtlobby"
 
 end
-function MapsRegister( map, mapData )
 
-	// Gather data
-	mapData.Gamemode = mapData.Gamemode or MapsGetGamemode( map )
 
-	mapData.Name = mapData.Name or "Unknown"
-	mapData.Desc = mapData.Desc or "N/A"
-	mapData.Author = mapData.Author or "Unknown"
 
-	if mapData.DateAdded == 0 then
-		mapData.DateAdded = os.time()
-	end
-
-	if mapData.DateModified == 0 then
-		mapData.DateModified = os.time()
-	end
-
-	// Update/insert into list
-	MapsList[map] = mapData
-
-	//Msg( map, "\n" )
-
-	// Update MySQL
-	/*if SERVER && tmysql then
-		UpdateSQL( map, mapData )
-	end*/
-
-end
-MapsRegister( "gmt_ballracer_skyworld01", {
-	Name = "Sky World",
-	Desc = "The easiest of all the worlds. This world will introduce you to the basic concepts that become harder in the future.",
-	Author = "MacDGuy",
-	DateAdded = 1249150914,
-	DateModified = 1249150914,
-	Priority = 1,
-} )
-
-MapsRegister( "gmt_ballracer_grassworld01", {
-	Name = "Grass World",
-	Desc = "Light and fluffy level design with a broader appeal to difficulty.",
-	Author = "MacDGuy",
-	DateAdded = 1249150914,
-	DateModified = 1249150914,
-	Priority = 2,
-} )
-
-MapsRegister( "gmt_ballracer_memories02", {
-	Name = "Memories",
-	Desc = "New gameplay gimmicks - repellers and attracters that twist the concept of gravity. Being the hardest, most difficult Ball Race map, it contains the highest level count and randomly chosen left or right paths for replay value.",
-	Author = "MacDGuy/Mr. Sunabouzu",
-	DateAdded = 1280871103,
-	DateModified = 1280871103,
-	Priority = 7,
-} )
-
-MapsRegister( "gmt_ballracer_khromidro02", {
-	Name = "Khromidro",
-	Desc = "Inspired by mini golf courses, Khromidro boasts anti-gravity as a feature.",
-	Author = "Lifeless",
-	DateAdded = 1339137397,
-	DateModified = 1339252668,
-	Priority = 5,
-} )
-
-MapsRegister( "gmt_ballracer_paradise03", {
-	Name = "Paradise",
-	Desc = "Capturing the essence of summer, Paradise is a tropical-themed level with a penchant for explosions... and tubes.",
-	Author = "Matt",
-	DateAdded = 1339137397,
-	DateModified = 1339252668,
-	Priority = 3,
-} )
-
-MapsRegister( "gmt_ballracer_sandworld02", {
-	Name = "Sand World",
-	Desc = "Some might call the desert gritzy. Others might say it has shifting sands. All I know is that it doesn't rain.",
-	Author = "Neox",
-	DateAdded = 1339137397,
-	DateModified = 1339252668,
-	Priority = 6,
-} )
-
-MapsRegister( "gmt_ballracer_iceworld03", {
-	Name = "Ice World",
-	Desc = "Someone built a Ball Race course in the Arctic Circle. They didn't, however, build any snowmen...",
-	Author = "Angry Penguin",
-	DateAdded = 1339137397,
-	DateModified = 1339252668,
-	Priority = 4,
-} )
-
-/*MapsRegister( "gmt_ballracer_memories04", {
-	Name = "Memories",
-	Desc = "New gameplay gimmicks - repellers and attracters that twist the concept of gravity. Being the hardest, most difficult Ball Race map, it contains the highest level count and randomly chosen left or right paths for replay value.",
-	Author = "MacDGuy/Mr. Sunabouzu",
-	DateAdded = 13439137397,
-	DateModified = 1439252668,
-	Priority = 7,
-} )*/
-
-/*MapsRegister( "gmt_ballracer_midorib5", {
-	Name = "Midori",
-	Desc = "Wait a minute... is that a Robot in the sky?",
-	Author = "Lifeless",
-	DateAdded = 1339137397,
-	DateModified = 1339252668,
-	Priority = 7,
-} )*/
-
-MapsRegister( "gmt_pvp_construction01", {
-	Name = "Construction Zone",
-	Desc = "Inspired by a Half-Life 2: Deathmatch map, dm_construction - this map is sure to please everyone. This map creates layers of carnage.",
-	Author = "Mr. Sunabouzu",
-	DateAdded = 1249150914,
-	DateModified = 1249150914,
-	Priority = 8,
-} )
-
-MapsRegister( "gmt_pvp_frostbite01", {
-	Name = "Frost Bite",
-	Desc = "The complete opposite of Meadows. It's large, cold, dark, and unforgiving. There's two power ups and around three medkits on this level. It comes complete with a sniper tower, ice mines, and blow up shacks. This battlefield is geared more towards long range, but can still become close range before you know it.",
-	Author = "Mr. Sunabouzu/MacDGuy",
-	DateAdded = 1249150914,
-	DateModified = 1249150914,
-	Priority = 5,
-} )
-
-MapsRegister( "gmt_pvp_meadow01", {
-	Name = "Meadows",
-	Desc = "Based on Metal Gear Solid 3's boss level, this small meadow will offer the most destructive gameplay currently available. With only one power up and one medkit, things are sure to heat up. Watch your enemies fall like pedals.",
-	Author = "Mr. Sunabouzu",
-	DateAdded = 1249150914,
-	DateModified = 1249150914,
-	Priority = 3,
-} )
-
-MapsRegister( "gmt_pvp_oneslip01", {
-	Name = "OneSlip",
-	Desc = "Another Jaykin' Bacon promoted map, based on Quake maps. The risks are higher when you're in space. Be careful not to fall off into the black void!",
-	Author = "Sniper",
-	DateAdded = 1249150914,
-	DateModified = 1249150914,
-	Priority = 4,
-} )
-
-MapsRegister( "gmt_pvp_pit01", {
-	Name = "The Pit",
-	Desc = "Take being gothic to a whole new level. This map is recommended for anyone who dresses exclusively in black.",
-	Author = "Dustpup",
-	DateAdded = 1283286092,
-	DateModified = 1283301811,
-	Priority = 2,
-} )
-
-MapsRegister( "gmt_pvp_containership02", {
-	Name = "Container Ship",
-	Desc = "Take the battle across the sea on a moving cargo ship. Dozens of containers for cover and sneak attacks. Multiple layers of action packed destruction. Careful not to fall into the water, as the sharks will surely eat you up for breakfast.",
-	Author = "Lifeless",
-	DateAdded = 1283286092,
-	DateModified = 1339745343,
-	Priority = 6,
-} )
-
-/*MapsRegister( "gmt_pvp_colony01", {
-	Name = "Colony",
-	Desc = "A small group of survivors were discovered living in a secret military base. They were also found to be endlessly shooting each other and respawning.",
-	Author = "Zoki",
-	DateAdded = 1296944516,
-	DateModified = 1296944516,
-} )*/
-
-MapsRegister( "gmt_pvp_subway01", {
-	Name = "Subway",
-	Desc = "Several decades ago, the major world powers began building a secret underground subway system. It went largely unused until someone stumbled upon the entrance and posted about it on Twitter. Since then, it's been quarantined and denied by every government.",
-	Author = "Lifeless",
-	DateAdded = 1355168548,
-	DateModified = 1355168548,
-	Priority = 1,
-} )
-
-MapsRegister( "gmt_pvp_shard01", {
-	Name = "Shard",
-	Desc = "This reminds me of a... reflective surface of some kind. Nah, must be a coincidence.",
-	Author = "Matt",
-	DateAdded = 1355168548,
-	DateModified = 1355168548,
-	Priority = 7,
-} )
-
-MapsRegister( "gmt_virus_facility202", {
-	Name = "Facility",
-	Desc = "Ripped straight out of Goldeneye 64, Facility offers twisting corridors and fast-paced combat.",
-	Author = "Polyknetic",
-	DateAdded = 1275253872,
-	DateModified = 1275253872,
-	Priority = 2,
-} )
-
-MapsRegister( "gmt_virus_riposte01", {
-	Name = "Riposte",
-	Desc = "In this Unreal Tournament-inspired map, there are tons of nooks and crannies for both the survivors and infected to use.",
-	Author = "Monarch",
-	DateAdded = 1275253872,
-	DateModified = 1275253872,
-	Priority = 1,
-} )
-
-MapsRegister( "gmt_virus_aztec01", {
-	Name = "Aztec",
-	Desc = "Set in an ancient ruin, Aztec is devoid of modern comforts. Due to being relatively unobstructed, Aztec is a sniper's paradise.",
-	Author = "",
-	DateAdded = 1275258231,
-	DateModified = 1275343964,
-	Priority = 4,
-} )
-
-MapsRegister( "gmt_virus_sewage01", {
-	Name = "Sewage",
-	Desc = "For some reason, you're in some kind of toxic waste dump. Try not to fall in the water, it's incredibly unpleasant. And lethal.",
-	Author = "Sentura",
-	DateAdded = 1275258231,
-	DateModified = 1275253872,
-	Priority = 5,
-} )
-
-MapsRegister( "gmt_virus_dust03", {
-	Name = "Dust",
-	Desc = "Inspired by Counter-Strike: Source's ever-popular Dust map, Dust strikes an interesting balance between long-range and short-range combat.",
-	Author = "Lifeless",
-	DateAdded = 1276903270,
-	DateModified =  1339252668,
-	Priority = 3,
-} )
-
-MapsRegister( "gmt_virus_metaldream05", {
-	Name = "Metal Dreams",
-	Desc = "Deep underground, in an abandoned secret base, Metal Dreams has lots of chokepoints. Watch out for infected falling out of the ceiling!",
-	Author = "Zoki",
-	DateAdded = 1294172505,
-	DateModified = 1294267401,
-	Priority = 6,
-} )
-
-MapsRegister( "gmt_virus_hospital204", {
-	Name = "Hospital",
-	Desc = "The last place you want to be is in a hospital filled with unknown viruses.",
-	Author = "Lifeless",
-	DateAdded = 1345329515,
-	DateModified = 1345506617,
-	Priority = 8,
-} )
-
-MapsRegister( "gmt_virus_derelict01", {
-	Name = "Derelict Station",
-	Desc = "In space, no one can hear you scream. Good thing screaming won't help you anyway.",
-	Author = "Matt",
-	DateAdded = 1354508003,
-	DateModified = 1354508003,
-	Priority = 7,
-} )
-
-MapsRegister( "gmt_uch_tazmily01", {
-	Name = "Tazmily Village",
-	Desc = "In the peaceful village of Tazmily, there are only three absolutes: Mr. Saturn will show up, the Chimera will try to eat Pigmasks, and the retail is hideously expensive.",
-	Author = "Charles Wenzel",
-	DateAdded = 1285014233,
-	DateModified = 1285014233,
-	Priority = 7,
-} )
-
-MapsRegister( "gmt_uch_clubtitiboo04", {
-	Name = "Club Titiboo",
-	Desc = "All the Pigmasks come here to party hard, only to be stomped hard by the local Chimera. Drinks are also sold at extortionate prices, so speak easy.",
-	Author = "Lifeless",
-	DateAdded = 1285014233,
-	DateModified = 1285014233,
-	Priority = 11,
-} )
-
-MapsRegister( "gmt_uch_shadyoaks03", {
-	Name = "Shady Oaks",
-	Desc = "On the outskirts of town, this small facility still stands. Watch out for the gate though, it doesn't look very strong...",
-	Author = "Aska",
-	DateAdded = 1285014233,
-	DateModified = 1285014233,
-	Priority = 2,
-} )
-
-MapsRegister( "gmt_uch_laboratory01", {
-	Name = "Laboratory",
-	Desc = "Situated inside a mad scientist's laboratory, this place doesn't have anything to do with the creation of the Ultimate Chimera. That we know of.",
-	Author = "Aska",
-	DateAdded = 1285014233,
-	DateModified = 1285014233,
-	Priority = 9,
-} )
-
-MapsRegister( "gmt_uch_camping01", {
-	Name = "Camping Grounds",
-	Desc = "Try not to sleep...",
-	Author = "Batandy",
-	DateAdded = 1285014233,
-	DateModified = 1285014233,
-	Priority = 10,
-} )
-
-MapsRegister( "gmt_uch_headquarters03", {
-	Name = "Headquarters",
-	Desc = "The Pigmasks all thought they'd be safe in their secret headquarters. The Chimera set out to prove them wrong.",
-	Author = "Lifeless",
-	DateAdded = 1294179714,
-	DateModified = 1345329515,
-	Priority = 1,
-} )
-
-MapsRegister( "gmt_uch_downtown04", {
-	Name = "Downtown",
-	Desc = "Stop in at your local Rocket Noodle, assuming they haven't changed the menu again.",
-	Author = "Matt",
-	DateAdded = 1345329515,
-	DateModified = 1347455325,
-	Priority = 4,
-} )
-
-MapsRegister( "gmt_uch_mrsaturnvalley02", {
-	Name = "Mr. Saturn Valley",
-	Desc = "In a peaceful valley, the strange creatures known as Mr. Saturn live. Unfortunately, the Pigmasks and Chimera found the valley.",
-	Author = "Lifeless",
-	DateAdded = 1345329515,
-	DateModified = 1347187690,
-	Priority = 6,
-} )
-
-MapsRegister( "gmt_uch_woodland03", {
-	Name = "Woodlands",
-	Desc = "A chainlink fence won't keep the Chimera out, but it will keep the Pigmasks in.",
-	Author = "Matt",
-	DateAdded = 1345329515,
-	DateModified = 1347455325,
-	Priority = 3,
-} )
-
-MapsRegister( "gmt_uch_falloff01", {
-	Name = "Fall Off",
-	Desc = "Fall up, down, in, out, or on, but just don't fall off.",
-	Author = "Matt",
-	DateAdded = 1347798381,
-	DateModified = 1347798381,
-	Priority = 8,
-} )
-
-MapsRegister( "gmt_uch_snowedin01", {
-	Name = "Snowed In",
-	Desc = "Cold pork? Sounds gross. Someone should probably heat that up or something. Wait, you're eating it raw?",
-	Author = "Matt",
-	DateAdded = 1354507791,
-	DateModified = 1354507791,
-	Priority = 5,
-} )
-
-MapsRegister( "gmt_sk_lifelessraceway01", {
-
-	Name = "Lifeless Raceway",
-
-	Desc = "A nostalgic raceway with turns and exciting jumps.",
-
-	Author = "Lifeless",
-
-	DateAdded = 1345328453,
-
-	DateModified = 1345506617,
-
-} )
-
-MapsRegister( "gmt_minigolf_sandbar06", {
-
-	Name = "Sand Bar",
-
-	Desc = "Relax, and listen to the calming waves. Hear the seagulls calling. Wonder where all of the bars are in this sandbar.",
-
-	Author = "Matt",
-
-	DateAdded = 1345328453,
-
-	DateModified = 1345506617,
-
-	Priority = 5,
-
-} )
-
-
-
-MapsRegister( "gmt_minigolf_waterhole04", {
-
-	Name = "Waterhole",
-
-	Desc = "Go on, take a drink from the watering hole. It won't bite, I promise. Ha ha! I lied!",
-
-	Author = "Lifeless",
-
-	DateAdded = 1345328453,
-
-	DateModified = 1345506617,
-
-	Priority = 6,
-
-} )
-
-
-
-MapsRegister( "gmt_minigolf_garden05", {
-
-	Name = "Karafuru Gardens",
-
-	Desc = "Look at all the nice lotus flowers. Enjoy the babbling brook. Marvel in the non-zen of it all. PS: Karafuru means colorful in Japanese.",
-
-	Author = "Matt/Aigik",
-
-	DateAdded = 1345328453,
-
-	DateModified = 1345506617,
-
-	Priority = 4,
-
-} )
-
-
-
-MapsRegister( "gmt_minigolf_moon01", {
-
-	Name = "Moon",
-
-	Desc = "One small step for man, one giant putt for minigolf.",
-
-	Author = "nyro",
-
-	DateAdded = 1374298302,
-
-	DateModified = 1374298302,
-
-	Priority = 2,
-
-} )
-
-
-
-MapsRegister( "gmt_minigolf_snowfall01", {
-
-	Name = "Snow Fall",
-
-	Desc = "Way up north, there's a peaceful and quiet golf course. Ignoring the fact that it's sub zero temperatures and you're prone to frostbite and hypthermia, we'd say it's a pretty decent place.",
-
-	Author = "Lifeless",
-
-	DateAdded = 1374298302,
-
-	DateModified = 1374298302,
-
-	Priority = 1,
-
-} )
-
-
-
-MapsRegister( "gmt_minigolf_forest04", {
-
-	Name = "Forest",
-
-	Desc = "This course will take you through a delightful forest with challenging courses.",
-
-	Author = "madmijk and IrZipher",
-
-	DateAdded = 1374298302,
-
-	DateModified = 1374298302,
-
-	Priority = 3,
-
-} )
-
-MapsRegister( "gmt_zm_arena_underpass02", {
-
-	Name = "Underpass",
-
-	Desc = "You've somehow gotten trapped in one city block. There aren't even any good stores around to buy fashionable accessories from. What will you do!?",
-
-	Author = "Matt",
-
-	DateAdded = 1345328453,
-
-	DateModified = 1345506617,
-
-	Priority = 7,
-
-} )
-
-MapsRegister( "gmt_zm_arena_thedocks01", {
-
-	Name = "The Docks",
-
-	Desc = "It turns out that zombies can actually swim. So, you're kind of screwed because this place is apparently an island.",
-
-	Author = "Lifeless",
-
-	DateAdded = 1345328453,
-
-	DateModified = 1345328453,
-
-	Priority = 5,
-
-} )
-
-
-
-MapsRegister( "gmt_zm_arena_gasoline01", {
-
-	Name = "Gasoline",
-
-	Desc = "After the apocalypse, gasoline was hideously expensive. Even the zombies thought it was outrageous.",
-
-	Author = "Lifeless",
-
-	DateAdded = 1345328453,
-
-	DateModified = 1345328453,
-
-	Priority = 6,
-
-} )
-
-
-
-MapsRegister( "gmt_zm_arena_scrap01", {
-
-	Name = "Scrap",
-
-	Desc = "You'd think that the first place you'd want to go in a zombie apocalypse is a scrap yard, right? Wrong. You just have nowhere to run.",
-
-	Author = "Matt",
-
-	DateAdded = 1345328453,
-
-	DateModified = 1345328453,
-
-	Priority = 1,
-
-} )
-
-
-
-MapsRegister( "gmt_zm_arena_acrophobia01", {
-
-	Name = "Acrophobia",
-
-	Desc = "Are you afraid of heights? The zombies certainly aren't. The jury's still out on how they got on top of the building, though.",
-
-	Author = "Lifeless",
-
-	DateAdded = 1345328453,
-
-	DateModified = 1345328453,
-
-	Priority = 4,
-
-} )
-
-
-
-MapsRegister( "gmt_zm_arena_trainyard01", {
-
-	Name = "Trainyard",
-
-	Desc = "Trains run back and forth, escorting survivors out of infected areas. Too bad they don't discriminate between targets on the tracks.",
-
-	Author = "Lifeless",
-
-	DateAdded = 1345328453,
-
-	DateModified = 1345328453,
-
-	Priority = 2,
-
-} )
-
-
-
-MapsRegister( "gmt_zm_arena_foundation03", {
-
-	Name = "Foundation",
-
-	Desc = "The workers are on strike again. I think the bolter quit before he finished his job. Don't lose your balance on the scaffolding.",
-
-	Author = "Matt",
-
-	DateAdded = 1345328453,
-
-	DateModified = 1345328453,
-
-	Priority = 3,
-
-} )
-
-function MapsGetMapData( map )
-	return MapsList[map]
-end
 function PANEL:SetGamemode( Gamemode )
-	print(Gamemode.Maps[math.Rand(1,table.Count(Gamemode.Maps))])
-
 
 	self.Gamemode = Gamemode
 
 
 	local map = table.Random( Gamemode.Maps )
-	self.HoveredMap = MapsGetMapData( map )
+	self.HoveredMap = Maps.GetMapData( map )
 
 
 
@@ -751,13 +150,18 @@ end
 
 function PanelDrawCancelButton( self )
 
-
-
 	if self.Hovered then
 
 		surface.SetDrawColor( 170, 14, 41, 190 )
 
+		if !self.PlayedSound then
+			self.PlayedSound = true
+			surface.PlaySound("gmodtower/casino/videopoker/click.wav")
+		end
+
 	else
+
+		self.PlayedSound = false
 
 		surface.SetDrawColor( 0, 0, 0, 150 )
 
@@ -849,7 +253,7 @@ function PANEL:PerformLayout()
 
 
 
-	self.MapPreview:SetSize( 500, 430 )
+	self.MapPreview:SetSize( 500, 500 )
 
 	self.MapPreview:SetPos( ScrW() + self.MapPreview:GetWide(), 160 )
 
@@ -875,7 +279,7 @@ end
 
 function MapsGetPreviewIcon( map )
 
-	if map == "gmt_ballracer_nightball" or map == "gmt_gr_ruins" /*or map == "gmt_ballracer_miracle"*/ or map == "gmt_gr_nile" or map == "gmt_ballracer_metalworld"  or map == "gmt_ballracer_neonlights" or map == "gmt_ballracer_facile" or map == "gmt_ballracer_summit" or map == "gmt_ballracer_tranquil" or map == "gmt_ballracer_spaceworld" or map == "gmt_minigolf_desert" or map == "gmt_sk_stadium" or map == "gmt_sk_rave" or map == "gmt_pvp_aether" or map == "gmt_ballracer_rainbowworld" or map == "gmt_pvp_mars" or map == "gmt_pvp_aether" or map == "gmt_pvp_neo" then
+	if map == "gmt_ballracer_nightball" or map == "gmt_gr_ruins" /*or map == "gmt_ballracer_miracle"*/ or map == "gmt_gr_nile" or map == "gmt_ballracer_metalworld"  or map == "gmt_ballracer_neonlights" or map == "gmt_ballracer_facile" or map == "gmt_ballracer_summit" or map == "gmt_ballracer_tranquil" or map == "gmt_ballracer_spaceworld" or map == "gmt_minigolf_desert" or map == "gmt_sk_stadium" or map == "gmt_sk_rave" or map == "gmt_pvp_aether" or map == "gmt_pvp_mars" or map == "gmt_pvp_aether" or map == "gmt_pvp_neo" then
 		return "gmod_tower/maps/preview/" .. map
 	elseif map == "gmt_sk_island01_fix" then
 		return "gmod_tower/maps/preview/" .. string.sub( "gmt_sk_island01", 0, -3 )
@@ -904,13 +308,14 @@ function PANEL:SetupMaps()
 
 		// Collect map data
 
-		local mapData = MapsGetMapData( map )
+		local mapData = Maps.GetMapData( map )
 
 		if !mapData then continue end
 
+		local canPlay = !table.HasValue( GTowerServers.NonPlayableMaps, map )
 		mapData.PreviewIcon = MapsGetPreviewIcon( map )
 
-		local canPlay = !table.HasValue( GTowerServers.NonPlayableMaps, map )
+
 
 		// Setup panel
 
@@ -934,7 +339,7 @@ function PANEL:SetupMaps()
 
 		panel.btnMap:SetText( mapData.Name )
 
-		panel.btnMap:SetSize( 280, 100 )
+		panel.btnMap:SetSize( 250, 75 )
 
 		panel.btnMap:SetTextColor( color_white )
 
@@ -945,16 +350,16 @@ function PANEL:SetupMaps()
 		panel.btnMap:SetTextInset( 8, 0 )
 
 		if !canPlay then
-			panel.btnMap:SetTextColor( Color(255,255,255,5) )
+			panel.btnMap:SetTextColor( Color( 255, 255, 255, 50 ) )
 			panel.btnMap.Disabled = true
-			panel.btnMap:SetToolTip( "Map disabled due to play amount." )
+			panel.btnMap:SetTooltip( "Map disabled due to play amount." )
 		end
 
 		panel.btnMap.OnCursorEntered = function()
 
-			if panel.btnMap.DisableVote then return end
-
 			self.HoveredMap = mapData
+
+			surface.PlaySound("gmodtower/casino/videopoker/click.wav")
 
 			self:UpdatePreview()
 
@@ -963,8 +368,6 @@ function PANEL:SetupMaps()
 
 
 		panel.btnMap.OnCursorExited = function()
-
-			if panel.btnMap.DisableVote then return end
 
 			self.HoveredMap = nil
 
@@ -976,13 +379,9 @@ function PANEL:SetupMaps()
 
 		panel.btnMap.DoClick = function()
 
-			if panel.btnMap.DisableVote then return end
+			if GTowerServers:CanStillVoteMap() and !panel.btnMap.Disabled then
 
-			if panel.btnMap.Disabled then
-				Msg2( T( "GamemodeCooldown", panel.btnMap:GetText() ) )
-			end
-
-			if GTowerServers:CanStillVoteMap() && !panel.btnMap.Disabled then
+				surface.PlaySound("gmodtower/ui/select.wav")
 
 				GTowerServers:ChooseMap( map )
 
@@ -992,6 +391,11 @@ function PANEL:SetupMaps()
 
 				self:UpdatePreview()
 
+			elseif panel.btnMap.Disabled then
+				surface.PlaySound("gmodtower/ui/panel_error.wav")
+				Msg2( T( "GamemodeCooldown", panel.btnMap:GetText() ) )
+			else
+				surface.PlaySound("gmodtower/ui/panel_error.wav")
 			end
 
 		end
@@ -1016,7 +420,7 @@ function PANEL:SetupMaps()
 
 
 
-		panel.lblVotes:SetPos( panel.btnMap:GetWide() + 5, 3 )
+		panel.lblVotes:SetPos( 5, 3 )
 
 		panel.lblVotes:SetTextColor( color_white )
 
@@ -1025,7 +429,6 @@ function PANEL:SetupMaps()
 		panel.lblVotes:SetContentAlignment( 4 )
 
 		panel.lblVotes:SizeToContents()
-
 
 
 		self.MapList:AddItem( panel )
@@ -1054,17 +457,20 @@ function PANEL:SetupMaps()
 
 
 
-	panel.lblUndecided = vgui.Create( "DLabel", panel )
+	panel.lblUndecided = vgui.Create( "DLabel", self.Canvas )
 
 	panel.lblUndecided:SetText( string.format("%s player(s) haven't cast their vote", #player.GetAll() ) )
 
 
 
-	panel.lblUndecided:SetTextColor( Color( 180, 180, 180, 255 ) )
+	panel.lblUndecided:SetTextColor( Color( 255, 255, 255, 255 ) )
 
 	panel.lblUndecided:SetFont( "VoteText" )
 
-	panel.lblUndecided:SetContentAlignment( 5 )
+	surface.SetFont("VoteText")
+	local s = surface.GetTextSize( panel.lblUndecided:GetText() )
+
+	panel.lblUndecided:SetPos( ScrW()/2 - s/2, 120 )
 
 	panel.lblUndecided:SizeToContents()
 
@@ -1080,6 +486,16 @@ end
 
 
 
+local grad = Material("vgui/gradient_up")
+local grad2 = Material("vgui/gradient_down")
+
+function draw.OutlinedBox( x, y, w, h, thickness, clr )
+	surface.SetDrawColor( clr )
+	for i=0, thickness - 1 do
+		surface.DrawOutlinedRect( x + i, y + i, w - i * 2, h - i * 2 )
+	end
+end
+
 function PANEL:SetupPreview( map )
 
 
@@ -1090,7 +506,19 @@ function PANEL:SetupPreview( map )
 
 	self.MapPreview.Paint = function()
 
-		draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 0, 0, 160 ) )
+		surface.SetMaterial(grad)
+		surface.SetDrawColor( Color( 11, 100, 110, 125 ) )
+		surface.DrawTexturedRect(0, 0, w, h)
+		surface.SetMaterial(grad2)
+		surface.SetDrawColor( Color( 51, 18, 82, 125 ) )
+		surface.DrawTexturedRect(0, 0, w, h)
+
+		surface.SetDrawColor( Color( 25, 25, 25, 100 ) )
+		surface.DrawRect(0, 0, w, h)
+
+		draw.OutlinedBox( 0, 0, w, h, 4, Color( 25, 25, 25, 175 ) )
+
+		--draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 0, 0, 160 ) )
 
 	end
 
@@ -1110,6 +538,8 @@ function PANEL:SetupPreview( map )
 
 	self.lblMapName:SetSize(w-10, 64)
 
+	self.lblMapName:SetContentAlignment(5)
+
 
 
 	// Map Author
@@ -1125,6 +555,8 @@ function PANEL:SetupPreview( map )
 	self.lblAuthor:SetTextInset(8, 0)
 
 	self.lblAuthor:SetSize(w-10, 128)
+
+	self.lblAuthor:SetContentAlignment(5)
 
 
 
@@ -1184,11 +616,9 @@ local gradientUp = surface.GetTextureID( "VGUI/gradient_up" )
 
 local gradientDown = surface.GetTextureID( "VGUI/gradient_down" )
 
-
+local TotalPlayers = 0
 
 function PANEL:Paint()
-
-
 
 	surface.SetDrawColor( Color( 0, 0, 0, 180 ) )
 
@@ -1234,13 +664,16 @@ function PANEL:Paint()
 
 	surface.DrawRect( 0, ScrH() - 120 - 12, Width, 12 )
 
+	surface.SetTextPos( 24, 10 )
+	surface.SetTextColor(255,255,255,255)
+	surface.SetFont("VoteGMTitle")
+	surface.DrawText("PLAYERS QUEUED: " .. (TotalPlayers))
+
 
 
 end
 
-
-
-
+local LockMat = Material( "gmod_tower/panelos/icons/lock.png" )
 
 function PANEL:UpdateVotes()
 
@@ -1259,6 +692,8 @@ function PANEL:UpdateVotes()
 		Players = Server.Players
 
 	end
+
+	TotalPlayers = #Players
 
 
 
@@ -1297,18 +732,18 @@ function PANEL:UpdateVotes()
 		if NumVotes != 0 then
 
 			panel.lblVotes:SetText( NumVotes )
+			panel.Votes = tostring( NumVotes )
 
 		else
 
 			panel.lblVotes:SetText( "" )
+			panel.Votes = ""
 
 		end
 
 
 
 		panel.btnMap.Paint = function()
-
-
 
 			local x, y = panel.btnMap:GetPos()
 
@@ -1318,13 +753,11 @@ function PANEL:UpdateVotes()
 
 			local col = Color( 0, 0, 0, 120 )
 
-			local col_progress = Color( 40, 121, 211, 84 )
+			local col_progress = Color( 11, 165, 169, 125 )
 
+			if ( panel.btnMap.Disabled ) then
 
-
-			if ( panel.btnMap.Disabled || panel.btnMap.DisableVote ) then
-
-				col = Color( 150, 150, 150, 5 )
+				col = Color( 0, 0, 0, 235 )
 
 			elseif ( panel.btnMap.Depressed ) then
 
@@ -1356,18 +789,22 @@ function PANEL:UpdateVotes()
 
 				panel.btnMap.CurProgress = math.Approach( panel.btnMap.CurProgress, progress, FrameTime() * 500 )
 
-				draw.RoundedBox( 0, x, y, panel.btnMap.CurProgress, 30, col_progress )
+				draw.RoundedBox( 0, x, y, panel.btnMap.CurProgress, 75, col_progress )
 
 
 
 			else
 
-				draw.RoundedBox( 0, x, y, progress, 30, col_progress )
+				draw.RoundedBox( 0, x, y, progress, 75, col_progress )
 
 			end
 
 
-
+			if panel.btnMap.Disabled then
+				surface.SetDrawColor( Color( 255, 255, 255, 255 ) )
+				surface.SetMaterial( LockMat )
+				surface.DrawTexturedRect(0,0,64,64)
+			end
 
 
 			// TODO show new/modified icons
@@ -1463,7 +900,7 @@ end)
 function PANEL:FinishVote( map )
 
 
-	self.lblTitle:SetText( string.format( "Now Loading %q", MapsList[map].Name ) )
+	self.lblTitle:SetText( string.format( "Now Loading %q", Maps.GetName(map) ) )
 
 	self.lblTitle:SizeToContents()
 
@@ -1475,13 +912,9 @@ function PANEL:FinishVote( map )
 
 	for _, v in pairs( self.MapList:GetItems() ) do
 
-		if v.btnMap then
+		if v.btnMap && v.btnMap:GetText() == Maps.GetName(map) then
 
-			if v.btnMap:GetText() == MapsList[map].Name then
-				bar = v.btnMap
-			end
-
-			v.btnMap.DisableVote = true
+			bar = v.btnMap
 
 		end
 
@@ -1493,15 +926,15 @@ function PANEL:FinishVote( map )
 
 	//	- Maybe animate buttons outward and focus winning map panel in the center?
 
-	timer.Simple( 0.0, function() bar.bgColor = Color( 57, 131, 181 ) surface.PlaySound( "gmodtower/misc/blip.wav" ) end )
+	timer.Simple( 0.0, function() bar.bgColor = Color( 0, 255, 255 ) surface.PlaySound( "gmodtower/misc/blip.wav" ) end )
 
 	timer.Simple( 0.2, function() bar.bgColor = nil end )
 
-	timer.Simple( 0.4, function() bar.bgColor = Color( 57, 131, 181 ) surface.PlaySound( "gmodtower/misc/blip.wav" ) end )
+	timer.Simple( 0.4, function() bar.bgColor = Color( 0, 255, 255 ) surface.PlaySound( "gmodtower/misc/blip.wav" ) end )
 
 	timer.Simple( 0.6, function() bar.bgColor = nil end )
 
-	timer.Simple( 0.8, function() bar.bgColor = Color( 57, 131, 181 ) surface.PlaySound( "gmodtower/misc/blip.wav" ) end )
+	timer.Simple( 0.8, function() bar.bgColor = Color( 0, 255, 255 ) surface.PlaySound( "gmodtower/misc/blip.wav" ) end )
 
 	timer.Simple( 1.0, function() bar.bgColor = Color( 100, 100, 100 ) end )
 

@@ -1,9 +1,9 @@
 "Gamemode"
 {
-	"title"		"GMTower"
+	"title"		"GMTower: Deluxe"
 	"version"	"Updating..."
 
-	"author_name"	"Nican132"
+	"author_name"	""
 	"author_email"	""
 	"author_url"	""
 

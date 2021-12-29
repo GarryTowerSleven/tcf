@@ -1,4 +1,4 @@
-
+---------------------------------
 GTowerClick = {}
 
 GTowerClick.MaxDis = 2048
@@ -17,7 +17,6 @@ hook.Add( "GUIMousePressed", "GTowerMousePressed", function( mc )
 
 
 	if string.StartWith(game.GetMap(),"gmt_minigolf") then return end
-	if string.StartWith(game.GetMap(),"gmt_zm") then return end
 
 	if !CanMouseEnt() then return end
 
@@ -26,7 +25,6 @@ hook.Add( "GUIMousePressed", "GTowerMousePressed", function( mc )
 	GTowerMenu:CloseAll()
 
 	if string.StartWith(game.GetMap(),"gmt_minigolf") then return end
-	if string.StartWith(game.GetMap(),"gmt_zm") then return end
 
 	local trace = LocalPlayer():GetEyeTrace()
 
@@ -106,7 +104,6 @@ hook.Add( "KeyPress", "GTowerMousePressedEmpty", function( ply, key )
 
 
 	if string.StartWith(game.GetMap(),"gmt_minigolf") then return end
-	if string.StartWith(game.GetMap(),"gmt_zm") then return end
 
 	if !IsFirstTimePredicted() || key != IN_ATTACK || !CanMouseEnt() || IsValid(LocalPlayer():GetActiveWeapon()) then return end
 
@@ -116,7 +113,7 @@ hook.Add( "KeyPress", "GTowerMousePressedEmpty", function( ply, key )
 
 
 
-	if string.StartWith(game.GetMap(),"gmt_build") then
+	if string.StartWith(game.GetMap(),"gmt_lobby") then
 
 		local cursorvec = GetMouseVector()
 
@@ -145,6 +142,9 @@ end )
 
 
 function GTowerClick:ClickOnPlayer( ply, mc )
+
+
+		if string.StartWith(game.GetMap(),"gmt_minigolf") or string.StartWith(game.GetMap(),"gmt_zm_arena") then return end
 
     if !IsValid( ply ) then return end
 

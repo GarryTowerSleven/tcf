@@ -187,8 +187,14 @@ if SERVER then
 
 			-- Notify them
 			if not self._NoEntsLastLoc then
-				//self.Ply:MsgT( "InventoryEquipNotAllowed", self.Name, Location.GetFriendlyName(Location.Find(self.Ply:GetPos())) )
-				self.Ply:Msg2( T("InventoryEquipNotAllowed", self.Name, Location.GetFriendlyName(Location.Find(self.Ply:GetPos()))), "exclamation" )
+				local plyLoc = self.Ply:Location()
+				local locName = Location.GetFriendlyName(plyLoc)
+
+				if Location.IsGroup( plyLoc, "secret" ) then
+					locName = "nil"
+				end
+
+				self.Ply:Msg2( T("InventoryEquipNotAllowed", self.Name, locName), "exclamation" )
 				self._NoEntsLastLoc = true
 			end
 

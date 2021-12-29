@@ -7,7 +7,7 @@ local Location = Location
 module("minigames.balloonpop")
 
 MinigameName = "Balloon Pop"
-MinigameLocation = 16
+MinigameLocation = "centerplaza"
 MinigameMessage = "MiniBalloonGameStart"
 
 WeaponName = "weapon_crossbow"

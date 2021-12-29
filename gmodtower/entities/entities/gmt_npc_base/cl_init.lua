@@ -21,6 +21,14 @@ function ENT:Think()
 	self:SetNextClientThink( CurTime() )
 	self.LastThink = RealTime()
 
+	/*for p, ply in ipairs(player.GetAll()) do
+		if ply:Location() != self:Location() then return end
+		if(ply:EyePos():Distance(self:EyePos()) <= 128) then
+			self:SetEyeTarget(ply:EyePos())
+			break
+		end
+	end*/
+
 	return true
 
 end

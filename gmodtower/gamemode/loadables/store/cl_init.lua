@@ -6,6 +6,8 @@ include("cl_guiitem.lua")
 include("cl_guibuybtn.lua")
 include("cl_modelstore.lua")
 
+CreateClientConVar( "gmt_oldstore", 0, true, true )
+
 ActiveSales = {}
 
 --usermessage.Hook("Store", function( um )

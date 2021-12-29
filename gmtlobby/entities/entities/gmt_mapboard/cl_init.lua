@@ -652,16 +652,13 @@ function ENT:InitXML()
 
 	local XMLStr = [[
 
-	<g id="Pulse Nightclub">
+	<g id="Foohy Nightclub">
 		<rect x="656" y="468" fill="#6A8CBA" width="53" height="25"/>
 	</g>
 	<g id="Theatre">
 		<polygon fill-rule="evenodd" clip-rule="evenodd" cx="862" cy="78" fill="#6A8CBA" points="774,51 774,110 807,110 807,204 838,204 
 			838,216 889,216 889,204 919,204 919,110 952,110 952,51 952,52			"/>
 	</g>
-	<g id="Unknown">
-		<polygon fill-rule="evenodd" clip-rule="evenodd" cx="862" cy="862" fill="#6A8CBA" points="783,125 806,125 806,109 783,109"/>
-		</g>
 	<g id="South_Stores">
 		<rect x="551" y="467.866" fill="#6ABA6C" width="105" height="51.134"/>
 	</g>
@@ -682,10 +679,26 @@ function ENT:InitXML()
 			773,570 773,613 681,613 681,806 1037,806 1037,613 			"/>
 	</g>
 	<g id="Boardwalk">
-		<rect x="149" y="178" fill="#6A8CBA" width="310" height="341"/>
+		<rect x="149" y="178" fill="#6A8CBA" width="314" height="341"/>
 	</g>
 	<g id="Sweet Suites">
 		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6ABA6C" cx="465" cy="385" points="485,413 465,433 465,468 485,468 551,468 551,413" />
+	</g>
+
+	<g id="Arcade">
+		<rect x="690" y="187" fill="#6A8CBA" width="85" height="70"/>
+	</g>
+	<g id="Trivia">
+		<rect x="690" y="257" fill="#6A8CBA" width="30" height="35"/>
+	</g>
+	<g id="Tower Garden">
+		<rect x="969" y="187" fill="#6A8CBA" width="138" height="100"/>
+	</g>
+	<g id="Smoothie Bar">
+		<rect x="463" y="289" fill="#6A8CBA" width="85" height="38"/>
+	</g>
+	<g id="Basical's Goods">
+		<rect x="463" y="325" fill="#6A8CBA" width="85" height="20"/>
 	</g>
 
 	]]

@@ -15,11 +15,17 @@ module( "SelectionMenuManager", package.seeall )
 	}
 ]]
 
+local ModelSize = 775
+local CameraZPos = 30
+local ModelPanelSize = 700
+
 ------------------------
 -- Selection functions
 ------------------------
 
 function Create( logo, menu, desc )
+
+	StoreModel = "models/barney_animations.mdl"
 
 	Remove()
 
@@ -49,6 +55,7 @@ function Remove()
 		RememberCursorPosition()
 		GUI:Remove()
 		GUI = nil
+		menu = {}
 	end
 
 end
@@ -66,40 +73,89 @@ function CreateConfirmation( text, onaccept, ondeny )
 
 end
 
-concommand.Add( "selectiontest", function( ply, cmd, args )
+concommand.Add( "storeopen", function( ply, cmd, args )
 
-	local menu = {
-		{
-			title = "Toy Train Small",
-			desc = "Choo Choo (but small)",
-			cost = 5000,
-			func = function() MsgN( "wow!" ) end,
-			toggle = true,
-		},
-		{
-			title = "Portal Papertoy",
-			func = function() MsgN( "wow!" ) end,
-			toggle = true,
-			desc = "Portal, paper edition!",
-			cost = 1000
-		},
-		{
-			title = "Trampoline",
-			func = function() MsgN( "wow!" ) end,
-			toggle = true,
-			desc = "Jump around all crazy like!",
-			cost = 500
-		},
-		{
-			title = "Modern Couch",
-			func = function() MsgN( "wow!" ) end,
-			toggle = true,
-			desc = "Made from the finest yak hair and goose down, you'd think this would be comfortable. Unfortunately, the inside is yak hair and the outside is goose down. Also, it's modern.",
-			cost = 1500
-		},
-	}
+	StoreID = tonumber(args[1])
+	local isDiscount = true
+	local discount = tonumber(args[2])
 
-	Create( "thetoystop", menu )
+	soundscape.StopChannel("music", 0.5, true)
+
+	if !Location.IsGroup( ply:Location(), "nightclub" ) then
+
+		if StoreID == GTowerStore.MERCHANT then
+			soundscape.Play("music_store_merchant", "music", true)
+		else
+			soundscape.Play("music_store", "music", true)
+		end
+
+	end
+
+	if !discount or discount == 0 then
+		discount = 0
+		isDiscount = false
+	end
+
+	for k, v in pairs( GTowerStore.Items ) do
+		if v.storeid == StoreID then
+
+			// Top Hat
+			if v.Name == "Really Hat Top Hat" then continue end
+
+			// Horseless Headless Horsemann
+			if v.Name == "Horseless Headless Horsemann" then continue end
+
+			local cost = math.Round((v.price or v.prices[1]) - ((v.price or v.prices[1]) * discount))
+
+			local tbl = {
+					title = v.Name,
+
+					toggle = true,
+
+					desc = v.description,
+
+					mdl = v.model,
+					cost = cost,
+					ogPrice = v.price or v.prices[1],
+					NewItem = v.IsNew,
+					ItemLevels = v.prices,
+					ItemLevel = v.level,
+					ItemMaxLevel = v.maxlevel,
+					hasDiscount = isDiscount,
+					ModelSkin = v.ModelSkin or 1,
+					PreviewURL = v.PreviewURL or "",
+
+					func = function()
+						local ItemID = v.Id
+						// TODO: Make this look nicer and appear for high price items.
+						/*CreateConfirmation(
+							"Are you sure you want to buy '"..v.Name.."' for "..cost.." gmc?",
+							function() GTowerStore:PromptToBuy( ItemID, 1 ) end,
+							function() end
+						)*/
+						GTowerStore:PromptToBuy( ItemID, 1 )
+					end
+				}
+
+			table.insert(menu,tbl)
+
+		end
+	end
+
+	local desc = "UNKNOWN STORE"
+	local logo = ""
+	for k,v in pairs(GTowerStore.Stores) do
+		if k == StoreID then
+			desc = v.WindowTitle
+			ModelSize = v.ModelSize or ModelSize
+			CameraZPos = v.CameraZPos or CameraZPos
+			if v.Logo then logo = v.Logo end
+		end
+	end
+
+	table.sort( menu, function( a, b ) return a.cost < b.cost end )
+
+	Create( logo, menu, desc )
 
 end )
 
@@ -153,6 +209,11 @@ Logos = {
 		mat = CreateLogo( "pvpbattle", "gmod_tower/ui/gamemodes/" ),
 		width = 340,
 		height = 247,
+	},
+	["ballrace"] = {
+		mat = CreateLogo( "ballrace", "gmod_tower/ui/gamemodes/" ),
+		width = 340,
+		height = 192,
 	}
 }
 
@@ -167,6 +228,8 @@ PANEL.Width = 400
 PANEL.Height = 720
 
 function PANEL:Init()
+
+	GIFUrl = "about:blank"
 
 	-- Don't break for lower resolutions
 	if self.Height > ScrH() then
@@ -186,6 +249,44 @@ function PANEL:Init()
 	self.Side = vgui.Create( "SelectionMenuSide", self )
 	self.Side:SetPos( x, y )
 	self.Side:SetSize( w, h - 32 )
+
+	self.ModelPanel = vgui.Create("DModelPanel2", self.Side )
+	self.ModelPanel:SetAnimated( true )
+
+	self.ModelPanel:SetModel("")
+
+	local NewSize = ModelSize
+
+	if ScrW() < 1920 then
+		// People still use these resolutions?
+		local devideFactor = 2
+
+		if ScrH() == 720 then devideFactor = 1.5 end
+		if ScrH() == 768 then devideFactor = 1.5 end
+		if ScrH() == 900 then devideFactor = 1.25 end
+		if ScrH() == 992 then devideFactor = 1.15 end
+
+		NewSize = ModelSize/devideFactor
+	end
+
+	self.ModelPanel:SetSize( NewSize, NewSize)
+	//self.ModelPanel:SetPos( ScrW() / 3.75, ScrH() / 4 )
+	self.ModelPanel:Center()
+	self.ModelPanel:SetLookAt( Vector(0,0,CameraZPos) )
+	self.ModelPanel:SetCamPos( Vector(100,0,CameraZPos) )
+
+	function self.ModelPanel:LayoutEntity( ent )
+		ent:SetAngles( ent:GetAngles() + Angle(0,FrameTime() * 25,0) )
+
+		if string.StartWith(ent:GetModel(),"models/player") then
+			ent:SetSequence( "idle_all_01" )
+			self:RunAnimation()
+		end
+
+		if StoreModel then ent:SetModel(StoreModel) end
+		ent:SetSkin(ModelSkin or 1)
+
+	end
 
 end
 
@@ -271,6 +372,14 @@ function PANEL:SetMenu( menu, back )
 		self.Close:SetIcon( "cancel" )
 
 		self.Close:SetFunction( function()
+			soundscape.StopChannel("music", 0.5, true)
+
+			if LocalPlayer():GetInfo("gmt_bgmusic_enable") == "1" then
+				if !Location.IsGroup( LocalPlayer():Location(), "nightclub" ) then
+					soundscape.Play("music_global_ambient", "music", true)
+				end
+			end
+
 			Remove()
 			surface.PlaySound( panelos.Sounds["back"] )
 		end )
@@ -331,6 +440,7 @@ function PANEL:Init()
 
 	self.Container = vgui.Create( "DPanel", self )
 
+	self.Container:SetDrawBackground(false)
 	self.ScrollBar = vgui.Create( "SlideBar2", self )
 	self.ScrollBar:SetZPos( 0 )
 
@@ -476,7 +586,9 @@ PANEL.IconSpacing = 55
 PANEL.DescPadding = 10
 PANEL.BackgroundColor = Color( 0, 0, 0 )
 PANEL.NormalColor = Color( 240, 240, 240 )
-PANEL.LargeColor = Color( 0, 180, 255 )
+PANEL.LargeColor = Color( 124, 77, 144 )
+
+PANEL.PreviewPrefix = "https://gmodtower.org/game/previews/"
 
 function PANEL:Init()
 
@@ -501,11 +613,38 @@ function PANEL:ProgessData( data )
 	if data.icon then self:SetIcon( data.icon ) end
 
 	-- Set cost
-	if data.cost then self:SetCost( data.cost ) end
+	if data.cost then self:SetCost( data.cost, data.hasDiscount, data.ogPrice ) end
+
+	if data.NewItem then self:SetNew() end
+
+	if data.ItemLevels then
+
+		for k,v in pairs( data.ItemLevels ) do
+			if k <= data.ItemMaxLevel then
+				self.HasBought = true
+			end
+		end
+
+	end
 
 	-- Create description
 	if data.desc then
 		self:SetDescription( data.desc )
+	end
+
+	-- Create Preview URL
+	if data.PreviewURL then
+		self:SetPreviewURL( data.PreviewURL )
+	end
+
+	-- Create Preview Model
+	if data.mdl then
+		self:SetModel( data.mdl )
+	end
+
+	-- Skin
+	if data.ModelSkin then
+		self:SetModelSkin( data.ModelSkin )
 	end
 
 	self.Toggles = data.toggle or false
@@ -526,12 +665,27 @@ function PANEL:SetTextColor( color )
 end
 
 function PANEL:SetTitle( title, padding )
-
 	self.Title:SetText( string.upper( title or "Invalid Title" ) )
 	self.Title:SizeToContents()
 	self.Title:CenterVertical()
 	self.Title.x = padding or self.Padding
+end
 
+function PANEL:SetPreviewURL( url )
+	if url == "" then
+		url = "about:blank"
+		return
+	end
+	
+	self.PreviewURL = self.PreviewPrefix .. url
+end
+
+function PANEL:SetModel( mdl )
+	self.Model = mdl
+end
+
+function PANEL:SetModelSkin( skin )
+	self.ModelSkin = skin
 end
 
 function PANEL:SetDescription( desc )
@@ -575,6 +729,11 @@ function PANEL:SetLarge( bool )
 			self.Description:SetVisible(true)
 			self.Description:AlignTop(self.Height)
 			self.Description:SetTall( self:GetTall() - self.Height )
+
+			if !self.HasBought then
+				self.Title.OldText = self.Title:GetText()
+				self.Title:SetText("BUY")
+			end
 		end
 
 	-- Normal
@@ -647,7 +806,16 @@ function PANEL:Think()
 	if self:IsHovered() and self:CanHover() then
 		if not self.MouseEntered then
 			self.MouseEntered = true
-			surface.PlaySound( "GModTower/ui/hover.wav" )
+
+			if self.PreviewURL then
+				GIFUrl = self.PreviewURL
+			end
+
+			if self.Model then StoreModel = self.Model end
+			ModelSkin = tonumber(self.ModelSkin)
+
+			//surface.PlaySound( "GModTower/ui/hover.wav" )
+			surface.PlaySound( "GModTower/casino/videopoker/click.wav" )
 		end
 	else
 		self.MouseEntered = false
@@ -657,36 +825,52 @@ function PANEL:Think()
 		self.AffordError:SetVisible( self:IsHovered() )
 	end
 
+	if self.Bought && self.HasBought then
+		self.Bought:SetVisible( true )
+	end
+
 end
 
 function PANEL:OnMousePressed( mc )
 
 	if mc == MOUSE_LEFT then
 
-		if self.Function then
-			if self:CanAfford() then
-				self.Function()
-				surface.PlaySound( panelos.Sounds["save"] )
+		if self.Toggles then
+			if self:CanAfford() && !self.HasBought then
+				if self.IsLarge then
+					self.Function()
+					self.IsLarge = false
+				end
+				surface.PlaySound("gmodtower/ui/panel_save.wav")
 			else
-				surface.PlaySound( panelos.Sounds["error"] )
+				surface.PlaySound("gmodtower/ui/panel_error.wav")
+			end
+		elseif self.Function then
+			if self:CanAfford() && !self.HasBought then
+				self.Function()
+				surface.PlaySound("gmodtower/ui/panel_save.wav")
+			else
+				surface.PlaySound("gmodtower/ui/panel_error.wav")
 			end
 		end
 
 		if self.Toggles then
-
 			for id, panel in pairs( self:GetOtherItems() ) do
 				panel:SetLarge( false )
 			end
 
 			self:SetLarge( not self.IsLarge )
-
 		end
 
 	end
 
 end
 
-function PANEL:SetCost( cost )
+function PANEL:SetNew()
+	self.NewItem = true
+end
+
+function PANEL:SetCost( cost, hasDiscount, ogPrice )
 
 	if not self.CostContainer then
 
@@ -726,14 +910,47 @@ function PANEL:SetCost( cost )
 		self.AffordErrorText:Center()
 		self.AffordError:Center()
 
+		-- Show bought
+		self.Bought = vgui.Create( "DPanel", self )
+		self.Bought:SetMouseInputEnabled( false )
+		self.Bought.Paint = function( panel, w, h )
+			draw.RoundedBox( 3, 0, 0, w, h, Color( 15, 200, 15, 200 ) )
+		end
+
+		self.Bought:SetZPos( 1 )
+		self.Bought:SetVisible( false )
+
+		self.BoughtText = vgui.Create( "DLabel", self.Bought )
+		self.BoughtText:SetFont( "GTowerSelectionMenuDesc" )
+		self.BoughtText:SetText( "PURCHASED" )
+		self.BoughtText:SetTextColor( Color( 255, 255, 255 ) )
+		self.BoughtText:SizeToContents()
+
+		self.Bought:SetWide(125)
+		self.BoughtText:Center()
+		self.Bought:Center()
+
 	end
 
 	-- Set the cost so we can show if they can afford it
 	self.Cost = cost
 
 	-- Update the text
-	self.CostText:SetText( string.FormatNumber(cost) )
+	if hasDiscount then
+		self.CostText:SetText( string.FormatNumber(cost) )
+	else
+		self.CostText:SetText( string.FormatNumber(ogPrice) )
+	end
+
 	self.CostText:SizeToContents()
+
+	if IsValid(self.DiscountText) then
+		self.DiscountText:SetText( string.FormatNumber(ogPrice) )
+		self.DiscountText:SizeToContents()
+		self.DiscountText:AlignLeft(24)
+		self.DiscountText:CenterVertical()
+		self.DiscountText:AlignTop(0)
+	end
 
 	-- Size up container
 	self.CostContainer:SizeToContents()
@@ -747,9 +964,14 @@ function PANEL:SetCost( cost )
 	self.CostText:AlignRight(4)
 	self.CostText:CenterVertical()
 
+	if hasDiscount then
+		self.CostText:AlignBottom(0)
+	end
+
 end
 
 local gradient = surface.GetTextureID("vgui/gradient_up")
+local newIcon = Material("gmod_tower/icons/new_large.png")
 function PANEL:Paint( w, h )
 
 	-- Handle background color and cursor
@@ -766,7 +988,12 @@ function PANEL:Paint( w, h )
 	end
 
 	-- Draw box
-	draw.RoundedBox( 3, 0, 0, w, h, color )
+	if self.Title:GetText() == "BUY" then
+		draw.RoundedBox( 3, 0, 0, w, h, color )
+		draw.RoundedBox( 3, 0, 0, w, h/2.5, Color( 0, 204, 0 ) )
+	else
+		draw.RoundedBox( 3, 0, 0, w, h, color )
+	end
 
 	-- Gradient
 	surface.SetDrawColor( 0, 0, 0, 75 )
@@ -780,6 +1007,20 @@ function PANEL:Paint( w, h )
 		surface.DrawTexturedRect( 28 - (self.IconSize/2), (h/2)-self.IconSize/2, self.IconSize, self.IconSize )
 	end
 
+	-- New Item
+	if self.NewItem then
+		local newText = "NEW!"
+
+		surface.SetFont( "GTowerSelectionMenuTitle" )
+		local size = surface.GetTextSize( newText )
+		surface.SetTextPos(4,4)
+		draw.RoundedBox( 3, 0, 0, size + 8, self.Height, Color( 255, 150, 50 ) )
+		surface.SetTextColor( Color( 255, 255, 255, 255 ) )
+		surface.DrawText( newText )
+
+		self.Title:AlignLeft(size+8+4)
+	end
+
 end
 
 derma.DefineControl( "SelectionMenuItem", "", PANEL, "DPanel" )
@@ -787,7 +1028,7 @@ derma.DefineControl( "SelectionMenuItem", "", PANEL, "DPanel" )
 local PANEL = {}
 PANEL.ButtonWidth = 200
 PANEL.ButtonHeight = 32
-PANEL.Padding = 4
+PANEL.Padding = 8
 
 function PANEL:Init()
 
@@ -815,6 +1056,7 @@ function PANEL:Init()
 
 	self.Yes = vgui.Create( "SelectionMenuItem", self.Container )
 	self.Yes:CenterVertical()
+	self.Yes:AlignBottom( self.Padding )
 	self.Yes:SetLarge( false )
 	self.Yes.BackgroundColor = Color( 20, 200, 20 )
 	self.Yes:SetTextColor( Color( 255, 255, 255 ) )
@@ -824,6 +1066,7 @@ function PANEL:Init()
 
 	self.No = vgui.Create( "SelectionMenuItem", self.Container )
 	self.No:CenterVertical()
+	self.No:AlignBottom( self.Padding )
 	self.No:SetLarge( false )
 	self.No.BackgroundColor = Color( 200, 20, 20 )
 	self.No:SetTextColor( Color( 255, 255, 255 ) )
@@ -930,6 +1173,21 @@ function PANEL:Paint( w, h )
 
 	self:DrawBackgrounds( w, h )
 	draw.RectBorder( 5, 5, w-10, h-10, 2, Color( 255, 255, 255 ) )
+
+	if !self.GifViewer then
+		self.GifViewer = vgui.Create( "HTML", self )
+		self.GifViewer:SetPos( 0, 0 )
+		self.GifViewer:SetSize( w, h )
+		self.GifViewer.PaintOver = function()
+			surface.SetDrawColor( 255, 0, 255, 255 )
+			draw.RectBorder( 5, 5, self:GetWide()-10, self:GetTall()-10, 2, Color( 255, 255, 255 ) )
+		end
+	end
+
+	if GIFUrl != self._url then
+		self.GifViewer:OpenURL( GIFUrl )
+		self._url = GIFUrl
+	end
 
 end
 

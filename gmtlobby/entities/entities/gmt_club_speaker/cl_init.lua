@@ -22,6 +22,13 @@ function ENT:Draw()
 	self:DrawModel()
 end
 
+BLOOM_SCALE = 0
+
+hook.Add("RenderScreenspaceEffects","NightclubBloom",function()
+	if !Location.IsNightclub(LocalPlayer():Location()) then return end
+	DrawBloom( 1-(BLOOM_SCALE/30), 1.5, 9, 9, 1, 1, 1, 1, 1 )
+end)
+
 function ENT:Think()
 	local Controller = self:GetOwner()
 	if !IsValid(Controller) then
@@ -34,6 +41,8 @@ function ENT:Think()
 	local trebleSize = Controller:GetSmoothedAverage("treble", true) * self.TopSensitivity
 	local bassSize = Controller:GetSmoothedAverage("bass", true) * self.BottomSensitivity
 	Controller:SetSmoothAmount("treble", 15)
+
+	BLOOM_SCALE = bassSize
 
 	-- Add a bit of vibration to the scale
 	local topShakeScale =  trebleSize * self.TopShakeSensitivity - 0.5

@@ -7,7 +7,7 @@ local QueryPanel = nil
 
 include("shared.lua")
 include("room_maps.lua")
-include("upgrades.lua")
+//include("upgrades.lua")
 
 net.Receive("gmt_partymessage", function()
 	if NoPartyMsg:GetBool() then return end

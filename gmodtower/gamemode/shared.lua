@@ -12,11 +12,11 @@ function IsLobby()
 end
 
 function IsHalloweenMap()
-	return false
+	return string.EndsWith(game.GetMap(), "h")
 end
 
 function IsChristmasMap()
-	return false
+	return string.EndsWith(game.GetMap(), "c")
 end
 
 function IsHolidayMap()
@@ -24,6 +24,10 @@ function IsHolidayMap()
 end
 
 IsLobby = IsLobby()
+
+function GetWorldEntity()
+	return game.GetWorld() //ents.FindByClass("worldspawn")[1]
+end
 
 -- Voice Enable Replacement
 if CLIENT then

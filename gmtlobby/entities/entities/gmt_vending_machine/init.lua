@@ -16,6 +16,9 @@ function ENT:Initialize()
 		phys:EnableMotion( false )
 	end
 
+	-- Deluxify the model
+	self:SetMaterial("models/map_detail/deluxe_vendingmachine", true)
+
 	--self:SetPos(self:GetPos() + Vector(0,0,45))
 end
 

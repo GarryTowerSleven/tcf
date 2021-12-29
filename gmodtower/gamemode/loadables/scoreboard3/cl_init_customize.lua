@@ -8,9 +8,9 @@ ShowBackgrounds = true
 ColorFont = color_white
 ColorFontShadow = Color( 6, 76, 127, 255 )
 
-ColorNormal = Color( 34, 100, 156, 255 )
-ColorBright = Color( 57, 131, 181, 255 )
-ColorDark = Color( 17, 50, 78, 255 )
+ColorNormal = Color( 55, 55, 111, 255 )
+ColorBright = Color( 125, 125, 175, 255 )
+ColorDark = Color( 25, 25, 61, 255 )
 
 ColorBackground = colorutil.Brighten( ColorNormal, 0.75 )
 
@@ -20,21 +20,20 @@ ColorTabInnerActive = ColorTabActive
 ColorTabHighlight = colorutil.Brighten( ColorBright, 3 )
 
 ColorAwardsDescription = Color( 162, 203, 233, 255 )
-ColorAwardsBarAchieved = Color( 178, 215, 243, 150 )
-ColorAwardsBarNotAchieved = colorutil.Brighten( Color( 3, 67, 114 ), 2, 150 )
-ColorAwardsAchievedIcon = Color( 32, 255, 4, 150 )
-
+ColorAwardsBarAchieved = Color( 125, 125, 175, 150 )
+ColorAwardsBarNotAchieved = Color( 55, 55, 111, 255 )
+ColorAwardsAchievedIcon = Color( 225, 225, 225, 150 )
 
 // HEADER
-HeaderTitle = "GMTower"
+HeaderTitle = "GMT: Deluxe"
 HeaderTitleFont = "SCTitle"
 HeaderTitleColor = color_white
 HeaderTitleLeft = 188
 HeaderWidth = 256
 HeaderHeight = 64
-HeaderMatHeader = Scoreboard.GenTexture( "ScoreboardLogo", "main_header" )
-HeaderMatFiller = Scoreboard.GenTexture( "ScoreboardFiller", "main_filler" )
-HeaderMatRightBorder = Scoreboard.GenTexture( "ScoreboardRightBorder", "main_rightborder" )
+HeaderMatHeader = Scoreboard.GenTexture( "ScoreboardLogo", "main_header_deluxe" )
+HeaderMatFiller = Scoreboard.GenTexture( "ScoreboardFiller", "main_filler_deluxe" )
+HeaderMatRightBorder = Scoreboard.GenTexture( "ScoreboardRightBorder", "main_rightborder_deluxe" )
 
 
 // COLLAPSABLES

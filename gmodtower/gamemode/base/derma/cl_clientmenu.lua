@@ -1,4 +1,4 @@
-
+---------------------------------
 GTowerMenu = {}
 GTowerMenu.PanelList = {}
 
@@ -13,11 +13,11 @@ local ArrowSizeY = 24
 
 
 
-local HoveredColor = Color(111, 124, 132)
+local HoveredColor = Color(93, 61, 115)
 
-local UnHoveredColor = Color(86,86,86)
+local UnHoveredColor = Color(86, 79, 133)
 
-local BackGround = Color(80,80,80)
+local BackGround = Color(51,18,82)
 
 
 
@@ -261,7 +261,7 @@ function PANEL:PaintOver()
 
 	// BG
 
-	color = Color( 16, 70, 101 )
+	color = Color(51,18,82)
 
 	surface.SetDrawColor( color.r, color.g, color.b, self.Alpha )
 
@@ -663,7 +663,7 @@ function PANEL:Paint( w, h )
 
 
 
-	local col = Color(52 - 25, 137 - 25, 195 - 25)
+	local col = Color(51,18,82)
 
 	surface.SetDrawColor( col.r, col.g, col.b, 225 )
 
@@ -683,7 +683,7 @@ function PANEL:Paint( w, h )
 
 	// Divider
 
-	surface.SetDrawColor( 16, 70, 101, 100 )
+	surface.SetDrawColor(51-10,18-10,82-10)
 
 	surface.DrawRect( 0,0, self:GetWide(), 1 )
 
@@ -1051,7 +1051,7 @@ function PANEL:Paint( w, h )
 
 
 
-	surface.SetDrawColor( 42 - 50, 114 - 50, 169 - 50, 255 )
+	surface.SetDrawColor(51+20,18+20,82+20)
 
 
 

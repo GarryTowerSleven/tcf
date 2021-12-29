@@ -265,7 +265,7 @@ function UpdateTesters()
 			// Cache testers if they've changed
 			if file.Exists( testerCachePath, "DATA" ) then
 				if memberData != file.Read( testerCachePath, "DATA" ) then
-					MsgC( co_color, "[Testers] Testers have changed!\n" )
+					//MsgC( co_color, "[Testers] Testers have changed!\n" )
 					cacheTesters( memberData )	
 				end
 			else
@@ -287,7 +287,7 @@ function UpdateTesters()
 	)
 end
 
-local testerTimeDelay = ( 5*60 )
+local testerTimeDelay = ( 15*60 )
 local testerTimeSince = CurTime() + testerTimeDelay
 if PRIVATE_TEST_MODE then
 	timer.Simple( 2, function()
