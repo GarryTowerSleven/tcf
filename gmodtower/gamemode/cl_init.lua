@@ -68,6 +68,8 @@ include("base/admin/sh_spray.lua")
 
 include("base/vip/cl_init.lua")
 
+include("base/discord_rpc/cl_discord.lua")
+
 -- Derma
 for k,v in pairs (file.Find("gmodtower/gamemode/base/derma/*.lua","LUA")) do
 	include("gmodtower/gamemode/base/derma/" .. v);

@@ -114,6 +114,8 @@ include("base/bit/hex.lua")
 
 include("base/vip/init.lua")
 
+AddCSLuaFile("base/discord_rpc/cl_discord.lua")
+
 RunConsoleCommand("sv_hibernate_think", "1")
 
 // Workshop

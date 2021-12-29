@@ -508,16 +508,19 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		end
 
 		if IsLobby then
-
 			self:Divider()
 
 			self:Header( "General" )
-			self:CheckBox( "Enable Player Use Menu", "gmt_playermenu" )
 			self:CheckBox( "Enable View Bob", "gmt_viewbob" )
 			self:CheckBox( "Draw First Person Legs", "gmt_drawlegs" )
 			--self:CheckBox( "Draw Players While Playing Blockles", "gmt_tetris_drawplayers" )
 			self:Slider( "Condo Snap Grid Size (hold C while dragging)", "gmt_invsnapsize", 2, 16 )
 		end
+
+		self:Divider()
+
+		self:Header("Discord")
+		self:CheckBox( "Enable Rich Presence", "gmt_rpc" )
 
 	end
 
