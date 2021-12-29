@@ -68,8 +68,8 @@ end
 GMode.Maps = Maps.GetMapsInGamemode( GMode.Gamemode )
 
 GMode.View = {
-	pos = Vector( 1953, -4299, -822 ),
-	ang = Angle( -9, 144, 0 )
+	pos = Vector( 1872.506836, -5455.075195, -783.139038 ),
+	ang = Angle( 8, 180, 0 )
 }
 
 function GMode:GetMapTexture( map )

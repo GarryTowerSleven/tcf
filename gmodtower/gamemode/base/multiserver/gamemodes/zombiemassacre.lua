@@ -26,8 +26,8 @@ GMode.Gameplay = "3rd Person"
 
 GMode.Maps = Maps.GetMapsInGamemode( GMode.Gamemode )
 GMode.View = {
-	pos = Vector( 11299.756836, 11918.762695, 6727.389648 ),
-	ang = Angle( 4.705836, 38.171131, 0.000000 )
+	pos = Vector( 1953, -4299, -822 ),
+	ang = Angle( -9, 144, 0 )
 }
 function GMode:GetMapTexture( map )
 
