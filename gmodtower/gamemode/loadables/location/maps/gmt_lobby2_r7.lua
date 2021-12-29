@@ -3275,4 +3275,42 @@ Location.LoadMapData( {
 		Priority = 1,
 		Group = "secret",
 	},
+	[68] = {
+		Regions = {
+			[1] = {
+				max = Vector(3121, 3225, -532),
+				planes = {
+					[1] = {
+						normal = Vector(-1,0,0),
+						dist = -2855,
+					},
+					[2] = {
+						normal = Vector(1,0,0),
+						dist = 3121,
+					},
+					[3] = {
+						normal = Vector(0,-1,0),
+						dist = -3046,
+					},
+					[4] = {
+						normal = Vector(0,1,0),
+						dist = 3225,
+					},
+					[5] = {
+						normal = Vector(0,0,-1),
+						dist = 913,
+					},
+					[6] = {
+						normal = Vector(0,0,1),
+						dist = -532,
+					},
+				},
+				min = Vector(2855, 3046, -913),
+			},
+		},
+		FriendlyName = "???",
+		Name = "secret1",
+		Priority = 1,
+		Group = "plaza",
+	},
 } )

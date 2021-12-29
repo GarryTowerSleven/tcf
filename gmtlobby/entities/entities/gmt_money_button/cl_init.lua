@@ -46,8 +46,7 @@ function ENT:GetRenderingFraction() return /*self.CurrFraction*/ barFrac end
 --Returns true if post-render effects should be used
 function ENT:ShouldRenderFX()
 	--No FX if the player isn't in the location
-	--if not Location.Is( LocalPlayer():Location(), "secret1" ) then return end
-	if LocalPlayer():Location() != 56 then return end
+	if not Location.Is( LocalPlayer():Location(), "secret1" ) then return end
 	return self:GetRenderingFraction() > 0
 end
 
@@ -156,180 +155,94 @@ function ENT:ShakePlayers()
 
 end
 
-
-
 --Update local player variables
-
 function ENT:ProcessLocalPlayer()
 
-
-
 	--If the local player is using this button
-
-
 	if self:IsLocal() then
-
-
 		--Set this button as the button the player is using
-
 		localInfo.usingButton = self
 
-
-
 		--Set the next person to use this
-
 		localInfo.nextUser = self:GetNextUsePlayer()
 
-
-
 		--Start post-processing when the shaking begins
-
 		self:RunPostProcessing( self:GetShakeFactor() > 0 )
-
 	end
-
-
 
 	--Am I next?
-
 	if LocalPlayer() == self:GetNextUsePlayer() then
-
-	localInfo.isNextUser = true
-
+		localInfo.isNextUser = true
 	end
 
-
-
 	--If this is the button the player is using
-
 	if localInfo.usingButton == self then
 
-
-
 		--Update the player's fraction
-
 		localInfo.fraction = self:GetFraction()
 
-
-
 		--If the fraction is 0 either the button is not in use or it's finished
-
 		if localInfo.fraction == 0 or not self:IsLocal() then
 
-
-
 			--Clear the user's button
-
 			localInfo.usingButton = nil
-
-
 
 			localInfo.nextUser = nil
 
-
-
 			--Stop post processing effects
-
 			self:RunPostProcessing( false )
-
 		end
-
 	end
-
-
 
 end
 
-
-
 --Drawing on entity
-
 function ENT:DrawProgressBar( id, frac, pos, normal, height, vOffset )
-
 	--Draw the black background
-
 	render.DrawQuadEasy(
-
 		pos + normal * self.MeterHOffset + self:GetUp() * (self.MeterHeight/2 + self.MeterVOffset),
-
 		normal, 5, self.MeterHeight, Color(0,0,0,255), 0 )
 
-
-
 	--Draw the foreground bar
-
-	render.DrawQuadEasy( pos + normal * self.MeterHOffset + vOffset, normal, 3, height, Color(255,100,100,255), 0 )
-
+	render.DrawQuadEasy( pos + normal * self.MeterHOffset + vOffset, normal, 3, height, colorutil.Rainbow(250) /*Color(255,100,100,255)*/, 0 )
 end
 
 
 --Draw the progress bars on the button model
-
 function ENT:DrawProgressBars()
-
-
 	if self:GetPressed() then
 		barFrac = (CurTime() - self:GetChargeTime())/10
 	else
 		barFrac = math.Clamp(barFrac - FrameTime() / 2,0,1)
 	end
 
-
 	--Local rendering axis + origin
-
 	local pos = self:GetPos()
-
 	local forward = self:GetForward()
-
 	local right = self:GetRight()
-
 	local up = self:GetUp()
 
-
-
 	--The height of the bar
-
 	local height = self.MeterHeight * barFrac
 
-
 	--Move bar up slightly on the model
-
 	local verticalOffset = up * (height/2 + self.MeterVOffset)
 
-
-
 	render.SetColorMaterial()
-
 	self:DrawProgressBar( 1, barFrac, pos, forward, height, verticalOffset )
-
 	self:DrawProgressBar( 2, barFrac, pos, forward * -1, height, verticalOffset )
-
 	self:DrawProgressBar( 3, barFrac, pos, right, height, verticalOffset )
-
 	self:DrawProgressBar( 4, barFrac, pos, right * -1, height, verticalOffset )
-
 end
 
-
-
 --Draw red glowing sprites on the button
-
 function ENT:DrawGlowSprites( frac )
-
 	local frac = self.CurrFraction
-
 	local shake = self:GetShakeFactor()
-
 	if self.CurrFraction ~= 0 then frac = frac * shake end
 
-
-
 	render.SetMaterial( self.Sprite )
-
 	render.DrawSprite( self:GetPos() + self:GetUp() * 40, 150 * frac, 150 * frac, Color( 255 * frac, 0, 0, 255) )
-
 	render.DrawSprite( self:GetPos() + self:GetUp() * 40, 80 * frac, 80 * frac, Color( 255 * frac, 0, 0, 255) )
-
 	render.DrawSprite( self:GetPos() + self:GetUp() * 40, 300 * frac, 300 * frac, Color( 255 * frac, 0, 0, 255) )
-
 end

@@ -264,6 +264,9 @@ soundscape.Register("music_transit", {})
 -- Mute BG music in arcade
 soundscape.Register("music_arcade", {})
 
+-- Mute any music in the button room
+soundscape.Register("music_secret1", {})
+
 -- Mute any music in the hallway and dev hq
 soundscape.Register("music_secret", {})
 
