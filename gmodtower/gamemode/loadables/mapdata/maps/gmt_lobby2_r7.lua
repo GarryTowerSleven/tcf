@@ -34,7 +34,7 @@ end
 local function AddL2Camera( pos, ang )
 	local cam = ents.Create("gmt_condo_camera")
 	cam:SetPos( pos )
-	cam:SetAngles( ang + Angle( 0, -90, 0 ) )
+	cam:SetAngles( ang )
 	cam:Spawn()
 
 	cam:SetNWInt( "Condo", (GetNearestCondo( pos ) or 0) )
