@@ -188,6 +188,43 @@ if CLIENT then
 			surface.DrawTexturedRect( 0, 0, scrw, scrh )
 		end
 
+		local spacing = 2
+		local padding = 6
+
+		local w, h = scrw/3, 60
+		local x, y = scrw/2-(w/2),20
+
+		local color = Color( 255, 0, 0, 150 )
+
+		local color_hovered = color_hovered or Color( 200, 100, 100, 200 )
+		local c, columns = 1, 4
+
+		// Admin Rocket Button
+		if LocalPlayer():IsAdmin() then
+			self:CreateButton( "Default", x, y, w, h,
+			function( btn, x, y, w, h, isover ) -- draw
+				surface.SetTextColor( 255, 255, 255 )
+
+				if isover then
+					surface.SetDrawColor( color_hovered )
+				else
+					surface.SetDrawColor( color )
+				end
+
+				surface.DrawRect( x, y, w, h )
+
+				surface.SetFont( "AppBarSmall" )
+				surface.SetTextPos( w + 65, h - 30 )
+				surface.DrawText( "CLICK TO FIRE MISSILE" )
+			end,
+			function( btn ) -- onclick
+				RunConsoleCommand( "gmt_condorocket", tostring( self.Camera:EntIndex() ) )
+			end
+		)
+
+		self:DrawButtons()
+	end
+
 	end
 
 	-- Control the rendering of the camera's rendertexture
