@@ -595,6 +595,17 @@ RegisterItem("plant1",{
 	StorePrice = 30,
 })
 
+RegisterItem("bball",{
+	Name = "Beach Ball",
+	Description = "We stole this from the pool, don't tell anyone!",
+	Model = "models/gmod_tower/beachball.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.BEACH,
+	StorePrice = 500,
+	ClassName = "gmt_beachball",
+})
+
 RegisterItem("pot01a",{
 	Name = "Tea Kettle",
 	Description = "Brew tea with this pot.",
@@ -950,6 +961,38 @@ RegisterItem("comfychair",{
 	StorePrice = 500,
 })
 
+RegisterItem("beachchair",{
+	Name = "Beach Chair",
+	Description = "Relax in your Condo with this comfy beach chair.",
+	Model = "models/map_detail/beach_chair.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.BEACH,
+	StorePrice = 150,
+	
+	MoveSound = "furniture"
+})
+RegisterItem("poolrailings",{
+	Name = "Pool Railing",
+	Description = "Block them areas off.",
+	Model = "models/gmod_tower/pool/railings.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.BEACH,
+	StorePrice = 100,
+	
+})
+RegisterItem("cocosapling",{
+	Name = "Palm Sapling",
+	Description = "A baby palm tree.",
+	Model = "models/map_detail/foliage/coconut_tree_sapling_01.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.BEACH,
+	StorePrice = 250,
+	
+})
+
 RegisterItem("kitchentable",{
 	Name = "Kitchen Counter",
 	Description = "A kitchen counter, for cooking.",
@@ -1196,6 +1239,30 @@ RegisterItem("sunendtable",{
 	DrawModel = true,
 	StoreId = GTowerStore.SUITE,
 	StorePrice = 300,
+})
+
+RegisterItem("dustpatiochair",{
+	Name = "White Patio Chair",
+	Description = "A must have for pool parties.",
+	Model = "models/props/de_dust/hr_dust/dust_patio_set/dust_patio_chair.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.BEACH,
+	StorePrice = 150,
+	MoveSound = "furniture",
+	
+})
+
+RegisterItem("dustumbrella",{
+	Name = "Patio Umbrella",
+	Description = "Hide from the sun with this umbrella.",
+	Model = "models/props/de_dust/hr_dust/dust_patio_set/dust_patio_umbrella_open.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.BEACH,
+	StorePrice = 500,
+	MoveSound = "furniture",
+	
 })
 
 /*RegisterItem("mansionwalllight",{

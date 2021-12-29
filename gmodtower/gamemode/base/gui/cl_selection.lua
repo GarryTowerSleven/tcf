@@ -190,6 +190,11 @@ Logos = {
 		width = 340,
 		height = 229,
 	},
+	["basicalsgoods"] = {
+		mat = CreateLogo( "basical" ),
+		width = 340,
+		height = 229,
+	},
 	["centralcircuit"] = {
 		mat = CreateLogo( "centralcircuit" ),
 		width = 340,
