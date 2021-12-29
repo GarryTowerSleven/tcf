@@ -109,7 +109,9 @@ local needToUpdate = false
 local lastData
 
 local gm = engine.ActiveGamemode()
+local gmName = getGamemodeName( gm )
 local map = game.GetMap()
+local mapName = Maps.GetName(map) or map
 
 local location = "Somewhere"
 
@@ -125,10 +127,10 @@ local function DiscordUpdate()
     rpc_data["details"] = getGamemodeName( gm ) .. " (" .. player.GetCount() .. " of " .. maxPlys .. ")"
 
     rpc_data["largeImageKey"] = getMapPic(map)
-    rpc_data["largeImageText"] = Maps.GetName(map) or map
+    rpc_data["largeImageText"] = mapName
     
     rpc_data["smallImageKey"] = gm
-    rpc_data["smallImageText"] = getGamemodeName( gm )
+    rpc_data["smallImageText"] = gmName
 
     rpc_data["startTimestamp"] = discord_start
 
@@ -138,9 +140,9 @@ local function DiscordUpdate()
         rpc_data["largeImageText"] = "gmtdeluxe.org/chat"
         rpc_data["largeImageKey"] = getLocationPic(location)
 
-        local duel = LocalPlayer():GetNWBool("DuelOpponent")
-        if IsValid(duel) then
-            rpc_data["state"] = "Dueling " .. duel
+        local duel = Dueling.IsDueling(LocalPlayer())
+        if IsValid( duel ) then
+            rpc_data["state"] = "Dueling " .. duel:Name()
         end
     end
 
