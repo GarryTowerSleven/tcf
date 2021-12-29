@@ -290,7 +290,6 @@ function PANEL:Init()
 
 		if StoreModel then ent:SetModel(StoreModel) end
 		ent:SetSkin(ModelSkin or 1)
-
 	end
 
 end
@@ -401,7 +400,8 @@ function PANEL:Paint( w, h )
 
 	-- Background
 	surface.SetMaterial( panelos.Backgrounds[3] )
-	surface.SetDrawColor( 255, 255, 255, 15 )
+	//surface.SetDrawColor( 255, 255, 255, 15 )
+	surface.SetDrawColor( 86, 79, 133, 25 )
 	for i=1, 4 do
 		local scroll0 = (1 + math.cos(RealTime() / 2 + i)) * ScrW()
 		local scroll1 = (1 + math.sin(RealTime() / 2 + i)) * ScrH()
@@ -582,7 +582,7 @@ surface.CreateFont( "GTowerSelectionMenuTitleLarge", { font = font, size = 38, w
 surface.CreateFont( "GTowerSelectionMenuDesc", { font = font, size = 14, weight = 600, antialias = true } )
 
 local PANEL = {}
-PANEL.Width = 350
+PANEL.Width = 400 //350
 PANEL.Height = 33
 PANEL.Padding = 6
 PANEL.LargeHeight = 84
@@ -743,6 +743,8 @@ function PANEL:SetLarge( bool )
 
 	-- Normal
 	else
+
+		if self.Title then if self.Title:GetText() == "BUY" then self.Title:SetText(self.Title.OldText) end end
 
 		self:SetTall( self.Height )
 		self.BackgroundColor = self.NormalColor
