@@ -1339,6 +1339,128 @@ RegisterItem("turntable",{
 	UseSound = "use_scratch.wav"
 })
 
+RegisterItem("grain",{
+	Name = "Grain Sack",
+	Description = "A sack full of grain.",
+	Model = "models/props_granary/grain_sack.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.NATURE,
+	StorePrice = 500,
+	MoveSound = "cloth"
+})
+RegisterItem("bushsmall",{
+	Name = "Small Bush",
+	Description = "A small bush to decorate your garden with, or home!",
+	Model = "models/garden/gardenbush2.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.NATURE,
+	StorePrice = 250,
+})
+RegisterItem("bushbig",{
+	Name = "Big Bush",
+	Description = "A bigger version of that other bush, for even better gardens.",
+	Model = "models/garden/gardenbush.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.NATURE,
+	StorePrice = 350,
+})
+RegisterItem("bushred",{
+	Name = "Small Red Bush",
+	Description = "A red bush to put in your garden.",
+	Model = "models/gmod_tower/plant/largebush01.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.NATURE,
+	StorePrice = 150,
+})
+RegisterItem("ferns",{
+	Name = "Ferns",
+	Description = "Nice ferns for in your garden.",
+	Model = "models/hessi/palme.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.NATURE,
+	StorePrice = 175,
+})
+RegisterItem("wildbush",{
+	Name = "Wild Bush",
+	Description = "Collected from Narnia, this wild bush will sure make your garden look interesting.",
+	Model = "models/props/de_inferno/largebush02.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.NATURE,
+	StorePrice = 175,
+})
+RegisterItem("lavenderbushes",{
+	Name = "Lavender Bush",
+	Description = "A nice lavender bush. Will surely make your suite smell great!",
+	Model = "models/props/de_inferno/largebush03.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.NATURE,
+	StorePrice = 200,
+	
+})
+RegisterItem("rosebush",{
+	Name = "Rose Bush",
+	Description = "Nice red roses packed in a bush.",
+	Model = "models/props/de_inferno/largebush04.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.NATURE,
+	StorePrice = 210,
+	
+})
+RegisterItem("hydrabush",{
+	Name = "Big Hydrangea Bush",
+	Description = "A big hydrangea bush.",
+	Model = "models/props/de_inferno/largebush05.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.NATURE,
+	StorePrice = 375,
+	
+})
+RegisterItem("fallentree",{
+	Name = "Fallen Tree Trunk",
+	Description = "A fallen over tree trunk.",
+	Model = "models/props_foliage/fallentree01.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.NATURE,
+	StorePrice = 750,
+	
+})
+RegisterItem("treestump",{
+	Name = "Tree Stump",
+	Description = "This was once a tree...",
+	Model = "models/props_foliage/tree_stump01.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.NATURE,
+	StorePrice = 375,
+	
+})
+RegisterItem("bigrock",{
+	Name = "Big Rock",
+	Description = "A big rock to place in your garden.",
+	Model = "models/props_nature/rock_worn001.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.NATURE,
+	StorePrice = 250,
+	
+})
+RegisterItem("rockpile",{
+	Name = "Rock Pile",
+	Description = "A pile of rocks, nice to decorate your garden with.",
+	Model = "models/props_nature/rock_worn_cluster002.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.NATURE,
+	StorePrice = 175,
+	
+})
+RegisterItem("ggnome",{
+	Name = "Garden Gnome",
+	Description = "A gnome that the bird made on his own, hence the price!",
+	Model = "models/props_junk/gnome.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.NATURE,
+	StorePrice = 1000,
+	
+})
+
 RegisterItem("leatherarmchair",{
 	Name = "Leather Armchair",
 	Description = "No* cows were harmed in the making of this chair. *Lots of",

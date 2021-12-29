@@ -20,6 +20,7 @@ GTowerStore.DUEL		= 24
 GTowerStore.HALLOWEEN	= 19
 GTowerStore.PARTICLES	= 23
 GTowerStore.CASINOCHIPS	= 20
+GTowerStore.NATURE		= 29
 GTowerStore.TOY 		= 22
 GTowerStore.THANKSGIVING = 18
 GTowerStore.PET 		= 26
@@ -82,6 +83,13 @@ GTowerStore.Stores = {
 		Logo = "centralcircuit",
 		ModelSize = 400,
 		CameraZPos = 25,
+	},
+	[GTowerStore.NATURE] = {
+		NpcClass = "gmt_npc_nature",
+		WindowTitle = "Nature Store",
+		ModelStore = true,
+		ModelSize = 400,
+		CameraZPos = -2.5,
 	},
 	[GTowerStore.MERCHANT] = {
 		NpcClass = "gmt_npc_merchant",
