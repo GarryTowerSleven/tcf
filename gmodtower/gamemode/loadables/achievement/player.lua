@@ -56,7 +56,7 @@ function meta:SetAchievement( id, value, add )
 			sfx:SetOrigin( self:GetPos() )
 		util.Effect( "confetti", sfx, true, true )
 
-		self:EmitSound( "GModTower/music/award.wav", 100, 100 )
+		self:EmitSound( "GModTower/music/award_deluxe.wav", 100, 100 )
 		self:AddMoney( ( Achievement.GMC or 500 ) )
 
 		local SanitizedName = string.SafeChatName(self:Name())
