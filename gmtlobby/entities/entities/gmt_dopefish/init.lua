@@ -32,7 +32,7 @@ function ENT:Use(ply)
   net.Send( ply )
 
   if !hasAchi then
-    timer.Simple(0.75, function()
+    timer.Simple(7.5, function()
       if IsValid( ply ) then
         ply:AddAchievement( ACHIEVEMENTS.DOPEFISH, 1 )
       end
