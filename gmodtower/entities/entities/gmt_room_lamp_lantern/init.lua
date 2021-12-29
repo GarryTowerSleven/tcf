@@ -32,7 +32,7 @@ function ENT:ToggleLamp(rp) --Updates the player(s) with the new status
 end
 
 hook.Add("PlayerInitialSpawn", "GMTLanternToggle", function(ply)
-		local lamps = ents.FindByClass("gmt_lantern")
+		local lamps = ents.FindByClass("gmt_room_lamp_lantern")
 		if #lamps > 0 then
 			for _, ent in ipairs(lamps) do
 				if IsValid(ent) then ent:ToggleLamp(ply) end
