@@ -200,6 +200,28 @@ GTowerItems.RegisterItem( "VirusAdrenaline", {
 
 } )
 
+GTowerItems.RegisterItem( "KirbyHammer", {
+	Name = "Gourmet Race Hammer",
+	Description = "Double jump, run faster, and hammer away!",
+	Model = "models/bumpy/kirby_hammer.mdl",
+	MoveSound = Sound( "GModTower/gourmetrace/actions/hammer1.wav" ),
+	ClassName = "gmt_kirby_hammer",
+	UniqueInventory = true,
+	DrawModel = true,
+	Equippable = true,
+	CanEntCreate = false,
+	DrawName = true,
+	CanRemove = false,
+	EquipType = "Weapon",
+	Equippable = true,
+	WeaponSafe = true,
+	NoBank = true,
+	Tradable = false,
+	IsWeapon = function( self )
+		return true
+	end
+} )
+
 GTowerItems.RegisterItem( "TakeOnBall", {
 	Name = "Take On Me",
 	Description = "Increase your speed and become '80s pop!",
@@ -252,6 +274,44 @@ GTowerItems.RegisterItem( "TakeOnBall", {
 	end
 } )
 
+GTowerItems.RegisterItem( "JumpShoes", {
+	Name = "Jump Shoes",
+	Description = "Jump up way high with these special shoes! (crouch jumping makes you go even higher)",
+	Model = "models/props_junk/shoe001a.mdl",
+	UniqueInventory = true,
+	DrawModel = true,
+	Equippable = true,
+	UniqueEquippable = true,
+	EquipType = "TakeOnBall",
+	CanEntCreate = false,
+	DrawName = true,
+	Tradable = true,
+
+  StoreId = 22,
+  StorePrice = 10000,
+  NewItem = true,
+
+	EquippableEntity = true,
+	RemoveOnDeath = true,
+	RemoveOnNoEntsLoc = true,
+	OverrideOnlyEquippable = true,
+	CreateEquipEntity = function( self )
+
+		local Shoes = ents.Create( "gmt_jumpshoes" )
+
+		if IsValid( Shoes ) then
+			Shoes:SetOwner( self.Ply )
+			Shoes:SetParent( self.Ply )
+			Shoes:Spawn()
+			Shoes:SetShoeOwner( self.Ply )
+			self.Ply:EmitSound( "GModTower/balls/TubePop.wav", 30, math.random( 170, 200 ) )
+		end
+
+		return Shoes
+
+	end
+} )
+
 GTowerItems.RegisterItem( "StealthBox", {
 	Name = "Stealth Box",
 	Description = "Sneak around the lobby.",
@@ -295,6 +355,21 @@ GTowerItems.RegisterItem( "Bumper", {
 	Model = "models/gmod_tower/bumper.mdl",
 	MoveSound = Sound( "GModTower/balls/bumper.wav" ),
 	ClassName = "gmt_bumper",
+	UniqueInventory = true,
+	DrawModel = true,
+	CanEntCreate = true,
+	DrawName = true,
+	CanRemove = false,
+	--BankAdminOnly = true,
+	Tradable = false,
+} )
+
+GTowerItems.RegisterItem( "MysterySack", {
+	Name = "Mystery Sack",
+	Description = "A mysterious sack that once had powerups inside, I think it's empty now.",
+	Model = "models/legoj15/ssb3ds/items/carryitem.mdl",
+	MoveSound = Sound( "physics/metal/chain_impact_hard1.wav" ),
+	ClassName = "gmt_mystery_sack",
 	UniqueInventory = true,
 	DrawModel = true,
 	CanEntCreate = true,
@@ -354,6 +429,53 @@ GTowerItems.RegisterItem( "UCHGhost", {
 
 	end
 
+} )
+
+GTowerItems.RegisterItem( "SKKart", {
+	Name = "Driveable RC Kart",
+	Description = "Kart racing, but smaller!",
+	Model = "models/gmod_tower/kart/kart_frame.mdl",
+	MoveSound = Sound( "gmodtower/sourcekarts/effects/rev.wav" ),
+	UniqueInventory = true,
+	DrawModel = true,
+	Equippable = true,
+	UniqueEquippable = true,
+	EquipType = "BallRaceBall",
+	CanEntCreate = false,
+	DrawName = true,
+	CanRemove = false,
+	NoBank = true,
+	Tradable = false,
+
+	EquippableEntity = true,
+	RemoveOnDeath = true,
+	RemoveOnNoEntsLoc = true,
+	OnlyEquippable = true,
+	OnEquip = function( self )
+		self.Ply:SetNoDraw(true)
+		self.Ply:SetNoDrawAll(true)
+	end,
+	OnUnEquip = function( self )
+		self.Ply:SetNoDraw(false)
+		self.Ply:SetNoDrawAll(false)
+		local curEyeAng = self.Ply:EyeAngles()
+		curEyeAng.r = 0
+		self.Ply:SetEyeAngles(curEyeAng)
+	end,
+	CreateEquipEntity = function( self )
+
+		local BallRaceBall = ents.Create( "gmt_kart" )
+
+		if IsValid( BallRaceBall ) then
+			BallRaceBall:SetOwner( self.Ply )
+			BallRaceBall:SetPos( self.Ply:GetPos() )
+			BallRaceBall:Spawn()
+			self.Ply:EmitSound( "gmodtower/sourcekarts/effects/start.wav", 80, math.random( 120, 140 ) )
+		end
+
+		return BallRaceBall
+
+	end
 } )
 
 GTowerItems.RegisterItem( "UCHPig", {
@@ -459,3 +581,29 @@ GTowerItems.RegisterItem( "UCHPig", {
 	end
 
 } )--]]
+
+GTowerItems.RegisterItem( "HalloweenSpider", {
+	Name = "Spider",
+	Description = "Making webs not included.",
+	Model = "models/npc/spider_regular/npc_spider_regular.mdl",
+	MoveSound = Sound( "gmodtower/zom/creatures/spider/taunt1.wav" ),
+	DrawModel = true,
+	Equippable = true,
+	UniqueEquippable = true,
+	EquipType = "Model",
+	CanEntCreate = false,
+	DrawName = true,
+	StorePrice = 250,
+	OnEquip = function( self )
+		if SERVER then
+			self.Ply.BeforeSpider = self.Ply:GetModel()
+			self.Ply:SetModel( "models/npc/spider_regular/npc_spider_regular.mdl" )
+			self.Ply:SetSkin( 0 )
+		end
+	end,
+	OnUnEquip = function( self )
+		if SERVER then
+			self.Ply:SetModel( self.Ply.BeforeSpider )
+		end
+	end
+} )

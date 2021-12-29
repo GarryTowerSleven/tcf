@@ -68,7 +68,67 @@ GTowerItems.RegisterItem( "MelonPet", {
 	end	
 } )
 
+GTowerItems.RegisterItem( "SaturnPet", {
 
+	Name = "Mr. Saturn Pet",
+	Description = "Am happy. Am in trouble. No, wait. Am happy.",
+
+	Model = "models/uch/saturn.mdl",
+
+	DrawModel = true,
+	Equippable = true,
+
+	UniqueInventory = true,
+	UniqueEquippable = false,
+
+	EquipType = "Pet",
+
+	CanEntCreate = false,
+	DrawName = true,
+	CanRemove = true,
+	Tradable = true,
+
+	StoreId = GTowerStore.BASICAL,
+	StorePrice = 250,
+
+	EquippableEntity = true,
+	RemoveOnDeath = true,
+	RemoveOnNoEntsLoc = true,
+
+	ExtraMenuItems = function (item, menu)
+		table.insert(menu, {
+			["Name"] = "Give Name",
+			["function"] = function()
+				local curText = LocalPlayer():GetInfo("gmt_petname_saturn") or ""
+
+				Derma_StringRequest(
+					"Pet Name",
+					"Please enter the name of your cute pet!",
+					curText,
+					function (text) RunConsoleCommand("gmt_petname_saturn",text) end
+				)
+			end
+		})
+	end,
+
+	CreateEquipEntity = function( self )
+
+		local pet = ents.Create( "gmt_mrsaturn" )
+
+		if IsValid( pet ) then
+
+			self.Ply.Pet = pet
+
+			pet:SetPos( self.Ply:GetPos() )
+			pet:SetOwner( self.Ply )
+			pet:Spawn()
+
+		end
+
+		return pet
+
+	end
+} )
 
 GTowerItems.RegisterItem( "RubikPet", {
 
@@ -136,8 +196,6 @@ GTowerItems.RegisterItem( "RubikPet", {
 	end	
 } )
 
-if not Lobby1Mode then
-
 GTowerItems.RegisterItem( "TurtlePet", {
 
 	Name = "Turtle Pet",
@@ -204,8 +262,6 @@ GTowerItems.RegisterItem( "TurtlePet", {
 	end,
 
 } )
-
-end
 
 
 GTowerItems.RegisterItem( "BalloonicornPet", {
@@ -364,6 +420,299 @@ GTowerItems.RegisterItem( "YoshiEggs", {
 		return pet
 			
 	end,
+} )
+
+/*GTowerItems.RegisterItem( "RobotPet", {
+
+	Name = "Robot Pet",
+	Description = "Your personal robot assistant!",
+
+	Model = "models/player/items/all_class/pet_robro.mdl",
+
+	DrawModel = true,
+	Equippable = true,
+
+	UniqueInventory = false,
+	UniqueEquippable = false,
+
+	EquipType = "Pet",
+
+	CanEntCreate = false,
+	DrawName = true,
+	CanRemove = true,
+	Tradable = true,
+
+	NewItem = true,
+
+	StoreId = 26,
+	StorePrice = 75000,
+
+	EquippableEntity = true,
+	RemoveOnDeath = true,
+	RemoveOnNoEntsLoc = true,
+
+	CreateEquipEntity = function( self )
+
+		local pet = ents.Create( "gmt_robot" )
+
+		if IsValid( pet ) then
+			pet:SetOwner( self.Ply )
+			pet:SetParent( self.Ply )
+			pet:Spawn()
+		end
+
+		return pet
+
+	end
+} )*/
+
+GTowerItems.RegisterItem( "ReinPet", {
+
+	Name = "Reindeer Pet",
+	Description = "No, this is not a Balloonicorn. We promise!",
+
+	Model = "models/player/items/all_class/pet_reinballoonicorn.mdl",
+
+	DrawModel = true,
+	Equippable = true,
+
+	UniqueInventory = true,
+	UniqueEquippable = false,
+
+	EquipType = "Pet",
+
+	CanEntCreate = false,
+	DrawName = true,
+	CanRemove = true,
+	Tradable = true,
+
+	NewItem = true,
+
+	StoreId = GTowerStore.HOLIDAY,
+	StorePrice = 22000,
+
+	EquippableEntity = true,
+	RemoveOnDeath = true,
+	RemoveOnNoEntsLoc = true,
+
+	CreateEquipEntity = function( self )
+
+		local pet = ents.Create( "gmt_pet_reindeer" )
+
+		if IsValid( pet ) then
+			pet:SetOwner( self.Ply )
+			pet:SetParent( self.Ply )
+			pet:Spawn()
+		end
+
+		return pet
+
+	end
+} )
+
+/*GTowerItems.RegisterItem( "GhostPet", {
+
+	Name = "Ghost Pet",
+	Description = "A spooky ghost, next to your side.",
+
+	Model = "models/player/items/all_class/hwn_pet_ghost.mdl",
+
+	DrawModel = true,
+	Equippable = true,
+
+	UniqueInventory = true,
+	UniqueEquippable = false,
+
+	EquipType = "Pet",
+
+	CanEntCreate = false,
+	DrawName = true,
+	CanRemove = true,
+	Tradable = true,
+
+	NewItem = true,
+
+	StoreId = GTowerStore.HALLOWEEN,
+	StorePrice = 25000,
+
+	EquippableEntity = true,
+	RemoveOnDeath = true,
+	RemoveOnNoEntsLoc = true,
+
+	CreateEquipEntity = function( self )
+
+		local pet = ents.Create( "gmt_pet_ghost" )
+
+		if IsValid( pet ) then
+			pet:SetOwner( self.Ply )
+			pet:SetParent( self.Ply )
+			pet:Spawn()
+		end
+
+		return pet
+
+	end
+} )*/
+
+GTowerItems.RegisterItem( "ParticleSystemVIP", {
+	Name = "Particle: Beauty Cone",
+	Description = "Shiny.",
+	//Model = "models/gmod_tower/particleball.mdl",
+	Model = "models/weapons/w_pvp_ire.mdl",
+	DrawModel = false,
+	Equippable = true,
+	UniqueEquippable = true,
+	EquipType = "Particle",
+	CanEntCreate = false,
+	DrawName = true,
+
+	StoreId = GTowerStore.PARTICLES,
+	StorePrice = 30000,
+
+	Tradable = false,
+	UniqueInventory = true,
+
+	PreviewURL = "particles/beauty-cone.webp",
+
+	EquippableEntity = true,
+	RemoveOnDeath = true,
+	RemoveOnNoEntsLoc = true,
+	OverrideOnlyEquippable = true,
+	CreateEquipEntity = function( self )
+
+		local particle = ents.Create( "gmt_wearable_particle_base" )
+
+		if IsValid( particle ) then
+			particle:SetOwner( self.Ply )
+			particle:SetParent( self.Ply )
+			particle:Spawn()
+		end
+
+		return particle
+
+	end
+} )
+GTowerItems.RegisterItem( "ParticleSystemBanana", {
+	Name = "Particle: Bananas",
+	Description = "Express your love for bananas with this cool particle effect!",
+	//Model = "models/gmod_tower/particleball.mdl",
+	Model = "models/weapons/w_pvp_ire.mdl",
+	DrawModel = false,
+	Equippable = true,
+	UniqueEquippable = true,
+	EquipType = "Particle",
+	CanEntCreate = false,
+	DrawName = true,
+
+	NewItem = true,
+
+	StoreId = GTowerStore.PARTICLES,
+	StorePrice = 10000,
+
+	Tradable = false,
+	UniqueInventory = true,
+
+	PreviewURL = "particles/bananas.webp",
+
+	EquippableEntity = true,
+	RemoveOnDeath = true,
+	RemoveOnNoEntsLoc = true,
+	OverrideOnlyEquippable = true,
+	CreateEquipEntity = function( self )
+
+		local particle = ents.Create( "gmt_wearable_particle_banana" )
+
+		if IsValid( particle ) then
+			particle:SetOwner( self.Ply )
+			particle:SetParent( self.Ply )
+			particle:Spawn()
+		end
+
+		return particle
+
+	end
+} )
+
+GTowerItems.RegisterItem( "ParticleSystemNotes", {
+	Name = "Particle: Music Notes",
+	Description = "That's my jam.",
+	//Model = "models/gmod_tower/particleball.mdl",
+	Model = "models/weapons/w_pvp_ire.mdl",
+	DrawModel = false,
+	Equippable = true,
+	UniqueEquippable = true,
+	EquipType = "Particle",
+	CanEntCreate = false,
+	DrawName = true,
+
+	NewItem = true,
+
+	StoreId = GTowerStore.PARTICLES,
+	StorePrice = 7500,
+
+	Tradable = false,
+	UniqueInventory = true,
+
+	PreviewURL = "particles/music-notes.webp",
+
+	EquippableEntity = true,
+	RemoveOnDeath = true,
+	RemoveOnNoEntsLoc = true,
+	OverrideOnlyEquippable = true,
+	CreateEquipEntity = function( self )
+
+		local particle = ents.Create( "gmt_wearable_particle_notes" )
+
+		if IsValid( particle ) then
+			particle:SetOwner( self.Ply )
+			particle:SetParent( self.Ply )
+			particle:Spawn()
+		end
+
+		return particle
+
+	end
+} )
+
+GTowerItems.RegisterItem( "ParticleSystemOrbs", {
+	Name = "Particle: Orbs",
+	Description = "Soothing orbs that sparkle around you.",
+	//Model = "models/gmod_tower/particleball.mdl",
+	Model = "models/weapons/w_pvp_ire.mdl",
+	DrawModel = false,
+	Equippable = true,
+	UniqueEquippable = true,
+	EquipType = "Particle",
+	CanEntCreate = false,
+	DrawName = true,
+
+	NewItem = true,
+
+	StoreId = GTowerStore.PARTICLES,
+	StorePrice = 12500,
+
+	Tradable = false,
+	UniqueInventory = true,
+
+	PreviewURL = "particles/orbs.webp",
+
+	EquippableEntity = true,
+	RemoveOnDeath = true,
+	OverrideOnlyEquippable = true,
+	RemoveOnNoEntsLoc = true,
+	CreateEquipEntity = function( self )
+
+		local particle = ents.Create( "gmt_wearable_particle_orbs" )
+
+		if IsValid( particle ) then
+			particle:SetOwner( self.Ply )
+			particle:SetParent( self.Ply )
+			particle:Spawn()
+		end
+
+		return particle
+
+	end
 } )
 
 RegisterItem("fishbowl",{

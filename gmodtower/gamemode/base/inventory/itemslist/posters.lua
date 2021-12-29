@@ -459,8 +459,16 @@ RegisterItem("postera4",{
 	ModelSkinId = 0,
 })
 
+RegisterItem("postera5",{
+	Base = "poster1",
+	Name = "Poster: Tower Unite",
+	Model = "models/gmod_tower/postera5.mdl",
+	ModelSkinId = 0,
+	NewItem = true,
+})
+
 local posters = {
-	["a1"] = {
+["a1"] = {
 		"Saints Row 4",
 		"Terraria",
 		"Amnesia",
@@ -528,9 +536,29 @@ local posters = {
 		"Scream",
 		"The Dark Knight",
 	},
+		["a5"] = {
+		"The Ballracers",
+		"Vapourwave",
+		"Lobby 2 Group Photo",
+		"Rick And Morty",
+		"Hitman 2",
+		"My Hero Academia",
+		"The Super Mario Bros Show",
+		"Red Dead Redemption 2",
+		"Explore Mars",
+		"Sabaton",
+		"Deep Rock Galactic",
+		"GMod Tower: Classic",
+		"Dank",
+		"Human Fall Flat",
+		"I Want To Believe",
+		"Anomaladox",
+		"Spiderman Triology",
+	},
 }
 
 RegisterChildPosters( "postera1", posters.a1, 5, 1399197707 )
 RegisterChildPosters( "postera2", posters.a2, 20, 1399197707 )
 RegisterChildPosters( "postera3", posters.a3, 35, 1399197707 )
 RegisterChildPosters( "postera4", posters.a4, 50, 1399197707 )
+RegisterChildPosters( "postera5", posters.a5, 65, 1399197707 )

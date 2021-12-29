@@ -1315,7 +1315,139 @@ RegisterItem("brownarmchair",{
 	StorePrice = 800,
 	MoveSound = "furniture2",
 })
-
+RegisterItem("autopiano",{
+	Name = "Piano",
+	Description = "Autoplay well known tunes with this magical piano.",
+	Model = "models/fishy/furniture/piano.mdl",
+	UniqueInventory = true,
+	DrawModel = true,
+	StoreId = 27,
+	StorePrice = 8000,
+	ClassName = "gmt_item_piano",
+})
+RegisterItem("drumset",{
+	Name = "Drum Set",
+	Description = "Start your own band with this working drumset!",
+	Model = "models/map_detail/music_drumset.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	ClassName = "gmt_instrument_drums",
+	
+	StoreId = 27,
+	StorePrice = 10000,
+})
+RegisterItem("woodcrate",{
+	Name = "Wooden Crate",
+	Description = "What's a Source game without crates?",
+	Model = "models/props_junk/wood_crate001a.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.BASICAL,
+	StorePrice = 75,
+	
+	MoveSound = "wood"
+})
+RegisterItem("ballarrow",{
+	Name = "Red Arrow",
+	Description = "An red arrow from Ballrace, useful to point at stuff.",
+	Model = "models/gmod_tower/arrow.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.BASICAL,
+	StorePrice = 500,
+	
+})
+RegisterItem("jerrycan",{
+	Name = "Jerrycan",
+	Description = "A jerrycan, useful to store liquids in.",
+	Model = "models/props_farm/oilcan01b.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.BASICAL,
+	StorePrice = 1250,
+	
+})
+RegisterItem("cardbox",{
+	Name = "Cardboard Box",
+	Description = "'Useful for building forts!' -Basical",
+	Model = "models/props_junk/cardboard_box001a.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.BASICAL,
+	StorePrice = 25,
+	
+	MoveSound = "cloth"
+})
+RegisterItem("tire",{
+	Name = "Tire",
+	Description = "For your future car.",
+	Model = "models/props_2fort/tire001.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.BASICAL,
+	StorePrice = 125,
+	
+	MoveSound = "cloth"
+})
+RegisterItem("andalouse",{
+	Name = "Andalouse Sauce",
+	Description = "Mit erlesenen gewürzen.",
+	Model = "models/map_detail/andalouse.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.BASICAL,
+	StorePrice = 250,
+	
+})
+RegisterItem("redvalve",{
+	Name = "Red Valve",
+	Description = "You may not buy 3 valves.",
+	Model = "models/props_mining/crank02.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.BASICAL,
+	StorePrice = 50,
+	
+})
+RegisterItem("goldingot",{
+	Name = "Pure Gold Ingot",
+	Description = "The finest gold around. Show off your juicy GMC with this ingot.",
+	Model = "models/props_mining/ingot001.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.BASICAL,
+	StorePrice = 100000,
+	
+})
+RegisterItem("woodpile",{
+	Name = "Wood Pile",
+	Description = "The leftover wood that stood at the Merchant's house. Collected for your placing-pleasure!",
+	Model = "models/props_forest/woodpile_indoor.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.BASICAL,
+	StorePrice = 175,
+	
+})
+RegisterItem("mopbucket",{
+	Name = "Mop And Bucket",
+	Description = "To keep your suite extra clean.",
+	Model = "models/props_2fort/mop_and_bucket.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.BASICAL,
+	StorePrice = 100,
+	
+})
+RegisterItem("waterspigot",{
+	Name = "Water Spigot",
+	Description = "Forget your kitchen sink, and get your water out of the ground!",
+	Model = "models/props_farm/water_spigot.mdl",
+	ClassName = "gmt_spigot",
+	DrawModel = true,
+	StoreId = GTowerStore.BASICAL,
+	StorePrice = 275,
+	
+})
+RegisterItem("anomalabook",{
+	Name = "How I Remade GMod Tower.",
+	Description = "'Anoma please fix' they said...",
+	Model = "models/sunabouzu/book_single_anoma.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.BASICAL,
+	StorePrice = 10000,
+	
+})
 RegisterItem("woodgametable",{
 	Name = "Wooden Table",
 	Description = "A wooden multipurpose table.",
@@ -1371,3 +1503,123 @@ RegisterItem("toiletchair",{
 	StorePrice = 1000,
 	UseSound = "use_toilet.wav",
 })
+
+RegisterItem("haybale",{
+	Name = "Hay Bale",
+	Description = "A special hay bale that you can't buy!",
+	Model = "models/props_gameplay/haybale.mdl",
+	DrawModel = true,
+	MoveSound = "cloth"
+})
+
+// New Halloween stuff
+//-----------------------------
+
+RegisterItem("flaskpotion",{
+
+	Name = "Flask Potion",
+
+	Description = "Please, do not drink this.",
+
+	Model = "models/props_halloween/hwn_flask_vial.mdl",
+
+	DrawModel = true,
+
+	StorePrice = 100,
+
+})
+RegisterItem("hwpumpkin1",{
+
+	Name = "Pumpkin #1",
+
+	Description = "A pumpkin.",
+
+	Model = "models/map_detail/halloween/pumpkin_face_01.mdl",
+
+	DrawModel = true,
+
+	StorePrice = 100,
+
+})
+RegisterItem("hwpumpkin2",{
+
+	Name = "Pumpkin #2",
+
+	Description = "A pumpkin.",
+
+	Model = "models/map_detail/halloween/pumpkin_face_02.mdl",
+
+	DrawModel = true,
+
+	StorePrice = 100,
+
+})
+RegisterItem("hwpumpkin3",{
+
+	Name = "Pumpkin #3",
+
+	Description = "A pumpkin.",
+
+	Model = "models/map_detail/halloween/pumpkins_01.mdl",
+
+	DrawModel = true,
+
+	StorePrice = 100,
+
+})
+RegisterItem("hwpumpkin4",{
+
+	Name = "Pumpkin #4",
+
+	Description = "A pumpkin.",
+
+	Model = "models/map_detail/halloween/pumpkins_03.mdl",
+
+	DrawModel = true,
+
+	StorePrice = 100,
+
+})
+RegisterItem("cardboardzombie",{
+
+	Name = "Zombie Cutout",
+
+	Description = "Braaiinsss...",
+
+	Model = "models/zerochain/props_halloween/cardboard_zombie01.mdl",
+
+	DrawModel = true,
+
+	DrawName = true,
+	StorePrice = 100,
+
+})
+RegisterItem("scarecrow",{
+
+	Name = "Scarecrow",
+
+	Description = "That's a scary crow you got there!",
+
+	Model = "models/props_manor/gmt_scarycrowman.mdl",
+
+	DrawModel = true,
+
+	StorePrice = 100,
+
+})
+RegisterItem("coffin",{
+
+	Name = "Coffin",
+
+	Description = "Bell not included.",
+
+	Model = "models/props_manor/coffin_02.mdl",
+
+	DrawModel = true,
+
+	StorePrice = 100,
+
+	UseSound = "misc/halloween/spell_skeleton_horde_cast.wav",
+})
+
+//-----------------------------

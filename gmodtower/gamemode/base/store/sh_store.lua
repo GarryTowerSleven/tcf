@@ -14,6 +14,7 @@ GTowerStore.VENDING 	= 17
 GTowerStore.PLAYERMODEL = 13
 GTowerStore.FIREWORKS 	= 14
 GTowerStore.POSTERS 	= 15
+GTowerStore.BASICAL		= 16
 GTowerStore.FOOD		= 25
 GTowerStore.DUEL		= 24
 GTowerStore.HALLOWEEN	= 19
@@ -96,6 +97,13 @@ GTowerStore.Stores = {
 		ModelSize = 600,
 		CameraZPos = 5,
 		CameraFar = 100
+	},
+	[GTowerStore.BASICAL] = {
+		NpcClass = "gmt_npc_basical",
+		WindowTitle = "Basical's Goods",
+		ModelStore = true,
+		ModelSize = 400,
+		CameraZPos = 15,
 	},
 	[GTowerStore.VENDING] = {
 		NpcClass = "gmt_vending_machine",
