@@ -43,7 +43,6 @@ Loadables.Load( {
 	//"boss",									-- WIP boss battle
 	"soundscape",						-- Soundscapes and background music
 	"condopanel",						-- Condo OS
-	//"multicore",						-- Forces multicore, improves FPS
 	"friends",							-- Friend and blocking system
 	"group",								-- Player group system
 	"clsound",							-- Clientside sounds
@@ -69,7 +68,6 @@ Loadables.Load( {
 	"fakeclientmodel",			-- Fake player models for use such as the monorail
 	"question",					    -- Global voting
 	"contentmanager",			  -- Missing Content Notification
-	//"theater2",						-- Theater 2
 	"multicore",
 	"mediaplayer",
 
