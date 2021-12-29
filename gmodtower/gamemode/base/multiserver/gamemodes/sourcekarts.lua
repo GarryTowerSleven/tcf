@@ -33,7 +33,11 @@ GMode.View = {
 
 function GMode:GetMapTexture( map )
 
-	map = string.sub(map,0,#map-2)
+	if map == "gmt_sk_island01_fix" && map == "gmt_sk_rave" && map == "gmt_sk_stadium" then
+		map = map
+	else
+		map = string.sub(map,0,#map-2)
+	end
 
 	return "gmod_tower/maps/" .. map
 

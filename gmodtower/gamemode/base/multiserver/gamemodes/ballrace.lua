@@ -47,7 +47,11 @@ GMode.Maps = Maps.GetMapsInGamemode( GMode.Gamemode )
 
 function GMode:GetMapTexture( map )
 
-	map = string.sub(map,0,#map-2)
+	if map == "gmt_ballracer_nightball" /*or map == "gmt_ballracer_miracle"*/ or map == "gmt_ballracer_neonlights" or map == "gmt_ballracer_metalworld" or map == "gmt_ballracer_summit" or map == "gmt_ballracer_tranquil" or map == "gmt_ballracer_facile" or map == "gmt_ballracer_waterworld" or map == "gmt_ballracer_spaceworld" or map == "gmt_ballracer_rainbowworld" then
+		map = map
+	else
+		map = string.sub(map,0,#map-2)
+	end
 
 	return "gmod_tower/maps/" .. map
 

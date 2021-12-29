@@ -61,7 +61,11 @@ GMode.MaxPlayers = 8 //Leave nil if the maxplayers are suppost to be the server 
 GMode.Gameplay = "FPS"
 
 function GMode:GetMapTexture( map )
-	map = string.sub(map,0,#map-2)
+	if map == "gmt_pvp_neo" or map == "gmt_pvp_mars" or map == "gmt_pvp_aether" then
+		map = map
+	else
+		map = string.sub(map,0,#map-2)
+	end
 
 	return "gmod_tower/maps/" .. map
 

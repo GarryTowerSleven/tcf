@@ -6,10 +6,20 @@ Maps.Register( "gmt_sk_lifelessraceway01", {
 	DateModified = 1345506617,
 } )
 
-/*Maps.Register( "gmt_sk_island02", {
+Maps.Register( "gmt_sk_island02", {
 	Name = "Drift Island",
 	Desc = "This island is home of the famous loop, which is the most representative landmark of the mysterious Island.",
 	Author = "Matt",
 	DateAdded = 1345328453,
 	DateModified = 1345506617,
-} )*/
+} )
+
+
+
+Maps.Register( "gmt_sk_rave", {
+	Name = "Rave",
+	Desc = "Someone build a racing course inside of a rave party, this better be fun!",
+	Author = "Madmijk / Bumpy",
+	DateAdded = 1345328453,
+	DateModified = 1345506617,
+} ) 

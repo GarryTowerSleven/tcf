@@ -27,7 +27,11 @@ GMode.Gameplay = ""
 GMode.Maps = Maps.GetMapsInGamemode( GMode.Gamemode )
 
 function GMode:GetMapTexture( map )
-	map = string.sub(map,0,#map-2)
+	if map == "gmt_minigolf_desert" then
+		map = map
+	else
+		map = string.sub(map,0,#map-2)
+	end
 
 	return "gmod_tower/maps/" .. map
 
