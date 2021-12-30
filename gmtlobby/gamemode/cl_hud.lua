@@ -303,7 +303,7 @@ function initHud()
 
 		-- Draw Use message
 		
-		if GTowerHUD.Crosshair.Action:GetBool() and IsValid( ent ) and CanPlayerUse( ent ) then
+		if !GTowerHUD.Crosshair.Action:GetBool() and IsValid( ent ) and CanPlayerUse( ent ) then
 			GTowerHUD.DrawUseMessage( ent, x, w, h )
 			if HUDStyle_L2 then return end
 		end
