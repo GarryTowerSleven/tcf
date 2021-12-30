@@ -2,7 +2,7 @@ hook.Add("ClientExtraModels", "InventoryCheck", function( func, clickfunc, categ
 
 	local function TestForItem( ItemObj )
 		if ItemObj.Item && ItemObj.Item:IsValid() && ItemObj.Item.ModelItem == true then			
-			func( ItemObj.Item.ModelName, ItemObj.Item.Model, ItemObj.Item.ModelSkinId, clickfunc, category, 0, 0, ItemObj.Item.Description, ItemObj.Item.Name )
+			func( ItemObj.Item.ModelName .. "-" .. ItemObj.Item.ModelSkinId, ItemObj.Item.Model, ItemObj.Item.ModelSkinId, clickfunc, category, 0, 0, ItemObj.Item.Description, ItemObj.Item.Name )
 			//func( ItemObj.Item.ModelName .. "-" .. ItemObj.Item.ModelSkinId, ItemObj.Item.Model, ItemObj.Item.ModelSkinId )
 		end
 	end
