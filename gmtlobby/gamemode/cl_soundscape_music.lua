@@ -192,3 +192,6 @@ soundscape.Register("music_duels", {})
 
 -- Mute any music in the duels arena
 soundscape.Register("music_duelarena", {})
+
+-- Mute any music in the button room
+soundscape.Register("music_secret", {})
