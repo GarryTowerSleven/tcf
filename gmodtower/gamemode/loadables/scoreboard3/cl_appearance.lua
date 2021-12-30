@@ -471,7 +471,7 @@ function APPEARANCE:GenerateModelSelection()
 
 		icon.ModelName = name
 
-		icon.BetterName = name
+		icon.BetterName = bettername or name
 
 		icon.Description = description or ""
 
@@ -495,7 +495,7 @@ function APPEARANCE:GenerateModelSelection()
 
 		icon.OnCursorEntered = function()
 
-			if GTowerItems then GTowerItems:ShowTooltip( icon.ModelName, icon.Description, self ) end
+			if GTowerItems then GTowerItems:ShowTooltip( icon.BetterName, icon.Description, self ) end
 
 		end
 
@@ -623,7 +623,7 @@ function APPEARANCE:GenerateModelSelection()
 
 
 
-	for name, model in pairs( player_manager.AllValidModels() ) do
+	/*for name, model in pairs( player_manager.AllValidModels() ) do
 
 		if !LocalPlayer()._ModelTable then LocalPlayer()._ModelTable = {} end
 
@@ -634,7 +634,7 @@ function APPEARANCE:GenerateModelSelection()
 
 		--AddSpawnIcon( name, model, skin, IconSetModel, CategoryList, 0, 0, "A standard player model." )
 
-	end
+	end*/
 
 	for name, model in pairs( player_manager.AllValidModels() ) do
 
