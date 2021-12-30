@@ -237,9 +237,19 @@ function StartDueling(Weapon, Requester, Arriver, Amount)
 
 	table.Add( DeathCheck , CurPlayers )
 
+	timer.Simple( .5, function()
+		Requester:Freeze(true)
+		Arriver:Freeze(true)
+	end )
+
+	timer.Simple( DuelStartDelay, function()
+		Requester:Freeze(false)
+		Arriver:Freeze(false)
+	end )
+
 	net.Start( "StartDuel" )
-	net.WritePlayer( Requester )
-	net.WritePlayer( Arriver )
+		net.WritePlayer( Requester )
+		net.WritePlayer( Arriver )
 	net.Broadcast()
 end
 
@@ -272,11 +282,33 @@ end
 local function RespawnWinner(ply)
     timer.Simple(5,function()
 		if !IsValid(ply) then return end
-		if ply.ActiveDuel or Location.Find(ply:GetPos()) != 41 then return end
+		if ply.ActiveDuel or !Location.Is( ply:Location(), "duelarena" ) then return end
         ply:StripWeapons()
-        ply.DesiredPosition = Vector(7128.354980, 991.272339, -1255.968750)
-        ply:SetEyeAngles(Angle(0, -90, 0))
+        ply.DesiredPosition = Vector(4688, -565, -3520)
+        ply:SetEyeAngles(Angle(0, 0, 0))
     end)
+end
+
+local respawnDelay = 5
+
+local function RespawnDuelers(ply, opponent)
+	
+	if IsValid(ply) then
+		ply.DuelDie = false
+    	ply:StripWeapons()
+		ply:Spawn()
+    	ply:SetPos( Vector(4688, -565, -3520) )
+    	ply:SetEyeAngles(Angle(0, 0, 0))
+	end
+
+	if IsValid(opponent) then
+		opponent.DuelDie = false
+		opponent:StripWeapons()
+		opponent:Spawn()
+		opponent:SetPos( Vector(4688, -851, -3520) )
+    	opponent:SetEyeAngles(Angle(0, 0, 0))
+	end
+
 end
 
 local function ClearDeathCheck(ply)
@@ -297,23 +329,26 @@ local function ClearDeathCheck(ply)
 			ply:SetCustomCollisionCheck(true)
 			Opponent:SetCustomCollisionCheck(true)
 
+			ply.DuelDie = true
+			Opponent.DuelDie = true
+
 			local Timestamp = os.time()
 			local TimeString = os.date( "%H:%M:%S - %d/%m/%Y" , Timestamp )
 			SQLLog( 'duel', ply:Name() .. " has won a duel with " .. Opponent:Name() .. " winning " .. tostring(Amount) .. "GMC. (" .. TimeString .. ")" )
-		local OpponentMoney = tonumber(Opponent:Money())
+			local OpponentMoney = tonumber(Opponent:Money())
 
-		if OpponentMoney <= Amount then
+			if OpponentMoney <= Amount then
 			ply:AddMoney(OpponentMoney)
-			if !ByDisconnect then
-			Opponent:AddMoney(-OpponentMoney)
+				if !ByDisconnect then
+					Opponent:AddMoney(-OpponentMoney)
+				end
+			else
+				ply:AddMoney(ply.Amount)
 			end
-		else
-			ply:AddMoney(ply.Amount)
-		end
 
-		if !ByDisconnect then
-			Opponent:AddMoney(-Opponent.Amount)
-		end
+			if !ByDisconnect then
+				Opponent:AddMoney(-Opponent.Amount)
+			end
 
 		end
 
@@ -408,29 +443,28 @@ local function EndDuel(victim, disconnected)
 		ClearDeathCheck(target)
 	end
 
-	target.DuelOpponent = nil
+	target.Opponent = nil
+	victim.Opponent = nil
 
     EndDuelClient(won, target, victim)
 
-	RespawnWinner(target)
+	timer.Simple( respawnDelay, function()
+		RespawnDuelers(victim, target)
+	end )
 end
 
 hook.Add( "PostPlayerDeath", "DuelDeathCheck", function(ply)
     if !table.HasValue(DeathCheck,ply) then return end
 
     EndDuel(ply, false)
-
-    RespawnWinner()
 end)
 
 hook.Add( "PlayerDisconnected", "DisconnectDeathCheck", function(ply)
-  if !table.HasValue(DeathCheck,ply) then return end
+	if !table.HasValue(DeathCheck,ply) then return end
 
 	table.RemoveByValue(DeathCheck, ply)
 
     EndDuel(ply, true)
-
-  RespawnWinner()
 end)
 
 net.Receive("SuddenDeath",  function(_, ply)
@@ -462,14 +496,28 @@ net.Receive("SuddenDeath",  function(_, ply)
 	end
 end)
 
-hook.Add("Location","MoonAchiCheck",function(ply,loc)
-	if IsValid( ply ) then
-		if Location.Is(loc, "duelarena") then
-			ply.MoonStoreModel = ply:GetModel()
-			ply:SetModel("models/player/anon/anon.mdl")
-		elseif Location.Is( ply._LastLocation, "duelarena" ) then
-			ply:SetModel(ply.MoonStoreModel)
-		end
+function GM:PlayerDeathThink( ply )
+	if !IsValid( ply ) then return end
 
+	if ply.DuelDie then
+		return false
+	end
+
+	if ( ply.NextSpawnTime && ply.NextSpawnTime > CurTime() ) then return end
+
+	if ( ply:IsBot() || ply:KeyPressed( IN_ATTACK ) || ply:KeyPressed( IN_ATTACK2 ) || ply:KeyPressed( IN_JUMP ) ) then
+		ply:Spawn()
+	end
+end
+
+hook.Add("Location","DuelingPlayermodel",function(ply,loc,lastloc)
+	if IsValid( ply ) then
+		if !ply.TempModel && Location.Is(loc, "duelarena") then
+			ply.TempModel = ply:GetModel()
+			ply:SetModel("models/player/anon/anon.mdl")
+		elseif ply.TempModel && !Location.Is(loc, "duelarena") then
+			ply:SetModel(ply.TempModel)
+			ply.TempModel = nil
+		end
 	end
 end)

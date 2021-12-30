@@ -555,7 +555,7 @@ function initHud()
 	function GTowerHUD.DrawHealth()
 
 		// i dont see why not
-		if !HUDStyle_Lobby1AB && !Location.Is( LocalPlayer():Location(), "duelarena" ) then return end
+		if !HUDStyle_Lobby1AB && !IsDueling(LocalPlayer()) && !Location.Is( LocalPlayer():Location(), "duelarena" ) then return end
 
 		// Lobby 1 Health
 		if !HUDStyle_L2 then
@@ -605,13 +605,16 @@ function initHud()
 		local iconSize = 32
 		local health = LocalPlayer():Health()
 		if health < 0 then health = 0 end
-		local maxHealth = LocalPlayer():GetMaxHealth()
+		local maxHealth = 100
+		if IsDueling( LocalPlayer() ) then
+			maxHealth = 300
+		end
 		local percent = ( health / maxHealth )
 		local ratio = 1 - ( percent )
 		local oppred = 200 - ratio * math.sin( CurTime() * ratio * 3 ) * 55 + ( 1 - ratio ) * 55
 
 		-- Gradient background
-		surface.SetDrawColor( Color( 0, 0, 0, 200 ) )
+		surface.SetDrawColor( GTowerHUD.Info.BGColor )
 		surface.SetMaterial( GTowerHUD.Info.Background )
 		surface.DrawTexturedRect( 0, y-10, w, 20 )
 

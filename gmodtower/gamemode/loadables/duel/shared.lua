@@ -1,6 +1,4 @@
-module( "Dueling", package.seeall )
-
-Sounds = {
+DuelingSounds = {
 	Hit = "GModTower/lobby/duel/duel_hit.wav",
 	Wager = "GModTower/lobby/duel/duel_wager.wav",
 	Lose = "GModTower/lobby/duel/duel_lose.mp3",
@@ -14,11 +12,5 @@ DuelStartDelay = 6
 
 function IsDueling( ply )
 	if ply:IsBot() then return false end
-	return IsValid( ply.DuelOpponent )
+	return ply.DuelOpponent or nil
 end
-
-hook.Add( "DisableJetpack", "DisableJetpackDueling", function( ply )
-	if IsDueling( ply ) then
-		return true
-	end
-end )
