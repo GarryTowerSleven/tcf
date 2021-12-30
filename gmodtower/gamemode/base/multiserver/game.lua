@@ -68,12 +68,22 @@ function GTowerServers:RedirectPlayers( ip, port, password, players, NoCheckGone
 	for _, ply in pairs( players ) do
 		if IsValid(ply) then
 			table.insert(ips, ply:Name() .. "@" .. ply:IPAddress())
-
+			local gameName
+			if gameMode != nil then gameName = gameMode.Name else gameName = "unspecified gamemode" end
 			rp:AddPlayer( ply )
-			ply:Msg2("Sending you to server " .. tostring(ip) .. ":" .. tostring(port) .. " pass: " .. tostring(password))
+			ply:Msg2("Sending you to " .. gameName)
 
 			if NoCheckGone != true then
 				timer.Simple( 5.0,  function() MakeSureGoneA( ply:SteamID(), ip, port, password ) end)
+			end
+
+			if IsLobby then
+				timer.Simple(2, function()
+					umsg.Start("GServ", ply)
+						umsg.Char( 14 )
+						umsg.String(gameName)
+					umsg.End()
+				end)
 			end
 
 			if self.DEBUG then Msg("Setting player " .. tostring( ply ) .. " to serverID#: " .. tostring(serverid) .. "\n") end

@@ -77,6 +77,23 @@ usermessage.Hook("GServ", function(um)
 	elseif MsgId == 12 then
 
 		GTowerServers:CloseMapChooser()
+		
+	elseif MsgId == 14 then
+
+		local ServerName = um:ReadString()
+
+		local Question = Msg2( T( "GamemodeFailedJoin", ServerName ), 30 )
+		Question:SetupQuestion(
+			function() Msg2( T( "GamemodeStay", ServerName ) ) end, //accept
+			function()
+				Msg2( T( "GamemodeLeave", ServerName ) )
+				RunConsoleCommand( "gmt_mtsrv", 2 )
+			end, //decline
+			function() end, //timeout
+			nil,
+			{120, 160, 120}, 
+			{160, 120, 120}
+		)
 
 	else
 		Msg("Called GServ with invalid id: " .. MsgId .. "\n")
