@@ -3311,6 +3311,6 @@ Location.LoadMapData( {
 		FriendlyName = "???",
 		Name = "secret1",
 		Priority = 1,
-		Group = "plaza",
+		Group = "button",
 	},
 } )
