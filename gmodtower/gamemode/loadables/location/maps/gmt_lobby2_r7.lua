@@ -579,7 +579,7 @@ Location.LoadMapData( {
 		FriendlyName = "Center Plaza",
 		Name = "centerplaza",
 		Priority = 1,
-		Group = "plaza",
+		Group = "cplaza",
 	},
 	[16] = {
 		Regions = {

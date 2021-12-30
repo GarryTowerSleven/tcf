@@ -240,6 +240,20 @@ soundscape.Register("music_store_merchant",
 
 })
 
+if !IsHolidayMap() then
+	soundscape.Register("music_cplaza",
+	{
+		{
+			type = "playlooping",
+			-- Limit the volume
+			volume = 0.25,
+
+			-- All sounds are in a table format of {soundpath, soundlength}
+			sound = {Sound("gmodtower/soundscapes/music/deluxe_centralplaza.mp3"), 4},
+		},
+	})
+end
+
 -- Mute BG music in elevator
 soundscape.Register("music_elevator", {})
 
