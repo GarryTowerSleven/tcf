@@ -356,6 +356,7 @@ function PANEL:SetupMaps()
 		end
 
 		panel.btnMap.OnCursorEntered = function()
+			if panel.btnMap.DisableVote then return end
 
 			self.HoveredMap = mapData
 
@@ -368,6 +369,7 @@ function PANEL:SetupMaps()
 
 
 		panel.btnMap.OnCursorExited = function()
+			if panel.btnMap.DisableVote then return end
 
 			self.HoveredMap = nil
 
@@ -378,6 +380,7 @@ function PANEL:SetupMaps()
 
 
 		panel.btnMap.DoClick = function()
+			if panel.btnMap.DisableVote then return end
 
 			if GTowerServers:CanStillVoteMap() and !panel.btnMap.Disabled then
 
@@ -755,7 +758,7 @@ function PANEL:UpdateVotes()
 
 			local col_progress = Color( 11, 165, 169, 125 )
 
-			if ( panel.btnMap.Disabled ) then
+			if ( panel.btnMap.Disabled || panel.btnMap.DisableVote ) then
 
 				col = Color( 0, 0, 0, 235 )
 
@@ -912,12 +915,13 @@ function PANEL:FinishVote( map )
 
 	for _, v in pairs( self.MapList:GetItems() ) do
 
-		if v.btnMap && v.btnMap:GetText() == Maps.GetName(map) then
-
-			bar = v.btnMap
-
+		if v.btnMap then
+			if v.btnMap:GetText() == Maps.GetName(map) then
+				bar = v.btnMap
+			end
+			v.btnMap.DisableVote = true
 		end
-
+		
 	end
 
 
