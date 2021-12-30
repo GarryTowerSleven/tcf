@@ -638,6 +638,11 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 			self:Divider()
 			
+			self:Header( "Inventory" )
+			self:CheckBox( "Enable Old Inventory Colors", "gmt_inv_style" )
+
+			self:Divider()
+			
 			self:Header( "Store" )
 			self:CheckBox( "Enable Old Store GUI", "gmt_oldstore" )
 			self:CheckBox( "Enable Compact Store GUI", "gmt_compactstores", "gmt_oldstore" )

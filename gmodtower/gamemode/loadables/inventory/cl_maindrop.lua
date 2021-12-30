@@ -7,6 +7,16 @@ local BorderSize = 3
 local SpaceBetweenItems = 2
 local MaxColumns = 8
 
+local gradient = surface.GetTextureID("vgui/gradient_up")
+
+local GradColor1 = Color( 21, 100, 110, 250 )
+local GradColor2 = Color( 84, 44, 97, 225 )
+
+if IsHalloweenMap() then
+	GradColor1 = Color( 35, 35, 35, 250 )
+	GradColor2 = Color( 45, 45, 45, 250 )
+end
+
 function PANEL:Init()
 
 	self.CurYPos = 0
@@ -29,8 +39,15 @@ end
 function PANEL:Paint( w, h )
 
 	-- Background
-	local color = Color( 70, 100, 150, 255 )
-	draw.RoundedBox( 3, 0, 0, w-2, h-2, colorutil.Brighten(color, .75) )
+	if !InventoryStyle:GetBool() then
+		draw.RoundedBox( 3, 0, 0, w-2, h-2, colorutil.Brighten(GradColor1, .75) )
+
+		surface.SetDrawColor( GradColor2 )
+		surface.SetTexture( gradient )
+		surface.DrawTexturedRect( 0, 0, w-2, h-2 )
+	else
+		draw.RoundedBox( 3, 0, 0, w-2, h-2, colorutil.Brighten(Color( 70, 100, 150, 255 ), .75) )
+	end
 
 	-- Background Box while dragging
 	for k, v in pairs( GTowerItems.ClientItems[1] ) do

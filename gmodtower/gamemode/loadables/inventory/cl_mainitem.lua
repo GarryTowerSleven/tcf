@@ -8,6 +8,11 @@ local GhostEntity =  nil
 local BackgroundColor = Color( 255, 255, 255, 150 )
 local SelectedBackgroundColor = Color( 155, 255, 155, 255 )
 
+if !InventoryStyle:GetBool() && IsHalloweenMap() then
+	BackgroundColor = Color( 45, 45, 45, 150 )
+	SelectedBackgroundColor = Color( 55, 55, 55, 255 )
+end
+
 function PANEL:Init()
 
 	self.ReadyToDraw = true
@@ -86,6 +91,7 @@ function PANEL:DrawBackground()
 	-- Selected
 	if self:IsMouseInWindow() then
 		surface.SetDrawColor( 56, 142, 203, 50 )
+		if !InventoryStyle:GetBool() then surface.SetDrawColor( 148, 120, 150, 50 ) end
 		surface.SetTexture( gradient )
 		surface.DrawTexturedRect( 0, 0, w, h )
 	end

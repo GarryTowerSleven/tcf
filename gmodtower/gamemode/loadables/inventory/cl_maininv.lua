@@ -9,10 +9,19 @@ local SlotBarHeight = 15
 local EquipSlotsOnly = GTowerItems.EquippableSlots-GTowerItems.EquippableSlotsCosmetic
 local CosmeticPadding = 15
 
+InventoryStyle = CreateClientConVar( "gmt_inv_style", 0, true )
+
 function PANEL:Init()
-
 	self:SetTall( 60 + SlotBarHeight - 4 )
+end
 
+local GradColor1 = Color( 21, 100, 110, 250 )
+local GradColor2 = Color( 84, 44, 97, 225 )
+local SelColor = Color( 255, 0, 0, 150 )
+
+if IsHalloweenMap() then
+	GradColor1 = Color( 35, 35, 35, 250 )
+	GradColor2 = Color( 45, 45, 45, 250 )
 end
 
 function PANEL:Paint( w, h )
@@ -20,9 +29,15 @@ function PANEL:Paint( w, h )
 	local ew = self.EquipWidth or w
 
 	-- Draw background
-	surface.SetDrawColor( 70, 100, 150, 255 )
-	surface.DrawRect( 0, 0, ew, 3 )
-	draw.RoundedBox( 3, 0, 0, ew, h, Color(70, 100, 150, 255) )
+	if !InventoryStyle:GetBool() then
+		surface.SetDrawColor( GradColor1 )
+		surface.DrawRect( 0, 0, ew, 3 )
+		draw.RoundedBox( 3, 0, 0, ew, h, GradColor1 )
+	else
+		surface.SetDrawColor( 70, 100, 150, 255 )
+		surface.DrawRect( 0, 0, ew, 3 )
+		draw.RoundedBox( 3, 0, 0, ew, h, Color(70, 100, 150, 255) )
+	end
 	
 	surface.SetDrawColor( 0, 0, 0, 50 )
 	surface.SetTexture( gradient )
@@ -33,13 +48,27 @@ function PANEL:Paint( w, h )
 	for i=1, EquipSlotsOnly do
 
 		-- Show selected
-		if i == GTowerItems.CurWeapon then		
-			surface.SetDrawColor( 56, 142, 203, 200 )
-			surface.SetTexture( gradient )
-			surface.DrawTexturedRect( posX, 0, ItemWidth-1, h )
-			
-			surface.SetDrawColor( 255, 0, 0, 150 )
-			surface.DrawRect( posX, 0, ItemWidth, SlotBarHeight )
+		if i == GTowerItems.CurWeapon then
+
+			if !InventoryStyle:GetBool() then 
+				surface.SetDrawColor( GradColor2 )
+				surface.SetTexture( gradient )
+				surface.DrawTexturedRect( posX, 0, ItemWidth-1, h )
+				
+				surface.SetDrawColor( SelColor )
+				surface.DrawRect( posX, 0, ItemWidth, SlotBarHeight )
+
+				surface.SetTexture( gradient )
+				surface.SetDrawColor( GradColor1 )
+				surface.DrawTexturedRect( posX, 0, ItemWidth, SlotBarHeight )
+			else
+				surface.SetDrawColor( 56, 142, 203, 200 )
+				surface.SetTexture( gradient )
+				surface.DrawTexturedRect( posX, 0, ItemWidth-1, h )
+				
+				surface.SetDrawColor( 255, 0, 0, 150 )
+				surface.DrawRect( posX, 0, ItemWidth, SlotBarHeight )
+			end
 		end
 		
 		-- Background
@@ -55,9 +84,15 @@ function PANEL:Paint( w, h )
 	end
 
 	-- Draw cosmetic
-	surface.SetDrawColor( 70, 100, 150, 255 )
-	surface.DrawRect( ew+CosmeticPadding-4, 0, w-ew+2, 3 )
-	draw.RoundedBox( 3, ew+CosmeticPadding-4, 0, w-ew+2, h, Color(70, 100, 150, 255) )
+	if !InventoryStyle:GetBool() then 
+		surface.SetDrawColor( GradColor1 )
+		surface.DrawRect( ew+CosmeticPadding-4, 0, w-ew+2, 3 )
+		draw.RoundedBox( 3, ew+CosmeticPadding-4, 0, w-ew+2, h, GradColor1 )
+	else
+		surface.SetDrawColor( 70, 100, 150, 255 )
+		surface.DrawRect( ew+CosmeticPadding-4, 0, w-ew+2, 3 )
+		draw.RoundedBox( 3, ew+CosmeticPadding-4, 0, w-ew+2, h, Color(70, 100, 150, 255) )
+	end
 
 	draw.SimpleText( "W E A R A B L E S", "GTowerHUDMainTiny2", ew+CosmeticPadding-8 + (w-ew)/2, 6, color_white, TEXT_ALIGN_CENTER, 1 )
 
