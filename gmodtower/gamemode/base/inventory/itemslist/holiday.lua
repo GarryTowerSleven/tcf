@@ -215,7 +215,7 @@ RegisterItem("cutoutbat",{
 	DateAdded = 1416196221
 })
 
-RegisterItem("lantern",{
+RegisterItem("lantern_lamp",{
 	Name = "Lantern",
 	Description = "A lightup spooky lantern to decorate your place with.",
 	Model = "models/gmod_tower/halloween_lantern.mdl",

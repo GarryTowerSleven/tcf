@@ -20,18 +20,6 @@ hook.Add("GTowerStoreLoad", "InventoryLoadStore", function()
 	ListOnWaiting = nil
 end )
 
-// insane hash algorithm
-function simplehash(str)
-	local hash = 1
-
-	for i=1, #str do
-		hash = (2 * hash) + string.byte(str, i)
-	end
-	hash = hash % 55565
-
-	return hash
-end
-
 local function SetBase( Item, base )
 
 	//base.__index = base
