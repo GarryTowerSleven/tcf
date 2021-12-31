@@ -18,7 +18,7 @@ Maps.Register( "gmt_sk_island02", {
 
 Maps.Register( "gmt_sk_rave", {
 	Name = "Rave",
-	Desc = "Someone build a racing course inside of a rave party, this better be fun!",
+	Desc = "Someone built a racing course inside of a rave party, this better be fun!",
 	Author = "Madmijk / Bumpy",
 	DateAdded = 1345328453,
 	DateModified = 1345506617,

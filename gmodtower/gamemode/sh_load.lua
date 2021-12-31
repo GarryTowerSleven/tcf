@@ -268,10 +268,13 @@ function LoadModulesInOrder()
 		{ "extensions", false },
 
 		// Core
-		{ "base/sharedlist", false }, // networking
+		{ "base/debug", true }, // debug
+		//{ "base/sharedlist", false }, // networking
 		{ "base/exnet", true }, // networking
 		{ "base/derma", false }, // derma elements
 		{ "base/translation", true }, // translation
+
+		{ "base/enchant", true }, // enchant (is this necessary?)
 
 		{ "base/database", false }, // database
 
@@ -280,18 +283,19 @@ function LoadModulesInOrder()
 		{ "base/inventory", true }, // inventory
 		{ "base/maps", true }, // map definitions
 		{ "base/postevents", true }, // post process events
-		{ "base/voice", false }, // voice management
+		//{ "base/voice", false }, // voice management
 
 		// Modules
 		{ "base/chat", true }, // chat
-		{ "base/hats", true }, // hats (load stores first)
+		//{ "base/hats", true }, // hats (load stores first)
 		{ "base/models", false }, // player models
 		{ "base/multiserver", true }, // bread and butta
 		{ "base/fakeclient", true }, // fake clients
 		{ "base/admin", false }, // admin shit
 		{ "base/vip", false }, // vip!
-		{ "base/friends", true }, // friends
-		{ "base/globalserver", true }, // global server
+		//{ "base/friends", true }, // friends
+		//{ "base/globalserver", true }, // global server
+		{ "base/discord_rpc", false }, // discord rich presence
 	}
 
 	for id, mod in ipairs( ModulesLoadOrder ) do

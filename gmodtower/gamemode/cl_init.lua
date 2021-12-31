@@ -1,79 +1,8 @@
----------------------------------
-//Obligatory at first
 
-co_color = Color( 50, 255, 50 )
-co_color2 = Color( 255, 50, 50 )
-
-include("base/sh_global_net.lua")
-include("base/exnet/shared.lua")
-
-include("base/debug/cl_init.lua")
 include("nwvar/shared.lua")
-include("sh_extensions.lua")
-
-include("sh_player_net.lua")
-
+include("sh_load.lua")
 include("shared.lua")
-
-include("base/anti_script_hook/cl_scripthookpwnd.lua")
-include("base/sh_net_queue.lua")
-
-include( "base/exnet/shared.lua" )
-
-// Fake clients
-include("base/fakeclient/cl_init.lua")
-include("base/fakeclient/shared.lua")
-
-include("base/maps/shared.lua")
-
-include("base/enchant/cl_init.lua")
-
-include("base/translation/shared.lua")
-
-include("base/gui/cl_selection.lua")
-
-//For gamemode
-include("base/admin/cl_admin.lua")
-include("base/admin/cl_admin_usermessage.lua")
-include("base/admin/cl_dbug_profiler.lua")
-
-include("base/gui/cl_icons.lua")
-include("base/gui/cl_icons2.lua")
-include("base/gui/cl_messages.lua")
-include("base/gui/cl_clientmenu.lua")
-include("base/gui/cl_clientmenu_action.lua")
-include("base/gui/cl_sidemenu.lua")
-include("base/gui/cl_voice.lua")
-include("base/gui/cl_menu.lua")
-include("base/gui/cl_gamemode.lua")
-
-include("base/postevents/init.lua")
-
-// LOADABLES
-include("sh_loadables.lua" )
-
-include("base/chat/cl_init.lua" )
-include("base/store/cl_init.lua")
-
-include("base/multiserver/cl_init.lua" )
-
-include("base/inventory/cl_init.lua")
-
-include("base/models/cl_init.lua")
-
-include("base/sh_player.lua")
-include("base/sh_money.lua")
-
-include("base/admin/sh_spray.lua")
-
-include("base/vip/cl_init.lua")
-
-include("base/discord_rpc/cl_discord.lua")
-
--- Derma
-for k,v in pairs (file.Find("gmodtower/gamemode/base/derma/*.lua","LUA")) do
-	include("gmodtower/gamemode/base/derma/" .. v);
-end
+include("sh_loadables.lua")
 
 CurMap = ""
 SafeToSend = false

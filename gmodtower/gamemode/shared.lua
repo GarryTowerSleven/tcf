@@ -6,6 +6,9 @@ GM.Website  = ""
 GM.ContentPrefix = "../addons/gmodtower/"
 GM.DownloadsEnabled = false
 
+co_color = Color( 50, 255, 50 )
+co_color2 = Color( 255, 50, 50 )
+
 //=====================================================
 function IsLobby()
 	return ( engine.ActiveGamemode() == "gmtlobby" )

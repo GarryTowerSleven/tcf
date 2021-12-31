@@ -105,7 +105,7 @@ hook.Add("InitPostEntity", "RoomsAddOtherEnts", function()
 			end
 		end
 		net.Start("gmt_senddoortexts")
-		net.WriteTable(names)
+			net.WriteTable(names)
 		net.Broadcast()
 	end)
 

@@ -298,6 +298,7 @@ function GtowerRooms:RemoveOwner( um )
 end
 
 function GtowerRooms.ReceiveOwner( ply, roomid )
+
 	local Room = GtowerRooms:Get( roomid )
 
 	if Room then

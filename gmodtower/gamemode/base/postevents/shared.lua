@@ -16,7 +16,7 @@ if ( SERVER ) then
 
 	include( "postevent.lua" )
 
-	AddCSLuaFile( "init.lua" )
+	AddCSLuaFile( "shared.lua" )
 	AddCSLuaFile( "cl_postman.lua" )
 	AddCSLuaFile( "cl_postevent.lua" )
 	AddCSLuaFile( "events.lua" )

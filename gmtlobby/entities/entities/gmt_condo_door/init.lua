@@ -29,15 +29,6 @@ function ENT:Initialize()
     self:SetUseType(SIMPLE_USE)
 end
 
-function ENT:Think()
-    if CurTime() > (self.Delay or 0) then
-      self.Delay = CurTime() + 1
-
-      local room = GtowerRooms.Get(self:GetCondoID())
-
-    end
-end
-
 local bells = {
   "standard1",
   "standard2",

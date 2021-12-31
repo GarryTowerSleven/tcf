@@ -1,10 +1,7 @@
 
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
-AddCSLuaFile("cl_rabbit.lua")
 include('shared.lua')
-include('list.lua')
-include('admin.lua')
 
 local  hook, table, player, umsg, concommand, math, timer = hook, table, player, umsg, concommand, math, timer
 local GTowerSQL = GTowerSQL

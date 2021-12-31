@@ -1,4 +1,3 @@
----------------------------------
 local Readers = {
 	[NWTYPE_CHAR  ] = "ReadChar",
 	[NWTYPE_BOOL  ] = "ReadBool",

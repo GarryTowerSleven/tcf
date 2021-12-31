@@ -1,147 +1,164 @@
-REPL_EVERYONE = 0
-REPL_PLAYERONLY = 1
+module( "globalnet", package.seeall )
 
-NWTYPE_STRING = 0
-NWTYPE_NUMBER = 1
-NWTYPE_FLOAT = 2
-NWTYPE_CHAR = 3
-NWTYPE_SHORT = 4
-NWTYPE_BOOL = 5
-NWTYPE_BOOLEAN = NWTYPE_BOOL
-NWTYPE_ANGLE = 6
-NWTYPE_VECTOR = 7
-NWTYPE_ENTITY = 8
+DEBUG = false
+UseTransmitTools = false
+_GlobalNetwork = nil
 
-NWGlobal = {}
-NWPlayer = {}
+function Register( nettype, name, nwtable )
 
-function GetWorldEntity()
-	return game.GetWorld()
-end
+	if not nwtable then nwtable= {} end
 
-function RegisterNWTableGlobal(nwtable)
-	table.Merge( NWGlobal, nwtable )
-end
-
-function RegisterNWTablePlayer(nwtable)
-	table.Merge( NWPlayer, nwtable )
-end
-
-local meta = FindMetaTable( "Entity" )
-if ( !meta ) then return end
-
-function meta:SetNet(vname,var)
-	if self:IsPlayer() then
-		local nwtype
-		for i=1,#NWPlayer do
-			if NWPlayer[i][1] == vname then
-				nwtype = NWPlayer[i][3]
-			end
-		end
-		
-		if nwtype == NWTYPE_STRING then
-			self:SetNWString(vname,var)
-		elseif (nwtype == NWTYPE_NUMBER || nwtype == NWTYPE_CHAR || nwtype == NWTYPE_SHORT) then
-			self:SetNWInt(vname,var)
-		elseif nwtype == NWTYPE_FLOAT then
-			self:SetNWFloat(vname,var)
-		elseif (nwtype == NWTYPE_BOOL || nwtype == NWTYPE_BOOLEAN) then
-			self:SetNWBool(vname,var)
-		elseif nwtype == NWTYPE_ANGLE then
-			self:SetNWAngle(vname,var)
-		elseif nwtype == NWTYPE_VECTOR then
-			self:SetNWVector(vname,var)
-		elseif nwtype == NWTYPE_ENTITY then
-			self:SetNWEntity(vname,var)
-		end
-	elseif self == game.GetWorld() then
-		local nwtype
-		for i=1,#NWGlobal do
-			if NWGlobal[i][1] == vname then
-				nwtype = NWGlobal[i][3]
-			end
-		end
-		
-		if nwtype == NWTYPE_STRING then
-			SetGlobalString(vname,var)
-		elseif (nwtype == NWTYPE_NUMBER || nwtype == NWTYPE_CHAR || nwtype == NWTYPE_SHORT) then
-			SetGlobalInt(vname,var)
-		elseif nwtype == NWTYPE_FLOAT then
-			SetGlobalFloat(vname,var)
-		elseif (nwtype == NWTYPE_BOOL || nwtype == NWTYPE_BOOLEAN) then
-			SetGlobalBool(vname,var)
-		elseif nwtype == NWTYPE_ANGLE then
-			SetGlobalAngle(vname,var)
-		elseif nwtype == NWTYPE_VECTOR then
-			SetGlobalVector(vname,var)
-		elseif nwtype == NWTYPE_ENTITY then
-			SetGlobalEntity(vname,var)
-		end
+	if not nettype then
+		ErrorNoHalt( "Error registering null global network var type! ", name, "\n" )
+		return
 	end
-end
 
-function meta:GetNet(vname)
-	if self:IsPlayer() then
-		local nwtype
-		for i=1,#NWPlayer do
-			if NWPlayer[i][1] == vname then
-				nwtype = NWPlayer[i][3]
+	if UseTransmitTools then
+
+		local transmittype = DTVarToTransmitTools[nettype]
+
+		if not transmittype then
+			ErrorNoHalt( "Error registering invalid transmit tools network var type! ", name, "\n" )
+			return
+		end
+
+		RegisterNWTableGlobal( { { name, nwtable.default or DTVarDefaults[nettype], transmittype, nwtable.repl or REPL_EVERYONE, function(entity, name, old, new)
+			-- marshall from nwvar callback to simplified plynet callback
+			if nwtable.callback then
+				nwtable.callback(entity, old, new)
 			end
-		end
-		
-		if nwtype == NWTYPE_STRING then
-			return self:GetNWString(vname)
-		elseif (nwtype == NWTYPE_NUMBER || nwtype == NWTYPE_CHAR || nwtype == NWTYPE_SHORT) then
-			return self:GetNWInt(vname)
-		elseif nwtype == NWTYPE_FLOAT then
-			return self:GetNWFloat(vname)
-		elseif (nwtype == NWTYPE_BOOL || nwtype == NWTYPE_BOOLEAN) then
-			return self:GetNWBool(vname)
-		elseif nwtype == NWTYPE_ANGLE then
-			return self:GetNWAngle(vname)
-		elseif nwtype == NWTYPE_VECTOR then
-			return self:GetNWVector(vname)
-		elseif nwtype == NWTYPE_ENTITY then
-			return self:GetNWEntity(vname)
-		end
-	elseif self == game.GetWorld() then
-		local nwtype
-		for i=1,#NWGlobal do
-			if NWGlobal[i][1] == vname then
-				nwtype = NWGlobal[i][3]
-			end
-		end
-		
-		if nwtype == NWTYPE_STRING then
-			return GetGlobalString(vname,var)
-		elseif (nwtype == NWTYPE_NUMBER || nwtype == NWTYPE_CHAR || nwtype == NWTYPE_SHORT) then
-			return GetGlobalInt(vname)
-		elseif nwtype == NWTYPE_FLOAT then
-			return GetGlobalFloat(vname)
-		elseif (nwtype == NWTYPE_BOOL || nwtype == NWTYPE_BOOLEAN) then
-			return GetGlobalBool(vname)
-		elseif nwtype == NWTYPE_ANGLE then
-			return GetGlobalAngle(vname)
-		elseif nwtype == NWTYPE_VECTOR then
-			return GetGlobalVector(vname)
-		elseif nwtype == NWTYPE_ENTITY then
-			return GetGlobalEntity(vname)
-		end
+		end} } )
+
+	else
+
+		RegisterDTVar( nettype, name, nwtable.default, nwtable.callback )
+
 	end
+
 end
 
-local function AssignGlobalVariables()
-	if #NWGlobal == 0 then return end
-	for i=1,#NWGlobal do
-		game.GetWorld():SetNet(NWGlobal[i][1],NWGlobal[i][2])
-	end
-end
-hook.Add( "Initialize", "VariableAssignGlobal", AssignGlobalVariables )
+------------------------------------------------------------
+if UseTransmitTools then 
+	return
+end -- DTVar support
+------------------------------------------------------------
 
-local function AssignPlayerVariables( ply )
-	if #NWPlayer == 0 then return end
-	for i=1,#NWPlayer do
-		ply:SetNet(NWPlayer[i][1],NWPlayer[i][2])
+_GlobalNetworkVars = {}
+TypesAndLimits = {
+	["String"] = 4,
+	["Bool"] = 32,
+	["Float"] = 32,
+	["Int"] = 32,
+	["Vector"] = 32,
+	["Angle"] = 32,
+	["Entity"] = 32,
+}
+
+function RegisterDTVar( nettype, name, default, callback )
+
+	-- Check if there's a conflicting name
+	if GetByName( name ) then
+		if DEBUG then ErrorNoHalt( "Error registering player dtvar! '", name, "' is already registered.", "\n" ) end
+		return
 	end
+
+	-- Check if the nettype is actually something we can use
+	if not TypesAndLimits[nettype] then
+		if DEBUG then ErrorNoHalt( "Error registering invalid player dtvar type! ", nettype, name, default, "\n" ) end
+		return
+	end
+
+	local typenum = #GetByType( nettype )
+
+	-- Prevent going over the limit
+	if typenum >= TypesAndLimits[nettype] then
+		if DEBUG then ErrorNoHalt( "Error registering player dtvar. ", nettype, " has reached the max variables!", "\n" ) end
+		return
+	end
+
+	-- Create container for the network var object
+	local var = {
+		nettype = nettype,
+		name = name,
+		default = default,
+		callback = callback,
+		id = typenum,
+		adminonly = false,
+	}
+
+	-- Add to the table of registrations
+	table.insert( _GlobalNetworkVars, var )
+
 end
-hook.Add( "PlayerInitialSpawn", "VariableAssignPlayer", AssignPlayerVariables )
+
+function GetByType( nettype )
+
+	local tbl = {}
+
+	for i, var in pairs( _GlobalNetworkVars ) do
+
+		if var.nettype == nettype then
+			table.insert( tbl, var )
+		end
+
+	end
+
+	return tbl
+
+end
+
+function GetByName( name )
+
+	for i, var in pairs( _GlobalNetworkVars ) do
+
+		if var.name == name then
+			return var
+		end
+
+	end
+
+end
+
+function InitializeOn( ent )
+
+	for i, var in pairs( _GlobalNetworkVars ) do
+
+		-- Create the networkvar
+		if DEBUG then MsgN( "Init: ", var.nettype, " id: ", var.id, " name: ", var.name ) end
+		ent:NetworkVar( var.nettype, var.id, var.name )
+
+		-- Set default
+		if var.default and SERVER then
+			SetNetDefault( ent, var )
+		end
+
+	end
+
+end
+
+function GetGlobalNetworking()
+
+	if IsValid( _GlobalNetwork ) then
+		return _GlobalNetwork
+	else
+		return ents.FindByClass("gmt_global_network")[1]
+	end
+
+end
+
+function GetNet( name )
+
+	-- Cache client global network
+	if CLIENT and not IsValid( _GlobalNetwork ) then
+		_GlobalNetwork = GetGlobalNetworking()
+	end
+
+	local network = _GlobalNetwork
+
+	if IsValid( network ) and network.dt then
+		return network.dt[name]
+	else
+		if DEBUG then ErrorNoHalt("Missing network! Can't get '", name, "' on ", self, "\n") end
+	end
+
+end

@@ -1,6 +1,5 @@
 
 include('shared.lua')
-include('cl_rabbit.lua')
 
 local hook = hook
 local usermessage = usermessage

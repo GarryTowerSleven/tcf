@@ -201,7 +201,7 @@ function ENT:DrawPanel( cur_x, cur_y, onscreen )
 end
 
 
-hook.Add("GtowerMouseEnt", "GtowerMouseSuitePanel", function(ent, mc)
+hook.Add("GTowerMouseEnt", "GtowerMouseSuitePanel", function(ent, mc)
 
 	if ent:GetClass() != "func_suitepanel" then return end
 	if !ent:GetPos():WithinDistance( LocalPlayer():GetShootPos(), 65 ) then return end
