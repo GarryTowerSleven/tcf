@@ -15,7 +15,7 @@ function ChangeLevel(map)
 	RunConsoleCommand("changelevel", map)
 end
 
-function GM:EndServer()
+function GAMEMODE:EndServer()
 
 	self.Ending = true
 

@@ -75,7 +75,7 @@ for k, score in pairs( MoneyScores ) do
 end
 
 
-function GM:GiveMoney()
+function GAMEMODE:GiveMoney()
 
 
 

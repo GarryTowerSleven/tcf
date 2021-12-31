@@ -1,8 +1,6 @@
 AddCSLuaFile( "shared.lua" )
 include( "shared.lua" )
 
-include( "multiserver.lua" )
-
 spawning = 0
 
 /* Server Side Files */

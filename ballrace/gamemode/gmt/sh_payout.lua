@@ -105,7 +105,7 @@ payout.Register( "Rank3", {
 
 
 
-function GM:GiveMoney()
+function GAMEMODE:GiveMoney()
 
 
 

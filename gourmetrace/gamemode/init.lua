@@ -5,21 +5,16 @@ AddCSLuaFile( "shared.lua" )
 AddCSLuaFile( "sh_move.lua" )
 AddCSLuaFile( "sh_meta.lua" )
 AddCSLuaFile( "sh_think.lua" )
-AddCSLuaFile( "cl_scoreboard.lua" )
-AddCSLuaFile( "sh_payout.lua" )
 
 include( "shared.lua" )
 include( "sh_move.lua" )
 include( "sh_meta.lua" )
 include( "sh_think.lua" )
-include( "sh_payout.lua" )
 
 include( "sv_misc.lua" )
 include( "sv_player.lua" )
 include( "sv_round.lua" )
 include( "sv_spawn.lua" )
-
-include( "multiserver.lua" )
 
 util.AddNetworkString("JumpPuff")
 util.AddNetworkString("PowerupGet")

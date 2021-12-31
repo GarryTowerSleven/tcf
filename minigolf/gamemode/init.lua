@@ -11,8 +11,6 @@ AddCSLuaFile("cl_music.lua");
 AddCSLuaFile("cl_scorecard.lua");
 
 AddCSLuaFile("gmt/camera/" .. game.GetMap() .. ".lua");
-AddCSLuaFile("cl_scoreboard.lua");
-AddCSLuaFile("sh_payout.lua");
 
 AddCSLuaFile("meta_camera.lua");
 AddCSLuaFile("meta_player.lua");
@@ -20,16 +18,13 @@ AddCSLuaFile("meta_player.lua");
 AddCSLuaFile("sh_move.lua");
 AddCSLuaFile("sh_scores.lua");
 AddCSLuaFile("shared.lua");
-AddCSLuaFile("cl_scoreboard.lua")
 
-include("multiserver.lua")
 include("meta_camera.lua");
 include("meta_player.lua");
 include("round.lua");
 include("sh_move.lua");
 include("sh_scores.lua");
 include("shared.lua");
-include("sh_payout.lua");
 include("sv_control.lua");
 
 CreateConVar("gmt_srvid", 14 )

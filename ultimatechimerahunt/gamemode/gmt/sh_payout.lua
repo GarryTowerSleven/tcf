@@ -97,7 +97,7 @@ payout.Register( "UCLastPig", {
 
 winbonus = 15
 
-function GM:GiveMoney()
+function GAMEMODE:GiveMoney()
 
 	if CLIENT then return end
 

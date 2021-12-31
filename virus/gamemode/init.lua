@@ -1,17 +1,12 @@
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_deathnotice.lua" )
-AddCSLuaFile( "cl_scoreboard.lua" )
 AddCSLuaFile( "cl_hud.lua" )
 AddCSLuaFile( "cl_post_events.lua" )
 AddCSLuaFile( "shared.lua" )
-AddCSLuaFile( "sh_payout.lua" )
 AddCSLuaFile( "cl_hudmessage.lua" )
 AddCSLuaFile( "cl_radar.lua" )
 
 include( "shared.lua" )
-include( "sh_payout.lua" )
-
-include( "multiserver.lua" )
 
 include( "sv_cleanup.lua" )
 include( "sv_think.lua" )
