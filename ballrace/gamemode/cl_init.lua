@@ -259,9 +259,17 @@ function MouseDisable(ply, key)
 end
 
 function MouseClick(mc)
-	if mc == MOUSE_LEFT then
-		local cursorvec = LocalPlayer():GetCursorAimVector()
-		RunConsoleCommand("mouse_click", dist, cursorvec.x, cursorvec.y, cursorvec.z)
+	if mc == MOUSE_LEFT && lastview then
+		local cursorvec = GetMouseVector()
+
+		local origin = lastview.origin
+		local trace = util.TraceLine({start=origin, endpos=origin + cursorvec * 9000, filter=ball})
+
+		if IsValid(trace.Entity) && trace.Entity:GetClass() == "player_ball" then
+			GTowerClick:ClickOnPlayer( trace.Entity:GetOwner(), mc )
+		else
+			RunConsoleCommand("mouse_click", dist, cursorvec.x, cursorvec.y, cursorvec.z)
+		end
 	end
 end
 
