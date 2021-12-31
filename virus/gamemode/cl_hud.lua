@@ -81,8 +81,8 @@ function GM:HUDPaint()
 		hudRound = HudVirRound
 	end
 	
-	if state != STATUS_INFECTING then
-		if ( state == STATUS_WAITING || state == STATUS_INTERMISSION || state == STATUS_PLAYING ) then
+	if state != STATE_INFECTING then
+		if ( state == STATE_WAITING || state == STATE_INTERMISSION || state == STATE_PLAYING ) then
 			
 			local spread = 64
 			if state == STATE_WAITING then
@@ -121,7 +121,7 @@ function GM:HUDPaint()
 
 		end
 		
-		if ( state == STATUS_PLAYING || state == STATUS_INTERMISSION ) then
+		if ( state == STATE_PLAYING || state == STATE_INTERMISSION ) then
 			
 			local rankX = 0
 			local diff = ScoreStageTime - CurTime()
@@ -279,7 +279,7 @@ function GM:DrawName( ply )
 	
 		draw.DrawText( string.upper( ply:GetName() ), "ImpactName", 50, 0, Color( 255, 255, 255, opacity ) )
 		
-		if GetGlobalInt("State") == STATUS_WAITING then
+		if GetGlobalInt("State") == STATE_WAITING then
 			draw.DrawText( "WAITING", "ImpactType", 50, 40, Color( 175, 175, 175, opacity ) )
 		end
 		
@@ -296,7 +296,7 @@ function GM:DrawHealth( ply )
 
 	if !ply:Alive() then return end
 	
-	if GetGlobalInt("State") != STATUS_PLAYING then return end
+	if GetGlobalInt("State") != STATE_PLAYING then return end
 
 	
 	local pos = ply:GetPos()

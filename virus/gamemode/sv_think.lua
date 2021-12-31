@@ -69,18 +69,18 @@ function GM:PlayerThink( ply )
 
 	if ( !IsValid( ply ) || !ply:Alive() ) then return end  // MAC YOU STUPID RETARD
 	
-	if GetGlobalInt("State") == STATUS_WAITING then
+	if GetGlobalInt("State") == STATE_WAITING then
 		ply:CrosshairDisable() //JESUS FUCK DISABLE THE GOD DAMN CROSSHAIR
 	end
 	
-	if GetGlobalInt("State") == STATUS_WAITING then return end
+	if GetGlobalInt("State") == STATE_WAITING then return end
 	
 	if ( #ply:GetWeapons() == 0 && CurTime() > ply.NextWeaponThink && !ply:GetNWBool("IsVirus") ) then
 		hook.Call( "PlayerLoadout", GAMEMODE, ply )
 		ply.NextWeaponThink = CurTime() + 2
 	end
 	
-	if GetGlobalInt("State") != STATUS_PLAYING then return end
+	if GetGlobalInt("State") != STATE_PLAYING then return end
 
 	for _,v in ipairs( player.GetAll() ) do
 
@@ -125,7 +125,7 @@ function GM:VirusThink( ply )
 	ply:StripWeapons()
 	ply:RemoveAllAmmo()
 
-	if ( GetGlobalInt("State") != STATUS_PLAYING ) then return end
+	if ( GetGlobalInt("State") != STATE_PLAYING ) then return end
 	
 	if ply.Flame != nil then
 		local objs = ents.FindInSphere( ply:GetPos() + Vector( 0, 0, 40 ), 40 )

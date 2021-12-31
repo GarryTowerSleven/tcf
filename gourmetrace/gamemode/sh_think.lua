@@ -19,7 +19,7 @@ end
 
 function GM:RoundThink()
 
-	if self:GetGameState() == STATUS_WAITING && self.FirstPlySpawned && self:GetTimeLeft() <= 0 then
+	if self:GetGameState() == STATE_WAITING && self.FirstPlySpawned && self:GetTimeLeft() <= 0 then
 		self:PreStartRound()
 	end
 
@@ -33,11 +33,11 @@ function GM:RoundThink()
 		net.Broadcast()
 	end
 
-	if self:GetGameState() == STATUS_WARMUP && self:GetTimeLeft() < 0 then
+	if self:GetGameState() == STATE_WARMUP && self:GetTimeLeft() < 0 then
 		self:StartRound()
 	end
 
-	if self:GetGameState() != STATUS_WARMUP && self:GetTimeLeft() <= 0 && GetGlobalInt( "Round" ) <= self.NumRounds && GetGlobalInt( "Round" ) > 0 then
+	if self:GetGameState() != STATE_WARMUP && self:GetTimeLeft() <= 0 && GetGlobalInt( "Round" ) <= self.NumRounds && GetGlobalInt( "Round" ) > 0 then
 		if self:IsRoundOver() then
 			self:PreStartRound()
 		else

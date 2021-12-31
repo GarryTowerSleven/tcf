@@ -11,7 +11,7 @@ function GM:PlayerInitialSpawn(ply)
 	net.Start("pick_ball")
 	net.Send(ply)
 
-	if GetState() == STATUS_WAITING && #player.GetAll() == 1 then
+	if GetState() == STATE_WAITING && #player.GetAll() == 1 then
 		game.CleanUpMap()
 		SetTime(CurTime() + GAMEMODE.WaitForPlayersTime)
 
@@ -58,7 +58,7 @@ function GM:PlayerDeathSound( ply )
 end
 
 function GM:PlayerSpawn(ply)
-	if GetState() == STATUS_SPAWNING || ply:Team() == TEAM_PLAYERS then
+	if GetState() == STATE_SPAWNING || ply:Team() == TEAM_PLAYERS then
 
 		ply.Spectating = nil
 
@@ -142,9 +142,9 @@ function GetPlayerStatus(ply)
 		player_status = "DEAD"
 	elseif ply:Team() == TEAM_COMPLETED then
 		player_status = ply.placements
-	elseif GetState() == STATUS_WAITING then
+	elseif GetState() == STATE_WAITING then
 		player_status = "WAITING"
-	elseif GetState() != STATUS_WAITING then
+	elseif GetState() != STATE_WAITING then
 		player_status = "PLAYING"
 	end
 

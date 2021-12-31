@@ -30,10 +30,10 @@ function NWTablePlayer(ply)
 	ply:SetNWInt( "DoubleJumpNum", 0 )
 end
 
-STATUS_WAITING		= 0 // waiting for players
-STATUS_INTERMISSION	= 1 // wait time after end
-STATUS_WARMUP		= 2 // 3, 2, 1
-STATUS_PLAYING		= 3 // playing
+STATE_WAITING		= 0 // waiting for players
+STATE_INTERMISSION	= 1 // wait time after end
+STATE_WARMUP		= 2 // 3, 2, 1
+STATE_PLAYING		= 3 // playing
 
 TEAM_SPEC			= 0
 TEAM_RACING			= 1
@@ -81,11 +81,11 @@ function GM:GetGameState()
 end
 
 function GM:IsPlaying()
-	return GetGlobalInt( "State" ) == STATUS_PLAYING
+	return GetGlobalInt( "State" ) == STATE_PLAYING
 end
 
 function GM:IsRoundOver()
-	return GetGlobalInt( "State" ) == STATUS_INTERMISSION
+	return GetGlobalInt( "State" ) == STATE_INTERMISSION
 end
 
 function GM:GetTimeLeft()

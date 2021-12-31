@@ -11,8 +11,6 @@ include( "cl_music.lua" );
 include( "cl_scorecard.lua" );
 //include( "cl_soundscapes.lua" );
 
-include( "gmt/camera/" .. game.GetMap() .. ".lua");
-
 include( "meta_camera.lua" );
 include( "meta_player.lua" );
 

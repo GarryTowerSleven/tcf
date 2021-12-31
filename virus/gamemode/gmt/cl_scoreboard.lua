@@ -91,7 +91,7 @@ end
 // Subtitle (under name)
 PlayerSubtitleText = function( ply )
 
-	if GAMEMODE:GetState() == STATUS_WAITING then return "" end
+	if GAMEMODE:GetState() == STATE_WAITING then return "" end
 
 	if ply:GetNWBool("IsVirus") then
 		return "INFECTED"
@@ -124,7 +124,7 @@ end
 // Notification (above avatar)
 PlayerNotificationIcon = function( ply )
 
-	if ( GAMEMODE:IsPlaying() || GAMEMODE:GetState() == STATUS_INTERMISSION ) && ply:Frags() > 0 then
+	if ( GAMEMODE:IsPlaying() || GAMEMODE:GetState() == STATE_INTERMISSION ) && ply:Frags() > 0 then
 
 		CalculateRanks()
 
@@ -141,7 +141,7 @@ end
 // Jazz the player avatar? (for winner only)
 PlayerAvatarJazz = function( ply )
 
-	if GAMEMODE:GetState() != STATUS_INTERMISSION then return false end
+	if GAMEMODE:GetState() != STATE_INTERMISSION then return false end
 
 	CalculateRanks()
 

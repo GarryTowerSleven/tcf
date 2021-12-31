@@ -108,7 +108,7 @@ function GetNextSpawn()
 end
 
 function GM:UpdateStatus(disc)
-	if GetState() != STATUS_PLAYING then return end
+	if GetState() != STATE_PLAYING then return end
 
 	local dead = NumPlayers(TEAM_DEAD)
 	local complete = NumPlayers(TEAM_COMPLETED)
@@ -152,7 +152,7 @@ function GM:UpdateStatus(disc)
 				net.Broadcast()
 				timer.Simple(GAMEMODE.IntermissionTime,function()
 					self:EndServer()
-					SetState(STATUS_ENDING)
+					SetState(STATE_ENDING)
 				end)
 			else
 				net.Start("roundmessage")
@@ -180,7 +180,7 @@ function GM:UpdateStatus(disc)
 			end
 		end
 
-		SetState(STATUS_INTERMISSION)
+		SetState(STATE_INTERMISSION)
 
 		timer.Simple(GAMEMODE.IntermissionTime, self.StartRound, self)
 	end
@@ -203,11 +203,11 @@ function GM:StartRound()
 		--timer.Simple(0.5, function() MapVote.Start(voteLength, allowCurrentMap, mapLimit, 'gmt_ballracer_') end)
 		return
 	end
-	SetState(STATUS_SPAWNING)
+	SetState(STATE_SPAWNING)
 
 	GAMEMODE:SpawnAllPlayers()
 
-	SetState(STATUS_PLAYING)
+	SetState(STATE_PLAYING)
 
 	timer.Destroy("RoundEnd")
 
@@ -267,7 +267,7 @@ function GM:ResetGame()
 
 				timer.Simple(4,function()
 					self:EndServer()
-					SetState(STATUS_ENDING)
+					SetState(STATE_ENDING)
 				end)
 				return
 			end
@@ -285,7 +285,7 @@ function GM:ResetGame()
 			self:ColorNotifyAll( "You've failed too many times! Ending game!" )
 			timer.Simple(4,function()
 				self:EndServer()
-				SetState(STATUS_ENDING)
+				SetState(STATE_ENDING)
 			end)
 		end
 
@@ -435,7 +435,7 @@ end
 
 function GM:UpdateSpecs(ply, dead)
 	// don't bother updating specs when we're spawning
-	if GetState() == STATUS_SPAWNING then return end
+	if GetState() == STATE_SPAWNING then return end
 
 	for k,v in ipairs(player.GetAll()) do
 		if v:Team() != TEAM_PLAYERS && v.Spectating == ply:EntIndex() then
