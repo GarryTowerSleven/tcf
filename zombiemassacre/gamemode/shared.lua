@@ -11,15 +11,6 @@ GM.Website  = "http://www.gmtower.org/"
 
 DeriveGamemode( "gmtgamemode" )
 SetupGMTGamemode( "Zombie Massacre", "zombiemassacre", {
-
-} )
-
-GM.AllowChangeSize = false
-
---[[SetupGMTGamemode( "Zombie Massacre", "zombiemassacre",{
-	Loadables = { "weaponfix" }, // Additional loadables
-	AllowSmall = true, // Small player models
-	DrawHatsAlways = true, // Always draw hats
 	AFKDelay = 60, // Seconds before they will be marked as AFK
 	ChatY = 450,
 	ChatBGColor = Color( 50, 50, 50, 180 ),
@@ -28,7 +19,7 @@ GM.AllowChangeSize = false
 	DisableDucking = true,
 	DisableJumping = true,
 	DisableRunning = true,
-})]]
+} )
 
 hook.Add("PostPlayerDraw", "CSSWeaponFix", function(v)
 	local wep = v:GetActiveWeapon()
@@ -53,47 +44,6 @@ hook.Add("PostPlayerDraw", "CSSWeaponFix", function(v)
 		end
 	end
 end)
-
--- Disable ducking
-if SERVER then
-	hook.Add( "PlayerSpawn", "DisableDucking", function( ply )
-		ply:SetDuckSpeed( ply:GetWalkSpeed() )
-		ply:SetHullDuck( Vector(-16, -16, 0), Vector(16, 16, 72) ) -- Default hull
-	end )
-else -- CLIENT
-	hook.Add( "CreateMove", "DisableDucking", function( cmd )
-		if ( cmd:KeyDown( IN_DUCK ) ) then
-			cmd:SetButtons( cmd:GetButtons() - IN_DUCK )
-		end
-	end )
-end
-
--- Disable jumping
-if SERVER then
-	hook.Add( "PlayerSpawn", "DisableJumping", function( ply )
-		ply:SetJumpPower( 0 )
-	end )
-else -- CLIENT
-	hook.Add( "CreateMove", "DisableJumping", function( cmd )
-		if not LocalPlayer():Alive() then return end -- Allow jumping to handle respawning
-		if ( cmd:KeyDown( IN_JUMP ) ) then
-			cmd:SetButtons( cmd:GetButtons() - IN_JUMP )
-		end
-	end )
-end
-
--- Disable running
-if SERVER then
-	hook.Add( "PlayerSpawn", "DisableRunning", function( ply )
-		ply:SetRunSpeed( ply:GetWalkSpeed() )
-	end )
-else -- CLIENT
-	hook.Add( "CreateMove", "DisableRunning", function( cmd )
-		if ( cmd:KeyDown( IN_SPEED ) ) then
-			cmd:SetButtons( cmd:GetButtons() - IN_SPEED )
-		end
-	end )
-end
 
 if CLIENT then
 	local GtowerHudToHide = {

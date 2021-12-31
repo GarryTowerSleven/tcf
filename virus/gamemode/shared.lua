@@ -7,7 +7,15 @@ GM.AllowChangeSize = false
 
 DeriveGamemode( "gmtgamemode" )
 SetupGMTGamemode( "Virus", "virus", {
-
+	AFKDelay = 90 - 20, // Seconds before they will be marked as AFK
+	EnableWeaponSelect = true, // Allow weapon selection
+	EnableCrosshair = true, // Draw the crosshair
+	EnableDamage = true, // Draw red damage effects
+	DisableDucking = true, -- Disable ducking
+	DisableJumping = true, -- Disable jumping
+	DisableRunning = true, -- Disable running
+	ChatBGColor = Color( 70, 118, 34, 255 ), // Color of the chat gui
+	ChatScrollColor = Color( 44, 80, 15, 255 ), // Color of the chat scroll bar gui
 } )
 
 function RegisterNWTable()

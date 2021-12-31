@@ -3,7 +3,12 @@ GM.Name 	= "GMod Tower: Minigolf"
 
 DeriveGamemode( "gmtgamemode" )
 SetupGMTGamemode( "Minigolf", "minigolf", {
-	 
+	AFKDelay = 30, -- Seconds before they will be marked as AFK
+	DisablePlayerClick = true, -- Disable clicking on players
+	ChatY = 450, -- Chat offset Y
+	ChatX = 30, -- Chat offset X
+	ChatBGColor = Color( 44, 83, 17, 180 ), -- Color of the chat gui
+	ChatScrollColor = Color( 25, 49, 8, 215 ), -- Color of the chat scroll bar gui
 } )
 
 GM.Holes = GM.Holes || {};

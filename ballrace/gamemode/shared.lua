@@ -9,7 +9,10 @@ GM.Website  = "http://www.gmtower.org/"
 DeriveGamemode( "gmtgamemode" )
 
 SetupGMTGamemode( "Ball Race", "ballrace", {
-	
+	AllowMenu = true, // Allow hook into menu events
+	AFKDelay = 60 - 20, // Seconds before they will be marked as AFK
+	ChatBGColor = Color( 172, 121, 84, 255 ), // Color of the chat gui
+	ChatScrollColor = Color( 89, 49, 22, 255 ), // Color of the chat scroll bar gui
 } )
 
 

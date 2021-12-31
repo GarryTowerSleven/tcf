@@ -16,15 +16,11 @@ end
 hook.Add( "GUIMousePressed", "GTowerMousePressed", function( mc )
 
 
-	if string.StartWith(game.GetMap(),"gmt_minigolf") then return end
-
 	if !CanMouseEnt() then return end
 
 
 
 	GTowerMenu:CloseAll()
-
-	if string.StartWith(game.GetMap(),"gmt_minigolf") then return end
 
 	local trace = LocalPlayer():GetEyeTrace()
 
@@ -103,8 +99,6 @@ end )
 hook.Add( "KeyPress", "GTowerMousePressedEmpty", function( ply, key )
 
 
-	if string.StartWith(game.GetMap(),"gmt_minigolf") then return end
-
 	if !IsFirstTimePredicted() || key != IN_ATTACK || !CanMouseEnt() || IsValid(LocalPlayer():GetActiveWeapon()) then return end
 
 
@@ -143,8 +137,6 @@ end )
 
 function GTowerClick:ClickOnPlayer( ply, mc )
 
-
-		if string.StartWith(game.GetMap(),"gmt_minigolf") or string.StartWith(game.GetMap(),"gmt_zm_arena") then return end
 
     if !IsValid( ply ) then return end
 
