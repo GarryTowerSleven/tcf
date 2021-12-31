@@ -20,6 +20,8 @@ include("uch_anims.lua")
 
 include("minigames/shared.lua")
 
+include("event/cl_init.lua")
+
 include("cl_changelog.lua")
 
 local tourmsgnotice = CreateClientConVar( "gmt_enabletournotice", "1", true, true )

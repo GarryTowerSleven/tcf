@@ -103,8 +103,7 @@ function initHud()
 	elseif HUDStyle_Lobby1 then
 		GTowerHUD.Info = {
 			Enabled = CreateClientConVar( "gmt_hud_info", 1, true, false ),
-			//Texture = surface.GetTextureID( "gmod_tower/lobby/hud/mainhud" ),
-			Texture = Material( "gmod_tower/lobby/hud/mainhud" ),
+			Texture = Material( "gmod_tower/hud/legacy/GMTHUD.png", "unlightsmooth" ),
 			TextureWidth = 256,
 			TextureHeight = 128,
 			X = 8,
@@ -117,16 +116,16 @@ function initHud()
 		}
 
 		if IsChristmasMap() then
-			GTowerHUD.Info.Texture = Material("gmod_tower/lobby/hud/mainhud_christmas")
+			GTowerHUD.Info.Texture = Material( "gmod_tower/hud/legacy/GMTHUDChristmas.png", "unlightsmooth" )
 		end
 	
 		if IsHalloweenMap() then
-			GTowerHUD.Info.Texture = Material("gmod_tower/lobby/hud/mainhud_halloween")
+			GTowerHUD.Info.Texture = Material( "gmod_tower/hud/legacy/GMTHUDHalloween.png", "unlightsmooth" )
 		end
 	elseif HUDStyle_Lobby1AB then
 		GTowerHUD.Info = {
 			Enabled = CreateClientConVar( "gmt_hud_info", 1, true, false ),
-			Texture = Material( "gmod_tower/lobby/hud/legacy/main" ),
+			Texture = Material( "gmod_tower/hud/legacy/GMTHUD2009.png", "unlightsmooth" ),
 			TextureWidth = 256,
 			TextureHeight = 128,
 			X = 0,
@@ -139,15 +138,15 @@ function initHud()
 		}
 
 		if HUDStyle_Lobby1A then
-			GTowerHUD.Info.Texture = Material("gmod_tower/lobby/hud/legacy/health")
+			GTowerHUD.Info.Texture = Material( "gmod_tower/hud/legacy/GMTHUD2008.png", "unlightsmooth" )
 		end
 
 		if IsChristmasMap() && HUDStyle_Lobby1B then
-			GTowerHUD.Info.Texture = Material("gmod_tower/lobby/hud/legacy/main_winter")
+			GTowerHUD.Info.Texture = Material( "gmod_tower/hud/legacy/GMTHUD2009Christmas.png", "unlightsmooth" )
 		end
 
 		if IsHalloweenMap() && HUDStyle_Lobby1B then
-			GTowerHUD.Info.Texture = Material("gmod_tower/lobby/hud/legacy/main_halloween")
+			GTowerHUD.Info.Texture = Material( "gmod_tower/hud/legacy/GMTHUD2009Halloween.png", "unlightsmooth" )
 		end
 	end
 
@@ -207,7 +206,7 @@ function initHud()
 
 	-- Lobby 1 Health
 	GTowerHUD.Health = {
-		Texture = surface.GetTextureID( "gmod_tower/lobby/hud/bar" ),
+		Texture = Material( "gmod_tower/hud/legacy/bar.png", "unlightsmooth" ),
 		Size = 0, -- this is changed in the think, because it's approached
 		Height = 12,
 		Font = "GTowerHUDMainSmall",
@@ -223,9 +222,9 @@ function initHud()
 		GTowerHUD.Health.Font = "Gtowerbig"
 
 		if HUDStyle_Lobby1B && IsChristmasMap() then
-			GTowerHUD.Health.Texture = surface.GetTextureID( "gmod_tower/lobby/hud/bar_christmas" )
+			GTowerHUD.Health.Texture = Material( "gmod_tower/hud/legacy/bar_christmas.png", "unlightsmooth" )
 		elseif HUDStyle_Lobby1B && IsHalloweenMap() then
-			GTowerHUD.Health.Texture = surface.GetTextureID( "gmod_tower/lobby/hud/bar_halloween" )
+			GTowerHUD.Health.Texture = Material( "gmod_tower/hud/legacy/bar_halloween.png", "unlightsmooth" )
 		end
 	end
 
@@ -285,6 +284,8 @@ function initHud()
 	end
 
 	function GTowerHUD.DrawCrosshair()
+
+		if !GTowerHUD.Crosshair.Enabled:GetBool() then return end
 
 		if LocalPlayer():ShouldDrawLocalPlayer() || !LocalPlayer():Alive() then return end
 
@@ -579,7 +580,7 @@ function initHud()
 			local ratio = 1 - ( GTowerHUD.Health.Size / GTowerHUD.Health.MaxSize )
 			local oppred = 200 - ratio * math.sin( CurTime() * ratio * 3 ) * 55 + ( 1 - ratio ) * 55
 
-			surface.SetTexture( GTowerHUD.Health.Texture )
+			surface.SetMaterial( GTowerHUD.Health.Texture )
 			surface.SetDrawColor( 255, oppred, oppred, 255 )
 			surface.DrawTexturedRect( healthX, healthY, GTowerHUD.Health.Size, GTowerHUD.Health.Height )
 
