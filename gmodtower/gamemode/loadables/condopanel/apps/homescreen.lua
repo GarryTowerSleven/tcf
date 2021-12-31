@@ -132,7 +132,6 @@ function APP:DrawNewsTicker()
 
 	draw.DrawText(text, "AppBarSmall", scrw - math.fmod(self:GetTime() * 200,(tw + scrw)), 70, Color(255, 255, 255, 80))
 
-
 end
 
 function APP:DrawNowPlaying( tx, ty )
@@ -234,7 +233,7 @@ function APP:Draw()
 	surface.DrawRect( ( Dividers[1][1] + Dividers[1][2] ) / 2 - 1, y+h/2, 4, h )
 	surface.DrawRect( ( Dividers[2][1] + Dividers[2][2] ) / 2 - 1, y+h/2, 4, h )
 
-	--self:DrawNewsTicker()
+	self:DrawNewsTicker()
 	self:DrawNowPlaying( 0, 70 )
 
 	self.LASTM = self.LASTM or 0
