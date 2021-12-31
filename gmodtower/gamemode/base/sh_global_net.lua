@@ -1,4 +1,4 @@
-module( "globalnet", package.seeall )
+/*module( "globalnet", package.seeall )
 
 DEBUG = false
 UseTransmitTools = false
@@ -161,4 +161,4 @@ function GetNet( name )
 		if DEBUG then ErrorNoHalt("Missing network! Can't get '", name, "' on ", self, "\n") end
 	end
 
-end
+end*/
