@@ -47,7 +47,7 @@ end
 concommand.Add("gmt_makeloading", function(ply)
 	if !ply:IsAdmin() then return end
 
-	local gamemodes = { "ballrace", "pvpbattle", "ultimtechimerahunt", "minigolf", "sourcekarts", "gourmetrace", "virus", "zombiemassacre" }
+	local gamemodes = { "ballrace", "pvpbattle", "ultimatechimerahunt", "minigolf", "sourcekarts", "gourmetrace", "virus", "zombiemassacre" }
 
 	SQL.getDB():Query( "TRUNCATE TABLE `gm_loading`;" )
 	for k,v in pairs(gamemodes) do
