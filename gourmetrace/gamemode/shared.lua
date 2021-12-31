@@ -3,7 +3,6 @@ GM.Author   = "GMT Crew~"
 GM.Website  = "http://www.gmtower.org/"
 
 GM.AllowSpecialModels = false
-GM.AllowChangeSize = false
 GM.AllowHats = false
 
 GM.MaxSpeed = 800
@@ -11,19 +10,10 @@ GM.NumRounds = 4
 
 --DeriveGamemode( "base" )
 
-DeriveGamemode( "gmodtower" )
-
-Loadables.Load( {
-	"clientsettings",
-	"achievement",
-	"scoreboard3",
-	"commands",
-	"afk2",
-	"friends",
-	--"music",
-	"weaponfix",
-	"payout",
-	//"jetpack",
+DeriveGamemode( "gmtgamemode" )
+SetupGMTGamemode( "Gourmet Race", "gourmetrace", {
+	AllowChangeSize = false,
+	
 } )
 
 function NWTableGlobal()

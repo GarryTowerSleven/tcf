@@ -21,7 +21,165 @@ function SetupGMTGamemode( name, folder, settings )
 
 	end
 
-	/*local gmtfolder = "/gamemode/"
+	-- Default stuff
+	GM.AllowChangeSize = settings.AllowChangeSize or false
+	GM.DrawHatAlways = settings.DrawHatsAlways or false
+	GM.UsesHands = settings.UsesHands or false
+
+	-- Force smaller models to default player model
+	if settings.DisableSmallModels then
+		GM.DisableSmallModels = true
+	end
+
+	-- Disable ducking
+	if settings.DisableDucking then
+
+		if SERVER then
+
+			hook.Add( "PlayerSpawn", "DisableDucking", function( ply ) 
+				ply:SetDuckSpeed( ply:GetWalkSpeed() )
+				ply:SetHullDuck( Vector(-16, -16, 0), Vector(16, 16, 72) ) -- Default hull
+			end )
+
+		else -- CLIENT
+
+			hook.Add( "CreateMove", "DisableDucking", function( cmd )
+
+				if ( cmd:KeyDown( IN_DUCK ) ) then
+					cmd:SetButtons( cmd:GetButtons() - IN_DUCK )
+				end
+
+			end )
+
+		end
+
+	end
+
+	-- Disable jumping
+	if settings.DisableJumping then
+
+		if SERVER then
+
+			hook.Add( "PlayerSpawn", "DisableJumping", function( ply )
+				ply:SetJumpPower( 0 )
+			end )
+
+		else -- CLIENT
+
+			hook.Add( "CreateMove", "DisableJumping", function( cmd )
+
+				if not LocalPlayer():Alive() then return end -- Allow jumping to handle respawning
+
+				if ( cmd:KeyDown( IN_JUMP ) ) then
+					cmd:SetButtons( cmd:GetButtons() - IN_JUMP )
+				end
+
+			end )
+
+		end
+
+	end
+
+	-- Disable running
+	if settings.DisableRunning then
+
+		if SERVER then
+
+			hook.Add( "PlayerSpawn", "DisableRunning", function( ply ) 
+				ply:SetRunSpeed( ply:GetWalkSpeed() )
+			end )
+
+		else -- CLIENT
+
+			hook.Add( "CreateMove", "DisableRunning", function( cmd )
+
+				if ( cmd:KeyDown( IN_SPEED ) ) then
+					cmd:SetButtons( cmd:GetButtons() - IN_SPEED )
+				end
+
+			end )
+
+		end
+
+	end
+
+	if SERVER then
+
+		-- AFK System
+		if AntiAFK then
+			AntiAFK.Time = settings.AFKDelay or 60
+			AntiAFK.WarningTime = 10
+		end
+
+		-- No godmode allowed
+		hook.Add( "AllowSpecialAdmin", "DisallowGodmode", function() return false end )
+
+	end
+
+	if CLIENT then
+	
+		-- Small players
+		if settings.AllowSmall then
+			hook.Add( "ShouldAutoScalePlayers", "AutoScalePlayers", function() return true end )
+		end
+
+		-- GMT menu
+		if not settings.AllowMenu && not ( questioner && questioner.CanVote ) then
+			hook.Add( "DisableMenu", "DisableGMTMenu", function() return true end )
+		end
+
+		-- Clicking on players
+		if settings.DisablePlayerClick then
+			hook.Add( "CanMousePress", "DisableClientMenu", function() return false end )
+		end
+
+		-- Hide HUD elements
+		table.uinsert( HudToHide, "CHudChat" )
+		table.uinsert( HudToHide, "CHudHealth" )
+		table.uinsert( HudToHide, "CHudBattery" )
+		table.uinsert( HudToHide, "CHudSuitPower" )
+		table.uinsert( HudToHide, "CHudAmmo" )
+		table.uinsert( HudToHide, "CHudSecondaryAmmo" )
+
+		-- Weapon selection
+		if not settings.EnableWeaponSelect then
+			table.uinsert( HudToHide, "CHudWeapon" )
+			table.uinsert( HudToHide, "CWeaponSelection" )
+		end
+
+		-- Crosshair
+		if not settings.EnableCrosshair then
+			table.uinsert( HudToHide, "CHudCrosshair" )
+		end
+
+		-- Damage
+		if not settings.EnableDamage then
+			table.uinsert( HudToHide, "CHudDamageIndicator" )
+		end
+
+		-- Chat box
+		if GTowerChat then
+
+			if settings.ChatY then
+				GTowerChat.YOffset = settings.ChatY or 400
+			end
+
+			if settings.ChatX then
+				GTowerChat.XOffset = settings.ChatX or 0
+			end
+
+			if settings.ChatBGColor then
+				GTowerChat.BGColor = settings.ChatBGColor
+			end
+
+			if settings.ChatScrollColor then
+				GTowerChat.ScrollColor = settings.ChatScrollColor
+			end
+
+		end
+	end
+
+	/*local gmtfolder = "/gamemode/gmt/"
 
 	-- Load the base GMT files
 	//local srvpayout = folder .. gmtfolder .. "sv_payout.lua"

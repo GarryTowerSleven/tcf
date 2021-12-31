@@ -10,7 +10,9 @@ GM.RoundTime = 2 * 60
 
 DeriveGamemode( "gmtgamemode" )
 SetupGMTGamemode( "Ult Chimera Hunt", "ultimatechimerahunt", {
-
+	AFKDelay = 60, // Seconds before they will be marked as AFK
+	ChatBGColor = Color( 148, 19, 76, 180 ), -- Color of the chat gui
+	ChatScrollColor = Color( 179, 29, 96, 215 ), -- Color of the chat scroll bar gui
 } )
 
 /* NETWORK VARS SETUP */

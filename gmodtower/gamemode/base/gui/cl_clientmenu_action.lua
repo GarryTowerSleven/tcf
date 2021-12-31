@@ -35,8 +35,6 @@ hook.Add("GUIMousePressed", "GtowerMousePressed", function( mc )
 	if !CanMouseEnt() then return end
 
 	GtowerMenu:CloseAll()
-	if string.StartWith(game.GetMap(),"gmt_minigolf") then return end
-	if string.StartWith(game.GetMap(),"gmt_zm") then return end
 	local trace = LocalPlayer():GetEyeTrace()
 
 	local cursorvec = GetMouseVector()
@@ -60,7 +58,6 @@ end )
 hook.Add( "KeyPress", "GtowerMousePressedEmpty", function( ply, key )
 	if !IsFirstTimePredicted() || key != IN_ATTACK || !CanMouseEnt() || IsValid(LocalPlayer():GetActiveWeapon()) then return end
 
-	if string.StartWith(game.GetMap(),"gmt_minigolf") then return end
 	
 	local trace = LocalPlayer():GetEyeTrace()
 
@@ -74,8 +71,6 @@ hook.Add( "GUIMousePressed", "GTowerMousePressed", function( mc )
 	if !CanMouseEnt() then return end
 
 	GTowerMenu:CloseAll()
-	if string.StartWith(game.GetMap(),"gmt_minigolf") then return end
-	if string.StartWith(game.GetMap(),"gmt_zm") then return end
 	local trace = LocalPlayer():GetEyeTrace()
 
 	// More precise handling of mouse vector + third person support
@@ -117,9 +112,6 @@ end )
 hook.Add( "KeyPress", "GTowerMousePressedEmpty", function( ply, key )
 
 	if !IsFirstTimePredicted() || key != IN_ATTACK || !CanMouseEnt() || IsValid(LocalPlayer():GetActiveWeapon()) then return end
-
-	if string.StartWith(game.GetMap(),"gmt_minigolf") then return end
-	if string.StartWith(game.GetMap(),"gmt_zm") then return end
 	
 	local trace = LocalPlayer():GetEyeTrace()
 

@@ -5,11 +5,14 @@ GM.Website  = "http://www.gmodtower.org/"
 DeriveGamemode("gmtgamemode")
 
 SetupGMTGamemode( "PVP Battle", "pvpbattle", {
-
+	AllowChangeSize = false,
+	AFKDelay = 60, // Seconds before they will be marked as AFK
+	EnableWeaponSelect = true, // Allow weapon selection
+	EnableCrosshair = true, // Draw the crosshair
+	EnableDamage = true, // Draw red damage effects
 } )
 
 GM.MaxRoundsPerGame = 6
-GM.AllowChangeSize = false
 
 RegisterNWTableGlobal({ {"PVPRoundTime", 0, NWTYPE_FLOAT, REPL_EVERYONE},
 			{"PVPRoundOver", false, NWTYPE_BOOLEAN, REPL_EVERYONE},
