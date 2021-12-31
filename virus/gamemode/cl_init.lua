@@ -44,7 +44,7 @@ function GM:InitPostEntity()
 	LocalPlayer().LocalInfected = CreateSound( LocalPlayer(), "ambient/fire/ignite.wav" )
 
 	timer.Simple( 1, function()
-		if ( GetGlobalInt("State") == STATUS_WAITING ) then		
+		if ( GetGlobalInt("State") == STATE_WAITING ) then		
 			LocalPlayer().WaitingForPlayers:PlayEx( 1, 100 )
 			LocalPlayer().IsThirdPerson = true
 		end
@@ -89,7 +89,7 @@ function GM:Think()
 		
 	end
 	
-	if ( GetGlobalInt("State") != STATUS_PLAYING ) then return end
+	if ( GetGlobalInt("State") != STATE_PLAYING ) then return end
 	
 	local endTime = GetGlobalFloat("Time")
 	local timeLeft = endTime - CurTime() - 1 // adjusting for hud message sliding
@@ -167,7 +167,7 @@ local VelSmooth = 0
 
 function GM:CalcView( ply, pos, ang, fov )
 
-	if ply:GetNWBool("IsVirus") || GetGlobalInt("State") == STATUS_WAITING then
+	if ply:GetNWBool("IsVirus") || GetGlobalInt("State") == STATE_WAITING then
 
 		local dist = 150
 		local center = ply:GetPos() + Vector( 0, 0, 75 )
@@ -210,7 +210,7 @@ function GM:CalcView( ply, pos, ang, fov )
 end
 
 hook.Add("ShouldDrawLocalPlayer", "ThirdDrawLocal", function()
-	return LocalPlayer():GetNWBool("IsVirus") || GetGlobalInt("State") == STATUS_WAITING
+	return LocalPlayer():GetNWBool("IsVirus") || GetGlobalInt("State") == STATE_WAITING
 end)
 
 local function ClientStartRound( um )

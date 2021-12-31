@@ -3,9 +3,6 @@ AddCSLuaFile("camsystem/cl_init.lua")
 AddCSLuaFile("camsystem/shared.lua")
 AddCSLuaFile("Catmull/shared.lua")
 
-AddCSLuaFile("gmt/camera/" .. game.GetMap() .. ".lua")
-AddCSLuaFile("gmt/cl_particles.lua")
-
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("nwtranslator.lua")

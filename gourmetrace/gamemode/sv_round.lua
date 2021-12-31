@@ -20,7 +20,7 @@ function GM:PreStartRound()
 
 	Msg( "Starting round! " .. tostring( GetGlobalInt( "Round" ) ) .. "\n" )
 
-	self:SetGameState( STATUS_WARMUP )
+	self:SetGameState( STATE_WARMUP )
 	--self:SetMusic( MUSIC_WARMUP )
 	self:SetAllSpawn( SPAWN_STARTLINE )
 
@@ -50,7 +50,7 @@ end
 function GM:StartRound()
 
 	SetGlobalInt( "Time", CurTime() + self.DefaultRoundTime )
-	self:SetGameState( STATUS_PLAYING )
+	self:SetGameState( STATE_PLAYING )
 	self:SetMusic( MUSIC_ROUND )
 
 	for k, ply in ipairs( player.GetAll() ) do
@@ -73,7 +73,7 @@ function GM:WaitRound( force )
 
 	Msg( "Waiting for players.", "\n" )
 
-	self:SetGameState( STATUS_WAITING )
+	self:SetGameState( STATE_WAITING )
 
 	if !self.FirstPlySpawned || force then
 		SetGlobalInt( "Time", CurTime() + self.WaitingTime )
@@ -94,7 +94,7 @@ function GM:EndRound( teamid )
 
 	Msg( "Ending Round...\n" )
 
-	self:SetGameState( STATUS_INTERMISSION )
+	self:SetGameState( STATE_INTERMISSION )
 	hook.Run("ResetPositions")
 
 	if GetGlobalInt("Round") == GAMEMODE.NumRounds then

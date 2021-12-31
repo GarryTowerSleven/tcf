@@ -7,7 +7,7 @@ function GM:PlayerDisconnected(ply)
 	ply:SetTeam( TEAM_SPEC )
 
 	// last player left, and we never started a game, so cancel the waiting start
-	if ( GetGlobalInt("State") == STATUS_WAITING && #player.GetAll() == 1 ) then
+	if ( GetGlobalInt("State") == STATE_WAITING && #player.GetAll() == 1 ) then
 		timer.Destroy( "WaitingStart" )
 		timer.Destroy( "WaitingFade" )
 	end
@@ -23,7 +23,7 @@ function GM:PlayerDisconnected(ply)
 		return
 	end
 
-	if ( GetGlobalInt("State") != STATUS_PLAYING ) then return end
+	if ( GetGlobalInt("State") != STATE_PLAYING ) then return end
 
 	if ( GetGlobalInt("NumVirus") == 0 ) then
 
@@ -123,17 +123,17 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 
 	end
 
-	if ( GetGlobalInt("State") == STATUS_PLAYING && ply:GetNWBool("IsVirus") ) then
+	if ( GetGlobalInt("State") == STATE_PLAYING && ply:GetNWBool("IsVirus") ) then
 		ply:AddDeaths( 1 )
 	end
 
-	if ( GetGlobalInt("State") == STATUS_PLAYING && !ply:GetNWBool("IsVirus") ) then
+	if ( GetGlobalInt("State") == STATE_PLAYING && !ply:GetNWBool("IsVirus") ) then
 		self:Infect( ply )
 	end
 
 	ply:CreateRagdoll()
 
-	if ( GetGlobalInt("State") != STATUS_PLAYING ) then return end
+	if ( GetGlobalInt("State") != STATE_PLAYING ) then return end
 
 	if ( ply:GetNWBool("IsVirus") ) then return end
 

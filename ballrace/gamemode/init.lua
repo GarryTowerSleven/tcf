@@ -20,7 +20,7 @@ afks = {}
 CreateConVar("gmt_srvid", 4 )
 
 function GM:Initialize()
-	SetState(STATUS_WAITING)
+	SetState(STATE_WAITING)
 
 	GAMEMODE.LateSpawn = nil
 	GAMEMODE.RoundNum = 0

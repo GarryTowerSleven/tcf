@@ -69,9 +69,9 @@ function GM:HUDPaint()
 	local ball = LocalPlayer():GetBall()
 	local team = LocalPlayer():Team()
 
-	if state == STATUS_WAITING then
+	if state == STATE_WAITING then
 		buffer = "WAITING FOR PLAYERS"
-	elseif state == STATUS_PLAYING then
+	elseif state == STATE_PLAYING then
 		if IsValid(LocalPlayer()) then
 			local team = LocalPlayer():Team()
 			if IsValid(ball) && ball:GetClass() == "player_ball" then
@@ -86,14 +86,14 @@ function GM:HUDPaint()
 				end
 			end
 		end
-	--[[elseif state == STATUS_INTERMISSION then
+	--[[elseif state == STATE_INTERMISSION then
 		buffer = "INTERMISSION"]]
 	end
 
-	if state != STATUS_INTERMISSION then
+	if state != STATE_INTERMISSION then
 		surface.SetDrawColor( 255, 255, 255, 255 )
 
-		if state != STATUS_WAITING then
+		if state != STATE_WAITING then
 			// Lives BG
 			local livesX, livesY = 12, 12
 			surface.SetTexture( hud_lives )
@@ -176,7 +176,7 @@ function GM:HUDPaint()
 	end
 
 	if buffer != "" then
-	--if  state == STATUS_WAITING || state == STATUS_PLAYING && (LocalPlayer():Team() == 2 || LocalPlayer():Team() == 3) then
+	--if  state == STATE_WAITING || state == STATE_PLAYING && (LocalPlayer():Team() == 2 || LocalPlayer():Team() == 3) then
 		surface.SetDrawColor( 0, 0, 0, 250 )
 		surface.DrawRect( 0, ScrH()/1.058, ScrW(), 60 )
 		surface.DrawRect( 0, ScrH()/1.058, ScrW(), 3 )

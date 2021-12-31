@@ -11,7 +11,7 @@ function GM:PlayerInitialSpawn( ply )
 	
 	ply.NextWeaponThink = 0
 
-	if ( GetGlobalInt("State") != STATUS_PLAYING && !ply:GetNWBool("IsVirus") ) then
+	if ( GetGlobalInt("State") != STATE_PLAYING && !ply:GetNWBool("IsVirus") ) then
 		hook.Call( "PlayerSetModel", GAMEMODE, ply )
 	end
 		
@@ -21,7 +21,7 @@ function GM:PlayerInitialSpawn( ply )
 	
 	RegisterNWPlayer(ply)
 	
-	if ( GetGlobalInt("State") == STATUS_WAITING && #player.GetAll() > 1 ) then
+	if ( GetGlobalInt("State") == STATE_WAITING && #player.GetAll() > 1 ) then
 	
 		SetGlobalFloat("Time",CurTime() + self.WaitingTime)
 		
@@ -40,7 +40,7 @@ function GM:PlayerInitialSpawn( ply )
 	// because apparently LocalPlayer() is nil when this usermessage arrives
 	timer.Simple( 1, function() 
 	
-		if ( GetGlobalInt("State") == STATUS_INFECTING ) then
+		if ( GetGlobalInt("State") == STATE_INFECTING ) then
 		
 			umsg.Start( "LateMusic", ply )
 				umsg.Char( MUSIC_WAITINGFORINFECTION )
@@ -49,7 +49,7 @@ function GM:PlayerInitialSpawn( ply )
 			
 		end
 		
-		if ( GetGlobalInt("State") == STATUS_INTERMISSION ) then
+		if ( GetGlobalInt("State") == STATE_INTERMISSION ) then
 		
 			umsg.Start( "LateMusic", ply )
 				umsg.Char( MUSIC_INTERMISSION )
@@ -71,7 +71,7 @@ function GM:PlayerInitialSpawn( ply )
 end
 
 function GM:PlayerSpawn( ply )
-	if ( GetGlobalInt("State") != STATUS_PLAYING && !ply:GetNWBool("IsVirus") ) then
+	if ( GetGlobalInt("State") != STATE_PLAYING && !ply:GetNWBool("IsVirus") ) then
 		hook.Call( "PlayerSetModel", GAMEMODE, ply )
 	end
 	
@@ -90,7 +90,7 @@ function GM:PlayerSpawn( ply )
 
 	ply:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
 	
-	if ( GetGlobalInt("State") == STATUS_WAITING ) then return end
+	if ( GetGlobalInt("State") == STATE_WAITING ) then return end
 	
 	if ( ply.Flame != nil ) then
 		ply.Flame:Remove()
@@ -101,7 +101,7 @@ function GM:PlayerSpawn( ply )
 	end
 
 
-	if ( GetGlobalInt("State") == STATUS_PLAYING && !ply:GetNWBool("IsVirus") ) then
+	if ( GetGlobalInt("State") == STATE_PLAYING && !ply:GetNWBool("IsVirus") ) then
 	
 		timer.Simple( 2, GAMEMODE.Infect, self, ply )
 		

@@ -152,7 +152,7 @@ function GM:CalcView( ply, origin, angles, fov )
 	local view = {}
 
 	local dist = -280
-	if self:GetGameState() == STATUS_INTERMISSION then
+	if self:GetGameState() == STATE_INTERMISSION then
 		dist = -150
 	end
 

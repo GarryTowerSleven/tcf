@@ -10,7 +10,7 @@ function GM:PlayerInitialSpawn( ply )
 	self:SetMusic( MUSIC_WAITING, ply )
 	self:SetSpawn( SPAWN_WAITING, ply )
 
-	if self:GetGameState() == STATUS_WAITING && !self.FirstPlySpawned then
+	if self:GetGameState() == STATE_WAITING && !self.FirstPlySpawned then
 
 		self:WaitRound()
 		self.FirstPlySpawned = true

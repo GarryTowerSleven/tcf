@@ -32,10 +32,10 @@ function RegisterNWPlayer(ply)
 	ply:SetNWInt("Rank",0)
 end
 
-STATUS_WAITING		= 1
-STATUS_INFECTING	= 2
-STATUS_PLAYING		= 3
-STATUS_INTERMISSION	= 4
+STATE_WAITING		= 1
+STATE_INFECTING	= 2
+STATE_PLAYING		= 3
+STATE_INTERMISSION	= 4
 
 TEAM_PLAYERS	= 1
 TEAM_INFECTED	= 2
@@ -53,7 +53,7 @@ function GM:GetState()
 end
 
 function GM:IsPlaying()
-	return GetGlobalInt("State") == STATUS_PLAYING
+	return GetGlobalInt("State") == STATE_PLAYING
 end
 
 function GM:GetTimeLeft()

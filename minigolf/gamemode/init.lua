@@ -10,8 +10,6 @@ AddCSLuaFile("cl_init.lua");
 AddCSLuaFile("cl_music.lua");
 AddCSLuaFile("cl_scorecard.lua");
 
-AddCSLuaFile("gmt/camera/" .. game.GetMap() .. ".lua");
-
 AddCSLuaFile("meta_camera.lua");
 AddCSLuaFile("meta_player.lua");
 

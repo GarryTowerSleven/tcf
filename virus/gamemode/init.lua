@@ -62,7 +62,7 @@ end
 
 function GM:RandomInfect()
 
-	SetGlobalInt("State",STATUS_PLAYING)
+	SetGlobalInt("State",STATE_PLAYING)
 
 	local time = GAMEMODE.RoundTime
 
@@ -101,7 +101,7 @@ end
 
 function GM:Infect( ply, infector )
 
-	if ( GetGlobalInt("State") != STATUS_PLAYING ) then return end
+	if ( GetGlobalInt("State") != STATE_PLAYING ) then return end
 
 	if !IsValid( ply ) then return end
 
@@ -233,7 +233,7 @@ function GM:CanPlayerSuicide( ply )
 end
 
 hook.Add("EntityTakeDamage", "DamageNotes",  function(target,dmginfo)
-	if GetGlobalInt("State") == STATUS_PLAYING then
+	if GetGlobalInt("State") == STATE_PLAYING then
 		if target:IsPlayer() && dmginfo:GetAttacker():IsPlayer() && target:GetNWBool("IsVirus") then
 			umsg.Start( "DamageNotes", dmginfo:GetAttacker() )
 				umsg.Float(math.Round(dmginfo:GetDamage()))

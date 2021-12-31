@@ -5,7 +5,7 @@ function GM:StartRound()
 
 	GAMEMODE:CleanUpMap()
 	
-	SetGlobalInt("State",STATUS_INFECTING)
+	SetGlobalInt("State",STATE_INFECTING)
 	
 	SetGlobalInt("NumVirus",0)
 	
@@ -61,7 +61,7 @@ end
 
 function GM:EndRound( virusWins )
 	
-	SetGlobalInt("State",STATUS_INTERMISSION)
+	SetGlobalInt("State",STATE_INTERMISSION)
 	GAMEMODE.EndRoundMusic = virusWins
 	
 	local time = GAMEMODE.IntermissionTime
