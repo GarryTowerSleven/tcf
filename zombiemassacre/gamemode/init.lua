@@ -17,11 +17,7 @@ AddCSLuaFile( "sh_movement.lua" )
 AddCSLuaFile( "sh_player_meta.lua" )
 AddCSLuaFile( "shared.lua" )
 
-AddCSLuaFile("gmt/cl_scoreboard.lua")
-
 include( "dropmanager/init.lua" )
-
-include("multiserver.lua")
 
 include("sv_helicopters.lua")
 include( "postprocess/init.lua" )

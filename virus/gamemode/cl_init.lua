@@ -1,8 +1,6 @@
 include( "shared.lua" )
-include( "sh_payout.lua" )
 
 include( "cl_deathnotice.lua" )
-include( "cl_scoreboard.lua" )
 include( "cl_hud.lua" )
 include( "cl_post_events.lua" )
 include( "cl_hudmessage.lua" )

@@ -60,7 +60,7 @@ payout.Register( "Rank3", {
 	Diff = 3,
 } )
 
-function GM:GiveMoney()
+function GAMEMODE:GiveMoney()
 
 	if CLIENT then return end
 

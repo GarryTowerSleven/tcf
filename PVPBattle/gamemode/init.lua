@@ -1,15 +1,11 @@
 
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_deathnotice.lua" )
-AddCSLuaFile( "cl_scoreboard.lua" )
 AddCSLuaFile( "cl_post_events.lua" )
 AddCSLuaFile( "shared.lua" )
-AddCSLuaFile( "sh_payout.lua" )
 
 include( "shared.lua" )
-include( "sh_payout.lua" )
 include( "player.lua" )
-include( "multiserver.lua" )
 
 CreateConVar("gmt_srvid", 5 )
 

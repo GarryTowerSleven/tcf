@@ -1,15 +1,13 @@
 
-function GM:EndServer()
+function GAMEMODE:EndServer()
 
 	//I guess it it good bye
 	GTowerServers:EmptyServer()
 	GTowerServers:ResetServer()
 
-	Msg( " !! You are all dead !!\n" )
-
 end
 
-function GM:EnterPlayingState()
+function GAMEMODE:EnterPlayingState()
 	if self.CurrentLevel == 0 then
 		self:AdvanceLevelStatus()
 	end

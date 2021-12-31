@@ -19,8 +19,6 @@ include( "meta_player.lua" );
 include( "sh_move.lua" );
 include( "sh_scores.lua" );
 include( "shared.lua" );
-include( "cl_scoreboard.lua");
-include( "sh_payout.lua" );
 
 //===============================================================
 ConVarDisplayHUD = CreateClientConVar( "gmt_minigolf_hud", 1, true )

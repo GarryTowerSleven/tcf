@@ -2,10 +2,8 @@ include( "shared.lua" )
 include( "sh_move.lua" )
 include( "sh_meta.lua" )
 include( "sh_think.lua" )
-include( "sh_payout.lua" )
 include( "cl_hud.lua" )
 include( "cl_music.lua" )
-include( "cl_scoreboard.lua" )
 
 surface.CreateFont( "gr_playername", { font = "Kirby Classic", size = 75, weight = 100, shadow = true } )
 

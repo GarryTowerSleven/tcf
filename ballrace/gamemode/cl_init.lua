@@ -1,8 +1,6 @@
 include("shared.lua")
 include("cl_message.lua")
 include("cl_choose.lua")
-include("cl_scoreboard.lua")
-include("sh_payout.lua")
 include("sh_player.lua")
 
 local hud_lives = surface.GetTextureID( "gmod_tower/balls/hud_main_lives" )

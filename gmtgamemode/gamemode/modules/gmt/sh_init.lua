@@ -179,7 +179,7 @@ function SetupGMTGamemode( name, folder, settings )
 		end
 	end
 
-	/*local gmtfolder = "/gamemode/gmt/"
+	local gmtfolder = "/gamemode/gmt/"
 
 	-- Load the base GMT files
 	//local srvpayout = folder .. gmtfolder .. "sv_payout.lua"
@@ -201,7 +201,7 @@ function SetupGMTGamemode( name, folder, settings )
 			//include( srvpayout )
 		end
 
-	end )*/
+	end )
 
 	MsgC( Color( 0, 255, 255 ), "Registered and loaded gamemode: " .. name .. "\n" )
 

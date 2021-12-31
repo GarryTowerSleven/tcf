@@ -25,8 +25,6 @@ AddCSLuaFile("cl_debug3d.lua")
 AddCSLuaFile("sh_items.lua")
 include("sh_items.lua")
 
-include("multiserver.lua")
-
 include("checkpoints/shared.lua")
 
 include("camsystem/shared.lua")

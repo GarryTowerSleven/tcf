@@ -1,4 +1,4 @@
-function GM:EndServer()
+function GAMEMODE:EndServer()
 
 	//I guess it it good bye
 	GTowerServers:EmptyServer()

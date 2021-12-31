@@ -6,7 +6,7 @@ hook.Add("GTowerMsg", "GamemodeMessage", function()
 	end
 end )
 
-function GM:EndServer()
+function GAMEMODE:EndServer()
 
 	GTowerServers:EmptyServer()
 	GTowerServers:ResetServer()

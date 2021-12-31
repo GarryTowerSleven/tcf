@@ -45,7 +45,7 @@ payout.Register( "Collected", {
 } )
 
 
-function GM:GiveMoney()
+function GAMEMODE:GiveMoney()
 
 	if CLIENT then return end
 

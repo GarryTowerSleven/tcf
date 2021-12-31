@@ -6,8 +6,6 @@ include( "Catmull/shared.lua" )
 include("gmt/camera/" .. game.GetMap() .. ".lua")
 include("gmt/cl_particles.lua")
 include("gmt/cl_post_events.lua")
-include("gmt/cl_scoreboard.lua")
-include("gmt/sh_payout.lua")
 
 include("meta_player.lua")
 include("meta_camera.lua")
