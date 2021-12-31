@@ -11,19 +11,9 @@ GM.NumRounds = 4
 
 --DeriveGamemode( "base" )
 
-DeriveGamemode( "gmodtower" )
+DeriveGamemode( "gmtgamemode" )
+SetupGMTGamemode( "Gourmet Race", "gourmetrace", {
 
-Loadables.Load( {
-	"clientsettings",
-	"achievement",
-	"scoreboard3",
-	"commands",
-	"afk2",
-	"friends",
-	--"music",
-	"weaponfix",
-	"payout",
-	//"jetpack",
 } )
 
 function NWTableGlobal()

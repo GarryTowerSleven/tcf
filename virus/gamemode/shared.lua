@@ -5,7 +5,10 @@ GM.Website  = "http://www.gmodtower.org/"
 GM.AllowSpecialModels = true
 GM.AllowChangeSize = false
 
-DeriveGamemode( "gmodtower" )
+DeriveGamemode( "gmtgamemode" )
+SetupGMTGamemode( "Virus", "virus", {
+
+} )
 
 function RegisterNWTable()
 	SetGlobalInt("State",1)
@@ -48,15 +51,3 @@ end
 function GM:GetTimeLeft()
 	return GetGlobalFloat("Time") - CurTime()
 end
-
-Loadables.Load( {
-	"clientsettings",
-	"commands",
-	"achievement",
-	"friends",
-	"afk2",
-	"scoreboard3",
-	"payout",
-	"weaponfix",
-	//"jetpack",
-} )

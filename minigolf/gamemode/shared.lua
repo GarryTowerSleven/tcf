@@ -1,7 +1,10 @@
 // === GAMEMODE SETUP ===
 GM.Name 	= "GMod Tower: Minigolf"
 
-DeriveGamemode( "gmodtower" )
+DeriveGamemode( "gmtgamemode" )
+SetupGMTGamemode( "Minigolf", "minigolf", {
+	 
+} )
 
 GM.Holes = GM.Holes || {};
 
@@ -148,18 +151,6 @@ end
 -- TEAM
 TEAM_PLAYING = 1
 TEAM_FINISHED = 2
-
-Loadables.Load( {
-	"clientsettings",
-	"achievement",
-	"friends",
-	"commands",
-	"afk2",
-	"scoreboard3",
-	"payout",
-	--"weaponfix",
-	//"jetpack",
-} )
 
 function GM:SetState( state )
 	if not state then return end

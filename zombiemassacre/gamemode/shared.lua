@@ -9,22 +9,12 @@ GM.Author   = "GMT Crew~"
 GM.Website  = "http://www.gmtower.org/"
 
 
-DeriveGamemode( "gmodtower" )
+DeriveGamemode( "gmtgamemode" )
+SetupGMTGamemode( "Zombie Massacre", "zombiemassacre", {
+
+} )
 
 GM.AllowChangeSize = false
-
-Loadables.Load( {
-	"clientsettings",
-	"achievement",
-	"friends",
-	"commands",
-	"afk2",
-	"scoreboard3",
-	"payout",
-	"music",
-	--"weaponfix",
-	//"jetpack",
-} )
 
 --[[SetupGMTGamemode( "Zombie Massacre", "zombiemassacre",{
 	Loadables = { "weaponfix" }, // Additional loadables

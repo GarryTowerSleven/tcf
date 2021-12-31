@@ -8,13 +8,9 @@ GM.AllowChangeSize = false
 GM.NumRounds = 15
 GM.RoundTime = 2 * 60
 
-DeriveGamemode( "gmodtower" )
-Loadables.Load( {
-	"clientsettings",
-	"achievement",
-	"friends",
-	"scoreboard3",
-	"payout",
+DeriveGamemode( "gmtgamemode" )
+SetupGMTGamemode( "Ult Chimera Hunt", "ultimatechimerahunt", {
+
 } )
 
 /* NETWORK VARS SETUP */

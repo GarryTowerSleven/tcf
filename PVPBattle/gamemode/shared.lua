@@ -2,20 +2,9 @@ GM.Name     = "GMod Tower: PVP Battle"
 GM.Author   = "GMod Tower Team"
 GM.Website  = "http://www.gmodtower.org/"
 
-DeriveGamemode("gmodtower")
+DeriveGamemode("gmtgamemode")
+SetupGMTGamemode( "PVP Battle", "pvpbattle", {
 
-Loadables.Load( {
-	"clientsettings",
-	"achievement",
-	"friends",
-	"commands",
-	"afk2",
-	"scoreboard3",
-	"payout",
-	"weaponfix",
-	"music",
-	//"gibsystem",
-	//"jetpack"
 } )
 
 GM.MaxRoundsPerGame = 6
