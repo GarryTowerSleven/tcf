@@ -79,10 +79,12 @@ function GTowerServers:RedirectPlayers( ip, port, password, players, NoCheckGone
 
 			if IsLobby then
 				timer.Simple(2, function()
-					umsg.Start("GServ", ply)
-						umsg.Char( 14 )
-						umsg.String(gameName)
-					umsg.End()
+					if IsValid(ply) then
+						umsg.Start("GServ", ply)
+							umsg.Char( 14 )
+							umsg.String(gameName)
+						umsg.End()
+					end
 				end)
 			end
 
