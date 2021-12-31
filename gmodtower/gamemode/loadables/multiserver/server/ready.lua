@@ -43,6 +43,36 @@ function ServerMeta:IsReady()
 	return true
 end
 
+// to make the table needed n suchchc
+concommand.Add("gmt_makeloading", function(ply)
+	if !ply:IsAdmin() then return end
+
+	local gamemodes = { "ballrace", "pvpbattle", "ultimtechimerahunt", "minigolf", "sourcekarts", "gourmetrace", "virus", "zombiemassacre" }
+
+	SQL.getDB():Query( "TRUNCATE TABLE `gm_loading`;" )
+	for k,v in pairs(gamemodes) do
+		SQL.getDB():Query( "INSERT INTO `gm_loading`(`gamemode`, `steamids`) VALUES ('" .. v .. "','');" )
+	end
+end)
+
+function ServerMeta:SendToLoading( movingPlayers )
+	local SteamIDS = ""
+
+	for k,v in pairs( movingPlayers ) do
+		if SteamIDS == "" then
+			SteamIDS = v:SteamID64()
+		else
+			SteamIDS = SteamIDS .. "," .. v:SteamID64()
+		end
+	end
+
+	local gmode = self:GetGamemode().Gamemode
+
+	if gmode then
+		SQL.getDB():Query( "UPDATE `gm_loading` SET `steamids` = '".. SteamIDS .."' WHERE gamemode = '".. self:GetGamemode().Gamemode .."';" )
+	end
+end
+
 function ServerMeta:Think()
 
 	local IsReady = self:IsReady()
@@ -66,6 +96,8 @@ function ServerMeta:Think()
 			//print(self.Id, "count vote")
 			self:CountMapVotes()
 			self.SendPlayersFinal = self:GetMovingPlayers() // this is it, these players are going whether they like it or not
+
+			self:SendToLoading(self.SendPlayersFinal)
 
 		elseif CurTime() > self.GoJoinTime && self.SendPlayersFinal then
 
