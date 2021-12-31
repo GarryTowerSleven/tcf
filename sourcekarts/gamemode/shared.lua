@@ -1,19 +1,9 @@
 // === GAMEMODE SETUP ===
 GM.Name 	= "GMod Tower: Source Karts"
 
-DeriveGamemode( "gmodtower" )
+DeriveGamemode( "gmtgamemode" )
+SetupGMTGamemode( "Source Karts", "sourcekarts", {
 
-Loadables.Load( {
-	"clientsettings",
-	"achievement",
-	"friends",
-	"commands",
-	"afk2",
-	"scoreboard3",
-	"payout",
-	"music",
-	--"weaponfix",
-	//"jetpack",
 } )
 
 RaveMode = string.StartWith( game.GetMap(), "gmt_sk_rave" )

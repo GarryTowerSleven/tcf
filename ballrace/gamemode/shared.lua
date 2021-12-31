@@ -6,19 +6,9 @@ GM.Website  = "http://www.gmtower.org/"
 
 --DeriveGamemode("base")
 
-DeriveGamemode( "gmodtower" )
+DeriveGamemode( "gmtgamemode" )
+SetupGMTGamemode( "Ball Race", "ballrace", {
 
-Loadables.Load( {
-	"clientsettings",
-	"achievement",
-	"commands",
-	"afk2",
-	"friends",
-	"scoreboard3",
-	"weaponfix",
-	"payout",
-	"music",
-	//"jetpack",
 } )
 
 
