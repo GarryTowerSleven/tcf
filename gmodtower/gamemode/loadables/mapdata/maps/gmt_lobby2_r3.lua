@@ -243,13 +243,13 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	ent:SetSequence( "idle" )
 
 	// Halloween Shop
-	if IsHalloweenMap() then
+	if IsHalloween then
 		AddL2Seat( "models/gmod_tower/shopstand.mdl", Vector( 5497.978516, -187.837418, -895.029480 ), Angle(0, 90, 0), 0, Color(255, 255, 255))
 		AddMapEntity( "gmt_npc_halloween", Vector( 5497.978516, -220, -895.029480 ), Angle( 0, 90, 0 ) )
 	end
 
 	// Christmas Sack
-	if IsChristmasMap() then
+	if IsChristmas then
 		AddMapEntity( "gmt_presentbag", Vector( 4927.875, 208.3125, -894.718750 ), Angle( 0, 120, 0 ) )
 	end
 

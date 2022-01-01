@@ -15,10 +15,5 @@ function ENT:Initialize()
     e:Spawn()
     e:ResetSequence("idle")
 
-    if IsHalloweenMap() then
-      e:SetMaterial( "models/map_detail/flagsidedeluxe_h", true )
-    end
-
     self:Remove()
-
 end

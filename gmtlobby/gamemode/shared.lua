@@ -1,9 +1,8 @@
-GM.Name     = "GMTower"
-GM.Author   = "pixelTail Games & GMT: Deluxe Team"
-GM.Website  = "http://www.gmtower.org/"
+GM.Name 	= "GMod Tower: Deluxe"
+GM.Author	= "Deluxe Team & PixelTail Games"
+GM.Website  = "https://www.gmtdelxue.org/"
 GM.AllowSpecialModels = true
 GM.AllowEquippables = true
-GM.AllowJetpack = true
 
 GM.UsesHands = true
 IsLobby = true
@@ -11,23 +10,6 @@ IsLobby = true
 DeriveGamemode( "GModTower" )
 
 include("player_class/player_lobby.lua")
-
-function IsHalloweenMap()
-	return false
-end
-
-function IsChristmasMap()
-	return false
-end
-
-function IsHolidayMap()
-	return ( IsHalloweenMap() || IsChristmasMap() )
-end
-
-if IsHalloweenMap() then
-	if SERVER then AddCSLuaFile("sh_halloween.lua") end
-	include("sh_halloween.lua")
-end
 
 //=====================================================
 game.AddParticles( "particles/lobby_2.pcf" )
@@ -39,6 +21,19 @@ for _, part in pairs( ParticleSystems ) do
 	PrecacheParticleSystem( part )
 end
 //=====================================================
+
+IsHalloween = false
+
+IsChristmas = false
+
+function IsHolidayMap()
+	return ( IsHalloween || IsChristmas )
+end
+
+if IsHalloween then
+	if SERVER then AddCSLuaFile("sh_halloween.lua") end
+	include("sh_halloween.lua")
+end
 
 Loadables.Load( {
 

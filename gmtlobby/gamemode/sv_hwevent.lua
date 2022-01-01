@@ -110,7 +110,7 @@ end)
 
 hook.Add( "InitPostEntity", "InitializeHalloween", function()
 
-	if !IsHalloweenMap() then return end
+	if !IsHalloween then return end
 	// It's Halloween!
 	print("-==INITIALIZING HALLOWEEN EVENT==-")
 	timer.Create( "BucketSpawner", 60*30, 0, function()

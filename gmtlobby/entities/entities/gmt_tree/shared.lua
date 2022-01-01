@@ -13,7 +13,7 @@ ENT.Base		= "base_anim"
 ENT.Type		= "anim"
 ENT.PrintName	= "Tree"
 
-if IsChristmasMap() then
+if IsChristmas then
 	ENT.Model        = Model( "models/wilderness/snowtree.mdl" )
 	ENT.ModelLOD     = Model("models/wilderness/snowtree.mdl")
 else
