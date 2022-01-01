@@ -283,7 +283,7 @@ function LoadModulesInOrder()
 		{ "base/inventory", true }, // inventory
 		{ "base/maps", true }, // map definitions
 		{ "base/postevents", true }, // post process events
-		//{ "base/voice", false }, // voice management
+		{ "base/voice", true }, // voice management
 
 		// Modules
 		{ "base/chat", true }, // chat

@@ -13,22 +13,6 @@ GMT = true
 TestingMode = CreateConVar( "gmt_testing", 0, { FCVAR_ARCHIVE, FCVAR_DONTRECORD, FCVAR_REPLICATED }, "GMT testing mode" )
 EmptyFunction = function() end
 
--- Voice Enable Replacement
-if CLIENT then
-	CreateConVar( "gmt_voice_enable", 1, { FCVAR_USERINFO, FCVAR_ARCHIVE } )
-else
-	hook.Add( "PlayerCanHearPlayersVoice", "Maximum Range", function( listener, talker )
-		if VoiceNotEnabled(listener) || VoiceNotEnabled(talker) then return false end
-	end )
-end
-
-function VoiceNotEnabled(ply)
-	return !tobool(ply:GetInfoNum( "gmt_voice_enable", 1 ))
-end
-
-//=====================================================
-
-GM.WebsiteUrl = "https://gmodtower.org/apps/"
 
 function GtowerAddResourceDirectory(Directory, Types)
 
