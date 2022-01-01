@@ -13,7 +13,7 @@ ENT.Instructions	= ""
 
 ENT.Model			= "models/props_junk/watermelon01.mdl"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )
 
 function ENT:SetupDataTables()
 	self:NetworkVar( "String", 0 , "PetName" )

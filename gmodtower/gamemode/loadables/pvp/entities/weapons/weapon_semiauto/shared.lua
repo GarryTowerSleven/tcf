@@ -32,8 +32,8 @@ SWEP.Description = "Simple design, deadly results. Just fire like normal and let
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 0
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:CanSecondaryAttack()
 	return false

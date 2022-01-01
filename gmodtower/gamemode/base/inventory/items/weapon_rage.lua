@@ -11,7 +11,7 @@ ITEM.DrawName = true
 ITEM.EquipType = "Weapon"
 ITEM.Equippable = true
 
-GtowerPrecacheModel( ITEM.Model )
+util.PrecacheModel( ITEM.Model )
 
 function ITEM:IsWeapon()
 	return true

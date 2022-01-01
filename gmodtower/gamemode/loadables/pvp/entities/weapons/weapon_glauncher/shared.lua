@@ -34,8 +34,8 @@ SWEP.Description = "This powerful dual-purpose grenade launcher is any man's wor
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 3000
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:CanPrimaryAttack()
 	if self.reloading then

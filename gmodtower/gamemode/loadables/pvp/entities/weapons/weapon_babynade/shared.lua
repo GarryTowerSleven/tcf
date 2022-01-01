@@ -34,8 +34,8 @@ SWEP.Description = "Use care when planning, as the explosion is quite deadly."
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 625
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:Deploy()
 	self.Throw = 0

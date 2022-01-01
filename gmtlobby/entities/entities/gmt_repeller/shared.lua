@@ -4,4 +4,4 @@ ENT.Author			= "AzuiSleet"
 
 ENT.Model			= "models/props_memories/memories_positon.mdl"
 
-//GtowerPrecacheModel( ENT.Model )
+//util.PrecacheModel( ENT.Model )

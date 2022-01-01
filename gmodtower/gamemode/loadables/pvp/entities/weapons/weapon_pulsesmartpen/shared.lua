@@ -36,8 +36,8 @@ SWEP.Description = "Write on your enemies and make sure they got that."
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 145
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:PrimaryAttack()
 	if !self:CanPrimaryAttack() then return end

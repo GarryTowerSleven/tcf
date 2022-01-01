@@ -29,7 +29,7 @@ ENT.scr_height			= 360
 ENT.limit_x 			= 6.4
 ENT.limit_y 			= 4.4
 
-GtowerPrecacheModel(ENT.Model)
+util.PrecacheModel(ENT.Model)
 
 function ENT:PhysicsUpdate()
 end

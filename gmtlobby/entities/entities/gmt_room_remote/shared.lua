@@ -11,4 +11,4 @@ ENT.AdminSpawnable	= false
 
 ENT.Model		= "models/props/cs_office/projector_remote.mdl"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )

@@ -14,7 +14,7 @@ ITEM.WeaponSafe = true
 ITEM.StoreId = 22
 ITEM.StorePrice = 375
 
-GtowerPrecacheModel( ITEM.Model )
+util.PrecacheModel( ITEM.Model )
 
 function ITEM:IsWeapon()
 	return true

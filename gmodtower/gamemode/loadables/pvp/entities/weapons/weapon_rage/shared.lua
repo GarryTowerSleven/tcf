@@ -33,8 +33,8 @@ SWEP.FistHitFlesh		= {	"GModTower/pvpbattle/Rage/RageFlesh1.wav",
 SWEP.FistMiss			= {	"GModTower/pvpbattle/Rage/RageMiss1.wav",
 					"GModTower/pvpbattle/Rage/RageMiss2.wav"  }
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:PrimaryAttack()
 

@@ -36,8 +36,8 @@ SWEP.Description = "Using one of the most advanced weapon designs, quickly tear 
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 700
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:SecondaryAttack()
 	self.Weapon:SetNextSecondaryFire( CurTime() + self.Secondary.Delay )

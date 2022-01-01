@@ -13,7 +13,7 @@ ENT.Instructions	= ""
 
 ENT.Model			= "models/gmod_tower/rubikscube.mdl"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )
 
 function ENT:SetupDataTables()
 	self:NetworkVar( "String", 0 , "PetName" )

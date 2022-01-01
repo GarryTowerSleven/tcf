@@ -4,4 +4,4 @@ ENT.PrintName		= "Arrow"
 
 ENT.Model			= "models/gmod_tower/arrow.mdl"
 
-//GtowerPrecacheModel( ENT.Model )
+//util.PrecacheModel( ENT.Model )

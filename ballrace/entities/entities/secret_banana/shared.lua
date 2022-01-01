@@ -8,5 +8,5 @@ ENT.ModelExtra			= Model("models/props/cs_italy/bananna_bunch.mdl")
 
 ENT.EatSound			= Sound("GModTower/balls/BananaEat.wav")
 
---GtowerPrecacheModel( ENT.ModelExtra )
---GtowerPrecacheModel( ENT.Model )
+--util.PrecacheModel( ENT.ModelExtra )
+--util.PrecacheModel( ENT.Model )

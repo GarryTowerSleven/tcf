@@ -34,8 +34,8 @@ SWEP.Description = "Add a new meaning to fire power. Let waves of bullets ricoch
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 225
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:CanSecondaryAttack()
 	return false

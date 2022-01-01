@@ -5,4 +5,4 @@ ENT.RenderGroup 		= RENDERGROUP_TRANSLUCENT
 
 ENT.Model				= "models/gmod_tower/stealth box/box.mdl"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )

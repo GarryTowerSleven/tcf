@@ -39,8 +39,8 @@ SWEP.IronSightsPos = Vector (-8.9445, -8.7188, -0.4974)
 SWEP.IronSightsAng = Vector (-1.7418, 0.0104, 0.001)
 
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:CanPrimaryAttack()
 	if self.Owner.Reloading then

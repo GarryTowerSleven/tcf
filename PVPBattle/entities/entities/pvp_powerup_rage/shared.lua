@@ -7,4 +7,4 @@ ENT.Model = "models/gmod_tower/rageface.mdl"
 ENT.Sound1 = "GModTower/pvpbattle/Rage.mp3"
 ENT.Sound2 = "GModTower/pvpbattle/RageDie.mp3"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )

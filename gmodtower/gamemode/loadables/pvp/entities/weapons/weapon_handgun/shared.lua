@@ -34,8 +34,8 @@ SWEP.SoundReload		 = "GModTower/pvpbattle/Handgun/hg_reload.wav"
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 100*/
 				
-GtowerPrecacheModel( SWEP.ViewModel )
-//GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+//util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:PrimaryAttack()
 	if !self:CanPrimaryAttack() then return end

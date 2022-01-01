@@ -10,7 +10,7 @@ ENT.AdminSpawnable	= true
 
 ENT.Model		= "models/props/cs_office/radio.mdl"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )
 
 /*hook.Add("LoadAchievements","AchiPokerFace", function ()
 

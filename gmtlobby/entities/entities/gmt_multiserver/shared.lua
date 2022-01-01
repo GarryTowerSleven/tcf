@@ -11,7 +11,7 @@ ENT.AdminSpawnable	= true
 
 ENT.Model = "models/props_lab/blastdoor001c.mdl"
 
-//GtowerPrecacheModel( ENT.Model )
+//util.PrecacheModel( ENT.Model )
 
 hook.Add("LoadAchievements","AchiJeoperty", function ()
 

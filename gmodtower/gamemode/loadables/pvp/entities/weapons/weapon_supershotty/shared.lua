@@ -33,8 +33,8 @@ SWEP.Description = "May look small, but this thing sure packs some heat. Fire at
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 0
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:ShootEffects(sound, recoil)
 	self.BaseClass.ShootEffects(self.Weapon, sound, recoil)

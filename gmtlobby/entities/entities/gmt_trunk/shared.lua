@@ -11,4 +11,4 @@ ENT.AdminSpawnable	= false
 
 ENT.Model		= "models/gmod_tower/suitetrunk.mdl"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )

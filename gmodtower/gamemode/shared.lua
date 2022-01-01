@@ -19,24 +19,6 @@ function GetWorldEntity()
 	return game.GetWorld() //ents.FindByClass("worldspawn")[1]
 end
 
-function GtowerPrecacheModel(Model)
-	if !Model then return end
-
-	if !util.IsValidModel(Model) then
-		--print("GtowerPrecacheModel: Invalid Model!", Model)
-		--debug.Trace()
-		return
-	end
-
-	util.PrecacheModel(Model)
-end
-
-function GtowerPrecacheModelTable(Table)
-	for k,v in pairs(Table) do
-		GtowerPrecacheModel(v)
-	end
-end
-
 function GM:PhysgunPickup( ply, ent )	
 
 	if ent:IsPlayer() && ent:IsAdmin() then

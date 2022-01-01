@@ -9,4 +9,4 @@ ENT.Instructions	= ""
 
 ENT.Model		= "models/gmod_tower/candycornpile.mdl"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )

@@ -43,8 +43,8 @@ SWEP.StorePrice = 575
 SWEP.IronSightsPos = Vector (3.6707, -6.297, 1.6166)
 SWEP.IronSightsAng = Vector (-0.7847, 4.1086, 0.8058)
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:SecondaryAttack()
 	self.Weapon:SetNextSecondaryFire( CurTime() + self.Secondary.Delay )

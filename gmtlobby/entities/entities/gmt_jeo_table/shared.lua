@@ -19,7 +19,7 @@ ENT.UpPos = 20.25
 
 ENT.Model = "models/gmod_tower/answerboard.mdl"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )
 
 function ENT:ReloadOBBBounds()
 	local mins = self:OBBMins()
