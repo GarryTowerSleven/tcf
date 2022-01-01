@@ -26,6 +26,7 @@ PLAYER.UnDuckSpeed			= .25		-- How fast to go from ducking, to not ducking
 
 PLAYER.WalkSpeed 			= 180
 PLAYER.RunSpeed				= 320
+PLAYER.SlowWalkSpeed		= 100
 
 
 --
