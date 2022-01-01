@@ -13,24 +13,14 @@ GMT = true
 TestingMode = CreateConVar( "gmt_testing", 0, { FCVAR_ARCHIVE, FCVAR_DONTRECORD, FCVAR_REPLICATED }, "GMT testing mode" )
 EmptyFunction = function() end
 
-function EmptyFunction() end
+function GM:PhysgunPickup( ply, ent )	
 
-function GM:PhysgunPickup( ply, ent )
-
-	local tbl = hook.GetTable().GTowerPhysgunPickup
-
-	if ply:IsAdmin() && ent:IsPlayer() then
-		return true
+	if ent:IsPlayer() && ent:IsAdmin() then
+		return false
 	end
 
-	for _, v in pairs( tbl ) do
-		local b, CantMove = SafeCall( v, ply, ent )
-		if b && CantMove == false then
-			return false
-		end
-	end
+	return ply:GetSetting( "GTAllowInvAllEnts" )
 
-	return true
 end
 
 
