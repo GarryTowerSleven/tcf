@@ -5,4 +5,4 @@ ENT.Model = "models/gmod_tower/takeonball.mdl"
 ENT.Sound1 = "GModTower/pvpbattle/TakeOn.mp3"
 ENT.Sound2 = "GModTower/pvpbattle/TakeOnDie.mp3"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )

@@ -30,8 +30,8 @@ SWEP.Description = "Throw down and watch it bounce."
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 0
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:CanPrimaryAttack()
 	return self.Owner:GetAmmoCount( self.Primary.Ammo ) > 0

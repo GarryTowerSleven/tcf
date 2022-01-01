@@ -11,7 +11,7 @@ ENT.AdminSpawnable	= false
 
 ENT.Model		= "models/gmod_tower/suitetable.mdl"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )
 local StoreBedId = nil
 
 function ENT:SharedInit()

@@ -32,8 +32,8 @@ SWEP.Description = "Want more Snake in your life? This gun is dedicated to anyon
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 60
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:CanSecondaryAttack()
 	return false

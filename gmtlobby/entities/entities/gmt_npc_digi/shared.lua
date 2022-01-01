@@ -11,4 +11,4 @@ ENT.AdminSpawnable	= true
 
 ENT.Model		= "models/player/digi.mdl"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )

@@ -11,4 +11,4 @@ ENT.AdminSpawnable	= true
 
 ENT.Model		= "models/gmod_tower/theater_screen.mdl"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )

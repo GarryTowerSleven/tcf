@@ -11,4 +11,4 @@ ENT.AdminSpawnable	= true
 
 ENT.Model		= "models/player/redrabbit2.mdl"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )

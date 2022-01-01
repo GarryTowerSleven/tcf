@@ -10,7 +10,7 @@ ENT.AdminSpawnable	= true
 
 ENT.Model		= "models/gmod_tower/gba.mdl"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )
 
 ENT.SoundList = {
 	"GModTower/arcade/Tetris_Music.mp3",

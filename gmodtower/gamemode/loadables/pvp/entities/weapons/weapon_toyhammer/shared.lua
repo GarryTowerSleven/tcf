@@ -42,8 +42,8 @@ SWEP.Description		= "Squeak your opponents to their death. Doesn't deal much dam
 SWEP.StoreBuyable		= true
 SWEP.StorePrice 		= 0
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:Think()
 	self.BaseClass:Think()

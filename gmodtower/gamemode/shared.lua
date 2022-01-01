@@ -13,24 +13,6 @@ GMT = true
 TestingMode = CreateConVar( "gmt_testing", 0, { FCVAR_ARCHIVE, FCVAR_DONTRECORD, FCVAR_REPLICATED }, "GMT testing mode" )
 EmptyFunction = function() end
 
-function GtowerPrecacheModel(Model)
-	if !Model then return end
-
-	if !util.IsValidModel(Model) then
-		--print("GtowerPrecacheModel: Invalid Model!", Model)
-		--debug.Trace()
-		return
-	end
-
-	util.PrecacheModel(Model)
-end
-
-function GtowerPrecacheModelTable(Table)
-	for k,v in pairs(Table) do
-		GtowerPrecacheModel(v)
-	end
-end
-
 function EmptyFunction() end
 
 function GM:PhysgunPickup( ply, ent )
@@ -67,17 +49,3 @@ PlayerModels["german_assault"] = nil
 PlayerModels["scientist"] = nil
 PlayerModels["gina"] = nil
 PlayerModels["magnusson"] = nil
-
-GtowerPrecacheModelTable(PlayerModels)
-
-HumanGibs = {
-	"models/gibs/antlion_gib_medium_2.mdl",
-	"models/gibs/Antlion_gib_Large_1.mdl",
-	"models/gibs/Strider_Gib4.mdl",
-	"models/gibs/HGIBS.mdl",
-	"models/gibs/HGIBS_rib.mdl",
-	"models/gibs/HGIBS_scapula.mdl",
-	"models/gibs/HGIBS_spine.mdl"
-}
-
-GtowerPrecacheModelTable(HumanGibs)

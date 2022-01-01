@@ -46,8 +46,8 @@ SWEP.StorePrice = 600
 /*SWEP.IronSightsPos = Vector (-6.9382, -7.8342, 5.0538)
 SWEP.IronSightsAng = Vector (0.5454, 0.108, -0.1055)*/
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:SpecialReload()
 	return self:Clip1() > 0

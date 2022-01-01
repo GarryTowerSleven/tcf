@@ -28,8 +28,8 @@ SWEP.Primary.Sound	 = "GModTower/pvpbattle/StealthPistol/StealthPistolFire.wav"
 
 SWEP.SoundReload	 = "GModTower/pvpbattle/StealthPistol/StealthPistolReload.wav"
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 SWEP.Description = "Crouch down and go Predator while your enemies seek your presence.  Slowly take each one out with this precise laser-guided pistol."
 SWEP.StoreBuyable = true

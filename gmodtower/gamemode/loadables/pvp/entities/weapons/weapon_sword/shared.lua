@@ -50,8 +50,8 @@ SWEP.Description = "Slice and dice like a ninja. Dash forward and unleash your f
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 200
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:PrimaryAttack()
 	if !self:CanPrimaryAttack() then return end

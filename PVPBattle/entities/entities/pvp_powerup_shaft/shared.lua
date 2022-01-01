@@ -7,4 +7,4 @@ ENT.Model = "models/gmod_tower/pimphat.mdl"
 ENT.Sound1 = "GModTower/pvpbattle/Shaft.mp3"
 ENT.Sound2 = "GModTower/pvpbattle/ShaftDie.mp3"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )

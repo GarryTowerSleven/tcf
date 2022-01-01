@@ -32,8 +32,8 @@ SWEP.Primary.Sound	 = "GModTower/pvpbattle/Thompson/ThompsonFire.wav"
 SWEP.SoundReload	 = "GModTower/pvpbattle/Thompson/ThompsonReload.wav"
 SWEP.SoundDeploy	 = "GModTower/pvpbattle/Thompson/ThompsonDeploy.wav"
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 
 SWEP.Description = "Go back in time to prohibition and show those to fear the original portable machine gun.  Force them to make pay as you, a true gansta, puts holes in them like-a swiss cheese."

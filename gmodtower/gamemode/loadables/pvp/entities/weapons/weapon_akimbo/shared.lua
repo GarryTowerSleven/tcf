@@ -36,8 +36,8 @@ SWEP.Description = "Two guns are better than one. Primary fire shoots the left p
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 550
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:PrimaryAttack()
 	self.TracerOrigin = "2"

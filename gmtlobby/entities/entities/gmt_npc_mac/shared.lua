@@ -14,4 +14,4 @@ ENT.Material		= ""
 
 ENT.CurAnimation = "idle_all_cower"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )

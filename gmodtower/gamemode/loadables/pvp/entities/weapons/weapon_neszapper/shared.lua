@@ -43,8 +43,8 @@ SWEP.Description = "A throw back to classic gaming. Three shots per clip; 90% ki
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 500
 
-GtowerPrecacheModel( SWEP.ViewModel )
-GtowerPrecacheModel( SWEP.WorldModel )
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:CanSecondaryAttack()
 	return false

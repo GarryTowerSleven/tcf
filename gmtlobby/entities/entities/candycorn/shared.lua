@@ -8,7 +8,7 @@ ENT.Instructions	= ""
 
 ENT.Model		= "models/gmod_tower/candycorn.mdl"
 
-GtowerPrecacheModel( ENT.Model )
+util.PrecacheModel( ENT.Model )
 
 /* hook.Add("LoadAchievements","AchiCandyCorn", function () 
 	
