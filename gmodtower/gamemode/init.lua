@@ -1,118 +1,14 @@
----------------------------------
 
-co_color = Color( 50, 255, 50 )
-co_color2 = Color( 255, 50, 50 )
-
-include("base/sh_global_net.lua")
-AddCSLuaFile("base/sh_global_net.lua")
-
-include("base/exnet/shared.lua")
-AddCSLuaFile("base/exnet/shared.lua")
-
-AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_init.lua")
+AddCSLuaFile("shared.lua")
+AddCSLuaFile("sh_load.lua")
+AddCSLuaFile("sh_loadables.lua")
+AddCSLuaFile("nwvar/shared.lua")
 
-// Fake clients
-include("base/fakeclient/init.lua")
-AddCSLuaFile("base/fakeclient/cl_init.lua")
-AddCSLuaFile("base/fakeclient/shared.lua")
-include("base/fakeclient/shared.lua")
-
-include("base/maps/shared.lua")
-AddCSLuaFile("base/maps/shared.lua")
-
-AddCSLuaFile("base/anti_script_hook/cl_scripthookpwnd.lua")
-
-AddCSLuaFile("base/gui/cl_messages.lua")
-AddCSLuaFile("base/gui/cl_icons.lua")
-AddCSLuaFile("base/gui/cl_icons2.lua")
-AddCSLuaFile("base/gui/cl_clientmenu.lua")
-AddCSLuaFile("base/gui/cl_clientmenu_action.lua")
-AddCSLuaFile("base/gui/cl_sidemenu.lua")
-AddCSLuaFile("base/gui/cl_voice.lua")
-AddCSLuaFile("base/gui/cl_menu.lua")
-AddCSLuaFile("base/gui/cl_gamemode.lua")
-
-AddCSLuaFile("base/admin/cl_admin.lua")
-
-AddCSLuaFile("base/gui/cl_selection.lua")
-
-AddCSLuaFile("base/admin/cl_admin_usermessage.lua")
-AddCSLuaFile("base/admin/cl_dbug_profiler.lua")
-
-AddCSLuaFile("sh_extensions.lua")
-
-AddCSLuaFile("base/sh_player.lua")
-
-AddCSLuaFile("base/sh_money.lua")
-
-AddCSLuaFile("base/admin/sh_spray.lua")
-
-
-AddCSLuaFile( "base/translation/shared.lua" )
-
-AddCSLuaFile( "base/postevents/init.lua" )
-
-// LOADABLES
-AddCSLuaFile( "sh_loadables.lua" )
-
-AddCSLuaFile("base/sh_net_queue.lua")
-include("base/sh_net_queue.lua")
-
-AddCSLuaFile("base/exnet/shared.lua")
-include("base/exnet/shared.lua")
-
-//Obligatory at first
-
-include("base/anti_script_hook/sv_scripthookpwnd.lua")
-
-include("base/debug/init.lua")
 include("nwvar/shared.lua")
-include("sh_extensions.lua")
-
-include("sh_player_net.lua")
-AddCSLuaFile("sh_player_net.lua")
-
-//Nornal loads
 include("shared.lua")
-include("base/sh_player.lua")
-include("base/sh_money.lua")
-
-include("base/admin/sh_spray.lua")
-
-include("base/admin/powers.lua")
-
-include( "base/translation/init.lua" )
-
-include("base/enchant/init.lua")
-
-include("base/database/mysql.lua")
-include("base/database/basicsql.lua")
-
-include("base/database/player.lua")
-include("base/database/network.lua")
-
-include("base/postevents/init.lua")
-
-// LOADABLES
-include( "sh_loadables.lua" )
-
-include("base/chat/init.lua")
-
-include("base/store/init.lua")
-
-include("base/admin/admin.lua")
-include("base/database/loadsql.lua")
-
-include("base/multiserver/init.lua")
-
-include("base/inventory/init.lua")
-include("base/models/init.lua")
-
-include("base/bit/bit.lua")
-include("base/bit/hex.lua")
-
-include("base/vip/init.lua")
+include("sh_load.lua")
+include("sh_loadables.lua")
 
 RunConsoleCommand("sv_hibernate_think", "1")
 
@@ -135,11 +31,6 @@ resource.AddWorkshop( 2667474570 ) -- zombiemassacre
 resource.AddWorkshop( 2667477578 ) -- karts
 
 MultiUsers = {}
-
--- Derma
-for k,v in pairs (file.Find("gmodtower/gamemode/base/derma/*.lua","LUA")) do
-	AddCSLuaFile("gmodtower/gamemode/base/derma/" .. v);
-end
 
 /*require("luaerror")
 
@@ -265,7 +156,6 @@ function UpdateTesters()
 			// Cache testers if they've changed
 			if file.Exists( testerCachePath, "DATA" ) then
 				if memberData != file.Read( testerCachePath, "DATA" ) then
-					MsgC( co_color, "[Testers] Testers have changed!\n" )
 					cacheTesters( memberData )	
 				end
 			else
@@ -287,7 +177,7 @@ function UpdateTesters()
 	)
 end
 
-local testerTimeDelay = ( 5*60 )
+local testerTimeDelay = ( 10*60 )
 local testerTimeSince = CurTime() + testerTimeDelay
 if PRIVATE_TEST_MODE then
 	timer.Simple( 2, function()
