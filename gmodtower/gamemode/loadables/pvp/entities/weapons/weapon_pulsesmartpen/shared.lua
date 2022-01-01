@@ -39,13 +39,6 @@ SWEP.StorePrice = 145
 GtowerPrecacheModel( SWEP.ViewModel )
 GtowerPrecacheModel( SWEP.WorldModel )
 
-
-function SWEP:Precache()
-	GtowerPrecacheSound(self.SoundSwing)
-	GtowerPrecacheSoundTable(self.MeleeHitSound)
-	GtowerPrecacheSoundTable(self.Taunts)
-end
-
 function SWEP:PrimaryAttack()
 	if !self:CanPrimaryAttack() then return end
 

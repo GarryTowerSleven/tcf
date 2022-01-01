@@ -9,5 +9,3 @@ ENT.Sound1 = "GModTower/pvpbattle/HeadphonesOn.mp3"
 ENT.Sound2 = "GModTower/pvpbattle/HeadphonesDie.mp3"
 
 GtowerPrecacheModel( ENT.Model )
-GtowerPrecacheSound( ENT.Sound1 )
-GtowerPrecacheSound( ENT.Sound2 )

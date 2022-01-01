@@ -10,5 +10,3 @@ ENT.EatSound			= Sound("GModTower/balls/BananaEat.wav")
 
 --GtowerPrecacheModel( ENT.ModelExtra )
 --GtowerPrecacheModel( ENT.Model )
-
---GtowerPrecacheSound( ENT.EatSound )

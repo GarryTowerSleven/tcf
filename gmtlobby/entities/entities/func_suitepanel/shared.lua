@@ -29,12 +29,7 @@ ENT.scr_height			= 360
 ENT.limit_x 			= 6.4
 ENT.limit_y 			= 4.4
 
-
 GtowerPrecacheModel(ENT.Model)
-GtowerPrecacheSound(ENT.soundGranted)
-GtowerPrecacheSound(ENT.soundDenied)
-GtowerPrecacheSound(ENT.soundLock)
-GtowerPrecacheSound(ENT.soundUnlock)
 
 function ENT:PhysicsUpdate()
 end

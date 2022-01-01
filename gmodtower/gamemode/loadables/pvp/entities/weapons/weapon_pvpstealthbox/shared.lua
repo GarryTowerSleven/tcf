@@ -26,11 +26,6 @@ SWEP.Description = "Hide yourself inside a box and dissapear completely from you
 SWEP.StoreBuyable = false
 SWEP.StorePrice = 0
 
-function SWEP:Precache()
-	GtowerPrecacheSound( self.SoundDeploy )
-	GtowerPrecacheSoundTable( self.Taunts )
-end
-
 function SWEP:PrimaryAttack()
 	self.Weapon:SetNextPrimaryFire( CurTime() + 7 )
 	if !self:CanPrimaryAttack() || CLIENT then 

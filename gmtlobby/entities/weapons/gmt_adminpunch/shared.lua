@@ -52,16 +52,7 @@ function SWEP:PunchingThink()
 end
 
 function SWEP:Initialize()
-
 	self:SetWeaponHoldType( self.HoldType )
-
-end
-
-function SWEP:Precache()
-	GtowerPrecacheSoundTable(self.FistHitFlesh)
-	GtowerPrecacheSoundTable(self.FistMiss)
-	GtowerPrecacheSound(self.FistHit)
-	GtowerPrecacheSound(self.TeleSound)
 end
 
 function SWEP:PrimaryAttack()

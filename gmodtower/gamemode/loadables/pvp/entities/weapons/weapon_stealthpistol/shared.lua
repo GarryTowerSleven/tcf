@@ -39,11 +39,6 @@ if CLIENT then
 	SWEP.StealthMat = Material("models/gmod_tower/pvpbattle/stealth")
 end
 
-function SWEP:Precache()
-	GtowerPrecacheSound( self.Primary.Sound )
-	GtowerPrecacheSound( self.SoundReload )
-end
-
 function SWEP:CanSecondaryAttack()
 	return false
 end

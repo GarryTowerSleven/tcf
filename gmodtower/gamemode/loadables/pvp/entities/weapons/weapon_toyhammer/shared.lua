@@ -45,13 +45,6 @@ SWEP.StorePrice 		= 0
 GtowerPrecacheModel( SWEP.ViewModel )
 GtowerPrecacheModel( SWEP.WorldModel )
 
-function SWEP:Precache()
-	GtowerPrecacheSound( self.SoundDeploy )
-	GtowerPrecacheSound( self.Primary.Sound )
-	GtowerPrecacheSound( self.SoundSwing )
-	GtowerPrecacheSoundTable( self.MeleeHitSound )
-end
-
 function SWEP:Think()
 	self.BaseClass:Think()
 

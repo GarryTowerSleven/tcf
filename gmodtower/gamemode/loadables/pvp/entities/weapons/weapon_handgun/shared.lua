@@ -37,12 +37,6 @@ SWEP.StorePrice = 100*/
 GtowerPrecacheModel( SWEP.ViewModel )
 //GtowerPrecacheModel( SWEP.WorldModel )
 
-function SWEP:Precache()
-	GtowerPrecacheSound( self.Primary.Sound )
-	GtowerPrecacheSound( self.SoundEmpty )
-	GtowerPrecacheSound( self.SoundReload )
-end
-
 function SWEP:PrimaryAttack()
 	if !self:CanPrimaryAttack() then return end
 	self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )

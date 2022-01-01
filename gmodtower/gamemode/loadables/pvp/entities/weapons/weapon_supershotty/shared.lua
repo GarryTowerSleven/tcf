@@ -15,11 +15,16 @@ SWEP.HoldType		 = "shotgun"
 
 SWEP.AutoReload		 = false
 
-SWEP.Primary.Delay	 = 0.6
-SWEP.Primary.Damage	 = 10
-SWEP.Primary.Cone	 = 0.075
-SWEP.Primary.NumShots	 = 6
-SWEP.Primary.ClipSize	 = 6
+SWEP.Primary.Delay	 = 0.6
+
+SWEP.Primary.Damage	 = 10
+
+SWEP.Primary.Cone	 = 0.075
+
+SWEP.Primary.NumShots	 = 6
+
+SWEP.Primary.ClipSize	 = 6
+
 SWEP.Primary.DefaultClip = 12
 SWEP.Primary.Ammo	 = "Buckshot"
 SWEP.Primary.Sound	 = "GModTower/pvpbattle/SuperShotty/SSGFire.wav"
@@ -30,11 +35,6 @@ SWEP.StorePrice = 0
 
 GtowerPrecacheModel( SWEP.ViewModel )
 GtowerPrecacheModel( SWEP.WorldModel )
-
-
-function SWEP:Precache()
-	GtowerPrecacheSound( self.Primary.Sound )
-end
 
 function SWEP:ShootEffects(sound, recoil)
 	self.BaseClass.ShootEffects(self.Weapon, sound, recoil)

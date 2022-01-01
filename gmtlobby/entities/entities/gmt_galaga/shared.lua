@@ -23,8 +23,6 @@ ENT.SoundList = {
 	"GModTower/arcade/Tetris_Move.wav"
 }
 
-GtowerPrecacheSoundTable( ENT.SoundList )
-
 ENT.DoorHeight = 77
 ENT.DoorWidth = 44
 
@@ -43,6 +41,8 @@ hook.Add("GTowerPhysgunPickup", "DisableTetris", function(pl, ent)
 	end
 end )
 
-function ENT:CanUse( ply )
+function ENT:CanUse( ply )
+
 		return true, "PLAY"
-end
+end
+

@@ -35,12 +35,6 @@ SWEP.StorePrice = 60
 GtowerPrecacheModel( SWEP.ViewModel )
 GtowerPrecacheModel( SWEP.WorldModel )
 
-function SWEP:Precache()
-	GtowerPrecacheSound(self.Primary.Sound)
-	GtowerPrecacheSound(self.SoundDeploy)
-	GtowerPrecacheSound("GModTower/pvpbattle/Patriot/PatriotKill.wav")
-end
-
 function SWEP:CanSecondaryAttack()
 	return false
 end

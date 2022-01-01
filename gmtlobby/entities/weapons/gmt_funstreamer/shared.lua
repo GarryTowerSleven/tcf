@@ -80,10 +80,6 @@ end
 
 end*/
 
-function SWEP:Precache()
-	//GtowerPrecacheSound(self.PartySound)
-end
-
 function SWEP:PrimaryAttack()
 
 	if !self:CanPrimaryAttack() then return end

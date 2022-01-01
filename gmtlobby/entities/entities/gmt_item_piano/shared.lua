@@ -18,7 +18,6 @@ function ENT:Precache()
 	for i = 1, self.Riffs[2] do
 		strRiff = str[1] .. convertNum(i) .. str[2]
 		table.insert(tbl, strRiff)
-		GtowerPrecacheSound(strRiff)
 	end
 
 	self.Riffs = tbl

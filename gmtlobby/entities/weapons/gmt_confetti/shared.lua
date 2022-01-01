@@ -37,10 +37,6 @@ function SWEP:Initialize()
 
 end
 
-function SWEP:Precache()
-	//GtowerPrecacheSound(self.PartySound)
-end
-
 function SWEP:Deploy()
 	self.Owner:DrawViewModel(false)
 	self.Owner:DrawWorldModel(false)
