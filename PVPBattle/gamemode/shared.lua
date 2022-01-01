@@ -5,6 +5,7 @@ GM.Website  = "http://www.gmodtower.org/"
 DeriveGamemode("gmtgamemode")
 
 SetupGMTGamemode( "PVP Battle", "pvpbattle", {
+	Loadables = { "weaponfix", "pvp" }, // Additional Loadables
 	AllowChangeSize = false,
 	AFKDelay = 60, // Seconds before they will be marked as AFK
 	EnableWeaponSelect = true, // Allow weapon selection

@@ -87,6 +87,11 @@ Loadables.Load( {
 	"weaponfix",						-- Fixes weapon viewmodels
 	"errortrace",						-- Error debugging tracing
 
+	-- Weapons
+	---------------------------------------------------------
+	"pvp", 								-- PVP weapons
+	"virus", 							-- Virus weapons
+
 } )
 
 function CanPlayerUse( arg1, arg2 )

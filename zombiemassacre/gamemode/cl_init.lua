@@ -400,11 +400,11 @@ usermessage.Hook( "ZMShowScores", function( um )
 	TimeLeftUsed = {}
 
 	if display == true then
-		print("YES")
+		--print("YES")
 		--RunConsoleCommand( "gmt_showscores", "1" )
 		RunConsoleCommand( "-attack" )
 	else
-		print("NO")
+		--print("NO")
 		--RunConsoleCommand( "gmt_showscores", "0" )
 		RunConsoleCommand( "r_cleardecals" )
 	end

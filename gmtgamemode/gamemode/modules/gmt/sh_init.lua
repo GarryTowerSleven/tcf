@@ -11,7 +11,6 @@ function SetupGMTGamemode( name, folder, settings )
             "afk2",
             "friends",
             "scoreboard3",
-            "weaponfix",
 		}
 		if settings.Loadables then
 			table.Add( defaultLoadables, settings.Loadables )

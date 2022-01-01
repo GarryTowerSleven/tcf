@@ -1,4 +1,4 @@
-local function ChangeRandomLevel()
+function GAMEMODE:EndServer()
 
 	GTowerServers:EmptyServer()
 	GTowerServers:ResetServer()
