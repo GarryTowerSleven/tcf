@@ -9,6 +9,10 @@ local IsValid = IsValid
 local Matrix = Matrix
 local Scale = Scale
 
+function GM:AllowModel( ply, model )
+	return GTowerModels.AdminModels[ model ] == nil || ply:IsAdmin()
+end
+
 module("GTowerModels")
 
 DEBUG = false

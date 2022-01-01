@@ -15,35 +15,6 @@ hook.Add("Think", "PlayerValid", function()
 	end
 end)
 
-hook.Add("HUDWeaponPickedUp", "FixRareBug", function( wep )
-	if !wep.GetPrintName then
-		return true
-	end
-end )
-
-function GM:AllowModel( ply, model )
-	return GTowerModels.AdminModels[ model ] == nil
-end
-
-local scrw, scrh = ScrW(), ScrH()
-local rtw, rth = 0, 0
-
-function GM:ShouldDrawLocalPlayer()
-	if (rtw == 0 || rth == 0) && (ScrW() < scrw && ScrH() < scrh) then
-		rtw = ScrW()
-		rth = ScrH()
-	end
-
-	if ScrW() == rtw && ScrH() == rth && render.GetRenderTarget():GetName() == "_rt_waterreflection" then
-		return true
-	end
-end
-
-concommand.Add("gmt_printminres", function()
-	Msg("Minimun found size: ", rtw, "/", rth, "\n")
-end )
-
-
 hook.Add( "CalcView", "FullyConnected", function()
 	hook.Remove( "CalcView", "FullyConnected" )
 	
