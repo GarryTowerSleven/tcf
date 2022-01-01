@@ -53,7 +53,7 @@ function meta:DrunkThink()
 		self.NextSoberTime = CurTime() + 10
 	end
 
-	if self:Alive() && CurTime() > self.NextHiccupTime then
+	if self:Alive() && CurTime() > self.NextHiccupTime && IsLobby then
 		self.NextHiccupTime = CurTime() + 5;
 
 		if math.random( 1, 100 ) <= ( self:GetNWInt("BAL") * 0.65 ) then

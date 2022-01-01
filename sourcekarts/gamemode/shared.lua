@@ -3,6 +3,7 @@ GM.Name 	= "GMod Tower: Source Karts"
 
 DeriveGamemode( "gmtgamemode" )
 SetupGMTGamemode( "Source Karts", "sourcekarts", {
+	Loadables = { "drunk" }, // Additional loadables
 	AFKDelay = 6000, // Seconds before they will be marked as AFK
 	ChatBGColor = Color( 7, 34, 48, 180 ), // Color of the chat gui
 	ChatScrollColor = Color( 7 + 5, 34 + 5, 48 + 5, 150 ), // Color of the chat scroll bar gui

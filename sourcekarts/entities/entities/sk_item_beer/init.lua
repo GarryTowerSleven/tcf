@@ -53,7 +53,7 @@ function ENT:Touch(v)
     net.Send( self:GetOwner() )
 
 v:GetOwner():SetNWInt("BAL",50)
-v:GetOwner():Drink(60)
+v:GetOwner():Drink(15)
 v:GetOwner():AddAchievement( ACHIEVEMENTS.SKDWI, 1 )
 
 timer.Simple( 12, function()
