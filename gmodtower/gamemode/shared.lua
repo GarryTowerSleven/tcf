@@ -25,22 +25,6 @@ function GtowerPrecacheModel(Model)
 	util.PrecacheModel(Model)
 end
 
-function ents.FindByBase( base )
-
-	local tbl = {}
-
-	for _, ent in pairs( ents.GetAll() ) do
-
-		if ent.Base == base then
-			table.insert( tbl, ent )
-		end
-
-	end
-
-	return tbl
-
-end
-
 function GtowerPrecacheModelTable(Table)
 	for k,v in pairs(Table) do
 		GtowerPrecacheModel(v)
