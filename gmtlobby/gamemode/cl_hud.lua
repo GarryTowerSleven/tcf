@@ -716,13 +716,24 @@ function initHud()
 	local MsgTime = CurTime()
 	local MsgState = true
 
+	function GTowerHUD.ShouldDraw()
+		if !IsValid( LocalPlayer() ) then return false end
+	
+		//if not hook.Run( "GTowerHUDShouldDraw" ) then return false end
+	
+		if !GTowerHUD.Enabled:GetBool() then return false end
+	
+		local weapon = LocalPlayer():GetActiveWeapon()
+		if IsValid( weapon ) && weapon:GetClass() == "gmt_camera" then return false end
+	
+		return true
+	end
+
 	function GTowerHUD.Paint()
 
-		if !GTowerHUD.Enabled:GetBool() then return end
+		if !GTowerHUD.ShouldDraw() then return end
 
-		// disable hud for camera swep
-		local weapon = LocalPlayer():GetActiveWeapon()
-		if IsValid( weapon ) && weapon:GetClass() == "gmt_camera" then return end
+		hook.Call( "GTowerHUDPaint", GAMEMODE )
 
 		// shit shit shit
 		/*if ActiveJetpack && ActiveJetpack:IsValid() then

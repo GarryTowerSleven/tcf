@@ -11,8 +11,8 @@ function UpdateEventTimer()
 end
 
 local timeSinceUpdate = 0
-hook.Add( "HUDPaint", "DrawNextEvent", function()
-	if GTowerHUD.Enabled:GetBool() && HUDStyle_Lobby1 && DrawTimer:GetBool() then
+hook.Add( "GTowerHUDPaint", "DrawNextEvent", function()
+	if HUDStyle_Lobby1 && DrawTimer:GetBool() then
 		local timeleft = endtime - CurTime()
 
 		if timeleft <= 0 then
