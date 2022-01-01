@@ -12,6 +12,18 @@ DeriveGamemode( "GModTower" )
 
 include("player_class/player_lobby.lua")
 
+function IsHalloweenMap()
+	return false
+end
+
+function IsChristmasMap()
+	return false
+end
+
+function IsHolidayMap()
+	return ( IsHalloweenMap() || IsChristmasMap() )
+end
+
 if IsHalloweenMap() then
 	if SERVER then AddCSLuaFile("sh_halloween.lua") end
 	include("sh_halloween.lua")

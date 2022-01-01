@@ -13,25 +13,6 @@ GMT = true
 TestingMode = CreateConVar( "gmt_testing", 0, { FCVAR_ARCHIVE, FCVAR_DONTRECORD, FCVAR_REPLICATED }, "GMT testing mode" )
 EmptyFunction = function() end
 
-//=====================================================
-function IsLobby()
-	return ( engine.ActiveGamemode() == "gmtlobby" )
-end
-
-function IsHalloweenMap()
-	return false
-end
-
-function IsChristmasMap()
-	return false
-end
-
-function IsHolidayMap()
-	return ( IsHalloweenMap() || IsChristmasMap() )
-end
-
-IsLobby = IsLobby()
-
 -- Voice Enable Replacement
 if CLIENT then
 	CreateConVar( "gmt_voice_enable", 1, { FCVAR_USERINFO, FCVAR_ARCHIVE } )
