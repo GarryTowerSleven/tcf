@@ -274,8 +274,6 @@ function LoadModulesInOrder()
 		{ "base/derma", false }, // derma elements
 		{ "base/translation", true }, // translation
 
-		{ "base/enchant", true }, // enchant (is this necessary?)
-
 		{ "base/database", false }, // database
 
 		{ "base/gui", false }, // main tower GUI
@@ -293,7 +291,7 @@ function LoadModulesInOrder()
 		{ "base/fakeclient", true }, // fake clients
 		{ "base/admin", false }, // admin shit
 		{ "base/vip", false }, // vip!
-		//{ "base/friends", true }, // friends
+		{ "base/friends", true }, // friends
 		//{ "base/globalserver", true }, // global server
 		{ "base/discord_rpc", false }, // discord rich presence
 	}

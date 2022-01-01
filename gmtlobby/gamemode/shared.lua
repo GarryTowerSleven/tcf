@@ -1,9 +1,6 @@
-GM.Name     = "GMTower"
-GM.Author   = "pixelTail Games & GMT: Deluxe Team"
-GM.Website  = "http://www.gmtower.org/"
-GM.AllowSpecialModels = true
-GM.AllowEquippables = true
-GM.AllowJetpack = true
+GM.Name 	= "GMod Tower: Deluxe"
+GM.Author	= "Deluxe Team & PixelTail Games"
+GM.Website	= "http://www.gmtdelxue.org/"
 
 GM.UsesHands = true
 IsLobby = true
@@ -11,6 +8,17 @@ IsLobby = true
 DeriveGamemode( "GModTower" )
 
 include("player_class/player_lobby.lua")
+
+//=====================================================
+game.AddParticles( "particles/lobby_2.pcf" )
+
+local ParticleSystems = { "condo_fireplace", "condo_fireplace_embers", "condo_fireplace_burner",
+"ocean_splash", "condo_fireplace_flames_2", "condo_fireplace_flames_3" }
+						  
+for _, part in pairs( ParticleSystems ) do
+	PrecacheParticleSystem( part )
+end
+//=====================================================
 
 function IsHalloweenMap()
 	return string.EndsWith(game.GetMap(), "h")
@@ -29,80 +37,93 @@ end
 	include("sh_halloween.lua")
 end*/
 
-//=====================================================
-game.AddParticles( "particles/lobby_2.pcf" )
-
-local ParticleSystems = { "condo_fireplace", "condo_fireplace_embers", "condo_fireplace_burner",
-"ocean_splash", "condo_fireplace_flames_2", "condo_fireplace_flames_3" }
-						  
-for _, part in pairs( ParticleSystems ) do
-	PrecacheParticleSystem( part )
-end
-//=====================================================
-
 Loadables.Load( {
 
-	-- Old/Unused
+	-- Old/Lobby 1
 	--------------------------------------------------------
-	--"soundbrowser",					-- Soundbrowser (broken)
-	--"bassemitstream",				-- Sound streams (unused)
-	--"npc_chat",							-- Lobby 1 NPC talk module (no longer used in Deluxe)
+	--"theater",			-- Theater (Lobby 1)
+	--"soundbrowser",		-- Sound browser (Lobby 1)
+	--"bassemitstream",		-- Emit stream (radios)
+	"ragdollcontroller",	-- Player ragdolling (Lobby 1)
+	--"icon",				-- Scoreboard icons, no longer used
+	--"npc_chat",			-- Chatting NPCs (suite and PVP Battle)
+	"animation",			-- Force animation system
+	--"ambiance",			-- Ambient music (Lobby 1)
+	"enchant",				-- Player enchantments
+	"trivia",				-- Trivia board
+	--"funmeter",			-- Fun Meter (experimental minigame)
+	--"spawner",			-- Special spawner (presents and candy)
+	--"fakeself" 			-- Creates a fake third person model for WHEN GARRY BREAKS IT!
+
+	-- WIP/Unfinished
+	---------------------------------------------------------
+	--"advertisement",		-- Advertisement system (WIP)
+	--"lscontrol",			-- for live.gmtower.org
+	--"autorestart" 		-- Manages restarting the server every so often (WIP)
+	--"websocket",			-- WebSocket connection for cross-server/web chat
+	--"racing",				-- Silly little minigame (WIP)
+	--"boss",				-- Boss battle (WIP)
 
 	-- Base Modules
 	---------------------------------------------------------
-	"commands",							-- Chat commands
-	"achievement",						-- Achievements
-	//"boss",									-- WIP boss battle
-	"soundscape",						-- Soundscapes and background music
-	"condopanel",						-- Condo OS
-	"friends",							-- Friend and blocking system
-	"group",								-- Player group system
-	"clsound",							-- Clientside sounds
-	"hacker",								-- Hacker logs
-	--"racing",								-- Silly little minigame
-	"inventory",						-- Inventory module
-	"clientsettings",						-- Client systems (GMC networking, etc.)
-	"duel",									-- Dueling
-	"room",									-- Condo module
-	"ping",									-- Lost connection prompt
-	"emote",								-- Emotes!
-	"scoreboard3",					-- Scoreboard
-	"store",								-- Stores and items
-	"multiserver",					-- Join panels and gamemode definitions
-	"location",							-- Location system
-	"mapdata",							-- Map Specific Fixes
-	--"gibsystem",					-- Bloody gibs for Chainsaw battle
-	"afk2",									-- AFK system
-	"ragdollcontroller",		-- Ragdoll controller
-	"thirdperson",					-- Manages going thirdperson and exclusions
-	"animation",						-- Player animation
-	"legs",									-- First person legs
-	"fakeclientmodel",			-- Fake player models for use such as the monorail
-	"question",					    -- Global voting
-	"contentmanager",			  -- Missing Content Notification
-	"multicore",			-- Possible Performence Booster
-	"mediaplayer",			-- Media player
+	"inventory",			-- Inventory and items
+	"clientsettings",		-- Client systems (GMC networking, etc.)
+	"clsound",				-- Clientside emitsound sent by serverside actions
+	"group",				-- Group
+	"achievement",			-- Achievements
+	"hacker",				-- Hacker logging
+	"npc",					-- Store NPCs
+	"room",					-- Suite/condo system
+	"scoreboard3",			-- Scoreboard
+	"store",				-- Stores
+	"multiserver",			-- Multiserver
+	"location",				-- Location system
+	"seats",				-- Seat manager
+	--"gibsystem",			-- Gibs
+	"thirdperson",			-- Thirdperson
+	"commands",				-- Chat commands (required for emotes)
+	"afk",					-- AFK kicker
+	"drunk", 				-- Drunk system
+	--"events",				-- Random events (sales, minigames)
+	"emote",				-- Player emote system (ie. /dance)
+	"duel",					-- Player dueling
+	"legs",					-- First person legs
+	--"arcade",				-- Arcade API
+	"contentmanager",		-- Alerts players when they're missing a required game or addon
+	"fakeclientmodel",		-- Less-specific version of fakeself for drastic clientmodel modifications
+	"ping",					-- Pings the clients to detect for server crashes
+	"soundscape",			-- Soundscape system (Lobby 2)
 	"theater2", 			-- Theater built with the media player (Lobby 2)
-	"drunk", 				-- zzzzz
+	"elevator",				-- Elevator system for suites (Lobby 2)
+	"condopanel",			-- Condo OS
+	"mapdata",				-- Map specific fixes and additions
 
 	-- Items Depend On These
 	---------------------------------------------------------
-	"minecraftskins",				-- Minecraft Steve model skins
-	"jetpack",							-- Jetpacks
-	"seats",								-- Seats module
-	"bonemod",							-- Bone modifications
-	"cards",								-- Poker module
-	"pet",									-- Pets
+	"mediaplayer",			-- Media player
+	"jetpack",				-- Jetpacks
+	"bonemod",				-- Bone modifications
+	"pet",					-- Pets
+	"cards",				-- Poker module
+	"minecraftskins",		-- Minecraft Steve model skins
 
 	-- Debugging/Tools
 	---------------------------------------------------------
-	"weaponfix",						-- Fixes weapon viewmodels
-	"errortrace",						-- Error debugging tracing
+	"weaponfix",			-- Fixes weapon viewmodels
+	"errortrace",			-- Error debugging tracing
 
-		-- Weapons
+	-- UI/Misc
 	---------------------------------------------------------
-	"pvp",							-- PVP weapons
-	"virus",						-- Virus weapons
+	"question",				-- Global voting
+	--"radialmenu",			-- Zak's radial menu system
+	--"kickstarter",		-- Kickstarter feed
+	"multicore",			-- Possible Performance Booster
+
+	-- Weapons
+	---------------------------------------------------------
+	--"weaponmanager",		-- Manages minigame weapons and such
+	"pvp",					-- PVP weapons
+	"virus",				-- Virus weapons
 
 } )
 
