@@ -214,6 +214,8 @@ function GM:FindUseEntity( ply, ent )
 
 end
 
+function GM:OnPlayerHitGround() return true end -- Disable fall damage sound
+
 hook.Add("GTowerPhysgunPickup", "NoFuncForFun", function( ply, ent )
 	local phys = ent:GetPhysicsObject()
 	if IsValid( phys ) then
@@ -241,34 +243,7 @@ hook.Add("GTowerPhysgunPickup", "NoFuncForFun", function( ply, ent )
 	end
 end )
 
-function GM:ShouldCollide(ent1, ent2)
+function GM:ShouldCollide( ent1, ent2 )
 	if ent1.ActiveDuel and ent2.ActiveDuel then return true end
 	return !(ent1:IsPlayer() and ent2:IsPlayer())
 end
-
-function GM:OnPlayerHitGround( ply, inWater, onFloater, speed )
-	return true
-end
-
-hook.Add( "KeyPress", "SuiteDoorE", function( ply, key )
-	if CLIENT then return end
-	if ( key == IN_USE ) then
-		local ent = ply:GetEyeTrace().Entity
-		if !IsValid(ent) then return end
-		if (ent and ent:GetClass() == "prop_physics_multiplayer") then
-		for k,v in pairs(GTowerItems.Items) do
-			if (ent:GetModel() == v.Model && v.UseSound) then
-				if ent.SoundDelay then return end
-				ent:EmitSound("GModTower/inventory/" .. v.UseSound, 60)
-				ent.SoundDelay = true
-				if v.UseSound == "move_plush.wav" then
-					ent:SetModelScale(0.75,0.25)
-					timer.Simple(0.25, function() ent:SetModelScale(1,0.25) end)
-				end
-				ply._NextUse = CurTime() + 2
-				timer.Simple(2,function() ent.SoundDelay = false end)
-			end
-		end
-	end
-end
-end )
