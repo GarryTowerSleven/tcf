@@ -1,5 +1,4 @@
 include( "shared.lua" )
-include( "clientz.lua" )
 
 local wheelModelPath = Model("models/gmod_tower/ferriswheel_wheel.mdl")
 local carriageModelPath = Model("models/gmod_tower/ferriswheel_carriage.mdl")

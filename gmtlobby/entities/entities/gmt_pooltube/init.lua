@@ -1,5 +1,4 @@
 
-AddCSLuaFile("sh_player.lua")
 AddCSLuaFile( "cl_init.lua" );
 AddCSLuaFile( "shared.lua" );
 AddCSLuaFile( "sh_tube_manager.lua" );

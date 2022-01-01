@@ -1,8 +1,6 @@
 
 -----------------------------------------------------
 
-include("sh_player.lua")
-
 include('shared.lua')
 
 include("waterslide_curve.lua")
