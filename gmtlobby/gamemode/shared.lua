@@ -1,6 +1,8 @@
 GM.Name 	= "GMod Tower: Deluxe"
 GM.Author	= "Deluxe Team & PixelTail Games"
 GM.Website	= "http://www.gmtdelxue.org/"
+GM.AllowSpecialModels = true
+GM.AllowEquippables = true
 
 GM.UsesHands = true
 IsLobby = true

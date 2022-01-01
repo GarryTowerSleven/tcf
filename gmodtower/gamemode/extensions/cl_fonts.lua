@@ -12,6 +12,8 @@ surface.CreateFont( "GTowerbiglocation", { font = mainFont, size = 28, weight = 
 surface.CreateFont( "GTowermidbold", { font = mainFont, size = 16, weight = 1200 } )
 surface.CreateFont( "GTowerbold", { font = mainFont, size = 14, weight = 700 } )
 
+surface.CreateFont( "GTowersmall", { font = mainFont, size = 14, weight = 100 } )
+
 local mainFont2 = "Oswald"
 surface.CreateFont( "GTowerHUDHuge", { font = mainFont2, size = 50, weight = 400 } )
 surface.CreateFont( "GTowerHUDMainLarge", { font = mainFont2, size = 38, weight = 400 } )
