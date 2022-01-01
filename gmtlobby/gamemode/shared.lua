@@ -12,10 +12,22 @@ DeriveGamemode( "GModTower" )
 
 include("player_class/player_lobby.lua")
 
-if IsHalloweenMap() then
+function IsHalloweenMap()
+	return string.EndsWith(game.GetMap(), "h")
+end
+
+function IsChristmasMap()
+	return string.EndsWith(game.GetMap(), "c")
+end
+
+function IsHolidayMap()
+	return ( IsHalloweenMap() || IsChristmasMap() )
+end
+
+/*if IsHalloweenMap() then
 	if SERVER then AddCSLuaFile("sh_halloween.lua") end
 	include("sh_halloween.lua")
-end
+end*/
 
 //=====================================================
 game.AddParticles( "particles/lobby_2.pcf" )

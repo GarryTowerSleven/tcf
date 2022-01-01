@@ -142,8 +142,6 @@ PlayerModels["scientist"] = nil
 PlayerModels["gina"] = nil
 PlayerModels["magnusson"] = nil*/
 
-
-
 List = {
 	[ "models/player/redrabbit2.mdl" ] = 0.55,
 	[ "models/player/redrabbit3.mdl" ] = 0.55,
@@ -165,7 +163,6 @@ List = {
 	["models/player/martymcfly.mdl"] = 0.85,
 	["models/player/hhp227/kilik.mdl"] = 1.05,
 }
-
 
 local ScaledModels = {
 	/*["models/player/sackboy.mdl"] = 0.55,*/
