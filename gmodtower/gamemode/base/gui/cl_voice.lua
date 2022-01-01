@@ -1,4 +1,3 @@
----------------------------------
 -- surface.CreateFont( "VoiceName", { font = "Oswald Bold", size = 32, weight = 500, antialias = true } )
 
 local PlayerVoicePanels = {}
