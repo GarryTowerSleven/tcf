@@ -48,7 +48,7 @@ local function GetItem( panel )
 	return GTowerItems.EntGrab.Item
 end
 
-hook.Add("GtowerMouseEnt", "OpenInventory", function( ent, mc )
+hook.Add("GTowerMouseEnt", "OpenInventory", function( ent, mc )
 	if !vgui.CursorVisible() then return end
 
 	if !ent:GetPos():WithinDistance( LocalPlayer():GetShootPos(), GTowerItems.MaxDistance ) then
