@@ -13,39 +13,6 @@ GMT = true
 TestingMode = CreateConVar( "gmt_testing", 0, { FCVAR_ARCHIVE, FCVAR_DONTRECORD, FCVAR_REPLICATED }, "GMT testing mode" )
 EmptyFunction = function() end
 
-
-function GtowerAddResourceDirectory(Directory, Types)
-
-	for k,v in pairs(file.Find(GM.ContentPrefix.."/"..Directory.."/*", "GAME")) do
-
-		local File = Directory.."/"..v
-
-		if v != "_svn" && v != ".svn" then
-
-			if file.IsDir(GM.ContentPrefix.."/"..File) then
-				GtowerAddResourceDirectory(File, Types)
-			else
-				local ext = string.GetExtensionFromFileName(v)
-
-				if table.HasValue(Types, ext) then
-					resource.AddFile(File)
-				end
-			end
-
-		end
-
-	end
-
-end
-
-if(SERVER && GM.DownloadsEnabled) then
-	GtowerAddResourceDirectory("maps", {"bsp"})
-	GtowerAddResourceDirectory("materials", {"vmt", "vtf"})
-	GtowerAddResourceDirectory("models", {"mdl", "vtx", "phy", "vvd"})
-	GtowerAddResourceDirectory("particles", {"pcf"})
-	GtowerAddResourceDirectory("sound", {"wav", "mp3"})
-end
-
 function GtowerPrecacheModel(Model)
 	if !Model then return end
 
