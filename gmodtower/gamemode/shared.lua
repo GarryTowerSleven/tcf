@@ -22,12 +22,3 @@ function GM:PhysgunPickup( ply, ent )
 	return ply:GetSetting( "GTAllowInvAllEnts" )
 
 end
-
-
-local PlayerModels = player_manager.AllValidModels()
-
-PlayerModels["american_assault"] = nil
-PlayerModels["german_assault"] = nil
-PlayerModels["scientist"] = nil
-PlayerModels["gina"] = nil
-PlayerModels["magnusson"] = nil
