@@ -23,6 +23,8 @@ local ghostAmt = CreateClientConVar( "gmt_admin_playerghosts_amount", 150, true,
 
 local esp = CreateClientConVar( "gmt_admin_esp", 0, true, false )
 
+local adminLog = CreateConVar( "gmt_admin_log", 1, { FCVAR_ARCHIVE, FCVAR_USERINFO }, "Enable admin logging." )
+
 
 
 function GTowerAdmin:PlayerCommand( cmd, target, ... )
