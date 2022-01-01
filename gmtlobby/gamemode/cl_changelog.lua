@@ -66,7 +66,7 @@ hook.Add( "PostDrawOpaqueRenderables", "ChangeLog", function()
 
 		// Title
 		-----------------
-		draw.DrawText("GMTower: Deluxe Changelog",
+		draw.DrawText("GMod Tower: Deluxe Changelog",
 		"GTowerSkyMsgSmall",
 		-125,
 		0,
