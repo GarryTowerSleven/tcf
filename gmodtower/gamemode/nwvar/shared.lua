@@ -1,4 +1,3 @@
----------------------------------
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("packet.lua")
 

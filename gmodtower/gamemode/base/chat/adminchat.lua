@@ -3,7 +3,7 @@ GTowerChat.AdminSounds = {}
 
 // too lazy, I'll just rip from TnB
 function AddCombineLine(phrase, sound)
-	GtowerPrecacheSound(sound)
+	util.PrecacheSound(sound)
 	table.insert(GTowerChat.AdminSounds, sound)
 end
 

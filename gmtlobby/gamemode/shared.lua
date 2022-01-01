@@ -69,9 +69,9 @@ Loadables.Load( {
 	"fakeclientmodel",			-- Fake player models for use such as the monorail
 	"question",					    -- Global voting
 	"contentmanager",			  -- Missing Content Notification
-	//"theater2",						-- Theater 2
-	"multicore",
-	"mediaplayer",
+	"multicore",			-- Possible Performence Booster
+	"mediaplayer",			-- Media player
+	"theater2", 			-- Theater built with the media player (Lobby 2)
 
 	-- Items Depend On These
 	---------------------------------------------------------
