@@ -4,42 +4,6 @@ include("sh_load.lua")
 include("shared.lua")
 include("sh_loadables.lua")
 
-CurMap = ""
-SafeToSend = false
-
-concommand.Add("gmt_modules", function()
-	if BASS then
-		Msg("BASS module is loaded.\n")
-	else
-		Msg("BASS module is NOT loaded.\n")
-	end
-
-	if chrome then
-		Msg("CHROME module is loaded.\n")
-	else
-		Msg("CHROME module is NOT loaded.\n")
-	end
-
-end )
-
-hook.Add("Initialize", "GtowerInit", function()
-    local mfont = "CenterPrintText"
-
-	surface.CreateFont("tiny",{ font = "Arial", size = 10, weight = 600, antialias = false, additive = false })
-	surface.CreateFont("small",{ font = "Arial", size = 14, weight = 400, antialias = true, additive = false })
-	surface.CreateFont("smalltitle",{ font = "Arial", size = 16, weight = 600, antialias = true, additive = false })
-
-	surface.CreateFont("Gtowerhuge",{ font = mfont, size = 45, weight = 100, antialias = true, additive = false })
-	surface.CreateFont("Gtowerbig",{ font = mfont, size = 28, weight = 125, antialias = true, additive = false })
-	surface.CreateFont("Gtowerbigbold",{ font = mfont, size = 20, weight = 1200, antialias = true, additive = false })
-	surface.CreateFont("Gtowerbiglocation",{ font = mfont, size = 28, weight = 125, antialias = true, additive = false })
-
-    surface.CreateFont("Gtowermidbold",{ font = mfont, size = 16, weight = 1200, antialias = true, additive = false })
-
-	surface.CreateFont( "Gtowerbold",{ font = mfont, size = 14, weight = 700, antialias = true, additive = false })
-
-end )
-
 // this is to protect console commands you believe could be called at bad times (the player isn't valid to the server yet)
 // or the game would put the command in the buffer to execute on the map change
 hook.Add("Think", "PlayerValid", function()
@@ -47,85 +11,6 @@ hook.Add("Think", "PlayerValid", function()
 		SafeToSend = true
 		hook.Remove("Think", "PlayerValid")
 	end
-end)
-
-hook.Add("InitPostEntity", "GTowerFindMap", function()
-
-	local worldspawn = ents.GetByIndex(0)
-	local mapName = worldspawn:GetModel()
-
-	mapName = string.gsub(mapName,"(%w*/)","")
-	mapName = string.gsub(mapName,".bsp","")
-
-	CurMap = mapName
-end )
-
-hook.Add("UpdateAnimation", "Breathing", function(ply)
-	ply:SetPoseParameter("breathing", 0.2)
-end)
-
-local BAL = 0
-
-hook.Add("CalcView", "DrunkCalc", function(ply, origin, angle, fov)
-	if !ply.BAL then return end
-
-	if ply.BAL < BAL then
-		BAL = math.Approach(BAL, ply.BAL, -0.2)
-	else
-		BAL = math.Approach(BAL, ply.BAL, 0.1)
-	end
-
-	if ply.BAL <= 0 then return end
-
-	local multiplier = ( 20 / 100 ) * BAL;
-	angle.pitch = angle.pitch + math.sin( CurTime() ) * multiplier;
-	angle.roll = angle.roll + math.cos( CurTime() ) * multiplier;
-end)
-
-hook.Add("RenderScreenspaceEffects", "DrunkEffect", function()
-	local lp = LocalPlayer()
-	if !IsValid(lp) || BAL <= 0 then return end
-
-	local alpha = ( ( 1 / 100 ) * BAL );
-	if( alpha > 0 ) then
-
-		alpha = math.Clamp( 1 - alpha, 0.04, 0.99 );
-
-		DrawMotionBlur( alpha, 0.9, 0.0 );
-
-	end
-
-	local sharp = ( ( 0.75 / 100 ) * BAL );
-	if( sharp > 0 ) then
-		DrawSharpen( sharp, 0.5 );
-	end
-
-	local frac = math.min( BAL / 60, 1 );
-
-	local rg = ( ( ( 0.2 / 100 ) * BAL ) + 0.1 ) * frac;
-
-	local tab = {};
-	tab[ "$pp_colour_addr" ] 		= rg;
-	tab[ "$pp_colour_addg" ] 		= rg;
-	tab[ "$pp_colour_addb" ] 		= 0;
-	tab[ "$pp_colour_brightness" ] 		= -( ( 0.05 / 100 ) * BAL );
-	tab[ "$pp_colour_contrast" ] 		= 1 - ( ( 0.5 / 100 ) * BAL );
-	tab[ "$pp_colour_colour" ] 		= 1;
-	tab[ "$pp_colour_mulr" ] 		= 0;
-	tab[ "$pp_colour_mulg" ] 		= 0;
-	tab[ "$pp_colour_mulb" ] 		= 0;
-
-	DrawColorModify( tab );
-
-end)
-
-
-hook.Add("CreateMove", "DrunkMove", function(ucmd)
-	local ply = LocalPlayer()
-	if !IsValid(ply) || BAL <= 0 then return end
-
-	local sidemove = math.sin( CurTime() ) * ( ( 150 / 100 ) * ply.BAL )
-	ucmd:SetSideMove( ucmd:GetSideMove() + sidemove )
 end)
 
 local function GetCenterPos( ent )

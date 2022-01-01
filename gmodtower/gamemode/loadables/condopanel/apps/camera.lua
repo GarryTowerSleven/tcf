@@ -188,9 +188,6 @@ if CLIENT then
 			surface.DrawTexturedRect( 0, 0, scrw, scrh )
 		end
 
-		local spacing = 2
-		local padding = 6
-
 		local w, h = scrw/3, 60
 		local x, y = scrw/2-(w/2),20
 

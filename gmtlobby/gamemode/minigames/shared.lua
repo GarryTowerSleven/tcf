@@ -1,17 +1,5 @@
 module("minigames", package.seeall )
 
-function file.FindDir( File, Dir )
-
-
-
-	local files, folders = file.Find( File, Dir )
-
-	return table.Add( files, folders )
-
-
-
-end
-
 do
 
 	local MiniGames = file.FindDir( "gmtlobby/gamemode/minigames/*", "LUA" )

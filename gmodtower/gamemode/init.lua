@@ -32,17 +32,6 @@ resource.AddWorkshop( 2667477578 ) -- karts
 
 MultiUsers = {}
 
--- Derma
-for k,v in pairs (file.Find("gmodtower/gamemode/base/derma/*.lua","LUA")) do
-	AddCSLuaFile("gmodtower/gamemode/base/derma/" .. v);
-end
-
-/*require("luaerror")
-
-hook.Add("LuaError", "LE", function(err)
-	SQLLog('error', err)
-end)*/
-
 local aumsg = umsg.Start
 local bumsg = umsg.End
 local s = false
