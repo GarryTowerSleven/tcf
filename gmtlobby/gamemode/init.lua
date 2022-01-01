@@ -15,20 +15,17 @@ AddCSLuaFile("cl_playermenu.lua")
 
 AddCSLuaFile("cl_hud.lua")
 AddCSLuaFile("cl_post_events.lua")
-AddCSLuaFile("calcview.lua")
 AddCSLuaFile("cl_scoreboard.lua")
 AddCSLuaFile("cl_webboard.lua")
 AddCSLuaFile("cl_hudchat.lua")
 AddCSLuaFile("cl_tetris.lua")
-AddCSLuaFile("uch_anims.lua")
-AddCSLuaFile("playerhook.lua")
+AddCSLuaFile("milestones/uch_animations.lua")
 
 AddCSLuaFile("cl_changelog.lua")
 
 AddCSLuaFile("minigames/shared.lua")
 
-include("playerhook.lua")
-include("uch_anims.lua")
+include("milestones/uch_animations.lua")
 include("shared.lua")
 include("sv_tetris.lua")
 include("tetris/highscore.lua")
@@ -202,8 +199,8 @@ concommand.Add("gmt_adminmessage",function(ply, cmd, args, str)
 	if !ply:IsAdmin() then return end
 
 	net.Start("AdminMessage")
-	net.WriteEntity(ply)
-	net.WriteString(str)
+		net.WriteEntity(ply)
+		net.WriteString(str)
 	net.Broadcast()
 
 end)

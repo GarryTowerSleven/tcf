@@ -26,7 +26,7 @@ if SERVER then
 
 		ClientCreated(ply)
 	end )
-end
+end 
 
 if CLIENT then
 
@@ -43,14 +43,14 @@ if CLIENT then
 	-- We actually recieve the player before they are even valid
 	-- Hold a queue that we poll until they are valid
 	local ReceiveQueue = {}
-	net.Receive(netStringName, function()
+	net.Receive(netStringName, function()	
 		local entindex = net.ReadInt(10)
 		local ply = Entity(entindex)
 
-		if not IsValid(ply) then
+		if not IsValid(ply) then 
 			table.insert(ReceiveQueue, {Index = entindex, StartTime = RealTime()})
-			return
-		end
+			return 
+		end 
 
 		-- Now call the hook for the clients in the house
 		ClientCreated( ply )
@@ -64,12 +64,12 @@ if CLIENT then
 			-- A player has finally become valid, run the hook
 			if IsValid(ply) then
 				ClientCreated( ply )
-				ReceiveQueue[k] = nil
+				ReceiveQueue[k] = nil 
 			end
 
 			-- If we've waited long enough and they're still a no-show, don't bother
 			if RealTime() - v.StartTime > validEntityPollTimeout then
-				ReceiveQueue[k] = nil
+				ReceiveQueue[k] = nil 
 			end
 		end
 	end )

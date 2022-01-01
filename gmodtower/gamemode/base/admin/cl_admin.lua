@@ -2040,3 +2040,12 @@ hook.Add( "PostDrawTranslucentRenderables", "AdminShowGhosts", function()
 
 
 end )
+
+net.Receive("AdminMessage",function()
+	local ply = net.ReadEntity()
+	local Text = net.ReadString()
+
+	if ( IsValid(ply) && !ply:IsAdmin() ) then return end
+
+	MsgI( "admin", Text )
+end)

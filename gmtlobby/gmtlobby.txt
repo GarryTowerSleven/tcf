@@ -1,11 +1,7 @@
-"Gamemode"
+"gmtlobby"
 {
-	"title"		"GMTower: Deluxe"
-	"version"	"Updating..."
+	"name"		"GMod Tower: Deluxe"
 
-	"author_name"	""
-	"author_email"	""
-	"author_url"	""
-
-	"menusystem"	"1"
+	"author_name"	"Deluxe Team & PixelTail Games"
+	"author_url"	"http://www.gmtdeluxe.org"
 }

@@ -85,13 +85,13 @@ function ServerMeta:CountMapVotes()
 end
 
 local function SendGMMsg(gmode,plys,id)
-if timer.Exists( gmode.."delay" ) then return end
-timer.Create( gmode.."delay", 25, 1, function()  end)
-net.Start('gmt_gamemodestart')
-net.WriteString(gmode)
-net.WriteInt(plys,32)
-net.WriteInt(id,32)
-net.Broadcast()
+	if timer.Exists( gmode.."delay" ) then return end
+	timer.Create( gmode.."delay", 25, 1, function()  end)
+	net.Start('gmt_gamemodestart')
+		net.WriteString(gmode)
+		net.WriteInt(plys,32)
+		net.WriteInt(id,32)
+	net.Broadcast()
 end
 
 function ServerMeta:SendMapVote()
