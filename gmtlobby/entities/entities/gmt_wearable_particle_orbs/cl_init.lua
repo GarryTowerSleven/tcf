@@ -9,35 +9,11 @@ ENT.Particles = {
 	material = "sprites/strider_blackball",
 }
 
-local function GetCenterPos( ent )
-
-	if !IsValid( ent ) then return end
-
-	if ent:IsPlayer() && !ent:Alive() && IsValid( ent:GetRagdollEntity() ) then
-		ent = ent:GetRagdollEntity()
-	end
-
-	if ent:IsPlayer() and isfunction( ent.GetClientPlayerModel ) and IsValid( ent:GetClientPlayerModel() ) then
-		ent = ent:GetClientPlayerModel():Get()
-	end
-
-	local Torso = ent:LookupBone( "ValveBiped.Bip01_Spine2" )
-
-	if !Torso then return ent:GetPos() end
-
-	local pos, ang = ent:GetBonePosition( Torso )
-
-	if !ent:IsPlayer() then return pos end
-
-	return pos
-
-end
-
 function ENT:DrawParticles()
 
 	local owner = self:GetOwner()
 
-	local pos = GetCenterPos( owner ) + Vector( 0, 0, -5 )
+	local pos = util.GetCenterPos( owner ) + Vector( 0, 0, -5 )
 
 	local angle = Angle( 0, SinBetween( -240, -120, CurTime() * 2 ), 0 )
 
@@ -140,9 +116,12 @@ end
 
 function ENT:Think()
 
-	if !EnableParticles:GetBool() then
-		self:RemoveEmitter()
-		return
+	if !EnableParticles:GetBool() then
+
+		self:RemoveEmitter()
+
+		return
+
 	end
 
 	local owner = self:GetOwner()

@@ -15,30 +15,6 @@ hook.Add("Think", "PlayerValid", function()
 	end
 end)
 
-local function GetCenterPos( ent )
-
-	if !IsValid( ent ) then return end
-
-	if ent:IsPlayer() && !ent:Alive() && IsValid( ent:GetRagdollEntity() ) then
-		ent = ent:GetRagdollEntity()
-	end
-
-	if ent:IsPlayer() and isfunction( ent.GetClientPlayerModel ) and IsValid( ent:GetClientPlayerModel() ) then
-		ent = ent:GetClientPlayerModel():Get()
-	end
-
-	local Torso = ent:LookupBone( "ValveBiped.Bip01_Spine2" )
-
-	if !Torso then return ent:GetPos() end
-
-	local pos, ang = ent:GetBonePosition( Torso )
-
-	if !ent:IsPlayer() then return pos end
-
-	return pos
-
-end
-
 hook.Add("HUDWeaponPickedUp", "FixRareBug", function( wep )
 	if !wep.GetPrintName then
 		return true

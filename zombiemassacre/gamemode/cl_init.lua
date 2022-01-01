@@ -10,7 +10,6 @@ include( "cl_classchooser.lua" )
 include( "cl_math.lua")
 include( "cl_math_color.lua")
 include( "cl_music.lua" )
-include( "cl_util.lua" )
 
 include( "dropmanager/cl_init.lua" )
 

@@ -9,59 +9,58 @@ ENT.Particles = {
 	material = "sprites/music",
 }
 
-local function GetCenterPos( ent )
-
-	if !IsValid( ent ) then return end
-
-	if ent:IsPlayer() && !ent:Alive() && IsValid( ent:GetRagdollEntity() ) then
-		ent = ent:GetRagdollEntity()
-	end
-
-	if ent:IsPlayer() and isfunction( ent.GetClientPlayerModel ) and IsValid( ent:GetClientPlayerModel() ) then
-		ent = ent:GetClientPlayerModel():Get()
-	end
-
-	local Torso = ent:LookupBone( "ValveBiped.Bip01_Spine2" )
-
-	if !Torso then return ent:GetPos() end
-
-	local pos, ang = ent:GetBonePosition( Torso )
-
-	if !ent:IsPlayer() then return pos end
-
-	return pos
-
-end
-
 function ENT:DrawParticles()
 
 	local owner = self:GetOwner()
 
-	local pos = GetCenterPos( owner ) + Vector( 0, 0, -5 )
+	local pos = util.GetCenterPos( owner ) + Vector( 0, 0, -5 )
 
-	local grav = Vector( 0, 0, math.random( 50, 60 ) )
-	local offset = Vector( 0, 0, 0 )
-	local col = Color( 255,255,255 )
-
-	for i = 1, 2 do
-		local particle = self.Emitter:Add( "sprites/music", pos + offset )
-		particle:SetVelocity( ( Vector( 0, 0, 1 ) + ( VectorRand() * 0.1 ) ) * math.random( 15, 30 ) )
-		particle:SetDieTime( math.random( 0.5, 0.8 ) )
-		particle:SetStartAlpha( 255 )
-		particle:SetEndAlpha( 0 )
-		particle:SetStartSize( 4 )
-		particle:SetEndSize( 1.5 )
-		particle:SetRoll( math.random(0.5, 10) )
-		particle:SetRollDelta( math.Rand(-0.2, 0.2) )
-		particle:SetColor( col.r, col.g, col.b )
-		particle:SetCollide( false )
-
-		particle:SetGravity( grav )
-		grav = grav + Vector(0, 0, math.random(-10, -5))
-		offset = offset + Vector( math.random(-15, 15), math.random(.5, 5), math.random(-1.5, 6))
-	end
-
-	--self.Emitter:Finish()
+	local grav = Vector( 0, 0, math.random( 50, 60 ) )
+
+	local offset = Vector( 0, 0, 0 )
+
+	local col = Color( 255,255,255 )
+
+
+
+	for i = 1, 2 do
+
+		local particle = self.Emitter:Add( "sprites/music", pos + offset )
+
+		particle:SetVelocity( ( Vector( 0, 0, 1 ) + ( VectorRand() * 0.1 ) ) * math.random( 15, 30 ) )
+
+		particle:SetDieTime( math.random( 0.5, 0.8 ) )
+
+		particle:SetStartAlpha( 255 )
+
+		particle:SetEndAlpha( 0 )
+
+		particle:SetStartSize( 4 )
+
+		particle:SetEndSize( 1.5 )
+
+		particle:SetRoll( math.random(0.5, 10) )
+
+		particle:SetRollDelta( math.Rand(-0.2, 0.2) )
+
+		particle:SetColor( col.r, col.g, col.b )
+
+		particle:SetCollide( false )
+
+
+
+		particle:SetGravity( grav )
+
+		grav = grav + Vector(0, 0, math.random(-10, -5))
+
+		offset = offset + Vector( math.random(-15, 15), math.random(.5, 5), math.random(-1.5, 6))
+
+	end
+
+
+
+	--self.Emitter:Finish()
+
 
 end
 
@@ -120,9 +119,12 @@ end
 
 function ENT:Think()
 
-	if !EnableParticles:GetBool() then
-		self:RemoveEmitter()
-		return
+	if !EnableParticles:GetBool() then
+
+		self:RemoveEmitter()
+
+		return
+
 	end
 
 	local owner = self:GetOwner()
