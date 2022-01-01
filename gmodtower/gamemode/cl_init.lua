@@ -6,24 +6,6 @@ include("sh_load.lua")
 include("shared.lua")
 include("sh_loadables.lua")
 
-CurMap = ""
-SafeToSend = false
-
-concommand.Add("gmt_modules", function()
-	if BASS then
-		Msg("BASS module is loaded.\n")
-	else
-		Msg("BASS module is NOT loaded.\n")
-	end
-
-	if chrome then
-		Msg("CHROME module is loaded.\n")
-	else
-		Msg("CHROME module is NOT loaded.\n")
-	end
-
-end )
-
 // this is to protect console commands you believe could be called at bad times (the player isn't valid to the server yet)
 // or the game would put the command in the buffer to execute on the map change
 hook.Add("Think", "PlayerValid", function()
@@ -31,21 +13,6 @@ hook.Add("Think", "PlayerValid", function()
 		SafeToSend = true
 		hook.Remove("Think", "PlayerValid")
 	end
-end)
-
-hook.Add("InitPostEntity", "GTowerFindMap", function()
-
-	local worldspawn = ents.GetByIndex(0)
-	local mapName = worldspawn:GetModel()
-
-	mapName = string.gsub(mapName,"(%w*/)","")
-	mapName = string.gsub(mapName,".bsp","")
-
-	CurMap = mapName
-end )
-
-hook.Add("UpdateAnimation", "Breathing", function(ply)
-	ply:SetPoseParameter("breathing", 0.2)
 end)
 
 local BAL = 0
