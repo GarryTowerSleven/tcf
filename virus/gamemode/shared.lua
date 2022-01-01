@@ -7,6 +7,7 @@ GM.AllowChangeSize = false
 
 DeriveGamemode( "gmtgamemode" )
 SetupGMTGamemode( "Virus", "virus", {
+	Loadables = { "weaponfix", "virus" }, // Additional Loadables
 	AFKDelay = 90 - 20, // Seconds before they will be marked as AFK
 	EnableWeaponSelect = true, // Allow weapon selection
 	EnableCrosshair = true, // Draw the crosshair
