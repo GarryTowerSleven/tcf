@@ -8,8 +8,7 @@ function SetupGMTGamemode( name, folder, settings )
 			"clientsettings",
             "achievement",
             "commands",
-            "afk2",
-            "friends",
+            "afk",
             "scoreboard3",
 		}
 		if settings.Loadables then
