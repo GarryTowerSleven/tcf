@@ -172,7 +172,7 @@ function initHud()
 	}
 
 	if HUDStyle_Lobby1AB then
-		GTowerHUD.Money.Font = "Gtowerbigbold"
+		GTowerHUD.Money.Font = "GTowerbigbold"
 	end
 
 	-- Location
@@ -182,7 +182,7 @@ function initHud()
 	}
 
 	if HUDStyle_Lobby1AB then
-		GTowerHUD.Location.Font = "Gtowerbiglocation"
+		GTowerHUD.Location.Font = "GTowerbiglocation"
 	end
 
 	-- Ammo
@@ -219,7 +219,7 @@ function initHud()
 	if HUDStyle_Lobby1AB then
 		GTowerHUD.Health.Height = 20
 		GTowerHUD.Health.MaxSize = 150
-		GTowerHUD.Health.Font = "Gtowerbig"
+		GTowerHUD.Health.Font = "GTowerbig"
 
 		if HUDStyle_Lobby1B && IsChristmasMap() then
 			GTowerHUD.Health.Texture = Material( "gmod_tower/hud/legacy/bar_christmas.png", "unlightsmooth" )

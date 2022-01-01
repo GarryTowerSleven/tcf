@@ -48,13 +48,13 @@ GtowerLangush.AddWord( 1, "not_enough_money",	"Je hebt niet genoeg geld.")
 
 
 GtowerLangush.AddWord( 1, "vacant",		"Vacant")
-GtowerLangush.AddWord( 1, "RoomRoomsAvalible",	"Hallo, {1}.  Er zijn momenteel <font=Gtowerbigbold>{2}</font> beschikbare suites.   Wil je inchecken?")
+GtowerLangush.AddWord( 1, "RoomRoomsAvalible",	"Hallo, {1}.  Er zijn momenteel <font=GTowerbigbold>{2}</font> beschikbare suites.   Wil je inchecken?")
 GtowerLangush.AddWord( 1, "RoomNotAvalible",	"Hallo, {1}.  Het spijt ons, maar er zijn momenteel geen suites beschikbaar.  Kom later terug.")
 GtowerLangush.AddWord( 1, "RoomWait",		"Wacht even terwijl ik je suite instel.")
 
 GtowerLangush.AddWord( 1, "RoomLongAway",	"Je bent {1} minute weggeweest van je suite. Je bent uitgechecked.")
 
-GtowerLangush.AddWord( 1, "RoomGet",		"Bedankt voor het verblijven bij GMod Tower.\nIk geef jou suite <font=Gtowerbigbold><color=white>#{1}</color></font>.\nAls je hulp nodig hebt met je suite, contacteer dan een admin of moderator.  Praat met mij als je wilt uitchecken.")
+GtowerLangush.AddWord( 1, "RoomGet",		"Bedankt voor het verblijven bij GMod Tower.\nIk geef jou suite <font=GTowerbigbold><color=white>#{1}</color></font>.\nAls je hulp nodig hebt met je suite, contacteer dan een admin of moderator.  Praat met mij als je wilt uitchecken.")
 GtowerLangush.AddWord( 1, "RoomGetSmall",	"Je bent toegewezen aan suite #{1}.")
 GtowerLangush.AddWord( 1, "RoomDeny",		"Oké.  Kom later terug.")
 

@@ -35,7 +35,7 @@ SKIN.bg_color_chat				= dark_trans_blue
 SKIN.frame_border				= lighter_blue
 SKIN.frame_title				= header_blue
 SKIN.fontFrame					= "Default"
-SKIN.fontItem 					= "Gtowerbig"
+SKIN.fontItem 					= "GTowerbig"
 
 SKIN.control_color 				= lighter_blue
 SKIN.control_color_highlight	= darker_blue

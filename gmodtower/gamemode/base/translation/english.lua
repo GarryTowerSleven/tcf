@@ -48,13 +48,13 @@ GtowerLangush.AddWord( 1, "not_enough_money",	"You do not have enough money.")
 
 
 GtowerLangush.AddWord( 1, "vacant",		"Vacant")
-GtowerLangush.AddWord( 1, "RoomRoomsAvalible",	"Greetings, {1}.  There are currently <font=Gtowerbigbold>{2}</font> available condo(s).   Do you wish to check-in?")
+GtowerLangush.AddWord( 1, "RoomRoomsAvalible",	"Greetings, {1}.  There are currently <font=GTowerbigbold>{2}</font> available condo(s).   Do you wish to check-in?")
 GtowerLangush.AddWord( 1, "RoomNotAvalible",	"Greetings, {1}.  We're sorry, there are no available condos at this time.  Please come back later.")
 GtowerLangush.AddWord( 1, "RoomWait",		"Please wait while I setup your condo.")
 
 GtowerLangush.AddWord( 1, "RoomLongAway",	"You have been away from your condo for {1} minute(s). You have been checked-out.")
 
-GtowerLangush.AddWord( 1, "RoomGet",		"Thank you for staying at GMod Tower.\nI will assign you condo <font=Gtowerbigbold><color=white>#{1}</color></font>.\nIf you need any assistance with your condo, please contact local administrators or moderators.  Talk to me when you wish to check-out.")
+GtowerLangush.AddWord( 1, "RoomGet",		"Thank you for staying at GMod Tower.\nI will assign you condo <font=GTowerbigbold><color=white>#{1}</color></font>.\nIf you need any assistance with your condo, please contact local administrators or moderators.  Talk to me when you wish to check-out.")
 GtowerLangush.AddWord( 1, "RoomGetSmall",	"Welcome back. You have been checked-in to condo #{1}.")
 GtowerLangush.AddWord( 1, "RoomDeny",		"Alright.  Please come back later.")
 

@@ -44,13 +44,13 @@ GtowerLangush.AddWord( 1, "not_enough_money",	"Vous ne disposez pas d'assez d'ar
 
 
 GtowerLangush.AddWord( 1, "vacant",		"Disponible")
-GtowerLangush.AddWord( 1, "RoomRoomsAvalible",	"Bonjour, {1}.  Il y a pr�sentement <font=Gtowerbigbold>{2}</font> suite(s) de disponible.   Voulez-vous en louer une?")
+GtowerLangush.AddWord( 1, "RoomRoomsAvalible",	"Bonjour, {1}.  Il y a pr�sentement <font=GTowerbigbold>{2}</font> suite(s) de disponible.   Voulez-vous en louer une?")
 GtowerLangush.AddWord( 1, "RoomNotAvalible",	"Bonjour, {1}.  Nous sommes d�sol�, Il n'y a pas de suite disponible en ce moment. Veuillez revenir plus tard.")
 GtowerLangush.AddWord( 1, "RoomWait",		"Patientez pendant que nous pr�parons votre suite.")
 
 GtowerLangush.AddWord( 1, "RoomLongAway",	"Vous vous �tes �loign� de votre suite durant {1} minute(s). On vous a supprim� du carnet de suites.")
 
-GtowerLangush.AddWord( 1, "RoomGet",		"Merci d'avoir choisi Gmod Tower \nI va vous assign� une suite <font=Gtowerbigbold><color=white>#{1}</color></font>.\nIf Si vous avez besoin d'aide pour votre suite, veuillez contacter les administrateurs ou mod�rateurs locaux. Veuillez me parler si vous voulez �tre retir� du carnet de suites.")
+GtowerLangush.AddWord( 1, "RoomGet",		"Merci d'avoir choisi Gmod Tower \nI va vous assign� une suite <font=GTowerbigbold><color=white>#{1}</color></font>.\nIf Si vous avez besoin d'aide pour votre suite, veuillez contacter les administrateurs ou mod�rateurs locaux. Veuillez me parler si vous voulez �tre retir� du carnet de suites.")
 GtowerLangush.AddWord( 1, "RoomGetSmall",	"On vous a assign� � la suite #{1}.")
 GtowerLangush.AddWord( 1, "RoomDeny",		"Tr�s bien. Veuillez Revenir plus tard.")
 

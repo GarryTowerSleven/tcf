@@ -2,7 +2,7 @@
 GtowerScoreBoard.Players = {}
 
 
-local ItemFont = "Gtowerbig"
+local ItemFont = "GTowerbig"
 local Line4  = surface.GetTextureID( 'scoreboard/line4' )
 local ScoreBoardPlyData = {}
 local TotalWidthSum = 0
