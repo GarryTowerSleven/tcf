@@ -18,9 +18,12 @@ SWEP.WorldModel			= "models/weapons/w_pvp_swd.mdl"
 SWEP.ViewModelFlip		= false
 SWEP.HoldType			= "melee2"
 
-SWEP.Primary.Automatic		= true
-SWEP.Primary.UnlimAmmo		= true
-SWEP.Primary.Damage			= {65, 90}
+SWEP.Primary.Automatic		= true
+
+SWEP.Primary.UnlimAmmo		= true
+
+SWEP.Primary.Damage			= {65, 90}
+
 SWEP.Primary.Delay			= 0.45
 
 SWEP.Secondary.Automatic	= false
@@ -49,17 +52,6 @@ SWEP.StorePrice = 200
 
 GtowerPrecacheModel( SWEP.ViewModel )
 GtowerPrecacheModel( SWEP.WorldModel )
-
-function SWEP:Precache()
-	GtowerPrecacheSound(self.SoundDeploy)
-	GtowerPrecacheSound(self.SwordHit)
-	GtowerPrecacheSound("GModTower/pvpbattle/Sword/SwordVDeath.wav")
-	GtowerPrecacheSound("GModTower/pvpbattle/Sword/SwordVKill.wav")
-	GtowerPrecacheSoundTable(self.SwordHitFlesh)
-	GtowerPrecacheSoundTable(self.SwordMiss)
-	GtowerPrecacheSoundTable(self.SwordSwing)
-	GtowerPrecacheSoundTable(self.SwordBigSwing)
-end
 
 function SWEP:PrimaryAttack()
 	if !self:CanPrimaryAttack() then return end

@@ -19,10 +19,14 @@ SWEP.HoldType		 = "pistol"
 
 SWEP.AutoReload		 = false
 
-SWEP.Primary.Delay	 = 0.6
-SWEP.Primary.Damage	 = {40, 41}
-SWEP.Primary.Cone	 = 0
-SWEP.Primary.ClipSize	 = 3
+SWEP.Primary.Delay	 = 0.6
+
+SWEP.Primary.Damage	 = {40, 41}
+
+SWEP.Primary.Cone	 = 0
+
+SWEP.Primary.ClipSize	 = 3
+
 SWEP.Primary.DefaultClip = 3
 SWEP.Primary.Ammo	 = "357"
 SWEP.Primary.Sound	 = {"GModTower/pvpbattle/NESZapper/NESZap1.wav",
@@ -41,13 +45,6 @@ SWEP.StorePrice = 500
 
 GtowerPrecacheModel( SWEP.ViewModel )
 GtowerPrecacheModel( SWEP.WorldModel )
-
-function SWEP:Precache()
-	GtowerPrecacheSoundTable( self.Primary.Sound )
-	GtowerPrecacheSoundTable( self.SoundEmpty )
-	GtowerPrecacheSoundTable( self.HitSound )
-	GtowerPrecacheSound( "GModTower/pvpbattle/NESZapper/NESKill.wav" )
-end
 
 function SWEP:CanSecondaryAttack()
 	return false

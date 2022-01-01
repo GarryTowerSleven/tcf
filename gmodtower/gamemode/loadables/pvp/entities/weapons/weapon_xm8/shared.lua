@@ -39,14 +39,6 @@ SWEP.StorePrice = 700
 GtowerPrecacheModel( SWEP.ViewModel )
 GtowerPrecacheModel( SWEP.WorldModel )
 
-function SWEP:Precache()
-	GtowerPrecacheSound(self.Primary.Sound)
-	GtowerPrecacheSound(self.SoundDeploy)
-	GtowerPrecacheSound(self.SoundReload)
-	GtowerPrecacheSound(self.SoundZoom)
-	GtowerPrecacheSound(self.SoundUnZoom)
-end
-
 function SWEP:SecondaryAttack()
 	self.Weapon:SetNextSecondaryFire( CurTime() + self.Secondary.Delay )
 

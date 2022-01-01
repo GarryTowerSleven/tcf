@@ -57,13 +57,6 @@ function SWEP:Initialize()
 
 end
 
-function SWEP:Precache()
-	GtowerPrecacheSoundTable(self.FistHitFlesh)
-	GtowerPrecacheSoundTable(self.FistMiss)
-	GtowerPrecacheSound(self.FistHit)
-	GtowerPrecacheSound(self.TeleSound)
-end
-
 function SWEP:PrimaryAttack()
 	if !self:CanPrimaryAttack() then return end
 	self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )

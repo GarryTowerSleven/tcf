@@ -46,12 +46,6 @@ SWEP.IronSightsAng = Vector (-0.7847, 4.1086, 0.8058)
 GtowerPrecacheModel( SWEP.ViewModel )
 GtowerPrecacheModel( SWEP.WorldModel )
 
-function SWEP:Precache()
-	GtowerPrecacheSound(self.Primary.Sound)
-	GtowerPrecacheSound(self.SoundZoom)
-	GtowerPrecacheSound(self.SoundUnZoom)
-end
-
 function SWEP:SecondaryAttack()
 	self.Weapon:SetNextSecondaryFire( CurTime() + self.Secondary.Delay )
 	

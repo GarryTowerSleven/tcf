@@ -42,12 +42,6 @@ SWEP.IronSightsAng = Vector (-1.7418, 0.0104, 0.001)
 GtowerPrecacheModel( SWEP.ViewModel )
 GtowerPrecacheModel( SWEP.WorldModel )
 
-function SWEP:Precache()
-	GtowerPrecacheSound( self.Primary.Sound )
-	GtowerPrecacheSound( self.SoundPump )
-	GtowerPrecacheSound( self.SoundInsert )
-end
-
 function SWEP:CanPrimaryAttack()
 	if self.Owner.Reloading then
 		if self.Weapon:GetVar( "interrupt", 0 ) == 0 then

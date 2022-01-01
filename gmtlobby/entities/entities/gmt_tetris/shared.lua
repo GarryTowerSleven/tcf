@@ -24,8 +24,6 @@ ENT.SoundList = {
 	"GModTower/arcade/Tetris_Move.wav"
 }
 
-GtowerPrecacheSoundTable( ENT.SoundList )
-
 ENT.MusicLength = 38
 
 ENT.DoorHeight = 77

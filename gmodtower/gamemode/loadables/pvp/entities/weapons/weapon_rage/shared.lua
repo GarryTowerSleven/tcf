@@ -36,12 +36,6 @@ SWEP.FistMiss			= {	"GModTower/pvpbattle/Rage/RageMiss1.wav",
 GtowerPrecacheModel( SWEP.ViewModel )
 GtowerPrecacheModel( SWEP.WorldModel )
 
-function SWEP:Precache()
-	GtowerPrecacheSound(self.FistHit)
-	GtowerPrecacheSoundTable(self.FistHitFlesh)
-	GtowerPrecacheSoundTable(self.FistMiss)
-end
-
 function SWEP:PrimaryAttack()
 
 	if string.StartWith(game.GetMap(),"gmt_lobby") and !self.Owner.ActiveDuel and !self.Owner:IsAdmin() then self.Primary.Damage = 0 end

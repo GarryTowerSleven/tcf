@@ -15,10 +15,14 @@ SWEP.ViewModelFlip	 = false
 
 SWEP.HoldType		= "pistol"
 
-SWEP.Primary.Delay	 		= 0.3
-SWEP.Primary.Damage	 		= {18, 24}
-SWEP.Primary.Cone	 		= 0.04
-SWEP.Primary.ClipSize	 	= 24
+SWEP.Primary.Delay	 		= 0.3
+
+SWEP.Primary.Damage	 		= {18, 24}
+
+SWEP.Primary.Cone	 		= 0.04
+
+SWEP.Primary.ClipSize	 	= 24
+
 SWEP.Primary.DefaultClip 	= 24
 SWEP.Primary.Ammo	 = "SMG1"
 SWEP.Primary.Sound	 = {"GModTower/pvpbattle/Akimbo/AkimboFire1.wav",
@@ -34,10 +38,6 @@ SWEP.StorePrice = 550
 
 GtowerPrecacheModel( SWEP.ViewModel )
 GtowerPrecacheModel( SWEP.WorldModel )
-
-function SWEP:Precache()
-	GtowerPrecacheSoundTable( self.Primary.Sound )
-end
 
 function SWEP:PrimaryAttack()
 	self.TracerOrigin = "2"

@@ -17,12 +17,18 @@ SWEP.HoldType		 = "ar2"
 SWEP.AutoReload		 = false
 
 SWEP.Primary.Delay	 = 0.55
-SWEP.Primary.Automatic	 = false
-SWEP.Primary.Damage	 = {30, 40}
-SWEP.Primary.Cone	 = 0.001
-SWEP.Primary.Recoil	 	= 5
-SWEP.Primary.ClipSize	 = 8
-SWEP.Primary.DefaultClip = 8
+SWEP.Primary.Automatic	 = false
+
+SWEP.Primary.Damage	 = {30, 40}
+
+SWEP.Primary.Cone	 = 0.001
+
+SWEP.Primary.Recoil	 	= 5
+
+SWEP.Primary.ClipSize	 = 8
+
+SWEP.Primary.DefaultClip = 8
+
 SWEP.Primary.Ammo	 = "SniperRound"
 SWEP.Primary.Sound	 = "GModTower/pvpbattle/Garand/garand_shoot.wav"
 SWEP.Primary.SoundFinal	 = "GModTower/pvpbattle/Garand/garand_empty.wav"
@@ -42,12 +48,6 @@ SWEP.IronSightsAng = Vector (0.5454, 0.108, -0.1055)*/
 
 GtowerPrecacheModel( SWEP.ViewModel )
 GtowerPrecacheModel( SWEP.WorldModel )
-
-function SWEP:Precache()
-	GtowerPrecacheSound( self.Primary.Sound )
-	GtowerPrecacheSound( self.Primary.SoundFinal )
-	GtowerPrecacheSound( self.SoundReload )
-end
 
 function SWEP:SpecialReload()
 	return self:Clip1() > 0

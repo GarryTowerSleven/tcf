@@ -14,12 +14,18 @@ SWEP.WorldModel			 = "models/weapons/w_pvp_tom.mdl"
 SWEP.ViewModelFlip		 = true
 SWEP.HoldType			 = "ar2"
 
-SWEP.Primary.Automatic	 = true
-SWEP.Primary.Delay	 = 0.10
-SWEP.Primary.Damage	 = {10, 18}
-SWEP.Primary.Cone	 = 0.025
-SWEP.Primary.ClipSize	 = 25
-SWEP.Primary.DefaultClip = 25
+SWEP.Primary.Automatic	 = true
+
+SWEP.Primary.Delay	 = 0.10
+
+SWEP.Primary.Damage	 = {10, 18}
+
+SWEP.Primary.Cone	 = 0.025
+
+SWEP.Primary.ClipSize	 = 25
+
+SWEP.Primary.DefaultClip = 25
+
 SWEP.Primary.Ammo	 = "AR2"
 SWEP.Primary.Sound	 = "GModTower/pvpbattle/Thompson/ThompsonFire.wav"
 
@@ -33,12 +39,6 @@ GtowerPrecacheModel( SWEP.WorldModel )
 SWEP.Description = "Go back in time to prohibition and show those to fear the original portable machine gun.  Force them to make pay as you, a true gansta, puts holes in them like-a swiss cheese."
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 0
-
-function SWEP:Precache()
-	GtowerPrecacheSound(self.Primary.Sound)
-	GtowerPrecacheSound(self.SoundDeploy)
-	GtowerPrecacheSound(self.SoundReload)
-end
 
 function SWEP:CanSecondaryAttack()
 	return false

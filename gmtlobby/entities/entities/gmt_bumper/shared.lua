@@ -8,5 +8,4 @@ ENT.LitMaterial		= "models/gmod_tower/bumper/bumperskin_lit"
 
 ENT.BumpSound		= Sound( "GModTower/balls/Bumper.wav" )
 
-/*GtowerPrecacheModel( ENT.Model )
-GtowerPrecacheSound( ENT.BumpSound )*/
+//GtowerPrecacheModel( ENT.Model )

@@ -37,15 +37,6 @@ SWEP.StorePrice = 3000
 GtowerPrecacheModel( SWEP.ViewModel )
 GtowerPrecacheModel( SWEP.WorldModel )
 
-function SWEP:Precache()
-	GtowerPrecacheSound( self.SoundDeploy )
-	GtowerPrecacheSound( self.SoundEmpty )
-	GtowerPrecacheSound( self.Primary.Sound )
-
-	GtowerPrecacheSound( self.SoundFill )
-	GtowerPrecacheSound( self.SoundPump )
-end
-
 function SWEP:CanPrimaryAttack()
 	if self.reloading then
 		if self.Weapon:GetVar( "interrupt", 0 ) == 0 then

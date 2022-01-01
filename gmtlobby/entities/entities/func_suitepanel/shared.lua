@@ -31,10 +31,6 @@ ENT.limit_y 			= 4.4
 
 
 GtowerPrecacheModel(ENT.Model)
-GtowerPrecacheSound(ENT.soundGranted)
-GtowerPrecacheSound(ENT.soundDenied)
-GtowerPrecacheSound(ENT.soundLock)
-GtowerPrecacheSound(ENT.soundUnlock)
 
 function ENT:PhysicsUpdate()
 end

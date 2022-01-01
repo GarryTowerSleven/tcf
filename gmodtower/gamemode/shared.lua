@@ -31,28 +31,6 @@ function GtowerPrecacheModelTable(Table)
 	end
 end
 
-function GtowerPrecacheSound(Sound)
-	if !Sound then return end
-	if type(Sound) == "table" then
-		GtowerPrecacheSoundTable(Sound)
-		/*debug.Trace()
-		ErrorNoHalt("Tried to precache a sound but it was a table")*/
-	else
-		util.PrecacheSound(Sound)
-	end
-end
-
-function GtowerPrecacheSoundTable(Table)
-	if type(Table) != "table" then
-		debug.Trace()
-		ErrorNoHalt("Tried to precache a sound table but it wasn't a table")
-	end
-
-	for k,v in pairs(Table) do
-		GtowerPrecacheSound(v)
-	end
-end
-
 function EmptyFunction() end
 
 function GM:PhysgunPickup( ply, ent )
