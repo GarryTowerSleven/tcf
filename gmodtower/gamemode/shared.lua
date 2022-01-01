@@ -33,14 +33,6 @@ function GM:PhysgunPickup( ply, ent )
 	return true
 end
 
-RegisterNWTablePlayer({
-	{ "BAL", 0, NWTYPE_CHAR, REPL_PLAYERONLY },
-
-	// inventory item uses, for the hud to work properly
-	{ "UsesLeft", -1, NWTYPE_CHAR, REPL_PLAYERONLY },
-	{ "MaxUses", -1, NWTYPE_CHAR, REPL_PLAYERONLY },
-})
-
 
 local PlayerModels = player_manager.AllValidModels()
 
