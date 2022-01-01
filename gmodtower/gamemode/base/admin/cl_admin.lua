@@ -2038,3 +2038,5 @@ hook.Add( "PostDrawTranslucentRenderables", "AdminShowGhosts", function()
 
 
 end )
+
+CreateConVar( "gmt_admin_log", 1, { FCVAR_ARCHIVE, FCVAR_USERINFO }, "Enable admin logging." )

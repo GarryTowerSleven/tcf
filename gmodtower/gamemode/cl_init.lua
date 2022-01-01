@@ -1,6 +1,3 @@
----------------------------------
-//Obligatory at first
-
 include("nwvar/shared.lua")
 include("sh_load.lua")
 include("shared.lua")
@@ -21,5 +18,3 @@ hook.Add( "CalcView", "FullyConnected", function()
 	net.Start( "ClientFullyConnected" )
 	net.SendToServer()
 end )
-
-CreateConVar( "gmt_admin_log", 1, { FCVAR_ARCHIVE, FCVAR_USERINFO }, "Enable admin logging." )
