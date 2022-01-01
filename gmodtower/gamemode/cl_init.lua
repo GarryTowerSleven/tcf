@@ -1,6 +1,6 @@
+include("shared.lua")
 include("nwvar/shared.lua")
 include("sh_load.lua")
-include("shared.lua")
 include("sh_loadables.lua")
 
 // this is to protect console commands you believe could be called at bad times (the player isn't valid to the server yet)

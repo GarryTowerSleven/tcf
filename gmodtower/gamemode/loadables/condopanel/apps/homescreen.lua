@@ -122,7 +122,7 @@ end
 
 function APP:DrawNewsTicker()
 
-	local text = [[GMTower News: Today is a great day. | Local News: man yells: "LOBBY, LOBBY EVERYWHERE" before collapsing on the sidewalk. | Stocks: Hats UP 14.2%, pets DOWN 16.7% | Sports: The local team got more points than the opposing team, a victory for tower. | How many licks does it take to get to the center of a tootsie-pop? Scientists say 2953.45]]
+	local text = [[GMod Tower News: Today is a great day. | Local News: man yells: "LOBBY, LOBBY EVERYWHERE" before collapsing on the sidewalk. | Stocks: Hats UP 14.2%, pets DOWN 16.7% | Sports: The local team got more points than the opposing team, a victory for tower. | How many licks does it take to get to the center of a tootsie-pop? Scientists say 2953.45]]
 
 	surface.SetDrawColor( 50, 58, 69, 100 )
 	surface.DrawRect( 0, 70, scrw, 44 )

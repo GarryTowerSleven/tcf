@@ -153,7 +153,7 @@ Maps.Register( "gmt_lobby2_r6h", {
 
 Maps.Register( "gmt_lobby2_r6c", {
 	Name = "[Christmas] Lobby 2 - Deluxe",
-	Desc = "Happy holidays from GMTower: Deluxe! A snowy version of Lobby filled with holiday goodness. Take a breather and walk outside and hang around the heated pool. Buy exclusive holiday items located in the present sack.",
+	Desc = "Happy holidays from GMod Tower: Deluxe! A snowy version of Lobby filled with holiday goodness. Take a breather and walk outside and hang around the heated pool. Buy exclusive holiday items located in the present sack.",
 	Author = "PixelTail Games / GMT: Deluxe Team",
 	DateAdded = 1399590414,
 	DateModified = 1399590414,

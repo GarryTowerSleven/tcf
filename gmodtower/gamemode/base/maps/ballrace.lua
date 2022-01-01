@@ -64,7 +64,7 @@ Maps.Register( "gmt_ballracer_iceworld03", {
 Maps.Register( "gmt_ballracer_nightball", {
 	Name = "Night World",
 	Desc = "Roll trough this gravity defying world with moving obstacles, lasers, and lots of speed!",
-	Author = "GMTower: Deluxe Team",
+	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
 	Priority = 4,
@@ -73,7 +73,7 @@ Maps.Register( "gmt_ballracer_nightball", {
 Maps.Register( "gmt_ballracer_facile", {
 	Name = "Facile",
 	Desc = "A simplisic, but difficult world. Avoid repellers in space, or go full hyperspeed while magnetized.",
-	Author = "GMTower: Deluxe Team",
+	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
 	Priority = 4,
@@ -91,7 +91,7 @@ Maps.Register( "gmt_ballracer_flyinhigh01", {
 Maps.Register( "gmt_ballracer_metalworld", {
 	Name = "Metal World",
 	Desc = "Hard levels in a world made of metal, also introducing new objects such as crushers, lava and gears.",
-	Author = "GMTower: Deluxe Team",
+	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
 	Priority = 4,
@@ -109,7 +109,7 @@ Maps.Register( "gmt_ballracer_metalworld", {
 /*Maps.Register( "gmt_ballracer_summit", {
 	Name = "Summit",
 	Desc = "A cold, lighthearted world that focuses on the racing aspect of Ballrace.",
-	Author = "GMTower: Deluxe Team",
+	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
 	Priority = 4,
@@ -127,7 +127,7 @@ Maps.Register( "gmt_ballracer_neonlights01", {
 Maps.Register( "gmt_ballracer_waterworld02", {
 	Name = "Water World",
 	Desc = "Meet water physics in this fun, fast paced world. Float, dive and bounce to victory!",
-	Author = "GMTower: Deluxe Team",
+	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
 	Priority = 4,
@@ -136,7 +136,7 @@ Maps.Register( "gmt_ballracer_waterworld02", {
 Maps.Register( "gmt_ballracer_spaceworld01", {
 	Name = "Space World",
 	Desc = "Hard, more dynamic levels with new obstacles such as a catapult.",
-	Author = "GMTower: Deluxe Team",
+	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
 	Priority = 4,
@@ -172,7 +172,7 @@ Maps.Register( "gmt_ballracer_midori02", {
 Maps.Register( "gmt_ballracer_tranquil01", {
 	Name = "Tranquil",
 	Desc = "A magical world full of... RAINBOWS!",
-	Author = "GMTower: Deluxe Team",
+	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
 	Priority = 4,

@@ -1,13 +1,12 @@
-
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("sh_load.lua")
 AddCSLuaFile("sh_loadables.lua")
 AddCSLuaFile("nwvar/shared.lua")
 
+include("shared.lua")
 include("nwvar/shared.lua")
 include("sh_load.lua")
-include("shared.lua")
 include("sh_loadables.lua")
 
 RunConsoleCommand("sv_hibernate_think", "1")
