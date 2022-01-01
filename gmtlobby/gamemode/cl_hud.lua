@@ -458,13 +458,19 @@ function initHud()
 
 		iconSize = iconSize or 32
 
+		if !icon then
+			iconSize = 6
+		end
+
 		surface.SetDrawColor( GTowerHUD.Info.BGColor )
 		surface.SetMaterial( GTowerHUD.Info.Background )
 		surface.DrawTexturedRect( 0, y, GTowerHUD.Info.Width, tall )
 
-		surface.SetDrawColor( 255, 255, 255 )
-		surface.SetMaterial( icon )
-		surface.DrawTexturedRect( x, y + ( ( tall /2 ) - ( iconSize /2 ) ), iconSize, iconSize )
+		if icon then
+			surface.SetDrawColor( 255, 255, 255 )
+			surface.SetMaterial( icon )
+			surface.DrawTexturedRect( x, y + ( ( tall /2 ) - ( iconSize /2 ) ), iconSize, iconSize )
+		end
 
 		draw.SimpleShadowText( text, "GTowerHUDMainSmall2", x+iconSize, y+10, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
 
