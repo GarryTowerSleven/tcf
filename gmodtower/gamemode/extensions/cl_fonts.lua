@@ -1,4 +1,3 @@
----------------------------------
 // Create GMT fonts
 surface.CreateFont( "tiny", { font = "Arial", size = 10, weight = 100 } )
 surface.CreateFont( "smalltiny", { font = "Arial", size = 12, weight = 100 } )
@@ -34,29 +33,6 @@ surface.CreateFont( "GTowerMinigame", { font = "Impact", size = 24, weight = 400
 surface.CreateFont( "GTowerGMTitle", { font = "Impact", size = 24, weight = 400 } )
 surface.CreateFont( "GTowerMessage", { font = "Arial", size = 16, weight = 600 } )
 surface.CreateFont( "GTowerToolTip", { font = "Tahoma", size = 16, weight = 400 } )
-
-
-// FONTS
-surface.CreateFont( "SCTitle", { font = "TodaySHOP-BoldItalic", size = 64, weight = 400 } )
-surface.CreateFont( "SCTNavigation", { font = "Oswald", size = 24, weight = 400 } )
-
-surface.CreateFont( "SCPlyName", { font = "Oswald", size = 32, weight = 400 } )
-surface.CreateFont( "SCPlyTeam", { font = "Oswald", size = 22, weight = 400 } )
-surface.CreateFont( "SCPlyGroupName", { font = "Oswald", size = 20, weight = 400 } )
-surface.CreateFont( "SCPlyGroupLocName", { font = "Oswald", size = 16, weight = 400 } )
-surface.CreateFont( "SCPlyValue", { font = "Oswald", size = 24, weight = 400 } )
-surface.CreateFont( "SCPlyLabel", { font = "Oswald", size = 18, weight = 400 } )
-surface.CreateFont( "SCPlyLoc", { font = "Oswald", size = 18, weight = 400 } )
-surface.CreateFont( "SCMapName", { font = "TodaySHOP-Bold", size = 24, weight = 500 } )
-
-surface.CreateFont( "SCAwardCategory", { font = "Oswald", size = 18, weight = 400 } )
-surface.CreateFont( "SCAwardTitle", { font = "Oswald", size = 26, weight = 400 } )
-surface.CreateFont( "SCAwardDescription", { font = "Arial", size = 14, weight = 400 } )
-surface.CreateFont( "SCAwardProgress", { font = "Akfar", size = 12, weight = 400 } )
-
-/*surface.CreateFont( "SCAwardDescription", { font = "Oswald Light", size = 28, weight = 400 } )
-surface.CreateFont( "SCAwardProgress", { font = "Oswald Light", size = 24, weight = 400 } )*/
-
 
 //surface.CreateFont( "GTowerFuel", { font = "Impact", size = 18, weight = 400 } )
 

@@ -68,7 +68,7 @@ function AntiAFK:CreateWarning()
 	
 	self.DermaPanel = vgui.Create("DPanel")
 	self.DermaPanel.WarningLabel = Label(T("AfkTimer", 45.0), self.DermaPanel)
-	self.DermaPanel.WarningLabel:SetFont( "Gtowerbig" )
+	self.DermaPanel.WarningLabel:SetFont( "GTowerbig" )
 	
 	self.DermaPanel.Think = AfkTimerThink
 	self.DermaPanel.Paint = AfkTimerPaint

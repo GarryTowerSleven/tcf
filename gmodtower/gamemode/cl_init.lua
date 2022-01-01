@@ -24,24 +24,6 @@ concommand.Add("gmt_modules", function()
 
 end )
 
-hook.Add("Initialize", "GtowerInit", function()
-    local mfont = "CenterPrintText"
-
-	surface.CreateFont("tiny",{ font = "Arial", size = 10, weight = 600, antialias = false, additive = false })
-	surface.CreateFont("small",{ font = "Arial", size = 14, weight = 400, antialias = true, additive = false })
-	surface.CreateFont("smalltitle",{ font = "Arial", size = 16, weight = 600, antialias = true, additive = false })
-
-	surface.CreateFont("Gtowerhuge",{ font = mfont, size = 45, weight = 100, antialias = true, additive = false })
-	surface.CreateFont("Gtowerbig",{ font = mfont, size = 28, weight = 125, antialias = true, additive = false })
-	surface.CreateFont("Gtowerbigbold",{ font = mfont, size = 20, weight = 1200, antialias = true, additive = false })
-	surface.CreateFont("Gtowerbiglocation",{ font = mfont, size = 28, weight = 125, antialias = true, additive = false })
-
-    surface.CreateFont("Gtowermidbold",{ font = mfont, size = 16, weight = 1200, antialias = true, additive = false })
-
-	surface.CreateFont( "Gtowerbold",{ font = mfont, size = 14, weight = 700, antialias = true, additive = false })
-
-end )
-
 // this is to protect console commands you believe could be called at bad times (the player isn't valid to the server yet)
 // or the game would put the command in the buffer to execute on the map change
 hook.Add("Think", "PlayerValid", function()

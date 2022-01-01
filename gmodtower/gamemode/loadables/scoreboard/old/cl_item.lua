@@ -7,7 +7,7 @@ local TopLeftSelected    = surface.GetTextureID( 'scoreboard/top_left_corner' )
 local TopRightUnselected = surface.GetTextureID( 'scoreboard/top_right_unselected' )
 local TopLeftUnselected  = surface.GetTextureID( 'scoreboard/top_left_unselected' )
 
-local ItemFont = "Gtowerbig"
+local ItemFont = "GTowerbig"
 
 local PANEL = {}
 

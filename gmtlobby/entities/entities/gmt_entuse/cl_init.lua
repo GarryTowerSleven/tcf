@@ -23,7 +23,7 @@ function ENT:DrawTranslucent()
 	// Start the fun
 	cam.Start3D2D( pos, ang, 1 )
 
-		draw.DrawText( "Minigame!", "Gtowerhuge", -80, 0, Color( math.Rand(1, 255), math.Rand(1, 255), math.Rand(1, 255), 255 ) )
+		draw.DrawText( "Minigame!", "GTowerhuge", -80, 0, Color( math.Rand(1, 255), math.Rand(1, 255), math.Rand(1, 255), 255 ) )
 
 	cam.End3D2D()
 end

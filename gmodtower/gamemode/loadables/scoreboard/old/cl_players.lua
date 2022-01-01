@@ -2,7 +2,7 @@
 GtowerScoreBoard.Players = {}
 
 
-local ItemFont = "Gtowerbig"
+local ItemFont = "GTowerbig"
 local Line4  = surface.GetTextureID( 'scoreboard/line4' )
 local ScoreBoardPlyData = {}
 local TotalWidthSum = 0
@@ -279,7 +279,7 @@ function PANEL:PerformLayout()
         
 		if ( self.Player:IsAdmin() ) then
 			v:SetFGColor( self.Player:GetDisplayTextColor() )
-			--v:SetFont( "Gtowerbold" )
+			--v:SetFont( "GTowerbold" )
 		end
 		
 		if ( v.Image ) then

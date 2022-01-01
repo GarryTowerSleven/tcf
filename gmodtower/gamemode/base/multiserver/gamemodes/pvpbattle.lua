@@ -69,7 +69,7 @@ end
 
 function GMode:ProcessData( ent, data )
 	if data == "#nogame" then
-		ent.TimeLeftMarkup = markup.Parse( "<font=Gtowerbig><color=ltgrey>NO GAME RUNNING - JOIN IT!</color><font>" )
+		ent.TimeLeftMarkup = markup.Parse( "<font=GTowerbig><color=ltgrey>NO GAME RUNNING - JOIN IT!</color><font>" )
 		ent.TimeLeftMarkup.PosX = ent.TotalMinX + ent.TotalWidth * 0.5 - ent.TimeLeftMarkup:GetWidth() / 2
 		ent.TimeLeftMarkup.PosY = ent.TotalMinY + ent.TopHeight * 0.75 - ent.TimeLeftMarkup:GetHeight() / 2
 		ent.RoundsMarkup = nil
@@ -81,13 +81,13 @@ function GMode:ProcessData( ent, data )
 	local TimeLeftString = ""
 
 	if #Timeleft == 2 then
-		TimeLeftString = "<font=Gtowerbig><color=white>"..Timeleft[1].."</color> <color=ltgrey>min</color> / <color=white>"..Timeleft[2].."</color> <color=ltgrey>min</color></font>"
+		TimeLeftString = "<font=GTowerbig><color=white>"..Timeleft[1].."</color> <color=ltgrey>min</color> / <color=white>"..Timeleft[2].."</color> <color=ltgrey>min</color></font>"
 	else
 		TimeLeftString = Exploded[1]
 	end
 
 
-	local Rounds = "<font=Gtowerbig><color=ltgrey>Round: </color> " .. string.sub( Exploded[2], 4 ) .. "</font>"
+	local Rounds = "<font=GTowerbig><color=ltgrey>Round: </color> " .. string.sub( Exploded[2], 4 ) .. "</font>"
 
 	ent.TimeLeftMarkup = markup.Parse( TimeLeftString )
 	ent.RoundsMarkup = markup.Parse( Rounds )
