@@ -9,6 +9,11 @@ include("shared.lua")
 include("room_maps.lua")
 include("upgrades.lua")
 
+NoPartyMsg = CreateClientConVar( "gmt_ignore_party", "0", true, false )
+
+CondoDoorbell 	= CreateClientConVar( "gmt_condodoorbell" , "1", true, true )
+CondoBackground = CreateClientConVar( "gmt_condobg" , "1", true, true )
+
 net.Receive("gmt_partymessage", function()
 	if NoPartyMsg:GetBool() then return end
 	if LocalPlayer():GetNWBool("IsDueling") then return end

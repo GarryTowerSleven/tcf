@@ -1,3 +1,4 @@
+GMTMCore = CreateClientConVar( "gmt_usemcore", "0", true, true )
 
 cvars.AddChangeCallback( "gmt_usemcore", function( convar_name, value_old, value_new )
 

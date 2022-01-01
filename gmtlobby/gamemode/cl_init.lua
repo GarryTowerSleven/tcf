@@ -1,63 +1,30 @@
 
 include("shared.lua")
 include("cl_hud.lua")
+include("cl_hudchat.lua")
+include("cl_playermenu.lua")
 include("cl_post_events.lua")
 include("cl_scoreboard.lua")
+include("milestones/uch_animations.lua")
 
+-- Lobby 2 soundscape system
 include("cl_soundscape.lua")
 include("cl_soundscape_music.lua")
 include("cl_soundscape_songlengths.lua")
 
-include("cl_playermenu.lua")
-
-include("calcview.lua")
-include("playerhook.lua")
-include("tetris/cl_init.lua")
 include("cl_webboard.lua")
-include("cl_hudchat.lua")
-//include("cl_tetris.lua")
-include("uch_anims.lua")
-
-local tourmsgnotice = CreateClientConVar( "gmt_enabletournotice", "1", true, true )
 
 EnableParticles = CreateClientConVar( "gmt_enableparticles", "1", true, false )
-NoGMMsg 				= CreateClientConVar( "gmt_ignore_gamemode", "0", true, false )
-NoPartyMsg 			= CreateClientConVar( "gmt_ignore_party", "0", true, false )
 
-VoiceDistance 	= CreateClientConVar( "gmt_voice_distance", "1024", true, true )
-
-//CondoSkyBox 		= CreateClientConVar( "gmt_condoskybox" , "1", true, true )
-CondoDoorbell 	= CreateClientConVar( "gmt_condodoorbell" , "1", true, true )
-CondoBackground = CreateClientConVar( "gmt_condobg" , "1", true, true )
-//CondoBlinds 		= CreateClientConVar( "gmt_condoblinds" , "1", true, true )
-
-GMTMCore 				= CreateClientConVar( "gmt_usemcore", "0", true, true )
-
-// holy shit cosmetics
-function GM:OverrideHatEntity(ply)
-
-	if IsValid( ply ) && !ply:Alive() then
-		return ply:GetRagdollEntity()
-	end
-
-	if IsValid( ply.BallRaceBall ) then
-		return ply.BallRaceBall.PlayerModel
-	end
-
-	return ply
-end
+// Cursor for 3D2D stuff
+Cursor2D = surface.GetTextureID( "cursor/cursor_default" )
+CursorLock2D = surface.GetTextureID( "cursor/cursor_lock" )
 
 // ball orb support
 hook.Add( "GShouldCalcView", "ShouldCalcVewBall", function( ply, pos, ang, fov )
 
 	// if the ball race ball is set, we should override the pos and dist
 	return IsValid( ply.BallRaceBall )
-
-end )
-
-hook.Add( "DrawDeathNotice", "DisableLobbyDeaths", function()
-
-	return false
 
 end )
 
@@ -103,103 +70,10 @@ hook.Add("CalcView", "GMTViewBob", function( ply, origin, angle, fov)
 
 end )
 
-hook.Add("HUDPaint", "PaintMapChanging", function()
-
-	if !GetGlobalBool("ShowChangelevel") then return end
-
-	local curClientTime = os.date("*t")
-	local timeUntilChange = GetGlobalInt("NewTime") - CurTime()
-
-	local timeUntilChangeFormatted = string.FormattedTime(timeUntilChange,"%02i:%02i")
-
-	draw.RoundedBox(0, 0, 0, ScrW(), 40, Color(25,25,25,200))
-	draw.SimpleText("RESTARTING FOR UPDATE IN: " .. timeUntilChangeFormatted, "GTowerHUDMainLarge", ScrW()/2, 20, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-end)
-
-local BMusic = Sound("gmodtower/minigame/balloon2.mp3")
-local CMusic = Sound("gmodtower/gourmetrace/music/30sec/30sec1.mp3")
-local MMusic = Sound("gmodtower/music/christmas/narniaevent2.mp3")
-
-net.Receive("MinigameMusic",function()
-	local Start = net.ReadBool()
-	local Game = net.ReadString()
-
-	if Start then
-		if Game == "chainsaw" then
-			LocalPlayer().BMusic = CreateSound( LocalPlayer(), CMusic )
-			LocalPlayer().BMusic:PlayEx( 1, 100 )
-		elseif Game == "snowbattle" then
-			LocalPlayer().BMusic = CreateSound( LocalPlayer(), MMusic )
-			LocalPlayer().BMusic:PlayEx( 0.75, 100 )
-		else
-			LocalPlayer().BMusic = CreateSound( LocalPlayer(), BMusic )
-			LocalPlayer().BMusic:PlayEx( 0.5, 100 )
-		end
-	else
-		LocalPlayer().BMusic:FadeOut(1)
-	end
-
-end)
-
-net.Receive("gmt_gamemodestart",function()
-	if NoGMMsg:GetBool() then return end
-
-	local Gmode = net.ReadString()
-	local plys = net.ReadInt(32)
-	local id = net.ReadInt(32)
-
-	timer.Simple( .1, function()
-		if LocalPlayer():GetNWString("QueuedGamemode") == Gmode then return end
-
-		local Gamemode = GTowerServers:GetGamemode( Gmode )
-		local max_plys
-		
-		if Gamemode then
-			Gmode = Gamemode.Name
-			max_plys = Gamemode.MaxPlayers
-		end
-
-		local Question = Msg2( T( "GamemodeStarting", Gmode, plys ), 18 )
-
-		if max_plys && plys >= max_plys then
-			Question = Msg2( T( "GamemodeStartingFull", Gmode, plys ), 18 )
-		end
-
-		Question:SetupQuestion(
-			function() RunConsoleCommand( "gmt_mtsrv", 1, id ) end,
-			function() end,
-			function() end,
-			nil,
-			{120, 160, 120},
-			{160, 120, 120}
-		)
-	end )
-
-end)
-
-net.Receive("AdminMessage",function()
-
-	local ply = net.ReadEntity()
-	local Text = net.ReadString()
-
-	if ( IsValid(ply) && !ply:IsAdmin() ) then return end
-
-	MsgI( "admin", Text )
-
-
-end)
-
-concommand.Add("gmt_tourmsg",function(ply)
-
-	/*if tourmsgnotice:GetInt() == 0 then return end
-
-	local tourmsg = Msg2('Welcome to GMod Tower, would you like to watch a quick tour?')
-	tourmsg:SetupQuestion( function() RunConsoleCommand("gmt_starttour") end, function()
-		 RunConsoleCommand("gmt_enabletournotice","0")
-		 Msg2("Okay, we won't show you this again.")
-	 end,
-	 function() end )*/
-end)
+function GM:HUDWeaponPickedUp() return false end
+function GM:HUDItemPickedUp() return false end
+function GM:HUDAmmoPickedUp() return false end
+function GM:DrawDeathNotice( x, y ) end
 
 hook.Add( "KeyPress", "UsePlayerMenu", function( ply, key )
 	if ( key == IN_USE ) then
