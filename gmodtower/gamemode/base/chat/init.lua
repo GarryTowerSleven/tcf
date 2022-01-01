@@ -1,6 +1,7 @@
 ---------------------------------
 util.AddNetworkString("ChatBubble")
 util.AddNetworkString("ColorNotify")
+util.AddNetworkString("ChatSrv")
 
 AddCSLuaFile("cl_autocomplete.lua")
 AddCSLuaFile("richformat.lua")

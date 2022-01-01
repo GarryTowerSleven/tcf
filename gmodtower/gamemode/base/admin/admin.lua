@@ -240,28 +240,9 @@ hook.Add("PlayerInitialSpawn", "GTowerCheckAdmin", function(ply)
 
 end )
 
-local function SendLeaveJoinMsg( ply, type, col )
-	local admins, nonAdmins = player.GetAdmins()
-
-	local msgNormal = T( type, ply:Name() )
-	local msgAdmin = msgNormal .. " [" .. ply:SteamID() .. "]"
-
-	//MsgC( msgAdmin .. "\n", col )
-
-	for k,v in pairs( nonAdmins ) do
-		if v.HideRedir then return end
-		GAMEMODE:ColorNotifyPlayer( v, msgNormal, col )
-	end
-
-	for k,v in pairs( admins ) do
-		if v.HideRedir then return end
-		GAMEMODE:ColorNotifyPlayer( v, msgAdmin, col )
-	end
-end
-
 hook.Add( "PlayerFullyJoined", "JoinedMessage", function(ply)
 	if IsLobby then
-		SendLeaveJoinMsg( ply, "JoinLobby", Color(65, 115, 200, 255) )
+		ply:Joined()
 
 		if ply:GetNWBool("IsNewPlayer") then
 			ply:MsgI("gmtsmall", "LobbyWelcomeNew" )
@@ -294,7 +275,8 @@ hook.Add("PlayerDisconnected","LeaveMessage",function(ply)
 	end*/
 
 	if IsLobby then
-		SendLeaveJoinMsg( ply, "LeaveLobby", Color( 100, 100, 100, 255 ) )
+		if ply.HideRedir then return end
+		ply:Left()
 	end
 
 	if ply.ActiveDuel then

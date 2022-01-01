@@ -143,6 +143,36 @@ function meta:Name()
 	return self:Nick()
 end
 
+local function SendJoinLeaveMessage( ply, type, color )
+	local admins, nonAdmins = player.GetAdmins()
+
+	local msgNormal = T( type, ply:Nick() )
+	local msgAdmin = msgNormal .. " [".. ply:SteamID() .. "]"
+	local typeid = GTowerChat.GetChatEnum( "Join/Leave" )
+
+	-- Regular players
+	net.Start( "ChatSrv" )
+		net.WriteInt(typeid, GTowerChat.TypeBits)
+		net.WriteString( msgNormal )
+		net.WriteColor( color or Color( 255, 255, 255 ) )
+	net.Send(nonAdmins)
+
+	-- Admin players
+	net.Start( "ChatSrv" )
+		net.WriteInt(typeid, GTowerChat.TypeBits)
+		net.WriteString( msgAdmin )
+		net.WriteColor( color or Color( 255, 255, 255 ) )
+	net.Send(admins)
+end
+
+function meta:Joined()
+	SendJoinLeaveMessage( self, "JoinLobby", Color( 65, 115, 200, 255 ) )
+end
+
+function meta:Left()
+	SendJoinLeaveMessage( self, "LeaveLobby", Color( 100, 100, 100, 255 ) )
+end
+
 function meta:GetName()
 	return self:Name()
 end
