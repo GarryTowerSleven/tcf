@@ -72,6 +72,7 @@ Loadables.Load( {
 	"multicore",			-- Possible Performence Booster
 	"mediaplayer",			-- Media player
 	"theater2", 			-- Theater built with the media player (Lobby 2)
+	"drunk", 			-- Drunk
 
 	-- Items Depend On These
 	---------------------------------------------------------
