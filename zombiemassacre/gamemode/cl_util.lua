@@ -35,35 +35,6 @@ function QuickTrace( origin, dir, filter, debugLine, time, color )
 	
 end
 
-function GetCenterPos( ent )
-
-	if !IsValid( ent ) then return end
-
-	if ent:IsPlayer() && !ent:Alive() && IsValid( ent:GetRagdollEntity() ) then
-		ent = ent:GetRagdollEntity()
-	end
-
-	if ent:IsPlayer() and isfunction( ent.GetClientPlayerModel ) and IsValid( ent:GetClientPlayerModel() ) then
-		ent = ent:GetClientPlayerModel():Get()
-	end
-
-	local Torso = ent:LookupBone( "ValveBiped.Bip01_Spine2" ) 
-
-	if !Torso then return ent:GetPos() end
-
-	local pos, ang = ent:GetBonePosition( Torso )
-
-	if !ent:IsPlayer() then return pos end
-
-	local drivable = ent:GetNet("DrivingObject")
-	if IsValid( drivable ) then
-		return drivable:GetPos()
-	end
-
-	return pos
-
-end
-
 function GetHeadPos( ent )
 
 	if !IsValid( ent ) then return end

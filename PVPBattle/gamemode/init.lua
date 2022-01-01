@@ -203,52 +203,6 @@ function GM:PlayerHurt( ply )
 	PostEvent( ply, "pdamage" )
 end
 
-local function GetCenterPos( ent )
-
-
-
-	if !IsValid( ent ) then return end
-
-
-
-	if ent:IsPlayer() && !ent:Alive() && IsValid( ent:GetRagdollEntity() ) then
-
-		ent = ent:GetRagdollEntity()
-
-	end
-
-
-
-	if ent:IsPlayer() and isfunction( ent.GetClientPlayerModel ) and IsValid( ent:GetClientPlayerModel() ) then
-
-		ent = ent:GetClientPlayerModel():Get()
-
-	end
-
-
-
-	local Torso = ent:LookupBone( "ValveBiped.Bip01_Spine2" )
-
-
-
-	if !Torso then return ent:GetPos() end
-
-
-
-	local pos, ang = ent:GetBonePosition( Torso )
-
-
-
-	if !ent:IsPlayer() then return pos end
-
-
-
-	return pos
-
-
-
-end
-
 function GM:EntityTakeDamage( ent, dmginfo )
 
 	local attacker = dmginfo:GetAttacker()
