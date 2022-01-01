@@ -31,13 +31,13 @@ function PLAYER:Init()
 
 	self.Model = ClientsideModel( self.Player:GetTranslatedModel(), RENDER_GROUP_OPAQUE_ENTITY )
 	--self.Model:SetNoDraw( true ) -- We're rendering this elsewhere
-	--self.Model:SetPlayerProperties( self.Player )
+	self.Model:SetPlayerProperties( self.Player )
 
 	-- Reference to player object
 	self.Player._ClientPlayerModel = self
 
 	-- Hat support
-	hook.Add( "OverrideHatEntity", "OverrideHat"..tostring(self.Model:EntIndex()), function( ply )
+	hook.Add( "OverrideHatEntity", "OverrideHat"..tostring(self.Model:EntIndex()), function( ply ) 
 		if ply.GetClientPlayerModel and IsValid( ply:GetClientPlayerModel() ) then
 			return ply:GetClientPlayerModel():Get()
 		end
@@ -170,20 +170,19 @@ function PLAYER:Draw( pos, angles )
 	self.Model:SetAngles( angles )
 
 	-- Player properties
-	--self.Model:SetPlayerProperties( self.Player )
+	self.Model:SetPlayerProperties( self.Player )
 	self.Model:SetupBones()
 
 	-- Scale it properly
-	--local scale = GTowerModels.GetScale( self.Model:GetModel() )
-	--self.Model:SetModelScale( scale, 0 )
-	self.Model:SetModelScale( 1, 0 )
+	local scale = GTowerModels.GetScale( self.Model:GetModel() )
+	self.Model:SetModelScale( scale, 0 )
 
 	-- Draw it
 	--self.Model:DrawModel()
 
 	-- Draw player equipment
-	--self.Player:ManualEquipmentDraw()
-	--self.Player:ManualBubbleDraw()
+	self.Player:ManualEquipmentDraw()
+	self.Player:ManualBubbleDraw()
 
 end
 
@@ -192,10 +191,10 @@ end
 ----
 function PLAYER:ShouldDraw()
 
-	if self.Player == LocalPlayer() then
-		--[[ return LocalPlayer():ShouldDrawLocalPlayer() && not LocalPlayer():GetObserverTarget() ]]
-		return self.Player.ThirdPerson
-	end
+	// TODO: fix this/ add support
+	/*if self.Player == LocalPlayer() then
+		return LocalPlayer():ShouldDrawLocalPlayer() && not LocalPlayer():GetObserverTarget()
+	end*/
 
 	return true
 
@@ -364,7 +363,7 @@ end
 -- self.PlayerModel:Draw( pos, ang )
 -- self.PlayerModel:DrawPlayerName( pos )
 
--- or
+-- or 
 
 -- ply:GetClientPlayerModel():Draw( pos, ang )
 
