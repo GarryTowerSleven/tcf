@@ -264,7 +264,7 @@ function GM:DrunkSay(pl, text, team)
 		return
 	end
 
-	local bal = pl.BAL
+	local bal = pl:GetNWInt("BAL")
 	if( bal <= 5 ) then
 
 		return;

@@ -126,7 +126,7 @@ function ShowRentWindow( ent, ply )
     umsg.Char( Answer )
     umsg.End()
 
-	if ply.BAL > 0 then
+	if ply:GetNWInt("BAL") > 0 then
 		ply:SetAchievement( ACHIEVEMENTS.SUITEPICKUPLINE, 1 )
 	end
 
