@@ -203,6 +203,11 @@ function GM:StartRound()
 		--timer.Simple(0.5, function() MapVote.Start(voteLength, allowCurrentMap, mapLimit, 'gmt_ballracer_') end)
 		return
 	end
+
+	for k, v in pairs( ents.FindByClass( "secret_banana" ) ) do
+		v:Remove()
+	end
+
 	SetState(STATE_SPAWNING)
 
 	GAMEMODE:SpawnAllPlayers()
