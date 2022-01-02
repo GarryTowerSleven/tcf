@@ -18,7 +18,7 @@ hook.Add("PlayerDisconnected", "StopServerEmpty", function(ply)
 
 		if #player.GetBots() == 0 && total < 1 && GTowerServers:GetState() != 1 then
 			GTowerServers:EmptyServer()
-			RunConsoleCommand("changelevel", ( GTowerServers:GetRandomMap() or GAMEMODE:RandomMap( "gmt_gr" ) ) )
+			RunConsoleCommand("gmt_forcelevel", ( GTowerServers:GetRandomMap() or GAMEMODE:RandomMap( "gmt_gr" ) ) )
 		end
 
 	end )

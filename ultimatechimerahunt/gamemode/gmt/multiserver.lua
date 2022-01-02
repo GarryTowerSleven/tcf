@@ -12,7 +12,7 @@ hook.Add("GTowerMsg", "GamemodeMessage", function()
 end )
 
 function ChangeLevel(map)
-	RunConsoleCommand("changelevel", map)
+	RunConsoleCommand("gmt_forcelevel", map)
 end
 
 function GAMEMODE:EndServer()
