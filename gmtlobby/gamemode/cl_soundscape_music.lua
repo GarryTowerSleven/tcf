@@ -118,7 +118,9 @@ local LobbyMusicName = "GModTower/soundscapes/music/lobby"
 local LobbyMusicCount = 10 -- Define the number of music files for ambient lobby jams
 local LobbySongs = {}
 for n=1, LobbyMusicCount do 
-	table.insert(LobbySongs, {LobbyMusicName .. n .. ".mp3", 10} )
+	if n != 5 then // fuck this track
+		table.insert(LobbySongs, {LobbyMusicName .. n .. ".mp3", 10} )
+	end
 end
 soundscape.Register("music_global_ambient", 
 {
