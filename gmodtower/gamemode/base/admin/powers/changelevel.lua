@@ -16,6 +16,7 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 			timer.Destroy("ChangeLevelTimer")
 			timer.Destroy("ChangeLevelWarning")
 			GAMEMODE:ColorNotifyAll( "Halting map restart...", Color(255, 50, 50, 255) )
+			MsgC( co_color2, "Halting map restart...\n" )
 			return
 		end
 
@@ -70,9 +71,17 @@ concommand.Add( "gmt_forcelevel", function( ply, command, args )
 end )
 
 local function FinalChangeHook(MapName)
-	hook.Call("LastChanceMapChange", GAMEMODE, MapName)
+	timer.Simple(0.25,function()
+		hook.Call("LastChanceMapChange", GAMEMODE, MapName)
 
-	RunConsoleCommand("changelevel", MapName)
+		RunConsoleCommand("changelevel", MapName)
+
+		if GTowerServers.EmptyingServer then
+			for _, v in pairs( player.GetAll() ) do
+				v:Kick( "Not redirected." )
+			end
+		end
+	end)
 end
 
 function ChangeLevel( ply, map, time )
@@ -84,8 +93,10 @@ function ChangeLevel( ply, map, time )
 
 		if game.GetMap() == MapName then
 			GAMEMODE:ColorNotifyAll( T( "AdminRestartMapSec", time ), Color(255, 50, 50, 255) )
+			MsgC( co_color2, T( "AdminRestartMapSec", time ) .. "\n" )
 		else
 			GAMEMODE:ColorNotifyAll( T( "AdminChangeMapSec", map, time ), Color(255, 50, 50, 255) )
+			MsgC( co_color2, T( "AdminChangeMapSec", map, time ) .. "\n" )
 		end
 
 		for k,v in pairs(player.GetAll()) do
@@ -106,8 +117,10 @@ function ChangeLevel( ply, map, time )
 			timer.Create("ChangeLevelWarning", time - 10, 1, function()
 				if game.GetMap() == MapName then
 					GAMEMODE:ColorNotifyAll( T( "AdminRestartMapSec", 10), Color(255, 50, 50, 255) )
+					MsgC( co_color2, T( "AdminRestartMapSec", 10 ) .. "\n" )
 				else
 					GAMEMODE:ColorNotifyAll( T( "AdminChangeMapSec", map, 10 ), Color(255, 50, 50, 255) )
+					MsgC( co_color2, T( "AdminChangeMapSec", map, 10 ) .. "\n" )
 				end
 			end)
 		end
@@ -115,15 +128,15 @@ function ChangeLevel( ply, map, time )
 		timer.Create("ChangeLevelTimer", (time), 1, function()
 			if game.GetMap() == MapName then
 			GAMEMODE:ColorNotifyAll( T( "AdminRestartMap" ), Color(255, 50, 50, 255) )
+			MsgC( co_color2, T( "AdminRestartMap" ) .. "\n" )
 			else
 			GAMEMODE:ColorNotifyAll( T( "AdminChangeMap", map ), Color(255, 50, 50, 255) )
+			MsgC( co_color2, T( "AdminChangeMap", map ) .. "\n" )
 			end
 
 			analytics.postDiscord( "Logs", engine.ActiveGamemode() .. " server shutting down..." )
 
-			timer.Simple(0.5,function()
-				FinalChangeHook(MapName)
-			end)
+			FinalChangeHook(MapName)
 		end)
 
 	else
@@ -141,8 +154,10 @@ function ForceLevel( map, ply )
 
 		if game.GetMap() == MapName then
 			GAMEMODE:ColorNotifyAll( T( "AdminRestartMap" ), Color(255, 50, 50, 255) )
+			MsgC( co_color2, T( "AdminRestartMap" ) .. "\n" )
 		else
 			GAMEMODE:ColorNotifyAll( T( "AdminChangeMap", map ), Color(255, 50, 50, 255) )
+			MsgC( co_color2, T( "AdminChangeMap", map ) .. "\n" )
 		end
 
 		if IsValid(ply) then

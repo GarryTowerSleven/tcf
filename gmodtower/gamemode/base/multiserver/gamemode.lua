@@ -29,7 +29,7 @@ local function GoMapResult(res)
 	--ChangeLevel( Result, 0.25 )
 	timer.Simple(0.25,function()
 		hook.Call("LastChanceMapChange", GAMEMODE, Result)
-		RunConsoleCommand("changelevel", Result)
+		RunConsoleCommand("gmt_forcelevel", Result)
 	end)
 
 	//end

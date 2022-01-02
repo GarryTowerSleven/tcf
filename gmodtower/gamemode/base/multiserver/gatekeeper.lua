@@ -440,7 +440,7 @@ function gateKeep:ResetEmptyReadyServer()
 				--ChangeLevel(GTowerServers:GetRandomMap())
 				local MapName = GTowerServers:GetRandomMap()
 				hook.Call("LastChanceMapChange", GAMEMODE, MapName)
-				RunConsoleCommand("changelevel", MapName)
+				RunConsoleCommand("gmt_forcelevel", MapName)
 			end
 
 		end)
