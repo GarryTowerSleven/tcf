@@ -10,9 +10,9 @@ ITEM.EquipType = "Jetpack"
 
 ITEM.IsJetpack = true
 ITEM.JetpackPower = 1.5
-ITEM.JetpackFuel = 2
+ITEM.JetpackFuel = -1
 ITEM.JetpackRecharge = 0.5
-ITEM.JetpackHideFuel = false
+ITEM.JetpackHideFuel = true
 ITEM.JetpackStartRecharge = 0.5
 ITEM.ExtraOnFloor = 25 //Amount of force the player has extra when jumping from the floor
 
