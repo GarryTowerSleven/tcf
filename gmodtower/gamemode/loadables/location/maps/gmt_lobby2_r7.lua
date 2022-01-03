@@ -2625,7 +2625,7 @@ Location.LoadMapData( {
 			},
 		},
 		FriendlyName = "UCH Port",
-		Name = "uch",
+		Name = "ultimatechimerahunt",
 		Priority = 1,
 		Group = "games",
 	},
