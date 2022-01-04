@@ -7,6 +7,7 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("nwtranslator.lua")
 AddCSLuaFile("cl_controls.lua")
+AddCSLuaFile("cl_camera.lua")
 
 AddCSLuaFile( "cl_hud.lua" )
 AddCSLuaFile( "cl_huditem.lua" )
@@ -87,7 +88,7 @@ local PlyJoined = false
 
 function GM:PlayerSpawn( ply )
 
-	if !ply:IsBot() then
+	if ply:IsBot() then return end
 
   timer.Simple(60,function()
     timer.Create("CheckEmpty",10,0,function()
@@ -96,8 +97,6 @@ function GM:PlayerSpawn( ply )
       end
     end)
   end)
-
-  end
 
  	// Set player model
  	hook.Call( "PlayerSetModel", GAMEMODE, ply )
@@ -139,11 +138,8 @@ function GM:PlayerSpawn( ply )
     TrackName[1] = MUSIC_RACE1
     TrackName[2] = MUSIC_RACE2
     TrackName[3] = MUSIC_RACE3
-
-    timer.Simple(2.5,function()
-		music.Play( 1, TrackName[ self:GetTrack() ], ply )
-      self:SpawnPlayerKart( ply, true )
-    end)
+    music.Play( 1, TrackName[ self:GetTrack() ], ply )
+    self:SpawnPlayerKart( ply, true )
   end
 
   if ( PlyJoined or ply:IsBot() ) then return end

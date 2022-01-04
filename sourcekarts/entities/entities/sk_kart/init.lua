@@ -1,6 +1,5 @@
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_init.lua")
-AddCSLuaFile("cl_camera.lua")
 
 include("shared.lua")
 
