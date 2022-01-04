@@ -52,6 +52,10 @@ hook.Add( "GtowerHideMenus","CloseInventory", function()
 		GTowerItems.DropInvPanel:Close()
 	end
 
+	timer.Simple(0.1, function()
+		if GTowerItems then GTowerItems:HideTooltip() end
+	end )
+
 end )
 
 hook.Add( "InvGuiDrop", "GTowerMainDrop", function( panel )
