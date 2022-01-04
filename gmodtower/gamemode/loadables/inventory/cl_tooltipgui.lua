@@ -30,7 +30,7 @@ function PANEL:SetHidding( state )
 		return
 	end
 
-	self.IsHidding = true
+	self.IsHidding = state
 	
 	if vgui.CursorVisible() then
 		self.TargetPosX, self.TargetPosY = gui.MousePos()
