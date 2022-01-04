@@ -2,7 +2,7 @@
 local EventSound = "gmodtower/misc/notifyevent.wav"
 if time.IsChristmas() then EventSound = "gmodtower/music/christmas/eventnotify.mp3" end
 
-local eventlist = { /*"balloon", "battle", "obama",*/ "storesale", "storesale" }
+local eventlist = { "balloon", "battle", "obama", "storesale", "storesale" }
 
 local shopslist = {
     GTowerStore.SUITE,
