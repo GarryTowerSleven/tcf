@@ -2,7 +2,6 @@
 -----------------------------------------------------
 include("shared.lua")
 
-include("cl_camera.lua")
 ENT.RenderGroup = RENDERGROUP_BOTH
 
 surface.CreateFont( "KartPlayerName", { font = "Days", size = 48, weight = 500 } )

@@ -9,6 +9,7 @@ include("meta_camera.lua")
 include("shared.lua")
 include("nwtranslator.lua")
 include("cl_controls.lua")
+include("cl_camera.lua")
 
 include( "cl_hud.lua" )
 include( "cl_huditem.lua" )
