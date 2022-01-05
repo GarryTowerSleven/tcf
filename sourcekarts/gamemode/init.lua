@@ -390,6 +390,9 @@ function GM:Think()
       self:SetTime( 10 )
 
       self:SetState( STATE_ENDING )
+      timer.Simple(20, function()
+        self:EndServer()
+      end)
 
 	music.Play( 1, MUSIC_WAITING )
 
@@ -399,11 +402,6 @@ function GM:Think()
 		v:SetTeam( TEAM_PLAYING )
       end
 
-    end
-  elseif self:GetState() == STATE_ENDING then
-
-    if self:NoTimeLeft() then
-      self:EndServer()
     end
   elseif self:GetState() == STATE_BATTLE then
 

@@ -78,7 +78,7 @@ local function FinalChangeHook(MapName)
 
 		if GTowerServers.EmptyingServer then
 			for _, v in pairs( player.GetAll() ) do
-				v:Kick( "Not redirected." )
+				v:Kick( "Not redirected" )
 			end
 		end
 	end)
