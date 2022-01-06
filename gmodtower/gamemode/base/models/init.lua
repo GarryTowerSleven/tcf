@@ -11,6 +11,7 @@ local player_manager = player_manager
 local string = string
 local IsLobby = IsLobby
 local engine = engine
+local Vector = Vector
 
 module("GTowerModels")
 
@@ -161,3 +162,7 @@ concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 	ply:SetModelScale(size)
 	Set( ply, size )
 end )
+
+concommand.Add("gmt_updateplayercolor", function(ply)
+	ply:SetPlayerColor( Vector(ply:GetInfo("cl_playercolor")) )
+end)
