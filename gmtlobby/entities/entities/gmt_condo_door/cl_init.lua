@@ -214,7 +214,11 @@ function ENT:DrawNamePlate(bonemtx)
 
 	self.NamePlateCapRight:EnableMatrix("RenderMultiply", mtx)
 
-
+	if ( IsMounted( "tf" ) ) then
+		self.NamePlate:SetMaterial("models/player/shared/gold_player")
+		self.NamePlateCapLeft:SetMaterial("models/player/shared/gold_player")
+		self.NamePlateCapRight:SetMaterial("models/player/shared/gold_player")
+	end
 
 	self.NamePlate:DrawModel()
 
