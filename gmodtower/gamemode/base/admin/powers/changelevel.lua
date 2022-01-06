@@ -9,8 +9,17 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 
 	if ply == NULL or ply:IsAdmin() then
 
-		local map = args[1] or ""
-		local time = tonumber(args[2]) or 30
+		local map = ""
+		local time = 30
+		if args[1] && tonumber(args[1]) then
+			time = tonumber(args[1])
+		elseif args[1] then
+			map = args[1]
+		end
+
+		if tonumber(args[2]) then
+			time = tonumber(args[2])
+		end
 
 		if timer.Exists("ChangeLevelTimer") then
 			timer.Destroy("ChangeLevelTimer")
