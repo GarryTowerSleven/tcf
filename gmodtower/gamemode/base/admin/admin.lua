@@ -15,6 +15,7 @@ GTowerAdminPrivileged = {
 GTowerSecretAdmin = {
 	"STEAM_0:0:44458854", -- Bumpy
 	"STEAM_0:1:39916544", -- Anomaladox
+	"STEAM_0:0:38865393", -- Emma
 }
 
 GtowerAdmin = {}
