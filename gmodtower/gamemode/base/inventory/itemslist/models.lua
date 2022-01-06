@@ -881,3 +881,11 @@ GTowerItems.RegisterItem( "mdl_blockdude", {
 		} )
 	end
 })
+
+RegisterModel(
+	"mdl_infoplayerstart",
+	"info_player_start",
+	"Powered by Source.",
+	"models/player/infoplayerstart.mdl",
+	"infoplayerstart",
+	12500, nil, nil, 1641431587 )

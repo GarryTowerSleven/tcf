@@ -132,6 +132,7 @@ AddValidModel( "greenarrow", "models/player/greenarrow.mdl" )
 AddValidModel( "linktp", "models/player/linktp.mdl" )
 AddValidModel( "roman", "models/player/romanbellic.mdl" )
 --AddValidModel( "ornstein", "models/nikout/darksouls2/characters/olddragonslayer.mdl" )
+AddValidModel( "infoplayerstart", "models/player/infoplayerstart.mdl" )
 
 // Remove bad playermodels
 // ============================

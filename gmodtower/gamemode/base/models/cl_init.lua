@@ -12,6 +12,9 @@ local GTowerAdmin = GTowerAdmin
 local IsValid = IsValid
 local pairs = pairs
 local player = player
+local cvars = cvars
+local LocalPlayer = LocalPlayer
+local concommand = concommand
 
 module("GTowerModels")
 
@@ -125,3 +128,8 @@ end
 
 hook.Add("GTowerAdminPly", "ChangePlayersize", AdminSetPlayerSize )
 hook.Add("GTowerAdminMenus", "ChangePlayersize", AdminSetPlayerSize )
+
+
+cvars.AddChangeCallback("cl_playercolor", function(convar_name, value_old, value_new)
+    LocalPlayer():ConCommand("gmt_updateplayercolor")
+end)
