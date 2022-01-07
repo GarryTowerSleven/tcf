@@ -222,10 +222,10 @@ function GetAmmoYPos()
     return 250
 end
 
-table.insert( GtowerHudToHide, "CHudHealth" )
-table.insert( GtowerHudToHide, "CHudAmmo" )
-table.insert( GtowerHudToHide, "CHudSecondaryAmmo" )
-table.insert( GtowerHudToHide, "CHudBattery" )
+table.insert( HudToHide, "CHudHealth" )
+table.insert( HudToHide, "CHudAmmo" )
+table.insert( HudToHide, "CHudSecondaryAmmo" )
+table.insert( HudToHide, "CHudBattery" )
 
 function GM:HUDItemPickedUp()
 	return false

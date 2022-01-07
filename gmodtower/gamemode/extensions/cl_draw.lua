@@ -1,4 +1,3 @@
----------------------------------
 local CurTime = CurTime
 local RealTime = RealTime
 local FrameTime = FrameTime
@@ -71,11 +70,7 @@ function HTMLPanel( panel, w, h )
 	ph = math.CeilPower2(ph)
 
 	surface.SetDrawColor( 255, 255, 255, 255 )
-	
-	if panel:GetHTMLMaterial() then
-		surface.SetMaterial( panel:GetHTMLMaterial() )
-	end
-	
+	surface.SetMaterial( panel:GetHTMLMaterial() )
 	surface.DrawTexturedRect( 0, 0, w * pw, h * ph )
 
 end

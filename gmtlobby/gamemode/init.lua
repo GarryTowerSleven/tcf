@@ -20,6 +20,7 @@ AddCSLuaFile("cl_webboard.lua")
 AddCSLuaFile("cl_hudchat.lua")
 //AddCSLuaFile("cl_tetris.lua")
 AddCSLuaFile("milestones/uch_animations.lua")
+AddCSLuaFile("milestones/virus_radar.lua")
 
 include("milestones/uch_animations.lua")
 include("shared.lua")

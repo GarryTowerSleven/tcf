@@ -1,11 +1,11 @@
 
-GtowerHudToHide = { "CHudCrosshair", "CHUDQuickInfo", "CHudSuitPower", "CHudZoom" }
+HudToHide = { "CHudCrosshair", "CHUDQuickInfo", "CHudSuitPower", "CHudZoom" }
 
 //Somewhy when I hook two things to HUDShouldDraw, only 1 get's called
 //Making this global D:
 
 function GM:HUDShouldDraw( Name )
-	return !table.HasValue( GtowerHudToHide, Name )
+	return !table.HasValue( HudToHide, Name )
 end
 
 function GM:HUDDrawPickupHistory()

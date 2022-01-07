@@ -47,7 +47,7 @@ hook.Add("PostPlayerDraw", "CSSWeaponFix", function(v)
 end)
 
 if CLIENT then
-	local GtowerHudToHide = {
+	local HudToHide = {
 		--CHudChat = true,
 		CHudHealth = true,
 		CHudBattery = true,
@@ -60,7 +60,7 @@ if CLIENT then
 	}
 
 	hook.Add( "HUDShouldDraw", "HideHUD", function( name )
-		if ( GtowerHudToHide[ name ] ) then return false end
+		if ( HudToHide[ name ] ) then return false end
 	end )
 end
 

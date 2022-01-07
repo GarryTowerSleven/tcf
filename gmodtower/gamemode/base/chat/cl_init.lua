@@ -486,7 +486,7 @@ end)
 
 
 
-table.insert( GtowerHudToHide, "CHudChat" )
+table.uinsert( HudToHide, "CHudChat" )
 
 /*hook.Add("UpdateAnimation", "Chatting", function( ply )
 	if CLIENT && ply.Chatting && ( emote && !emote.IsEmoting( ply ) ) then

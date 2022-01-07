@@ -6,6 +6,7 @@ include("cl_playermenu.lua")
 include("cl_post_events.lua")
 include("cl_scoreboard.lua")
 include("milestones/uch_animations.lua")
+include("milestones/virus_radar.lua")
 
 -- Lobby 2 soundscape system
 include("cl_soundscape.lua")
