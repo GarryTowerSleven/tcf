@@ -87,6 +87,6 @@ usermessage.Hook( "OpenTowerUnite", function( um )
 	local URL = "http://www.gmtower.org/reunion/play/towerunite/"
 	local Title = "Buy Tower Unite Today"
 
-	browser.OpenURL( URL, Title )
+	gui.OpenURL( URL, Title )
 
 end )
