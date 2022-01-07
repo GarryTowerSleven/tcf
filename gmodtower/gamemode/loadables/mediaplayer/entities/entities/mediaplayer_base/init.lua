@@ -8,9 +8,9 @@ include "shared.lua"
 
 ENT.UseDelay = 0.5 -- seconds
 
-ENT.IdleScreenTitle = "Tower Unite: Early Access Trailer"
-ENT.IdleScreenDuration = (1*60) + 40
-ENT.IdleScreenURL = "https://www.youtube.com/watch?v=zWBLwrdRkm4"
+ENT.IdleScreenTitle = "Good Burgerz"
+ENT.IdleScreenDuration = (1*60) + 27
+ENT.IdleScreenURL = "https://www.youtube.com/watch?v=FqMODweN8lQ"
 
 hook.Add("Location", "TurnOffTV", function( ply, loc )
 	for k,v in pairs(ents.FindByClass('mediaplayer_*')) do
