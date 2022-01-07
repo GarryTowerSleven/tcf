@@ -6,10 +6,6 @@ ENT.LastPlayerModel = ""
 ENT.LastScale = Vector(0,0,0)
 ENT.MaxDist = 800
 
-local HatsGM = {}
-HatsGM["ballrace"] = true
-HatsGM["minigolf"] = true
-
 function ENT:Initialize()
 	self:SetRenderBounds( Vector(-60, -60, -60), Vector(60, 60, 60) )
 	self:DrawShadow(false)
@@ -57,65 +53,77 @@ end
 
 function ENT:Draw()
 
-	if IsLobby then
-		// Hide for distance
-		local dist = LocalPlayer():EyePos():Distance( self:GetPos() )
-		if dist > self.MaxDist then
-			return false
-		end
-	end
-
 	local ply = self:GetOwner()
+	if !IsValid( ply ) || !self:ShouldDraw( ply ) then return end
 
-	local pos, ang = self:Position()
-	if pos != false then
-		self:SetPos( pos )
-		self:SetAngles( ang )
-		if ply.GetBallColor then
-			local color = ply:GetBallColor()
-			render.SetColorModulation(color.r, color.g, color.b)
-		end
-		self:DrawModel()
-	end
+	pos, ang, scale = self:Position( ply )
+	if !pos then return end
+
+	self:SetPos( pos )
+	self:SetAngles( ang )
+	self:SetModelScale( scale or 1, 0 )
+	self:DrawModel()
+
 end
 
 function ENT:DrawTranslucent()
 	self:Draw()
 end
 
-function ENT:Position()
-	local ply = self:GetOwner()
+function ENT:Position( ply )
+	local override = hook.Call( "OverrideHatEntity", GAMEMODE, ply )
+	if override then
+		ply = override
+	end
 
-	if !self:Check( ply ) then return false end
-
-	if GAMEMODE.OverrideHatEntity then
-		ply = GAMEMODE:OverrideHatEntity(ply)
-	elseif !ply:Alive() then
+	if ply.Alive && !ply:Alive() then
 		ply = ply:GetRagdollEntity()
 	end
 
-	if !IsValid(ply) then return false end
-	ply:SetupBones()
-
-	return self:PositionItem(ply)
+	return self:PositionItem( ply )
 end
 
-function ENT:Check( ply )
+function ENT:ShouldDraw( ply, dist )
+
 	if !IsValid( ply ) then return false end
 
+	if IsLobby then
+
+		// Hide for distance
+		local dist = LocalPlayer():EyePos():Distance( self:GetPos() )
+		if dist > self.MaxDist then
+			return false
+		end
+
+	else
+
+		// Hide for gamemode stuff
+		if hook.Call( "ShouldHideHats", GAMEMODE, ply ) then
+			return false
+		end
+
+	end
+
 	if ply == LocalPlayer() then
-		if ply.ThirdPerson || !ply:Alive() || HatsGM[engine.ActiveGamemode()] then
+
+		if GAMEMODE.DrawHatsAlways || ( GAMEMODE.ShouldDrawLocalPlayer && GAMEMODE:ShouldDrawLocalPlayer( ply ) ) then
 			return true
 		end
 
-		if engine.ActiveGamemode() == "ultimatechimerahunt" && ply:GetNWBool("IsTaunting") then
+		if ThirdPerson && !ThirdPerson.ShouldDraw then
+			return false
+		end
+
+		if ply.ThirdPerson || ply.ViewingSelf then
 			return true
 		end
 
 		return false
+
 	end
 
 	return true
+
 end
 
 function ENT:PositionItem()

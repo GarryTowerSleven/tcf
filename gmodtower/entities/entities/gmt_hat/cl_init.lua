@@ -1,5 +1,8 @@
----------------------------------
 include('shared.lua')
+
+function ENT:Initialize()
+	self:SetLegacyTransform( true ) -- Because they suck
+end
 
 function ENT:InitOffset()
 	self.OffsetTable = GTowerHats.DefaultValue
@@ -30,7 +33,7 @@ function ENT:PositionItem(ply)
 	local eyes = ply:LookupAttachment( GTowerHats.HatAttachment )
 	local EyeTbl = ply:GetAttachment( eyes )
 
-	local pos, ang
+	local pos, ang, scale
 
 	if !EyeTbl then
 		if ply:GetModel() == "models/uch/mghost.mdl" then
@@ -53,23 +56,29 @@ function ENT:PositionItem(ply)
 			pos, ang = hook.Run("PositionHatOverride", ball)
 		end
 	else
-		local scale = ply:GetModelScale()
-		if !string.StartWith(game.GetMap(),"gmt_lobby") && !string.StartWith(game.GetMap(),"gmt_ballracer") then scale = 1 end
+		local modelscale = ply:GetModelScale()
+		if !IsLobby && engine.ActiveGamemode() != "ballrace" then modelscale = 1 end
 		local Offsets = GTowerHats:GetTranslation( self.HatModel, self.PlyModel )
 
-		ang:RotateAroundAxis(ang:Right(), Offsets[4])
-		ang:RotateAroundAxis(ang:Up(), Offsets[5])
-		ang:RotateAroundAxis(ang:Right(), Offsets[6])
+		ang:RotateAroundAxis(ang:Right(), Offsets[2][1])
+		ang:RotateAroundAxis(ang:Up(), Offsets[2][2])
+		ang:RotateAroundAxis(ang:Right(), Offsets[2][3])
 
-		local HatOffsets = ang:Up() * Offsets[1] + ang:Forward() * Offsets[2] + ang:Right() * Offsets[3]
+		local HatOffsets = ang:Up() * Offsets[1][1] + ang:Forward() * Offsets[1][2] + ang:Right() * Offsets[1][3]
 
-		HatOffsets.x = HatOffsets.x * scale
-		HatOffsets.y = HatOffsets.y * scale
-		HatOffsets.z = HatOffsets.z * scale
+		HatOffsets.x = HatOffsets.x * modelscale
+		HatOffsets.y = HatOffsets.y * modelscale
+		HatOffsets.z = HatOffsets.z * modelscale
 
 		pos = pos + HatOffsets
+
+		scale = Offsets[3] * modelscale
+
+		if GTowerHats.FixScales[self.HatModel] then
+			scale = math.sqrt(scale)
+		end
 	end
-	return pos, ang
+	return pos, ang, scale
 end
 
 function ENT:UpdatedModel(ply)
@@ -83,7 +92,7 @@ function ENT:UpdatedModel(ply)
 	self.HatModel = HatId
 	self.OffsetTable = GTowerHats:GetTranslation( self.HatModel, self.PlyModel )
 
-	self:SetModelScale( self.OffsetTable[7] * ply:GetModelScale() )
+	self:SetModelScale( self.OffsetTable[3] * ply:GetModelScale() )
 end
 
 
