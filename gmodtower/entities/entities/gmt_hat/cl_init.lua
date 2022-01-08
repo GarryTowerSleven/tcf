@@ -51,29 +51,35 @@ function ENT:PositionItem(ent)
 
 	if engine.ActiveGamemode() == "minigolf" then
 		local ball = ent:GetGolfBall()
-		pos, ang, scale = hook.Call("PositionHatOverride", ball)
+		pos, ang, scale = hook.Run("PositionHatOverride", ball)
+	end
+	local modelscale = ent:GetModelScale()
+	if !IsLobby && engine.ActiveGamemode() != "ballrace" then modelscale = 1 end
+	local Offsets
+	if engine.ActiveGamemode() == "minigolf" then
+		Offsets = GTowerHats:GetTranslation( self.HatModel, "minigolf" )
 	else
-		local modelscale = ent:GetModelScale()
-		if !IsLobby && engine.ActiveGamemode() != "ballrace" then modelscale = 1 end
-		local Offsets = GTowerHats:GetTranslation( self.HatModel, self.PlyModel )
+		Offsets = GTowerHats:GetTranslation( self.HatModel, self.PlyModel )
+	end
 
+	if engine.ActiveGamemode() != "minigolf" then
 		ang:RotateAroundAxis(ang:Right(), Offsets[2][1])
 		ang:RotateAroundAxis(ang:Up(), Offsets[2][2])
 		ang:RotateAroundAxis(ang:Right(), Offsets[2][3])
+	end
 
-		local HatOffsets = ang:Up() * Offsets[1][1] + ang:Forward() * Offsets[1][2] + ang:Right() * Offsets[1][3]
+	local HatOffsets = ang:Up() * Offsets[1][1] + ang:Forward() * Offsets[1][2] + ang:Right() * Offsets[1][3]
 
-		HatOffsets.x = HatOffsets.x * modelscale
-		HatOffsets.y = HatOffsets.y * modelscale
-		HatOffsets.z = HatOffsets.z * modelscale
+	HatOffsets.x = HatOffsets.x * modelscale
+	HatOffsets.y = HatOffsets.y * modelscale
+	HatOffsets.z = HatOffsets.z * modelscale
 
-		pos = pos + HatOffsets
+	pos = pos + HatOffsets
 
-		scale = Offsets[3] * modelscale
+	scale = Offsets[3] * modelscale
 
-		if GTowerHats.FixScales[self.HatModel] then
-			scale = math.sqrt(scale)
-		end
+	if GTowerHats.FixScales[self.HatModel] then
+		scale = math.sqrt(scale)
 	end
 	return pos, ang, scale
 end
