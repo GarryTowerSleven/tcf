@@ -21,7 +21,7 @@ GTowerItems.InvItemSize = 52
 GTowerItems.ClientItems = GTowerItems.ClientItems or {}
 GTowerItems.InvDesc = nil
 
-table.insert( GtowerHudToHide, "CHudWeaponSelection" )
+table.insert( HudToHide, "CHudWeaponSelection" )
 
 function GTowerItems:MaxItems()
 	return LocalPlayer().GtowerMaxItems or GTowerItems.DefaultInvCount

@@ -73,6 +73,7 @@ if !HasAllWorkshop then
 
 end]]
 
+local depression = false
 
 hook.Add( "HUDPaint", "ContentNotice", function()
 
@@ -104,15 +105,13 @@ hook.Add( "HUDPaint", "ContentNotice", function()
 								"Please subscribe to all at http://download.gmtower.org/"
 		end]]
 
-		if message then
+		if message && !depression then
 			GTowerHUD.DrawNotice( "Missing Content", message .. "\nYou can disable this notice in the settings." )
 		end
 
 	end
 
 end )
-
-local depression = false
 
 // *Shivers*
 concommand.Add("gmt_enditall", function( ply, cmd, args )
@@ -124,9 +123,9 @@ concommand.Add("gmt_enditall", function( ply, cmd, args )
 end)
 
 hook.Add( "HUDPaint", "ShutdownNotice", function()
-
 	if !depression then return end
-
-	GTowerHUD.DrawShutdownNotice( "GMTower Closing", "On April 8th @ 11:59 PST we are shutting down GMTower.\nWe are releasing its standalone successor, Tower Unite, on the same day.\nwww.towerunite.com" )
-
+	GTowerHUD.DrawNotice(
+		"GMTower Closing",
+		"On April 8th @ 11:59 PST we are shutting down GMTower.\nWe are releasing its standalone successor, Tower Unite, on the same day.\nwww.towerunite.com"
+	)
 end )

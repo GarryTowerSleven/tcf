@@ -28,14 +28,14 @@ function GM:HUDAmmoPickedUp()
 	return false
 end
 
-local GtowerHudToHide = {
+local HudToHide = {
 	CHudHealth = true,
 	CHudAmmo = true,
 	CHudBattery = true,
 }
 
 hook.Add( "HUDShouldDraw", "HideHUD", function( name )
-	if ( GtowerHudToHide[ name ] ) then return false end
+	if ( HudToHide[ name ] ) then return false end
 end )
 
 hook.Add("PostPlayerDraw", "CSSWeaponFix", function(v)
