@@ -9,7 +9,7 @@ include "shared.lua"
 ENT.UseDelay = 0.5 -- seconds
 
 ENT.IdleScreenTitle = "Good Burgerz"
-ENT.IdleScreenDuration = (1*60) + 27
+ENT.IdleScreenDuration = (2*60) + 27
 ENT.IdleScreenURL = "https://www.youtube.com/watch?v=FqMODweN8lQ"
 
 hook.Add("Location", "TurnOffTV", function( ply, loc )
