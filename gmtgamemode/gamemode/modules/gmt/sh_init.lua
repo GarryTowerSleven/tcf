@@ -21,7 +21,7 @@ function SetupGMTGamemode( name, folder, settings )
 
 	-- Default stuff
 	GM.AllowChangeSize = settings.AllowChangeSize or false
-	GM.DrawHatAlways = settings.DrawHatsAlways or false
+	GM.DrawHatsAlways = settings.DrawHatsAlways or false
 	GM.UsesHands = settings.UsesHands or false
 
 	-- Force smaller models to default player model

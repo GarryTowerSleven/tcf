@@ -15,6 +15,21 @@ local WaitingForInfectionMusic = "GModTower/virus/waiting_forinfection"
 local RoundMusic = "GModTower/virus/roundplay"
 local LastAliveMusic = "GModTower/virus/roundlastalive"
 
+hook.Add( "ShouldHideHats", "ShouldHideHats", function( ply ) 
+
+	if GAMEMODE:GetState() != STATE_WAITING && ply == LocalPlayer() && !ply:GetNWBool("IsVirus") then
+		return true
+	end
+
+end )
+hook.Add( "OverrideHatEntity", "OverrideForRagdoll", function( ply ) 
+
+	if IsValid( ply ) and ( ply.Alive and !ply:Alive() ) then
+		return ply:GetRagdollEntity()
+	end
+
+end )
+
 function GM:Initialize()
 	self.DamageFade = 0
 	self.NextFadeThink = 0

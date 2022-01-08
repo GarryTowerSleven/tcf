@@ -28,19 +28,19 @@ local function GetHeadPos( ent )
 
 end
 
-function ENT:PositionItem(ply)
+function ENT:PositionItem(ent)
 
-	local eyes = ply:LookupAttachment( GTowerHats.HatAttachment )
-	local EyeTbl = ply:GetAttachment( eyes )
+	local eyes = ent:LookupAttachment( GTowerHats.HatAttachment )
+	local EyeTbl = ent:GetAttachment( eyes )
 
 	local pos, ang, scale
 
 	if !EyeTbl then
-		if ply:GetModel() == "models/uch/mghost.mdl" then
-			local head = ply:LookupBone("head")
+		if ent:GetModel() == "models/uch/mghost.mdl" then
+			local head = ent:LookupBone("head")
 
 			if head then
-				pos, ang = ply:GetBonePosition(head)
+				pos, ang = ent:GetBonePosition(head)
 			end
 		else
 			return
@@ -50,13 +50,10 @@ function ENT:PositionItem(ply)
 	end
 
 	if engine.ActiveGamemode() == "minigolf" then
-		local ball = ply:GetGolfBall()
-
-		if IsValid(ball) then
-			pos, ang = hook.Run("PositionHatOverride", ball)
-		end
+		local ball = ent:GetGolfBall()
+		pos, ang, scale = hook.Call("PositionHatOverride", ball)
 	else
-		local modelscale = ply:GetModelScale()
+		local modelscale = ent:GetModelScale()
 		if !IsLobby && engine.ActiveGamemode() != "ballrace" then modelscale = 1 end
 		local Offsets = GTowerHats:GetTranslation( self.HatModel, self.PlyModel )
 

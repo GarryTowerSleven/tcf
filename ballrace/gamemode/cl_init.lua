@@ -18,6 +18,29 @@ surface.CreateFont( "BallMessageCaption", { font = "Bebas Neue", size = 26, weig
 surface.CreateFont( "BallPlayerName", { font = "Coolvetica", size = 32, weight = 500 } )
 surface.CreateFont( "BallFont", { font = "Coolvetica", size = 48, weight = 200 } )
 
+hook.Add( "OverrideHatEntity", "OverrideHat", function( ply ) 
+
+	if !ply.GetBall then return false end
+
+	local ball = ply:GetBall()
+
+	if ply:Team() == TEAM_PLAYERS && IsValid(ball) && ball:GetOwner() == ply then
+		return ball.PlayerModel
+	end
+
+end )
+
+hook.Add( "ShouldHideHats", "ShouldHideHats", function( ply ) 
+
+	if !ply.GetBall then return true end
+
+	local ball = ply:GetBall()
+	if ply:Team() != TEAM_PLAYERS || !IsValid(ball) then
+		return true
+	end
+
+end )
+
 local chat_offset = Vector(0, 0, 64)
 function GM:ChatBubbleOverride(ply)
 	local ball = ply:GetBall()
@@ -27,14 +50,6 @@ function GM:ChatBubbleOverride(ply)
 	end
 
 	return ply:EyePos()
-end
-
-function GM:OverrideHatEntity(ply)
-	local ball = ply:GetBall()
-
-	if ply:Team() == TEAM_PLAYERS && IsValid(ball) && ball:GetOwner() == ply then
-		return ball.PlayerModel
-	end
 end
 
 // Speed HUD
