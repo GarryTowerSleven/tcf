@@ -73,6 +73,15 @@ function ENT:Draw()
 		self:SetAngles( ang )
 		self:DrawModel()
 	end
+	
+	if engine.ActiveGamemode() == "minigolf" then
+		local ball = ply:GetGolfBall()
+		if IsValid(ball) then
+			self:SetNoDraw(true)
+		else
+			self:SetNoDraw(false)
+		end
+	end
 end
 
 function ENT:DrawTranslucent()
