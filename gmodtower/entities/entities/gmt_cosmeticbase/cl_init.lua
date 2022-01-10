@@ -71,10 +71,6 @@ function ENT:Draw()
 	if pos != false then
 		self:SetPos( pos )
 		self:SetAngles( ang )
-		if ply.GetBallColor then
-			local color = ply:GetBallColor()
-			render.SetColorModulation(color.r, color.g, color.b)
-		end
 		self:DrawModel()
 	end
 end

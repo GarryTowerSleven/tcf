@@ -535,7 +535,7 @@ function ENT:Draw()
 	local owner = self:GetOwner()
 	if IsValid( owner ) then
 
-		--owner:ManualEquipmentDraw()
+		owner:ManualEquipmentDraw()
 		owner:ManualBubbleDraw()
 
 		// Setup color
