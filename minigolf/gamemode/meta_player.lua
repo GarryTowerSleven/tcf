@@ -82,7 +82,7 @@ if SERVER then
 
 		if hole then
 			spawn = hole
-			--self:RemoveBall() // Clear out the old ball
+			self:RemoveBall() // Clear out the old ball
 		end
 
 		local ball = ents.Create( "golfball" )
@@ -273,8 +273,7 @@ if SERVER then
 		if GAMEMODE:IsPracticing() then
 			timer.Simple( 1, function()
 				if IsValid( self ) then
-					self:SetBallPos(PracticeSpawn():GetPos())
-					ball:DropToFloor()
+					self:SetupBall(PracticeSpawn())
 					ball.IsPocketed = false
 				end
 			end )
