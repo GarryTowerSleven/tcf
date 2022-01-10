@@ -57,9 +57,9 @@ function ENT:PositionItem(ent)
 	if !IsLobby && engine.ActiveGamemode() != "ballrace" then modelscale = 1 end
 	local Offsets
 	if engine.ActiveGamemode() == "minigolf" then
-		Offsets = GTowerHats:GetTranslation( self.HatModel, "minigolf" )
+		Offsets = GTowerHats:GetTranslation( self:GetNWString("HatName"), "minigolf" )
 	else
-		Offsets = GTowerHats:GetTranslation( self.HatModel, self.PlyModel )
+		Offsets = GTowerHats:GetTranslation( self:GetNWString("HatName"), self.PlyModel )
 	end
 
 	if engine.ActiveGamemode() != "minigolf" then
@@ -93,7 +93,7 @@ function ENT:UpdatedModel(ply)
 
 	self.PlyModel = PlayerId
 	self.HatModel = HatId
-	self.OffsetTable = GTowerHats:GetTranslation( self.HatModel, self.PlyModel )
+	self.OffsetTable = GTowerHats:GetTranslation( self:GetNWString("HatName"), self.PlyModel )
 
 	self:SetModelScale( self.OffsetTable[3] * ply:GetModelScale() )
 end

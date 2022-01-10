@@ -108,9 +108,11 @@ function GTowerHats:SetHat( ply, hat, hatSlot )
 	--ply:ReplaceHat( HatTbl.model, ply.PlayerHat )
 
 	if isFace() then
-		ply:ReplaceHat( HatTbl.model, ply.PlayerFaceHat, hatSlot )
+		//ply:ReplaceHat( HatTbl.model, ply.PlayerFaceHat, hatSlot )
+		ply:ReplaceHat( HatTbl.unique_Name, HatTbl.model, ply.PlayerFaceHat, hatSlot )
 	else
-		ply:ReplaceHat( HatTbl.model, ply.PlayerHat, hatSlot )
+		//ply:ReplaceHat( HatTbl.model, ply.PlayerHat, hatSlot )
+		ply:ReplaceHat( HatTbl.unique_Name, HatTbl.model, ply.PlayerHat, hatSlot )
 	end
 
 	if HatTbl.ModelSkin then

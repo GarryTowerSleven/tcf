@@ -5,7 +5,7 @@ AddCSLuaFile( "shared.lua" )
 
 local Player = FindMetaTable("Player")
 
-function Player:ReplaceHat(model, index, hatSlot)
+function Player:ReplaceHat(hatname, model, index, hatSlot)
 
 	if hatSlot == SLOT_HEAD && IsValid(self.Hat) then
 		self.OldHat = self.Hat:GetModel()
@@ -31,10 +31,22 @@ function Player:ReplaceHat(model, index, hatSlot)
 		self:SetBodygroup( 0, 1 ) // hide model hat, if it exists
 	end
 
+	// skins
+	local hatskin = 0
+
+	local hatData = GTowerHats.Hats[id]
+	if hatData && hatData.ModelSkin then
+		hatskin = hatData.ModelSkin
+	end
+
 	if hatSlot == SLOT_FACE then
 		self.FaceHat:SetModel(model)
+		self.FaceHat:SetSkin(hatskin)
+		self.FaceHat:SetNWString("HatName", hatname)
 	else
 		self.Hat:SetModel(model)
+		self.Hat:SetSkin(hatskin)
+		self.Hat:SetNWString("HatName", hatname)
 	end
 end
 

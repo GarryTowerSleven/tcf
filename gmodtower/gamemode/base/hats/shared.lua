@@ -51,10 +51,10 @@ end
 function GTowerHats:IsWearing( ply, uniquename )
 	if !ply.CosmeticEquipment then return end
 	for k,v in pairs(ply.CosmeticEquipment) do
-		local model = v:GetModel()
-		if !model then return end
+		local hat = v:GetNWString("HatName")
+		if !hat then return end
 
-		if model == uniquename then return true end
+		if hat == uniquename then return true end
 
 		return false
 
