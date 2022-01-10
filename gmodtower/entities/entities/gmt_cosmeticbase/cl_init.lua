@@ -64,6 +64,14 @@ function ENT:Draw()
 	self:SetModelScale( scale or 1, 0 )
 	self:DrawModel()
 
+	if engine.ActiveGamemode() == "minigolf" then
+		local ball = ply:GetGolfBall()
+		if IsValid(ball) then
+			self:SetNoDraw(true)
+		else
+			self:SetNoDraw(false)
+		end
+	end
 end
 
 function ENT:DrawTranslucent()
