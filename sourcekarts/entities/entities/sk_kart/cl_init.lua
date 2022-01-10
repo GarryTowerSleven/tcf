@@ -643,8 +643,8 @@ function ENT:PlayerModelThink( ply )
 
 		self.PlayerModel:SetPos( KartModel:GetPos() + offset )
 		self.PlayerModel:SetAngles( ang )
-		--ply:ManualEquipmentDraw()
-		--ply:ManualBubbleDraw()
+		ply:ManualEquipmentDraw()
+		ply:ManualBubbleDraw()
 	end
 end
 
