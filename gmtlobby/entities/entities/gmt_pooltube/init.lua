@@ -11,6 +11,10 @@ ENT.Occupant = nil
 ENT.OccupantWeaps = {}
 ENT.LastUseTime = 0
 
+ENT.OutOfBounds = false
+ENT.KickoutDelay = 8
+ENT.TimeOOB = 0
+
 function ENT:SpawnFunction( ply, tr )
 	if ( !tr.Hit ) then return end
 
@@ -49,7 +53,47 @@ function ENT:SetSlideCurve( curve )
 	self:SetNWBool("Ready",true)
 end
 
+function ENT:Pop()
+	if self.Occupant && IsValid(self.Occupant) then
+		self:Exit( self.Occupant )
+	end
+
+	local effectdata = EffectData()
+	effectdata:SetOrigin( self:GetPos() )
+	util.Effect( "confetti", effectdata )
+
+	self:EmitSound( "weapons/ar2/npc_ar2_altfire.wav" )
+	self:Remove()
+end
+
 function ENT:Think()
+
+	// check if tubes in the boardwalk
+	if !Location.IsGroup( self:Location(), "boardwalk" ) && !self.OutOfBounds then
+		self.OutOfBounds = true
+		self.OldColor = self:GetColor()
+		self.TimeOOB = CurTime() + self.KickoutDelay
+	elseif Location.IsGroup( self:Location(), "boardwalk" ) && self.OutOfBounds then
+		self.OutOfBounds = false
+		self:SetColor(self.OldColor)
+		self.OldColor = nil
+		self.TimeOOB = 0
+	end
+
+	// make em a little red
+	if self.OutOfBounds && self.TimeOOB && self.TimeOOB > CurTime() then
+		local diff = (self.KickoutDelay - math.Clamp( self.TimeOOB - CurTime(), 0, 10 )) / self.KickoutDelay
+
+		local color = colorutil.TweenColor( self.OldColor, Color( 255, 80, 80 ), diff )
+		self:SetColor(color)
+	end
+
+	// if not, pop em after X seconds
+	if self.OutOfBounds && self.TimeOOB && self.TimeOOB < CurTime() then
+		self:Pop()
+		self.OutOfBounds = false
+		self.TimeOOB = 0
+	end
 
 	if !self.Curve && STORED_CURVES then
 
