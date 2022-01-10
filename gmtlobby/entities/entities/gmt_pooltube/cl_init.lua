@@ -185,13 +185,15 @@ end
 function ENT:OnRemove()
 
 	self:Exit(self:GetOwner())
+	if IsValid(self.Emitter) then
+		self.Emitter:Finish()
+	end
 
 end
 
 
 
 function ENT:DrawParticles()
-
 
 
 	if (self.IsOn or self.Ready) then
@@ -324,7 +326,7 @@ function ENT:DrawParticles()
 
 		local function collided( particle, HitPos, Normal )
 
-
+			if !IsValid(self) then return end
 
 			particle:SetAngleVelocity( Angle( 0, 0, 0 ) )
 
