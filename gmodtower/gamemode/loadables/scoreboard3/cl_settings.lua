@@ -69,14 +69,17 @@ function SETTINGS:Init()
 	end
 
 	// Add VIP settings
-	if LocalPlayer().IsVIP and LocalPlayer():IsVIP() then
+	/*if LocalPlayer().IsVIP and LocalPlayer():IsVIP() then
 		table.insert( self.TabNames, "VIP" )
-	end
+	end*/
 
 	// Add admin settings
-	if LocalPlayer():IsAdmin() then
+	if LocalPlayer():IsStaff() then
 		table.insert( self.TabNames, "Admin" )
 		table.insert( self.TabNames, "Debug" )
+	end
+
+	if LocalPlayer():IsAdmin() then
 		table.insert( self.TabNames, "Spawnlist" )
 	end
 
@@ -710,12 +713,12 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 		--self:CheckBox( "Show Player Sprays", "gmt_admin_sprays" )
 		self:CheckBox( "Show Player Positions", "gmt_admin_esp" )
-		--self:CheckBox( "Show Player Ghosts *EXTREMELY LAGGY*", "gmt_admin_playerghosts" )
-		--self:Slider( "Player Ghost Amount", "gmt_admin_playerghosts_amount", 15, 300, 0, "gmt_admin_playerghosts" )
+		self:CheckBox( "Show Player Ghosts *EXTREMELY LAGGY*", "gmt_admin_playerghosts" )
+		self:Slider( "Player Ghost Amount", "gmt_admin_playerghosts_amount", 15, 300, 0, "gmt_admin_playerghosts" )
 
 		self:CheckBox( "Show Player Count", "gmt_admin_showplaycount" )
 		self:CheckBox( "Show Map List", "gmt_admin_showmaplist" )
-		self:CheckBox( "Hide Beta Message", "gmt_admin_hidebetamsg" )
+		//self:CheckBox( "Hide Beta Message", "gmt_admin_hidebetamsg" )
 
 	end
 
@@ -724,11 +727,11 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 		self:CheckBox( "Developer Mode", "developer" )
 		self:CheckBox( "Show Entity Information", "gmt_admin_showents" )
-		self:CheckBox( "Show Net Info", "gmt_admin_shownetinfo" )
-		self:CheckBox( "Show Extended Net Info", "gmt_admin_shownetinfo2", "gmt_admin_shownetinfo" )
+		//self:CheckBox( "Show Net Info", "gmt_admin_shownetinfo" )
+		//self:CheckBox( "Show Extended Net Info", "gmt_admin_shownetinfo2", "gmt_admin_shownetinfo" )
 		self:CheckBox( "Show Condo Information", "gmt_admin_showcondo" )
-		self:CheckBox( "Show Usermessages (console)", "gmt_admin_showumsg" )
-		self:CheckBox( "Show Usermessages (graph)", "gmt_admin_showumsggraph" )
+		//self:CheckBox( "Show Usermessages (console)", "gmt_admin_showumsg" )
+		//self:CheckBox( "Show Usermessages (graph)", "gmt_admin_showumsggraph" )
 		//self:CheckBox( "Show Profiler", "gmt_admin_profiler" )
 
 		if Location then

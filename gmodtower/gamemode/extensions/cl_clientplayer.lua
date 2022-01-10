@@ -191,9 +191,9 @@ end
 ----
 function PLAYER:ShouldDraw()
 
-	if self.Player == LocalPlayer() then
+	/*if self.Player == LocalPlayer() then
 		return LocalPlayer():ShouldDrawLocalPlayer() && not LocalPlayer():GetObserverTarget()
-	end
+	end*/
 
 	return true
 

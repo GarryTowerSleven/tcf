@@ -104,6 +104,16 @@ function RecvPlayerRoom(ply, name, old, new)
 	end
 end
 
+function GetCondoDoor( condoid )
+	for k,v in pairs( ents.FindByClass("gmt_condo_door") ) do
+		if v:GetNWInt("CondoID", 0) == condoid then
+			return v
+		end
+	end
+
+	return nil
+end
+
 RegisterNWTablePlayer({
 	{"GRoomLock", false, NWTYPE_BOOLEAN, REPL_EVERYONE },
 	{"GRoomId", 0, NWTYPE_CHAR, REPL_EVERYONE, RecvPlayerRoom },

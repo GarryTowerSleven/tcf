@@ -14,6 +14,7 @@ local Roles =
 	{ "STEAM_0:1:57386100", "Moderator" },  // Squibbus
 	{ "STEAM_0:1:85508734", "Moderator" },	// Breezy
 	{ "STEAM_0:0:156132358", "Moderator" },	// Basical
+	{ "STEAM_0:1:72402171", "Moderator" },	// Umbre
 
 	// Current PT Staff
 	{ "STEAM_0:1:6044247", "PixelTail" },	// MacDGuy
@@ -59,7 +60,11 @@ function meta:IsDeveloper()
 end
 
 function meta:IsModerator()
-	return GetRole( self:SteamID() ) == "Moderator"
+	return self:GetUserGroup() == "moderator"
+end
+
+function meta:IsStaff()
+	return self:IsModerator() || self:IsAdmin()
 end
 
 function meta:IsTester()
@@ -134,13 +139,19 @@ function meta:Name()
 	if !IsValid( self ) then return "" end
 	if self:IsBot() then return self:Nick() end
 	if self:IsHidden() then
-		if CLIENT && LocalPlayer():IsAdmin() then
-			return self:GetNWString( "FakeName" ) .. " (" .. self:Nick() .. ")"
-		end
 		return self:GetNWString( "FakeName" )
 	end
 
 	return self:Nick()
+end
+
+function meta:GetName()
+	return self:Name()
+end
+
+function meta:NickID()
+    if !IsValid(self) then return "" end
+    return self:Nick() .. " [" .. self:SteamID() .. "]" 
 end
 
 local function SendJoinLeaveMessage( ply, type, color )
@@ -171,10 +182,6 @@ end
 
 function meta:Left()
 	SendJoinLeaveMessage( self, "LeaveLobby", Color( 100, 100, 100, 255 ) )
-end
-
-function meta:GetName()
-	return self:Name()
 end
 
 

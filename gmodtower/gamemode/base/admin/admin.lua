@@ -4,8 +4,8 @@ GTowerAdmins = {
 	//"STEAM_0:0:71992617", -- Haina, praise be
 	"STEAM_0:0:1384695", -- Kity
 	"STEAM_0:1:124798129", -- Amgona
-	"STEAM_0:1:85508734", -- Breezy
-	"STEAM_0:1:57386100", -- Squibbus
+	//"STEAM_0:1:85508734", -- Breezy
+	//"STEAM_0:1:57386100", -- Squibbus
 	"STEAM_0:0:156132358", -- Basical
 }
 
@@ -29,12 +29,15 @@ end
 
 concommand.Add("gmt_create",function(ply,cmd,args,str)
 
+	if !args[1] then return end
 	if !ply:IsAdmin() then return end
 
 	if !util.IsValidModel(args[1]) then
 		local ent = ents.Create(args[1])
 		ent:SetPos(ply:GetEyeTrace().HitPos)
 		ent:Spawn()
+		AdminNotif.SendStaff( ply:Nick() .. " has created \"" .. ent:GetClass() .. "\" at: " .. string.FormatVector(ply:GetEyeTrace().HitPos) .. ".", nil, "GREEN", 2 )
+		return 
 	end
 
 	local ent = ents.Create("prop_physics_multiplayer")
@@ -42,11 +45,11 @@ concommand.Add("gmt_create",function(ply,cmd,args,str)
 	ent:SetPos(ply:GetEyeTrace().HitPos)
 	ent:SetModel(args[1])
 	ent:Spawn()
-
+	AdminNotif.SendStaff( ply:Nick() .. " has created \"" .. ent:GetClass() .. "\" (" .. args[1] .. ") at: " .. string.FormatVector(ply:GetEyeTrace().HitPos) .. ".", nil, "GREEN", 2 )
 end)
 
 concommand.Add( "gt_act", function(ply, command, args)
-    if !ply:IsAdmin() then
+    if !ply:IsStaff() then
 		if GTowerHackers then
 			GTowerHackers:NewAttemp( ply, 5, command, args )
 		end
@@ -61,7 +64,7 @@ concommand.Add( "gt_act", function(ply, command, args)
 		return
 	end
 
-	if args[1] == "addent" && !hook.Call("DisableAdminCommand", GAMEMODE, args[1]) && ply:IsSuperAdmin() then
+	if args[1] == "addent" && !hook.Call("DisableAdminCommand", GAMEMODE, args[1]) && ply:IsAdmin() then
 
 		local EntName = args[2]
 		local EntTable = scripted_ents.GetList()[ EntName ]
@@ -82,16 +85,17 @@ concommand.Add( "gt_act", function(ply, command, args)
 
 		return
 
-	elseif args[1] == "rement" && !hook.Call("DisableAdminCommand", GAMEMODE, args[1]) then
+	elseif args[1] == "rement" && !hook.Call("DisableAdminCommand", GAMEMODE, args[1]) && ply:IsAdmin() then
 		local Ent = ply:GetEyeTrace().Entity
 
 		if IsValid( Ent ) && !Ent:IsPlayer() && Ent:GetClass() != "func_brush" then
+			AdminNotif.SendStaff( ply:Nick() .. " has removed \"" .. Ent:GetClass() .. "\" at: " .. string.FormatVector(Ent:GetPos()) .. ".", nil, "RED", 2 )
 			Ent:Remove()
 		end
 
 		return
 
-	elseif args[1] == "physgun" && !hook.Call("DisableAdminCommand", GAMEMODE, args[1]) then
+	elseif args[1] == "physgun" && !hook.Call("DisableAdminCommand", GAMEMODE, args[1]) && ply:IsAdmin() then
 
 		if !ply:HasWeapon("weapon_physgun") then
 			ply:Give("weapon_physgun")
@@ -125,18 +129,33 @@ concommand.Add( "gt_act", function(ply, command, args)
 		GAMEMODE:ColorNotifyAll( Name1.." has "..Action.." "..Name2..".", Color(150, 35, 35, 255) )
 	end
 
-    if args[1] == "slay" && !hook.Call("DisableAdminCommand", GAMEMODE, args[1]) then
+    if args[1] == "slay" && !hook.Call("DisableAdminCommand", GAMEMODE, args[1]) && ply:IsAdmin() then
 
+		AdminNotif.SendStaff( ply:Nick() .. " has slayed " .. TargetPly:NickID() .. ".", nil, "RED", 2 )
         TargetPly:Kill()
 
-		elseif args[1] == "givemoney" then
-
+		elseif args[1] == "givemoney" && ply:IsAdmin() then
+			
 			player.GetByID(args[2]):AddMoney(tonumber(args[3]))
 
-			if ply != TargetPly then
+			local color = "GREEN"
+			local givenName = player.GetByID(args[2]):NickID()
+			if player.GetByID(args[2]) == ply then
+				givenName = "themself"
+			end
+			local adminMsg = ply:Nick() .. " has given " .. givenName .. " " .. string.FormatNumber(tonumber(args[3])) .. " GMC."
+			local userMessage = ply:Name() .. " has given you " .. string.FormatNumber(tonumber(args[3])) .. " GMC."
+			if tonumber(args[3]) < 0 then
+				color = "RED"
+				adminMsg = ply:Nick() .. " has taken away " .. string.FormatNumber(tonumber(args[3])/-1) .. " GMC from " .. givenName .. "."
+				userMessage = ply:Nick() .. " has taken away " .. string.FormatNumber(tonumber(args[3])/-1) .. " GMC from you."
+			end
+
+			AdminNotif.SendStaff( adminMsg, nil, color, 2 )
+			if ply != player.GetByID(args[2]) then
 				net.Start("AdminMessage")
 					net.WriteEntity(nil)
-					net.WriteString(ply:Name().." gave you "..tonumber(args[3]).." GMC")
+					net.WriteString(userMessage)
 				net.Send(player.GetByID(args[2]))
 			end
 
@@ -148,6 +167,7 @@ concommand.Add( "gt_act", function(ply, command, args)
 				ply:Msg2( SanitizedName .. " is no longer gagged for this session")
 				player.GetByID(args[2]):SetNWBool("GlobalGag",false)
 				CommandActionMessage( ply:Name(), SanitizedName, ActionTable[1] )
+				AdminNotif.SendStaff( ply:Nick() .. " has ungagged " .. TargetPly:NickID() .. ".", nil, "GREEN", 3 )
 				return
 			end
 
@@ -155,6 +175,7 @@ concommand.Add( "gt_act", function(ply, command, args)
 			player.GetByID(args[2]):SetNWBool("GlobalGag",true)
 			player.GetByID(args[2]):Msg2("You have been chat gagged. Your chat was not sent on the public channel.")
 			CommandActionMessage( ply:Name(), SanitizedName, ActionTable[2] )
+			AdminNotif.SendStaff( ply:Nick() .. " has gagged " .. TargetPly:NickID() .. ".", nil, "RED", 3 )
 
 		elseif args[1] == "mute" then
 
@@ -164,6 +185,7 @@ concommand.Add( "gt_act", function(ply, command, args)
 				ply:Msg2( SanitizedName .. " is no longer muted for this session")
 				player.GetByID(args[2]):SetNWBool("GlobalMute",false)
 				CommandActionMessage( ply:Name(), SanitizedName, ActionTable[3] )
+				AdminNotif.SendStaff( ply:Nick() .. " has unmuted " .. TargetPly:NickID() .. ".", nil, "GREEN", 3 )
 				return
 			end
 
@@ -171,10 +193,13 @@ concommand.Add( "gt_act", function(ply, command, args)
 			player.GetByID(args[2]):SetNWBool("GlobalMute",true)
 
 			CommandActionMessage( ply:Name(), SanitizedName, ActionTable[4] )
+			AdminNotif.SendStaff( ply:Nick() .. " has muted " .. TargetPly:NickID() .. ".", nil, "RED", 3 )
 
-		elseif args[1] == "revive" then
+		elseif args[1] == "revive" && ply:IsAdmin() then
 
 				local RevPly = player.GetByID(args[2])
+
+				AdminNotif.SendStaff( ply:Nick() .. " has revived " .. RevPly:NickID() .. ".", nil, "GREEN", 3 )
 
 				RevPly:UnSpectate()
 
@@ -186,7 +211,7 @@ concommand.Add( "gt_act", function(ply, command, args)
 				RevPly:SetPos( pos )
 				RevPly:SetEyeAngles( ang )
 
-    elseif args[1] == "slap" && !hook.Call("DisableAdminCommand", GAMEMODE, args[1]) then
+    elseif args[1] == "slap" && !hook.Call("DisableAdminCommand", GAMEMODE, args[1]) && ply:IsAdmin() then
 
        /* local TargetLife = TargetPly:Health() - tonumber(args[3] or 5)
 
@@ -207,20 +232,29 @@ concommand.Add( "gt_act", function(ply, command, args)
 			 TargetPly:SetVelocity( VectorRand() * 2048 )
 		end
 
-	elseif args[1] == "money" && args[3] then
+	elseif args[1] == "money" && args[3] && ply:IsAdmin() then
 
 		local Amount = tonumber( args[3] )
 		if Amount == nil then Amount = 0 end
 
+		local before = TargetPly:Money()
+		local color = "GREEN"
+		if Amount < before then
+			color = "RED"
+		end
+
 		TargetPly:SetMoney( Amount )
 
-		ply:Msg2( "You set \"" .. TargetPly:Name() .. "\"'s money to " .. Amount .. "." )
+		ply:Msg2( "You set " .. TargetPly:Name() .. "'s GMC to " .. string.FormatNumber(tonumber(Amount)) .. ". (Was " .. string.FormatNumber(tonumber(before)) .. ")" )
 
 		if ply != TargetPly then
-				net.Start("AdminMessage")
-				net.WriteEntity(nil)
-				net.WriteString(T("AdminSetMoney", ply:GetName(), Amount))
-				net.Send(TargetPly)
+			AdminNotif.SendStaff( ply:Nick() .. " has set " .. TargetPly:NickID() .. "'s GMC to " .. string.FormatNumber(tonumber(Amount)) .. ". (Was " .. string.FormatNumber(tonumber(before)) .. ")", nil, color, 2 )
+			net.Start("AdminMessage")
+			net.WriteEntity(nil)
+			net.WriteString(T("AdminSetMoney", ply:GetName(), string.FormatNumber(tonumber(Amount))))
+			net.Send(TargetPly)
+		else
+			AdminNotif.SendStaff( ply:Nick() .. " has set their GMC to " .. string.FormatNumber(tonumber(Amount)) .. ". (Was " .. string.FormatNumber(tonumber(before)) .. ")", nil, color, 2 )
 		end
 
     end
@@ -308,10 +342,11 @@ concommand.Add("gmt_runlua", function( ply, cmd, args )
 
 		local Lua = table.concat( args, " ")
 
-		MsgC( Color( 255, 255 ,0), ply:Nick() .. " is running lua: " )
-		MsgC( Color( 255, 255 ,0), Lua .. "\n" )
+		AdminNotif.SendStaff( ply:Nick() .. " has ran lua. See console for details.", nil, "YELLOW", 1 )
+		AdminLog.PrintStaff( tostring(Lua), "YELLOW" )
 
-		AdminLog( ply:Nick() .. " has ran lua. See server console for details.", Color( 255, 255 ,0) )
+		//kityPrint( ply:Nick() .. " has ran LUA", Color(255,255,0) )
+		kityPrint( tostring(Lua), Color(255,255,0) )
 
 		RunString("function GmtRunLua() " .. Lua .. " end ")
 
@@ -346,6 +381,13 @@ end )
 
 concommand.Add("gmt_sendlua", function( ply, cmd, args )
 	if ply:IsAdmin() then
+
+		AdminNotif.SendStaff( ply:Nick() .. " has sent lua to all players. See console for details.", nil, "YELLOW", 1 )
+		AdminLog.PrintStaff( tostring(Lua), "YELLOW" )
+
+		kityPrint( ply:Nick() .. " has sent lua to all players.", Color(255,255,0) )
+		kityPrint( tostring(Lua), Color(255,255,0) )
+
 		BroadcastLua( table.concat( args, " ")  )
 	end
 end )
@@ -366,21 +408,25 @@ concommand.Add("gmt_cvar", function( ply, cmd, args )
 end )
 
 concommand.Add( "gmt_warn", function( ply, cmd, args )
-	if !ply:IsAdmin() then return end
+	if !ply:IsStaff() then return end
+	if !args[1] || !args[2] then return end
+	if !IsValid(player.GetByID(args[1])) then return end
 
-	net.Start("AdminWarnMessage")
-	net.WriteEntity(ply)
-	net.WriteEntity(player.GetByID(args[1]))
-	net.WriteString(args[2])
-	net.Broadcast()
+	net.Start("AdminWarn")
+		net.WriteString(args[2])
+	net.Send(player.GetByID(args[1]))
 
+	AdminNotif.SendStaff( ply:Nick() .. " has warned " .. player.GetByID(args[1]):NickID() .. " for: " .. args[2] .. ".", nil, "RED", 2 )
 end)
 
-util.AddNetworkString("AdminWarnMessage")
+util.AddNetworkString("AdminWarn")
 
-
+// we probably should remove this before release
 concommand.Add("gmt_quitplayer", function( ply, cmd, args )
-	if args[1] && ply:IsAdmin() then
-		player.GetBySteamID64(args[1]):SendLua( "LocalPlayer():ConCommand('gamemenucommand quit')" )
+	if args[1] && tonumber(args[1]) && ply:IsAdmin() then
+		if ents.GetByIndex(args[1]) && ents.GetByIndex(args[1]):IsPlayer() then
+			AdminNotif.SendAdmins( ply:Nick() .. " has FORCEQUIT " .. ents.GetByIndex(args[1]):NickID(), 20, "RED", 1 )
+			ents.GetByIndex(args[1]):SendLua( "LocalPlayer():ConCommand('gamemenucommand quit')" )
+		end
 	end
 end )

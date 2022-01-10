@@ -17,7 +17,7 @@ function player.GetAdmins()
 	local players = player.GetAll()
 
 	for _, ply in pairs( players ) do
-		if ply:IsAdmin() or ply:IsDeveloper() /*or ply:IsModerator()*/ then
+		if ply:IsAdmin() then
 			table.insert( tblAdmins, ply )
 		else
 			table.insert( tbl, ply )
@@ -25,4 +25,20 @@ function player.GetAdmins()
 	end
 
 	return tblAdmins, tbl
+end
+
+function player.GetStaff()
+	local tbl = {}
+	local tblStaff = {}
+	local players = player.GetAll()
+
+	for _, ply in pairs( players ) do
+		if ply:IsAdmin() || ply:IsModerator() then
+			table.insert( tblStaff, ply )
+		else
+			table.insert( tbl, ply )
+		end
+	end
+
+	return tblStaff, tbl
 end

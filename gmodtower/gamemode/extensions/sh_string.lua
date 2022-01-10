@@ -157,6 +157,50 @@ function string.NiceTimeShort( seconds, format )
 
 end
 
+function string.NiceTimeLong( minutes )
+
+	if ( minutes < 1 ) then return "less than a minute" end
+
+	if ( minutes < 60 ) then
+		local min = math.floor( minutes )
+		if min > 1 then
+			return min .. " minutes"
+		else
+			return min .. " minute"
+		end
+	end
+
+	if ( minutes < 1440 ) then
+		local hr = math.floor( minutes / 60 )
+		if hr > 1 then
+			return hr .. " hours"
+		else
+			return hr .. " hour"
+		end
+	end
+
+	if ( minutes < 10080 ) then
+		local days = math.floor( minutes / 1440 )
+		if days > 1 then
+			return days .. " days"
+		else
+			return days .. " day"
+		end
+	end
+
+	if ( minutes < 525600 ) then
+		local weeks = math.floor( minutes / 10080 )
+		if weeks > 1 then
+			return weeks .. " weeks"
+		else
+			return weeks .. " week"
+		end
+	end
+
+	return "over a year"
+
+end
+
 function string.hash( str )
 	
 	local bytes = {string.byte( str, 0, string.len( str ) )}
@@ -231,6 +275,16 @@ function string.NumberToNth( num, nonum )
 		return num .. string.sub("stndrdth", x*2 - 1, x*2)
 	end
 
+end
+
+function string.FormatVector(vector)
+	local vec = tostring(vector)
+	local vec = string.Split(vec, " ")
+	local vec = math.Round(vec[1])..','..math.Round(vec[2])..','..math.Round(vec[3])
+
+	local vec = 'Vector('.. vec ..')'
+
+	return vec
 end
 
 local UTF8SubLastCharPattern = "[^\128-\191][\128-\191]*$"

@@ -33,6 +33,8 @@ concommand.Add("gmt_firerocket", function( ply, cmd, args )
 	if !ply:IsAdmin() then
 		return
 	end
+
+	AdminNotif.SendStaff( ply:Nick() .. " has fired a rocket.", nil, "RED", 5 )
 	
 	local aim = ply:GetAimVector()
 	local aimangle = aim:Angle()

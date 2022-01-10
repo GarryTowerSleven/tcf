@@ -21,9 +21,17 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 			time = tonumber(args[2])
 		end
 
+		local name
+		if ply == NULL then
+			name = "CONSOLE"
+		else
+			name = ply:Nick()
+		end
+
 		if timer.Exists("ChangeLevelTimer") then
 			timer.Destroy("ChangeLevelTimer")
 			timer.Destroy("ChangeLevelWarning")
+			AdminNotif.SendStaff( name .. " has haulted the changelevel.", nil, "RED", 1 )
 			GAMEMODE:ColorNotifyAll( "Halting map restart...", Color(255, 50, 50, 255) )
 			MsgC( co_color2, "Halting map restart...\n" )
 			return
@@ -99,6 +107,15 @@ function ChangeLevel( ply, map, time )
 	local MapName = map
 
 	if file.Exists(FilePlace,"GAME") then
+
+		local name
+		if ply == NULL then
+			name = "CONSOLE"
+		else
+			name = ply:Nick()
+		end
+
+		AdminNotif.SendStaff( name .. " has initiated a changelevel.", nil, "RED", 1 )
 
 		if game.GetMap() == MapName then
 			GAMEMODE:ColorNotifyAll( T( "AdminRestartMapSec", time ), Color(255, 50, 50, 255) )

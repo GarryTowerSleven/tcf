@@ -1,7 +1,7 @@
----------------------------------
 concommand.Add("gmt_rement", function( ply, cmd, args )
 
 	if !ply:IsAdmin() && ply:GetSetting("GTAllowInvAllEnts") == false then
+		GTowerHackers:NewAttemp( ply, nil, cmd, args )
 		return
 	end
 	

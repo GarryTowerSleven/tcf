@@ -1,38 +1,18 @@
-local gateKeep = {}
+gateKeep = {}
 
-local ServerName = "GMTower"
+local ServerName = "GMod Tower: Deluxe"
 
 gateKeep.Bans = {} --Used to hold all the bans server-side, rather than query every time.
 
 gateKeep.HardCodedBans = {
-	{"STEAM_0:0:13388289", "stgn"},
-	{"STEAM_0:1:22125535", "Tootage"},
-	{"STEAM_0:1:10161682", "[YaS] BlackhawkGT"},
-	{"STEAM_0:0:6847392", "||BoB||Squallboogie"},
-	{"STEAM_0:1:17162420", "[D3]LuminousSilver"},
-	{"STEAM_0:0:18607667", "Slash"},
-	{"STEAM_0:0:20550704", "nitro-n20"},
-	{"STEAM_0:0:9036955", "PWD]Xeldof"},
-	{"STEAM_0:0:8563984", "Killer2"},
-	{"STEAM_0:1:17399955", ".:[MDFB]:. .:GGC:. XMX Fabian"},
-	{"STEAM_0:0:8268433", "Tommy the Commy"},
-	{"STEAM_0:1:14884446", "Llamalords"},
-	{"STEAM_0:0:14282678", "Whitefang"},
-	{"STEAM_0:1:10742997", "Teddi"},
 	{"STEAM_0:1:90573021", "Matt"},
 	{"STEAM_0:0:50197118", "Zoephixical"},
 	{"STEAM_0:1:61873778", "Sabina"},
 	{"STEAM_0:1:21016813", "0x0539"},
+	{"STEAM_0:0:80151556", "Kim"},
+	{"STEAM_0:0:44370505", "Konta"},
+	{"STEAM_0:1:47544900", "Dr.Rabbit"},
 }
-
-/*gateKeep.HardCodedIPBans = {
-	{"86.171.25.0", "Killer2"}, // Killersservers.co.uk
-	{"76.117.19.86", "Nvgg3t"}, // Nvgg3t
-	{"86.171.155.131", "Killer2"}, // I might filter 86.171.*.*
-	{"67.176.175.110", "Humble Bee"},
-	{"74.13.124.205", "stgn"},
-	{"85.224.15.191", "Tommy the Commy"},
-}*/
 
 gateKeep.MaxSlots = 0
 gateKeep.AdminBypass = true
@@ -45,15 +25,15 @@ function gateKeep:CreateBanList()
 	SQL.getDB():Query("SELECT * FROM gm_bans", function(res)
 
 		if res[1].status != true then
-			MsgC( co_color2, "[GateKeeper] Error getting bans: " .. res[1].error .. "\n" )
+			kityPrint( "Error getting bans: " .. res[1].error, co_color, "GateKeeper" )
 			return
 		end
 
 		if #res[1].data then
-			MsgC( co_color, "[GateKeeper] Retriving bans from MySQL\n" )
+			kityPrint( "Retriving bans from MySQL", co_color, "GateKeeper" )
 			gateKeep:RetrieveBans(res[1].data)
 		else
-			MsgC( co_color, "[GateKeeper] Setting up Legacy Bans\n" )
+			kityPrint( "Setting up Legacy Bans", co_color, "GateKeeper" )
 			gateKeep:LegacyBans()
 		end
 
@@ -292,7 +272,8 @@ function gateKeep:RetrieveBans(banList) --Obtains the bans from the MySQL.
 
 		if v.time != 0 and (v.bannedOn + v.time) <= os.time() then --If the amount of time as elapsed, then remove the line. time < os.time() then remove
 
-			print(v.Name .. "'s ban has expired.")
+			//print(v.name .. "'s ban has expired.")
+			kityPrint( v.name .. "'s ban has expired.", co_color, "GateKeeper" )
 			gateKeep:RemoveBan(v.steamid, true)
 
 		else
@@ -524,7 +505,7 @@ concommand.Add("gmt_removeban", function(ply, cmd, args) --[1] = SteamID\Name
 
 end)
 
-concommand.Add("gmt_ban", function(ply, cmd, args) --[1] = SteamID\UniqueID\Name, [2] = Time, [3] = Reason
+/*concommand.Add("gmt_ban", function(ply, cmd, args) --[1] = SteamID\UniqueID\Name, [2] = Time, [3] = Reason
 
 	if !ply:IsAdmin() then
 		return
@@ -602,7 +583,7 @@ concommand.Add("gmt_ban", function(ply, cmd, args) --[1] = SteamID\UniqueID\Name
 	
 	RunConsoleCommand("kickid", banPlayer:UserID(), "You were banned "..convertTime().." from "..ServerName.." due to the following: " .. reason)
 
-end)
+end)*/
 
 /*
 * Allows a SUPERadmin to force ban a user. This allows the admin to ban a player than does not exist on the server at the time of ban.

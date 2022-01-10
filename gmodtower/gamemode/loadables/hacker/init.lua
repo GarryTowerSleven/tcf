@@ -1,33 +1,67 @@
----------------------------------
-include('shared.lua')
+//include('shared.lua')
 
 AddCSLuaFile('cl_init.lua')
-AddCSLuaFile('shared.lua')
-AddCSLuaFile('vocab.lua')
+//AddCSLuaFile('shared.lua')
+//AddCSLuaFile('vocab.lua')
 
-local function InsertHackerStatus(result, status, error)
+/*local function InsertHackerStatus(result, status, error)
 	if status != 1 then
-		MysqlError( error )
+		SQL.SqlError( error )
 	end
+end*/
+
+GTowerHackers = {}
+
+local function fakeUnknownCommand(ply, cmd)
+	net.Start("ConsolePrint")
+		net.WriteString("Unknown command: " .. cmd)
+		net.WriteColor(Color(255,255,255))
+	net.Send(ply)
 end
+
+function GTowerHackers:Init()
+	if !tmysql then return end
+	SQL.getDB():Query("CREATE TABLE IF NOT EXISTS gm_hackers(steamid TINYTEXT, name TINYTEXT, hackid TINYINT, cmd TINYTEXT, args TINYTEXT, extra TINYTEXT)")
+end
+
+timer.Simple( 1, function()
+	GTowerHackers:Init()
+end )
 
 function GTowerHackers:NewAttemp( ply, id, cmd, args, extra )
 
-	if !tmysql then
-		return
-	end
+	if !ply || !cmd then return end
+	if !cmd then return end
 
-	if type( args ) == "table" then
-		args = string.Implode( " ", args )
+	if !id then id = 0 end
+	if !extra then extra = "" end
+
+	local cmd = tostring(cmd)
+
+	local cmdRaw = cmd
+	local argsRaw = args
+
+	if !args then
+		args = ""
 	else
-		args = tostring( args )
+		for _,v in pairs(args) do
+			cmd = cmd .. " " .. v
+		end
 	end
-	
-	local SQLID = ply:SQLId()
-	extra = extra or ""	
-	
-	local InsertString = "INSERT INTO `gm_hackers`(`user`,`hackid`,`cmd`,`args`,`extra`) VALUES ("..SQLID..","..id..",'".. SQL.getDB():Escape(cmd).."','".. SQL.getDB():Escape(args).."', '".. SQL.getDB():Escape(extra).."')"
-	
 
-	 SQL.getDB():Query( InsertString, InsertHackerStatus )
+	AdminNotif.SendStaff( "[Hacker Attempt] " .. ply:NickID() .. " attempted to run \"" .. cmd .. "\"", nil, "RED" )
+	fakeUnknownCommand(ply, cmdRaw)
+
+	if !tmysql then return end
+
+	if type( argsRaw ) == "table" then
+		argsRaw = string.Implode( " ", argsRaw )
+	else
+		argsRaw = tostring( argsRaw )
+	end
+
+	local InsertString = "INSERT INTO `gm_hackers`(`steamid`,`name`,`hackid`,`cmd`,`args`,`extra`) VALUES ('"..SQL.getDB():Escape(ply:SteamID()).."','" .. SQL.getDB():Escape(ply:Nick()) .. "',"..id..",'".. SQL.getDB():Escape(cmdRaw).."','".. SQL.getDB():Escape(argsRaw).."', '".. SQL.getDB():Escape(extra).."');"
+
+	SQL.getDB():Query( InsertString, SQLLogResult )
+	
 end

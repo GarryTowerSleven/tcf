@@ -27,12 +27,15 @@ function ENT:Initialize()
     self:SetSolid(SOLID_VPHYSICS)
     self:DrawShadow(false)
     self:SetUseType(SIMPLE_USE)
+
+    self:SetNWInt("DoorBell", 1)
 end
 
 local bells = {
   "standard1",
-  "standard2",
+  nil,
 
+  "standard2",
   "ambient1",
 
   "happy1",
@@ -109,13 +112,18 @@ function ENT:Use( ply )
 
   if owner.GRoomLock && ply != owner && !IsFriendsWith( owner, ply ) then
 
+    local doorbell = bells[math.Clamp( self:GetNWInt("DoorBell"), 1, #bells )]
+
+    if doorbell then
+      self:EmitSound( Sound("GModTower/lobby/condo/doorbells/" .. doorbell) .. ".wav", 80 )
+      if (owner:Location()) == self:GetCondoID() then
+        owner:EmitSound( Sound("GModTower/lobby/condo/doorbells/" .. doorbell) .. ".wav" )
+      end
+    end
+
     self:EmitSound(self.LockedSound,80)
     if CurTime() < (ply.RingDelay or 0) then return end
     ply.RingDelay = CurTime() + 5
-    self:EmitSound( Sound("GModTower/lobby/condo/doorbells/" .. bells[owner:GetInfoNum( "gmt_condodoorbell", 1 )]) .. ".wav", 80 )
-    if (owner:Location()) == self:GetCondoID() then
-      owner:EmitSound( Sound("GModTower/lobby/condo/doorbells/" .. bells[owner:GetInfoNum( "gmt_condodoorbell", 1 )]) .. ".wav" )
-    end
 
     return
   end
@@ -152,3 +160,18 @@ function ENT:Use( ply )
     end
   end)
 end
+
+concommand.Add( "gmt_setdoorbell", function(ply, cmd, args)
+  if !args[1] then return end
+  if args[1] && !tonumber(args[1]) then return end
+  if !IsValid(ply) then return end
+
+  local num = math.Clamp( tonumber(args[1]), 1, 50 )
+
+  if ply.GRoomId then
+    local door = GtowerRooms.GetCondoDoor(ply.GRoomId)
+    if door then
+      door:SetNWInt("DoorBell", num)
+    end
+  end
+end )

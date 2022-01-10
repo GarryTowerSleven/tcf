@@ -16,6 +16,10 @@ CondoDoorbell 	= CreateClientConVar( "gmt_condodoorbell" , "1", true, true )
 CondoBackground = CreateClientConVar( "gmt_condobg" , "1", true, true )
 CondoBlinds 	= CreateClientConVar( "gmt_condoblinds" , "1", true, true )
 
+cvars.AddChangeCallback( "gmt_condodoorbell", function(cmd, old, new)
+	RunConsoleCommand( "gmt_setdoorbell", new )
+end )
+
 net.Receive("gmt_partymessage", function()
 	if NoPartyMsg:GetBool() then return end
 	if LocalPlayer():GetNWBool("IsDueling") then return end

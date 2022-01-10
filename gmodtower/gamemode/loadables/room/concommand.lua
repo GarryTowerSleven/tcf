@@ -453,9 +453,15 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 
 	ply:SetNWBool( "RoomID", PlyRoom.Id )
 
+	local door = GtowerRooms.GetCondoDoor( PlyRoom.Id )
+	if door then
+		local num = math.Clamp( ply:GetInfoNum( "gmt_condodoorbell", 1 ), 1, 50 )
+		door:SetNWInt("DoorBell", num)
+	end
+
+	AdminNotif.SendStaff( ply:NickID() .. " has checked into condo #" .. PlyRoom.Id .. ".", nil, nil, 3 )
+
 	//Congratilaions!
-
-
 end )
 
 

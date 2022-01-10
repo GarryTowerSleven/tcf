@@ -3,7 +3,7 @@ hook.Add("PlayerNoClip", "DisableNoclip", function(ply)
 	
 	if hook.Call( "GTCanNoClip", GAMEMODE, ply ) == false then return false end
 	
-	if ply:IsAdmin() || ply.GTNoClip == true then
+	if ply:IsAdmin() || ply:IsModerator() || ply.GTNoClip == true then
 		return true
 	end
 end) 

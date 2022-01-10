@@ -116,6 +116,8 @@ concommand.Add("gmt_clientset", function( ply, cmd, args )
 	
 	local TargetPly = ents.GetByIndex( PlyId )
 	if IsValid( TargetPly ) && TargetPly:IsPlayer() then
+		local privname = ClientSettings.Items[ tonumber(args[2]) ].Name or "Unknown"
+		AdminNotif.SendStaff( ply:Nick() .. " has set " .. TargetPly:NickID() .. "'s \"" .. privname .. "\" privilege to: " .. args[3], nil, "RED", 2 )
 		ClientSettings:Set( TargetPly, tonumber( args[2] ), args[3] )
 	end
 

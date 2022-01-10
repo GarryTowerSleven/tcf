@@ -8,6 +8,7 @@ local CurTime = CurTime
 local hook = hook
 local SafeCall = SafeCall
 local GTowerItems = GTowerItems
+local GtowerRooms = GtowerRooms
 
 module("Suite")
 
@@ -162,6 +163,13 @@ function Finish( self )
 			if v:GetNWInt("condoID") != self.Owner.GRoomId then continue end
 			ClearAllMusic(v)
 		end
+	end
+
+	AdminNotif.SendStaff( self.Owner:NickID() .. " has checked out of condo #" .. self.Owner.GRoomId .. ".", nil, "GRAY", 3 )
+
+	local door = GtowerRooms.GetCondoDoor( self.Owner.GRoomId )
+	if door then
+		door:SetNWInt("DoorBell", 1)
 	end
 
 	self.Owner._LastRoomExit = CurTime()

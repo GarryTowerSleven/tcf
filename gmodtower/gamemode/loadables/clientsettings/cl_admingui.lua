@@ -69,7 +69,7 @@ end
 InitItems()
 
 local function ShowMenu( ply )
-if !LocalPlayer():IsAdmin() then return nil end
+if !LocalPlayer():IsStaff() then return nil end
 if !ClientSettings.AdminAllowSend then return nil end
 	if ClientSettings.AdminPanel == nil then
 		ClientSettings:CreateAdminPanel()

@@ -114,7 +114,7 @@ local testerCachePath = "tester_cache.txt"
 
 // check for cache and use it immediately for startup
 if PRIVATE_TEST_MODE && file.Exists( testerCachePath, "DATA" ) then
-	MsgC( co_color, "[Testers] Cached testers found, using...\n" )
+	kityPrint( "Cached testers found, using...", co_color, "Testers" )
 	TesterGroupData = file.Read( testerCachePath, "DATA" )
 end
 
@@ -122,7 +122,7 @@ local groupID = "103582791471194784"
 local checkfor = "76561197963035118" // kity
 local updateAttempts = 0
 function UpdateTesters()
-	MsgC( co_color, "[Testers] Fetching group members...\n" )
+	kityPrint( "Fetching group members...", co_color, "Testers" )
 
 	local url = "https://steamcommunity.com/gid/" .. groupID .. "/memberslistxml/?xml=1"
 
@@ -133,11 +133,11 @@ function UpdateTesters()
 
 			// Check if data has a specific user (checkfor) before doing anything, just to be safe
 			if !string.find( body, checkfor ) then
-				MsgC( co_color2, "[Testers] Data received is incomplete, not using.\n" )
+				kityPrint( "Data received is incomplete, not using.", co_color2, "Testers" )
 				return
 			end
 
-			MsgC( co_color, "[Testers] Successfully got group members!\n" )
+			kityPrint( "Successfully got group members!", co_color, "Testers" )
 
 			// get only the members portion of the XML
 			local t1, t2 = string.find( body, "<members>" )
@@ -159,12 +159,12 @@ function UpdateTesters()
 
 		function( message )
 			if updateAttempts <= 5 then
-				MsgC( co_color2, "[Testers] Failed to get group members. \"" .. message .. "\"\n" )
-				MsgC( co_color2, "[Testers] Retrying...\n" )
+				kityPrint( "Failed to get group members. \"" .. message .. "\"", co_color2, "Testers" )
+				kityPrint( "Retrying...", co_color2, "Testers" )
 				updateAttempts = updateAttempts + 1
 				UpdateTesters()
 			else
-				MsgC( co_color2, "[Testers] Failed to get group members 5 times, giving up.\n" )
+				kityPrint( "Failed to get group members 5 times, giving up.", co_color2, "Testers" )
 				updateAttempts = 0
 			end
 		end
@@ -189,7 +189,7 @@ end
 
 // cache the groupdata to use incase steam is down 
 function cacheTesters( data )
-	MsgC( co_color, "[Testers] Caching testerdata in \"".. "garrysmod/data/" .. testerCachePath .."\".\n" )
+	kityPrint( "Caching testerdata in \"".. "garrysmod/data/" .. testerCachePath .."\"." , co_color, "Testers" )
 	file.Write( testerCachePath, data )
 end
 
@@ -316,13 +316,6 @@ net.Receive( "ClientFullyConnected", function( len, ply )
 end )
 
 util.AddNetworkString( "ClientFullyConnected" )
-
-function AdminLog( message, color )
-	for k,v in pairs( player.GetAdmins() ) do
-		if v:GetInfoNum( "gmt_admin_log", 1 ) == 0 then return end
-		GAMEMODE:ColorNotifyPlayer( v, message, color )
-	end
-end
 
 // precache these so clients can test
 local modelsToCheck = {

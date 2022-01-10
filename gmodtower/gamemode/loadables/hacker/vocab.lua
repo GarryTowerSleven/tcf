@@ -1,12 +1,8 @@
----------------------------------
 GTowerHackers.Words = {}
-
 
 function GTowerHackers:AddWord( id, description )
 	GTowerHackers.Words[ id ] = description
 end
-
-
 
 GTowerHackers:AddWord( 1, "Not enough arguments on a fixed command" )
 GTowerHackers:AddWord( 2, "Invalid input of command" )
