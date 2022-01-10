@@ -62,10 +62,6 @@ function ENT:Draw()
 	self:SetPos( pos )
 	self:SetAngles( ang )
 	self:SetModelScale( scale or 1, 0 )
-	if ply.GetBallColor then
-		local color = ply:GetBallColor()
-		render.SetColorModulation(color.r, color.g, color.b)
-	end
 	self:DrawModel()
 
 end
