@@ -33,5 +33,9 @@ function Payout( ply )
 		money = money + earned[k].GMC
 	end
 
-	ply:AddMoney( money, true )
+	if !TestingMode:GetBool() then
+		ply:AddMoney( money, true )
+	else
+		ply:Msg2("GMC not available on testing server. You would have earned "..money)
+	end
 end
