@@ -217,6 +217,7 @@ end
 
 function Update(  self, ondisconnect, force )
 --MsgN("Checking Update")
+	if TestingMode:GetBool() then return end
 	if !self:Valid() || self.Connected != true then
 
 		if ondisconnect then
