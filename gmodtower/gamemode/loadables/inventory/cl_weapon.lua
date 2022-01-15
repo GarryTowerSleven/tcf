@@ -58,7 +58,7 @@ hook.Add("PlayerBindPress", "WeaponChange", function( ply, bind, pressed)
 		weapon_class = weapon:GetClass()
 	end
 
-	if string.sub( bind, 1, 4 ) == "slot" && !ply:GetNWBool("IsDueling") then
+	if string.sub( bind, 1, 4 ) == "slot" && !Dueling.IsDueling( ply ) then
 
 		ChangeToWeapon( tonumber( string.sub( bind, 5 ) ) )
 		return

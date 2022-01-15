@@ -562,7 +562,7 @@ function initHud()
 	function GTowerHUD.DrawHealth()
 
 		// i dont see why not
-		if !HUDStyle_Lobby1AB && !IsDueling(LocalPlayer()) && !Location.Is( LocalPlayer():Location(), "duelarena" ) then return end
+		if !HUDStyle_Lobby1AB && !Dueling.IsDueling(LocalPlayer()) && !Location.Is( LocalPlayer():Location(), "duelarena" ) then return end
 
 		// Lobby 1 Health
 		if !HUDStyle_L2 then
@@ -613,7 +613,7 @@ function initHud()
 		local health = LocalPlayer():Health()
 		if health < 0 then health = 0 end
 		local maxHealth = 100
-		if IsDueling( LocalPlayer() ) then
+		if Dueling.IsDueling( LocalPlayer() ) then
 			maxHealth = 300
 		end
 		local percent = ( health / maxHealth )

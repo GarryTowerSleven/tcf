@@ -20,7 +20,7 @@ end )
 
 concommand.Add("gmt_selwep", function( ply, command, args )
 
-	if !ply:Alive() || #args != 1 || WeaponOverride( ply ) == true || ply:GetNWBool('IsDueling') then
+	if !ply:Alive() || #args != 1 || WeaponOverride( ply ) == true || Dueling.IsDueling( ply ) then
 		return
 	end
 

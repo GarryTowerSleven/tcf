@@ -35,7 +35,7 @@ PlayerSubtitleRightText = function( ply )
 		end
 
 		-- Dueling
-		local duel = ply:GetNWBool("DuelOpponent")
+		local duel = ply:GetNWEntity( "DuelOpponent" )
 		if IsValid( duel ) then
 			return "Dueling " .. duel:Name()
 		end

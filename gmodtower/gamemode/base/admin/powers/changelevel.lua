@@ -40,7 +40,7 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 		local DuelGoingOn = false
 
 		for k,v in pairs( player.GetAll() ) do
-			if v.ActiveDuel then
+			if Dueling.IsDueling( v ) then
 				DuelGoingOn = true
 			end
 		end

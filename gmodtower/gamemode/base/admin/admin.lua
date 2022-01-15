@@ -315,7 +315,7 @@ hook.Add("PlayerDisconnected","LeaveMessage",function(ply)
 		ply:Left()
 	end
 
-	if ply.ActiveDuel then
+	if Dueling.IsDueling( ply ) then
 		local Timestamp = os.time()
 		local TimeString = os.date( "%H:%M:%S - %d/%m/%Y" , Timestamp )
 		SQLLog( 'duel', ply:Nick() .. " has left the game during a duel. (" .. TimeString .. ")" )

@@ -22,7 +22,7 @@ end )
 
 net.Receive("gmt_partymessage", function()
 	if NoPartyMsg:GetBool() then return end
-	if LocalPlayer():GetNWBool("IsDueling") then return end
+	if Dueling.IsDueling( LocalPlayer() ) then return end
 
 	local invString = net.ReadString()
 	local roomid = net.ReadString()

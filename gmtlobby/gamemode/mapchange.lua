@@ -32,7 +32,7 @@ timer.Create("gmt_autorestart",10,0,function()
 			local DuelGoingOn = false
 
 			for k,v in pairs( player.GetAll() ) do
-				if v.ActiveDuel then
+				if Dueling.IsDueling( v ) then
 					DuelGoingOn = true
 				end
 			end
@@ -43,7 +43,7 @@ timer.Create("gmt_autorestart",10,0,function()
 					local DuelGoingOn = false
 
 					for k,v in pairs( player.GetAll() ) do
-						if v.ActiveDuel then
+						if Dueling.IsDueling( v ) then
 							DuelGoingOn = true
 						end
 					end

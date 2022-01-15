@@ -31,7 +31,7 @@ function ENT:Think()
     self:SetPos(self.OurMan:GetPos())
     self:SetAngles(Angle(0,0,0))
 
-    if !self.OurMan:GetNWBool("IsDueling") then self.OurMan = nil end
+    if !Dueling.IsDueling( self.OurMan ) then self.OurMan = nil end
 
     return
   end
@@ -39,7 +39,7 @@ function ENT:Think()
   self.OurMan = nil
 
   for k,v in pairs(player.GetAll()) do
-    if v:GetNWBool("IsDueling") then
+    if Dueling.IsDueling( v ) then
       self.OurMan = v
     end
   end

@@ -237,7 +237,7 @@ end
 
 hook.Add("ScalePlayerDamage","BalloonDamage",function(ply, h, d)
 
-	if ( BALLOON_GAME_ACTIVE and !ply:GetNWBool('IsDueling') ) then
+	if ( BALLOON_GAME_ACTIVE and !Dueling.IsDueling( ply ) ) then
 		return true
 	end
 

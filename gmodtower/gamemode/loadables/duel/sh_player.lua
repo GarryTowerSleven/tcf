@@ -1,3 +1,5 @@
+module( "Dueling", package.seeall )
+
 local meta = FindMetaTable( "Player" )
 
 if !meta then

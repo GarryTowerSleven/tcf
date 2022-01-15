@@ -1,3 +1,5 @@
+module( "Dueling", package.seeall )
+
 DuelingSounds = {
 	Hit = "GModTower/lobby/duel/duel_hit.wav",
 	Wager = "GModTower/lobby/duel/duel_wager.wav",
@@ -12,5 +14,5 @@ DuelStartDelay = 6
 
 function IsDueling( ply )
 	if ply:IsBot() then return false end
-	return ply.DuelOpponent or nil
+	return IsValid( ply:GetNWEntity( "DuelOpponent" ) )
 end

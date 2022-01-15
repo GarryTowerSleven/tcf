@@ -303,12 +303,12 @@ GtowerLangush.AddWord( 1, "Theater",	"Theater")
 
 // === DUELS ===
 GtowerLangush.AddWord( 1, "DuelRequest",	"{1} has challenged you to a duel with {2} for {3} GMC. Do you accept?" )
-GtowerLangush.AddWord( 1, "Duelcondo",	"Duels will check you out of your condo." )
-GtowerLangush.AddWord( 1, "DuelInvite",	"You have challenged {1} to a dueGtowerLangush." )
-GtowerLangush.AddWord( 1, "DuelInviteFailActive",	"You are currently awaiting a dueGtowerLangush. You cannot duel more than once at the same time." )
+GtowerLangush.AddWord( 1, "DuelCondo",	"Duels will check you out of your suite." )
+GtowerLangush.AddWord( 1, "DuelInvite",	"You have challenged {1} to a duel." )
+GtowerLangush.AddWord( 1, "DuelInviteFailActive",	"You are currently awaiting a duel. You cannot duel more than once at the same time." )
 GtowerLangush.AddWord( 1, "DuelInviteFailCurrent",	"{1} is currently in a duel already." )
 GtowerLangush.AddWord( 1, "DuelInviteFailPoker",	"{1} is playing a game of poker. Please wait for them to finish before inviting them again." )
-GtowerLangush.AddWord( 1, "DuelAcceptFailInGame",	"Please finish your game before accepting the dueGtowerLangush." )
+GtowerLangush.AddWord( 1, "DuelAcceptFailInGame",	"Please finish your game before accepting the duel." )
 GtowerLangush.AddWord( 1, "DuelDeny",	"{1} has declined your duel challenge." )
 GtowerLangush.AddWord( 1, "DuelActive",	"You have a duel invite pending. You may not {1}.")
 

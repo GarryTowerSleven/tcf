@@ -2,6 +2,8 @@ include( "cl_panel.lua" )
 include( "shared.lua" )
 include( "sh_player.lua" )
 
+module( "Dueling", package.seeall )
+
 surface.CreateFont( "DuelType", { font = "Oswald", size = 42, weight = 400 } )
 surface.CreateFont( "DuelName", { font = "Oswald", size = 54, weight = 600 } )
 surface.CreateFont( "DuelTime", { font = "Oswald", size = 52, weight = 400 } )
@@ -46,7 +48,7 @@ local function EndDuelClient( won )
 	end
 
 
-	if !LocalPlayer():GetNWBool("IsDueling") then return end
+	if !IsDueling( LocalPlayer() ) then return end
 
 	DuelEndTime = CurTime() + 5
 
