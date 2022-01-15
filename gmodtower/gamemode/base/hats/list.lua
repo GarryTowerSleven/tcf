@@ -73,6 +73,7 @@ table.insert( GTowerHats.Hats, {
 	unique_Name = "hatfedorahat",
 	price = 150,
 	model = "models/gmod_tower/fedorahat.mdl",
+	ModelSkin = 0,
 	closetrow = 2,
 	slot = SLOT_HEAD
 } )
