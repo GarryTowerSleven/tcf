@@ -18,7 +18,7 @@ function GTowerStore:OpenStore( id, title, message, discount )
 		GTowerStore.ShowModelIcon = !StoreTbl.ModelStore
 
 		if StoreTbl.ModelStore then
-			GTowerStore.OpenModelStore( id, StoreTitle, StoreTbl.CameraZPos, StoreTbl.ModelSize )
+			GTowerStore.OpenModelStore( id, StoreTitle, StoreTbl.CameraZPos, StoreTbl.ModelSize, StoreTbl.CameraFar )
 		else
 			GTowerStore.OpenNormalStore( id, StoreTitle )
 		end
