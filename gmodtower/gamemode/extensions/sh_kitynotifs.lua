@@ -99,6 +99,9 @@ net.Receive("AdminNotification", function()
     local text = net.ReadString()
     local time = net.ReadInt(7)
     local color = net.ReadColor()
+    local verbose = net.ReadInt(4)
+
+    if verbose && LocalPlayer():GetInfoNum("gmt_admin_log", 1) < verbose then return end
 
     if color == Color(0,0,0,0) then
         color = nil

@@ -15,11 +15,12 @@ local AdminNotifColors = {
 }
 
 util.AddNetworkString("AdminNotification")
-function AdminNotif.Send(ply, text, time, color)
+function AdminNotif.Send(ply, text, time, color, verbose)
 	if !ply || !IsValid(ply) then return end
     if ply:GetInfoNum("gmt_admin_log", 1) == 0 then return end
 	if !text then text = "nil" end
 	if !time then time = 10 end
+	if !verbose then verbose = 1 end
 
     if !color then
         color = AdminNotifColors["WHITE"]
@@ -31,6 +32,7 @@ function AdminNotif.Send(ply, text, time, color)
 		net.WriteString(text)
 		net.WriteInt(time, 7)
 		net.WriteColor(color)
+		net.WriteInt(verbose, 4)
 	net.Send( ply )
 end
 
@@ -39,16 +41,16 @@ function AdminNotif.SendStaff( text, time, color, verbose ) // send to all staff
 		kityPrint( text, AdminNotifColors[color] or AdminNotifColors["WHITE"], "Staff Log", Color(255,0,0) )
 	end
 	for k,v in pairs( player.GetStaff() ) do
-		if verbose && v:GetInfoNum("gmt_admin_log", 1) < verbose then return end
-		AdminNotif.Send( v, text, time, color )
+		//if verbose && v:GetInfoNum("gmt_admin_log", 1) < verbose then return end
+		AdminNotif.Send( v, text, time, color, verbose )
 	end
 end
 
 function AdminNotif.SendAdmins( text, time, color, verbose ) // send to only admins
 	kityPrint( text, AdminNotifColors[color] or AdminNotifColors["WHITE"], "Admin Log", Color(255,0,0) )
 	for k,v in pairs( player.GetAdmins() ) do
-		if verbose && v:GetInfoNum("gmt_admin_log", 1) < verbose then return end
-		AdminNotif.Send( v, text, time, color )
+		//if verbose && v:GetInfoNum("gmt_admin_log", 1) < verbose then return end
+		AdminNotif.Send( v, text, time, color, verbose )
 	end
 end
 
