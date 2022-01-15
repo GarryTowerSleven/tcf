@@ -475,19 +475,17 @@ net.Receive( "SuddenDeath",  function( _, ply )
 	end
 end )
 
-function GM:PlayerDeathThink( ply )
-	if !IsValid( ply ) then return end
-
-	if ply.DuelDie then
+hook.Add( "PlayerDeathThink", "DuelingPreventRespawn", function( ply )
+	if Location.Is( ply:Location(), "duelarena" ) then
 		return false
+	else
+		if ( ply:IsBot() || ply:KeyPressed( IN_ATTACK ) || ply:KeyPressed( IN_ATTACK2 ) || ply:KeyPressed( IN_JUMP ) ) then
+			ply:Spawn()
+		end
 	end
 
-	if ( ply.NextSpawnTime && ply.NextSpawnTime > CurTime() ) then return end
-
-	if ( ply:IsBot() || ply:KeyPressed( IN_ATTACK ) || ply:KeyPressed( IN_ATTACK2 ) || ply:KeyPressed( IN_JUMP ) ) then
-		ply:Spawn()
-	end
-end
+	return true
+end )
 
 hook.Add( "Location","DuelingPlayermodel", function( ply, loc, lastloc )
 	if IsValid( ply ) then
