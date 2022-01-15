@@ -68,7 +68,7 @@ concommand.Add("-menu_context", GtowerMainGui.GtowerHideContextMenus)
 
 function GtowerMainGui:GtowerShowMenus()
 	if GtowerMainGui.ContextMenuEnabled then return end
-	if hook.Call("CanOpenMenu", GAMEMODE ) == false || Dueling.IsDueling( LocalPlayer() )	then return end
+	if hook.Call("CanOpenMenu", GAMEMODE ) == false || IsValid( LocalPlayer():GetNWEntity("DuelOpponent") ) then return end
     
 	hook.Call("GtowerShowMenusPre", GAMEMODE )
 
@@ -113,7 +113,7 @@ function GtowerMainGui:GtowerShowContextMenus()
 	if GtowerMainGui.MenuEnabled then return end
 
 	if hook.Call( "DisableMenu", GAMEMODE ) == false then return end
-	if hook.Call( "CanOpenMenu", GAMEMODE ) == false || ( Dueling && Dueling.IsDueling( LocalPlayer() ) ) then return end
+	if hook.Call( "CanOpenMenu", GAMEMODE ) == false || IsValid( LocalPlayer():GetNWEntity("DuelOpponent") ) then return end
     
 	hook.Call( "GTowerShowContextMenusPre", GAMEMODE )
 
