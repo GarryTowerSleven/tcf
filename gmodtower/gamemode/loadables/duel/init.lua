@@ -74,9 +74,8 @@ concommand.Add( "gmt_duelaccept", function( ply, cmd, args )
 			for slot, Item in pairs( SlotList ) do
 				if Item.MysqlId == InviteItemID then
 					Inviter:InvRemove( slot, true )
-					if ply:InVehicle() then
-						ply:ExitVehicle()
-					end
+					ply:ExitVehicle()
+					Inviter:ExitVehicle()
 					StartDueling( Inviter:GetNWString( "DuelWeapon" ), Inviter, ply, Inviter:GetNWInt( "DuelAmount" ) )
 					return
 				end
