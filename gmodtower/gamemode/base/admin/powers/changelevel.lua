@@ -37,21 +37,23 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 			return
 		end
 
-		local DuelGoingOn = false
+		if IsLobby then
+			local DuelGoingOn = false
 
-		for k,v in pairs( player.GetAll() ) do
-			if Dueling.IsDueling( v ) then
-				DuelGoingOn = true
+			for k,v in pairs( player.GetAll() ) do
+				if Dueling.IsDueling( v ) then
+					DuelGoingOn = true
+				end
 			end
-		end
 
-		if DuelGoingOn then
-			if ply:IsValid() then
-				ply:MsgT("FailedMapChange")
-			else
-				MsgC( co_color2, "You cannot change levels while there is poker or duel going. Use gmt_forcelevel to override this." )
+			if DuelGoingOn then
+				if ply:IsValid() then
+					ply:MsgT("FailedMapChange")
+				else
+					MsgC( co_color2, "You cannot change levels while there is poker or duel going. Use gmt_forcelevel to override this." )
+				end
+				return
 			end
-			return
 		end
 
 		if map == '' then
