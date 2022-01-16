@@ -12,7 +12,6 @@ AddCSLuaFile( "cl_panel.lua" )
 
 module( "Dueling", package.seeall )
 
-local DeathCheck = {}
 local DuelMessageColor = Color( 150, 35, 35, 255 )
 
 hook.Add( "CanPlayerSuicide", "DuelSuicide", function( ply )
@@ -157,6 +156,7 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 
 	for k,v in pairs( player.GetAll() ) do
 		if IsDueling( v ) then
+			v:AddAchievement( ACHIEVEMENTS.SIDEBYSIDE, 1 )
 			CanAchi = true
 		end
 	end
@@ -235,8 +235,6 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 
 	local CurPlayers = { Requester, Arriver }
 
-	table.Add( DeathCheck , CurPlayers )
-
 	timer.Simple( DuelStartDelay, function()
 		Requester:GodDisable()
 		Arriver:GodDisable()
@@ -289,7 +287,6 @@ local respawnDelay = 5
 local function RespawnDuelers(ply, opponent)
 	
 	if IsValid(ply) then
-		ply.DuelDie = false
     	ply:StripWeapons()
 		ply:Spawn()
     	ply:SetPos( Vector(4688, -565, -3520) )
@@ -297,7 +294,6 @@ local function RespawnDuelers(ply, opponent)
 	end
 
 	if IsValid(opponent) then
-		opponent.DuelDie = false
 		opponent:StripWeapons()
 		opponent:Spawn()
 		opponent:SetPos( Vector(4688, -851, -3520) )
@@ -306,7 +302,7 @@ local function RespawnDuelers(ply, opponent)
 
 end
 
-local function ClearDeathCheck(ply)
+local function ClearDuel(ply)
 	local ByDisconnect = net.ReadBool()
     local Opponent = ply:GetNWEntity( "DuelOpponent" )
 	local Amount = tonumber( ply:GetNWInt( "DuelAmount" ) )
@@ -319,9 +315,6 @@ local function ClearDeathCheck(ply)
 		if !ByDisconnect then
 			ply:SetCustomCollisionCheck(true)
 			Opponent:SetCustomCollisionCheck(true)
-
-			ply.DuelDie = true
-			Opponent.DuelDie = true
 
 			local Timestamp = os.time()
 			local TimeString = os.date( "%H:%M:%S - %d/%m/%Y" , Timestamp )
@@ -381,16 +374,6 @@ local function ClearDeathCheck(ply)
 		end
 
 	end
-
-	if table.HasValue(DeathCheck, ply) then
-		table.RemoveByValue(DeathCheck, ply)
-	end
-
-	if ByDisconnect then return end
-
-	if table.HasValue(DeathCheck, Opponent) then
-		table.RemoveByValue(DeathCheck, Opponent)
-	end
 end
 
 local function EndDuelClient( won, target, victim )
@@ -411,17 +394,15 @@ local function EndDuel( victim, disconnected )
     local target = victim:GetNWEntity( "DuelOpponent" )
 
 	if disconnected and !IsValid( victim ) and Location.Is( target:Location(), "duelarena" ) then
-		ClearDeathCheck( target )
-
+		ClearDuel( target )
 		target = nil
-
         EndDuelClient( won, target )
 	end
 
 	won = victim != target
 
 	if won then
-		ClearDeathCheck( target )
+		ClearDuel( target )
 	end
 
 	target:SetNWEntity( "DuelOpponent", NULL )
@@ -436,19 +417,15 @@ local function EndDuel( victim, disconnected )
 	end )
 end
 
-hook.Add( "PostPlayerDeath", "DuelDeathCheck", function(ply)
-    if !table.HasValue( DeathCheck, ply ) then return end
-
+hook.Add( "PostPlayerDeath", "DuelDeathCheck", function( ply )
+	if !Dueling.IsDueling( ply ) then return end
     EndDuel( ply, false )
-end)
+end )
 
 hook.Add( "PlayerDisconnected", "DisconnectDeathCheck", function(ply)
-	if !table.HasValue( DeathCheck, ply ) then return end
-
-	table.RemoveByValue( DeathCheck, ply )
-
+	if !Dueling.IsDueling( ply ) then return end
     EndDuel( ply, true )
-end)
+end )
 
 net.Receive( "SuddenDeath",  function( _, ply )
 	local Opponent = ply:GetNWEntity( "DuelOpponent" )
