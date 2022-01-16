@@ -561,8 +561,7 @@ function initHud()
 
 	function GTowerHUD.DrawHealth()
 
-		// i dont see why not
-		if !Dueling.IsDueling(LocalPlayer()) then return end
+		if !HUDStyle_Lobby1AB && /*!Dueling.IsDueling(LocalPlayer())*/ !Location.Is( LocalPlayer():Location(), "duelarena" ) then return end
 
 		// Lobby 1 Health
 		if !HUDStyle_L2 then
@@ -745,12 +744,11 @@ function initHud()
 		/*if ActiveJetpack && ActiveJetpack:IsValid() then
 			jetpack.JetpackFuelDraw( GTowerHUD.Info.X, GTowerHUD.Info.Y, GTowerHUD.Info.Width, GTowerHUD.Info.Height-4 )
 		end*/
-		
-		if HUDStyle_L2 then
+		if !HUDStyle_Lobby1AB then
 			GTowerHUD.DrawHealth()
 		end
 		GTowerHUD.DrawInfo()
-		if !HUDStyle_L2 then
+		if HUDStyle_Lobby1AB then
 			GTowerHUD.DrawHealth()
 		end
 		GTowerHUD.DrawVolumeIcon()
