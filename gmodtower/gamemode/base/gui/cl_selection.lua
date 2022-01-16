@@ -73,15 +73,27 @@ function CreateConfirmation( text, onaccept, ondeny )
 
 end
 
+local wasPlaying
 concommand.Add( "storeopen", function( ply, cmd, args )
 
 	StoreID = tonumber(args[1])
 	local isDiscount = true
 	local discount = tonumber(args[2])
 
-	soundscape.StopChannel("music", 0.5, true)
+	if GetConVar("gmt_bgmusic_enable"):GetBool() && !Location.IsNightclub( ply:Location() ) then
 
-	if !Location.IsGroup( ply:Location(), "nightclub" ) then
+		local scape = soundscape.GetMusicSoundscape( LocalPlayer():Location() ) or "music_global_ambient"
+
+		if soundscape.IsPlaying( scape ) then 
+			soundscape.Stop( scape, soundscape.FadeTime/2 )
+			wasPlaying = scape
+		elseif soundscape.IsPlaying("music_global_ambient") then
+			soundscape.Stop( "music_global_ambient", soundscape.FadeTime/2 )
+			wasPlaying = "music_global_ambient"
+		elseif soundscape.IsPlaying("music_games") then
+			soundscape.Stop( "music_games", soundscape.FadeTime/2 )
+			wasPlaying = "music_games"
+		end
 
 		if StoreID == GTowerStore.MERCHANT then
 			soundscape.Play("music_store_merchant", "music", true)
@@ -376,11 +388,20 @@ function PANEL:SetMenu( menu, back )
 		self.Close:SetIcon( "cancel" )
 
 		self.Close:SetFunction( function()
-			soundscape.StopChannel("music", 0.5, true)
 
-			if LocalPlayer():GetInfo("gmt_bgmusic_enable") == "1" then
-				if !Location.IsGroup( LocalPlayer():Location(), "nightclub" ) then
-					soundscape.Play("music_global_ambient", "music", true)
+			if soundscape.IsPlaying("music_store") then
+				soundscape.Stop( "music_store", soundscape.FadeTime/2 )
+			elseif soundscape.IsPlaying("music_store_merchant") then 
+				soundscape.Stop( "music_store_merchant", soundscape.FadeTime/2 )
+			end
+
+			if GetConVar("gmt_bgmusic_enable"):GetBool() then
+				if wasPlaying then
+					soundscape.Play( wasPlaying, "music" )
+					wasPlaying = nil
+				else
+					local scape = soundscape.GetMusicSoundscape( LocalPlayer():Location() ) or "music_global_ambient"
+					soundscape.Play( scape, "music" )
 				end
 			end
 

@@ -24,8 +24,11 @@ local Volume = CreateClientConVar("gmt_bgmusic_volume", "50", true, false )
 cvars.AddChangeCallback(Enabled:GetName(), function(name, old, new )
 	if not tobool(new) then
 		soundscape.StopChannel("music", 0.5, true)
-	elseif not soundscape.IsPlaying("music_global_ambient") then
-		soundscape.Play("music_global_ambient", "music", true)
+	else /*if not soundscape.IsPlaying("music_global_ambient") then
+		soundscape.Play("music_global_ambient", "music", true)*/
+
+		local scape = soundscape.GetMusicSoundscape( LocalPlayer():Location() ) or "music_global_ambient"
+		soundscape.Play( scape, "music", true )
 	end
 end )
 
