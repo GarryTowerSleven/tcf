@@ -96,7 +96,7 @@ function DrawHUDTimer()
 
 	if TimeLeft < 0 then
 		TimeLeft = 0
-		if LocalPlayer():Alive() and LocalPlayer().DuelOpponent:Alive() then
+		if LocalPlayer():Alive() and IsValid( LocalPlayer().DuelOpponent ) and LocalPlayer().DuelOpponent:Alive() then
 			net.Start("SuddenDeath")
 			net.SendToServer()
 		end
