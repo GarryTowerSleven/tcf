@@ -321,7 +321,7 @@ function GM:ResetGame()
 			level = level + 1
 			local NextLVL = GetNextSpawn()
 
-			if NextLVL == false then
+			if NextLVL == nil then
 				net.Start("roundmessage")
 				net.WriteInt( 2, 3 )
 				net.Broadcast()
