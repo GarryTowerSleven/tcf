@@ -74,6 +74,9 @@ concommand.Add( "gmt_duelaccept", function( ply, cmd, args )
 			for slot, Item in pairs( SlotList ) do
 				if Item.MysqlId == InviteItemID then
 					Inviter:InvRemove( slot, true )
+					if ply:InVehicle() then
+						ply:ExitVehicle()
+					end
 					StartDueling( Inviter:GetNWString( "DuelWeapon" ), Inviter, ply, Inviter:GetNWInt( "DuelAmount" ) )
 					return
 				end
@@ -151,15 +154,13 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 		end
 	end
 
-	local Duelists = 0
+	local CanAchi = false
 
 	for k,v in pairs( player.GetAll() ) do
 		if IsDueling( v ) then
-			Duelists = Duelists + 1
+			CanAchi = true
 		end
 	end
-
-	local CanAchi = ( Duelists > 2 )
 
 	if CanAchi then
 		Requester:AddAchievement( ACHIEVEMENTS.SIDEBYSIDE, 1 )
