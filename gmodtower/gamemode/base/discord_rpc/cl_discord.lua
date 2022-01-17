@@ -140,8 +140,8 @@ local function DiscordUpdate()
         rpc_data["largeImageText"] = "gmtdeluxe.org/chat"
         rpc_data["largeImageKey"] = getLocationPic(location)
 
-        local duel = IsValid( LocalPlayer():GetNWEntity("DuelOpponent") )
-        if IsValid( duel ) then
+        local duel = Dueling.IsDueling(LocalPlayer())
+        if duel then
             rpc_data["state"] = "Dueling " .. duel:Name()
         end
     end
