@@ -781,7 +781,7 @@ function initHud()
 		draw.DrawText("- SCORE -","GTowerSkyMsgSmall",16,ScrH()/2-52,Color( 255, 255, 255, 255 ),TEXT_ALIGN_LEFT)
 		draw.DrawText( LocalPlayer():GetNWInt("MinigameScore"), "VoteTitle", 16, ScrH()/2, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
 
-		surface.SetMaterial(GTowerIcoons.GetIcoon("time"))
+		surface.SetMaterial(GTowerIcons2.GetIcon("time"))
 		surface.SetDrawColor(255,255,255,255)
 		surface.DrawTexturedRect(0,52,80,80)
 	end
