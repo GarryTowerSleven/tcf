@@ -763,6 +763,27 @@ function initHud()
 			draw.SimpleShadowText( "Follow us at http://www.gmtower.org/", "GTowerHudCSubText", ScrW()/2, ScrH() - 25, Color( 255, 255, 255, 255 ), Color( 0, 0, 0, 230 ), 1, 1, 1 )
 		end]]
 
+		if LocalPlayer():GetNWBool("MinigameOn") then
+			GTowerHUD.MinigameHUD()
+		end
+	end
+
+	local hud_icon_clock = Material( "gmod_tower/balls/hud_icon_clock" )
+	surface.CreateFont( "BallFont", { font = "Coolvetica", size = 48, weight = 200 } )
+
+	function GTowerHUD.MinigameHUD()
+		local TimeLeft = (GetGlobalFloat("MinigameRoundTime") - CurTime())
+		local TimeString = string.FormattedTime( TimeLeft, "%02i:%02i" )
+
+		draw.DrawText("- MINIGAME -","GTowerSkyMsgSmall",24,0,Color( 255, 255, 255, 255 ),TEXT_ALIGN_LEFT)
+		draw.DrawText( TimeString, "VoteTitle", 4 + 80, 60, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
+
+		draw.DrawText("- SCORE -","GTowerSkyMsgSmall",16,ScrH()/2-52,Color( 255, 255, 255, 255 ),TEXT_ALIGN_LEFT)
+		draw.DrawText( LocalPlayer():GetNWInt("MinigameScore"), "VoteTitle", 16, ScrH()/2, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
+
+		surface.SetMaterial(GTowerIcoons.GetIcoon("time"))
+		surface.SetDrawColor(255,255,255,255)
+		surface.DrawTexturedRect(0,52,80,80)
 	end
 
 	local hud_icon_clock = Material( "gmod_tower/balls/hud_icon_clock" )
