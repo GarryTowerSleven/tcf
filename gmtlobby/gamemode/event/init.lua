@@ -2,7 +2,7 @@
 local EventSound = "gmodtower/misc/notifyevent.wav"
 if time.IsChristmas() then EventSound = "gmodtower/music/christmas/eventnotify.mp3" end
 
-local eventlist = { "balloon", "battle", "obama", "storesale", "storesale" }
+local eventlist = { minigames.balloonpop.MinigameName, "battle", minigames.obamasmash.MinigameName, "storesale", "storesale" }
 
 local shopslist = {
     GTowerStore.SUITE,
@@ -87,7 +87,7 @@ function StartEvent( event )
         SendMessageToPlayers( "MiniStoreGameStart", discount, GTowerStore.Stores[ store ].WindowTitle )
 
         GTowerStore:BeginSale(store, discount*.01)
-    elseif event == "balloon" then
+    elseif event == minigames.balloonpop.MinigameName then
         local MiniGame = minigames[ "balloonpop" ]
 
         if !MiniGame then
@@ -105,7 +105,7 @@ function StartEvent( event )
 
         endtime = CurTime() + minitime
 
-    elseif event == "obama" then
+    elseif event == minigames.obamasmash.MinigameName then
         local MiniGame = minigames[ "obamasmash" ]
 
         if !MiniGame then
