@@ -214,8 +214,10 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	Requester:SetNWEntity( "DuelOpponent", Arriver )
 	Arriver:SetNWEntity( "DuelOpponent", Requester )
 
-	GiveDuelerAmmo( Requester )
-	GiveDuelerAmmo( Arriver )
+	if IsValid( Requester ) && IsValid( Arriver ) then
+		GiveDuelerAmmo( Requester )
+		GiveDuelerAmmo( Arriver )
+	end
 
 	Requester:GodEnable()
 	Arriver:GodEnable()
@@ -229,15 +231,17 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	end )
 
 	timer.Simple( 7, function()
-		Requester.CanPickupWeapons = false
-		Arriver.CanPickupWeapons = false
+		if IsValid( Requester ) && IsValid( Arriver ) then
+			Requester.CanPickupWeapons = false
+			Arriver.CanPickupWeapons = false
+		end
 	end )
 
-	local CurPlayers = { Requester, Arriver }
-
 	timer.Simple( DuelStartDelay, function()
-		Requester:GodDisable()
-		Arriver:GodDisable()
+		if IsValid( Requester ) && IsValid( Arriver ) then
+			Requester:GodDisable()
+			Arriver:GodDisable()
+		end
 	end )
 
 	net.Start( "StartDuel" )
@@ -310,17 +314,16 @@ local function ClearDuel(ply)
 	if IsValid( ply ) && !IsDueling( ply ) then return end
 	if IsValid( Opponent ) && !IsDueling( Opponent ) then return end
 
-	if Amount > 0 then
+	if !ByDisconnect then
+		ply:SetCustomCollisionCheck(true)
+		Opponent:SetCustomCollisionCheck(true)
 
-		if !ByDisconnect then
-			ply:SetCustomCollisionCheck(true)
-			Opponent:SetCustomCollisionCheck(true)
+		local Timestamp = os.time()
+		local TimeString = os.date( "%H:%M:%S - %d/%m/%Y" , Timestamp )
+		SQLLog( 'duel', ply:Name() .. " has won a duel with " .. Opponent:Name() .. " winning " .. tostring(Amount) .. "GMC. (" .. TimeString .. ")" )
+		local OpponentMoney = tonumber( Opponent:Money() )
 
-			local Timestamp = os.time()
-			local TimeString = os.date( "%H:%M:%S - %d/%m/%Y" , Timestamp )
-			SQLLog( 'duel', ply:Name() .. " has won a duel with " .. Opponent:Name() .. " winning " .. tostring(Amount) .. "GMC. (" .. TimeString .. ")" )
-			local OpponentMoney = tonumber( Opponent:Money() )
-
+		if Amount > 0 then
 			if OpponentMoney <= Amount then
 				ply:AddMoney( OpponentMoney )
 				if !ByDisconnect then
@@ -333,56 +336,35 @@ local function ClearDuel(ply)
 			if !ByDisconnect then
 				Opponent:AddMoney( -Opponent:GetNWInt( "DuelAmount" ) )
 			end
-
 		end
+	end
 
-		if ByDisconnect then
-			ply:SetHealth( 100 )
-			ply:SetCustomCollisionCheck( true )
+	if ByDisconnect then
+		ply:SetHealth( 100 )
+		ply:SetCustomCollisionCheck( true )
 
-			GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel!", DuelMessageColor )
-		else
-			ply:SetCustomCollisionCheck( true )
-			ply:SetHealth( 100 )
-			Opponent:SetHealth( 100 )
-			Opponent:SetCustomCollisionCheck( true )
-
-			GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel with "..Opponent:Name()..", winning "..Amount.." GMC!", DuelMessageColor )
-		end
+		GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel!", DuelMessageColor )
 	else
-
-		if ByDisconnect then
-
-			if IsDueling( ply ) then
-				ply:SetCustomCollisionCheck( true )
-			end
-
-			GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel!", DuelMessageColor )
-
+		ply:SetCustomCollisionCheck( true )
+		ply:SetHealth( 100 )
+		Opponent:SetHealth( 100 )
+		Opponent:SetCustomCollisionCheck( true )
+		
+		if Amount > 0 then
+			GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel with "..Opponent:Name()..", winning "..Amount.." GMC!", DuelMessageColor )
 		else
-
-			if IsDueling( ply ) then
-				ply:SetCustomCollisionCheck( true )
-			end
-
-			if IsDueling( Opponent ) then
-				Opponent:SetCustomCollisionCheck( true )
-			end
-
 			GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel with "..Opponent:Name().."!", DuelMessageColor )
-
 		end
-
 	end
 end
 
 local function EndDuelClient( won, target, victim )
-	net.Start( "EndDuelClient" )
-		net.WriteBool( won )
-		net.WritePlayer( victim )
-	net.Send( target )
+	if IsValid( victim ) || IsValid( target ) then
+		net.Start( "EndDuelClient" )
+			net.WriteBool( won )
+			net.WritePlayer( victim )
+		net.Send( target )
 
-	if IsValid( victim ) then
 		net.Start( "EndDuelClient" )
 			net.WriteBool( false )
 			net.WritePlayer( target )

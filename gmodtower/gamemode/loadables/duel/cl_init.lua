@@ -225,6 +225,12 @@ hook.Add( "HUDPaint", "HUDPaintDueling", function()
 	end
 end )
 
+hook.Add( "Think", "DuelMusicThink", function()
+	if !Dueling.IsDueling( LocalPlayer() ) && DuelMusic then
+		DuelMusic:Stop()
+	end
+end )
+
 net.Receive( "StartDuel", function( len )
 	local req = net.ReadPlayer()
 	local ply = net.ReadPlayer()
