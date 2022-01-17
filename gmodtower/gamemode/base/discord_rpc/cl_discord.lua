@@ -142,7 +142,10 @@ local function DiscordUpdate()
 
         local duel = Dueling.IsDueling(LocalPlayer())
         if duel then
-            rpc_data["state"] = "Dueling " .. duel:Name()
+			local duelist = LocalPlayer():GetNWEntity("DuelOpponent")
+			if IsValid( duelist ) then
+				rpc_data["state"] = "Dueling " .. duelist:Name()
+			end
         end
     end
 
