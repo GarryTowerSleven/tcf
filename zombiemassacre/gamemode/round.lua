@@ -342,13 +342,16 @@ function GM:StartDay()
 		return
 	end
 
-	if GetGlobalInt( "Round" ) == 1 then
-		SetGlobalInt( "ZMDayTime", CurTime() + 59 )
-	elseif GetGlobalInt( "Round" ) == 6 then
-		SetGlobalInt( "ZMDayTime", CurTime() + self.DefaultDayTime + 60 )
-	else
-		SetGlobalInt( "ZMDayTime", CurTime() + self.DefaultDayTime )
-	end
+	local DayTimes = {
+		60,
+		self.DefaultDayTime,
+		self.DefaultDayTime,
+		self.DefaultDayTime+60,
+		self.DefaultDayTime+60,
+		self.DefaultDayTime+120
+	}
+
+	SetGlobalInt( "ZMDayTime", CurTime() + DayTimes[GetGlobalInt( "Round" )] )
 
 	SetGlobalBool( "ZMDayOver", false )
 
