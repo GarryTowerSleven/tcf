@@ -2,7 +2,7 @@
 local EventSound = "gmodtower/misc/notifyevent.wav"
 if time.IsChristmas() then EventSound = "gmodtower/music/christmas/eventnotify.mp3" end
 
-local eventlist = { minigames.balloonpop.MinigameName, "battle", minigames.obamasmash.MinigameName, "storesale", "storesale" }
+local eventlist = { minigames.balloonpop.MinigameName, minigames.chainsaw.MinigameName, minigames.obamasmash.MinigameName, "storesale", "storesale" }
 
 local shopslist = {
     GTowerStore.SUITE,
@@ -123,7 +123,7 @@ function StartEvent( event )
 
         endtime = CurTime() + minitime
 
-    elseif event == "battle" then
+    elseif event == minigames.chainsaw.MinigameName then
         local MiniGame = minigames[ "chainsaw" ]
 
         if !MiniGame then
@@ -168,13 +168,13 @@ function EndEvent()
     if curevent == "storesale" then
         GTowerStore:EndSale(cursale)
         MsgC( co_color2, "[EVENTS] Sale ended at " .. GTowerStore.Stores[ cursale ].WindowTitle .. "\n" )
-    elseif curevent == "balloon" then
+    elseif curevent == minigames.balloonpop.MinigameName then
         SafeCall( minigames[ "balloonpop" ].End )
         MsgC( co_color2, "[EVENTS] Balloonpop ended\n" )
-    elseif curevent == "obama" then
+    elseif curevent == minigames.obamasmash.MinigameName then
         SafeCall( minigames[ "obamasmash" ].End )
         MsgC( co_color2, "[EVENTS] Obamasmash ended\n" )
-    elseif curevent == "battle" then
+    elseif curevent == minigames.chainsaw.MinigameName then
         SafeCall( minigames[ "chainsaw" ].End )
         MsgC( co_color2, "[EVENTS] Chainsaw ended\n" )
     elseif curevent == "tronarnia" then
