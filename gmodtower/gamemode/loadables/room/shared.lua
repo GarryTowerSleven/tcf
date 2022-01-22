@@ -51,6 +51,8 @@ Doorbells = {
 
 	NewDoorbell( "Vocoder", "vocoder1" ),
 	NewDoorbell( "Vocoder 2", "vocoder2" ),
+
+	NewDoorbell( "Deluxe", "deluxe" ),
 }
 
 -- Skyboxes
