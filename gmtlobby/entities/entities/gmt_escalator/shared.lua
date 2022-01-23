@@ -20,7 +20,7 @@ ENT.Model			= Model("models/map_detail/deluxe_lobby_escalator.mdl")
 
 ENT.Sound		= Sound( "GModTower/lobby/trainstation/escalator.mp3")
 
-ENT.EscalatorSpeed = 5.5
+ENT.EscalatorSpeed = 10.2
 
 hook.Add( "Move", "EscalatorMove", function( ply, mv )
 
@@ -33,7 +33,7 @@ hook.Add( "Move", "EscalatorMove", function( ply, mv )
 		if self:GetNWBool("Up") then
 			vel = vel + (self:GetAngles():Forward() * (self.EscalatorSpeed - 2.25) )
 		else
-			vel = vel + (-self:GetAngles():Forward() * self.EscalatorSpeed )
+			vel = vel + (-self:GetAngles():Forward() * (self.EscalatorSpeed + 3) )
 		end
 	
 		mv:SetVelocity(vel)
