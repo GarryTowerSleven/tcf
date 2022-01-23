@@ -147,9 +147,9 @@ function ENT:StartFish()
 
 	self.FishAngle = math.random( 0, 360 )
 	self.Fishing = true
-	--if !IsValid( self.Balloon ) then
-		--self:MakeBalloon( 12, 100, Vector( 0, 0, 0 ) )
-	--end
+	if !IsValid( self.Balloon ) then
+		self:MakeBalloon( 12, 100, Vector( 0, 0, 0 ) )
+	end
 
 end
 
@@ -161,7 +161,7 @@ function ENT:EndFish()
 	self.CanGetUp = true
 	self:EmitSound( "UCH/saturn/saturn_getup.wav", 60, 100 )
 	self.Fishing = false
-	--self:RemoveBalloon()
+	self:RemoveBalloon()
 
 end
 
@@ -221,6 +221,6 @@ function ENT:EndFly()
 	self.Descending = false
 	self.FlyCheck = false
 	self.WalkAngle.r = 0
-	--self:RemoveBalloon()
+	self:RemoveBalloon()
 
 end
