@@ -528,12 +528,37 @@ concommand.Add("gmt_roomban", function( ply, cmd, args )
 	if !IsValid(ent) or !ent:IsPlayer() then return end
 
 	// Kick the guy
-	ply:SendLua([[RunConsoleCommand("gmt_roomkick","]] .. tostring(index) .. [[")]])
+	--ply:SendLua([[RunConsoleCommand("gmt_roomkick","]] .. tostring(index) .. [[")]])
+	Suite.RemovePlayer( ent )
 
 	if !ply.RoomBans then ply.RoomBans = {} end
 
+	if table.HasValue( ply.RoomBans, ent ) then return end
+
 	table.insert( ply.RoomBans, ent )
 
+	net.Start( "NetworkScores" )
+		net.WriteEntity( ply )
+		net.WriteTable( ply.RoomBans )
+	net.Send( ply )
+end )
+
+concommand.Add("gmt_roomunban", function( ply, cmd, args )
+	local index = args[1]
+	if !index then return end
+	local ent = ents.GetByIndex(index)
+	if !IsValid(ent) or !ent:IsPlayer() then return end
+
+	if !ply.RoomBans then ply.RoomBans = {} end
+
+	if !table.HasValue( ply.RoomBans, ent ) then return end
+
+	table.remove( ply.RoomBans, table.KeyFromValue( ply.RoomBans, ent ) )
+
+	net.Start( "NetworkScores" )
+		net.WriteEntity( ply )
+		net.WriteTable( ply.RoomBans )
+	net.Send( ply )
 end )
 
 concommand.Add("gmt_roomdebugpos", function( ply, cmd, args )
