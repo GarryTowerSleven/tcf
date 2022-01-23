@@ -147,29 +147,40 @@ function APP:StartTab( tab )
 	local spacing = 2
 	local w, h = iconSize+32, iconSize + (spacing*2)
 	local x, y = scrw-w*2-20, 80
+	local x2 = x + iconSize+32 + (spacing*2)
 
 	for plyid, ply in pairs( self.PlayerList ) do
 
-		self:CreateButton( "ply_kick"..plyid, x, y, w, h,
-			function( btn, x, y, w, h, isover ) -- draw
-				DrawButtonTab( "KICK", nil, iconSize, x, y, w, h, isover )
-			end,
-			function( btn ) -- onclick
-				RunConsoleCommand( "gmt_roomkick", ply:EntIndex() )
-			end
-		)
+		if tab != "Banned" then
+			self:CreateButton( "ply_kick"..plyid, x, y, w, h,
+				function( btn, x, y, w, h, isover ) -- draw
+					DrawButtonTab( "KICK", nil, iconSize, x, y, w, h, isover )
+				end,
+				function( btn ) -- onclick
+					RunConsoleCommand( "gmt_roomkick", ply:EntIndex() )
+				end
+			)
 
-		local x2 = x + iconSize+32 + (spacing*2)
-
-		self:CreateButton( "ply_ban"..plyid, x2, y, w, h,
-			function( btn, x, y, w, h, isover ) -- draw
-				DrawButtonTab( "BAN", nil, iconSize, x, y, w, h, isover )
-			end,
-			function( btn ) -- onclick
-				RunConsoleCommand( "gmt_roomban", ply:EntIndex() )
-				self:GetBannedGuests()
-			end
-		)
+			self:CreateButton( "ply_ban"..plyid, x2, y, w, h,
+				function( btn, x, y, w, h, isover ) -- draw
+					DrawButtonTab( "BAN", nil, iconSize, x, y, w, h, isover )
+				end,
+				function( btn ) -- onclick
+					RunConsoleCommand( "gmt_roomban", ply:EntIndex() )
+					self:GetBannedGuests()
+				end
+			)
+		else
+			self:CreateButton( "ply_unban"..plyid, x2, y, w, h,
+				function( btn, x, y, w, h, isover ) -- draw
+					DrawButtonTab( "LIFT", nil, iconSize, x, y, w, h, isover )
+				end,
+				function( btn ) -- onclick
+					RunConsoleCommand( "gmt_roomunban", ply:EntIndex() )
+					self:GetBannedGuests()
+				end
+			)
+		end
 
 		y = y + h + (spacing*2)
 
@@ -178,8 +189,10 @@ function APP:StartTab( tab )
 end
 
 function APP:Think()
-
+	self:GetGuests()
+	self:GetBannedGuests()
 end
+
 function APP:Draw()
 
 	surface.SetMaterial( Backgrounds[self.I.HomeBG] )
