@@ -199,13 +199,13 @@ end
 
 function ENT:MakeBalloon( force, length, offset )
 
-	local balloon_count = math.Clamp( 2*player.GetCount(), 1, 8 )
+	local balloon_count = math.Clamp( (2*(#player.GetAll()-1)), 1, 20 )
 
-	for i=1,balloon_count do
+	--for i=1,balloon_count do
+	if timer.Exists( "BalloonSpawn" ) then return end
+
+	timer.Create( "BalloonSpawn", 0.8, balloon_count, function()
 		local balloon = ents.Create( "saturn_balloon" )
-		/*if !balloon:IsValid() then
-			return
-		end*/
 
 		balloon:SetPos( self:GetPos() + Vector( 0, 0, length ) )
 		
@@ -235,7 +235,7 @@ function ENT:MakeBalloon( force, length, offset )
 		constraint.Rope( ent1, ent2, bone1, bone2, pos1, pos2, length, 0, forcelimit, width, material, rigid )
 		
 		//self.Balloon = balloon
-	end
+	end )
 
 end
 
@@ -313,7 +313,7 @@ function ENT:Scare()
 	self.IsScared = true
 	self:StartFly() // force him to fly
 	
-	local endfly = math.random( 6, 8 )
+	local endfly = math.random( 18, 20 )
 	self.SCHEDTime = CurTime() + endfly
 
 	timer.Simple( endfly, function() if IsValid(self) then self:EndFly() end end )

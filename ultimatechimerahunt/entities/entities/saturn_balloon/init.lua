@@ -33,7 +33,7 @@ function ENT:SetForce( force )
 end
 
 function ENT:OnTakeDamage( dmginfo )
-	
+
 	local r, g, b = self:GetColor()
 	
 	local effectdata = EffectData()
@@ -41,8 +41,8 @@ function ENT:OnTakeDamage( dmginfo )
 		effectdata:SetStart( Vector( r, g, b ) )
 	util.Effect( "piggy_pop", effectdata )
 	
-	self:Remove()
-	
+	self:Remove()	
+
 end
 
 function ENT:PhysicsSimulate( phys, deltatime )
