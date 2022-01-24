@@ -430,7 +430,7 @@ table.insert( GTowerHats.Hats, {
 } )
 table.insert( GTowerHats.Hats, {
 	Name = "Cap Reversed",
-	description = "Be a real fashionable kinda dude man",
+	description = "Be a real fashionable kinda dude man.",
 	unique_Name = "baseballcapreveresed",
 	price = 1300,
 	model = "models/gmod_tower/baseballcap.mdl",
