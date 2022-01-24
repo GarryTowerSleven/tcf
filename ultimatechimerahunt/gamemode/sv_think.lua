@@ -10,7 +10,7 @@ function GM:Think()
 		if self:IsRoundOver() then
 			hook.Call( "StartRound", GAMEMODE )
 		else
-			hook.Call( "EndRound", GAMEMODE, 5 )
+			hook.Call( "EndRound", GAMEMODE, 1002 )
 		end
 	end
 
