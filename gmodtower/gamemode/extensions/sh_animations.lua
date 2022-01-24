@@ -35,28 +35,34 @@ function GM:CalcMainActivity( ply, velocity )
 	// ===ANIMATION OVERRIDES===
 	-- Store the model so we don't retrieve it multiple times
 	local model = ply:GetModel()
-	// Roleplay as a zombie
-	if model == "models/player/zombie_classic.mdl" --[[&& Hats.IsWearing( ply, "hatheadcrab" )]] && ply:IsOnGround() then
-		ply.CalcSeqOverride = ply:LookupSequence( "zombie_idle" )
-		local len2d = velocity:Length2D()
-		if ( len2d > 250 ) then
-			ply.CalcSeqOverride = ply:LookupSequence( "zombie_run" )
-		elseif ( len2d > 0.5 ) then
-			ply.CalcSeqOverride = ply:LookupSequence( "zombie_walk_03" )
-		end
-	end
-	// fastie
-	if model == "models/player/zombie_fast.mdl" --[[&& Hats.IsWearing( ply, "hatheadcrab" )]] && ply:IsOnGround() then
+	-- Roleplay as a zombie
+    if model == "models/player/zombie_classic.mdl" and GTowerHats:IsWearing(ply, "hatheadcrab") and ply:IsOnGround() then
+        if IsLobby then
+            ply.CalcSeqOverride = ply:LookupSequence("zombie_idle")
+            local len2d = velocity:Length2D()
 
-		ply.CalcSeqOverride = ply:LookupSequence( "zombie_idle" )
+            if (len2d > 250) then
+                ply.CalcSeqOverride = ply:LookupSequence("zombie_run")
+            elseif (len2d > 0.5) then
+                ply.CalcSeqOverride = ply:LookupSequence("zombie_walk_03")
+            end
 
-		local len2d = velocity:Length2D()
-		if ( len2d > 250 ) then
-			ply.CalcIdeal = ACT_HL2MP_RUN_ZOMBIE_FAST
-		end
+            if not ply._WasZombie then
+                ply._OldWalkSpeed = ply:GetWalkSpeed()
+            end
 
-	end
-	// Dog animations
+            ply._WasZombie = true
+            ply:SetWalkSpeed(45)
+        end
+    else
+        if IsLobby then
+            if ply._WasZombie then
+                ply:SetWalkSpeed(ply._OldWalkSpeed)
+                ply._WasZombie = false
+            end
+        end
+    end
+	-- Dog animations
 	if model == "models/zom/dog.mdl" then
 
 		ply.CalcSeqOverride = ply:LookupSequence( "idle_scratch" )
