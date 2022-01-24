@@ -557,10 +557,6 @@ function ENT:Explode()
 	util.Effect( "piggy_pop", ef )
 	self:EmitSound( "UCH/saturn/saturn_hit.wav", 80, math.random( 35, 60 ) )
 	self:Remove()
-	
-	for _, v in ipairs( player.GetAll() ) do
-		GAMEMODE:HUDMessage( v, MSG_MRSATURNDEAD, 6 )
-	end
 
 end
 
