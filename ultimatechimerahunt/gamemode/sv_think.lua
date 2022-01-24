@@ -8,9 +8,9 @@ function GM:Think()
 
 	if self:GetTimeLeft() <= 0 && GetGlobalInt("Round") <= self.NumRounds && GetGlobalInt("Round") > 0 then
 		if self:IsRoundOver() then
-			hook.Call("StartRound", GAMEMODE )
+			hook.Call( "StartRound", GAMEMODE )
 		else
-			hook.Call("EndRound", GAMEMODE )
+			hook.Call( "EndRound", GAMEMODE, 1002 )
 		end
 	end
 

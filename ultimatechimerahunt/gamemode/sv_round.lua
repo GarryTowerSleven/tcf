@@ -164,6 +164,7 @@ function GM:EndRound( teamid )
 
 		else
 			self:HUDMessage( v, MSG_TIEGAME, 10 )
+			self.WinningTeam = 1002
 		end
 
 	end
@@ -235,7 +236,7 @@ end
 
 function GM:CleanUp()
 
-	game.CleanUpMap()
+	game.CleanUpMap(false, {"gmt_cosmeticbase", "gmt_hat"})
 
 	local rag = self.UCRagdoll
 	if IsValid( rag ) then
