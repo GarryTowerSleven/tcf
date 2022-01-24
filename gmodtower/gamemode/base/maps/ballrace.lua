@@ -98,22 +98,13 @@ Maps.Register( "gmt_ballracer_waterworld02", {
 	Priority = 11,
 } )
 
-Maps.Register( "gmt_ballracer_tranquil01", {
-	Name = "Tranquil",
-	Desc = "A magical world full of... RAINBOWS!",
-	Author = "GMod Tower: Deluxe Team",
-	DateAdded = 1339137397,
-	DateModified = 1339252668,
-	Priority = 12,
-} )
-
 Maps.Register( "gmt_ballracer_nightball", {
 	Name = "Night World",
 	Desc = "Roll trough this gravity defying world with moving obstacles, lasers, and lots of speed!",
 	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 13,
+	Priority = 12,
 } )
 
 Maps.Register( "gmt_ballracer_metalworld", {
@@ -122,12 +113,21 @@ Maps.Register( "gmt_ballracer_metalworld", {
 	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 14,
+	Priority = 13,
 } )
 
 Maps.Register( "gmt_ballracer_spaceworld01", {
 	Name = "Space World",
 	Desc = "Hard, more dynamic levels with new obstacles such as a catapult.",
+	Author = "GMod Tower: Deluxe Team",
+	DateAdded = 1339137397,
+	DateModified = 1339252668,
+	Priority = 14,
+} )
+
+Maps.Register( "gmt_ballracer_tranquil01", {
+	Name = "Tranquil",
+	Desc = "A magical world full of... RAINBOWS!",
 	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
