@@ -46,7 +46,7 @@ function GAMEMODE:GiveMoney()
 		end
 
 		// Chimera gets paid a little more for more action
-		if ply:Team() == TEAM_GHOST then
+		if ply:GetNWBool("IsChimera") then
 
 			local deadpigs = #team.GetPlayers( TEAM_GHOST )
 			if deadpigs > 0 then
