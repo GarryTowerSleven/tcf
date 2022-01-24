@@ -534,8 +534,9 @@ concommand.Add("gmt_roomban", function( ply, cmd, args )
 	if !IsValid(ent) or !ent:IsPlayer() then return end
 
 	// Kick the guy
-	--ply:SendLua([[RunConsoleCommand("gmt_roomkick","]] .. tostring(index) .. [[")]])
-	Suite.RemovePlayer( ent )
+	if !ent:IsAdmin() then
+		ply:ConCommand( "gmt_roomkick, "..index )
+	end
 
 	if !ply.RoomBans then ply.RoomBans = {} end
 

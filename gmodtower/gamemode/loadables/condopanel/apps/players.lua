@@ -120,25 +120,25 @@ function APP:StartTab( tab )
 	-- Load everyone who is in the condo
 	if tab == "Guests" then
 		self.PlayerList = self:GetGuests() or {}
+
+		-- Kick all
+		local w, h = sideBarWidth, iconSize + (spacing*2)
+		local x, y = 0, scrh-h-100
+
+		self:CreateButton( "kickall", x, y, w, h,
+			function( btn, x, y, w, h, isover ) -- draw
+				DrawButtonTab( "Kick All", Icons["doorclose"], iconSize, x, y, w, h, isover )
+			end,
+			function( btn ) -- onclick
+				RunConsoleCommand("gmt_roomkick")
+			end
+		)
 	end
 
 	-- Load just the ban list
 	if tab == "Banned" then
 		self.PlayerList = self:GetBannedGuests() or {}
 	end
-
-	-- Kick all
-	local w, h = sideBarWidth, iconSize + (spacing*2)
-	local x, y = 0, scrh-h-20
-
-	self:CreateButton( "kickall", x, y, w, h,
-		function( btn, x, y, w, h, isover ) -- draw
-			DrawButtonTab( "Kick All", Icons["doorclose"], iconSize, x, y, w, h, isover )
-		end,
-		function( btn ) -- onclick
-			RunConsoleCommand("gmt_roomkick")
-		end
-	)
 
 	if not self.PlayerList then return end
 
