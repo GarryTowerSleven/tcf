@@ -12,6 +12,7 @@ GM.Website  = "http://www.gmtower.org/"
 DeriveGamemode( "gmtgamemode" )
 SetupGMTGamemode( "Zombie Massacre", "zombiemassacre", {
 	Loadables = { "weaponfix" }, // Additional loadables
+	DrawHatsAlways = true, // Always draw hats
 	AFKDelay = 60, // Seconds before they will be marked as AFK
 	ChatY = 450,
 	ChatBGColor = Color( 50, 50, 50, 180 ),

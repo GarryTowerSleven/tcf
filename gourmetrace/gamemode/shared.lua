@@ -12,8 +12,8 @@ GM.NumRounds = 4
 
 DeriveGamemode( "gmtgamemode" )
 SetupGMTGamemode( "Gourmet Race", "gourmetrace", {
+	DrawHatsAlways = false, // Always draw hats
 	AllowChangeSize = false,
-	
 } )
 
 function NWTableGlobal()

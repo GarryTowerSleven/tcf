@@ -34,13 +34,10 @@ end
 
 // Private Use
 // ============================
--- TODO, renable these
---[[AddValidModel( "infected", "models/player/virusi.mdl", nil, true ) -- for virus
-AddValidModel( "minigolf", "models/sunabouzu/golf_ball.mdl", nil, true ) -- minigolf!
-AddValidModel( "uchghost", "models/uch/mghost.mdl", nil, true ) -- uch
-AddValidModel( "uchpigmask", "models/uch/pigmask.mdl", nil, true ) -- uch]]
-AddValidModel( "uchghost", "models/uch/mghost.mdl", nil, true ) -- uch
-AddValidModel( "uchpigmask", "models/uch/pigmask.mdl", nil, true ) -- uch
+AddValidModel( "infected", "models/player/virusi.mdl" ) -- for virus
+AddValidModel( "minigolf", "models/sunabouzu/golf_ball.mdl" ) -- minigolf!
+AddValidModel( "uchghost", "models/uch/mghost.mdl" ) -- uch
+AddValidModel( "uchpigmask", "models/uch/pigmask.mdl" ) -- uch
 // Public Use
 // ============================
 

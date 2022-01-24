@@ -1,5 +1,8 @@
----------------------------------
 include('shared.lua')
+
+function ENT:Initialize()
+	self:SetLegacyTransform( true ) -- Because they suck
+end
 
 function ENT:InitOffset()
 	self.OffsetTable = GTowerHats.DefaultValue
@@ -25,19 +28,19 @@ local function GetHeadPos( ent )
 
 end
 
-function ENT:PositionItem(ply)
+function ENT:PositionItem(ent)
 
-	local eyes = ply:LookupAttachment( GTowerHats.HatAttachment )
-	local EyeTbl = ply:GetAttachment( eyes )
+	local eyes = ent:LookupAttachment( GTowerHats.HatAttachment )
+	local EyeTbl = ent:GetAttachment( eyes )
 
-	local pos, ang
+	local pos, ang, scale
 
 	if !EyeTbl then
-		if ply:GetModel() == "models/uch/mghost.mdl" then
-			local head = ply:LookupBone("head")
+		if ent:GetModel() == "models/uch/mghost.mdl" then
+			local head = ent:LookupBone("head")
 
 			if head then
-				pos, ang = ply:GetBonePosition(head)
+				pos, ang = ent:GetBonePosition(head)
 			end
 		else
 			return
@@ -47,29 +50,38 @@ function ENT:PositionItem(ply)
 	end
 
 	if engine.ActiveGamemode() == "minigolf" then
-		local ball = ply:GetGolfBall()
-
-		if IsValid(ball) then
-			pos, ang = hook.Run("PositionHatOverride", ball)
-		end
-	else
-		local scale = ply:GetModelScale()
-		if !string.StartWith(game.GetMap(),"gmt_lobby") && !string.StartWith(game.GetMap(),"gmt_ballracer") then scale = 1 end
-		local Offsets = GTowerHats:GetTranslation( self.HatModel, self.PlyModel )
-
-		ang:RotateAroundAxis(ang:Right(), Offsets[4])
-		ang:RotateAroundAxis(ang:Up(), Offsets[5])
-		ang:RotateAroundAxis(ang:Right(), Offsets[6])
-
-		local HatOffsets = ang:Up() * Offsets[1] + ang:Forward() * Offsets[2] + ang:Right() * Offsets[3]
-
-		HatOffsets.x = HatOffsets.x * scale
-		HatOffsets.y = HatOffsets.y * scale
-		HatOffsets.z = HatOffsets.z * scale
-
-		pos = pos + HatOffsets
+		local ball = ent:GetGolfBall()
+		pos, ang, scale = hook.Run("PositionHatOverride", ball)
 	end
-	return pos, ang
+	local modelscale = ent:GetModelScale()
+	if !IsLobby && engine.ActiveGamemode() != "ballrace" then modelscale = 1 end
+	local Offsets
+	if engine.ActiveGamemode() == "minigolf" then
+		Offsets = GTowerHats:GetTranslation( self:GetNWString("HatName"), "minigolf" )
+	else
+		Offsets = GTowerHats:GetTranslation( self:GetNWString("HatName"), self.PlyModel )
+	end
+
+	if engine.ActiveGamemode() != "minigolf" then
+		ang:RotateAroundAxis(ang:Right(), Offsets[2][1])
+		ang:RotateAroundAxis(ang:Up(), Offsets[2][2])
+		ang:RotateAroundAxis(ang:Right(), Offsets[2][3])
+	end
+
+	local HatOffsets = ang:Up() * Offsets[1][1] + ang:Forward() * Offsets[1][2] + ang:Right() * Offsets[1][3]
+
+	HatOffsets.x = HatOffsets.x * modelscale
+	HatOffsets.y = HatOffsets.y * modelscale
+	HatOffsets.z = HatOffsets.z * modelscale
+
+	pos = pos + HatOffsets
+
+	scale = Offsets[3] * modelscale
+
+	if GTowerHats.FixScales[self.HatModel] then
+		scale = math.sqrt(scale)
+	end
+	return pos, ang, scale
 end
 
 function ENT:UpdatedModel(ply)
@@ -81,9 +93,9 @@ function ENT:UpdatedModel(ply)
 
 	self.PlyModel = PlayerId
 	self.HatModel = HatId
-	self.OffsetTable = GTowerHats:GetTranslation( self.HatModel, self.PlyModel )
+	self.OffsetTable = GTowerHats:GetTranslation( self:GetNWString("HatName"), self.PlyModel )
 
-	self:SetModelScale( self.OffsetTable[7] * ply:GetModelScale() )
+	self:SetModelScale( self.OffsetTable[3] * ply:GetModelScale() )
 end
 
 

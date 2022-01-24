@@ -23,7 +23,7 @@ function ENT:OnRemove()
 		ply.CosmeticEquipment[self.PlayerEquipIndex] = nil
 		self.PlayerEquipIndex = 0
 	end
-	
+
 end
 
 function ENT:AddToEquipment()
@@ -34,9 +34,13 @@ function ENT:AddToEquipment()
 		ply.CosmeticEquipment = {}
 	end
 
-	self.PlayerEquipIndex = table.insert(ply.CosmeticEquipment, self)
+	if table.HasValue( ply.CosmeticEquipment, self ) then return end
+
+	table.insert( ply.CosmeticEquipment, self )
+	self.PlayerEquipIndex = #ply.CosmeticEquipment
 
 	//print(ply.CosmeticEquipment, " adding ", self, self.PlayerEquipIndex, ply.CosmeticEquipment[self.PlayerEquipIndex])
+
 end
 
 /*concommand.Add("listequipment", function(ply, cmd, args)

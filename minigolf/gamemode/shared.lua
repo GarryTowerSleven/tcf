@@ -3,6 +3,7 @@ GM.Name 	= "GMod Tower: Minigolf"
 
 DeriveGamemode( "gmtgamemode" )
 SetupGMTGamemode( "Minigolf", "minigolf", {
+	DrawHatsAlways = true, -- Always draw hats
 	AFKDelay = 30, -- Seconds before they will be marked as AFK
 	DisablePlayerClick = true, -- Disable clicking on players
 	ChatY = 450, -- Chat offset Y
@@ -270,7 +271,7 @@ hook.Add( "ShouldCollide", "ShouldCollideMinigolf", function( ent1, ent2 )
 	return true
 end )
 
-hook.Add( "OverrideHatEntity", "OverrideHatMinigolf", function( ply )
+/*hook.Add( "OverrideHatEntity", "OverrideHatMinigolf", function( ply )
 	local ball = ply:GetGolfBall()
 
 	if IsValid( ball ) then
@@ -278,4 +279,4 @@ hook.Add( "OverrideHatEntity", "OverrideHatMinigolf", function( ply )
 	end
 
 	return ply
-end )
+end )*/

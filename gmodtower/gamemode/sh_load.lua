@@ -285,7 +285,7 @@ function LoadModulesInOrder()
 
 		// Modules
 		{ "base/chat", true }, // chat
-		//{ "base/hats", true }, // hats (load stores first)
+		{ "base/hats", true }, // hats (load stores first)
 		{ "base/models", false }, // player models
 		{ "base/multiserver", true }, // bread and butta
 		{ "base/fakeclient", true }, // fake clients

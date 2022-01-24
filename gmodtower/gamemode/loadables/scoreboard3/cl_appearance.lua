@@ -696,11 +696,11 @@ function APPEARANCE:GenerateModelSelection()
 
 			if hat.slot == 1 then
 
-				AddSpawnIcon( hat.Name, hat.model, hat.ModelSkinId, IconSetHatModel, HatCategoryListHead, hat.hatid, hat.slot, hat.description, hat.name )
+				AddSpawnIcon( hat.Name, hat.model, hat.ModelSkin, IconSetHatModel, HatCategoryListHead, hat.hatid, hat.slot, hat.description, hat.name )
 
 			else
 
-				AddSpawnIcon( hat.Name, hat.model, hat.ModelSkinId, IconSetHatModel, HatCategoryListFace, hat.hatid, hat.slot, hat.description, hat.name )
+				AddSpawnIcon( hat.Name, hat.model, hat.ModelSkin, IconSetHatModel, HatCategoryListFace, hat.hatid, hat.slot, hat.description, hat.name )
 
 			end
 

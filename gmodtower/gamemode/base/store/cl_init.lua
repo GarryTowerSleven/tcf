@@ -1,7 +1,6 @@
 ---------------------------------
 include('shared.lua')
 include('sh_store.lua')
-include('hats/cl_init.lua')
 include("pvpbattle/cl_init.lua")
 include("ballracer/cl_init.lua")
 
