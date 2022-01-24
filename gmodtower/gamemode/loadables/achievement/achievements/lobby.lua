@@ -44,14 +44,14 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITEOCD, {
 	
 GTowerAchievements:Add( ACHIEVEMENTS.SUITEPICKUPLINE, {
 	Name = "Best Pickup Line",
-	Description = "Talk to the suite lady while drunk.", 
+	Description = "Talk to the condo lady while drunk.", 
 	Value = 1,
 	Group = 3
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.SUITELADYAFF, {
 	Name = "Condo Lady Affixation",
-	Description = "Talk to the suite lady more than 250 times.", 
+	Description = "Talk to the condo lady more than 250 times.", 
 	Value = 250,
 	Group = 3
 })
@@ -66,14 +66,14 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITEYOUTUBE, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.SUITELEAVEMEALONE, {
 	Name = "Leave Me Alone",
-	Description = "Kick more than 15 players out of your suite.", 
+	Description = "Kick more than 15 players out of your condo.", 
 	Value = 15,
 	Group = 3
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.SUITEPARTY, {
 	Name = "Party Animal",
-	Description = "Have 4 or more players in your suite for an hour total.", 
+	Description = "Have 4 or more players in your condo for an hour total.", 
 	Value = 60,
 	Group = 3
 })

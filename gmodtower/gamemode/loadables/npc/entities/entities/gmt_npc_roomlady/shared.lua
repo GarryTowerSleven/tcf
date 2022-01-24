@@ -5,4 +5,4 @@ ENT.AdminSpawnable	= true
 
 ENT.Model	= Model( "models/Humans/GMTsui1/Female_01.mdl")
 --ENT.StoreId = GTowerStore.SUITE
-ENT.Title	= "Suite Lady"
+ENT.Title	= "Condo Lady"

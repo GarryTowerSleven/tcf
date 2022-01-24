@@ -22,7 +22,7 @@ end
 
 RegisterItem("poster1",{
 	Name = "Poster: Classic Video Games",
-	Description = "A poster you can use to decorate your suite with.",
+	Description = "A poster you can use to decorate your condo with.",
 	Model = "models/gmod_tower/poster1.mdl",
 	ModelSkinId = 0,
 	DrawModel = true,

@@ -303,7 +303,7 @@ GtowerLangush.AddWord( 1, "Theater",	"Theater")
 
 // === DUELS ===
 GtowerLangush.AddWord( 1, "DuelRequest",	"{1} has challenged you to a duel with {2} for {3} GMC. Do you accept?" )
-GtowerLangush.AddWord( 1, "DuelCondo",	"Duels will check you out of your suite." )
+GtowerLangush.AddWord( 1, "DuelCondo",	"Duels will check you out of your condo." )
 GtowerLangush.AddWord( 1, "DuelInvite",	"You have challenged {1} to a duel." )
 GtowerLangush.AddWord( 1, "DuelInviteFailActive",	"You are currently awaiting a duel. You cannot duel more than once at the same time." )
 GtowerLangush.AddWord( 1, "DuelInviteFailCurrent",	"{1} is currently in a duel already." )

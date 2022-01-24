@@ -1,6 +1,6 @@
 
 APP.Icon = "camera"
-APP.Purpose = "To look at players outside your suite."
+APP.Purpose = "To look at players outside your condo."
 APP.NiceName = "Camera"
 
 -- This is the entity that will control our view

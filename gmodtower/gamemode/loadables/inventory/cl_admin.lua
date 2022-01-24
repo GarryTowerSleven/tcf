@@ -2,7 +2,7 @@
 GTowerItems.AdminBankGUI = nil
 GTowerItems.Categories =
 {
-	{ Internal = "1",		Friendly = "Suite" },
+	{ Internal = "1",		Friendly = "Condo" },
 	{ Internal = "build",	Friendly = "Build" },
 	{ Internal = "8",		Friendly = "Merchant" },
 	{ Internal = "7",		Friendly = "Elect." },

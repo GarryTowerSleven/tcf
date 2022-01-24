@@ -245,7 +245,7 @@ RegisterItem("cabinet",{
 
 RegisterItem("cabitnetdarw",{
 	Name = "Cabinet",
-	Description = "A nice piece of furniture to keep your suite looking good.",
+	Description = "A nice piece of furniture to keep your condo looking good.",
 	Model = "models/props_interiors/furniture_cabinetdrawer02a.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
@@ -267,7 +267,7 @@ RegisterItem("chair1",{
 
 RegisterItem("chairantique",{
 	Name = "Antique Chair",
-	Description = "An old chair that can really add some class to your suite.",
+	Description = "An old chair that can really add some class to your condo.",
 	Model = "models/props/de_inferno/chairantique.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
@@ -771,7 +771,7 @@ RegisterItem("sofachair",{
 })
 
 RegisterItem("suitecouch",{
-	Name = "Suite Sofa",
+	Name = "Condo Sofa",
 	Description = "Sit down on a comfy couch.",
 	Model = "models/gmod_tower/suitecouch.mdl",
 	UniqueInventory = false,
@@ -782,7 +782,7 @@ RegisterItem("suitecouch",{
 })
 
 RegisterItem("suiteshelf",{
-	Name = "Suite Shelf",
+	Name = "Condo Shelf",
 	Description = "Place tons of items on these shelves.",
 	Model = "models/gmod_tower/suiteshelf.mdl",
 	UniqueInventory = false,
@@ -803,7 +803,7 @@ RegisterItem("suitespeaker",{
 })
 
 RegisterItem("suitetable",{
-	Name = "Suite Table",
+	Name = "Condo Table",
 	Description = "A well-crafted table for your stuff.",
 	Model = "models/gmod_tower/suitetable.mdl",
 	ClassName = "gmt_room_table",
@@ -1036,7 +1036,7 @@ RegisterItem("meddeskcor",{
 // These don't work because of their offsets
 /*RegisterItem("artasian",{
 	Name = "Asian Wall Scroll",
-	Description = "Add an eastern touch to your suite.",
+	Description = "Add an eastern touch to your condo.",
 	Model = "models/sims/gm_artasian.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
@@ -1390,7 +1390,7 @@ RegisterItem("wildbush",{
 })
 RegisterItem("lavenderbushes",{
 	Name = "Lavender Bush",
-	Description = "A nice lavender bush. Will surely make your suite smell great!",
+	Description = "A nice lavender bush. Will surely make your condo smell great!",
 	Model = "models/props/de_inferno/largebush03.mdl",
 	DrawModel = true,
 	StoreId = GTowerStore.NATURE,
@@ -1611,7 +1611,7 @@ RegisterItem("woodpile",{
 })
 RegisterItem("mopbucket",{
 	Name = "Mop And Bucket",
-	Description = "To keep your suite extra clean.",
+	Description = "To keep your condo extra clean.",
 	Model = "models/props_2fort/mop_and_bucket.mdl",
 	DrawModel = true,
 	StoreId = GTowerStore.BASICAL,
