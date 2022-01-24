@@ -227,7 +227,7 @@ end
 
 function GM:CleanUp()
 
-	game.CleanUpMap()
+	game.CleanUpMap(false, {"gmt_hat"})
 
 	local rag = self.UCRagdoll
 	if IsValid( rag ) then
