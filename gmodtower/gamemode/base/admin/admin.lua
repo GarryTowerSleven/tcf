@@ -289,9 +289,11 @@ hook.Add( "PlayerFullyJoined", "JoinedMessage", function(ply)
 		if ply.CosmeticEquipment then
 	
 			for k,v in pairs( ply.CosmeticEquipment ) do
-				for _, hat in pairs( GTowerHats.Hats ) do
-					if v:GetModel() == hat.model then
-						ply:MsgI("hat", "HatUpdated",hat.Name)
+				if v:GetNWString("HatName") then
+					local hat = GTowerHats:GetHatByName(v:GetNWString("HatName"))
+					if hat then
+						hat = GTowerHats.Hats[hat].Name or "Unknown"
+						ply:MsgI("hat", "HatUpdated", hat)
 					end
 				end
 			end
