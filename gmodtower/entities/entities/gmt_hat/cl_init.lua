@@ -29,6 +29,7 @@ local function GetHeadPos( ent )
 end
 
 function ENT:PositionItem(ent)
+	if !IsValid(ent) then return end
 
 	local eyes = ent:LookupAttachment( GTowerHats.HatAttachment )
 	local EyeTbl = ent:GetAttachment( eyes )
