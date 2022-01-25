@@ -1,4 +1,4 @@
-include( "includes/modules/GTowerModels.lua" )
+--include( "includes/modules/GTowerModels.lua" )
 -----------------------------------------------------
 include( "cl_hud.lua" )
 --include( "cl_hudchat.lua" )
