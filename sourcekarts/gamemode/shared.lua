@@ -94,44 +94,39 @@ TEAM_FINISHED = 3
 
 // SOUNDS
 
-SOUND_SPIN = Sound("GModTower/sourcekarts/effects/spin.wav"
-)
-SOUND_JUMP = Sound("GModTower/sourcekarts/effects/jump.wav"
-)
-SOUND_REV = Sound("GModTower/sourcekarts/effects/rev.wav"
-)
-SOUND_REFLECT = Sound("GModTower/sourcekarts/effects/reflect.wav"
-)
+SOUND_SPIN = "GModTower/sourcekarts/effects/spin.wav"
+
+SOUND_JUMP = "GModTower/sourcekarts/effects/jump.wav"
+
+SOUND_REV = "GModTower/sourcekarts/effects/rev.wav"
+
+SOUND_REFLECT = "GModTower/sourcekarts/effects/reflect.wav"
 
 
-SOUND_EXPLOSION = Sound("GModTower/sourcekarts/effects/powerups/explosion.wav"
-)
-SOUND_ROCKET = Sound("GModTower/sourcekarts/effects/powerups/launch.wav"
-)
-SOUND_SHOCK = Sound("GModTower/sourcekarts/effects/powerups/shock.wav"
-)
+
+SOUND_EXPLOSION = "GModTower/sourcekarts/effects/powerups/explosion.wav"
+
+SOUND_ROCKET = "GModTower/sourcekarts/effects/powerups/launch.wav"
+
+SOUND_SHOCK = "GModTower/sourcekarts/effects/powerups/shock.wav"
 
 
-SOUND_LASER = Sound("GModTower/sourcekarts/effects/powerups/laser.wav"
-)
-SOUND_LASERHIT = Sound("GModTower/sourcekarts/effects/powerups/laser_hit.wav"
-)
+
+SOUND_LASER = "GModTower/sourcekarts/effects/powerups/laser.wav"
+
+SOUND_LASERHIT = "GModTower/sourcekarts/effects/powerups/laser_hit.wav"
 
 
-SOUND_FLUX = Sound("GModTower/sourcekarts/effects/powerups/flux.wav"
-)
-SOUND_SLOWED = Sound("GModTower/sourcekarts/effects/powerups/slowed.wav"
-)
+
+SOUND_FLUX = "GModTower/sourcekarts/effects/powerups/flux.wav"
+SOUND_SLOWED = "GModTower/sourcekarts/effects/powerups/slowed.wav"
 
 
-SOUND_TELEPORT = Sound("GModTower/sourcekarts/effects/powerups/teleport.wav"
-)
+SOUND_TELEPORT = "GModTower/sourcekarts/effects/powerups/teleport.wav"
 
 
-SOUND_BLOB = Sound("GModTower/sourcekarts/effects/powerups/blob.wav"
-)
-SOUND_BLOBTHROW = Sound("GModTower/sourcekarts/effects/powerups/blob_throw.wav"
-)
+SOUND_BLOB = "GModTower/sourcekarts/effects/powerups/blob.wav"
+SOUND_BLOBTHROW = "GModTower/sourcekarts/effects/powerups/blob_throw.wav"
 
 
 SOUND_DISCO = "GModTower/sourcekarts/effects/powerups/disco" // 1-7 .mp3

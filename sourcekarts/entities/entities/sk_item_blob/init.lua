@@ -67,9 +67,7 @@ function ENT:Touch(v)
     self:EmitSound( SOUND_BLOB, 80 )
 
     net.Start( "HUDMessage" )
-  if self:GetOwner() == v:GetOwner() then
-    net.WriteString( "YOU HIT YOURSELF!" )
-  else
+  if self:GetOwner() != v:GetOwner() then
     net.WriteString( "YOU HIT "..string.upper( v:GetOwner():Name() ) )
   end
     net.Send( self:GetOwner() )

@@ -332,6 +332,7 @@ function ENT:Spin( ply, hitSelf )
 	end
 
 	self.Spinning = true
+	self:EmitSound( SOUND_SPIN, 80 )
 
 	timer.Simple(1.5,function()
 		self.Spinning = false
