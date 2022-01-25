@@ -88,14 +88,14 @@ GTowerAchievements:Add( ACHIEVEMENTS.GRMILESTONE2, {
 	}
 )
 
-GTowerAchievements:Add( ACHIEVEMENTS.SKMILESTONE1, {
+/*GTowerAchievements:Add( ACHIEVEMENTS.SKMILESTONE1, {
 	Name = "Source Karts Milestone #1",
 	Description = "Play 50 rounds of Source Karts and get a driveable RC kart!",
 	Value = 50,
 	Group = 2,
 	GiveItem = "SKKart"
 	}
-)
+)*/
 
 GTowerAchievements:Add( ACHIEVEMENTS.VIRUSMILESTONE2, {
 	Name = "Virus Milestone #2", 
