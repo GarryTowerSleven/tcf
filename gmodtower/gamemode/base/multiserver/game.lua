@@ -74,7 +74,7 @@ function GTowerServers:RedirectPlayers( ip, port, password, players, NoCheckGone
 			ply:Msg2("Sending you to " .. gameName)
 
 			if NoCheckGone != true then
-				timer.Simple( 5.0,  function() MakeSureGoneA( ply:SteamID(), ip, port, password ) end)
+				timer.Simple( 5.0,  function() if IsValid( ply ) then MakeSureGoneA( ply:SteamID(), ip, port, password ) end end )
 			end
 
 			if IsLobby then
