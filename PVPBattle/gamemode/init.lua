@@ -89,6 +89,9 @@ function GM:PlayerSpawn( ply )
 			music.Play( 1, 1, ply )
 		end)
 	end
+	
+	// Indexes Player Weapons
+	ply.PlayerWeapons = PvpBattle:GiveWeapons( ply )
 
 	// Stop observer mode
  	ply:UnSpectate()
@@ -113,7 +116,10 @@ function GM:PlayerSpawn( ply )
 		ply._TheKid = 0
 	end
 
+<<<<<<< HEAD
 	self:PlayerLoadout( ply )
+=======
+>>>>>>> parent of 0388bcd (Revert "[PVPBattle] I SMRT")
 	self:PlayerResetSpeed( ply )
 end
 
@@ -123,7 +129,7 @@ function GM:PlayerResetSpeed( ply )
 end
 
 function GM:PlayerLoadout( ply )
-	if self.GiveAllWeapons == true || !PvpBattle || ply:IsBot() then
+	if self.GiveAllWeapons == true  || ply:IsBot() then
 		for _, v in ipairs( self.Weapons ) do
 			ply:Give( v )
 		end
