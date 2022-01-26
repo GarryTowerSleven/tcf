@@ -25,16 +25,16 @@ end
 RegisterNWTablePlayer({ {"PowerUp", 0, NWTYPE_NUMBER, REPL_EVERYONE, PowerChange} })
 
 function GM:GetTimeLeft()
-	return ( game.GetWorld():GetNWFloat("PVPRoundTime", 0) ) - CurTime()
+	return GetGlobalFloat( "PVPRoundTime", 0 ) - CurTime()
 end
 
 function GM:IsRoundOver()
-	return game.GetWorld():GetNWBool("PVPRoundOver")
+	return GetGlobalBool( "PVPRoundOver" )
 end
 
 -- ROUNDS
 function GM:GetRoundCount()
-	return game.GetWorld():GetNWFloat("PVPRoundCount", 0)
+	return GetGlobalInt( "PVPRoundCount", 0 )
 end
 
 function GM:Dash(pl, move)

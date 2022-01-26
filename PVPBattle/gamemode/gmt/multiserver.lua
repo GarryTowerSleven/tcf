@@ -1,13 +1,10 @@
 function GAMEMODE:EndServer()
-
 	GTowerServers:EmptyServer()
 	GTowerServers:ResetServer()
-
 end
 
 hook.Add("GTowerMsg", "GamemodeMessage", function()
-
-	if !game.GetWorld().PVPRoundCount or game.GetWorld().PVPRoundCount == 0 then
+	if GAMEMODE:GetRoundCount() == 0 then
 		return "#nogame"
 	else
 		return math.ceil( GAMEMODE:GetTimeLeft() / 60 ) .. "/" .. math.ceil(GAMEMODE.DefaultRoundTime/60) .. "||||" .. tostring( GAMEMODE:GetRoundCount() ) .. "/" .. tostring( GAMEMODE.MaxRoundsPerGame )
@@ -17,24 +14,20 @@ end )
 hook.Add("EndRound", "CountEndRounds", function()
 	GAMEMODE:GiveMoney()
 
-	if game.GetWorld().PVPRoundCount == GAMEMODE.MaxRoundsPerGame then
+	if GAMEMODE:GetRoundCount() == GAMEMODE.MaxRoundsPerGame then
 		timer.Simple( 10 - 2.5, function() ChangeRandomLevel() end)
 	end
 end )
 
-
-
 hook.Add("StartRound", "CountStartRounds", function()
+	SetGlobalInt( "PVPRoundCount", GAMEMODE:GetRoundCount() + 1 )
 
-	game.GetWorld().PVPRoundCount = game.GetWorld().PVPRoundCount + 1
-
-	Msg("Starting round! " .. tostring(game.GetWorld().PVPRoundCount) .. "\n")
+	Msg("Starting round! " .. tostring( GAMEMODE:GetRoundCount() ) .. "\n")
 
 	//We are done here, send them back to the main server
-	if  game.GetWorld().PVPRoundCount > GAMEMODE.MaxRoundsPerGame then
+	if  GAMEMODE:GetRoundCount() > GAMEMODE.MaxRoundsPerGame then
 		return false
 	end
-
 end )
 
 /*function GM:GiveMoney()
@@ -68,7 +61,6 @@ end )
 end*/
 
 hook.Add("PlayerDisconnected", "StopServerEmpty", function(ply)
-
 	if ply:IsBot() || #player.GetBots() > 0 then return end
 
 	//No need to play an empty server, or by yourself
@@ -82,5 +74,4 @@ hook.Add("PlayerDisconnected", "StopServerEmpty", function(ply)
 		end
 
 	end )
-
 end )

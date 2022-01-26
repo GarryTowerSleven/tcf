@@ -67,7 +67,7 @@ net.Receive("ToggleMusic",function()
 end )
 
 function GM:GetRoundOverText()
-	if game.GetWorld().PVPRoundCount >= self.MaxRoundsPerGame then
+	if self:GetRoundCount() >= self.MaxRoundsPerGame then
 		return "Game ends in..."
 	end
 
@@ -174,7 +174,7 @@ function GM:DrawHUDHealth()
 
 	if LocalPlayer():Health() <= 0 then return end
 
-	if GAMEMODE:IsRoundOver() then return end
+	if self:IsRoundOver() then return end
 
 	if LocalPlayer().Headphones then
 

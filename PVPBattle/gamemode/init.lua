@@ -1,4 +1,3 @@
-
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_deathnotice.lua" )
 AddCSLuaFile( "cl_post_events.lua" )
@@ -19,14 +18,11 @@ GTowerServers:SetRandomPassword()  //Hot fix for now.
 	GTowerServers:SetRandomPassword()
 end*/
 
-
-
 GM.DefaultRoundTime = 120
 GM.GiveAllWeapons = false
 GM.Weapons = {}
 
 hook.Add("PlayerInitialSpawn", "ResetOnEmptyServer", function( ply )
-
 	if !ply:IsBot() then
 		GAMEMODE:BeginGame()
 
@@ -36,9 +32,6 @@ hook.Add("PlayerInitialSpawn", "ResetOnEmptyServer", function( ply )
 		GAMEMODE:SetState( 2 )
 		StartMusicJoin(ply)
 	end
-
-	ply._HackerAmt = 0
-	ply._TheKid = 0
 end )
 
 local function FixMarsExploit()
@@ -54,13 +47,13 @@ hook.Add("InitPostEntity","MarsExploitFix",function()
 end)
 
 function GM:BeginGame()
-	game.GetWorld().PVPRoundTime = CurTime() + self.DefaultRoundTime
-	game.GetWorld().PVPRoundOver = false
-	game.GetWorld().PVPRoundCount = 1
+	SetGlobalFloat( "PVPRoundTime", self.DefaultRoundTime + CurTime() )
+	SetGlobalBool( "PVPRoundOver", false )
+	SetGlobalInt( "PVPRoundCount", 1 )
 
 	for _, v in ipairs( weapons.GetList() ) do
 		if ( v != nil && v.Base == "weapon_pvpbase" ) then
-			table.insert( GAMEMODE.Weapons, v.Classname )
+			table.insert( self.Weapons, v.Classname )
 		end
 	end
 end
@@ -68,22 +61,15 @@ end
 local RoundAlert = false
 
 function GM:Think()
-
-	for k,v in pairs(player.GetAll()) do if #v:GetWeapons() == 0 && v:Alive() then GAMEMODE:GivePVPWeapons(v) end end
-
-	game.GetWorld():SetNWFloat("PVPRoundTime", game.GetWorld().PVPRoundTime)
-	game.GetWorld():SetNWBool("PVPRoundOver", game.GetWorld().PVPRoundOver)
-	game.GetWorld():SetNWFloat("PVPRoundCount", game.GetWorld().PVPRoundCount)
-
-	if self:GetTimeLeft() <= 0 && game.GetWorld().PVPRoundCount <= GAMEMODE.MaxRoundsPerGame && game.GetWorld().PVPRoundCount > 0 then
+	if self:GetTimeLeft() <= 0 && self:GetRoundCount() <= self.MaxRoundsPerGame && self:GetRoundCount() > 0 then
 		if self:IsRoundOver() then
-			hook.Call("StartRound", GAMEMODE )
+			hook.Call("StartRound", self )
 		else
-			hook.Call("EndRound", GAMEMODE )
+			hook.Call("EndRound", self )
 		end
 	end
 
-	local TimeLeft = GAMEMODE:GetTimeLeft()
+	local TimeLeft = self:GetTimeLeft()
 
 	if TimeLeft > 0 && TimeLeft <= 16 then
 		if RoundAlert then return end
@@ -92,7 +78,6 @@ function GM:Think()
 	else
 		RoundAlert = false
 	end
-
 end
 
 function GM:PlayerSpawn( ply )
@@ -115,10 +100,10 @@ function GM:PlayerSpawn( ply )
 	PostEvent( ply, "putimestop_off" )
 
  	// Call item loadout function
- 	hook.Call( "PlayerLoadout", GAMEMODE, ply )
+ 	hook.Call( "PlayerLoadout", self, ply )
 
  	// Set player model
- 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
+ 	hook.Call( "PlayerSetModel", self, ply )
 
 	if !ply._HackerAmt then
 		ply._HackerAmt = 0
@@ -128,6 +113,7 @@ function GM:PlayerSpawn( ply )
 		ply._TheKid = 0
 	end
 
+	self:PlayerLoadout( ply )
 	self:PlayerResetSpeed( ply )
 end
 
@@ -138,19 +124,15 @@ end
 
 function GM:PlayerLoadout( ply )
 	if self.GiveAllWeapons == true || !PvpBattle || ply:IsBot() then
-
-		for _, v in ipairs( GAMEMODE.Weapons ) do
+		for _, v in ipairs( self.Weapons ) do
 			ply:Give( v )
 		end
-
 	else
-		GAMEMODE:GivePVPWeapons(ply)
-
+		self:GivePVPWeapons(ply)
 
 		/*if !self:GivePVPWeapons( ply ) then
 			ply.NeedLateWeapons = true
 		end*/
-
 	end
 
 	//Ammo
@@ -390,14 +372,14 @@ function GM:CanPlayerSuicide( ply )
 end
 
 function GM:StartRound()
-	if game.GetWorld().PVPRoundCount > GAMEMODE.MaxRoundsPerGame then
+	if self:GetRoundCount() > self.MaxRoundsPerGame then
 		return
 	end
 
 	game.CleanUpMap()
 
-	game.GetWorld().PVPRoundTime = CurTime() + self.DefaultRoundTime
-	game.GetWorld().PVPRoundOver = false
+	SetGlobalFloat( "PVPRoundTime", self.DefaultRoundTime + CurTime() )
+	SetGlobalBool( "PVPRoundOver", false )
 
 	local plys = player.GetAll()
 	for _, ply in ipairs( plys ) do
@@ -431,8 +413,8 @@ function GM:StartRound()
 end
 
 function GM:EndRound()
-	game.GetWorld().PVPRoundTime = CurTime() + 10
-	game.GetWorld().PVPRoundOver = true
+	SetGlobalFloat( "PVPRoundTime", 10 + CurTime() )
+	SetGlobalBool( "PVPRoundOver", true )
 
 
 	local plys = player.GetAll()
@@ -464,7 +446,7 @@ end
 
 hook.Add( "PlayerDisconnected", "PlayerPopulationCheck", function( ply )
 	timer.Simple(0.2, function()
-		if (game.GetWorld().PVPRoundCount > 0 && #player.GetAll() == 0) then
+		if ( GAMEMODE:GetRoundCount() > 0 && #player.GetAll() == 0) then
 			GAMEMODE:EndServer()
 		end
 	end)
