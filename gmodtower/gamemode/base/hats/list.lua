@@ -493,7 +493,7 @@ table.insert( GTowerHats.Hats, {
 } )
 table.insert( GTowerHats.Hats, {
 	Name = "Bat Mask",
-	description = "I'm Batman",
+	description = "I'm Batman.",
 	unique_Name = "batmask",
 	price = 1800,
 	model = "models/gmod_tower/batmanmask.mdl",
