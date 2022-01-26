@@ -113,7 +113,6 @@ function GM:PlayerSpawn( ply )
 		ply._TheKid = 0
 	end
 
-	self:PlayerLoadout( ply )
 	self:PlayerResetSpeed( ply )
 end
 
@@ -163,10 +162,7 @@ function GM:GivePVPWeapons( ply )
 	if WeaponList then
 		local Count = #WeaponList
 		if Count > 0 then
-			ply:StripWeapons()
-			for k,v in pairs(WeaponList) do
-				v:Give(v)
-			end
+			ply:SelectWeapon( WeaponList[ math.random(1, Count) ] )
 		else
 			GiveDefaults(ply)
 		end
