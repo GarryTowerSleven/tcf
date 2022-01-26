@@ -363,8 +363,17 @@ function GM:Think()
     if self:NoTimeLeft() then
       game.CleanUpMap(false, {"sk_kart"})
       self:IncreaseTrack()
+      local spawns = {}
+
+      for k,v in pairs( ents.FindByClass("info_kart_spawn") ) do
+        if v.Track == "4" then
+          table.insert( spawns, v )
+        end
+      end
+
+      local ResetSpawn = table.Random( spawns )
       for k,v in pairs(player.GetAll()) do
-        self:SpawnPlayerKart( v, true )
+        v:SpawnKart( ResetSpawn:GetPos() + Vector(0,0,25), ResetSpawn:GetAngles(), true )
         v:SetTeam( TEAM_PLAYING )
         v:SetLap( 1 )
         v:ClearItems()
