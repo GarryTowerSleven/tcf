@@ -81,7 +81,6 @@ function GM:Think()
 end
 
 function GM:PlayerSpawn( ply )
-
 	// Music on join
 	if !ply.MusicJoined then
 		ply.MusicJoined = true
@@ -113,7 +112,7 @@ function GM:PlayerSpawn( ply )
 		ply._TheKid = 0
 	end
 
-	self:PlayerLoadout( ply )
+	ply.PlayerWeapons = PvpBattle:GiveWeapons( ply )
 	self:PlayerResetSpeed( ply )
 end
 
@@ -127,13 +126,9 @@ function GM:PlayerLoadout( ply )
 		for _, v in ipairs( self.Weapons ) do
 			ply:Give( v )
 		end
-	else
-		self:GivePVPWeapons(ply)
-
-		/*if !self:GivePVPWeapons( ply ) then
-			ply.NeedLateWeapons = true
-		end*/
 	end
+
+	self:GivePVPWeapons(ply)
 
 	//Ammo
 	ply:GiveAmmo( 54, "SMG1", true )
@@ -145,12 +140,11 @@ function GM:PlayerLoadout( ply )
 	ply:GiveAmmo( 12, "SniperRound", true )
 	ply:GiveAmmo( 4, "RPG_Round", true )
 	ply:GiveAmmo( 4, "slam", true )
-
 end
 
 function GM:GivePVPWeapons( ply )
 
-	local WeaponList = PvpBattle:GiveWeapons( ply )
+	local WeaponList = ply.PlayerWeapons
 
 	local function GiveDefaults(ply)
 		ply:Give("weapon_toyhammer")
