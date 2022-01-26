@@ -61,6 +61,12 @@ function ENT:GetTargetAngles()
 
 end
 
+function ENT:Think()
+	if IsValid( self.Target ) then
+		self:GetTargetAngles()
+	end
+end
+
 function ENT:HitPlayer( attacker, victim, kart )
 
   if kart:GetIsInvincible() then
