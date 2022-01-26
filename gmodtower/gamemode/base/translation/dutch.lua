@@ -286,9 +286,9 @@ GtowerLangush.AddWord( 1, "Theater",	"Bioscoop")
 
 // === DUELS ===
 GtowerLangush.AddWord( 1, "DuelRequest",	"{1} heeft je uitgedaagd tot een duel {2} voor {3} GMC. Wil je dit?" )
-GtowerLangush.AddWord( 1, "Duelcondo",	"Duelleren checked je uit je condo ." )
+GtowerLangush.AddWord( 1, "DuelCondo",	"Duelleren checked je uit je condo ." )
 GtowerLangush.AddWord( 1, "DuelInvite",	"Je bent uitgedaagd door {1} voor een duel." )
-GtowerLangush.AddWord( 1, "DuelInviteFailActive",	"You are currently awaiting a dueGtowerLangush. You cannot duel more than once at the same time." )
+GtowerLangush.AddWord( 1, "DuelInviteFailActive",	"U wacht momenteel op een duel. Je kunt niet meer dan één keer tegelijk duelleren." )
 GtowerLangush.AddWord( 1, "DuelInviteFailCurrent",	"{1} is al bezig met een duel." )
 GtowerLangush.AddWord( 1, "DuelInviteFailPoker",	"{1} speelt poker, wacht tot hij klaar is en probeer opnieuw." )
 GtowerLangush.AddWord( 1, "DuelAcceptFailInGame",	"Wacht tot je game voorbij is voor je het duel accepteerd." )
