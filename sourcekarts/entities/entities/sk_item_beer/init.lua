@@ -44,14 +44,11 @@ function ENT:Touch(v)
       return
     end
 
-    net.Start( "HUDMessage" )
-  if self:GetOwner() == v:GetOwner() then
-    net.WriteString( "YOU HIT YOURSELF!" )
-  else
-    net.WriteString( "YOU HIT "..string.upper( v:GetOwner():Name() ) )
-  end
-    net.Send( self:GetOwner() )
-
+    if self:GetOwner() != v:GetOwner() then
+      net.Start( "HUDMessage" )
+      net.WriteString( "YOU HIT "..string.upper( v:GetOwner():Name() ) )
+      net.Send( self:GetOwner() )
+    end
 v:GetOwner():SetNWInt("BAL",50)
 v:GetOwner():Drink(15)
 v:GetOwner():AddAchievement( ACHIEVEMENTS.SKDWI, 1 )
