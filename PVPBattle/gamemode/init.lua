@@ -163,7 +163,10 @@ function GM:GivePVPWeapons( ply )
 	if WeaponList then
 		local Count = #WeaponList
 		if Count > 0 then
-			ply:SelectWeapon( WeaponList[ math.random(1, Count) ] )
+			ply:StripWeapons()
+			for k,v in pairs(WeaponList) do
+				v:Give(v)
+			end
 		else
 			GiveDefaults(ply)
 		end
