@@ -44,13 +44,7 @@ end
 function PvpBattle:GiveWeapons( ply )
 
 	if !ply._PVPBattleData then
-		return {
-			"weapon_toyhammer",
-			"weapon_bouncynade",
-			"weapon_semiauto",
-			"weapon_supershotty",
-			"weapon_thompson"
-		}
+		return nil
 	end
 
 	local Weapons = {}
