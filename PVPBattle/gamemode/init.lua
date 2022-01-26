@@ -377,7 +377,7 @@ function GM:StartRound()
 		return
 	end
 
-	game.CleanUpMap()
+	game.CleanUpMap(false, {"gmt_cosmeticbase", "gmt_hat"})
 
 	SetGlobalFloat( "PVPRoundTime", self.DefaultRoundTime + CurTime() )
 	SetGlobalBool( "PVPRoundOver", false )
