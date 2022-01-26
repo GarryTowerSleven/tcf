@@ -15,7 +15,7 @@ hook.Add("EndRound", "CountEndRounds", function()
 	GAMEMODE:GiveMoney()
 
 	if GAMEMODE:GetRoundCount() == GAMEMODE.MaxRoundsPerGame then
-		timer.Simple( 10 - 2.5, function() ChangeRandomLevel() end)
+		timer.Simple( 10 - 2.5, function()  GAMEMODE:EndServer() end)
 	end
 end )
 

@@ -211,13 +211,13 @@ function SendDeathNote(attacker,ent,amount,death)
 	if attacker == ent then return end
 
 	net.Start("DamageNotes")
-	net.WriteFloat(math.Round(amount))
-	net.WriteVector(GetCenterPos(ent) + (VectorRand() * 5))
-	if death then
-		net.WriteInt(1,3)
-	elseif attacker.IsPulp then
-		net.WriteInt(2,3)
-	end
+		net.WriteFloat(math.Round(amount))
+		net.WriteVector(util.GetCenterPos(ent) + (VectorRand() * 5))
+		if death then
+			net.WriteInt(1,3)
+		elseif attacker.IsPulp then
+			net.WriteInt(2,3)
+		end
 	net.Send(attacker)
 end
 
