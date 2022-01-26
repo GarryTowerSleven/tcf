@@ -128,10 +128,6 @@ function GM:PlayerLoadout( ply )
 		end
 	else
 		self:GivePVPWeapons(ply)
-
-		/*if !self:GivePVPWeapons( ply ) then
-			ply.NeedLateWeapons = true
-		end*/
 	end
 
 	//Ammo
@@ -144,41 +140,33 @@ function GM:PlayerLoadout( ply )
 	ply:GiveAmmo( 12, "SniperRound", true )
 	ply:GiveAmmo( 4, "RPG_Round", true )
 	ply:GiveAmmo( 4, "slam", true )
-
 end
 
 function GM:GivePVPWeapons( ply )
+	local delay = 5
 
-	local WeaponList = PvpBattle:GiveWeapons( ply )
-
-	local function GiveDefaults(ply)
-		ply:Give("weapon_toyhammer")
-		ply:Give("weapon_bouncynade")
-		ply:Give("weapon_semiauto")
-		ply:Give("weapon_supershotty")
-		ply:Give("weapon_thompson")
+	if ply.WeaponList != nil then
+		delay = 0
 	end
 
-	if WeaponList then
-		local Count = #WeaponList
-		if Count > 0 then
-			ply:SelectWeapon( WeaponList[ math.random(1, Count) ] )
-		else
-			GiveDefaults(ply)
-		end
-	else
-		GiveDefaults(ply)
-	end
-
-	return WeaponList
-
+	PopulateLoadout( ply, delay )
 end
 
-hook.Add("SQLConnect", "GiveLateWeapons", function( ply )
-	if ply.NeedLateWeapons == true then
-		GAMEMODE:GivePVPWeapons( ply )
-	end
-end )
+function PopulateLoadout( ply, delay )
+	if !IsValid( ply ) then return end
+
+	timer.Simple( delay, function()
+		if IsValid( ply ) then
+			if ply.WeaponList == nil then
+				ply.WeaponList = PvpBattle:GiveWeapons( ply )
+			end
+
+			for k,v in pairs( ply.WeaponList ) do
+				ply:Give(v)
+			end
+		end
+	end )
+end
 
 function GM:PlayerHurt( ply )
 	PostEvent( ply, "pdamage" )
@@ -196,7 +184,7 @@ function GM:EntityTakeDamage( ent, dmginfo )
 	end
 	if ent && ent:IsValid() && ent:IsPlayer() then
 
-		SendDeathNote( attacker, ent, amount )
+		SendDeathNote( attacker, ent, amount, false )
 
 		local CurWeapon = ent:GetActiveWeapon()
 		if IsValid( CurWeapon ) && CurWeapon:GetClass() == "weapon_sword" then
@@ -205,7 +193,7 @@ function GM:EntityTakeDamage( ent, dmginfo )
 	end
 end
 
-function SendDeathNote(attacker,ent,amount,death)
+function SendDeathNote( attacker, ent, amount, death )
 
 	if attacker == ent then return end
 	if !IsValid( attacker ) && !attacker:IsPlayer() then return end
@@ -238,11 +226,11 @@ function GM:PlayerDeath( Victim, Inflictor, Attacker )
 		Attacker:AddAchievement( ACHIEVEMENTS.PVPMAFIA, 1 )
 	end
 
-	if IsValid(Attacker) && Attacker:IsPlayer() && IsValid(Victim) && Victim:IsPlayer() then
+	if ( ( IsValid(Attacker) && Attacker:IsPlayer() ) && ( IsValid(Victim) && Victim:IsPlayer() ) ) then
 		SendDeathNote(Attacker, Victim, 0, true)
 	end
 
-	if IsValid(Attacker) && !Attacker:IsPlayer() && IsValid(Attacker:GetOwner()) then
+	if ( IsValid(Attacker) && !Attacker:IsPlayer() && IsValid(Attacker:GetOwner()) ) then
 		Inflictor = Attacker
 		Attacker = Attacker:GetOwner()
 	end
