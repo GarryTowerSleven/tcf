@@ -361,7 +361,7 @@ function GM:Think()
   elseif self:GetState() == STATE_NEXTBATTLE then
 
     if self:NoTimeLeft() then
-      game.CleanUpMap(false, {"sk_kart"})
+      game.CleanUpMap()
       self:IncreaseTrack()
       local spawns = {}
 
@@ -373,7 +373,7 @@ function GM:Think()
 
       local ResetSpawn = table.Random( spawns )
       for k,v in pairs(player.GetAll()) do
-        v:SpawnKart( ResetSpawn:GetPos() + Vector(0,0,25), ResetSpawn:GetAngles(), true )
+        v:SpawnKart( ResetSpawn:GetPos(), ResetSpawn:GetAngles(), true )
         v:SetTeam( TEAM_PLAYING )
         v:SetLap( 1 )
         v:ClearItems()
