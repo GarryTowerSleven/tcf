@@ -70,7 +70,6 @@ hook.Add("PlayerDisconnected", "StopServerEmpty", function(ply)
 
 		if #player.GetBots() == 0 && clients < 1 && GTowerServers:GetState() != 1 then
 			GTowerServers:EmptyServer()
-			ChangeRandomLevel()
 		end
 
 	end )
