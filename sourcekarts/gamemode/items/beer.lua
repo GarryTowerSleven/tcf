@@ -20,7 +20,7 @@ ITEM.Fling = true
 
 ITEM.Battle = false
 
-ITEM.Chance = items.COMMON
+ITEM.Chance = items.RARE
 
 ITEM.MaxPos = 1
 
