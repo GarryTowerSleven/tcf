@@ -233,8 +233,9 @@ function GM:Think()
     for k,v in pairs(player.GetAll()) do v:SetCamera("Waiting",0) end
 
     if (self:NoTimeLeft() && PlyJoined) then
+      game.CleanUpMap()
 
-      for k,v in pairs(player.GetAll()) do v:SetTeam( TEAM_PLAYING ) end
+      for k,v in pairs(player.GetAll()) do self:SpawnPlayerKart( v, false ) v:SetTeam( TEAM_PLAYING ) end
 
       self:SetTime( self.CameraTime * self.Cameras + 6 )
 
@@ -341,11 +342,12 @@ function GM:Think()
   elseif self:GetState() == STATE_NEXTTRACK then
 
     if self:NoTimeLeft() then
+      game.CleanUpMap()
       self:IncreaseTrack()
       for k,v in pairs(player.GetAll()) do
         v:SetTeam( TEAM_PLAYING )
         v:SetLap( 1 )
-	v.PassedPoints = {}
+      	v.PassedPoints = {}
         self:SpawnPlayerKart( v, false )
         v:ClearItems()
       end
@@ -359,19 +361,20 @@ function GM:Think()
   elseif self:GetState() == STATE_NEXTBATTLE then
 
     if self:NoTimeLeft() then
+      game.CleanUpMap(false, {"sk_kart"})
       self:IncreaseTrack()
       for k,v in pairs(player.GetAll()) do
+        self:SpawnPlayerKart( v, true )
         v:SetTeam( TEAM_PLAYING )
         v:SetLap( 1 )
         v:ClearItems()
-
         v:SetDeaths(0)
         v:SetFrags(0)
         v:SetGhost( false )
         v.Dead = false
         v:GetKart():SetIsGhost( false )
         v:GetKart():SetIsInvincible( false )
-	v:SetTeam(TEAM_PLAYING)
+      	v:SetTeam(TEAM_PLAYING)
       end
 
       self:SetRound(2)
@@ -439,6 +442,8 @@ function GM:Think()
   elseif self:GetState() == STATE_TOBATTLE then
 
     if self:NoTimeLeft() then
+      game.CleanUpMap()
+
       self:IncreaseTrack()
 
       self:SetTime( self.CameraTime * self.Cameras + 6 )
@@ -450,12 +455,12 @@ function GM:Think()
       for k,v in pairs(player.GetAll()) do
         v:SetTeam( TEAM_PLAYING )
         v:SetLap( 1 )
-        self:SpawnPlayerKart( v, true )
         v:SetCamera( "Battle", 0 )
         v:ClearItems()
       end
 
       timer.Simple(13,function()
+        for k,v in pairs(player.GetAll()) do self:SpawnPlayerKart( v, true ) end
 
         self:SetTime( self.BattleTime )
 
