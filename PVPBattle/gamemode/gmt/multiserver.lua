@@ -7,7 +7,8 @@ hook.Add("GTowerMsg", "GamemodeMessage", function()
 	if GAMEMODE:GetRoundCount() == 0 then
 		return "#nogame"
 	else
-		return math.ceil( GAMEMODE:GetTimeLeft() / 60 ) .. "/" .. math.ceil(GAMEMODE.DefaultRoundTime/60) .. "||||" .. tostring( GAMEMODE:GetRoundCount() ) .. "/" .. tostring( GAMEMODE.MaxRoundsPerGame )
+		--return math.ceil( GAMEMODE:GetTimeLeft() / 60 ) .. "/" .. math.ceil(GAMEMODE.DefaultRoundTime/60) .. "||||" .. tostring( GAMEMODE:GetRoundCount() ) .. "/" .. tostring( GAMEMODE.MaxRoundsPerGame )
+		return math.ceil( GAMEMODE:GetTimeLeft() / 60 ) .. "/" .. math.ceil(GAMEMODE.DefaultRoundTime/60) .. "||||   " .. tostring( math.Clamp( GAMEMODE:GetRoundCount(), 1, GAMEMODE.MaxRoundsPerGame ) ) .. "/" .. tostring( GAMEMODE.MaxRoundsPerGame )
 	end
 end )
 
