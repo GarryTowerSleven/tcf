@@ -239,6 +239,32 @@ function GM:HUDWeaponPickedUp()
 	return false
 end
 
+net.Receive( "DamageNotes", function( )
+
+	local note 	= {}
+	note.Amount = net.ReadFloat()
+	note.Pos 	= net.ReadVector()
+	note.Time 	= CurTime()
+	note.Message = note.Amount
+	note.Font = "DamageNote"
+	note.TotalTime = .75
+
+	local type = net.ReadInt(3) or 0
+
+	if type == 1 then
+		note.Message = "KILL"
+		note.Font = "DamageNoteBig"
+		note.TotalTime = 1.75
+	end
+	if type == 2 then
+		note.Message = note.Amount .. "  x2!"
+		note.Font = "DamageNoteBig"
+	end
+
+	table.insert( DamageNotes, note )
+
+end )
+
 function GM:AdjustMouseSensitivity( num )
 	local ply = LocalPlayer()
 	if !IsValid(ply) || !IsValid(ply:GetActiveWeapon()) then return end
