@@ -192,6 +192,10 @@ function GetScale( model )
 	return ScaledModels[ model ] or 1
 end
 
+function GetHatBodygroup( model )
+	return BodyGroupHatModels[ model ] or {0,0}
+end
+
 function SetHull( ply, scale )
 	if DEBUG then
 		Msg("Changing " .. tostring(ply) .. " scale to: " .. scale .. "\n" )

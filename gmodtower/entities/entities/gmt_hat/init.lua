@@ -25,9 +25,12 @@ function Player:ReplaceHat(hatname, model, index, hatSlot)
 
 	local id = index
 
-	if ( id == 14 || id == 21 || id == 22 || id == 23 || id == 24 ) then
+	/*if ( id == 14 || id == 21 || id == 22 || id == 23 || id == 24 ) then
 		self:SetBodygroup( 0, 0 ) // show hat when we use glasses
-	elseif self:GetModel() != "models/player/hatman.mdl" then
+	end*/
+
+
+	if self:GetModel() != "models/player/hatman.mdl" && self:GetModel() != "models/player/foohysaurusrex.mdl" && hatSlot == SLOT_HEAD  then
 		self:SetBodygroup( 0, 1 ) // hide model hat, if it exists
 	end
 
@@ -70,10 +73,11 @@ function Player:RemoveHat( isFace )
 		self.FaceHat:Remove()
 	elseif IsValid( self.Hat ) then
 		self.Hat:Remove()
+		self:SetBodygroup( 0, 0 )
 	end
 
 	// show model hat, if it exists
-	self:SetBodygroup( 0, 0 )
+	// self:SetBodygroup( 0, 0 )
 
 	if isFace then
 		self.FaceHat, self.OldFaceHat = nil, nil
