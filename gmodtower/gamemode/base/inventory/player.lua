@@ -293,7 +293,6 @@ function meta:DropItem( slot, aim, rotation )
 		return
 	end
 
-
 	if Item.AllowAnywhereDrop then
 		local playerEnts = 0
 		for _, v in ipairs( ents.GetAll() ) do
@@ -362,7 +361,7 @@ function meta:DropItem( slot, aim, rotation )
 		local e = EffectData()
 		e:SetOrigin(DropEnt:GetPos())
 		e:SetEntity( DropEnt )
-		//util.Effect( 'spawneffect', e, true, true )
+		util.Effect( 'spawneffect', e, true, true )
 
 		if Item.AllowDropLocation or Item.AllowAnywhereDrop then // if they're droppable anywhere, lets assign the owner here so we can count how many items we dropped
 			DropEnt.PlayerOwner = self
