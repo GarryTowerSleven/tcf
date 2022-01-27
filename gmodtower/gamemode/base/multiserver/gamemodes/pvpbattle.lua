@@ -1,4 +1,3 @@
----------------------------------
 GMode.Name = "PVP Battle"
 GMode.Gamemode = "pvpbattle"
 
@@ -72,46 +71,66 @@ function GMode:GetMapTexture( map )
 end
 
 function GMode:ProcessData( ent, data )
+
+	// No game
+	ent.NoData = ( #data == 0 )
+	if ent.NoData then return end
+	
+	// No game
 	if data == "#nogame" then
-		ent.TimeLeftMarkup = markup.Parse( "<font=GTowerbig><color=ltgrey>NO GAME RUNNING - JOIN IT!</color><font>" )
-		ent.TimeLeftMarkup.PosX = ent.TotalMinX + ent.TotalWidth * 0.5 - ent.TimeLeftMarkup:GetWidth() / 2
-		ent.TimeLeftMarkup.PosY = ent.TotalMinY + ent.TopHeight * 0.75 - ent.TimeLeftMarkup:GetHeight() / 2
-		ent.RoundsMarkup = nil
-	return end
-
-	local Exploded = string.Explode( "||||", data )
-
-	local Timeleft = string.Explode("/", Exploded[1] )
-	local TimeLeftString = ""
-
-	if #Timeleft == 2 then
-		TimeLeftString = "<font=GTowerbig><color=white>"..Timeleft[1].."</color> <color=ltgrey>min</color> / <color=white>"..Timeleft[2].."</color> <color=ltgrey>min</color></font>"
-	else
-		TimeLeftString = Exploded[1]
+		ent.NoGameMarkup = markup.Parse( T( "GamemodePanelNoGame" ) )
+		ent.NoGameMarkup.PosX = ent.TotalMinX + ent.TotalWidth * 0.5 - ent.NoGameMarkup:GetWidth() / 2
+		ent.NoGameMarkup.PosY = ent.TotalMinY + ent.TopHeight * 0.75 - ent.NoGameMarkup:GetHeight() / 2
+		return
 	end
 
+	ent.NoGameMarkup = nil
 
-	local Rounds = "<font=GTowerbig><color=ltgrey>Round: </color> " .. string.sub( Exploded[2], 4 ) .. "</font>"
-
-	ent.TimeLeftMarkup = markup.Parse( TimeLeftString )
-	ent.RoundsMarkup = markup.Parse( Rounds )
-
-	ent.TimeLeftMarkup.PosX = ent.TotalMinX + ent.TotalWidth * 0.25 - ent.TimeLeftMarkup:GetWidth() / 2
-	ent.TimeLeftMarkup.PosY = ent.TotalMinY + ent.TopHeight * 0.75 - ent.TimeLeftMarkup:GetHeight() / 2
-
-	ent.RoundsMarkup.PosX = ent.TotalMinX + ent.TotalWidth * 0.75 - ent.RoundsMarkup:GetWidth() / 2
-	ent.RoundsMarkup.PosY = ent.TotalMinY + ent.TopHeight * 0.75 - ent.RoundsMarkup:GetHeight() / 2
+	local leftTitle = "TIME LEFT"
+	local rightTitle = "ROUND"
+	
+	local Exploded = string.Explode( "||||", data )
+	local Timeleft = tonumber( Exploded[1] )
+	
+	local leftString = string.NiceTimeShort( Timeleft, true )
+	
+	// Rounds
+	local roundExploded = string.Explode( "/", Exploded[2] )
+	local CurRound = roundExploded[1]
+	local MaxRounds = roundExploded[2]
+	
+	local rightString = string.format( "%d <color=ltgrey>/</color> %d", CurRound, MaxRounds )
+	
+	// Parse and set position
+	ent.LeftTitle = markup.Parse( "<font=GTowerGMTitle><color=grey>" .. leftTitle .. "</color></font>" )
+	ent.LeftMarkup = markup.Parse( "<font=GTowerHUDMainLarge>" .. leftString .. "</font>" )
+	
+	PositionCenter( ent, ent.LeftTitle, 0.15, 0.60 )
+	PositionCenter( ent, ent.LeftMarkup, 0.15, 0.85 )
+	
+	ent.RightTitle = markup.Parse( "<font=GTowerGMTitle><color=grey>" .. rightTitle .. "</color></font>" )
+	ent.RightMarkup = markup.Parse( "<font=GTowerHUDMainLarge>" .. rightString .. "</font>" )
+	
+	PositionCenter( ent, ent.RightTitle, 0.85, 0.60 )
+	PositionCenter( ent, ent.RightMarkup, 0.85, 0.85 )
 
 end
 
 GMode.DrawData = function( ent )
 
-	if ent.TimeLeftMarkup then
-		ent.TimeLeftMarkup:Draw( ent.TimeLeftMarkup.PosX, ent.TimeLeftMarkup.PosY )
+	if ent.NoGameMarkup then
+		ent.NoGameMarkup:Draw( ent.NoGameMarkup.PosX, ent.NoGameMarkup.PosY )
+		return
 	end
-
-	if ent.RoundsMarkup then
-		ent.RoundsMarkup:Draw( ent.RoundsMarkup.PosX, ent.RoundsMarkup.PosY )
+	
+	if ent.LeftMarkup then
+		ent.LeftTitle:Draw( ent.LeftTitle.PosX, ent.LeftTitle.PosY )
+		ent.LeftMarkup:Draw( ent.LeftMarkup.PosX, ent.LeftMarkup.PosY )
+	end
+	
+	if ent.RightMarkup then
+		ent.RightTitle:Draw( ent.RightTitle.PosX, ent.RightTitle.PosY )
+		ent.RightMarkup:Draw( ent.RightMarkup.PosX, ent.RightMarkup.PosY )
 	end
 
 end

@@ -27,3 +27,10 @@ function GTowerServers:ConnectToServer( ip, port, password )
 	LocalPlayer():ConCommand( string.format("connect %s:%d", ip, tonumber(port)) )
 
 end
+
+function PositionCenter( ent, text, offsetx, offsety )
+
+	text.PosX = ent.TotalMinX + ent.TotalWidth * offsetx - text:GetWidth() / 2
+	text.PosY = ent.TotalMinY + ent.TopHeight * offsety - text:GetHeight() / 2
+
+end
