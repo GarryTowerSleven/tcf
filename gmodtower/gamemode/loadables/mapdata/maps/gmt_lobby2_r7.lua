@@ -221,10 +221,11 @@ local function FixMapBugs()
 	//end
 
 	// Remove Condo Door Shadows
-	for _, door in pairs( ents.FindByClass("func_door") ) do
-		door:GetChildren()[1]:DrawShadow(false)
-	end
-
+	timer.Simple( 1, function()
+		for _, door in pairs( ents.FindByClass("func_door") ) do
+			door:GetChildren()[1]:DrawShadow(false)
+		end	
+	end )
 end
 
 local function SpawnGameBanner()
