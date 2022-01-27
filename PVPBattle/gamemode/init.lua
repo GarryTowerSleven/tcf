@@ -152,22 +152,24 @@ function GM:GivePVPWeapons( ply )
 	PopulateLoadout( ply, delay )
 end
 
+local WeaponDefaults = {
+	"weapon_toyhammer",
+	"weapon_bouncynade",
+	"weapon_semiauto",
+	"weapon_supershotty",
+	"weapon_thompson"
+}
+
 function PopulateLoadout( ply, delay )
 	if !IsValid( ply ) then return end
 
 	timer.Simple( delay, function()
 		if IsValid( ply ) then
 			if ply.WeaponList == nil then
-				ply.WeaponList = PvpBattle:GiveWeapons( ply )
-
-				if ply.WeaponList == {} then
-					ply.WeaponList = {
-						"weapon_toyhammer",
-						"weapon_bouncynade",
-						"weapon_semiauto",
-						"weapon_supershotty",
-						"weapon_thompson"
-					}
+				if table.IsEmpty( PvpBattle:GiveWeapons( ply ) ) then
+					ply.WeaponList = WeaponDefaults
+				else
+					ply.WeaponList = PvpBattle:GiveWeapons( ply )
 				end
 			end
 
