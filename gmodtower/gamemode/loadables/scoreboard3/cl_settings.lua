@@ -54,7 +54,8 @@ SETTINGS.LobbyOnlyTabs = {
 SETTINGS.GamemodesWithSettings = {
 	"virus",
 	"zombiemassacre",
-	"minigolf"
+	"minigolf",
+	"pvpbattle"
 }
 SETTINGS.Tabs = {}
 
@@ -697,6 +698,16 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:CheckBox( "Display HUD", "gmt_minigolf_hud", nil, "SetDisplayHUD" )
 			self:CheckBox( "Display Blur", "gmt_minigolf_blur", nil, "SetDisplayBlur" )
 			self:Slider( "Garden Grass Draw Dist", "cl_detaildist", 0, 1000, 0, nil, "SetMiniGrassDist" )
+
+		end
+
+		/*=========
+		PVP Battle Settings
+		============*/
+		if engine.ActiveGamemode() == "pvpbattle" then
+
+			self:Header( "PVP Battle" )
+			self:CheckBox( "Enable Old Ammo Display", "gmt_pvp_oldammo", nil, "SetOldAmmoDisplay" )
 
 		end
 

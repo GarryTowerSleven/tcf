@@ -395,6 +395,7 @@ GtowerLangush.AddWord( 1, "SetChatLocation",	"Displays the player's location bef
 GtowerLangush.AddWord( 1, "SetDisplayHUD",		"Toggles the heads-up display of the gamemode.")
 GtowerLangush.AddWord( 1, "SetDisplayBlur",	"Displays the blur that is visible across the top and bottom of your screen for a cinematic experience. Can be costly!")
 GtowerLangush.AddWord( 1, "SetMiniGrassDist",	"Warning! This setting impacts your CPU quite a bit. We suggest not going over 1000.")
+GtowerLangush.AddWord( 1, "SetOldAmmoDisplay",	"Enables old PVP Battle ammo display.")
 
 
 // === GAMEMODE PORTS ===

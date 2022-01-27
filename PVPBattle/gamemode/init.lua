@@ -238,9 +238,9 @@ function GM:PlayerDeath( Victim, Inflictor, Attacker )
 		Attacker:AddAchievement( ACHIEVEMENTS.PVPMAFIA, 1 )
 	end
 
-	if ( ( IsValid(Attacker) && Attacker:IsPlayer() ) && ( IsValid(Victim) && Victim:IsPlayer() ) ) then
+	--[[if ( ( IsValid(Attacker) && Attacker:IsPlayer() ) && ( IsValid(Victim) && Victim:IsPlayer() ) ) then
 		SendDeathNote(Attacker, Victim, 0, true)
-	end
+	end]]
 
 	if ( IsValid(Attacker) && !Attacker:IsPlayer() && IsValid(Attacker:GetOwner()) ) then
 		Inflictor = Attacker
