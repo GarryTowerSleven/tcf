@@ -23,16 +23,31 @@ surface.CreateFont( "SleepText", {
 	outline = false,
 } )
 
+local messageOpacity = 0
+local opacitySpeed = 0
+
 hook.Add( "GTowerHUDPaint", "SleepyTimeMessage", function()
-	if LocalPlayer().Sleeping == true then
-		draw.DrawText( LocalPlayer().SleepMessage, "SleepText", math.fmod(RealTime() * 15,ScrW()*0.5), math.fmod(RealTime() * 5,ScrH()*0.25), color_white, TEXT_ALIGN_CENTER )
+	if LocalPlayer().Sleeping == true || messageOpacity > 0 then
+		messageOpacity = messageOpacity + FrameTime() * opacitySpeed
+
+		if messageOpacity > 70 && opacitySpeed > 0 then
+			opacitySpeed = -opacitySpeed
+		end
+
+		local clr = Color( 255, 255, 255, messageOpacity )
+		draw.DrawText( LocalPlayer().SleepMessage, "SleepText", math.fmod( RealTime() * 15, ScrW() * 0.5 ), math.fmod( RealTime() * 5, ScrH() * 0.25 ), clr, TEXT_ALIGN_CENTER )
+	else
+		opacitySpeed = 30
+		messageOpacity = -25
 	end
 end )
 
 net.Receive( "BedMessage", function( len, ply )
 	local message = net.ReadString()
 	local sleeping = net.ReadBool()
-	
+
 	LocalPlayer().Sleeping = sleeping
+
+	if message == null || message == "" then return end
 	LocalPlayer().SleepMessage = message
 end )
