@@ -67,6 +67,11 @@ function meta:IsStaff()
 	return self:IsModerator() || self:IsAdmin()
 end
 
+// for googoog
+function IsStaff(steamid)
+	return IsAdmin(steamid) or GetRole(steamid) == "Moderator" // TODO: Fuck you
+end
+
 function meta:IsTester()
 	return false
 end

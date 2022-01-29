@@ -220,7 +220,7 @@ function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
 	--PrintTable(MultiUsers)
 	--print("IP:"..tostring(IP))
 
-	if IsStaff(steam) or IsTester(steam64) or MultiUsers[IP] then
+	if IsAdmin(steam) or IsTester(steam64) or IsModerator(steam) or MultiUsers[IP] then
 		return true
 	else
 		MsgC( co_color2, string.SafeChatName(name) .. " <" .. steam .. "> (" .. IP .. ") tried to join the server.\n" )
