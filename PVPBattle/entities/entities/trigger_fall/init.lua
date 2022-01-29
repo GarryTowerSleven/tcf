@@ -19,8 +19,10 @@ function ENT:StartTouch( ply )
 end
 
 function ENT:EndTouch( ply )
-	ply:ScreenFade(SCREENFADE.IN, Color(0,0,0), 1, 0)
-	PostEvent( ply, "putimestop_off" )
+	if IsValid( ply ) then
+		ply:ScreenFade(SCREENFADE.IN, Color(0,0,0), 1, 0)
+		PostEvent( ply, "putimestop_off" )
+	end
 end
 
 function ENT:Touch()

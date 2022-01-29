@@ -8,8 +8,6 @@ include( "player.lua" )
 
 CreateConVar("gmt_srvid", 5 )
 
-util.AddNetworkString("DamageNotes")
-
 game.ConsoleCommand("sv_scriptenforcer 1\n")
 GTowerServers:SetRandomPassword()  //Hot fix for now.
 
@@ -37,14 +35,14 @@ end )
 local function FixMarsExploit()
 	if game.GetMap() == "gmt_pvp_mars" then
 		local trigger = ents.Create("trigger_luadeath")
-		trigger:SetPos(Vector(0,0,0))
+		trigger:SetPos( Vector( 0, 0, 0 ) )
 		trigger:Spawn()
 	end
 end
 
-hook.Add("InitPostEntity","MarsExploitFix",function()
+hook.Add( "InitPostEntity", "MarsExploitFix", function()
 	FixMarsExploit()
-end)
+end )
 
 function GM:BeginGame()
 	SetGlobalFloat( "PVPRoundTime", self.DefaultRoundTime + CurTime() )
@@ -63,9 +61,9 @@ local RoundAlert = false
 function GM:Think()
 	if self:GetTimeLeft() <= 0 && self:GetRoundCount() <= self.MaxRoundsPerGame && self:GetRoundCount() > 0 then
 		if self:IsRoundOver() then
-			hook.Call("StartRound", self )
+			hook.Call( "StartRound", self )
 		else
-			hook.Call("EndRound", self )
+			hook.Call( "EndRound", self )
 		end
 	end
 
@@ -73,7 +71,7 @@ function GM:Think()
 
 	if TimeLeft > 0 && TimeLeft <= 16 then
 		if RoundAlert then return end
-			music.Play( 1, 2 )
+		music.Play( 1, 2 )
 		RoundAlert = true
 	else
 		RoundAlert = false
@@ -81,13 +79,12 @@ function GM:Think()
 end
 
 function GM:PlayerSpawn( ply )
-
 	// Music on join
 	if !ply.MusicJoined then
 		ply.MusicJoined = true
-		timer.Simple(2.5,function()
+		timer.Simple( 2.5,function()
 			music.Play( 1, 1, ply )
-		end)
+		end )
 	end
 
 	// Stop observer mode
@@ -127,7 +124,7 @@ function GM:PlayerLoadout( ply )
 			ply:Give( v )
 		end
 	else
-		self:GivePVPWeapons(ply)
+		self:GivePVPWeapons( ply )
 	end
 
 	//Ammo
@@ -185,7 +182,6 @@ function GM:PlayerHurt( ply )
 end
 
 function GM:EntityTakeDamage( ent, dmginfo )
-
 	local attacker = dmginfo:GetAttacker()
 	local inflictor = dmginfo:GetInflictor()
 	local amount = dmginfo:GetDamage()
@@ -206,30 +202,63 @@ function GM:EntityTakeDamage( ent, dmginfo )
 end
 
 function SendDeathNote( attacker, ent, amount, death )
-
 	if attacker == ent then return end
 	if !IsValid( attacker ) && !attacker:IsPlayer() then return end
 
-	net.Start("DamageNotes")
-		net.WriteFloat(math.Round(amount))
-		net.WriteVector(util.GetCenterPos(ent) + (VectorRand() * 5))
+	net.Start( "DamageNotes" )
+		net.WriteFloat( math.Round( amount ) )
+		net.WriteVector( util.GetCenterPos( ent ) + ( VectorRand() * 5 ) )
 		if death && !ent:Alive() then
-			net.WriteInt(1,3)
+			net.WriteInt( 1, 3 )
 		elseif attacker.IsPulp then
-			net.WriteInt(2,3)
+			net.WriteInt( 2, 3 )
+		else
+			net.WriteInt( 0, 3)
 		end
-	net.Send(attacker)
+	net.Send( attacker )
 end
 
 function GM:PlayerTraceAttack( ply, dmginfo, dir, tr )
 	ply.HackerLastGroup = tr.HitGroup
 end
 
-function GM:PlayerDeath( Victim, Inflictor, Attacker )
+function CustomDeath( Victim, Inflictor, Attacker, Type )
+	local weapon
+	local PVPVictim
+	local PVPAttacker
 
-	if IsValid(Inflictor) && Inflictor:GetClass() == "pvp_babynade" then
-		Inflictor.Kills = (Inflictor.Kills or 0) + 1
-		if Inflictor.Kills == 2 && IsValid(Attacker) then
+	if IsValid( Victim ) && !Victim:IsPlayer() then return end
+
+	if IsValid( Attacker ) && Attacker == Victim then
+		PVPVictim = Victim
+		PVPAttacker = Victim
+		if Type != 6144 then
+			weapon = "fall"
+		end
+	else
+		PVPVictim = Attacker
+		PVPAttacker = Victim
+		if IsValid( Attacker:GetActiveWeapon() ) then
+			weapon = Attacker:GetActiveWeapon():GetClass()
+			if ( Type == 0 && weapon != "weapon_chainsaw" && Attacker:GetActiveWeapon().HoldType != "melee" ) then
+				weapon = "pvp_chainsaw"
+			end
+		end
+	end
+	
+	if IsValid ( Attacker ) && IsValid( Victim ) && !Victim:Alive() then
+		net.Start( "CustomDeath" )
+			net.WriteEntity( PVPVictim )
+			net.WriteString( weapon || Inflictor:GetName() )
+			net.WriteEntity( PVPAttacker )
+		net.Broadcast()
+	end
+end
+
+function GM:PlayerDeath( Victim, Inflictor, Attacker )
+	if IsValid( Inflictor ) && Inflictor:GetClass() == "pvp_babynade" then
+		Inflictor.Kills = ( Inflictor.Kills or 0 ) + 1
+		if Inflictor.Kills == 2 && IsValid( Attacker ) then
 			Attacker:AddAchievement( ACHIEVEMENTS.PVPFAMILY, 1 )
 		end
 	end
@@ -238,16 +267,14 @@ function GM:PlayerDeath( Victim, Inflictor, Attacker )
 		Attacker:AddAchievement( ACHIEVEMENTS.PVPMAFIA, 1 )
 	end
 
-	--[[if ( ( IsValid(Attacker) && Attacker:IsPlayer() ) && ( IsValid(Victim) && Victim:IsPlayer() ) ) then
-		SendDeathNote(Attacker, Victim, 0, true)
-	end]]
-
 	if ( IsValid(Attacker) && !Attacker:IsPlayer() && IsValid(Attacker:GetOwner()) ) then
 		Inflictor = Attacker
 		Attacker = Attacker:GetOwner()
 	end
 
-	self.BaseClass.PlayerDeath( self, Victim, Inflictor, Attacker )
+	if ( ( IsValid(Attacker) && Attacker:IsPlayer() ) && ( IsValid(Victim) && Victim:IsPlayer() ) ) then
+		SendDeathNote( Attacker, Victim, 0, true )
+	end
 end
 
 function GM:DoPlayerDeath( ply, attacker, dmginfo )
@@ -257,12 +284,12 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 	ply:AddDeaths( 1 )
 	ply._TheKid = 0
 
-	if IsValid(attacker) && !self:IsRoundOver() then
+	if IsValid( attacker ) && !self:IsRoundOver() then
 		if attacker == ply then
 			attacker:AddFrags( -1 )
 		else
 			if ply.HackerLastGroup == HITGROUP_HEAD then
-				if IsValid(attacker) && attacker:IsPlayer() then
+				if IsValid( attacker ) && attacker:IsPlayer() then
 
 					attacker:AddAchievement( ACHIEVEMENTS.PVPTRUEHACKER, 1 )
 					attacker._HackerAmt = attacker._HackerAmt + 1
@@ -275,17 +302,17 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 
 				local rp = RecipientFilter()
 
-				rp:AddPlayer(attacker)
-				rp:AddPlayer(ply)
+				rp:AddPlayer( attacker )
+				rp:AddPlayer( ply )
 
-				net.Start("hacker")
-					net.WritePlayer( attacker )
-				net.Send(rp)
+				net.Start( "hacker" )
+					net.WriteEntity( attacker )
+				net.Send( rp )
 			end
 
 			ply.HackerLastGroup = HITGROUP_GENERIC
 
-			if IsValid(attacker) && !attacker:IsPlayer() && IsValid(attacker:GetOwner()) then
+			if IsValid( attacker ) && !attacker:IsPlayer() && IsValid(attacker:GetOwner()) then
 				attacker = attacker:GetOwner()
 			end
 
@@ -303,16 +330,11 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 				end
 
 				if IsValid( attacker:GetActiveWeapon() ) then
-
 					local weapon = attacker:GetActiveWeapon():GetClass()
 
 					if weapon == "weapon_neszapper" then
-
 						attacker:AddAchievement( ACHIEVEMENTS.PVPDAMNEDDOG, 1 )
-						attacker:EmitSound( Sound("gmodtower/pvpbattle/neszapper/neskill.wav"), 80 )
-
 					elseif weapon == "weapon_ragingbull" then
-
 						attacker._TheKid = attacker._TheKid + 1
 						print(attacker._TheKid)
 
@@ -320,32 +342,16 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 							attacker:SetAchievement( ACHIEVEMENTS.PVPTHEKID, 1 )
 							attacker._TheKid = 0
 						end
-
 					elseif weapon == "weapon_toyhammer" then
-
 						if attacker._LaserOn then
 							attacker:SetAchievement( ACHIEVEMENTS.PVPLAZOR, 1 )
 						end
-
-					elseif weapon == "weapon_pulsesmartpen" then
-
-						attacker:EmitSound( "gmodtower/pvpbattle/pulsesmartpen/yougotthat"..math.random(1,3)..".wav", 80 )
-
-					elseif weapon == "weapon_sword" then
-
-						attacker:EmitSound( Sound("gmodtower/pvpbattle/sword/swordvdeath.wav"), 80 )
-
 					elseif weapon == "weapon_patriot" then
-
-						attacker:EmitSound( Sound("gmodtower/pvpbattle/patriot/patriotkill.wav"), 80 )
-
 						if game.GetMap() == "gmt_pvp_meadow01" then
 							attacker:AddAchievement( ACHIEVEMENT.PVPBIGBOSS, 1 )
 						end
-
 					end
 				end
-
 			elseif IsValid( attacker:GetOwner() ) then
 				attacker:GetOwner():AddFrags( 1 )
 				attacker:GetOwner():AddAchievement( ACHIEVEMENTS.PVPOVERKILL , 1 )
@@ -354,13 +360,8 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 			end
 		end
 	end
-
-	if IsValid(ply) && IsValid(ply:GetActiveWeapon()) then
-		if ply:GetActiveWeapon():GetClass() == "weapon_sword" then
-			ply:EmitSound( Sound("GModTower/pvpbattle/Sword/SwordVDeath.wav") )
-		end
-	end
-
+	local Type = dmginfo:GetDamageType()
+	CustomDeath( ply, dmginfo:GetInflictor(), dmginfo:GetAttacker(), Type )
 end
 
 function GM:PlayerDeathSound( )
@@ -376,7 +377,7 @@ function GM:StartRound()
 		return
 	end
 
-	game.CleanUpMap(false, {"gmt_cosmeticbase", "gmt_hat"})
+	game.CleanUpMap( false, {"gmt_cosmeticbase", "gmt_hat"} )
 
 	SetGlobalFloat( "PVPRoundTime", self.DefaultRoundTime + CurTime() )
 	SetGlobalBool( "PVPRoundOver", false )
@@ -399,7 +400,7 @@ function GM:StartRound()
 	rp:AddAllPlayers()
 
 	net.Start( "PVPRound" )
-	net.WriteBool( false )
+		net.WriteBool( false )
 	net.Send( rp )
 
 	music.Play( 1, 1 )
@@ -429,7 +430,7 @@ function GM:EndRound()
 	rp:AddAllPlayers()
 
 	net.Start( "PVPRound" )
-	net.WriteBool( true )
+		net.WriteBool( true )
 	net.Send( rp )
 end
 
@@ -446,7 +447,7 @@ end
 
 hook.Add( "PlayerDisconnected", "PlayerPopulationCheck", function( ply )
 	timer.Simple(0.2, function()
-		if ( GAMEMODE:GetRoundCount() > 0 && #player.GetAll() == 0) then
+		if ( GAMEMODE:GetRoundCount() > 0 && #player.GetAll() == 0 ) then
 			GAMEMODE:EndServer()
 		end
 	end)
@@ -489,3 +490,7 @@ end )
 util.AddNetworkString("hacker")
 util.AddNetworkString("ToggleMusic")
 util.AddNetworkString("PVPRound")
+util.AddNetworkString("DamageNotes")
+util.AddNetworkString("CustomDeath")
+--util.AddNetworkString("PlayerTelefragged")
+--util.AddNetworkString("PlayerFell")

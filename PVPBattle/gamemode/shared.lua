@@ -140,38 +140,6 @@ function GM:SetupMoveCurrent(pl, move)
 	end
 end
 
-DamageNotes = {}
-
-function GM:DamageNotes()
-
-	for _, note in ipairs( DamageNotes ) do
-
-		if ( note.Time + note.TotalTime ) < CurTime() then
-			table.remove( DamageNotes, _ )
-			continue
-		end
-
-		local timer = CurTime() - note.Time
-		if timer > note.TotalTime then timer = note.TotalTime end
-
-		local scrpos = note.Pos:ToScreen()
-
-		if ( note.Time + note.TotalTime ) > CurTime() then
-			timer = ( note.Time + note.TotalTime ) - CurTime()
-		end
-
-		local y = scrpos.y + 40 * timer
-		local c = Color( 250, 50, 50, 255 * timer )
-
-		//surface.SetTexture( surface.GetTextureID( "sprites/sent_ball" ) )
-		//surface.DrawTexturedRect( scrpos.x, y, 15, 15 )
-
-		draw.SimpleTextOutlined( note.Message, note.Font, scrpos.x, y, c, 1, 1, 1, Color( 0, 0, 0, c.a ) )
-
-	end
-
-end
-
 function GM:FinishMoveCurrent(pl, move)
 	pl.History[CurTime()] = {}
 
