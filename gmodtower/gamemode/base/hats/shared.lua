@@ -1,6 +1,7 @@
 
 GTowerHats = GTowerHats or {}
 GTowerHats.Hats = {}
+GTowerHats.BodyGroups = {}
 GTowerHats.StoreId = 2
 GTowerHats.DEBUG = false
 GTowerHats.DefaultValue = { Vector(6, -2.5, 0), Angle(13, 0, 0), 1 }

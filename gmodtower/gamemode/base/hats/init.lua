@@ -271,3 +271,25 @@ concommand.Add("gmt_writehattranslations", function(ply, cmd, args)
 
 
 end)
+
+GTowerHats.BodyGroups = {
+    ["dinosaur"] = {
+        ["hat_common"] = { 0, 1 },
+		["face_common"] = { 0, 1 },
+		["legoheadhat"] = { 0, 0 },
+		["batmask"] = { 0, 0 },
+		["bombermanhat"] = { 0, 0},
+    }
+}
+
+function GTowerHats:GetBodyGroups(plymodel, hat, slot)
+    if GTowerHats.BodyGroups[plymodel] then
+        if GTowerHats.BodyGroups[plymodel][hat] then
+              return GTowerHats.BodyGroups[plymodel][hat]
+        elseif slot == SLOT_HEAD && GTowerHats.BodyGroups[plymodel]["hat_common"] then
+              return GTowerHats.BodyGroups[plymodel]["hat_common"]
+		elseif slot == SLOT_FACE && GTowerHats.BodyGroups[plymodel]["face_common"] then
+			  return GTowerHats.BodyGroups[plymodel]["face_common"]	
+        end
+    end
+end

@@ -224,6 +224,7 @@ function Open()
 		if k != 0 then
 			local name = v.Name
 			--if time.IsNew( v.dateadded or 0 ) then name = name .. " [NEW!]" end
+			name = "[" .. v.UnsortedHatId .. "] " .. name
 			if GTowerHats.FixScales[v.unique_Name] then name = name .. " [SCALE FIX!]" end
 
 			local node = HatsNodes:AddNode( name )
