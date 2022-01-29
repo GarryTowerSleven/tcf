@@ -104,7 +104,7 @@ end )
 
 concommand.Add("gmt_multijoin", function( ply, cmd, args )
 
-	if !ply:IsAdmin() then
+	if !ply:IsStaff() then
 		if GTowerHackers then
 			GTowerHackers:NewAttemp( ply, 5, cmd, args )
 		end
