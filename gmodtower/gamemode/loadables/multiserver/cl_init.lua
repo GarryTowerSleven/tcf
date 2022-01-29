@@ -205,7 +205,7 @@ end
 
 hook.Add("OpenSideMenu", "MultiServerAdmin", function()
 
-	if !LocalPlayer():IsStuff() then return end
+	if !LocalPlayer():IsStaff() then return end
 	local Ent = LocalPlayer():GetEyeTrace().Entity
 
 	if !IsValid( Ent ) || Ent:GetClass() != "gmt_multiserver" then
