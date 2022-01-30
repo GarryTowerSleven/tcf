@@ -29,7 +29,7 @@ end
 
 function GTowerStore:UpdateStoreList()
 
-	if !ValidPanel( self.StoreGUI ) then
+	if !IsValid( self.StoreGUI ) then
 		return
 	end
 
@@ -68,7 +68,7 @@ function GTowerStore:UpdateStoreList()
 end
 
 function GTowerStore:CheckAndUpdate(storeid, discount)
-	if !ValidPanel( self.StoreGUI ) || GTowerStore.StoreId != storeid then
+	if !IsValid( self.StoreGUI ) || GTowerStore.StoreId != storeid then
 		return
 	end
 
@@ -84,7 +84,7 @@ function GTowerStore.CloseStorePanel()
 
 	hook.Call("GTowerCloseStore", GAMEMODE )
 
-	if ValidPanel( GTowerStore.StoreGUI ) then
+	if IsValid( GTowerStore.StoreGUI ) then
 		GtowerMainGui:GtowerHideMenus()
 		GTowerStore.StoreGUI:Remove()
 	end

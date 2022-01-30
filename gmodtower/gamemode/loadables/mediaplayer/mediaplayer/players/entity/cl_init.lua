@@ -59,7 +59,7 @@ end
 function MEDIAPLAYER:DrawIdlescreen( w, h )
 	local browser = MediaPlayer.GetIdlescreen()
 
-	if ValidPanel(browser) then
+	if IsValid(browser) then
 		self:DrawHTML( browser, w, h )
 	end
 end

@@ -30,7 +30,7 @@ local function OnFullscreenConVarChanged( name, old, new )
 
 		media = mp:CurrentMedia()
 
-		if IsValid(media) and ValidPanel(media.Browser) then
+		if IsValid(media) and IsValid(media.Browser) then
 			MediaPlayer.SetBrowserSize( media.Browser )
 		end
 
@@ -94,7 +94,7 @@ function MEDIAPLAYER:DrawFullscreen()
 
 		local browser = MediaPlayer.GetIdlescreen()
 
-		if ValidPanel(browser) then
+		if IsValid(browser) then
 			self:DrawHTML( browser, w, h )
 		end
 

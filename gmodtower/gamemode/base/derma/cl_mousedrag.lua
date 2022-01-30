@@ -61,7 +61,7 @@ function Enable( bool, originX, originY, popup, xlimit, ylimit )
 
 	if bool then
 
-		if ValidPanel( Panel ) then return end
+		if IsValid( Panel ) then return end
 		Panel = vgui.Create( "DModelMouseDrag" )
 		Panel:SetOrigin( originX, originY )
 		Panel:SetLimits( xlimit, ylimit )
@@ -72,7 +72,7 @@ function Enable( bool, originX, originY, popup, xlimit, ylimit )
 
 	else
 
-		if !ValidPanel( Panel ) then return end
+		if !IsValid( Panel ) then return end
 		Panel:Remove()
 		Panel = nil
 

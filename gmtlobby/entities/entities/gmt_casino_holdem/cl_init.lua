@@ -183,7 +183,7 @@ local function CreateMainPanel( ent, invisible )
 end
 
 hook.Add( "CanOpenMenu", "CanOpenMenuHoldem", function()
-	if ValidPanel( PokerPanel ) then
+	if IsValid( PokerPanel ) then
 		return false
 	end
 end )
@@ -192,7 +192,7 @@ end )
 	
 	if !Location.IsCasino( id ) then
 
-		if ValidPanel( PokerPanel ) then
+		if IsValid( PokerPanel ) then
 			PokerPanel:Remove()
 			GTowerMainGui:ToggleCursor( false )
 		end
@@ -282,7 +282,7 @@ net.Receive( "ClientHoldem", function( length, ply )
 
 		if ply == LocalPlayer() then
 
-			if ValidPanel( PokerPanel ) then
+			if IsValid( PokerPanel ) then
 				PokerPanel:Remove()
 				RememberCursorPosition()
 				gui.EnableScreenClicker( false )

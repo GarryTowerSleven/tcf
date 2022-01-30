@@ -330,11 +330,11 @@ end
 
 function ENT:DisplayControls( title, url, onclose )
 
-	if !ValidPanel( self.ControlBrowser ) then
+	if !IsValid( self.ControlBrowser ) then
 		self:InitDisplayBrowser()
 	end
 	
-	if !ValidPanel( self.HTMLFrame ) then
+	if !IsValid( self.HTMLFrame ) then
 		local w, h = self.ControlBrowser:GetWide() + 10, self.ControlBrowser:GetTall() + 35
 
 		self.HTMLFrame = vgui.Create( "DFrame" )
@@ -360,7 +360,7 @@ function ENT:DisplayControls( title, url, onclose )
 
 		DFrame.Close( self )
 
-		if ValidPanel( browser ) then
+		if IsValid( browser ) then
 			browser:Remove()
 			ent.ControlBrowser = nil
 
@@ -379,13 +379,13 @@ end
 
 function ENT:CloseControls()
 
-	if ValidPanel( self.HTMLFrame ) then
+	if IsValid( self.HTMLFrame ) then
 		self.HTMLFrame:Close()
 		self.HTMLFrame:Remove()
 		self.HTMLFrame = nil
 	end
 
-	if ValidPanel( self.ControlBrowser ) then
+	if IsValid( self.ControlBrowser ) then
 		self.ControlBrowser:Remove()
 		self.ControlBrowser = nil
 	end
@@ -395,7 +395,7 @@ function ENT:CloseControls()
 end
 
 function ENT:IsControlsOpen()
-	return ValidPanel( self.HTMLFrame )
+	return IsValid( self.HTMLFrame )
 end
 
 function ENT:onBeginNavigation(url)

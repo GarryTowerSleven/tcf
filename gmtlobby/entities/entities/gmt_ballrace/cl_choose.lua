@@ -200,7 +200,7 @@ else // CLIENT
 
 	function BallRacerChooser:Close()
 
-		if ValidPanel( self.GUI ) then
+		if IsValid( self.GUI ) then
 			self.GUI:Remove()
 			self.GUI = nil
 		end

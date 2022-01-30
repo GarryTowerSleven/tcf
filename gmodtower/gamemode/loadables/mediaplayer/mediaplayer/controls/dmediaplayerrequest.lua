@@ -108,7 +108,7 @@ function PANEL:OnRemove()
 end
 
 function PANEL:Close()
-	if ValidPanel(self.Browser) then
+	if IsValid(self.Browser) then
 		self.Browser:Remove()
 	end
 

@@ -237,7 +237,7 @@ function browserpool.release( panel, destroy )
 		debug.Trace()
 
 		-- Remove browser even if the request was invalid
-		if ValidPanel(panel) then
+		if IsValid(panel) then
 			panel:Remove()
 		end
 
@@ -264,7 +264,7 @@ function browserpool.release( panel, destroy )
 			debug.Trace()
 
 			-- Remove browser even if the request was invalid
-			if ValidPanel(panel) then
+			if IsValid(panel) then
 				panel:Remove()
 			end
 

@@ -21,7 +21,7 @@ concommand.Add("gmt_debug", function( ply, cmd, args )
 		return
 	end
 
-	if ValidPanel( DEBUG.Gui ) then
+	if IsValid( DEBUG.Gui ) then
 		DEBUG.Gui:Remove()
 	end
 

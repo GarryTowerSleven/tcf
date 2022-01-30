@@ -47,7 +47,7 @@ usermessage.Hook("HatAdm", function( um )
 			}
 			
 			for k, v in pairs( CurrentTranslations ) do
-				if ValidPanel( ValuesList[k] ) then
+				if IsValid( ValuesList[k] ) then
 					ValuesList[ k ]:SetValue( v )
 				end
 			end
@@ -63,7 +63,7 @@ end )
 
 
 hook.Add("CanCloseMenu", "GTowerHatAdmin", function()
-	if ValidPanel( MainPanel ) then
+	if IsValid( MainPanel ) then
 		return false
 	end
 end )
@@ -90,7 +90,7 @@ end )*/
 
 function RequestUpdate()
 
-	if CanUpdate == false or !ValidPanel( MainPanel ) then
+	if CanUpdate == false or !IsValid( MainPanel ) then
 		return
 	end
 	

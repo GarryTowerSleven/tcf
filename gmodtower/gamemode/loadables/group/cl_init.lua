@@ -15,7 +15,7 @@ GTowerGroup.LeaveBtn = nil
 hook.Add("GtowerShowMenus", "ShowGroupShow", function()
 	if not GTowerGroup:InGroup() then return end
 
-	if not ValidPanel( GTowerGroup.LeaveBtn ) then
+	if not IsValid( GTowerGroup.LeaveBtn ) then
 		GTowerGroup.LeaveBtn = vgui.Create("DButton")
 	end
 
@@ -35,7 +35,7 @@ hook.Add("GtowerShowMenus", "ShowGroupShow", function()
 end )
 
 hook.Add("GtowerHideMenus", "ShowGroupLeave", function()
-	if ValidPanel( GTowerGroup.LeaveBtn ) then
+	if IsValid( GTowerGroup.LeaveBtn ) then
 		GTowerGroup.LeaveBtn:Remove()
 	end
 
@@ -187,7 +187,7 @@ end )
 
 
 function GTowerGroup:LeaveGroup( um )
-	if ValidPanel( GTowerGroup.MainGui ) then
+	if IsValid( GTowerGroup.MainGui ) then
 		GTowerGroup.MainGui:Remove()
 		GTowerGroup.MainGui = nil
 	end

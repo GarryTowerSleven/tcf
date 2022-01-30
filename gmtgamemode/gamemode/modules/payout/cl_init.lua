@@ -505,7 +505,7 @@ function DisplayEarned( earned )
 	state.total = 0
 
 	// Create VGUI to display the GUI
-	if !ValidPanel( PayoutPanel ) then
+	if !IsValid( PayoutPanel ) then
 		PayoutPanel = vgui.Create( "PayoutPanel" )
 	end
 

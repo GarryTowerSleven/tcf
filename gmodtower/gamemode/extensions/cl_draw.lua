@@ -55,7 +55,7 @@ module( "draw" )
 
 function HTMLPanel( panel, w, h )
 
-	if not ValidPanel( panel ) then return end
+	if not IsValid( panel ) then return end
 	if not (w and h) then return end
 	
 	panel:UpdateHTMLTexture()

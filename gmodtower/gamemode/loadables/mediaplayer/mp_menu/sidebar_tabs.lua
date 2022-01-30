@@ -187,7 +187,7 @@ function CURRENTLY_PLAYING_TAB:OnMediaPlayerChanged( mp )
 
 		-- listen for any future media changes
 		self.MediaChangedHandle = function(...)
-			if ValidPanel(self.PlaybackPanel) then
+			if IsValid(self.PlaybackPanel) then
 				self.PlaybackPanel:OnMediaChanged(...)
 			end
 		end
@@ -200,7 +200,7 @@ function CURRENTLY_PLAYING_TAB:OnMediaPlayerChanged( mp )
 
 		-- listen for any future media changes
 		self.QueueChangedHandle = function(...)
-			if ValidPanel(self.QueuePanel) then
+			if IsValid(self.QueuePanel) then
 				self.QueuePanel:OnQueueChanged(...)
 			end
 		end
@@ -213,7 +213,7 @@ function CURRENTLY_PLAYING_TAB:OnMediaPlayerChanged( mp )
 
 		-- listen for any future player state changes
 		self.PlayerStateChangeHandle = function(...)
-			if ValidPanel(self.PlaybackPanel) then
+			if IsValid(self.PlaybackPanel) then
 				self.PlaybackPanel:OnPlayerStateChanged(...)
 			end
 		end

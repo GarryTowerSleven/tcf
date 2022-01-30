@@ -317,7 +317,7 @@ function Hide()
 
 
 
-	if ValidPanel( RADIAL ) then
+	if IsValid( RADIAL ) then
 
 		RADIAL:Remove()
 
@@ -335,6 +335,6 @@ end
 
 function IsVisible()
 
-	return ValidPanel( RADIAL )
+	return IsValid( RADIAL )
 
 end

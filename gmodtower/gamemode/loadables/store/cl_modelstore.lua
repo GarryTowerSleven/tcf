@@ -9,7 +9,7 @@ local gradient = "VGUI/gradient_up"
 
 function OpenModelStore( id, title, zpos, modelsize, camerafar )
 
-	if ValidPanel( StoreGUI ) then
+	if IsValid( StoreGUI ) then
 		CloseStorePanel()
 	end
 
@@ -60,7 +60,7 @@ end
 
 function UpdateModelPanel()
 
-	if StoreGUI && ValidPanel( StoreGUI.ModelPanel ) then
+	if StoreGUI && IsValid( StoreGUI.ModelPanel ) then
 
 		StoreGUI.ModelPanel:SetSize( ModelSize, ModelSize )
 		//StoreGUI.ModelPanel:SetPos( 150/2-StoreGUI.ModelPanel:GetWide()/2, StoreGUI:GetTall() / 2 - StoreGUI.ModelPanel:GetTall() / 2 + 14 )
@@ -75,7 +75,7 @@ end
 
 function GTowerStore.OpenNormalStore( id, title )
 
-	if ValidPanel( StoreGUI ) then
+	if IsValid( StoreGUI ) then
 		CloseStorePanel()
 	end
 
@@ -122,7 +122,7 @@ end
 
 function ModelStoreMouseEntered( panel )
 
-	if ValidPanel( StoreGUI.ModelPanel ) then
+	if IsValid( StoreGUI.ModelPanel ) then
 
 		local Item = panel:GetItem()
 

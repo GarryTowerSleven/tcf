@@ -290,7 +290,7 @@ function SCOREBOARD:PerformLayout()
 	end
 
 	// Layout active tab
-	if ValidPanel( self.ActiveTab ) then
+	if IsValid( self.ActiveTab ) then
 		local body, panel = self.ActiveTab:GetBody()
 		//panel:InvalidateLayout( true )
 		body:SetPos( 0, self.TitleHeight + 1 )
@@ -301,15 +301,15 @@ function SCOREBOARD:PerformLayout()
 	local x, y = self:GetPos()
 	local w, h = self:GetSize()
 
-	if ValidPanel( self.MapName ) then
+	if IsValid( self.MapName ) then
 		self.MapName:SetPos( ( ( x + w ) - self.MapName:GetWide() ), ( y + ( h + 2 ) ) )
 	end
 	
-	if ValidPanel( self.ReturnButton ) then
+	if IsValid( self.ReturnButton ) then
 		self.ReturnButton:SetPos( x, ( y + ( h + 2 ) ) )
 	end
 	
-	if ValidPanel( self.Resizer ) then
+	if IsValid( self.Resizer ) then
 		self.Resizer:SetSize( w + 20, h )
 		self.Resizer:SetPos( x - 10, y )
 	end
@@ -322,7 +322,7 @@ function SCOREBOARD:Think()
 	local targetHeight = self.TitleHeight
 
 	// Resize for tab
-	if ValidPanel( self.ActiveTab ) then
+	if IsValid( self.ActiveTab ) then
 		local body, panel = self.ActiveTab:GetBody()
 		
 		body:SetTall( math.min( panel:GetTall(), ScrH() * 0.65 ) )
@@ -354,7 +354,7 @@ end
 
 function SCOREBOARD:SetActiveTab( tab )
 	
-	if ValidPanel( self.ActiveTab ) then
+	if IsValid( self.ActiveTab ) then
 		self.ActiveTab:SetActive( false )
 		local oldBody = self.ActiveTab:GetBody()
 		
@@ -478,7 +478,7 @@ vgui.Register( "Blur", BLUR )
 
 hook.Add( "ScoreboardShow", "ShowGMTScoreboard", function( disableMouse )
 
-	if !ValidPanel( Gui ) then
+	if !IsValid( Gui ) then
 		Gui = vgui.Create("ScoreBoard")
 	end
 
@@ -504,7 +504,7 @@ hook.Add( "ScoreboardShow", "ShowGMTScoreboard", function( disableMouse )
 			Gui.Resizer:SetVisible( true )
 		end
 		
-		if ValidPanel(Gui.ReturnButton) then
+		if IsValid(Gui.ReturnButton) then
 			Gui.ReturnButton:SetVisible( true )
 		end
 		
@@ -525,21 +525,21 @@ end )
 
 hook.Add( "ScoreboardHide", "HideGMTScoreboard", function( disableMouse )
 
-	if Gui && ValidPanel( Gui ) && Gui.AlwaysOn then
+	if Gui && IsValid( Gui ) && Gui.AlwaysOn then
 		return true
 	end
 
-	if ValidPanel( Gui ) then
+	if IsValid( Gui ) then
 		Gui:SetVisible( false )
 		//Gui.Hide = true
 	end
 
-	if ValidPanel( Gui ) && Scoreboard.Customization.EnableMouse && !disableMouse then
+	if IsValid( Gui ) && Scoreboard.Customization.EnableMouse && !disableMouse then
 		gui.EnableScreenClicker( false )
 		RestoreCursorPosition()
 	end
 	
-	if ValidPanel( Gui ) then
+	if IsValid( Gui ) then
 
 		if Gui.Background then
 			Gui.Background:SetVisible( false )
@@ -550,7 +550,7 @@ hook.Add( "ScoreboardHide", "HideGMTScoreboard", function( disableMouse )
 			Gui.Resizer:SetVisible( false )
 		end
 		
-		if ValidPanel(Gui.ReturnButton) then
+		if IsValid(Gui.ReturnButton) then
 			Gui.ReturnButton:SetVisible( false )
 		end
 
@@ -567,11 +567,11 @@ hook.Add( "ScoreboardHide", "HideGMTScoreboard", function( disableMouse )
 end )
 
 
-if ValidPanel( Gui ) then
+if IsValid( Gui ) then
 
-	if ValidPanel( Gui.Resizer ) then Gui.Resizer:Remove() end
-	if ValidPanel( Gui.MapName ) then Gui.MapName:Remove() end
-	if ValidPanel( Gui.ReturnButton ) then Gui.ReturnButton:Remove() end
+	if IsValid( Gui.Resizer ) then Gui.Resizer:Remove() end
+	if IsValid( Gui.MapName ) then Gui.MapName:Remove() end
+	if IsValid( Gui.ReturnButton ) then Gui.ReturnButton:Remove() end
 	Gui:Remove()
 
 end
@@ -582,7 +582,7 @@ concommand.Add( "gmt_showscores", function( ply, cmd, args )
 
 	if !enable then
 
-		if ValidPanel( Gui ) then
+		if IsValid( Gui ) then
 			Gui.AlwaysOn = false
 		end
 
@@ -594,7 +594,7 @@ concommand.Add( "gmt_showscores", function( ply, cmd, args )
 
 			hook.Call( "ScoreboardShow", GAMEMODE, true )
 
-			if ValidPanel( Gui ) then
+			if IsValid( Gui ) then
 				Gui:SetActiveTab( Gui.PlayerTab )
 				Gui.AlwaysOn = false //true
 			end

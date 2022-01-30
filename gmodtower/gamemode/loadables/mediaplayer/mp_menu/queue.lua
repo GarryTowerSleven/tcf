@@ -198,7 +198,7 @@ function MEDIA_ITEM:SetMedia( media )
 	
 	-- apply media for all buttons
 	for _, btn in pairs( self.BtnList:GetItems() ) do
-		if ValidPanel(btn) and isfunction(btn.SetMedia) then
+		if IsValid(btn) and isfunction(btn.SetMedia) then
 			btn:SetMedia( media )
 		end
 	end

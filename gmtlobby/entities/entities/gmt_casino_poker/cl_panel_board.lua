@@ -1,7 +1,7 @@
 local PokerHelpPanel = nil
 local function ToggleHelp()
 
-	if ValidPanel( PokerHelpPanel ) then
+	if IsValid( PokerHelpPanel ) then
 		PokerHelpPanel:Remove()
 	else
 		local w, h = 955 /* * .75*/, 543 /* * .75 */
@@ -278,7 +278,7 @@ function PANEL:SetHand( hand )
 
 	local w, h = self:GetSize()
 
-	if !ValidPanel( self.CardList ) then
+	if !IsValid( self.CardList ) then
 		self.CardList = vgui.Create( "DModelCardList", self )
 		self.CardList:SetSize( w / 2, h / 3 )
 		self.CardList:SetPos( ( w / 2 ) - ( self.CardList:GetWide() / 2 ), ( h / 2 ) + 40 )

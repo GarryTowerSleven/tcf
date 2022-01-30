@@ -301,11 +301,11 @@ end)
 	// For testing...
 	if bind == "+menu" then
 		//RunConsoleCommand( "minigolf" )
-		self:DisplayScorecard( !ValidPanel( Scorecard ) )
+		self:DisplayScorecard( !IsValid( Scorecard ) )
 	end
 
 	if bind == "+menu_context" then
-		self:DisplayCustomizer( !ValidPanel( RADIAL ), true )
+		self:DisplayCustomizer( !IsValid( RADIAL ), true )
 	end
 end]]
 

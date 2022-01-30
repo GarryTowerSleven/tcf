@@ -21,7 +21,7 @@ function GTowerGroup:RefreshGui()
 	for _, ply in pairs(GTowerGroup.GroupMembers) do
 		if IsValid( ply ) && ply != LocalPlayer() then
 			
-			if !ValidPanel( ply._GroupUI ) then
+			if !IsValid( ply._GroupUI ) then
 				//Player does not have a gui, make one
 				local NewGui = vgui.Create("GtowerGroupPlayer", GTowerGroup.MainGui )
 				

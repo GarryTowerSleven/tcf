@@ -14,7 +14,7 @@ SWEP.IronHUD	= surface.GetTextureID( "gmod_tower/pvpbattle/sniper" )
 //SWEP.ModelPanel = nil
 function SWEP:DrawWeaponSelection( x, y, wide, tall, alpha )
 
-	/*if ValidPanel( self.ModelPanel ) then
+	/*if IsValid( self.ModelPanel ) then
 		return
 	end
 
@@ -53,7 +53,7 @@ function SWEP:DrawHUD()
 		self:DrawHUDCrosshair()
 	end
 
-	/*if ValidPanel( self.ModelPanel ) then
+	/*if IsValid( self.ModelPanel ) then
 		self.ModelPanel:Remove()
 	end*/
 

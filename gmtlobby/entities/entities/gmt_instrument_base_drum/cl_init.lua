@@ -214,7 +214,7 @@ end
 
 function ENT:OpenSheetMusic()
 
-	if ValidPanel( self.Browser ) || !self.BrowserHUD.Show then return end
+	if IsValid( self.Browser ) || !self.BrowserHUD.Show then return end
 
 	self.Browser = vgui.Create( "HTML" )
 	self.Browser:SetVisible( false )
@@ -239,7 +239,7 @@ function ENT:OpenSheetMusic()
 	// for some silly reason...
 	timer.Simple( .1, function()
 
-		if ValidPanel( self.Browser ) then
+		if IsValid( self.Browser ) then
 			self.Browser:SetVisible( true )
 			self.Browser:SetPos( x, self.BrowserHUD.Y )
 			self.Browser:SetSize( width, self.BrowserHUD.Height )
@@ -251,7 +251,7 @@ end
 
 function ENT:CloseSheetMusic()
 
-	if !ValidPanel( self.Browser ) then return end
+	if !IsValid( self.Browser ) then return end
 
 	self.Browser:Remove()
 	self.Browser = nil
@@ -260,7 +260,7 @@ end
 
 function ENT:ToggleSheetMusic()
 
-	if ValidPanel( self.Browser ) then
+	if IsValid( self.Browser ) then
 		self:CloseSheetMusic()
 	else
 		self:OpenSheetMusic()
@@ -270,7 +270,7 @@ end
 
 function ENT:SheetMusicForward()
 
-	if !ValidPanel( self.Browser ) then return end
+	if !IsValid( self.Browser ) then return end
 
 	self.Browser:Exec( "pageForward()" )
 	self:EmitSound( self.PageTurnSound, 100, math.random( 120, 150 ) )
@@ -279,7 +279,7 @@ end
 
 function ENT:SheetMusicBack()
 
-	if !ValidPanel( self.Browser ) then return end
+	if !IsValid( self.Browser ) then return end
 
 	self.Browser:Exec( "pageBack()" )
 	self:EmitSound( self.PageTurnSound, 100, math.random( 100, 120 ) )
@@ -309,7 +309,7 @@ end
 function ENT:ToggleAdvancedMode()
 	self.AdvancedMode = !self.AdvancedMode
 
-	if ValidPanel( self.Browser ) then
+	if IsValid( self.Browser ) then
 		self:CloseSheetMusic()
 		self:OpenSheetMusic()
 	end

@@ -163,7 +163,7 @@ end )
 
 function DisplayEmitBrowse( dir )
 
-	if ValidPanel( EmitPanel ) then return end
+	if IsValid( EmitPanel ) then return end
 
 	local safedir = string.Replace( dir, "%20", " " )
 

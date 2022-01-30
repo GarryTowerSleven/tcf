@@ -272,13 +272,13 @@ usermessage.Hook("Inv", function( um )
 
 			ItemObj.Item = Item
 
-			if ValidPanel( ItemObj._VGUI ) then
+			if IsValid( ItemObj._VGUI ) then
 				Item._VGUI = ItemObj._VGUI
 			end
 
 		end
 
-		if ValidPanel( ItemObj._VGUI ) then
+		if IsValid( ItemObj._VGUI ) then
 			ItemObj._VGUI:InvalidateLayout()
 		end
 
@@ -330,7 +330,7 @@ usermessage.Hook("Inv", function( um )
 		Item.SlotId = Slot
 		Item.IsBankSlot = IsBank
 
-		if ValidPanel( ItemObj._VGUI ) then
+		if IsValid( ItemObj._VGUI ) then
 			Item._VGUI = ItemObj._VGUI
 			ItemObj._VGUI:InvalidateLayout()
 		end

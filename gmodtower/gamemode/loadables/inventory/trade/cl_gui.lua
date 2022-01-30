@@ -125,7 +125,7 @@ function GTowerTrade:OpenTrade( ply )
 		end
 		TextEntry.OnValueChange = function(panel)
 			timer.Simple( 0.0, function()
-				if !ValidPanel( panel ) then
+				if !IsValid( panel ) then
 					return
 				end
 
@@ -405,7 +405,7 @@ local function TradeRemoveItems( ... )
 end
 
 hook.Add("GTowerInvHover", "CheckTradeArea", function( Item )
-	if ValidPanel( GTowerTrade.Gui ) && GTowerTrade:IsMouseInWindow() then
+	if IsValid( GTowerTrade.Gui ) && GTowerTrade:IsMouseInWindow() then
 		return GTowerTrade.Gui
 	end
 end )
@@ -415,12 +415,12 @@ hook.Add("InventoryUse", "CheckTradeArea", TradeRemoveItems )
 hook.Add("InventorySwap", "CheckTradeArea", TradeRemoveItems )
 hook.Add("InventoryDrop", "CheckTradeArea", TradeRemoveItems )
 hook.Add("CanCloseMenu", "Trading", function()
-	if ValidPanel( GTowerTrade.Gui ) then
+	if IsValid( GTowerTrade.Gui ) then
 		return false
 	end
 end )
 hook.Add("InvDropCheckClose", "Trading", function()
-	if ValidPanel( GTowerTrade.Gui ) then
+	if IsValid( GTowerTrade.Gui ) then
 		return false
 	end
 end )

@@ -37,15 +37,15 @@ function GtowerMainGui:GtowerHideMenus()
 	// Theater Stuff //
 	///////////////////
 
-	if ValidPanel( GuiQueue ) then
+	if IsValid( GuiQueue ) then
 		GuiQueue:SetVisible( false )
 	end
 	
-	if ValidPanel( GuiAdmin ) then
+	if IsValid( GuiAdmin ) then
 		GuiAdmin:SetVisible( false )
 	end
 	
-	if not ( ValidPanel( Gui ) and Gui:IsVisible() ) then
+	if not ( IsValid( Gui ) and Gui:IsVisible() ) then
 		GAMEMODE:HideMouse()
 	end
 
@@ -87,7 +87,7 @@ function GtowerMainGui:GtowerShowMenus()
 	if !Theater then return end
 
 	-- Queue
-	if !ValidPanel( GuiQueue ) then
+	if !IsValid( GuiQueue ) then
 		GuiQueue = vgui.Create( "ScoreboardQueue" )
 	end
 
@@ -99,7 +99,7 @@ function GtowerMainGui:GtowerShowMenus()
 	if LocalPlayer():IsAdmin() || LocalPlayer():IsUserGroup("mikumod") or
 		( Theater:IsPrivate() and Theater:GetOwner() == LocalPlayer() ) then
 
-		if !ValidPanel( GuiAdmin ) then
+		if !IsValid( GuiAdmin ) then
 			GuiAdmin = vgui.Create( "ScoreboardAdmin" )
 		end
 

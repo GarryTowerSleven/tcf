@@ -15,7 +15,7 @@ function TAB:GetText()
 end
 
 /*function TAB:OnOpen()
-	if ValidPanel( self.Body ) then
+	if IsValid( self.Body ) then
 		self.Body:Create()
 	end
 end*/

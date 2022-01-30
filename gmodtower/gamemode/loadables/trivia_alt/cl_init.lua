@@ -24,7 +24,7 @@ end )
 
 function GTowerTrivia:OpenAdmin()
 
-	if ValidPanel( self.VGUI ) then
+	if IsValid( self.VGUI ) then
 		self.VGUI:Remove()
 		self.VGUI = nil
 	end
@@ -147,7 +147,7 @@ end
 
 function GTowerTrivia:InsertNewPage()
 	
-	if ValidPanel( GTowerTrivia.InsertVGUI ) then
+	if IsValid( GTowerTrivia.InsertVGUI ) then
 		GTowerTrivia.InsertVGUI:Remove()
 		GTowerTrivia.InsertVGUI = nil
 	end

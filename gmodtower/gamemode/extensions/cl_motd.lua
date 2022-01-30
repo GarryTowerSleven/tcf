@@ -39,7 +39,7 @@ function OpenMOTD( URL, title, time )
 	if Seen then return end -- Don't do anything
 	SaveSeen() -- They've seen it!
 	
-	if !ValidPanel( Browser ) then
+	if !IsValid( Browser ) then
 		Browser = vgui.Create( "HTML" )
 		Browser:SetSize( ScrW(), ScrH() - 58 )
 	end
@@ -79,11 +79,11 @@ end
 
 function Close()
 
-	if ValidPanel( Browser ) then
+	if IsValid( Browser ) then
 		Browser:Remove()
 	end
 
-	if ValidPanel( CloseButton ) then
+	if IsValid( CloseButton ) then
 		CloseButton:Remove()
 	end
 

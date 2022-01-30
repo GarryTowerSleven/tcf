@@ -75,7 +75,7 @@ function PANEL:Think()
 end
 
 function PANEL:CloseAll( btn )
-	if ValidPanel( localScoreGui ) then
+	if IsValid( localScoreGui ) then
 
 		for _, v in pairs( localScoreGui.Groups ) do
 			if v:GetExpanded() == true then
@@ -108,7 +108,7 @@ function PANEL:PerformLayout()
 
 	for _, v in pairs( GTowerAchievements.Achievements ) do
 
-		if ValidPanel( v.panel ) then
+		if IsValid( v.panel ) then
 			v.panel:SetWidth( self:GetWide() / 2 - 10 )
 		end
 
@@ -132,7 +132,7 @@ vgui.Register("GTowerAchivMain", PANEL )
 hook.Add("AchievementUpdate", "GTowerUpdateGUI", function()
 
 	/*for _, v in pairs( GTowerAchievements.Achievements ) do
-		if ValidPanel( v.panel ) then
+		if IsValid( v.panel ) then
 			v.panel:InvalidateLayout()
 		end
 	end*/

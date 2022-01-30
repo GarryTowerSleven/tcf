@@ -49,7 +49,7 @@ if CLIENT then
 
 		volume = BaseClass.Volume( self, volume )
 
-		if origVolume and ValidPanel( self.Browser ) then
+		if origVolume and IsValid( self.Browser ) then
 			self.Browser:RunJavascript(JS_Volume:format(volume))
 		end
 	end

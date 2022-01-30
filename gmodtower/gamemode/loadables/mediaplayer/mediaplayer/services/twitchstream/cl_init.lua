@@ -29,7 +29,7 @@ end
 function SERVICE:Pause()
 	BaseClass.Pause( self )
 
-	if ValidPanel(self.Browser) then
+	if IsValid(self.Browser) then
 		self.Browser:RunJavascript(JS_Pause)
 		self._YTPaused = true
 	end

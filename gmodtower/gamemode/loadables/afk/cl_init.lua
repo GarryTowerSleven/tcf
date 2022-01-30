@@ -55,8 +55,8 @@ end )
 
 local function AfkTimerThink()
 
-	if ValidPanel( LocalPlayer().ActiveBrowser ) then return end
-	if !ValidPanel( DermaPanel ) then return end
+	if IsValid( LocalPlayer().ActiveBrowser ) then return end
+	if !IsValid( DermaPanel ) then return end
 
 	local TimeLeft = ( EndTime or 0 ) - CurTime()
 	local Sine = math.sin( math.fmod( TimeLeft, 1 ) * math.pi ) * 200
@@ -79,7 +79,7 @@ end
 
 local function AfkTimerPaint( panel )
 
-	if ValidPanel( LocalPlayer().ActiveBrowser ) then return end
+	if IsValid( LocalPlayer().ActiveBrowser ) then return end
 
 	local TimeLeft = math.Clamp( ( ( EndTime or 0 ) - CurTime() ) / TotalTime , 0, 1 )
 	local W, H = panel:GetSize()
@@ -98,7 +98,7 @@ function CreateWarning()
 
 	RemoveWarning()
 
-	if ValidPanel( LocalPlayer().ActiveBrowser ) then return end
+	if IsValid( LocalPlayer().ActiveBrowser ) then return end
 
 	DermaPanel = vgui.Create("DPanel")
 	DermaPanel.WarningLabel = Label( T("AfkTimer", 30.0), DermaPanel )
@@ -122,7 +122,7 @@ end
 
 function RemoveWarning()
 
-	if ValidPanel( DermaPanel ) then
+	if IsValid( DermaPanel ) then
 		DermaPanel:Remove()
 	end
 

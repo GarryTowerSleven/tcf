@@ -281,7 +281,7 @@ function Derma_NumberRequest( strTitle, strText, fnEnter, fnCancel, strButtonTex
 
 
 
-		if !ValidPanel( panel ) then return end
+		if !IsValid( panel ) then return end
 
 
 

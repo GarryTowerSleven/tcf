@@ -125,7 +125,7 @@ end
 function PANEL:ClearHand()
 
 	for id, panel in pairs( self.Panels ) do
-		if ValidPanel( panel ) then
+		if IsValid( panel ) then
 			panel:Remove()
 			panel = nil
 		end

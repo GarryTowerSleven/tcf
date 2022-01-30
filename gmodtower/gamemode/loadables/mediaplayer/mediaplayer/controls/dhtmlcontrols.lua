@@ -331,7 +331,7 @@ local angRotate = Angle()
 
 function RefreshButton:Paint( w, h )
 
-	if ValidPanel(self.HTML) and self.HTML:IsLoading() then
+	if IsValid(self.HTML) and self.HTML:IsLoading() then
 		local x, y = self:LocalToScreen(0,0)
 
 		vecTranslate.x = x + w / 2

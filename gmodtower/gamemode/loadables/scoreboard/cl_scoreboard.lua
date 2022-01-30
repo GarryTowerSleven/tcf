@@ -34,7 +34,7 @@ function TAB:GetText()
 end
 
 function TAB:OnOpen()
-	if ValidPanel( self.Body ) then
+	if IsValid( self.Body ) then
 		self.Body:OnOpen()
 	end
 end
@@ -116,7 +116,7 @@ function PLAYERS:OnOpen()
 
 	for ply, panel in pairs( self.Players ) do
 
-		if ValidPanel( panel ) then
+		if IsValid( panel ) then
 			panel:OnOpen()
 		end
 
@@ -126,7 +126,7 @@ end
 
 function PLAYERS:RemovePlayer( ply )
 
-	if ValidPanel( self.Players[ ply ] ) then
+	if IsValid( self.Players[ ply ] ) then
 		self.Players[ ply ]:Remove()
 		self.Players[ ply ] = nil
 	end
@@ -700,7 +700,7 @@ function PLAYER:Think()
 		return
 	end
 
-	if !ValidPanel( self.Action ) then return end
+	if !IsValid( self.Action ) then return end
 
 	if self:IsMouseInWindow() && self.Player != LocalPlayer() && !Scoreboard.Customization.PlayerActionBoxAlwaysShow then
 		self:SetCursor( "hand" )
@@ -794,7 +794,7 @@ function PLAYERINFO:Update()
 	// Handle respect icons
 	if DrawRespectIcons:GetBool() && self:RespectType() then
 
-		if !ValidPanel( self.RespectIcon ) then
+		if !IsValid( self.RespectIcon ) then
 			self.RespectIcon = vgui.Create( "LabelIcon", self )
 			self.RespectIcon.NoDrawSelectionBackground = true
 			self.RespectIcon.IsLabel = true
@@ -802,7 +802,7 @@ function PLAYERINFO:Update()
 
 	else
 
-		if ValidPanel( self.RespectIcon ) then
+		if IsValid( self.RespectIcon ) then
 			self.RespectIcon:Remove()
 			self.RespectIcon = nil
 		end
@@ -818,7 +818,7 @@ function PLAYERINFO:Update()
 
 		// Position
 		local widealign = self.Ping:GetWide()
-		if ValidPanel( self.RespectIcon ) && DrawRespectIcons:GetBool() && self:RespectType() then
+		if IsValid( self.RespectIcon ) && DrawRespectIcons:GetBool() && self:RespectType() then
 			widealign = self.Ping:GetWide() + self.RespectIcon:GetWide()
 		end
 
@@ -871,7 +871,7 @@ function PLAYERINFO:PerformLayout()
 	end
 
 
-	if ValidPanel( self.RespectIcon ) then
+	if IsValid( self.RespectIcon ) then
 
 		local value, iconMaterial = self:RespectType()
 
@@ -891,7 +891,7 @@ function PLAYERINFO:PerformLayout()
 
 	end
 
-	if ValidPanel( self.SubtitleRight ) && self.SubtitleRight:GetText() != "" then
+	if IsValid( self.SubtitleRight ) && self.SubtitleRight:GetText() != "" then
 
 		self.SubtitleRight:SizeToContents()
 		self.SubtitleRight:SetColor( Color( 255, 255, 255, 100 ) )

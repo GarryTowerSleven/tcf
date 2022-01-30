@@ -95,7 +95,7 @@ end
 
 hook.Add( "OnReloaded", "ReloadChat", function()
 
-	if GTowerChat and ValidPanel(GTowerChat.Chat) then
+	if GTowerChat and IsValid(GTowerChat.Chat) then
 
 		GTowerChat.Chat:Remove()
 
@@ -500,7 +500,7 @@ hook.Add( "ShutDown", "RemoveChatBox", function()
 
 
 
-	if ValidPanel( GTowerChat.Chat ) then
+	if IsValid( GTowerChat.Chat ) then
 
 		GTowerChat.Chat:Hide()
 

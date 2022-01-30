@@ -895,7 +895,7 @@ net.Receive("VoteScreenFinish",function()
 
 	local map = net.ReadString()
 
-	if !ValidPanel( GTowerServers.MapChooserGUI ) then return end
+	if !IsValid( GTowerServers.MapChooserGUI ) then return end
 	GTowerServers.MapChooserGUI:FinishVote( map )
 end)
 

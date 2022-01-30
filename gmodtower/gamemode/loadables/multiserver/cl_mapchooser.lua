@@ -78,7 +78,7 @@ end
 function GTowerServers:CloseChooser()
 
 	// we can't keep calling GTowerMainGui:GTowerHideMenus because of the frequency of this call
-	if !ValidPanel( self.MapChooserGUI ) then return end
+	if !IsValid( self.MapChooserGUI ) then return end
 
 	GtowerMainGui:GtowerHideMenus()
 
@@ -137,7 +137,7 @@ end
 
 hook.Add( "CalcView", "SpectateMap", function( ply, pos, ang, fov )
 
-	if !ValidPanel( GTowerServers.MapChooserGUI ) then return end
+	if !IsValid( GTowerServers.MapChooserGUI ) then return end
 	if GTowerServers.CurrentGamemode.View then
 	pos = GTowerServers.CurrentGamemode.View.pos
 	ang = GTowerServers.CurrentGamemode.View.ang
@@ -154,23 +154,23 @@ hook.Add( "CalcView", "SpectateMap", function( ply, pos, ang, fov )
 end )
 
 hook.Add( "GShouldCalcView", "ShouldCalcVewBall", function( ply, pos, ang, fov )
-	return ValidPanel( GTowerServers.MapChooserGUI )
+	return IsValid( GTowerServers.MapChooserGUI )
 end )
 
 hook.Add( "CanOpenMenu", "GTowerMapSelection", function()
-	if ValidPanel( GTowerServers.MapChooserGUI ) then
+	if IsValid( GTowerServers.MapChooserGUI ) then
 		return false
 	end
 end )
 
 hook.Add( "CanCloseMenu", "GTowerMapSelection", function()
-	if ValidPanel( GTowerServers.MapChooserGUI ) then
+	if IsValid( GTowerServers.MapChooserGUI ) then
 		return false
 	end
 end )
 
 hook.Add( "DisableThirdpersonAll", "DisableThirdpersonAllMapSelection", function()
-	return ValidPanel( GTowerServers.MapChooserGUI )
+	return IsValid( GTowerServers.MapChooserGUI )
 end )
 
 hook.Add( "GTowerServerUpdate", "CheckForLocalPlayer", function( ServerId )

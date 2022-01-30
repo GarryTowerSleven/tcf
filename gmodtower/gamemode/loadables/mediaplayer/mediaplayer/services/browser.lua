@@ -37,7 +37,7 @@ if CLIENT then
 
 		volume = BaseClass.Volume( self, volume )
 
-		if origVolume and ValidPanel( self.Browser ) then
+		if origVolume and IsValid( self.Browser ) then
 			self:SetVolume( volume )
 		end
 
@@ -48,7 +48,7 @@ if CLIENT then
 
 		BaseClass.Play( self )
 
-		if self.Browser and ValidPanel(self.Browser) then
+		if self.Browser and IsValid(self.Browser) then
 			self:OnBrowserReady( self.Browser )
 		else
 
@@ -151,7 +151,7 @@ if CLIENT then
 
 	function SERVICE:Draw( w, h )
 
-		if ValidPanel(self.Browser) then
+		if IsValid(self.Browser) then
 			SetDrawColor( 0, 0, 0, 255 )
 			DrawRect( 0, 0, w, h )
 			DrawHTMLPanel( self.Browser, w, h )

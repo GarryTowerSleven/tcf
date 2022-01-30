@@ -91,7 +91,7 @@ end
 
 function MediaPlayer.OpenRequestMenu( mp )
 
-	if ValidPanel(MediaPlayer._RequestMenu) then
+	if IsValid(MediaPlayer._RequestMenu) then
 		return
 	end
 
@@ -119,7 +119,7 @@ function MediaPlayer.MenuRequest( url )
 
 	local menu = MediaPlayer._RequestMenu
 
-	if not ValidPanel(menu) then
+	if not IsValid(menu) then
 		return
 	end
 

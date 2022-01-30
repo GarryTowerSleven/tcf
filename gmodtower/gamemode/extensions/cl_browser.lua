@@ -5,12 +5,12 @@ HTMLFrame = nil
 
 function OpenURL( URL, title )
 	
-	if !ValidPanel( Browser ) then
+	if !IsValid( Browser ) then
 		Browser = vgui.Create( "HTML" )
 		Browser:SetSize( ScrW() * .75, ScrH() * .75 )
 	end
 		
-	if !ValidPanel( HTMLFrame ) then
+	if !IsValid( HTMLFrame ) then
 		local w, h = Browser:GetWide() + 10, Browser:GetTall() + 35
 
 		HTMLFrame = vgui.Create( "DFrame" )
@@ -44,11 +44,11 @@ end
 
 function Close()
 
-	if ValidPanel( Browser ) then
+	if IsValid( Browser ) then
 		Browser:Remove()
 	end
 	
-	if ValidPanel( HTMLFrame ) then
+	if IsValid( HTMLFrame ) then
 		HTMLFrame:Remove()
 	end
 

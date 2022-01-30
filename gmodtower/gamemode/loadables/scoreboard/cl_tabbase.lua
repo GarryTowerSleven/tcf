@@ -8,7 +8,7 @@ function TABBASE:Init()
 
 	self:SetCursor("hand")
 
-	if !ValidPanel( self.Label ) then
+	if !IsValid( self.Label ) then
 		self.Label = vgui.Create( "DLabel", self )
 		self.Label:SetText( self:GetText() )
 		self.Label:SetFont("SCTNavigation")
@@ -79,13 +79,13 @@ end
 
 function TABBASE:GetBody()
 	
-	if !ValidPanel( self.Body ) then
+	if !IsValid( self.Body ) then
 		self.Scroll = vgui.Create("DPanelList2")
 		self.Scroll:SetScrollBarColors( Scoreboard.Customization.ColorNormal, Scoreboard.Customization.ColorBackground )
 
 		self.Body = self:CreateBody()
 
-		if !ValidPanel( self.Body ) then
+		if !IsValid( self.Body ) then
 			error("Unable to create body for panel")
 		end
 		

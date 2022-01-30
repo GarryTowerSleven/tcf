@@ -49,11 +49,11 @@ function PANEL:Paint( w, h )
 		self:PaintDebug( w, h )
 	end
 
-	if vgui.CursorVisible() and ValidPanel(self.Selected) then
+	if vgui.CursorVisible() and IsValid(self.Selected) then
 		self:PaintSelected( self.Selected, w, h, self.PaintSelectColor, true )
 	end
 
-	if self.Save && ValidPanel(self.SaveSelected) then
+	if self.Save && IsValid(self.SaveSelected) then
 		self:PaintSelected( self.SaveSelected, w, h, self.PaintSaveSelectColor )
 	end
 
@@ -229,7 +229,7 @@ end
 -----------------------------------------------------------]]
 function PANEL:SetSelected( panel, ang )
 
-	if ValidPanel(self.Selected) then
+	if IsValid(self.Selected) then
 
 		if self.Selected == panel then
 			return
@@ -344,7 +344,7 @@ function PANEL:Think()
 
 	local MouseDown = input.IsMouseDown( MOUSE_LEFT )
 
-	if MouseDown and ValidPanel(self.Selected) then
+	if MouseDown and IsValid(self.Selected) then
 
 		if self.Selected.DoClick then
 			self.Selected:DoClick()
@@ -403,7 +403,7 @@ end
 -----------------------------------------------------------]]
 function PANEL:PerformLayout()
 
-	if ValidPanel(self.CenterPanel) then
+	if IsValid(self.CenterPanel) then
 		self.CenterPanel:Center()
 	end
 
@@ -450,7 +450,7 @@ end
 -----------------------------------------------------------]]
 function PANEL:SetCenterPanel( panel )
 
-	if !ValidPanel(panel) then return end
+	if !IsValid(panel) then return end
 	
 	panel:SetParent(self)
 	self.CenterPanel = panel
@@ -467,7 +467,7 @@ end
 -----------------------------------------------------------]]
 function PANEL:AddItem( panel, degrees )
 
-	if !ValidPanel(panel) then return end
+	if !IsValid(panel) then return end
 	
 	panel.theta = math.rad( degrees or 35 )
 	self.TotalRadians = self.TotalRadians + panel.theta
@@ -545,7 +545,7 @@ function PANEL:ForceSelect()
 	end
 
 	local cp = self:GetCenterPanel()
-	if ValidPanel(cp) then
+	if IsValid(cp) then
 		cp:SetCursor(cursor)
 	end*/
 
@@ -557,7 +557,7 @@ vgui.Register( "DRadialMenu", PANEL, "DPanel" )
 
 concommand.Add( "radial_test", function( ply, cmd, args )
 
-	if ValidPanel(RADIAL) then
+	if IsValid(RADIAL) then
 		RADIAL:Remove()
 	end
 

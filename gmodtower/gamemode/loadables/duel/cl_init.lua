@@ -37,7 +37,7 @@ function StartDuelClient()
 end
 
 local function EndDuelClient( won )
-	if ValidPanel( DuelVGUI ) then
+	if IsValid( DuelVGUI ) then
 		DuelVGUI:Remove()
 		DuelVGUI = nil
 	end

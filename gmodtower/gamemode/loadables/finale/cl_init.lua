@@ -31,7 +31,7 @@ local function AfkTimerThink()
 
 
 
-	if !ValidPanel( DermaPanel ) then return end
+	if !IsValid( DermaPanel ) then return end
 
 
 
@@ -121,7 +121,7 @@ local function RemoveWarning()
 
 
 
-	if ValidPanel( DermaPanel ) then
+	if IsValid( DermaPanel ) then
 
 		DermaPanel:Remove()
 

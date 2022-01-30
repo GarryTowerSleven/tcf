@@ -20,7 +20,7 @@ function TAB:CreateBody()
 end
 
 function TAB:OnOpen()
-	if ValidPanel( self.Body ) then
+	if IsValid( self.Body ) then
 		self.Body:OnOpen()
 	end
 end
@@ -127,7 +127,7 @@ end
 
 function APPEARANCE:UpdateModelPanel()
 
-	if !ValidPanel( self.ModelPanel ) then return end
+	if !IsValid( self.ModelPanel ) then return end
 
 	self.ModelPanel:SetSize( ModelSizeX, ModelSizeY )
 	self.ModelPanel:SetPos( 0, 0 )
@@ -245,7 +245,7 @@ function APPEARANCE:GenerateModelSelection()
 
 		icon.DoClick = onclick
 
-		if ValidPanel( category ) then
+		if IsValid( category ) then
 			category:AddItem( icon )
 		end
 

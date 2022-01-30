@@ -21,7 +21,7 @@ hook.Add("InventoryChanged", "RecreatePlayerList", function( ItemObj )
 
 	if ItemObj.Item && ItemObj.Item.ModelItem == true then
 
-		if GtowerScoreBoard && ValidPanel( GtowerScoreBoard.SettingPanel ) then
+		if GtowerScoreBoard && IsValid( GtowerScoreBoard.SettingPanel ) then
 			GtowerScoreBoard.SettingPanel:GenerateModelSelection()
 		end
 

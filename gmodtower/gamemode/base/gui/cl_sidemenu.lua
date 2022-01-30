@@ -13,7 +13,7 @@ local function UpdatePanelPos( panel, anim, delta )
 end
 
 function RunAnim()
-	if ValidPanel( Gui ) then
+	if IsValid( Gui ) then
 		Gui.Anim:Run()
 	end
 end
@@ -82,7 +82,7 @@ end
 
 function Close()
 
-	if ValidPanel( Gui ) then
+	if IsValid( Gui ) then
 		hook.Call("CloseSideMenu", GAMEMODE )
 		Gui:Remove()
 		Gui = nil

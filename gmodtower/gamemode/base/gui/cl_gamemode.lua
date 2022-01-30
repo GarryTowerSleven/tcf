@@ -83,7 +83,7 @@ function Create( title )
 
 		-- Move up for ball race chooser GUI.
 		if BallRacerChooser then
-			if ValidPanel( BallRacerChooser.GUI ) then
+			if IsValid( BallRacerChooser.GUI ) then
 				ypos = 110 + (BallRacerChooser.GUI:GetTall()-14)
 			end
 		end

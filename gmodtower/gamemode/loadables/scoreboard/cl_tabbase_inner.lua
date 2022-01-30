@@ -8,7 +8,7 @@ function TABBASE:Init()
 
 	self:SetCursor("hand")
 
-	if !ValidPanel( self.Label ) then
+	if !IsValid( self.Label ) then
 		self.Label = Label( "Unknown" )
 		self.Label:SetParent( self )
 		self.Label:SetFont("SCTNavigation")

@@ -64,7 +64,7 @@ function PANEL:Think()
 
 	if !self.ListDrag and self:IsCursorWithinBounds() and input.IsMouseDown(MOUSE_LEFT) then
 
-		if ValidPanel(self.VBar) then
+		if IsValid(self.VBar) then
 
 			-- Don't drag panel list if the scrollbar is already dragging
 			if self.VBar.Dragging then
@@ -89,7 +89,7 @@ function PANEL:Think()
 
 			local ydiff = self.DragStartPos - gui.MouseY()
 
-			if ValidPanel(self.VBar) then
+			if IsValid(self.VBar) then
 				self.VBar:SetScroll( self.DragScrollOffset + ydiff )
 			else
 				self.pnlCanvas:SetPos( 0, self.DragScrollOffset + ydiff )

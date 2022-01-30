@@ -107,7 +107,7 @@ function string.Uppercase( str )
 end
 hook.Add( "GtowerShowContextMenus", "ShowEmote", function()
 
-	if ValidPanel( RADIAL ) then
+	if IsValid( RADIAL ) then
 		RADIAL:Remove()
 	end
 
@@ -183,7 +183,7 @@ hook.Add( "GtowerShowContextMenus", "ShowEmote", function()
 end )
 
 hook.Add( "GtowerHideContextMenus", "HideEmote", function()
-	if ValidPanel( RADIAL ) then
+	if IsValid( RADIAL ) then
 		RADIAL:Remove()
 	end
 

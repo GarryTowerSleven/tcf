@@ -62,7 +62,7 @@ function PANEL:SetHand( hand )
 
 	local w, h = self:GetSize()
 
-	if !ValidPanel( self.CardList ) then
+	if !IsValid( self.CardList ) then
 		self.CardList = vgui.Create( "DModelCardList", self )
 		self.CardList:SetSize( w / 5 * 2.2, h )
 		self.CardList:SetPos( ( w / 2 ) - ( self.CardList:GetWide() / 2 ), ( h / 2 ) - 32 )
