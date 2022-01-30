@@ -71,6 +71,11 @@ hook.Add("Location", "GetOffSuite", function( ply, loc )
 
 		Room:Finish()
 
+		if IsValid(ply) && ply:GetNWBool("Party") then
+			ply:SetNWBool("Party", false)
+			ply:Msg2( T( "RoomPartyEnded" ), "condo" )
+		end
+
 		umsg.Start("GRoom", ply)
 		umsg.Char( 11 )
 		umsg.End()
@@ -85,6 +90,11 @@ hook.Add("PlayerDeath", "CheckoutSuite", function( ply )
 
 	if Room && !ply:IsAdmin() then
 		Room:Finish()
+
+		if IsValid(ply) && ply:GetNWBool("Party") then
+			ply:SetNWBool("Party", false)
+			ply:Msg2( T( "RoomPartyEnded" ), "condo" )
+		end
 
 		umsg.Start("GRoom", ply)
 		umsg.Char( 11 )
@@ -116,6 +126,11 @@ hook.Add("AdminCommand", "RemoveOwnerRoom", function( args, admin, ply )
 		if Room then
 			Room:Finish()
 
+			if IsValid(ply) && ply:GetNWBool("Party") then
+				ply:SetNWBool("Party", false)
+				ply:Msg2( T( "RoomPartyEnded" ), "condo" )
+			end
+
 			umsg.Start("GRoom", ply)
 				umsg.Char( 15 )
 			umsg.End()
@@ -130,6 +145,10 @@ hook.Add("GtowerDisconnectPost", "CleanUpSuite", function( ply )
 
 	if Room then
 		Room:Finish()
+		if IsValid(ply) && ply:GetNWBool("Party") then
+			ply:SetNWBool("Party", false)
+			ply:Msg2( T( "RoomPartyEnded" ), "condo" )
+		end
 	end
 
 end )
