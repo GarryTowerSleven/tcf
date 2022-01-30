@@ -3,7 +3,11 @@ include('shared.lua')
 
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 ENT.BorderSize = 0
+ENT.BorderSizeMax = 20
 ENT.Players = {}
+
+local ShowPlayers = CreateClientConVar( "gmt_map_players", "1", true, false )
+local ShowLabels = CreateClientConVar( "gmt_map_labels", "1", true, false )
 
 local Cursor2D = surface.GetTextureID("cursor/cursor_default.vtf")
 
@@ -148,9 +152,9 @@ function ENT:MakeScreen(info)
 
 	function ENT:Draw2D(scr, w, h)
 		local mx, my, vis = scr:GetMouse()
-		local b = self.BorderSize
+		local b = self.BorderSize/2
 
-		self.BorderSize = Lerp(FrameTime() * 6, self.BorderSize, vis and 20 or 0)
+		self.BorderSize = Lerp(FrameTime() * 6, self.BorderSize, vis and self.BorderSizeMax or 0)
 
 		surface.SetDrawColor(Color(255, 255, 255, 80))
 		surface.DrawRect(b, 0, w - b, b)
@@ -180,6 +184,7 @@ function ENT:MakeScreen(info)
 	end
 
 	function ENT:DrawPlayers()
+		if !ShowPlayers:GetBool() then return end
 		if self.BorderSize <= 0 then return end
 
 		for k,v in pairs(player.GetAll()) do
@@ -197,7 +202,7 @@ function ENT:MakeScreen(info)
 				c = Color(255, 255, 255, 255)
 			end
 
-			self.Players[ v:Name() ] = { x = x, y = y }
+			self.Players[ v:Name() ] = { id = v:EntIndex(), x = x, y = y }
 
 			draw.NoTexture()
 
@@ -210,7 +215,29 @@ function ENT:MakeScreen(info)
 
 			local rad = LocalPlayer() == v and 3 or 5
 			drawCircle(x, y, self.BorderSize / rad, 8)
+
+			if ShowLabels:GetBool() then
+				local nameOff = 15
+
+				local a = 150
+				c.a = a*math.Clamp( self.BorderSize, 0, self.BorderSizeMax )/self.BorderSizeMax
+
+				local c2 = colorutil.Brighten( c, .5, c.a*.2 )
+
+				if IsFriendsWith(LocalPlayer(), v) then
+					draw.SimpleTextOutlined( v:Name(), "MapLabelSmall", x, y + nameOff, c, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, c2 )
+				end
+	
+				if v == LocalPlayer() then
+					draw.SimpleTextOutlined( "You", "MapLabelSmall", x, y + nameOff, c, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, c2 )
+				end
+			end
 		end
+	end
+
+	local function ShowName(id)
+		if !ShowLabels:GetBool() then return false end
+		return IsFriendsWith(LocalPlayer(), ents.GetByIndex(id)) || LocalPlayer():EntIndex() == id
 	end
 
 	function ENT:CheckMapButtons(mx, my)
@@ -221,7 +248,7 @@ function ENT:MakeScreen(info)
 
 		self.playerHoverName = nil
 		for k, v in pairs(self.Players) do
-			if mx > v.x - 12 and mx < v.x + 12 and my > v.y - 12 and my < v.y + 12 then
+			if !ShowName(v.id) and mx > v.x - 12 and mx < v.x + 12 and my > v.y - 12 and my < v.y + 12 then
 				self.playerHoverName = k
 			end
 		end
@@ -335,23 +362,7 @@ function ENT:MakeScreen(info)
 			surface.SetFont("MapLabelSmall")
 			btnsize1 = surface.GetTextSize("GO TO")
 
-			local manglebet = {"╜", "▓", "ì", "╛", "φ", "ï", "₧", "←", "≥", "╜", "╔", "ƒ", "Ω", "‼", "┌", "÷", "¢", "¿", "�", "￼", "Ë", "?", "ß", "█", "▄", "©", "ÿ"}
-
-			local buttonMangle = function()
-				local s = ""
-
-				for i = 1, 4 do
-					s = s .. manglebet[math.random(1, #manglebet)]
-				end
-
-				return s
-			end
-
 			local btntext = btn[2]
-
-			while btntext == "Unknown" do
-				btntext = buttonMangle()
-			end
 
 			surface.SetFont("SelectMapLabel")
 			btnsize2 = surface.GetTextSize(btntext)

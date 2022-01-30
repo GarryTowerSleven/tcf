@@ -11,6 +11,8 @@ function PopulateFriendsList()
 	if file.Exists(LocalFilename, "DATA") then
 		local Friends = string.Explode(" ", file.Read(LocalFilename, "DATA"))
 
+		LocalPlayer().FriendsList = Friends
+
 		net.Start("gmt_serverfriends")
 			net.WriteTable( Friends )
 			net.WriteEntity(LocalPlayer())

@@ -108,37 +108,41 @@ local color_pink = Color(255, 166, 241, 255)
 local color_tester = Color(122, 178, 342, 255 )
 local color_pixeltail = Color( 216, 31, 42, 255 )
 
+local function returnFull(c)
+	return Color( c.r, c.g, c.b, 255 )
+end
+
 function meta:GetDisplayTextColor()
 
 	local default_color = team.GetColor( self:Team() )
 
-	if self:IsHidden() then return default_color end
+	if self:IsHidden() then return returnFull(default_color) end
 
 	/*if GetRole( self:SteamID() ) == "Lead Developer" then
-		return color_lead
+		return returnFull(color_lead)
 	end*/
 
 	if self:IsDeveloper() then
-		return color_lead //color_developer
+		return returnFull(color_lead) //color_developer
 	end
 
 	if self:IsModerator() then
-		return color_mod
+		return returnFull(color_mod)
 	end
 
 	if self:IsAdmin() && !self:GetNWBool("SecretAdmin") then
-		return color_admin
+		return returnFull(color_admin)
 	end
 
 	if self:IsTester() then
-		return color_tester
+		return returnFull(color_tester)
 	end
 
-	//if self.IsVIP && self:IsVIP() then
-	//	return color_vip
-	//end
+	/*if self.IsVIP && self:IsVIP() then
+		return returnFull(color_vip)
+	end*/
 
-	return default_color
+	return returnFull(default_color)
 end
 
 function meta:Name()
