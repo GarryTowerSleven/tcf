@@ -338,6 +338,7 @@ function ENT:MakeScreen(info)
 		local bg = Color(0, 0, 0, 35 * self.btnfade)
 
 		if self.Loc then
+
 			local btn = self.Loc
 			local sin = math.sin(CurTime() * 5) * 50 + 75
 			surface.SetDrawColor(0, 200, 0, sin)
@@ -490,7 +491,7 @@ function ENT:MakeScreen(info)
 		773,570 773,613 681,613 681,806 1037,806 1037,613 			"/>
 		</g>
 		<g id="Boardwalk">
-		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" points="277.03,243.87 277.42,516.39 415.76,516.39 421.51,516.1 426.85,515.23 431.48,513.58 436.23,511.16
+		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" cx="447.3" cy="366.2" points="277.03,243.87 277.42,516.39 415.76,516.39 421.51,516.1 426.85,515.23 431.48,513.58 436.23,511.16
 		440.24,508.5 443.44,505.65 446.53,502.35 449.15,498.73 451.18,495.34 452.68,491.76 453.74,488.85 454.32,485.81 453.55,338.13
 		464.94,326.03 464.94,290.45 449.81,276.65 449.03,163.61 385.03,99.35 385.03,12.65 109.48,12.65 109.48,103.74 145.55,103.49
 		146,343.48 211.61,343.48 211.23,244.26"/>
@@ -508,10 +509,10 @@ function ENT:MakeScreen(info)
 		<rect x="969" y="188.42" fill="#00E676" width="139.5" height="95.32"/>
 		</g>
 		<g id="Smoothie Bar">
-		<rect x="463" y="290.45" fill="#00E676" width="86.94" height="35.58"/>
+		<rect x="464.9" y="290.5" fill="#00E676" width="85" height="35.6"/>
 		</g>
 		<g id="Basical's Goods">
-		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#00E676" points="464.94,326.03 549.94,326.03 549.94,346.03 484.26,346.03 	"/>
+			<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#00E676" cx="516.5" cy="364.9" points="464.9,326 484.3,346.1 549.9,346.1 549.9,326"/>
 		</g>
 
 
