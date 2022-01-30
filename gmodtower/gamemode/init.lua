@@ -280,11 +280,20 @@ end
 
 function GM:PlayerSetModel( ply )
 
-	if ( !IsValid(ply) || ply:IsBot() ) then return end
+	if ( !IsValid(ply) || ( !IsLobby && ply:IsBot() ) ) then return end
 
 	local model, skin = GTowerModels.GetModelName( ply:GetInfo( "cl_playermodel" ) )
 
+	if ply:IsBot() then
+		local _, randModel = table.Random( GTowerModels.NormalModels )
+		model, skin = GTowerModels.GetModelName(randModel)
+	end
+
 	local allow = CanUseFuckingModel( ply, model, skin )
+
+	if ply:IsBot() then
+		allow = true
+	end
 
 	if allow == nil then
 		timer.Simple(2,function()
@@ -306,6 +315,12 @@ function GM:PlayerSetModel( ply )
 		ply:SetBodygroup(1,3)
 		ply:SetBodygroup(2,6)
 		ply:SetBodygroup(4,5)
+	end
+
+	// bot hats
+	if ply:IsBot() then
+		local randHat, key = table.Random( GTowerHats.Hats )
+		ply:ReplaceHat( randHat.unique_Name, randHat.model, key, randHat.slot )
 	end
 
 	hook.Call("PlayerSetModelPost", GAMEMODE, ply, model, skin )
