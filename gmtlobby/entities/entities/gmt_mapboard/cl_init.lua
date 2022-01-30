@@ -11,6 +11,12 @@ local ShowLabels = CreateClientConVar( "gmt_map_labels", "1", true, false )
 
 local Cursor2D = surface.GetTextureID("cursor/cursor_default.vtf")
 
+local clickTargetSize = 0
+local clickSize = 0
+local clickOpacity = 0
+local clickX = 0
+local clickY = 0
+
 surface.CreateFont("MapLabelSmall", {
 	font = "Clear Sans Medium",
 	size = 24,
@@ -152,20 +158,24 @@ function ENT:MakeScreen(info)
 
 	function ENT:Draw2D(scr, w, h)
 		local mx, my, vis = scr:GetMouse()
-		local b = self.BorderSize/2
+		local b = self.BorderSize / 2
+		local o = 0
 
 		self.BorderSize = Lerp(FrameTime() * 6, self.BorderSize, vis and self.BorderSizeMax or 0)
 
 		surface.SetDrawColor(Color(255, 255, 255, 80))
 		surface.DrawRect(b, 0, w - b, b)
-		surface.DrawRect(0, 0, b, h - b)
+		surface.DrawRect(o, o * 1.55, b, h - b - (o * 1.55))
 		surface.DrawRect(0, h - b, w - b, b)
-		surface.DrawRect(w - b, b, b, h - b)
+		surface.DrawRect(w - b - o, b, b, h - b - (o * 1.55))
 		--draw.SimpleText(":" .. self:EntIndex(), "SelectMapLabel", 5 + b, 5 + b)
 		self:CheckMapButtons(mx, my)
 		self:DrawMap(scr, mx, my, w, h)
-		self:DrawCursor(mx, my)
 		self:DrawPlayers()
+
+		self:DrawClickEffect(mx, my)
+
+		if vis then self:DrawCursor(mx, my) end
 	end
 
 	local function drawCircle(x, y, radius, seg)
@@ -181,6 +191,20 @@ function ENT:MakeScreen(info)
 		table.insert( cir, { x = x + math.sin( a ) * radius, y = y + math.cos( a ) * radius, u = math.sin( a ) / 2 + 0.5, v = math.cos( a ) / 2 + 0.5 } )
 
 		surface.DrawPoly( cir )
+	end
+
+	function ENT:DrawClickEffect(mx, my)
+		self.curMX = mx
+		self.curMY = my
+
+		surface.SetDrawColor( 255, 255, 255, clickOpacity )
+
+		if clickSize > 1 then
+			drawCircle(clickX, clickY, clickSize, 24)
+		end
+
+		clickOpacity = Lerp( FrameTime() * 5, clickOpacity, 0 )
+		clickSize = Lerp( FrameTime() * 5, clickSize, clickTargetSize )
 	end
 
 	function ENT:DrawPlayers()
@@ -220,14 +244,14 @@ function ENT:MakeScreen(info)
 				local nameOff = 15
 
 				local a = 150
-				c.a = a*math.Clamp( self.BorderSize, 0, self.BorderSizeMax )/self.BorderSizeMax
+				c.a = a*math.Clamp( self.BorderSize, 0, self.BorderSizeMax ) / self.BorderSizeMax
 
-				local c2 = colorutil.Brighten( c, .5, c.a*.2 )
+				local c2 = colorutil.Brighten( c, .5, c.a * .2 )
 
 				if IsFriendsWith(LocalPlayer(), v) then
 					draw.SimpleTextOutlined( v:Name(), "MapLabelSmall", x, y + nameOff, c, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, c2 )
 				end
-	
+
 				if v == LocalPlayer() then
 					draw.SimpleTextOutlined( "You", "MapLabelSmall", x, y + nameOff, c, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, c2 )
 				end
@@ -281,6 +305,15 @@ function ENT:MakeScreen(info)
 				end
 			end
 		end
+
+		if self.buttonOver and ( self.selectedButton[2] != self.oldButton or self.buttonOver != self.wasButtonOver ) then
+			self:EmitSound("gmodtower/ui/select.wav", 65, 200)
+
+			self.oldButton = self.selectedButton[2]
+		end
+
+		self.wasButtonOver = self.buttonOver
+
 	end
 
 	function ENT:DrawMapRect(scr, rect)
@@ -339,22 +372,14 @@ function ENT:MakeScreen(info)
 		--[[surface.SetDrawColor(Color(255,255,100,80))
 
 		for k,v in pairs(self.rects) do
-
 			self:DrawMapRect( scr, v )
-
 		end
-
-
 
 		for k,v in pairs(self.polys) do
-
 			self:DrawMapPoly( scr, v )
-
 		end
 
-
 		surface.SetDrawColor(Color(0,0,0,170 * self.btnfade))
-
 		surface.DrawRect( 0,0,w,h )
 		]]
 		if self.selectedButton then
@@ -384,7 +409,19 @@ function ENT:MakeScreen(info)
 	function ENT:ButtonPress()
 		if self.buttonOver then
 			self:Teleport(self.selectedButton[2])
+			self:EmitSound("gmodtower/lobby/condo/doorbells/ambient1.wav", 60, 250)
+
+			clickTargetSize = 512
+			clickOpacity = 150
+		else
+			clickTargetSize = 128
+			clickOpacity = 50
 		end
+
+		clickX = self.curMX
+		clickY = self.curMY
+
+		clickSize = 0
 	end
 
 	hook.Add("PlayerBindPress", "PlayerMapboardUse", function(ply, bind, pressed)
