@@ -108,6 +108,7 @@ Loadables.Load( {
 	"pet",					-- Pets
 	"cards",				-- Poker module
 	"minecraftskins",		-- Minecraft Steve model skins
+	"auction",				-- Auction tables
 
 	-- Debugging/Tools
 	---------------------------------------------------------
