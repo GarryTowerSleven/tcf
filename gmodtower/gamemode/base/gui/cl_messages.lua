@@ -319,6 +319,7 @@ end
 
 local gradientUp = surface.GetTextureID( "VGUI/gradient_up" )
 local gradientDown = surface.GetTextureID( "VGUI/gradient_down" )
+local dGradient = Material( "gmod_tower/hud/bg_gradient_deluxe2.png", "unlightsmooth" )
 function PANEL:Paint( w, h )
 
 	if !self.ReadyToDraw then return end
@@ -330,6 +331,13 @@ function PANEL:Paint( w, h )
 	color = Color( 0, 0, 0 )
 	surface.SetDrawColor( color.r, color.g, color.b, self.Alpha )
 	surface.DrawRect( 0,0, w, h - self.ShadowHeight )
+
+	// Deluxe
+	if IsLobby then
+		surface.SetDrawColor( 255, 255, 255, self.Alpha*.18 )
+		surface.SetMaterial( dGradient )
+		surface.DrawTexturedRect( 0,0, w, h - self.ShadowHeight )
+	end
 
 
 	-- Color BG
