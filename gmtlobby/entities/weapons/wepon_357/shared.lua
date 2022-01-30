@@ -109,6 +109,10 @@ function SWEP:KillPlayer()
 
 			if Room then
 				Room:Finish()
+				if IsValid(self.Owner) && self.Owner:GetNWBool("Party") then
+					self.Owner:SetNWBool("Party", false)
+					self.Owner:Msg2( T( "RoomPartyEnded" ), "condo" )
+				end
 			end
 
 		end

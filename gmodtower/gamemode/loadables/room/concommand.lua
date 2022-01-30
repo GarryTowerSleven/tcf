@@ -161,7 +161,7 @@ function StartParty( ply, flags )
 	if !ply.NextParty then ply.NextParty = 0 end
 
 	if CurTime() < ply.NextParty then
-		ply:Msg2( T( "RoomPartyFailedDelay", tostring( 1 ) ), "condo" )
+		ply:Msg2( T( "RoomPartyFailedDelay", tostring( 3 ) ), "condo" )
 		return
 	end
 
@@ -257,10 +257,10 @@ concommand.Add("gmt_roomkick", function( ply, cmd, args )
 		end
 	end
 
-	//if ply:GetNWBool("Party") then
-	//	ply:Msg2( T( "RoomPartyLock" ), "condo" )
-	//	return 
-	//end
+	if ply:GetNWBool("Party") then
+		ply:Msg2( T( "RoomPartyLock" ), "condo" )
+		return 
+	end
 
 	local Room = ply:GetRoom()
 
@@ -365,6 +365,10 @@ concommand.Add( "gmt_dieroom", function( ply, cmd, args )
 
 	if Room then
 		Room:Finish()
+		if IsValid(ply) && ply:GetNWBool("Party") then
+			ply:SetNWBool("Party", false)
+			ply:Msg2( T( "RoomPartyEnded" ), "condo" )
+		end
 	end
 
 
@@ -474,6 +478,10 @@ hook.Add("ClientSetting", "GTCheckSuite", function( ply, id, val )
 
 		if val == false && Room  then
 			Room:Finish()
+			if IsValid(ply) && ply:GetNWBool("Party") then
+				ply:SetNWBool("Party", false)
+				ply:Msg2( T( "RoomPartyEnded" ), "condo" )
+			end
 		end
 
 	end
