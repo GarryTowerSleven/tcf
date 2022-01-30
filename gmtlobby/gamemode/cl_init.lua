@@ -80,7 +80,30 @@ function GM:HUDItemPickedUp() return false end
 function GM:HUDAmmoPickedUp() return false end
 function GM:DrawDeathNotice( x, y ) end
 
-hook.Add("HUDPaint", "PaintMapChanging", function()
+local ChangeLevelEnabled = CreateClientConVar( "gmt_changelevel_warn", 1, true, false )
+hook.Add( "HUDPaint", "ChangeLevelUI", function()
+	if !ChangeLevelEnabled:GetBool() || !GetGlobalBool("ShowChangelevel") then return end
+
+	local time = GetGlobalInt("NewTime")
+	if time <= 0 then return end
+
+	local timeUntil = time-CurTime()
+
+	local c = Color( 255,0,0,255 )
+
+	c.a = math.Clamp( math.sin( math.fmod( RealTime() * .8, 1 ) * math.pi ) * 255, 50, 255 )
+
+	local display
+	if timeUntil < .5 then
+		display = "RESTARTING..."
+	else
+		display = string.FormattedTime(timeUntil, "%02i:%02i")
+	end
+	draw.NiceText( "INCOMING MAP RESTART", "GTowerHUDMainSmall", ScrW()/2, (ScrH()/1.90), c, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1 )
+	draw.NiceText( display or "???", "GTowerHUDMainSmall", ScrW()/2, (ScrH()/1.90)+18, c, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1 )
+end )
+
+/*hook.Add("HUDPaint", "PaintMapChanging", function()
 	if !GetGlobalBool("ShowChangelevel") then return end
 
 	local curClientTime = os.date("*t")
@@ -90,7 +113,7 @@ hook.Add("HUDPaint", "PaintMapChanging", function()
 
 	draw.RoundedBox(0, 0, 0, ScrW(), 40, Color(25,25,25,200))
 	draw.SimpleText("RESTARTING FOR UPDATE IN: " .. timeUntilChangeFormatted, "GTowerHUDMainLarge", ScrW()/2, 20, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-end)
+end)*/
 
 local BMusic = Sound("gmodtower/minigame/balloon2.mp3")
 local CMusic = Sound("gmodtower/gourmetrace/music/30sec/30sec1.mp3")

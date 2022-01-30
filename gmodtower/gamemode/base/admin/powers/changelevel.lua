@@ -3,7 +3,7 @@ module("GTowerMapChange", package.seeall )
 DefaultTime = 10
 
 SetGlobalInt( "NewTime", 0 )
-SetGlobalBool( "ShowChangelevel", false )
+SetGlobalBool( "ShowChangelevel", true )
 
 concommand.Add( "gmt_changelevel", function( ply, command, args )
 
@@ -34,6 +34,7 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 			AdminNotif.SendStaff( name .. " has haulted the changelevel.", nil, "RED", 1 )
 			GAMEMODE:ColorNotifyAll( "Halting map restart...", Color(255, 50, 50, 255) )
 			MsgC( co_color2, "Halting map restart...\n" )
+			SetGlobalInt( "NewTime", 0 )
 			return
 		end
 
@@ -55,6 +56,8 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 				return
 			end
 		end
+
+		SetGlobalInt( "NewTime", CurTime()+time )
 
 		if map == '' then
 			ChangeLevel( ply, game.GetMap(), time )
