@@ -285,7 +285,7 @@ local function BanPlayer(ply, time)
 
     --local Steamid = ply:SteamID()
     Derma_StringRequest("Ban " .. Name, "Ban " .. Name, "", function(reason)
-        RunConsoleCommand("gmt_ban", ply:EntIndex(), time, reason)
+        RunConsoleCommand("gmt_ban", ply:EntIndex(), time/60, reason)
     end, nil, "Ban " .. Name, "Cancel")
 end
 

@@ -1,5 +1,6 @@
 GTower = {}
 
+// this sucks i need to make it not suck
 function GTower:Kick( kicked, kicker, reason )
     if !kicked || !kicker then return end
     if !reason then
@@ -40,6 +41,7 @@ concommand.Add("gmt_kick", function( ply, cmd, args )
     GTower:Kick( kicked, kicker, reason )
 end)
 
+// this sucks i need to make it not suck
 function GTower:Ban( banned, length, banner, reason )
     if !banned || !banner then return end
     if !length then
@@ -62,7 +64,7 @@ function GTower:Ban( banned, length, banner, reason )
         
         reason = "Banned permanently by " .. bannerName .. " | Reason: " .. reason
     else
-        local readableLength = string.NiceTimeLong(length)
+        local readableLength = string.NiceTimeLong(length/60)
         AdminNotif.SendStaff( banner:Nick() .. " has BANNED " .. banned:NickID() .. " for ".. readableLength .." for reason: " .. reason, 30, "RED" )
         reason = "Banned for " .. readableLength .. " by " .. bannerName .. " | Reason: " .. reason
     end

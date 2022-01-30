@@ -271,16 +271,15 @@ function gateKeep:RetrieveBans(banList) --Obtains the bans from the MySQL.
 		v.time = tonumber(v.time)
 
 		if v.time != 0 and (v.bannedOn + v.time) <= os.time() then --If the amount of time as elapsed, then remove the line. time < os.time() then remove
-
-			//print(v.name .. "'s ban has expired.")
-			kityPrint( v.name .. "'s ban has expired.", co_color, "GateKeeper" )
+		
+			kityPrint( v.Name .. " [".. v.steamid .."]'s ban has expired. (" .. string.NiceTimeLong(v.time/60) .. ")", Color(0,255,255), "GateKeeper" )
 			gateKeep:RemoveBan(v.steamid, true)
 
 		else
 
 			table.insert(gateKeep.Bans, {
 				["steamid"] = v.steamid,
-				["Name"] = v.name,
+				["Name"] = v.Name,
 				["ip"] = v.ip,
 				["reason"] = v.reason,
 				["bannedOn"] = v.bannedOn,
@@ -631,3 +630,34 @@ end)
 		gateKeep:CreateBanList()
 
 end)*/
+
+// Check for family sharing
+
+function gateKeep:CheckFamily( ply )
+	if !IsValid(ply) then return end
+	if ply:SteamID64() != ply:OwnerSteamID64() then
+		return ply:OwnerSteamID64()
+	end
+end
+
+hook.Add( "PlayerAuthed", "CheckFamilyShare", function( ply, steamid, uniqueid )
+	local family = gateKeep:CheckFamily( ply )
+	if family then
+		local ban = gateKeep:CheckPlayerBan(util.SteamIDFrom64(family), nil)
+
+		if !ban[1] then
+			local reason, bannedOn, length = ban[2], ban[3], ban[4]
+
+			if length == 0 then
+				// Perm Ban
+				ply:Kick( "You are banned permanently from " .. ServerName .. " due to the following: " .. reason )
+				--gateKeep:AddBan(ply:SteamID(), ply:Nick(), ply:IPAddress(), reason, 0)
+			else
+				// Temp Ban
+				ply:Kick( "You are banned from " .. ServerName .. " until (" .. os.date( "%I:%M:%S %p %Z - %m/%d/%Y", bannedOn+length ) .. ") due to the following: " .. reason )
+				--local banRemain = os.time() - bannedOn
+				--gateKeep:AddBan(ply:SteamID(), ply:Nick(), ply:IPAddress(), reason, banRemain)
+			end
+		end
+	end
+end )
