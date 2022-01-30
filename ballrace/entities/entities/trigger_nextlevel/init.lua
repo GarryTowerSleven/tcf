@@ -43,9 +43,7 @@ function ENT:StartTouch( ply )
 
 	if self.Relay then ents.FindByName( self.Relay )[1]:Fire( "Trigger", 0, 0 ) end
 
-	timer.Simple(0.25, function()
-		GAMEMODE:PlayerComplete(ply)
-	end)
+	GAMEMODE:PlayerComplete(ply)
 end
 
 function ENT:EndTouch( ply )
