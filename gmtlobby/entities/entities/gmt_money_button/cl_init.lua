@@ -54,6 +54,7 @@ end
 
 --Draw entity ( called only when the entity is visible on screen )
 function ENT:Draw()
+	if not Location.Is( LocalPlayer():Location(), "secret1" ) then return end
 
 	self:DrawModel()			--Draw the prop model
 	self:DrawProgressBars()		--Draw progress bars on the sides
@@ -141,14 +142,14 @@ function ENT:ShakePlayers()
 
 		local range = self.ShakeRange
 		local amp = 1 - (LocalPlayer():GetPos():Distance( self:GetPos() ) / range)
-		if amp > 0 then 
-			util.ScreenShake( 
-				self:GetPos(), 
-				self.ShakeAmp * shake * amp, 
-				self.ShakeFrequency * shake, 
-				.1, 
-				range 
-			) 
+		if amp > 0 then
+			util.ScreenShake(
+				self:GetPos(),
+				self.ShakeAmp * shake * amp,
+				self.ShakeFrequency * shake,
+				.1,
+				range
+			)
 		end
 
 	end
