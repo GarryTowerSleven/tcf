@@ -15,7 +15,7 @@ function TAB:GetText()
 end
 
 function TAB:OnOpen()
-	/*if ValidPanel( self.Body ) then
+	/*if IsValid( self.Body ) then
 		self.Body:OnOpen()
 	end*/
 end
@@ -164,7 +164,7 @@ end*/
 
 function AWARDS:SetActiveTab( tab )
 
-	if ValidPanel( self.ActiveTab ) then
+	if IsValid( self.ActiveTab ) then
 
 		self.ActiveTab:SetActive( false )
 		local oldBody = self.ActiveTab:GetBody()
@@ -237,7 +237,7 @@ function AWARDS:PerformLayout()
 	self.TabWidth = width
 
 	// Layout active tab
-	if ValidPanel( self.ActiveTab ) then
+	if IsValid( self.ActiveTab ) then
 		local body = self.ActiveTab:GetBody()
 		body:InvalidateLayout( true )
 		body:SetPos( self.TabWidth, 4 )
@@ -277,7 +277,7 @@ function AWARDS:Think()
 	local targetHeight = 24
 
 	// Resize for tab
-	if ValidPanel( self.ActiveTab ) then
+	if IsValid( self.ActiveTab ) then
 
 		local body = self.ActiveTab:GetBody()
 		targetHeight = targetHeight + body:GetTall() - 4
@@ -668,7 +668,7 @@ end
 
 function AWARDCOLLAPSE:SetProgressText( text )
 
-	if !ValidPanel( self.Progress ) then
+	if !IsValid( self.Progress ) then
 		self.Progress = Label("", self)
 		self.Progress:SetFont("SCAwardProgress")
 		self.Progress:SetTextColor( Scoreboard.Customization.ColorAwardsDescription )
@@ -695,7 +695,7 @@ function AWARDCOLLAPSE:Think()
 	local w = self.Description:GetWide()
 	local maxWide = self:GetWide() - 2
 
-	if ValidPanel( self.Progress ) then
+	if IsValid( self.Progress ) then
 
 		maxWide = self:GetWide() - self.Progress:GetWide() - 4
 		//self.Progress:SetVisible( w < ( self:GetWide() - w2 ) )
@@ -713,7 +713,7 @@ function AWARDCOLLAPSE:Think()
 end
 
 function AWARDCOLLAPSE:PerformLayout()
-	if ValidPanel( self.Progress ) then
+	if IsValid( self.Progress ) then
 		self.Progress:AlignRight()
 	end
 end

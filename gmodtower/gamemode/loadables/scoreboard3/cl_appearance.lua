@@ -42,7 +42,7 @@ end
 
 function TAB:OnOpen()
 
-	if ValidPanel( self.Body ) then
+	if IsValid( self.Body ) then
 
 		self.Body:OnOpen()
 
@@ -268,7 +268,7 @@ function APPEARANCE:UpdateModelPanel()
 
 
 
-	if !ValidPanel( self.ModelPanel ) then return end
+	if !IsValid( self.ModelPanel ) then return end
 
 
 
@@ -599,7 +599,7 @@ function APPEARANCE:GenerateModelSelection()
 
 
 
-		if ValidPanel( category ) then
+		if IsValid( category ) then
 
 			category:AddItem( icon )
 

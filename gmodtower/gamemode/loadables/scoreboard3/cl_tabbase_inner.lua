@@ -10,7 +10,7 @@ function TABBASE:Init()
 
 	self:SetCursor("hand")
 
-	if !ValidPanel( self.Label ) then
+	if !IsValid( self.Label ) then
 		self.Label = Label( "Unknown" )
 		self.Label:SetParent( self )
 		self.Label:SetFont("SCTNavigation")
@@ -18,7 +18,7 @@ function TABBASE:Init()
 		self.Label:SetTextColor( color_white )
 	end
 
-	if !ValidPanel( self.Label2 ) then
+	if !IsValid( self.Label2 ) then
 		self.Label2 = Label( "Unknown" )
 		self.Label2:SetParent( self )
 		self.Label2:SetFont("SCTNavigation")

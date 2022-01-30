@@ -9,7 +9,7 @@ ScoreGridMode = CreateClientConVar( "gmt_scoreboard_grid", 0, true, false )
 	lbl.SetTextColor = function( lbl, col )
   		lbl:SetFGColor( col.r, col.g, col.b, col.a )
   	end
- 
+
 	return lbl
 
 end*/
@@ -24,7 +24,7 @@ function TAB:GetText()
 end
 
 function TAB:OnOpen()
-	if ValidPanel( self.Body ) then
+	if IsValid( self.Body ) then
 		self.Body:OnOpen()
 	end
 end
@@ -167,14 +167,14 @@ end
 
 function PLAYERS:SetActiveTab( tab )
 
-	if ValidPanel( self.ActiveTab ) then
+	if IsValid( self.ActiveTab ) then
 		self.ActiveTab:SetText( self.ActiveTab.Name )
 		self.ActiveTab:SetActive( false )
 	end
 
 	self.ActiveTab = tab
 	self.ActiveTab:SetActive( true )
-	
+
 	self.NextLayout = nil
 	self.NextUpdate = CurTime() + .25
 
@@ -184,9 +184,8 @@ function PLAYERS:SetActiveTab( tab )
 end
 
 function PLAYERS:PerformLayout()
-	
 	local position = 5
-	
+
 	-- Set their positions and size
 	for _, tab in pairs( self.Tabs ) do
 
@@ -195,7 +194,7 @@ function PLAYERS:PerformLayout()
 
 		tab:SetTall( 24 )
 		tab:InvalidateLayout( true )
-		
+
 		tab:SetPos( 0, position )
 		tab:SetWide( self.TabWidth )
 
@@ -228,7 +227,7 @@ function PLAYERS:PerformLayout()
 	end
 
 	-- Player list
-	self:SortPlayers()
+	--self:SortPlayers()
 	self.PlayerList:SetPos( self.TabWidth + 2, self.StartHeight + 1 )
 	self.PlayerList:SetWide( self:GetWide() - self.TabWidth - 4 )
 
@@ -292,10 +291,10 @@ function PLAYERS:SetTitle( title )
 end
 
 function PLAYERS:OnOpen()
-	
+
 	for ply, panel in pairs( self.Players ) do
 
-		if ValidPanel( panel ) then
+		if IsValid( panel ) then
 			panel:OnOpen()
 		end
 
@@ -304,7 +303,7 @@ function PLAYERS:OnOpen()
 end
 
 function PLAYERS:AddPlayer( ply )
-	
+
 	local panel = vgui.Create("ScoreboardPlayer", self.PlayerList)
 	panel:SetPlayer( ply )
 	panel:SetVisible( true )
@@ -312,15 +311,17 @@ function PLAYERS:AddPlayer( ply )
 	self.Players[ ply ] = panel
 	self.PlayerList:AddItem( panel )
 
+	self:SortPlayers()
 end
 
 function PLAYERS:RemovePlayer( ply )
 
-	if ValidPanel( self.Players[ ply ] ) then
+	if IsValid( self.Players[ ply ] ) then
 		self.Players[ ply ]:Remove()
 		self.Players[ ply ] = nil
 	end
-	
+
+	self:SortPlayers()
 end
 
 local function FilteredPlayerList( players )
@@ -381,7 +382,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 
 			if not count then
 				self:SetButton( T("Group_leave"), function()
-					Derma_Query( T("Group_leavesure"), T("Group_leavesure"), 
+					Derma_Query( T("Group_leavesure"), T("Group_leavesure"),
 	   					T("yes"), function() RunConsoleCommand("gmt_leavegroup") end,
    						T("no"), nil
   					)
@@ -392,7 +393,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 
 	if tabname == "VIPs" then
 		for _, ply in ipairs( FilteredPlayerList( player.GetAll() ) ) do
-			if ( ply.IsVIP and ply:IsVIP() ) and not ply:IsHidden() and not ( ply:IsAdmin() || ply:IsModerator() ) then 
+			if ( ply.IsVIP and ply:IsVIP() ) and not ply:IsHidden() and not ( ply:IsAdmin() || ply:IsModerator() ) then
 				table.insert( players, ply )
 			end
 		end
@@ -400,7 +401,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 
 	if tabname == "AFK" then
 		for _, ply in ipairs( FilteredPlayerList( player.GetAll() ) ) do
-			if ply:GetNWBool("AFK") then 
+			if ply:GetNWBool("AFK") then
 				table.insert( players, ply )
 			end
 		end
@@ -414,7 +415,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 
 	if tabname == "Admins" then
 		for _, ply in ipairs( player.GetAll() ) do
-			if ( ply:IsAdmin() || ply:IsModerator() || ply:IsDeveloper() ) and not ply:IsHidden() and not ply:IsSecretAdmin() then 
+			if ( ply:IsAdmin() || ply:IsModerator() || ply:IsDeveloper() ) and not ply:IsHidden() and not ply:IsSecretAdmin() then
 				table.insert( players, ply )
 			end
 		end
@@ -422,7 +423,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 
 	if tabname == "Steam Friends" then
 		for _, ply in ipairs( FilteredPlayerList( player.GetAll() ) ) do
-			if ply:GetFriendStatus() == "friend" and not ply:IsHidden() then 
+			if ply:GetFriendStatus() == "friend" and not ply:IsHidden() then
 				table.insert( players, ply )
 			end
 		end
@@ -467,7 +468,7 @@ function PLAYERS:PopulatePlayers( clear )
 
 	if clear then
 
-		for ply, panel in pairs( self.Players ) do 
+		for ply, panel in pairs( self.Players ) do
 			self:RemovePlayer( ply )
 		end
 
@@ -475,7 +476,7 @@ function PLAYERS:PopulatePlayers( clear )
 			self:AddPlayer( ply )
 		end
 
-		self:SortPlayers()
+		--self:SortPlayers()
 
 		return
 	end
@@ -483,7 +484,7 @@ function PLAYERS:PopulatePlayers( clear )
 	------------------------------------------------------
 
 	-- Remove players and update current
-	for ply, panel in pairs( self.Players ) do 
+	for ply, panel in pairs( self.Players ) do
 		if !IsValid( ply ) || !table.HasValue( players, ply ) then
 			self:RemovePlayer( ply )
 		else
@@ -493,22 +494,22 @@ function PLAYERS:PopulatePlayers( clear )
 	end
 
 	-- Gather new players
-	for _, ply in pairs( players ) do 
+	for _, ply in pairs( players ) do
 		if self.Players[ ply ] == nil then
 			self:AddPlayer( ply )
 		end
 	end
 
 	-- Sort the players
-	self:SortPlayers()
+	--self:SortPlayers()
 
 end
 
 function PLAYERS:SortPlayers()
-	table.sort( self.PlayerList.Items, function( a, b ) 
+	table.sort( self.PlayerList.Items, function( a, b )
 		local key = "Player"
 		if ( a[ key ] == nil ) then return false end
-		if ( b[ key ] == nil ) then return true end		
+		if ( b[ key ] == nil ) then return true end
 		return Scoreboard.Customization.PlayersSort( a[ key ], b[ key ] )
 	end )
 end
@@ -548,13 +549,13 @@ function PLAYERAVATAR:Init()
 	self.SteamProfile:SetZPos( 1 )
 	self.SteamProfile:SetText("")
 	self.SteamProfile:SetMouseInputEnabled( true )
-	self.SteamProfile.DoClick = function() 
+	self.SteamProfile.DoClick = function()
 		if self.Player then
 			if self.Player:IsHidden() then return end
 			self.Player:ShowProfile()
 		end
 	end
-	self.SteamProfile.Paint = function() 
+	self.SteamProfile.Paint = function()
 		if self.SteamProfile.Hovered then
 			surface.SetDrawColor( 0, 0, 0, 100 )
 			surface.DrawRect( 0, 0, self:GetSize() )
@@ -571,7 +572,7 @@ function PLAYERAVATAR:Init()
 	self.SteamProfile:SetImage( "icon16/vcard.png" )
 	self.SteamProfile:AlignLeft()
 	self.SteamProfile:SetMouseInputEnabled( true )
-	self.SteamProfile.DoClick = function() 
+	self.SteamProfile.DoClick = function()
 		if self.Player then
 			self.Player:ShowProfile()
 		end
@@ -776,18 +777,18 @@ function PLAYER:PerformLayout()
 		self.NotificationIcon:MoveRightOf( self.Avatar, -8 )
 		self.NotificationIcon:AlignBottom( -2 )
 	end
-	
+
 	if self.Subtitle then
 		self.Subtitle:SizeToContents()
 		self.Subtitle:AlignBottom(2)
-	
+
 		if self.NotificationIcon && self.NotificationIcon:GetMaterial() then
 			self.Subtitle:MoveRightOf( self.Avatar, 20 )
 		else
 			self.Subtitle:MoveRightOf( self.Avatar, 5 )
 		end
 	end
-	
+
 end
 
 function PLAYER:Update()
@@ -992,7 +993,7 @@ function PLAYER:OnMousePressed( mc )
 		GTowerMenu:CloseAll()
 		return
 	end
-    
+
     GTowerClick:ClickOnPlayer( self.Player, mc )
 
 end
@@ -1028,17 +1029,17 @@ function PLAYER:Think()
 		return
 	end
 
-	if !ValidPanel( self.Action ) then return end
+	if !IsValid( self.Action ) then return end
 
 	if self:CanClick() then
 		self:SetCursor( "hand" )
-	else		
+	else
 		self:SetCursor( "default" )
 	end
 
 	local TargetWidth = 0
 	local Speed = 15
-			
+
 	if Scoreboard.Customization.PlayerActionBoxAlwaysShow || ( self.ActionBoxOn && self.Player != LocalPlayer() ) then
 		TargetWidth = self.Action.TargetWidth
 	end
@@ -1112,7 +1113,7 @@ function PLAYERINFO:Update()
 	// Handle respect icons
 	if DrawRespectIcons:GetBool() && self:HasRespect() then
 
-		if !ValidPanel( self.RespectIcon ) then
+		if !IsValid( self.RespectIcon ) then
 			self.RespectIcon = vgui.Create( "LabelIcon", self )
 			self.RespectIcon.NoDrawSelectionBackground = true
 			self.RespectIcon.IsLabel = true
@@ -1120,7 +1121,7 @@ function PLAYERINFO:Update()
 
 	else
 
-		if ValidPanel( self.RespectIcon ) then
+		if IsValid( self.RespectIcon ) then
 			self.RespectIcon:Remove()
 			self.RespectIcon = nil
 		end
@@ -1136,7 +1137,7 @@ function PLAYERINFO:Update()
 
 		// Position
 		local widealign = self.Ping:GetWide()
-		if ValidPanel( self.RespectIcon ) && DrawRespectIcons:GetBool() && self:HasRespect() then
+		if IsValid( self.RespectIcon ) && DrawRespectIcons:GetBool() && self:HasRespect() then
 			widealign = self.Ping:GetWide() + self.RespectIcon:GetWide()
 		end
 
@@ -1189,12 +1190,12 @@ function PLAYERINFO:PerformLayout()
 		wide = wide + self.Ping:GetWide()
 	end
 
-	if ValidPanel( self.RespectIcon ) then
+	if IsValid( self.RespectIcon ) then
 
 		local name = self.Player:GetTitle()
 
 		if name then
-			
+
 			self.RespectIcon:SetText( name )
 			self.RespectIcon:SetMouseInputEnabled( false )
 			self.RespectIcon:InvalidateLayout( true )
@@ -1209,7 +1210,7 @@ function PLAYERINFO:PerformLayout()
 
 	end
 
-	if ValidPanel( self.SubtitleRight ) && self.SubtitleRight:GetText() != "" then
+	if IsValid( self.SubtitleRight ) && self.SubtitleRight:GetText() != "" then
 
 		self.SubtitleRight:SizeToContents()
 		self.SubtitleRight:SetColor( Color( 255, 255, 255, 100 ) )
@@ -1267,7 +1268,7 @@ end
 function LABELICON:SetMaterial( material, actW, actH, width, height )
 
 	self.Material = material
-	self.actW = actW 
+	self.actW = actW
 	self.actH = actH
 	self.MaterialWidth = width
 	self.MaterialHeight = height
@@ -1440,7 +1441,7 @@ function LABELPING:Think()
 		self:SetPing("")
 		self.PingBars:SetVisible( false )
 		self.Mute:SetVisible( false )
-		return 
+		return
 	end
 
 	self:SetPing( self.Player:Ping() )

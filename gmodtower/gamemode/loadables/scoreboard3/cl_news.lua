@@ -75,7 +75,7 @@ end
 
 function NEWS:SetActiveTab( tab )
 
-	if ValidPanel( self.ActiveTab ) then
+	if IsValid( self.ActiveTab ) then
 
 		self.ActiveTab:SetActive( false )
 		local oldBody = self.ActiveTab:GetBody()
@@ -125,7 +125,7 @@ function NEWS:PerformLayout()
 	end
 
 	// Layout active tab
-	if ValidPanel( self.ActiveTab ) then
+	if IsValid( self.ActiveTab ) then
 		local body = self.ActiveTab:GetBody()
 		body:InvalidateLayout( true )
 		body:SetPos( 0, 26 )

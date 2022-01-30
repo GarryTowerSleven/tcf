@@ -14,7 +14,7 @@ function TAB:GetText()
 end
 
 /*function TAB:OnOpen()
-	if ValidPanel( self.Body ) then
+	if IsValid( self.Body ) then
 		self.Body:Create()
 	end
 end*/
@@ -130,7 +130,7 @@ end
 
 function SETTINGS:SetActiveTab( tab )
 	
-	if ValidPanel( self.ActiveTab ) then
+	if IsValid( self.ActiveTab ) then
 
 		self.ActiveTab:SetActive( false )
 		local oldBody = self.ActiveTab:GetBody()
@@ -188,7 +188,7 @@ function SETTINGS:PerformLayout()
 	self.TabWidth = width
 
 	// Layout active tab
-	if ValidPanel( self.ActiveTab ) then
+	if IsValid( self.ActiveTab ) then
 		local body = self.ActiveTab:GetBody()
 		body:InvalidateLayout( true )
 		body:SetPos( self.TabWidth, 4 )
@@ -218,7 +218,7 @@ function SETTINGS:Think()
 	local targetHeight = 24
 
 	// Resize for tab
-	if ValidPanel( self.ActiveTab ) then
+	if IsValid( self.ActiveTab ) then
 
 		local body = self.ActiveTab:GetBody()
 		targetHeight = targetHeight + body:GetTall() - 4
