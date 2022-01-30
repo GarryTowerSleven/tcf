@@ -1,3 +1,5 @@
+// BORROWED FROM RESORT: https://discord.gg/PtCv5yB
+
 if !IsLobby then return end
 
 resort = {}
@@ -56,15 +58,15 @@ if SERVER then
 				if not self:IsPlayer() then
 					pos = self:EyePos() + self:GetForward() * 30 + Vector(0,0,15)
 				end
-				if self:IsPlayer() and Location.IsTheater( self:Location() ) then -- no emote noise in cinema
+				/*if self:IsPlayer() and !Location.IsTheater( self:Location() ) then -- no emote noise in cinema
 					URLSound3D("http://188.226.142.121/assets/emote.ogg",pos)
-				end	
+				end*/
 				local effectdata = EffectData()
 				effectdata:SetOrigin( pos )
 				effectdata:SetAngles( Angle(0,0,0))
 				effectdata:SetAttachment(sprite)
 				effectdata:SetRadius(1)
-				util.Effect( "resort_emote", effectdata )
+				util.Effect( "emoji", effectdata )
 			end
 		end)		
 		hook.Call("PlayerEmoteRun",GAMEMODE,self,sprite)

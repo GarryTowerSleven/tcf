@@ -1,3 +1,5 @@
+// BORROWED FROM RESORT: https://discord.gg/PtCv5yB
+
 local fallback = Material("icon16/monkey.png")
 function EFFECT:Init(data)
 	self.Origin = data:GetOrigin()

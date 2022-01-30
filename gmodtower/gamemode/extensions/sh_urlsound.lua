@@ -1,3 +1,5 @@
+// BORROWED FROM RESORT: https://discord.gg/PtCv5yB
+
 if !IsLobby then return end
 
 if SERVER then
@@ -70,12 +72,9 @@ net.Receive("urlsound", function()
     end)
 end)
 
-local taunt_cvar = CreateConVar("resort_tauntvolume", 1, FCVAR_ARCHIVE)
+//local taunt_cvar = CreateConVar("resort_tauntvolume", 1, FCVAR_ARCHIVE)
 
 local function volumeFor(tag)
-    if tag == "taunt" then
-        return taunt_cvar:GetFloat()
-    end
     return 1
 end
 
