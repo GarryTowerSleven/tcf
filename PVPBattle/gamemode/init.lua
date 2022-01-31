@@ -32,6 +32,18 @@ hook.Add("PlayerInitialSpawn", "ResetOnEmptyServer", function( ply )
 	end
 end )
 
+hook.Add( "PlayerDeathThink", "RespawnCoolDown", function( ply )
+	if IsValid( ply ) && !ply:Alive() && ply.RespawnTimer < CurTime() then
+		ply:Spawn()
+	end
+
+	return true
+end )
+
+hook.Add( "CanPlayerSuicide", "DisablePVPSuicide", function( ply )
+	return false
+end )
+
 local function FixMarsExploit()
 	if game.GetMap() == "gmt_pvp_mars" then
 		local trigger = ents.Create("trigger_luadeath")
@@ -229,29 +241,32 @@ function CustomDeath( Victim, Inflictor, Attacker, Type )
 
 	if IsValid( Victim ) && !Victim:IsPlayer() then return end
 
-	if IsValid( Attacker ) && Attacker == Victim then
-		PVPVictim = Victim
-		PVPAttacker = Victim
-		if Type != 6144 then
-			weapon = "fall"
-		end
-	else
-		PVPVictim = Attacker
-		PVPAttacker = Victim
-		if IsValid( Attacker:GetActiveWeapon() ) then
-			weapon = Attacker:GetActiveWeapon():GetClass()
-			if ( Type == 0 && weapon != "weapon_chainsaw" && Attacker:GetActiveWeapon().HoldType != "melee" ) then
-				weapon = "pvp_chainsaw"
+	if IsValid ( Attacker ) && IsValid( Victim ) then
+		if Attacker == Victim then
+			PVPVictim = Victim
+			PVPAttacker = Victim
+			if Type != 64 && Type != 6144 then
+				weapon = "fall"
+			end
+		else
+			PVPVictim = Attacker
+			PVPAttacker = Victim
+			if IsValid( Attacker:GetActiveWeapon() ) then
+				if ( IsValid( Attacker.ThrownWeapon ) ) then
+					weapon = Attacker.ThrownWeapon:GetClass()
+				else
+					weapon = Attacker:GetActiveWeapon():GetClass()
+				end
 			end
 		end
-	end
-	
-	if IsValid ( Attacker ) && IsValid( Victim ) && !Victim:Alive() then
-		net.Start( "CustomDeath" )
-			net.WriteEntity( PVPVictim )
-			net.WriteString( weapon || Inflictor:GetName() )
-			net.WriteEntity( PVPAttacker )
-		net.Broadcast()
+		
+		if !Victim:Alive() then
+			net.Start( "CustomDeath" )
+				net.WriteEntity( PVPVictim )
+				net.WriteString( weapon || Inflictor:GetName() )
+				net.WriteEntity( PVPAttacker )
+			net.Broadcast()
+		end
 	end
 end
 
@@ -275,6 +290,8 @@ function GM:PlayerDeath( Victim, Inflictor, Attacker )
 	if ( ( IsValid(Attacker) && Attacker:IsPlayer() ) && ( IsValid(Victim) && Victim:IsPlayer() ) ) then
 		SendDeathNote( Attacker, Victim, 0, true )
 	end
+
+	Victim.RespawnTimer = 3 + CurTime()
 end
 
 function GM:DoPlayerDeath( ply, attacker, dmginfo )

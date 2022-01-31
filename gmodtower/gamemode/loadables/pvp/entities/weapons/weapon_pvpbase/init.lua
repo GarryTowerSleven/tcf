@@ -53,6 +53,8 @@ function SWEP:ShootEnt( class, force )
 		ent:Spawn()
 		ent:Activate()
 
+		self.Owner.ThrownWeapon = ent
+
 		local phys = ent:GetPhysicsObject()
 		if IsValid(phys) then
 			phys:SetVelocity( self.Owner:GetVelocity() + (self.Owner:GetAimVector() * force) )

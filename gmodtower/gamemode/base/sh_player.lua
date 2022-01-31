@@ -194,6 +194,37 @@ function meta:Left()
 	SendJoinLeaveMessage( self, "LeaveLobby", Color( 100, 100, 100, 255 ) )
 end
 
+// This is different from the default SetColor as it sets color on the wearables as well
+function meta:SetColorAll( color )
+
+	self:SetColor( color )
+
+	if color.a < 255 then
+		self:SetRenderMode( RENDERMODE_TRANSALPHA )
+	else
+		self:SetRenderMode( RENDERMODE_NORMAL )
+	end
+
+	// Now equipment
+	if !self.CosmeticEquipment then return end
+
+	for k,v in pairs( self.CosmeticEquipment ) do
+
+		if IsValid( v ) then
+
+			v:SetColor( color )
+
+			if color.a < 255 then
+				v:SetRenderMode( RENDERMODE_TRANSALPHA )
+			else
+				v:SetRenderMode( RENDERMODE_NORMAL )
+			end
+
+		end
+
+	end
+
+end
 
 function meta:IsCameraOut()
 	if IsValid( self ) then

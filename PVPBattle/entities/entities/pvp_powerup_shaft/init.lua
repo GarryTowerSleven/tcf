@@ -11,7 +11,12 @@ function ENT:PowerUpOn( ply )
 	ply:SetRunSpeed( 150 )
 	PostEvent( ply, "pushaft_on" )
 
-	ply:ReplaceHat("models/gmod_tower/pimphat.mdl", 1)
+	local pimpHat = GTowerHats:GetHatByName( "hatpimphat" )
+	if !pimpHat then return end
+	local hatData = GTowerHats.Hats[pimpHat]
+	if !hatData then return end
+
+	ply:ReplaceHat( hatData.unique_Name, hatData.model, pimpHat, hatData.slot )
 end
 
 function ENT:PowerUpOff( ply )

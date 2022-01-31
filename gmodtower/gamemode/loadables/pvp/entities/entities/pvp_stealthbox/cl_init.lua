@@ -29,21 +29,29 @@ function ENT:PositionBox( ply )
 end
 
 function ENT:SetAlpha( ply, alpha )
+
+	if !alpha then
+		alpha = 0
+	end
+
 	if ply == LocalPlayer() then
 		alpha = math.Clamp(alpha, 150, 255)
 	end
 
-	local r,g,b,a = ply:GetColor()
+	local c = ply:GetColor() // GMod 13
+	local r,g,b = c.r, c.g, c.b
 
-	self:SetColor( r, g, b, alpha )
-	ply:SetColor( Color(r, g, b, alpha) )
+	self:SetColor( Color( r, g, b, alpha ) )
+	ply:SetColorAll( Color( r, g, b, alpha ) )
+	self:SetRenderMode( RENDERMODE_TRANSALPHA )
 	
 	local weapon = ply:GetActiveWeapon()
 	
 	if IsValid(weapon) then
-		r,g,b,a = weapon:GetColor()
-		weapon:SetColor( r, g, b, alpha )
+		weapon:SetColor( Color( 255, 255, 255, alpha or 150 ) )
+		weapon:SetRenderMode( RENDERMODE_TRANSALPHA )
 	end
+
 end
 
 function ENT:Think()
