@@ -501,7 +501,7 @@ function PLAYERS:PopulatePlayers( clear )
 	end
 
 	-- Sort the players
-	--self:SortPlayers()
+	if !IsLobby then self:SortPlayers() end
 
 end
 
