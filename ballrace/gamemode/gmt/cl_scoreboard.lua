@@ -39,13 +39,6 @@ local function CalculateRanks()
 	table.sort( Players, function( a, b )
 
 		local aScore, bScore = a:GetNWInt( "Placement" ), b:GetNWInt( "Placement" )
-
-		if aScore == bScore then
-
-			return a:Deaths() > b:Deaths()
-			
-		end
-
 		return aScore < bScore
 
 	end )
