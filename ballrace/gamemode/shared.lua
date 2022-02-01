@@ -33,21 +33,30 @@ elseif game.GetMap() == "gmt_ballracer_facile" then
 else
 GM.DefaultLevelTime = 60
 end
+
 GM.IntermissionTime = 6
-GM.WaitForPlayersTime = 35
+GM.WaitForPlayersTime = 60
 
 default_pm = 'models/player/kleiner.mdl'
+
+function Passed()
+	return ( ( #team.GetPlayers( TEAM_DEAD ) + #team.GetPlayers( TEAM_COMPLETED ) ) == #player.GetAll() )
+end
 
 function SetTime(lvltime)
 	SetGlobalInt("GTIME", lvltime);
 end
 
 function GetTime()
-	return GetGlobalInt("GTIME");
+	return GetGlobalInt("GTIME", 0);
+end
+
+function GetTimeLeft()
+	return GetTime() - CurTime()
 end
 
 function GetRaceTime()
-	return GAMEMODE.DefaultLevelTime-timer.TimeLeft("RoundEnd")
+	return GAMEMODE.DefaultLevelTime-GetTimeLeft()
 end
 
 SetTime(GM.DefaultLevelTime)
@@ -86,7 +95,8 @@ end
 
 GM.ExplodeSound	= "weapons/ar2/npc_ar2_altfire.wav"
 
-STATE_WAITING = 0 --1
+STATE_NOGAME = 0
+STATE_WAITING = 1
 STATE_PLAYING = 2
 STATE_INTERMISSION = 3
 STATE_SPAWNING = 4

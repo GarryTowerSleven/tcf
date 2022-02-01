@@ -125,7 +125,6 @@ function GM:UpdateStatus(disc)
 	end
 
 	if dead + complete >= total then
-		timer.Destroy("RoundEnd")
 
 		if complete > 0 then
 
@@ -148,41 +147,36 @@ function GM:UpdateStatus(disc)
 				end
 				for k,v in pairs(player.GetAll()) do if !v:GetNWBool("Popped") then v:AddAchievement( ACHIEVEMENTS.BRUNPOPABLE, 1 ) end end
 				net.Start("roundmessage")
-				net.WriteInt( 3, 3 )
+					net.WriteInt( 3, 3 )
 				net.Broadcast()
-				timer.Simple(GAMEMODE.IntermissionTime,function()
-					self:EndServer()
-					SetState(STATE_ENDING)
-				end)
 			else
 				net.Start("roundmessage")
-				net.WriteInt( 1, 3 )
+					net.WriteInt( 1, 3 )
 				net.Broadcast()
 			end
 			LateSpawn = ActiveTeleport
 		else
 			if LateSpawn != nil && (LateSpawn:GetName() == 'bonus_start' || LateSpawn:GetName() == 'bns_start' || LateSpawn:GetName() == 'bonus') then
 				net.Start("roundmessage")
-				net.WriteInt( 1, 3 )
+					net.WriteInt( 1, 3 )
 				net.Broadcast()
 				LateSpawn = BonusTeleport
 				ActiveTeleport = BonusTeleport
 				timer.Simple( 0.2, function() GAMEMODE:GiveMoney() end )
 			else
 				net.Start("roundmessage")
-				if tries < 3 then
-					net.WriteInt( 2, 3 )
-				else
-					net.WriteInt( 1, 3 )
-				end
+					if tries < 3 then
+						net.WriteInt( 2, 3 )
+					else
+						net.WriteInt( 1, 3 )
+					end
 				net.Broadcast()
 				self:ResetGame(true)
 			end
 		end
 
 		SetState(STATE_INTERMISSION)
-
-		timer.Simple(GAMEMODE.IntermissionTime, self.StartRound, self)
+		SetTime(CurTime()+self.IntermissionTime)
 	end
 end
 
@@ -200,16 +194,12 @@ function GM:StartRound()
 	for k,v in pairs(player.GetAll()) do v.BestTime = nil end
 
 	if NextMap then
-		--timer.Simple(0.5, function() MapVote.Start(voteLength, allowCurrentMap, mapLimit, 'gmt_ballracer_') end)
+		self:EndServer()
+		SetState(STATE_ENDING)
 		return
 	end
 	SetState(STATE_SPAWNING)
-
 	GAMEMODE:SpawnAllPlayers()
-
-	SetState(STATE_PLAYING)
-
-	timer.Destroy("RoundEnd")
 
 	for k,v in pairs(player.GetAll()) do
 		v:SetNWBool("Died",false)
@@ -222,18 +212,33 @@ function GM:StartRound()
 		placement = 0
 	end
 
+	local NextRoundTime
+
 	if LateSpawn != nil && (LateSpawn:GetName() == 'bonus_start' || LateSpawn:GetName() == 'bns_start' || LateSpawn:GetName() == 'bonus') then
 		music.Play( 1, MUSIC_BONUS )
-		timer.Create("RoundEnd", 30, 1, GAMEMODE.StopRound, GAMEMODE)
-		SetTime(CurTime() + 30)
+		NextRoundTime = (GAMEMODE.DefaultLevelTime/2)
 	else
 		music.Play( 1, MUSIC_LEVEL )
-		timer.Create("RoundEnd", GAMEMODE.DefaultLevelTime, 1, GAMEMODE.StopRound, GAMEMODE)
-		SetTime(CurTime() + GAMEMODE.DefaultLevelTime)
+		NextRoundTime = GAMEMODE.DefaultLevelTime
 	end
 
-	placement = 0
+	SetState(STATE_PLAYING)
+	SetTime(CurTime() + NextRoundTime)
 end
+
+hook.Add( "Think", "RoundController", function()
+	if GetState() == STATE_NOGAME && #player.GetAll() >= 1 then
+		SetState( STATE_WAITING )
+		SetTime( CurTime() + GAMEMODE.WaitForPlayersTime )
+	elseif GetState() == STATE_WAITING && GetTimeLeft() <= 0 then
+		GAMEMODE:StartRound()
+	elseif GetState() == STATE_PLAYING && GetTimeLeft() <= 0 then
+		GAMEMODE:StopRound()
+		GAMEMODE:UpdateStatus(false)
+	elseif GetState() == STATE_INTERMISSION && GetTimeLeft() <= 0 then
+		GAMEMODE:StartRound()
+	end
+end )
 
 function GM:RestartLevel()
 	game.ConsoleCommand("changelevel " .. table.Random(Levels) .. "\n")
@@ -261,8 +266,9 @@ function GM:ResetGame()
 
 			if NextLVL == nil then
 				net.Start("roundmessage")
-				net.WriteInt( 2, 3 )
+					net.WriteInt( 2, 3 )
 				net.Broadcast()
+
 				self:ColorNotifyAll( "You've failed too many times! Ending game!" )
 
 				timer.Simple(4,function()
@@ -280,13 +286,15 @@ function GM:ResetGame()
 			self:ColorNotifyAll( "You've failed too many times! Moving to the next level!" )
 		else
 			net.Start("roundmessage")
-			net.WriteInt( 2, 3 )
+				net.WriteInt( 2, 3 )
 			net.Broadcast()
+
 			self:ColorNotifyAll( "You've failed too many times! Ending game!" )
-			timer.Simple(4,function()
+
+			timer.Simple( 4, function()
 				self:EndServer()
 				SetState(STATE_ENDING)
-			end)
+			end )
 		end
 
 	end
@@ -301,10 +309,10 @@ function GM:ResetGame()
 		v:SetFrags(0)
 	end
 
-	timer.Simple(0, function()
+	timer.Simple( 0, function()
 		game.CleanUpMapEx()
 		GAMEMODE.SpawnPoints = nil
-	end)
+	end )
 end
 
 function GM:LostPlayer(ply, disc)
@@ -337,6 +345,7 @@ function GM:SaveBestTime(ply, lvl, time, update)
 		"UPDATE gm_ballrace SET time=".. time .." WHERE ply='"..ply:SteamID64().."' AND name='"..ply:Name().."' AND map='"..game.GetMap().."' AND lvl='"..lvl.."'", SQLLogResult)
 		return
 	end
+
 	SQL.getDB():Query("CREATE TABLE IF NOT EXISTS gm_ballrace(ply TINYTEXT, name TINYTEXT,map TINYTEXT, lvl TINYTEXT, time FLOAT NOT NULL)")
 
 	SQL.getDB():Query(

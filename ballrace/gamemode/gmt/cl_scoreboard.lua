@@ -39,6 +39,13 @@ local function CalculateRanks()
 	table.sort( Players, function( a, b )
 
 		local aScore, bScore = a:GetNWInt( "Placement" ), b:GetNWInt( "Placement" )
+
+		if aScore == bScore then
+
+			return a:Deaths() > b:Deaths()
+			
+		end
+
 		return aScore < bScore
 
 	end )
@@ -113,11 +120,12 @@ end
 // Jazz the player avatar? (for winner only)
 PlayerAvatarJazz = function( ply )
 
-	--if GetState() != STATE_INTERMISSION then return false end
-	--if not game.GetWorld():GetNet( "Passed" ) then return false end
+	if GetState() != STATE_INTERMISSION then return false end
+	if not Passed() then return false end
 
 	CalculateRanks()
-	return ( ply:GetNWInt("Placement") == 1 )
+
+	return ( ply.TrophyRank == 1 )
 
 end
 
@@ -131,22 +139,22 @@ PlayerActionBoxBGAlpha = 80
 hook.Add( "PlayerActionBoxPanel", "ActionBoxDefault", function( panel )
 
 	Scoreboard.ActionBoxLabel(
-		panel,
-		nil,
-		"BANANAS",
+		panel, 
+		nil, 
+		"BANANAS", 
 		function( ply )
 			return ply:Frags()
-		end,
+		end, 
 		nil
 	)
 
-	Scoreboard.ActionBoxLabel(
-		panel,
-		nil,
-		"LIVES",
+	Scoreboard.ActionBoxLabel( 
+		panel, 
+		nil, 
+		"LIVES", 
 		function( ply )
 			return ply:Deaths()
-		end,
+		end, 
 		nil
 	)
 

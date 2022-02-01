@@ -1,7 +1,6 @@
 include("shared.lua")
-include("cl_message.lua")
 include("cl_choose.lua")
-include("sh_player.lua")
+include("cl_message.lua")
 
 local hud_lives = surface.GetTextureID( "gmod_tower/balls/hud_main_lives" )
 local hud_bananas = surface.GetTextureID( "gmod_tower/balls/hud_main_bananas" )
@@ -42,15 +41,34 @@ hook.Add( "ShouldHideHats", "ShouldHideHats", function( ply )
 end )
 
 local chat_offset = Vector(0, 0, 64)
-function GM:ChatBubbleOverride(ply)
+hook.Add( "ChatBubbleOverride", "OverrideChatBubble", function( ply )
+
+	if !IsValid( ply ) then
+		return false
+	end
+
+	if !ply.GetBall then return false end
+
 	local ball = ply:GetBall()
 
 	if ply:Team() == TEAM_PLAYERS && IsValid(ball) && ball:GetOwner() == ply then
 		return ball:GetPos() + chat_offset
 	end
 
-	return ply:EyePos()
-end
+	return false
+
+end )
+
+hook.Add( "AFKDrawOverride", "BallRaceAFKDraw", function( ply )
+
+	if !ply.GetBall then return Vector( 0, 0, 0 ) end
+
+	local ball = ply:GetBall()
+	if IsValid( ball ) && IsValid( ball.PlayerModel ) then
+		return ball.PlayerModel:GetPos() + Vector( 0, 0, 0 )
+	end
+
+end )
 
 // Speed HUD
 local lastSpeed = 0
@@ -68,27 +86,34 @@ local curRot = 0
 local timerSize = 0
 
 function GM:HUDPaint()
+
 	local lives, speed = 0, 0
-	if IsValid(LocalPlayer()) then
+
+	if IsValid( LocalPlayer() ) then
 		lives = LocalPlayer():Deaths()
+
+		lastBanana = bananas
 		bananas = LocalPlayer():Frags()
+
+		lastSpeed = speed
+		speed = LocalPlayer().Speed or 0
 	end
 
 	local state = GetState()
-	local endtime = GetTime()
+	local endtime = GetTime() or 0
 
 	local timeleft = endtime - CurTime()
 	local timeformat = string.FormattedTime(timeleft, "%02i:%02i")
 
 	local buffer = ""
-	local ball = LocalPlayer():GetBall()
-	local team = LocalPlayer():Team()
-
 	if state == STATE_WAITING then
 		buffer = "WAITING FOR PLAYERS"
-	elseif state == STATE_PLAYING then
+	elseif (state == STATE_PLAYING || state == STATE_PLAYINGBONUS) then
+
 		if IsValid(LocalPlayer()) then
+			local ball = LocalPlayer():GetBall()
 			local team = LocalPlayer():Team()
+
 			if IsValid(ball) && ball:GetClass() == "player_ball" then
 				if ball:GetOwner() != LocalPlayer() then
 					buffer = "SPECTATING " .. string.upper( tostring( ball:GetOwner():Name() ) )
@@ -101,26 +126,23 @@ function GM:HUDPaint()
 				end
 			end
 		end
-	--[[elseif state == STATE_INTERMISSION then
-		buffer = "INTERMISSION"]]
+
+	/*elseif state == STATE_INTERMISSION then
+		buffer = "Intermission"*/
 	end
 
 	if state != STATE_INTERMISSION then
 		surface.SetDrawColor( 255, 255, 255, 255 )
 
 		if state != STATE_WAITING then
+
 			// Lives BG
 			local livesX, livesY = 12, 12
 			surface.SetTexture( hud_lives )
 			surface.DrawTexturedRect( livesX, livesY, 256, 128 )
+
 			// Lives Icon
 			if LocalPlayer():Alive() && LocalPlayer():Team() == TEAM_PLAYERS then
-				lastSpeed = speed
-				if LocalPlayer().myspeed == nil then
-					speed = 0
-				else
-					speed = LocalPlayer().myspeed
-				end
 				local changeSpeed = math.floor( ( lastSpeed - speed ) )
 				if changeSpeed < -9 then
 					changeSpeed = changeSpeed * .009 // yay magic numbers!! this is to lower the speed for rotation
@@ -140,7 +162,6 @@ function GM:HUDPaint()
 			if lastBanana != bananas then // check bananas for animation
 				curRot = bananaRot
 				bananaTime = CurTime() + 1
-				lastBanana = bananas
 			end
 
 			if CurTime() > bananaTime then
@@ -154,6 +175,8 @@ function GM:HUDPaint()
 			surface.SetTexture( hud_icon_banana )
 			surface.DrawTexturedRectRotated( ScrW() - 63, bananaY + 52, 128 + ( bananaSize * 2 ), 128 + ( bananaSize * 2 ), bananaRot )
 
+
+			// Text
 			draw.SimpleTextOutlined( lives, "BallFont", 150, 95, Color( 255, 255, 255, 255), 1, 1, 2, OUTLINE_COLOR )
 			draw.SimpleTextOutlined( bananas, "BallFont", ScrW() - 180, 95, Color( 255, 255, 255, 255), 1, 1, 2, OUTLINE_COLOR )
 		end
@@ -191,15 +214,14 @@ function GM:HUDPaint()
 	end
 
 	if buffer != "" then
-	--if  state == STATE_WAITING || state == STATE_PLAYING && (LocalPlayer():Team() == 2 || LocalPlayer():Team() == 3) then
+	//if (state != STATE_PLAYING && state != STATE_PLAYINGBONUS) then
 		surface.SetDrawColor( 0, 0, 0, 250 )
-		surface.DrawRect( 0, ScrH()/1.058, ScrW(), 60 )
-		surface.DrawRect( 0, ScrH()/1.058, ScrW(), 3 )
+		surface.DrawRect( 0, ScrH() - 60, ScrW(), 60 )
 
-		--surface.SetDrawColor( 255, 255, 255, 155 )
-		--surface.DrawRect( 0, 0, ScrW(), 3 )
+		surface.SetDrawColor( 0, 0, 0, 255 )
+		surface.DrawRect( 0, ScrH() - 60, ScrW(), 3 )
 
-		draw.SimpleText( buffer, "BallMessage", ScrW() / 2, ScrH()/1.028, Color( 255, 255, 255, 255 ), 1, 1 )
+		draw.SimpleText( buffer, "BallMessage", ScrW() / 2, ScrH() - 30, Color( 255, 255, 255, 255 ), 1, 1 )
 	end
 end
 
@@ -300,33 +322,28 @@ hook.Add( "HUDShouldDraw", "HideHUD", function( name )
 	if ( hide[ name ] ) then return false end
 end )
 
-function MusicSystem(Id)
-	if Id == 1 then
-		if timer.Exists("BGMUSIC") then
-			return
-		else
-			if GetState() != 0 then
-				RunConsoleCommand( "stopsound" )
+ConVarPlayerFade = CreateClientConVar( "gmt_ballrace_fade", 0, true )
+
+hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDepth, bDrawingSkybox )
+	local pf = ConVarPlayerFade:GetInt()
+	if pf < 1 then return end // Fk player fade man
+
+	for _, ply in pairs( player.GetAll() ) do
+		if ply:Alive() and ply:Team() == TEAM_PLAYERS then // Leave dem spectators alone
+			if ply == LocalPlayer() then continue end // Skip ourselves
+			local ball = ply:GetBall()
+			if IsValid( ball ) then
+				if !LocalPlayer():Alive() or LocalPlayer():Team() != TEAM_PLAYERS then // Spectating
+					ball:SetRenderMode( RENDERMODE_TRANSALPHA )
+					ball:SetColor( Color( 255, 255, 255, 255 ) )
+					continue
+				end
+				local distance = LocalPlayer():EyePos():Distance( ball:GetPos() )
+				local opacity = math.Clamp( (distance / math.Clamp(pf, 1, 2048)) * 255, 0, 255 ) // Close enough
+				ball:SetRenderMode( RENDERMODE_TRANSALPHA )
+				ball:SetColor( Color( 255, 255, 255, opacity ) )
 			end
-			timer.Create("BGMUSIC", 0.2, 0, function() surface.PlaySound(GetMusicSelection()) MusicLoop() end)
 		end
-	elseif Id == 2 then
-		if timer.Exists("BGMUSIC") then
-			RunConsoleCommand( "stopsound" )
-			timer.Simple(0.2, function() timer.Remove("BGMUSIC") surface.PlaySound('GModTower/balls/bonusstage.mp3') end)
-		end
-	elseif Id == 3 then
-		timer.Remove("BGMUSIC")
-		timer.Simple(0.5, function() RunConsoleCommand( "stopsound" ) end)
 	end
-end
 
-function MusicLoop()
-	timer.Adjust("BGMUSIC", GetMusicDuration(), 0, function() surface.PlaySound(GetMusicSelection()) end)
-end
-
-net.Receive( "BGM", function( len, pl )
-	local Id = net.ReadInt(3)
-	MusicSystem(Id)
 end )
-ConVarPlayerFade = CreateClientConVar( "gmt_ballrace_fade", 255, true )
