@@ -322,7 +322,7 @@ hook.Add( "HUDShouldDraw", "HideHUD", function( name )
 	if ( hide[ name ] ) then return false end
 end )
 
-ConVarPlayerFade = CreateClientConVar( "gmt_ballrace_fade", 0, true )
+/*ConVarPlayerFade = CreateClientConVar( "gmt_ballrace_fade", 0, true )
 
 hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDepth, bDrawingSkybox )
 	local pf = ConVarPlayerFade:GetInt()
@@ -338,14 +338,12 @@ hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDe
 					ball:SetColor( Color( 255, 255, 255, 255 ) )
 					continue
 				end
-				if ply:Team() == TEAM_PLAYERS then
-					local distance = LocalPlayer():EyePos():Distance( ball:GetPos() )
-					local opacity = math.Clamp( (distance / math.Clamp(pf, 1, 2048)) * 255, 0, 255 ) // Close enough
-					ball:SetRenderMode( RENDERMODE_TRANSALPHA )
-					ball:SetColor( Color( 255, 255, 255, opacity ) )
-				end
+				local distance = LocalPlayer():EyePos():Distance( ball:GetPos() )
+				local opacity = math.Clamp( (distance / math.Clamp(pf, 1, 2048)) * 255, 0, 255 ) // Close enough
+				ball:SetRenderMode( RENDERMODE_TRANSALPHA )
+				ball:SetColor( Color( 255, 255, 255, opacity ) )
 			end
 		end
 	end
 
-end )
+end )*/
