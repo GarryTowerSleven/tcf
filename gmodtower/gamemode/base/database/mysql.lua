@@ -1,25 +1,77 @@
----------------------------------
-Msg("Loading tmysql module...\n");
+local os, arch, mysqlooModulePath, mysqlooExists, sqlType
 
-require( "tmysql4" )
+// prevent doing on lua refreshes
+if !dbObject then
+	os = string.lower( jit.os )
+	arch = jit.arch
+
+	if arch == "x86" then
+		if os == "windows" then
+			mysqlooModulePath = "bin/gmsv_mysqloo_win32.dll"
+		elseif os == "linux" then
+			mysqlooModulePath = "bin/gmsv_mysqloo_linux.dll"
+		end
+	else
+		if os == "windows" then
+			mysqlooModulePath = "bin/gmsv_mysqloo_win64.dll"
+		elseif os == "linux" then
+			mysqlooModulePath = "bin/gmsv_mysqloo_linux64.dll"
+		end
+	end
+
+	mysqlooExists = file.Exists( mysqlooModulePath, "LUA" )
+
+	if mysqlooExists then
+		sqlType = "MySQLOO"
+
+		// We're using a translation layer for now until i decide to make everything use native mysqloo functions
+		include("mysqloo/tmysql4.lua")
+	else
+		sqlType = "TMySQL"
+
+		require( "tmysql4" )
+	end
+end
+
+if !mysqlooExists then
+	kityPrint( "Please update to MySQLOO, TMySQL is outdated. (https://github.com/FredyH/MySQLOO/releases/)", Color(255,0,255), "Database" )
+end
+
+if !tmysql then
+	--kityPrint( "OH GOD. MySQLOO MODULE NOT FOUND!", co_color2, "Database" )
+	return 
+end
+
+if tmysql && !tmysql.Version then
+	tmysql.Version = "4"
+end
+
+// lookin' good
+kityPrint( sqlType .. " module loaded. [v" .. tmysql.Version .. "]", co_color, "Database" )
 
 module("SQL", package.seeall )
 
 ColumnInfo = ColumnInfo or {}
 
 function connectToDatabase()
-	if tmysql then
-		Msg("[MYSQL] Attempting connection to mysql\n")
-		// ("ip", "user", "pw", "database")
-		databaseObject, err = tmysql.initialize("", "", "", "", 3306, 3, 3)
-		Msg("[MYSQL] Connected to mysql\n")
+	if dbObject then return end
+	
+	// tmysql.Connect( host, user, pass, db, port, unixsocket, clientflags )
+	local db, err = tmysql.Connect("", "", "", "", 3306, nil, 3)
+
+	if err then
+		kityPrint( "DATABASE FAILED TO CONNECT!", co_color2, "Database" )
+		kityPrint( tostring(err), co_color2 )
+	else
+		kityPrint( "Database connected.", co_color, "Database" )
+		dbObject = db
 	end
 end
 
 connectToDatabase()
 
 function getDB()
-	return databaseObject
+	return dbObject
 end
 
 GTowerSQL = {}
