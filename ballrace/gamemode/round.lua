@@ -213,8 +213,8 @@ function GM:StartRound()
 		v:SetFrags(0)
 
 		v:SetNWString("CompletedTime","")
-		v:SetNWInt("Placement",0)
-		placement = 0
+		v:SetNWInt("Placement",100)
+		placement = 100
 	end
 
 	local NextRoundTime

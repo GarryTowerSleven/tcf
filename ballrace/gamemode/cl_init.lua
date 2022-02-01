@@ -338,10 +338,12 @@ hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDe
 					ball:SetColor( Color( 255, 255, 255, 255 ) )
 					continue
 				end
-				local distance = LocalPlayer():EyePos():Distance( ball:GetPos() )
-				local opacity = math.Clamp( (distance / math.Clamp(pf, 1, 2048)) * 255, 0, 255 ) // Close enough
-				ball:SetRenderMode( RENDERMODE_TRANSALPHA )
-				ball:SetColor( Color( 255, 255, 255, opacity ) )
+				if ply:GetTeam() == TEAM_PLAYERS then
+					local distance = LocalPlayer():EyePos():Distance( ball:GetPos() )
+					local opacity = math.Clamp( (distance / math.Clamp(pf, 1, 2048)) * 255, 0, 255 ) // Close enough
+					ball:SetRenderMode( RENDERMODE_TRANSALPHA )
+					ball:SetColor( Color( 255, 255, 255, opacity ) )
+				end
 			end
 		end
 	end
