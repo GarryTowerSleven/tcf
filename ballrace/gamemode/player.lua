@@ -11,12 +11,10 @@ function GM:PlayerInitialSpawn(ply)
 	net.Start("pick_ball")
 	net.Send(ply)
 
-	if GetState() == STATE_WAITING && #player.GetAll() == 1 then
+	if GetState() == STATE_NOGAME && #player.GetAll() == 1 then
 		game.CleanUpMap()
-		SetTime(CurTime() + GAMEMODE.WaitForPlayersTime)
-
 		ply:ChatPrint("You are the first to join, waiting for additional players!")
-		timer.Simple(GAMEMODE.WaitForPlayersTime, self.StartRound, self)
+		--timer.Simple(GAMEMODE.WaitForPlayersTime, self.StartRound, self)
 	end
 end
 
