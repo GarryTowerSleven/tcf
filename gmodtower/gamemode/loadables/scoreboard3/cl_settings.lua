@@ -52,6 +52,7 @@ SETTINGS.LobbyOnlyTabs = {
 	"VIP",
 }
 SETTINGS.GamemodesWithSettings = {
+	"ballrace",
 	"virus",
 	"zombiemassacre",
 	"minigolf",
@@ -663,9 +664,20 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 	if tabname == "Gamemode" then
 
 		/*=========
+		Ball Race Settings
+		============*/
+		if engine.ActiveGamemode() == "ballrace" then
+
+			self:Header( "Ball Race" )
+			self:Slider( "Ball Fading", "gmt_ballrace_fade", 0, 2048 )
+
+		end
+
+		/*=========
 		Virus Settings
 		============*/
 		if engine.ActiveGamemode() == "virus" then
+
 			self:Header( "Virus" )
 			self:CheckBox( "Display HUD", "gmt_virus_hud" )
 			self:CheckBox( "Display Damage Notes", "gmt_virus_damagenotes" )
