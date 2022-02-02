@@ -68,7 +68,7 @@ end
 // Subtitle (under name)
 PlayerSubtitleText = function( ply )
 
-	local completedtime = ply:GetNWString( "CompletedTime" )
+	local completedtime = ply:GetNWString( "CompletedTime", "" )
 	if completedtime and completedtime != "" then
 		return completedtime .. " secs"
 	end

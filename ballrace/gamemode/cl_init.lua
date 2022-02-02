@@ -329,27 +329,28 @@ hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDe
 	if pf < 1 then return end // Fk player fade man
 
 	for _, ply in pairs( player.GetAll() ) do
+		local ball = ply:GetBall()
+		local opacity = 255
+
 		if ply:Alive() and ply:Team() == TEAM_PLAYERS then // Leave dem spectators alone
 			if ply == LocalPlayer() then continue end // Skip ourselves
-
-			local ball = ply:GetBall()
-
+			
 			if IsValid( ball ) then
-				local distance = LocalPlayer():EyePos():Distance( ball:GetPos() )
-				local opacity = 255
-
-				ball:SetRenderMode( RENDERMODE_TRANSALPHA )
-
 				if !LocalPlayer():Alive() or LocalPlayer():Team() != TEAM_PLAYERS then // Spectating
-					ball:SetColor( Color( 255, 255, 255, opacity ) )
+					ball:SetRenderMode( RENDERMODE_TRANSALPHA )
+					ball:SetColor( Color( 255, 255, 255, 255 ) )
 					continue
 				end
-
-				if LocalPlayer():Alive() && !ply:Alive() then return end
-				
+				local distance = LocalPlayer():EyePos():Distance( ball:GetPos() )
 				opacity = math.Clamp( (distance / math.Clamp(pf, 1, 2048)) * 255, 0, 255 ) // Close enough
-				ball:SetColor( Color( 255, 255, 255, opacity ) )
+
+				ball:SetRenderMode( RENDERMODE_TRANSALPHA )
+				--ball:SetColor( Color( 255, 255, 255, opacity ) )
 			end
+		end
+
+		if IsValid( ball ) then
+			ball:SetColor( Color( 255, 255, 255, opacity ) )
 		end
 	end
 
