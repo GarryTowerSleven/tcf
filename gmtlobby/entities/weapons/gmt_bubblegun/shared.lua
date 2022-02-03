@@ -26,7 +26,7 @@ SWEP.NextCheck = 0
 function SWEP:Initialize()
 
 	self:SetWeaponHoldType( self.HoldType )
-	self:SetColor(Color(0,255,255))
+	self:SetColor( Color( 0, 55, 255 ) )
 
 	if SERVER then return end
 	self.NextParticle = CurTime()
@@ -35,7 +35,7 @@ end
 
 function SWEP:Deploy()
 
-	self.Color = self:GetRandomColor()
+	self.Color = colorutil.GetRandomColor()
 
 	if SERVER && self.InventoryItem && self.InventoryItem.WeaponDeployed then
 		self.InventoryItem:WeaponDeployed()
@@ -73,7 +73,7 @@ function SWEP:DrawWorldModel()
 	end
 
 	render.SetMaterial( Material( "sprites/powerup_effects" ) )
-	render.DrawSprite( attach, 15, 15, Color( 0,255,255 ) )
+	render.DrawSprite( attach, 15, 15, Color( 0, 255, 255 ) )
 
 	if CLIENT then
 		if self:GetNWBool("Shooting") then
@@ -101,7 +101,7 @@ function SWEP:DrawWorldModel()
 					particle:SetEndSize( 0 )
 					particle:SetRoll( math.Rand( 0, 360 ) )
 					particle:SetRollDelta( math.Rand( -5.5, 5.5 ) )
-					particle:SetColor( math.random( 240, 255 ), math.random( 240, 255 ), math.random( 240, 255 ) )
+					particle:SetColor( Color( math.random( 240, 255 ), math.random( 240, 255 ), math.random( 240, 255 ) ) )
 					particle:SetCollide( true )
 				end
 			end
@@ -191,7 +191,7 @@ function SWEP:Think()
 			particle:SetEndSize( 0 )
 			particle:SetRoll( math.Rand( 0, 360 ) )
 			particle:SetRollDelta( math.Rand( -5.5, 5.5 ) )
-			particle:SetColor( math.random( 240, 255 ), math.random( 240, 255 ), math.random( 240, 255 ) )
+			particle:SetColor( Color( math.random( 240, 255 ), math.random( 240, 255 ), math.random( 240, 255 ) ) )
 			particle:SetCollide( true )
 		end
 	end
