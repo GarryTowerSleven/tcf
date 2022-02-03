@@ -24,6 +24,7 @@ local noice_icons = {
 }
 
 local function DrawIcons(y, w, h)
+	local iw, ih = 16, 16
 	for i,icon in pairs(noice_icons) do
 		local seed = i
 
@@ -35,7 +36,6 @@ local function DrawIcons(y, w, h)
 		surface.SetDrawColor(255, 255, 255, 100)
 		surface.SetMaterial(icon)
 
-		local iw, ih = 16, 16
 		if icon:GetName():match("^flags16") then iw, ih = 20, 12 end
 		surface.DrawTexturedRect(loltick, h/2 + math.sin(loltick / 30) * 30, iw, ih)
 	end
@@ -78,10 +78,12 @@ local function DrawButtons(imgui, x, y, w, h)
 	local count = #Buttons
 	local bw = (w/count) - ((btn_m/count)*(count-1))
 	local bx = x
+
+	local rainbow = colorutil.Rainbow(45)
 	for k,v in pairs( Buttons ) do
 		if k == count then local btn_m = 0 end
 
-		if imgui.xTextButton(v.text, "!Roboto@24", bx, y, bw, h, 1, nil, colorutil.Rainbow(45), color_white) then
+		if imgui.xTextButton(v.text, "!Roboto@24", bx, y, bw, h, 1, nil, rainbow, color_white) then
 			if isfunction(v.onClick) then v.onClick() end
 		end
 		bx = bx + bw + btn_m
@@ -97,7 +99,7 @@ function ENT:DrawTranslucent()
 
 	local w, h = 795, 512
 	
-	if imgui.Entity3D2D(self, Vector(1.5,-73.5,47.5), Angle(0, 90, 90), 0.185, 2048) then
+	if imgui.Entity3D2D(self, Vector(1.5,-73.5,47.5), Angle(0, 90, 90), 0.185, 1070) then
 
 		local mx, my = imgui.CursorPos()
 
@@ -120,6 +122,12 @@ function ENT:DrawTranslucent()
 		local btn_w, btn_h = 500, 50
 		DrawButtons( imgui, w/2-(btn_w/2), 380, btn_w, btn_h )
 		draw.SimpleShadowText( "Will open in steam browser.", imgui.xFont("!Roboto@14"), w/2, 450, color_white, Color(0,0,0,50), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2 )
+
+		local margin = 25
+		local date = os.date( "%A, %B %d, %Y", os.time() )
+		local time = os.date("%I:%M %p")
+		draw.SimpleShadowText( date, imgui.xFont("!Roboto@24"), margin, 45, color_white, Color(0,0,0,50), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 2 )
+		draw.SimpleShadowText( time, imgui.xFont("!Roboto@24"), w-margin, 45, color_white, Color(0,0,0,50), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, 2 )
 
 		--DrawCursor( mx, my, w, h, imgui.IsPressing() )
 
