@@ -77,6 +77,7 @@ concommand.Add("gmt_friend",function(ply, cmd, args, str)
   // Empty cache
   player.GetBySteamID64(str).BlockStatus = nil
   player.GetBySteamID64(str).FriendStatus = nil
+  player.GetBySteamID64(str)._Relation = nil
 
 end)
 
@@ -117,6 +118,7 @@ concommand.Add("gmt_unfriend",function(ply, cmd, args, str)
 
   // Deleted friend cache for that person
   player.GetBySteamID64(str).FriendStatus = nil
+  player.GetBySteamID64(str)._Relation = nil
 
 end)
 
@@ -209,6 +211,7 @@ function BlockPlayer(ply)
   // Empty cache
   ply.FriendStatus = nil
   ply.BlockStatus = nil
+  ply._Relation = nil
 
 end
 
@@ -242,15 +245,23 @@ end
 function GetRelationship(ply)
 
 	local relationship = ""
-	if CheckFriendship(ply) then
+	if CheckFriendCache(ply) then
 		relationship = "Friend"
-	elseif CheckBlocked(ply) then
+	elseif CheckBlockedCache(ply) then
 		relationship = "Blocked"
-	else
-		relationship = ""
 	end
 
 	return relationship
+end
+
+function CheckRelationshipCache(ply)
+	if !ply._Relation then
+		local rel = GetRelationship(ply)
+		ply._Relation = rel
+		--logger.debug( string.format( "Setting %s's relation to: \"%s\"", ply:Nick(), rel ), "Friends" )
+	end
+
+	return GetRelationship(ply)
 end
 
 function CheckBlockedCache(ply)

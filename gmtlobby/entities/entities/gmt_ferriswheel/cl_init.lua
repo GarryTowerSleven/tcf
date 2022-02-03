@@ -1,7 +1,10 @@
 include( "shared.lua" )
 
-local wheelModelPath = Model("models/gmod_tower/ferriswheel_wheel.mdl")
-local carriageModelPath = Model("models/gmod_tower/ferriswheel_carriage.mdl")
+local wheelModelPath = "models/gmod_tower/ferriswheel_wheel.mdl"
+local carriageModelPath = "models/gmod_tower/ferriswheel_carriage.mdl"
+
+util.PrecacheModel(wheelModelPath)
+util.PrecacheModel(carriageModelPath)
 
 ENT.CarriageColor1 = Color(255,255,255)
 ENT.CarriageColor2 = Color(66, 111, 193)
@@ -61,6 +64,10 @@ function ENT:Draw()
 end
 
 function ENT:Think()
+	if LocalPlayer():GetPos():Distance( self:GetPos() ) > 6075 then
+		return 
+	end
+
 	self:PositionCarriages()
 
 	if not self.NextUpdateTime or CurTime() > self.NextUpdateTime then
@@ -124,6 +131,7 @@ function ENT:UpdatePassengerModel(ply, car, dir)
 end
 
 function ENT:PositionCarriages()
+
 	-- Make sure all our models are valid always forever no take backsies
 	self:CheckModels()
 	self:CheckPlayers()

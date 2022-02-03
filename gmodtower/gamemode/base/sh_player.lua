@@ -6,32 +6,28 @@ end
 
 local Roles =
 {
-	// Developer
-	{ "STEAM_0:0:1384695", "Developer" },  	// Kity
-	{ "STEAM_0:1:124798129", "Developer" },	// AmGona
+	// Developers
+	["STEAM_0:0:1384695"] = "Developer",	// Kity
+	["STEAM_0:1:124798129"] = "Developer",	// AmGona
 
 	// Moderators
-	{ "STEAM_0:1:57386100", "Moderator" },  // Squibbus
-	{ "STEAM_0:1:85508734", "Moderator" },	// Breezy
-	{ "STEAM_0:0:156132358", "Moderator" },	// Basical
-	{ "STEAM_0:1:72402171", "Moderator" },	// Umbre
-	{ "STEAM_0:0:63281019", "Moderator" },	// Muffin
+	["STEAM_0:1:57386100"] = "Moderator",	// Squibbus
+	["STEAM_0:1:85508734"] = "Moderator",	// Breezy
+	["STEAM_0:0:156132358"] = "Moderator",	// Basical
+	["STEAM_0:1:72402171"] = "Moderator",	// Umbre
+	["STEAM_0:0:63281019"] = "Moderator",	// Muffin
 
-	// Current PT Staff
-	{ "STEAM_0:1:6044247", "PixelTail" },	// MacDGuy
-	{ "STEAM_0:0:32497992", "PixelTail" }, 	// Caboose700
-	{ "STEAM_0:1:11414156", "PixelTail" }, 	// Lifeless
-	{ "STEAM_0:1:21111851", "PixelTail" }, 	// Will
-	{ "STEAM_0:0:6807675", "PixelTail" }, 	// Johanage
-	{ "STEAM_0:0:72861849", "PixelTail" }, 	// Madmijk
+	// Pixeltail Games
+	["STEAM_0:1:6044247"] = "PixelTail",	// MacDGuy
+	["STEAM_0:0:32497992"] = "PixelTail",	// Caboose700
+	["STEAM_0:1:11414156"] = "PixelTail",	// Lifeless
+	["STEAM_0:1:21111851"] = "PixelTail",	// Will
+	["STEAM_0:0:6807675"] = "PixelTail",	// Johanage
+	["STEAM_0:0:72861849"] = "PixelTail",	// Madmijk
 }
 
 local function GetRole( steamid )
-	for _, title in pairs( Roles ) do
-		if title[1] == steamid then
-			return title[2]
-		end
-	end
+	return Roles[steamid]
 end
 
 function meta:IsHidden()
@@ -84,7 +80,7 @@ function meta:GetTitle()
 
 	title = GetRole( self:SteamID() )
 
-	local relationship = GetRelationship(self)
+	local relationship = CheckRelationshipCache(self)
 
 	if relationship != "" then
 		
