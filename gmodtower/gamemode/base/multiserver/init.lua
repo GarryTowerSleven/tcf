@@ -98,11 +98,14 @@ function GTowerServers:UpdateDatabase( playerstack )
 		return
 	end
 
+	local serverAddress = string.Explode( ":", game.GetIPAddress() )
+
 	local ServerID = self:GetServerId()
 	local PlayerData, PlayerCount = GetPlayerSQLIdHex()
 	local MapName =  SQL.getDB():Escape( string.lower( game.GetMap() ) ) //I don't know why I am escaping this
 	local GameMode = self:Gamemode()
 	local PassWord =  SQL.getDB():Escape( GetConVarString("sv_password") )
+	local Port = serverAddress[2]
 
 	if !MapName then
 		return
@@ -114,7 +117,8 @@ function GTowerServers:UpdateDatabase( playerstack )
 	end
 
 	local Query = "UPDATE `gm_servers` SET "
-	.. "`players`=" .. PlayerCount
+	.. "`port`=" .. Port
+	.. ",`players`=" .. PlayerCount
 	.. ",`maxplayers`=" .. game.MaxPlayers()
 	.. ",`map`='" .. MapName .. "'"
 	.. ",`gamemode`='" .. GameMode .. "'"
@@ -122,7 +126,6 @@ function GTowerServers:UpdateDatabase( playerstack )
 	.. ",`status`='" .. self:GetState() .. "'"
 	.. ",`playerlist`=" .. PlayerData .. ""
 	.. ",`lastupdate`=" .. os.time()
-
 	if playerstack then
 		Query = Query .. ",`lastplayers`=" .. playerstack .. ""
 	end
