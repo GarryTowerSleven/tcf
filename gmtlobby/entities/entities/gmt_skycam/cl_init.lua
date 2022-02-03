@@ -123,6 +123,10 @@ LocationOffsets["condolobby"] = {Pos = Vector(700,0,100),Ang = Angle(), Scale = 
 local LocationHardcodes = {}
 --LocationHardcodes["duels"] = { Pos = Vector(2000, -11670, 11500), Ang = Angle(0,180,0),Scale = 1}
 
+local duelCam = {
+    SpinAngle = 0,
+}
+
 local function GetSkyBoxOffset(loc)
 	local location = Location.Get(loc)
 	if not location then return end
@@ -162,13 +166,18 @@ local function GetSkyBoxOffset(loc)
 
 				if !DOldPos then DOldPos = pos end
 
-				DNewPos = LerpVector( FrameTime() * 4, DOldPos, pos )
+				local speed = UnPredictedCurTime()/10 * .2
+				duelCam.SpinAngle = duelCam.SpinAngle + FrameTime() * speed * 2
+				local spinHeight = math.atan(speed * math.pi/ 180) * 180 / math.pi
 
-				DOldPos = DNewPos
+				local angle = Angle(spinHeight, duelCam.SpinAngle, 0) + Angle( 30, 0, 0 )
+				local pos = (DOldPos + -angle:Up() * -600)
+				pos = pos + -angle:Forward() * 5500
+				pos = pos + -angle:Right() * 600
 
-				local pos1 = DNewPos - Vector(4000, -708.27087402344, -3487.96875)
+				local DOldPos = pos
 
-				return { Pos = pos1, Ang = ang, Scale = scl }, false
+				return { Pos = pos, Ang = angle, Scale = scl }, false
 
 			end
 		elseif LocationOffsets[locName] then
