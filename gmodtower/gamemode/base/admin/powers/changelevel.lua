@@ -31,7 +31,7 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 		if timer.Exists("ChangeLevelTimer") then
 			timer.Destroy("ChangeLevelTimer")
 			timer.Destroy("ChangeLevelWarning")
-			AdminNotif.SendStaff( name .. " has haulted the changelevel.", nil, "RED", 1 )
+			AdminNotif.SendStaff( name .. " has halted the changelevel.", nil, "RED", 1 )
 			GAMEMODE:ColorNotifyAll( "Halting map restart...", Color(255, 50, 50, 255) )
 			MsgC( co_color2, "Halting map restart...\n" )
 			SetGlobalInt( "NewTime", 0 )
