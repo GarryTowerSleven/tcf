@@ -359,6 +359,7 @@ end
 local function EndDuelClient( target, victim )
 
 	if IsValid( target ) then
+		ClearDuel( target )
 		net.Start( "EndDuelClient" )
 			net.WriteBool( true )
 			net.WritePlayer( victim )
@@ -366,6 +367,7 @@ local function EndDuelClient( target, victim )
 	end
 	
 	if IsValid( victim ) then
+		ClearDuel( victim )
 		net.Start( "EndDuelClient" )
 			net.WriteBool( false )
 			net.WritePlayer( target )
@@ -376,7 +378,7 @@ end
 
 local function EndDuel( victim, disconnected )
 
-    local target = victim:GetNWEntity( "DuelOpponent" )
+    local target = victim:GetNWEntity( "DuelOpponent", NULL )
 
 	target.RespawnVector = Vector( 4688, -565, -3520 )
 
@@ -385,7 +387,6 @@ local function EndDuel( victim, disconnected )
 	end
 
 	if disconnected and !IsValid( victim ) and Location.Is( target:Location(), "duelarena" ) then
-		ClearDuel( target )
 		EndDuelClient( target, NULL )
 		target.DuelRespawnDelay = 5 + CurTime()
 		target = nil
