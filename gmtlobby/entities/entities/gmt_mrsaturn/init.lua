@@ -57,19 +57,6 @@ function ENT:Initialize()
 		self.PlayerSaturn = self:GetOwner()
 	end
 
-	self:CheckOwnerFix()
-
-end
-
-function ENT:CheckOwnerFix()
-	timer.Simple(2,function()
-		if self:GetOwner() == null then return end
-		if IsValid( self:GetOwner() ) then
-			self:CheckOwnerFix()
-		else
-			self:Remove()
-		end
-	end)
 end
 
 function ENT:UpdatePetName()
@@ -329,6 +316,11 @@ function ENT:Scare()
 end
 
 function ENT:Think()
+
+	if !IsValid( self:GetOwner() ) then
+		self:Remove()
+		return
+	end
 
 	if IsValid(self:GetOwner()) then self:UpdatePetName() end
 

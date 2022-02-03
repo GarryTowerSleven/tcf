@@ -9,9 +9,7 @@ CreateClientConVar("gmt_petname_saturn","",true,true)
 
 function ENT:Initialize()
 
-	self.Hat = self.Hat or nil
 	self:SetupSchedules()
-
 	self:SetCLHat(math.random(1,#MrSaturnHatTable))
 
 end
