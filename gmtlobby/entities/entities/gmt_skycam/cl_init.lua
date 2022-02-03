@@ -141,8 +141,37 @@ local function GetSkyBoxOffset(loc)
 	local locName = string.lower(location.Name)
 
 	-- Location has priority
-	if locName then 
-		if LocationOffsets[locName] then
+	if locName then
+	
+		if Location.Is( LocalPlayer():Location(), "duels" ) then
+			local CamFound = false
+
+			local cam
+
+			if !CamFound then
+				for k,v in pairs( ents.FindByClass("gmt_duelcamera") ) do
+					pos = v:GetPos()
+					ang = v:GetAngles()
+					scl = 1
+					CamFound = true
+					cam = v
+				end
+			end
+
+			if CamFound then
+
+				if !DOldPos then DOldPos = pos end
+
+				DNewPos = LerpVector( FrameTime() * 4, DOldPos, pos )
+
+				DOldPos = DNewPos
+
+				local pos1 = DNewPos - Vector(4000, -708.27087402344, -3487.96875)
+
+				return { Pos = pos1, Ang = ang, Scale = scl }, false
+
+			end
+		elseif LocationOffsets[locName] then
 			return LocationOffsets[locName], true 
 		elseif LocationHardcodes[locName] then
 			return LocationHardcodes[locName], false 

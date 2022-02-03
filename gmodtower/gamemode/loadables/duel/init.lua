@@ -15,7 +15,9 @@ module( "Dueling", package.seeall )
 local DuelMessageColor = Color( 150, 35, 35, 255 )
 
 hook.Add( "CanPlayerSuicide", "DuelSuicide", function( ply )
+
 	if Dueling.IsDueling( ply ) then return false end
+
 end )
 
 hook.Add( "EntityTakeDamage", "EntityDamageExample", function( target, dmginfo )
@@ -50,14 +52,17 @@ local SnowSpawnPoints = {
 }
 
 concommand.Add( "gmt_dueldeny", function( ply, cmd, args )
+
 	local Inviter = ents.GetByIndex( args[1] )
 	if Inviter:GetNWBool( "HasSendInvite" ) then
 		Inviter:SetNWBool( "HasSendInvite", false )
 		Inviter:MsgT( "DuelDeny", ply:GetName() )
 	end
+
 end )
 
 concommand.Add( "gmt_duelaccept", function( ply, cmd, args )
+
 	local Inviter = ents.GetByIndex( args[1] )
 	if Dueling.IsDueling( ply ) || Dueling.IsDueling( Inviter ) then return end
 	if Inviter:GetNWBool( "HasSendInvite" ) then
@@ -81,9 +86,11 @@ concommand.Add( "gmt_duelaccept", function( ply, cmd, args )
 			end
 		end
 	end
+
 end )
 
 concommand.Add( "gmt_duelinvite", function( ply, cmd, args )
+
 	if Dueling.IsDueling( ply ) then
 		return
 	end
@@ -126,9 +133,11 @@ concommand.Add( "gmt_duelinvite", function( ply, cmd, args )
 		net.WritePlayer( Requester )
 		net.WriteString( WeaponName )
 	net.Broadcast()
+
 end )
 
 function StartDueling( Weapon, Requester, Arriver, Amount )
+
 	if !Requester:Alive() then
 		Requester:Spawn()
 	end
@@ -248,9 +257,11 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 		net.WritePlayer( Requester )
 		net.WritePlayer( Arriver )
 	net.Broadcast()
+
 end
 
 function GiveDuelerAmmo( ply )
+
 	ply:GiveAmmo( 250, "SMG1", true )
 	ply:GiveAmmo( 250, "AR2", true )
 	ply:GiveAmmo( 250, "AlyxGun", true )
@@ -274,42 +285,28 @@ function GiveDuelerAmmo( ply )
 	ply:GiveAmmo( 250, "HelicopterGun", true )
 	ply:GiveAmmo( 250, "AR2AltFire", true )
 	ply:GiveAmmo( 250, "slam", true )
+
 end
 
-local function RespawnWinner(ply)
-    timer.Simple( 5, function()
-		if !IsValid(ply) then return end
-		if IsDueling( ply ) || !Location.Is( ply:Location(), "duelarena" ) then return end
-        ply:StripWeapons()
-        ply.DesiredPosition = Vector(4688, -565, -3520)
-        ply:SetEyeAngles(Angle(0, 0, 0))
-    end )
-end
-
-local respawnDelay = 5
-
-local function RespawnDuelers(ply, opponent)
+function RespawnDuelers( ply )
 	
 	if IsValid(ply) then
+		ply.DuelRespawnDelay = nil
     	ply:StripWeapons()
 		ply:Spawn()
-    	ply:SetPos( Vector(4688, -565, -3520) )
-    	ply:SetEyeAngles(Angle(0, 0, 0))
-	end
-
-	if IsValid(opponent) then
-		opponent:StripWeapons()
-		opponent:Spawn()
-		opponent:SetPos( Vector(4688, -851, -3520) )
-    	opponent:SetEyeAngles(Angle(0, 0, 0))
+    	ply:SetPos( ply.RespawnVector )
+    	ply:SetEyeAngles( Angle( 0, 0, 0 ) )
+		ply.RespawnVector = nil
+		ply:SetNWEntity( "DuelOpponent", NULL )
 	end
 
 end
 
-local function ClearDuel(ply)
-	local ByDisconnect = net.ReadBool()
-    local Opponent = ply:GetNWEntity( "DuelOpponent" )
-	local Amount = tonumber( ply:GetNWInt( "DuelAmount" ) )
+local function ClearDuel( ply )
+
+	local ByDisconnect = !IsValid( ply:GetNWEntity( "DuelOpponent", NULL ) )
+    local Opponent = ply:GetNWEntity( "DuelOpponent", NULL )
+	local Amount = tonumber( ply:GetNWInt( "DuelAmount", 0 ) )
 
 	if IsValid( ply ) && !IsDueling( ply ) then return end
 	if IsValid( Opponent ) && !IsDueling( Opponent ) then return end
@@ -345,8 +342,8 @@ local function ClearDuel(ply)
 
 		GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel!", DuelMessageColor )
 	else
-		ply:SetCustomCollisionCheck( true )
 		ply:SetHealth( 100 )
+		ply:SetCustomCollisionCheck( true )
 		Opponent:SetHealth( 100 )
 		Opponent:SetCustomCollisionCheck( true )
 		
@@ -356,60 +353,73 @@ local function ClearDuel(ply)
 			GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel with "..Opponent:Name().."!", DuelMessageColor )
 		end
 	end
+
 end
 
-local function EndDuelClient( won, target, victim )
-	if IsValid( victim ) || IsValid( target ) then
+local function EndDuelClient( target, victim )
+
+	if IsValid( target ) then
 		net.Start( "EndDuelClient" )
-			net.WriteBool( won )
+			net.WriteBool( true )
 			net.WritePlayer( victim )
 		net.Send( target )
-
+	end
+	
+	if IsValid( victim ) then
 		net.Start( "EndDuelClient" )
 			net.WriteBool( false )
 			net.WritePlayer( target )
 		net.Send( victim )
 	end
+
 end
 
 local function EndDuel( victim, disconnected )
+
     local target = victim:GetNWEntity( "DuelOpponent" )
+
+	target.RespawnVector = Vector( 4688, -565, -3520 )
+
+	if IsValid( victim ) then
+		victim.RespawnVector = Vector( 4688, -851, -3520 )
+	end
 
 	if disconnected and !IsValid( victim ) and Location.Is( target:Location(), "duelarena" ) then
 		ClearDuel( target )
+		EndDuelClient( target, NULL )
+		target.DuelRespawnDelay = 5 + CurTime()
 		target = nil
-        EndDuelClient( won, target )
-	end
-
-	won = victim != target
-
-	if won then
-		ClearDuel( target )
+		return
 	end
 
 	target:SetNWEntity( "DuelOpponent", NULL )
 	victim:SetNWEntity( "DuelOpponent", NULL )
 
-    EndDuelClient( won, target, victim )
+    EndDuelClient( target, victim )
 
-	timer.Simple( respawnDelay, function()
-		RespawnDuelers( victim, target )
-		target:SetNWEntity( "DuelOpponent", NULL )
-		victim:SetNWEntity( "DuelOpponent", NULL )
-	end )
+	local respawnDelay = 5 + CurTime()
+
+	target.DuelRespawnDelay = respawnDelay
+	victim.DuelRespawnDelay = respawnDelay
+
 end
 
 hook.Add( "PostPlayerDeath", "DuelDeathCheck", function( ply )
+
 	if !Dueling.IsDueling( ply ) then return end
     EndDuel( ply, false )
+
 end )
 
 hook.Add( "PlayerDisconnected", "DisconnectDeathCheck", function(ply)
+
 	if !Dueling.IsDueling( ply ) then return end
     EndDuel( ply, true )
+
 end )
 
 net.Receive( "SuddenDeath",  function( _, ply )
+
 	local Opponent = ply:GetNWEntity( "DuelOpponent" )
 
 	if !Dueling.IsDueling( ply ) || !Dueling.IsDueling( Opponent ) then return end
@@ -432,11 +442,37 @@ net.Receive( "SuddenDeath",  function( _, ply )
 	if Dueling.IsDueling( ply ) then
 		ply:SetCustomCollisionCheck( true )
 	end
+
+end )
+
+
+hook.Add( "Think", "DuelingWinnerRespawn", function()
+
+	if #Location.GetPlayersInLocation( Location.GetIDByName( "duelarena" ) ) > 0 then
+
+		for k,v in pairs( Location.GetPlayersInLocation( Location.GetIDByName( "duelarena" ) ) ) do
+			if IsValid( v ) then
+				if v.DuelRespawnDelay != nil && v.DuelRespawnDelay < CurTime() then
+					RespawnDuelers( v )
+				end
+			end
+		end
+		
+	end
+
 end )
 
 hook.Add( "PlayerDeathThink", "DuelingPreventRespawn", function( ply )
+
 	if Location.Is( ply:Location(), "duelarena" ) then
-		return false
+		if ply.DuelRespawnDelay != nil && ply.DuelRespawnDelay < CurTime() then
+			if IsValid( ply ) then
+				RespawnDuelers( ply )
+				return
+			end
+		else
+			return false
+		end
 	else
 		if ( ply:IsBot() || ply:KeyPressed( IN_ATTACK ) || ply:KeyPressed( IN_ATTACK2 ) || ply:KeyPressed( IN_JUMP ) ) then
 			ply:Spawn()
@@ -444,12 +480,15 @@ hook.Add( "PlayerDeathThink", "DuelingPreventRespawn", function( ply )
 	end
 
 	return true
+
 end )
 
 hook.Add( "Location","DuelingPlayermodel", function( ply, loc, lastloc )
+
 	if IsValid( ply ) then
 		if Location.Is( loc, "duelarena" ) && Dueling.IsDueling( ply ) then
 			ply:SetModel( "models/player/anon/anon.mdl" )
 		end
 	end
+
 end )
