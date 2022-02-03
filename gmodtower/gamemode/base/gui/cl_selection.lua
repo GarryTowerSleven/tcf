@@ -389,19 +389,17 @@ function PANEL:SetMenu( menu, back )
 
 		self.Close:SetFunction( function()
 
-			if soundscape.IsPlaying("music_store") then
+			if soundscape.IsPlaying("music_store") || soundscape.IsPlaying("music_store_merchant") then
 				soundscape.Stop( "music_store", soundscape.FadeTime/2 )
-			elseif soundscape.IsPlaying("music_store_merchant") then 
 				soundscape.Stop( "music_store_merchant", soundscape.FadeTime/2 )
-			end
-
-			if GetConVar("gmt_bgmusic_enable"):GetBool() then
-				if wasPlaying then
-					soundscape.Play( wasPlaying, "music" )
-					wasPlaying = nil
-				else
-					local scape = soundscape.GetMusicSoundscape( LocalPlayer():Location() ) or "music_global_ambient"
-					soundscape.Play( scape, "music" )
+				if GetConVar("gmt_bgmusic_enable"):GetBool() then
+					if wasPlaying then
+						soundscape.Play( wasPlaying, "music" )
+						wasPlaying = nil 
+					else
+						local scape = soundscape.GetMusicSoundscape( LocalPlayer():Location() ) or "music_global_ambient"
+						soundscape.Play( scape, "music" )
+					end
 				end
 			end
 
