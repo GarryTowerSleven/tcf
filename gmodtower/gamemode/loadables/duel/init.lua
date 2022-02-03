@@ -302,9 +302,9 @@ function RespawnDuelers( ply )
 
 end
 
-local function ClearDuel( ply )
+local function ClearDuel( ply, disconnect )
 
-	local ByDisconnect = !IsValid( ply:GetNWEntity( "DuelOpponent", NULL ) )
+	local ByDisconnect = disconnect or false
     local Opponent = ply:GetNWEntity( "DuelOpponent", NULL )
 	local Amount = tonumber( ply:GetNWInt( "DuelAmount", 0 ) )
 
@@ -359,15 +359,14 @@ end
 local function EndDuelClient( target, victim )
 
 	if IsValid( target ) then
-		ClearDuel( target )
 		net.Start( "EndDuelClient" )
 			net.WriteBool( true )
 			net.WritePlayer( victim )
 		net.Send( target )
+		ClearDuel( target, !target:GetNWEntity( "DuelOpponent", NULL ) )
 	end
 	
 	if IsValid( victim ) then
-		ClearDuel( victim )
 		net.Start( "EndDuelClient" )
 			net.WriteBool( false )
 			net.WritePlayer( target )
@@ -387,16 +386,13 @@ local function EndDuel( victim, disconnected )
 	end
 
 	if disconnected and !IsValid( victim ) and Location.Is( target:Location(), "duelarena" ) then
-		EndDuelClient( target, NULL )
+		EndDuelClient( target, victim )
 		target.DuelRespawnDelay = 5 + CurTime()
 		target = nil
 		return
 	end
 
-	target:SetNWEntity( "DuelOpponent", NULL )
-	victim:SetNWEntity( "DuelOpponent", NULL )
-
-    EndDuelClient( target, victim )
+	EndDuelClient( target, victim )
 
 	local respawnDelay = 5 + CurTime()
 
