@@ -428,8 +428,10 @@ function GM:PlayerComplete(ply)
 
 	placement = placement + 1
 
+	local finishTime = string.FormattedTime( ply.RaceTime )
+
 	ply:SetNWInt( "Placement", placement )
-	ply:SetNWString( "CompletedTime", string.Replace(string.FormattedTime(ply.RaceTime, "%2i:%02i.%02i"), "0:", "") )
+	ply:SetNWString( "CompletedTime", tostring( " "..math.floor(finishTime.s).."."..math.floor(finishTime.ms) ) )
 
 	--PrintMessage( HUD_PRINTTALK, ply:Name()..' got '..PlacementPostfix(placement)..' place! Time Completed: '..string.FormattedTime(ply.RaceTime, "%02i:%02i:%02i")..'.' )
 	self:ColorNotifyAll( "LVL "..level.." #"..placement.." "..ply:Name().." |"..ply:GetNWString( "CompletedTime" ).."." )
