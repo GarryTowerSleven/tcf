@@ -21,6 +21,7 @@ CreateConVar("gmt_srvid", 4 )
 
 function GM:Initialize()
 	SetState(STATE_NOGAME)
+	SetTime(CurTime()+8)
 
 	GAMEMODE.LateSpawn = nil
 	GAMEMODE.RoundNum = 0
