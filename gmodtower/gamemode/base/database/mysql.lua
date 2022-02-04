@@ -1,3 +1,9 @@
+// Database Details
+local host = ""
+local user = ""
+local password = ""
+local database = ""
+
 local os, arch, mysqlooModulePath, mysqlooExists, sqlType
 
 // prevent doing on lua refreshes
@@ -57,7 +63,7 @@ function connectToDatabase()
 	if dbObject then return end
 	
 	// tmysql.Connect( host, user, pass, db, port, unixsocket, clientflags )
-	local db, err = tmysql.Connect("", "", "", "", 3306, nil, 3)
+	local db, err = tmysql.Connect(host, user, password, database, 3306, nil, 3)
 
 	if err then
 		kityPrint( "DATABASE FAILED TO CONNECT!", co_color2, "Database" )
