@@ -293,10 +293,10 @@ end
 
 hook.Add( "Think", "RoundController", function()
 	if GetState() == STATE_NOGAME && #player.GetAll() >= 1 then
-		if #player.GetAll() < 1 then return end
 		SetState( STATE_WAITING )
 		SetTime( CurTime() + GAMEMODE.WaitForPlayersTime )
 	elseif GetState() == STATE_WAITING && GetTimeLeft() <= 0 then
+		if GAMEMODE.RoundNum == 0 && #player.GetAll() < 1 then SetState( STATE_NOGAME ) return end
 		GAMEMODE:StartRound()
 	elseif GetState() == STATE_PLAYING && GetTimeLeft() <= 0 then
 		GAMEMODE:StopRound()
