@@ -64,7 +64,7 @@ GTowerStore.Stores = {
 	},
 	[GTowerStore.BALLRACE] = {
 		NpcClass = "gmt_npc_ballracer",
-		WindowTitle = "Ball Race Store",
+		WindowTitle = "Ball Racer Store",
 		ModelSize = 300,
 		CameraZPos = -2.5,
 		Logo = "ballrace"
