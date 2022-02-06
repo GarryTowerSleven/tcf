@@ -1,8 +1,8 @@
 // Database Details
-local host = "localhost"
-local user = "root"
-local password = "amgonasqlpass"
-local database = "gmtlobbydatadeluxe"
+local host = ""
+local user = ""
+local password = ""
+local database = ""
 
 local os, arch, mysqlooModulePath, mysqlooExists, sqlType
 
