@@ -356,7 +356,7 @@ function GM:ResetGame()
 
 			self:ColorNotifyAll( "You've failed too many times! Moving to the next level!" )
 		else
-			self:RoundMessage( MSGSHOW_LEVELFAIL )
+			self:RoundMessage( MSGSHOW_WORLDCOMPLETE )
 
 			self:ColorNotifyAll( "You've failed too many times! Ending game!" )
 
