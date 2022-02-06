@@ -144,10 +144,6 @@ end
 
 default_pm = 'models/player/kleiner.mdl'
 
-function Passed()
-	return ( ( #team.GetPlayers( TEAM_DEAD ) + #team.GetPlayers( TEAM_COMPLETED ) ) == #player.GetAll() )
-end
-
 function GetRaceTime()
 	return GAMEMODE.DefaultLevelTime-GAMEMODE:GetTimeLeft()
 end

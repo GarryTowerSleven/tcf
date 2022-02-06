@@ -10,7 +10,7 @@ function GAMEMODE:GiveMoney()
 
 		payout.Clear( ply )
 
-		local placement = ply:GetNWInt("Placement")
+		local placement = ply:GetNet( "CompletedRank" )
 
 		if ply:Team() == TEAM_COMPLETED then
 			payout.Give( ply, "Completed" )

@@ -38,7 +38,7 @@ local function CalculateRanks()
 
 	table.sort( Players, function( a, b )
 
-		local aScore, bScore = a:GetNWInt( "Placement" ), b:GetNWInt( "Placement" )
+		local aScore, bScore = a:GetNet( "CompletedRank" ), b:GetNet( "CompletedRank" )
 		return aScore < bScore
 
 	end )
@@ -68,7 +68,7 @@ end
 // Subtitle (under name)
 PlayerSubtitleText = function( ply )
 
-	local completedtime = ply:GetNWString( "CompletedTime", "" )
+	local completedtime = ply:GetNet( "CompletedTime" )
 	if completedtime and completedtime != "" then
 		return completedtime .. " secs"
 	end
@@ -114,7 +114,7 @@ end
 PlayerAvatarJazz = function( ply )
 
 	if GAMEMODE:GetState() != STATE_INTERMISSION then return false end
-	if not Passed() then return false end
+	if not GetWorldEntity():GetNet( "Passed" ) then return false end
 
 	CalculateRanks()
 

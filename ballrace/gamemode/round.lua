@@ -114,6 +114,7 @@ function GetNextSpawn()
 end
 
 function GM:UpdateStatus(disc)
+
 	if ( self:GetState() != STATE_PLAYING && self:GetState() != STATE_PLAYINGBONUS ) then return end
 
 	local dead = NumPlayers(TEAM_DEAD)
@@ -148,6 +149,7 @@ function GM:UpdateStatus(disc)
 			tries = 0
 			// Fokin' network delay
 			timer.Simple( 0.01, function() GAMEMODE:GiveMoney() end )
+			GetWorldEntity():SetNet( "Passed", true )
 
 			if NextMap then
 				if string.StartWith(game.GetMap(),"gmt_ballracer_memories") then
@@ -168,6 +170,7 @@ function GM:UpdateStatus(disc)
 				LateSpawn = BonusTeleport
 				ActiveTeleport = BonusTeleport
 				timer.Simple( 0.01, function() GAMEMODE:GiveMoney() end )
+				GetWorldEntity():SetNet( "Passed", true )
 			else
 				if tries < 2 then
 					self:RoundMessage( MSGSHOW_LEVELFAIL )
@@ -220,10 +223,11 @@ function GM:StartRound()
 
 		v:SetFrags(0)
 
-		v:SetNWString("CompletedTime","")
-		v:SetNWInt("Placement",100)
-		placement = 100
+		v:SetNet( "CompletedTime", "" )
+		v:SetNet( "CompletedRank", 99 )
 	end
+
+	GetWorldEntity():SetNet( "Passed", false )
 
 	local NextRoundTime
 	local NextRoundState
@@ -300,9 +304,11 @@ function GM:StartRound()
 	end
 
 	placement = 0
+
 end
 
 hook.Add( "Think", "RoundController", function()
+
 	if GAMEMODE:GetState() == STATE_WAITING && GAMEMODE:GetTimeLeft() <= 0 then
 		GAMEMODE:StartRound()
 	elseif ( GAMEMODE:GetState() == STATE_PLAYING || GAMEMODE:GetState() == STATE_PLAYINGBONUS ) && GAMEMODE:GetTimeLeft() <= 0 then
@@ -311,10 +317,13 @@ hook.Add( "Think", "RoundController", function()
 	elseif GAMEMODE:GetState() == STATE_INTERMISSION && GAMEMODE:GetTimeLeft() <= 0 then
 		GAMEMODE:StartRound()
 	end
+
 end )
 
 function GM:RestartLevel()
+
 	game.ConsoleCommand("changelevel " .. table.Random(Levels) .. "\n")
+
 end
 
 function GM:ResetGame()
@@ -382,9 +391,11 @@ function GM:ResetGame()
 		game.CleanUpMapEx()
 		GAMEMODE.SpawnPoints = nil
 	end )
+
 end
 
 function GM:LostPlayer(ply, disc)
+
 	if IsValid(ply.Ball) then
 		ply.Ball:Remove()
 	end
@@ -393,6 +404,7 @@ function GM:LostPlayer(ply, disc)
 	ply:SetBall(NULL)
 
 	GAMEMODE:UpdateStatus(disc)
+
 end
 
 function GM:SaveBestTime(ply, lvl, time, update)
@@ -451,6 +463,7 @@ function GM:GetBestTime(ply, lvl)
 end
 
 function GM:PlayerComplete(ply)
+
 	ply.RaceTime = GetRaceTime()
 	ply.NextSpawn = CurTime()
 	ply:KillSilent()
@@ -501,21 +514,25 @@ function GM:PlayerComplete(ply)
 
 	local finishTime = string.FormattedTime( ply.RaceTime )
 
-	ply:SetNWInt( "Placement", placement )
-	ply:SetNWString( "CompletedTime", tostring( " "..math.floor(finishTime.s).."."..math.floor(finishTime.ms) ) )
+	ply:SetNet( "CompletedRank", placement )
+	ply:SetNet( "CompletedTime", tostring( " "..math.floor(finishTime.s).."."..math.floor(finishTime.ms) ) )
 
 	--PrintMessage( HUD_PRINTTALK, ply:Name()..' got '..PlacementPostfix(placement)..' place! Time Completed: '..string.FormattedTime(ply.RaceTime, "%02i:%02i:%02i")..'.' )
-	self:ColorNotifyAll( "LVL "..level.." #"..placement.." "..ply:Name().." |"..ply:GetNWString( "CompletedTime" ).."." )
+	self:ColorNotifyAll( "LVL "..level.." #"..placement.." "..ply:Name().." |"..ply:GetNet( "CompletedTime" ).."." )
+
 end
 
 function GM:SpawnAllPlayers()
+
 	for k,v in ipairs(player.GetAll()) do
 		v:SetDeaths(GAMEMODE.Lives)
 		v:Spawn()
 	end
+
 end
 
 function GM:UpdateSpecs(ply, dead)
+
 	// don't bother updating specs when we're spawning
 	if self:GetState() == STATE_SPAWNING then return end
 
@@ -528,9 +545,11 @@ function GM:UpdateSpecs(ply, dead)
 			end
 		end
 	end
+
 end
 
 function GM:SpectateNext(ply)
+
 	local start = ply.Spectating
 
 	local newspec = start
@@ -561,9 +580,11 @@ function GM:SpectateNext(ply)
 	if players[newspec] then ent = players[newspec].Ball end
 
 	ply:SetBall(ent)
+
 end
 
 function PlacementPostfix(num)
+
 	if ( num == 1 ) then
 		return tostring(num.."st")
 	elseif ( num == 2 ) then
@@ -573,4 +594,5 @@ function PlacementPostfix(num)
 	elseif ( num > 3 ) then
 		return tostring(num.."th")
 	end
+
 end
