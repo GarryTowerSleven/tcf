@@ -338,7 +338,7 @@ function GM:ResetGame()
 			local NextLVL = GetNextSpawn()
 
 			if NextLVL == nil then
-				self:RoundMessage( MSGSHOW_LEVELFAIL )
+				self:RoundMessage( MSGSHOW_WORLDCOMPLETE )
 
 				self:ColorNotifyAll( "You've failed too many times! Ending game!" )
 
