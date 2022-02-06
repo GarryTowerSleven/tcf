@@ -322,6 +322,9 @@ function GM:AllowModel( ply, model )
 end
 
 net.Receive( "ClientFullyConnected", function( len, ply )
+	if !IsValid(ply) || ply:GetNWBool("FullyConnected") then return end
+
+	ply:SetNWBool("FullyConnected", true)
 	hook.Call("PlayerFullyJoined",GAMEMODE,ply)
 end )
 
