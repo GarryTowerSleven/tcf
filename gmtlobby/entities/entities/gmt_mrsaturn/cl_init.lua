@@ -86,6 +86,12 @@ function ENT:Think()
 		hat:SetPos(pos)
 		hat:SetAngles(ang)
 
+		if LocalPlayer():GetPos():DistToSqr( self:GetPos() ) > 500000 then
+			hat:SetNoDraw( true )
+		else
+			hat:SetNoDraw( false )
+		end
+
 	end
 
 	self:NextThink( CurTime() )
