@@ -166,13 +166,13 @@ local function GetSkyBoxOffset(loc)
 
 				if !DOldPos then DOldPos = pos end
 
-				local speed = UnPredictedCurTime()/10 * .2
-				duelCam.SpinAngle = duelCam.SpinAngle + FrameTime() * speed * 2
+				local speed = RealFrameTime() * 200
+				duelCam.SpinAngle = duelCam.SpinAngle + RealFrameTime() * speed
 				local spinHeight = math.atan(speed * math.pi/ 180) * 180 / math.pi
 
-				local angle = Angle(spinHeight, duelCam.SpinAngle, 0) + Angle( 30, 0, 0 )
+				local angle = Angle( 2, -duelCam.SpinAngle, 0) + Angle( 30, 0, 0 )
 				local pos = (DOldPos + -angle:Up() * -600)
-				pos = pos + -angle:Forward() * 5500
+				pos = pos + -angle:Forward() * 6500
 				pos = pos + -angle:Right() * 600
 
 				local DOldPos = pos
