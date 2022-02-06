@@ -32,7 +32,8 @@ function GAMEMODE:GiveMoney()
 			payout.Give( ply, "Rank3" )
 		end
 
-		if ply:Frags() > 0 && !ply:GetNWBool("Died") then
+		if ply:Frags() > 0 then
+			if ply:Team() != TEAM_COMPLETED && GAMEMODE.PreviousState == STATE_PLAYING then return end
 			payout.Give( ply, "Collected", ply:Frags() * 5 )
 		end
 
