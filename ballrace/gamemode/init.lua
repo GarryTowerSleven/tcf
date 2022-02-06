@@ -3,13 +3,11 @@ AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_choose.lua")
 AddCSLuaFile("cl_message.lua")
 AddCSLuaFile("sh_mapnames.lua")
-AddCSLuaFile("sh_player.lua")
 
 include("shared.lua")
 include("round.lua")
 include("player.lua")
 include("sql.lua")
-include("sh_player.lua")
 
 ActiveTeleport = nil
 NextMap = nil
@@ -20,27 +18,29 @@ afks = {}
 CreateConVar("gmt_srvid", 4 )
 
 function GM:Initialize()
-	SetState(STATE_NOGAME)
-	SetTime(CurTime()+8)
+
+	self:SetState( STATE_NOPLAY )
 
 	GAMEMODE.LateSpawn = nil
 	GAMEMODE.RoundNum = 0
 
-	SetGlobalInt( "Attempts", 0 )
 end
 
-hook.Add("GTAfk","BRAFK",function(afk,ply)
+hook.Add( "GTAfk", "BRAFK", function( afk, ply )
+
 	afks[ply] = afk
-end)
+
+end )
 
 hook.Add( "PlayerDisconnected", "NoPlayerCheck", function(ply)
 	
 	if ply:IsBot() then return end
 
-	timer.Simple(5,function()
+	timer.Simple( 5, function()
 		if player.GetCount() == 0 then GAMEMODE:EndServer() end
-	end)
-end)
+	end )
+
+end )
 
 function GM:Think()
 
@@ -63,26 +63,35 @@ function GM:Think()
 			GAMEMODE:LostPlayer(ply)
 		end
 	end
+
 end
 
 function NumPlayers(team)
+
 	local count = 0
+
 	for k,v in ipairs(player.GetAll()) do
 		if v:Team() == team then
 			count = count + 1
 		end
 	end
+
 	return count
+
 end
 
 local function PlayerSetup( ply )
+
 	ply:SetModel(default_pm)
-	timer.Simple(2.5,function()
+
+	timer.Simple( 2.5, function()
 		music.Play( 1, MUSIC_LEVEL, ply )
-	end)
+	end )
+
 end
 
 concommand.Add("gmt_requestballupdate",function(ply)
+
 	net.Start( 'GtBall' )
 		net.WriteInt( 0, 2 )
 		net.WriteBool(GTowerStore:GetPlyLevel(ply,"BallRacerCube") == 1)
@@ -93,6 +102,7 @@ concommand.Add("gmt_requestballupdate",function(ply)
 		net.WriteBool(GTowerStore:GetPlyLevel(ply,"BallRacerSoccerBall") == 1)
 		net.WriteBool(GTowerStore:GetPlyLevel(ply,"BallRacerSpikedd") == 1)
 	net.Send( ply )
+
 end)
 
 local function GamemodeNotFull()
@@ -102,9 +112,11 @@ end
 hook.Add( "PlayerInitialSpawn", "PlayerSetup", PlayerSetup )
 
 hook.Add( "PlayerSpawn", "whee", function( ply )
+
 	ply:SetNoDraw(true)
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
-end)
+
+end )
 
 hook.Add( "AFKNotFull", "GamemodeNotFull", GamemodeNotFull )
 
@@ -112,14 +124,16 @@ hook.Add( "AFKNotFull", "GamemodeNotFull", GamemodeNotFull )
 hook.Add( "AntiTranqEnable", "GamemodeAntiTranq", function() return false end )
 
 function GM:PlayerDeath( victim, inflictor, attacker )
-	if LateSpawn != nil && (LateSpawn:GetName() == 'bonus_start' || LateSpawn:GetName() == 'bns_start' || LateSpawn:GetName() == 'bonus') then
-	else
+
+	if ( self:GetState() != STATE_PLAYINGBONUS && self:GetState() != STATE_INTERMISSION ) then
 		victim:SetNWBool( "Died", true )
 		victim:SetNWBool( "Popped", true )
 	end
+
 end
 
 timer.Create( "AchiBallerRoll", 60.0, 0, function()
+
 	for _, v in pairs( player.GetAll() ) do
 		if v:AchievementLoaded() then
 			v:AddAchievement( ACHIEVEMENTS.BRBALLERROLL, 1 )

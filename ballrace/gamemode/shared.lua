@@ -1,13 +1,5 @@
-include("sh_mapnames.lua")
-
-GM.Name     = "GMod Tower: Ballrace"
-GM.Author   = "GMT Crew~"
-GM.Website  = "http://www.gmtower.org/"
-
---DeriveGamemode("base")
-
-DeriveGamemode( "gmtgamemode" )
-
+// === GMT SETUP ===
+DeriveGamemode("gmtgamemode")
 SetupGMTGamemode( "Ball Race", "ballrace", {
 	DrawHatsAlways = true, // Always draw hats
 	AllowMenu = true, // Allow hook into menu events
@@ -16,70 +8,81 @@ SetupGMTGamemode( "Ball Race", "ballrace", {
 	ChatScrollColor = Color( 89, 49, 22, 255 ), // Color of the chat scroll bar gui
 } )
 
-
+// === GAMEMODE GLOBALS ===
 GM.Lives = 2
-GM.Tries = 3
-
-if game.GetMap() == "gmt_ballracer_midori02" or game.GetMap() == "gmt_ballracer_midorib5" then
-	GM.DefaultLevelTime = 120
-	GM.Lives = 3
-elseif game.GetMap() == "gmt_ballracer_memories02" then
-	GM.DefaultLevelTime = 70
-	GM.Lives = 3
-elseif game.GetMap() == "gmt_ballracer_tranquil01" then
-	GM.DefaultLevelTime = 70
-elseif game.GetMap() == "gmt_ballracer_facile" then
-	GM.DefaultLevelTime = 70
-	GM.Lives = 3
-else
+GM.MaxFailedAttempts = 3 // max times players can repeat the same level if they fail
 GM.DefaultLevelTime = 60
+
+// Memories is harder!
+if Maps.IsMap( "gmt_ballracer_memories" ) then
+	GM.DefaultLevelTime = GM.DefaultLevelTime + 10
+	GM.Lives = 3
 end
+
+if Maps.IsMap( "gmt_ballracer_midori" ) then
+	GM.DefaultLevelTime = GM.DefaultLevelTime * 2
+	GM.Lives = 3
+end
+
+if Maps.IsMap( "gmt_ballracer_tranquil" ) then
+	GM.DefaultLevelTime = GM.DefaultLevelTime + 10
+end
+
+if game.GetMap() == "gmt_ballracer_facile" then
+	GM.DefaultLevelTime = GM.DefaultLevelTime + 10
+	GM.Lives = 3
+end
+
+
+// === GAMEMODE NETVARS ===
+RegisterNWTableGlobal( {
+	{"Passed", false, NWTYPE_BOOLEAN, REPL_EVERYONE },
+} )
+
+RegisterNWTablePlayer( {
+	{"CompletedTime", "", NWTYPE_STRING, REPL_EVERYONE },
+	{"CompletedRank", 99, NWTYPE_NUMBER, REPL_EVERYONE },
+} )
+
+// === STATES ===
+STATE_WAITING = 1
+STATE_PLAYING = 2
+STATE_PLAYINGBONUS = 3
+STATE_INTERMISSION = 4
+STATE_SPAWNING = 5
+
+MSGSHOW_LEVELCOMPLETE = 1
+MSGSHOW_LEVELFAIL = 2
+MSGSHOW_WORLDCOMPLETE = 3
+
+TEAM_PLAYERS = 1
+TEAM_DEAD = 2
+TEAM_COMPLETED = 3
 
 GM.IntermissionTime = 6
 GM.WaitForPlayersTime = 60
 
-default_pm = 'models/player/kleiner.mdl'
-
-function Passed()
-	return ( ( #team.GetPlayers( TEAM_DEAD ) + #team.GetPlayers( TEAM_COMPLETED ) ) == #player.GetAll() )
-end
-
-function SetTime(lvltime)
-	SetGlobalInt("GTIME", lvltime);
-end
-
-function GetTime()
-	return GetGlobalInt("GTIME", 0);
-end
-
-function GetTimeLeft()
-	return GetTime() - CurTime()
-end
-
-function GetRaceTime()
-	return GAMEMODE.DefaultLevelTime-GetTimeLeft()
-end
-
-SetTime(GM.DefaultLevelTime)
+MUSIC_LEVEL = 1
+MUSIC_BONUS = 2
 
 Levels = {
-"gmt_ballracer_grassworld01",
-"gmt_ballracer_iceworld03",
-"gmt_ballracer_khromidro02",
-"gmt_ballracer_memories02",
-"gmt_ballracer_metalworld",
-"gmt_ballracer_midori02",
-"gmt_ballracer_neonlights01",
-"gmt_ballracer_nightball",
-"gmt_ballracer_paradise03",
-"gmt_ballracer_sandworld02",
-"gmt_ballracer_skyworld01",
-"gmt_ballracer_spaceworld01",
-"gmt_ballracer_waterworld02",
-"gmt_ballracer_facile",
-"gmt_ballracer_flyinhigh01",
-"gmt_ballracer_tranquil01",
-"gmt_ballracer_rainbowworld"
+	"gmt_ballracer_grassworld01",
+	"gmt_ballracer_iceworld03",
+	"gmt_ballracer_khromidro02",
+	"gmt_ballracer_memories02",
+	"gmt_ballracer_metalworld",
+	"gmt_ballracer_midori02",
+	"gmt_ballracer_neonlights01",
+	"gmt_ballracer_nightball",
+	"gmt_ballracer_paradise03",
+	"gmt_ballracer_sandworld02",
+	"gmt_ballracer_skyworld01",
+	"gmt_ballracer_spaceworld01",
+	"gmt_ballracer_waterworld02",
+	"gmt_ballracer_facile",
+	"gmt_ballracer_flyinhigh01",
+	"gmt_ballracer_tranquil01",
+	"gmt_ballracer_rainbowworld"
 }
 
 LevelMusic = {
@@ -112,31 +115,43 @@ function GetMusicDuration()
 	return LevelMusic[LevelMapSelect][2]
 end
 
-GM.ExplodeSound	= "weapons/ar2/npc_ar2_altfire.wav"
-
-STATE_NOGAME = 0
-STATE_WAITING = 1
-STATE_PLAYING = 2
-STATE_INTERMISSION = 3
-STATE_SPAWNING = 4
-STATE_ENDING = 5
-
-TEAM_PLAYERS = 1
-TEAM_DEAD = 2
-TEAM_COMPLETED = 3
-
---GLoadables:RequireModule( "scoreboard" )
-
-function SetState(state)
-	SetGlobalInt("GamemodeState", state);
+if Maps.IsMap( "gmt_ballracer_khromidro" ) then
+	music.Register( MUSIC_LEVEL, GetMusicSelection(), { Length = 322 * ( 1 / .75 ), Pitch = 75, Loops = true } )
+else
+	music.Register( MUSIC_LEVEL, GetMusicSelection(), { Loops = true, Length = GetMusicDuration() } )
 end
 
-function GetState()
-	return GetGlobalInt("GamemodeState");
+music.Register( MUSIC_BONUS, "balls/bonusstage" )
+
+GM.ExplodeSound = Sound("weapons/ar2/npc_ar2_altfire.wav")
+GM.FilteredEnts = {}
+
+if Maps.IsMap( "gmt_ballracer_iceworld" ) then
+
+	game.AddParticles("particles/stormfront.pcf")
+	PrecacheParticleSystem("env_snow_stormfront_001")
+	PrecacheParticleSystem("env_snow_stormfront_mist")
+
+end
+
+function GM:Initialize()
+
+	// Setup camera filters
+	table.Add( self.FilteredEnts, ents.FindByModel( "tubes_*" ) )
+
+end
+
+default_pm = 'models/player/kleiner.mdl'
+
+function Passed()
+	return ( ( #team.GetPlayers( TEAM_DEAD ) + #team.GetPlayers( TEAM_COMPLETED ) ) == #player.GetAll() )
+end
+
+function GetRaceTime()
+	return GAMEMODE.DefaultLevelTime-GAMEMODE:GetTimeLeft()
 end
 
 local novel = Vector(0,0,0)
-
 function GM:Move(ply, movedata)
 	movedata:SetForwardSpeed(0)
 	movedata:SetSideSpeed(0)
@@ -161,32 +176,12 @@ end
 
 local Player = FindMetaTable("Player")
 
-function Player:SetBall(ent)
-	self:SetOwner(ent)
-end
-
-function Player:GetBall()
-	return self:GetOwner()
-end
-
 function GM:ShouldCollide(ent1, ent2)
 	if !self.CollisionsEnabled && ent1:GetClass() == "player_ball" && ent2:GetClass() == "player_ball" then
 		return false
 	end
 	return true
 end
-
-MUSIC_LEVEL = 1
-MUSIC_BONUS = 2
-
-if game.GetMap() == "gmt_ballracer_khromidro02" then
-	music.Register( MUSIC_LEVEL, GetMusicSelection(), { Length = 322 * ( 1 / .75 ), Pitch = 75, Loops = true } )
-else
-	music.Register( MUSIC_LEVEL, GetMusicSelection(), { Loops = true, Length = GetMusicDuration() } )
-end
-
-music.Register( MUSIC_BONUS, "balls/bonusstage" )
-
 
 function Player:CameraTrace(ball, dist, angles)
 
@@ -205,4 +200,12 @@ function Player:CameraTrace(ball, dist, angles)
 	return ballorigin + angles:Forward() * -dist * 0.95, dist
 	//MASK_SOLID_BRUSHONLY
 
+end
+
+function Player:SetBall(ent)
+	self:SetOwner(ent)
+end
+
+function Player:GetBall()
+	return self:GetOwner()
 end

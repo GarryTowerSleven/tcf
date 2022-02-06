@@ -113,7 +113,7 @@ end
 // Jazz the player avatar? (for winner only)
 PlayerAvatarJazz = function( ply )
 
-	if GetState() != STATE_INTERMISSION then return false end
+	if GAMEMODE:GetState() != STATE_INTERMISSION then return false end
 	if not Passed() then return false end
 
 	CalculateRanks()

@@ -99,8 +99,8 @@ function GM:HUDPaint()
 		speed = LocalPlayer().Speed or 0
 	end
 
-	local state = GetState()
-	local endtime = GetTime() or 0
+	local state = self:GetState()
+	local endtime = self:GetTime() or 0
 
 	local timeleft = endtime - CurTime()
 	local timeformat = string.FormattedTime(timeleft, "%02i:%02i")
@@ -311,16 +311,6 @@ end
 hook.Add("KeyPress", "MouseEnable", MouseEnable)
 hook.Add("KeyRelease", "MouseDisable", MouseDisable)
 hook.Add("GUIMousePressed", "MouseClick", MouseClick)
-
-local hide = {
-	CHudHealth = true,
-	CHudBattery = true,
-	CHudAmmo = true,
-}
-
-hook.Add( "HUDShouldDraw", "HideHUD", function( name )
-	if ( hide[ name ] ) then return false end
-end )
 
 ConVarPlayerFade = CreateClientConVar( "gmt_ballrace_fade", 0, true )
 

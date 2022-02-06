@@ -1,6 +1,10 @@
 function SetupGMTGamemode( name, folder, settings )
 
-	GM.Name = "GMod Tower: " .. name
+	GM.Name = "[GMT: Deluxe] " .. name
+
+	if SERVER then
+		game.ConsoleCommand('hostname "' .. GM.Name .. '" \n')
+	end
 
 	if Loadables then
 
@@ -11,6 +15,7 @@ function SetupGMTGamemode( name, folder, settings )
 			"afk",
             "scoreboard3",
 		}
+
 		if settings.Loadables then
 			table.Add( defaultLoadables, settings.Loadables )
 		end
@@ -131,6 +136,8 @@ function SetupGMTGamemode( name, folder, settings )
 			hook.Add( "CanMousePress", "DisableClientMenu", function() return false end )
 		end
 
+		HudToHide = GtowerHudToHide
+
 		-- Hide HUD elements
 		table.uinsert( HudToHide, "CHudChat" )
 		table.uinsert( HudToHide, "CHudHealth" )
@@ -217,26 +224,24 @@ function SetupGMTGamemode( name, folder, settings )
 
 end
 
-/*globalnet.Register( "Int", "State" )
-globalnet.Register( "Float", "Time" )*/
-
--- STATE
+// STATE
 STATE_NOPLAY = 0
 
 function GM:SetState( state )
 	if not state then return end
 	MsgN( "[GMode] Setting state: " .. state )
-	globalnet.SetNet( "State", state )
-	self.State = state
+	SetGlobalInt( "State", state )
+	self.State = GetGlobalInt( "State", 0 )
 end
 
 function GM:GetState()
-	return self.State or globalnet.GetNet( "State" ) or 0
+	return self.State || GetGlobalInt( "State", 0 )
 end
 
 function GM:IsPlaying()
-	return globalnet.GetNet( "State" ) == STATE_PLAYING
+	return self:GetState() == STATE_PLAYING
 end
+
 
 -- TIME
 function GM:GetTimeLeft()
@@ -255,28 +260,32 @@ end
 function GM:SetTime( time )
 	if not time then return end
 	MsgN( "[GMode] Setting time: " .. time )
-	globalnet.SetNet( "Time", CurTime() + time )
+	SetGlobalFloat( "Time", CurTime() + time )
+	self.Time = GetGlobalFloat( "Time" )
 end
 
 function GM:GetTime()
-	return globalnet.GetNet( "Time" )
+	return self.Time || GetGlobalFloat( "Time" )
 end
+
+
+-- ROUNDS
+function GM:GetRoundCount()
+	return GetWorldEntity():GetNet( "Round" ) or 0
+end
+
 
 -- CONCOMMANDS
-if SERVER then
+concommand.Add( "gmt_setstate", function( ply, cmd, args ) 
 
-	concommand.Add( "gmt_setstate", function( ply, cmd, args ) 
+	if !ply:IsAdmin() then return end
+	GAMEMODE:SetState( tonumber( args[1] ) )
 
-		if !ply:IsAdmin() then return end
-		GAMEMODE:SetState( tonumber( args[1] ) )
+end )
 
-	end )
+concommand.Add( "gmt_settime", function( ply, cmd, args ) 
 
-	concommand.Add( "gmt_settime", function( ply, cmd, args ) 
+	if !ply:IsAdmin() then return end
+	GAMEMODE:SetTime( tonumber( args[1] ) )
 
-		if !ply:IsAdmin() then return end
-		GAMEMODE:SetTime( tonumber( args[1] ) )
-
-	end )
-
-end
+end )

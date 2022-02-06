@@ -39,6 +39,12 @@ hook.Add("GTowerMsg", "GamemodeMessage", function()
 	end
 end )
 
+function GM:RoundMessage( msg )
+	net.Start("roundmessage")
+		net.WriteInt( msg, 3 )
+	net.Broadcast()
+end
+
 function GetNextSpawn()
 
 	// Check if it's lvl 1.
@@ -108,7 +114,7 @@ function GetNextSpawn()
 end
 
 function GM:UpdateStatus(disc)
-	if GetState() != STATE_PLAYING then return end
+	if ( self:GetState() != STATE_PLAYING && self:GetState() != STATE_PLAYINGBONUS ) then return end
 
 	local dead = NumPlayers(TEAM_DEAD)
 	local complete = NumPlayers(TEAM_COMPLETED)
@@ -146,37 +152,29 @@ function GM:UpdateStatus(disc)
 					for k,v in pairs(player.GetAll()) do v:AddAchievement( ACHIEVEMENTS.BRMEMORIES, 1 ) end
 				end
 				for k,v in pairs(player.GetAll()) do if !v:GetNWBool("Popped") then v:AddAchievement( ACHIEVEMENTS.BRUNPOPABLE, 1 ) end end
-				net.Start("roundmessage")
-					net.WriteInt( 3, 3 )
-				net.Broadcast()
+				self:RoundMessage( MSGSHOW_WORLDCOMPLETE )
 			else
-				net.Start("roundmessage")
-					net.WriteInt( 1, 3 )
-				net.Broadcast()
+				self:RoundMessage( MSGSHOW_LEVELCOMPLETE )
 			end
 			LateSpawn = ActiveTeleport
 		else
 			if LateSpawn != nil && (LateSpawn:GetName() == 'bonus_start' || LateSpawn:GetName() == 'bns_start' || LateSpawn:GetName() == 'bonus') then
-				net.Start("roundmessage")
-					net.WriteInt( 1, 3 )
-				net.Broadcast()
+				self:RoundMessage( MSGSHOW_LEVELCOMPLETE )
 				LateSpawn = BonusTeleport
 				ActiveTeleport = BonusTeleport
 				timer.Simple( 0.2, function() GAMEMODE:GiveMoney() end )
 			else
-				net.Start("roundmessage")
-					if tries < 3 then
-						net.WriteInt( 2, 3 )
-					else
-						net.WriteInt( 1, 3 )
-					end
-				net.Broadcast()
+				if tries < 2 then
+					self:RoundMessage( MSGSHOW_LEVELFAIL )
+				else
+					self:RoundMessage( MSGSHOW_LEVELCOMPLETE )
+				end
 				self:ResetGame(true)
 			end
 		end
 
-		SetState(STATE_INTERMISSION)
-		SetTime(CurTime()+self.IntermissionTime)
+		self:SetState( STATE_INTERMISSION )
+		self:SetTime( self.IntermissionTime )
 	end
 end
 
@@ -195,7 +193,7 @@ function GM:StartRound()
 
 	if NextMap then
 		self:EndServer()
-		SetState(STATE_ENDING)
+		self:SetState( STATE_ENDING )
 		return
 	end
 
@@ -203,7 +201,7 @@ function GM:StartRound()
 		v:Remove()
 	end
 
-	SetState(STATE_SPAWNING)
+	self:SetState( STATE_SPAWNING )
 	GAMEMODE:SpawnAllPlayers()
 
 	for k,v in pairs(player.GetAll()) do
@@ -218,17 +216,20 @@ function GM:StartRound()
 	end
 
 	local NextRoundTime
+	local NextRoundState
 
 	if LateSpawn != nil && (LateSpawn:GetName() == 'bonus_start' || LateSpawn:GetName() == 'bns_start' || LateSpawn:GetName() == 'bonus') then
 		music.Play( 1, MUSIC_BONUS )
-		NextRoundTime = (GAMEMODE.DefaultLevelTime/2)
+		NextRoundState = STATE_PLAYINGBONUS
+		NextRoundTime = ( self.DefaultLevelTime/2 )
 	else
 		music.Play( 1, MUSIC_LEVEL )
-		NextRoundTime = GAMEMODE.DefaultLevelTime
+		NextRoundState = STATE_PLAYING
+		NextRoundTime = self.DefaultLevelTime
 	end
 
-	SetState(STATE_PLAYING)
-	SetTime(CurTime() + NextRoundTime)
+	self:SetState( NextRoundState )
+	self:SetTime( NextRoundTime )
 
 	local banana = ents.Create( "secret_banana" )
 
@@ -292,15 +293,12 @@ function GM:StartRound()
 end
 
 hook.Add( "Think", "RoundController", function()
-	if GetState() == STATE_NOGAME && GetTimeLeft() <= 0 && #player.GetAll() >= 1 then
-		SetState( STATE_WAITING )
-		SetTime( CurTime() + GAMEMODE.WaitForPlayersTime )
-	elseif GetState() == STATE_WAITING && GetTimeLeft() <= 0 then
+	if GAMEMODE:GetState() == STATE_WAITING && GAMEMODE:GetTimeLeft() <= 0 then
 		GAMEMODE:StartRound()
-	elseif GetState() == STATE_PLAYING && GetTimeLeft() <= 0 then
+	elseif ( GAMEMODE:GetState() == STATE_PLAYING || GAMEMODE:GetState() == STATE_PLAYINGBONUS ) && GAMEMODE:GetTimeLeft() <= 0 then
 		GAMEMODE:StopRound()
 		GAMEMODE:UpdateStatus(false)
-	elseif GetState() == STATE_INTERMISSION && GetTimeLeft() <= 0 then
+	elseif GAMEMODE:GetState() == STATE_INTERMISSION && GAMEMODE:GetTimeLeft() <= 0 then
 		GAMEMODE:StartRound()
 	end
 end )
@@ -315,7 +313,7 @@ function GM:ResetGame()
 
 	tries = tries + 1
 
-	if tries == GAMEMODE.Tries then
+	if tries == GAMEMODE.MaxFailedAttempts then
 		tries = 0
 
 		local lvls = {}
@@ -330,15 +328,13 @@ function GM:ResetGame()
 			local NextLVL = GetNextSpawn()
 
 			if NextLVL == nil then
-				net.Start("roundmessage")
-					net.WriteInt( 2, 3 )
-				net.Broadcast()
+				self:RoundMessage( MSGSHOW_LEVELFAIL )
 
 				self:ColorNotifyAll( "You've failed too many times! Ending game!" )
 
 				timer.Simple(4,function()
 					self:EndServer()
-					SetState(STATE_ENDING)
+					self:SetState( STATE_ENDING )
 				end)
 				return
 			end
@@ -350,15 +346,13 @@ function GM:ResetGame()
 
 			self:ColorNotifyAll( "You've failed too many times! Moving to the next level!" )
 		else
-			net.Start("roundmessage")
-				net.WriteInt( 2, 3 )
-			net.Broadcast()
+			self:RoundMessage( MSGSHOW_LEVELFAIL )
 
 			self:ColorNotifyAll( "You've failed too many times! Ending game!" )
 
 			timer.Simple( 4, function()
 				self:EndServer()
-				SetState(STATE_ENDING)
+				self:SetState( STATE_ENDING )
 			end )
 		end
 
@@ -513,7 +507,7 @@ end
 
 function GM:UpdateSpecs(ply, dead)
 	// don't bother updating specs when we're spawning
-	if GetState() == STATE_SPAWNING then return end
+	if self:GetState() == STATE_SPAWNING then return end
 
 	for k,v in ipairs(player.GetAll()) do
 		if v:Team() != TEAM_PLAYERS && v.Spectating == ply:EntIndex() then
