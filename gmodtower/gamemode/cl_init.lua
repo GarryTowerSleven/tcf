@@ -17,6 +17,10 @@ end )
 hook.Add( "CalcView", "FullyConnected", function()
 	hook.Remove( "CalcView", "FullyConnected" )
 	
+	if LocalPlayer():GetNWBool("FullyConnected") then return end
+
+	hook.Call("LocalFullyJoined", GAMEMODE)
+
 	net.Start( "ClientFullyConnected" )
 	net.SendToServer()
 end )
