@@ -244,6 +244,18 @@ function initHud()
 	GTowerHUD.VolumeSlider:SetPos( GTowerHUD.Info.X + 16 + 4, GTowerHUD.Info.Y - 24 )
 	GTowerHUD.VolumeSlider:SetVisible( false )
 
+	local StaticMat = Material( "room209/static" )
+
+	function GTowerHUD.DrawStatic( amount )
+
+		amount = amount / 100 * 255
+
+		surface.SetMaterial( StaticMat )
+		surface.SetDrawColor( Color( 255, 255, 255, amount ) )
+		surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() )
+
+	end
+
 	function GTowerHUD.DrawVolumeIcon()
 
 		if !HUDStyle_L2 then return end
@@ -735,6 +747,11 @@ function initHud()
 	end
 
 	function GTowerHUD.Paint()
+
+		if Location.Is( LocalPlayer():Location(), "secret_entrance" ) then
+			local dist = LocalPlayer():GetPos():Distance(Vector(2550, 5009, -780))
+			GTowerHUD.DrawStatic( math.Clamp(255 - (dist/3),0,200) )
+		end
 
 		if !GTowerHUD.ShouldDraw() then return end
 

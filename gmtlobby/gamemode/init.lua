@@ -621,3 +621,13 @@ hook.Add("PhysgunDrop", "ResetPISCollisions", function(pl, ent)
 		ent:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
 	end
 end)
+
+hook.Add( "Location", "BWDev", function( ply, loc )
+
+	if Location.Is( loc, "secret_hallway" ) || Location.Is( loc, "secret_devhq" ) then
+		PostEvent( ply, "bw_on" )
+	else
+		PostEvent( ply, "bw_off" )
+	end
+
+ end )
