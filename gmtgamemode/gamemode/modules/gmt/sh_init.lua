@@ -274,18 +274,21 @@ function GM:GetRoundCount()
 	return GetWorldEntity():GetNet( "Round" ) or 0
 end
 
+if SERVER then
+	-- CONCOMMANDS
+	concommand.Add( "gmt_setstate", function( ply, cmd, args ) 
 
--- CONCOMMANDS
-concommand.Add( "gmt_setstate", function( ply, cmd, args ) 
+		if !ply:IsAdmin() then return end
+		ply:PrintMessage( HUD_PRINTCONSOLE, "[GMode] Setting state: " .. args[1] )
+		GAMEMODE:SetState( tonumber( args[1] ) )
 
-	if !ply:IsAdmin() then return end
-	GAMEMODE:SetState( tonumber( args[1] ) )
+	end )
 
-end )
+	concommand.Add( "gmt_settime", function( ply, cmd, args ) 
 
-concommand.Add( "gmt_settime", function( ply, cmd, args ) 
+		if !ply:IsAdmin() then return end
+		ply:PrintMessage( HUD_PRINTCONSOLE, "[GMode] Setting time: " .. args[1] )
+		GAMEMODE:SetTime( tonumber( args[1] ) )
 
-	if !ply:IsAdmin() then return end
-	GAMEMODE:SetTime( tonumber( args[1] ) )
-
-end )
+	end )
+end
