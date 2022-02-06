@@ -23,6 +23,7 @@ function GM:Initialize()
 
 	GAMEMODE.LateSpawn = nil
 	GAMEMODE.RoundNum = 0
+	GAMEMODE.PreviousState = self:GetState()
 
 end
 

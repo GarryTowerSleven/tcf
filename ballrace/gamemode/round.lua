@@ -132,6 +132,8 @@ function GM:UpdateStatus(disc)
 
 	if dead + complete >= total then
 
+		self.PreviousState = self:GetState()
+
 		if complete > 0 then
 
 			for k,v in pairs(player.GetAll()) do
@@ -145,7 +147,7 @@ function GM:UpdateStatus(disc)
 			timer.Simple( 1.25, function() level = level + 1 end )
 			tries = 0
 			// Fokin' network delay
-			timer.Simple( 0.2, function() GAMEMODE:GiveMoney() end )
+			timer.Simple( 0.01, function() GAMEMODE:GiveMoney() end )
 
 			if NextMap then
 				if string.StartWith(game.GetMap(),"gmt_ballracer_memories") then
@@ -156,13 +158,16 @@ function GM:UpdateStatus(disc)
 			else
 				self:RoundMessage( MSGSHOW_LEVELCOMPLETE )
 			end
+
 			LateSpawn = ActiveTeleport
+
 		else
+
 			if LateSpawn != nil && (LateSpawn:GetName() == 'bonus_start' || LateSpawn:GetName() == 'bns_start' || LateSpawn:GetName() == 'bonus') then
 				self:RoundMessage( MSGSHOW_LEVELCOMPLETE )
 				LateSpawn = BonusTeleport
 				ActiveTeleport = BonusTeleport
-				timer.Simple( 0.2, function() GAMEMODE:GiveMoney() end )
+				timer.Simple( 0.01, function() GAMEMODE:GiveMoney() end )
 			else
 				if tries < 2 then
 					self:RoundMessage( MSGSHOW_LEVELFAIL )
@@ -171,20 +176,25 @@ function GM:UpdateStatus(disc)
 				end
 				self:ResetGame(true)
 			end
+
 		end
 
 		self:SetState( STATE_INTERMISSION )
 		self:SetTime( self.IntermissionTime )
+
 	end
+
 end
 
 function GM:StopRound()
+
 	for k,v in ipairs(player.GetAll()) do
 		if v:Team() == TEAM_PLAYERS then
 			v:SetDeaths(1)
 			v:Kill()
 		end
 	end
+
 end
 
 function GM:StartRound()
