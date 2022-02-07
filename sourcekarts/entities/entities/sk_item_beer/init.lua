@@ -41,6 +41,7 @@ function ENT:Touch(v)
 
     if v:GetIsInvincible() then
       v:EmitSound( SOUND_REFLECT, 80 )
+      self:Remove()
       return
     end
 

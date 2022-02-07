@@ -55,6 +55,11 @@ function ENT:Touch(v)
 
     if v:GetIsInvincible() then
       v:EmitSound( SOUND_REFLECT, 80 )
+      local vPoint = self:GetPos()
+      local effectdata = EffectData()
+      effectdata:SetOrigin( vPoint )
+      util.Effect( "blob_explode", effectdata )
+      self:Remove()
       return
     end
 
