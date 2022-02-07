@@ -84,6 +84,10 @@ function meta:AddMoney( amount, nosend )
 
 end
 
+function meta:GiveMoney( amount, nosend )
+	self:AddMoney( amount, nosend )
+end
+
 function meta:Afford( price )
     return self:Money() >= price
 end
