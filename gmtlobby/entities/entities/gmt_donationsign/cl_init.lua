@@ -113,6 +113,8 @@ function ENT:DrawTranslucent()
 		surface.SetDrawColor( 0, 0, 0, 80 )
 		surface.DrawRect( 0, 0, w, h )
 
+		draw.SimpleShadowText( "Welcome to", imgui.xFont("!Roboto@24"), w/2, 170, color_white, Color(0,0,0,50), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2 )
+
 		surface.SetDrawColor( 255,255,255 )
 		surface.SetMaterial( loadMat or Material("icon16/monkey.png") )
 		local imgS = 1
