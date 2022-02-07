@@ -183,11 +183,13 @@ hook.Add( "PostDrawOpaqueRenderables", "ChangeLog", function()
 		Color( 255, 255, 255, 255 ),
 		TEXT_ALIGN_LEFT)
 
-		draw.DrawText( tostring( CurPage ) .. "/" .. tostring( #Changelog ) ,
-		"GTowerSkyMsgSmall",
-		1075, 355,
-		Color( 255, 255, 255, 255 ),
-		TEXT_ALIGN_RIGHT)
+		if #Changelog > 1 then
+			draw.DrawText( tostring( CurPage ) .. "/" .. tostring( #Changelog ) ,
+			"GTowerSkyMsgSmall",
+			1075, 355,
+			Color( 255, 255, 255, 255 ),
+			TEXT_ALIGN_RIGHT)
+		end
 
 	cam.End3D2D()
 
