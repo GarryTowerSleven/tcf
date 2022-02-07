@@ -216,6 +216,8 @@ function BlockPlayer(ply)
 end
 
 local function GetBlockStatus(ply)
+	if !IsValid(ply) then return end
+
 	if file.Exists(BlockList, "DATA") then
 		local Blocked = string.Explode(" ", file.Read(BlockList, "DATA"))
 		if table.HasValue(Blocked, ply:SteamID64()) then
@@ -229,6 +231,7 @@ local function GetBlockStatus(ply)
 end
 
 function CheckBlocked(ply)
+	if !IsValid(ply) then return end
 
 	if file.Exists(BlockList, "DATA") then
 		local Blocked = string.Explode(" ", file.Read(BlockList, "DATA"))
@@ -243,6 +246,7 @@ function CheckBlocked(ply)
 end
 
 function GetRelationship(ply)
+	if !IsValid(ply) then return end
 
 	local relationship = ""
 	if CheckFriendCache(ply) then
@@ -255,6 +259,8 @@ function GetRelationship(ply)
 end
 
 function CheckRelationshipCache(ply)
+	if !IsValid(ply) then return end
+
 	if !ply._Relation then
 		local rel = GetRelationship(ply)
 		ply._Relation = rel
@@ -265,6 +271,8 @@ function CheckRelationshipCache(ply)
 end
 
 function CheckBlockedCache(ply)
+	if !IsValid(ply) then return end
+
 	if ply.BlockStatus == nil then
 		ply.BlockStatus = CheckBlocked(ply)
 	end
@@ -273,6 +281,8 @@ function CheckBlockedCache(ply)
 end
 
 function CheckFriendCache(ply)
+	if !IsValid(ply) then return end
+
 	if ply.FriendStatus == nil then
 		ply.FriendStatus = CheckFriendship(ply)
 	end

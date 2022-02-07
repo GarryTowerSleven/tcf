@@ -208,7 +208,7 @@ function PLAYERS:PopulatePlayers()
 	end
 
 	for _, ply in pairs( player.GetAll() ) do
-		if self.Players[ ply ] == nil then
+		if ply:GetNWBool("FullyConnected") && self.Players[ ply ] == nil then
 			self:AddPlayer( ply )
 		end
 	end
@@ -541,7 +541,7 @@ function PLAYER:Paint( w, h )
 
 	local bgcolor = Scoreboard.Customization.ColorNormal
 
-	if self.Player.IsLoading then
+	if !self.Player:GetNWBool("FullyConnected") /*self.Player.IsLoading*/ then
 		bgcolor = Scoreboard.Customization.ColorDark
 	end
 
@@ -933,7 +933,7 @@ function PLAYERINFO:Paint( w, h )
 
 	local bgcolor = Scoreboard.Customization.ColorNormal
 
-	if self.Player.IsLoading then
+	if !self.Player:GetNWBool("FullyConnected") /*self.Player.IsLoading*/ then
 		bgcolor = Scoreboard.Customization.ColorDark
 	end
 

@@ -53,7 +53,7 @@ end
 
 // Subtitle right (under name)
 PlayerSubtitleRightText = function( ply )
-	if ply.IsLoading then
+	if !ply:GetNWBool("FullyConnected") then
 		return "LOADING"
 	end
 	return ""

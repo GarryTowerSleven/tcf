@@ -8,6 +8,8 @@ end
 // Subtitle (under name)
 PlayerSubtitleText = function( ply )
 
+	if !ply.IsLoading && !ply:GetNWBool("FullyConnected") then return "Sending client info..." end
+
 	local text = "Somewhere"
 
 	//Check if the location module is loaded
