@@ -761,6 +761,9 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:CheckBox( "Show Locations", "gmt_admin_locations" )
 		end
 
+		self:CheckBox( "Show Entity Bar", "gmt_admin_entbar" )
+		self:CheckBox( "Always Show Entity Bar", "gmt_admin_entbar_always", "gmt_admin_entbar" )
+
 		self:Divider()
 
 		self:Header( "Performance" )
