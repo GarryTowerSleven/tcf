@@ -75,7 +75,7 @@ end
 
 function GMode:ProcessData( ent, data )
 	if data == "#nogame" then
-		ent.TimeLeftMarkup = markup.Parse( "<font=GTowerbig><color=ltgrey>NO GAME RUNNING - JOIN IT!</color><font>" )
+		ent.TimeLeftMarkup = markup.Parse( T( "GamemodePanelNoGame" ) )
 		ent.TimeLeftMarkup.PosX = ent.TotalMinX + ent.TotalWidth * 0.5 - ent.TimeLeftMarkup:GetWidth() / 2
 		ent.TimeLeftMarkup.PosY = ent.TotalMinY + ent.TopHeight * 0.75 - ent.TimeLeftMarkup:GetHeight() / 2
 		ent.RoundsMarkup = nil

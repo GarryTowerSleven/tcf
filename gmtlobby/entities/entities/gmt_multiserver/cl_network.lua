@@ -3,11 +3,11 @@ function ENT:UpdateData(um)
 	self.WaitingList = {}
 
 	local Server = self:GetServer()
-	
+
 	if !Server then
 		return
 	end
-	
+
 	self.ServerOnline = Server.Online
 	self.WaitingList = table.Copy( Server.Players )
 
@@ -27,29 +27,33 @@ function ENT:ParseInformation(um)
 		self.ServerName = Gamemode.Name
 		self.ServerMinPlayers = Gamemode.MinPlayers
 
+		if Gamemode.ThemeColor then
+			self.ThemeColor = Gamemode.ThemeColor
+		end
+
 		if Gamemode.ProcessData then
 			Gamemode:ProcessData( self, um:ReadString() )
 		end
-		
+
 		if Gamemode.DrawData then
 			self.DrawGamemodeData = Gamemode.DrawData
 		end
-		
+
 		if Gamemode.GetMapName then
 			local NewMapname = Gamemode:GetMapName( map )
 			if NewMapname then
 				self.ServerMap = NewMapname
-			end		
+			end
 		end
-		
+
 		if Gamemode.GetMapTexture then
 			local strImage = Gamemode:GetMapTexture( map )
-			
+
 			if strImage then
 				local Mat = Material( strImage )
 				self.MapTexture = Mat
 			end
-			
+
 		end
 	else
 		self.ServerName = "TODO: NAME"
@@ -73,7 +77,7 @@ function ENT:ParseUsers(um)
 		self.ServerPlayers = {}
 	end
 
-	for i=start, endi do
+	for i = start, endi do
 		self.ServerPlayers[i] = um:ReadString()
 	end
 
@@ -95,7 +99,7 @@ usermessage.Hook("GSPlayer", function(um)
 end)
 
 function ENT:HTTPCallback( content )
-	
+
 	local Strings = string.Explode( "\n" ,content )
 
 	local Map = string.lower( string.Trim( Strings[1] ) )
@@ -103,54 +107,54 @@ function ENT:HTTPCallback( content )
 	self.ServerGamemode = Strings[3]
 	local MaxPlayer = tonumber( Strings[4] )
 	local Players = {}
-	
-	for i=5, #Strings - 1 do 
+
+	for i=5, #Strings - 1 do
 		table.insert( Players, Strings[i] )
 	end
-	
+
 	local Gamemode = GTowerServers:GetGamemode( self.ServerGamemode )
-	
+
 	self.ServerPlayers = Players
 	self.ServerMap = Map
 	self.ServerName = "TODO: NAME"
 	self.ServerStatus = Status
 	self.MapTexture = nil
-	
+
 	if Gamemode then
 		self.ServerName = Gamemode.Name
 		self.ServerMaxPlayers = Gamemode.MaxPlayers
-		
-		
+
+
 		if Gamemode.ProcessData then
 			Gamemode:ProcessData( self, Status )
 		end
-		
+
 		if Gamemode.DrawData then
 			self.DrawGamemodeData = Gamemode.DrawData
 		end
-		
+
 		if Gamemode.GetMapName then
 			local NewMapname = Gamemode:GetMapName( Map )
 			if NewMapname then
 				self.ServerMap = NewMapname
-			end		
+			end
 		end
-		
+
 		if Gamemode.GetMapTexture then
 			local strImage = Gamemode:GetMapTexture( Map )
-			
+
 			if strImage then
 				local Mat = Material( strImage )
-				
+
 				self.MapTexture = Mat
 			end
-			
+
 		end
-		
+
 	else
 		self.ServerMaxPlayers = MaxPlayer
 	end
-	
+
 	self:ReloadPositions()
-	
+
 end

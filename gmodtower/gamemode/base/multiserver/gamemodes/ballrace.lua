@@ -1,6 +1,7 @@
 ---------------------------------
 GMode.Name = "Ball Race"
 GMode.Gamemode = "ballrace"
+GMode.ThemeColor = Color(172, 121, 84)
 
 //Set true if players should be kicked if their "goserver" value on the database is not the same as the local server
 GMode.Private = true
@@ -94,25 +95,25 @@ function GMode:ProcessData( ent, data )
 	ent.ProgressWidth = tw * frac
 	ent.CompleteWidth = tw
 
-	ent.ProgressHeight = 30
+	ent.ProgressHeight = 72
 
-	local text = "<font=GTowerbig><color=ltgrey>Round:</color> " .. string.format("%d / %d", math.abs(cur), max) .. "</font>"
+	local text = "<font=MultiSubDeluxe><color=white>Round:</color> " .. string.format("%d / %d", math.abs(cur), max) .. "</font>"
 	ent.ProgressText = markup.Parse(text)
 
 	ent.ProgressText.PosX = ent.ProgressX + ( tw / 2 ) - ( ent.ProgressText:GetWidth() / 2 )
 	ent.ProgressText.PosY = ent.ProgressY + ( ent.ProgressHeight / 2 ) - ( ent.ProgressText:GetHeight() / 2 )
 
-	surface.SetFont("GTowerbig")
+	surface.SetFont("MultiSubDeluxe")
 	local w, h = surface.GetTextSize(bonustext)
 
 	ent.BonusX = ent.TotalMinX + ent.TotalWidth * 0.75 - (w/2)
-	ent.BonusY = ent.TotalMinY + ent.TopHeight * 0.78 - (h/2)
+	ent.BonusY = ent.TotalMinY + ent.TopHeight * 0.75 - (h/2)
 
 end
 
-local color_red = Color(200, 0, 0, 100)
-local color_black = Color(0, 0, 0, 150)
-local color_redbonus = Color(220, 0, 0, 255)
+local color_red = Color(255, 255, 255, 100)
+local color_black = Color(255, 255, 255, 150)
+local color_redbonus = Color(255, 255, 255, 255)
 
 GMode.DrawData = function( ent )
 
@@ -125,7 +126,7 @@ GMode.DrawData = function( ent )
 		return
 	end
 
-	surface.SetDrawColor(color_red)
+	surface.SetDrawColor(255, 255, 255, 50)
 	surface.DrawRect(ent.ProgressX, ent.ProgressY, ent.ProgressWidth, ent.ProgressHeight)
 	surface.SetDrawColor(color_black)
 	surface.DrawOutlinedRect(ent.ProgressX, ent.ProgressY, ent.CompleteWidth, ent.ProgressHeight)
@@ -137,7 +138,7 @@ GMode.DrawData = function( ent )
 	if ent.InBonusRound then
 		surface.SetTextColor(color_redbonus)
 		surface.SetTextPos(ent.BonusX, ent.BonusY)
-		surface.SetFont("GTowerbig")
+		surface.SetFont("MultiSubDeluxe")
 		surface.DrawText(bonustext)
 	end
 
