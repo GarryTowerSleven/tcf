@@ -65,6 +65,7 @@ function ENT:Think()
 	if IsValid( self.Target ) then
 		self:GetTargetAngles()
 	end
+	self:NextThink( CurTime() + 8 )
 end
 
 function ENT:HitPlayer( attacker, victim, kart )
