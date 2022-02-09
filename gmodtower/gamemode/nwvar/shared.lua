@@ -1,9 +1,12 @@
-AddCSLuaFile("shared.lua")
-AddCSLuaFile("packet.lua")
+if SERVER then
+	AddCSLuaFile()
+end
 
+local globalvars = {}
+local playervars = {}
+local entvars = {}
 REPL_EVERYONE = 0
 REPL_PLAYERONLY = 1
-
 NWTYPE_STRING = 0
 NWTYPE_NUMBER = 1
 NWTYPE_FLOAT = 2
@@ -36,208 +39,35 @@ DTVarDefaults = {
 	["Entity"] = Entity(0),
 }
 
-if CLIENT then
-	include("packet.lua")
-end
+function RegisterNWTable(ent, vars)
+	for _, var in ipairs(vars) do
+		local name = var[1]
+		ent[name] = var[2]
 
-NWDEBUG = false
-
-if SERVER then
-	require("transmittools")
-
-	hook.Add("Tick", "NWTick", transmittools.NWTick)
-
-	hook.Add("EntityRemoved", "NWCleanup", function(ent)
-		if IsValid(ent) && !ent:IsPlayer() then
-			transmittools.EntityDestroyed(ent:EntIndex())
-		end
-	end)
-
-	hook.Add("PlayerDisconnected", "NWCleanupPlayer", function(ply)
-		local entindex = ply:EntIndex()
-		transmittools.PlayerDestroyed(entindex)
-		transmittools.EntityDestroyed(entindex)
-	end)
-
-	hook.Add("PlayerThink", "PlayerCrashTest", function(ply)
-		local time = transmittools.PlayerTimeout(ply:EntIndex())
-		if time == nil then return end
-
-		if time > 2 then
-			ply._NetCrash = true
-		elseif ply._NetCrash then
-			ply._NetCrash = false
-			transmittools.InvalidatePlayerCrashed(ply:EntIndex())
-		end
-	end)
-end
-
-if !GetWorldEntity then
-	GetWorldEntity = function() return ents.FindByClass("worldspawn")[1] end
-end
-
-local function ApplyTableToTarget(target)
-	local _t = target:GetTable()
-	local etable = { _t = _t, Entity = target }
-
-	local mt = {
-		__index = function (t,k)
-			return t._t[k]
-		end,
-
-		__newindex = function (t,k,v)
-			if t._t.__nwtable[k] && t._t[k] != v then
-				local ent = t.Entity or t.Weapon
-				local index = ent:EntIndex()
-				local nwvar = ent.__nwtable[k]
-
-				if nwvar.type == NWTYPE_ENTITY then
-					local nentindex = -1
-					if IsValid(v) || v == GetWorldEntity() then
-						nentindex = v:EntIndex()
-					end
-					transmittools.EntityVariableUpdated(index, nwvar.index-1, nentindex)
-				end
-				transmittools.VariableUpdated(index, nwvar.index-1)
-				ent.__nwvalues[nwvar.index] = v
-			end
-
-			t._t[k] = v
-		end
-	}
-
-	setmetatable(etable, mt)
-	target:SetTable(etable)
-end
-
-function RegisterNWTable(target, ntable)
-	// make sure it's a table, it has entries, and that it's a table of tables
-	if type(ntable) != "table" || #ntable == 0 || type(ntable[1]) != "table" then
-		return
+		table.insert(entvars, {ent, name, var[5]})
 	end
-
-	table.sort( ntable, function(a, b)
-		return a[1] < b[1]
-	end )
-
-	local index = target:EntIndex()
-
-	if index == 0 && target != GetWorldEntity() then
-		return
-	end
-
-	local nlookup = {}
-
-	if SERVER then
-		target.__nwvalues = {}
-		transmittools.NetworkedEntityCreated(index, target.__nwvalues)
-	end
-
-	for i=1, #ntable do
-		local table = ntable[i]
-
-		local Name, default, type, repl = table[1], table[2], table[3], table[4]
-
-		if NWDEBUG then
-			print(Name, type, repl, default)
-		end
-
-		target[Name] = default
-
-		if CLIENT then
-			// {Name, type, repl, proxy}
-			nlookup[i] = {Name=Name, type=type, repl=repl, proxy=table[5]}
-		else
-			// {index, type, repl}
-			nlookup[Name] = {index=i, type=type, repl=repl}
-			transmittools.AddValue(index, i, type, repl)
-
-			target.__nwvalues[i] = default
-		end
-	end
-
-	target.__nwtable = nlookup
-
-	if CLIENT then return end
-
-	transmittools.NetworkedEntityCreatedFinish(index)
-
-	ApplyTableToTarget(target)
 end
 
-local GlobalTable = {}
-local PlayerTable = {}
+function RegisterNWTableGlobal(vars)
+	for _, var in ipairs(vars) do
+		local name = var[1]
+		local type = var[3]
 
-if !GetWorldEntity then
-	GetWorldEntity = function() return ents.GetAll()[1] end
-end
+		timer.Simple(0, function()
+			game.GetWorld()[name] = var[2]
+		end)
 
-//LUAJIT
-local function GetGlobalTables()
-	if GlobalTables == nil then GlobalTables = {Player={}, Global={}} end
-	return GlobalTables
-end
-
-local function SetupGlobalTable()
-	RegisterNWTable( GetWorldEntity(), GetGlobalTables().Global )
-end
-
-hook.Add("OnEntityCreated", "SetupNWTablePlayer", function(ent)
-	if ent == GetWorldEntity() then
-		RegisterNWTable(GetWorldEntity(), GetGlobalTables().Global)
+		table.insert(globalvars, {name, type})
 	end
-
-
-	if !IsValid(ent) then return end
-
-	// GM13 guard against ghosts
-	local entity = ents.GetByIndex(ent:EntIndex())
-	if !IsValid(entity) then return end
-
-	if ent:IsPlayer() then
-		if SERVER then
-			transmittools.PlayerCreated(ent:EntIndex())
-		end
-		if !ent.__nwtable then
-			RegisterNWTable(ent, GetGlobalTables().Player)
-		end
-	end
-end)
-
-local function MergeTablesI(a, b)
-	local a = a or {}
-
-	for k,v in ipairs(b) do
-	-- check for any matching definitions
-	local exists = false
-
-	for i=1, #a do
-		if a[i][1] == v[1] then
-		exists = true
-		break
-		end
-	end
-
-	if not exists then
-		table.insert(a, v)
-		end
-	end
-
-	return a
 end
 
+function RegisterNWTablePlayer(vars)
+	for _, var in ipairs(vars) do
+		local name = var[1]
+		local type = var[3]
 
-
-function RegisterNWTableGlobal(nwtable)
-	//hook.Add("InitPostEntity", "SetupNWTableGlobal", SetupGlobalTable)
-
-	// LUAJIT:
-	GetGlobalTables().Global = MergeTablesI(GetGlobalTables().Global, nwtable)
-end
-
-function RegisterNWTablePlayer(nwtable)
-	// LUAJIT:
-	GetGlobalTables().Player = MergeTablesI(GetGlobalTables().Player, nwtable)
+		table.insert(playervars, {name, type, var[2], var[5]})
+	end
 end
 
 function ImplementNW()
@@ -272,3 +102,91 @@ function ImplementNW()
 	end
 
 end
+
+hook.Add("Think", "ModuleReplacement", function()
+	for _, var in ipairs(globalvars) do
+		if SERVER then
+			if game.GetWorld()[var[1]] != GetGlobalFloat(var[1]) then
+				SetGlobalFloat(var[1], game.GetWorld()[var[1]])
+			end
+		elseif CLIENT then
+			game.GetWorld()[var[1]] = GetGlobalFloat(var[1])
+		end
+	end
+
+	for _, ply in ipairs(player.GetAll()) do
+		for _, var in ipairs(playervars) do
+			if ply[var[1]] == nil then
+				ply[var[1]] = var[3]
+			end
+
+			if SERVER then
+				if isbool(ply[var[1]]) then
+					ply:SetNWBool(var[1], ply[var[1]])
+				else
+					if isfunction(ply[var[1]]) then continue end
+					ply:SetNWFloat(var[1], ply[var[1]])
+				end
+			elseif CLIENT then
+				if isbool(ply[var[1]]) then
+					ply[var[1]] = ply:GetNWBool(var[1])
+				else
+					ply[var[1]] = ply:GetNWFloat(var[1])
+					if var[4] != nil then
+						if ply[var[1]] != var[3] then
+							var[4]( ply, var[1], var[3], ply[var[1]] )
+							var[3] = ply[var[1]]
+						end
+					end
+				end
+			end
+		end
+	end
+
+	for i, var in ipairs(entvars) do
+		local ent = var[1]
+
+		if !IsValid(ent) then
+			table.remove(entvars, i)
+			continue
+		end
+
+		if SERVER then
+			if isbool(ent[var[2]]) then
+				if ent:GetNWBool(var[2]) != ent[var[2]] && var[3] then
+					--logger.debug( string.format("CALLBACK ON %s: %s", tostring(ent), tostring(var[3])), "SERVER NWVARS" )
+
+					var[3]( ent, var[2], ent[var[2]], ent:GetNWBool(var[2]) )
+				end
+
+				ent:SetNWBool(var[2], ent[var[2]])
+			else
+				if ent:GetNWFloat(var[2]) != ent[var[2]] && var[3] then
+					--logger.debug( string.format("CALLBACK ON %s: %s", tostring(ent), tostring(var[3])), "SERVER NWVARS" )
+
+					var[3]( ent, var[2], ent[var[2]], ent:GetNWFloat(var[2]) )
+				end
+
+				ent:SetNWFloat(var[2], ent[var[2]])
+			end
+		elseif CLIENT then
+			if isbool(ent[var[2]]) then
+				if ent:GetNWBool(var[2]) != ent[var[2]] && var[3] then
+					--logger.debug( string.format("CALLBACK ON %s: %s", tostring(ent), tostring(var[3])), "CLIENT NWVARS" )
+
+					var[3]( ent, var[2], ent[var[2]], ent:GetNWBool(var[2]) )
+				end
+
+				ent[var[2]] = ent:GetNWBool(var[2])
+			else
+				if ent:GetNWFloat(var[2]) != ent[var[2]] && var[3] then
+					--logger.debug( string.format("CALLBACK ON %s: %s", tostring(ent), tostring(var[3])), "CLIENT NWVARS" )
+
+					var[3]( ent, var[2], ent[var[2]], ent:GetNWFloat(var[2]) )
+				end
+
+				ent[var[2]] = ent:GetNWFloat(var[2])
+			end
+		end
+	end
+end)
