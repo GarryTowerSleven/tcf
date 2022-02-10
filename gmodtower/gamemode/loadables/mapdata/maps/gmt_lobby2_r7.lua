@@ -113,7 +113,7 @@ end
 local function CenterSKPanel()
 	for k,v in pairs( ents.FindInSphere( Vector(6254.8671875, -6095.8579101563, -825.11450195313), 600 ) ) do
 		if v:GetClass() == "gmt_multiserver" then
-			v:SetPos( v:GetPos() - Vector(30, 0, 0) )
+			v:SetPos( v:GetPos() - Vector(10, 0, 0) )
 		end
 	end
 end
