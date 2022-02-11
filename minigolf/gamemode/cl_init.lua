@@ -1,6 +1,6 @@
 include( "camsystem/cl_init.lua" );
 include( "camsystem/shared.lua" );
-include( "Catmull/shared.lua" );
+include( "catmull/shared.lua" );
 
 include( "cl_camera.lua" );
 include( "cl_controls.lua" );

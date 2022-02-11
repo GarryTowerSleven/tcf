@@ -7,7 +7,11 @@ GM.AllowEquippables = true
 GM.UsesHands = true
 IsLobby = true
 
-DeriveGamemode( "GModTower" )
+DeriveGamemode( "gmodtower" )
+
+if SERVER then
+	game.ConsoleCommand("[GMT: Deluxe] Lobby\n")
+end
 
 include("player_class/player_lobby.lua")
 

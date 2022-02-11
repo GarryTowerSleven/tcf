@@ -1,6 +1,6 @@
 AddCSLuaFile("camsystem/cl_init.lua");
 AddCSLuaFile("camsystem/shared.lua");
-AddCSLuaFile("Catmull/shared.lua");
+AddCSLuaFile("catmull/shared.lua");
 AddCSLuaFile("cl_camera.lua");
 AddCSLuaFile("cl_controls.lua");
 AddCSLuaFile("cl_draw.lua");
