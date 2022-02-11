@@ -1,8 +1,0 @@
-"Gamemode"
-{
-	"base"		"base"
-	"title"		"Source Karts"
-	"maps"		"^gmt_sk_"
-	"menusystem"	"1"
-	"help" 		"ayy"
-}
