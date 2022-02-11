@@ -1,4 +1,4 @@
-module( "plynet", package.seeall )
+/*module( "plynet", package.seeall )
 
 DEBUG = false
 UseTransmitTools = true
@@ -246,4 +246,4 @@ end
 
 Register( "Int", "Money" )
 Register( "String", "FakeName" )
-Register( "Entity", "DrivingObject" )
+Register( "Entity", "DrivingObject" )*/
