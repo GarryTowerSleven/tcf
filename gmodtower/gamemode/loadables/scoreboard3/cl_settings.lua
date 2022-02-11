@@ -642,12 +642,20 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			//self:CheckBox( LobbyCanvas, "Allow Sound Spam", "gmt_allowSoundSpam" )
 
 			self:Divider()
-			
+			self:Header( "Notifications" )
+			self:DropDown( "Notification Style", "gmt_message_style", {
+				{"Deluxe", 1},
+				{"Lobby 2", 2},
+				{"Lobby 1", 3},
+			} )
+			self:Divider()
+			self:CheckBox( "Notification Icons", "gmt_message_icons" )
+
+			self:Divider()
 			self:Header( "Inventory" )
 			self:CheckBox( "Enable Old Inventory Colors", "gmt_inv_style" )
 
 			self:Divider()
-			
 			self:Header( "Store" )
 			self:CheckBox( "Enable Old Store GUI", "gmt_oldstore" )
 			self:CheckBox( "Enable Compact Store GUI", "gmt_compactstores", "gmt_oldstore" )

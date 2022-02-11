@@ -1,3 +1,10 @@
+local StyleCvar = CreateClientConVar( "gmt_message_style", 1, true, false, nil, 1, 3 )
+local IconCvar = CreateClientConVar( "gmt_message_icons", 1, true, false, nil, 0, 1 )
+
+local STYLE_DX = 1
+local STYLE_L2 = 2
+local STYLE_L1 = 3
+
 GTowerMessages = {
 	MsgObjs = {},
 	Type = 1,
@@ -126,14 +133,19 @@ function GTowerMessages:Invalidate()
 
 	local CurY = ( self.Type == 1 && GetMessageYPosition ) && ( GetMessageYPosition() - 50 ) or 50
 
+	local off = 3
+	if StyleCvar:GetInt() == STYLE_L1 then
+		off = -5
+	end
+
 	for _, v in pairs ( TempTable ) do
 
 		v:SetTargetY( CurY )
 
 		if self.Type == 1 then
-			CurY = CurY - v:GetTall() - 3
+			CurY = CurY - v:GetTall() - off
 		else
-			CurY = CurY + v:GetTall() + 3
+			CurY = CurY + v:GetTall() + off
 		end
 
 	end
@@ -194,6 +206,7 @@ function PANEL:SetTargetY( GoY )
 end
 
 function PANEL:SetIcon( iconname )
+	if !IconCvar:GetBool() then return end
 	self.Icon = GTowerIcons2.GetIcon(iconname)
 	if self.Icon then
 		self.IconName = iconname
@@ -206,8 +219,13 @@ function PANEL:SetupQuestion( YesFunction, NoFunction, TimeoutFunction, extra, Y
 	local YesPanel = vgui.Create( "GTowerMessageQuestion", self )
 	local NoPanel = vgui.Create( "GTowerMessageQuestion", self )
 	
-	YesPanel:SetFunc( YesFunction, NoPanel, GTowerIcons2.GetIcon("accept"), true, Color( 0, 255, 0 ) )
-	NoPanel:SetFunc( NoFunction, YesPanel, GTowerIcons2.GetIcon("cancel"), false, Color( 255, 0, 0 ) )
+	if StyleCvar:GetInt() != STYLE_L1 then
+		YesPanel:SetFunc( YesFunction, NoPanel, GTowerIcons2.GetIcon("accept"), true, Color( 0, 255, 0 ) )
+		NoPanel:SetFunc( NoFunction, YesPanel, GTowerIcons2.GetIcon("cancel"), false, Color( 255, 0, 0 ) )
+	else
+		YesPanel:SetFunc( YesFunction, NoPanel, Material("icons/accept.vtf"), true, Color( 0, 255, 0 ) )
+		NoPanel:SetFunc( NoFunction, YesPanel, Material("icons/decline.vtf"), false, Color( 255, 0, 0 ) )
+	end
 	
 	if YesColor != nil then
 		YesPanel:SetColor( YesColor[1], YesColor[2], YesColor[3] )
@@ -309,6 +327,8 @@ end
 
 function PANEL:GetIconColors( icon )
 
+	if StyleCvar:GetInt() == STYLE_L1 then return end
+
 	if icon == "trophy" then return Color( 255, 200, 14 ), true end
 	if icon == "heart" then return Color( 255, 150, 150 ) end
 	if icon == "admin" then return Color( 255, 50, 50 ) end
@@ -324,19 +344,26 @@ function PANEL:Paint( w, h )
 
 	if !self.ReadyToDraw then return end
 
+	local style = StyleCvar:GetInt()
+
+	local shadowH = self.ShadowHeight
+
 	local Wide, Tall = self:GetWide(), self:GetTall()
 	local color
 
 	-- BG
 	color = Color( 0, 0, 0 )
+	if style == STYLE_L1 then
+		color = Color( 7, 51, 76 )
+	end
 	surface.SetDrawColor( color.r, color.g, color.b, self.Alpha )
-	surface.DrawRect( 0,0, w, h - self.ShadowHeight )
+	surface.DrawRect( 0,0, w, h - shadowH )
 
 	// Deluxe
-	if IsLobby then
+	if style == STYLE_DX && IsLobby then
 		surface.SetDrawColor( 255, 255, 255, self.Alpha*.18 )
 		surface.SetMaterial( dGradient )
-		surface.DrawTexturedRect( 0,0, w, h - self.ShadowHeight )
+		surface.DrawTexturedRect( 0,0, w, h - shadowH )
 	end
 
 
@@ -347,18 +374,20 @@ function PANEL:Paint( w, h )
 		if bgflash then alpha = alpha * SinBetween(.5,1,RealTime() * 5) end
 
 		surface.SetDrawColor( bgcolor.r, bgcolor.g, bgcolor.b, alpha )
-		surface.DrawRect( 0,0, w, h - self.ShadowHeight )
+		surface.DrawRect( 0,0, w, h - shadowH )
 	end
 
 
 	-- Gradient
-	surface.SetDrawColor( 0, 0, 0, 50 )
-	surface.SetTexture( gradientUp )
-	surface.DrawTexturedRect( 0, 0, w, h - self.ShadowHeight )
+	if style != STYLE_L1 then
+		surface.SetDrawColor( 0, 0, 0, 50 )
+		surface.SetTexture( gradientUp )
+		surface.DrawTexturedRect( 0, 0, w, h - shadowH )
 
-	surface.SetDrawColor( 0, 0, 0, 255 )
-	surface.SetTexture( gradientDown )
-	surface.DrawTexturedRect( 0, h - self.ShadowHeight, w, self.ShadowHeight )
+		surface.SetDrawColor( 0, 0, 0, 255 )
+		surface.SetTexture( gradientDown )
+		surface.DrawTexturedRect( 0, h - shadowH, w, shadowH )
+	end
 
 	color = Color( 255, 255, 255 )
 
@@ -377,7 +406,7 @@ function PANEL:Paint( w, h )
 	surface.SetTextColor( color.r, color.g, color.b, math.Clamp( self.Alpha * 2.5 , 128, 255 ) )
 
 	-- Draw icon
-	if self.Icon then
+	if self.Icon && IconCvar:GetBool() then
 		surface.SetDrawColor( color.r, color.g, color.b, self.Alpha )
 		surface.SetMaterial( self.Icon )
 		surface.DrawTexturedRect( 0, -2, 32, 32 )
@@ -398,25 +427,30 @@ function PANEL:Paint( w, h )
 	end
 
 	-- Progress bar
+	if style == STYLE_L1 then
+		color = Color(111, 237, 29)
+	end
 	surface.SetDrawColor( color.r, color.g, color.b, self.Alpha )
 	
 	if self.Timeleft == nil then
-		surface.DrawRect( 0, h - self.ProgressHeight - self.ShadowHeight, w * ( ( self.DieTime - RealTime()) / self.Duration ), self.ProgressHeight )
+		surface.DrawRect( 0, h - self.ProgressHeight - shadowH, w * ( ( self.DieTime - RealTime()) / self.Duration ), self.ProgressHeight )
 	else
-		surface.DrawRect( 0, h - self.ProgressHeight - self.ShadowHeight, w * ( self.Timeleft / self.Duration ), self.ProgressHeight )
+		surface.DrawRect( 0, h - self.ProgressHeight - shadowH, w * ( self.Timeleft / self.Duration ), self.ProgressHeight )
 	end
 
 
 	-- Draw colors when they accept/deny
 	if !self.QuestionAnswered then return end
 
-	if self.Accepted then
-		surface.SetDrawColor( 0, 255, 0, 128 )
-	else
-		surface.SetDrawColor( 255, 0, 0, 128 )
+	if style != STYLE_L1 then
+		if self.Accepted then
+			surface.SetDrawColor( 0, 255, 0, 128 )
+		else
+			surface.SetDrawColor( 255, 0, 0, 128 )
+		end
 	end
 	   
-	surface.DrawRect( 0, 0, w, h - self.ShadowHeight )
+	surface.DrawRect( 0, 0, w, h - shadowH )
 
 end
 
@@ -565,18 +599,27 @@ function PANEL:Paint( w, h )
 		alpha = GTowerMessages.ButtonAlpha
 	end
 
-	-- BG
-	surface.SetDrawColor( 255, 255, 255, 3 )
-	surface.DrawRect( 0, 0, w, h )
+	if StyleCvar:GetInt() != STYLE_L1 then
+		-- BG
+		surface.SetDrawColor( 255, 255, 255, 3 )
+		surface.DrawRect( 0, 0, w, h )
 
-	-- Icon
-	surface.SetDrawColor( self.BtnColor.r, self.BtnColor.g, self.BtnColor.b, alpha )
-	surface.SetMaterial( self.BtnTexture )
-	surface.DrawTexturedRect( 0, 0, w, h )
+		-- Icon
+		surface.SetDrawColor( self.BtnColor.r, self.BtnColor.g, self.BtnColor.b, alpha )
+		surface.SetMaterial( self.BtnTexture )
+		surface.DrawTexturedRect( 0, 0, w, h )
 	
-	-- Highlight
-	surface.SetDrawColor( 0, 0, 0, self.Color.a )
-	surface.DrawRect( 0, 0, w, h )
+		-- Highlight
+		surface.SetDrawColor( 0, 0, 0, self.Color.a )
+		surface.DrawRect( 0, 0, w, h )
+	else
+		surface.SetDrawColor( 255, 255, 255, alpha )
+		surface.SetMaterial( self.BtnTexture )
+		surface.DrawTexturedRect( 0, 0, self:GetWide(), self:GetTall() )
+	
+		surface.SetDrawColor( 3, 25, 54, self.Color.a )
+		surface.DrawRect( 0, 0, 26, 26 )
+	end
 
 end
 
@@ -599,7 +642,13 @@ end
 
 function PANEL:PerformLayout()
 
-	self:SetSize( self.Size, self.Size )
+	local size = 26
+
+	if StyleCvar:GetInt() == STYLE_L1 then
+		size = 32
+	end
+
+	self:SetSize( size, size )
 
 end
 
