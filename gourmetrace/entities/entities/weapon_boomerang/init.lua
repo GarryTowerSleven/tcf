@@ -1,20 +1,9 @@
-
-----------------------------------------------------------
-
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_init.lua")
 
 include("shared.lua")
 
-local Wait = false
-
-function ENT:Initialize()
-	self:SetModel(self.Model)
-	self:SetMoveType(MOVETYPE_VPHYSICS)
-	self:PhysicsInit(SOLID_VPHYSICS)
-  self:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
-
-	self:SetTrigger(true)
+function ENT:CustomInit()
 
 	local phys = self:GetPhysicsObject()
 
@@ -29,29 +18,23 @@ function ENT:Initialize()
 
 	self:SetVelocity(Vector(200,0,0))
 
-	timer.Simple(2,function()
-		if IsValid(self) then
-			self:SetTrigger(false)
-			self:SetModelScale(0,0.25)
-			timer.Simple(0.25,function()
+	timer.Simple( 2,function()
+		if IsValid( self ) then
+			self:SetTrigger( false )
+			self:SetModelScale( 0, 0.25 )
+			timer.Simple( 0.25, function()
 				self:Remove()
-			end)
+			end )
 		end
-	end)
+	end )
 
 end
 
-function ENT:StartTouch(ply)
-    if ply:IsPlayer() and self:GetOwner() != ply and !ply:GetNWBool("Invincible") then
+function ENT:CustomTouch( ply )
 
-			self:GetOwner():AddAchievement(ACHIEVEMENTS.GROFFYOUGO,1)
+	ply:SetVelocity(Vector(0,0,255))
+	self:SetTrigger(false)
+	self:SetModelScale(0,0.25)
+	self.ExpireTime = CurTime() + 0.25
 
-			ply:SetVelocity(Vector(0,0,255))
-			self:SetTrigger(false)
-			self:SetModelScale(0,0.25)
-			ply:EmitSound("gmodtower/gourmetrace/actions/spike_hit.wav",80)
-			timer.Simple(0.25,function()
-				self:Remove()
-			end)
-    end
 end

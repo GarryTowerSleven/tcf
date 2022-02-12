@@ -3,7 +3,6 @@ include( "sh_move.lua" )
 include( "sh_meta.lua" )
 include( "sh_think.lua" )
 include( "cl_hud.lua" )
-include( "cl_music.lua" )
 
 surface.CreateFont( "gr_playername", { font = "Kirby Classic", size = 75, weight = 100, shadow = true } )
 
@@ -27,16 +26,6 @@ end
 function GM:HUDAmmoPickedUp()
 	return false
 end
-
-local GtowerHudToHide = {
-	CHudHealth = true,
-	CHudAmmo = true,
-	CHudBattery = true,
-}
-
-hook.Add( "HUDShouldDraw", "HideHUD", function( name )
-	if ( GtowerHudToHide[ name ] ) then return false end
-end )
 
 hook.Add("PostPlayerDraw", "CSSWeaponFix", function(v)
 	local wep = v:GetActiveWeapon()

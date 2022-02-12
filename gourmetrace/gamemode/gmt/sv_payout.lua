@@ -8,12 +8,12 @@ function GAMEMODE:GiveMoney()
 
 			payout.Clear( ply )
 
-			local points = ply:GetNWInt("Points")
+			local points = ply:GetNet( "Points" )
 
-			if ply:GetNWInt( "Pos" ) > 0 then
-				if ply:GetNWInt( "Pos" ) == 1 then payout.Give( ply, "Rank1" ) end
-				if ply:GetNWInt( "Pos" ) == 2 then payout.Give( ply, "Rank2" ) end
-				if ply:GetNWInt( "Pos" ) == 3 then payout.Give( ply, "Rank3" ) end
+			if ply:GetNet( "Pos" ) > 0 then
+				if ply:GetNet( "Pos" ) == 1 then payout.Give( ply, "Rank1" ) end
+				if ply:GetNet( "Pos" ) == 2 then payout.Give( ply, "Rank2" ) end
+				if ply:GetNet( "Pos" ) == 3 then payout.Give( ply, "Rank3" ) end
 
 				if points > 0 then
 					payout.Give( ply, "Collected", math.Clamp( points * 5, 0, (25 * 5) ) )

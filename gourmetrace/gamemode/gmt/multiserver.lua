@@ -29,6 +29,6 @@ hook.Add("GTowerMsg", "GamemodeMessage", function()
 	if player.GetCount() < 1 then
 		return "#nogame"
 	else
-		return tostring(math.Clamp( GetGlobalInt("Round"), 1, GAMEMODE.NumRounds )) .. "/" .. GAMEMODE.NumRounds
+		return tostring(math.Clamp( GAMEMODE:GetRoundCount(), 1, GAMEMODE.NumRounds )) .. "/" .. GAMEMODE.NumRounds
 	end
 end )

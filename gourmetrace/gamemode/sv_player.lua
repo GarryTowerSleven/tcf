@@ -7,10 +7,9 @@ function GM:PlayerInitialSpawn( ply )
 		umsg.End()
 	end )
 
-	self:SetMusic( MUSIC_WAITING, ply )
 	self:SetSpawn( SPAWN_WAITING, ply )
 
-	if self:GetGameState() == STATE_WAITING && !self.FirstPlySpawned then
+	if self:GetState() == STATE_WAITING && !self.FirstPlySpawned then
 
 		self:WaitRound()
 		self.FirstPlySpawned = true
@@ -86,3 +85,9 @@ function GM:PlayerSwitchFlashlight( ply, on )
 end
 
 function GM:GetFallDamage( ply, vel ) return 0 end
+
+hook.Add( "PlayerFullyJoined", "WaitingMusic", function( ply )
+
+	music.Play( 1, MUSIC_WAITING, ply )
+
+end )

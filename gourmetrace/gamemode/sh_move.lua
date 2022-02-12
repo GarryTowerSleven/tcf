@@ -152,7 +152,7 @@ function GM:CalcView( ply, origin, angles, fov )
 	local view = {}
 
 	local dist = -280
-	if self:GetGameState() == STATE_INTERMISSION then
+	if self:GetState() == STATE_INTERMISSION then
 		dist = -150
 	end
 
@@ -251,7 +251,7 @@ function GM:KeyPress( ply, key )
 
 		if !ply:IsOnGround() then
 
-			if ply:CanDoubleJump() && ply:GetNWInt( "DoubleJumpNum" ) < 1 then
+			if ply:CanDoubleJump() && ply:GetNet( "DoubleJumpNum" ) < 1 then
 				ply:DoubleJump()
 			end
 

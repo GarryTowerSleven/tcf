@@ -27,26 +27,40 @@ HeaderMatHeader = Scoreboard.GenTexture( "ScoreboardGRLogo", "gourmetrace/main_h
 HeaderMatFiller = Scoreboard.GenTexture( "ScoreboardGRFiller", "gourmetrace/main_filler" )
 HeaderMatRightBorder = Scoreboard.GenTexture( "ScoreboardGRRightBorder", "gourmetrace/main_rightborder" )
 
-// PLAYER
+// RANK SYSTEM
+local function CalculateRanks()
 
-/*PlayersSort = function( a, b )
-
-	if !a:GetNWInt( "Pos" ) || !b:GetNWInt( "Pos" ) then
+	if NextCalcRank && NextCalcRank > CurTime() then
 		return
 	end
 
-	return a:GetNWInt( "Pos" ) < b:GetNWInt( "Pos" )
+	local Players = player.GetAll()
 
-end*/
+	table.sort( Players, function( a, b )
 
-// Subtitle (under name)
-PlayerSubtitleText = function( ply )
+		local aScore, bScore = a:GetNet( "Pos" ), b:GetNet( "Pos" )
+		return aScore < bScore
 
-	if ply:Team() == TEAM_FINISHED then
-		return "FINISHED #" .. tostring(ply:GetNWInt("Pos"))
+	end )
+
+	for k, ply in pairs( Players ) do
+		ply.TrophyRank = k
 	end
 
-	return ""
+	NextCalcRank = CurTime() + 1
+
+end
+
+// PLAYER
+PlayersSort = function( a, b )
+
+	CalculateRanks()
+
+	if !a.TrophyRank || !b.TrophyRank then
+		return
+	end
+
+	return a.TrophyRank < b.TrophyRank
 
 end
 
@@ -64,14 +78,14 @@ local Trophies =
 // Notification (above avatar)
 PlayerNotificationIcon = function( ply )
 
-	if ply.TrophyRank && ply:Team() == TEAM_FINISHED then
+	if ply.TrophyRank && ( ply:Team() == TEAM_FINISHED || GAMEMODE:GetState() == STATE_INTERMISSION ) then
 		if Trophies[ ply.TrophyRank ] then
 			return Trophies[ ply.TrophyRank ]
 		end
 		return Scoreboard.PlayerList.MATERIALS.Finish
 	end
 
-	if ply:Team() == TEAM_COMPLETED then
+	if ply:Team() == TEAM_FINISHED then
 		return Scoreboard.PlayerList.MATERIALS.Finish
 	end
 
@@ -82,10 +96,11 @@ end
 // Jazz the player avatar? (for winner only)
 PlayerAvatarJazz = function( ply )
 
-	--if GetState() != STATE_INTERMISSION then return false end
-	--if not game.GetWorld():GetNet( "Passed" ) then return false end
+	if GAMEMODE:GetState() != STATE_INTERMISSION then return false end
 
-	return ( ply:GetNWInt( "Pos" ) == 1 )
+	CalculateRanks()
+
+	return ( ply.TrophyRank == 1 )
 
 end
 
@@ -103,7 +118,7 @@ hook.Add( "PlayerActionBoxPanel", "ActionBoxDefault", function( panel )
 		nil,
 		"FOOD",
 		function( ply )
-			return ply:GetNWInt("Points")
+			return ply:GetNet( "Points" )
 		end,
 		nil
 	)
