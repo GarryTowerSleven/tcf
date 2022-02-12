@@ -85,10 +85,6 @@ local function PlayerSetup( ply )
 
 	ply:SetModel(default_pm)
 
-	timer.Simple( 2.5, function()
-		music.Play( 1, MUSIC_LEVEL, ply )
-	end )
-
 end
 
 concommand.Add("gmt_requestballupdate",function(ply)

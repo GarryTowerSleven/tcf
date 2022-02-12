@@ -177,6 +177,12 @@ local function SetBallId( ply, BallId )
 	end
 end
 
+hook.Add( "PlayerFullyJoined", "StartMusic", function( ply )
+
+	music.Play( 1, MUSIC_LEVEL, ply )
+
+end )
+
 concommand.Add("gmt_setball", function( ply, cmd, args )
 
 	local BallId = tonumber( args[1] )

@@ -67,7 +67,7 @@ MUSIC_LEVEL = 1
 MUSIC_BONUS = 2
 
 music.DefaultVolume = .85
-music.DefaultFolder = "GModTower/balls"
+music.DefaultFolder = "gmodtower/balls"
 
 music.Register( MUSIC_BONUS, "bonusstage" )
 
