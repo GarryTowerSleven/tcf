@@ -405,8 +405,8 @@ GtowerLangush.AddWord( 1, "GamemodeGroupNotOwner",		"You are not the group owner
 GtowerLangush.AddWord( 1, "GamemodeGroupOnly",	"You need to be a in a group to join this server." )
 GtowerLangush.AddWord( 1, "GamemodeCooldown", 	"{1} cannot be voted on because it has been played too much." )
 
-GtowerLangush.AddWord( 1, "GamemodePanelNoGame",	"<font=GTowerbig><color=ltgrey>NO GAME RUNNING - JOIN IT!</color><font>" )
-GtowerLangush.AddWord( 1, "GamemodeNoGame",	"<font=GTowerbig><color=ltgrey>NO GAME RUNNING - JOIN IT!</color><font>" )
+GtowerLangush.AddWord( 1, "GamemodePanelNoGame",	"<font=MultiSubDeluxe><color=white>No game running - Join it!</color><font>" )
+GtowerLangush.AddWord( 1, "GamemodeNoGame",	"<font=MultiSubDeluxe><color=white>No game running - Join it!</color><font>" )
 
 // === CINEMA ===
 GtowerLangush.AddWord( 1, "Volume", "Volume" )
@@ -486,8 +486,8 @@ GtowerLangush.AddWord( 1, "Settings_MuteFocusTooltip", "Mute theater volume whil
 GtowerLangush.AddWord( 1, "Service_EmbedDisabled", "The requested video is embed disabled." )
 GtowerLangush.AddWord( 1, "Service_PurchasableContent", "The requested video is purchasable content and can't be played." )
 GtowerLangush.AddWord( 1, "Service_StreamOffline", "The requested stream is offline." )
-GtowerLangush.AddWord( 1, "GamemodePanelNoGame", 		"<font=GTowerbig><color=ltgrey>NO GAME RUNNING - JOIN IT!</color><font>" )
-GtowerLangush.AddWord( 1, "GamemodeNoGame", 		"<font=GTowerbig><color=ltgrey>NO GAME RUNNING - JOIN IT!</color><font>" )
+GtowerLangush.AddWord( 1, "GamemodePanelNoGame", 		"<font=MultiSubDeluxe><color=white>No game running - Join it!</color><font>" )
+GtowerLangush.AddWord( 1, "GamemodeNoGame", 		"<font=MultiSubDeluxe><color=white>No game running - Join it!</color><font>" )
 
 -- Friending/Blocking
 GtowerLangush.AddWord( 1, "Friends_FriendDesc", "Friends can always enter your condo locked or not. You will also get a notice when they join." )
