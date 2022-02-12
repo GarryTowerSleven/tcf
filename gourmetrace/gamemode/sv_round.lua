@@ -37,6 +37,7 @@ function GM:PreStartRound()
 
 		ply:Kill()
 		ply:Spawn()
+		ply:SendLua([[RunConsoleCommand( "gmt_showscores", "0" )]])
 		ply:Freeze( true )
 		ply:SetNWInt( "Rank", nil )
 		ply:SetNWInt("Points",0)
@@ -107,7 +108,7 @@ function GM:EndRound( teamid )
 
 		ply:AddAchievement(ACHIEVEMENTS.GRMILESTONE1,1)
 
-		ply:ConCommand("gmt_showscores 0")
+		ply:SendLua([[RunConsoleCommand( "gmt_showscores", "0" )]])
 		self:SetRankSpawn( ply )
 
 		if ply:GetNWInt( "Rank" ) && ply:GetNWInt( "Rank" ) <= 3 then
