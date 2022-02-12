@@ -61,6 +61,23 @@ function ENT:GetTargetAngles()
 
 end
 
+function ENT:Think()
+  if IsValid(self.Target) then
+    self.LockStrength = 1
+    local desired = ((self.Target:GetPos() + self.Target:OBBCenter()) - self:GetPos()):Angle()
+    local ang = self:GetAngles()
+    ang = LerpAngle( self.LockStrength / 2, ang, desired )
+
+    self:SetAngles(ang)
+  end
+
+  local phys = self:GetPhysicsObject()
+  if IsValid(phys) then
+    local amp = IsValid(self.Target) and 0.1 - (self.LockStrength * 0.06) or 0.1
+    phys:ApplyForceCenter((self:GetForward() + VectorRand(-amp, amp)) * 16000)
+  end
+end
+
 function ENT:HitPlayer( attacker, victim, kart )
 
   if kart:GetIsInvincible() then
