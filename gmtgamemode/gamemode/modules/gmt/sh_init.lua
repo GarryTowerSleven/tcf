@@ -8,9 +8,10 @@ function SetupGMTGamemode( name, folder, settings )
 			"clientsettings",
             "achievement",
             "commands",
-            "afk",
+			"afk",
             "scoreboard3",
 		}
+
 		if settings.Loadables then
 			table.Add( defaultLoadables, settings.Loadables )
 		end
@@ -217,26 +218,24 @@ function SetupGMTGamemode( name, folder, settings )
 
 end
 
-/*globalnet.Register( "Int", "State" )
-globalnet.Register( "Float", "Time" )*/
-
--- STATE
+// STATE
 STATE_NOPLAY = 0
 
 function GM:SetState( state )
 	if not state then return end
 	MsgN( "[GMode] Setting state: " .. state )
-	globalnet.SetNet( "State", state )
-	self.State = state
+	SetGlobalInt( "State", state )
+	self.State = GetGlobalInt( "State", 0 )
 end
 
 function GM:GetState()
-	return self.State or globalnet.GetNet( "State" ) or 0
+	return self.State || GetGlobalInt( "State", 0 )
 end
 
 function GM:IsPlaying()
-	return globalnet.GetNet( "State" ) == STATE_PLAYING
+	return self:GetState() == STATE_PLAYING
 end
+
 
 -- TIME
 function GM:GetTimeLeft()
@@ -255,16 +254,22 @@ end
 function GM:SetTime( time )
 	if not time then return end
 	MsgN( "[GMode] Setting time: " .. time )
-	globalnet.SetNet( "Time", CurTime() + time )
+	SetGlobalFloat( "Time", CurTime() + time )
+	self.Time = GetGlobalFloat( "Time" )
 end
 
 function GM:GetTime()
-	return globalnet.GetNet( "Time" )
+	return self.Time || GetGlobalFloat( "Time" )
 end
 
--- CONCOMMANDS
-if SERVER then
 
+-- ROUNDS
+function GM:GetRoundCount()
+	return GetWorldEntity():GetNet( "Round" ) or 0
+end
+
+if SERVER then
+	-- CONCOMMANDS
 	concommand.Add( "gmt_setstate", function( ply, cmd, args ) 
 
 		if !ply:IsAdmin() then return end
@@ -278,5 +283,4 @@ if SERVER then
 		GAMEMODE:SetTime( tonumber( args[1] ) )
 
 	end )
-
 end
