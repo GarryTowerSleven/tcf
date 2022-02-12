@@ -25,6 +25,14 @@ function GM:Initalize()
 	NWTableGlobal()
 end
 
+hook.Add( "PlayerDisconnected", "NoPlayerCheck", function( ply )
+	if ply:IsBot() then return end
+	
+	timer.Simple( 5, function()
+		if player.GetCount() == 0 then GAMEMODE:EndServer() end
+	end )
+end )
+
 function GM:SetMusic( idx, ply, win )
 
 	local rp = RecipientFilter():AddAllPlayers()
