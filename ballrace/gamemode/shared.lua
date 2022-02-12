@@ -66,63 +66,28 @@ GM.WaitForPlayersTime = 60
 MUSIC_LEVEL = 1
 MUSIC_BONUS = 2
 
-Levels = {
-	"gmt_ballracer_grassworld01",
-	"gmt_ballracer_iceworld03",
-	"gmt_ballracer_khromidro02",
-	"gmt_ballracer_memories02",
-	"gmt_ballracer_metalworld",
-	"gmt_ballracer_midori02",
-	"gmt_ballracer_neonlights01",
-	"gmt_ballracer_nightball",
-	"gmt_ballracer_paradise03",
-	"gmt_ballracer_sandworld02",
-	"gmt_ballracer_skyworld01",
-	"gmt_ballracer_spaceworld01",
-	"gmt_ballracer_waterworld02",
-	"gmt_ballracer_facile",
-	"gmt_ballracer_flyinhigh01",
-	"gmt_ballracer_tranquil01",
-	"gmt_ballracer_rainbowworld"
-}
+music.DefaultVolume = .85
+music.DefaultFolder = "GModTower/balls"
 
-LevelMusic = {
-	{"balls/ballsmusicwgrass",126.955102},
-	{"balls/ballsmusicwice",225},
-	{"balls/ballsmusicwkhromidro",322.377143},
-	{"balls/ballsmusicwmemories",260.127347},
-	{"balls/ballsmusicwmetal",169},
-	{"balls/midori_vox",259},
-	{"pikauch/music/manzaibirds",164},
-	{"balls/ballsmusicwnight",162},
-	{"balls/ballsmusicwparadise",305.057959},
-	{"balls/ballsmusicwsand",71},
-	{"balls/ballsmusicwsky",83.644082},
-	{"balls/ballsmusicwspace",119},
-	{"balls/ballsmusicwwater",195},
-	{"balls/ballsmusicwfacile",143},
-	{"balls/ballsmusicwflyinhigh",195},
-	{"balls/ballsmusicwtranquil",145},
-	{"rainbow_world/ravenholm",77}
-}
+music.Register( MUSIC_BONUS, "bonusstage" )
 
-LevelMapSelect = table.KeyFromValue( Levels, game.GetMap() )
-
-function GetMusicSelection()
-	return LevelMusic[LevelMapSelect][1]
-end
-
-function GetMusicDuration()
-	return LevelMusic[LevelMapSelect][2]
-end
-
-if Maps.IsMap( "gmt_ballracer_khromidro" ) then
-	music.Register( MUSIC_LEVEL, GetMusicSelection(), { Length = 322 * ( 1 / .75 ), Pitch = 75, Loops = true } )
-else
-	music.Register( MUSIC_LEVEL, GetMusicSelection(), { Loops = true, Length = GetMusicDuration() } )
-end
-
-music.Register( MUSIC_BONUS, "balls/bonusstage" )
+music.Register( MUSIC_LEVEL, "ballsmusicwgrass", { Length = 126.955102, Loops = true }, "gmt_ballracer_grassworld" )
+music.Register( MUSIC_LEVEL, "ballsmusicwice", { Length = 225, Loops = true }, "gmt_ballracer_iceworld" )
+music.Register( MUSIC_LEVEL, "ballsmusicwkhromidro", { Length = 322 * ( 1 / .75 ), Pitch = 75, Loops = true }, "gmt_ballracer_khromidro" )
+music.Register( MUSIC_LEVEL, "ballsmusicwmemories", { Length = 260.127347, Loops = true }, "gmt_ballracer_memories" )
+music.Register( MUSIC_LEVEL, "ballsmusicwmetal", { Length = 169, Loops = true }, "gmt_ballracer_metalworld" )
+music.Register( MUSIC_LEVEL, "midori_vox", { Length = 259, Loops = true }, "gmt_ballracer_midori" )
+music.Register( MUSIC_LEVEL, "pikauch/music/manzaibirds", { Length = 164, Loops = true }, "gmt_ballracer_neonlights" )
+music.Register( MUSIC_LEVEL, "ballsmusicwnight", { Length = 162, Loops = true }, "gmt_ballracer_nightball" )
+music.Register( MUSIC_LEVEL, "ballsmusicwparadise", { Length = 305.057959, Loops = true }, "gmt_ballracer_paradise" )
+music.Register( MUSIC_LEVEL, "ballsmusicwsand", { Length = 71, Loops = true }, "gmt_ballracer_sandworld" )
+music.Register( MUSIC_LEVEL, "ballsmusicwsky", { Length = 83.644082, Loops = true }, "gmt_ballracer_skyworld" )
+music.Register( MUSIC_LEVEL, "ballsmusicwspace", { Length = 119, Loops = true }, "gmt_ballracer_spaceworld" )
+music.Register( MUSIC_LEVEL, "ballsmusicwwater", { Length = 195, Loops = true }, "gmt_ballracer_waterworld" )
+music.Register( MUSIC_LEVEL, "ballsmusicwfacile", { Length = 143, Loops = true }, "gmt_ballracer_facile" )
+music.Register( MUSIC_LEVEL, "ballsmusicwflyinhigh", { Length = 195, Loops = true }, "gmt_ballracer_flyinhigh" )
+music.Register( MUSIC_LEVEL, "ballsmusicwtranquil", { Length = 145, Loops = true }, "gmt_ballracer_tranquil" )
+music.Register( MUSIC_LEVEL, "rainbow_world/ravenholm", { Length = 77, Loops = true }, "gmt_ballracer_rainbowworld" )
 
 GM.ExplodeSound = Sound("weapons/ar2/npc_ar2_altfire.wav")
 GM.FilteredEnts = {}

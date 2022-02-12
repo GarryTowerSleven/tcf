@@ -251,7 +251,8 @@ end
 
 function IsMap( map )
 
-	return map == GetCurrentMap()
+	--return map == GetCurrentMap()
+	return string.StartWith( game.GetMap(), map )
 
 end
 
