@@ -30,6 +30,7 @@ local EffectData = EffectData
 local util = util
 local SetGlobalFloat = SetGlobalFloat
 local net = net
+local Dueling = Dueling
 
 local goldenAmount = 100
 
