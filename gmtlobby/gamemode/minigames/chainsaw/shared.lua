@@ -11,7 +11,7 @@ MinigameName = "Chainsaw Battle"
 MinigameLocation = "centerplaza"
 MinigameMessage = "MiniBattleGameStart"
 MinigameArg1 = MinigameName
-MinigameArg2 = Location.GetFriendlyName( GetIDByName( MinigameLocation ) )
+MinigameArg2 = Location.GetFriendlyName( Location.GetIDByName( MinigameLocation ) )
 
 WeaponName = "weapon_chainsaw"
 SpawnPos = Vector(2676.160889, -18.642038, -887.967468)
