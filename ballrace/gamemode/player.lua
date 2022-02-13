@@ -177,7 +177,7 @@ local function SetBallId( ply, BallId )
 	end
 end
 
-hook.Add( "PlayerFullyJoined", "StartMusic", function( ply )
+hook.Add( "PlayerInitialSpawn", "StartMusic", function( ply )
 
 	music.Play( 1, MUSIC_LEVEL, ply )
 
