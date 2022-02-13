@@ -251,9 +251,12 @@ function GM:Think()
       for k,v in pairs( ents.FindByClass( "sk_kart" ) ) do v:SetIsEngineOn( true ) end
 
       self:SetTime( self.RaceTime )
-      timer.Simple(3, function()
+      local cooldownHUD = CurTime() + 3
+      hook.Add( "Think", "HUDCooldown", function()
+        if CurTime() < cooldownHUD then return end
         self:SetState( STATE_PLAYING )
-      end)
+        hook.Remove( "Think", "HUDCooldown" )
+      end )
 
       local TrackName = {}
       TrackName[1] = MUSIC_RACE1
