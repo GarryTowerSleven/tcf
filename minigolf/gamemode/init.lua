@@ -112,9 +112,12 @@ function UnpocketAllBalls()
 end
 
 function GetAllUnfinished()
+	local penalty = hole.par + 3
+
 	for k,v in pairs (player.GetAll()) do
 		if v:Team() != TEAM_FINISHED then
-			v:SetSwing(15)
+			if v:Swing() > penalty then penalty = v:Swing() end
+			v:SetSwing( penalty )
 			v:AutoFail( "TIME LIMIT" )
 		end
 	end
