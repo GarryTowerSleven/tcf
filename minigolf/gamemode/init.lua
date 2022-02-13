@@ -111,13 +111,20 @@ function UnpocketAllBalls()
 	end
 end
 
-function GetAllUnfinished()
+function SetUnfinishedPenalty( ply )
 	local penalty = hole.par + 3
 
+	if ply:Swing() > penalty then
+		penalty = ply:Swing() 
+	end
+
+	return penalty
+end
+
+function GetAllUnfinished()
 	for k,v in pairs (player.GetAll()) do
 		if v:Team() != TEAM_FINISHED then
-			if v:Swing() > penalty then penalty = v:Swing() end
-			v:SetSwing( penalty )
+			SetUnfinishedPenalty( v )
 			v:AutoFail( "TIME LIMIT" )
 		end
 	end
@@ -185,7 +192,7 @@ function GM:AreAllPlayersFinished()
 			if(team.NumPlayers(TEAM_FINISHED) == ( player.GetCount() - #afks ) && self:GetState() != STATE_PREVIEW && self.PreGame != true ) then
 				for _,ply in pairs(afks) do
 					if ply:Team() == TEAM_FINISHED then continue end
-					ply:SetSwing(15)
+					SetUnfinishedPenalty( ply )
 					ply:AutoFail( "AFK" )
 					for k,v in pairs(player.GetAll()) do
 						GAMEMODE:ColorNotifyAll( ply:Name().." has automatically forfeited due to being AFK.", Color(200, 200, 200, 255) )
