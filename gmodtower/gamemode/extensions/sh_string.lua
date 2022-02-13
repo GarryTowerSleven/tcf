@@ -232,6 +232,18 @@ function string.reduce( str, font, width )
 
 end
 
+function string.reduce2( str, font, width )
+
+	local r = string.reduce( str, font, width )
+
+	if r != str then
+		r = r .. "..."
+	end
+
+	return r
+
+end
+
 function string.findFromTable( str, tbl )
 
 	for _, v in pairs( tbl ) do
