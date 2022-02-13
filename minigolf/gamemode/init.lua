@@ -112,7 +112,7 @@ function UnpocketAllBalls()
 end
 
 function SetUnfinishedPenalty( ply )
-	local penalty = PenaltyScores(CurrentHole) + 3
+	local penalty = PenaltyScores(GAMEMODE:GetHole()) + 3
 
 	if ply:Swing() > penalty then
 		penalty = ply:Swing() 
