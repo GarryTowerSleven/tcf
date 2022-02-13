@@ -57,8 +57,8 @@ end
 
 function GM:PaintRounds()
 
-	local CurRound = GetGlobalInt("Round")
-	local MaxRound = GAMEMODE.NumRounds
+	local CurRound = self:GetRoundCount()
+	local MaxRound = self.NumRounds
 
 	// Font doesn't support slashes and spaces are too big
 	local SmallSpace = " " --1/6 em space, 2 times as small as a normal space.
@@ -85,7 +85,7 @@ function GM:PaintTimer()
 
 	local x, y = ( ScrW() / 2 ), ( ( ScrH() - ScrH() ) + 50 )
 
-	if self:GetGameState() == STATE_WARMUP then
+	if self:GetState() == STATE_WARMUP then
 		x = ScrW() / 2
 		y = ScrH() / 2
 	end
@@ -94,11 +94,11 @@ function GM:PaintTimer()
 
 	surface.SetMaterial(hud_timer)
 	surface.SetDrawColor(255,255,255,255)
-	if self:GetGameState() != STATE_WARMUP then
+	if self:GetState() != STATE_WARMUP then
 		surface.DrawTexturedRect(timerX, timerY,400,100)
 	end
 
-		if self:GetGameState() == STATE_PLAYING then
+		if self:GetState() == STATE_PLAYING then
 			surface.SetMaterial(hud_finish)
 			surface.SetDrawColor(255,255,255,100)
 			surface.DrawTexturedRectUV( 0, ScrH()-(186/1.25), ScrW(), 100, 0, 0, ScrW()/100, 1 )
@@ -108,9 +108,9 @@ function GM:PaintTimer()
 			surface.DrawTexturedRect(ScrW()/2-(288/2),ScrH()-186,288,186)
 		end
 
-		if self:GetTimeLeft() <= 31 and self:GetGameState() == STATE_PLAYING then
+		if self:GetTimeLeft() <= 31 and self:GetState() == STATE_PLAYING then
 			draw.SimpleText( ElapsedTime, "GR_time", x, y, Color( 250, 50, 50, 255 ), 1, 1 )
-		elseif self:GetGameState() == STATE_WARMUP then
+		elseif self:GetState() == STATE_WARMUP then
 
 			surface.SetDrawColor(15,15,15,200)
 			surface.DrawRect(0, ScrH()/2-50, ScrW(), 100)
@@ -137,10 +137,10 @@ function GM:PaintTimer()
 	}
 
 
-	if self:GetGameState() == STATE_PLAYING then
+	if self:GetState() == STATE_PLAYING then
 
-		local points = LocalPlayer():GetNWInt("Points")
-		local powerup = LocalPlayer():GetNWString("Powerup")
+		local points = LocalPlayer():GetNet( "Points" )
+		local powerup = LocalPlayer():GetNet( "Powerup" )
 
 		if ( PowerupHUD[ powerup ] ) then
 			surface.SetMaterial(PowerupHUD[ powerup ])
@@ -151,7 +151,7 @@ function GM:PaintTimer()
 		end
 
 		if points and points != 0 then
-			draw.SimpleText( LocalPlayer():GetNWInt("Points"), "GR_score", ScrW()/2,ScrH()-(186/2), Color( 255, 75, 75, 255 ), 1, 1 )
+			draw.SimpleText( LocalPlayer():GetNet( "Points" ), "GR_score", ScrW()/2,ScrH()-(186/2), Color( 255, 75, 75, 255 ), 1, 1 )
 		else
 			draw.SimpleText( dots, "GR_score", ScrW()/2,ScrH()-(186/2), Color( 255, 75, 75, 255 ), 1, 1 )
 		end
@@ -200,6 +200,7 @@ end
 AddPostEvent( "warpstar_off", WarpStar_Off )
 
 net.Receive("PowerupGet", function()
+
 	local ply = net.ReadEntity()
 	local pu = net.ReadString()
 

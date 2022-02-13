@@ -80,21 +80,21 @@ end
 
 function GM:SetRankSpawn( ply )
 
-	if ply:GetNWInt( "Rank" ) == 1 then
+	if ply:GetNet( "Rank" ) == 1 then
 
 		self:SetSpawn( SPAWN_1ST, ply )
 		return
 		
 	end
 
-	if ply:GetNWInt( "Rank" ) == 2 then
+	if ply:GetNet( "Rank" ) == 2 then
 
 		self:SetSpawn( SPAWN_2ND, ply )
 		return
 		
 	end
 
-	if ply:GetNWInt( "Rank" ) == 3 then
+	if ply:GetNet( "Rank" ) == 3 then
 
 		self:SetSpawn( SPAWN_3RD, ply )
 		return

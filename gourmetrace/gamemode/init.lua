@@ -1,6 +1,5 @@
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "cl_hud.lua" )
-AddCSLuaFile( "cl_music.lua" )
 AddCSLuaFile( "shared.lua" )
 AddCSLuaFile( "sh_move.lua" )
 AddCSLuaFile( "sh_meta.lua" )
@@ -22,40 +21,26 @@ util.AddNetworkString("PowerupGet")
 CreateConVar("gmt_srvid", 20 )
 
 function GM:Initalize()
-	NWTableGlobal()
-end
-
-hook.Add( "PlayerDisconnected", "NoPlayerCheck", function( ply )
-	if ply:IsBot() then return end
-	
-	timer.Simple( 5, function()
-		if player.GetCount() == 0 then GAMEMODE:EndServer() end
-	end )
-end )
-
-function GM:SetMusic( idx, ply, win )
-
-	local rp = RecipientFilter():AddAllPlayers()
-	if ply then rp = ply end
-
-	umsg.Start( "GR_PlayMusic", rp )
-		umsg.Char( idx )
-		if win then
-			umsg.Bool( win )
-		end
-	umsg.End()
-
 end
 
 function GM:OnPlayerHitGround( ply, inWater, onFloater, speed )
 	ply.FirstDoubleJump = true
 end
 
+function GM:ResumeMusic( ply )
+	if IsValid( ply ) then
+		if self:GetTimeLeft() < 31 then
+			music.Play( 1, MUSIC_30SEC, ply )
+		else
+			music.Play( 1, MUSIC_ROUND, ply )
+		end
+	end
+end
+
 function PlayerSetup(ply)
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
 	ply:GodEnable()
 	ply:SetCollisionGroup( COLLISION_GROUP_WEAPON )
-	NWTablePlayer(ply)
 end
 
 function GM:IsSpawnpointSuitable( ply, spawnpointent, bMakeSuitable )
@@ -69,13 +54,13 @@ end
 function GM:PlayerButtonDown( ply, button )
 
 	if button == KEY_E then
-		if ply:GetNWString("Powerup") != "" then
+		if ply:GetNet( "Powerup" ) != "" then
 
 			ply:AddAchievement(ACHIEVEMENTS.GRMILESTONE1,1)
 
-			if ply:GetNWString("Powerup") == "warpstar" then
+			if ply:GetNet( "Powerup" ) == "warpstar" then
 
-				ply:SetNWString("Powerup","")
+				ply:SetNet( "Powerup", "" )
 				ply:EmitSound("gmodtower/gourmetrace/actions/teleport.wav",80)
 
 				PostEvent( ply, "warpstar_on" )
@@ -93,12 +78,12 @@ function GM:PlayerButtonDown( ply, button )
 				return
 			end
 
-			local pu = ents.Create(ply:GetNWString("Powerup"))
-			if !IsValid(pu) then ply:SetNWString("Powerup","") return end
+			local pu = ents.Create( ply:GetNet("Powerup") )
+			if !IsValid(pu) then ply:SetNet( "Powerup", "" ) return end
 			pu:SetOwner(ply)
 			pu:SetPos(ply:GetPos())
 			pu:Spawn()
-			ply:SetNWString("Powerup","")
+			ply:SetNet( "Powerup", "" )
 			ply:EmitSound("gmodtower/gourmetrace/actions/pu_place.wav",80)
 		else
 			ply:SendLua([[surface.PlaySound("gmodtower/gourmetrace/actions/pu_invalid.wav")]])
@@ -111,18 +96,19 @@ function GetFirst()
 
 	local distances = {}
 
-	for _,ent in pairs(ents.GetAll()) do if ent:GetClass() == "finish_flag" then
+	for _,ent in pairs(ents.GetAll()) do
+		if ent:GetClass() == "finish_flag" then
 
-		for _,v in pairs(player.GetAll()) do
-			if v:Team() == TEAM_FINISHED then return end
-			table.insert(distances,(v:GetPos():Distance(ent:GetPos())))
-			v.Dist = (v:GetPos():Distance(ent:GetPos()))
+			for _,v in pairs(player.GetAll()) do
+				if v:Team() == TEAM_FINISHED then return end
+				table.insert(distances,(v:GetPos():Distance(ent:GetPos())))
+				v.Dist = (v:GetPos():Distance(ent:GetPos()))
+			end
+
 		end
-
-	end
 	end
 
-	table.sort(distances,function(a,b) return a < b end)
+	table.sort( distances, function(a,b) return a < b end )
 
 	for k,ply in pairs(player.GetAll()) do
 		if ply.Dist == distances[1] then
@@ -145,7 +131,3 @@ hook.Add( "KeyPress", "keypress_jump_super", function( ply, key )
 		end
 	end
 end )
-
-concommand.Add("gr_settime",function(ply,cmd,args,str)
-	if ply:IsAdmin() then SetGlobalInt( "Time", CurTime() + str ) end
-end)

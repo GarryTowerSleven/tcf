@@ -19,25 +19,25 @@ end
 
 function GM:RoundThink()
 
-	if self:GetGameState() == STATE_WAITING && self.FirstPlySpawned && self:GetTimeLeft() <= 0 then
+	if self:GetState() == STATE_WAITING && self.FirstPlySpawned && self:GetTimeLeft() == 0 then
 		self:PreStartRound()
 	end
 
-	if self:GetGameState() == 0 && self:GetTimeLeft() <= 1 then
+	if self:GetState() == STATE_WAITING && self:GetTimeLeft() <= 1 then
 		net.Start("ShowReadyScreen")
 		net.Broadcast()
 	end
 
-	if self:GetGameState() == 1 && self:GetTimeLeft() <= 1 then
+	if self:GetState() == STATE_INTERMISSION && self:GetTimeLeft() <= 1 then
 		net.Start("ShowReadyScreen")
 		net.Broadcast()
 	end
 
-	if self:GetGameState() == STATE_WARMUP && self:GetTimeLeft() < 0 then
+	if self:GetState() == STATE_WARMUP && self:GetTimeLeft() == 0 then
 		self:StartRound()
 	end
 
-	if self:GetGameState() != STATE_WARMUP && self:GetTimeLeft() <= 0 && GetGlobalInt( "Round" ) <= self.NumRounds && GetGlobalInt( "Round" ) > 0 then
+	if self:GetState() != STATE_WARMUP && self:GetTimeLeft() == 0 && self:GetRoundCount() <= self.NumRounds && self:GetRoundCount() > 0 then
 		if self:IsRoundOver() then
 			self:PreStartRound()
 		else
@@ -60,7 +60,7 @@ function GM:RoundThink()
 
 	if self:GetTimeLeft() <= 31 && !self.Intense then
 		self.Intense = true
-		self:SetMusic( MUSIC_30SEC )
+		music.Play( 1, MUSIC_30SEC )
 	end
 
 end
@@ -95,7 +95,7 @@ function GM:PlayerJumpThink( ply )
 
 	if !ply:IsOnGround() then
 
-		if ply:CanDoubleJump() && ply:KeyDown( IN_JUMP ) && ply:GetNWInt( "DoubleJumpNum" ) > 0 then
+		if ply:CanDoubleJump() && ply:KeyDown( IN_JUMP ) && ply:GetNet( "DoubleJumpNum" ) > 0 then
 			ply:DoubleJump()
 		end
 
@@ -104,8 +104,8 @@ function GM:PlayerJumpThink( ply )
 		if !ply.FirstDoubleJump then
 			ply.FirstDoubleJump = true
 		end
-		if ply:GetNWInt( "DoubleJumpNum" ) != 0 then
-			ply:SetNWInt( "DoubleJumpNum", 0 )
+		if ply:GetNet( "DoubleJumpNum" ) != 0 then
+			ply:SetNet( "DoubleJumpNum", 0 )
 		end
 
 	end

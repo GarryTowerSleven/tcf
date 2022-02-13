@@ -90,15 +90,15 @@ function meta:FinishRace()
 
 	if self:Team() == TEAM_FINISHED then return end
 
-	GAMEMODE:SetMusic( MUSIC_FINISH, self )
+	music.Play( 1, MUSIC_FINISH, self )
 	self:SetTeam( TEAM_FINISHED )
 
-	self:SetNWInt( "Rank", #team.GetPlayers( TEAM_FINISHED ) )
-	local rank = self:GetNWInt( "Rank" )
+	self:SetNet( "Rank", #team.GetPlayers( TEAM_FINISHED ) )
+	local rank = self:GetNet( "Rank" )
 	Msg( self:Name() .. " " .. rank, "\n" )
 
 	local time = self.StartTime - CurTime()
-	self:SetNWInt( "Time", time )
+	self:SetNet( "Time", time )
 
 	//GAMEMODE:NotifyFinish( self, time, rank )
 
@@ -109,7 +109,7 @@ function meta:CanDoubleJump()
 	local add = 36; //how much to increase the required z velocity per jump
 	local numjumps = 1; //how many jumps you're allowed before increasing the required z velocity
 
-	local num = -( 150 - ( add * numjumps ) + ( add * self:GetNWInt( "DoubleJumpNum" ) ) )
+	local num = -( 150 - ( add * numjumps ) + ( add * self:GetNet( "DoubleJumpNum" ) ) )
 
 	if !self:IsOnGround() and self.FirstDoubleJump then
 		return true
@@ -127,6 +127,6 @@ function meta:DoubleJump()
 
 	self.FirstDoubleJump = false
 	self:EmitSound( "GModTower/gourmetrace/actions/jump.wav", 75, math.random(100,110) )
-	self:SetNWInt( "DoubleJumpNum", self:GetNWInt( "DoubleJumpNum" ) + 1 )
+	self:SetNet( "DoubleJumpNum", self:GetNet( "DoubleJumpNum" ) + 1 )
 
 end

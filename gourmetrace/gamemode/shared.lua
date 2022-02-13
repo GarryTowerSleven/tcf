@@ -1,34 +1,26 @@
-GM.Name     = "GMod Tower: Gourmet Race"
-GM.Author   = "GMT Crew~"
-GM.Website  = "http://www.gmtower.org/"
-
-GM.AllowSpecialModels = false
-GM.AllowHats = false
-
-GM.MaxSpeed = 800
-GM.NumRounds = 4
-
---DeriveGamemode( "base" )
-
 DeriveGamemode( "gmtgamemode" )
 SetupGMTGamemode( "Gourmet Race", "gourmetrace", {
 	DrawHatsAlways = false, // Always draw hats
 	AllowChangeSize = false,
 } )
 
-function NWTableGlobal()
-	SetGlobalInt( "State", 0 )
-	SetGlobalInt( "Round", 0 )
-	SetGlobalInt( "Time", 0 )
-	SetGlobalBool( "NoReadyScreen", false )
-end
+GM.MaxSpeed = 800
+GM.NumRounds = 4
 
-function NWTablePlayer(ply)
-	ply:SetNWInt( "Rank", 0 )
-	ply:SetNWInt( "Powerup", 0 )
-	ply:SetNWInt( "Time", 0 )
-	ply:SetNWInt( "DoubleJumpNum", 0 )
-end
+// === GAMEMODE NETVARS ===
+RegisterNWTableGlobal( {
+	{ "Round", 0, NWTYPE_NUMBER, REPL_EVERYONE },
+} )
+
+RegisterNWTablePlayer( {
+	{ "Rank", 99, NWTYPE_NUMBER, REPL_EVERYONE },
+	{ "Pos", 99, NWTYPE_NUMBER, REPL_EVERYONE },
+	{ "Invincible", false, NWTYPE_BOOLEAN, REPL_EVERYONE },
+	{ "Powerup", "", NWTYPE_STRING, REPL_EVERYONE },
+	{ "Time", 0, NWTYPE_NUMBER, REPL_EVERYONE },
+	{ "DoubleJumpNum", 0, NWTYPE_NUMBER, REPL_EVERYONE },
+	{ "Points", 0, NWTYPE_NUMBER, REPL_EVERYONE },
+} )
 
 STATE_WAITING		= 0 // waiting for players
 STATE_INTERMISSION	= 1 // wait time after end
@@ -48,48 +40,33 @@ MUSIC_WAITING = 1
 MUSIC_WARMUP = 2
 MUSIC_ROUND = 3
 MUSIC_ENDROUND = 4
-MUSIC_WINLOSE = 5
-MUSIC_30SEC = 6
-MUSIC_INVINCIBLE = 7
-MUSIC_TAKEFIRST = 8
-MUSIC_FINISH = 9
+MUSIC_WIN = 5
+MUSIC_LOSE = 6
+MUSIC_TIMEUP = 7
+MUSIC_30SEC = 8
+MUSIC_INVINCIBLE = 9
+MUSIC_TAKEFIRST = 10
+MUSIC_FINISH = 11
 
-GM.Music = {
-	[MUSIC_WAITING] = { "GModTower/gourmetrace/music/waiting/waiting", 5 },
-	[MUSIC_WARMUP] = Sound( "GModTower/gourmetrace/music/warmup.mp3" ),
-	[MUSIC_ROUND] = { "GModTower/gourmetrace/music/round/round", 9 },
-	[MUSIC_ENDROUND] = { "GModTower/gourmetrace/music/endround/endround", 3 },
-	[MUSIC_WINLOSE] = {
+music.DefaultVolume = .85
+music.DefaultFolder = "gmodtower/gourmetrace/music"
 
-		Win = Sound( "GModTower/gourmetrace/music/win.mp3" ),
-		Lose = Sound( "GModTower/gourmetrace/music/lost.mp3" ),
-		Timeup = Sound( "GModTower/gourmetrace/music/timeup.mp3" ),
+music.Register( MUSIC_WAITING, "waiting/waiting", { Num = 5 } )
+music.Register( MUSIC_WARMUP, "warmup" )
+music.Register( MUSIC_ROUND, "round/round", { Num = 9 } )
+music.Register( MUSIC_ENDROUND, "endround/endround", { Num = 3 } )
 
-	},
-	[MUSIC_30SEC] = { "GModTower/gourmetrace/music/30sec/30sec", 3 },
-	[MUSIC_INVINCIBLE] = Sound( "GModTower/gourmetrace/music/invincibility.wav" ),
-	[MUSIC_TAKEFIRST] = Sound( "GModTower/gourmetrace/music/take1st.mp3" ),
-	[MUSIC_FINISH] = Sound( "GModTower/gourmetrace/music/finish.wav" ),
-}
+music.Register( MUSIC_WIN, "win" )
+music.Register( MUSIC_LOSE, "lost" )
+music.Register( MUSIC_TIMEUP, "timeup" )
 
-function GM:SetGameState( state )
-	SetGlobalInt( "State", state )
-end
-
-function GM:GetGameState()
-	return GetGlobalInt( "State" )
-end
-
-function GM:IsPlaying()
-	return GetGlobalInt( "State" ) == STATE_PLAYING
-end
+music.Register( MUSIC_30SEC, "30sec/30sec", { Num = 3 } )
+music.Register( MUSIC_INVINCIBLE, "invincibility", { Ext = ".wav" } )
+music.Register( MUSIC_TAKEFIRST, "take1st" )
+music.Register( MUSIC_FINISH, "finish", { Ext = ".wav" } )
 
 function GM:IsRoundOver()
-	return GetGlobalInt( "State" ) == STATE_INTERMISSION
-end
-
-function GM:GetTimeLeft()
-	return ( GetGlobalInt( "Time" ) or 0 ) - CurTime()
+	return self:GetState() == STATE_INTERMISSION
 end
 
 function GM:ShouldCollide( ent1, ent2 )

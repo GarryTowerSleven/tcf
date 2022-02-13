@@ -1,4 +1,5 @@
 ENT.Type 			= "anim"
 ENT.PrintName		= "Bomb"
 ENT.Author			= "Bumpy"
-ENT.Base			= "weapon_base"
+
+ENT.Model = "models/legoj15/ssb4/items/x-bomb.mdl"
