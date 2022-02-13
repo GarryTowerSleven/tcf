@@ -110,7 +110,7 @@ function GM:Think()
 							umsg.End()
 						end )
 
-						timer.Simple( 30,function()
+						timer.Simple( 20,function()
 							self:EndServer()
 						end )
 					end
