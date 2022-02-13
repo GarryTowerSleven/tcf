@@ -91,10 +91,21 @@ function GM:PlayerSpawn(ply)
 		self:UpdateSpecs(ply)
 
 	else
+		local delay = CurTime() + 0.5
 
 		ply:Spectate(OBS_MODE_ROAMING)
-
-		self:SpectateNext(ply)
+		
+		if ply:Team() != TEAM_DEAD then
+			hook.Add( "Think", "SpectateDelay", function()
+				if CurTime() < delay then return end
+				self:SpectateNext(ply)
+				print(ply)
+				hook.Remove( "Think", "SpectateDelay" )
+			end )
+		else
+			self:SpectateNext(ply)
+			print(ply)
+		end
 
 		self:UpdateStatus()
 
