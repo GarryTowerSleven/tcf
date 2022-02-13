@@ -137,7 +137,7 @@ function GiveWeapon( ply )
 		ply.CanPickupWeapons = false
 	end
 
-	ply:GodDisable()
+	--ply:GodDisable()
 
 end
 

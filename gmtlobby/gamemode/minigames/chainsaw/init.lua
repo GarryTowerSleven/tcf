@@ -142,10 +142,9 @@ function PlayerSpawn( ply )
 
 	local Pos = ply:Location()
 
-	if Pos == MinigameLocation then
+	if Pos == GetIDByName( MinigameLocation ) then
 
 		ply:SetVelocity( VectorRand() * 800 )
-		ply.DisableCollision = CurTime() + 3.0
 		GiveWeapon( ply )
 
 	end
