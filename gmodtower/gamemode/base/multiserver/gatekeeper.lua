@@ -23,6 +23,10 @@ gateKeep.HardCodedBans = {
 	{"STEAM_0:0:50197118", "Zoephixical"},
 	{"STEAM_0:1:61873778", "Sabina"},
 	{"STEAM_0:1:21016813", "0x0539"},
+	{"STEAM_0:0:80151556", "Kim"},
+	{"STEAM_0:0:44370505", "Konta"},
+	{"STEAM_0:1:47544900", "Dr.Rabbit"},
+	{"STEAM_0:0:37654169", "Pixel"},
 }
 
 /*gateKeep.HardCodedIPBans = {
