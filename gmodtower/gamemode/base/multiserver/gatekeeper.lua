@@ -12,6 +12,7 @@ gateKeep.HardCodedBans = {
 	{"STEAM_0:0:80151556", "Kim"},
 	{"STEAM_0:0:44370505", "Konta"},
 	{"STEAM_0:1:47544900", "Dr.Rabbit"},
+	{"STEAM_0:0:37654169", "Pixel"},
 }
 
 gateKeep.MaxSlots = 0
