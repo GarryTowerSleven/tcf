@@ -336,9 +336,14 @@ end
 
 local verts = {{},{},{},{}}
 local otw, oth, tw, th, uoffset, voffset, umax, vmax
-function OffsetTexture( x, y, w, h, xoffset, yoffset, tw, th, texture, color )
+function OffsetTexture( x, y, w, h, xoffset, yoffset, tw, th, color, texture, ismat )
 
-	otw, oth = surface.GetTextureSize(texture)
+	if ismat then
+		otw, oth = texture:GetInt( "$realwidth" ) or 1280, texture:GetInt( "$realheight" ) or 720
+	else
+		otw, oth = surface.GetTextureSize(texture)
+	end
+
 	uoffset, voffset = xoffset/otw, yoffset/oth
 	umax, vmax = uoffset + (tw/otw), voffset + (th/oth)
 
@@ -363,7 +368,11 @@ function OffsetTexture( x, y, w, h, xoffset, yoffset, tw, th, texture, color )
 	verts[4].v = vmax
 
 	surface.SetDrawColor(color)
-	surface.SetTexture(texture)
+	if ismat then
+		surface.SetMaterial(texture)
+	else
+		surface.SetTexture(texture)
+	end
 	surface.DrawPoly(verts)
 
 end
