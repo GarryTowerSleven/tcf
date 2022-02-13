@@ -245,12 +245,15 @@ function GM:Think()
 
     end
   elseif self:GetState() == STATE_READY then
-    if self:NoTimeLeft() then
+    local time = math.ceil( self:GetTimeLeft() )
+    if time == 1 then
 
       for k,v in pairs( ents.FindByClass( "sk_kart" ) ) do v:SetIsEngineOn( true ) end
 
       self:SetTime( self.RaceTime )
-      self:SetState( STATE_PLAYING )
+      timer.Simple(3, function()
+        self:SetState( STATE_PLAYING )
+      end)
 
       local TrackName = {}
       TrackName[1] = MUSIC_RACE1
