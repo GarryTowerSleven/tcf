@@ -110,9 +110,9 @@ function GM:Think()
 							umsg.End()
 						end )
 
-						timer.Simple(20,function()
+						timer.Simple( 30,function()
 							self:EndServer()
-						end)
+						end )
 					end
 
 					self.EndSoundPlayed = true
