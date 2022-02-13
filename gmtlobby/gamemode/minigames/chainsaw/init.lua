@@ -109,7 +109,7 @@ end
 
 function playerDies( ply, inflictor, killer )
 
-	if ply:Location()  == MinigameLocation then
+	if ply:Location() == Location.GetIDByName( MinigameLocation ) then
 		table.insert( PlayerSpawnOnLobby, ply )
 
 		//print( ply, inflictor, killer )
@@ -142,7 +142,7 @@ function PlayerSpawn( ply )
 
 	local Pos = ply:Location()
 
-	if Pos == GetIDByName( MinigameLocation ) then
+	if Pos == Location.GetIDByName( MinigameLocation ) then
 
 		ply:SetVelocity( VectorRand() * 800 )
 		GiveWeapon( ply )
