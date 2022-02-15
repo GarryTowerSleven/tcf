@@ -46,7 +46,7 @@ net.Receive( "MEDIAPLAYER.VoteMedia", RequestWrapper(function(mp, ply)
 		songpick:RemoveVote( mp, ply )
 	else
 		songpick:AddVote( mp, ply, value )
-		ply:ChatPrint(songpick:GetVoteCountForMedia( mp, forceCalc ))
+		ply:Msg2(songpick:GetVoteCountForMedia( mp, forceCalc ))
 	end
 
 end) )
@@ -83,10 +83,10 @@ function VoteSkipAnnounce(ply,location)
 	for k,v in pairs(location) do
 		if MediaVoteSkip:GetNumRemainingVotes( #location ) == 0 then
 			--v:ChatPrint(ply:Name().." has voted to skip the song ("..MediaVoteSkip:GetNumVotes().."/"..#location..") Votes. SKIPPED")
-			v:ChatPrint( T( "Theater_PlayerVoteSkipped", ply:Name(), MediaVoteSkip:GetNumVotes(), #location ) .. " SKIPPED" )
+			v:Msg2( T( "Theater_PlayerVoteSkipped", ply:Name(), MediaVoteSkip:GetNumVotes(), #location ) .. " SKIPPED" )
 		else
 			--v:ChatPrint(ply:Name().." has voted to skip the song ("..MediaVoteSkip:GetNumVotes().."/"..#location..") Votes. "..MediaVoteSkip:GetNumRemainingVotes( #location ).." more votes need to skip.")
-			v:ChatPrint( T( "Theater_PlayerVoteSkipped", ply:Name(), MediaVoteSkip:GetNumVotes(), #location ) .. " " .. MediaVoteSkip:GetNumRemainingVotes( #location ) .. " more votes need to skip." )
+			v:Msg2( T( "Theater_PlayerVoteSkipped", ply:Name(), MediaVoteSkip:GetNumVotes(), #location ) .. " " .. MediaVoteSkip:GetNumRemainingVotes( #location ) .. " more votes need to skip." )
 		end
 	end
 end
@@ -139,7 +139,7 @@ net.Receive( "MEDIAPLAYER.RequestMedia", RequestWrapper(function(mp, ply)
 
 	-- Validate the URL
 	if not MediaPlayer.ValidUrl( url ) and not allowWebpage then
-		ply:ChatPrint( "The requested URL wasn't valid." )
+		ply:Msg2( "The requested URL wasn't valid." )
 		return
 	end
 

@@ -71,7 +71,7 @@ function MediaPlayer.Request( obj, url )
 
 	-- Verify valid URL as to not waste time networking
 	if not MediaPlayer.ValidUrl( url ) and not allowWebpage then
-		LocalPlayer():ChatPrint("The requested URL was invalid.")
+		LocalPlayer():Msg2("The requested URL was invalid.")
 		return false
 	end
 
@@ -79,8 +79,7 @@ function MediaPlayer.Request( obj, url )
 
 	local function request( err )
 		if err then
-			-- TODO: don't use chatprint to notify the user
-			LocalPlayer():ChatPrint( "Request failed: " .. err )
+			LocalPlayer():Msg2( "Request failed: " .. err )
 			return
 		end
 
