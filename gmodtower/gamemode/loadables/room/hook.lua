@@ -37,9 +37,11 @@ hook.Add("GTowerInvDrop", "BlockSuiteUsageDrop", function( ply, trace, Item, mov
 					ply.AchiCondoOCDCount = ply:GetAchievement( ACHIEVEMENTS.SUITEOCD )
 				end
 
-				ply.AchiCondoOCDCount = ply.AchiCondoOCDCount + 1
+				ply.AchiCondoOCDCount = ( ply.AchiCondoOCDCount || 0 ) + 1
 
-				ply:SetAchievement( ACHIEVEMENTS.SUITEOCD, ply.AchiCondoOCDCount )
+				if ply.AchiCondoOCDCount > ply:GetAchievement( ACHIEVEMENTS.SUITEOCD ) then
+					ply:SetAchievement( ACHIEVEMENTS.SUITEOCD, ply.AchiCondoOCDCount )
+				end
 
 			end
 
