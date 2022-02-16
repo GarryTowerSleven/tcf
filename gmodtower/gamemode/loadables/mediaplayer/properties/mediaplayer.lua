@@ -130,7 +130,7 @@ AddMediaPlayerProperty( "mp-copy-url", {
 		if not IsValid(media) then return end
 
 		SetClipboardText( media:Url() )
-		LocalPlayer():Msg2( "Media URL has been copied into your clipboard." )
+		Msg2( "Media URL has been copied into your clipboard." )
 
 	end
 })
