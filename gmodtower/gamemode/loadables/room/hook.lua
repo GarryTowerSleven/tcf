@@ -33,15 +33,13 @@ hook.Add("GTowerInvDrop", "BlockSuiteUsageDrop", function( ply, trace, Item, mov
 
 			if !ply:Achived( ACHIEVEMENTS.SUITEOCD ) then
 
-				if !ply._AchiSuiteOCDCount then
-					ply._AchiSuiteOCDCount = {}
+				if !ply.AchiCondoOCDCount then
+					ply.AchiCondoOCDCount = ply:GetAchievement( ACHIEVEMENTS.SUITEOCD )
 				end
 
-				ply._AchiSuiteOCDCount[ Item.MysqlId ] = (ply._AchiSuiteOCDCount[ Item.MysqlId ] or 0) + 1
+				ply.AchiCondoOCDCount = ply.AchiCondoOCDCount + 1
 
-				if ply._AchiSuiteOCDCount[ Item.MysqlId ] > ply:GetAchievement( ACHIEVEMENTS.SUITEOCD ) then
-					ply:SetAchievement( ACHIEVEMENTS.SUITEOCD, ply._AchiSuiteOCDCount[ Item.MysqlId ] )
-				end
+				ply:SetAchievement( ACHIEVEMENTS.SUITEOCD, ply.AchiCondoOCDCount )
 
 			end
 
