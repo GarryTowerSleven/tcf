@@ -73,7 +73,7 @@ function SERVICE:Play()
 			end,
 			function()
 				local msg = ("Failed to load media player audio '%s'"):format( self.url )
-				LocalPlayer():Msg2( msg )
+				Msg2( msg )
 			end,
 			MAX_LOAD_ATTEMPTS
 		)

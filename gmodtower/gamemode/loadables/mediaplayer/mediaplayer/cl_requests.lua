@@ -71,7 +71,7 @@ function MediaPlayer.Request( obj, url )
 
 	-- Verify valid URL as to not waste time networking
 	if not MediaPlayer.ValidUrl( url ) and not allowWebpage then
-		LocalPlayer():Msg2("The requested URL was invalid.")
+		Msg2("The requested URL was invalid.")
 		return false
 	end
 
