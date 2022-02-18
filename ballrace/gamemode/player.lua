@@ -99,12 +99,10 @@ function GM:PlayerSpawn(ply)
 			hook.Add( "Think", "SpectateDelay", function()
 				if CurTime() < delay then return end
 				self:SpectateNext(ply)
-				print(ply)
 				hook.Remove( "Think", "SpectateDelay" )
 			end )
 		else
 			self:SpectateNext(ply)
-			print(ply)
 		end
 
 		self:UpdateStatus()
