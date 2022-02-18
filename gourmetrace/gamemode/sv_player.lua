@@ -86,7 +86,7 @@ end
 
 function GM:GetFallDamage( ply, vel ) return 0 end
 
-hook.Add( "PlayerFullyJoined", "WaitingMusic", function( ply )
+hook.Add( "PlayerInitialSpawn", "WaitingMusic", function( ply )
 
 	music.Play( 1, MUSIC_WAITING, ply )
 

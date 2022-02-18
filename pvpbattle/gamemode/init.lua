@@ -94,9 +94,7 @@ function GM:PlayerSpawn( ply )
 	// Music on join
 	if !ply.MusicJoined then
 		ply.MusicJoined = true
-		timer.Simple( 2.5,function()
-			music.Play( 1, 1, ply )
-		end )
+		music.Play( 1, 1, ply )
 	end
 
 	// Stop observer mode

@@ -111,10 +111,8 @@ function GM:PlayerSpawn( ply )
 
     ply:SetTeam( TEAM_READY )
 
-    timer.Simple(2.5,function()
 		music.Play( 1, MUSIC_WAITING, ply )
-      self:SpawnPlayerKart( ply, false )
-    end)
+    self:SpawnPlayerKart( ply, false )
 
     --self:SpawnPlayerKart( ply, false )
 
