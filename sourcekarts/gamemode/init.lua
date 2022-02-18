@@ -249,7 +249,7 @@ function GM:Think()
       for k,v in pairs( ents.FindByClass( "sk_kart" ) ) do v:SetIsEngineOn( true ) end
 
       self:SetTime( self.RaceTime )
-      local cooldownHUD = CurTime() + 3
+      local cooldownHUD = CurTime() + 2
       hook.Add( "Think", "HUDCooldown", function()
         if CurTime() < cooldownHUD then return end
         self:SetState( STATE_PLAYING )
