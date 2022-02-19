@@ -63,7 +63,7 @@ music.Register( MUSIC_TIMEUP, "timeup" )
 music.Register( MUSIC_30SEC, "30sec/30sec", { Num = 3 } )
 music.Register( MUSIC_INVINCIBLE, "invincibility", { Ext = ".wav" } )
 music.Register( MUSIC_TAKEFIRST, "take1st" )
-music.Register( MUSIC_FINISH, "finish", { Ext = ".wav" } )
+music.Register( MUSIC_FINISH, "finish", { Ext = ".wav", Oneoff = true } )
 
 function GM:IsRoundOver()
 	return self:GetState() == STATE_INTERMISSION
