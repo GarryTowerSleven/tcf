@@ -456,6 +456,10 @@ function GM:GetBestTime(ply, lvl)
 
 end
 
+function GetRaceTime()
+	return GAMEMODE.DefaultLevelTime-GAMEMODE:GetTimeLeft()
+end
+
 function GM:PlayerComplete(ply)
 
 	ply.RaceTime = GetRaceTime()

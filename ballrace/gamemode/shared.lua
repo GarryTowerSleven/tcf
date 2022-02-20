@@ -108,10 +108,6 @@ end
 
 default_pm = 'models/player/kleiner.mdl'
 
-function GetRaceTime()
-	return GAMEMODE.DefaultLevelTime-GAMEMODE:GetTimeLeft()
-end
-
 local novel = Vector(0,0,0)
 function GM:Move(ply, movedata)
 	movedata:SetForwardSpeed(0)
