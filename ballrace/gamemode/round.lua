@@ -513,10 +513,10 @@ function GM:PlayerComplete(ply)
 	local finishTime = string.FormattedTime( ply.RaceTime )
 
 	ply:SetNet( "CompletedRank", placement )
-	ply:SetNet( "CompletedTime", tostring( " "..math.floor(finishTime.s).."."..math.floor(finishTime.ms) ) )
+	ply:SetNet( "CompletedTime", tostring(string.format("%0.2i", math.floor(finishTime.s)).."."..string.format("%0.2i", math.floor(finishTime.ms) ) ) )
 
 	--PrintMessage( HUD_PRINTTALK, ply:Name()..' got '..PlacementPostfix(placement)..' place! Time Completed: '..string.FormattedTime(ply.RaceTime, "%02i:%02i:%02i")..'.' )
-	self:ColorNotifyAll( "LVL "..level.." #"..placement.." "..ply:Name().." |"..ply:GetNet( "CompletedTime" ) )
+	self:ColorNotifyAll( "LVL "..level.." #"..placement.." "..ply:Name().." | "..ply:GetNet( "CompletedTime" ) )
 
 end
 
