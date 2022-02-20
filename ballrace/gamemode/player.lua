@@ -11,30 +11,34 @@ function GM:PlayerInitialSpawn(ply)
 	net.Start("pick_ball")
 	net.Send(ply)
 
-	if GetState() == STATE_NOGAME && #player.GetAll() == 1 then
+	if self:GetState() == STATE_NOPLAY && #player.GetAll() == 1 then
 		game.CleanUpMap()
+
+		self:SetState( STATE_WAITING )
+		self:SetTime( GAMEMODE.WaitForPlayersTime )
+
 		ply:ChatPrint("You are the first to join, waiting for additional players!")
-		--timer.Simple(GAMEMODE.WaitForPlayersTime, self.StartRound, self)
 	end
+
 end
 
 function GM:PlayerDisconnected(ply)
-	ply:SetTeam(TEAM_DEAD)
-	self:UpdateSpecs(ply, true)
+	ply:SetTeam( TEAM_DEAD )
+	self:UpdateSpecs( ply, true )
 
-	self:LostPlayer(ply, true)
-	PrintMessage( HUD_PRINTTALK, ply:Name().. " has dropped out of the race." )
+	self:LostPlayer( ply, true )
+	--PrintMessage( HUD_PRINTTALK, ply:Name().. " has dropped out of the race." )
 end
 
 function GM:DoPlayerDeath(ply)
 	if ply:Deaths() - 1 == 0 then
-		ply:SetTeam(TEAM_DEAD)
-		self:UpdateSpecs(ply, true)
+		ply:SetTeam( TEAM_DEAD )
+		self:UpdateSpecs( ply, true )
 	end
 
-	ply:SetDeaths(ply:Deaths() - 1)
+	ply:SetDeaths( ply:Deaths() - 1 )
 
-	self:LostPlayer(ply)
+	self:LostPlayer( ply )
 
 	ply.NextSpawn = CurTime() + 2
 end
@@ -56,7 +60,7 @@ function GM:PlayerDeathSound( ply )
 end
 
 function GM:PlayerSpawn(ply)
-	if GetState() == STATE_SPAWNING || ply:Team() == TEAM_PLAYERS then
+	if self:GetState() == STATE_SPAWNING || ply:Team() == TEAM_PLAYERS then
 
 		ply.Spectating = nil
 
@@ -66,11 +70,11 @@ function GM:PlayerSpawn(ply)
 		end
 
 		ply:UnSpectate()
-		ply:SetTeam(TEAM_PLAYERS)
+		ply:SetTeam( TEAM_PLAYERS )
 
 		ply:SetColor( Color( 0,0,0,0 ) )
 		ply:SetNotSolid(true)
-		ply:SetMoveType(MOVETYPE_NOCLIP)
+		ply:SetMoveType( MOVETYPE_NOCLIP )
 
 		ply.Ball = ents.Create("player_ball")
 
@@ -87,10 +91,19 @@ function GM:PlayerSpawn(ply)
 		self:UpdateSpecs(ply)
 
 	else
+		local delay = CurTime() + 0.5
 
 		ply:Spectate(OBS_MODE_ROAMING)
-
-		self:SpectateNext(ply)
+		
+		if ply:Team() != TEAM_DEAD then
+			hook.Add( "Think", "SpectateDelay", function()
+				if CurTime() < delay then return end
+				self:SpectateNext(ply)
+				hook.Remove( "Think", "SpectateDelay" )
+			end )
+		else
+			self:SpectateNext(ply)
+		end
 
 		self:UpdateStatus()
 
@@ -140,9 +153,9 @@ function GetPlayerStatus(ply)
 		player_status = "DEAD"
 	elseif ply:Team() == TEAM_COMPLETED then
 		player_status = ply.placements
-	elseif GetState() == STATE_WAITING then
+	elseif GAMEMODE:GetState() == STATE_WAITING then
 		player_status = "WAITING"
-	elseif GetState() != STATE_WAITING then
+	elseif GAMEMODE:GetState() != STATE_WAITING then
 		player_status = "PLAYING"
 	end
 
@@ -172,6 +185,12 @@ local function SetBallId( ply, BallId )
 		ply.ModelSet = 'models/gmod_tower/BALL.mdl'
 	end
 end
+
+hook.Add( "PlayerInitialSpawn", "StartMusic", function( ply )
+
+	music.Play( 1, MUSIC_LEVEL, ply )
+
+end )
 
 concommand.Add("gmt_setball", function( ply, cmd, args )
 

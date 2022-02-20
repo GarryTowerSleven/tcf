@@ -273,6 +273,7 @@ if SERVER then
 	concommand.Add( "gmt_setstate", function( ply, cmd, args ) 
 
 		if !ply:IsAdmin() then return end
+		ply:PrintMessage( HUD_PRINTCONSOLE, "[GMode] Setting state: " .. args[1] )
 		GAMEMODE:SetState( tonumber( args[1] ) )
 
 	end )
@@ -280,6 +281,7 @@ if SERVER then
 	concommand.Add( "gmt_settime", function( ply, cmd, args ) 
 
 		if !ply:IsAdmin() then return end
+		ply:PrintMessage( HUD_PRINTCONSOLE, "[GMode] Setting time: " .. args[1] )
 		GAMEMODE:SetTime( tonumber( args[1] ) )
 
 	end )
