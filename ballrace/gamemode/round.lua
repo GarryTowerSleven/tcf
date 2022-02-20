@@ -203,10 +203,10 @@ end
 function GM:StartRound()
 
 	for k,v in pairs(player.GetAll()) do v.BestTime = nil end
+	self:SetState( STATE_SPAWNING )
 
 	if NextMap then
 		self:EndServer()
-		self:SetState( STATE_ENDING )
 		return
 	end
 
@@ -214,7 +214,6 @@ function GM:StartRound()
 		v:Remove()
 	end
 
-	self:SetState( STATE_SPAWNING )
 	GAMEMODE:SpawnAllPlayers()
 
 	for k,v in pairs(player.GetAll()) do
@@ -351,10 +350,8 @@ function GM:ResetGame()
 
 				self:ColorNotifyAll( "You've failed too many times! Ending game!" )
 
-				timer.Simple(4,function()
-					self:EndServer()
-					self:SetState( STATE_ENDING )
-				end)
+				NextMap = true
+
 				return
 			end
 
@@ -369,10 +366,7 @@ function GM:ResetGame()
 
 			self:ColorNotifyAll( "You've failed too many times! Ending game!" )
 
-			timer.Simple( 4, function()
-				self:EndServer()
-				self:SetState( STATE_ENDING )
-			end )
+			NextMap = true
 		end
 
 	end
