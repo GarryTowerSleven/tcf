@@ -482,12 +482,12 @@ function GM:PlayerComplete(ply)
 			self:ColorNotifyPlayer( ply, "New best time!", Color(100, 100, 255, 255) )
 		else
 			if ply.BestTime <= ply.RaceTime then
-				self:ColorNotifyPlayer( ply, "Your best time is still "..math.floor(ply.BestTime,2), Color(100, 100, 255, 255) )
+				self:ColorNotifyPlayer( ply, "Your best time is still "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
 			end
 
 			if ply.BestTime > ply.RaceTime then
 				self:SaveBestTime(ply, level, ply.RaceTime, true)
-				self:ColorNotifyPlayer( ply, "New best time "..math.floor(ply.RaceTime,2).."! Old time was "..math.floor(ply.BestTime,2), Color(100, 100, 255, 255) )
+				self:ColorNotifyPlayer( ply, "New best time "..math.Round(ply.RaceTime,2).."! Old time was "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
 			end
 
 		end
