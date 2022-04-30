@@ -168,6 +168,19 @@ function CanPlayerUse( arg1, arg2 )
 		end
 	end
 
+	// multiserver leave/join/offline
+	if class == "gmt_multiserver" then
+		if ent.ServerName && ent.ServerName == "Loading..." then
+			return "GAMEMODE UNAVAILABLE, CHECK BACK LATER", true
+		end
+
+		if ent.ServerGamemode && LocalPlayer():GetNWString("QueuedGamemode") == ent.ServerGamemode then
+			return "LEAVE"
+		end
+
+		return "JOIN"
+	end
+
 	-- Support custom entities
 	if ent.CanUse then
 		local enter, message = ent:CanUse( ply )

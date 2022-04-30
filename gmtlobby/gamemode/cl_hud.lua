@@ -501,7 +501,10 @@ function initHud()
 		if use then
 
 			if HUDStyle_Lobby1 then
-				local message = "USE TO " .. string.upper( use )
+				local message = string.upper( use )
+				if !nokey then
+					message = "USE TO " .. message
+				end
 				draw.SimpleText( message, GTowerHUD.Location.Font, w + 8, h - 8, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
 				return
 			end

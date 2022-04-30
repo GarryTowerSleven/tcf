@@ -8,7 +8,7 @@ function GTowerServers:RemovePlayer( ply )
 		local Server = self:Get( ServerId )
 
 		if Server then
-			ply:SetNWString("QueuedGamemode", nil)
+			ply:SetNWString("QueuedGamemode", "")
 			Server:RemovePlayer( ply )
 			net.Start("MultiserverJoinRemove")
 				net.WriteInt(0,2)
