@@ -568,6 +568,17 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 	end
 
 	if tabname == "Notifications" then
+		self:Header( "Style" )
+
+		self:DropDown( "Notification Style", "gmt_message_style", {
+			{"Deluxe", 1},
+			{"Lobby 2", 2},
+			{"Lobby 1", 3},
+		} )
+		self:Divider()
+		self:CheckBox( "Enable Icons", "gmt_message_icons" )
+		
+		self:Divider()
 		self:Header( "Notifications" )
 		if IsLobby then
 			self:CheckBox( "Enable Missing Content Notice", "gmt_notice" )
@@ -640,16 +651,6 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			//self:CheckBox( LobbyCanvas, "Enable Gamemode Notice", "gmt_gmnotice" )
 			//self:CheckBox( LobbyCanvas, "Enable News Ticker", "gmt_newsticker" )
 			//self:CheckBox( LobbyCanvas, "Allow Sound Spam", "gmt_allowSoundSpam" )
-
-			self:Divider()
-			self:Header( "Notifications" )
-			self:DropDown( "Notification Style", "gmt_message_style", {
-				{"Deluxe", 1},
-				{"Lobby 2", 2},
-				{"Lobby 1", 3},
-			} )
-			self:Divider()
-			self:CheckBox( "Notification Icons", "gmt_message_icons" )
 
 			self:Divider()
 			self:Header( "Inventory" )
