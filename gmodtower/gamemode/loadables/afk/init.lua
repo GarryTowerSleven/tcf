@@ -71,7 +71,7 @@ hook.Add("Think","GTAfkThink",function()
 
 				GAMEMODE:ColorNotifyAll( T("AfkBecome", SanitizedName ), Color(200, 200, 200, 255) )
 
-				if engine.ActiveGamemode() == "gmtlobby" and !v:IsAdmin() then
+				if engine.ActiveGamemode() == "gmtlobby" and !v:IsStaff() then
 					if (game.MaxPlayers() - player.GetCount()) < 5 then
 						v:Kick("AFK")
 					end
