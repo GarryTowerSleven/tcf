@@ -4,7 +4,7 @@ GTowerTheater.data = GTowerTheater.data or {}
 GTowerTheater.data = GTowerTheater.data or {}
 
 if CLIENT then
-    GTowerTheater.PreviewsEnbaled = CreateClientConVar( "gmt_theater_previews", 1, true, false, nil, 0, 1 )
+    GTowerTheater.PreviewsEnabled = CreateClientConVar( "gmt_theater_previews", 1, true, false, nil, 0, 1 )
 end
 
 function GTowerTheater:Add( name )
@@ -29,7 +29,7 @@ local lastCheck = 0
 hook.Add( "Think", "TheaterUpdater", function()
 
     if SERVER then return end // unneeded currently, works though
-    if CLIENT && !GTowerTheater.PreviewsEnbaled:GetBool() then return end
+    if CLIENT && !GTowerTheater.PreviewsEnabled:GetBool() then return end
     if CLIENT && !Location.IsGroup( LocalPlayer():Location(), "plaza" ) then return end
     
     if CurTime() < lastCheck then return end

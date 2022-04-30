@@ -39,7 +39,7 @@ if CLIENT then
     local TheaterStatic = Material("theater/static")
 
     function ENT:DrawTranslucent()
-        if !GTowerTheater.PreviewsEnbaled:GetBool() then return end
+        if !GTowerTheater.PreviewsEnabled:GetBool() then return end
 
         local imgui = GTowerUI.imgui
     
