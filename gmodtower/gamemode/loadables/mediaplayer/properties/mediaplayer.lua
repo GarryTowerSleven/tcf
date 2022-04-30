@@ -21,7 +21,7 @@ end
 
 local function IsPrivilegedMediaPlayer( self, ent, ply )
 	return IsMediaPlayer( self, ent, ply ) and
-		( ply:IsAdmin() or ent:GetOwner() == ply )
+		( ply:IsStaff() or ent:GetOwner() == ply )
 end
 
 local function HasMedia( mp )
