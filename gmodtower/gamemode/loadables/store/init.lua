@@ -171,7 +171,7 @@ concommand.Add("gmt_storebuy", function( ply, cmd, args )
 			ent:SetPos( ply:GetPos() )
 			ent.GoalEntity = NpcEnt
 			ent.GMC = MoneyNeeded
-			ent.RandPosAmount = 25
+			ent.RandPosAmount = 10
 			ent:Spawn()
 			ent:Activate()
 			ent:Begin()
