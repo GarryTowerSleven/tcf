@@ -35,6 +35,7 @@ end )
 hook.Add( "PlayerDeathThink", "RespawnCoolDown", function( ply )
 	if IsValid( ply ) && !ply:Alive() && ply.RespawnTimer < CurTime() then
 		ply:Spawn()
+		ply.PowerUp = 0
 	end
 
 	return true
