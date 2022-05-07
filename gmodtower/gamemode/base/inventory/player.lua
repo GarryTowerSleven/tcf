@@ -159,6 +159,7 @@ function meta:InvGiveItem( ItemId, slot )
 
 	ItemSlot:Set( Item )
 	ItemSlot:ItemChanged()
+	Item:PlayMoveSound()
 
 	hook.Call("InvGrab", GAMEMODE, self, ItemSlot )
 
