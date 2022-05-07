@@ -29,7 +29,6 @@ hook.Add("PlayerInitialSpawn", "ResetOnEmptyServer", function( ply )
 
 		GAMEMODE:SetState( 2 )
 		StartMusicJoin(ply)
-		ply.PowerUp = 0
 	end
 end )
 
