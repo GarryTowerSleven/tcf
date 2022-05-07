@@ -25,7 +25,7 @@ function ENT:PowerUpOn( ply )
 end
 
 function ENT:Damage( ply )
-	if IsValid(ply) && ply.PowerUp > 0 then
+	if IsValid(ply) && ply:GetNet("PowerUp") > 0 then
 		if ply:Health() > 1 then
 			ply:SetHealth( ply:Health() - 1 )
 		else
