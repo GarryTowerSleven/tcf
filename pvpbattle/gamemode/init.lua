@@ -294,7 +294,7 @@ end
 
 function GM:DoPlayerDeath( ply, attacker, dmginfo )
 	ply:CreateRagdoll()
-	if ply:GetNet("PowerUp") > 0 then ply:SetNet("PowerUp", = CurTime() - 1) end
+	if ply:GetNet("PowerUp") > 0 then ply:SetNet("PowerUp", CurTime() - 1) end
 
 	ply:AddDeaths( 1 )
 	ply._TheKid = 0
