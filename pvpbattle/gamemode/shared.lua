@@ -63,7 +63,7 @@ function GM:DoubleJump(pl, move)
 
 	if !onground && pl:KeyPressed(IN_JUMP) && !pl.DoubleJumped then
 
-		if pl.PowerUp == 0 || pl.IsPulp then
+		if pl:GetNet("PowerUp") == 0 || pl.IsPulp then
 
 			pl.DoubleJump = true
 			pl.DoubleJumped = true

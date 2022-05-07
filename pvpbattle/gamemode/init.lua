@@ -294,7 +294,7 @@ end
 
 function GM:DoPlayerDeath( ply, attacker, dmginfo )
 	ply:CreateRagdoll()
-	if ply.PowerUp > 0 then ply.PowerUp = CurTime() - 1 end
+	if ply:GetNet("PowerUp") > 0 then ply:SetNet("PowerUp", = CurTime() - 1) end
 
 	ply:AddDeaths( 1 )
 	ply._TheKid = 0
@@ -435,7 +435,7 @@ function GM:EndRound()
 
 	local plys = player.GetAll()
 	for _, ply in ipairs( plys ) do
-		if ply.PowerUp > 0 then ply.PowerUp = CurTime() - 1 end
+		if ply:GetNet("PowerUp") > 0 then ply:SetNet("PowerUp", CurTime() - 1) end
 		ply:Freeze( true )
 		ply:AddAchievement( ACHIEVEMENTS.PVPVETERAN, 1 )
 		ply:AddAchievement( ACHIEVEMENTS.PVPMILESTONE1, 1 )

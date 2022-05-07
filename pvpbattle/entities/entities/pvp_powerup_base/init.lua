@@ -24,7 +24,7 @@ function ENT:Think()
 	if IsValid(self.PoweredUpPly) then
 		local ply = self.PoweredUpPly
 
-		if CurTime() > ply.PowerUp then
+		if CurTime() > ply:GetNet("PowerUp") then
 			self:PowerUpOffBase( ply )
 		end
 	end
@@ -44,12 +44,11 @@ function ENT:OnRemove()
 end
 
 function ENT:Touch( ply )
-	if ply.PowerUp == nil then ply.PowerUp = 0 end
-	if !ply:IsPlayer() || self.Disabled || CurTime() < ply.PowerUp then return end
+	if !ply:IsPlayer() || self.Disabled || CurTime() < ply:GetNet("PowerUp") then return end
 
 	self.PoweredUpPly = ply
 
-	ply.PowerUp = CurTime() + self.ActiveTime + 1
+	ply:SetNet("PowerUp", CurTime() + self.ActiveTime + 1)
 	ply.PowerUpSound = CreateSound( ply, self.Sound1 )
 	ply.PowerUpSound:PlayEx( 10, 100)
 
@@ -75,9 +74,9 @@ end
 
 function ENT:PowerUpOffBase( ply )
 
-	if ply.PowerUp && ply.PowerUp > 0 then
+	if ply:GetNet("PowerUp") && ply:GetNet("PowerUp") > 0 then
 
-		ply.PowerUp = 0
+		ply:SetNet("PowerUp",0)
 		ply.PowerUpSound:Stop()
 		ply.PowerUpSound = nil
 		self:PowerUpOff( ply )

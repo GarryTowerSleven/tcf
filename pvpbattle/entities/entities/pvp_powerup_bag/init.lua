@@ -27,7 +27,7 @@ end
 // wall jump
 hook.Add( "KeyPress", "PulpVibe_WallJump", function( ply, key )
 
-	if !ply.PowerUp || !ply.IsPulp || ply:IsOnGround() then return end
+	if ply:GetNet("PowerUp") == 0 || !ply.IsPulp || ply:IsOnGround() then return end
 
 	local function WallJump( trace, dir, angle )
 
