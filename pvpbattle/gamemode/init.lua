@@ -213,7 +213,7 @@ end
 
 function SendDeathNote( attacker, ent, amount, death )
 	if attacker == ent then return end
-	if !IsValid( attacker ) && !attacker:IsPlayer() then return end
+	if IsValid( attacker ) && !attacker:IsPlayer() then return end
 
 	net.Start( "DamageNotes" )
 		net.WriteFloat( math.Round( amount ) )
