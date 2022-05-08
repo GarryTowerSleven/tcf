@@ -112,10 +112,9 @@ end
 local function NetworkCondoPanelIDs()
 	for k,v in pairs(ents.FindByClass("gmt_condo_panel")) do
 		local entloc = Location.Find( v:GetPos() )
-		local condoID = (entloc - 1)
+		local condoID = entloc
 
 		v:SetNWInt( "condoID", condoID )
-
 	end
 end
 
