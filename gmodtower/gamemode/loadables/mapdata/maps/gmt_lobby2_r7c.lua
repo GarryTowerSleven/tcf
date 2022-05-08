@@ -23,7 +23,7 @@ local function GetNearestCondo( pos )
 		end
 	end
 
-	local value = math.min( unpack( doors ) )
+	local value = unpack( doors )
 	local door = table.KeyFromValue( doors, value )
 
 	if !IsValid(door) then return end
