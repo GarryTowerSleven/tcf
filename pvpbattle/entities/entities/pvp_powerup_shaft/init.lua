@@ -41,7 +41,7 @@ end
 end*/
 
 hook.Add( "EntityTakeDamage", "ShaftProtect", function( ply, dmginfo )
-	if !ply.PowerUp then return end
+	if ply:GetNet("PowerUp") == 0 then return end
 	if !ply.Shaft then return end
 
 	return true
