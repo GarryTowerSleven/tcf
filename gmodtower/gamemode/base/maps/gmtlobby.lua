@@ -135,13 +135,13 @@ Maps.Register( "gmt_lobby2_r7", {
 	DateModified = 1399590414,
 } )
 
-Maps.Register( "gmt_lobby2_r6", {
+/*Maps.Register( "gmt_lobby2_r6", {
 	Name = "Lobby 2 - Deluxe",
 	Desc = "The construction workers have finally finished the Arcade and opened up some new stores, and wow, would you look at those lights in the Plaza! We're not quite sure where the sun went though...",
 	Author = "PixelTail Games / GMT: Deluxe Team",
 	DateAdded = 1399590414,
 	DateModified = 1399590414,
-} )
+} )*/
 
 Maps.Register( "gmt_lobby2_r7h", {
 	Name = "[Halloween] Lobby 2 - Deluxe",
@@ -159,7 +159,7 @@ Maps.Register( "gmt_lobby2_r7c", {
 	DateModified = 1399590414,
 } )
 
-Maps.Register( "gmt_lobby2_r6h", {
+/*Maps.Register( "gmt_lobby2_r6h", {
 	Name = "[Halloween] Lobby 2 - Deluxe",
 	Desc = "A spooky version of the Lobby. Search for Candy Buckets around the Plaza and drop them off at the cauldron for special Halloween items! Feeling lucky? Try our new prize wheel \"Spin or Treat\".",
 	Author = "PixelTail Games / GMT: Deluxe Team",
@@ -173,7 +173,7 @@ Maps.Register( "gmt_lobby2_r6c", {
 	Author = "PixelTail Games / GMT: Deluxe Team",
 	DateAdded = 1399590414,
 	DateModified = 1399590414,
-} )
+} )*/
 
 Maps.Register( "gmt_halloween2014", {
 	Name = "Halloween 2014",
