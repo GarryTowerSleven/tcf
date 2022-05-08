@@ -111,7 +111,7 @@ end
 
 local function NetworkCondoPanelIDs()
 	for k,v in pairs(ents.FindByClass("gmt_condo_panel")) do
-		local entloc = GTowerLocation:FindPlacePos( v:GetPos() )
+		local entloc = Location.Find( v:GetPos() )
 		local condoID = (entloc - 1)
 
 		v:SetNWInt( "condoID", condoID )
@@ -121,7 +121,7 @@ end
 
 local function SpawnCondoPlayers()
 	for k,v in pairs(ents.FindByClass("gmt_roomloc")) do
-		local entloc = GTowerLocation:FindPlacePos( v:GetPos() )
+		local entloc = Location.Find( v:GetPos() )
 		local condoID = (entloc - 1)
 
 		local e = ents.Create("gmt_condoplayer")
