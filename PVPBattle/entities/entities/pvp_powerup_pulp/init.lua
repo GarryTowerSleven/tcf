@@ -23,7 +23,7 @@ end
 // wall jump
 hook.Add( "KeyPress", "PulpVibe_WallJump", function( ply, key )
 
-	if !ply.PowerUp || !ply.IsPulp || ply:IsOnGround() then return end
+	if ply:GetNet("PowerUp") == 0 || !ply.IsPulp || ply:IsOnGround() then return end
 
 	local function WallJump( trace, dir, angle )
 
@@ -77,7 +77,7 @@ hook.Add( "EntityTakeDamage", "PulpVibe_Damage", function( ply, dmginfo )
 	
 	local attacker = dmginfo:GetAttacker()
 	
-	if !IsValid( attacker ) || !attacker.PowerUp || !attacker.IsPulp || !amount || amount == 0 then return end
+	if !IsValid( attacker ) || attacker:GetNet("PowerUp") == 0 || !attacker.IsPulp || !amount || amount == 0 then return end
 
 	if IsValid( ply ) && ply:IsPlayer() then
 

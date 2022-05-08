@@ -67,7 +67,7 @@ net.Receive("ToggleMusic",function()
 end )
 
 function GM:GetRoundOverText()
-	if game.GetWorld().PVPRoundCount >= self.MaxRoundsPerGame then
+	if self:GetRoundCount() >= self.MaxRoundsPerGame then
 		return "Game ends in..."
 	end
 
@@ -154,18 +154,23 @@ function GM:DrawHUDWeapon()
 			surface.SetDrawColor(255,0,0,255)
 			surface.DrawTexturedRect(  ( ScrW() - 120 ) - wobblsize, ( ScrH() - 120 ) - wobblsize, 75 + ( wobblsize * 2 ), 75 + ( wobblsize * 2 ) )
 		end
-	elseif PrimaryAmmo > 0 then
-		surface.SetDrawColor( 0, 0, 0, 250 )
-		surface.DrawRect( ScrW() - 120, ScrH() - 122, 75, 50 )
-		surface.DrawRect( ScrW() - 120, ScrH() - 70, 75, 20 )
-	else
-		local size = math.abs( 10 * math.sin( RealTime() * (10 - ( 4 ) ) ) )
-		surface.SetDrawColor( 255, 0, 0, 255 )
-		surface.DrawRect(  ( ScrW() - 120 ) - size, ( ScrH() - 120 ) - size, 75 + ( size * 2 ), 75 + ( size * 2 ) )
-	end
 
-	draw.SimpleText( PrimaryAmmo, "PVPPrimary", ScrW() - 84, ScrH() - 95, Color( 255, 255, 255, 255 ), 1, 1 )
-	if PrimaryAmmoLeft > 0 then draw.SimpleText( PrimaryAmmoLeft, "PVPPrimaryLeft", ScrW() - 84, ScrH() - 59, Color( 255, 255, 255, 255 ), 1, 1 ) end
+		draw.SimpleText( PrimaryAmmo, "PVPPrimary", ScrW() - 86, ScrH() - 90, Color( 255, 255, 255, 255 ), 1, 1 )
+		if PrimaryAmmoLeft > 0 then draw.SimpleText( PrimaryAmmoLeft, "PVPPrimaryLeft", ScrW() - 76, ScrH() - 58, Color( 255, 255, 255, 255 ), 1, 1 ) end
+	else
+		if PrimaryAmmo > 0 then
+			surface.SetDrawColor( 0, 0, 0, 250 )
+			surface.DrawRect( ScrW() - 120, ScrH() - 122, 75, 50 )
+			surface.DrawRect( ScrW() - 120, ScrH() - 70, 75, 20 )
+		else
+			local size = math.abs( 10 * math.sin( RealTime() * (10 - ( 4 ) ) ) )
+			surface.SetDrawColor( 255, 0, 0, 255 )
+			surface.DrawRect(  ( ScrW() - 120 ) - size, ( ScrH() - 120 ) - size, 75 + ( size * 2 ), 75 + ( size * 2 ) )
+		end
+
+		draw.SimpleText( PrimaryAmmo, "PVPPrimary", ScrW() - 84, ScrH() - 95, Color( 255, 255, 255, 255 ), 1, 1 )
+		if PrimaryAmmoLeft > 0 then draw.SimpleText( PrimaryAmmoLeft, "PVPPrimaryLeft", ScrW() - 84, ScrH() - 59, Color( 255, 255, 255, 255 ), 1, 1 ) end
+	end
 
 end
 
@@ -174,7 +179,7 @@ function GM:DrawHUDHealth()
 
 	if LocalPlayer():Health() <= 0 then return end
 
-	if GAMEMODE:IsRoundOver() then return end
+	if self:IsRoundOver() then return end
 
 	if LocalPlayer().Headphones then
 
@@ -222,10 +227,10 @@ function GetAmmoYPos()
     return 250
 end
 
-table.insert( HudToHide, "CHudHealth" )
-table.insert( HudToHide, "CHudAmmo" )
-table.insert( HudToHide, "CHudSecondaryAmmo" )
-table.insert( HudToHide, "CHudBattery" )
+table.insert( GtowerHudToHide, "CHudHealth" )
+table.insert( GtowerHudToHide, "CHudAmmo" )
+table.insert( GtowerHudToHide, "CHudSecondaryAmmo" )
+table.insert( GtowerHudToHide, "CHudBattery" )
 
 function GM:HUDItemPickedUp()
 	return false
@@ -238,6 +243,64 @@ end
 function GM:HUDWeaponPickedUp()
 	return false
 end
+
+DamageNotes = {}
+
+function GM:DamageNotes()
+
+	for _, note in ipairs( DamageNotes ) do
+
+		if ( note.Time + note.TotalTime ) < CurTime() then
+			table.remove( DamageNotes, _ )
+			continue
+		end
+
+		local timer = CurTime() - note.Time
+		if timer > note.TotalTime then timer = note.TotalTime end
+
+		local scrpos = note.Pos:ToScreen()
+
+		if ( note.Time + note.TotalTime ) > CurTime() then
+			timer = ( note.Time + note.TotalTime ) - CurTime()
+		end
+
+		local y = scrpos.y + 40 * timer
+		local c = Color( 250, 50, 50, 255 * timer )
+
+		//surface.SetTexture( surface.GetTextureID( "sprites/sent_ball" ) )
+		//surface.DrawTexturedRect( scrpos.x, y, 15, 15 )
+
+		draw.SimpleTextOutlined( note.Message, note.Font, scrpos.x, y, c, 1, 1, 1, Color( 0, 0, 0, c.a ) )
+
+	end
+
+end
+
+net.Receive( "DamageNotes", function( len, ply )
+
+	local note 	= {}
+	note.Amount = net.ReadFloat()
+	note.Pos 	= net.ReadVector()
+	note.Time 	= CurTime()
+	note.Message = note.Amount
+	note.Font = "DamageNote"
+	note.TotalTime = .75
+
+	local type = net.ReadInt(3) or 0
+
+	if type == 1 then
+		note.Message = "KILL"
+		note.Font = "DamageNoteBig"
+		note.TotalTime = 1.75
+	end
+	if type == 2 then
+		note.Message = note.Amount .. "  x2!"
+		note.Font = "DamageNoteBig"
+	end
+
+	table.insert( DamageNotes, note )
+
+end )
 
 function GM:AdjustMouseSensitivity( num )
 	local ply = LocalPlayer()
@@ -298,8 +361,8 @@ net.Receive("PVPRound", function()
 	end
 end )
 
-net.Receive( "hacker", function()
-	local attack = net.ReadPlayer()
+net.Receive( "hacker", function( len, ply )
+	local attack = net.ReadEntity()
 
 	if attack == LocalPlayer() then
 		surface.PlaySound( Sound("GModTower/pvpbattle/Hacker.wav"))

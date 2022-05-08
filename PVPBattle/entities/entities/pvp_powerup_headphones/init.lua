@@ -3,7 +3,7 @@ AddCSLuaFile( "shared.lua" )
 include( "shared.lua" )
 
 function ENT:PowerUpOn( ply )
-	ply.PowerUp = CurTime() + self.ActiveTime
+	ply:SetNet("PowerUp", CurTime() + self.ActiveTime)
 
 	ply:SetColor( Color(232, 45, 74, 255) )
 	PostEvent( ply, "puheadphones_on" )
@@ -21,7 +21,7 @@ function ENT:PowerUpOn( ply )
 end
 
 function ENT:Heal( ply )
-	if IsValid(ply) && ply.PowerUp > 0 then
+	if IsValid(ply) && ply:GetNet("PowerUp") > 0 then
 		if ( ply:Health() < 100 && ply:Alive() ) then
 			ply:SetHealth( ply:Health() + 1 )
 		end
@@ -30,7 +30,7 @@ function ENT:Heal( ply )
 end
 
 function ENT:PowerUpOff( ply )
-	ply.PowerUp = 0
+	ply:SetNet("PowerUp", 0)
 	ply:SetColor( Color(255, 255, 255, 255) )
 	PostEvent( ply, "puheadphones_off" )
 end

@@ -3,7 +3,6 @@ GM.Author   = "GMod Tower Team"
 GM.Website  = "http://www.gmodtower.org/"
 
 DeriveGamemode("gmtgamemode")
-
 SetupGMTGamemode( "PVP Battle", "pvpbattle", {
 	Loadables = { "weaponfix", "pvp" }, // Additional Loadables
 	AllowChangeSize = false,
@@ -26,16 +25,16 @@ end
 RegisterNWTablePlayer({ {"PowerUp", 0, NWTYPE_NUMBER, REPL_EVERYONE, PowerChange} })
 
 function GM:GetTimeLeft()
-	return ( game.GetWorld():GetNWFloat("PVPRoundTime", 0) ) - CurTime()
+	return GetGlobalFloat( "PVPRoundTime", 0 ) - CurTime()
 end
 
 function GM:IsRoundOver()
-	return game.GetWorld():GetNWBool("PVPRoundOver")
+	return GetGlobalBool( "PVPRoundOver" )
 end
 
 -- ROUNDS
 function GM:GetRoundCount()
-	return game.GetWorld():GetNWFloat("PVPRoundCount", 0)
+	return GetGlobalInt( "PVPRoundCount", 0 )
 end
 
 function GM:Dash(pl, move)
@@ -64,7 +63,7 @@ function GM:DoubleJump(pl, move)
 
 	if !onground && pl:KeyPressed(IN_JUMP) && !pl.DoubleJumped then
 
-		if pl.PowerUp == 0 || pl.IsPulp then
+		if pl:GetNet("PowerUp") == 0 || pl.IsPulp then
 
 			pl.DoubleJump = true
 			pl.DoubleJumped = true
@@ -140,64 +139,6 @@ function GM:SetupMoveCurrent(pl, move)
 		pl[v] = tbl[v]
 	end
 end
-
-DamageNotes = {}
-
-function GM:DamageNotes()
-
-	for _, note in ipairs( DamageNotes ) do
-
-		if ( note.Time + note.TotalTime ) < CurTime() then
-			table.remove( DamageNotes, _ )
-			continue
-		end
-
-		local timer = CurTime() - note.Time
-		if timer > note.TotalTime then timer = note.TotalTime end
-
-		local scrpos = note.Pos:ToScreen()
-
-		if ( note.Time + note.TotalTime ) > CurTime() then
-			timer = ( note.Time + note.TotalTime ) - CurTime()
-		end
-
-		local y = scrpos.y + 40 * timer
-		local c = Color( 250, 50, 50, 255 * timer )
-
-		//surface.SetTexture( surface.GetTextureID( "sprites/sent_ball" ) )
-		//surface.DrawTexturedRect( scrpos.x, y, 15, 15 )
-
-		draw.SimpleTextOutlined( note.Message, note.Font, scrpos.x, y, c, 1, 1, 1, Color( 0, 0, 0, c.a ) )
-
-	end
-
-end
-
-net.Receive( "DamageNotes", function( )
-
-	local note 	= {}
-	note.Amount = net.ReadFloat()
-	note.Pos 	= net.ReadVector()
-	note.Time 	= CurTime()
-	note.Message = note.Amount
-	note.Font = "DamageNote"
-	note.TotalTime = .75
-
-	local type = net.ReadInt(3) or 0
-
-	if type == 1 then
-		note.Message = "KILL"
-		note.Font = "DamageNoteBig"
-		note.TotalTime = 1.75
-	end
-	if type == 2 then
-		note.Message = note.Amount .. "  x2!"
-		note.Font = "DamageNoteBig"
-	end
-
-	table.insert( DamageNotes, note )
-
-end )
 
 function GM:FinishMoveCurrent(pl, move)
 	pl.History[CurTime()] = {}
