@@ -1,6 +1,17 @@
+ENT.Type 			= "anim"
+ENT.Base 			= "base_anim"
+ENT.PrintName		= "Pet Flying Turtle"
 
-ENT.Type = "anim"
-ENT.Category = "GMTower"
+ENT.Spawnable		= false
+ENT.AdminSpawnable	= false
 
-ENT.PrintName = "Flying Turtle Pet"
-ENT.Spawnable = true
+ENT.AutomaticFrameAdvance = true
+ENT.Model			= "models/gmod_tower/plush_turtle.mdl"
+
+function ENT:SetupDataTables()
+
+	self:NetworkVar( "String", 0, "PetName" )
+	
+end
+
+//ImplementNW() -- Implement transmit tools instead of DTVars
