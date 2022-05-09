@@ -392,9 +392,9 @@ hook.Add( "PlayerLeaveVehicle", "ResetCollisionVehicle", function( ply )
   if ply.VideoPoker:GetClass() == "gmt_casino_videopoker" then
 
     if ply.VideoPoker:GetCredits() > 0 && ply.VideoPoker:GetState() > 1 then
-	  ply:MsgT("VideoPokerProfit", "earned", math.abs( ply.VideoPoker:GetCredits() * 2 ))
+	  ply:MsgT("VideoPokerProfit", "earned", string.FormatNumber( math.abs( ply.VideoPoker:GetCredits() * 2 )) )
     elseif ply.VideoPoker:GetCredits() < 0 then
-	  ply:MsgT("VideoPokerProfit", "lost", math.abs( ply.VideoPoker:GetCredits() * 2 ))
+	  ply:MsgT("VideoPokerProfit", "lost", string.FormatNumber( math.abs( ply.VideoPoker:GetCredits() * 2 )) )
     end
 
     if timer.Exists("VideoPokerFuckoff"..ply:EntIndex()) then
