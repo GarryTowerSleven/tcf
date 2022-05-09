@@ -31,7 +31,7 @@ include("sv_tetris.lua")
 include("tetris/highscore.lua")
 include("sv_merchant.lua")
 include("mapchange.lua")
-
+include("sv_hwevent.lua")
 include("minigames/init.lua")
 
 AddCSLuaFile("event/cl_init.lua")
