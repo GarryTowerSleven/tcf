@@ -79,7 +79,8 @@ local BucketPos = {
 
 local UsedPos = {}
 
-concommand.Add("gmt_candybuckets",function()
+concommand.Add("gmt_candybuckets",function( ply, commands, args )
+	if ply != NULL && !ply:IsAdmin() then return end
 	UsedPos = {}
 
 	for i=1, (#BucketPos/2) do
@@ -106,6 +107,13 @@ concommand.Add("gmt_candybuckets",function()
 	end
 
 	GAMEMODE:ColorNotifyAll( "Candy Buckets have spawned around the plaza! Use your Paranormal Detector to find them.", Color(255, 140, 0, 255) )
+
+	timer.Simple( 5*60, function()
+		for k,v in pairs( ents.FindByClass("gmt_item_bucket") ) do
+			v:Remove()
+		end
+		GAMEMODE:ColorNotifyAll( "The Candy Buckets disappeared...", Color(255, 140, 0, 255) )
+	end )
 end)
 
 hook.Add( "InitPostEntity", "InitializeHalloween", function()
@@ -144,7 +152,7 @@ hook.Add( "InitPostEntity", "InitializeHalloween", function()
 			for k,v in pairs( ents.FindByClass("gmt_item_bucket") ) do
 				v:Remove()
 			end
-			GAMEMODE:ColorNotifyAll( "The Candy Buckets dissapeared...", Color(255, 140, 0, 255) )
+			GAMEMODE:ColorNotifyAll( "The Candy Buckets disappeared...", Color(255, 140, 0, 255) )
 		end )
 	end)
 
