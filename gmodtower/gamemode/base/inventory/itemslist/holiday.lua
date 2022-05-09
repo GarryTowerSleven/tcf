@@ -173,6 +173,14 @@ RegisterItem("toyspider",{
 	UseSound = "use_spider.wav",
 })
 
+RegisterItem("spookboyplush",{
+	Name = "Spook Boy Plushie",
+	Description = "Your very own spooky sack boy.",
+	Model = "models/gmod_tower/spookboy_plushie.mdl",
+	DrawModel = true,
+	StorePrice = 50,
+})
+
 RegisterItem("toytraincart",{
 	Name = "Toy Train Cart",
 	Description = "A toy cart from the Haunted Mansion ride.",
@@ -225,6 +233,75 @@ RegisterItem("lantern_lamp",{
 	StorePrice = 1000,
 	ClassName = "gmt_room_lamp_lantern",
 	DateAdded = 1416196221
+})
+
+// New Halloween stuff
+//-----------------------------
+
+RegisterItem("flaskpotion",{
+	Name = "Flask Potion",
+	Description = "Please, do not drink this.",
+	Model = "models/props_halloween/hwn_flask_vial.mdl",
+	DrawModel = true,
+	StorePrice = 100,
+})
+
+RegisterItem("hwpumpkin1",{
+	Name = "Pumpkin #1",
+	Description = "A pumpkin.",
+	Model = "models/map_detail/halloween/pumpkin_face_01.mdl",
+	DrawModel = true,
+	StorePrice = 100,
+})
+
+RegisterItem("hwpumpkin2",{
+	Name = "Pumpkin #2",
+	Description = "A pumpkin.",
+	Model = "models/map_detail/halloween/pumpkin_face_02.mdl",
+	DrawModel = true,
+	StorePrice = 100,
+})
+
+RegisterItem("hwpumpkin3",{
+	Name = "Pumpkin #3",
+	Description = "A pumpkin.",
+	Model = "models/map_detail/halloween/pumpkins_01.mdl",
+	DrawModel = true,
+	StorePrice = 100,
+})
+
+RegisterItem("hwpumpkin4",{
+	Name = "Pumpkin #4",
+	Description = "A pumpkin.",
+	Model = "models/map_detail/halloween/pumpkins_03.mdl",
+	DrawModel = true,
+	StorePrice = 100,
+})
+
+RegisterItem("cardboardzombie",{
+	Name = "Zombie Cutout",
+	Description = "Braaiinsss...",
+	Model = "models/zerochain/props_halloween/cardboard_zombie01.mdl",
+	DrawModel = true,
+	DrawName = true,
+	StorePrice = 100,
+})
+
+RegisterItem("scarecrow",{
+	Name = "Scarecrow",
+	Description = "That's a scary crow you got there!",
+	Model = "models/props_manor/gmt_scarycrowman.mdl",
+	DrawModel = true,
+	StorePrice = 100,
+})
+
+RegisterItem("coffin",{
+	Name = "Coffin",
+	Description = "Bell not included.",
+	Model = "models/props_manor/coffin_02.mdl",
+	DrawModel = true,
+	StorePrice = 100,
+	UseSound = "misc/halloween/spell_skeleton_horde_cast.wav",
 })
 
 /*RegisterItem("hauntedcertificate",{
