@@ -44,7 +44,7 @@ function meta:SetMoney( amount )
 	self:SetSetting( "GTMoney", self.GTMoney )
 end
 
-function meta:AddMoney( amount, nosend )
+function meta:AddMoney( amount, nosend, nobezier )
 	function math.Fit2( val, valMin, valMax, outMin, outMax )
 		return ( val - valMax ) * ( outMax - outMin ) / ( valMin - valMax ) + outMin
 	end
