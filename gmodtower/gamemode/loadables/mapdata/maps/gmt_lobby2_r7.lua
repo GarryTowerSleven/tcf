@@ -274,7 +274,7 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	// Misc
 	//===============================================
 	SpawnGameBanner()					-- Spawns the animated gamemode banner model
-	CreateTheaterPreviews()
+	CreateTheaterPreviews()				-- Theater previews
 
 
 	// Delete one of the 2 animated Virus port actors.

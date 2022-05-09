@@ -215,6 +215,24 @@ local function SpawnGameBanner()
 	banner:Spawn()
 end
 
+local function createPreview( loc, ang, key, w, h )
+	local preview = ents.Create("gmt_theater_preview")
+	preview:SetPos( loc )
+	preview:SetAngles( ang or Angle( 0,0,0 ) )
+	preview:SetKeyValue( "theater", key )
+	preview:SetKeyValue( "width", tostring(w) or "79" )
+	preview:SetKeyValue( "height", tostring(h) or "82" )
+	preview:Spawn()
+end
+
+local function CreateTheaterPreviews()
+	createPreview( Vector(4110.6, 2677.75, -615.15), nil, "theater1" )
+	createPreview( Vector(4610.4, 2677.75, -615.15), nil, "theater2" )
+
+	createPreview( Vector(4020.6, 2816.75, -638.15), Angle(0,-90,0), "theater1", 106, 59 )
+	createPreview( Vector(4778.6, 2710.75, -638.15), Angle(0,90,0), "theater2", 106, 59 )
+end
+
 hook.Add("InitPostEntity","AddL2Ents",function()
 
 	FixMapBugs()							-- Fix some map bugs
@@ -237,6 +255,7 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	// Misc
 	//===============================================
 	SpawnGameBanner()					-- Spawns the animated gamemode banner model
+	CreateTheaterPreviews()				-- Theater previews
 
 
 	// Delete one of the 2 animated Virus port actors.
