@@ -37,8 +37,8 @@ function SWEP:PrimaryAttack()
 
 	if (ply.NextBat or 0) > CurTime() then return end
 
-	if ( Location.IsEquippablesNotAllowed( Location.Find(ply:GetPos()) ) ) then return end
-	if ( Location.Find(ply:GetPos()).CondoID ) then return end
+	if ( Location.IsEquippablesNotAllowed( ply:Location() ) ) then return end
+	if ( Location.IsCondo( ply:Location(), ply:Location() ) ) then return end
 
 	ply.NextBat = CurTime() + 5
 
