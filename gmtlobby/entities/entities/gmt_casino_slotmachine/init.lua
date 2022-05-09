@@ -448,7 +448,7 @@ function ENT:SendWinnings( ply, amount, bJackpot )
 	if bJackpot then
 		self:BroadcastJackpot(ply, amount)
 		ply:MsgI( "slots", "SlotsJackpot" )
-		ply:AddMoney(amount)
+		ply:AddMoney(amount, false, true)
 		ply:AddAchievement( ACHIEVEMENTS.MONEYWASTER, 1 )
 		self:EmitSound( Casino.SlotJackpotSound, 100, 100 )
 		self.Jackpot = CurTime() + 25
@@ -472,7 +472,7 @@ function ENT:SendWinnings( ply, amount, bJackpot )
 	else
 		self:EmitSound( Casino.SlotWinSound, 75, 100 )
 		ply:MsgI( "slots", "SlotsWin", string.FormatNumber(amount) )
-		ply:AddMoney(amount)
+		ply:AddMoney(amount, false, true)
 
 		local bzr = ents.Create("gmt_money_bezier")
 
