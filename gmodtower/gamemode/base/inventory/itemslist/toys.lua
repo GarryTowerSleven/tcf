@@ -86,6 +86,7 @@ RegisterItem("huladoll",{
 	StorePrice = 5,
 	UseSound = "use_hula.wav",
 	UseAnim = "Shake",
+	ClassName = "gmt_hula",
 	UseScale = true,
 })
 

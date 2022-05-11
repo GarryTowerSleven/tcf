@@ -1,11 +1,11 @@
+ENT.Base = "gmt_interactive_base"
+
 ENT.Type = "anim"
 ENT.Category = "GMTower"
 
 ENT.PrintName = "Microwave"
 ENT.Spawnable = true
 
-function ENT:CanUse()
-
-	return true, "USE"
-
-end
+ENT.Model = "models/props/cs_office/microwave.mdl"
+ENT.SetWaitTime = 2
+ENT.CustomUsePrompt = "USE"
