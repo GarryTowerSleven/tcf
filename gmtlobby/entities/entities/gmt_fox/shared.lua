@@ -1,22 +1,7 @@
-ENT.Type = "anim"
+ENT.Type = "gmt_plushie_base"
 ENT.Category = "GMTower"
 
 ENT.PrintName = "Fox"
 ENT.Spawnable = true
 
-function ENT:Squish()
-
-	self:EmitSound(Sound("gmodtower/inventory/move_plush.wav"),70)
-
-	self:SetModelScale(0.9,0.25)
-	timer.Simple(0.25,function()
-		self:SetModelScale(1,0.25)
-	end)
-
-end
-
-function ENT:CanUse()
-
-	return true, "TOUCH"
-
-end
+ENT.Model = "models/gmod_tower/plush_fox.mdl"
