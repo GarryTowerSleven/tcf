@@ -34,6 +34,7 @@ RegisterItem("portaltoy",{
 	Name = "Portal Papertoy",
 	Description = "Portal, paper edition!",
 	Model = "models/gmod_tower/portaltoy.mdl",
+	ClassName = "gmt_portal",
 	UniqueInventory = false,
 	DrawModel = true,
 	StoreId = GTowerStore.TOY,
