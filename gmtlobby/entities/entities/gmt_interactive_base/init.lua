@@ -14,6 +14,9 @@ function ENT:Initialize()
 	self:SetTrigger(true)
 
 	self:DrawShadow(false)
+	
+	self.WaitTime = 0
+	self.Wait = false
 
 end
 
