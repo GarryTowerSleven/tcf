@@ -24,7 +24,7 @@ end
 
 function ENT:Use(eOtherEnt)
 
-	if self.Wait then return end
+	if self:GetNWBool("Wait") then return end
 	self.WaitTime = CurTime() + 5
 	self:SetNWBool("Wait", true)
 	self:Squish()
