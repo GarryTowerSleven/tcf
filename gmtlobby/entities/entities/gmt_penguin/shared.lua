@@ -1,4 +1,3 @@
----------------------------------
 ENT.Type = "anim"
 ENT.Category = "GMTower"
 
@@ -13,5 +12,13 @@ function ENT:Squish()
 	timer.Simple(0.25,function()
 		self:SetModelScale(1,0.25)
 	end)
+
+end
+
+function ENT:CanUse()
+
+    if !self:GetNWBool("Wait") then
+		return "TOUCH"
+	end
 
 end

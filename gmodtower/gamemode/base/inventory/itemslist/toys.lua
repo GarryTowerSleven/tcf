@@ -165,6 +165,7 @@ RegisterItem("plush_penguin",{
 	UseSound = "use_penguin.wav",
 	UseScale = true,
 	ModelSkinId = 0,
+	ClassName = "gmt_penguin",
 	DateAdded = 1403265069,
 })
 

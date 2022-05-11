@@ -133,18 +133,16 @@ if SERVER then
 		if !self.ClassName then
 			Ent = ents.Create("prop_physics_multiplayer")
 			Ent:SetModel(self.Model)
-
-			if self.ModelSkinId then
-				Ent:SetSkin( self.ModelSkinId )
-			end
-
-			if self.ModelColor then
-
-				Ent:SetColor( self.ModelColor )
-
-			end
 		else
 			Ent = ents.Create( self.ClassName )
+		end
+
+		if self.ModelSkinId then
+			Ent:SetSkin( self.ModelSkinId )
+		end
+
+		if self.ModelColor then
+			Ent:SetColor( self.ModelColor )
 		end
 
 		Ent:DrawShadow( false )
@@ -152,11 +150,14 @@ if SERVER then
 
 		return Ent
 	end
+
 	function OnMove( self, Slot )
 	end
+
 	function GetSlot( self )
 		return GTowerItems:NewItemSlot( self.Ply, self.Slot )
 	end
+
 	function ItemChanged( self )
 		local Slot = self:GetSlot()
 		Slot:ItemChanged()
@@ -184,16 +185,13 @@ if SERVER then
 
 		-- Check if they can equip it in certain locations
 		if ( Location.IsEquippablesNotAllowed( Location.Find(self.Ply:GetPos()) ) ) then
-
 			-- Notify them
 			if not self._NoEntsLastLoc then
 				//self.Ply:MsgT( "InventoryEquipNotAllowed", self.Name, Location.GetFriendlyName(Location.Find(self.Ply:GetPos())) )
 				self.Ply:Msg2( T("InventoryEquipNotAllowed", self.Name, Location.GetFriendlyName(Location.Find(self.Ply:GetPos()))), "exclamation" )
 				self._NoEntsLastLoc = true
 			end
-
 			return false
-
 		else
 			self._NoEntsLastLoc = false -- Clear not ent location
 		end
