@@ -133,18 +133,16 @@ if SERVER then
 		if !self.ClassName then
 			Ent = ents.Create("prop_physics_multiplayer")
 			Ent:SetModel(self.Model)
-
-			if self.ModelSkinId then
-				Ent:SetSkin( self.ModelSkinId )
-			end
-
-			if self.ModelColor then
-
-				Ent:SetColor( self.ModelColor )
-
-			end
 		else
 			Ent = ents.Create( self.ClassName )
+		end
+
+		if self.ModelSkinId then
+			Ent:SetSkin( self.ModelSkinId )
+		end
+
+		if self.ModelColor then
+			Ent:SetColor( self.ModelColor )
 		end
 
 		Ent:DrawShadow( false )
@@ -152,11 +150,14 @@ if SERVER then
 
 		return Ent
 	end
+
 	function OnMove( self, Slot )
 	end
+
 	function GetSlot( self )
 		return GTowerItems:NewItemSlot( self.Ply, self.Slot )
 	end
+
 	function ItemChanged( self )
 		local Slot = self:GetSlot()
 		Slot:ItemChanged()
@@ -187,7 +188,7 @@ if SERVER then
 
 			-- Notify them
 			if not self._NoEntsLastLoc then
-				local plyLoc = self.Ply:Location()
+				local plyLoc = Location.Find(self.Ply:GetPos())
 				local locName = Location.GetFriendlyName(plyLoc)
 
 				if Location.IsGroup( plyLoc, "secret" ) then
