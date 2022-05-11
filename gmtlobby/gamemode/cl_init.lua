@@ -80,6 +80,49 @@ function GM:HUDItemPickedUp() return false end
 function GM:HUDAmmoPickedUp() return false end
 function GM:DrawDeathNotice( x, y ) end
 
+hook.Add( "PlayerBindPress", "PlayerGMTUse", function( ply, bind, pressed )
+
+	if bind == "+use" && pressed then
+
+		if !ply._NextUse || CurTime() > ply._NextUse then
+
+			ply._NextUse = CurTime() + .25
+
+			// Player Use Menu
+			if PlayerMenu.PlayerMenuEnabled:GetBool() then
+				if PlayerMenu.IsVisible() then
+					PlayerMenu.Hide()
+					return
+				end
+			end
+
+			local ent = GAMEMODE:PlayerUseTrace( ply )
+			ent = GAMEMODE:FindUseEntity( ply, ent )
+			if IsValid( ent ) then
+
+				// Player Use Menu
+				if PlayerMenu.PlayerMenuEnabled:GetBool() then
+
+					if ent:IsPlayer() then
+						PlayerMenu.Show( ent )
+						gui.SetMousePos( ScrW() / 2, ScrH() / 2 )
+					end
+
+				end
+
+				if ent:GetClass() == "prop_physics_multiplayer" then
+					ply._NextUse = CurTime() + 2
+					GTowerItems:UseProp(ent)
+				end
+
+			end
+
+		end
+
+	end
+
+end )
+
 local ChangeLevelEnabled = CreateClientConVar( "gmt_changelevel_warn", 1, true, false )
 hook.Add( "HUDPaint", "ChangeLevelUI", function()
 	if !ChangeLevelEnabled:GetBool() || !GetGlobalBool("ShowChangelevel") then return end
