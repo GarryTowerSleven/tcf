@@ -34,7 +34,6 @@ RegisterItem("portaltoy",{
 	Name = "Portal Papertoy",
 	Description = "Portal, paper edition!",
 	Model = "models/gmod_tower/portaltoy.mdl",
-	ClassName = "gmt_portal",
 	UniqueInventory = false,
 	DrawModel = true,
 	StoreId = GTowerStore.TOY,
@@ -87,7 +86,6 @@ RegisterItem("huladoll",{
 	StorePrice = 5,
 	UseSound = "use_hula.wav",
 	UseAnim = "Shake",
-	ClassName = "gmt_hula",
 	UseScale = true,
 })
 
@@ -115,7 +113,6 @@ RegisterItem("plush_fox",{
 	UseSound = "move_plush.wav",
 	UseScale = true,
 	ModelSkinId = 0,
-	ClassName = "gmt_fox",
 	DateAdded = 1399197707,
 })
 
@@ -168,7 +165,6 @@ RegisterItem("plush_penguin",{
 	UseSound = "use_penguin.wav",
 	UseScale = true,
 	ModelSkinId = 0,
-	ClassName = "gmt_penguin",
 	DateAdded = 1403265069,
 })
 

@@ -542,7 +542,6 @@ RegisterItem("microwave",{
 	DrawModel = true,
 	StoreId = GTowerStore.ELECTRONIC,
 	StorePrice = 100,
-	ClassName = "gmt_microwave"
 })
 
 RegisterItem("oldmicrowave",{

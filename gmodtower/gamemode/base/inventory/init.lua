@@ -80,3 +80,21 @@ function GTowerItems:CreateStoreItemEnd( item )
 	end
 
 end
+
+net.Receive( "GMTUse", function( len, ply )
+	local ent = net.ReadEntity()
+	local activator = net.ReadEntity()
+	local Item = GTowerItems:GetTableByEntity( ent )
+
+	net.Start("GMTUseEffect")
+		net.WriteEntity(ent)
+		net.WriteEntity(activator)
+	net.Broadcast()
+
+	if Item.UseSound then
+		ent:EmitSound("gmodtower/inventory/"..Item.UseSound,70)
+	end
+end )
+
+util.AddNetworkString("GMTUse")
+util.AddNetworkString("GMTUseEffect")
