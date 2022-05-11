@@ -20,7 +20,7 @@ function ENT:Initialize()
 
 end
 
-function InteractiveAction()
+function ENT:InteractiveAction()
 end
 
 function ENT:Use()
@@ -28,7 +28,7 @@ function ENT:Use()
 	if self.Wait then return end
 	self.WaitTime = CurTime() + self.SetWaitTime
 	self.Wait = true
-	InteractiveAction()
+	self:InteractiveAction()
 
 end
 
