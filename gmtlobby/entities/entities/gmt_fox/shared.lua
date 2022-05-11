@@ -1,3 +1,5 @@
+ENT.Base = "gmt_plushie_base"
+
 ENT.Type = "anim"
 ENT.Category = "GMTower"
 
