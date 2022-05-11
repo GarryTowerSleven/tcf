@@ -9,21 +9,32 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_VPHYSICS)
+	self:SetUseType(SIMPLE_USE)
 
 	self:SetTrigger(true)
 
 	self:DrawShadow(false)
 	self:SetPos(self:GetPos() + Vector(0,0,10))
 
+	self.WaitTime = 0
+	self.Wait = false
 	self.WaterWait = true
 
 end
 
 function ENT:Use(eOtherEnt)
-	  if(self.Wait) then return end
-		self.Wait = true
-		timer.Simple(5, function() self.Wait = false
-		end)
-		self:SetUseType( SIMPLE_USE )
-		self:Squish()
+
+	if self.Wait then return end
+	self.WaitTime = CurTime() + 5
+	self.Wait = true
+	self:Squish()
+
+end
+
+function ENT:Think()
+
+	if self.WaitTime < CurTime() && self.Wait then
+		self.Wait = false
+	end
+
 end

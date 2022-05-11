@@ -17,24 +17,24 @@ function ENT:Initialize()
 	self:SetPos(self:GetPos() + Vector(0,0,10))
 
 	self.WaitTime = 0
-	self:SetNWBool("Wait", false)
+	self.Wait = false
 	self.WaterWait = true
 
 end
 
 function ENT:Use(eOtherEnt)
 
-	if self:GetNWBool("Wait") then return end
+	if self.Wait then return end
 	self.WaitTime = CurTime() + 5
-	self:SetNWBool("Wait", true)
+	self.Wait = true
 	self:Squish()
 
 end
 
 function ENT:Think()
 
-	if self.WaitTime < CurTime() && self:GetNWBool("Wait") then
-		self:SetNWBool("Wait", false)
+	if self.WaitTime < CurTime() && self.Wait then
+		self.Wait = false
 	end
 
 end

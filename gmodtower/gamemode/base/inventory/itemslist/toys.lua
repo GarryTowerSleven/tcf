@@ -113,6 +113,7 @@ RegisterItem("plush_fox",{
 	UseSound = "move_plush.wav",
 	UseScale = true,
 	ModelSkinId = 0,
+	ClassName = "gmt_fox",
 	DateAdded = 1399197707,
 })
 

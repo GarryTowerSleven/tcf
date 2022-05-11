@@ -17,6 +17,6 @@ end
 
 function ENT:CanUse()
 
-	return !self:GetNWBool("Wait"), "TOUCH"
+	return true, "TOUCH"
 
 end
