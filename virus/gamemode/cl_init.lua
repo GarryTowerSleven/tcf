@@ -1,4 +1,5 @@
 include( "shared.lua" )
+include( "sh_player.lua" )
 
 include( "cl_deathnotice.lua" )
 include( "cl_hud.lua" )
@@ -8,7 +9,6 @@ include( "cl_radar.lua" )
 
 GM.DamageFade = 255
 GM.NextFadeThink = 0
-GM.Started = false
 
 local WaitingForPlayersMusic = "GModTower/virus/waiting_forplayers" .. math.random( 1, 8 ) .. ".mp3" // this one is not synchronized with other clients
 local WaitingForInfectionMusic = "GModTower/virus/waiting_forinfection"
@@ -17,11 +17,12 @@ local LastAliveMusic = "GModTower/virus/roundlastalive"
 
 hook.Add( "ShouldHideHats", "ShouldHideHats", function( ply ) 
 
-	if GAMEMODE:GetState() != STATE_WAITING && ply == LocalPlayer() && !ply:GetNWBool("IsVirus") then
+	if GAMEMODE:GetState() != STATE_WAITING && ply == LocalPlayer() && !ply:GetNet( "IsVirus" ) then
 		return true
 	end
 
 end )
+
 hook.Add( "OverrideHatEntity", "OverrideForRagdoll", function( ply ) 
 
 	if IsValid( ply ) and ( ply.Alive and !ply:Alive() ) then
@@ -31,20 +32,10 @@ hook.Add( "OverrideHatEntity", "OverrideForRagdoll", function( ply )
 end )
 
 function GM:Initialize()
+
 	self.DamageFade = 0
 	self.NextFadeThink = 0
-end
 
-function GM:CreateMove( cmd )
-
-	if ( cmd:KeyDown( IN_DUCK ) ) then
-		cmd:SetButtons( cmd:GetButtons() - IN_DUCK ) // how do i bitwise?
-	end
-	
-	if ( cmd:KeyDown( IN_JUMP ) ) then
-		cmd:SetButtons( cmd:GetButtons() - IN_JUMP )
-	end
-	
 end
 
 function GM:InitPostEntity()
@@ -59,7 +50,7 @@ function GM:InitPostEntity()
 	LocalPlayer().LocalInfected = CreateSound( LocalPlayer(), "ambient/fire/ignite.wav" )
 
 	timer.Simple( 1, function()
-		if ( GetGlobalInt("State") == STATE_WAITING ) then		
+		if ( self:GetState() == STATE_WAITING ) then		
 			LocalPlayer().WaitingForPlayers:PlayEx( 1, 100 )
 			LocalPlayer().IsThirdPerson = true
 		end
@@ -71,18 +62,22 @@ local TimeLeftUsed = { }
 
 function GM:Think()
 
-	for _, v in ipairs( player.GetAll() ) do
-		if v:GetNWBool("IsVirus") then
+	for _, v in pairs( player.GetAll() ) do
+
+		if v:GetNet( "IsVirus" ) then
 			self:LightThink( v )
+		--else
+		--	self:ClickerThink( v )
 		end
-		
+
+		self:ClickerThink( v )
+
 		local Flame = v:GetNetworkedEntity("Flame1")
 		local Flame2 = v:GetNetworkedEntity("Flame2")
 		
 		if IsValid( Flame ) && IsValid( Flame2 ) then
 			
-			--local Torso = v:LookupBone( "ValveBiped.Bip01_Spine2" ) 
-			local Torso = v:LookupBone( "ValveBiped.Bip01_Spine" ) 
+			local Torso = v:LookupBone( "ValveBiped.Bip01_Spine2" ) 
 			local pos, ang = v:GetBonePosition( Torso )
 			
 			Flame:SetPos( pos )
@@ -104,9 +99,9 @@ function GM:Think()
 		
 	end
 	
-	if ( GetGlobalInt("State") != STATE_PLAYING ) then return end
+	if ( self:GetState() != STATE_PLAYING ) then return end
 	
-	local endTime = GetGlobalFloat("Time")
+	local endTime = self:GetTime()
 	local timeLeft = endTime - CurTime() - 1 // adjusting for hud message sliding
 	
 	if ( timeLeft <= 0 ) then
@@ -140,9 +135,53 @@ function GM:Think()
 		TimeLeftUsed[ timeLeft ] = timeLeft
 		
 	end
+
+end
+
+function GM:ClickerThink( ply )
+
+	if self:GetState() != STATE_PLAYING then return end
+
+	for _, v in pairs( player.GetAll() ) do
+
+		--if v == ply || !v:Alive() || !v:GetNet( "IsVirus" ) then return end
+		if ( v:Team() == ply:Team() ) || !v:Alive() then return end
+
+		local dist = ply:GetPos():Distance( v:GetPos() )
+		//ply:ChatPrint( tostring(v) .. "| Dist: " .. tostring(dist) )
+
+		local rad = 950  //start kicking in they're fucking close
+		local scale_mod = 0.5
+
+		if dist < rad then
+			if dist < ( rad / 2 ) then
+				scale_mod = 0.15  //freak the hug out
+			end
+
+			local scale = ( dist / rad ) * scale_mod
+			//ply:ChatPrint( tostring(v) .. "| Scale: " .. tostring(scale) )
+
+			if ( ply.NextRadSound or 0 ) < CurTime() then
+
+				ply.NextRadSound = CurTime() + scale
+
+				local ran = math.random( 1, 2 )
+				if ran == 1 then
+					ply:EmitSound( "Geiger.BeepLow", 50, math.random( 90, 110 ) )
+				else
+					ply:EmitSound( "Geiger.BeepHigh", 50, math.random( 90, 110 ) )
+				end
+
+			end
+
+		end
+
+	end
+
 end
 
 function GM:LightThink( ply )
+
 	if !ply:Alive() then return end
 	
 	local dlight = DynamicLight( ply:EntIndex() )
@@ -159,8 +198,8 @@ function GM:LightThink( ply )
 	
 end
 
+function GM:PlayerBindPress( ply, bind, pressed )
 
-function GM:PlayerBindPress( ply, bind, pressed ) 
 	if ( bind == "+jump" || bind == "+duck" ) then return true end
 	
 	if ( bind == "+menu" && pressed ) then
@@ -171,34 +210,75 @@ function GM:PlayerBindPress( ply, bind, pressed )
 	if ( bind == "+menu_context" && pressed ) then
 		LocalPlayer():ConCommand( "use_adrenaline" )
 		return true
-	end
-	
-	
+	end	
+
 	return false
+
 end
 
 local WalkTimer = 0
 local VelSmooth = 0
+local CurViewPunch = Angle(0,0,0)
 
 function GM:CalcView( ply, pos, ang, fov )
 
-	if ply:GetNWBool("IsVirus") || GetGlobalInt("State") == STATE_WAITING then
+	if self:GetState() == STATE_WAITING && LocalPlayer().WaitMessageSeen == nil then
+
+		LocalPlayer().WaitMessageSeen = true
+
+		timer.Simple( 2, function()
+			if LocalPlayer() == player.GetAll()[1] then
+				HudMessage( HudMessages[ 14 /* first to join waiting */ ], 5, nil, true )
+			else
+				HudMessage( HudMessages[ 15 /* waiting for additional players */ ], 5, nil, true )
+			end
+		end )
+
+	end
+
+	if ( ply:GetNet( "IsVirus" ) || self:GetState() == STATE_WAITING ) then
 
 		local dist = 150
-		local center = ply:GetPos() + Vector( 0, 0, 75 )
-		local trace = util.TraceLine( {start = center, endpos = center + ang:Forward() * -dist, mask = MASK_OPAQUE} )
-		if trace.Fraction < 1 then
-			dist = dist * trace.Fraction
+		local ent = ply
+
+		// Follow rag when dying
+		if !ply:Alive() then
+			if IsValid( ply:GetRagdollEntity() ) then
+				ent = ply:GetRagdollEntity()
+			end
+	 	end
+
+		local center = ent:GetPos() + Vector( 0, 0, 75 )
+		local filters = player.GetAll()
+
+		// Check for intersections
+		local tr = util.TraceLine( { start = center, 
+									 endpos = center + ( ang:Forward() * -dist * 0.95 ),
+									 filter = filters } )
+		if tr.Fraction < 1 then
+			dist = dist * ( tr.Fraction * 0.95 )
 		end
-			
+
+		// Check for walls
+		local trWall = util.TraceHull( { start = center,
+									 endpos = center + ( ang:Forward() * -dist * 0.95 ),
+									 mins= Vector( -8, -8, -8 ), maxs = Vector( 8, 8, 8 ),
+									 filter = filters } )
+		if trWall.Fraction < 1 then
+			dist = dist * ( trWall.Fraction * 0.95 )
+		end
+
+		// Final position
+		local finalPos = center + ( ang:Forward() * -dist * 0.95 )
+
 		return {
-			["origin"] = center + (ang:Forward() * -dist * 0.95),
+			["origin"] = finalPos,
 			["angles"] = Angle(ang.p + 2, ang.y, ang.r)
 		}
 
 	end
 	
-	local rag = ply:GetRagdollEntity() 
+	local rag = ply:GetRagdollEntity()
 
 	if IsValid( rag ) then 
 		local att = rag:GetAttachment( rag:LookupAttachment("eyes") ) 
@@ -210,7 +290,7 @@ function GM:CalcView( ply, pos, ang, fov )
 	local vel = ply:GetVelocity()
 	local ang = ply:EyeAngles()
 
-	VelSmooth = VelSmooth * 0.9 + vel:Length() * 0.1
+	VelSmooth = VelSmooth * 0.9 + vel:Length() * 0.075
 	WalkTimer = WalkTimer + VelSmooth * FrameTime() * 0.05
 
 	ang.roll = ang.roll + ang:Right():DotProduct( vel ) * 0.01
@@ -220,28 +300,43 @@ function GM:CalcView( ply, pos, ang, fov )
 		ang.pitch = ang.pitch + math.sin( WalkTimer * 0.5 ) * VelSmooth * 0.001
 	end
 
+	if ply.ViewPunchAngle then
+		if CurViewPunch == ply.ViewPunchAngle then
+			ply.ViewPunchAngle = Angle( 0,0,0 )
+		end
+
+		CurViewPunch.p = math.Approach( CurViewPunch.p, ply.ViewPunchAngle.p, FrameTime() * 5 )
+		CurViewPunch.r = math.Approach( CurViewPunch.r, ply.ViewPunchAngle.r, FrameTime() * 5 )
+		CurViewPunch.y = math.Approach( CurViewPunch.y, ply.ViewPunchAngle.y, FrameTime() * 5 )
+		ang = ang + CurViewPunch
+	end
+
 	return self.BaseClass:CalcView( ply, pos, ang, fov )
 
 end
 
-hook.Add("ShouldDrawLocalPlayer", "ThirdDrawLocal", function()
-	return LocalPlayer():GetNWBool("IsVirus") || GetGlobalInt("State") == STATE_WAITING
-end)
+hook.Add( "ShouldDrawLocalPlayer", "ThirdDrawLocal", function()
 
-local function ClientStartRound( um )
+	return LocalPlayer():GetNet( "IsVirus" ) || GAMEMODE:GetState() == STATE_WAITING
 
-	local randSong = um:ReadChar()
+end )
+
+local function ClientStartRound( len, ply )
+
+	local randSong = net.ReadInt(8)
 	
 	TimeLeftUsed = {}
+
+	GAMEMODE.WinningTeam = nil
 	
-	for _, v in ipairs( player.GetAll() ) do
-		v:SetNWBool("IsVirus",true)
+	for _, v in pairs( player.GetAll() ) do
+		v:SetNet( "IsVirus", false )
 	end
 	
 	if ( !IsValid( LocalPlayer() ) ) then return end
 	
-	LocalPlayer():ConCommand( "-showscores" )
-	LocalPlayer():ConCommand( "r_cleardecals" )
+	RunConsoleCommand( "gmt_showscores" )
+	RunConsoleCommand( "r_cleardecals" )
 	
 	LocalPlayer().WaitingForPlayers:Stop()
 	
@@ -258,26 +353,28 @@ local function ClientStartRound( um )
 	LocalPlayer().SurvivorsWin:Stop()
 	
 	LocalPlayer().IsThirdPerson = false
-	LocalPlayer():SetNWBool("IsVirus",false)
+	LocalPlayer():GetNet( "IsVirus", false )
 	
 end
 
-local function ClientEndRound( um )
-	local virusWins = um:ReadBool()
+local function ClientEndRound( len, ply )
+
+	local virusWins = net.ReadBool()
 	
 	if ( !IsValid( LocalPlayer() ) ) then return end
 	
 	LocalPlayer().WaitingForPlayers:Stop() // just in case
 	
-	timer.Simple( 4, function()
-		LocalPlayer():ConCommand( "+showscores" )
-		LocalPlayer():EmitSound( "GModTower/virus/ui/menu.wav", 300, 100 )
-	end )
+	RunConsoleCommand( "gmt_showscores", 1 )
+	
+	LocalPlayer():EmitSound( "GModTower/virus/ui/menu.wav", 300, 100 )
 	
 	if ( virusWins ) then
 		LocalPlayer().VirusWin:PlayEx( 1, 100 )
+		GAMEMODE.WinningTeam = TEAM_INFECTED
 	else
 		LocalPlayer().SurvivorsWin:PlayEx( 1, 100 )
+		GAMEMODE.WinningTeam = TEAM_PLAYERS
 	end
 	
 	if ( LocalPlayer().RoundMusic ) then
@@ -294,18 +391,15 @@ local function ClientEndRound( um )
 	
 	LocalPlayer().LocalInfected:Stop()
 	
-	GAMEMODE.Started = false
+	GetWorldEntity().Started = false
 
 end
 
-local function ClientInfected( um )
+local function ClientInfected( len, ply )
 
-	local virusEnt = um:ReadEntity()
-	virusEnt:SetNWBool("IsVirus",true)
-	
-	local infector = um:ReadEntity()
-	
-	local randSong = um:ReadChar()
+	local virusEnt = net.ReadEntity()
+	local infector = net.ReadEntity()
+	local randSong = net.ReadInt(8)
 	
 	if ( !IsValid( LocalPlayer() ) ) then return end
 	
@@ -316,35 +410,35 @@ local function ClientInfected( um )
 		LocalPlayer().WaitingForInfection = nil
 	end
 	
-	if ( !GAMEMODE.Started ) then
+	if ( !GetWorldEntity().Started ) then
 		LocalPlayer().Stinger:PlayEx( 1, 100 )
 	
 		LocalPlayer().RoundMusic = CreateSound( LocalPlayer(), RoundMusic .. tostring( randSong ) .. ".mp3" )
 		LocalPlayer().RoundMusic:PlayEx( 1, 100 )
 		
-		GAMEMODE.Started = true
+		GetWorldEntity().Started = true
 	end
 
-	
-	if ( infector != game.GetWorld() ) then
+	if ( infector != GetWorldEntity() ) then // world entity
 		if ( virusEnt == LocalPlayer() ) then
 			LocalPlayer().IsThirdPerson = true
-			--LocalPlayer().LocalInfected:PlayEx( 1, math.random( 170, 200 ) )
+			LocalPlayer().LocalInfected:PlayEx( 1, math.random( 170, 200 ) )
 		end
 	end
 	
 end
 
-local function ClientFade( um )
+local function ClientFade( len, ply )
 
 	if ( !IsValid( LocalPlayer() ) ) then return end
 	
 	LocalPlayer().WaitingForPlayers:FadeOut( 2 )
+
 end
 
-local function ClientLastSurvivor( um )
+local function ClientLastSurvivor( len, ply )
 
-	local randSong = um:ReadChar()
+	local randSong = net.ReadInt(8)
 	
 	if ( !IsValid( LocalPlayer() ) ) then return end
 
@@ -366,9 +460,33 @@ local function ClientLastSurvivor( um )
 	
 	LocalPlayer().LastSurvivor = CreateSound( LocalPlayer(), LastAliveMusic .. tostring( randSong ) .. ".mp3" )
 	LocalPlayer().LastSurvivor:PlayEx( 1, 100 )
+
 end
 
-local function ClientDmgTaken( um )
+local function ClientStopMusic( len, ply )
+	
+	if ( !IsValid( LocalPlayer() ) ) then return end
+
+	LocalPlayer().WaitingForPlayers:Stop() // just in case
+	GetWorldEntity().Started = false
+	
+	if ( LocalPlayer().RoundMusic ) then
+	
+		LocalPlayer().RoundMusic:Stop()
+		LocalPlayer().RoundMusic = nil
+		
+	end
+	
+	if ( LocalPlayer().LastSurvivor ) then
+	
+		LocalPlayer().LastSurvivor:Stop()
+		LocalPlayer().LastSurvivor = nil
+		
+	end
+
+end
+
+local function ClientDmgTaken( len, ply )
 
 	// starting the health bar fade at 350 so it stays at full opacity for a bit 
 	GAMEMODE.DamageFade = 350
@@ -376,7 +494,7 @@ local function ClientDmgTaken( um )
 end
 
 // this is to make sure when you spawn the sonic shotgun blue charge is undone
-local function ClientSpawn( um )
+local function ClientSpawn( len, ply )
 
 	if !IsValid( LocalPlayer() ) then return end
 	
@@ -387,11 +505,12 @@ local function ClientSpawn( um )
 	
 end
 
-local function ClientLateMusic( um )
+local function ClientLateMusic( len, ply )
 
-	local musicType = um:ReadChar()
-	local musicNum = um:ReadChar()
+	local musicType = net.ReadInt(8)
+	local musicNum = tonumber( net.ReadInt(8) ) or 1
 
+	if musicNum == 0 then musicNum = 1 end
 	
 	if ( musicType == MUSIC_WAITINGFORINFECTION ) then
 	
@@ -405,27 +524,36 @@ local function ClientLateMusic( um )
 		
 	elseif ( musicType == MUSIC_INTERMISSION ) then
 	
-		LocalPlayer().VirusWin:Stop()
-		LocalPlayer().SurvivorsWin:Stop()
+		local VirusWin = LocalPlayer().VirusWin
+		local SurvivorsWin = LocalPlayer().SurvivorsWin
+		
+		if VirusWin then
+			VirusWin:Stop()
+		end
+		
+		if SurvivorsWin then
+			SurvivorsWin:Stop()
+		end
 		
 		if ( musicNum == 1 ) then
-			LocalPlayer().VirusWin:PlayEx( 1, 100 )
+			if VirusWin then LocalPlayer().VirusWin:PlayEx( 1, 100 ) end
 		else
-			LocalPlayer().SurvivorsWin:PlayEx( 1, 100 )
+			if SurvivorsWin then LocalPlayer().SurvivorsWin:PlayEx( 1, 100 ) end
 		end
 		
 	end
 
 end
 
-usermessage.Hook( "StartRound", ClientStartRound )
-usermessage.Hook( "EndRound", ClientEndRound )
-usermessage.Hook( "Infect", ClientInfected )
-usermessage.Hook( "FadeWaiting", ClientFade )
-usermessage.Hook( "LastSurvivor", ClientLastSurvivor )
-usermessage.Hook( "DmgTaken", ClientDmgTaken )
-usermessage.Hook( "Spawn", ClientSpawn )
-usermessage.Hook( "LateMusic", ClientLateMusic )
+net.Receive( "StartRound", ClientStartRound )
+net.Receive( "EndRound", ClientEndRound )
+net.Receive( "Infect", ClientInfected )
+net.Receive( "FadeWaiting", ClientFade )
+net.Receive( "LastSurvivor", ClientLastSurvivor )
+net.Receive( "StopMusic", ClientStopMusic )
+net.Receive( "DmgTaken", ClientDmgTaken )
+net.Receive( "Spawn", ClientSpawn )
+net.Receive( "LateMusic", ClientLateMusic )
 
 function HudMessage( msg, seconds, font, ignoreY, color )
 	
@@ -437,29 +565,5 @@ function HudMessage( msg, seconds, font, ignoreY, color )
 	VguiMsg:SetVisible( true )
 	
 	Msg( msg .. "\n")
+
 end
-
-//Weapon Fix
-hook.Add("PostPlayerDraw", "CSSWeaponFix", function(v)
-	local wep = v:GetActiveWeapon()
-	if !IsValid(wep) then return end
-
-	local hbone = wep:LookupBone("ValveBiped.Bip01_R_Hand")
-	if !hbone then
-		local hand = v:LookupBone("ValveBiped.Bip01_R_Hand")
-		if hand then
-		
-			local pos, ang = v:GetBonePosition(hand)
-
-			ang:RotateAroundAxis(ang:Forward(), 180)
-
-			if wep:GetModel() == "models/weapons/w_pvp_neslg.mdl" then
-				ang:RotateAroundAxis(ang:Up(), -90)
-			end
-
-			wep:SetRenderOrigin(pos)
-			wep:SetRenderAngles(ang)
-
-		end
-	end
-end)

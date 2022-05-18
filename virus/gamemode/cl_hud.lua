@@ -9,7 +9,6 @@ surface.CreateFont( "ImpactHud", { font = "Impact", size = 32, weight = 400 } )
 surface.CreateFont( "ImpactHudBig", { font = "Impact", size = 42, weight = 500 } )
 
 surface.CreateFont( "CountDown", { font = "Impact", size = 70, weight = 300 } )
-surface.CreateFont( "GTowerHudCText", { font = "default", size = 35, weight = 700 } )
 
 local HudColor = Color( 255, 255, 255, 255 )
 local OutlineColor = Color( 0, 0, 0, 255 )
@@ -36,6 +35,11 @@ local StageTime = 0.30
 local Ranks = { "st", "nd", "rd" }
 local function RankToString( rank )
 
+	if !rank then
+		ErrorNoHalt("ERROR: Rank Invalid!\n")
+		return "Error"
+	end
+
 	local suffix = Ranks[ rank ] or "th"
 	return tostring( rank ) .. suffix
 	
@@ -46,27 +50,15 @@ function GM:HUDPaint()
 	if ShowHud:GetBool() == false then
 		return
 	end
-	
-	DrawRadar()
-	
-	local spread
-	
-	local state = GetGlobalInt("State")
-	local endtime = GetGlobalFloat("Time")
-	
-	local currentRound = GetGlobalInt("Round")
-	local maxRounds = GetGlobalInt("MaxRounds")
-	
-	local rank = RankToString( LocalPlayer():GetNWInt("Rank") )
-	local score = tostring( LocalPlayer():Frags() )
 
+	local state = self:GetState()
+	local currentRound = self:GetRoundCount()
+	local maxRounds = GetWorldEntity():GetNet( "MaxRounds" )
 	
-	local timeleft = endtime - CurTime()
-	
-	if ( timeleft <= 0 ) then
-		timeleft = 0
-	end
-	
+	local rank = RankToString( LocalPlayer():GetNet( "Rank" ) )
+	local score = tostring( LocalPlayer():Frags() ) or 0
+
+	local timeleft = self:GetTimeLeft()	
 	local timeformat = string.FormattedTime( timeleft, "%02i:%02i" )
 
 	local hudRank = HudSurRank
@@ -74,119 +66,106 @@ function GM:HUDPaint()
 	local hudTime = HudSurTime
 	local hudRound = HudSurRound
 	
-	if ( LocalPlayer():GetNWBool("IsVirus") ) then
+	if LocalPlayer():GetNet( "IsVirus" ) then
 		hudRank = HudVirRank
 		hudScore = HudVirScore
 		hudTime = HudVirTime
 		hudRound = HudVirRound
 	end
-	
-	if state != STATE_INFECTING then
-		if ( state == STATE_WAITING || state == STATE_INTERMISSION || state == STATE_PLAYING ) then
-			
-			local spread = 64
-			if state == STATE_WAITING then
-				spread = 0
-			end
 
-			surface.SetTexture( hudTime )
-			surface.SetDrawColor( 255, 255, 255, 255 )
-			surface.DrawTexturedRect( ( ScrW() / 2) - (128 / 2) - 64, 0, 128, 128 )
-			
-			draw.SimpleTextOutlined( timeformat, "ImpactHudBig", ( ScrW() / 2 ) - spread, 70, HudColor, 1, 1, 2, OutlineColor )
+	// Draw Timer
+	if ( state == STATE_WAITING || state == STATE_INTERMISSION || state == STATE_PLAYING ) then
 
-			if state != STATE_WAITING then
-
-				surface.SetTexture( hudRound )
-				surface.SetDrawColor( 255, 255, 255, 255 )
-				surface.DrawTexturedRect( ( ScrW() / 2) - (128 / 2) + 64, 0, 128, 128 )
-				
-				draw.SimpleTextOutlined( currentRound .. "/" .. maxRounds, "ImpactHudBig", ( ScrW() / 2 ) + spread, 70, HudColor, 1, 1, 2, OutlineColor )
-			
-			end
-			
-			if #player.GetAll() == 1 && currentRound == 0 then
-				draw.WaveyText( "WAITING FOR PLAYERS", "GTowerHudCText", ScrW()/2, ScrH()/1 - 25, Color( 255, 255, 255, 150 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 5 )
-			end
-
+		local spread = 64
+		if state == STATE_WAITING then
+			spread = 0
 		end
+
+		surface.SetTexture( hudTime )
+		surface.SetDrawColor( 255, 255, 255, 255 )
+		surface.DrawTexturedRect( ( ScrW() / 2) - (128 / 2) - spread, 0, 128, 128 )
+		
+		draw.SimpleTextOutlined( timeformat, "ImpactHudBig", ( ScrW() / 2 ) - spread, 70, HudColor, 1, 1, 2, OutlineColor )
 
 		if state != STATE_WAITING then
 
 			surface.SetTexture( hudRound )
 			surface.SetDrawColor( 255, 255, 255, 255 )
-			surface.DrawTexturedRect( ( ScrW() / 2) - (128 / 2) + 64, 0, 128, 128 )
-				
-			draw.SimpleTextOutlined( currentRound .. "/" .. maxRounds, "ImpactHudBig", ( ScrW() / 2 ) + 64, 70, HudColor, 1, 1, 2, OutlineColor )
+			surface.DrawTexturedRect( ( ScrW() / 2) - (128 / 2) + spread, 0, 128, 128 )
+			
+			draw.SimpleTextOutlined( currentRound .. "/" .. maxRounds, "ImpactHudBig", ( ScrW() / 2 ) + spread, 70, HudColor, 1, 1, 2, OutlineColor )
 
 		end
+
+	end
+
+	// Draw Score
+	if ( state == STATE_PLAYING || state == STATE_INTERMISSION ) then
 		
-		if ( state == STATE_PLAYING || state == STATE_INTERMISSION ) then
+		local rankX = 0
+		local diff = ScoreStageTime - CurTime()
+		local perc = math.Clamp( (StageTime - diff) / StageTime, 0, 1 )
+		local dest = 128 + 10
+		
+		if ( ScoreStage == 1 ) then
 			
-			local rankX = 0
-			local diff = ScoreStageTime - CurTime()
-			local perc = math.Clamp( (StageTime - diff) / StageTime, 0, 1 )
-			local dest = 128 + 10
+			rankX = dest * perc
 			
-			if ( ScoreStage == 1 ) then
-				
-				rankX = dest * perc
-				
-				if ( perc == 1 ) then
-					ScoreStageTime = CurTime() + StageTime + 3 // extra time for the static stage
-					ScoreStage = 2
-				end
-				
-			elseif ( ScoreStage == 2 ) then
-			
-				rankX = dest
-				
-				if ( perc == 1 ) then
-					ScoreStageTime = CurTime() + StageTime
-					ScoreStage = 3
-				end
-				
-			elseif ( ScoreStage == 3 ) then
-			
-				rankX = dest - ( dest * perc )
-				
+			if ( perc == 1 ) then
+				ScoreStageTime = CurTime() + StageTime + 3 // extra time for the static stage
+				ScoreStage = 2
 			end
 			
-			scoreX = rankX - 128 - 10
+		elseif ( ScoreStage == 2 ) then
+		
+			rankX = dest
 			
-			surface.SetTexture( hudRank )
-			surface.SetDrawColor( 255, 255, 255, 255 )
-			surface.DrawTexturedRect( 10 + rankX, 0, 128, 128 )
+			if ( perc == 1 ) then
+				ScoreStageTime = CurTime() + StageTime
+				ScoreStage = 3
+			end
 			
-			draw.SimpleTextOutlined( rank, "ImpactHudBig", 72 + rankX, 70, HudColor, 1, 1, 2, OutlineColor )
+		elseif ( ScoreStage == 3 ) then
+		
+			rankX = dest - ( dest * perc )
 			
-			surface.SetTexture( hudScore )
-			surface.SetDrawColor( 255, 255, 255, 255 )
-			surface.DrawTexturedRect( 10 + scoreX, 0, 128, 128 )
-			
-			draw.SimpleTextOutlined( score, "ImpactHudBig", 72 + scoreX, 70, HudColor, 1, 1, 2, OutlineColor )
-
 		end
-	end	
-	
+		
+		scoreX = rankX - 128 - 10
+		
+		surface.SetTexture( hudRank )
+		surface.SetDrawColor( 255, 255, 255, 255 )
+		surface.DrawTexturedRect( 10 + rankX, 0, 128, 128 )
+		
+		draw.SimpleTextOutlined( rank, "ImpactHudBig", 72 + rankX, 70, HudColor, 1, 1, 2, OutlineColor )
+		
+		surface.SetTexture( hudScore )
+		surface.SetDrawColor( 255, 255, 255, 255 )
+		surface.DrawTexturedRect( 10 + scoreX, 0, 128, 128 )
+		
+		draw.SimpleTextOutlined( score, "ImpactHudBig", 72 + scoreX, 70, HudColor, 1, 1, 2, OutlineColor )
+
+	end
+
+	// Draw Weapon
 	if state != STATE_INTERMISSION then
-			
+		
 		if LocalPlayer().GetActiveWeapon then
 
 			local activeWeapon = LocalPlayer():GetActiveWeapon()
-				
-			if IsValid( activeWeapon ) && activeWeapon:GetClass() != "weapon_adrenaline" then
-				
+			
+			if IsValid( activeWeapon ) then
+			
 				if activeWeapon:Clip1() != -1 then
 
 					surface.SetTexture( HudAmmo )
 					surface.SetDrawColor( 255, 255, 255, 255 )
-						
+					
 					surface.DrawTexturedRect( ScrW() - 256 - 10, ScrH() - 128 - 10, 256, 128 )
-						
+					
 					local ammo_left = activeWeapon:Clip1()
 					local ammo_total = activeWeapon:Ammo1()
-							
+						
 					draw.SimpleTextOutlined( ammo_left, "AmmoBig", ScrW() - 170, ScrH() - 75, HudColor, 1, 1, 2, OutlineColor )
 					draw.SimpleTextOutlined( ammo_total, "AmmoSmall", ScrW() - 102, ScrH() - 70, HudColor, 1, 1, 2, OutlineColor )
 
@@ -197,7 +176,7 @@ function GM:HUDPaint()
 		end
 
 	end
-
+	
 	if ShowDamageNotes:GetBool() == true then
 		self:DamageNotes()
 	end	
@@ -234,32 +213,21 @@ function GM:DamageNotes()
 
 end
 
-function AddDamageNote( um )
+function AddDamageNote( len, ply )
 
 	local note 	= {}
-	note.Amount = um:ReadFloat()
-	note.Pos 	= um:ReadVector()
+	note.Amount = net.ReadFloat()
+	note.Pos 	= net.ReadVector()
 	note.Time 	= CurTime()
 
 	table.insert( DamageNotes, note )
 
 end
-usermessage.Hook( "DamageNotes", AddDamageNote )
-
-local HiddenHud = { "CHudHealth", "CHudBattery", "CHudAmmo", "CHudSecondaryAmmo", "CHudChat", "CHUDQuickInfo" }
-function GM:HUDShouldDraw( name )
-
-	for _, v in ipairs( HiddenHud ) do
-		if ( name == v ) then return false end
-	end
-	
-	return true
-end
-
+net.Receive( "DamageNotes", AddDamageNote )
 
 function GM:DrawName( ply )
 
-	if !ply:Alive() then return end
+	if !IsValid( ply ) || !IsValid( LocalPlayer() ) || !ply:Alive() then return end
 	
 	local pos = ply:GetPos()
 	local ang = LocalPlayer():EyeAngles()
@@ -279,11 +247,11 @@ function GM:DrawName( ply )
 	
 		draw.DrawText( string.upper( ply:GetName() ), "ImpactName", 50, 0, Color( 255, 255, 255, opacity ) )
 		
-		if GetGlobalInt("State") == STATE_WAITING then
+		if self:GetState() == STATE_WAITING then
 			draw.DrawText( "WAITING", "ImpactType", 50, 40, Color( 175, 175, 175, opacity ) )
 		end
 		
-		if ( ply:GetNWBool("IsVirus") ) then
+		if ( ply:GetNet( "IsVirus" ) ) then
 			draw.DrawText( "INFECTED", "ImpactType", 50, 40, Color( 175, 200, 175, opacity ) )
 		end
 			
@@ -296,9 +264,8 @@ function GM:DrawHealth( ply )
 
 	if !ply:Alive() then return end
 	
-	if GetGlobalInt("State") != STATE_PLAYING then return end
+	if self:GetState() != STATE_PLAYING then return end
 
-	
 	local pos = ply:GetPos()
 	local ang = LocalPlayer():EyeAngles()
 	
@@ -308,7 +275,7 @@ function GM:DrawHealth( ply )
 	pos = pos + Vector( 0, 0, 60 )
 
 	local health = ply:Health()
-	local maxHealth = ply:GetNWFloat("MaxHealth")
+	local maxHealth = ply:GetNet( "MaxHealth" )
 	
 	local percHealth = math.Clamp( ( health / maxHealth ) * 100, 0, 100 )
 	local colorPerc = math.Clamp( ( health / maxHealth ) * 255, 0, 100 )
@@ -339,7 +306,7 @@ function GM:PostDrawTranslucentRenderables()
 		if ( v != LocalPlayer() ) then
 			self:DrawName( v )
 		else
-			if ( v:GetNWBool("IsVirus") ) then
+			if ( v:GetNet( "IsVirus" ) ) then
 				self:DrawHealth( v )
 			end
 		end
@@ -347,11 +314,11 @@ function GM:PostDrawTranslucentRenderables()
 	
 end
 
-local function ClientScorePoint( um )
+local function ClientScorePoint( len, ply )
 
 	ScoreStageTime = CurTime() + StageTime
 	ScoreStage = 1
 
 end
 
-usermessage.Hook( "ScorePoint", ClientScorePoint )
+net.Receive( "ScorePoint", ClientScorePoint )

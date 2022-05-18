@@ -15,12 +15,10 @@ ColorTabDivider = ColorBright
 ColorTabInnerActive = colorutil.Brighten( ColorDark, .75, 200 )
 ColorTabHighlight = colorutil.Brighten( ColorBright, 3 )
 
-
 ColorAwardsDescription = Color( 220, 220, 220, 255 )
 ColorAwardsBarAchieved = Color( 93, 162, 36, 150 )
 ColorAwardsBarNotAchieved = Color( 33, 62, 10, 150 )
 ColorAwardsAchievedIcon = Color( 32, 255, 4, 150 )
-
 
 // HEADER
 HeaderTitle = ""
@@ -75,7 +73,6 @@ local Trophies =
 }
 
 // PLAYER
-
 PlayersSort = function( a, b )
 
 	CalculateRanks()
@@ -93,7 +90,7 @@ PlayerSubtitleText = function( ply )
 
 	if GAMEMODE:GetState() == STATE_WAITING then return "" end
 
-	if ply:GetNWBool("IsVirus") then
+	if ply:GetNet( "IsVirus" ) then
 		return "INFECTED"
 	end
 
@@ -113,7 +110,7 @@ end
 local infectedbg = Scoreboard.GenTexture( "VirusInfectedBG", "virus/infected" )
 PlayerBackgroundMaterial = function( ply )
 
-	if ply:GetNWBool("IsVirus") then
+	if ply:GetNet( "IsVirus" ) then
 		return infectedbg
 	end
 

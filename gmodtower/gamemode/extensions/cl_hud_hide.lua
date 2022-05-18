@@ -1,5 +1,9 @@
 
-GtowerHudToHide = { "CHudCrosshair", "CHUDQuickInfo", "CHudSuitPower", "CHudZoom" }
+GtowerHudToHide = { "CHUDQuickInfo", "CHudSuitPower", "CHudZoom" }
+
+if IsLobby then
+	table.uinsert( GtowerHudToHide, "CHudCrosshair" )
+end
 
 //Somewhy when I hook two things to HUDShouldDraw, only 1 get's called
 //Making this global D:

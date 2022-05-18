@@ -30,7 +30,7 @@ function GAMEMODE:GiveMoney()
 
 		payout.Clear( ply )
 
-		self:RankThink( ply, true )
+		self:ProcessRank( ply )
 
 		if ply:Frags() > 0 then
 			if k == 1 then payout.Give( ply, "Rank1" ) end

@@ -26,7 +26,9 @@ HudMessages =
 //graph x * x * ( 3 - 2 * x ) from x = 0 to 1
 //A nice fade in/face out effect
 local function Bezel( Val )
+
 	return Val * Val * ( 3 - 2 * Val )
+
 end
 
 local NumMessages = 0
@@ -43,6 +45,9 @@ function PANEL:Init()
 	
 	self.CreatedTime = CurTime()
 	self.Font = "ImpactHud"
+
+	self:SetMouseInputEnabled( false )
+	self:MouseCapture( false )
 
 end
 
@@ -65,11 +70,15 @@ function PANEL:SetText( text, font, color )
 end
 
 function PANEL:CenterX()
+
 	return ( ScrW() / 2 ) - ( self:GetWide() / 2 )
+
 end
 
 function PANEL:CenterY()
+
 	return ( ScrH() / 2 ) - ( self:GetTall() / 2 )
+
 end
 
 function PANEL:Think()
@@ -119,24 +128,20 @@ function PANEL:Paint()
 	end
 	
 end
-
 vgui.Register("virus_HudMessage", PANEL )
 
+local function ClientHudMsg( len, ply )
 
+	local index = net.ReadInt(8)
+	local time = net.ReadInt(8)
+	local ent = net.ReadEntity()
+	local ent2 = net.ReadEntity()
+	
+	local clrR = net.ReadInt(16)
+	local clrG = net.ReadInt(16)
+	local clrA = net.ReadInt(16)
+	local clrB = net.ReadInt(16)
 
-local function ClientHudMsg( um )
-
-	local index = um:ReadChar()
-	local time = um:ReadChar()
-	local ent = um:ReadEntity()
-	local ent2 = um:ReadEntity()
-	
-	local clrR = um:ReadShort()
-	local clrG = um:ReadShort()
-	local clrB = um:ReadShort()
-	local clrA = um:ReadShort()
-	
-	
 	local color = COLOR
 	if ( clrA != 0 ) then
 		color = Color( clrR, clrG, clrB, clrA )
@@ -184,5 +189,4 @@ local function ClientHudMsg( um )
 	HudMessage( message, time or 10, nil, nil, color )
 	
 end
-
-usermessage.Hook( "HudMsg", ClientHudMsg )
+net.Receive( "HudMsg", ClientHudMsg )

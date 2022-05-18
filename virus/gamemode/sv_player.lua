@@ -1,64 +1,28 @@
-
-
 function GM:PlayerDisconnected(ply)
 
-	--if ( ply:IsBot() || #player.GetBots() > 0 ) then return end
+	if ( self:GetState() == 0 ) then return end
 
-	ply:SetTeam( TEAM_SPEC )
+	local Players = #player.GetAll()
 
-	// last player left, and we never started a game, so cancel the waiting start
-	if ( GetGlobalInt("State") == STATE_WAITING && #player.GetAll() == 1 ) then
-		timer.Destroy( "WaitingStart" )
-		timer.Destroy( "WaitingFade" )
-	end
-
-	if ( ply:GetNWBool("IsVirus") ) then
-		SetGlobalInt("NumVirus",GetGlobalInt("NumVirus") - 1)
-	end
-
-	local numPlys = #player.GetAll()
-
-	if ( numPlys == 0 ) then
+	if ( Players == 1 ) then
 		self:EndServer()
 		return
 	end
 
-	if ( GetGlobalInt("State") != STATE_PLAYING ) then return end
+	if ( self:GetState() != STATE_PLAYING ) then return end
 
-	if ( GetGlobalInt("NumVirus") == 0 ) then
+	local NumVirus = #team.GetPlayers( TEAM_INFECTED )
 
-		GAMEMODE:HudMessage( nil, 18 /* Last infected has left */, 5 )
+	if ( NumVirus == 1 ) then
+
+		self:HudMessage( nil, 18 /* Last infected has left */, 5 )
 		timer.Simple( 1, function() GAMEMODE:RandomInfect() end )
 
-		/*timer.Destroy( "RoundEnd" )
-
-		self:EndRound( false ) // survivors win*/
-
-
 	end
 
 end
 
-
-function GM:PlayerShouldTakeDamage( victim, attacker )
-
-	if victim:IsPlayer() && attacker:IsPlayer() && ( victim:Team() == attacker:Team() ) then
-		return false
-	end
-
-	if ( !victim:GetNWBool("IsVirus") ) then return false end
-
-	local rp = RecipientFilter()
-	rp:AddPlayer( victim )
-
-	umsg.Start( "DmgTaken", rp )
-	umsg.End()
-
-	return true
-end
-
-
-function GM:DoPlayerDeath( ply, attacker, dmginfo )
+function GM:HandlePlayerDeath( ply, attacker, inflictor )
 
 	if ( ply.Flame != nil ) then  //flame off, bro
 		ply.Flame:Remove()
@@ -68,7 +32,7 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 		ply.Flame2 = nil
 	end
 
-	if ply:GetNWBool("IsVirus") then
+	if ply:GetNet( "IsVirus" ) then
 		eff = EffectData()
 			eff:SetOrigin( ply:GetPos() + Vector( 0, 0, 50 ) )
 		util.Effect( "virus_explode", eff )
@@ -78,22 +42,15 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 
 	if IsValid( attacker ) && attacker:IsPlayer() then
 
-		if ( attacker == ply ) then
-			attacker:AddDeaths( 1 )
-		else
-			self:AddScore( attacker, 1 )
-
-			if IsValid( attacker:GetActiveWeapon() ) then
-				if attacker:GetActiveWeapon():GetClass() == "weapon_sniperrifle" then
-					attacker:AddAchievement( ACHIEVEMENTS.VIRUSPOINTANDCLICK, 1 )
-				end
+		if IsValid( attacker:GetActiveWeapon() ) then
+			if attacker:GetActiveWeapon():GetClass() == "weapon_sniperrifle" then
+				attacker:AddAchievement( ACHIEVEMENTS.VIRUSPOINTANDCLICK, 1 )
 			end
-
 		end
 
-		if IsValid( dmginfo:GetInflictor() ) then
+		if IsValid( inflictor ) then
 
-			local ent = dmginfo:GetInflictor():GetClass()
+			local ent = inflictor:GetClass()
 			if ent == "tnt" then
 
 				attacker:AddAchievement( ACHIEVEMENTS.VIRUSEXPLOSIVE, 1 )  // yippee ki-yay mother huger
@@ -123,46 +80,177 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 
 	end
 
-	if ( GetGlobalInt("State") == STATE_PLAYING && ply:GetNWBool("IsVirus") ) then
-		ply:AddDeaths( 1 )
-	end
-
-	if ( GetGlobalInt("State") == STATE_PLAYING && !ply:GetNWBool("IsVirus") ) then
-		self:Infect( ply )
-	end
-
 	ply:CreateRagdoll()
 
-	if ( GetGlobalInt("State") != STATE_PLAYING ) then return end
+end
 
-	if ( ply:GetNWBool("IsVirus") ) then return end
+function GM:RandomInfect()
 
-	if ( #player.GetAll() - GetGlobalInt("NumVirus") == 1 ) then
+	self:SetState( STATE_PLAYING )
 
-		umsg.Start( "LastSurvivor" )
-		umsg.End()
+	local time = self.RoundTime
+	self:SetTime( time )
+
+	local plys = player.GetAll()
+
+	if ( #plys == 0 ) then
+		GAMEMODE:EndServer()
+		return
+	end
+
+	math.randomseed( RealTime() * 5555 )
+
+	local virusPlayer
+	local PlayerCount = #plys
+
+	repeat
+
+		local virusRand = math.random( 1, PlayerCount )
+		virusPlayer = plys[ virusRand ]
+
+	until virusPlayer != GAMEMODE.LastInfected
+
+	GAMEMODE:Infect( virusPlayer )
+
+	if PlayerCount > 1 then
+		GAMEMODE.LastInfected = virusPlayer
+	end
+
+end
+
+--local VirusColor = Color( 155, 200, 160, 255 )
+local VirusColor = Color( 255, 255, 255, 255 )
+
+function GM:Infect( ply, infector )
+
+	if self:GetState() != 3 then return end
+
+	if !IsValid( ply ) then return end
+
+	if ( ply:GetNet( "IsVirus" ) ) then return end
+
+	if ( infector == nil ) then
+
+		infector = GetWorldEntity()
+
+		if ply:AchievementLoaded() then ply:AddAchievement( ACHIEVEMENTS.VIRUSLOSTHOPE, 1 ) end
+		self:HudMessage( nil, 16 /* %s has been infected! */, 5, ply, nil, VirusColor )
+
+	end
+
+	if ( infector:IsPlayer() ) then
+
+		local tr = util.TraceLine{
+			start = infector:GetPos(),
+			endpos = ply:GetPos(),
+			filter = infector
+		}
+
+		if tr.HitWorld then return end
+
+		infector:AddAchievement( ACHIEVEMENTS.VIRUSPANDEMIC, 1 )
+		infector:AddFrags( 1 )
+		self:ScorePoint( infector )
+
+		ply:AddDeaths( 1 ) // todo: should being infected add 1 to deaths?
+		ply:EmitSound( "ambient/fire/ignite.wav", 75, math.random( 170, 200 ), 1, CHAN_AUTO )
+
+		for _, v in ipairs( player.GetAll() ) do
+			if ( v != ply ) then
+				self:HudMessage( v, 17 /* %s was infected by %s! */, 2, ply, infector, VirusColor )
+			else
+				self:HudMessage( ply, 13 /* %s has infected you! */, 5, infector, nil, VirusColor )
+			end
+		end
+
+	end
+
+	//Fucking zoom
+	ply:SetFOV( 0, 0 )
+
+	ply:SetTeam( TEAM_INFECTED )
+
+	self:VirusSpawn( ply )
+
+	ply:SetNet( "IsVirus", true )
+
+	PostEvent( ply, "lastman_off" )
+	PostEvent( ply, "adrenaline_off" )
+
+	ply:SetDSP( 1 ) // turn off adrenaline dsp
+
+	local randSong = math.random( 1, self.NumRoundMusic )
+
+	net.Start( "Infect" )
+		net.WriteEntity( ply )
+		net.WriteEntity( infector )
+		net.WriteInt( randSong, 8 )
+	net.Broadcast()
+
+	local NumVirus = #team.GetPlayers( TEAM_INFECTED )
+
+	if ( #player.GetAll() - NumVirus == 1 ) then
+
+		if ( self.HasLastSurvivor ) then return end
+
+		self:LastSurvivor()
 
 		local lastPlayer = team.GetPlayers( TEAM_PLAYERS )[ 1 ]
+
+		PostEvent( lastPlayer, "adrenaline_off" ) // in case they used it
 		PostEvent( lastPlayer, "lastman_on" )
 
+		for _,v in ipairs( team.GetPlayers( TEAM_INFECTED ) ) do
+
+			self:HudMessage( v, 3 /* last survivor is %s */, 5, lastPlayer )
+
+		end
+
+		self:HudMessage( lastPlayer, 2 /* you are the last survivor */, 5 )
+
+		self.HasLastSurvivor = true
+
 	end
-end
-
-function GM:AddScore( ply, score )
-
-	ply:AddFrags( score )
-
-	umsg.Start( "ScorePoint", ply )
-	umsg.End()
 
 end
 
+function GM:PlayerFreeze( freezeToggle, ply )
 
-function GM:PlayerLoadout( ply )
+	if ply == nil then
+		for k,v in pairs( player.GetAll() ) do
+			v:Freeze( freezeToggle )
+		end
+	else
+		if IsValid( ply ) then
+			ply:Freeze( freezeToggle )
+		end
+	end
 
-	for _, v in ipairs( self:GetSelectedWeapons() ) do
+end
+
+function GM:ScorePoint( ply )
+
+	net.Start( "ScorePoint" )
+	net.Send( ply )
+
+end
+
+function GM:WeaponsGive( ply )
+
+	local weapons = self:GetSelectedWeapons()
+
+	for k,v in pairs(weapons) do
 		ply:Give( v )
 	end
+
+end
+
+function GM:GiveLoadout( ply )
+
+	ply:StripWeapons()
+	ply:RemoveAllAmmo()
+
+	self:WeaponsGive( ply )
 
 	if ( #ply:GetWeapons() == 0 ) then
 		return
@@ -177,8 +265,44 @@ function GM:PlayerLoadout( ply )
 	ply:GiveAmmo( 24, "Buckshot", true )
 	ply:GiveAmmo( 50, "AR2", true )
 
+end
+
+function GM:PlayerShouldTakeDamage( victim, attacker )
+
+	if victim:IsPlayer() && attacker:IsPlayer() && ( victim:Team() == attacker:Team() ) then
+		return false
+	end
+
+	if ( !victim:GetNet( "IsVirus" ) ) then return false end
+
+	local rp = RecipientFilter()
+	rp:AddPlayer( victim )
+
+	net.Start( "DmgTaken" )
+	net.Send( rp )
+
+	return true
 
 end
+
+function GM:PlayerDeathSound( ply )
+
+	return true
+
+end
+
+hook.Add( "CanPlayerSuicide", "AllowSuicide", function( ply )
+
+	return false
+
+end )
+
+hook.Add( "PlayerDeath", "ScorePointMessage", function( victim, inflictor, attacker )
+
+	GAMEMODE:HandlePlayerDeath( victim, attacker, inflictor )
+	GAMEMODE:ScorePoint( attacker )
+
+end )
 
 concommand.Add( "use_adrenaline", function( ply, cmd, args )
 

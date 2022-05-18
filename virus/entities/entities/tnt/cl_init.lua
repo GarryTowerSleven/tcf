@@ -16,7 +16,7 @@ function ENT:Draw()
 	local size = self.GlowSize
 
 	render.SetMaterial( matpoint )
-	
+
 	color = Color( 255, 0, 0, 255 )
 	render.DrawSprite( pos, size, size, color )
 
