@@ -1,13 +1,8 @@
-GM.Name 	= "GMod Tower Classic: Virus"
-GM.Author   = "GMod Tower Team"
-GM.Website  = "http://www.gmodtower.org/"
-
-GM.AllowSpecialModels = true
-GM.AllowChangeSize = false
-
+// === GMT SETUP ===
 DeriveGamemode( "gmtgamemode" )
 SetupGMTGamemode( "Virus", "virus", {
-	Loadables = { "weaponfix", "virus" }, // Additional Loadables
+	Loadables = { "weaponfix", "virus" }, // Additional loadables
+	AllowSmall = true, // Small player models
 	DrawHatsAlways = false, // Always draw hats
 	AFKDelay = 90 - 20, // Seconds before they will be marked as AFK
 	EnableWeaponSelect = true, // Allow weapon selection
@@ -20,28 +15,25 @@ SetupGMTGamemode( "Virus", "virus", {
 	ChatScrollColor = Color( 44, 80, 15, 255 ), // Color of the chat scroll bar gui
 } )
 
-function RegisterNWTable()
-	SetGlobalInt("State",1)
-	SetGlobalFloat("Time",0)
-	SetGlobalInt("Round",0)
-	SetGlobalInt("MaxRounds",0)
-	SetGlobalInt("NumVirus",0)
-end
+RegisterNWTableGlobal({ 
+	{ "Round", 0, NWTYPE_CHAR, REPL_EVERYONE },
+	{ "MaxRounds", 0, NWTYPE_CHAR, REPL_EVERYONE },
+})
 
-function RegisterNWPlayer(ply)
-	ply:SetNWBool("IsVirus",false)
-	ply:SetNWFloat("MaxHealth",100)
-	ply:SetNWInt("Rank",0)
-end
+RegisterNWTablePlayer({
+	{ "IsVirus", false, NWTYPE_BOOLEAN, REPL_EVERYONE },
+	{ "MaxHealth", 100, NWTYPE_NUMBER, REPL_PLAYERONLY },
+	{ "Rank", 0, NWTYPE_CHAR, REPL_PLAYERONLY },
+})
 
 STATE_WAITING		= 1
-STATE_INFECTING	= 2
+STATE_INFECTING		= 2
 STATE_PLAYING		= 3
 STATE_INTERMISSION	= 4
 
-TEAM_PLAYERS	= 1
-TEAM_INFECTED	= 2
-TEAM_SPEC		= 3
+TEAM_PLAYERS		= 1
+TEAM_INFECTED		= 2
+TEAM_SPEC			= 3
 
 MUSIC_WAITINGFORINFECTION	= 1
 MUSIC_INTERMISSION			= 4
@@ -49,15 +41,3 @@ MUSIC_INTERMISSION			= 4
 team.SetUp( TEAM_PLAYERS, "Survivors", Color( 255, 255, 100, 255 ) )
 team.SetUp( TEAM_INFECTED, "Infected", Color( 175, 225, 175, 255 ) )
 team.SetUp( TEAM_SPEC, "Waiting", Color( 255, 255, 100, 255 ) )
-
-function GM:GetState()
-	return GetGlobalInt("State")
-end
-
-function GM:IsPlaying()
-	return GetGlobalInt("State") == STATE_PLAYING
-end
-
-function GM:GetTimeLeft()
-	return GetGlobalFloat("Time") - CurTime()
-end

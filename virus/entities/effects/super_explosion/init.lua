@@ -1,5 +1,3 @@
-
-
 local matRefraction	= Material( "refract_ring" )
 
 /*---------------------------------------------------------
@@ -24,7 +22,6 @@ function EFFECT:Init( data )
 	
 end
 
-
 /*---------------------------------------------------------
    THINK
    Returning false makes the entity die
@@ -40,7 +37,6 @@ function EFFECT:Think( )
 	
 end
 
-
 /*---------------------------------------------------------
    Draw the effect
 ---------------------------------------------------------*/
@@ -55,6 +51,3 @@ function EFFECT:Render()
 	render.DrawSprite( Pos, self.Size, self.Size )
 
 end
-
-
-

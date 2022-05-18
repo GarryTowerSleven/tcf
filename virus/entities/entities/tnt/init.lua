@@ -44,7 +44,7 @@ function ENT:Think()
 
 	local owner = self:GetOwner()
 
-	if !IsValid( owner ) || !owner:Alive() || owner:GetNWBool("IsVirus") then
+	if !IsValid( owner ) || !owner:Alive() || owner:GetNet("IsVirus") then
 
 		self:Detonate()
 
@@ -60,7 +60,7 @@ function ENT:Think()
 
 		for _, v in ipairs( objs ) do
 
-			if IsValid( v ) && v:IsPlayer() && v:GetNWBool("IsVirus") && v:Alive() then		
+			if IsValid( v ) && v:IsPlayer() && v:GetNet( "IsVirus" ) && v:Alive() then		
 
 				self:Remove()
 
@@ -68,6 +68,12 @@ function ENT:Think()
 
 		end
 	
+	end
+
+	if self.Detontated != nil then
+		if self.Detontated < CurTime() then
+			self:Remove()
+		end
 	end
 
 end
@@ -108,8 +114,8 @@ function ENT:Detonate()
 
 	sound.Play( "GModTower/virus/weapons/TNT/timer.wav", self:GetPos() )
 	self.Timer = true
-	
-	timer.Simple( 1.5, function() if IsValid( self ) then self:Remove() end end )
+
+	self.Detontated = CurTime() + 1.5
 
 end
 
@@ -135,5 +141,7 @@ function ENT:OnRemove()
 		sexplode:SetStart( pos )
 		sexplode:SetOrigin( pos )
 	util.Effect( "super_explosion", sexplode )
+
+	owner:RemoveUsedTNT()
 
 end

@@ -1,9 +1,11 @@
 hook.Add("GTowerMsg", "GamemodeMessage", function()
-	if GAMEMODE.CurrentRound == 0 then		
+
+	if GetWorldEntity():GetNet( "Round" ) == 0 then		
 		return "#nogame"
 	else
-		return GAMEMODE:GetTimeLeft() .. "||||" .. tostring( GAMEMODE.CurrentRound ) .. "/" .. GAMEMODE.NumRounds
+		return GAMEMODE:GetTimeLeft() .. "||||" .. tostring( GetWorldEntity():GetNet( "Round" ) ) .. "/" .. GetWorldEntity():GetNet( "MaxRounds" )
 	end
+
 end )
 
 function GAMEMODE:EndServer()

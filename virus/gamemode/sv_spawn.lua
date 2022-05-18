@@ -1,147 +1,37 @@
+function GM:FadeWaiting()
 
+	net.Start( "FadeWaiting" )
+	net.Broadcast()
 
+end
 
 function GM:PlayerInitialSpawn( ply )
-	
-	if ( ply:GetNWBool("IsVirus") ) then
+
+	hook.Call( "PlayerSetModel", GAMEMODE, ply )
+
+	if self:GetState() <= 1 then
+		if #player.GetAll() >= 1 && !ply:IsBot() then
+			self:SetState( STATE_WAITING )
+			self:SetTime( self.RoundTime )
+		end
+	end
+
+	if self:GetState() == 3 then
 		ply:SetTeam( TEAM_INFECTED )
-	else
-		ply:SetTeam( TEAM_PLAYERS )
+		ply:SetNet( "IsVirus", true )
 	end
-	
-	ply.NextWeaponThink = 0
 
-	if ( GetGlobalInt("State") != STATE_PLAYING && !ply:GetNWBool("IsVirus") ) then
-		hook.Call( "PlayerSetModel", GAMEMODE, ply )
+	if self:GetState() == 4 then
+		self:PlayerFreeze( true, ply )
 	end
-		
-	ply:StripWeapons()
-	
-	if ply:IsBot() then return end
-	
-	RegisterNWPlayer(ply)
-	
-	if ( GetGlobalInt("State") == STATE_WAITING && #player.GetAll() > 1 ) then
-	
-		SetGlobalFloat("Time",CurTime() + self.WaitingTime)
-		
-		self:HudMessage( ply, 14 /* you are the first to join */, 10 )
-		
-		timer.Destroy( "WaitingStart" )
-		timer.Create( "WaitingStart", GAMEMODE.WaitingTime, 1, GAMEMODE.StartRound, GAMEMODE )
-		
-		timer.Destroy( "WaitingFade" )
-		timer.Create( "WaitingFade", GAMEMODE.WaitingTime - 2, 1, GAMEMODE.FadeWaiting, GAMEMODE ) // for the 2 second music fadeout time
-		
-		SetGlobalInt("State")
-		
-	end
-	
-	// because apparently LocalPlayer() is nil when this usermessage arrives
-	timer.Simple( 1, function() 
-	
-		if ( GetGlobalInt("State") == STATE_INFECTING ) then
-		
-			umsg.Start( "LateMusic", ply )
-				umsg.Char( MUSIC_WAITINGFORINFECTION )
-				umsg.Char( self.WaitingSong )
-			umsg.End()
-			
-		end
-		
-		if ( GetGlobalInt("State") == STATE_INTERMISSION ) then
-		
-			umsg.Start( "LateMusic", ply )
-				umsg.Char( MUSIC_INTERMISSION )
-				if ( self.EndRoundMusic == true ) then
-					umsg.Char( 1 )
-				else
-					umsg.Char( 0 )
-				end
-			umsg.End()
-			
-		end
-	end )
 
-	
-	ply:CrosshairDisable()
-	
-	PostEvent( ply, game.GetMap() )
-	
+	self:ProcessRank( ply )
+
 end
-
-function GM:PlayerSpawn( ply )
-	if ( GetGlobalInt("State") != STATE_PLAYING && !ply:GetNWBool("IsVirus") ) then
-		hook.Call( "PlayerSetModel", GAMEMODE, ply )
-	end
-	
-	ply:SetJumpPower( 0 )
-	ply:SetWalkSpeed( 300 )
-	ply:SetRunSpeed( 300 )
-	
-	umsg.Start( "Spawn", ply )
-		umsg.Entity( ply )
-	umsg.End()
-	
-	local vm = ply:GetViewModel()
-	if IsValid( vm ) then
-		vm:SetColor( Color( 255, 255, 255, 255 ) )
-	end
-
-	ply:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
-	
-	if ( GetGlobalInt("State") == STATE_WAITING ) then return end
-	
-	if ( ply.Flame != nil ) then
-		ply.Flame:Remove()
-		ply.Flame = nil
-		
-		ply.Flame2:Remove()
-		ply.Flame2 = nil
-	end
-
-
-	if ( GetGlobalInt("State") == STATE_PLAYING && !ply:GetNWBool("IsVirus") ) then
-	
-		timer.Simple( 2, GAMEMODE.Infect, self, ply )
-		
-		return
-	end
-
-	if ( ply:GetNWBool("IsVirus") ) then
-		self:VirusSpawn( ply )
-	else
-		self:HumanSpawn( ply )
-	end
-	
-	
-	//Do some sweet effects.
-	ply:EmitSound( "GModTower/virus/player_spawn.wav" )
-	local spawnent = ents.Create( "spawn" )
-	if IsValid( spawnent ) then
-		spawnent:SetPos( ply:GetPos() + Vector( 0, 0, 40 ) )
-		spawnent:SetOwner( ply )
-		spawnent:SetSpawnOwner( ply )
-		spawnent:ShouldRemove( true )
-		spawnent:Spawn()
-		spawnent:Activate()
-	end
-	
-	PostEvent( ply, game.GetMap() )
-	PostEvent( ply, "adrenaline_off" )
-	
-end
-
-
-function GM:FadeWaiting()
-	umsg.Start( "FadeWaiting" )
-	umsg.End()
-end
-
 
 function GM:VirusSpawn( ply )
 
-	local numVirus = GetGlobalInt("NumVirus")
+	local numVirus = team.NumPlayers( TEAM_INFECTED )
 	
 	local healthScale = math.Clamp( 15 * ( #player.GetAll() / numVirus ) + 30, 50, 100 )
 	
@@ -151,7 +41,7 @@ function GM:VirusSpawn( ply )
 	ply:SetRunSpeed( self.VirusSpeed )
 	
 	ply:SetHealth( healthScale )
-	ply:SetNWFloat("MaxHealth",healthScale)
+	ply:SetNet( "MaxHealth" , healthScale )
 	
 	ply:StripWeapons()
 	ply:RemoveAllAmmo()
@@ -165,7 +55,7 @@ function GM:VirusSpawn( ply )
 	PostEvent( ply, "infection_on" )
 
 	timer.Simple( 2, function()
-		if ply:Alive() then
+		if IsValid( ply ) && ply:Alive() then
 			local pos = ply:GetPos( ) + Vector( 0, 0, 50 )
 
 			//flame OOOONNN!!
@@ -211,7 +101,7 @@ function GM:VirusSpawn( ply )
 		end
 	end )
 	
-	if ( ply:GetNWBool("IsVirus") && ply:Deaths() == 2 && GetGlobalInt("NumVirus") == 1 ) then
+	if ( IsValid( ply ) && ply:GetNet( "IsVirus" ) && ply:Deaths() == 2 && numVirus == 1 ) then
 		self:HudMessage( nil, 19 /* Infected has become enraged */, 5 )
 	end
 	
@@ -219,9 +109,11 @@ end
 
 function GM:HumanSpawn( ply )
 
-
 	ply:SetWalkSpeed( self.HumanSpeed )
 	ply:SetRunSpeed( self.HumanSpeed )
+
+	ply:SetFrags( 0 )
+	ply:SetDeaths( 0 )
 
 	PostEvent( ply, "lastman_off" )
 	PostEvent( ply, "infection_off" )
@@ -231,7 +123,7 @@ function GM:HumanSpawn( ply )
 	if IsValid( ViewModel ) then
 		ViewModel:SetColor( Color( 255, 255, 255, 255 ) )
 	end
-	
+
 end
 
 
@@ -263,4 +155,66 @@ function GM:IsValidSpawn( ent )
 	end
 	
 	return true
+
+end
+
+function GM:PlayerSpawn( ply )
+
+	if ( self:GetState() != STATE_PLAYING && !ply:GetNet( "IsVirus" ) ) then
+		hook.Call( "PlayerSetModel", GAMEMODE, ply )
+	end
+	
+	ply:SetJumpPower( 0 )
+	ply:SetWalkSpeed( 300 )
+	ply:SetRunSpeed( 300 )
+	
+	net.Start( "Spawn" )
+	net.Send( ply )
+	
+	local vm = ply:GetViewModel()
+	if IsValid( vm ) then
+		vm:SetColor( Color( 255, 255, 255, 255 ) )
+	end
+
+	ply:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
+	
+	if ( self:GetState() == STATE_WAITING ) then return end
+	
+	if ( ply.Flame != nil ) then
+		ply.Flame:Remove()
+		ply.Flame = nil
+		
+		ply.Flame2:Remove()
+		ply.Flame2 = nil
+	end
+
+	if ( ply:GetNet( "IsVirus" ) ) then
+		self:VirusSpawn( ply )
+	else
+		self:HumanSpawn( ply )
+	end
+	
+	//Do some sweet effects.
+	ply:EmitSound( "GModTower/virus/player_spawn.wav" )
+	local spawnent = ents.Create( "spawn" )
+	if IsValid( spawnent ) then
+		spawnent:SetPos( ply:GetPos() + Vector( 0, 0, 40 ) )
+		spawnent:SetOwner( ply )
+		spawnent:SetSpawnOwner( ply )
+		spawnent:ShouldRemove( true )
+		spawnent:Spawn()
+		spawnent:Activate()
+	end
+	
+	PostEvent( ply, game.GetMap() )
+	PostEvent( ply, "adrenaline_off" )
+	
+end
+
+function GM:RoundRespawn()
+
+	for k,v in pairs(player.GetAll()) do
+		v:Spawn()
+	end
+
 end

@@ -1,39 +1,46 @@
+GM.RankRefresh = 0
+GM.NextMapThink = 0
 
 function GM:Think()
 
-	for _, v in ipairs( player.GetAll() ) do
-		
-		if v:GetNWBool("IsVirus") then
-			self:VirusThink( v )
-		else
-			self:PlayerThink( v )
-		end
-	
-	end
-	
-	if ( CurTime() >= self.NextRankThink ) then
-	
+	if self:GetState() == 3 then
 		for _, v in ipairs( player.GetAll() ) do
-			self:RankThink( v )
+			
+			if v:GetNet( "IsVirus" ) then
+				self:VirusThink( v )
+			else
+				self:PlayerThink( v )
+			end
+
+			if self.RankRefresh < CurTime() then
+				self:ProcessRank( v )
+				self.RankRefresh = CurTime() + 2
+			end
+
 		end
-		
-		self.NextRankThink = CurTime() + 2
 	end
 
+	if self:GetState() == 3 && #team.GetPlayers( TEAM_PLAYERS ) == 0 then
+		self:EndRound( true )
+	elseif self:GetState() == 1 && self:GetTimeLeft() <= 0 then
+		if #player.GetAll() < 2 then return end
+		self:RoundReset()
+	elseif self:GetState() == 2 && self:GetTimeLeft() <= 0 then
+		if #player.GetAll() < 2 then self:EndServer() end
+		self:StartRound()
+	elseif self:GetState() == 3 && self:GetTimeLeft() <= 0 then
+		self:EndRound( false )
+	elseif self:GetState() == 4 && self:GetTimeLeft() <= 0 then
+		if GetWorldEntity():GetNet( "Round" ) < 10 then
+			self:RoundReset()
+		else
+			self:EndServer()
+		end
+	end
 
 	self:MapThink()
-	
+
 end
-
-function GM:PlayerDeathThink( ply )
-
-	if !IsValid( ply ) then return end
-	
-	if CurTime() > ply.RespawnTime then
-		ply:Spawn()
-	end
-end
-
 
 // map specific logic
 function GM:MapThink()
@@ -65,84 +72,52 @@ function GM:MapThink()
 
 end
 
+function GM:PlayerDeathThink( ply )
+
+	if !IsValid( ply ) then return end
+	if ply:Alive() then return end
+
+	if ply.RespawnTime < CurTime() then
+		ply:Spawn()
+	end
+
+end
+
 function GM:PlayerThink( ply )
 
-	if ( !IsValid( ply ) || !ply:Alive() ) then return end  // MAC YOU STUPID RETARD
-	
-	if GetGlobalInt("State") == STATE_WAITING then
-		ply:CrosshairDisable() //JESUS FUCK DISABLE THE GOD DAMN CROSSHAIR
-	end
-	
-	if GetGlobalInt("State") == STATE_WAITING then return end
-	
-	if ( #ply:GetWeapons() == 0 && CurTime() > ply.NextWeaponThink && !ply:GetNWBool("IsVirus") ) then
-		hook.Call( "PlayerLoadout", GAMEMODE, ply )
-		ply.NextWeaponThink = CurTime() + 2
-	end
-	
-	if GetGlobalInt("State") != STATE_PLAYING then return end
+	if ( !IsValid( ply ) || !ply:Alive() ) then return end
 
-	for _,v in ipairs( player.GetAll() ) do
-
-		if ( v == ply || !v:Alive() || !v:GetNWBool("IsVirus") ) then return end
-
-		local dist = ply:GetPos():Distance( v:GetPos() )
-		//ply:ChatPrint( tostring(v) .. "| Dist: " .. tostring(dist) )
-
-		local rad = 950  //start kicking in they're fucking close
-		local scale_mod = 0.5
-
-		if dist < rad then
-			if dist < ( rad / 2 ) then
-				scale_mod = 0.15  //freak the hug out
-			end
-
-			local scale = ( dist / rad ) * scale_mod
-			//ply:ChatPrint( tostring(v) .. "| Scale: " .. tostring(scale) )
-
-			if ( ply.NextRadSound or 0 ) < CurTime() then
-
-				ply.NextRadSound = CurTime() + scale
-
-				local ran = math.random( 1, 2 )
-				if ran == 1 then
-					ply:EmitSound( "Geiger.BeepLow", 50, math.random( 90, 110 ) )
-				else
-					ply:EmitSound( "Geiger.BeepHigh", 50, math.random( 90, 110 ) )
-				end
-
-			end
-
-		end
+	if self:GetState() == 1 then
+		ply:CrosshairDisable()
 	end
 
 end
 
 function GM:VirusThink( ply ) 
 
-	if ( !IsValid( ply ) || !ply:Alive() ) then return end  // MAC YOU STUPID RETARD
-	
-	ply:StripWeapons()
-	ply:RemoveAllAmmo()
+	if ( !IsValid( ply ) || !ply:Alive() ) then return end
+	if ( self:GetState() != 3 ) then return end
 
-	if ( GetGlobalInt("State") != STATE_PLAYING ) then return end
-	
+	self:PlayerDeathThink( v )
+
 	if ply.Flame != nil then
 		local objs = ents.FindInSphere( ply:GetPos() + Vector( 0, 0, 40 ), 40 )
 
 		if ( ply:GetVelocity():Length() <= 0 ) then return end  //standing still fuckers
 		
 		for _, v in ipairs( objs ) do
-			if ( IsValid( v ) && v:IsPlayer() && !v:GetNWBool("IsVirus") ) then	
+			if ( IsValid( v ) && v:IsPlayer() && !v:GetNet( "IsVirus" ) ) then	
 				self:Infect( v, ply )
 			end
 		end
 	end
-	
-	if GetGlobalInt("NumVirus") == 1 then 
+
+	local NumVirus = #team.GetPlayers( TEAM_INFECTED )
+
+	if NumVirus == 1 then 
 		
 		for k,v in pairs(player.GetAll()) do
-			if ( v:GetNWBool("IsVirus") && v:Deaths() >= 2 && v.enraged != true ) then
+			if ( v:GetNet( "IsVirus" ) && v:Deaths() >= 2 && v.enraged != true ) then
 				
 				v.enraged = true
 				
@@ -157,10 +132,10 @@ function GM:VirusThink( ply )
 			end
 		end
 		
-	elseif GetGlobalInt("NumVirus") >= 2 then
+	elseif NumVirus >= 2 then
 		
 		for _, v in ipairs( player.GetAll() ) do
-			if v:GetNWBool("IsVirus") || v.enraged == true then
+			if v:GetNet( "IsVirus" ) || v.enraged == true then
 				
 				v.enraged = false
 				v:SetWalkSpeed( self.VirusSpeed )
@@ -171,39 +146,4 @@ function GM:VirusThink( ply )
 		
 	end
 
-end
-
-function GM:RankThink( ply, force )
-
-	local rank = 1
-	
-	for _, v in ipairs( player.GetAll() ) do
-		if self:ShouldCalcRank( ply, v ) || force then
-		
-			if ( v:Frags() > ply:Frags() ) then
-			
-				rank = rank + 1
-				
-			elseif ( v:Frags() == ply:Frags() ) then
-				if ( v:Deaths() < ply:Deaths() ) then
-				
-					rank = rank + 1
-					
-				end
-			end
-			
-		end
-	end
-	
-	ply:SetNWInt("Rank",rank)
-	
-end
-
-function GM:ShouldCalcRank( forPlayer, comparePlayer )
-
-	if !( IsValid( forPlayer ) && IsValid( comparePlayer ) ) then return false end
-	if ( forPlayer == comparePlayer ) then return false end
-	
-	return true
-	
 end

@@ -1,16 +1,10 @@
 function EFFECT:Init( data )
 
 	local pos = data:GetOrigin()
-	local num = 50
+	local num = 25
 	
 	local emitter = ParticleEmitter( pos )
 	for i=1, num do
-
-		/*local sprite = "effects/muzzleflash" .. math.random( 1, 4 )
-		if math.random( 1, 2 ) == 1 then
-			sprite = "sprites/flamelet" .. tostring( math.random( 1, 5 ) )
-		end*/
-
 		local particle = emitter:Add( "sprites/flamelet" .. tostring( math.random( 1, 5 ) ), pos )
 		if (particle) then
 
@@ -19,12 +13,12 @@ function EFFECT:Init( data )
 			//particle:SetAngles( Angle( math.Rand( 0, 360 ), math.Rand( 0, 360 ), math.Rand( 0, 360 ) ) )
 				
 			particle:SetLifeTime( 0 )
-			particle:SetDieTime( 6 )
+			particle:SetDieTime( math.random( 3, 4 ) )
 				
 			particle:SetStartSize( 8 )
 			particle:SetEndSize( 0 )
 
-			particle:SetColor( 70, 255, 70, 100 )
+			particle:SetColor( math.random( 30, 70 ), math.random( 150, 255 ), math.random( 30, 70 ), 100 )
 
 			particle:SetRoll( math.Rand(0, 360) )
 			particle:SetRollDelta( math.Rand(-2, 2) )
@@ -32,7 +26,7 @@ function EFFECT:Init( data )
 			particle:SetAirResistance( 5 )
 
 			particle:SetGravity( Vector( 0, 0, -800 ) )
-			particle:SetBounce( 0.1 )
+			particle:SetBounce( 0.6 )
 			particle:SetCollide( true )
 			
 		end

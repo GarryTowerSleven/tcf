@@ -1,26 +1,21 @@
 local beam_mat = Material("trails/laser")
-
-local randomcolors = {
-	{255,0,0},
-	{0,255,0},
-	{0,0,255},
-	{255,255,0},
-	{0,255,255},
-	{255,0,255}
-}
+local matLight	= Material( "effects/yellowflare" )
 
 function EFFECT:Init( data )
+
 	self.Alpha = 1
 	self.FadingIn = true
-	self.Color = randomcolors[math.random(1,#randomcolors)]
+	self.Color = Color( 255, math.random( 50, 150 ), 0 )
 	
 	self:SetRenderBounds( Vector() * -512, Vector() * 512 )
 	self.Angle = data:GetAngles()
 	self.Position = data:GetStart()
 	self.ParentEnt = data:GetEntity()
+
 end
 
 function EFFECT:Think( )
+
 	self.Angle = self.Angle + Angle(0,0.4,0)
 	
 	if self.FadingIn then
@@ -39,9 +34,11 @@ function EFFECT:Think( )
 	
 	if self.Alpha <= 0 then return false end
 	return true
+
 end
 
 function EFFECT:Render()
+
 	local vStart = self.Position
 	local vForward = self.Angle:Forward()
 	local vEnd = vStart + (vForward * 100)
@@ -64,5 +61,9 @@ function EFFECT:Render()
 	self:SetRenderBounds(bbmin, bbmax, Vector()*6)
 	
 	render.SetMaterial(beam_mat)
-	render.DrawBeam(vStart, vEnd, 35, 0, 10, Color(self.Color[1],self.Color[2],self.Color[3],self.Alpha))
+	render.DrawBeam( vStart, vEnd, 35, 0, 10, Color( self.Color.r, self.Color.g, self.Color.b, self.Alpha ) )
+	
+	render.SetMaterial( matLight )
+	render.DrawSprite( vEnd, 32, 32, Color( self.Color.r, self.Color.g, self.Color.b, self.Alpha ) )
+
 end
