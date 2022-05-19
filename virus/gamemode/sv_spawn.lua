@@ -5,6 +5,13 @@ function GM:FadeWaiting()
 
 end
 
+function GM:LateJoin( ply )
+
+	ply:SetTeam( TEAM_INFECTED )
+	ply:SetNet( "IsVirus", true )
+
+end
+
 function GM:PlayerInitialSpawn( ply )
 
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
@@ -17,11 +24,11 @@ function GM:PlayerInitialSpawn( ply )
 	end
 
 	if self:GetState() == 3 then
-		ply:SetTeam( TEAM_INFECTED )
-		ply:SetNet( "IsVirus", true )
+		self:LateJoin( ply )
 	end
 
 	if self:GetState() == 4 then
+		self:LateJoin( ply )
 		self:PlayerFreeze( true, ply )
 	end
 
