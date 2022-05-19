@@ -78,7 +78,10 @@ function GM:HUDPaint()
 
 		local spread = 64
 		if state == STATE_WAITING then
+
 			spread = 0
+			draw.WaveyText( "WAITING FOR PLAYERS", "GTowerHudCText", ScrW()/2, ScrH()/1 - 25, Color( 255, 255, 255, 150 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 5 )
+
 		end
 
 		surface.SetTexture( hudTime )
