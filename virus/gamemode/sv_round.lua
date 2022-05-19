@@ -10,6 +10,8 @@ end
 
 function GM:EndRound( virusWins )
 
+	self:CleanUpMap()
+
 	self:SetState( STATE_INTERMISSION )
 	self:SetTime( self.IntermissionTime )
 
