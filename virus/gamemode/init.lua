@@ -10,6 +10,7 @@ AddCSLuaFile( "cl_radar.lua" )
 include( "shared.lua" )
 include( "sh_player.lua" )
 
+include( "sv_cleanup.lua" )
 include( "sv_round.lua" )
 include( "sv_spawn.lua" )
 include( "sv_player.lua" )
