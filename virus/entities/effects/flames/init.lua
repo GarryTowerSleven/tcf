@@ -5,7 +5,7 @@ function EFFECT:Init( data )
 	
 	local emitter = ParticleEmitter( pos )
 		for i=1, num do
-			local particle = emitter:Add( "sprites/Flames1/flame", pos )
+			local particle = emitter:Add( "sprites/flames1/flame", pos )
 			if (particle) then
 
 				particle:SetVelocity( ( norm + VectorRand() * 1 ) * math.Rand( 50, 200 )  )
