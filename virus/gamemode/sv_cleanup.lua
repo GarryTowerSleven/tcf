@@ -13,6 +13,21 @@ local function LockDoors( Vec, size )
 
 end
 
+function GM:LockProps()
+
+	for _, ent in ipairs( ents.FindByClass( "prop_*" ) ) do
+
+		local phys = ent:GetPhysicsObject()
+		if IsValid( phys ) then
+			phys:EnableMotion( false )
+		else
+			ent:Remove()  //welp
+		end
+
+	end
+
+end
+
 // clean up our maps
 function GM:CleanUpMap()
 
@@ -24,7 +39,7 @@ function GM:CleanUpMap()
 	for _, ent in ipairs( ents.FindByClass( "item_*" ) ) do
 		ent:Remove()
 	end
-	
+
 	if string.find( game.GetMap():lower(), "gmt_virus_facility" ) then
 		for _, ent in ipairs( ents.FindByClass( "info_player_*" ) ) do
 		
@@ -47,12 +62,7 @@ function GM:CleanUpMap()
 				
 				else
 
-					local phys = ent:GetPhysicsObject()
-					if IsValid( phys ) then
-						phys:EnableMotion( false )
-					else
-						ent:Remove()  //welp
-					end
+					self:LockProps()
 
 				end
 
@@ -86,6 +96,8 @@ function GM:CleanUpMap()
 				ent:Remove()
 			end
 		end
+
+		self:LockProps()
 
 	end
 	

@@ -23,11 +23,11 @@ function GM:PlayerInitialSpawn( ply )
 		end
 	end
 
-	if self:GetState() == 3 then
+	if self:GetState() == STATE_PLAYING then
 		self:LateJoin( ply )
 	end
 
-	if self:GetState() == 4 then
+	if self:GetState() == STATE_INTERMISSION then
 		self:LateJoin( ply )
 		self:PlayerFreeze( true, ply )
 	end
@@ -199,6 +199,9 @@ function GM:PlayerSpawn( ply )
 		self:VirusSpawn( ply )
 	else
 		self:HumanSpawn( ply )
+		if #ply:GetWeapons() == 0 then
+			self:GiveLoadout( ply )
+		end
 	end
 	
 	//Do some sweet effects.

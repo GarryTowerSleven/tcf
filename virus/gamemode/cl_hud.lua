@@ -74,23 +74,32 @@ function GM:HUDPaint()
 	end
 
 	// Draw Timer
-	if ( state == STATE_WAITING || state == STATE_INTERMISSION || state == STATE_PLAYING ) then
+	if ( state == STATE_WAITING || state == STATE_INTERMISSION || state == STATE_PLAYING || state == STATE_INFECTING ) then
 
 		local spread = 64
-		if state == STATE_WAITING then
 
-			spread = 0
-			draw.WaveyText( "WAITING FOR PLAYERS", "GTowerHudCText", ( ScrW() / 2 ) - spread, ScrH()/1 - 25, Color( 255, 255, 255, 150 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 5 )
+		if state != STATE_INFECTING then
+
+			if state == STATE_WAITING then
+
+				spread = 0
+				draw.WaveyText( "WAITING FOR PLAYERS", "GTowerHudCText", ( ScrW() / 2 ) - spread, ScrH()/1 - 25, Color( 255, 255, 255, 150 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 5 )
+
+			end
+
+			surface.SetTexture( hudTime )
+			surface.SetDrawColor( 255, 255, 255, 255 )
+			surface.DrawTexturedRect( ( ScrW() / 2) - (128 / 2) - spread, 0, 128, 128 )
+
+			draw.SimpleTextOutlined( timeformat, "ImpactHudBig", ( ScrW() / 2 ) - spread, 70, HudColor, 1, 1, 2, OutlineColor )
 
 		end
 
-		surface.SetTexture( hudTime )
-		surface.SetDrawColor( 255, 255, 255, 255 )
-		surface.DrawTexturedRect( ( ScrW() / 2) - (128 / 2) - spread, 0, 128, 128 )
-		
-		draw.SimpleTextOutlined( timeformat, "ImpactHudBig", ( ScrW() / 2 ) - spread, 70, HudColor, 1, 1, 2, OutlineColor )
-
 		if state != STATE_WAITING then
+
+			if state == STATE_INFECTING then
+				spread = 0
+			end
 
 			surface.SetTexture( hudRound )
 			surface.SetDrawColor( 255, 255, 255, 255 )

@@ -4,7 +4,11 @@ function PlayerMeta:RemoveUsedTNT()
 
 	if self:HasWeapon( "weapon_tnt" ) then
 		self:StripWeapon( "weapon_tnt" )
-		self:ConCommand( "lastinv" )
+
+		if self:GetActiveWeapon() == "weapon_tnt" then
+			self:ConCommand( "lastinv" )
+		end
+
 		self.TNTThrown = false
 	end
 
@@ -49,6 +53,7 @@ function PlayerMeta:Adrenaline( state )
 		self:EmitSound( "GModTower/virus/weapons/Adrenaline/heartbeat.wav" )
 
 		local lastPlayer = team.GetPlayers( TEAM_PLAYERS )[ 1 ]
+
 		if lastPlayer != self then
 			PostEvent( self, "adrenaline_on" )
 		end

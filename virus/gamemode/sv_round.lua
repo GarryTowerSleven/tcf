@@ -1,7 +1,5 @@
 function GM:StartRound()
 
-	GetWorldEntity():SetNet( "Round", GetWorldEntity():GetNet( "Round" ) + 1 )
-
 	self:SetState( STATE_PLAYING )
 	self:SetTime( self.RoundTime )
 	self:RandomInfect()
@@ -15,7 +13,7 @@ function GM:EndRound( virusWins )
 	self:SetState( STATE_INTERMISSION )
 	self:SetTime( self.IntermissionTime )
 
-	self:GiveMoney()
+	self:GiveMoney( virusWins )
 
 	self:PlayerFreeze( true )
 
@@ -66,6 +64,8 @@ end
 
 function GM:RoundReset()
 
+	GetWorldEntity():SetNet( "Round", GetWorldEntity():GetNet( "Round" ) + 1 )
+
 	for k,v in pairs( player.GetAll() ) do
 		v:SetTeam( TEAM_PLAYERS )
 		v:SetNet( "IsVirus", false )
@@ -76,6 +76,8 @@ function GM:RoundReset()
 
 	self:SetState( STATE_INFECTING )
 	self:SetTime( math.random( self.InfectingTime[1], self.InfectingTime[2] ) )
+
+	self.HasLastSurvivor = false
 
 	local randSong = math.random( 1, self.NumWaitingForInfection )
 
