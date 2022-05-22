@@ -3,7 +3,7 @@ GM.NextMapThink = 0
 
 function GM:Think()
 
-	if self:GetState() == 3 then
+	if self:GetState() == STATE_PLAYING then
 		for _, v in ipairs( player.GetAll() ) do
 			
 			if v:GetNet( "IsVirus" ) then
@@ -20,17 +20,17 @@ function GM:Think()
 		end
 	end
 
-	if self:GetState() == 3 && #team.GetPlayers( TEAM_PLAYERS ) == 0 then
+	if self:GetState() == STATE_PLAYING && #team.GetPlayers( TEAM_PLAYERS ) == 0 then
 		self:EndRound( true )
-	elseif self:GetState() == 1 && self:GetTimeLeft() <= 0 then
-		if #player.GetAll() < 2 then return end
+	elseif self:GetState() == STATE_WAITING && self:GetTimeLeft() <= 0 then
+		if #player.GetAll() < STATE_INFECTING then return end
 		self:RoundReset()
-	elseif self:GetState() == 2 && self:GetTimeLeft() <= 0 then
-		if #player.GetAll() < 2 then self:EndServer() end
+	elseif self:GetState() == STATE_INFECTING && self:GetTimeLeft() <= 0 then
+		if #player.GetAll() < STATE_INFECTING then self:EndServer() end
 		self:StartRound()
-	elseif self:GetState() == 3 && self:GetTimeLeft() <= 0 then
+	elseif self:GetState() == STATE_PLAYING && self:GetTimeLeft() <= 0 then
 		self:EndRound( false )
-	elseif self:GetState() == 4 && self:GetTimeLeft() <= 0 then
+	elseif self:GetState() == STATE_INTERMISSION && self:GetTimeLeft() <= 0 then
 		if GetWorldEntity():GetNet( "Round" ) < 10 then
 			self:RoundReset()
 		else
@@ -87,7 +87,7 @@ function GM:PlayerThink( ply )
 
 	if ( !IsValid( ply ) || !ply:Alive() ) then return end
 
-	if self:GetState() == 1 then
+	if self:GetState() == STATE_WAITING then
 		ply:CrosshairDisable()
 	end
 

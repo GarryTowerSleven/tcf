@@ -1,4 +1,4 @@
-function GAMEMODE:GiveMoney()
+function GAMEMODE:GiveMoney( VirusWins )
 
 	if CLIENT then return end
 
@@ -38,7 +38,7 @@ function GAMEMODE:GiveMoney()
 			if k == 3 then payout.Give( ply, "Rank3" ) end
 		end
 
-		if self.VirusWins then
+		if VirusWins then
 
 			if ply:Team() == TEAM_INFECTED then
 

@@ -117,6 +117,12 @@ function GM:ProcessRank( ply )
 	
 end
 
+hook.Add( "InitPostEntity", "MapCleanUp", function()
+
+	GAMEMODE:CleanUpMap()
+
+end )
+
 hook.Add( "EntityTakeDamage", "DamageNotes",  function( target, dmginfo )
 
 	if GAMEMODE:GetState() == STATE_PLAYING then

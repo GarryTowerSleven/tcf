@@ -110,6 +110,12 @@ function GM:RandomInfect()
 
 	until virusPlayer != GAMEMODE.LastInfected
 
+	if #team.GetPlayers( TEAM_INFECTED ) < 1 then
+
+		self.FirstInfected = virusPlayer
+
+	end
+
 	GAMEMODE:Infect( virusPlayer )
 
 	if PlayerCount > 1 then
@@ -187,9 +193,9 @@ function GM:Infect( ply, infector )
 		net.WriteInt( randSong, 8 )
 	net.Broadcast()
 
-	local NumVirus = #team.GetPlayers( TEAM_INFECTED )
+	local NumSurvivors = #team.GetPlayers( TEAM_PLAYERS )
 
-	if ( #player.GetAll() - NumVirus == 1 ) then
+	if ( NumSurvivors == 1 ) then
 
 		if ( self.HasLastSurvivor ) then return end
 
@@ -267,6 +273,12 @@ function GM:GiveLoadout( ply )
 
 end
 
+function GM:AllowPlayerPickup( ply, ent )
+
+	return false
+
+end
+
 function GM:PlayerShouldTakeDamage( victim, attacker )
 
 	if victim:IsPlayer() && attacker:IsPlayer() && ( victim:Team() == attacker:Team() ) then
@@ -291,6 +303,12 @@ function GM:PlayerDeathSound( ply )
 
 end
 
+hook.Add( "GetFallDamage", "DisableFallDamage", function( ply, speed )
+
+    return 0
+
+end )
+
 hook.Add( "CanPlayerSuicide", "AllowSuicide", function( ply )
 
 	return false
@@ -298,6 +316,12 @@ hook.Add( "CanPlayerSuicide", "AllowSuicide", function( ply )
 end )
 
 hook.Add( "PlayerDeath", "ScorePointMessage", function( victim, inflictor, attacker )
+
+	if victim:Team() == TEAM_PLAYERS then
+		if GAMEMODE:GetState() == STATE_PLAYING then 
+			GAMEMODE:LateJoin( victim )
+		end
+	end
 
 	GAMEMODE:HandlePlayerDeath( victim, attacker, inflictor )
 	GAMEMODE:ScorePoint( attacker )
