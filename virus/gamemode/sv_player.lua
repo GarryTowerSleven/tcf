@@ -193,6 +193,12 @@ function GM:Infect( ply, infector )
 		net.WriteInt( randSong, 8 )
 	net.Broadcast()
 
+	self:CheckSurvivors()
+
+end
+
+function GM:CheckSurvivors()
+
 	local NumSurvivors = #team.GetPlayers( TEAM_PLAYERS )
 
 	if ( NumSurvivors == 1 ) then
@@ -320,6 +326,7 @@ hook.Add( "PlayerDeath", "ScorePointMessage", function( victim, inflictor, attac
 	if victim:Team() == TEAM_PLAYERS then
 		if GAMEMODE:GetState() == STATE_PLAYING then 
 			GAMEMODE:LateJoin( victim )
+			GAMEMODE:CheckSurvivors()
 		end
 	end
 
