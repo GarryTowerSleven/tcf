@@ -1,9 +1,3 @@
-// Database Details
-local host = ""
-local user = ""
-local password = ""
-local database = ""
-
 local os, arch, mysqlooModulePath, mysqlooExists, sqlType
 
 // prevent doing on lua refreshes
