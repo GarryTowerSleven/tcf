@@ -69,7 +69,7 @@ local function RegisterModel( name, friendlyName, desc, model, mdlname, price, s
 		OnUnEquip = function( self )
 			timer.Simple( 0.2, function()
 				if ((self.Ply.UCHType == nil || self.Ply.UCHType <= 0) && IsValid(self.Ply)) then
-					self.Ply:ConCommand( "cl_playermodel barney" )
+					self.Ply:ConCommand( "cl_playermodel kleiner" )
 					self.Ply:ConCommand( "gmt_updateplayermodel" )
 				end
 			end )
