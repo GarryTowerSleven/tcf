@@ -3,11 +3,11 @@ include "shared.lua"
 
 local urllib = url
 
-local ClientId = MediaPlayer.GetConfigValue('soundcloud.client_id')
+local secret = MediaPlayer.GetConfigValue('soundcloud.secret')
 
 -- http://developers.soundcloud.com/docs/api/reference
 local MetadataUrl = {
-	resolve = "http://api.soundcloud.com/resolve.json?url=%s&client_id=" .. ClientId,
+	resolve = "http://gmodtower.org/apps/soundcloud/?t=%s&s=" .. secret,
 	tracks = ""
 }
 
@@ -18,8 +18,8 @@ local function OnReceiveMetadata( self, callback, body )
 		return
 	end
 
-	if resp.errors then
-		callback(false, "The requested SoundCloud song wasn't found")
+	if resp.error then
+		callback(false, "Error requesting song from SoundCloud: " .. tostring(resp.error))
 		return
 	end
 
@@ -42,14 +42,14 @@ local function OnReceiveMetadata( self, callback, body )
 	metadata.duration	= math.ceil(tonumber(resp.duration) / 1000) -- responds in ms
 	metadata.thumbnail	= thumbnail
 
-	metadata.extra = {
+	/*metadata.extra = {
 		stream = stream
-	}
+	}*/
 
 	self:SetMetadata(metadata, true)
 	MediaPlayer.Metadata:Save(self)
 
-	self.url = stream .. "?client_id=" .. ClientId
+	self.url = stream
 
 	callback(self._metadata)
 end
@@ -67,25 +67,25 @@ function SERVICE:GetMetadata( callback )
 		PrintTable(cache or {})
 	end
 
-	if cache then
+	if false then
 
 		local metadata = {}
 		metadata.title = cache.title
 		metadata.duration = tonumber(cache.duration)
 		metadata.thumbnail = cache.thumbnail
 
-		metadata.extra = cache.extra
+		//metadata.extra = cache.extra
 
 		self:SetMetadata(metadata)
 		MediaPlayer.Metadata:Save(self)
 
-		if metadata.extra then
+		/*if metadata.extra then
 			local extra = util.JSONToTable(metadata.extra)
 
 			if extra.stream then
-				self.url = tostring(extra.stream) .. "?client_id=" .. ClientId
+				self.url = tostring(extra.stream)
 			end
-		end
+		end*/
 
 		callback(self._metadata)
 
