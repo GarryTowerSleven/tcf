@@ -22,7 +22,8 @@ MediaPlayer.SetConfig({
 		http://soundcloud.com/you/apps/new
 	--------------------------------------------------------------------------]]
 	soundcloud = {
-		["client_id"] = "2e0e541854cbabd873d647c1d45f79e8"
+		//["client_id"] = "2e0e541854cbabd873d647c1d45f79e8"
+		["secret"] = "X1VyD4jTp712"
 	},
 
 	--[[------------------------------------------------------------------------
