@@ -38,7 +38,7 @@ end
 
 function AdminNotif.SendStaff( text, time, color, verbose ) // send to all staff
 	if verbose && verbose <= 3 then
-		kityPrint( text, AdminNotifColors[color] or AdminNotifColors["WHITE"], "Staff Log", Color(255,0,0) )
+		LogPrint( text, AdminNotifColors[color] or AdminNotifColors["WHITE"], "Staff Log", Color(255,0,0) )
 	end
 	for k,v in pairs( player.GetStaff() ) do
 		//if verbose && v:GetInfoNum("gmt_admin_log", 1) < verbose then return end
@@ -47,7 +47,7 @@ function AdminNotif.SendStaff( text, time, color, verbose ) // send to all staff
 end
 
 function AdminNotif.SendAdmins( text, time, color, verbose ) // send to only admins
-	kityPrint( text, AdminNotifColors[color] or AdminNotifColors["WHITE"], "Admin Log", Color(255,0,0) )
+	LogPrint( text, AdminNotifColors[color] or AdminNotifColors["WHITE"], "Admin Log", Color(255,0,0) )
 	for k,v in pairs( player.GetAdmins() ) do
 		//if verbose && v:GetInfoNum("gmt_admin_log", 1) < verbose then return end
 		AdminNotif.Send( v, text, time, color, verbose )

@@ -347,8 +347,8 @@ concommand.Add("gmt_runlua", function( ply, cmd, args )
 		AdminNotif.SendStaff( ply:Nick() .. " has ran lua. See console for details.", nil, "YELLOW", 1 )
 		AdminLog.PrintStaff( tostring(Lua), "YELLOW" )
 
-		//kityPrint( ply:Nick() .. " has ran LUA", Color(255,255,0) )
-		kityPrint( tostring(Lua), Color(255,255,0) )
+		//LogPrint( ply:Nick() .. " has ran LUA", Color(255,255,0) )
+		LogPrint( tostring(Lua), Color(255,255,0) )
 
 		RunString("function GmtRunLua() " .. Lua .. " end ")
 
@@ -387,8 +387,8 @@ concommand.Add("gmt_sendlua", function( ply, cmd, args )
 		AdminNotif.SendStaff( ply:Nick() .. " has sent lua to all players. See console for details.", nil, "YELLOW", 1 )
 		AdminLog.PrintStaff( tostring(Lua), "YELLOW" )
 
-		kityPrint( ply:Nick() .. " has sent lua to all players.", Color(255,255,0) )
-		kityPrint( tostring(Lua), Color(255,255,0) )
+		LogPrint( ply:Nick() .. " has sent lua to all players.", Color(255,255,0) )
+		LogPrint( tostring(Lua), Color(255,255,0) )
 
 		BroadcastLua( table.concat( args, " ")  )
 	end

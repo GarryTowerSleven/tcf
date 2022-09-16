@@ -40,11 +40,11 @@ if !dbObject then
 end
 
 if !mysqlooExists then
-	kityPrint( "Please update to MySQLOO, TMySQL is outdated. (https://github.com/FredyH/MySQLOO/releases/)", Color(255,0,255), "Database" )
+	LogPrint( "Please update to MySQLOO, TMySQL is outdated. (https://github.com/FredyH/MySQLOO/releases/)", Color(255,0,255), "Database" )
 end
 
 if !tmysql then
-	--kityPrint( "OH GOD. MySQLOO MODULE NOT FOUND!", co_color2, "Database" )
+	--LogPrint( "OH GOD. MySQLOO MODULE NOT FOUND!", co_color2, "Database" )
 	return 
 end
 
@@ -53,7 +53,7 @@ if tmysql && !tmysql.Version then
 end
 
 // lookin' good
-kityPrint( sqlType .. " module loaded. [v" .. tmysql.Version .. "]", co_color, "Database" )
+LogPrint( sqlType .. " module loaded. [v" .. tmysql.Version .. "]", co_color, "Database" )
 
 module("SQL", package.seeall )
 
@@ -63,13 +63,13 @@ function connectToDatabase()
 	if dbObject then return end
 	
 	// tmysql.Connect( host, user, pass, db, port, unixsocket, clientflags )
-	local db, err = tmysql.Connect( 'host', 'user', 'db', 'port', 3306, nil, 3 )
+	local db, err = tmysql.Connect( 'host', 'user', 'password', 'database', 3306, nil, 3 )
 
 	if err then
-		kityPrint( "DATABASE FAILED TO CONNECT!", co_color2, "Database" )
-		kityPrint( tostring(err), co_color2 )
+		LogPrint( "DATABASE FAILED TO CONNECT!", co_color2, "Database" )
+		LogPrint( tostring(err), co_color2 )
 	else
-		kityPrint( "Database connected.", co_color, "Database" )
+		LogPrint( "Database connected.", co_color, "Database" )
 		dbObject = db
 	end
 end

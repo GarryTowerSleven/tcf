@@ -116,8 +116,8 @@ hook.Add( "PlayerSay", "GTChatHook", function( ply, chat, toall, type )
 			AdminNotif.SendStaff( ply:Nick() .. " has ran lua. See console for details.", nil, "YELLOW", 1 )
 			AdminLog.PrintStaff( tostring(Lua), "YELLOW" )
 
-			//kityPrint( ply:Nick() .. " has ran LUA", Color(255,255,0) )
-			kityPrint( tostring(Lua), Color(255,255,0) )
+			//LogPrint( ply:Nick() .. " has ran LUA", Color(255,255,0) )
+			LogPrint( tostring(Lua), Color(255,255,0) )
 
 			RunString(Lua,"GTChatLua")
 			return ''

@@ -10,7 +10,7 @@
 require("mysqloo")
 
 if !mysqloo then
-	kityPrint( "OH GOD. MySQLOO MODULE NOT FOUND! (https://github.com/FredyH/MySQLOO)", co_color2, "Database" )
+	LogPrint( "OH GOD. MySQLOO MODULE NOT FOUND! (https://github.com/FredyH/MySQLOO)", co_color2, "Database" )
 	return
 end
 

@@ -27,15 +27,15 @@ function gateKeep:CreateBanList()
 	SQL.getDB():Query("SELECT * FROM gm_bans", function(res)
 
 		if res[1].status != true then
-			kityPrint( "Error getting bans: " .. res[1].error, co_color, "GateKeeper" )
+			LogPrint( "Error getting bans: " .. res[1].error, co_color, "GateKeeper" )
 			return
 		end
 
 		if #res[1].data then
-			kityPrint( "Retriving bans from MySQL", co_color, "GateKeeper" )
+			LogPrint( "Retriving bans from MySQL", co_color, "GateKeeper" )
 			gateKeep:RetrieveBans(res[1].data)
 		else
-			kityPrint( "Setting up Legacy Bans", co_color, "GateKeeper" )
+			LogPrint( "Setting up Legacy Bans", co_color, "GateKeeper" )
 			gateKeep:LegacyBans()
 		end
 
@@ -274,7 +274,7 @@ function gateKeep:RetrieveBans(banList) --Obtains the bans from the MySQL.
 
 		if v.time != 0 and (v.bannedOn + v.time) <= os.time() then --If the amount of time as elapsed, then remove the line. time < os.time() then remove
 		
-			kityPrint( v.Name .. " [".. v.steamid .."]'s ban has expired. (" .. string.NiceTimeLong(v.time/60) .. ")", Color(0,255,255), "GateKeeper" )
+			LogPrint( v.Name .. " [".. v.steamid .."]'s ban has expired. (" .. string.NiceTimeLong(v.time/60) .. ")", Color(0,255,255), "GateKeeper" )
 			gateKeep:RemoveBan(v.steamid, true)
 
 		else

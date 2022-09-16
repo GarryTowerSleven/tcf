@@ -1,4 +1,4 @@
-function kityPrint(text, color, mark, markcolor)
+function LogPrint(text, color, mark, markcolor)
     if !color then
         color = Color( 255,255,255)
     end
@@ -89,9 +89,9 @@ function Msg( text, time, color, admin )
     if !color then color = nil end
     table.insert( Notifs, { text, CurTime()+time, time, color } )
     if admin then
-        kityPrint( text, color, "Admin", Color(255,0,0) )
+        LogPrint( text, color, "Admin", Color(255,0,0) )
     else
-        kityPrint( text, color )
+        LogPrint( text, color )
     end
 end
 
@@ -124,5 +124,5 @@ net.Receive("ConsolePrint", function()
     local text = net.ReadString()
     local color = net.ReadColor()
 
-    kityPrint(text, color)
+    LogPrint(text, color)
 end)

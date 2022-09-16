@@ -114,7 +114,7 @@ local testerCachePath = "tester_cache.txt"
 
 // check for cache and use it immediately for startup
 if PRIVATE_TEST_MODE && file.Exists( testerCachePath, "DATA" ) then
-	kityPrint( "Cached testers found, using...", co_color, "Testers" )
+	LogPrint( "Cached testers found, using...", co_color, "Testers" )
 	TesterGroupData = file.Read( testerCachePath, "DATA" )
 end
 
@@ -122,7 +122,7 @@ local groupID = "103582791471194784"
 local checkfor = "76561197963035118" // kity
 local updateAttempts = 0
 function UpdateTesters()
-	kityPrint( "Fetching group members...", co_color, "Testers" )
+	LogPrint( "Fetching group members...", co_color, "Testers" )
 
 	local url = "https://steamcommunity.com/gid/" .. groupID .. "/memberslistxml/?xml=1"
 
@@ -133,11 +133,11 @@ function UpdateTesters()
 
 			// Check if data has a specific user (checkfor) before doing anything, just to be safe
 			if !string.find( body, checkfor ) then
-				kityPrint( "Data received is incomplete, not using.", co_color2, "Testers" )
+				LogPrint( "Data received is incomplete, not using.", co_color2, "Testers" )
 				return
 			end
 
-			kityPrint( "Successfully got group members!", co_color, "Testers" )
+			LogPrint( "Successfully got group members!", co_color, "Testers" )
 
 			// get only the members portion of the XML
 			local t1, t2 = string.find( body, "<members>" )
@@ -159,12 +159,12 @@ function UpdateTesters()
 
 		function( message )
 			if updateAttempts <= 5 then
-				kityPrint( "Failed to get group members. \"" .. message .. "\"", co_color2, "Testers" )
-				kityPrint( "Retrying...", co_color2, "Testers" )
+				LogPrint( "Failed to get group members. \"" .. message .. "\"", co_color2, "Testers" )
+				LogPrint( "Retrying...", co_color2, "Testers" )
 				updateAttempts = updateAttempts + 1
 				UpdateTesters()
 			else
-				kityPrint( "Failed to get group members 5 times, giving up.", co_color2, "Testers" )
+				LogPrint( "Failed to get group members 5 times, giving up.", co_color2, "Testers" )
 				updateAttempts = 0
 			end
 		end
@@ -189,7 +189,7 @@ end
 
 // cache the groupdata to use incase steam is down 
 function cacheTesters( data )
-	kityPrint( "Caching testerdata in \"".. "garrysmod/data/" .. testerCachePath .."\"." , co_color, "Testers" )
+	LogPrint( "Caching testerdata in \"".. "garrysmod/data/" .. testerCachePath .."\"." , co_color, "Testers" )
 	file.Write( testerCachePath, data )
 end
 
