@@ -1,1 +1,0 @@
-mysqloo: https://github.com/FredyH/MySQLOO/releases/
