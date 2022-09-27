@@ -59,11 +59,29 @@ module("SQL", package.seeall )
 
 ColumnInfo = ColumnInfo or {}
 
+local sqlCred = {
+	['address'] = 'localhost',
+	['table'] = 'gmtdeluxe',
+	['user'] = 'root',
+	['pass'] = '',
+	['port'] = 3306,
+}
+
+if env then
+	sqlCred['address'] = env.getString( 'SQL_ADDRESS', 'localhost' )
+	sqlCred['table'] = env.getString( 'SQL_DBTABLE', '' )
+	sqlCred['user'] = env.getString( 'SQL_USERNAME', 'root' )
+	sqlCred['pass'] = env.getString( 'SQL_PASSWORD', '' )
+	sqlCred['port'] = env.getInteger( 'SQL_PORT', 3306 )
+end
+
+PrintTable( sqlCred )
+
 function connectToDatabase()
 	if dbObject then return end
 	
 	// tmysql.Connect( host, user, pass, db, port, unixsocket, clientflags )
-	local db, err = tmysql.Connect( 'host', 'user', 'password', 'database', 3306, nil, 3 )
+	local db, err = tmysql.Connect( sqlCred['address'], sqlCred['user'], sqlCred['pass'], sqlCred['table'], sqlCred['port'], nil, 3 )
 
 	if err then
 		LogPrint( "DATABASE FAILED TO CONNECT!", co_color2, "Database" )

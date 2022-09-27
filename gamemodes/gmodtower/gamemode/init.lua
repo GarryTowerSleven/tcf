@@ -4,6 +4,10 @@ AddCSLuaFile("sh_load.lua")
 AddCSLuaFile("sh_loadables.lua")
 AddCSLuaFile("nwvar/shared.lua")
 
+// dotenv
+require("dotenv")
+env.load("addons/gmtdeluxe/.env")
+
 include("shared.lua")
 include("nwvar/shared.lua")
 include("sh_load.lua")
