@@ -320,6 +320,7 @@ end
 
 function ENT:RemoveModels()
 	if IsValid( self.Wheel ) then self.Wheel:Remove() end
+	if self.Carriages == nil then return end
 
 	for _, v in pairs( self.Carriages ) do
 		if IsValid(v) then v:Remove() end
