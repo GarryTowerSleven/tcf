@@ -8,7 +8,6 @@ function GTowerServers:RemovePlayer( ply )
 		local Server = self:Get( ServerId )
 
 		if Server then
-			ply:SetNWString("QueuedGamemode", nil)
 			Server:RemovePlayer( ply )
 			net.Start("MultiserverJoinRemove")
 				net.WriteInt(0,2)
@@ -29,7 +28,6 @@ function GTowerServers:AddPlayer( ply, Server )
 
 	Server:AddPlayer( ply )
 	ply._WaitingServer = Server.Id
-	ply:SetNWString("QueuedGamemode", Server.GamemodeValue)
 
 	net.Start("MultiserverJoinRemove")
 		net.WriteInt(1,2)

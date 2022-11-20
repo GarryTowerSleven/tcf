@@ -90,9 +90,9 @@ function Close()
 end
 
 
-hook.Add( "PlayerSpawnClient", "MOTDPlayerCreated", function(ply)
-	if not ply:IsPlayer() then return end 
-	if IsLobby then
-		OpenMOTD( "http://www.towerunite.com", "Tower Unite" )
-	end
-end )
+-- hook.Add( "PlayerSpawnClient", "MOTDPlayerCreated", function(ply)
+-- 	if not ply:IsPlayer() then return end 
+-- 	if IsLobby then
+-- 		OpenMOTD( "http://www.towerunite.com", "Tower Unite" )
+-- 	end
+-- end )

@@ -7,18 +7,8 @@ function ENT:Draw()
 end
 
 function ENT:Think()
-
 	self:SetSkin( 2 )
-
-	--[[if LocalPlayer().IsVIP and LocalPlayer():IsVIP() then
-		self:SetSkin( 2 )
-	else
-		self:SetSkin( 1 )
-	end]]
-
 end
-
-
 
 net.Receive( "OpenDiscord", function()
 

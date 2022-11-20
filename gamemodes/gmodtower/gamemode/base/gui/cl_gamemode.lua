@@ -56,18 +56,14 @@ end
 
 derma.DefineControl( "GamemodeQueueStatus", "", PANEL, "DPanel" )
 
+local gmode = nil
 
-
-net.Receive( "MultiserverJoinRemove", function( len, ply )
-
-	local enabled = net.ReadInt( 2 )
-
-	if enabled == 1 then
-		Create( net.ReadString() or "" )
+hook.Add( "GMTClientGamemodeChange", "GamemodeUICreate", function( join, gmode )
+	if ( join && gmode ) then
+		Create( gmode )
 	else
 		Remove()
 	end
-
 end )
 
 function Create( title )

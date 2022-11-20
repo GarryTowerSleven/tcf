@@ -19,6 +19,18 @@ usermessage.Hook("MServ", function(um)
 	
 end )
 
+net.Receive( "MultiserverJoinRemove", function( len, ply )
+	local enabled = net.ReadInt( 2 )
+
+	if enabled == 1 then
+		LocalPlayer()._QueuedGamemode = net.ReadString() or nil
+	else
+		LocalPlayer()._QueuedGamemode = nil
+	end
+
+	hook.Call( "GMTClientGamemodeChange", GAMEMODE, LocalPlayer()._QueuedGamemode != nil, LocalPlayer()._QueuedGamemode )
+end )
+
 
 function GTowerServers:ConnectToServer( ip, port, password )
 

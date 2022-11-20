@@ -11,7 +11,6 @@ function ENT:Initialize()
     self:SetUseType(SIMPLE_USE)
 
     self:SetSubMaterial(3,"models/map_detail/deluxe_discord")
-
 end
 
 function ENT:Use(ply)

@@ -20,7 +20,7 @@ net.Receive("gmt_gamemodestart",function()
 	local id = net.ReadInt(32)
 
 	timer.Simple( .1, function()
-		if LocalPlayer():GetNWString("QueuedGamemode") == Gmode then return end
+		if ( LocalPlayer()._QueuedGamemode == Gmode ) then return end
 
 		local Gamemode = GTowerServers:GetGamemode( Gmode )
 		local max_plys

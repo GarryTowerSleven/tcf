@@ -46,9 +46,11 @@ function ENT:ReloadOBBBounds()
 end
 
 function ENT:CanUse( ply )
+	if ( CLIENT ) then
+		local QueuedMode = LocalPlayer()._QueuedGamemode
 
-
+		return true, (QueuedMode == self.ServerGamemode) and "LEAVE" or "JOIN"
+	end
 
 	return true, "JOIN"
-
 end
