@@ -7,7 +7,7 @@ cvars.AddChangeCallback( "gmt_usemcore", function( convar_name, value_old, value
 	if value_new == "1" then
     RunConsoleCommand("gmod_mcore_test","1")
 
-    if ply:Location() != 25 and ply:Location() != 26 then
+    if !Location.IsNightclub( ply:Location() ) then
       RunConsoleCommand("mat_queue_mode","-1")
     end
 

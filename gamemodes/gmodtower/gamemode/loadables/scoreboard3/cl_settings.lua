@@ -554,6 +554,10 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 			self:Divider()
 
+			self:CheckBox( "Enable GMT Multicore (Recommended if you use \"gmod_mcore_test 1\")", "gmt_usemcore" )
+
+			self:Divider()
+
 			self:Header( "Items" )
 			self:CheckBox( "Enable Rave Ball Effects", "gmt_visualizer_effects" )
 			self:CheckBox( "Enable Dynamic Firework Lights", "gmt_fireworkdlight" )
