@@ -1,9 +1,9 @@
 
-GTowerAchievements = {}
-GTowerAchievements.Achievements = {}
+GTowerAchievements = GTowerAchievements or {}
+GTowerAchievements.Achievements = GTowerAchievements.Achievements or {}
 
 
-ACHIEVEMENTS = {}
+ACHIEVEMENTS = ACHIEVEMENTS or {}
 
 ACHIEVEMENTS.WALKTOOLONG = 1
 ACHIEVEMENTS.JUMPINGJACK = 2
