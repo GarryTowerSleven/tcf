@@ -1,8 +1,8 @@
 
 HudToHide = { "CHUDQuickInfo", "CHudSuitPower", "CHudZoom" }
 
-if IsLobby then
-	table.uinsert( HudToHide, "CHudCrosshair" )
+if IsLobby && !table.HasValue( HudToHide, "CHudCrosshair" ) then
+	table.insert( HudToHide, "CHudCrosshair" )
 end
 
 //Somewhy when I hook two things to HUDShouldDraw, only 1 get's called
