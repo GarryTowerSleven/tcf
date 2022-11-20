@@ -1,5 +1,5 @@
 ---------------------------------
-GTowerStore.PlayerData = {}
+GTowerStore.PlayerData = GTowerStore.PlayerData or {}
 local meta = FindMetaTable( "Player" )
 
 if meta then 

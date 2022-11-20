@@ -18,7 +18,7 @@ RegisterNWTablePlayer({
 
 hook.Add( "Move", "MoveBall", function( ply, movedata )
 
-	if !IsValid( ply.BallRaceBall ) then return end
+	if !ply.BallRaceBall || !IsEntity( ply.BallRaceBall ) || !IsValid( ply.BallRaceBall ) then return end
 
 	movedata:SetForwardSpeed( 0 )
 	movedata:SetSideSpeed( 0 )

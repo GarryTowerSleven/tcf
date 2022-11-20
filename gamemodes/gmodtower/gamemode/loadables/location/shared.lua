@@ -15,12 +15,16 @@ function LoadMapData( data )
 
 	-- Don't waste entity space
 	for _, loc in pairs( ents.FindByClass( "gmt_location" ) ) do
-		--loc:Remove()
+		loc:Remove()
 	end
 
 end
 
 function IncludeMap()
+
+	if ( table.Count( Locations ) > 0 ) then
+		return
+	end
 
 	local map = game.GetMap()
 	local mappath = "GModTower/gamemode/loadables/location/maps/" .. map .. ".lua"

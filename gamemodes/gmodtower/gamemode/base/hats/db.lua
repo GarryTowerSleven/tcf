@@ -3,8 +3,12 @@
 // get out if mysql is fuck
 if !tmysql || SQL.getDB() == false then return end
 
-GlobalHatOffsets = {}
+GlobalHatOffsets = GlobalHatOffsets or {}
 local function createHatTable()
+    if ( table.Count( GlobalHatOffsets ) > 0 ) then
+        return
+    end
+
     MsgC(co_color, "[Hats] Generating Hats Table...\n")
     local hatsOffetsCount = 0
     SQL.getDB():Query("SELECT * FROM gm_hats", function( res )

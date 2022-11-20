@@ -9,9 +9,6 @@ if tmysql && !tmysql.Version then
 	tmysql.Version = "4"
 end
 
-// lookin' good
-MsgC( co_color, "[Database] MySQLOO module loaded. [v"..tmysql.Version.."]\n" )
-
 module("SQL", package.seeall )
 
 ColumnInfo = ColumnInfo or {}

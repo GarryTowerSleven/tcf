@@ -2,7 +2,7 @@
 module("GtowerRooms", package.seeall )
 
 TimeToLeaveRoom = 6 * 60
-TalkingTo = {}
+TalkingTo = TalkingTo or {}
 
 util.AddNetworkString("gmt_lockcondo")
 util.AddNetworkString("gmt_closevault")

@@ -1,6 +1,6 @@
 ---------------------------------
-GtowerRooms = {}
-GtowerRooms.Rooms = {}
+GtowerRooms = GtowerRooms or {}
+GtowerRooms.Rooms = GtowerRooms.Rooms or {}
 
 
 local QueryPanel = nil

@@ -1,6 +1,6 @@
 ---------------------------------
-local NetworkPlySend = {}
-local NetworkRoomSend = {}
+local NetworkPlySend = NetworkPlySend or {}
+local NetworkRoomSend = NetworkRoomSend or {}
 
 local SizePerMessage = 40
 

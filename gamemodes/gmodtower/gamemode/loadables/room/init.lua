@@ -16,8 +16,8 @@ include("player.lua")
 include("room/room.lua")
 include("upgrades.lua")
 
-Rooms = {}
-AddingEntsRooms = {}
+Rooms = Rooms or {}
+AddingEntsRooms = AddingEntsRooms or {}
 
 //The items that will be added in the default room
 //Any item can be put more than once
