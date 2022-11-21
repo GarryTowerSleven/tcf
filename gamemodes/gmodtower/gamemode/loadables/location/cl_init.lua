@@ -10,15 +10,9 @@ hook.Add( "Think", "GTowerLocationClient", function()
 	local PlyPlace = Find( LocalPlayer():GetPos() + Vector(0,0,5) )
 
 	if LocalPlayer()._LastLocation != PlyPlace then
-
 		hook.Call("Location", GAMEMODE, LocalPlayer(), PlyPlace, LocalPlayer()._LastLocation or 0 )
 		LocalPlayer()._Location = PlyPlace
 		LocalPlayer()._LastLocation = PlyPlace
-		
-		net.Start( "LocationRefresh" )
-			net.WriteInt( PlyPlace, 10 )
-			net.WriteInt( LocalPlayer()._LastLocation, 10 )
-		net.SendToServer()
 	end
 
 end )
