@@ -584,6 +584,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:CheckBox( "Enable Missing Content Notice", "gmt_notice" )
 			--self:CheckBox( "Enable Missing Workshop Notice", "gmt_notice_workshop" )
 			self:CheckBox( "Enable Auto Reconnect", "gmt_notice_reconnect" )
+			self:CheckBox( "Disable Beta Notice", "gmt_hidebetamsg" )
 
 			self:Divider()
 
@@ -605,13 +606,13 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		self:Header( "Graphics/Performance" )
 		if IsLobby then
 
-			self:CheckBox( "Enable VIP Player Glow (expensive)", "gmt_vipglow" )
-			self:CheckBox( "Enable Group Player Glow (expensive)", "gmt_groupglow" )
-			self:CheckBox( "Enable Player Particle Effects", "gmt_enableparticles" )
+			self:CheckBox( "Enable Dynamic Trees", "gmt_dynamic_trees" )
 
 			self:Divider()
 
-			self:CheckBox( "Enable GMT Multicore (Recommended if you use \"gmod_mcore_test 1\")", "gmt_usemcore" )
+			self:CheckBox( "Enable VIP Player Glow (expensive)", "gmt_vipglow" )
+			self:CheckBox( "Enable Group Player Glow (expensive)", "gmt_groupglow" )
+			self:CheckBox( "Enable Player Particle Effects", "gmt_enableparticles" )
 
 			self:Divider()
 
@@ -622,15 +623,17 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 			self:Divider()
 
-			self:Header( "Misc" )
-			self:CheckBox( "Enable Blood Effects", "gmt_allowblood" )
-			self:CheckBox( "Enable Custom Minecraft Skins", "gmt_minecraftskins" )
-
-			self:Divider()
-
 			self:Header( "Night Club" )
 			self:CheckBox( "Enable Dynamic Light", "gmt_club_dlight" )
 			self:CheckBox( "Enable Smoke", "gmt_club_smoke" )
+
+			self:Divider()
+
+			self:Header( "Misc" )
+			self:CheckBox( "Enable GMT Multicore (Recommended if you use \"gmod_mcore_test 1\")", "gmt_usemcore" )
+			self:CheckBox( "Enable Custom Minecraft Skins", "gmt_minecraftskins" )
+			self:CheckBox( "Enable Blood Effects", "gmt_allowblood" )
+
 		end
 	end
 
@@ -754,7 +757,6 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 		self:CheckBox( "Show Player Count", "gmt_admin_showplaycount" )
 		self:CheckBox( "Show Map List", "gmt_admin_showmaplist" )
-		//self:CheckBox( "Hide Beta Message", "gmt_admin_hidebetamsg" )
 
 	end
 
