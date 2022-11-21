@@ -12,16 +12,31 @@ if Player then
     end
 end
 
-net.Receive( "LocationRefresh", function( len, pl )
-	local loc = net.ReadInt(10)
-	local lastloc = net.ReadInt(10)
-	pl._Location = loc
-	pl._LastLocation = lastloc
-	pl:SetNWInt( "Location", loc )
-	hook.Call( "Location", GAMEMODE, pl, loc )
+local _LocationDelay = 1
+local _LastLocationThink = CurTime() + _LocationDelay
+hook.Add( "Think", "GTowerLocation", function()
+    if ( CurTime() < _LastLocationThink ) then
+        return
+    end
+
+    _LastLocationThink = CurTime() + _LocationDelay
+
+    local players = player.GetAll()
+
+    for _, ply in ipairs( players ) do
+        local loc = Location.Find( ply:GetPos() + Vector(0,0,5) )
+
+        if ply._LastLocation != loc then
+            ply._Location = loc
+		    ply._LastLocation = loc
+
+            ply:SetNWInt( "Location", loc )
+            hook.Call( "Location", GAMEMODE, ply, loc, ply._LastLocation or 0 )
+        end
+    end
 end )
 
-/*local kickoutTime = 2
+local kickoutTime = 2
 hook.Add( "Location", "KickOut", function( ply, loc )
 
     if ply:IsAdmin() then return end
@@ -44,6 +59,6 @@ hook.Add( "Location", "KickOut", function( ply, loc )
         end
     end)
 	
-end)*/
+end)
 
 util.AddNetworkString( "LocationRefresh" )
