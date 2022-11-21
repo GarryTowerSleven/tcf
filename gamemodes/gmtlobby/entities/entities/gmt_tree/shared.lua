@@ -55,6 +55,23 @@ if SERVER then
 
 else -- CLIENT
 
+	local ConVar = ConVar or CreateClientConVar( "gmt_dynamic_trees", "1", true, false, nil, 0, 1 )
+	local Budget = Budget or !ConVar:GetBool()
+
+	cvars.AddChangeCallback( "gmt_dynamic_trees", function( cmd, old, new ) 
+		Budget = !tobool( new )
+
+		if ( Budget ) then
+			local trees = ents.FindByClass( "gmt_tree" )
+
+			for _, v in ipairs( trees ) do
+				v:OnRemove()
+				SetModelScaleVector( v, Vector(1,1,1) )
+				v:InitTree()
+			end
+		end
+	end )
+
 	ENT.Sequence = "wind_light"
 	ENT.AutomaticFrameAdvance = true
 
@@ -66,9 +83,15 @@ else -- CLIENT
 
 	function ENT:Initialize()
 		self.TreeScale = math.Rand(.65,1)
+
 		self:InitTree()
 	end
-	function ENT:Draw()end
+
+	function ENT:Draw()
+		if ( Budget ) then
+			self:DrawModel()
+		end 
+	end
 
 	function ENT:CreateTree( modelname )
 		local mdl = ClientsideModel( modelname, RENDERGROUP_OPAQUE )
@@ -89,6 +112,7 @@ else -- CLIENT
 	end
 
 	function ENT:Think()
+		if ( Budget ) then return end
 
 		-- We get the length squared so we save on an expensive sqrt operation
 		local d2 = ((LocalPlayer():GetPos() - self:GetPos()):LengthSqr())
@@ -137,6 +161,11 @@ else -- CLIENT
 	end
 
 	function ENT:InitTree()
+		if ( Budget ) then
+			SetModelScaleVector( self, Vector(1,1,self.TreeScale) )
+			return
+		end
+
 		self.TreeModelLOD = IsValid(self.TreeModelLOD ) and self.TreeModelLOD or self:CreateTree(self.ModelLOD)
 		self.TreeModelAnim = IsValid(self.TreeModelAnim) and self.TreeModelAnim or self:CreateTree(self:GetModel())
 
@@ -156,7 +185,7 @@ else -- CLIENT
 		self.TreeModelAnim:SetCycle( 0.0 )
 
 		-- Create the clientside shadow
-		self.TreeModelAnim:CreateShadow()
+		-- self.TreeModelAnim:CreateShadow()
 
 	end
 
