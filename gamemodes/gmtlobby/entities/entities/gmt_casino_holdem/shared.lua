@@ -269,7 +269,8 @@ function ENT:SetMinMaxBet( min, max )
 end
 
 function ENT:CanUse( ply )
-	return true, "PLAY"
+	//return true, "PLAY"
+	return false, "Poker is currently in development, check back later!"
 end
 
 --ImplementNW() -- Implement transmit tools instead of DTVars
