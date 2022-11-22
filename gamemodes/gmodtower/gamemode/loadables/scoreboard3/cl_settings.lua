@@ -38,7 +38,7 @@ SETTINGS.TabNames = {
 	"HUD",
 	"Notifications",
 	--"Friends/Blocked", -- WIP
-	"Advanced",
+	--"Advanced",
 	--"Admin", -- Automatically adds when needed.
 	--"Debug", -- Automatically adds when needed.
 	--"Spawnlist", -- Automatically adds when needed.
@@ -48,7 +48,7 @@ SETTINGS.LobbyOnlyTabs = {
 	"Graphics",
 	"HUD",
 	"Notifications",
-	"Advanced",
+	--"Advanced",
 	"VIP",
 }
 SETTINGS.GamemodesWithSettings = {
@@ -527,7 +527,6 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:CheckBox( "Enable Missing Content Notice", "gmt_notice" )
 			--self:CheckBox( "Enable Missing Workshop Notice", "gmt_notice_workshop" )
 			self:CheckBox( "Enable Auto Reconnect", "gmt_notice_reconnect" )
-			self:CheckBox( "Disable Beta Notice", "gmt_hidebetamsg" )
 
 			self:Divider()
 
@@ -590,17 +589,10 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:CheckBox( "Enable Crosshair", "gmt_hud_crosshair", "gmt_hud" )
 			--self:CheckBox( "Crosshair Always Visible", "gmt_hud_crosshair_always", "gmt_hud_crosshair" )
 			//self:CheckBox( LobbyCanvas, "Enable Action Crosshair", "gmt_hud_crosshair_action", "gmt_hud_crosshair" )
-			self:CheckBox( "Enable Third Person Button", "gmt_thirdpersonbutton" )
+			//self:CheckBox( "Enable Third Person Button", "gmt_thirdpersonbutton" )
 			//self:CheckBox( LobbyCanvas, "Enable Gamemode Notice", "gmt_gmnotice" )
 			//self:CheckBox( LobbyCanvas, "Enable News Ticker", "gmt_newsticker" )
 			//self:CheckBox( LobbyCanvas, "Allow Sound Spam", "gmt_allowSoundSpam" )
-		end
-	end
-
-	if tabname == "Advanced" then
-		self:Header( "Advanced" )
-		if IsLobby then
-			self:Slider( "Camera Distance", "gmt_setthirdpersondist", 35, 150 )
 		end
 	end
 	
