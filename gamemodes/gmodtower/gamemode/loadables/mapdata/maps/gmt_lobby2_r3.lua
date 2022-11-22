@@ -261,7 +261,7 @@ hook.Add("InitPostEntity","AddL2Ents",function()
 	AddMapEntity( "gmt_npc_money", Vector( 7425, -212, -1085 ), Angle( 0, 135, 0 ) )
 
 	// Web Board
-	AddMapEntity( "gmt_webboard", Vector( 7504, 0, -1080 ), Angle( 0, 180, 0 ) )
+	//AddMapEntity( "gmt_webboard", Vector( 7504, 0, -1080 ), Angle( 0, 180, 0 ) )
 	
 	// The Board
 	AddMapEntity( "gmt_streamer_board", Vector( 2580, 4930, -911 ), Angle( 0, 75, 0 ) )
