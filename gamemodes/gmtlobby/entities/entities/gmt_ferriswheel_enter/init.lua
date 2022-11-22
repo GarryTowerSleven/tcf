@@ -9,9 +9,13 @@ end
 function ENT:StartTouch( ply )
 
 	local FerrisWheel = ents.FindByClass("gmt_ferriswheel")[1]
-	if ( !IsValid( FerrisWheel ) or !IsValid(ply) ) then return end
+	if ( !IsValid( FerrisWheel ) or !IsValid( ply ) ) then return end
 
 	if !ply:IsPlayer() then return end
+
+	if ( ply:GetPos():Distance( FerrisWheel:GetPos() ) > 750 ) then
+		return
+	end
 
 	local seat
 
