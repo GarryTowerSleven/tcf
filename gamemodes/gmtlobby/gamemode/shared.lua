@@ -7,7 +7,7 @@ GM.AllowEquippables = true
 GM.UsesHands = true
 IsLobby = true
 
-DeriveGamemode( "GModTower" )
+DeriveGamemode( "gmodtower" )
 
 include("player_class/player_lobby.lua")
 

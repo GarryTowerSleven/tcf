@@ -23,7 +23,7 @@ local sqlCred = {
 
 if env then
 	sqlCred['address'] = env.getString( 'SQL_ADDRESS', 'localhost' )
-	sqlCred['table'] = env.getString( 'SQL_DBTABLE', '' )
+	sqlCred['table'] = env.getString( 'SQL_DBNAME', '' )
 	sqlCred['user'] = env.getString( 'SQL_USERNAME', 'root' )
 	sqlCred['pass'] = env.getString( 'SQL_PASSWORD', '' )
 	sqlCred['port'] = env.getInteger( 'SQL_PORT', 3306 )
