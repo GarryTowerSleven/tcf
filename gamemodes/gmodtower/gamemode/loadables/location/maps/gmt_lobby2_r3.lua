@@ -1148,15 +1148,15 @@ Location.LoadMapData( {
 	[24] = {
 		Regions = {
 			[1] = {
-				max = Vector(3835.9899902344,-9220,-2288),
+				max = Vector(3860,-9220,-2288),
 				planes = {
 					[1] = {
 						normal = Vector(-1,0,0),
-						dist = -2168,
+						dist = -2150,
 					},
 					[2] = {
 						normal = Vector(1,0,0),
-						dist = 3835.9899902344,
+						dist = 3860,
 					},
 					[3] = {
 						normal = Vector(0,-1,0),
@@ -1175,7 +1175,7 @@ Location.LoadMapData( {
 						dist = -2288,
 					},
 				},
-				min = Vector(2168,-11780,-2648),
+				min = Vector(2150,-11780,-2648),
 			},
 		},
 		FriendlyName = "Casino",
