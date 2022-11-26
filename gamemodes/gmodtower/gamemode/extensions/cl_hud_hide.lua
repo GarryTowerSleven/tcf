@@ -1,5 +1,5 @@
 
-GtowerHudToHide = { "CHUDQuickInfo", "CHudSuitPower", "CHudZoom" }
+GtowerHudToHide = { "CHUDQuickInfo", "CHudSuitPower", "CHudZoom", "CHudChat" }
 
 if IsLobby then
 	table.insert( GtowerHudToHide, "CHudCrosshair" )
