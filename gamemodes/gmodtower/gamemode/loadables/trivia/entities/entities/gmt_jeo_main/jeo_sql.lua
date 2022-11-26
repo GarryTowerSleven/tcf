@@ -31,7 +31,6 @@ end
 
 function ENT:UpdateSQLCache()
 	local Query = "SELECT `id` FROM `gm_jeopardy`"
-print(self)
 	SQL.getDB():Query(Query, function(res) self:ParseSQLResults(res) end)
 end
 
