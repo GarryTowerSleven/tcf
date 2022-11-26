@@ -215,6 +215,11 @@ GTowerStore.Stores = {
 		NpcClass = "gmt_npc_bathroom",
 		WindowTitle = "Bathroom Attendant",
 	},
+
+	[GTowerStore.THANKSGIVING] = {
+		NpcClass = "gmt_npc_thanksgiving",
+		WindowTitle = "Thanksgiving",
+	},
 	[GTowerStore.CONDO] = {
 		NpcClass = nil -- Handled internally
 	},
