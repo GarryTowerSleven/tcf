@@ -134,7 +134,7 @@ concommand.Add( "gt_act", function(ply, command, args)
 		AdminNotif.SendStaff( ply:Nick() .. " has slayed " .. TargetPly:NickID() .. ".", nil, "RED", 2 )
         TargetPly:Kill()
 
-		elseif args[1] == "givemoney" && ply:IsAdmin() then
+		elseif args[1] == "givemoney" && ply:IsStaff() then
 			
 			player.GetByID(args[2]):AddMoney(tonumber(args[3]))
 
@@ -232,7 +232,7 @@ concommand.Add( "gt_act", function(ply, command, args)
 			 TargetPly:SetVelocity( VectorRand() * 2048 )
 		end
 
-	elseif args[1] == "money" && args[3] && ply:IsAdmin() then
+	elseif args[1] == "money" && args[3] && ply:IsStaff() then
 
 		local Amount = tonumber( args[3] )
 		if Amount == nil then Amount = 0 end

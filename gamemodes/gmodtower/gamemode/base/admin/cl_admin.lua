@@ -176,8 +176,6 @@ local function GetLocsTable()
 end
 
 function GTowerAdmin:AddEnts()
-    if not LocalPlayer():IsAdmin() then return nil end
-
     local Tabl = {
         /*{
 			["Name"] = "Add Entity...",
@@ -225,6 +223,10 @@ function GTowerAdmin:AddEnts()
             end,
             ["order"] = 6
         },
+    }
+
+    if ( LocalPlayer():IsAdmin() ) then
+        table.Merge(
         {
             ["Name"] = "Remove Entity",
             ["function"] = function()
@@ -244,8 +246,8 @@ function GTowerAdmin:AddEnts()
             ["function"] = function()
                 ClientSettings:OpenAdmin(LocalPlayer())
             end,
-        },
-    }
+        }, Tabl )
+    end
 
     --[[if Location then
 
