@@ -6,22 +6,12 @@ module("SQL", package.seeall )
 ColumnInfo = ColumnInfo or {}
 
 local sqlCred = {
-	['address'] = 'localhost',
-	['table'] = 'gmtdeluxe',
-	['user'] = 'root',
-	['pass'] = '',
-	['port'] = 3306,
+	['address'] = env.getString( 'SQL_ADDRESS', 'localhost' ),
+	['table'] = env.getString( 'SQL_DBNAME', '' ),
+	['user'] = env.getString( 'SQL_USERNAME', 'root' ),
+	['pass'] = env.getString( 'SQL_PASSWORD', '' ),
+	['port'] = env.getInteger( 'SQL_PORT', 3306 ),
 }
-
-if env then
-	sqlCred['address'] = env.getString( 'SQL_ADDRESS', 'localhost' )
-	sqlCred['table'] = env.getString( 'SQL_DBNAME', '' )
-	sqlCred['user'] = env.getString( 'SQL_USERNAME', 'root' )
-	sqlCred['pass'] = env.getString( 'SQL_PASSWORD', '' )
-	sqlCred['port'] = env.getInteger( 'SQL_PORT', 3306 )
-end
-
-PrintTable( sqlCred )
 
 function connectToDatabase()
 	if dbObject then return end

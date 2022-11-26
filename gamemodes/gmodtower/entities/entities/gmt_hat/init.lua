@@ -32,7 +32,6 @@ function Player:ReplaceHat(hatname, model, index, hatSlot)
 	local owner = self.Hat or self.FaceHat
 	local bodygroup = GTowerHats:GetBodyGroups(player_manager.TranslateToPlayerModelName( owner:GetOwner():GetModel() ), hatname, hatSlot)
 	
-	print( player_manager.TranslateToPlayerModelName( owner:GetOwner():GetModel() ) )
 	if bodygroup then
 		if hatSlot == SLOT_FACE then 
 			self.FaceHat:GetOwner():SetBodygroup( bodygroup[1], bodygroup[2] ) // hide model hat, if it exists
