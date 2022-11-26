@@ -36,7 +36,7 @@ hook.Add( "Think", "GTowerLocation", function()
     end
 end )
 
-local kickoutTime = 2
+/*local kickoutTime = 2
 hook.Add( "Location", "KickOut", function( ply, loc )
 
     if ply:IsAdmin() then return end
@@ -59,6 +59,4 @@ hook.Add( "Location", "KickOut", function( ply, loc )
         end
     end)
 	
-end)
-
-util.AddNetworkString( "LocationRefresh" )
+end)*/
