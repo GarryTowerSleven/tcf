@@ -733,31 +733,6 @@ function initHud()
 
 	end
 
-	surface.CreateFont( "GammaFont", {
-		font = "Tahoma",
-		size = 11,
-		antialias = false,
-	} )
-
-	local GammaText = {
-		"OPEN DELUXE BUILD",
-		"CONTENT SUBJECT TO CHANGE",
-		"VISIT US AT GMTDELUXE.ORG",
-		//"VERSION 0149.1304",
-	}
-
-	function GTowerHUD.DrawGamma()
-		local alpha = 120
-		local color = colorutil.Alpha( colorutil.Rainbow( 2 ), alpha*1.25 )
-		local x, y = ScrW()/2, ScrH() - 80
-
-		for k, v in ipairs( GammaText ) do
-			local y = y + (12*(k-1))
-			draw.SimpleText( v, "GammaFont", x, y, color, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-			draw.SimpleText( v, "GammaFont", x + 1, y + 1, Color( 0, 0, 0, alpha ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-		end
-	end
-
 	local MsgTime = CurTime()
 	local MsgState = true
 
@@ -811,8 +786,6 @@ function initHud()
 		if LocalPlayer():GetNWBool("MinigameOn") then
 			GTowerHUD.MinigameHUD()
 		end
-
-		GTowerHUD.DrawGamma()
 	end
 
 	local hud_icon_clock = Material( "gmod_tower/balls/hud_icon_clock" )

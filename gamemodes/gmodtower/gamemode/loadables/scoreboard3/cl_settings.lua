@@ -584,7 +584,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:CheckBox( "Enable Missing Content Notice", "gmt_notice" )
 			--self:CheckBox( "Enable Missing Workshop Notice", "gmt_notice_workshop" )
 			self:CheckBox( "Enable Auto Reconnect", "gmt_notice_reconnect" )
-			self:CheckBox( "Disable Beta Notice", "gmt_hidebetamsg" )
+			self:CheckBox( "Disable Beta Notice", "gmt_beta_notice" )
 
 			self:Divider()
 
