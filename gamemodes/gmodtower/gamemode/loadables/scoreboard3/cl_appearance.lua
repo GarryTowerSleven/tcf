@@ -80,7 +80,7 @@ local function IconSetModel( icon )
 
 
 
-	RunConsoleCommand( "cl_playermodel", icon.ModelName )
+	RunConsoleCommand( "gmt_playermodel", icon.ModelName )
 
 
 

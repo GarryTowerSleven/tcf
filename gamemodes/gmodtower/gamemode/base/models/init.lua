@@ -3,17 +3,7 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
-local  hook, table, player, umsg, concommand, math, timer = hook, table, player, umsg, concommand, math, timer
-local GTowerSQL = GTowerSQL
-local pairs, tonumber, Msg, PrintTable = pairs, tonumber, Msg, PrintTable
-local _G = _G
-local player_manager = player_manager
-local string = string
-local IsLobby = IsLobby
-local engine = engine
-local Vector = Vector
-
-module("GTowerModels")
+module("GTowerModels", package.seeall)
 
 hook.Add("SQLStartColumns", "SQLForcePlySize", function()
 	_G.SQLColumn.Init( {
@@ -135,7 +125,7 @@ hook.Add("AdminCommand", "ChangePlayerSize", function( args, admin, target )
 end )
 
 concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
-	local modelinfo = string.Explode( "-", ply:GetInfo("cl_playermodel") )
+	local modelinfo = string.Explode( "-", ply:GetInfo("gmt_playermodel") )
 	local modelname = modelinfo[1]
 	local modelskin = modelinfo[2]
 	local model = player_manager.TranslatePlayerModel(modelname)

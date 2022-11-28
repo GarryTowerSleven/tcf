@@ -286,7 +286,7 @@ function GM:PlayerSetModel( ply )
 
 	if ( !IsValid(ply) || ( !IsLobby && ply:IsBot() ) ) then return end
 
-	local model, skin = GTowerModels.GetModelName( ply:GetInfo( "cl_playermodel" ) )
+	local model, skin = GTowerModels.GetModelName( ply:GetInfo( "gmt_playermodel" ) )
 
 	if ply:IsBot() then
 		local _, randModel = table.Random( GTowerModels.NormalModels )

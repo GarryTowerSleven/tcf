@@ -1,22 +1,13 @@
 
 include('shared.lua')
 
-local hook = hook
-local usermessage = usermessage
-local Msg = Msg
-local Entity = Entity
-local tostring = tostring
-local table = table
-local Derma_StringRequest = Derma_StringRequest
-local GTowerAdmin = GTowerAdmin
-local IsValid = IsValid
-local pairs = pairs
-local player = player
-local cvars = cvars
-local LocalPlayer = LocalPlayer
-local RunConsoleCommand = RunConsoleCommand
+module("GTowerModels", package.seeall)
 
-module("GTowerModels")
+ConVar = CreateClientConVar( "gmt_playermodel", "barney", true, true )
+
+cvars.AddChangeCallback( "gmt_playermodel", function()
+	LocalPlayer():ConCommand( "gmt_updateplayermodel" )
+end, "GMTPlayermodelUpdate" )
 
 function Get( ply )
 	return ply._PlyModelSize

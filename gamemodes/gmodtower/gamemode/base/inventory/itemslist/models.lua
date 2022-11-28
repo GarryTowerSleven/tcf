@@ -59,8 +59,8 @@ local function RegisterModel( name, friendlyName, desc, model, mdlname, price, s
 		OnEquip = function( self )
 			timer.Simple( 0.2, function()
 				if IsValid(self.Ply) then
-					self.Ply.LastMdl = self.Ply:GetInfo( "cl_playermodel" )
-					self.Ply:ConCommand( "cl_playermodel "..mdlname.."-0" )
+					self.Ply.LastMdl = self.Ply:GetInfo( "gmt_playermodel" )
+					self.Ply:ConCommand( "gmt_playermodel "..mdlname.."-0" )
 					self.Ply:ConCommand( "gmt_updateplayermodel" )
 				end
 			end )
@@ -69,7 +69,7 @@ local function RegisterModel( name, friendlyName, desc, model, mdlname, price, s
 		OnUnEquip = function( self )
 			timer.Simple( 0.2, function()
 				if ((self.Ply.UCHType == nil || self.Ply.UCHType <= 0) && IsValid(self.Ply)) then
-					self.Ply:ConCommand( "cl_playermodel kleiner" )
+					self.Ply:ConCommand( "gmt_playermodel barney" )
 					self.Ply:ConCommand( "gmt_updateplayermodel" )
 				end
 			end )

@@ -6,7 +6,7 @@ local PANEL = {}
 local function IconSetModel( icon )
 	Msg2("Model is going to be updated once you respawn")
 	surface.PlaySound( "ui/buttonclickrelease.wav" ) 
-	RunConsoleCommand( "cl_playermodel", icon.ModelName ) 
+	RunConsoleCommand( "gmt_playermodel", icon.ModelName ) 
 end
 
 function PANEL:NewCatergory( Name )

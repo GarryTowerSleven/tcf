@@ -41,7 +41,7 @@ local function IconSetModel( icon )
 		Msg2("Model is going to be updated once you respawn")
 	end
 
-	RunConsoleCommand( "cl_playermodel", icon.ModelName )
+	RunConsoleCommand( "gmt_playermodel", icon.ModelName )
 	RunConsoleCommand( "gmt_updateplayermodel" )
 
 end

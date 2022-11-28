@@ -16,7 +16,7 @@ if CLIENT then
 			["Name"] = "Set As Yourself",
 			["function"] = function()
 				Msg2(T("PlayerModelUpdated"))
-				RunConsoleCommand( "cl_playermodel", self.ModelName .. "-" .. self.ModelSkinId ) 
+				RunConsoleCommand( "gmt_playermodel", self.ModelName .. "-" .. self.ModelSkinId ) 
 				RunConsoleCommand( "gmt_updateplayermodel" )
 			end
 		} )
