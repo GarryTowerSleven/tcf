@@ -226,27 +226,26 @@ function GTowerAdmin:AddEnts()
     }
 
     if ( LocalPlayer():IsAdmin() ) then
-        table.Merge(
-        {
+        table.uinsert( Tabl, {
             ["Name"] = "Remove Entity",
             ["function"] = function()
                 RunConsoleCommand("gt_act", "rement")
             end
-        },
-        {
+        } )
+        table.uinsert( Tabl, {
             ["Name"] = "Give Physgun",
             ["canclose"] = true,
             ["function"] = function()
                 RunConsoleCommand("gt_act", "physgun")
             end
-        },
-        {
+        } )
+        table.uinsert( Tabl, {
             ["Name"] = "Privileges",
             ["canclose"] = true,
             ["function"] = function()
                 ClientSettings:OpenAdmin(LocalPlayer())
             end,
-        }, Tabl )
+        } )
     end
 
     --[[if Location then
