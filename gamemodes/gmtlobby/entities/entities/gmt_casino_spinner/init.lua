@@ -1,4 +1,3 @@
----------------------------------
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
 
@@ -7,19 +6,10 @@ include( "shared.lua" )
 include("dice.lua")
 
 function ENT:Initialize()
-	self:SetModel(self.Model)
-	self:SetSubMaterial(2,self.Material)
+	self:SetModel( self.Model )
+	self:SetSubMaterial( 2, self.Material )
 	self:SetUseType( SIMPLE_USE )
-	self:SetSolid(SOLID_VPHYSICS)
-
-	local phys = self:GetPhysicsObject()
-
-	if(phys:IsValid()) then
-
-		phys:Wake()
-		phys:EnableMotion(false)
-
-	end
+	self:SetSolid( SOLID_VPHYSICS )
 end
 
 function ENT:SpinRoll()

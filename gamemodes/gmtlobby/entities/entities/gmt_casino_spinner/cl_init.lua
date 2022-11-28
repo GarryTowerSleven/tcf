@@ -308,7 +308,6 @@ function ENT:DrawTranslucent()
 	local ang = self:GetAngles() + Angle( 0,90,90 )
 
 	cam.Start3D2D( pos, ang, .25 )
-
 		pcall(function()
 		local label = "SPIN FOR " .. tostring( self.Cost ) .. " GMC"
 
