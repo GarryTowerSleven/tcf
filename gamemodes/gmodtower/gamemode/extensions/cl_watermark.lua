@@ -14,7 +14,7 @@ local GammaText = {
 }
 
 function DrawWatermark()
-    if ( !ConVar:GetBool() ) then return end
+    if ( ConVar:GetBool() ) then return end
 
     local alpha = 120
     local color = colorutil.Alpha( colorutil.Rainbow( 1 ), alpha*1.25 )
