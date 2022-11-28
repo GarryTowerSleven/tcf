@@ -2,7 +2,7 @@
 local EventSound = "gmodtower/misc/notifyevent.wav"
 if time.IsChristmas() then EventSound = "gmodtower/music/christmas/eventnotify.mp3" end
 
-local eventlist = { minigames.balloonpop.MinigameName, minigames.chainsaw.MinigameName, minigames.obamasmash.MinigameName, minigames.storesale.MinigameName, minigames.storesale.MinigameName }
+local eventlist = { minigames.balloonpop.MinigameName, minigames.chainsaw.MinigameName, minigames.obamasmash.MinigameName,  "storesale", "storesale" }
 
 local shopslist = {
     GTowerStore.SUITE,
@@ -74,7 +74,7 @@ function StartEvent( event )
 
     updateGlobals( nexttime, nextevent )
 
-    if event == minigames.storesale.MinigameName then
+    if event == "storesale" then
         local store = table.Random(shopslist)
         local discount = math.Round( math.Rand(minsale,maxsale) )
 
@@ -165,7 +165,7 @@ end
 
 function EndEvent()
 
-    if curevent == minigames.storesale.MinigameName then
+    if curevent == "storesale" then
         GTowerStore:EndSale(cursale)
         MsgC( co_color2, "[EVENTS] Sale ended at " .. GTowerStore.Stores[ cursale ].WindowTitle .. "\n" )
     elseif curevent == minigames.balloonpop.MinigameName then
