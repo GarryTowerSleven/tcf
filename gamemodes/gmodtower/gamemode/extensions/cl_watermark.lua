@@ -1,4 +1,4 @@
-local ConVar = CreateClientConVar( "gmt_beta_notice", 1, true, false, nil, 0, 1 )
+local ConVar = CreateClientConVar( "gmt_beta_notice_disable", 0, true, false, nil, 0, 1 )
 
 surface.CreateFont( "GammaFont", {
     font = "Tahoma",
