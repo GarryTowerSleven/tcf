@@ -1,15 +1,21 @@
 GTowerChat = GTowerChat or {}
+
 GTowerChat.YOffset = 380
 GTowerChat.XOffset = 40
-GTowerChat.BGColor = Color(26, 75, 117, 180)
-GTowerChat.ScrollColor = Color(19, 50, 81, 215)
---GTowerChat.ChatFont = "GTowerHUDMain"
+
+GTowerChat.BGColor = Color(18, 70, 90, 180)
+GTowerChat.ScrollColor = Color(19, 56, 81, 215)
+
 GTowerChat.ChatFont = "ChatVerdana16"
+
 GTowerChat.NewChatState = false
+
 GTowerChat.TimeStamp = CreateClientConVar("gmt_chat_timestamp", 0, true, false)
 GTowerChat.TimeStamp24 = CreateClientConVar("gmt_chat_timestamp24", 0, true, false)
+
 GTowerChat.Sounds = CreateClientConVar("gmt_chat_sound", 1, true, false)
 GTowerChat.Location = CreateClientConVar("gmt_chat_loc", 1, true, false)
+
 include("cl_autocomplete.lua")
 include("richformat.lua")
 include("cl_richtext.lua")
