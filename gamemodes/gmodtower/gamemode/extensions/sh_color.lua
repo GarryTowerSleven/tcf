@@ -106,3 +106,7 @@ end
 function Brighten( color, ratio, alpha )
 	return Color( color.r * ratio, color.g * ratio, color.b * ratio, alpha or color.a )
 end
+
+function Alpha( color, alpha )
+	return Color( color.r, color.g, color.b, alpha or 255 )
+end
