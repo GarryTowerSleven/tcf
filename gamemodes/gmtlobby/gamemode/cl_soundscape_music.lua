@@ -243,7 +243,7 @@ soundscape.Register("music_store_merchant",
 
 })
 
-if !IsHolidayMap() then
+/*if !IsHolidayMap() then
 	soundscape.Register("music_cplaza",
 	{
 		{
@@ -255,7 +255,7 @@ if !IsHolidayMap() then
 			sound = {Sound("gmodtower/soundscapes/music/deluxe_centralplaza.mp3"), 4},
 		},
 	})
-end
+end*/
 
 -- Mute BG music in elevator
 soundscape.Register("music_elevator", {})

@@ -160,7 +160,6 @@ soundscape.Register("elevator",
 	},
 })
 
-
 soundscape.Register("lobby", 
 {
 	dsp = 0,
