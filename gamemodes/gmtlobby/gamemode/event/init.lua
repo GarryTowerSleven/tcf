@@ -114,7 +114,7 @@ function StartEvent( event )
             return
         end
 
-        curmini = "balloonpop"
+        curmini = "obamasmash"
         
         SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
     

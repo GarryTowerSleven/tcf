@@ -20,6 +20,14 @@ local function displayTimer()
 	return true
 end
 
+DisplayNames = {
+	["storesale"] = "Sale",
+	["balloonpop"] = "Balloon Pop",
+	["obamasmash"] = "Obama Smash",
+	["chainsaw"] = "Chainsaw Massacre",
+	["tronarnia"] = "Tron Battle",
+}
+
 hook.Add( "GTowerHUDPaint", "DrawNextEvent", function()
 	if !DrawTimer:GetBool() then return end
 
@@ -35,6 +43,8 @@ hook.Add( "GTowerHUDPaint", "DrawNextEvent", function()
 	end
 
 	if !endtime or !eventname then return end
+
+	local eventname = DisplayNames[eventname] or eventname
 
 	if HUDStyle_L2 && displayTimer() then
 		GTowerHUD.DrawExtraInfo( nil, "Next Event (" .. eventname .. ") in " .. timeformat  )
