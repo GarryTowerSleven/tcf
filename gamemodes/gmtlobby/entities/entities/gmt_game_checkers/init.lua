@@ -84,20 +84,49 @@ function ENT:GetBlock( num )
     return self.Blocks[ num ] or nil
 end
 
+function ENT:IsWhite( n )
+    local block = self:GetBlock( n )
+    return (block.Owner == 1 or block.Owner == 3) or false
+end
+
+function ENT:IsBlack( n )
+    return not self:IsWhite( n )
+end
+
+function ENT:IsKing( n )
+    local block = self:GetBlock( n )
+    return (block.Owner == 3 or block.Owner == 4) or false
+end
+
 function ENT:CheckBlock( n1, n2 )
+    local block = self:GetBlock( n1 )
+    local block2 = self:GetBlock( n2 )
+
+    local king = self:IsKing( n1 )
+    local white = self:IsWhite( n1 )
+
     local x, y = self:NumToXY( n1 )
     local x2, y2 = self:NumToXY( n2 )
 
     if (((x + 1) == x2) or ((x - 1) == x2)) && (((y + 1) == y2) or ((y - 1) == y2)) then // one
-        local block = self:GetBlock( n2 )
+        if ( not block2.Occupied ) then
+            if ( king ) then
+                return true, nil
+            end
 
-        if ( not block.Occupied ) then
-            return true, nil
+            if ( white ) then
+                if ( x2 > x ) then
+                    return true, nil
+                end
+            else
+                if ( x2 < x ) then
+                    return true, nil
+                end
+            end
         end
     elseif (((x + 2) == x2) or ((x - 2) == x2)) && (((y + 2) == y2) or ((y - 2) == y2)) then // two
         local oX, oY = x > x2 and 1 or -1, y > y2 and 1 or -1 // wtf?
 
-        local block = self:GetBlock( n1 )
         local rem_n = self:XYToNum( x2+oX, y2+oY )
         local rem_block = self:GetBlock( self:XYToNum( x2+oX, y2+oY ) )
 
@@ -125,6 +154,16 @@ end
 
 function ENT:MovePiece( n1, n2 )
     local block = self:GetBlock( n1 )
+
+    local x, y = self:NumToXY( n2 )
+
+    local white = self:IsWhite( n1 )
+
+    if ( white && x == 7 ) then
+        block.Owner = 3
+    elseif ( !white && x == 0 ) then
+        block.Owner = 4
+    end
 
     self:SetBlock( n2, block )
     self:ClearBlock( n1 )
@@ -178,8 +217,10 @@ function ENT:Use( ply )
             local block = self:GetBlock( wanted )
             if ( !block ) then return end
 
+            local Owner = self:IsWhite( wanted ) && 1 or 2
+
             if ( block.Occupied ) then
-                if ( block.Owner == self.PlyTurn ) then
+                if ( Owner == self.PlyTurn ) then
                     self.SelectedBlock = wanted
                 end
             else
@@ -200,7 +241,6 @@ function ENT:Use( ply )
         self:SendToClients()
     end
 end
-
 
 function ENT:BeginGame()
     self.InitGame = true
@@ -223,10 +263,12 @@ function ENT:CheckBoard()
     local white_count = 0
     local black_count = 0
 
-    for _, v in ipairs( self.Blocks ) do
-        if (v.Owner == 1) then
+    for k, v in ipairs( self.Blocks ) do
+        local white = self:IsWhite( k )
+
+        if ( white ) then
             white_count = white_count + 1
-        elseif (v.Owner == 2) then
+        elseif ( not white ) then
             black_count = black_count + 1
         end
     end
