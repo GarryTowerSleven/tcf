@@ -266,32 +266,32 @@ function ENT:OnRemove()
 end
 
 
-function ENT:CheckersUm( um ) // Decodes the umsg.
-	local MsgId = um:ReadChar()
+function ENT:CheckersNet()
+	local MsgId = net.ReadUInt( 1 )
 	
 	if MsgId == 0 then
 		self.Blocks = {}
 	
-		self.HighBlock = um:ReadChar() // highlighted block
+		self.HighBlock = net.ReadUInt( 7 ) // highlighted block
 	
 		for i=1, (self:GetNumBlocks() * self:GetNumBlocks()) do
 			
-			if um:ReadBool() then
-				self.Blocks[ i ] = um:ReadChar()
+			if net.ReadBool() then
+				self.Blocks[ i ] = net.ReadUInt( 3 )
 			else
 				self.Blocks[ i ] = nil
 			end
 		
 		end	
 			
-		local initGame = um:ReadBool()
+		local initGame = net.ReadBool()
 		
 		if initGame then self:TurnOn() end
 		if !initGame then self:TurnOff() end
 		
-		local ply1 = um:ReadEntity()
-		local ply2 = um:ReadEntity()
-		self.PlyTurn = um:ReadChar()
+		local ply1 = net.ReadEntity()
+		local ply2 = net.ReadEntity()
+		self.PlyTurn = net.ReadUInt( 2 )
 		
 		self.Ply1 = ply1 or NULL
 		self.Ply2 = ply2 or NULL
@@ -305,16 +305,12 @@ function ENT:CheckersUm( um ) // Decodes the umsg.
 
 end
 
-usermessage.Hook("boarddata", function( um )
+net.Receive( "boarddata", function( len, ply )
+	local ent = net.ReadEntity()
 
-	local ent = um:ReadEntity()
-	
-	if IsValid( ent ) && ent.CheckersUm then
-	
-		ent:CheckersUm( um )
-	
+	if IsValid( ent ) && ent.CheckersNet then
+		ent:CheckersNet()
 	end
-
 end )
 
 usermessage.Hook( "checkersH", function( um )

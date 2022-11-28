@@ -8,10 +8,10 @@ ENT.MaxDist = 256
 function ENT:ClearGame()
     self.InitGame = false
 
-    self.Ply1 = nil
-	self.Ply2 = nil
+    self.Ply1 = NULL
+	self.Ply2 = NULL
 
-    self.PlyTurn = nil
+    self.PlyTurn = 0
 
     self.Blocks = {}
 
@@ -19,7 +19,7 @@ function ENT:ClearGame()
         self.Blocks[ i ] = { Occupied = false, Owner = 0 }
     end
 
-    self.SelectedBlock = nil
+    self.SelectedBlock = 0
 
     self:SendToClients()
 end
@@ -129,9 +129,9 @@ function ENT:MovePiece( n1, n2 )
     self:SetBlock( n2, block )
     self:ClearBlock( n1 )
 
-    self.SelectedBlock = nil
+    self.SelectedBlock = 0
 
-    //self:NextTurn()
+    self:NextTurn()
 end
 
 function ENT:NextTurn()
@@ -268,27 +268,26 @@ function ENT:Think()
 end
 
 function ENT:SendToClients()
-    local rf = RecipientFilter()
-    rf:AddPVS( self:GetPos() )
-
-    umsg.Start( "boarddata", rf )
-        umsg.Entity( self )
-        umsg.Char( 0 ) // action
-        umsg.Char( self.SelectedBlock ) // highlighted block
+    net.Start( "boarddata" )
+        net.WriteEntity( self )
+        net.WriteUInt( 0, 1 )
+        net.WriteUInt( self.SelectedBlock, 7 )
 
         for _, v in ipairs( self.Blocks ) do
-            umsg.Bool( v.Occupied ) // block valid??
+            net.WriteBool( v.Occupied ) // block valid??
 
             if ( v.Occupied ) then
-                umsg.Char( v.Owner ) // block owner (1,3 = white | 2,4 = black)
+                net.WriteUInt( v.Owner, 3 ) // block owner (1,3 = white | 2,4 = black)
             end
         end
 
-        umsg.Bool( self:InGame() ) // init game
+        net.WriteBool( self:InGame() ) // init game
 
-        umsg.Entity( self.Ply1 ) // ply1
-        umsg.Entity( self.Ply2 ) // ply2
+        net.WriteEntity( self.Ply1 ) // ply1
+        net.WriteEntity( self.Ply2 ) // ply2
 
-        umsg.Char( self.PlyTurn ) // ply turn
-    umsg.End()
+        net.WriteUInt( self.PlyTurn, 2 )
+    net.SendPVS( self:GetPos() )
 end
+
+util.AddNetworkString( "boarddata" )
