@@ -259,7 +259,7 @@ hook.Add("PvpBattleUpdate", "StoreCheck", function( OpenStore, discount )
 				large = true,
 				icon = "money",
 				func = function()
-					GTowerStore:OpenStore( PvpBattle.StoreId, nil, nil, discount )
+					LocalPlayer():ConCommand("storeopen " .. tostring(GTowerStore.PVPBATTLE) .. " " .. tostring(discount))
 					SelectionMenuManager.Remove()
 				end,
 			},
