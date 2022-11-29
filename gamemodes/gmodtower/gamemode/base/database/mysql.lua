@@ -6,18 +6,19 @@ module("SQL", package.seeall )
 ColumnInfo = ColumnInfo or {}
 
 local sqlCred = {
-	['address'] = env.getString( 'SQL_ADDRESS', 'localhost' ),
-	['table'] = env.getString( 'SQL_DBNAME', '' ),
-	['user'] = env.getString( 'SQL_USERNAME', 'root' ),
-	['pass'] = env.getString( 'SQL_PASSWORD', '' ),
-	['port'] = env.getInteger( 'SQL_PORT', 3306 ),
+	['address'] = env.getString( 'SQL_ADDRESS', nil ),
+	['table'] = env.getString( 'SQL_DBNAME', nil ),
+	['user'] = env.getString( 'SQL_USERNAME', nil ),
+	['pass'] = env.getString( 'SQL_PASSWORD', nil ),
+	['port'] = env.getInteger( 'SQL_PORT', nil ),
+	['socket'] = env.getString( 'SQL_SOCKET', nil ),
 }
 
 function connectToDatabase()
 	if dbObject then return end
 	
 	// tmysql.Connect( host, user, pass, db, port, unixsocket, clientflags )
-	local db, err = tmysql.Connect( sqlCred['address'], sqlCred['user'], sqlCred['pass'], sqlCred['table'], sqlCred['port'], nil, 3 )
+	local db, err = tmysql.Connect( sqlCred['address'], sqlCred['user'], sqlCred['pass'], sqlCred['table'], sqlCred['port'], sqlCred['socket'], 3 )
 
 	if err then
 		LogPrint( "DATABASE FAILED TO CONNECT!", co_color2, "Database" )
