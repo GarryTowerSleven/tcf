@@ -1,4 +1,4 @@
-local WebpageURL = "http://www.gmodtower.org/game/branch.html"
+local WebpageURL = GM.Website .. "/game/branch.html"
 
 local function ShowBranchMessage()
 

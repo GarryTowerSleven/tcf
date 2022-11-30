@@ -1,7 +1,7 @@
 GM.Name     = "GMod Tower: Deluxe"
 GM.Author   = "Deluxe Team & PixelTail Games"
 GM.Website  = "https://www.gmtdeluxe.org/"
-GM.WebsiteUrl  = "https://www.gmodtower.org/apps/" // TODO: Change to gmtdeluxe.org
+GM.WebsiteUrl  = "https://www.gmtdeluxe.org/apps/"
 
 co_color = Color( 50, 255, 50 )
 co_color2 = Color( 255, 50, 50 )
