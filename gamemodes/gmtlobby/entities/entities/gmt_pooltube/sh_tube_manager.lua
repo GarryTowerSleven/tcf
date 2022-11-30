@@ -427,7 +427,7 @@ local function ManagePoolTubes(tbl, curvename)
 
 
 
-		//MsgC( co_color2, "[Pooltubes] No valid tubes found, but under limit. Creating a new one.\n")
+		//MsgC( color_red, "[Pooltubes] No valid tubes found, but under limit. Creating a new one.\n")
 
 
 

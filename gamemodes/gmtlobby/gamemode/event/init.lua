@@ -82,7 +82,7 @@ function StartEvent( event )
 
         endtime = CurTime() + saletime
 
-        MsgC( co_color, "[EVENTS] Starting " ..  discount .. "% sale at " .. GTowerStore.Stores[ store ].WindowTitle .. "\n" )
+        MsgC( color_green, "[EVENTS] Starting " ..  discount .. "% sale at " .. GTowerStore.Stores[ store ].WindowTitle .. "\n" )
 
         SendMessageToPlayers( "MiniStoreGameStart", discount, GTowerStore.Stores[ store ].WindowTitle )
 
@@ -101,7 +101,7 @@ function StartEvent( event )
         SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
     
         SafeCall( MiniGame.Start, "" )
-        MsgC( co_color, "[EVENTS] Starting balloonpop!\n" )
+        MsgC( color_green, "[EVENTS] Starting balloonpop!\n" )
 
         endtime = CurTime() + minitime
 
@@ -119,7 +119,7 @@ function StartEvent( event )
         SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
     
         SafeCall( MiniGame.Start, "" )
-        MsgC( co_color, "[EVENTS] Starting obama smash!\n" )
+        MsgC( color_green, "[EVENTS] Starting obama smash!\n" )
 
         endtime = CurTime() + minitime
 
@@ -137,7 +137,7 @@ function StartEvent( event )
         SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
     
         SafeCall( MiniGame.Start, "" )
-        MsgC( co_color, "[EVENTS] Starting chainsaw!\n" )
+        MsgC( color_green, "[EVENTS] Starting chainsaw!\n" )
 
         endtime = CurTime() + minitime
 
@@ -155,7 +155,7 @@ function StartEvent( event )
         SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
     
         SafeCall( MiniGame.Start, "" )
-        MsgC( co_color, "[EVENTS] Starting tronarnia!\n" )
+        MsgC( color_green, "[EVENTS] Starting tronarnia!\n" )
 
         endtime = CurTime() + minitime
 
@@ -167,19 +167,19 @@ function EndEvent()
 
     if curevent == "storesale" then
         GTowerStore:EndSale(cursale)
-        MsgC( co_color2, "[EVENTS] Sale ended at " .. GTowerStore.Stores[ cursale ].WindowTitle .. "\n" )
+        MsgC( color_red, "[EVENTS] Sale ended at " .. GTowerStore.Stores[ cursale ].WindowTitle .. "\n" )
     elseif curevent == minigames.balloonpop.MinigameName then
         SafeCall( minigames[ "balloonpop" ].End )
-        MsgC( co_color2, "[EVENTS] Balloonpop ended\n" )
+        MsgC( color_red, "[EVENTS] Balloonpop ended\n" )
     elseif curevent == minigames.obamasmash.MinigameName then
         SafeCall( minigames[ "obamasmash" ].End )
-        MsgC( co_color2, "[EVENTS] Obamasmash ended\n" )
+        MsgC( color_red, "[EVENTS] Obamasmash ended\n" )
     elseif curevent == minigames.chainsaw.MinigameName then
         SafeCall( minigames[ "chainsaw" ].End )
-        MsgC( co_color2, "[EVENTS] Chainsaw ended\n" )
+        MsgC( color_red, "[EVENTS] Chainsaw ended\n" )
     elseif curevent == "tronarnia" then
         SafeCall( minigames[ "tronarnia" ].End )
-        MsgC( co_color2, "[EVENTS] Tronarnia ended\n" )
+        MsgC( color_red, "[EVENTS] Tronarnia ended\n" )
     end
 
     curevent = "Unknown"
@@ -197,7 +197,7 @@ function StartEventSys()
     // next event
     nextevent = getEventType()
 
-    MsgC( co_color, "[EVENTS] Starting next event (" .. nextevent .. ") in " .. time .. " min(s)\n" )
+    MsgC( color_green, "[EVENTS] Starting next event (" .. nextevent .. ") in " .. time .. " min(s)\n" )
     SendMessageToPlayers( "MiniNext", time )
 
     nexttime = CurTime()+(time*60)
@@ -228,7 +228,7 @@ function MiniCheck()
 
     updateGlobals( nexttime, nextevent )
 
-    MsgC( co_color, "[EVENTS] Starting next event (" .. nextevent .. ") in " .. time .. " min(s)\n" )
+    MsgC( color_green, "[EVENTS] Starting next event (" .. nextevent .. ") in " .. time .. " min(s)\n" )
     SendMessageToPlayers( "MiniNext", time )
 	
 end
@@ -239,7 +239,7 @@ concommand.Add("gmt_event_toggle", function( ply )
 	if !ply:IsAdmin() then return end
 
 	if !enabled then
-        MsgC( co_color, "[EVENTS] "..ply:Nick().." has enabled the event system.\n" )
+        MsgC( color_green, "[EVENTS] "..ply:Nick().." has enabled the event system.\n" )
 
         local time = math.Round( math.Rand( mininterval, maxinterval ) )
         nexttime = CurTime()+(time*60)
@@ -247,7 +247,7 @@ concommand.Add("gmt_event_toggle", function( ply )
         for k,v in pairs( player.GetAll() ) do
             v:Msg2( T( "EventAdminEnabled", ply:Name() ), "admin" )
         end
-        MsgC( co_color, "[EVENTS] Starting next event (" .. nextevent .. ") in " .. time .. " min(s)\n" )
+        MsgC( color_green, "[EVENTS] Starting next event (" .. nextevent .. ") in " .. time .. " min(s)\n" )
         SendMessageToPlayers( "MiniNext", time )
     else
 
@@ -255,7 +255,7 @@ concommand.Add("gmt_event_toggle", function( ply )
             EndEvent()
         end
 
-        MsgC( co_color2, "[EVENTS] "..ply:Nick().." has disabled the event system.\n" )
+        MsgC( color_red, "[EVENTS] "..ply:Nick().." has disabled the event system.\n" )
 
         enabled = false
 
@@ -278,7 +278,7 @@ concommand.Add("gmt_event_skip", function( ply )
 	if !ply:IsAdmin() then return end
 
     if enabled && endtime > 0 then
-        MsgC( co_color2, "[EVENTS] "..ply:Nick().." has forced the event system.\n" )
+        MsgC( color_red, "[EVENTS] "..ply:Nick().." has forced the event system.\n" )
         EndEvent()
         for k,v in pairs( player.GetAll() ) do
             v:Msg2( T( "EventAdminManual", ply:Name() ), "admin" )
@@ -295,7 +295,7 @@ concommand.Add("gmt_event_start", function( ply, cmd, args )
         EndEvent()
     end
 
-    MsgC( co_color2, "[EVENTS] "..ply:Nick().." has forced the event system.\n" )
+    MsgC( color_red, "[EVENTS] "..ply:Nick().." has forced the event system.\n" )
 
     for k,v in pairs( player.GetAll() ) do
         //SendMessageToPlayers( "EventAdminManual", ply:Name(), "admin" )
@@ -309,7 +309,7 @@ concommand.Add("gmt_event_rand", function( ply, cmd, args )
 
 	if !ply:IsAdmin() then return end
 
-    MsgC( co_color2, "[EVENTS] "..ply:Nick().." has forced the event system.\n" )
+    MsgC( color_red, "[EVENTS] "..ply:Nick().." has forced the event system.\n" )
 
     if endtime > 0 then
         EndEvent()

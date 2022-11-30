@@ -6,7 +6,7 @@ if SERVER then
     function ENT:Initialize() end
 
     //function ENT:KeyValue( key, value )
-    //    MsgC( co_color2, key .. " : " .. value .. "\n" )
+    //    MsgC( color_red, key .. " : " .. value .. "\n" )
     //end
 
 end

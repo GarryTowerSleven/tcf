@@ -72,7 +72,7 @@ local function CreateNewItem( Name, Item )
 		//print("id collision", Item.MysqlId, Item.UniqueName, GTowerItems.Items[Item.MysqlId].UniqueName)
 		
 		if SERVER then
-			MsgC( co_color2, "\n[Items] ITEM ID COLLISION: " .. Item.MysqlId .. ", \"" .. Item.UniqueName .. "\" and \"" .. GTowerItems.Items[Item.MysqlId].UniqueName .. "\"\n\n")
+			MsgC( color_red, "\n[Items] ITEM ID COLLISION: " .. Item.MysqlId .. ", \"" .. Item.UniqueName .. "\" and \"" .. GTowerItems.Items[Item.MysqlId].UniqueName .. "\"\n\n")
 		end
 		
 		//Not Error... You don't want the whole thing stopping because of one item.

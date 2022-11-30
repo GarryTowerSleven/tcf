@@ -5,12 +5,12 @@ if !tmysql || SQL.getDB() == false then return end
 
 GlobalHatOffsets = {}
 local function createHatTable()
-    MsgC(co_color, "[Hats] Generating Hats Table...\n")
+    MsgC(color_green, "[Hats] Generating Hats Table...\n")
     local hatsOffetsCount = 0
     SQL.getDB():Query("SELECT * FROM gm_hats", function( res )
 
         if res[1].status != true then
-            MsgC(co_color2, "[Hats] MySQL error while obtaining hats: " .. tostring(res[1].error) .. "\n")
+            MsgC(color_red, "[Hats] MySQL error while obtaining hats: " .. tostring(res[1].error) .. "\n")
             return
         end
 
@@ -22,7 +22,7 @@ local function createHatTable()
             hatsOffetsCount = hatsOffetsCount + 1
         end
 
-        MsgC(co_color, "[Hats] Hats Table created with a total of " .. hatsOffetsCount .. " entries!\n")
+        MsgC(color_green, "[Hats] Hats Table created with a total of " .. hatsOffetsCount .. " entries!\n")
 
     end )
 end

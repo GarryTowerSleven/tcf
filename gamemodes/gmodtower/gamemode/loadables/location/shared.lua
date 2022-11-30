@@ -8,7 +8,7 @@ Locations = Locations or {}
 function LoadMapData( data )
 
 	if SERVER then
-		MsgC( co_color, "[Locations] Loaded location data successfully from: maps/" .. game.GetMap() .. ".lua.\n" )
+		MsgC( color_green, "[Locations] Loaded location data successfully from: maps/" .. game.GetMap() .. ".lua.\n" )
 	end
 
 	Locations = data

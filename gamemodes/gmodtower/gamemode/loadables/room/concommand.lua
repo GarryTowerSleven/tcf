@@ -34,15 +34,15 @@ net.Receive("gmt_lockcondo",function(len, ply)
 	local room = net.ReadInt(16)
 	local lock = net.ReadBool()
 	//if lock then
-	//	MsgC( co_color, "[Room] Locking Condo #" .. tostring(room) .. "\n")
+	//	MsgC( color_green, "[Room] Locking Condo #" .. tostring(room) .. "\n")
 	//else
-	//	MsgC( co_color, "[Room] Unlocking Condo #" .. tostring(room) .. "\n")
+	//	MsgC( color_green, "[Room] Unlocking Condo #" .. tostring(room) .. "\n")
 	//end
 	
 	if !ply.GRoom then return end
 
 	if ply.GRoomId != room then return end
-	//MsgC( co_color, "[Room] Setting GRoomLock \n")
+	//MsgC( color_green, "[Room] Setting GRoomLock \n")
 	ply.GRoomLock = lock
 
 end)
@@ -499,7 +499,7 @@ concommand.Add( "gmt_resetroom", function(ply)
 
 		local ItemId = GTowerItems:FindByEntity( v )
 		if !ItemId then
-			MsgC( co_color2, ply:Name().." is resetting their condo, but the following entity failed to remove: "..tostring(v) )
+			MsgC( color_red, ply:Name().." is resetting their condo, but the following entity failed to remove: "..tostring(v) )
 		end
 
 		local Item = GTowerItems:CreateById( ItemId, ply )

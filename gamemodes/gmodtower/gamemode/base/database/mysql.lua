@@ -21,10 +21,10 @@ function connectToDatabase()
 	local db, err = tmysql.Connect( sqlCred['address'], sqlCred['user'], sqlCred['pass'], sqlCred['table'], sqlCred['port'], sqlCred['socket'], 3 )
 
 	if err then
-		LogPrint( "DATABASE FAILED TO CONNECT!", co_color2, "Database" )
-		LogPrint( tostring(err), co_color2 )
+		LogPrint( "DATABASE FAILED TO CONNECT!", color_red, "Database" )
+		LogPrint( tostring(err), color_red )
 	else
-		LogPrint( "Database connected.", co_color, "Database" )
+		LogPrint( "Database connected.", color_green, "Database" )
 		dbObject = db
 	end
 end

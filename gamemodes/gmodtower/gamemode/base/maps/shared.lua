@@ -426,7 +426,7 @@ function UpdateAllToSQL()
 
 
 
-		MsgC( co_color, "[Map Update] Query took: " .. math.Round( SysTime() - Start, 3 ) .. " seconds.\n")
+		MsgC( color_green, "[Map Update] Query took: " .. math.Round( SysTime() - Start, 3 ) .. " seconds.\n")
 
 	end	)
 
@@ -780,7 +780,7 @@ hook.Add( "Initialize", "UpdateMapList", function()
 
 		UpdateAllToSQL()
 
-		MsgC( co_color, "[SQL] Updated map list.\n")
+		MsgC( color_green, "[SQL] Updated map list.\n")
 
 	end
 

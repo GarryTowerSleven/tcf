@@ -39,7 +39,7 @@ local function RequestHats( requests )
 	//compressed = util.Compress(compressed)
 
 	//if #compressed >= 65532 then
-	//	MsgC(co_color2, "[Hats] REQUEST TABLE TOO LARGE, " .. #compressed .. " CHARACTERS\n")
+	//	MsgC(color_red, "[Hats] REQUEST TABLE TOO LARGE, " .. #compressed .. " CHARACTERS\n")
 	//	return 
 	//end
 

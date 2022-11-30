@@ -3,11 +3,8 @@ GM.Author   = "Deluxe Team & PixelTail Games"
 GM.Website  = "https://www.gmtdeluxe.org/"
 GM.WebsiteUrl  = "https://www.gmtdeluxe.org/apps/"
 
-co_color = Color( 50, 255, 50 )
-co_color2 = Color( 255, 50, 50 )
-
-// This breaks things????
---DeriveGamemode("base")
+color_green = Color( 50, 255, 50 )
+color_red = Color( 255, 50, 50 )
 
 GMT = true
 TestingMode = CreateConVar( "gmt_testing", 0, { FCVAR_ARCHIVE, FCVAR_DONTRECORD, FCVAR_REPLICATED }, "GMT testing mode" )

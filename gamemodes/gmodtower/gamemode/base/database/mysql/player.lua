@@ -80,7 +80,7 @@ function ExecuteSelect( self )
 			return
 		end
 		//PrintTable(res)
-		//MsgC( co_color, "ExecuteSelect SQL player.lua")
+		//MsgC( color_green, "ExecuteSelect SQL player.lua")
 
 		local status = res[1].status
 

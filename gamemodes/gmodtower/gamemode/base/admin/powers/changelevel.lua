@@ -33,7 +33,7 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 			timer.Destroy("ChangeLevelWarning")
 			AdminNotif.SendStaff( name .. " has halted the changelevel.", nil, "RED", 1 )
 			GAMEMODE:ColorNotifyAll( "Halting map restart...", Color(255, 50, 50, 255) )
-			MsgC( co_color2, "Halting map restart...\n" )
+			MsgC( color_red, "Halting map restart...\n" )
 			SetGlobalInt( "NewTime", 0 )
 			return
 		end
@@ -51,7 +51,7 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 				if ply:IsValid() then
 					ply:MsgT("FailedMapChange")
 				else
-					MsgC( co_color2, "You cannot change levels while there is poker or duel going. Use gmt_forcelevel to override this." )
+					MsgC( color_red, "You cannot change levels while there is poker or duel going. Use gmt_forcelevel to override this." )
 				end
 				return
 			end
@@ -124,10 +124,10 @@ function ChangeLevel( ply, map, time )
 
 		if game.GetMap() == MapName then
 			GAMEMODE:ColorNotifyAll( T( "AdminRestartMapSec", time ), Color(255, 50, 50, 255) )
-			MsgC( co_color2, T( "AdminRestartMapSec", time ) .. "\n" )
+			MsgC( color_red, T( "AdminRestartMapSec", time ) .. "\n" )
 		else
 			GAMEMODE:ColorNotifyAll( T( "AdminChangeMapSec", map, time ), Color(255, 50, 50, 255) )
-			MsgC( co_color2, T( "AdminChangeMapSec", map, time ) .. "\n" )
+			MsgC( color_red, T( "AdminChangeMapSec", map, time ) .. "\n" )
 		end
 
 		for k,v in pairs(player.GetAll()) do
@@ -148,10 +148,10 @@ function ChangeLevel( ply, map, time )
 			timer.Create("ChangeLevelWarning", time - 10, 1, function()
 				if game.GetMap() == MapName then
 					GAMEMODE:ColorNotifyAll( T( "AdminRestartMapSec", 10), Color(255, 50, 50, 255) )
-					MsgC( co_color2, T( "AdminRestartMapSec", 10 ) .. "\n" )
+					MsgC( color_red, T( "AdminRestartMapSec", 10 ) .. "\n" )
 				else
 					GAMEMODE:ColorNotifyAll( T( "AdminChangeMapSec", map, 10 ), Color(255, 50, 50, 255) )
-					MsgC( co_color2, T( "AdminChangeMapSec", map, 10 ) .. "\n" )
+					MsgC( color_red, T( "AdminChangeMapSec", map, 10 ) .. "\n" )
 				end
 			end)
 		end
@@ -159,10 +159,10 @@ function ChangeLevel( ply, map, time )
 		timer.Create("ChangeLevelTimer", (time), 1, function()
 			if game.GetMap() == MapName then
 			GAMEMODE:ColorNotifyAll( T( "AdminRestartMap" ), Color(255, 50, 50, 255) )
-			MsgC( co_color2, T( "AdminRestartMap" ) .. "\n" )
+			MsgC( color_red, T( "AdminRestartMap" ) .. "\n" )
 			else
 			GAMEMODE:ColorNotifyAll( T( "AdminChangeMap", map ), Color(255, 50, 50, 255) )
-			MsgC( co_color2, T( "AdminChangeMap", map ) .. "\n" )
+			MsgC( color_red, T( "AdminChangeMap", map ) .. "\n" )
 			end
 
 			analytics.postDiscord( "Logs", engine.ActiveGamemode() .. " server shutting down..." )
@@ -185,10 +185,10 @@ function ForceLevel( map, ply )
 
 		if game.GetMap() == MapName then
 			GAMEMODE:ColorNotifyAll( T( "AdminRestartMap" ), Color(255, 50, 50, 255) )
-			MsgC( co_color2, T( "AdminRestartMap" ) .. "\n" )
+			MsgC( color_red, T( "AdminRestartMap" ) .. "\n" )
 		else
 			GAMEMODE:ColorNotifyAll( T( "AdminChangeMap", map ), Color(255, 50, 50, 255) )
-			MsgC( co_color2, T( "AdminChangeMap", map ) .. "\n" )
+			MsgC( color_red, T( "AdminChangeMap", map ) .. "\n" )
 		end
 
 		if IsValid(ply) then
