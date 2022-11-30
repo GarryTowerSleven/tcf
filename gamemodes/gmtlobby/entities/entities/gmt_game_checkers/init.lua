@@ -3,13 +3,13 @@ AddCSLuaFile( "cl_init.lua" )
 
 include( "shared.lua" )
 
-ENT.MaxDist = 256
+ENT.MaxDist = 512
 
 function ENT:ClearGame()
     self.InitGame = false
 
-    self.Ply1 = NULL
-	self.Ply2 = NULL
+    self:SetPly1( NULL, true )
+    self:SetPly2( NULL, true )
 
     self.PlyTurn = 0
 
@@ -51,16 +51,38 @@ function ENT:CheckDistance( ply )
 	return ply:GetPos():WithinDistance( self:GetPos(), self.TblSize * 3.75 )
 end
 
-function ENT:SetPly1( ply )
-	self.Ply1 = ply or NULL
+function ENT:SetPly1( ply, nosend )
+    if ( IsValid( self.Ply1 ) ) then
+        if ( ply != self.Ply1 ) then
+            self.Ply1._Checkers = nil
+        end
+    end
 
-    self:SendToClients()
+    self.Ply1 = ply or NULL
+    if ( IsValid( ply ) ) then
+        ply._Checkers = self
+    end
+    
+    if ( not nosend ) then
+        self:SendToClients()
+    end
 end
 
-function ENT:SetPly2( ply )
-	self.Ply2 = ply or NULL
+function ENT:SetPly2( ply, nosend )
+    if ( IsValid( self.Ply2 ) ) then
+        if ( ply != self.Ply2 ) then
+            self.Ply2._Checkers = nil
+        end
+    end
 
-    self:SendToClients()
+	self.Ply2 = ply or NULL
+    if ( IsValid( ply ) ) then
+        ply._Checkers = self
+    end
+
+    if ( not nosend ) then
+        self:SendToClients()
+    end
 end
 
 function ENT:ActivePlayer()
@@ -210,9 +232,9 @@ function ENT:Use( ply )
 		end
 
 
-		if ( !IsValid( self.Ply1 ) ) then
+		if ( !IsValid( self.Ply1 ) && !ply._Checkers ) then
 			self:SetPly1( ply )
-		elseif ( !IsValid( self.Ply2 ) ) then
+		elseif ( !IsValid( self.Ply2 ) && !ply._Checkers ) then
 			self:SetPly2( ply )
 		end
 
@@ -309,16 +331,39 @@ function ENT:EndGame( winner )
     self:ClearGame()
 end
 
+function ENT:PlyValid( ply )
+    if ( !ply or !IsValid( ply ) or !ply:IsPlayer() ) then
+        return false
+    end
+
+    if ( ply:GetPos():Distance( self:GetPos() ) > self.MaxDist ) then
+        return false
+    end
+
+    return true
+end
+
 function ENT:Think()
-    if ( !self:InGame() ) then return end
-    
-    if ( !IsValid( self.Ply1 ) or self.Ply1:GetPos():Distance( self:GetPos() ) > self.MaxDist ) then
-        self:ClearGame()
+    if ( not self:PlyValid( self.Ply1 ) ) then
+        if ( self:InGame() ) then
+            self:ClearGame()
+        else
+            self:SetPly1( NULL )
+        end
     end
-    
-    if ( !IsValid( self.Ply2 ) or self.Ply2:GetPos():Distance( self:GetPos() ) > self.MaxDist ) then
-        self:ClearGame()
+
+    if ( not self:PlyValid( self.Ply2 ) ) then
+        if ( self:InGame() ) then
+            self:ClearGame()
+        else
+            self:SetPly2( NULL )
+        end
     end
+end
+
+function ENT:OnRemove()
+    self:SetPly1( NULL )
+    self:SetPly2( NULL )
 end
 
 function ENT:SendToClients()
