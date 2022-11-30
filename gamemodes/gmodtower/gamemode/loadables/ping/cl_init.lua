@@ -97,7 +97,7 @@ hook.Add( "HUDPaint", "ClientPingDisplay", function()
 	local timeleft = math.ceil( ReconnectDelay - RealTime() )
 
 	if timeleft > 2 then
-		draw.RainbowText( "Sorry, hold on! We're going to try reconnect you in " .. math.ceil( ReconnectDelay - RealTime() ) + 2, "GTowerHudCSubText", x, y + 75, 255, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 100, 2 )
+		draw.RainbowText( "Sorry, hold on! We're going to try to reconnect you in " .. math.ceil( ReconnectDelay - RealTime() ) + 2, "GTowerHudCSubText", x, y + 75, 255, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 100, 2 )
 	else
 		draw.RainbowText( "Hold on to your butts, we're reconnecting to the server!", "GTowerHudCSubText", x, y + 75, 255, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 100, 2 )
 	end
