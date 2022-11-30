@@ -23,3 +23,18 @@ hook.Add("SQLStartColumns", "SQLGetPlayerChips", function()
 		end
 	} )
 end )
+
+hook.Add("SQLStartColumns", "SQLSelectPendingMoney", function()
+	SQLColumn.Init( {
+		["column"] = "pendingmoney",
+		["update"] = function( ply )
+			return ply._PendingMoney
+		end,
+		["defaultvalue"] = function( ply )
+			ply._PendingMoney = 0
+		end,
+		["onupdate"] = function( ply, val )
+			ply._PendingMoney = val
+		end
+	} )
+end )

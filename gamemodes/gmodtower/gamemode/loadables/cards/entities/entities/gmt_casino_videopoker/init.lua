@@ -4,22 +4,6 @@ AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
 include( "shared.lua" )
 
-hook.Add("SQLStartColumns", "SQLSelectPendingMoney", function()
-	SQLColumn.Init( {
-		["column"] = "pendingmoney",
-		["update"] = function( ply )
-			return ply._PendingMoney
-		end,
-		["defaultvalue"] = function( ply )
-			ply._PendingMoney = 0
-		end,
-		["onupdate"] = function( ply, val )
-			//Timer for next frame because store data has not yet loaded
-			timer.Simple( 0.0, function() ply._PendingMoney = val end)
-		end
-	} )
-end )
-
 local BUTTONSND   = Sound( "gmodtower/casino/videopoker/button.wav" )
 local BUZZSND     = Sound( "gmodtower/casino/videopoker/buzz.wav" )
 local CLICKSND    = Sound( "gmodtower/casino/videopoker/click.wav" )
