@@ -108,6 +108,18 @@ function ENT:CheckBlock( n1, n2 )
     local x, y = self:NumToXY( n1 )
     local x2, y2 = self:NumToXY( n2 )
 
+    if ( not king ) then
+        if ( white ) then
+            if ( x2 < x ) then
+                return false, nil
+            end
+        else
+            if ( x2 > x ) then
+                return false, nil
+            end
+        end
+    end
+
     if (((x + 1) == x2) or ((x - 1) == x2)) && (((y + 1) == y2) or ((y - 1) == y2)) then // one
         if ( not block2.Occupied ) then
             if ( king ) then
