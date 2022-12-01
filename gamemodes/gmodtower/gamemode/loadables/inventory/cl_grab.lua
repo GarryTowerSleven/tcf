@@ -153,6 +153,10 @@ hook.Add( "PreDrawHalos", "InventoryHalo", function()
 
 	if IsValid( ent ) && ItemId then
 
+		if ( halo.Budget && SPAWNEFFECT_ACTIVE ) then
+			return
+		end
+
 		local color = Color( 50, 50, 150 )
 		local dist = ent:GetPos():Distance( origin )
 

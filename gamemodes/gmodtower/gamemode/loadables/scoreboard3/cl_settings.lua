@@ -45,7 +45,7 @@ SETTINGS.TabNames = {
 	--"VIP", -- Automatically adds when needed.
 }
 SETTINGS.LobbyOnlyTabs = {
-	"Graphics",
+	//"Graphics",
 	"HUD",
 	"Notifications",
 	"Advanced",
@@ -604,12 +604,13 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 	if tabname == "Graphics" then
 		self:Header( "Graphics/Performance" )
+		
 		if IsLobby then
-
 			self:CheckBox( "Enable Dynamic Trees", "gmt_dynamic_trees" )
 
 			self:Divider()
 
+			self:CheckBox( "Enable Budget Halos (Outlines)", "gmt_halo_budget" )
 			self:CheckBox( "Enable VIP Player Glow (expensive)", "gmt_vipglow" )
 			self:CheckBox( "Enable Group Player Glow (expensive)", "gmt_groupglow" )
 			self:CheckBox( "Enable Player Particle Effects", "gmt_enableparticles" )
@@ -633,7 +634,6 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:CheckBox( "Enable GMT Multicore (Recommended if you use \"gmod_mcore_test 1\")", "gmt_usemcore" )
 			self:CheckBox( "Enable Custom Minecraft Skins", "gmt_minecraftskins" )
 			self:CheckBox( "Enable Blood Effects", "gmt_allowblood" )
-
 		end
 	end
 
