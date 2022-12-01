@@ -610,7 +610,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 			self:Divider()
 
-			self:CheckBox( "Enable Budget Halos (Outlines)", "gmt_halo_budget" )
+			self:CheckBox( "Enable Budget Glow (Outline)", "gmt_halo_budget" )
 			self:CheckBox( "Enable VIP Player Glow (expensive)", "gmt_vipglow" )
 			self:CheckBox( "Enable Group Player Glow (expensive)", "gmt_groupglow" )
 			self:CheckBox( "Enable Player Particle Effects", "gmt_enableparticles" )
