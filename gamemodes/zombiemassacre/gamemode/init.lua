@@ -91,6 +91,8 @@ end)
 
 hook.Add( "PlayerInitialSpawn", "ResetOnEmptyServer", function( ply )
 
+	ply:SetCustomCollisionCheck( true )
+
 	if #player.GetAll() == 0 then
 		GAMEMODE:SetState( STATE_NOPLAY )
 	elseif !ply:IsBot() && #player.GetAll() >= 1 then
