@@ -1,7 +1,1 @@
-
-/gmodtower/gamemode/base/database/mysql.lua
-/base
-/sandbox
-/terrortown
-/pvpdeluxe
-/virus_new
+.env
