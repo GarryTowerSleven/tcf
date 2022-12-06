@@ -215,6 +215,8 @@ function ENT:Use( ply )
     if ( !IsValid(ply) or !ply:IsPlayer() ) then return end
 	if ( !self:CheckDistance( ply ) ) then return end
 
+	local eyepos = self:GetEyeBlock( ply )
+
 	local PlyIndex = ply:EntIndex()
 	if CurTime() < (self.LastPress[ PlyIndex ] or 0) then
 		return
@@ -223,6 +225,12 @@ function ENT:Use( ply )
 	self.LastPress[ PlyIndex ] = CurTime() + 0.5
 
     if ( not self:InGame() ) then
+		if ( ( eyepos == 3 || eyepos == 4 ) && ( self:Get2DPos( ply ) >= 0.44 && self:Get2DPos( ply ) <= 0.56 ) ) then
+			net.Start( "checkersH" )
+			net.Send( ply )
+			return
+		end
+
         if ( self.Ply1 == ply ) then
 			self:SetPly1( nil )
 			return
@@ -390,3 +398,4 @@ function ENT:SendToClients()
 end
 
 util.AddNetworkString( "boarddata" )
+util.AddNetworkString( "checkersH" )

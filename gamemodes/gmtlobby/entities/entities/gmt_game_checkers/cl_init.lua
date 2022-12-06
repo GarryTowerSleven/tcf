@@ -313,7 +313,7 @@ net.Receive( "boarddata", function( len, ply )
 	end
 end )
 
-usermessage.Hook( "checkersH", function( um )
+net.Receive( "checkersH", function( len )
 	if ValidPanel( CheckersHelp ) then
 		CheckersHelp:Remove()
 	end
@@ -336,7 +336,7 @@ usermessage.Hook( "checkersH", function( um )
 	CheckersHelp:SetSize( text:GetWide() + 10, text:GetTall() + 5 + 27 )
 	CheckersHelp:Center()
 	
-	GTowerMainGui:ShowMenus()
+	GtowerMainGui:GtowerShowMenus()
 end )
 
 hook.Add("CanCloseMenu", "CheckersHelp", function()
