@@ -94,6 +94,7 @@ function GM:PlayerSpawn( ply )
     timer.Create("CheckEmpty",10,0,function()
       if player.GetCount() == 0 then
         self:EndServer()
+        return
       end
     end)
   end)
