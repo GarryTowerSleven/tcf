@@ -38,7 +38,7 @@ hook.Add( "PlayerDisconnected", "NoPlayerCheck", function(ply)
 	if ply:IsBot() then return end
 
 	timer.Simple( 5, function()
-		if player.GetCount() == 0 then GAMEMODE:EndServer() end
+		if player.GetCount() == 0 then GAMEMODE:EndServer() return end
 	end )
 
 end )

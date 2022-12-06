@@ -460,6 +460,7 @@ hook.Add( "PlayerDisconnected", "PlayerPopulationCheck", function( ply )
 	timer.Simple(0.2, function()
 		if ( GAMEMODE:GetRoundCount() > 0 && #player.GetAll() == 0 ) then
 			GAMEMODE:EndServer()
+			return
 		end
 	end)
 end)

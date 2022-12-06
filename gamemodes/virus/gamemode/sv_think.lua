@@ -26,7 +26,7 @@ function GM:Think()
 		if #player.GetAll() < STATE_INFECTING then return end
 		self:RoundReset()
 	elseif self:GetState() == STATE_INFECTING && self:GetTimeLeft() <= 0 then
-		if #player.GetAll() < STATE_INFECTING then self:EndServer() end
+		if #player.GetAll() < STATE_INFECTING then self:EndServer() return end
 		self:StartRound()
 	elseif self:GetState() == STATE_PLAYING && self:GetTimeLeft() <= 0 then
 		self:EndRound( false )
@@ -35,6 +35,7 @@ function GM:Think()
 			self:RoundReset()
 		else
 			self:EndServer()
+			return
 		end
 	end
 
