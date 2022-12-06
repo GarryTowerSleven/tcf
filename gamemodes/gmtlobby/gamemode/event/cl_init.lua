@@ -21,7 +21,7 @@ local function displayTimer()
 end
 
 DisplayNames = {
-	["storesale"] = "Sale",
+	["storesale"] = "Store Sale",
 	["balloonpop"] = "Balloon Pop",
 	["obamasmash"] = "Obama Smash",
 	["chainsaw"] = "Chainsaw Massacre",
