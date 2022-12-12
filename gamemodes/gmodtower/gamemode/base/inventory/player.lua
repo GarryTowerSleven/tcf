@@ -149,6 +149,7 @@ function meta:InvGiveItem( ItemId, slot )
 		ItemSlot:FindUnusedSlot( Item, true )
 
 		if !ItemSlot:IsValid() then //IT's FULL!
+			GTowerItems:NewItemSlot( ply, "-2" ) //In the bank!
 			return
 		end
 	end
