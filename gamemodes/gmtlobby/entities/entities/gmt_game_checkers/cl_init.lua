@@ -324,7 +324,7 @@ net.Receive( "checkersH", function( len )
 	CheckersHelp.Close = function()
 		CheckersHelp:Remove()
 		CheckersHelp = nil
-		GTowerMainGui:HideMenus()
+		GtowerMainGui:HideMenus()
 	end
 	
 	
