@@ -14,6 +14,7 @@ local GammaText = {
 }
 
 function DrawWatermark()
+    if ( not IsLobby or IsLobbyOne ) then return end
     if ( ConVar:GetBool() ) then return end
 
     local alpha = 120
