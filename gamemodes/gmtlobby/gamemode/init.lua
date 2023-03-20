@@ -19,10 +19,6 @@ AddCSLuaFile("cl_tetris.lua")
 
 AddCSLuaFile("minigames/shared.lua")
 
-AddCSLuaFile( "soundscape/cl_soundscape.lua" )
-AddCSLuaFile( "soundscape/cl_soundscape_music.lua" )
-AddCSLuaFile( "soundscape/cl_soundscape_songlengths.lua" )
-
 include("milestones/uch_animations.lua")
 include("shared.lua")
 include("sv_tetris.lua")

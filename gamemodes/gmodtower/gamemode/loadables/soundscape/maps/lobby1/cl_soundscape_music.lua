@@ -124,6 +124,8 @@ end
 
 -- for da stores
 hook.Add( "GTowerOpenStore", "PlayStoreMusic", function()
+	print( "open" )
+
 	if not Enabled:GetBool() then return end
 
 	soundscape.StopChannel("music")
@@ -131,6 +133,8 @@ hook.Add( "GTowerOpenStore", "PlayStoreMusic", function()
 end )
 
 hook.Add( "GTowerCloseStore", "StopStoreMusic", function()
+	print( "close" )
+
 	if ( soundscape.IsPlaying("music_store") ) then
 		soundscape.StopChannel("music")
 	end
