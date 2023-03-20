@@ -12556,6 +12556,7 @@ CREATE TABLE `gm_users` (
   `plysize` varchar(45) NOT NULL,
   `achivement` text NOT NULL,
   `Roomdata` text NOT NULL,
+  `condodata` text NOT NULL,
   `money` int(10) NOT NULL,
   `LastOnline` varchar(45) NOT NULL,
   `hat` char(45) NOT NULL,
