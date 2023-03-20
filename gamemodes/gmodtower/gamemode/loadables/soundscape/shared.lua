@@ -28,3 +28,30 @@ do
 
 	end
 end
+
+// Loading
+local function Load()
+	local map = (IsLobbyOne) and "lobby1" or (IsDeluxe and "deluxe" or "lobby2")
+	local basedir = "gmodtower/gamemode/loadables/soundscape/maps/"
+
+	local files = {
+		"cl_soundscape_music.lua",
+		"cl_soundscape_songlengths.lua",
+		"cl_soundscape.lua",
+	};
+
+	for _, v in ipairs( files ) do
+		local path = basedir .. map .. "/" .. v
+
+		if ( file.Exists( path, "LUA" ) ) then
+			if SERVER then
+				AddCSLuaFile( path )
+			else
+				LogPrint( "Loading soundscapes file: " .. v, color_green, "Soundscapes" )
+				include( path )
+			end
+		end
+	end
+end
+
+Load()
