@@ -244,7 +244,7 @@ function ENT:StartIdleScreen(mp)
 end
 
 function ENT:Think()
-	if self:GetClass() == "gmt_theater" then
+	if self:GetClass() == "gmt_theater" or self:GetClass() == "gmt_theater_screen" then
 		local mp = self:GetMediaPlayer()
 		if !mp:IsPlaying() then
 			self:StartIdleScreen(mp)

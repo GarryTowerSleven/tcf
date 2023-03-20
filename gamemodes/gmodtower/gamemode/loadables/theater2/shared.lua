@@ -1,4 +1,6 @@
-/*GTowerTheater = GTowerTheater or {}
+if ( IsLobbyOne ) then return end
+
+GTowerTheater = GTowerTheater or {}
 GTowerTheater.theaters = GTowerTheater.theaters or {}
 GTowerTheater.data = GTowerTheater.data or {}
 GTowerTheater.data = GTowerTheater.data or {}
@@ -64,4 +66,4 @@ hook.Add( "Think", "TheaterUpdater", function()
         end
     end
 
-end )*/
+end )
