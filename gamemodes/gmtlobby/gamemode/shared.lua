@@ -135,7 +135,9 @@ Loadables.Load( {
 // Lobby 2 loadables
 if ( not IsLobbyOne ) then
 	Loadables.Load( {
-		"elevator",		-- Elevator system for condos
+		"lobby2",		-- Lobby 2 specific entities
+		"nightclub",	-- Nightclub
+		"elevator",		-- Elevators
 		"condopanel",	-- CondOS
 	} )
 end
