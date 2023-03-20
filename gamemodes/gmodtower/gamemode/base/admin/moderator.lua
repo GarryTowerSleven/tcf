@@ -3,7 +3,6 @@ GTowerModerators = {
     "STEAM_0:1:57386100", -- Squibbus
 
     "STEAM_0:1:85508734", -- Breezy
-    "STEAM_0:1:124798129", -- Amgona
 }
 
 function IsModerator( steam )

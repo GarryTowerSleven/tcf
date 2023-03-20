@@ -6,6 +6,7 @@ GTowerAdmins = {
 	"STEAM_0:0:38865393", -- boXy
 	"STEAM_0:1:39916544", -- Anoma
 	"STEAM_0:0:35652170", -- Lead
+	"STEAM_0:1:124798129", -- Amgona
 }
 
 GTowerAdminPrivileged = {
