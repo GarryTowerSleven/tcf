@@ -39,7 +39,7 @@ function IncludeMap()
 end
 IncludeMap()
 
-function GetByName( name )
+/*function GetByName( name )
 
 	for id, loc in pairs( Locations ) do
 
@@ -50,7 +50,7 @@ function GetByName( name )
 
 	end
 
-end
+end*/
 
 function GetByName( name )
 
@@ -64,6 +64,8 @@ function GetByName( name )
 	end
 
 end
+
+GetIDByName = GetByName
 
 function GetByCondoID( condoid )
 
