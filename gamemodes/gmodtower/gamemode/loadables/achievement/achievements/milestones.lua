@@ -7,12 +7,39 @@ GTowerAchievements:Add( ACHIEVEMENTS.VIRUSMILESTONE1, {
 	}
 )
 
+GTowerAchievements:Add( ACHIEVEMENTS.VIRUSMILESTONE2, {
+	Name = "Virus Milestone #2", 
+	Description = "Use the adrenaline 80 times and get your own unlimited use Adrenaline!",
+	Value = 80,
+	Group = 2,
+	GiveItem = "VirusAdrenaline"
+	}
+)
+
+GTowerAchievements:Add( ACHIEVEMENTS.VIRUSMILESTONE3, {
+	Name = "Virus Milestone #3", 
+	Description = "Survive as the last survivor 25 times and get the Virus Radar!",
+	Value = 25,
+	Group = 2,
+	GiveItem = "VirusRadar"
+	}
+)
+
 GTowerAchievements:Add( ACHIEVEMENTS.BRMILESTONE1, {
 	Name = "Ball Race Milestone #1", 
 	Description = "Play 300 levels and get the usable orb!", 
 	Value = 300,
 	Group = 2,
 	GiveItem = "BallRaceBall"
+	}
+)
+
+GTowerAchievements:Add( ACHIEVEMENTS.BRMILESTONE2, {
+	Name = "Ball Race Milestone #2", 
+	Description = "Bump yourself 500 times and get the bumper in lobby!", 
+	Value = 500,
+	Group = 2,
+	GiveItem = "Bumper"
 	}
 )
 
@@ -31,15 +58,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPMILESTONE2, {
 	Value = 100,
 	Group = 2,
 	GiveItem = "TakeOnBall"
-	}
-)
-
-GTowerAchievements:Add( ACHIEVEMENTS.BRMILESTONE2, {
-	Name = "Ball Race Milestone #2", 
-	Description = "Bump yourself 500 times and get the bumper in lobby!", 
-	Value = 500,
-	Group = 2,
-	GiveItem = "Bumper"
 	}
 )
 
@@ -70,24 +88,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHMILESTONE3, {
 	}
 )
 
-GTowerAchievements:Add( ACHIEVEMENTS.GRMILESTONE1, {
-	Name = "Gourmet Race Milestone #1",
-	Description = "Use 100 items to get the mystery sack!",
-	Value = 100,
-	Group = 2,
-	GiveItem = "MysterySack"
-	}
-)
-
-GTowerAchievements:Add( ACHIEVEMENTS.GRMILESTONE2, {
-	Name = "Gourmet Race Milestone #2",
-	Description = "Play 60 rounds of Gourmet Race and get the hammer in the lobby!",
-	Value = 60,
-	Group = 2,
-	GiveItem = "KirbyHammer"
-	}
-)
-
 /*GTowerAchievements:Add( ACHIEVEMENTS.SKMILESTONE1, {
 	Name = "Source Karts Milestone #1",
 	Description = "Play 50 rounds of Source Karts and get a driveable RC kart!",
@@ -96,24 +96,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.GRMILESTONE2, {
 	GiveItem = "SKKart"
 	}
 )*/
-
-GTowerAchievements:Add( ACHIEVEMENTS.VIRUSMILESTONE2, {
-	Name = "Virus Milestone #2", 
-	Description = "Use the adrenaline 80 times and get your own unlimited use Adrenaline!",
-	Value = 80,
-	Group = 2,
-	GiveItem = "VirusAdrenaline"
-	}
-)
-
-GTowerAchievements:Add( ACHIEVEMENTS.VIRUSMILESTONE3, {
-	Name = "Virus Milestone #3", 
-	Description = "Survive as the last survivor 25 times and get the Virus Radar!",
-	Value = 25,
-	Group = 2,
-	GiveItem = "VirusRadar"
-	}
-)
 
 GTowerAchievements:Add( ACHIEVEMENTS.MINIMILESTONE1, {
 	Name = "Minigolf Milestone #1", 

@@ -45,6 +45,9 @@ local function RankToString( rank )
 	
 end
 
+local scope = Material("gmod/scope")
+local infecttime
+
 function GM:HUDPaint()
 
 	if ShowHud:GetBool() == false then
@@ -71,6 +74,15 @@ function GM:HUDPaint()
 		hudScore = HudVirScore
 		hudTime = HudVirTime
 		hudRound = HudVirRound
+
+		if !infecttime or infecttime > CurTime() then
+			infecttime = infecttime or CurTime() + 1
+			surface.SetMaterial(scope)
+			surface.SetDrawColor(0, 255 - math.abs(math.sin(CurTime() * 2)) * 40, 0, 20 * (infecttime - CurTime()) / 1)
+			surface.DrawTexturedRect(-ScrW() / 1.4, -ScrH() / 8, ScrW() * 2.5, ScrH() * 1.25)
+		end
+	else
+		infecttime = nil
 	end
 
 	// Draw Timer

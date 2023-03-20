@@ -40,7 +40,7 @@ function New( pos1, pos2, refent )
 		StartEnts = {}
 	}, { __index = modenv } )
 
-	o.Id = table.insert( _G.GtowerRooms.Rooms, o )
+	o.Id = table.insert( _G.GTowerRooms.Rooms, o )
 	o.LocationId = o.Id
 
 	refent:SetId( o.Id )

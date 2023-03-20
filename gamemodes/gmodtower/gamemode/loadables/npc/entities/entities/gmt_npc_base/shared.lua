@@ -7,8 +7,8 @@ ENT.AdminSpawnable	= false
 ENT.AnimMale		= Model( "models/Humans/GMTsui1/Male_03.mdl" )
 ENT.AnimFemale		= Model( "models/Humans/GMTsui1/Female_01.mdl" )
 
-ENT.FemaleSheet = "models/Humans/female/GMTsui1/citizen_sheet_d"
-ENT.MaleSheet = "models/Humans/male/GMTsui1/citizen_sheet_d"
+ENT.FemaleSheet = "models/Humans/female/GMTsui1/citizen_sheet"
+ENT.MaleSheet = "models/Humans/male/GMTsui1/citizen_sheet"
 
 ENT.AutomaticFrameAdvance = false
 
@@ -42,9 +42,7 @@ function ENT:SetupDataTables()
 end
 
 function ENT:HasNewItems()
-
-	return self:GetNew()
-
+	return false //self:GetNew()
 end
 
 function ENT:GetStoreId()
@@ -112,6 +110,10 @@ function ENT:PlaySequence(id, name, wait, speed)
 
 end
 
+function ENT:IsOnSale()
+	return self:GetNWBool("Sale")
+end
+
 function GTowerNPCSharedInit(ent)
 	RegisterNWTable(ent, {
 		{"Sale", false, NWTYPE_BOOL, REPL_EVERYONE, CreateSaleSign},
@@ -120,7 +122,7 @@ end
 
 function CreateSaleSign(npc, name, old, new)
 
-	if new && !old then
+	/*if new && !old then
 		local edata = EffectData()
 		edata:SetOrigin(npc:EyePos() + Vector(0,0,24))
 		edata:SetEntity(npc)
@@ -128,7 +130,7 @@ function CreateSaleSign(npc, name, old, new)
 		util.Effect("saleeffect", edata)
 
 		return
-	end
+	end*/
 
 end
 

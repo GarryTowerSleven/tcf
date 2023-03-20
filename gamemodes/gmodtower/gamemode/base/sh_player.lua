@@ -8,14 +8,15 @@ local Roles =
 {
 	// Developers
 	["STEAM_0:0:1384695"] = "Developer",	// Kity
-	["STEAM_0:1:124798129"] = "Developer",	// AmGona
+	["STEAM_0:0:38865393"] = "Developer",	// boXy
+	["STEAM_0:1:39916544"] = "Developer",	// Anoma
+	["STEAM_0:0:35652170"] = "Developer",	// Lead
 
 	// Moderators
-	["STEAM_0:1:57386100"] = "Moderator",	// Squibbus
-	["STEAM_0:1:85508734"] = "Moderator",	// Breezy
-	["STEAM_0:0:156132358"] = "Moderator",	// Basical
-	["STEAM_0:1:72402171"] = "Moderator",	// Umbre
-	["STEAM_0:0:63281019"] = "Moderator",	// Muffin
+	["STEAM_0:1:72402171"] = "Moderator", // Umbre
+	["STEAM_0:1:57386100"] = "Moderator", // Squibbus
+	["STEAM_0:1:85508734"] = "Moderator", // Breezy
+	["STEAM_0:1:124798129"] = "Moderator", // Amgona
 
 	// Pixeltail Games
 	["STEAM_0:1:6044247"] = "PixelTail",	// MacDGuy
@@ -92,13 +93,17 @@ function meta:GetTitle()
 
 	end
 
+	if self:IsVIP() and not self:IsHidden() and not ( self:IsAdmin() || self:IsModerator() ) then
+		title = "VIP"
+	end
+	
 	return title
 end
 
 local color_lead = Color(248, 18, 128, 255)
 local color_admin = Color(255, 100, 100, 255)
-local color_mod = Color(255, 128, 0, 255)
-local color_developer = Color(125, 177, 30, 255)
+local color_mod = Color(255, 150, 75, 255)
+local color_developer = Color(255, 100, 100, 255) // cool green 125, 177, 30
 local color_vip = Color(185, 100, 255, 255)
 local color_pink = Color(255, 166, 241, 255)
 local color_tester = Color(122, 178, 342, 255 )
@@ -119,7 +124,7 @@ function meta:GetDisplayTextColor()
 	end*/
 
 	if self:IsDeveloper() then
-		return returnFull(color_lead) //color_developer
+		return returnFull(color_developer) //color_developer
 	end
 
 	if self:IsModerator() then
@@ -134,9 +139,9 @@ function meta:GetDisplayTextColor()
 		return returnFull(color_tester)
 	end
 
-	/*if self.IsVIP && self:IsVIP() then
+	if self.IsVIP && self:IsVIP() then
 		return returnFull(color_vip)
-	end*/
+	end
 
 	return returnFull(default_color)
 end
@@ -161,7 +166,7 @@ function meta:NickID()
 end
 
 local function SendJoinLeaveMessage( ply, type, color )
-	local admins, nonAdmins = player.GetAdmins()
+	local admins, nonAdmins = player.GetStaff()
 
 	local msgNormal = T( type, ply:Nick() )
 	local msgAdmin = msgNormal .. " [".. ply:SteamID() .. "]"

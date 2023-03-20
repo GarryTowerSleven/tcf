@@ -284,7 +284,7 @@ function CreateMiniGamesControls()
 		"fun",
 		"obamasmash",
 		"plane",
-		"tronarnia",
+		"pvpnarnia",
 		"rabbitfight",
 		"snowbattle"
 

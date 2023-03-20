@@ -3,9 +3,11 @@ local CurTime = CurTime
 
 local IsValid = IsValid
 
+local Location = Location
+
 module("minigames.dumbracing")
 
-LocationBattle = 3
+LocationBattle = Location.GetIDByName( "Entertainment Plaza" )
 WeaponName = "weapon_chainsaw"
 SpawnPos = Vector(929.531250, 170.593750, 406.718750)
 SpawnThrow = Angle(10,90,0)

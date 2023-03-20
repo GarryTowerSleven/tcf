@@ -78,7 +78,7 @@ end
 
 
 function ENT:GetPlayer()
-	return GtowerRooms:Get( self:GetCondoID() ).Owner
+	return GTowerRooms:Get( self:GetCondoID() ).Owner
 end
 
 function ENT:Think()

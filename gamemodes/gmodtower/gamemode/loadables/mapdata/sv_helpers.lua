@@ -160,3 +160,39 @@ function RePosition( class, pos, ang, respawn )
 		ent_old:Remove()
 	end
 end
+
+function CreateBoard( pos, ang, skin )
+	local board = ents.Create( "gmt_board" )
+
+	if ( !IsValid( board ) ) then return end
+	board:SetPos( pos )
+	board:SetAngles( ang )
+	board:SetSkin( skin or 1 )
+	board:Spawn()
+end
+
+function AddMultiServer( pos, ang, id, oldSky, newSky )
+
+	local ms = ents.Create( "gmt_multiserver" )
+	ms:SetPos( pos )
+	ms:SetAngles( ang )
+	ms:Spawn()
+	ms:Activate()
+	ms:SetId( id )
+
+	local phys = ms:GetPhysicsObject()
+	if ( phys:IsValid() ) then
+		phys:EnableMotion( false )
+	end
+
+	if ( oldSky == nil ) then return ms end
+
+	for _, v in pairs( ents.FindByClass( "gmt_skymsg" ) ) do
+		if ( v:GetSkin() == oldSky ) then
+			v:SetSkin( newSky )
+		end
+	end
+
+	return ms
+
+end

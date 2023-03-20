@@ -23,6 +23,8 @@ function GTowerStore:OpenStore( id, title, message, discount )
 			GTowerStore.OpenNormalStore( id, StoreTitle )
 		end
 
+		hook.Call( "GTowerOpenStore", GAMEMODE )
+
 	end
 
 end
@@ -85,7 +87,7 @@ function GTowerStore.CloseStorePanel()
 	hook.Call("GTowerCloseStore", GAMEMODE )
 
 	if IsValid( GTowerStore.StoreGUI ) then
-		GtowerMainGui:GtowerHideMenus()
+		GTowerMainGui.HideMenus()
 		GTowerStore.StoreGUI:Remove()
 	end
 

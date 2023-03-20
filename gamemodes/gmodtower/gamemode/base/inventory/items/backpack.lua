@@ -1,5 +1,5 @@
 ITEM.Name = "Backpack"
-ITEM.Description = "Get access to your vault anywhere."
+ITEM.Description = "Get access to your trunk anywhere."
 ITEM.Model = "models/gmod_tower/backpack.mdl"
 ITEM.DrawModel = true
 ITEM.Equippable = true

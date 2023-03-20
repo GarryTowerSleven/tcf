@@ -29,18 +29,18 @@ function ENT:Initialize()
 end
 
 function ENT:LoadRoom()
-	self.RoomId = GtowerRooms.ClosestRoom( self:GetPos() )
+	self.RoomId = GTowerRooms.ClosestRoom( self:GetPos() )
 end
 
 function ENT:GetRoomOwner()
-    return GtowerRooms.GetOwner( self.RoomId )
+    return GTowerRooms.GetOwner( self.RoomId )
 end
 
 function ENT:Use( ply )
 	if !self.RoomId then return end
 	if !IsValid(ply) || (ply != self:GetRoomOwner() && !ply:IsAdmin()) then return end
 	
-	local room = GtowerRooms:Get( self.RoomId )
+	local room = GTowerRooms:Get( self.RoomId )
 	if room then
 		room:CallOnEnts( "RemoteClick", ply )
 	end

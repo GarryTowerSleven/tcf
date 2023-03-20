@@ -666,8 +666,8 @@ function PLAYER:OnMousePressed( mc )
 	//if !LocalPlayer():IsDeveloper() && !LocalPlayer():IsAdmin() then return end
 	//if mc == MOUSE_LEFT then return end
 
-	if GtowerMenu:IsOpen() then
-		GtowerMenu:CloseAll()
+	if GTowerMenu:IsOpen() then
+		GTowerMenu:CloseAll()
 		return
 	end
 

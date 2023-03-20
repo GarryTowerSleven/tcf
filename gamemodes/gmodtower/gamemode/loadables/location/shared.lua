@@ -52,7 +52,7 @@ function GetByName( name )
 
 end
 
-function GetIDByName( name )
+function GetByName( name )
 
 	for id, loc in pairs( Locations ) do
 
@@ -246,7 +246,7 @@ end
 function GetEntitiesInLocation( location, checkGroup )
 	if isstring( location ) then
 
-		location = GetIDByName( location )
+		location = GetByName( location )
 
 	end
 	local group = Locations[location] and Locations[location].Group
@@ -294,7 +294,7 @@ function GetPlayersInLocation( location, checkGroup )
 
 	if isstring( location ) then
 
-		location = GetIDByName( location )
+		location = GetByName( location )
 
 	end
 	local group = Locations[location] and Locations[location].Group

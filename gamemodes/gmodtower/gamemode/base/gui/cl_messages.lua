@@ -1,10 +1,3 @@
-local StyleCvar = CreateClientConVar( "gmt_message_style", 1, true, false, nil, 1, 3 )
-local IconCvar = CreateClientConVar( "gmt_message_icons", 1, true, false, nil, 0, 1 )
-
-local STYLE_DX = 1
-local STYLE_L2 = 2
-local STYLE_L1 = 3
-
 GTowerMessages = {
 	MsgObjs = {},
 	Type = 1,
@@ -133,10 +126,7 @@ function GTowerMessages:Invalidate()
 
 	local CurY = ( self.Type == 1 && GetMessageYPosition ) && ( GetMessageYPosition() - 50 ) or 50
 
-	local off = 3
-	if StyleCvar:GetInt() == STYLE_L1 then
-		off = -5
-	end
+	off = -5
 
 	for _, v in pairs ( TempTable ) do
 
@@ -206,12 +196,7 @@ function PANEL:SetTargetY( GoY )
 end
 
 function PANEL:SetIcon( iconname )
-	if !IconCvar:GetBool() then return end
-	self.Icon = GTowerIcons2.GetIcon(iconname)
-	if self.Icon then
-		self.IconName = iconname
-		self.TextXPos = 32 + 4
-	end
+	return
 end
 
 function PANEL:SetupQuestion( YesFunction, NoFunction, TimeoutFunction, extra, YesColor, NoColor ) //YesText, NoText
@@ -219,13 +204,8 @@ function PANEL:SetupQuestion( YesFunction, NoFunction, TimeoutFunction, extra, Y
 	local YesPanel = vgui.Create( "GTowerMessageQuestion", self )
 	local NoPanel = vgui.Create( "GTowerMessageQuestion", self )
 	
-	if StyleCvar:GetInt() != STYLE_L1 then
-		YesPanel:SetFunc( YesFunction, NoPanel, GTowerIcons2.GetIcon("accept"), true, Color( 0, 255, 0 ) )
-		NoPanel:SetFunc( NoFunction, YesPanel, GTowerIcons2.GetIcon("cancel"), false, Color( 255, 0, 0 ) )
-	else
-		YesPanel:SetFunc( YesFunction, NoPanel, Material("icons/accept.vtf"), true, Color( 0, 255, 0 ) )
-		NoPanel:SetFunc( NoFunction, YesPanel, Material("icons/decline.vtf"), false, Color( 255, 0, 0 ) )
-	end
+	YesPanel:SetFunc( YesFunction, NoPanel, Material("icons/accept.vtf"), true, Color( 0, 255, 0 ) )
+	NoPanel:SetFunc( NoFunction, YesPanel, Material("icons/decline.vtf"), false, Color( 255, 0, 0 ) )
 	
 	if YesColor != nil then
 		YesPanel:SetColor( YesColor[1], YesColor[2], YesColor[3] )
@@ -326,15 +306,7 @@ function PANEL:Answered( accepted )
 end
 
 function PANEL:GetIconColors( icon )
-
-	if StyleCvar:GetInt() == STYLE_L1 then return end
-
-	if icon == "trophy" then return Color( 255, 200, 14 ), true end
-	if icon == "heart" then return Color( 255, 150, 150 ) end
-	if icon == "admin" then return Color( 255, 50, 50 ) end
-	if icon == "money" then return Color( 0, 50, 0 ), false, Color( 255, 255, 255 ) end
-	if icon == "moneylost" then return Color( 50, 0, 0 ), false, Color( 255, 255, 255 ) end
-
+	return
 end
 
 local gradientUp = surface.GetTextureID( "VGUI/gradient_up" )
@@ -344,50 +316,25 @@ function PANEL:Paint( w, h )
 
 	if !self.ReadyToDraw then return end
 
-	local style = StyleCvar:GetInt()
-
 	local shadowH = self.ShadowHeight
 
 	local Wide, Tall = self:GetWide(), self:GetTall()
 	local color
 
 	-- BG
-	color = Color( 0, 0, 0 )
-	if style == STYLE_L1 then
-		color = Color( 7, 51, 76 )
-	end
+	color = Color( 7, 51, 76 )
 	surface.SetDrawColor( color.r, color.g, color.b, self.Alpha )
 	surface.DrawRect( 0,0, w, h - shadowH )
 
-	// Deluxe
-	if style == STYLE_DX && IsLobby then
-		surface.SetDrawColor( 255, 255, 255, self.Alpha*.18 )
-		surface.SetMaterial( dGradient )
-		surface.DrawTexturedRect( 0,0, w, h - shadowH )
-	end
-
-
 	-- Color BG
-	local bgcolor, bgflash, textcolor = self:GetIconColors( self.IconName )
+	/*local bgcolor, bgflash, textcolor = self:GetIconColors( self.IconName )
 	if bgcolor then
 		local alpha = self.Alpha
 		if bgflash then alpha = alpha * SinBetween(.5,1,RealTime() * 5) end
 
 		surface.SetDrawColor( bgcolor.r, bgcolor.g, bgcolor.b, alpha )
 		surface.DrawRect( 0,0, w, h - shadowH )
-	end
-
-
-	-- Gradient
-	if style != STYLE_L1 then
-		surface.SetDrawColor( 0, 0, 0, 50 )
-		surface.SetTexture( gradientUp )
-		surface.DrawTexturedRect( 0, 0, w, h - shadowH )
-
-		surface.SetDrawColor( 0, 0, 0, 255 )
-		surface.SetTexture( gradientDown )
-		surface.DrawTexturedRect( 0, h - shadowH, w, shadowH )
-	end
+	end*/
 
 	color = Color( 255, 255, 255 )
 
@@ -404,13 +351,6 @@ function PANEL:Paint( w, h )
 	-- Text
 	surface.SetFont( "GTowerMessage" )
 	surface.SetTextColor( color.r, color.g, color.b, math.Clamp( self.Alpha * 2.5 , 128, 255 ) )
-
-	-- Draw icon
-	if self.Icon && IconCvar:GetBool() then
-		surface.SetDrawColor( color.r, color.g, color.b, self.Alpha )
-		surface.SetMaterial( self.Icon )
-		surface.DrawTexturedRect( 0, -2, 32, 32 )
-	end
 	
 	local Height = 0
 	
@@ -427,9 +367,7 @@ function PANEL:Paint( w, h )
 	end
 
 	-- Progress bar
-	if style == STYLE_L1 then
-		color = Color(111, 237, 29)
-	end
+	color = Color(111, 237, 29)
 	surface.SetDrawColor( color.r, color.g, color.b, self.Alpha )
 	
 	if self.Timeleft == nil then
@@ -441,17 +379,8 @@ function PANEL:Paint( w, h )
 
 	-- Draw colors when they accept/deny
 	if !self.QuestionAnswered then return end
-
-	if style != STYLE_L1 then
-		if self.Accepted then
-			surface.SetDrawColor( 0, 255, 0, 128 )
-		else
-			surface.SetDrawColor( 255, 0, 0, 128 )
-		end
-	end
 	   
 	surface.DrawRect( 0, 0, w, h - shadowH )
-
 end
 
 function PANEL:OnCursorEntered()
@@ -599,27 +528,12 @@ function PANEL:Paint( w, h )
 		alpha = GTowerMessages.ButtonAlpha
 	end
 
-	if StyleCvar:GetInt() != STYLE_L1 then
-		-- BG
-		surface.SetDrawColor( 255, 255, 255, 3 )
-		surface.DrawRect( 0, 0, w, h )
-
-		-- Icon
-		surface.SetDrawColor( self.BtnColor.r, self.BtnColor.g, self.BtnColor.b, alpha )
-		surface.SetMaterial( self.BtnTexture )
-		surface.DrawTexturedRect( 0, 0, w, h )
+	surface.SetDrawColor( 255, 255, 255, alpha )
+	surface.SetMaterial( self.BtnTexture )
+	surface.DrawTexturedRect( 0, 0, self:GetWide(), self:GetTall() )
 	
-		-- Highlight
-		surface.SetDrawColor( 0, 0, 0, self.Color.a )
-		surface.DrawRect( 0, 0, w, h )
-	else
-		surface.SetDrawColor( 255, 255, 255, alpha )
-		surface.SetMaterial( self.BtnTexture )
-		surface.DrawTexturedRect( 0, 0, self:GetWide(), self:GetTall() )
-	
-		surface.SetDrawColor( 3, 25, 54, self.Color.a )
-		surface.DrawRect( 0, 0, 26, 26 )
-	end
+	surface.SetDrawColor( 3, 25, 54, self.Color.a )
+	surface.DrawRect( 0, 0, 26, 26 )
 
 end
 
@@ -642,11 +556,7 @@ end
 
 function PANEL:PerformLayout()
 
-	local size = 26
-
-	if StyleCvar:GetInt() == STYLE_L1 then
-		size = 32
-	end
+	local size = 32
 
 	self:SetSize( size, size )
 

@@ -37,7 +37,7 @@ function GTowerItems:UpdateBankTitle()
 
 	end
 
-	local title = "Vault | " .. count .. " items"
+	local title = "Trunk | " .. count .. " items"
 
 	local max = #GTowerItems:GetBankTable()
 	title = title .. " | " .. ( max - count ) .. "/" .. max .. " slots"
@@ -50,10 +50,10 @@ end
 
 function GTowerItems:OpenBank()
 
-	--surface.PlaySound('gmodtower/lobby/misc/trunk_open.wav')
+	surface.PlaySound('gmodtower/lobby/misc/trunk_open.wav')
 
 	--self:CloseBank()
-	GtowerMainGui:GtowerShowMenus()
+	GTowerMainGui.ShowMenus()
 
 	if IsValid(self.BankMainGui) then return end
 
@@ -105,12 +105,12 @@ function GTowerItems:CloseBank()
 
 	self.BankMainGui = nil
 
-	--surface.PlaySound('gmodtower/lobby/misc/trunk_close.wav')
+	surface.PlaySound('gmodtower/lobby/misc/trunk_close.wav')
 
 	net.Start("gmt_closevault")
 	net.SendToServer()
 
-	GtowerMainGui:GtowerHideMenus()
+	GTowerMainGui.HideMenus()
 end
 
 hook.Add( "InvGuiDrop", "GTowerBankDrop", function( panel )

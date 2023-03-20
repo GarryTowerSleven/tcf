@@ -217,7 +217,7 @@ function IMeta:MouseEvent(ev, x, y)
 	-- Don't let non room owners be able to click
 	if ev == MOUSE_PRESS then
 		local room = self.ent:GetNWInt("condoID")--self.ent:GetCondoID()
-		if not room or not GtowerRooms:CanManagePanel(room,LocalPlayer()) then
+		if not room or not GTowerRooms:CanManagePanel(room,LocalPlayer()) then
 			return
 		end
 	end

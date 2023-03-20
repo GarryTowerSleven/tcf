@@ -98,7 +98,9 @@ function ENT:PrecacheSounds()
 end
 
 function ENT:PowerUpOn( ply )
+	ply.IsPoweredUp = true
 end
 
 function ENT:PowerUpOff( ply )
+	ply.IsPoweredUp = false
 end

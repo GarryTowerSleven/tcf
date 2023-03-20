@@ -141,8 +141,8 @@ function StartEvent( event )
 
         endtime = CurTime() + minitime
 
-    elseif event == "tronarnia" then
-        local MiniGame = minigames[ "tronarnia" ]
+    elseif event == "pvpnarnia" then
+        local MiniGame = minigames[ "pvpnarnia" ]
 
         if !MiniGame then
             SendMessageToPlayers( "EventError" )
@@ -150,12 +150,12 @@ function StartEvent( event )
             return
         end
 
-        curmini = "tronarnia"
+        curmini = "pvpnarnia"
         
         SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
     
         SafeCall( MiniGame.Start, "" )
-        MsgC( color_green, "[EVENTS] Starting tronarnia!\n" )
+        MsgC( color_green, "[EVENTS] Starting pvpnarnia!\n" )
 
         endtime = CurTime() + minitime
 
@@ -177,9 +177,9 @@ function EndEvent()
     elseif curevent == minigames.chainsaw.MinigameName then
         SafeCall( minigames[ "chainsaw" ].End )
         MsgC( color_red, "[EVENTS] Chainsaw ended\n" )
-    elseif curevent == "tronarnia" then
-        SafeCall( minigames[ "tronarnia" ].End )
-        MsgC( color_red, "[EVENTS] Tronarnia ended\n" )
+    elseif curevent == "pvpnarnia" then
+        SafeCall( minigames[ "pvpnarnia" ].End )
+        MsgC( color_red, "[EVENTS] PVPNarnia ended\n" )
     end
 
     curevent = "Unknown"

@@ -37,6 +37,8 @@ function New( data )
 	data.UserID = function() return 0 end
 	data.IsBot = function() return false end
 
+	data.GetNet = function() return nil end
+
 	return data
 
 end

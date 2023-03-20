@@ -26,18 +26,6 @@ function GTowerStore:OpenStore( ply, id )
 
 	local discount = GTowerStore.Discount[id] or 0
 
-	local NewStore = true
-
-	// check client's wants
-	if ( ply:GetInfoNum("gmt_oldstore", 0) == 1 ) then
-		NewStore = false
-	end
-
-	if NewStore then
-		ply:ConCommand("storeopen " .. tostring(id) .. " " .. tostring(discount))
-		return 
-	end
-
 	net.Start( "Store" )
 		net.WriteInt( 0, 16 )
 		net.WriteInt( id, 16 )

@@ -44,7 +44,7 @@ local function ValidPhysics( ent )
 		"gmt_beer*", "alcohol_bottle",
 
 		//bigger stuff
-		"gmt_room_bed",
+		"gmt_suitebed",
 
 		//rockets
 		"rynov_rpg", "rpg_missile"

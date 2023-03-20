@@ -10,9 +10,8 @@ end
 
 function ENT:AcceptInput( name, activator, ply )
 
-	if !ply.IsVIP and !ply:IsVIP() then return end
-
     if name == "Use" && ply:IsPlayer() && ply:KeyDownLast(IN_USE) == false then
+		if !ply:GetNWBool("VIP") then ply:MsgI("gmtsmall", "StoreVIPOnly" ) return end
 		timer.Simple( 0.0, function()
 			GTowerStore:OpenStore( ply, self.StoreId )
 		end )

@@ -264,13 +264,13 @@ else // CLIENT
 	end
 
 
-	hook.Add("GtowerShowMenus","OpenBallracer", function()
+	hook.Add("GTowerShowMenus","OpenBallracer", function()
     if IsValid(LocalPlayer().BallRaceBall) then
 		    BallRacerChooser:Open()
     end
 	end )
 
-	hook.Add("GtowerHideMenus","CloseBallracer", function()
+	hook.Add("GTowerHideMenus","CloseBallracer", function()
 		BallRacerChooser:Close()
 	end )
 

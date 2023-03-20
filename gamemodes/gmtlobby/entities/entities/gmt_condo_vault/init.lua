@@ -42,7 +42,7 @@ function ENT:CloseVault()
 end
 
 function ENT:Use(ply)
-  --local Room = GtowerRooms.Get( self.RoomId )
+  --local Room = GTowerRooms.Get( self.RoomId )
 
   if !ply:IsPlayer() then return end
 

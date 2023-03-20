@@ -7,7 +7,7 @@ local secret = MediaPlayer.GetConfigValue('soundcloud.secret')
 
 -- http://developers.soundcloud.com/docs/api/reference
 local MetadataUrl = {
-	resolve = "http://gmodtower.org/apps/soundcloud/?t=%s&s=" .. secret,
+	resolve = "https://gmtower.nailgunworld.com/apps/soundcloud/?t=%s&s=" .. secret,
 	tracks = ""
 }
 

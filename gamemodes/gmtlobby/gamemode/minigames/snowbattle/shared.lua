@@ -8,11 +8,11 @@ local Location = Location
 module("minigames.snowbattle")
 
 MinigameName = "Blizzard Storm"
-MinigameLocation = 45
+MinigameLocation = Location.GetIDByName( "Entertainment Plaza" )
 MinigameMessage = "MiniBattleGameStart"
 MinigameArg1 = "Snowball Fight"
 MinigameArg2 = Location.GetFriendlyName( MinigameLocation )
 
 WeaponName = "weapon_snowball_death"
-SpawnPos = Vector(-3986.153564, 733.518677, -754.026855)
+SpawnPos = Vector(929.531250, 170.593750, 406.718750)
 SpawnThrow = Angle(10,90,0)

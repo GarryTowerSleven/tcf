@@ -10,7 +10,7 @@ local gradient = surface.GetTextureID("vgui/gradient_up")
 function GTowerTrade:OpenTrade( ply )
 
 	GTowerTrade:CloseTrade()
-	GtowerMainGui:GtowerShowMenus()
+	GTowerMainGui.ShowMenus()
 	GTowerItems:OpenDropInventory()
 	GTowerTrade.MyAccepted = false
 	GTowerTrade.OtherAccepted = false

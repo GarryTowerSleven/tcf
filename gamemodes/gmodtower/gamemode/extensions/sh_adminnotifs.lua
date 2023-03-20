@@ -60,9 +60,9 @@ local function NotifPaint()
         surface.SetDrawColor( color )
         surface.DrawRect( x - NotifStyle.Border, y - NotifStyle.Border, (wid + (NotifStyle.Border*2))*remainingMult, hei + (NotifStyle.Border*2) )
 
-        surface.SetDrawColor( 0, 0, 0 )
-        surface.SetMaterial( NotifStyle.Background )
-        surface.DrawTexturedRectRotated( x + (wid/2), y + (hei/2), hei, wid, 90 )
+        //surface.SetDrawColor( 0, 0, 0 )
+        //surface.SetMaterial( NotifStyle.Background )
+        //surface.DrawTexturedRectRotated( x + (wid/2), y + (hei/2), hei, wid, 90 )
         surface.SetDrawColor( 0, 0, 0, 250 )
         surface.DrawRect( x, y, wid, hei )
 

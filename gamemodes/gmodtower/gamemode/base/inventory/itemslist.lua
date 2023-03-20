@@ -145,7 +145,7 @@ RegisterItem( "birthday_head", {
 	end
 
 } )
-
+--[[
 RegisterItem("rave_ball",{
 	Name = "Rave Ball",
 	Description = "Get your rave on with this musical orb. Splashes colorful bursts, and unlike the disco ball, can give people seizures (use responsively).",
@@ -156,7 +156,7 @@ RegisterItem("rave_ball",{
 	DrawModel = true,
 	StoreId = GTowerStore.MUSIC,
 	StorePrice = 30000,
-})
+})]]
 
 RegisterItem("disco_ball",{
 	Name = "Disco Ball",
@@ -245,7 +245,7 @@ RegisterItem("cabinet",{
 
 RegisterItem("cabitnetdarw",{
 	Name = "Cabinet",
-	Description = "A nice piece of furniture to keep your condo looking good.",
+	Description = "A nice piece of furniture to keep your suite looking good.",
 	Model = "models/props_interiors/furniture_cabinetdrawer02a.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
@@ -267,7 +267,7 @@ RegisterItem("chair1",{
 
 RegisterItem("chairantique",{
 	Name = "Antique Chair",
-	Description = "An old chair that can really add some class to your condo.",
+	Description = "An old chair that can really add some class to your suite.",
 	Model = "models/props/de_inferno/chairantique.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
@@ -601,7 +601,7 @@ RegisterItem("bball",{
 	Model = "models/gmod_tower/beachball.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
-	StoreId = GTowerStore.BEACH,
+	StoreId = GTowerStore.TOY,
 	StorePrice = 500,
 	ClassName = "gmt_beachball",
 })
@@ -706,6 +706,7 @@ RegisterItem("pottery09",{
 	StorePrice = 5,
 })
 
+--[[
 RegisterItem("radio",{
 	Name = "Radio",
 	Description = "Visualize your music and chill out.",
@@ -716,7 +717,7 @@ RegisterItem("radio",{
 	StorePrice = 150,
 	InvCategory = "7", // electronics
 })
-
+]]
 RegisterItem("remotecontrol",{
 	Name = "Remote Control",
 	Description = "A simple remote.",
@@ -771,7 +772,7 @@ RegisterItem("sofachair",{
 })
 
 RegisterItem("suitecouch",{
-	Name = "Condo Sofa",
+	Name = "Suite Sofa",
 	Description = "Sit down on a comfy couch.",
 	Model = "models/gmod_tower/suitecouch.mdl",
 	UniqueInventory = false,
@@ -782,7 +783,7 @@ RegisterItem("suitecouch",{
 })
 
 RegisterItem("suiteshelf",{
-	Name = "Condo Shelf",
+	Name = "Suite Shelf",
 	Description = "Place tons of items on these shelves.",
 	Model = "models/gmod_tower/suiteshelf.mdl",
 	UniqueInventory = false,
@@ -803,7 +804,7 @@ RegisterItem("suitespeaker",{
 })
 
 RegisterItem("suitetable",{
-	Name = "Condo Table",
+	Name = "Suite Table",
 	Description = "A well-crafted table for your stuff.",
 	Model = "models/gmod_tower/suitetable.mdl",
 	ClassName = "gmt_room_table",
@@ -851,6 +852,7 @@ RegisterItem("tv",{
 	Description = "Watch YouTube and other videos.",
 	Model = "models/gmod_tower/suitetv.mdl",
 	ClassName = "gmt_room_tv",
+	UniqueInventory = true,
 	DrawModel = true,
 	StoreId = GTowerStore.ELECTRONIC,
 	StorePrice = 150,
@@ -861,7 +863,6 @@ RegisterItem("tvcabinet",{
 	Name = "TV Cabinet",
 	Description = "Organize your entertainment with this TV cabinet.",
 	Model = "models/gmod_tower/gt_woodcabinet01.mdl",
-	UniqueInventory = false,
 	DrawModel = true,
 	StoreId = GTowerStore.SUITE,
 	StorePrice = 500,
@@ -873,6 +874,7 @@ RegisterItem("tv_large",{
 	Description = "Watch YouTube and other videos on a larger screen.",
 	Model = "models/gmod_tower/suitetv_large.mdl",
 	ClassName = "mediaplayer_tv",
+	UniqueInventory = true,
 	DrawModel = true,
 	StoreId = GTowerStore.ELECTRONIC,
 	StorePrice = 3150,
@@ -961,38 +963,6 @@ RegisterItem("comfychair",{
 	StorePrice = 500,
 })
 
-RegisterItem("beachchair",{
-	Name = "Beach Chair",
-	Description = "Relax in your Condo with this comfy beach chair.",
-	Model = "models/map_detail/beach_chair.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = GTowerStore.BEACH,
-	StorePrice = 150,
-	
-	MoveSound = "furniture"
-})
-RegisterItem("poolrailings",{
-	Name = "Pool Railing",
-	Description = "Block them areas off.",
-	Model = "models/gmod_tower/pool/railings.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = GTowerStore.BEACH,
-	StorePrice = 100,
-	
-})
-RegisterItem("cocosapling",{
-	Name = "Palm Sapling",
-	Description = "A baby palm tree.",
-	Model = "models/map_detail/foliage/coconut_tree_sapling_01.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = GTowerStore.BEACH,
-	StorePrice = 250,
-	
-})
-
 RegisterItem("kitchentable",{
 	Name = "Kitchen Counter",
 	Description = "A kitchen counter, for cooking.",
@@ -1006,7 +976,7 @@ RegisterItem("kitchentable",{
 RegisterItem("medchair",{
 	Name = "Modern Desk Chair",
 	Description = "A modern chair for your desk.",
-	Model = "models/props/de_nuke/hr_nuke/nuke_office_chair/nuke_office_chair.mdl",
+	Model = "models/gmod_tower/medchair.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
 	StoreId = GTowerStore.SUITE,
@@ -1116,7 +1086,7 @@ RegisterItem("book1",{
 
 RegisterItem("book2",{
 	Name = "Coverless Book",
-	Description = "Red coverless book",
+	Description = "A red coverless book, ready to be filled with writings of burning passion.",
 	Model = "models/sunabouzu/book_single1.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
@@ -1128,7 +1098,7 @@ RegisterItem("book2",{
 
 RegisterItem("book3",{
 	Name = "Coverless Book",
-	Description = "Blue coverless book",
+	Description = "A blue coverless book, ready to be filled with... tears?",
 	Model = "models/sunabouzu/book_single1.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
@@ -1221,16 +1191,6 @@ RegisterItem("metalshelving",{
 	StorePrice = 400,
 })
 
-RegisterItem("noirbottle",{
-	Name = "Liquor Bottle",
-	Description = "Unfortunately, it contains no alcohol. Someone drank it all before you grabbed it.",
-	Model = "models/sunabouzu/noir_bottle.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = GTowerStore.BAR,
-	StorePrice = 25,
-})
-
 RegisterItem("sunendtable",{
 	Name = "End Table",
 	Description = "Unsurprisingly, it's an end table. It's secret ambition is to become a coffee table.",
@@ -1239,30 +1199,6 @@ RegisterItem("sunendtable",{
 	DrawModel = true,
 	StoreId = GTowerStore.SUITE,
 	StorePrice = 300,
-})
-
-RegisterItem("dustpatiochair",{
-	Name = "White Patio Chair",
-	Description = "A must have for pool parties.",
-	Model = "models/props/de_dust/hr_dust/dust_patio_set/dust_patio_chair.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = GTowerStore.BEACH,
-	StorePrice = 150,
-	MoveSound = "furniture",
-	
-})
-
-RegisterItem("dustumbrella",{
-	Name = "Patio Umbrella",
-	Description = "Hide from the sun with this umbrella.",
-	Model = "models/props/de_dust/hr_dust/dust_patio_set/dust_patio_umbrella_open.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = GTowerStore.BEACH,
-	StorePrice = 500,
-	MoveSound = "furniture",
-	
 })
 
 /*RegisterItem("mansionwalllight",{
@@ -1277,14 +1213,14 @@ RegisterItem("dustumbrella",{
 
 RegisterItem("mansionpillar",{
 	Name = "Pillar",
-	Description = "Give your condo that whole 'this place is really 100 years old' look.",
+	Description = "Give your suite that whole 'this place is really 100 years old' look.",
 	Model = "models/sunabouzu/mansion_pillar.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
 	StoreId = GTowerStore.SUITE,
 	StorePrice = 1000,
 })
-
+--[[
 RegisterItem("mansioncurtains",{
 	Name = "Curtains",
 	Description = "Keep the harsh sun away from your pale skin with these lovely curtains.",
@@ -1293,7 +1229,7 @@ RegisterItem("mansioncurtains",{
 	DrawModel = true,
 	StoreId =GTowerStore.SUITE,
 	StorePrice = 475,
-})
+})]]
 
 /*RegisterItem("floater",{
 	Name = "Inner Tube",
@@ -1344,7 +1280,7 @@ RegisterItem("grain",{
 	Description = "A sack full of grain.",
 	Model = "models/props_granary/grain_sack.mdl",
 	DrawModel = true,
-	StoreId = GTowerStore.NATURE,
+	StoreId = GTowerStore.SUITE,
 	StorePrice = 500,
 	MoveSound = "cloth"
 })
@@ -1353,7 +1289,7 @@ RegisterItem("bushsmall",{
 	Description = "A small bush to decorate your garden with, or home!",
 	Model = "models/garden/gardenbush2.mdl",
 	DrawModel = true,
-	StoreId = GTowerStore.NATURE,
+	StoreId = GTowerStore.SUITE,
 	StorePrice = 250,
 })
 RegisterItem("bushbig",{
@@ -1361,7 +1297,7 @@ RegisterItem("bushbig",{
 	Description = "A bigger version of that other bush, for even better gardens.",
 	Model = "models/garden/gardenbush.mdl",
 	DrawModel = true,
-	StoreId = GTowerStore.NATURE,
+	StoreId = GTowerStore.SUITE,
 	StorePrice = 350,
 })
 RegisterItem("bushred",{
@@ -1369,7 +1305,7 @@ RegisterItem("bushred",{
 	Description = "A red bush to put in your garden.",
 	Model = "models/gmod_tower/plant/largebush01.mdl",
 	DrawModel = true,
-	StoreId = GTowerStore.NATURE,
+	StoreId = GTowerStore.SUITE,
 	StorePrice = 150,
 })
 RegisterItem("ferns",{
@@ -1377,7 +1313,7 @@ RegisterItem("ferns",{
 	Description = "Nice ferns for in your garden.",
 	Model = "models/hessi/palme.mdl",
 	DrawModel = true,
-	StoreId = GTowerStore.NATURE,
+	StoreId = GTowerStore.SUITE,
 	StorePrice = 175,
 })
 RegisterItem("wildbush",{
@@ -1385,15 +1321,15 @@ RegisterItem("wildbush",{
 	Description = "Collected from Narnia, this wild bush will sure make your garden look interesting.",
 	Model = "models/props/de_inferno/largebush02.mdl",
 	DrawModel = true,
-	StoreId = GTowerStore.NATURE,
+	StoreId = GTowerStore.SUITE,
 	StorePrice = 175,
 })
 RegisterItem("lavenderbushes",{
 	Name = "Lavender Bush",
-	Description = "A nice lavender bush. Will surely make your condo smell great!",
+	Description = "A nice lavender bush. Will surely make your suite smell great!",
 	Model = "models/props/de_inferno/largebush03.mdl",
 	DrawModel = true,
-	StoreId = GTowerStore.NATURE,
+	StoreId = GTowerStore.SUITE,
 	StorePrice = 200,
 	
 })
@@ -1402,7 +1338,7 @@ RegisterItem("rosebush",{
 	Description = "Nice red roses packed in a bush.",
 	Model = "models/props/de_inferno/largebush04.mdl",
 	DrawModel = true,
-	StoreId = GTowerStore.NATURE,
+	StoreId = GTowerStore.SUITE,
 	StorePrice = 210,
 	
 })
@@ -1411,7 +1347,7 @@ RegisterItem("hydrabush",{
 	Description = "A big hydrangea bush.",
 	Model = "models/props/de_inferno/largebush05.mdl",
 	DrawModel = true,
-	StoreId = GTowerStore.NATURE,
+	StoreId = GTowerStore.SUITE,
 	StorePrice = 375,
 	
 })
@@ -1420,7 +1356,7 @@ RegisterItem("fallentree",{
 	Description = "A fallen over tree trunk.",
 	Model = "models/props_foliage/fallentree01.mdl",
 	DrawModel = true,
-	StoreId = GTowerStore.NATURE,
+	StoreId = GTowerStore.SUITE,
 	StorePrice = 750,
 	
 })
@@ -1429,7 +1365,7 @@ RegisterItem("treestump",{
 	Description = "This was once a tree...",
 	Model = "models/props_foliage/tree_stump01.mdl",
 	DrawModel = true,
-	StoreId = GTowerStore.NATURE,
+	StoreId = GTowerStore.SUITE,
 	StorePrice = 375,
 	
 })
@@ -1438,7 +1374,7 @@ RegisterItem("bigrock",{
 	Description = "A big rock to place in your garden.",
 	Model = "models/props_nature/rock_worn001.mdl",
 	DrawModel = true,
-	StoreId = GTowerStore.NATURE,
+	StoreId = GTowerStore.SUITE,
 	StorePrice = 250,
 	
 })
@@ -1447,16 +1383,16 @@ RegisterItem("rockpile",{
 	Description = "A pile of rocks, nice to decorate your garden with.",
 	Model = "models/props_nature/rock_worn_cluster002.mdl",
 	DrawModel = true,
-	StoreId = GTowerStore.NATURE,
+	StoreId = GTowerStore.SUITE,
 	StorePrice = 175,
 	
 })
 RegisterItem("ggnome",{
 	Name = "Garden Gnome",
-	Description = "A gnome that the bird made on his own, hence the price!",
+	Description = "A mysterious object recovered from outer space.",
 	Model = "models/props_junk/gnome.mdl",
 	DrawModel = true,
-	StoreId = GTowerStore.NATURE,
+	StoreId = GTowerStore.SOUVENIR,
 	StorePrice = 1000,
 	
 })
@@ -1524,118 +1460,6 @@ RegisterItem("drumset",{
 	
 	StoreId = 27,
 	StorePrice = 10000,
-})
-RegisterItem("woodcrate",{
-	Name = "Wooden Crate",
-	Description = "What's a Source game without crates?",
-	Model = "models/props_junk/wood_crate001a.mdl",
-	DrawModel = true,
-	StoreId = GTowerStore.BASICAL,
-	StorePrice = 75,
-	
-	MoveSound = "wood"
-})
-RegisterItem("ballarrow",{
-	Name = "Red Arrow",
-	Description = "An red arrow from Ballrace, useful to point at stuff.",
-	Model = "models/gmod_tower/arrow.mdl",
-	DrawModel = true,
-	StoreId = GTowerStore.BASICAL,
-	StorePrice = 500,
-	
-})
-RegisterItem("jerrycan",{
-	Name = "Jerrycan",
-	Description = "A jerrycan, useful to store liquids in.",
-	Model = "models/props_farm/oilcan01b.mdl",
-	DrawModel = true,
-	StoreId = GTowerStore.BASICAL,
-	StorePrice = 1250,
-	
-})
-RegisterItem("cardbox",{
-	Name = "Cardboard Box",
-	Description = "'Useful for building forts!' -Basical",
-	Model = "models/props_junk/cardboard_box001a.mdl",
-	DrawModel = true,
-	StoreId = GTowerStore.BASICAL,
-	StorePrice = 25,
-	
-	MoveSound = "cloth"
-})
-RegisterItem("tire",{
-	Name = "Tire",
-	Description = "For your future car.",
-	Model = "models/props_2fort/tire001.mdl",
-	DrawModel = true,
-	StoreId = GTowerStore.BASICAL,
-	StorePrice = 125,
-	
-	MoveSound = "cloth"
-})
-RegisterItem("andalouse",{
-	Name = "Andalouse Sauce",
-	Description = "Mit erlesenen gewürzen.",
-	Model = "models/map_detail/andalouse.mdl",
-	DrawModel = true,
-	StoreId = GTowerStore.BASICAL,
-	StorePrice = 250,
-	
-})
-RegisterItem("redvalve",{
-	Name = "Red Valve",
-	Description = "You may not buy 3 valves.",
-	Model = "models/props_mining/crank02.mdl",
-	DrawModel = true,
-	StoreId = GTowerStore.BASICAL,
-	StorePrice = 50,
-	
-})
-RegisterItem("goldingot",{
-	Name = "Pure Gold Ingot",
-	Description = "The finest gold around. Show off your juicy GMC with this ingot.",
-	Model = "models/props_mining/ingot001.mdl",
-	DrawModel = true,
-	StoreId = GTowerStore.BASICAL,
-	StorePrice = 100000,
-	
-})
-RegisterItem("woodpile",{
-	Name = "Wood Pile",
-	Description = "The leftover wood that stood at the Merchant's house. Collected for your placing-pleasure!",
-	Model = "models/props_forest/woodpile_indoor.mdl",
-	DrawModel = true,
-	StoreId = GTowerStore.BASICAL,
-	StorePrice = 175,
-	
-})
-RegisterItem("mopbucket",{
-	Name = "Mop And Bucket",
-	Description = "To keep your condo extra clean.",
-	Model = "models/props_2fort/mop_and_bucket.mdl",
-	DrawModel = true,
-	StoreId = GTowerStore.BASICAL,
-	StorePrice = 100,
-	
-})
-RegisterItem("waterspigot",{
-	Name = "Water Spigot",
-	Description = "Forget your kitchen sink, and get your water out of the ground!",
-	Model = "models/props_farm/water_spigot.mdl",
-	ClassName = "gmt_spigot",
-	DrawModel = true,
-	StoreId = GTowerStore.BASICAL,
-	StorePrice = 275,
-	
-})
-RegisterItem("anomalabook",{
-	Name = "How I Remade GMod Tower.",
-	Description = "'Anoma please fix' they said...",
-	Model = "models/sunabouzu/book_single_anoma.mdl",
-	DrawModel = true,
-	StoreId = GTowerStore.BASICAL,
-	StorePrice = 10000,
-	
 })
 RegisterItem("woodgametable",{
 	Name = "Wooden Table",

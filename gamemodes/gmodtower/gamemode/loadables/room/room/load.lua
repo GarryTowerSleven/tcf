@@ -8,7 +8,7 @@ local CurTime = CurTime
 local hook = hook
 local SafeCall = SafeCall
 local GTowerItems = GTowerItems
-local GtowerRooms = GtowerRooms
+local GTowerRooms = GTowerRooms
 
 module("Suite")
 
@@ -54,7 +54,7 @@ function LoadDefault( self )
 	local AlreadySpawned = {}
 	self.Owner._RoomSaveData = {}
 
-	for _, v in pairs( _G.GtowerRooms.DefaultItems ) do
+	for _, v in pairs( _G.GTowerRooms.DefaultItems ) do
 
 		for k, v1 in pairs( self.StartEnts ) do
 
@@ -167,7 +167,7 @@ function Finish( self )
 
 	AdminNotif.SendStaff( self.Owner:NickID() .. " has checked out of condo #" .. self.Owner.GRoomId .. ".", nil, "GRAY", 3 )
 
-	local door = GtowerRooms.GetCondoDoor( self.Owner.GRoomId )
+	local door = GTowerRooms.GetCondoDoor( self.Owner.GRoomId )
 	if door then
 		door:SetNWInt("DoorBell", 1)
 	end

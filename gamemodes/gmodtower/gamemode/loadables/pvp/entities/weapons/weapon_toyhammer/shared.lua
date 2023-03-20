@@ -83,7 +83,7 @@ function SWEP:SecondaryAttack()
 
 	if ( !self.Owner:IsAdmin() ) then return end
 
-	if !string.StartWith(game.GetMap(),"gmt_lobby") then return end
+	if !IsLobby then return end
 
 	self:FireLaser()
 

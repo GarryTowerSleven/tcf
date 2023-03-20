@@ -131,7 +131,7 @@ function GTowerItems:DeleteGrabEntity()
 
 end
 
-hook.Add( "GtowerHideMenus","StopDragInventory", function()
+hook.Add( "GTowerHideMenus","StopDragInventory", function()
 	if GTowerItems.EntGrab.VGUI then
 		GTowerItems.EntGrab.VGUI:StopDrag()
 	end

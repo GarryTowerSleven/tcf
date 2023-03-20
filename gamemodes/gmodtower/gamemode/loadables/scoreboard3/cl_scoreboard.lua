@@ -1,7 +1,10 @@
 module( "Scoreboard.PlayerList", package.seeall )
 
-DrawRespectIcons = CreateClientConVar( "gmt_scoreboard_respecticons", 1, true, false )
-ScoreGridMode = CreateClientConVar( "gmt_scoreboard_grid", 0, true, false )
+DrawRespectIcons = CreateClientConVar( "gmt_scoreboard_player_respecticons", "1", true, false, nil, 0, 1 )
+DrawLobbyBackgrounds = CreateClientConVar( "gmt_scoreboard_player_backgrounds", "1", true, false, nil, 0, 1 )
+ScoreGridMode = CreateClientConVar( "gmt_scoreboard_player_grid", "0", true, false, nil, 0, 1 )
+ShowTabs = CreateClientConVar( "gmt_scoreboard_player_tabs", "1", true, false, nil, 0, 1 )
+
 /*function Label( strText, parent )
 
 	local lbl = vgui.Create( "Label", parent )
@@ -59,23 +62,29 @@ MATERIALS = {
 	Trophy3 = Scoreboard.GenTexture( "ScoreboardTrophy3", "icon_note_trophy3" ),
 }
 
+LOCATIONS = {
+	Gamemode = Scoreboard.GenTexture( "GamemodeFloor", "lobby/gamemode" ),
+	Lobby = Scoreboard.GenTexture( "LobbyFloor", "lobby/lobby" ),
+	Narnia = Scoreboard.GenTexture( "NarniaFloor", "lobby/narnia" ),
+	Suite = Scoreboard.GenTexture( "SuiteFloor", "lobby/suite" ),
+}
+
 local gradient = surface.GetTextureID( "VGUI/gradient_up" )
 
---local cheight = CreateClientConVar( "gmt_scoreboard_height", 44, true, false )
+local cheight = CreateClientConVar( "gmt_scoreboard_player_height", 42, true, false, nil, 32, 42 )
 local function GetPlayerSize()
-	return 42 --math.Clamp( cheight:GetInt(), 32, 64 )
+	return math.Clamp( cheight:GetInt(), 32, 64 ) or 42
 end
 
 PLAYERS = {}
 PLAYERS.Tabs = {}
 PLAYERS.TabWidth = 125
 
-
 PLAYERS.TabNames = {
 	"All",
 	"Location",
 	"Group",
-	//"VIPs",
+	"VIPs",
 	"Admins",
 	"Loading",
 	"AFK",
@@ -103,7 +112,9 @@ function PLAYERS:Init()
 	self.PlayerList = vgui.Create("DPanelList2", self)
 	self.PlayerList:SetScrollBarColors( Scoreboard.Customization.ColorNormal, Scoreboard.Customization.ColorBackground )
 	self.PlayerList:EnableVerticalScrollbar()
-	self.PlayerList:EnableHorizontal( false )
+
+	self.PlayerList:EnableHorizontal( true ) // teehee
+
 	self.PlayerList:SetSpacing( 1 )
 	self.PlayerList.Paint = function( panel, w, h ) end
 
@@ -189,6 +200,12 @@ function PLAYERS:PerformLayout()
 	-- Set their positions and size
 	for _, tab in pairs( self.Tabs ) do
 
+		if ( ShowTabs:GetBool() && not tab:IsVisible() ) then
+			tab:SetVisible( true )
+		elseif ( not ShowTabs:GetBool() && tab:IsVisible() ) then
+			tab:SetVisible( false )
+		end
+
 		// Skip tabs that are lobby only
 		if !IsLobby and table.HasValue( self.LobbyOnlyTabs, tab.Name ) then continue end
 
@@ -228,8 +245,9 @@ function PLAYERS:PerformLayout()
 
 	-- Player list
 	--self:SortPlayers()
-	self.PlayerList:SetPos( self.TabWidth + 2, self.StartHeight + 1 )
-	self.PlayerList:SetWide( self:GetWide() - self.TabWidth - 4 )
+	local tabWidth = ShowTabs:GetBool() && self.TabWidth or 0
+	self.PlayerList:SetPos( tabWidth + 2, self.StartHeight + 1 )
+	self.PlayerList:SetWide( self:GetWide() - tabWidth - 4 )
 
 	self.Title:AlignLeft(self.PlayerList.x + 2)
 	self.Title:AlignTop(4)
@@ -240,6 +258,7 @@ function PLAYERS:PerformLayout()
 	local curY = self.StartHeight
 
 	for _, ply in pairs( self.Players ) do
+		ply.Panel:SetWide( ScoreGridMode:GetBool() && (self.PlayerList:GetWide() / 2) - 5 or self.PlayerList:GetWide() - 9 )
 		ply.Panel:InvalidateLayout( true )
 		curY = curY + self.Height + 1
 	end
@@ -257,6 +276,8 @@ function PLAYERS:Paint( w, h )
 	local color = Scoreboard.Customization.ColorDark
 	surface.SetDrawColor( color )
 	surface.DrawRect( 0, 0, w, h )
+
+	if ( not ShowTabs:GetBool() ) then return end
 
 	surface.SetDrawColor( color.r - 5, color.g - 5, color.b - 5 )
 	surface.DrawRect( self.TabWidth - 2, 4, 4, h )
@@ -363,7 +384,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 				-- Get room owner
 				local RoomID = Location.GetCondoID( LocalPlayer():Location() )
 				if RoomID then
-					local Room = GtowerRooms:Get( RoomID )
+					local Room = GTowerRooms:Get( RoomID )
 					if Room and IsValid( Room.Owner ) then
 						title = title .. " - Owner: " .. Room.Owner:GetName()
 					end
@@ -856,7 +877,7 @@ function PLAYER:Paint( w, h )
 	surface.SetDrawColor( Scoreboard.Customization.ColorDark )
 
 	local borderSize = 1
-	local DrawRespectBorder = self.Player:GetTitle() and self.Player:GetTitle() ~= "Blocked"
+	local DrawRespectBorder = self.Player:GetTitle() and (self.Player:GetTitle() ~= "Blocked") and (self.Player:GetTitle() ~= "VIP")
 
 	// Border effects
 	if DrawRespectBorder then
@@ -920,10 +941,18 @@ function PLAYER:Paint( w, h )
 	surface.SetTextPos( nameX, nameY )
 	surface.DrawText( name )
 
+	local tW, tH = surface.GetTextSize( name )
+
 	// Drop shadow
 	surface.SetTextColor( 0, 0, 0, 80 )
 	surface.SetTextPos( nameX + 1, nameY + 1 )
 	surface.DrawText( name )
+
+	/*if ( self.Player:IsVIP() or false ) then
+		surface.SetDrawColor( 255, 255, 255, 255 )
+		surface.SetMaterial( MATERIALS.VIP )
+		surface.DrawTexturedRect( nameX + tW + 5, nameY - 8 + (tH/2), 16, 16 )
+	end*/
 
 	// Underline
 	/*local w, h = surface.GetTextSize( name )
@@ -947,6 +976,7 @@ function PLAYER:PaintBG( w, h )
 
 	// Background image
 	if Scoreboard.Customization.ShowBackgrounds then
+		if ( IsLobby && not DrawLobbyBackgrounds:GetBool() ) then return end
 		self:DrawBGImage()
 	end
 
@@ -1196,10 +1226,14 @@ function PLAYERINFO:PerformLayout()
 
 		if name then
 
+			if ( name == "VIP" ) then
+				self.RespectIcon:SetMaterial( MATERIALS.VIP, 15, 15, 14, 14 )
+			end
+
 			self.RespectIcon:SetText( name )
 			self.RespectIcon:SetMouseInputEnabled( false )
 			self.RespectIcon:InvalidateLayout( true )
-			self.RespectIcon:AlignBottom(2)
+			self.RespectIcon:AlignBottom( 2 )
 			self.RespectIcon:AlignRight( wide + 4 )
 
 			local wideto = wide + self.RespectIcon:GetWide() + ( self.Padding * 2 )
@@ -1227,7 +1261,6 @@ function PLAYERINFO:PerformLayout()
 end
 
 function PLAYERINFO:HasRespect()
-
 	if IsValid(self.Player) && self.Player:IsHidden() then return end
 	return self.Player:GetTitle()
 end
@@ -1324,7 +1357,7 @@ function LABELICON:Paint( w, h )
 			x = self.WPadding / 2
 		end
 
-		surface.DrawTexturedRect( x, self.HPadding / 2, self.MaterialWidth, self.MaterialHeight )
+		surface.DrawTexturedRect( x, (self.HPadding / 2) - 2, self.MaterialWidth, self.MaterialHeight )
 	end
 	//surface.SetDrawColor( 255, 0, 0, 150 )
 	//surface.DrawRect( 0, 0, self:GetSize() )

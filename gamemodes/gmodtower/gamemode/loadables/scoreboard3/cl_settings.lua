@@ -518,24 +518,28 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:Header( "General" )
 			self:CheckBox( "Enable View Bob", "gmt_viewbob" )
 			self:CheckBox( "Draw First Person Legs", "gmt_drawlegs" )
-			--self:CheckBox( "Draw Players While Playing Blockles", "gmt_tetris_drawplayers" )
-			self:Slider( "Condo Snap Grid Size (hold C while dragging)", "gmt_invsnapsize", 2, 16 )
+			self:CheckBox( "Draw Players While Playing Blockles", "gmt_tetris_drawplayers" )
+			--self:Slider( "Condo Snap Grid Size (hold C while dragging)", "gmt_invsnapsize", 2, 16 )
 		end
-
-		self:Divider()
-
-		self:Header("Discord")
-		self:CheckBox( "Enable Rich Presence", "gmt_rpc" )
 
 	end
 
 	if tabname == "Scoreboard" then
-		self:Header( "Scoreboard" )
-		--self:CheckBox( "2 Players Per Line", "gmt_scoreboard_grid" )
-		--self:Slider( "Player Card Height", "gmt_scoreboard_height", 32, 64, 0, nil, "SetScoreHeight" )
-		self:CheckBox( "Enable Respect Icons", "gmt_scoreboard_respecticons", nil, "SetRespectIcons" )
+		self:Header( "General" )
+		self:CheckBox( "Rounded Corners", "gmt_scoreboard_rounded" )
 		self:CheckBox( "Enable Blur", "gmt_scoreboard_blur", nil, "SetScoreboardBlur" )
 		self:Slider( "Blur Amount", "gmt_scoreboard_blur_amount", 1, 10, 0, "gmt_scoreboard_blur", "SetScoreboardBlurAmt" )
+
+		self:Divider()
+
+		self:Header( "Playerlist" )
+		self:CheckBox( "Show Tabs", "gmt_scoreboard_player_tabs" )
+		self:CheckBox( "Enable Grid (2 Players Per Line)", "gmt_scoreboard_player_grid" )
+		if ( IsLobby ) then
+			self:CheckBox( "Player Card Backgrounds", "gmt_scoreboard_player_backgrounds" )
+		end
+		self:Slider( "Player Card Height", "gmt_scoreboard_player_height", 32, 42, 0, nil, "SetScoreHeight" )
+		self:CheckBox( "Enable Respect Icons", "gmt_scoreboard_player_respecticons" )
 	end
 
 	if tabname == "Chat" then
@@ -560,31 +564,15 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 		if IsLobby then
 			self:CheckBox( "Mute Mediaplayer When GMod Is Unfocused", "mediaplayer_mute_unfocused" )
-			--self:CheckBox( "Enable Ambient Music", "gmt_ambiance_enable" )
-			--self:Slider( "Ambient Music Volume", "gmt_ambiance_volume", 1, 100, 0, "gmt_ambiance_enable" )
-			//self:CheckBox( "Enable Soundscapes", "gmt_soundscapes_enable" )
-			//self:Slider( "Soundscape Volume", "gmt_soundscapes_volume", 0, 100, 0, "gmt_soundscapes_emable" )
 		end
 	end
 
 	if tabname == "Notifications" then
-		self:Header( "Style" )
-
-		self:DropDown( "Notification Style", "gmt_message_style", {
-			{"Deluxe", 1},
-			{"Lobby 2", 2},
-			{"Lobby 1", 3},
-		} )
-		self:Divider()
-		self:CheckBox( "Enable Icons", "gmt_message_icons" )
-		
-		self:Divider()
 		self:Header( "Notifications" )
 		if IsLobby then
 			self:CheckBox( "Enable Missing Content Notice", "gmt_notice" )
 			--self:CheckBox( "Enable Missing Workshop Notice", "gmt_notice_workshop" )
 			self:CheckBox( "Enable Auto Reconnect", "gmt_notice_reconnect" )
-			self:CheckBox( "Disable Beta Notice", "gmt_beta_notice_disable" )
 
 			self:Divider()
 
@@ -606,9 +594,6 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		self:Header( "Graphics/Performance" )
 		
 		if IsLobby then
-			self:CheckBox( "Enable Dynamic Trees", "gmt_dynamic_trees" )
-
-			self:Divider()
 
 			self:CheckBox( "Enable Budget Glow (Outline)", "gmt_halo_budget" )
 			self:CheckBox( "Enable VIP Player Glow (expensive)", "gmt_vipglow" )
@@ -624,14 +609,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 			self:Divider()
 
-			self:Header( "Night Club" )
-			self:CheckBox( "Enable Dynamic Light", "gmt_club_dlight" )
-			self:CheckBox( "Enable Smoke", "gmt_club_smoke" )
-
-			self:Divider()
-
 			self:Header( "Misc" )
-			self:CheckBox( "Enable GMT Multicore (Recommended if you use \"gmod_mcore_test 1\")", "gmt_usemcore" )
 			self:CheckBox( "Enable Custom Minecraft Skins", "gmt_minecraftskins" )
 			self:CheckBox( "Enable Blood Effects", "gmt_allowblood" )
 		end
@@ -641,37 +619,28 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		self:Header( "HUD" )
 		if IsLobby then
 			self:CheckBox( "Enable HUD", "gmt_hud" )
-			self:DropDown( "Hud Style", "gmt_hud_style", {
-				{"Deluxe", 0},
-				{"Lobby 2", 1},
-				{"Lobby 1", 2},
-				{"Lobby 1 (2010)", 3},
-				{"Lobby 1 (2009)", 4},
-			}, "gmt_hud" )
 			self:Divider()
 			//self:CheckBox( "Enable HUD Location", "gmt_hud_location", "gmt_hud" )
 			self:CheckBox( "Enable Event Timer", "gmt_draweventtimer", "gmt_hud" )
 			self:CheckBox( "Enable Crosshair", "gmt_hud_crosshair", "gmt_hud" )
 			self:CheckBox( "Crosshair Always Visible", "gmt_hud_crosshair_always", "gmt_hud_crosshair" )
 			self:CheckBox( "Disable Use Prompts", "gmt_hud_crosshair_action", "gmt_hud_crosshair" )
-			//self:CheckBox( "Enable Third Person Button", "gmt_thirdpersonbutton" )
+			self:CheckBox( "Enable Third Person Button", "gmt_thirdpersonbutton" )
 			//self:CheckBox( LobbyCanvas, "Enable Gamemode Notice", "gmt_gmnotice" )
 			//self:CheckBox( LobbyCanvas, "Enable News Ticker", "gmt_newsticker" )
 			//self:CheckBox( LobbyCanvas, "Allow Sound Spam", "gmt_allowSoundSpam" )
 
 			self:Divider()
-			self:Header( "Inventory" )
-			self:CheckBox( "Enable Old Inventory Colors", "gmt_inv_style" )
-
-			self:Divider()
 			self:Header( "Store" )
-			self:CheckBox( "Enable Old Store GUI", "gmt_oldstore" )
-			self:CheckBox( "Enable Compact Store GUI", "gmt_compactstores", "gmt_oldstore" )
+			self:CheckBox( "Enable Compact Store GUI", "gmt_compactstores" )
 		end
 	end
 
 	if tabname == "Advanced" then
 		self:Header( "Advanced" )
+		
+		self:CheckBox( "Enable 3D2D Filtering", "gmt_3d2d_filtering" )
+		self:Divider()
 		if IsLobby then
 			self:Slider( "Camera Distance", "gmt_setthirdpersondist", 35, 150 )
 		end
@@ -751,10 +720,14 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		self:Header( "Admin" )
 
 		--self:CheckBox( "Show Player Sprays", "gmt_admin_sprays" )
+		self:Slider( "Admin Log", "gmt_admin_log", 0, 5, 0 )
+		self:Divider()
 		self:CheckBox( "Show Player Positions", "gmt_admin_esp" )
+		self:Divider()
 		self:CheckBox( "Show Player Ghosts *EXTREMELY LAGGY*", "gmt_admin_playerghosts" )
 		self:Slider( "Player Ghost Amount", "gmt_admin_playerghosts_amount", 15, 300, 0, "gmt_admin_playerghosts" )
-
+		self:Divider()
+		
 		self:CheckBox( "Show Player Count", "gmt_admin_showplaycount" )
 		self:CheckBox( "Show Map List", "gmt_admin_showmaplist" )
 

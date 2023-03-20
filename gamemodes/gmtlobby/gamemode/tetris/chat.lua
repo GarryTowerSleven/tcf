@@ -43,9 +43,9 @@ if !ChatCommands then
 	return
 end
 
-ChatCommands.Register( "/tetris", 5, function( ply )
-	SQL.getDB():Query("SELECT COUNT(*) FROM gm_users WHERE `tetrisscore`>".. Get( ply ), function(res)
+/*ChatCommands.Register( "/tetris", 5, function( ply )
+	SQL.getDB():Query( "SELECT COUNT(*) FROM gm_users WHERE `tetrisscore`>" .. Get( ply ), function(res)
 		GetPlayerPosition(ply,res)
-	end)
+	end )
 	return ""
-end )
+end )*/

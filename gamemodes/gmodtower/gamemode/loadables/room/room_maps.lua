@@ -1,5 +1,5 @@
 ---------------------------------
-GtowerRooms.RoomMapData = {
+GTowerRooms.RoomMapData = {
 	["gmt_lobby2_r3"] = {
 		["refobj"] = "gmt_roomloc",
 		["min"] = Vector(-1220, 1426, -250),

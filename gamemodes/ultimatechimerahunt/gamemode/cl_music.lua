@@ -31,7 +31,7 @@ function PlayMusic( idx, teamid )
 		end
 
 		ply.WaitingMusic = CreateSound( ply, GetRandomSong( MUSIC_WAITING ) )
-		ply.WaitingMusic:PlayEx( 80, 100 )
+		ply.WaitingMusic:PlayEx( music.GetClientVolume(), 100 )
 
 	end
 
@@ -51,7 +51,7 @@ function PlayMusic( idx, teamid )
 
 		timer.Simple( 2, function()
 			ply.Music = CreateSound( ply, GetRandomSong( MUSIC_ROUND ) )
-			ply.Music:PlayEx( 25, 100 )
+			ply.Music:PlayEx( music.GetClientVolume(), 100 )
 		end )
 
 	end
@@ -104,7 +104,7 @@ function PlayMusic( idx, teamid )
 		end
 
 		ply.EndRoundMusic = CreateSound( ply, song )
-		ply.EndRoundMusic:PlayEx( 100, 100 )
+		ply.EndRoundMusic:PlayEx( music.GetClientVolume(), 100 )
 
 	end
 
@@ -147,7 +147,7 @@ function PlayMusic( idx, teamid )
 
 		if song then
 			ply.SpawnMusic = CreateSound( ply, song )
-			ply.SpawnMusic:PlayEx( 100, 100 )
+			ply.SpawnMusic:PlayEx( music.GetClientVolume(), 100 )
 		end
 
 	end
@@ -166,7 +166,7 @@ function PlayMusic( idx, teamid )
 			end
 
 			ply.Music = CreateSound( ply, song )
-			ply.Music:PlayEx( 100, 100 )
+			ply.Music:PlayEx( music.GetClientVolume(), 100 )
 
 		end )
 
@@ -181,7 +181,7 @@ function PlayMusic( idx, teamid )
 		end
 
 		ply.Music = CreateSound( ply, GAMEMODE.Music[ MUSIC_30SEC ] )
-		ply.Music:PlayEx( 100, 100 )
+		ply.Music:PlayEx( music.GetClientVolume(), 100 )
 
 	end
 
@@ -193,7 +193,7 @@ function PlayMusic( idx, teamid )
 		end
 
 		ply.SpawnMusic = CreateSound( ply, GAMEMODE.Music[ MUSIC_MRSATURN ] )
-		ply.SpawnMusic:PlayEx( 100, 100 )
+		ply.SpawnMusic:PlayEx( music.GetClientVolume(), 100 )
 
 	end
 

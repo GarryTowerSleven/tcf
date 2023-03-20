@@ -6,7 +6,7 @@ local SQLLog = SQLLog
 local GTowerItems = GTowerItems
 local ents = ents
 local SafeCall = SafeCall
-local GtowerRooms = GtowerRooms
+local GTowerRooms = GTowerRooms
 local player = player
 local table = table
 local type = type
@@ -99,8 +99,8 @@ end
 
 function HookEntCreate( self )
 
-	if !table.HasValue( GtowerRooms.AddingEntsRooms, self ) then
-		table.insert( GtowerRooms.AddingEntsRooms, self )
+	if !table.HasValue( GTowerRooms.AddingEntsRooms, self ) then
+		table.insert( GTowerRooms.AddingEntsRooms, self )
 	end
 
 end
@@ -109,9 +109,9 @@ function EntCreateThink( self )
 
 	if table.Count( self.ToAdd ) <= 0 then
 
-		for k, v in ipairs( GtowerRooms.AddingEntsRooms ) do
+		for k, v in ipairs( GTowerRooms.AddingEntsRooms ) do
 			if v == self then
-				table.remove( GtowerRooms.AddingEntsRooms, k )
+				table.remove( GTowerRooms.AddingEntsRooms, k )
 			end
 		end
 

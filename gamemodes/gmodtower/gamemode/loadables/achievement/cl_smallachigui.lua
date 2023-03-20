@@ -33,7 +33,7 @@ end
 	
 function PANEL:OnMouseReleased()
 
-	GtowerMenu:CloseAll()
+	GTowerMenu:CloseAll()
 	
 	/*
 	local AchiTbl = GTowerAchievements.Achievements[ self.Id ]
@@ -58,7 +58,7 @@ function PANEL:OnMouseReleased()
 	
 	end
 
-	GtowerMenu:OpenMenu( tabl )
+	GTowerMenu:OpenMenu( tabl )
 	*/
 end
 

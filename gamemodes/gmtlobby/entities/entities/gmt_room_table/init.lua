@@ -18,10 +18,10 @@ end
 
 function ENT:Think()
 	/*
-	self.RoomId = GtowerRooms.ClosestRoom( self:GetPos() )
+	self.RoomId = GTowerRooms.ClosestRoom( self:GetPos() )
 	
 	if self.RoomId then
-		local Owner = GtowerRooms:RoomOwner( room )
+		local Owner = GTowerRooms:RoomOwner( room )
 		
 		if IsValid( Owner ) then
 			self:CheckLevel( Owner )

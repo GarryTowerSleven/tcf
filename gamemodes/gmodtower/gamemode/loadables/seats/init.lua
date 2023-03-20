@@ -94,8 +94,6 @@ hook.Add("KeyRelease", "EnterSeat", function(ply, key)
 	s:SetOwner(ply)
 
 	ply:EnterVehicle(s)
-
-	s:EmitSound( ChairSitSounds[model] || DefaultSitSound, 100, 100 )
 end)
 
 hook.Add("CanPlayerEnterVehicle", "EnterSeat", function(ply, vehicle)

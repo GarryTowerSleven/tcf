@@ -4,7 +4,7 @@ AddCSLuaFile("shared.lua")
 AddCSLuaFile("room_maps.lua")
 //AddCSLuaFile("upgrades.lua")
 
-module("GtowerRooms", package.seeall )
+module("GTowerRooms", package.seeall )
 
 include("shared.lua")
 include("sql.lua")
@@ -179,7 +179,7 @@ function SendEntIDs( ply )
 
 		umsg.Char( 14 )
 
-		local MaxIndex = table.maxn(GtowerRooms.Rooms)
+		local MaxIndex = table.maxn(GTowerRooms.Rooms)
 
 		umsg.Char( MaxIndex )
 

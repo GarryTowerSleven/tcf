@@ -1,5 +1,5 @@
 ---------------------------------
-module("GtowerRooms", package.seeall )
+module("GTowerRooms", package.seeall )
 
 
 hook.Add("PlayerHasControl", "CheckInRoom", function( ply, ent )
@@ -55,7 +55,7 @@ end )
 hook.Add("PlayerTeleport", "CheckUncheckSuite", function( ply, goplace )
 
 	if goplace == Location.SUITETELEPORTERS && ply._SendSuiteIds == nil then
-		GtowerRooms.SendEntIDs( ply )
+		GTowerRooms.SendEntIDs( ply )
 		ply._SendSuiteIds = true
 	end
 

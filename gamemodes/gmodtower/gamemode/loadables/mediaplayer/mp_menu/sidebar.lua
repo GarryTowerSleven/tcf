@@ -219,7 +219,7 @@ function MediaPlayer.ShowSidebar( mp )
 	end
 
 	if Location.IsTheater( LocalPlayer():Location() ) then
-		for k,v in pairs(ents.FindByClass('gmt_theater_screen')) do
+		for k,v in pairs(ents.FindByClass('gmt_theater')) do
 			if v:Location() == LocalPlayer():Location() then ent = v end
 		end
 		
@@ -247,10 +247,10 @@ function MediaPlayer.HideSidebar()
 
 end
 
-hook.Add( "GtowerShowMenus", "MP.ShowSidebar", function()
+hook.Add( "GTowerShowMenus", "MP.ShowSidebar", function()
 	MediaPlayer.ShowSidebar()
 end )
-hook.Add( "GtowerHideMenus", "MP.HideSidebar", function()
+hook.Add( "GTowerHideMenus", "MP.HideSidebar", function()
 	MediaPlayer.HideSidebar()
 end )
 

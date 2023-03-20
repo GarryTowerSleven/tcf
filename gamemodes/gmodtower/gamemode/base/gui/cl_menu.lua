@@ -1,140 +1,134 @@
----------------------------------
-function GM:HideMouse()
-	if !self.MouseEnabled then return end
-	RememberCursorPosition()
-	gui.EnableScreenClicker( false )
-	self.MouseEnabled = false
-end
-
-GtowerMainGui = {}
+module( "GTowerMainGui", package.seeall )
 
 local function CanClose()
-    local tbl = hook.GetTable().CanCloseMenu
-    
-    if tbl == nil then return true end
 
-    //For not closing when the trade is open
-    for _, v in pairs( tbl ) do
-        if v() == false then
-            return false
-        end
-    end
-
-    return true
-end
-
-function GtowerMainGui:GtowerHideMenus()
-	if GtowerMainGui.ContextMenuEnabled then return end
-    if CanClose() == false then return end
-
-    RememberCursorPosition()
-
-    gui.EnableScreenClicker( false )
+	local tbl = hook.GetTable().CanCloseMenu
 	
-	hook.Call("GtowerHideMenus", GAMEMODE )
+	if tbl == nil then return true end
 
-	///////////////////
-	// Theater Stuff //
-	///////////////////
-
-	if IsValid( GuiQueue ) then
-		GuiQueue:SetVisible( false )
-	end
-	
-	if IsValid( GuiAdmin ) then
-		GuiAdmin:SetVisible( false )
-	end
-	
-	if not ( IsValid( Gui ) and Gui:IsVisible() ) then
-		GAMEMODE:HideMouse()
+	//For not closing when the trade is open
+	for _, v in pairs( tbl ) do
+		if v() == false then
+			return false
+		end
 	end
 
+	return true
+
 end
-function GtowerMainGui:GtowerHideContextMenus()
-	if GtowerMainGui.MenuEnabled then return end
 
-	if hook.Call( "DisableMenu", GAMEMODE ) == false then return end
+function HideMenus()
 
-    RememberCursorPosition()
-    gui.EnableScreenClicker( false )
-    GtowerMainGui.ContextMenuEnabled = false
+	if ContextMenuEnabled then return end
+	if hook.Call( "DisableMenu", GAMEMODE ) == true then return end
+
+	if CanClose() == false then return end
+
+	RememberCursorPosition()
+	gui.EnableScreenClicker( false )
+	MenuEnabled = false
+
+	if GTowerItems and GTowerItems.HideTooltip then GTowerItems:HideTooltip() end
 	
-	hook.Call( "GtowerHideContextMenus", GAMEMODE )
+	hook.Call( "GTowerHideMenus", GAMEMODE )
+end
+
+function HideContextMenus()
+
+	if MenuEnabled then return end
+
+	if hook.Call( "DisableMenu", GAMEMODE ) == true then return end
+
+	RememberCursorPosition()
+	gui.EnableScreenClicker( false )
+	ContextMenuEnabled = false
+
+	if GTowerItems and GTowerItems.HideTooltip then GTowerItems:HideTooltip() end
+	
+	hook.Call( "GTowerHideContextMenus", GAMEMODE )
 
 end
-concommand.Add("-menu", GtowerMainGui.GtowerHideMenus) 
-concommand.Add("-menu_context", GtowerMainGui.GtowerHideContextMenus)
+concommand.Add("-menu", HideMenus) 
+concommand.Add("-menu_context", HideContextMenus)
 
 
-function GtowerMainGui:GtowerShowMenus()
-	if GtowerMainGui.ContextMenuEnabled then return end
-	if hook.Call("CanOpenMenu", GAMEMODE ) == false || IsValid( LocalPlayer():GetNWEntity("DuelOpponent") ) then return end
-    
-	hook.Call("GtowerShowMenusPre", GAMEMODE )
+function ShowMenus()
 
+	if ContextMenuEnabled then return end
+	if not LocalPlayer():Alive() then return end
+
+	if hook.Call( "DisableMenu", GAMEMODE ) == true then return end
+	if hook.Call( "CanOpenMenu", GAMEMODE ) == false || ( Dueling && Dueling.IsDueling( LocalPlayer() ) ) then return end
+	
+	hook.Call("GTowerShowMenusPre", GAMEMODE )
+
+	MenuEnabled = true
 	gui.EnableScreenClicker( true )
 	RestoreCursorPosition()
 	
-	hook.Call("GtowerShowMenus", GAMEMODE )
+	hook.Call( "GTowerShowMenus", GAMEMODE )
 
-	///////////////////
-	// Theater Stuff //
-	///////////////////
-
-	if !IsValid(LocalPlayer()) or !LocalPlayer().GetTheater then return end
-
-	local Theater = LocalPlayer():GetTheater()
-	if !Theater then return end
-
-	-- Queue
-	if !IsValid( GuiQueue ) then
-		GuiQueue = vgui.Create( "ScoreboardQueue" )
-	end
-
-	GuiQueue:InvalidateLayout()
-	GuiQueue:SetVisible( true )
-
-	GAMEMODE:ShowMouse()
-
-	if LocalPlayer():IsAdmin() || LocalPlayer():IsUserGroup("mikumod") or
-		( Theater:IsPrivate() and Theater:GetOwner() == LocalPlayer() ) then
-
-		if !IsValid( GuiAdmin ) then
-			GuiAdmin = vgui.Create( "ScoreboardAdmin" )
-		end
-
-		GuiAdmin:InvalidateLayout()
-		GuiAdmin:SetVisible( true )
-
-	end
 end
 
-function GtowerMainGui:GtowerShowContextMenus()
-	if GtowerMainGui.MenuEnabled then return end
+function ShowContextMenus()
 
-	if hook.Call( "DisableMenu", GAMEMODE ) == false then return end
-	if hook.Call( "CanOpenMenu", GAMEMODE ) == false || IsValid( LocalPlayer():GetNWEntity("DuelOpponent") ) then return end
-    
+	if MenuEnabled then return end
+
+	if hook.Call( "DisableMenu", GAMEMODE ) == true then return end
+	if hook.Call( "CanOpenMenu", GAMEMODE ) == false || ( Dueling && Dueling.IsDueling( LocalPlayer() ) ) then return end
+	
 	hook.Call( "GTowerShowContextMenusPre", GAMEMODE )
 
-	GtowerMainGui.ContextMenuEnabled = true
+	ContextMenuEnabled = true
 	gui.EnableScreenClicker( true )
 	RestoreCursorPosition()
 	
-	hook.Call( "GtowerShowContextMenus", GAMEMODE )
+	hook.Call( "GTowerShowContextMenus", GAMEMODE )
+
+end
+concommand.Add( "+menu", ShowMenus )
+concommand.Add( "+menu_context", ShowContextMenus )
+
+
+function ToggleCursor( bool )
+
+	if bool then
+
+		if !gui.ScreenClickerEnabled() then
+			gui.EnableScreenClicker( true )
+			RestoreCursorPosition()
+			ClickerForced = true
+		end
+
+	else
+
+		if ClickerForced then
+			RememberCursorPosition()
+			gui.EnableScreenClicker( false )
+			ClickerForced = false
+		end
+
+	end
 
 end
 
-concommand.Add("+menu", GtowerMainGui.GtowerShowMenus)
-concommand.Add("+menu_context", GtowerMainGui.GtowerShowContextMenus)
+hook.Add( "ScoreboardHide", "KeepMouseAvaliable", function()
 
-hook.Add("ScoreboardHide", "KeepMouseAvaliable", function()
 	RememberCursorPosition()
+
 	timer.Simple( 0.0, function()
 		if CanClose() == false then
 			gui.EnableScreenClicker( true )
 			RestoreCursorPosition()
 		end
 	end )
+
 end )
- 
+
+hook.Add( "Think", "AutoHideMenu", function()
+
+	if not LocalPlayer():Alive() then
+		GTowerMainGui:HideMenus()
+	end
+
+end )

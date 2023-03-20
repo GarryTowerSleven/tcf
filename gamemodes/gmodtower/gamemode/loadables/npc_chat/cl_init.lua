@@ -1,10 +1,9 @@
----------------------------------
-GtowerNPCChat = {}
-GtowerNPCChat.MainChat = nil
-GtowerNPCChat.OpenTime = 0
+GTowerNPCChat = {}
+GTowerNPCChat.MainChat = nil
+GTowerNPCChat.OpenTime = 0
 
-GtowerNPCChat.TalkingLady = nil
-GtowerNPCChat.NPCMaxTalkDistance = 512
+GTowerNPCChat.TalkingLady = nil
+GTowerNPCChat.NPCMaxTalkDistance = 1024
 
 include("cl_question.lua")
 
@@ -37,41 +36,47 @@ include("cl_question.lua")
 	}
 */
 
-function GtowerNPCChat:StartChat( tbl )
+function GTowerNPCChat:StartChat( tbl )
 
-	if IsValid( GtowerNPCChat.MainChat ) then
-		GtowerNPCChat.MainChat:DisperseSelf()
-		GtowerNPCChat.MainChat = nil
+	if IsValid( GTowerNPCChat.MainChat ) then
+		GTowerNPCChat.MainChat:DisperseSelf()
+		GTowerNPCChat.MainChat = nil
 	end
 	
-	GtowerNPCChat.TalkingLady = tbl.Entity
-	GtowerNPCChat.NPCMaxTalkDistance = tbl.NPCMaxTalkDistance or 512
+	GTowerNPCChat.TalkingLady = tbl.Entity
+	GTowerNPCChat.NPCMaxTalkDistance = tbl.NPCMaxTalkDistance or 128
 	
-	GtowerNPCChat.MainChat = vgui.Create("GtowerChatQuestion")
-	GtowerNPCChat.MainChat:SetupQuestion( tbl )
-	GtowerNPCChat.MainChat:SetVisible( true )	
+	GTowerNPCChat.MainChat = vgui.Create("GTowerChatQuestion")
+	GTowerNPCChat.MainChat:SetupQuestion( tbl )
+	GTowerNPCChat.MainChat:SetVisible( true )	
 	
-	GtowerMainGui:GtowerShowMenus()
+	GTowerNPCChat.OpenTime = SysTime()
 	
-	GtowerNPCChat.OpenTime = SysTime()
+	RememberCursorPosition()
+	gui.EnableScreenClicker( true )
+	//GTowerMainGui:ShowMenus()
 	
 end
 
+function GTowerNPCChat:CloseChat()
 
-function GtowerNPCChat:CloseChat()
-	if IsValid( GtowerNPCChat.MainChat ) then
-		GtowerNPCChat.MainChat:DisperseSelf()
+	if IsValid( GTowerNPCChat.MainChat ) then
+		GTowerNPCChat.MainChat:DisperseSelf()
+	else
+		return
 	end
 	
-	GtowerNPCChat.MainChat = nil
+	GTowerNPCChat.MainChat = nil
 	
-	GtowerMainGui:GtowerHideMenus()
+	gui.EnableScreenClicker( false )
+	RestoreCursorPosition()
+	//GTowerMainGui:HideMenus()
 	
 end
 
-function GtowerNPCChat:Test()
+function GTowerNPCChat:Test()
 
-	GtowerNPCChat:StartChat( {
+	GTowerNPCChat:StartChat( {
 		Text = "Hello!? This is an extremely lenght string that i need to check if garry is cliiping it right. No questions asked.",
 		Responses = {
 			{
@@ -97,3 +102,11 @@ function GtowerNPCChat:Test()
 	} )
 
 end
+
+hook.Add( "PlayerThink", "CloseChatOnDeath", function( ply )
+
+	if !ply:Alive() then
+		GTowerNPCChat:CloseChat()
+	end
+
+end )

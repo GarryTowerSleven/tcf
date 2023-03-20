@@ -50,7 +50,7 @@ AWARDS.GroupNames = {
 	[1] = { 1, "General" },
 	[2] = { 2, "Milestones" },
 	[20] = { 3, "Holiday" },
-	[3] = { 4, "Condo" },
+	[3] = { 4, "Suite" },
 	[4] = { 5, "Arcade" },
 	[21] = { 6, "Casino" },
 	[5] = { 7, "Minigames" },
@@ -61,7 +61,6 @@ AWARDS.GroupNames = {
 	[10] = { 12, "Zombie Massacre" },
 	[11] = { 13, "Source Karts" },
 	[12] = { 14, "Minigolf" },
-	[13] = { 15, "Gourmet Race" },
 }
 
 AWARDS.GamemodeNames = {

@@ -1,115 +1,129 @@
-ENT.Base = "base_anim"
+﻿ENT.Base = "base_anim"
 ENT.Type = "anim"
 ENT.PrintName = "Video Poker"
 ENT.Author = "mitterdoo"
-ENT.Purpose				= "GMod Tower"
-ENT.Spawnable			= true
-ENT.AdminSpawnable		= true
+ENT.Purpose = "GMod Tower"
+ENT.Spawnable = true
+ENT.AdminSpawnable = true
 ENT.RenderGroup = RENDERGROUP_BOTH
 
 ENT.States = {
-	IDLE = 0,
-	BEGIN = 1,
-	NOPLAY = 2,
-	DISCARD = 3,
-	FINISH = 4,
+    IDLE = 0,
+    BEGIN = 1,
+    NOPLAY = 2,
+    DISCARD = 3,
+    FINISH = 4,
 }
 
 ENT.GMCPerCredit = 2
 
-function ENT:SetJackpot( amount )
-	SetGlobalInt( "VideoPokerJackpot", amount )
+function ENT:SetJackpot(amount)
+    SetGlobalInt("VideoPokerJackpot", amount)
 end
 
 function ENT:GetJackpot()
-	return GetGlobalInt("VideoPokerJackpot")
+    return GetGlobalInt("VideoPokerJackpot")
 end
 
 function ENT:SetupDataTables()
-
-	self:NetworkVar( "Entity", 0, "Player" )
-	self:NetworkVar( "Int", 0, "HandInternal" ) // use self:SetHand( hand:ToInt() ) and Hand():FromInt( hand )
-	self:NetworkVar( "Int", 1, "State" )
-	--self:NetworkVar( "Int", 2, "Jackpot" )
-	self:NetworkVar( "Int", 2, "Bet" )
-	self:NetworkVar( "Int", 3, "Score" )
-	self:NetworkVar( "Int", 4, "HeldInternal" )
-	self:NetworkVar( "Int", 5, "Credits" )
-	self:NetworkVar( "Int", 6, "Profit" )
-	self:NetworkVar( "Int", 7, "BeginCredits" )
-
-	// statistics ( player name then GMC )
-	self:NetworkVar( "String", 0, "LastPlayer" )
-	self:NetworkVar( "Int", 8, "LastPlayerValue" )
-
-	self:NetworkVar( "String", 1, "LastJackpot" )
-	self:NetworkVar( "Int", 9, "LastJackpotValue" )
-
-	self:NetworkVar( "String", 2, "MostGMCSpent" )
-	self:NetworkVar( "Int", 10, "MostGMCSpentValue" )
-
+    self:NetworkVar("Entity", 0, "Player")
+    self:NetworkVar("Int", 0, "HandInternal") -- use self:SetHand( hand:ToInt() ) and Hand():FromInt( hand )
+    self:NetworkVar("Int", 1, "State")
+    --self:NetworkVar( "Int", 2, "Jackpot" )
+    self:NetworkVar("Int", 2, "Bet")
+    self:NetworkVar("Int", 3, "Score")
+    self:NetworkVar("Int", 4, "HeldInternal")
+    self:NetworkVar("Int", 5, "Credits")
+    self:NetworkVar("Int", 6, "Profit")
+    self:NetworkVar("Int", 7, "BeginCredits")
+    -- statistics ( player name then GMC )
+    self:NetworkVar("String", 0, "LastPlayer")
+    self:NetworkVar("Int", 8, "LastPlayerValue")
+    self:NetworkVar("String", 1, "LastJackpot")
+    self:NetworkVar("Int", 9, "LastJackpotValue")
+    self:NetworkVar("String", 2, "MostGMCSpent")
+    self:NetworkVar("Int", 10, "MostGMCSpentValue")
 end
 
 ENT.Prizes = {
-	[11] = { 2500, 5000, 7500, 10000, -1, Name = "ROYAL FLUSH" },
-	[9] = { 200, 400, 600, 800, 1000, Name = "STRAIGHT FLUSH" },
-	[8] = { 100, 200, 300, 400, 500, Name = "FOUR OF A KIND" },
-	[7] = { 50, 100, 150, 200, 250, Name = "FULL HOUSE" },
-	[6] = { 25, 50, 75, 100, 125, Name = "FLUSH" },
-	[5] = { 15, 30, 45, 60, 75, Name = "STRAIGHT" },
-	[4] = { 10, 20, 30, 40, 50, Name = "THREE OF A KIND" },
-	[3] = { 5, 10, 15, 20, 25, Name = "TWO PAIR" },
-	[2] = { 2, 4, 6, 8, 10, Name = "JACKS OR BETTER" },
+    [11] = {
+        2500, 5000, 7500, 10000, -1, Name = "ROYAL FLUSH"
+    },
+    [9] = {
+        200, 400, 600, 800, 1000, Name = "STRAIGHT FLUSH"
+    },
+    [8] = {
+        100, 200, 300, 400, 500, Name = "FOUR OF A KIND"
+    },
+    [7] = {
+        50, 100, 150, 200, 250, Name = "FULL HOUSE"
+    },
+    [6] = {
+        25, 50, 75, 100, 125, Name = "FLUSH"
+    },
+    [5] = {
+        15, 30, 45, 60, 75, Name = "STRAIGHT"
+    },
+    [4] = {
+        10, 20, 30, 40, 50, Name = "THREE OF A KIND"
+    },
+    [3] = {
+        5, 10, 15, 20, 25, Name = "TWO PAIR"
+    },
+    [2] = {
+        2, 4, 6, 8, 10, Name = "JACKS OR BETTER"
+    },
 }
 
-function ENT:CanUse( ply )
-	return true, "PLAY"
+function ENT:CanUse(ply)
+    return true, "PLAY"
 end
 
 if SERVER then
-	function ENT:SetHeld( held )
+    function ENT:SetHeld(held)
+        local Binary = ""
 
-		local Binary = ""
-		for k, v in pairs( held ) do
-			Binary = Binary .. ( v and 1 or 0 )
-		end
+        for k, v in pairs(held) do
+            Binary = Binary .. (v and 1 or 0)
+        end
 
-		self:SetHeldInternal( math.BinToInt( Binary ) )
+        self:SetHeldInternal(math.BinToInt(Binary))
+    end
 
-	end
-
-	function ENT:SetHand( hand )
-		self:SetHandInternal( hand:ToInt() )
-	end
+    function ENT:SetHand(hand)
+        self:SetHandInternal(hand:ToInt())
+    end
 end
 
 function ENT:GetHand()
-	return Cards.Hand():FromInt( self:GetHandInternal() )
+    return Cards.Hand():FromInt(self:GetHandInternal())
 end
 
 function ENT:GetHeld()
+    local held = {}
+    local Binary = math.IntToBin(self:GetHeldInternal())
 
-	local held = {}
-	local Binary = math.IntToBin( self:GetHeldInternal() )
-	if #Binary < 6 then
-		Binary = string.rep( "0", 6 - #Binary ) .. Binary
-	end
-	for i = 2, #Binary do
+    if #Binary < 6 then
+        Binary = string.rep("0", 6 - #Binary) .. Binary
+    end
 
-		table.insert( held, string.sub( Binary, i, i ) == "1" )
+    for i = 2, #Binary do
+        table.insert(held, string.sub(Binary, i, i) == "1")
+    end
 
-	end
-	return held
-
+    return held
 end
 
 function ENT:GetStateName()
+    local s = self:GetState()
 
-	local s = self:GetState()
-	if s == self.States.NOPLAY or s == self.States.FINISH then return "Game Over"
-	elseif s == self.States.DISCARD then return ""
-	elseif s == self.States.ENDING then return ""
-	else return "Error" end
-
+    if s == self.States.NOPLAY or s == self.States.FINISH then
+        return "Game Over"
+    elseif s == self.States.DISCARD then
+        return ""
+    elseif s == self.States.ENDING then
+        return ""
+    else
+        return "Error"
+    end
 end
-

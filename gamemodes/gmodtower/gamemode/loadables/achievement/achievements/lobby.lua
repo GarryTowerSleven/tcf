@@ -3,22 +3,22 @@ GTowerAchievements:Add( ACHIEVEMENTS.GTOWERADDICTION, {
 	Description = "Play on Tower for 7 days (".. (60*24*7) .." minutes)", 
 	Value = 60*24*7,
 	GiveItem = "trophy_gmodtoweraddiction",
-	//GMC = 50000
+	GMC = 50000
 })
 
-/*GTowerAchievements:Add( ACHIEVEMENTS.HUMANBLUR, {
+GTowerAchievements:Add( ACHIEVEMENTS.HUMANBLUR, {
 	Name = "Human Blur", 
 	Description = "Fall from the top of the lobby.", 
 	Value = 1,
 	GiveItem = "trophy_humanblur"
-})*/
+})
 
 GTowerAchievements:Add( ACHIEVEMENTS.WALKTOOLONG, {
-	Name = "Long Walk Through Tower",
+	Name = "Long Walk Through GMT",
 	Description = "Walk more than 200,000 feet.", 
 	Value = 200000,
 	GiveItem = "trophy_longwalk",
-	//GMC = 20000
+	GMC = 20000
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.ZOMBIERP, {
@@ -32,7 +32,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.JUMPINGJACK, {
 	Description = "Jump 200,000 times.", 
 	Value = 200000,
 	GiveItem = "trophy_jackrabbit",
-	//GMC = 50000
+	GMC = 50000
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.SUITEOCD, {
@@ -44,14 +44,14 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITEOCD, {
 	
 GTowerAchievements:Add( ACHIEVEMENTS.SUITEPICKUPLINE, {
 	Name = "Best Pickup Line",
-	Description = "Talk to the condo lady while drunk.", 
+	Description = "Talk to the suite lady while drunk.", 
 	Value = 1,
 	Group = 3
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.SUITELADYAFF, {
-	Name = "Condo Lady Affixation",
-	Description = "Talk to the condo lady more than 250 times.", 
+	Name = "Suite Lady Affixation",
+	Description = "Talk to the suite lady more than 250 times.", 
 	Value = 250,
 	Group = 3
 })
@@ -66,14 +66,14 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITEYOUTUBE, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.SUITELEAVEMEALONE, {
 	Name = "Leave Me Alone",
-	Description = "Kick more than 15 players out of your condo.", 
+	Description = "Kick more than 15 players out of your suite.", 
 	Value = 15,
 	Group = 3
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.SUITEPARTY, {
 	Name = "Party Animal",
-	Description = "Have 4 or more players in your condo for an hour total.", 
+	Description = "Have 4 or more players in your suite for an hour total.", 
 	Value = 60,
 	Group = 3
 })
@@ -224,18 +224,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.PLAYERMODEL, {
 	Group = "Suite",
 })*/
 
-GTowerAchievements:Add( ACHIEVEMENTS.DOPEFISH, {
-	Name = "HELLO MY NAME IS DOPEFISH",
-	Description = "Find and talk to Dope Fish.",
-	Value = 1,
-})
-
-GTowerAchievements:Add( ACHIEVEMENTS.TRASHMAN, {
-	Name = "The Trashman",
-	Description = "Open more than 100 trash cans.",
-	Value = 100,
-})
-
 GTowerAchievements:Add( ACHIEVEMENTS.SIDEBYSIDE, {
 	Name = "Fighting Side by Side",
 	Description = "Go into a duel while there already is a duel active.",
@@ -246,18 +234,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.ITCHING, {
 	Name = "Itching For Fights",
 	Description = "Commence in more than 15 duels.",
 	Value = 15,
-})
-
-GTowerAchievements:Add( ACHIEVEMENTS.ANTICLIMAX, {
-	Name = "Anticlimax",
-	Description = "Find and hold the money button.",
-	Value = 1,
-})
-
-GTowerAchievements:Add( ACHIEVEMENTS.WTF, {
-	Name = "What Was That?",
-	Description = "???",
-	Value = 1
 })
 
 /* the achievement has issues + the arcades aren't all there
@@ -278,11 +254,11 @@ GTowerAchievements:Add( ACHIEVEMENTS.ARCADEJUNKIE, {
 	Group = 1,
 })*/
 
-/*GTowerAchievements:Add( ACHIEVEMENTS.ONESMALLSTEP, {
+GTowerAchievements:Add( ACHIEVEMENTS.ONESMALLSTEP, {
 	Name = "One Small Step for Man", 
 	Description = "Explore deep space.", 
 	Value = 1
-})*/
+})
 
 /*GTowerAchievements:Add( ACHIEVEMENTS.DVNO, {
 	Name = "DVNO 2010",
@@ -369,3 +345,23 @@ hook.Add("PlayerThink", "AchiZombieHat", function(ply)
 	end
 
 end )
+
+hook.Add( "OnPlayerHitGround", "HumanBlurCheck", function( ply )
+	if ( Location.Is( ply._Location, "Lobby" ) && Location.Is( ply._LastLocation, "Lobby Roof" ) ) then
+		ply:SetAchievement( ACHIEVEMENTS.HUMANBLUR, 1 )
+	end
+end)
+
+hook.Add("Location","MoonAchiCheck",function( ply, loc, lastloc ) 
+	if IsValid( ply ) then
+		if Location.Is( loc, "Moon" ) then
+			ply:SetAchievement( ACHIEVEMENTS.ONESMALLSTEP, 1 )
+			ply.MoonStoreModel = ply:GetModel()
+			ply:SetModel("models/player/spacesuit.mdl")
+			ply:SetGravity(0.4)
+		elseif !Location.Is( loc, "Moon" ) && Location.Is( lastloc, "Moon" ) then
+			ply:SetGravity(0)
+			ply:SetModel(ply.MoonStoreModel)
+		end
+	end
+end)

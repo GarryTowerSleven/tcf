@@ -1,4 +1,3 @@
----------------------------------
 local CurTime = CurTime
 local RealTime = RealTime
 local FrameTime = FrameTime
@@ -55,7 +54,7 @@ module( "draw" )
 
 function HTMLPanel( panel, w, h )
 
-	if not IsValid( panel ) then return end
+	if not ValidPanel( panel ) then return end
 	if not (w and h) then return end
 	
 	panel:UpdateHTMLTexture()
@@ -71,11 +70,7 @@ function HTMLPanel( panel, w, h )
 	ph = math.CeilPower2(ph)
 
 	surface.SetDrawColor( 255, 255, 255, 255 )
-	
-	if panel:GetHTMLMaterial() then
-		surface.SetMaterial( panel:GetHTMLMaterial() )
-	end
-	
+	surface.SetMaterial( panel:GetHTMLMaterial() )
 	surface.DrawTexturedRect( 0, 0, w * pw, h * ph )
 
 end
@@ -317,7 +312,7 @@ function GradientBox(x, y, w, h, al, ...)
 							 Lerp(g_sz/g_wgrd, g_grds[n].b, g_grds[n + 1].b) or 0,
 							 Lerp(g_sz/g_wgrd, g_grds[n].a, g_grds[n + 1].a) or 0 )
 
-		color = nil
+		// color = nil
 
 		if color then
 			surface.SetDrawColor( color )
@@ -336,14 +331,9 @@ end
 
 local verts = {{},{},{},{}}
 local otw, oth, tw, th, uoffset, voffset, umax, vmax
-function OffsetTexture( x, y, w, h, xoffset, yoffset, tw, th, color, texture, ismat )
+function OffsetTexture( x, y, w, h, xoffset, yoffset, tw, th, texture, color )
 
-	if ismat then
-		otw, oth = texture:GetInt( "$realwidth" ) or 1280, texture:GetInt( "$realheight" ) or 720
-	else
-		otw, oth = surface.GetTextureSize(texture)
-	end
-
+	otw, oth = surface.GetTextureSize(texture)
 	uoffset, voffset = xoffset/otw, yoffset/oth
 	umax, vmax = uoffset + (tw/otw), voffset + (th/oth)
 
@@ -368,11 +358,7 @@ function OffsetTexture( x, y, w, h, xoffset, yoffset, tw, th, color, texture, is
 	verts[4].v = vmax
 
 	surface.SetDrawColor(color)
-	if ismat then
-		surface.SetMaterial(texture)
-	else
-		surface.SetTexture(texture)
-	end
+	surface.SetTexture(texture)
 	surface.DrawPoly(verts)
 
 end
@@ -642,7 +628,7 @@ function TheaterText(text, font, x, y, colour, xalign, yalign)
 	draw.SimpleText(text, font, x, y, colour, xalign, yalign)
 end
 
-local GradientDirTextures = {
+/*local GradientDirTextures = {
 	[UP] = Material( "vgui/gradient-u" ),
 	[DOWN] = Material( "vgui/gradient-d" ),
 	[LEFT] = Material( "vgui/gradient-l" ),
@@ -650,10 +636,10 @@ local GradientDirTextures = {
 }
 
 function GradientBox( x, y, w, h, color, dir )
-	surface.SetDrawColor( color )
+	surface.SetDrawColor(  )
 	surface.SetMaterial( GradientDirTextures[dir] )
 	surface.DrawTexturedRect( x, y, w, h )
-end
+end*/
 
 --[[---------------------------------------------------------
     Name: RotatedText(text, font, x, y, degrees, color, xalign, yalign)

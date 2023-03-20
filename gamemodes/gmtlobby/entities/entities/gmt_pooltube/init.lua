@@ -1,11 +1,8 @@
 
 AddCSLuaFile( "cl_init.lua" );
 AddCSLuaFile( "shared.lua" );
-AddCSLuaFile( "sh_tube_manager.lua" );
-AddCSLuaFile( "waterslide_curve.lua" );
 
 include('shared.lua');
-include('sh_tube_manager.lua');
 
 ENT.Occupant = nil
 ENT.OccupantWeaps = {}
@@ -43,16 +40,6 @@ function ENT:Initialize()
 	end
 end
 
-function ENT:SetSlideCurve( curve )
-	if self.Ready then return end
-	self.Curve = STORED_CURVES[curve]
-	--self.Curve:CalculateKeyPoints( self.KeysPerNode )
-	self.StartTime = UnPredictedCurTime()
-	self.Velocity = 250
-	self.Ready = true
-	self:SetNWBool("Ready",true)
-end
-
 function ENT:Pop()
 	if self.Occupant && IsValid(self.Occupant) then
 		self:Exit( self.Occupant )
@@ -69,11 +56,11 @@ end
 function ENT:Think()
 
 	// check if tubes in the boardwalk
-	if !Location.IsGroup( self:Location(), "boardwalk" ) && !self.OutOfBounds then
+	if self:Location() != 56 && !self.OutOfBounds then
 		self.OutOfBounds = true
 		self.OldColor = self:GetColor()
 		self.TimeOOB = CurTime() + self.KickoutDelay
-	elseif Location.IsGroup( self:Location(), "boardwalk" ) && self.OutOfBounds then
+	elseif self:Location() == 56 && self.OutOfBounds then
 		self.OutOfBounds = false
 		self:SetColor(self.OldColor)
 		self.OldColor = nil
@@ -93,18 +80,6 @@ function ENT:Think()
 		self:Pop()
 		self.OutOfBounds = false
 		self.TimeOOB = 0
-	end
-
-	if !self.Curve && STORED_CURVES then
-
-		self.Curve = STORED_CURVES["waterslide_a"]
-
-		for k,v in pairs( ents.FindInSphere( Vector(-4317.9516601563, -4666.1206054688, -205.30804443359), 64 ) ) do
-			if v:GetClass() == "gmt_pooltube" && v == self then
-				self.Curve = STORED_CURVES["waterslide_b"]
-			end
-		end
-
 	end
 
 	if self.Ready then

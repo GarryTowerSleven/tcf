@@ -1,6 +1,5 @@
 GMode.Name = "PVP Battle"
 GMode.Gamemode = "pvpbattle"
-GMode.ThemeColor = Color(210, 22, 2)
 
 //Set true if players should be kicked if their "goserver" value on the database is not the same as the local server
 GMode.Private = true
@@ -14,14 +13,14 @@ GMode.WaitingTime = 20.0
 //Set this to false if you want people to be able to go in and out of the server at any time.
 //Set also the min amount of players to join the sevrer
 GMode.OneTimeJoin = true
-GMode.MinPlayers = 2
+GMode.MinPlayers = 4
 
 //Set this if only a group can join,
 GMode.GroupJoin = false
 
 GMode.View = {
-	pos = Vector( 5522, -6125, -812 ),
-	ang = Angle( 3, -111, 0.000000 )
+	pos = Vector( 9601, 9737, 6715 ),
+	ang = Angle( -6.5, 160.2, 0 )
 }
 GMode.Music = {
 	"GModTower/pvpbattle/StartOfColonyRound.mp3",
@@ -100,17 +99,17 @@ function GMode:ProcessData( ent, data )
 	local CurRound = roundExploded[1]
 	local MaxRounds = roundExploded[2]
 	
-	local rightString = string.format( "%d <color=white>/</color> %d", CurRound, MaxRounds )
+	local rightString = string.format( "%d <color=ltgrey>/</color> %d", CurRound, MaxRounds )
 	
 	// Parse and set position
-	ent.LeftTitle = markup.Parse( "<font=MultiSubDeluxe><color=white>" .. leftTitle .. "</color></font>" )
-	ent.LeftMarkup = markup.Parse( "<font=MultiSubDeluxe>" .. leftString .. "</font>" )
+	ent.LeftTitle = markup.Parse( "<font=GTowerGMTitle><color=grey>" .. leftTitle .. "</color></font>" )
+	ent.LeftMarkup = markup.Parse( "<font=GTowerHUDMainLarge>" .. leftString .. "</font>" )
 	
 	PositionCenter( ent, ent.LeftTitle, 0.15, 0.60 )
 	PositionCenter( ent, ent.LeftMarkup, 0.15, 0.85 )
 	
-	ent.RightTitle = markup.Parse( "<font=MultiSubDeluxe><color=white>" .. rightTitle .. "</color></font>" )
-	ent.RightMarkup = markup.Parse( "<font=MultiSubDeluxe>" .. rightString .. "</font>" )
+	ent.RightTitle = markup.Parse( "<font=GTowerGMTitle><color=grey>" .. rightTitle .. "</color></font>" )
+	ent.RightMarkup = markup.Parse( "<font=GTowerHUDMainLarge>" .. rightString .. "</font>" )
 	
 	PositionCenter( ent, ent.RightTitle, 0.85, 0.60 )
 	PositionCenter( ent, ent.RightMarkup, 0.85, 0.85 )

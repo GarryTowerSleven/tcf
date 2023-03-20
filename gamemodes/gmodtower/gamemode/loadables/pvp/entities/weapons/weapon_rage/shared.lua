@@ -38,7 +38,7 @@ util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:PrimaryAttack()
 
-	if string.StartWith(game.GetMap(),"gmt_lobby") and !Dueling.IsDueling( self.Owner ) and !self.Owner:IsAdmin() then self.Primary.Damage = 0 end
+	if IsLobby and !Dueling.IsDueling( self.Owner ) and !self.Owner:IsAdmin() then self.Primary.Damage = 0 end
 
 	if !self:CanPrimaryAttack() then return end
 	self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
@@ -49,7 +49,7 @@ end
 function SWEP:SecondaryAttack()
 	if CLIENT then return end
 
-	if !string.StartWith(game.GetMap(),"gmt_lobby") or !self.Owner:IsAdmin() then return end
+	if !IsLobby or !self.Owner:IsAdmin() then return end
 
 	if not IsFirstTimePredicted() then return end
 	if (self.Wait) then return end

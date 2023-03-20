@@ -172,6 +172,8 @@ function GM:UCKeyPress( ply, key )
 	
 	if key == IN_JUMP then
 
+		ply.Jumped = true
+
 		if ply:IsOnGround() then
 
 			if ply:CanSprint() then

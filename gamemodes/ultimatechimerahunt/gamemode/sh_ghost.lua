@@ -14,7 +14,7 @@ function meta:SetGhost()
 	self:UpdateSpeeds()
 	
 	local rnd = math.random( 1, 6 )
-	if rnd == 1 || self:IsAdmin() || ( self:SteamID() == "STEAM_0:1:18712009" ) || ( self:SteamID() == "STEAM_0:0:15339565" ) then
+	if rnd == 1 then
 		self:SetNWBool( "IsFancy", true )
 	else
 		self:SetNWBool( "IsFancy", false )

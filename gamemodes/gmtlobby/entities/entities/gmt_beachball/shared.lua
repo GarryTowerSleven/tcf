@@ -1,4 +1,4 @@
----------------------------------
+
 
 -----------------------------------------------------
 ENT.Type 			= "anim"
@@ -43,7 +43,7 @@ function ENT:Initialize()
 
 			self.LocationChecked = CurTime()
 
-			if CurLoc != 42 then
+			if CurLoc != 56 then
 				self:SetNWBool("OwnedByAdmin" , true)
 			end
 
@@ -297,11 +297,12 @@ function ENT:CheckLocation( loc )
 
 	local CurLoc = Location.Find(self:GetPos())
 
-	if Location.GetGroup(CurLoc) != "boardwalk" then
+	if self:GetNWBool("OwnedByAdmin") then return end
+
+	if CurLoc != 56 then
 		self:ResetPos()
 	end
 
-	if self:GetNWBool("OwnedByAdmin") then return end
 
 
 end

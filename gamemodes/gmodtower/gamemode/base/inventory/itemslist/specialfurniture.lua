@@ -57,7 +57,7 @@ RegisterItem( "bed", {
 	Name = "Bed",
 	Description = "Sleep off your worries.",
 	Model = "models/gmod_tower/suitebed.mdl",
-	ClassName = "gmt_room_bed",
+	ClassName = "gmt_suitebed",
 	MoveSound = "furniture3",
 	DrawModel = true,
 	StorePrice = 1000,

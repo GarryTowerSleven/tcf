@@ -102,9 +102,14 @@ function GM:VirusSpawn( ply )
 				
 				ply:SetNetworkedEntity( "Flame1", ply.Flame )
 				ply:SetNetworkedEntity( "Flame2", ply.Flame2 )
-				ply:EmitSound( "ambient/fire/ignite.wav", 75, 95, 1, CHAN_AUTO )
-				
 			end
+
+			/*net.Start( "IgnitePlayer" )
+				net.WriteEntity( ply )
+				net.WriteBool( true )
+			net.Broadcast()*/
+
+			ply:EmitSound( "ambient/fire/ignite.wav", 75, 95, 1, CHAN_AUTO )
 		end
 	end )
 	
@@ -113,6 +118,17 @@ function GM:VirusSpawn( ply )
 	end
 	
 end
+
+/*hook.Add( "PlayerDeath", "PlayerIgnite", function( ply )
+	if ( ply:GetNet( "IsVirus" ) ) then
+		net.Start( "IgnitePlayer" )
+			net.WriteEntity( ply )
+			net.WriteBool( false )
+		net.Broadcast()
+	end
+end )
+
+util.AddNetworkString( "IgnitePlayer" )*/
 
 function GM:HumanSpawn( ply )
 

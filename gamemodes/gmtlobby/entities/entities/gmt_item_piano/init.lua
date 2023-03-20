@@ -34,13 +34,13 @@ function ENT:Think()
 end
 
 function ENT:LoadRoom()
-	self.RoomId = GtowerRooms.ClosestRoom( self:GetPos() )
+	self.RoomId = GTowerRooms.ClosestRoom( self:GetPos() )
 end
 
 function ENT:Use(ply)
 
 	if self.Playing then return end
-	local Room = GtowerRooms.Get( self.RoomId )
+	local Room = GTowerRooms.Get( self.RoomId )
 	if !ply:IsPlayer() || (ply != Room.Owner && !ply:IsAdmin()) then return end
 
 	self.Playing = true

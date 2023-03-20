@@ -1,7 +1,6 @@
 ---------------------------------
 GMode.Name = "Virus"
 GMode.Gamemode = "virus"
-GMode.ThemeColor = Color(70, 118, 34)
 
 //Set true if players should be kicked if their "goserver" value on the database is not the same as the local server
 GMode.Private = true
@@ -18,7 +17,7 @@ GMode.WaitingTime = 20.0
 //Set this to false if you want people to be able to go in and out of the server at any time.
 //Set also the min amount of players to join the sevrer
 GMode.OneTimeJoin = true
-GMode.MinPlayers = 2
+GMode.MinPlayers = 6
 
 //Set this if only a group can join
 GMode.GroupJoin = false
@@ -48,7 +47,7 @@ local function NiceTimeShort( seconds, format )
 	// Min
 	str = str .. minsLeft
 
-	if format then str = str .. "<color=white>" end
+	if format then str = str .. "<color=ltgrey>" end
 	str = str .. " " .. Pluralize( "min", minsLeft )
 	if format then str = str .. "</color>" end
 
@@ -58,7 +57,7 @@ local function NiceTimeShort( seconds, format )
 	// Secs
 	str = str .. secsLeft
 
-	if format then str = str .. "<color=white>" end
+	if format then str = str .. "<color=ltgrey>" end
 	str = str .. " " .. Pluralize( "sec", secsLeft )
 	if format then str = str .. "</color>" end
 
@@ -69,8 +68,8 @@ end
 GMode.Maps = Maps.GetMapsInGamemode( GMode.Gamemode )
 
 GMode.View = {
-	pos = Vector( 1872.506836, -5455.075195, -783.139038 ),
-	ang = Angle( 8, 180, 0 )
+	pos = Vector( 11514.360352, 11507.714844, 6751.542480 ),
+	ang = Angle( -5.251342, -25.747440, 0.000000 )
 }
 
 function GMode:GetMapTexture( map )
@@ -135,11 +134,11 @@ function GMode:ProcessData( ent, data )
 	local CurRound = roundExploded[1]
 	local MaxRounds = roundExploded[2]
 
-	local rightString = string.format( "%d <color=white>/</color> %d", CurRound, MaxRounds )
+	local rightString = string.format( "%d <color=ltgrey>/</color> %d", CurRound, MaxRounds )
 
 	// Parse and set position
-	ent.LeftTitle = markup.Parse( "<font=MultiSubDeluxe><color=grey>" .. leftTitle .. "</color></font>" )
-	ent.LeftMarkup = markup.Parse( "<font=MultiSubDeluxe>" .. leftString .. "</font>" )
+	ent.LeftTitle = markup.Parse( "<font=GTowerGMTitle><color=grey>" .. leftTitle .. "</color></font>" )
+	ent.LeftMarkup = markup.Parse( "<font=GTowerHUDMainLarge>" .. leftString .. "</font>" )
 
 	ent.LeftTitle.PosX = ent.TotalMinX + ent.TotalWidth * 0.15 - ent.LeftTitle:GetWidth() / 2
 	ent.LeftTitle.PosY = ent.TotalMinY + ent.TopHeight * 0.60 - ent.LeftTitle:GetHeight() / 2
@@ -147,8 +146,8 @@ function GMode:ProcessData( ent, data )
 	ent.LeftMarkup.PosX = ent.TotalMinX + ent.TotalWidth * 0.15 - ent.LeftMarkup:GetWidth() / 2
 	ent.LeftMarkup.PosY = ent.TotalMinY + ent.TopHeight * 0.85 - ent.LeftMarkup:GetHeight() / 2
 
-	ent.RightTitle = markup.Parse( "<font=MultiSubDeluxe><color=white>" .. rightTitle .. "</color></font>" )
-	ent.RightMarkup = markup.Parse( "<font=MultiSubDeluxe>" .. rightString .. "</font>" )
+	ent.RightTitle = markup.Parse( "<font=GTowerGMTitle><color=grey>" .. rightTitle .. "</color></font>" )
+	ent.RightMarkup = markup.Parse( "<font=GTowerHUDMainLarge>" .. rightString .. "</font>" )
 
 	ent.RightTitle.PosX = ent.TotalMinX + ent.TotalWidth * 0.85 - ent.RightTitle:GetWidth() / 2
 	ent.RightTitle.PosY = ent.TotalMinY + ent.TopHeight * 0.60 - ent.RightTitle:GetHeight() / 2

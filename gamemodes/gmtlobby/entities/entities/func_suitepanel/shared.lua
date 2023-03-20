@@ -1,4 +1,3 @@
----------------------------------
 --[[
 	GMod Tower
 	
@@ -11,7 +10,7 @@
 ENT.Type 				= "anim"
 ENT.Base 				= "base_anim"
 
-ENT.Model			= "models/func_touchpanel/terminal04.mdl"
+ENT.Model				= Model( "models/func_touchpanel/terminal04.mdl" )
 
 -- Sounds
 ENT.soundGranted 		= Sound( "buttons/button17.wav" )
@@ -37,7 +36,6 @@ end
 function ENT:PhysicsCollide(data,phys)
 end
 
-
 function ENT:MakeEyeTrace(ply)
     
     local trace = {}
@@ -53,4 +51,12 @@ function ENT:MakeEyeTrace(ply)
 
     return cur_x, cur_y, ( trace.Entity == self.Entity && math.abs( cur_x ) <= self.scr_x2 && math.abs( cur_y ) <= self.scr_y2 ) 
 
+end
+
+function ENT:SharedInit()
+
+	/*RegisterNWTable( self, {
+		{ "RoomName", "", NWTYPE_STRING, REPL_EVERYONE },
+	} )*/
+	
 end

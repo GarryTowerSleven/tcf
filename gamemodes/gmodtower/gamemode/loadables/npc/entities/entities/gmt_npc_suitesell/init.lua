@@ -16,7 +16,7 @@ function ENT:AcceptInput( name, activator, ply )
 		timer.Simple( 0.0, function()
 			self:TypeOnComp()
 			
-			 GtowerRooms.OpenStore( ply )
+			 GTowerRooms.OpenStore( ply )
 		end )
 		
     end 

@@ -69,7 +69,7 @@ local function RegisterModel( name, friendlyName, desc, model, mdlname, price, s
 		OnUnEquip = function( self )
 			timer.Simple( 0.2, function()
 				if ((self.Ply.UCHType == nil || self.Ply.UCHType <= 0) && IsValid(self.Ply)) then
-					self.Ply:ConCommand( "gmt_playermodel barney" )
+					self.Ply:ConCommand( "gmt_playermodel kleiner" )
 					self.Ply:ConCommand( "gmt_updateplayermodel" )
 				end
 			end )
@@ -727,7 +727,7 @@ RegisterModel(
 RegisterModel(
 	"mdl_carley",
 	"Carley",
-	"",
+	"You're just a scared little girl. Get the fuck over it.",
 	"models/nikout/carleypm.mdl",
 	"carley",
 	15000, nil, nil, 1405502697 )
@@ -756,7 +756,7 @@ RegisterModel(
 	"models/player/alice.mdl",
 	"alice",
 	12000, nil, nil, 1405502697 )
-
+--[[
 RegisterModel(
 	"mdl_windranger",
 	"Wind Ranger",
@@ -764,7 +764,7 @@ RegisterModel(
 	"models/heroes/windranger/windranger.mdl",
 	"windranger",
 	30000, nil, nil, 1405502697 )
-
+--]]
 --[[RegisterModel(
 	"mdl_soria",
 	"Soria",
@@ -823,14 +823,6 @@ RegisterModel(
 	15000, nil, nil, 1405502697 )
 
 RegisterModel(
-	"mdl_hatman",
-	"Horseless Headless Horsemann",
-	"Listen closely! What's that you hear? Is it the clip clop of haunted hoofs? Nope. It's the terrifying, completely foot-generated clomping of the Horseless Headless Horseman! He's come to steal your soul! And, if you have one, your horse!",
-	"models/player/hatman.mdl",
-	"hatman",
-	500, nil, 0, 1405502697 )
-
-RegisterModel(
 	"mdl_linktp",
 	"Link",
 	"Hyaaaa!",
@@ -881,11 +873,3 @@ GTowerItems.RegisterItem( "mdl_blockdude", {
 		} )
 	end
 })
-
-RegisterModel(
-	"mdl_infoplayerstart",
-	"info_player_start",
-	"Powered by Source.",
-	"models/player/infoplayerstart.mdl",
-	"infoplayerstart",
-	12500, nil, nil, 1641431587 )

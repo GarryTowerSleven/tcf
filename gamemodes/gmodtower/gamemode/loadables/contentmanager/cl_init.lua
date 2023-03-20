@@ -111,22 +111,3 @@ hook.Add( "HUDPaint", "ContentNotice", function()
 	end
 
 end )
-
-local depression = false
-
-// *Shivers*
-concommand.Add("gmt_enditall", function( ply, cmd, args )
-	if depression then
-		depression = false
-	else
-		depression = true
-	end
-end)
-
-hook.Add( "HUDPaint", "ShutdownNotice", function()
-
-	if !depression then return end
-
-	GTowerHUD.DrawShutdownNotice( "GMTower Closing", "On April 8th @ 11:59 PST we are shutting down GMTower.\nWe are releasing its standalone successor, Tower Unite, on the same day.\nwww.towerunite.com" )
-
-end )

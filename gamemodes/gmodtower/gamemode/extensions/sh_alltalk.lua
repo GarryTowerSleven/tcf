@@ -6,7 +6,7 @@ if SERVER then
 
     	if talker:GetNWBool("GlobalMute") then return false end
 
-    	if !string.StartWith(game.GetMap(),"gmt_lobby") then return true end
+    	if !IsLobby then return true end
 
     	if GAllTalk or talker.AllTalkActive then return true
     	elseif listener:GetPos():WithinDistance(talker:GetPos(), 1024) then

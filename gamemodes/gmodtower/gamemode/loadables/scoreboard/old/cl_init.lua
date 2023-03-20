@@ -174,7 +174,7 @@ function PANEL:SetSelected( panel )
 
     if panel == self.Selected then return end
 	
-	GtowerMenu:CloseAll()
+	GTowerMenu:CloseAll()
 
     local IsLeft = true
     

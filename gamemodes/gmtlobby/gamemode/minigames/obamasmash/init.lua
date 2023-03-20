@@ -49,7 +49,7 @@ end
 
 function CheckGiveWeapon( ply, loc )
 
-	if Location.Is( loc, MinigameLocation )  then
+	if loc == MinigameLocation  then
 		GiveWeapon( ply )
 	else
 		RemoveWeapon( ply )
@@ -123,13 +123,13 @@ local function ObamaManStart()
 	ObamaCount = 0
 
 	timer.Create( "ObamaMan", 0.35, 0, function()
-		if ObamaCount < 40 then
+		if ObamaCount < 30 then
 			ObamaCount = (ObamaCount+1)
-			local entposX = math.Rand(-4182.591796875, 150)
-			local entposY = math.Rand(113,607)
+			local entposX = math.Rand(4288.218262, 4911.975586)
+			local entposY = math.Rand(-10543.968750, -9808.031250)
 			local ent = ents.Create("gmt_minigame_obama")
 			ent:SetAngles(Angle(0,math.Rand(0,360),0))
-			ent:SetPos( Vector(entposX,entposY, 14978) )
+			ent:SetPos( Vector(entposX,entposY, 4096) )
 			ent.MiniGame = true
 			ent:Spawn()
 		end
@@ -198,7 +198,7 @@ function End()
 end
 
 hook.Add("ScalePlayerDamage","ObamaDamage",function(ply, h, d)
-	if ( OBAMA_GAME_ACTIVE and Location.Is( ply:Location(), "condolobby" ) ) then
+	if ( OBAMA_GAME_ACTIVE and Location.Is( ply:Location(), "Suites" ) ) then
 		return true
 	end
 end)

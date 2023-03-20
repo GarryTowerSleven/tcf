@@ -185,8 +185,3 @@ ChairOffsets = {
 		{ Pos = Vector(16.8, -0.9, 16.2), Ang = Angle(0, -180, 0) },
 	},
 }
-
-DefaultSitSound = Sound("sunabouzu/chair_sit.wav")
-ChairSitSounds = {
-	["models/sunabouzu/theater_curve_couch.mdl"] = Sound("sunabouzu/couch_sit.wav"),
-}

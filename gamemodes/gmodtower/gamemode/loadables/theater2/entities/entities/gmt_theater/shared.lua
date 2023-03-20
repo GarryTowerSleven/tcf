@@ -1,14 +1,36 @@
----------------------------------
-ENT.Base = "base_anim"
+AddCSLuaFile()
+
+ENT.PrintName = "GMT Theater Screen"
+
 ENT.Type = "anim"
-ENT.PrintName		= "Theater"
-ENT.Author			= "Nican"
-ENT.Contact			= ""
-ENT.Purpose			= "For GMod Tower"
-ENT.Instructions	= ""
-ENT.Spawnable		= true
-ENT.AdminSpawnable	= true
+ENT.Base = "mediaplayer_base"
 
-ENT.Model		= "models/gmod_tower/theater_screen.mdl"
+ENT.Model = Model( "models/gmod_tower/theater_screen.mdl")
 
-util.PrecacheModel( ENT.Model )
+ENT.MediaPlayerType = "entity"
+ENT.IsMediaPlayerEntity = true
+
+ENT.RenderGroup = RENDERGROUP_OPAQUE
+
+DEFINE_BASECLASS( "mediaplayer_base" )
+
+list.Set( "MediaPlayerModelConfigs", ENT.Model, {
+	angle = Angle(-90, 90, 0),
+	offset = Vector(10,346,480),
+	width = 692,
+	height = 355
+} )
+
+function ENT:OnMediaChanged( media )
+	if SERVER && media && self:Location() == 41 && self:GetClass() == "gmt_theater" then
+		local title = media:Title()
+
+		SetGlobalString( "CurVideo", title )
+	end
+end
+
+function ENT:SetupMediaPlayer( mp )
+	if SERVER then
+		mp:on("mediaChanged", function(media) self:OnMediaChanged(media) end)
+	end
+end

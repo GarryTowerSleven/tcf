@@ -62,6 +62,6 @@ end)
 -- No fun allowed
 hook.Add( "CanDrive", "DisableMediaPlayerDriving", function(ply, ent)
 	if IsValid(ent) and ent.IsMediaPlayerEntity then
-		return IsValid(ply) and ply:IsAdmin()
+		return IsValid(ply) and ply:IsStaff()
 	end
 end)

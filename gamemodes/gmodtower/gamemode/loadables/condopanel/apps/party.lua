@@ -84,7 +84,7 @@ function APP:SetupOptions()
 
 				if HasParty(self.R()) then return end
 
-				local afford = Afford(GtowerRooms.PartyCost)
+				local afford = Afford(GTowerRooms.PartyCost)
 
 				-- They cannot afford it, so don't let them select anything
 				if not afford then
@@ -102,7 +102,7 @@ function APP:SetupOptions()
 
 				if HasParty(self.R()) then return end
 
-				local afford = Afford(GtowerRooms.PartyCost)
+				local afford = Afford(GTowerRooms.PartyCost)
 				-- They cannot afford it, so don't let them select anything
 				if not afford then
 					return
@@ -156,7 +156,7 @@ function APP:SetupOptions()
 
 	end
 
-	local cost = GtowerRooms.PartyCost
+	local cost = GTowerRooms.PartyCost
 
 	self:CreateButton( "startparty", sideBarWidth + 20, 200, scrw-sideBarWidth-40, sideBarHeight,
 		function( btn, x, y, w, h, isover ) -- draw
@@ -231,8 +231,8 @@ function APP:Draw()
 
 		DrawLabel( "Select what your party will have", 0, 150, sideBarWidth )
 
-		if not Afford(GtowerRooms.PartyCost) then
-			DrawPromptNotice( "Insufficient Funds", "You need " .. tostring(GtowerRooms.PartyCost) .. " GMC to start a party" )
+		if not Afford(GTowerRooms.PartyCost) then
+			DrawPromptNotice( "Insufficient Funds", "You need " .. tostring(GTowerRooms.PartyCost) .. " GMC to start a party" )
 		end
 
 	end

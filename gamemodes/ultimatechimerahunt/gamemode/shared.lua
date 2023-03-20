@@ -1,4 +1,4 @@
-GM.Name 	= "GMod Tower Classic: Ultimate Chimera Hunt"
+GM.Name 	= "GMod Tower: Ultimate Chimera Hunt"
 GM.Author 	= "Aska & Fluxmage/GMT Krew"
 GM.Email 	= ""
 GM.Website 	= ""
@@ -9,7 +9,7 @@ GM.NumRounds = 15
 GM.RoundTime = 2 * 60
 
 DeriveGamemode( "gmtgamemode" )
-SetupGMTGamemode( "Ult Chimera Hunt", "ultimatechimerahunt", {
+SetupGMTGamemode( "Ultimate Chimera Hunt", "ultimatechimerahunt", {
 	DrawHatsAlways = false, // Always draw hats
 	AFKDelay = 60, // Seconds before they will be marked as AFK
 	ChatBGColor = Color( 148, 19, 76, 180 ), -- Color of the chat gui

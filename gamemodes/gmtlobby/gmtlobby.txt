@@ -1,6 +1,6 @@
 "gmtlobby"
 {
-	"title"		"GMod Tower: Deluxe Lobby"
+	"title"		"GMod Tower: Lobby"
 
 	"author_name"	"Deluxe Team & PixelTail Games"
 	"author_url"	"http://www.gmtdeluxe.org"

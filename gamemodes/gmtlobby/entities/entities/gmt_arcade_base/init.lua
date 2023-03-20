@@ -34,9 +34,11 @@ function ENT:Use( ply )
 	if CurTime() < self.NextUse then return end
 	self.NextUse = CurTime() + 1
 
-	umsg.Start("StartGame", ply)
+	/*umsg.Start("StartGame", ply)
 		umsg.Entity(self.Entity)
-	umsg.End()
+	umsg.End()*/
+
+	ply:Msg2( T( "ArcadeDisable" ) )
 	
 	local PlyHat = GTowerHats:GetHat( ply )
 

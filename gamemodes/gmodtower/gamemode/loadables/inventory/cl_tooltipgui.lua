@@ -2,8 +2,6 @@ local PANEL = {}
 local TitleFont = "GTowerHUDMainMedium"
 local SmallFont = "GTowerToolTip"
 
-local gradient = surface.GetTextureID("vgui/gradient_up")
-
 function PANEL:Init()
 	self.Markup = nil
 	self.IsHidding = false
@@ -46,51 +44,24 @@ function PANEL:PaintOver()
 	local w, h = self:GetSize()
 	local TextAlpha = self.Alpha * 255
 
-	if InventoryStyle:GetInt() == 0 then
-		surface.SetDrawColor( 11, 100, 110, 220 )
-		surface.DrawRect( 0, 0, w, h )
+	surface.SetDrawColor( 16, 70, 101, 220 )
+	surface.DrawRect( 0, 0, w, h )
 
-		surface.SetDrawColor( 11, 100, 110, 255 )
-		surface.DrawRect( 0, 0, w, 2 )
-		surface.DrawRect( 0, 0, 2, h )
+	surface.SetDrawColor( 16, 70, 101, 255 )
+	surface.DrawRect( 0, 0, w, 2 )
+	surface.DrawRect( 0, 0, 2, h )
 
-		surface.DrawRect( w - 2, 0, 2, h )
-		surface.DrawRect( 0, h - 2, w, 2 )
+	surface.DrawRect( w - 2, 0, 2, h )
+	surface.DrawRect( 0, h - 2, w, 2 )
 
-		surface.SetDrawColor( 11, 100, 110, 255 )
-		surface.DrawRect( 0, 0, w, 20 )
+	surface.SetDrawColor( 6, 60, 90, 255 )
+	surface.DrawRect( 0, 0, w, 20 )
+	
+	surface.SetFont( TitleFont )
+	surface.SetTextColor( 255, 255, 255, TextAlpha )
 
-		surface.SetFont( TitleFont )
-		surface.SetTextColor( 255, 255, 255, TextAlpha )
-
-		surface.SetTextPos( 4, 0 )
-		surface.DrawText( self.Title )
-
-		surface.SetDrawColor( 84, 44, 97, 175 )
-
-		surface.SetTexture( gradient )
-
-		surface.DrawTexturedRect( 0, 0, w, h )
-	else
-		surface.SetDrawColor( 16, 70, 101, 220 )
-		surface.DrawRect( 0, 0, w, h )
-
-		surface.SetDrawColor( 16, 70, 101, 255 )
-		surface.DrawRect( 0, 0, w, 2 )
-		surface.DrawRect( 0, 0, 2, h )
-
-		surface.DrawRect( w - 2, 0, 2, h )
-		surface.DrawRect( 0, h - 2, w, 2 )
-
-		surface.SetDrawColor( 6, 60, 90, 255 )
-		surface.DrawRect( 0, 0, w, 20 )
-		
-		surface.SetFont( TitleFont )
-		surface.SetTextColor( 255, 255, 255, TextAlpha )
-
-		surface.SetTextPos( 4, 0 )
-		surface.DrawText( self.Title )
-	end
+	surface.SetTextPos( 4, 0 )
+	surface.DrawText( self.Title )
 	
 	if self.Markup then
 		self.Markup:Draw( 4, self.MarkupY, nil, nil, TextAlpha )

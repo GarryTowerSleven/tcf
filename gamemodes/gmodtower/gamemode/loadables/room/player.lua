@@ -11,5 +11,5 @@ function meta:GetRoom()
 end
 
 function meta:GetLocationRoom()
-	return GtowerRooms.VecInRoom( self:GetPos() )
+	return GTowerRooms.VecInRoom( self:GetPos() )
 end

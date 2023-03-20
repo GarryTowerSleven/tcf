@@ -17,6 +17,7 @@ SWEP.GunType				= "default"  //for muzzle/shell effects  (default, shotgun, rifl
 //Models  TODO
 SWEP.ViewModel			 	= "models/weapons/v_rcp120.mdl"
 SWEP.WorldModel			 	= "models/weapons/w_rcp120.mdl"
+SWEP.ViewModelFOV			= 75
 
 //Primary
 SWEP.Primary.ClipSize		= 60

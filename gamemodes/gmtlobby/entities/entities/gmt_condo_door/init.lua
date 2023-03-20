@@ -33,7 +33,7 @@ function ENT:Think()
 	if CurTime() > (self.Delay or 0) then
 		self.Delay = CurTime() + 1
 
-		local room = GtowerRooms.Get(self:GetCondoID())
+		local room = GTowerRooms.Get(self:GetCondoID())
 
 		if room && IsValid(room.Owner) then
 			if room.Owner:GetNWBool("Party") then
@@ -214,7 +214,7 @@ concommand.Add( "gmt_setdoorbell", function(ply, cmd, args)
 	local num = math.Clamp( tonumber(args[1]), 1, 50 )
 
 	if ply.GRoomId then
-		local door = GtowerRooms.GetCondoDoor(ply.GRoomId)
+		local door = GTowerRooms.GetCondoDoor(ply.GRoomId)
 		if door then
 		  door:SetNWInt("DoorBell", num)
 		end

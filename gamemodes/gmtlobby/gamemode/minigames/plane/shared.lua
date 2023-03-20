@@ -14,7 +14,7 @@ local Location = Location
 module("minigames.plane")
 
 MinigameName = "Plane Battle"
-MinigameLocation = 17
+MinigameLocation = Location.GetIDByName( "Narnia" )
 MinigameMessage = "MiniBattleGameStart"
 MinigameArg1 = "Airplane Fight"
 MinigameArg2 = Location.GetFriendlyName( MinigameLocation )

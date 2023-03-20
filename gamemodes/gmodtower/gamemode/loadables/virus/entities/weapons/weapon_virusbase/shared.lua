@@ -123,6 +123,13 @@ function SWEP:Reload()
 		self:EmitSound( self.SoundReload )
 	end
 
+	if self.EndCharge then
+		self.Charging = false
+		self.ChargeLvl = 0
+		self.NextCharge = CurTime() + self.NextChargeDelay
+		self.ChargeSound:Stop()
+	end
+
 	self.Weapon:DefaultReload( ACT_VM_RELOAD )
 	self.Owner:SetAnimation( PLAYER_RELOAD )
 

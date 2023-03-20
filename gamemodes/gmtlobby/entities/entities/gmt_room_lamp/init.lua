@@ -19,11 +19,11 @@ function ENT:Initialize()
 end
 
 function ENT:LoadRoom()
-	self.RoomId = GtowerRooms.ClosestRoom( self:GetPos() )
+	self.RoomId = GTowerRooms.ClosestRoom( self:GetPos() )
 end
 
 function ENT:Use( ply, caller )
-	local Room = GtowerRooms.Get( self.RoomId )
+	local Room = GTowerRooms.Get( self.RoomId )
 	if !ply:IsPlayer() || (ply != Room.Owner && !ply:GetSetting("GTInvAdminBank")) then return end
 
 	self.IsOn = !self.IsOn

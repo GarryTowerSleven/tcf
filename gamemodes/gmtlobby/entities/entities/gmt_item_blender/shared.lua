@@ -469,7 +469,7 @@ if SERVER then
 
 
 
-		local Room = GtowerRooms:Get( self.RoomId )
+		local Room = GTowerRooms:Get( self.RoomId )
 
 		if (Room and ply != Room.Owner) && !ply:IsAdmin() then return end
 

@@ -1,4 +1,3 @@
----------------------------------
 include("shared.lua")
 
 module( "Ambiance", package.seeall )
@@ -38,8 +37,8 @@ function Ambiance:GetSongData( id )
 	local songData = self.Music[ id ]
 
 	// Handle multiple songs per location
-	if type( songData ) == "table" then
-		local rand = math.random( 1, #songData )
+	if type( songData[1] ) == "table" then
+		local rand = math.random( 1, #songData[1] )
 
 		songData = songData[rand]
 	end
@@ -59,7 +58,9 @@ function Ambiance:PlayBGM( volume )
 
 	self.IsPlaying = true
 
-	self.CurMusicEndTime = CurTime() + self.SongData[2]
+	if self.SongData then
+		self.CurMusicEndTime = CurTime() + self.SongData[2]
+	end
 
 end
 
@@ -156,11 +157,10 @@ function Ambiance:FadeOutBGM()
 
 	if !self.CurMusic:IsPlaying() then return end
 
-	self.CurMusic:FadeOut(1)
-	/*self.CurMusicFading = true
+	self.CurMusicFading = true
 	self.CurMusicFadingVolume = 0
 	self.IsPlaying = false
-	self.LastID = self.CurID*/
+	self.LastID = self.CurID
 	//self.CurID = 0
 	//self.CurMusicFadingVolume = 0.0079 // this is a hack, setting to zero will reset the song!
 
@@ -178,52 +178,6 @@ function Ambiance:StopBGM()
 
 end
 
-function Ambiance:ALocation()
-	if Ambiance.Enabled:GetBool() then
-
-		loc = LocalPlayer():Location()
-
-		// Find ambiance based on the location ID
-		local nextID = 0
-		for id, tbl in pairs( Ambiance.Music ) do
-
-			if loc == id then
-				nextID = id
-			end
-
-			// Handle Plaza
-			if nextID == 18 || nextID == 20 || nextID == 29 || nextID == 57 || nextID == 21 || nextID == 22 || nextID == 37 || nextID == 27 || nextID == 23 || nextID == 45 || nextID == 24 || nextID == 19 || nextID == 16 || nextID == 47 || nextID == 44 || nextID == 42 || nextID == 28 || nextID == 36 || nextID == 43 || nextID == 46 || nextID == 48 then
-				nextID = 17
-			end
-
-			// Handle Station
-			if nextID == 39 || nextID == 40 then
-				nextID = 38
-			end
-
-			// Handle Tower Lobby
-			if nextID == 14 then
-				nextID = 15
-			end
-
-		end
-
-		// Don't set the same ID
-		if Ambiance.CurID == nextID then return end
-
-		// Set the song
-		if nextID != 0 then
-			Ambiance:SetDefaultBGM( nextID )
-		else
-			// No song, fade whatever we have out
-			if Ambiance.IsPlaying then
-				Ambiance:FadeOutBGM()
-			end
-		end
-
-	end
-end
-
 /*hook.Add( "InitPostEntity", "AmbianceInitPostEntity", function()
 
 	if !Ambiance.Enabled:GetBool() then return end
@@ -235,46 +189,47 @@ end )*/
 
 hook.Add( "Think", "AmbianceThink", function()
 
-	Ambiance:ALocation()
 	Ambiance:ThinkBGM()
 
 end )
 
-usermessage.Hook( "AmbianceMessage", function( um )
+net.Receive( "AmbianceMessage", function( len )
+	
+	local Id = net.ReadInt( 4 )
 
-	local id = um:ReadChar()
+	if Id == 1 then -- Play Sound
 
-	if id == 1 then // Play
+		local Volume = net.ReadInt( 8 )
+		Ambiance:PlayBGM( Volume )
 
-		local vol = um:ReadChar()
-		Ambiance:PlayBGM( vol )
-
-	elseif id == 2 then // Stop
+	elseif Id == 2 then -- Stop
 
 		Ambiance:StopBGM()
 
-	elseif id == 3 then // Fade in
+	elseif Id == 3 then -- Fade in
 
-		local vol = um:ReadChar()
-		Ambiance:FadeInBGM( vol )
+		local Volume = net.ReadInt( 8 )
+		Ambiance:FadeInBGM( Volume )
 
-	elseif id == 4 then // Fade out
+	elseif Id == 4 then -- Fade out
 
 		Ambiance:FadeOutBGM()
 
-	elseif id == 5 then // Setup new BGM
+	elseif Id == 5 then -- New BGM
 
-		local num = um:ReadChar()
-		Ambiance:SetupBGM( num )
+		local MNum = net.ReadInt( 8 )
+		Ambiance:SetupBGM( MNum )
 
-	elseif id == 6 then // Play a single sound
+	elseif Id == 6 then -- Play single sound
 
 		if Ambiance.Enabled:GetBool() then
 
-			local num = um:ReadChar()
-			local snd = Ambiance.Sounds[num]
-			if snd then
-				surface.PlaySound( snd )
+			local Number = net.ReadInt( 8 )
+			local Snd = Ambiance.Sounds[Number]
+			if Snd then
+
+				surface.PlaySound( Snd )
+
 			end
 
 		end
@@ -283,12 +238,12 @@ usermessage.Hook( "AmbianceMessage", function( um )
 
 end )
 
-/*hook.Add( "MikuOpenStore", "AmbianceStoreOpen", function()
+hook.Add( "GTowerOpenStore", "AmbianceStoreOpen", function()
 
 	if Ambiance.Enabled:GetBool() then
 
-		Ambiance.LastID = Ambiance.CurID
-		LocalPlayer():ChatPrint( Ambiance.LastID )
+		/*Ambiance.LastID = Ambiance.CurID
+		LocalPlayer():ChatPrint( Ambiance.LastID )*/
 
 		Ambiance:SetupBGM( 0 )
 		Ambiance:FadeInBGM( Ambiance.PreferredVolume:GetInt() * .01 )
@@ -297,23 +252,23 @@ end )
 
 end )
 
-hook.Add( "MikuCloseStore", "AmbianceStoreClose", function()
+hook.Add( "GTowerCloseStore", "AmbianceStoreClose", function()
 
 	if Ambiance.Enabled:GetBool() then
 
-		if Ambiance.LastID then
+		/*if Ambiance.LastID then
 			LocalPlayer():ChatPrint( Ambiance.LastID )
 			Ambiance:SetupBGM( Ambiance.LastID )
 			Ambiance:FadeInBGM( Ambiance.PreferredVolume:GetInt() * .01 )
-		end
+		end*/
 
 		Ambiance:FadeOutBGM()
 
 	end
 
-end )*/
+end )
 
-/*hook.Add( "Location", "AmbianceLocation", function( ply, loc )
+hook.Add( "Location", "AmbianceLocation", function( ply, loc )
 
 	if LocalPlayer() != ply then return end
 
@@ -339,7 +294,6 @@ end )*/
 
 		// Set the song
 		if nextID != 0 then
-			Ambiance:FadeOutBGM()
 			Ambiance:SetDefaultBGM( nextID )
 		else
 			// No song, fade whatever we have out
@@ -349,4 +303,5 @@ end )*/
 		end
 
 	end
-end )*/
+
+end )

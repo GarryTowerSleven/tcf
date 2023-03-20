@@ -46,5 +46,9 @@ function ENT:ReloadOBBBounds()
 end
 
 function ENT:CanUse( ply )
+
+
+
 	return true, "JOIN"
+
 end

@@ -44,7 +44,7 @@ end )
 
 concommand.Add("gmt_resettrophies", function( ply, cmd, args )
 	
-	if !GtowerRooms then
+	if !GTowerRooms then
 		//The item could be in the suite :/
 		return
 	end

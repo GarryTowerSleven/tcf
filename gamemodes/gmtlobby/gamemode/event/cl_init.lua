@@ -25,7 +25,7 @@ DisplayNames = {
 	["balloonpop"] = "Balloon Pop",
 	["obamasmash"] = "Obama Smash",
 	["chainsaw"] = "Chainsaw Massacre",
-	["tronarnia"] = "Tron Battle",
+	["pvpnarnia"] = "PVP Narnia",
 }
 
 hook.Add( "GTowerHUDPaint", "DrawNextEvent", function()
@@ -46,34 +46,21 @@ hook.Add( "GTowerHUDPaint", "DrawNextEvent", function()
 
 	local eventname = DisplayNames[eventname] or eventname
 
-	if HUDStyle_L2 && displayTimer() then
-		GTowerHUD.DrawExtraInfo( nil, "Next Event (" .. eventname .. ") in " .. timeformat  )
-	end
-
-	if HUDStyle_Lobby1 || HUDStyle_Lobby1AB then
-		local font = "GTowersmall"
-		local time = "Next Event (" .. eventname .. ") in " .. timeformat
+	local font = "GTowersmall"
+	local time = "Next Event (" .. eventname .. ") in " .. timeformat
 		
-		if !HUDStyle_Lobby1AB then
-			time = string.upper(time)
-			font = "GTowerHUDMainSmall"
-		end
+	time = string.upper(time)
+	font = "GTowerHUDMainSmall"
+	surface.SetFont( font )
 
-		surface.SetFont( font )
+	local tw, th = surface.GetTextSize( time )
+	local tx, ty = GTowerHUD.Info.X + GTowerHUD.Info.Width-24-tw, GTowerHUD.Info.Y + GTowerHUD.Info.TextureHeight - 10
 
-		local tw, th = surface.GetTextSize( time )
-		local tx, ty = GTowerHUD.Info.X + GTowerHUD.Info.Width-24-tw, GTowerHUD.Info.Y + GTowerHUD.Info.TextureHeight - 10
+	surface.SetTextColor( 0, 0, 0, 255 )
+	surface.SetTextPos( tx + 1, ty + 1 )
+	surface.DrawText( time )
 
-		if HUDStyle_Lobby1AB then
-			tx, ty = GTowerHUD.Info.X + (GTowerHUD.Info.Width/2) - (tw/2), GTowerHUD.Info.Y + 110
-		end
-
-		surface.SetTextColor( 0, 0, 0, 255 )
-		surface.SetTextPos( tx + 1, ty + 1 )
-		surface.DrawText( time )
-
-		surface.SetTextColor( 255, 255, 255, 255 )
-		surface.SetTextPos( tx, ty )
-		surface.DrawText( time )
-	end
+	surface.SetTextColor( 255, 255, 255, 255 )
+	surface.SetTextPos( tx, ty )
+	surface.DrawText( time )
 end )

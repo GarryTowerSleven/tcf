@@ -364,21 +364,6 @@ GTowerItems.RegisterItem( "Bumper", {
 	Tradable = false,
 } )
 
-GTowerItems.RegisterItem( "MysterySack", {
-	Name = "Mystery Sack",
-	Description = "A mysterious sack that once had powerups inside, I think it's empty now.",
-	Model = "models/legoj15/ssb3ds/items/carryitem.mdl",
-	MoveSound = Sound( "physics/metal/chain_impact_hard1.wav" ),
-	ClassName = "gmt_mystery_sack",
-	UniqueInventory = true,
-	DrawModel = true,
-	CanEntCreate = true,
-	DrawName = true,
-	CanRemove = false,
-	--BankAdminOnly = true,
-	Tradable = false,
-} )
-
 GTowerItems.RegisterItem( "UCHGhost", {
 
 	Name = "Ghost",

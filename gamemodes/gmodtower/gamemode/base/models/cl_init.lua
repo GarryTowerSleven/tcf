@@ -3,7 +3,7 @@ include('shared.lua')
 
 module("GTowerModels", package.seeall)
 
-ConVar = CreateClientConVar( "gmt_playermodel", "barney", true, true )
+ConVar = CreateClientConVar( "gmt_playermodel", "kleiner", true, true )
 
 cvars.AddChangeCallback( "gmt_playermodel", function()
 	LocalPlayer():ConCommand( "gmt_updateplayermodel" )

@@ -1,7 +1,7 @@
 
 include('shared.lua')
 
-surface.CreateFont( "clock",{ font = "Trebuchet", size = 30, weight = 800, antialias = true, additive = false })
+surface.CreateFont( "clock",{ font = "Trebuchet MS", size = 30, weight = 800, antialias = true, additive = false })
 
 function ENT:Draw()
 	self:DrawModel()

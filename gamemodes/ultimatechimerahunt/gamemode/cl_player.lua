@@ -112,7 +112,7 @@ local function ThirdPersonCamera( ply, pos, ang, fov, dis )
 	end
 
 	view.origin = trpos
-	view.angles = ( ply:GetShootPos() - trpos ):Angle()
+	view.angles = ang
 	view.fov = fov
 	
 	return view
@@ -208,7 +208,7 @@ function GM:CalcView( ply, pos, ang, fov )
 		end
 		
 		if ply:GetNWBool( "IsScared" ) then
-			return ThirdPersonCamera( ply, pos, ang, fov, 100 )
+			return ThirdPersonCamera( ply, ply:EyePos(), ang, fov, 100 )
 		end
 		
 	end
@@ -216,7 +216,7 @@ function GM:CalcView( ply, pos, ang, fov )
 	if ply:GetNWBool( "IsChimera" ) then
 		
 		if ply:Alive() then
-			return ThirdPersonCamera( ply, pos, ang, fov, 125 )
+			return ThirdPersonCamera( ply, ply:EyePos(), ang, fov, 125 )
 		else
 
 			local followang = ang

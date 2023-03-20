@@ -166,13 +166,13 @@ function BallMenu()
 		BallRacerChooser:Close()
 	end
 end
-hook.Add("GtowerShowMenus", "bcontextmenuopen", function()
+hook.Add("GTowerShowMenus", "bcontextmenuopen", function()
 	IsButtonDown = true
 	RunConsoleCommand("gmt_requestballupdate")
 	BallMenu()
 	gui.EnableScreenClicker(true)
 end)
-hook.Add("GtowerHideMenus", "bcontextmenuclose", function()
+hook.Add("GTowerHideMenus", "bcontextmenuclose", function()
 	IsButtonDown = false
 	BallMenu()
 	gui.EnableScreenClicker(false)

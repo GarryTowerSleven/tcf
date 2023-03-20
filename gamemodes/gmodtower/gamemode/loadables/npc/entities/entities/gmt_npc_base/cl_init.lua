@@ -1,7 +1,7 @@
 include( "cl_expression.lua" )
 include( "shared.lua" )
 
-ENT.RenderGroup = RENDERGROUP_OPAQUE
+ENT.RenderGroup = RENDERGROUP_BOTH
 
 ENT.NPCExpression = ""
 ENT.AnimSpeed = 1
@@ -42,30 +42,36 @@ local newsize = 256/2.5
 
 function ENT:DrawTranslucent()
 
-	if self:IsDormant() then return end
-
+	local title = self:GetTitle()
 	local offset = Vector( 0, 0, 90 )
+
+	if !title then title = "" end
 	
 	-- Offset PVP and Ballrace stores
-	if ( self:GetStoreId() == 3 or self:GetStoreId() == 5 ) then
+	if ( self:GetStoreId() == 3 || self:GetStoreId() == 5 ) then
 		offset = Vector( 0, 0, 110 )
 	elseif self:GetStoreId() == 21 then
 		offset = Vector( 0, 0, 100 )
+	elseif self:IsOnSale() then
+		offset = Vector( 0, 0, 120 )
 	end
 	
 	local ang = LocalPlayer():EyeAngles()
-	local pos = self:GetPos() + offset + ang:Up() * ( math.sin( RealTime() ) * 4 ) + Vector( 0, 0, -5 )
+	local pos = self:GetPos() + offset + ang:Up() * ( math.sin( CurTime() ) * 4 ) + Vector( 0, 0, -5 )
 
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 	ang:RotateAroundAxis( ang:Right(), 90 )
 
+	cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.125 )
+		draw.DrawText( title, "GTowerNPC", 2, 2, Color( 0, 0, 0, 225 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		draw.DrawText( title, "GTowerNPC", 0, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 
-	cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.1 )
-		if self:GetNew() then
+		if self:HasNewItems() then
 			surface.SetMaterial( new )
 			surface.SetDrawColor( 255, 255, 255 )
 			surface.DrawTexturedRect( -newsize/2, -newsize/2 - 6, newsize, newsize )
 		end
+
 	cam.End3D2D()
 	
 end

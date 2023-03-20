@@ -1,6 +1,6 @@
 ---------------------------------
-GtowerRooms = {}
-GtowerRooms.Rooms = {}
+GTowerRooms = {}
+GTowerRooms.Rooms = {}
 
 
 local QueryPanel = nil
@@ -42,11 +42,11 @@ usermessage.Hook("GRoom", function(um)
     local id = um:ReadChar()
 
     if id == 0 then
-        GtowerRooms:LoadRooms( um )
+        GTowerRooms:LoadRooms( um )
     elseif id == 1 then
-		GtowerRooms:RemoveOwner( um )
+		GTowerRooms:RemoveOwner( um )
 	elseif id == 2 then
-		GtowerRooms:ShowRentWindow( um )
+		GTowerRooms:ShowRentWindow( um )
 	elseif id == 3 then
 		local menu = {
 			{
@@ -58,7 +58,7 @@ usermessage.Hook("GRoom", function(um)
 
 		SelectionMenuManager.Create( "towercondos", menu, "Sorry, no condos available." )
 	elseif id == 4 then
-		GtowerRooms:ShowNewRoom( um )
+		GTowerRooms:ShowNewRoom( um )
 	elseif id == 5 then
 		local Minutes = um:ReadChar()
 
@@ -66,16 +66,16 @@ usermessage.Hook("GRoom", function(um)
 	//elseif id == 6 then
 	//	local itemid = um:ReadChar()
 	//
-	//	GTowerMessages:AddNewItem( GetTranslation("RoomNotEnoughMoney", GtowerRooms.RoomUps[ itemid ].name ) )
+	//	GTowerMessages:AddNewItem( GetTranslation("RoomNotEnoughMoney", GTowerRooms.RoomUps[ itemid ].name ) )
 	//elseif id == 7 then
 	//	local itemid = um:ReadChar()
 	//	local level = um:ReadChar()
 	//
-	//	GtowerRooms:AskNewRoom( itemid, level )
+	//	GTowerRooms:AskNewRoom( itemid, level )
 	elseif id == 8 then
 		GTowerMessages:AddNewItem( T("RoomInventoryOwnRoom") )
 	//elseif id == 9 then
-	//	GtowerRooms:RecieveRefEnts( um )
+	//	GTowerRooms:RecieveRefEnts( um )
 	elseif id == 10 then
 		GTowerMessages:AddNewItem( T("RoomNotOwner") )
 	elseif id == 11 then
@@ -122,12 +122,12 @@ hook.Add("GTowerAdminPly", "AddSuiteRemove", function( ply )
 
 end )
 
-function GtowerRooms:CanManagePanel( room, ply )
-  local owner = GtowerRooms:RoomOwner( room )
+function GTowerRooms:CanManagePanel( room, ply )
+  local owner = GTowerRooms:RoomOwner( room )
   return (owner == ply)
 end
 
-function GtowerRooms:Get( id )
+function GTowerRooms:Get( id )
 	if !self.Rooms || !id then return end
 
 	if !self.Rooms[ id ] then
@@ -137,7 +137,7 @@ function GtowerRooms:Get( id )
 	return self.Rooms[ id ]
 end
 
-function GtowerRooms:ShowNewRoom( um )
+function GTowerRooms:ShowNewRoom( um )
 	local RoomId = um:ReadChar()
 
 	/*GtowerNPCChat:StartChat( {
@@ -173,7 +173,7 @@ local function TrunkSlot( num )
 	}
 end
 
-function GtowerRooms:TrunkUpgrade()
+function GTowerRooms:TrunkUpgrade()
 
 	local menu = {
 		TrunkSlot( 1 ),
@@ -186,19 +186,19 @@ function GtowerRooms:TrunkUpgrade()
 
 end
 
-function GtowerRooms:ShowRentWindow( um )
+function GTowerRooms:ShowRentWindow( um )
 	local Answer = um:ReadChar()
 
 	if Answer == -2 then
 
 		GtowerNPCChat:StartChat({
-			Entity = GtowerRooms.NPCClassname,
+			Entity = GTowerRooms.NPCClassname,
 			Text = T("I am sorry, the server is having some issues with the enties at the moment. \n Come back later."),
 		})
 
 	elseif Answer == -1 then
 		/* GtowerNPCChat:StartChat({
-			Entity = GtowerRooms.NPCClassname,
+			Entity = GTowerRooms.NPCClassname,
 			Text = T("RoomReturn", LocalPlayer():GetName() ),
 			Responses = {
 				{
@@ -299,7 +299,7 @@ function GtowerRooms:ShowRentWindow( um )
 	end
 end
 
-function GtowerRooms:RemoveOwner( um )
+function GTowerRooms:RemoveOwner( um )
 
 	local RoomId = um:ReadChar()
 	local Room = self:Get( RoomId )
@@ -308,9 +308,9 @@ function GtowerRooms:RemoveOwner( um )
 
 end
 
-function GtowerRooms.ReceiveOwner( ply, roomid )
+function GTowerRooms.ReceiveOwner( ply, roomid )
 
-	local Room = GtowerRooms:Get( roomid )
+	local Room = GTowerRooms:Get( roomid )
 
 	if Room then
 		Room.HasOwner = true
@@ -321,7 +321,7 @@ end
 
 RoomsHats = {}
 
-function GtowerRooms:LoadRooms( um )
+function GTowerRooms:LoadRooms( um )
 
 	local Count = um:ReadChar()
 
@@ -360,7 +360,7 @@ function GtowerRooms:LoadRooms( um )
 
 end
 
-function GtowerRooms:GetEntIndexs( um )
+function GTowerRooms:GetEntIndexs( um )
 
 	local Count = um:ReadChar()
 
@@ -370,10 +370,10 @@ function GtowerRooms:GetEntIndexs( um )
 		Room.EntId = um:ReadShort()
 	end
 
-	 GtowerRooms:FindRefEnts()
+	 GTowerRooms:FindRefEnts()
 end
 
-function GtowerRooms:FindRefEnts()
+function GTowerRooms:FindRefEnts()
 
 	local MapData = self.RoomMapData[ game.GetMap() ]
 
@@ -399,12 +399,12 @@ function GtowerRooms:FindRefEnts()
 
 end
 
-function GtowerRooms:RoomOwner( RoomId )
+function GTowerRooms:RoomOwner( RoomId )
 	if !RoomId then return end
     return self:Get( RoomId ).Owner
 end
 
-function GtowerRooms:RoomOwnerName( RoomId )
+function GTowerRooms:RoomOwnerName( RoomId )
     local Room = self:Get( RoomId )
 
     if IsValid( Room.Owner ) && Room.Owner:IsPlayer() then
@@ -417,8 +417,8 @@ function GtowerRooms:RoomOwnerName( RoomId )
 
 end
 
-function GtowerRooms:AdminRoomDebug()
-	local tbl =  GtowerRooms.RoomMapData[ CurMap ]
+function GTowerRooms:AdminRoomDebug()
+	local tbl =  GTowerRooms.RoomMapData[ CurMap ]
 
 	if tbl then
 		local EntList = ents.FindByClass( tbl.refobj )
@@ -438,14 +438,14 @@ end)
 
 hook.Add("FindStream", "StreamInSuite", function( ent )
 
-	local RoomId = GtowerRooms.PositionInRoom( ent:GetPos() )
+	local RoomId = GTowerRooms.PositionInRoom( ent:GetPos() )
 
 	if RoomId then
 
 		for _, Stream in pairs( BassStream.List ) do
 			local StreamEnt = Stream:GetEntity()
 
-			if IsValid( StreamEnt ) && GtowerRooms.PositionInRoom( StreamEnt:GetPos() ) == RoomId then
+			if IsValid( StreamEnt ) && GTowerRooms.PositionInRoom( StreamEnt:GetPos() ) == RoomId then
 				return Stream
 			end
 

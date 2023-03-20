@@ -125,7 +125,7 @@ local colorMat = Material( "gmod_tower/panelos/rainbow.png", "unlitsmooth" )
 
 function ENT:GetCondo()
 	local condoid = self:GetNWInt("condoID")
-	return condoid--GtowerRooms:Get( condoid )
+	return condoid--GTowerRooms:Get( condoid )
 end
 
 function ENT:DrawPanel( scrw, scrh )
@@ -133,7 +133,7 @@ function ENT:DrawPanel( scrw, scrh )
 	surface.SetDrawColor( 24, 25, 26 )
 	surface.DrawRect( 0, 0, scrw, scrh )
 
-	local canuse, adminoverride = GtowerRooms:CanManagePanel( self:GetCondo(), LocalPlayer() )
+	local canuse, adminoverride = GTowerRooms:CanManagePanel( self:GetCondo(), LocalPlayer() )
 
 	if not canuse then
 

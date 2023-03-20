@@ -39,6 +39,7 @@ function ENT:OnTakeDamage( dmginfo )
 	local effectdata = EffectData()
 		effectdata:SetOrigin( self:GetPos() )
 		effectdata:SetStart( Vector( r, g, b ) )
+		effectdata:SetFlags(self.Sound and 1 or 0)
 	util.Effect( "piggy_pop", effectdata )
 	
 	self:Remove()	

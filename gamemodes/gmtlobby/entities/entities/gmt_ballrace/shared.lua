@@ -13,12 +13,12 @@ function ENT:Initialize()
 end
 
 RegisterNWTablePlayer({
-	{ "BallRaceBall", Entity( 0 ), NWTYPE_ENTITY, REPL_EVERYONE },
+	{ "BallRaceBall", NULL, NWTYPE_ENTITY, REPL_EVERYONE },
 })
 
 hook.Add( "Move", "MoveBall", function( ply, movedata )
 
-	if !IsValid( ply.BallRaceBall ) then return end
+	if !IsEntity( ply.BallRaceBall ) or !IsValid( ply.BallRaceBall ) then return end
 
 	movedata:SetForwardSpeed( 0 )
 	movedata:SetSideSpeed( 0 )

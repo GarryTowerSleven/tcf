@@ -66,8 +66,8 @@ end
 function ENT:ReceiveUmsg()
 
 	if LocalPlayer():IsAdmin() then
-		GtowerNPCChat:StartChat({
-			Entity = GtowerRooms.NPCClassname,
+		GTowerNPCChat:StartChat({
+			Entity = GTowerRooms.NPCClassname,
 			Text = "Hi there fellow admin, would you like to see the name list so far or would you like to request something yourself?",
 			Responses = {
 				{

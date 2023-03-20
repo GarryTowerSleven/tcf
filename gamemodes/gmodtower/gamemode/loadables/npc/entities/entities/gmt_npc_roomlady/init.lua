@@ -6,7 +6,7 @@ function ENT:AcceptInput( name, activator, ply )
 
     if name == "Use" && ply:IsPlayer() && ply:KeyDownLast(IN_USE) == false then
 		
-		GtowerRooms.ShowRentWindow( self, ply )
+		GTowerRooms.ShowRentWindow( self, ply )
 		//self:TypeOnComp()
 		
     end

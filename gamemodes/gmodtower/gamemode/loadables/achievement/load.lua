@@ -9,7 +9,6 @@ hook.Add("LoadAchievements", "LoadBasicAchi", function()
 		'holiday',
 		'ballrace',
 		'casino',
-		'gourmetrace',
 		'sourcekarts',
 		'minigolf',
 		'minigames',

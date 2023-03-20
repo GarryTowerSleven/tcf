@@ -2,7 +2,7 @@ EFFECT.LightMat = Material("sprites/pickup_light")
 
 function EFFECT:Init( data )
 
-	local origin = data:GetEntity():GetPos()
+	local origin = data:GetOrigin()
 	
 	if !IsValid( origin ) then
 		return

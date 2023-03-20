@@ -13,141 +13,35 @@ GTowerHUD.Notice = {
 	Enabled = CreateClientConVar( "gmt_notice", 1, true, false ),
 }
 
-GTowerHUD.Style = CreateClientConVar( "gmt_hud_style", 0, true, false, nil, 0, 4 )
-
-HUDStyle_Deluxe = false
-HUDStyle_Lobby2 = false
-HUDStyle_L2 = false
-HUDStyle_Lobby1 = false
-HUDStyle_Lobby1B = false
-HUDStyle_Lobby1A = false
-HUDStyle_Lobby1AB = false
-
-local function cleanHud()
-	hook.Remove( "Think", "GTowerHUDThink", GTowerHUD.Think )
-	hook.Remove( "HUDPaint", "GTowerHUDPaint", GTowerHUD.Paint )
-	hook.Remove( "HUDPaint", "VirDrawRadar" )
-
-	HUDStyle_Deluxe = false
-	HUDStyle_Lobby2 = false
-	HUDStyle_L2 = false
-	HUDStyle_Lobby1 = false
-	HUDStyle_Lobby1B = false
-	HUDStyle_Lobby1A = false
-	HUDStyle_Lobby1AB = false
-end
-
 timer.Simple(1, function()
-	initHud()
-end)
-
-cvars.AddChangeCallback("gmt_hud_style", function(_, _, newval)
-	cleanHud()
 	initHud()
 end)
 
 function initHud()
 
-	// i love elseif statements
-	if GTowerHUD.Style:GetInt() == 0 then
-		HUDStyle_Deluxe = true
-		HUDStyle_L2 = true
-	elseif GTowerHUD.Style:GetInt() == 1 then
-		HUDStyle_Lobby2 = true
-		HUDStyle_L2 = true
-	elseif GTowerHUD.Style:GetInt() == 2 then
-		HUDStyle_Lobby1 = true
-	elseif GTowerHUD.Style:GetInt() == 3 then
-		HUDStyle_Lobby1B = true
-		HUDStyle_Lobby1AB = true
-	elseif GTowerHUD.Style:GetInt() == 4 then
-		HUDStyle_Lobby1A = true
-		HUDStyle_Lobby1AB = true
-	end
-
 	// because native weapons don't have a way of giving us a max clip count
 	// we need to cache the highest values we see
 	GTowerHUD.MaxAmmo = {}
 
-	if HUDStyle_Deluxe then
-		HUDBackground = Material( "gmod_tower/hud/bg_gradient_deluxe2.png", "unlightsmooth" )
-		HUDLogo = Material( "gmod_tower/hud/logo_flat_deluxe.png", "unlightsmooth" )
-		HUDBGColor = Color( 155, 155, 155, 200 )
-		if IsHalloweenMap() then
-			HUDBackground = Material( "gmod_tower/hud/bg_gradient_deluxe_h.png", "unlightsmooth" )
-			HUDLogo = Material( "gmod_tower/hud/logo_flat_deluxe_h.png", "unlightsmooth" )
-		end
+	GTowerHUD.Info = {
+		Enabled = CreateClientConVar( "gmt_hud_info", 1, true, false ),
+		Texture = surface.GetTextureID( "gmod_tower/lobby/hud/mainhud" ),
+		TextureWidth = 256,
+		TextureHeight = 128,
+		X = 8,
+		Y = ScrH() - 140,
+		Height = 70,
+		Width = 250,
+		OffHeight = 48,
+		BGColor = Color( 255, 255, 255, 255 )
+	}
+
+	if IsChristmasMap() then
+		GTowerHUD.Info.Texture = surface.GetTextureID( "gmod_tower/lobby/hud/mainhud_christmas" )
 	end
-
-	// Lobby 2
-	if HUDStyle_Lobby2 then
-		HUDBackground = Material( "gmod_tower/hud/bg_gradient.png", "unlightsmooth" )
-		HUDLogo = GTowerIcons2.GetIcon("gmt")
-		HUDBGColor = Color( 0, 0, 0, 200 )
-	end
-
-	if HUDStyle_Lobby2 or HUDStyle_Deluxe then
-		GTowerHUD.Info = {
-			Enabled = CreateClientConVar( "gmt_hud_info", 1, true, false ),
-			Texture = HUDLogo,
-			TextureWidth = 64,
-			TextureHeight = 64,
-			X = 10,
-			Y = ScrH() - 90,
-			Height = 70,
-			Width = 250,
-			OffHeight = 48,
-			Background = HUDBackground,
-			BGColor = HUDBGColor
-		}
-	elseif HUDStyle_Lobby1 then
-		GTowerHUD.Info = {
-			Enabled = CreateClientConVar( "gmt_hud_info", 1, true, false ),
-			Texture = Material( "gmod_tower/hud/legacy/GMTHUD.png", "unlightsmooth" ),
-			TextureWidth = 256,
-			TextureHeight = 128,
-			X = 8,
-			Y = ScrH() - 140,
-			Height = 70,
-			Width = 250,
-			OffHeight = 48,
-			Background = Material( "gmod_tower/hud/bg_gradient.png", "unlightsmooth" ),
-			BGColor = Color( 255, 255, 255, 255 )
-		}
-
-		if IsChristmasMap() then
-			GTowerHUD.Info.Texture = Material( "gmod_tower/hud/legacy/GMTHUDChristmas.png", "unlightsmooth" )
-		end
 	
-		if IsHalloweenMap() then
-			GTowerHUD.Info.Texture = Material( "gmod_tower/hud/legacy/GMTHUDHalloween.png", "unlightsmooth" )
-		end
-	elseif HUDStyle_Lobby1AB then
-		GTowerHUD.Info = {
-			Enabled = CreateClientConVar( "gmt_hud_info", 1, true, false ),
-			Texture = Material( "gmod_tower/hud/legacy/GMTHUD2009.png", "unlightsmooth" ),
-			TextureWidth = 256,
-			TextureHeight = 128,
-			X = 0,
-			Y = ScrH() - 125,
-			Height = 70,
-			Width = 250,
-			OffHeight = 48,
-			Background = Material( "gmod_tower/hud/bg_gradient.png", "unlightsmooth" ),
-			BGColor = Color( 255, 255, 255, 255 )
-		}
-
-		if HUDStyle_Lobby1A then
-			GTowerHUD.Info.Texture = Material( "gmod_tower/hud/legacy/GMTHUD2008.png", "unlightsmooth" )
-		end
-
-		if IsChristmasMap() && HUDStyle_Lobby1B then
-			GTowerHUD.Info.Texture = Material( "gmod_tower/hud/legacy/GMTHUD2009Christmas.png", "unlightsmooth" )
-		end
-
-		if IsHalloweenMap() && HUDStyle_Lobby1B then
-			GTowerHUD.Info.Texture = Material( "gmod_tower/hud/legacy/GMTHUD2009Halloween.png", "unlightsmooth" )
-		end
+	if IsHalloweenMap() then
+		GTowerHUD.Info.Texture = surface.GetTextureID( "gmod_tower/lobby/hud/mainhud_halloween" )
 	end
 
 	-- Crosshair
@@ -155,14 +49,10 @@ function initHud()
 		Enabled = CreateClientConVar( "gmt_hud_crosshair", 1, true, false ),
 		AlwaysOn = CreateClientConVar( "gmt_hud_crosshair_always", 1, true, false ),
 		Action = CreateClientConVar( "gmt_hud_crosshair_action", 0, true, false ),
-		Material = Material( "gmod_tower/hud/crosshair.png" ),
+		Material = Material( "sprites/powerup_effects" ),
 		Size = 4,
 		MaxSize = 16,
 	}
-
-	if !HUDStyle_L2 then
-		GTowerHUD.Crosshair.Material = Material( "sprites/powerup_effects" )
-	end
 
 	-- Money
 	GTowerHUD.Money = {
@@ -171,19 +61,11 @@ function initHud()
 		Font = "GTowerHUDMainLarge",
 	}
 
-	if HUDStyle_Lobby1AB then
-		GTowerHUD.Money.Font = "GTowerbigbold"
-	end
-
 	-- Location
 	GTowerHUD.Location = {
 		Enabled = CreateClientConVar( "gmt_hud_location", 1, true, false ),
 		Font = "GTowerHUDMainSmall",
 	}
-
-	if HUDStyle_Lobby1AB then
-		GTowerHUD.Location.Font = "GTowerbiglocation"
-	end
 
 	-- Ammo
 	GTowerHUD.Ammo = {
@@ -206,7 +88,7 @@ function initHud()
 
 	-- Lobby 1 Health
 	GTowerHUD.Health = {
-		Texture = Material( "gmod_tower/hud/legacy/bar.png", "unlightsmooth" ),
+		Texture = surface.GetTextureID( "gmod_tower/lobby/hud/bar" ),
 		Size = 0, -- this is changed in the think, because it's approached
 		Height = 12,
 		Font = "GTowerHUDMainSmall",
@@ -216,73 +98,11 @@ function initHud()
 		CurY = GTowerHUD.Info.Y + GTowerHUD.Info.Height + 6, -- approached in think
 	}
 
-	if HUDStyle_Lobby1AB then
-		GTowerHUD.Health.Height = 20
-		GTowerHUD.Health.MaxSize = 150
-		GTowerHUD.Health.Font = "GTowerbig"
-
-		if HUDStyle_Lobby1B && IsChristmasMap() then
-			GTowerHUD.Health.Texture = Material( "gmod_tower/hud/legacy/bar_christmas.png", "unlightsmooth" )
-		elseif HUDStyle_Lobby1B && IsHalloweenMap() then
-			GTowerHUD.Health.Texture = Material( "gmod_tower/hud/legacy/bar_halloween.png", "unlightsmooth" )
-		end
-	end
-
 	-- Location Change Notice
 	GTowerHUD.LocationChangeNotice = {
 		Enabled = CreateClientConVar( "gmt_location_notice", 1, true, false ),
 		Alpha = 0,
 	}
-
-	if GTowerHUD.VolumeSlider then GTowerHUD.VolumeSlider:Remove() GTowerHUD.VolumeSlider = nil end
-	GTowerHUD.VolumeSlider = vgui.Create( "DNumSlider2" )
-	GTowerHUD.VolumeSlider:SetMinMax( 0, 1 )
-	GTowerHUD.VolumeSlider:SetDecimals( 3 )
-	GTowerHUD.VolumeSlider:SetConVar( "mediaplayer_volume" )
-	GTowerHUD.VolumeSlider:SetSliderColor( Color( 200, 200, 200, 200 ) )
-	GTowerHUD.VolumeSlider:SetWidth( GTowerHUD.Info.Width - 44 )
-	GTowerHUD.VolumeSlider:SetPos( GTowerHUD.Info.X + 16 + 4, GTowerHUD.Info.Y - 24 )
-	GTowerHUD.VolumeSlider:SetVisible( false )
-
-	local StaticMat = Material( "room209/static" )
-
-	function GTowerHUD.DrawStatic( amount )
-
-		amount = amount / 100 * 255
-
-		surface.SetMaterial( StaticMat )
-		surface.SetDrawColor( Color( 255, 255, 255, amount ) )
-		surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() )
-
-	end
-
-	function GTowerHUD.DrawVolumeIcon()
-
-		if !HUDStyle_L2 then return end
-
-		local x, y = GTowerHUD.Info.X, GTowerHUD.Info.Y - 32 - 4
-
-		local showVolume = false
-
-		for _, mp in pairs(MediaPlayer.GetAll()) do
-			if mp:IsPlaying() then
-				showVolume = true
-			end
-		end
-
-		if showVolume then
-			surface.SetDrawColor( GTowerHUD.Info.BGColor )
-			surface.SetMaterial( GTowerHUD.Info.Background )
-			surface.DrawTexturedRect( 0, GTowerHUD.VolumeSlider.y - 6, GTowerHUD.Info.Width, GTowerHUD.VolumeSlider:GetTall() + 6 )
-
-			surface.SetDrawColor( Color( 255, 255, 255 ) )
-			surface.SetMaterial( GTowerIcons2.GetIcon("volume16") )
-			surface.DrawTexturedRect( x, y+11, 16, 16 )
-		end
-
-		GTowerHUD.VolumeSlider:SetVisible(showVolume)
-
-	end
 
 	// this is required for client notifications
 	function GetAmmoYPos()
@@ -306,7 +126,7 @@ function initHud()
 		if !GTowerHUD.Crosshair.AlwaysOn:GetBool() && !IsValid( ent ) && !CanPlayerUse( ent ) then return end
 
 		// no crosshair if using condOS or mapboard
-		if LocalPlayer().UsingPanel or IsValid( ent ) and ( ent:GetClass() == "gmt_mapboard" ) then
+		if /*LocalPlayer().UsingPanel or*/ IsValid( ent ) and ( ent:GetClass() == "gmt_mapboard" ) then
 			return
 		end
 
@@ -315,25 +135,17 @@ function initHud()
 		local x = 0
 
 		-- Draw Use message
-		
 		if !GTowerHUD.Crosshair.Action:GetBool() and IsValid( ent ) and CanPlayerUse( ent ) then
 			GTowerHUD.DrawUseMessage( ent, x, w, h )
-			if HUDStyle_L2 then return end
 		end
 
 		surface.SetMaterial( GTowerHUD.Crosshair.Material )
 
-		if HUDStyle_L2 then
-			local size = GTowerHUD.Crosshair.Size
-			surface.SetDrawColor( color.r, color.g, color.b, 100 )
-			surface.DrawTexturedRect( w - size/2, h - size/2, size, size )
-		else
-			local size = ScreenScale( 12 )
-			local radius = size / 2
+		local size = ScreenScale( 12 )
+		local radius = size / 2
 
-			surface.SetDrawColor( color.r, color.g, color.b, 150 )
-			surface.DrawTexturedRect( w - radius, h - radius, size, size )
-		end
+		surface.SetDrawColor( color.r, color.g, color.b, 150 )
+		surface.DrawTexturedRect( w - radius, h - radius, size, size )
 
 	end
 
@@ -359,19 +171,9 @@ function initHud()
 		if !GTowerHUD.Info.Enabled:GetBool() then return end
 		if hook.Call( "DisableHUD", GAMEMODE, ply ) then return end
 
-		if HUDStyle_L2 then
-			surface.SetMaterial( GTowerHUD.Info.Background )
-			surface.SetDrawColor( GTowerHUD.Info.BGColor )
-			surface.DrawTexturedRect( 0, GTowerHUD.Info.Y-2, GTowerHUD.Info.Width, GTowerHUD.Info.TextureHeight+4 )
-
-			surface.SetMaterial( GTowerHUD.Info.Texture )
-			surface.SetDrawColor( Color( 255, 255, 255, 255 ) )
-			surface.DrawTexturedRect( GTowerHUD.Info.X, GTowerHUD.Info.Y, GTowerHUD.Info.TextureWidth, GTowerHUD.Info.TextureHeight )
-		else 
-			surface.SetMaterial( GTowerHUD.Info.Texture )
-			surface.SetDrawColor( GTowerHUD.Info.BGColor )
-			surface.DrawTexturedRect( GTowerHUD.Info.X, GTowerHUD.Info.Y, GTowerHUD.Info.TextureWidth, GTowerHUD.Info.TextureHeight )
-		end
+		surface.SetTexture( GTowerHUD.Info.Texture )
+		surface.SetDrawColor( GTowerHUD.Info.BGColor )
+		surface.DrawTexturedRect( GTowerHUD.Info.X, GTowerHUD.Info.Y, GTowerHUD.Info.TextureWidth, GTowerHUD.Info.TextureHeight )
 
 		-- Ease money
 		if GTowerHUD.Money.LastAmount != Money() then
@@ -387,111 +189,34 @@ function initHud()
 		-- GMC
 		surface.SetFont( GTowerHUD.Money.Font )
 
-		local x = GTowerHUD.Info.X + 75
-		local y = GTowerHUD.Info.Y + 22
+		local money = string.FormatNumber( GTowerHUD.Money.Amount )
 
-		if HUDStyle_L2 then
-			local money = string.FormatNumber( GTowerHUD.Money.Amount )
-			local tw, th = surface.GetTextSize( money )
+		local mTextW, mTextH = surface.GetTextSize( money )
 
-			draw.SimpleShadowText( money, GTowerHUD.Money.Font, x, y, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
-			draw.SimpleShadowText( "GMC", GTowerHUD.Location.Font, x + tw + 4, y + 6, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
-		elseif HUDStyle_Lobby1 then
-			local money = string.FormatNumber( GTowerHUD.Money.Amount )
-
-			local mTextW, mTextH = surface.GetTextSize( money )
-
-			local mTextX = GTowerHUD.Info.X + 110
-			local mTextY = GTowerHUD.Info.Y + 75 - ( mTextH / 2 )
-			surface.SetTextColor( 255, 255, 255, 255 )
-			surface.SetTextPos( mTextX, mTextY )
-			surface.DrawText( money )
-		elseif HUDStyle_Lobby1AB then
-			local money = GTowerHUD.Money.Amount
-
-			local mTextX = GTowerHUD.Info.X + 93
-			local mTextY = GTowerHUD.Info.Y + 53
-			surface.SetTextColor( 255, 255, 255, 255 )
-			surface.SetTextPos( mTextX, mTextY )
-			surface.DrawText( money )
-		end
+		local mTextX = GTowerHUD.Info.X + 110
+		local mTextY = GTowerHUD.Info.Y + 75 - ( mTextH / 2 )
+		surface.SetTextColor( 255, 255, 255, 255 )
+		surface.SetTextPos( mTextX, mTextY )
+		surface.DrawText( money )
 		
 		-- Location
 		local location = Location.GetFriendlyName( LocalPlayer():Location() ) or "Unknown"
 
 		if GTowerHUD.Location.Enabled:GetBool() then
-			if HUDStyle_L2 then
-				local location = string.upper( location )
-
-				y = y + 24
-				draw.SimpleShadowText( location, GTowerHUD.Location.Font, x, y, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
-			elseif HUDStyle_Lobby1 then
-				local location = string.upper( location )
+			local location = string.upper( location )
 				
-				surface.SetFont( GTowerHUD.Location.Font )
-				local mTextW, mTextH = surface.GetTextSize( location )
-				local mTextX = GTowerHUD.Info.X + 91
-				local mTextY = GTowerHUD.Info.Y + 103 - ( mTextH / 2 )
+			surface.SetFont( GTowerHUD.Location.Font )
+			local mTextW, mTextH = surface.GetTextSize( location )
+			local mTextX = GTowerHUD.Info.X + 91
+			local mTextY = GTowerHUD.Info.Y + 103 - ( mTextH / 2 )
 
-				draw.SimpleText( location, GTowerHUD.Location.Font, mTextX, mTextY, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
-			elseif HUDStyle_Lobby1AB then
-				surface.SetFont( GTowerHUD.Location.Font )
-				local w, h = surface.GetTextSize( location )
-
-				local x = ( ScrW() / 2 ) - ( w / 2 )
-				local y = ScrH() - h
-
-				local bgColor = Color( 0, 139, 239, 100 )
-				if HUDStyle_Lobby1A then
-					bgColor = Color( 0, 0, 0, 100 )
-				end
-
-				// Background
-				draw.RoundedBox( 6, x - 10, y, w + 20, h + 10, bgColor )
-
-				// Texty
-				draw.SimpleText( location, GTowerHUD.Location.Font, (ScrW() / 2) - (w / 2), ScrH() - h, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
-			end
+			draw.SimpleText( location, GTowerHUD.Location.Font, mTextX, mTextY, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
 		end
-
-		-- Condo
-		local locid = LocalPlayer().GRoomId
-	  	if HUDStyle_L2 && locid && locid != 0 then
-			GTowerHUD.DrawExtraInfo( GTowerIcons2.GetIcon("condo"), "#" .. tostring(locid) )
-	  	end
-
-	end
-
-	function GTowerHUD.DrawExtraInfo( icon, text, iconSize )
-
-		local x = GTowerHUD.Info.X - 10
-		local y = GTowerHUD.Info.Y + GTowerHUD.Info.TextureHeight + 4
-		local tall = 20
-
-		iconSize = iconSize or 32
-
-		if !icon then
-			iconSize = 6
-		end
-
-		surface.SetDrawColor( GTowerHUD.Info.BGColor )
-		surface.SetMaterial( GTowerHUD.Info.Background )
-		surface.DrawTexturedRect( 0, y, GTowerHUD.Info.Width, tall )
-
-		if icon then
-			surface.SetDrawColor( 255, 255, 255 )
-			surface.SetMaterial( icon )
-			surface.DrawTexturedRect( x, y + ( ( tall /2 ) - ( iconSize /2 ) ), iconSize, iconSize )
-		end
-
-		draw.SimpleShadowText( text, "GTowerHUDMainSmall2", x+iconSize, y+10, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
-
 	end
 
 	function GTowerHUD.DrawUseMessage( ent, x, w, h )
 
-		if HUDStyle_Lobby1AB then return end
-		if HUDStyle_Lobby1 && ent:GetClass() != "gmt_multiserver" then return end
+		if ent:GetClass() != "gmt_multiserver" then return end
 
 		if not IsValid( ent ) then return end
 
@@ -499,37 +224,11 @@ function initHud()
 		if not use then return end
 
 		if use then
-
-			if HUDStyle_Lobby1 then
-				local message = string.upper( use )
-				if !nokey then
-					message = "USE TO " .. message
-				end
-				draw.SimpleText( message, GTowerHUD.Location.Font, w + 8, h - 8, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
-				return
+			local message = string.upper( use )
+			if !nokey then
+				message = "USE TO " .. message
 			end
-
-			surface.SetFont( "GTowerHUDMain" )
-			local tw, th = surface.GetTextSize(use)
-			local offset = -(tw/2)
-
-			if not nokey then
-
-				local usekey = string.upper( input.LookupBinding( 'use' ) or "e" )
-
-				surface.SetFont( "GTowerHUDMainLarge" )
-				tw, th = surface.GetTextSize(usekey)
-				tw = math.max(tw+8,th)
-				offset = tw/2
-
-				surface.SetDrawColor( 0, 0, 0, 200 )
-				surface.DrawRect( w + x - tw/2, h - th/2 + 2, tw, th )
-
-				draw.SimpleText( usekey, "GTowerHUDMainLarge", w + x, h - th/2, Color( 255, 255, 255, 255 ), 1 )
-
-			end
-
-			draw.SimpleShadowText( use, "GTowerHUDMain", w + x + 4 + offset, h, Color( 255, 255, 255, 255 ), Color( 0, 0, 0, 230 ), TEXT_ALIGN_LEFT, 1, 1 )
+			draw.SimpleText( message, GTowerHUD.Location.Font, w + 8, h - 8, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
 
 		end
 
@@ -544,27 +243,10 @@ function initHud()
 		h = ( h * 2 ) - 150
 	
 		-- Draw gradient boxes
-		--draw.GradientBox( w - 512, h, 256, 110, 0, Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 230 ) )
-		--draw.GradientBox( w + 256, h, 256, 110, 0, Color( 0, 0, 0, 230 ), Color( 0, 0, 0, 0 ) )
+		draw.GradientBox( w - 512, h, 256, 110, 0, Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 230 ) )
+		draw.GradientBox( w + 256, h, 256, 110, 0, Color( 0, 0, 0, 230 ), Color( 0, 0, 0, 0 ) )
 		surface.SetDrawColor( 0, 0, 0, 230 )
-		surface.DrawRect( w - 512, h, 1024, 110 )
-	
-		-- Draw title
-		draw.SimpleText( title, "GTowerHudCText", w, h + 20, Color( 255, 255, 255, 255 ), 1, 1 )
-	
-		-- Draw text
-		draw.DrawText( message or "", "GTowerHudCSubText", w, h + 30, Color( 255, 255, 255, 255 ), 1 )
-	
-	end
-
-	function GTowerHUD.DrawShutdownNotice( title, message )
-
-		-- Handle notice
-		local w, h = ScrW() / 2, ScrH() / 2
-		h = ( h * 2 ) - 150
-	
-		surface.SetDrawColor( 0, 0, 0, 230 )
-		surface.DrawRect( w - 512, h, 1024, 110 )
+		surface.DrawRect( w - 255, h, 1024/2, 110 )
 	
 		-- Draw title
 		draw.SimpleText( title, "GTowerHudCText", w, h + 20, Color( 255, 255, 255, 255 ), 1, 1 )
@@ -576,81 +258,35 @@ function initHud()
 
 	function GTowerHUD.DrawHealth()
 
-		if !HUDStyle_Lobby1AB && !Dueling.IsDueling(LocalPlayer()) then return end
+		if !Dueling.IsDueling(LocalPlayer()) then return end
 
 		// Lobby 1 Health
-		if !HUDStyle_L2 then
-
-			local health = LocalPlayer():Health()
-			if health < 0 then health = 0 end
-			
-			local healthX = GTowerHUD.Info.X + 50
-			local healthY = GTowerHUD.Info.Y + 35
-
-			if HUDStyle_Lobby1AB then
-				healthX = GTowerHUD.Info.X + 69
-				healthY = GTowerHUD.Info.Y + 81
-			end
-
-			if !HUDStyle_Lobby1AB then
-				surface.SetDrawColor( 20, 103, 36, 255 )
-				surface.DrawRect( healthX, healthY - 2, GTowerHUD.Health.MaxSize - 1, GTowerHUD.Health.Height + 4 )
-			end
-
-			local ratio = 1 - ( GTowerHUD.Health.Size / GTowerHUD.Health.MaxSize )
-			local oppred = 200 - ratio * math.sin( CurTime() * ratio * 3 ) * 55 + ( 1 - ratio ) * 55
-
-			surface.SetMaterial( GTowerHUD.Health.Texture )
-			surface.SetDrawColor( 255, oppred, oppred, 255 )
-			surface.DrawTexturedRect( healthX, healthY, GTowerHUD.Health.Size, GTowerHUD.Health.Height )
-
-			surface.SetFont( GTowerHUD.Health.Font )
-
-			local HealthSub = 255 - ( 1 - ( health / 100 ) ) * 100
-			local hTextW, hTextH = surface.GetTextSize( health )
-			local hTextX = healthX + ( GTowerHUD.Health.MaxSize / 2 ) - ( hTextW / 2 )
-			local hTextY = healthY + ( GTowerHUD.Health.Height / 2 ) - ( hTextH / 2 )
-
-			surface.SetTextColor( 255, HealthSub, HealthSub, 255 )
-			surface.SetTextPos( hTextX, hTextY )
-			surface.DrawText( health )
-
-		end
-
-		if !HUDStyle_L2 then return end
-
-		local w = GTowerHUD.Info.Width
-		local h = 8
-		local x = 0 --GTowerHUD.Info.X - 6
-		local y = GTowerHUD.Info.Y - h - 6
-		local iconSize = 32
 		local health = LocalPlayer():Health()
 		if health < 0 then health = 0 end
-		local maxHealth = 100
-		if Dueling.IsDueling( LocalPlayer() ) then
-			maxHealth = 300
-		end
-		local percent = ( health / maxHealth )
-		local ratio = 1 - ( percent )
+			
+		local healthX = GTowerHUD.Info.X + 50
+		local healthY = GTowerHUD.Info.Y + 35
+
+		surface.SetDrawColor( 20, 103, 36, 255 )
+		surface.DrawRect( healthX, healthY - 2, GTowerHUD.Health.MaxSize - 1, GTowerHUD.Health.Height + 4 )
+
+		local ratio = 1 - ( GTowerHUD.Health.Size / GTowerHUD.Health.MaxSize )
 		local oppred = 200 - ratio * math.sin( CurTime() * ratio * 3 ) * 55 + ( 1 - ratio ) * 55
 
-		-- Gradient background
-		surface.SetDrawColor( GTowerHUD.Info.BGColor )
-		surface.SetMaterial( GTowerHUD.Info.Background )
-		surface.DrawTexturedRect( 0, y-10, w, 20 )
+		surface.SetTexture( GTowerHUD.Health.Texture )
+		surface.SetDrawColor( 255, oppred, oppred, 255 )
+		surface.DrawTexturedRect( healthX, healthY, GTowerHUD.Health.Size, GTowerHUD.Health.Height )
 
-		-- Draw heart
-		surface.SetDrawColor( 255, 255, 255 )
-		surface.SetMaterial( GTowerIcons2.GetIcon("heart") )
-		surface.DrawTexturedRect( x, y-16, iconSize, iconSize )
+		surface.SetFont( GTowerHUD.Health.Font )
 
-		-- Draw background
-		surface.SetDrawColor( 80, 80, 80, 200 )
-		surface.DrawRect( x+iconSize, y-4, w, h )
+		local HealthSub = 255 - ( 1 - ( health / 100 ) ) * 100
+		local hTextW, hTextH = surface.GetTextSize( health )
+		local hTextX = healthX + ( GTowerHUD.Health.MaxSize / 2 ) - ( hTextW / 2 )
+		local hTextY = healthY + ( GTowerHUD.Health.Height / 2 ) - ( hTextH / 2 )
 
-		-- Draw health bar
-		surface.SetDrawColor( 255, 255, 255, 255 )
-		draw.RectFillBorder( x+iconSize, y-4, w, h, 1, percent, Color( 125, 125, 125, 0 ), Color( 255, oppred, oppred ) )
+		surface.SetTextColor( 255, HealthSub, HealthSub, 255 )
+		surface.SetTextPos( hTextX, hTextY )
+		surface.DrawText( health )
 
 	end
 
@@ -764,14 +400,8 @@ function initHud()
 		/*if ActiveJetpack && ActiveJetpack:IsValid() then
 			jetpack.JetpackFuelDraw( GTowerHUD.Info.X, GTowerHUD.Info.Y, GTowerHUD.Info.Width, GTowerHUD.Info.Height-4 )
 		end*/
-		if !HUDStyle_Lobby1AB then
-			GTowerHUD.DrawHealth()
-		end
+		GTowerHUD.DrawHealth()
 		GTowerHUD.DrawInfo()
-		if HUDStyle_Lobby1AB then
-			GTowerHUD.DrawHealth()
-		end
-		GTowerHUD.DrawVolumeIcon()
 
 		GTowerHUD.DrawAmmo()
 		--GTowerHUD.DrawNotice()
@@ -783,15 +413,15 @@ function initHud()
 			draw.SimpleShadowText( "Follow us at http://www.gmtower.org/", "GTowerHudCSubText", ScrW()/2, ScrH() - 25, Color( 255, 255, 255, 255 ), Color( 0, 0, 0, 230 ), 1, 1, 1 )
 		end]]
 
-		if LocalPlayer():GetNWBool("MinigameOn") then
+		--[[if LocalPlayer():GetNWBool("MinigameOn") then
 			GTowerHUD.MinigameHUD()
-		end
+		end]]
 	end
 
 	local hud_icon_clock = Material( "gmod_tower/balls/hud_icon_clock" )
 	surface.CreateFont( "BallFont", { font = "Coolvetica", size = 48, weight = 200 } )
 
-	function GTowerHUD.MinigameHUD()
+	--[[function GTowerHUD.MinigameHUD()
 		local TimeLeft = (GetGlobalFloat("MinigameRoundTime") - CurTime())
 		local TimeString = string.FormattedTime( TimeLeft, "%02i:%02i" )
 
@@ -804,14 +434,14 @@ function initHud()
 		surface.SetMaterial(GTowerIcons2.GetIcon("time"))
 		surface.SetDrawColor(255,255,255,255)
 		surface.DrawTexturedRect(0,52,80,80)
-	end
+	end]]
 
 	local hud_icon_clock = Material( "gmod_tower/balls/hud_icon_clock" )
 	surface.CreateFont( "BallFont", { font = "Coolvetica", size = 48, weight = 200 } )
 
 	function GTowerHUD.Think()
 
-	  if !LocalPlayer():Alive() then GtowerMainGui:GtowerHideMenus() end
+	  if !LocalPlayer():Alive() then GTowerMainGui.HideMenus() end
 
 	  // Health
 	  if !IsValid( LocalPlayer() ) then return end

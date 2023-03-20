@@ -32,8 +32,6 @@ local SetGlobalFloat = SetGlobalFloat
 local net = net
 local Dueling = Dueling
 
-local goldenAmount = 100
-
 local BALLOON_GAME_ACTIVE = false
 
 module("minigames.balloonpop" )
@@ -42,21 +40,16 @@ TotalMoney = 0
 
 function BalloonPopStart()
 
-	for k,v in pairs(player.GetAll()) do
-		v:SetNWInt("MinigameScore",0)
-	end
-
-	SetGlobalFloat("MinigameRoundTime",CurTime()+120)
+	SetGlobalFloat("MinigameRoundTime",CurTime()+120) -- We'll need to change this, probably
 
 	timer.Create( "BalloonPop", 0.5, 0, function()
-		local entposX = math.Rand(2119.452637,3309.573486)
-		local entposY = math.Rand(-554.708679,616.537537)
+		local entposX = math.Rand(151.338440,1696.545044)
+		local entposY = math.Rand(-2046.452148,-910.703613)
 		local ent = ents.Create("gmt_minigame_balloon")
 		ent:SetModel("models/maxofs2d/balloon_classic.mdl")
 		ent:SetAngles(Angle(0,0,0))
-		ent:SetPos( Vector(entposX,entposY,-812.135010) )
+		ent:SetPos( Vector(entposX,entposY,373.151642) )
 		ent.MiniGame = true
-		if math.random(1,15) == 1 then ent:SetNWBool("Golden",true) end
 		ent:SetColor(Color(math.random(100,255),math.random(100,255),math.random(100,255),255))
 		ent:Spawn()
 		ent:SetForce(12.5)
@@ -85,25 +78,16 @@ local function BalloonPopped( ent, dmg )
 
 		if IsValid(ply) then
 			local distance = ent:GetPos().z - ply:GetPos().z
-			if distance < 0 then distance = 0 end
-			if ent:GetNWBool("Golden") then
-				dmg:GetAttacker():AddMoney( goldenAmount )
-				ply:SetNWInt("MinigameScore", ( ply:GetNWInt("MinigameScore") + goldenAmount * 5 ) )
-				magni = goldenAmount
-				TotalMoney = TotalMoney + goldenAmount
-			else
-				dmg:GetAttacker():AddMoney( math.Round(distance / 50) )
-				ply:SetNWInt("MinigameScore", ( ply:GetNWInt("MinigameScore") + math.Round(distance / 50) * 5 ) )
-				magni = math.Round(distance / 50)
-				TotalMoney = TotalMoney + math.Round(distance / 50)
-			end
+			if distance < 250 then distance = 250 end
+			dmg:GetAttacker():AddMoney( math.Round(distance / 250) )
+			magni = math.Round(distance / 250)
+			TotalMoney = TotalMoney + math.Round(distance / 250)
 
 			local vPoint = ent:GetPos()
 			local effectdata = EffectData()
 			effectdata:SetOrigin( vPoint )
 			effectdata:SetMagnitude( magni )
 			util.Effect( "gmt_money", effectdata )
-			//TotalMoney = TotalMoney + math.Round(distance / 50)
 		end
 	end
 end
@@ -111,7 +95,7 @@ hook.Add( "EntityTakeDamage", "BalloonPop", BalloonPopped )
 
 local function BalloonStagnancy()
 	for k,v in pairs (ents.FindByClass("gmt_minigame_balloon")) do
-		if v:GetClass() == "gmt_minigame_balloon" && v.MiniGame == true && v:GetPos().z >= 625 then
+		if v:GetClass() == "gmt_minigame_balloon" && v.MiniGame == true && v:GetPos().z >= 3200 then
 			v:Remove()
 		end
 		if v:GetClass() == "gmt_minigame_balloon" && v.MiniGame == true then
@@ -143,48 +127,19 @@ end
 
 function CheckGiveWeapon( ply, loc )
 
-	if Location.Is( loc, MinigameLocation )  then
+	if loc == MinigameLocation then
 		GiveWeapon( ply )
-		ply:SetNWBool("MinigameOn",true)
-
-		if !ply.BMusic then
-			net.Start("MinigameMusic")
-				net.WriteBool(true)
-				net.WriteString("balloon")
-			net.Send(ply)
-			ply.BMusic = true
-		end
 	else
 		RemoveWeapon( ply )
-		ply:SetNWBool("MinigameOn",false)
-
-		if ply.BMusic then
-			net.Start("MinigameMusic")
-				net.WriteBool(false)
-			net.Send(ply)
-			ply.BMusic = false
-		end
-
 	end
 
 end
 
 function RemoveWeapon( ply )
-	ply:SetNWBool("MinigameOn",false)
-
-	if ply.BMusic then
-		net.Start("MinigameMusic")
-			net.WriteBool(false)
-		net.Send(ply)
-		ply.BMusic = false
-	end
-
 	--if ply:HasWeapon(WeaponName) && ply:GetSetting( "GTAllowWeapons" ) == false && !ply:IsAdmin() then
 	if ply:HasWeapon(WeaponName) then
 		ply:StripWeapons()
 	end
-
-	ply:ResetGod()
 end
 
 function PlayerDissalowResize( ply )

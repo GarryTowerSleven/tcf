@@ -5,26 +5,39 @@ AddCSLuaFile( "sh_player.lua" )
 include( "shared.lua" )
 include( "sh_player.lua" )
 
-/*util.AddNetworkString("CLPlayerThink")
+module( "VIP", package.seeall )
 
-hook.Add("PlayerThink", "teast", function(ply)
-	net.Start("CLPlayerThink")
-		net.WriteEntity(ply)
-	net.Broadcast()
-end)*/
+require("fwens")
+
+GroupID = "103582791464989702"
 
 // Set VIP on join
 hook.Add( "PlayerInitialSpawn", "JoinSetVIP", function( ply )
 	if !ply:IsValid() || ply:IsBot() then return end
 
-	if Vip.VIPForAll then
+	if ( VIPForAll ) then
 		ply:SetNWBool( "VIP", true )
 		ply.IsVIP = true
 		return
 	end
 
-	// TODO: code for actually getting vips from DB
+	if ( fwens ) then
+		fwens.GetInSteamGroup( ply:SteamID64(), GroupID )
+	end
 end)
+
+hook.Add( "GroupDataReturned", "GetGroupData", function( returnedData )
+	local ply = player.GetBySteamID64(returnedData.steamID64)
+	if !ply || !IsValid(ply) then return end
+
+	ply:SetSetting( "GTSuiteEntityLimit", 150 )
+
+	if ( returnedData.isMember ) then
+		ply:SetNWBool( "VIP", true )
+		ply:SetSetting( "GTSuiteEntityLimit", 200 )
+		ply.IsVIP = true
+	end
+end )
 
 // Glow Stuff
 local delay = .5

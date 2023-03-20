@@ -1,7 +1,9 @@
 include('shared.lua')
 
-local mm = 2
-SetupBrowser( ENT, 2680/mm, 900/mm, .125*mm )
+RunConsoleCommand( "gmt_clearwebboard" )
+
+local S = 1
+SetupBrowser( ENT, 800/S, 700/S, .5*S )
 
 ENT.RenderGroup = RENDERGROUP_BOTH
 ENT.Material = nil
@@ -24,6 +26,7 @@ end
 
 function ENT:Initialize()
 	self:StartBrowser()
+	self:SetRenderBounds( Vector( 2, 200, 0 ), Vector( -2, -200, 350 ) )
 end
  
 function ENT:DrawMaterial()
@@ -66,9 +69,9 @@ function ENT:OnRemove()
 	self:EndBrowser()
 end
 
-function ENT:CanUse( ply )
+/*function ENT:CanUse( ply )
 	return true, "MORE INFO"
-end
+end*/
 
 concommand.Add( "gmt_clearwebboard", function( ply, cmd, args )
 
@@ -82,11 +85,11 @@ concommand.Add( "gmt_clearwebboard", function( ply, cmd, args )
 
 end )
 
-usermessage.Hook( "OpenTowerUnite", function( um ) 
+/*usermessage.Hook( "OpenTowerUnite", function( um ) 
 
 	local URL = "http://www.gmtower.org/reunion/play/towerunite/"
 	local Title = "Buy Tower Unite Today"
 
 	browser.OpenURL( URL, Title )
 
-end )
+end )*/

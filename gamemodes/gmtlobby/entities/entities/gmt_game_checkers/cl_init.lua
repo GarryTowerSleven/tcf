@@ -324,7 +324,7 @@ net.Receive( "checkersH", function( len )
 	CheckersHelp.Close = function()
 		CheckersHelp:Remove()
 		CheckersHelp = nil
-		GtowerMainGui:GtowerHideMenus()
+		GTowerMainGui.HideMenus()
 	end
 	
 	
@@ -336,7 +336,7 @@ net.Receive( "checkersH", function( len )
 	CheckersHelp:SetSize( text:GetWide() + 10, text:GetTall() + 5 + 27 )
 	CheckersHelp:Center()
 	
-	GtowerMainGui:GtowerShowMenus()
+	GTowerMainGui.ShowMenus()
 end )
 
 hook.Add("CanCloseMenu", "CheckersHelp", function()

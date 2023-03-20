@@ -415,3 +415,12 @@ WriteValue = function(v)
 	end
 
 end
+
+function string.StartsWith( str, start )
+	return string.sub( str, 1, string.len( start ) ) == start
+end
+string.StartWith = string.StartsWith
+
+function string.EndsWith( str, endStr )
+	return endStr == "" or string.sub( str, -string.len( endStr ) ) == endStr
+end

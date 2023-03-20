@@ -7,7 +7,7 @@ local Location = Location
 module("minigames.balloonpop")
 
 MinigameName = "Balloon Pop"
-MinigameLocation = "centerplaza"
+MinigameLocation = Location.GetIDByName( "Lobby" )
 MinigameMessage = "MiniBalloonGameStart"
 
 WeaponName = "weapon_crossbow"

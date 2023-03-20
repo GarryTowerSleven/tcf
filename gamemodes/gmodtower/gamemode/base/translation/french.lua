@@ -44,33 +44,33 @@ GtowerLangush.AddWord( 1, "not_enough_money",	"Vous ne disposez pas d'assez d'ar
 
 
 GtowerLangush.AddWord( 1, "vacant",		"Disponible")
-GtowerLangush.AddWord( 1, "RoomRoomsAvalible",	"Bonjour, {1}.  Il y a pr�sentement <font=GTowerbigbold>{2}</font> condo(s) de disponible.   Voulez-vous en louer une?")
-GtowerLangush.AddWord( 1, "RoomNotAvalible",	"Bonjour, {1}.  Nous sommes d�sol�, Il n'y a pas de condo disponible en ce moment. Veuillez revenir plus tard.")
-GtowerLangush.AddWord( 1, "RoomWait",		"Patientez pendant que nous pr�parons votre condo.")
+GtowerLangush.AddWord( 1, "RoomRoomsAvalible",	"Bonjour, {1}.  Il y a pr�sentement <font=GTowerbigbold>{2}</font> suite(s) de disponible.   Voulez-vous en louer une?")
+GtowerLangush.AddWord( 1, "RoomNotAvalible",	"Bonjour, {1}.  Nous sommes d�sol�, Il n'y a pas de suite disponible en ce moment. Veuillez revenir plus tard.")
+GtowerLangush.AddWord( 1, "RoomWait",		"Patientez pendant que nous pr�parons votre suite.")
 
-GtowerLangush.AddWord( 1, "RoomLongAway",	"Vous vous �tes �loign� de votre condo durant {1} minute(s). On vous a supprim� du carnet de condos.")
+GtowerLangush.AddWord( 1, "RoomLongAway",	"Vous vous �tes �loign� de votre suite durant {1} minute(s). On vous a supprim� du carnet de suites.")
 
-GtowerLangush.AddWord( 1, "RoomGet",		"Merci d'avoir choisi Gmod Tower \nI va vous assign� une condo <font=GTowerbigbold><color=white>#{1}</color></font>.\nIf Si vous avez besoin d'aide pour votre condo, veuillez contacter les administrateurs ou mod�rateurs locaux. Veuillez me parler si vous voulez �tre retir� du carnet de condos.")
-GtowerLangush.AddWord( 1, "RoomGetSmall",	"On vous a assign� � la condo #{1}.")
+GtowerLangush.AddWord( 1, "RoomGet",		"Merci d'avoir choisi Gmod Tower \nI va vous assign� une suite <font=GTowerbigbold><color=white>#{1}</color></font>.\nIf Si vous avez besoin d'aide pour votre suite, veuillez contacter les administrateurs ou mod�rateurs locaux. Veuillez me parler si vous voulez �tre retir� du carnet de suites.")
+GtowerLangush.AddWord( 1, "RoomGetSmall",	"On vous a assign� � la suite #{1}.")
 GtowerLangush.AddWord( 1, "RoomDeny",		"Tr�s bien. Veuillez Revenir plus tard.")
 
-GtowerLangush.AddWord( 1, "RoomReturn",		"Rebonjour, {1}. Voulez-vous �tre retir� du carnet de condos?")
+GtowerLangush.AddWord( 1, "RoomReturn",		"Rebonjour, {1}. Voulez-vous �tre retir� du carnet de suites?")
 GtowerLangush.AddWord( 1, "RoomReturnYes",	"J'esp�re que vous avez aim� votre s�jour dans Gmod tower. Revenez nous voir plus tard.")
-GtowerLangush.AddWord( 1, "RoomReturnNo",	"Tr�s bien. Je suis contente de savoir que vous avez appr�ci� votre condo. Parlez-moi si vous voulez �tre retir� du carnet de condos.")
+GtowerLangush.AddWord( 1, "RoomReturnNo",	"Tr�s bien. Je suis contente de savoir que vous avez appr�ci� votre suite. Parlez-moi si vous voulez �tre retir� du carnet de suites.")
 
-GtowerLangush.AddWord( 1, "RoomUpgrade",		"Am�liorer votre condo.")
+GtowerLangush.AddWord( 1, "RoomUpgrade",		"Am�liorer votre suite.")
 GtowerLangush.AddWord( 1, "RoomDoWantUpgrade",		"Voulez-vous passer du niveau {1} au niveau {2}?")
 GtowerLangush.AddWord( 1, "RoomNotEnoughMoney",		"Vous n'avez pas ass� d'argent pour am�liorer {1}.")
-GtowerLangush.AddWord( 1, "RoomInventoryOwnRoom",	"Vous avez le droit d'utiliser ceci seulement dans votre condo.")
+GtowerLangush.AddWord( 1, "RoomInventoryOwnRoom",	"Vous avez le droit d'utiliser ceci seulement dans votre suite.")
 
-GtowerLangush.AddWord( 1, "RoomNotOwner",	"Ceci n'est pas votre condo.")
-GtowerLangush.AddWord( 1, "RoomCheckedOut",	"Vous avez �t� supprim� du carnet de condos.")
-GtowerLangush.AddWord( 1, "RoomAdminDisabled",	"Les Administrateur vous on r�quisitionn� le droit d'avoir une condo.")
-GtowerLangush.AddWord( 1, "RoomMaxEnts",	"Vous ne pouvez pas avoir plus de {1} entit�(s) dans votre condo.")
+GtowerLangush.AddWord( 1, "RoomNotOwner",	"Ceci n'est pas votre suite.")
+GtowerLangush.AddWord( 1, "RoomCheckedOut",	"Vous avez �t� supprim� du carnet de suites.")
+GtowerLangush.AddWord( 1, "RoomAdminDisabled",	"Les Administrateur vous on r�quisitionn� le droit d'avoir une suite.")
+GtowerLangush.AddWord( 1, "RoomMaxEnts",	"Vous ne pouvez pas avoir plus de {1} entit�(s) dans votre suite.")
 
-GtowerLangush.AddWord( 1, "RoomOwnerBroke",		"Vous n'�tes pas proprit�taire de cette condo ou GTowerRooms est bris�.")
-GtowerLangush.AddWord( 1, "RoomRadioWrongID",	"Radio's condo ID is {1}.  You have {2}.")
-GtowerLangush.AddWord( 1, "RoomInformation",	"N'hésitez pas à vous enregistrer dans un condo ici, ou à acheter des emplacements de coffre-fort pour le stockage!")
+GtowerLangush.AddWord( 1, "RoomOwnerBroke",		"Vous n'�tes pas proprit�taire de cette suite ou GTowerRooms est bris�.")
+GtowerLangush.AddWord( 1, "RoomRadioWrongID",	"Radio's suite ID is {1}.  You have {2}.")
+GtowerLangush.AddWord( 1, "RoomInformation",	"N'hésitez pas à vous enregistrer dans un suite ici, ou à acheter des emplacements de coffre-fort pour le stockage!")
 
 GtowerLangush.AddWord( 1, "Group_menu",			"Groupe")
 GtowerLangush.AddWord( 1, "Group_makeowner",		"Nommer chef de groupe")

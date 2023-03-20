@@ -23,7 +23,7 @@ DuelMusic = nil
 DuelMusicTime = 60
 
 function StartDuelClient()
-	GtowerMainGui:GtowerHideMenus()
+	GTowerMainGui.HideMenus()
 	DuelStartTime = CurTime() + DuelStartDelay
 	DuelTime = CurTime() + MaxDuelTime + DuelStartDelay
 	DuelVGUI = vgui.Create( "DuelScreen" )

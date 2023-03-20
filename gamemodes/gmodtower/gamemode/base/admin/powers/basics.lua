@@ -64,12 +64,12 @@ function GTower:Ban( banned, length, banner, reason )
         
         reason = "Banned permanently by " .. bannerName .. " | Reason: " .. reason
     else
-        local readableLength = string.NiceTimeLong(length/60)
+        local readableLength = string.NiceTimeLong(length)
         AdminNotif.SendStaff( banner:Nick() .. " has BANNED " .. banned:NickID() .. " for ".. readableLength .." for reason: " .. reason, 30, "RED" )
         reason = "Banned for " .. readableLength .. " by " .. bannerName .. " | Reason: " .. reason
     end
 
-    gateKeep:AddBan( banned:SteamID(), banned:Nick(), banned:IPAddress(), rawReason, length )
+    gateKeep:AddBan( banned:SteamID(), banned:Nick(), banned:IPAddress(), rawReason, length * 60 )
     GTower:Kick( banned, banner, reason )
 end
 

@@ -292,13 +292,24 @@ hook.Add("PostDrawOpaqueRenderables", "UCAngry", function()
 			end
 			
 			-- Glow
-			render.SetMaterial( SpriteMat )
-
+			local eyeang = EyeAngles()
+			eyeang:RotateAroundAxis(eyeang:Right(), -90)
+			eyeang:RotateAroundAxis(eyeang:Up(), -90)
 			if util.PixelVisible( LEye, 8, util.GetPixelVisibleHandle() ) then
-				render.DrawSprite( LEye, 50, SinBetween(20,30, RealTime()*5), Color( 255, 0, 0 ) )
+				cam.Start3D2D(LEye, eyeang, 3)
+					surface.SetMaterial(SpriteMat)
+					surface.SetDrawColor(255, 0, 0)
+					local size = 12
+					surface.DrawTexturedRect(-size / 2, -size / 4, size, size / 2)
+				cam.End3D2D()
 			end
 			if util.PixelVisible( REye, 8, util.GetPixelVisibleHandle() ) then
-				render.DrawSprite( REye, 50, SinBetween(20,30, RealTime()*5), Color( 255, 0, 0 ) )
+				cam.Start3D2D(REye, eyeang, 3)
+					surface.SetMaterial(SpriteMat)
+					surface.SetDrawColor(255, 0, 0)
+					local size = 12
+					surface.DrawTexturedRect(-size / 2, -size / 4, size, size / 2)
+				cam.End3D2D()
 			end
 
 		end

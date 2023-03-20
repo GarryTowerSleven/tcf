@@ -95,6 +95,10 @@ function BoneMod:ApplyBoneMod( mod, ply )
 	if mod == BONEMOD_STICK then
 		self:ModStickman( ply )
 	end
+	
+	if mod == BONEMOD_FANCY then
+		self:ModFancyPants( ply )
+	end
 
 end
 
@@ -393,4 +397,33 @@ end
 
 function BoneMod:ModHeadless( ply )
 	self:ScaleBone( ply, "Head1", 0 )
+end
+
+function BoneMod:ModFancyPants( ply )
+
+	for boneId = 0, ply:GetBoneCount() do
+		ply:ManipulateBoneScale( boneId, Vector( 1, 0.5, 0.5 ) )
+	end
+	
+	self:ScaleBone( ply, "L_Toe",  1.75 )
+	self:ScaleBone( ply, "R_Toe", 1.75 )
+	
+	self:ScaleBone( ply, "L_Foot",  1.75 )
+	self:ScaleBone( ply, "R_Foot", 1.75 )
+
+	self:ScaleBone( ply, "L_Thigh", 1.25 )
+	self:ScaleBone( ply, "R_Thigh", 1.25 )
+	
+	self:ScaleBone( ply, "L_Calf",  1.25 )
+	self:ScaleBone( ply, "R_Calf", 1.25 )
+	
+	self:ScaleBone( ply, "pelvis", .25 )
+	self:ScaleBone( ply, "Spine",  0.25 )
+	self:ScaleBone( ply, "Spine1",  0.25 )
+	self:ScaleBone( ply, "Spine2",  0.25 )
+	self:ScaleBone( ply, "Spine3",  0.25 )
+	self:ScaleBone( ply, "Spine4",  0.40 )
+	
+	self:ScaleBone( ply, "Head1",  1.25 )
+
 end

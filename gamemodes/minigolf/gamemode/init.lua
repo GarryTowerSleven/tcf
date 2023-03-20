@@ -26,7 +26,7 @@ include("shared.lua");
 include("sv_control.lua");
 
 CreateConVar("gmt_srvid", 14 )
-CreateConVar("mp_flashlight", 0 )
+//CreateConVar("mp_flashlight", 0 )
 
 -----------------------------------------------------
 function GM:Intialize()
@@ -194,9 +194,7 @@ function GM:AreAllPlayersFinished()
 					if ply:Team() == TEAM_FINISHED then continue end
 					ply:SetSwing( SetUnfinishedPenalty( ply ) )
 					ply:AutoFail( "AFK" )
-					for k,v in pairs(player.GetAll()) do
-						GAMEMODE:ColorNotifyAll( ply:Name().." has automatically forfeited due to being AFK.", Color(200, 200, 200, 255) )
-					end
+					GAMEMODE:ColorNotifyAll( T( "AfkKickMessage", ply:Name()), Color(200, 200, 200, 255) )
 				end
 			end
 		end

@@ -7,7 +7,7 @@ concommand.Add("gmt_updateserver", function( ply, cmd, args )
 	end
 end)
 
-if string.StartWith(game.GetMap(),"gmt_lobby") then
+if IsLobby then
 
 timer.Create("gmt_autorestart",10,0,function()
 	if GMT_IS_PREPARING_TO_RESTART then return end

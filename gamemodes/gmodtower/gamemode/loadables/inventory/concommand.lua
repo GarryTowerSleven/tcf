@@ -35,7 +35,7 @@ concommand.Add( "gmt_invtobank", function( ply, command, args )
 	if !Item then return end
 	Slot:FindUnusedSlot( Item, true )
 	if !Slot:IsValid() then
-		ply:Msg2('Sorry, your vault is full!')
+		ply:Msg2('Sorry, your trunk is full!')
 		return
 	end
 	Slot:Set( Item )

@@ -83,7 +83,7 @@ end
 function ENT:GetCondo()
 
 	local condoid = self:GetCondoID()
-	return GtowerRooms:Get( condoid )
+	return GTowerRooms:Get( condoid )
 
 end
 

@@ -24,7 +24,7 @@ hook.Add("LoadInventory","LoadSizeChangingPotion", function()
 	if SERVER then
 		function ITEM:ApplyScale( temp, defaultsize )
 
-			if not string.StartWith(game.GetMap(),"gmt_lobby") then return end
+			if not IsLobby then return end
 
 			local size_translation = ( GTowerModels.List[self.Ply:GetModel()] or 1 )
 			local size = size_translation * self.PlayerChangeSize
@@ -183,8 +183,9 @@ hook.Add("LoadInventory","LoadSizeChangingPotion", function()
 
 		else
 
-			NEWITEM.StoreId = 17
+			NEWITEM.StoreId = 9
 			NEWITEM.StorePrice = 4000 * potion[2]
+			NEWITEM.Tradable = false
 
 		end
 

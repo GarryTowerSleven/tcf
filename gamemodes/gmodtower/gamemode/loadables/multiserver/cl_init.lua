@@ -1,7 +1,8 @@
----------------------------------
 include("shared.lua")
 include("cl_command.lua")
 include("cl_mapchooser.lua")
+include("mapselection/dmapselector.lua")
+include("mapselection/dmaplist.lua")
 
 GTowerServers.Servers = {}
 GTowerServers.Ents = {}

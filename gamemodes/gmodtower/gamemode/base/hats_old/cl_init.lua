@@ -143,7 +143,7 @@ end
 function GTowerHatAdmin:Open()
 
 	GTowerHatAdmin:Close()
-	GtowerMainGui:GtowerShowMenus()
+	GTowerMainGui.ShowMenus()
 
 	self.MainPanel = vgui.Create("DFrame")
 	self.MainPanel:SetSize( 1200, 600 )
@@ -298,7 +298,7 @@ function GTowerHatAdmin:Close()
 	GTowerHatAdmin.ModelPanel = nil
 	GTowerHatAdmin.CanUpdate = false
 
-	GtowerMainGui:GtowerHideMenus()
+	GTowerMainGui.HideMenus()
 
 end
 

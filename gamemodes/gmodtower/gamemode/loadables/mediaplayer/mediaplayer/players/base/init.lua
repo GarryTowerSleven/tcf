@@ -233,7 +233,7 @@ function MEDIAPLAYER:CanPlayerRequestMedia( ply, media )
 	-- Check service whitelist if it exists on the mediaplayer
 	if self.ServiceWhitelist and not (
 			table.HasValue(self.ServiceWhitelist, media.Id) or
-			ply:IsAdmin()
+			ply:IsStaff()
 		) then
 		local names = MediaPlayer.GetValidServiceNames(self.ServiceWhitelist)
 

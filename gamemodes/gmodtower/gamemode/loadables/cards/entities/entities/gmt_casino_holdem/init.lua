@@ -118,7 +118,7 @@ function ENT:SetupChairs()
 end
 
 function ENT:Use(caller)
-	caller:Msg2( "Poker is currently in development, check back later!", "cards" )
+	caller:Msg2( T( "PokerDisable" ) )
 end
 
 function ENT:SetupVehicles()

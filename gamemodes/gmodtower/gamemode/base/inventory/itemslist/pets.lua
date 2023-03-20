@@ -88,8 +88,8 @@ GTowerItems.RegisterItem( "SaturnPet", {
 	CanRemove = true,
 	Tradable = true,
 
-	StoreId = GTowerStore.BASICAL,
-	StorePrice = 250,
+	StoreId = GTowerStore.PET,
+	StorePrice = 30000,
 
 	EquippableEntity = true,
 	RemoveOnDeath = true,
@@ -195,74 +195,6 @@ GTowerItems.RegisterItem( "RubikPet", {
 		
 	end	
 } )
-
-GTowerItems.RegisterItem( "TurtlePet", {
-
-	Name = "Turtle Pet",
-	Description = "Bringing out the shell. Also not a soup.",
-	
-	Model = "models/gmod_tower/plush_turtle.mdl",
-	
-	DrawModel = true,
-	Equippable = true,
-	
-	StoreId = GTowerStore.PET,
-	StorePrice = 20000,
-	
-	UniqueInventory = true,
-	UniqueEquippable = true, 
-	
-	EquipType = "Pet",
-	
-	CanEntCreate = false,
-	DrawName = true,
-	CanRemove = true,
-	Tradable = true,
-	NoBank = false,
-	
-	EquippableEntity = true,
-	RemoveOnDeath = true,
-	RemoveOnNoEntsLoc = true,
-	
-	ExtraMenuItems = function ( item, menu )
-		
-		table.insert( menu, {
-			[ "Name" ] = "Give Name",
-			[ "function" ] = function()
-			
-				local curText = LocalPlayer():GetInfo( "gmt_petname_turtle" ) or ""
-				
-				Derma_StringRequest(
-					"Pet Name",
-					"Please enter the name of your cute pet!",
-					curText,
-					function ( text ) RunConsoleCommand( "gmt_petname_turtle", text ) end
-				)
-				
-			end
-		} )
-		
-	end,
-	
-	CreateEquipEntity = function( self )
-		
-		local pet = ents.Create( "gmt_pet_turtle" )
-		
-		if IsValid( pet ) then
-		
-			self.Ply.Pet = pet
-
-			pet:SetOwner( self.Ply )
-			pet:Spawn()
-			
-		end
-		
-		return pet
-		
-	end,
-
-} )
-
 
 GTowerItems.RegisterItem( "BalloonicornPet", {
 
@@ -377,49 +309,6 @@ GTowerItems.RegisterItem( "ChimeraPet", {
 		
 	end,
 
-} )
-
-GTowerItems.RegisterItem( "YoshiEggs", {
-	Name = "Yoshi Eggs",
-	Description = "Cute little eggs that follow you around.",
-	Model = "models/map_detail/toy_yoshiegg.mdl",
-
-	DrawModel = true,
-	Equippable = true,
-		
-	StoreId = GTowerStore.PET,
-	StorePrice = 30000,
-		
-	UniqueInventory = true,
-	UniqueEquippable = true, 
-		
-	EquipType = "PetSimple",
-	InvCategory = "pet",
-		
-	CanEntCreate = false,
-	DrawName = true,
-	CanRemove = true,
-	Tradable = true,
-	NoBank = false,
-		
-	EquippableEntity = true,
-	RemoveOnDeath = true,
-	RemoveOnNoEntsLoc = true,
-
-	CreateEquipEntity = function( self )
-			
-		local pet = ents.Create( "gmt_wearable_eggs" )
-			
-		if IsValid( pet ) then
-			pet:SetOwner( self.Ply )
-			pet:SetParent( self.Ply )
-			pet:SetPos( self.Ply:GetPos() )
-			pet:Spawn()
-		end
-			
-		return pet
-			
-	end,
 } )
 
 /*GTowerItems.RegisterItem( "RobotPet", {
@@ -566,7 +455,7 @@ GTowerItems.RegisterItem( "ParticleSystemVIP", {
 	CanEntCreate = false,
 	DrawName = true,
 
-	StoreId = GTowerStore.PARTICLES,
+	StoreId = GTowerStore.VIP,
 	StorePrice = 30000,
 
 	Tradable = false,
@@ -606,7 +495,7 @@ GTowerItems.RegisterItem( "ParticleSystemBanana", {
 
 	NewItem = true,
 
-	StoreId = GTowerStore.PARTICLES,
+	StoreId = GTowerStore.VIP,
 	StorePrice = 10000,
 
 	Tradable = false,
@@ -647,7 +536,7 @@ GTowerItems.RegisterItem( "ParticleSystemNotes", {
 
 	NewItem = true,
 
-	StoreId = GTowerStore.PARTICLES,
+	StoreId = GTowerStore.VIP,
 	StorePrice = 7500,
 
 	Tradable = false,
@@ -688,7 +577,7 @@ GTowerItems.RegisterItem( "ParticleSystemOrbs", {
 
 	NewItem = true,
 
-	StoreId = GTowerStore.PARTICLES,
+	StoreId = GTowerStore.VIP,
 	StorePrice = 12500,
 
 	Tradable = false,
@@ -714,13 +603,3 @@ GTowerItems.RegisterItem( "ParticleSystemOrbs", {
 
 	end
 } )
-
-RegisterItem("fishbowl",{
-	Name = "Fish Bowl",
-	Description = "A nice little goldfish pet.",
-	ClassName = "gmt_item_fishbowl",
-	Model = "models/map_detail/toystore_fishbowl.mdl",
-	DrawModel = true,
-	StorePrice = 2500,
-	StoreId = GTowerStore.PET,
-})

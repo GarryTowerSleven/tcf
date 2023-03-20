@@ -2,7 +2,7 @@
 GTowerItems.AdminBankGUI = nil
 GTowerItems.Categories =
 {
-	{ Internal = "1",		Friendly = "Condo" },
+	{ Internal = "1",		Friendly = "Suite" },
 	{ Internal = "build",	Friendly = "Build" },
 	{ Internal = "8",		Friendly = "Merchant" },
 	{ Internal = "7",		Friendly = "Elect." },
@@ -103,7 +103,7 @@ end
 function GTowerItems:OpenAdmin()
 
 	self:CloseAdmin()
-	GtowerMainGui:GtowerShowMenus()
+	GTowerMainGui.ShowMenus()
 
 	if IsValid( self.AdminBankGUI ) then self.AdminBankGUI:SetVisible( true ) return end
 
@@ -151,7 +151,7 @@ function GTowerItems:CloseAdmin()
 	if IsValid( self.AdminBankGUI ) then
 		self.AdminBankGUI:SetVisible( false )
 	end
-	GtowerMainGui:GtowerHideMenus()
+	GTowerMainGui.HideMenus()
 end
 
 hook.Add("GTowerAdminMenus", "AdminBank", function()

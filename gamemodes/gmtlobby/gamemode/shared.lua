@@ -1,6 +1,5 @@
-GM.Name 	= "GMod Tower: Deluxe"
+GM.Name 	= "GMod Tower"
 GM.Author	= "Deluxe Team & PixelTail Games"
-GM.Website	= "http://www.gmtdelxue.org/"
 GM.AllowSpecialModels = true
 GM.AllowEquippables = true
 
@@ -9,39 +8,35 @@ IsLobby = true
 
 DeriveGamemode( "gmodtower" )
 
-if SERVER then
-	game.ConsoleCommand("hostname [GMT: Deluxe] Lobby\n")
-end
-
 include("player_class/player_lobby.lua")
 
-//=====================================================
-game.AddParticles( "particles/lobby_2.pcf" )
+function IsHalloweenMap( map )
+	local map = map or game.GetMap()
 
-local ParticleSystems = { "condo_fireplace", "condo_fireplace_embers", "condo_fireplace_burner",
-"ocean_splash", "condo_fireplace_flames_2", "condo_fireplace_flames_3" }
-						  
-for _, part in pairs( ParticleSystems ) do
-	PrecacheParticleSystem( part )
-end
-//=====================================================
+	if ( string.StartsWith( map, "gmt_build" ) ) then
+		return map[11] == "h"
+	elseif ( IsLobby ) then
+		return string.EndsWith( map, "h")
+	end
 
-function IsHalloweenMap()
-	return string.EndsWith(game.GetMap(), "h")
+	return false
 end
 
-function IsChristmasMap()
-	return string.EndsWith(game.GetMap(), "c")
+function IsChristmasMap( map )
+	local map = map or game.GetMap()
+
+	if ( string.StartsWith( map, "gmt_build" ) ) then
+		return map[11] == "c"
+	elseif ( IsLobby ) then
+		return string.EndsWith( map, "c")
+	end
+
+	return false
 end
 
 function IsHolidayMap()
 	return ( IsHalloweenMap() || IsChristmasMap() )
 end
-
-/*if IsHalloweenMap() then
-	if SERVER then AddCSLuaFile("sh_halloween.lua") end
-	include("sh_halloween.lua")
-end*/
 
 Loadables.Load( {
 
@@ -52,7 +47,7 @@ Loadables.Load( {
 	--"bassemitstream",		-- Emit stream (radios)
 	"ragdollcontroller",	-- Player ragdolling (Lobby 1)
 	--"icon",				-- Scoreboard icons, no longer used
-	--"npc_chat",			-- Chatting NPCs (suite and PVP Battle)
+	"npc_chat",				-- Chatting NPCs (suite and PVP Battle)
 	"animation",			-- Force animation system
 	--"ambiance",			-- Ambient music (Lobby 1)
 	"enchant",				-- Player enchantments
@@ -79,11 +74,11 @@ Loadables.Load( {
 	"achievement",			-- Achievements
 	"hacker",				-- Hacker logging
 	"npc",					-- Store NPCs
-	"room",					-- Suite/condo system
+	"roomlobby1",			-- Suite/condo system
 	"scoreboard3",			-- Scoreboard
 	"store",				-- Stores
 	"multiserver",			-- Multiserver
-	"location",				-- Location system
+	"locationlobby1",		-- Location system
 	"seats",				-- Seat manager
 	--"gibsystem",			-- Gibs
 	"thirdperson",			-- Thirdperson
@@ -100,8 +95,8 @@ Loadables.Load( {
 	"ping",					-- Pings the clients to detect for server crashes
 	"soundscape",			-- Soundscape system (Lobby 2)
 	"theater2", 			-- Theater built with the media player (Lobby 2)
-	"elevator",				-- Elevator system for suites (Lobby 2)
-	"condopanel",			-- Condo OS
+	-- "elevator",				-- Elevator system for suites (Lobby 2)
+	-- "condopanel",			-- Condo OS
 	"mapdata",				-- Map specific fixes and additions
 
 	-- Items Depend On These
@@ -111,7 +106,7 @@ Loadables.Load( {
 	"bonemod",				-- Bone modifications
 	"pet",					-- Pets
 	"cards",				-- Poker module
-	"minecraftskins",		-- Minecraft Steve model skins
+	-- "minecraftskins",	-- Minecraft Steve model skins
 	"auction",				-- Auction tables
 
 	-- Debugging/Tools
@@ -122,9 +117,9 @@ Loadables.Load( {
 	-- UI/Misc
 	---------------------------------------------------------
 	"question",				-- Global voting
-	--"radialmenu",			-- Zak's radial menu system
-	--"kickstarter",		-- Kickstarter feed
-	"multicore",			-- Possible Performance Booster
+	-- "radialmenu",			-- Zak's radial menu system
+	-- "kickstarter",		-- Kickstarter feed
+	-- "multicore",			-- Possible Performance Booster
 
 	-- Weapons
 	---------------------------------------------------------

@@ -21,7 +21,6 @@ end
 
 function PANEL:ChangingThink()
 
-	self.x = 440 - 80
 	local NewYPos = math.Approach( self.CurYPos, self.TargeYPos, FrameTime() * self:GetTall() * OpenTime )
 	
 	if NewYPos == self.TargeYPos then
@@ -106,13 +105,13 @@ function ThirdPerson.CloseMenu()
 end
 
 hook.Add( "GTowerShowMenus", "OpenTPPanel", function()
-	--[[if AllowButton:GetBool() then
+	if AllowButton:GetBool() then
 		ThirdPerson.ShowMenu()
 	else
 		ThirdPerson.CloseMenu()
-	end]]
+	end
 end )
 
 hook.Add( "GTowerHideMenus", "CloseTPPanel", function()
-	--ThirdPerson.CloseMenu()
+	ThirdPerson.CloseMenu()
 end )

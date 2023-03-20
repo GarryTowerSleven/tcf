@@ -22,7 +22,7 @@ end
 
 RegisterItem("poster1",{
 	Name = "Poster: Classic Video Games",
-	Description = "A poster you can use to decorate your condo with.",
+	Description = "A poster you can use to decorate your suite with.",
 	Model = "models/gmod_tower/poster1.mdl",
 	ModelSkinId = 0,
 	DrawModel = true,
@@ -540,7 +540,6 @@ local posters = {
 		"The Ballracers",
 		"Vapourwave",
 		"Lobby 2 Group Photo",
-		"Rick And Morty",
 		"Hitman 2",
 		"My Hero Academia",
 		"The Super Mario Bros Show",
@@ -549,11 +548,9 @@ local posters = {
 		"Sabaton",
 		"Deep Rock Galactic",
 		"GMod Tower: Classic",
-		"Dank",
 		"Human Fall Flat",
 		"I Want To Believe",
-		"Anomaladox",
-		"Spiderman Triology",
+		"Spiderman Trilogy",
 	},
 }
 

@@ -52,7 +52,7 @@ ENT.AdvMainHUD = {
 }
 
 ENT.BrowserHUD = {
-	URL = "http://gmtdeluxe.org/apps/instruments/piano.php",
+	URL = GAMEMODE.WebsiteUrl .. "instruments/piano.php",
 	Show = true, // display the sheet music?
 	X = 0,
 	Y = 0,

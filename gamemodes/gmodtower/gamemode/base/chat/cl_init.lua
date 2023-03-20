@@ -3,8 +3,8 @@ GTowerChat = GTowerChat or {}
 GTowerChat.YOffset = 380
 GTowerChat.XOffset = 40
 
-GTowerChat.BGColor = Color(18, 70, 90, 180)
-GTowerChat.ScrollColor = Color(19, 56, 81, 215)
+GTowerChat.BGColor = Color( 26, 75, 117, 180 )
+GTowerChat.ScrollColor = Color( 19, 50, 81, 215 )
 
 GTowerChat.ChatFont = "ChatVerdana16"
 
@@ -24,6 +24,7 @@ include("cl_chatbubble.lua")
 include("cl_emotes.lua")
 include("cl_settings.lua")
 include("shared.lua")
+
 --local blip = Sound("HL1/fvox/blip.wav") //friends/message.wav is too annoying
 local blip1 = Sound("GModTower/misc/chat1.wav")
 local blip2 = Sound("GModTower/misc/chat2.wav")

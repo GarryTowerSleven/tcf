@@ -7,16 +7,18 @@ util.AddNetworkString( "InstrumentNetwork" )
 function ENT:Initialize()
 
 	self:SetModel( self.Model )
+	
 	self:PhysicsInit( SOLID_VPHYSICS )
-	self:SetMoveType( MOVETYPE_VPHYSICS )
+	self:SetMoveType( MOVETYPE_NONE )
 	self:SetSolid( SOLID_VPHYSICS )
-	self:SetUseType( SIMPLE_USE )
-	self:DrawShadow( true )
 
 	local phys = self:GetPhysicsObject()
-	if IsValid( phys ) then
-		phys:Wake()
+	if ( IsValid( phys ) ) then
+		phys:EnableMotion( false )
 	end
+
+	self:SetUseType( SIMPLE_USE )
+	self:DrawShadow( true )
 
 	self:InitializeAfter()
 

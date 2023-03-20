@@ -1,9 +1,9 @@
-local WebpageURL = GM.Website .. "/game/branch.html"
+local WebpageURL = GM.WebsiteUrl .. "/branch/"
 
 local function ShowBranchMessage()
 
 	local frame = vgui.Create( "DFrame" )
-	frame:SetSize( math.min( 1280, ScrW() ), math.min( 720, ScrH() ) )
+	frame:SetSize( ScrW() * .8, ScrH() * .8 )
 	frame:Center()
 	frame:SetTitle( "Warning" )
 

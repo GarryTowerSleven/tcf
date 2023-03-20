@@ -290,7 +290,7 @@ hook.Add("GUIMousePressed","GolfMousePress", function(mc)
 
 			timer.Simple( 0.25, function()
 				LocalPlayer().Swung = false
-				GtowerMainGui:GtowerHideMenus()
+				GTowerMainGui.HideMenus()
 			end )
 
 		end

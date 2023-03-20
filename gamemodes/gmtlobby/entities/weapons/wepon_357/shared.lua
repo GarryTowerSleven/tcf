@@ -69,7 +69,8 @@ local taunt = {
 	"I hate my life.",
 	"I think I'll donate to GMod Tower.",
 	"Hug my life.",
-	"Life is meaningless..."
+	"Life is meaningless...",
+	"Here's to my love!",
 }
 
 function SWEP:PrimaryAttack()

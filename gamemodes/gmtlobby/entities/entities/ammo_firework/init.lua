@@ -21,9 +21,37 @@ function ENT:Think()
   local CurVel = self:GetVelocity():Length()
 
   if CurVel <= 1200 then
-    self:Remove()
+	self:DoFireworks()
+	self:Remove()
   end
 
+end
+
+local effects = {
+	"firework_explosion",
+	"firework_multiexplosion",
+	"firework_rainbowexplosion",
+	"firework_ring",
+}
+
+function ENT:DoFireworks()
+	local pos = self:GetPos()
+	local eff = EffectData()
+	eff:SetOrigin(pos)
+	util.Effect("firework_sparks",eff,true,true)
+	local pos = self:GetPos()
+	local eff = EffectData()
+	eff:SetOrigin(pos)
+	--util.Effect("firework_pop",eff,true,true)
+	local pos = self:GetPos()
+	local eff = EffectData()
+	eff:SetOrigin(pos)
+	util.Effect("firework_shockwave",eff,true,true)
+	local pos = self:GetPos()
+	local eff = EffectData()
+	eff:SetOrigin(pos)
+	util.Effect(table.Random(effects),eff,true,true)
+	self:Remove()
 end
 
 function ENT:OnRemove()

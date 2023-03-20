@@ -48,9 +48,9 @@ function SWEP:PrimaryAttack()
 	if !IsFirstTimePredicted() then return end
 
 	--Not sure if we should be creating a timer each time - so let's check if it's already there.
-	if !timer.IsTimer("SnowBallIdle" .. self.Owner:UserID()) then
+	if !timer.Exists("SnowBallIdle" .. self.Owner:UserID()) then
 		timer.Create("SnowBallIdle" .. self.Owner:UserID(), self.Primary.Delay, 1, function()
-			if !ValidEntity(self.Weapon) or !self.Weapon:IsValid() then return end
+			if !IsValid(self.Weapon) or !self.Weapon:IsValid() then return end
 			self.Weapon:SendWeaponAnim(ACT_VM_IDLE)
 		end )
 	else
@@ -88,7 +88,7 @@ function SWEP:Deploy()
 end
 
 function SWEP:Holster()
-	if timer.IsTimer("SnowBallIdle" .. self.Owner:UserID()) then
+	if timer.Exists("SnowBallIdle" .. self.Owner:UserID()) then
 		timer.Destroy( "SnowBallIdle" .. self.Owner:UserID() )
 	end
 

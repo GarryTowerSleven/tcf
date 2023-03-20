@@ -16,8 +16,8 @@ function ENT:Think()
       self:SetNWInt( "condoID", loc )
     end
 
-    if GtowerRooms.Get(self:GetNWInt("condoID")) then
-      local ply = GtowerRooms.Get(self:GetNWInt("condoID")).Owner
+    if GTowerRooms.Get(self:GetNWInt("condoID")) then
+      local ply = GTowerRooms.Get(self:GetNWInt("condoID")).Owner
       if IsValid(ply) then
         self:SetSkin(ply:GetInfoNum("gmt_condoblinds","1"))
       end

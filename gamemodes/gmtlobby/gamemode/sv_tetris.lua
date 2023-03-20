@@ -1,9 +1,7 @@
-
------------------------------------------------------
 util.AddNetworkString("UpdateTetrisBoard")
 
 local UpdateInterval = 60 * 5
-local MaxPlayers = 50
+local MaxPlayers = 10
 
 local LatestScores = {}
 
@@ -26,22 +24,16 @@ function UpdateTetrisBoard( force, ply )
     return
   end
 
-   local Query = "SELECT `id`,`name`,`tetrisscore` FROM gm_users WHERE tetrisscore > 0 ORDER BY CAST(tetrisscore as UNSIGNED) DESC LIMIT "..MaxPlayers
-
+  local Query = "SELECT `id`,`name`,`tetrisscore` FROM gm_users WHERE tetrisscore > 0 ORDER BY cast(tetrisscore as int) DESC LIMIT "..MaxPlayers
   SQL.getDB():Query( Query, function(res)
     if !res or res == nil then return end
     local data = res[1].data
 
     local scores = {}
 
-    local champScore = {}
-
     for k,v in pairs(data) do
-      if k == 1 then champScore[1] = {v.name, v.tetrisscore} end
       table.insert(scores, k, "#"..k.." "..v.name..": "..v.tetrisscore)
     end
-
-    local scores = { scores, champScore }
 
     SendTetrisBoard( scores )
 

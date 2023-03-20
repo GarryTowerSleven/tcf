@@ -37,7 +37,7 @@ function SWEP:Reload()
 	
 	if CLIENT && InventorySaver.Allow( self.Owner ) && CurTime() > self.NextReloadUse then
 		
-		GtowerMainGui:GtowerShowMenus()
+		GTowerMainGui.ShowMenus()
 		
 		if LocalPlayer()._InvSaveName then
 			

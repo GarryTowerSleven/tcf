@@ -286,7 +286,7 @@ local function BanPlayer(ply, time)
 
     --local Steamid = ply:SteamID()
     Derma_StringRequest("Ban " .. Name, "Ban " .. Name, "", function(reason)
-        RunConsoleCommand("gmt_ban", ply:EntIndex(), time/60, reason)
+        RunConsoleCommand( "gmt_ban", ply:EntIndex(), time, reason )
     end, nil, "Ban " .. Name, "Cancel")
 end
 
@@ -329,49 +329,49 @@ hook.Add("ExtraMenuPlayer", "AddModFunctions", function(ply)
                         {
                             ["Name"] = "15 Minutes",
                             ["function"] = function()
-                                BanPlayer(ply, 900)
+                                BanPlayer(ply, 15)
                             end,
                             ["order"] = 1
                         },
                         {
                             ["Name"] = "1 Hour",
                             ["function"] = function()
-                                BanPlayer(ply, 3600)
+                                BanPlayer(ply, 60)
                             end,
                             ["order"] = 2
                         },
                         {
                             ["Name"] = "1 Day",
                             ["function"] = function()
-                                BanPlayer(ply, 86400)
+                                BanPlayer(ply, 60*24)
                             end,
                             ["order"] = 3
                         },
                         {
                             ["Name"] = "2 Days",
                             ["function"] = function()
-                                BanPlayer(ply, 86400 * 2)
+                                BanPlayer(ply, (60*24)*2)
                             end,
                             ["order"] = 4
                         },
                         {
                             ["Name"] = "3 Days",
                             ["function"] = function()
-                                BanPlayer(ply, 86400 * 3)
+                                BanPlayer(ply, (60*24)*3)
                             end,
                             ["order"] = 5
                         },
                         {
                             ["Name"] = "1 Week",
                             ["function"] = function()
-                                BanPlayer(ply, 86400 * 7)
+                                BanPlayer(ply, (60*24)*7)
                             end,
                             ["order"] = 6
                         },
                         {
                             ["Name"] = "1 Month",
                             ["function"] = function()
-                                BanPlayer(ply, 43800)
+                                BanPlayer(ply, (60*24)*30)
                             end,
                             ["order"] = 7
                         },
@@ -604,7 +604,7 @@ local function GetBlockStatus(ply)
 end
 
 hook.Add("PlayerActionBoxPanel", "AdminActions", function(panel)
-    if string.StartWith(game.GetMap(), "gmt_lobby") then
+    if IsLobby then
         local cmd = panel:CreateItem()
         cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Trade, 16, 16, 16, 16)
         cmd:SetText("Trade")
@@ -645,7 +645,7 @@ hook.Add("PlayerActionBoxPanel", "AdminActions", function(panel)
         cmd:SetText(GetBlockStatus(panel:GetPlayer()))
     end
 
-    if string.StartWith(game.GetMap(), "gmt_lobby") then
+    if IsLobby then
         local cmd = panel:CreateItem()
         cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Group, 16, 16, 16, 16)
         cmd:SetText("Group")
@@ -721,7 +721,7 @@ hook.Add("HUDPaint", "AdminShowEnts", function()
 
         if ent._GTInvSQLId then
             local Item = GTowerItems:Get(ent._GTInvSQLId)
-            info3 = tostring(ent._GTInvSQLId) .. " " .. Item.UniqueName .. " '" .. Item.Name .. "' " .. tostring(Item.Tradable) .. " $" .. Item.StorePrice
+            info3 = tostring(ent._GTInvSQLId) .. " " .. Item.UniqueName .. " '" .. Item.Name .. "' " .. tostring(Item.Tradable)
         else
             info3 = tostring(ent:GetPos()) .. " | " .. tostring(ent:GetAngles())
         end
@@ -956,7 +956,8 @@ hook.Add("HUDPaint", "AdminShowPlayerCount", function()
 end)
 
 hook.Add("HUDPaint", "AdminESP", function()
-    if not LocalPlayer():IsStaff() or not esp:GetBool() then return end
+    if not LocalPlayer():IsStaff() then return end
+    if not esp:GetBool() then return end
 
     for k, v in ipairs(player.GetAll()) do
         if IsValid(v) and v != LocalPlayer() then

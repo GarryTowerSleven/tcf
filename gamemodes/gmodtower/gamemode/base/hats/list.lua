@@ -787,6 +787,7 @@ table.insert( GTowerHats.Hats, {
     price = 250,
     model = "models/captainbigbutt/skeyler/hats/heartband.mdl",
     closetrow = 1,
+	storeid = GTowerStore.VIP,
 		slot = SLOT_HEAD
   } )
     table.insert( GTowerHats.Hats, {
@@ -796,6 +797,7 @@ table.insert( GTowerHats.Hats, {
     price = 250,
     model = "models/captainbigbutt/skeyler/hats/starband.mdl",
     closetrow = 1,
+	storeid = GTowerStore.VIP,
 		slot = SLOT_HEAD
   } )
     table.insert( GTowerHats.Hats, {
@@ -805,6 +807,7 @@ table.insert( GTowerHats.Hats, {
     price = 500,
     model = "models/captainbigbutt/skeyler/hats/santa.mdl",
     closetrow = 1,
+	storeid = GTowerStore.VIP,
 		slot = SLOT_HEAD
   } )
     table.insert( GTowerHats.Hats, {

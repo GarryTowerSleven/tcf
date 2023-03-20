@@ -1,7 +1,6 @@
 ---------------------------------
-include("shared.lua")
-include("network.lua")
-AddCSLuaFile("cl_clip.lua")
+include('shared.lua')
+include('network.lua')
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("cl_list.lua")
 AddCSLuaFile("cl_network.lua")

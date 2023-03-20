@@ -379,7 +379,7 @@ function meta:DropItem( slot, aim, rotation )
 			DropEnt.PlayerOwner = self
 		end
 
-		if Item.AllowDropLocation && !ClientSettings:Get( self, "GTAllowInvAllEnts" ) && !Item.AllowAnywhereDrop && !Location.GetCondoID(Location.Find(DropEnt:GetPos())) && !Location.Is( Location.Find(DropEnt:GetPos()), Item.AllowDropLocation ) then
+		if Item.AllowDropLocation && !ClientSettings:Get( self, "GTAllowInvAllEnts" ) && !Item.AllowAnywhereDrop && Location.GetSuiteID( DropEnt:Location() ) < 1 && !Location.Is( DropEnt:Location(), Item.AllowDropLocation ) then
 			DropEnt:Remove()
 			return
 		end

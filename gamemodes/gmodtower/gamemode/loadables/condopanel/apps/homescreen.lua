@@ -53,7 +53,7 @@ function APP:Start()
 	self.condoUnLockButton = {
 		icon = Icons["lock"],
 		name = "Unlock Condo",
-		func = function() local owner = GtowerRooms:RoomOwner( LocalPlayer():Location() )
+		func = function() local owner = GTowerRooms:RoomOwner( LocalPlayer():Location() )
 			owner.GRoomLock = false
 			NetLock(owner,false)
 			self.homebuttons[1] = self.condoLockButton
@@ -64,7 +64,7 @@ function APP:Start()
 		icon = Icons["unlock"],
 		name = "Lock Condo",
 		func = function()
-			local owner = GtowerRooms:RoomOwner( LocalPlayer():Location() )
+			local owner = GTowerRooms:RoomOwner( LocalPlayer():Location() )
 			if owner:GetNWBool("Party") then return end
 			owner.GRoomLock = true
 			NetLock(owner,true)
@@ -115,7 +115,7 @@ end
 function APP:IsCondoLocked()
 
 	local loc = LocalPlayer():Location()
-	local owner = GtowerRooms:RoomOwner( loc )
+	local owner = GTowerRooms:RoomOwner( loc )
 	return IsValid(owner) and owner.GRoomLock
 
 end

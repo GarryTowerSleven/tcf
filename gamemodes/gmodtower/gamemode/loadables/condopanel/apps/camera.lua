@@ -29,7 +29,7 @@ function APP:Start()
 	if loc then
 
 		-- Get the room object and the door camera within
-		local room = GtowerRooms:Get(loc)
+		local room = GTowerRooms:Get(loc)
 
 		if (room and IsValid(room.DoorCam)) then
 			self.Camera = room.DoorCam

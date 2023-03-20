@@ -9,8 +9,6 @@ function ENT:PowerUpOn( ply )
 	ply:SetWalkSpeed( 650 )
 	ply:SetRunSpeed( 550 )
 	PostEvent( ply, "putakeon_on" )
-
-	ply.IsTakeOn = true
 end
 
 function ENT:PowerUpOff( ply )
@@ -18,6 +16,4 @@ function ENT:PowerUpOff( ply )
 	ply:SetWalkSpeed( 450 )
 	ply:SetRunSpeed( 450 )
 	PostEvent( ply, "putakeon_off" )
-
-	ply.IsTakeOn = false
 end

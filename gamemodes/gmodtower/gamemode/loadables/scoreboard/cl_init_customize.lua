@@ -53,7 +53,7 @@ end
 
 // Subtitle (under Name)
 PlayerSubtitleText = function( ply )
-	if string.StartWith(game.GetMap(),"gmt_lobby") then
+	if IsLobby then
 		local text = Location.GetFriendlyName( ply:Location() ) or "Unknown"
 		return text
 	else
@@ -132,7 +132,7 @@ surface.CreateFont( "SCMapName", { font = "TodaySHOP-Bold", size = 24, weight = 
 surface.CreateFont( "SCAwardCategory", { font = "Oswald", size = 18, weight = 400 } )
 surface.CreateFont( "SCAwardTitle", { font = "Oswald", size = 26, weight = 400 } )
 surface.CreateFont( "SCAwardDescription", { font = "Arial", size = 14, weight = 400 } )
-surface.CreateFont( "SCAwardProgress", { font = "Akfar", size = 12, weight = 400 } )
+surface.CreateFont( "SCAwardProgress", { font = "Oswald", size = 12, weight = 400 } )
 
 /*surface.CreateFont( "SCAwardDescription", { font = "Oswald Light", size = 28, weight = 400 } )
 surface.CreateFont( "SCAwardProgress", { font = "Oswald Light", size = 24, weight = 400 } )*/

@@ -1,6 +1,6 @@
 include( "shared.lua" )
 
-CreateConVar( "cl_playerglowcolor", "0.24 0.34 0.41", { FCVAR_ARCHIVE, FCVAR_USERINFO }, "The value is a Vector - so between 0-1 - not between 0-255" )
+CreateConVar( "cl_playerglowcolor", "0 0 0", { FCVAR_ARCHIVE, FCVAR_USERINFO }, "The value is a Vector - so between 0-1 - not between 0-255" )
 
 //local VIPColor = Color( 163, 73, 164 )
 local haloVIP = CreateClientConVar( "gmt_vipglow", 1, true, false )

@@ -1,7 +1,6 @@
 ---------------------------------
 GMode.Name = "Minigolf"
 GMode.Gamemode = "minigolf"
-GMode.ThemeColor = Color(44, 83, 17)
 
 //Set true if players should be kicked if their "goserver" value on the database is not the same as the local server
 GMode.Private = true
@@ -18,7 +17,7 @@ GMode.WaitingTime = 20.0
 //Set this to false if you want people to be able to go in and out of the server at any time.
 //Set also the min amount of players to join the sevrer
 GMode.OneTimeJoin = true
-GMode.MinPlayers = 1
+GMode.MinPlayers = 4
 //Set this if only a group can join
 GMode.GroupJoin = false
 
@@ -39,8 +38,8 @@ function GMode:GetMapTexture( map )
 end
 
 GMode.View = {
-	pos = Vector( 6927, -5351, -762 ),
-	ang = Angle( 14, -18, 0 )
+	pos = Vector( 10148, 8549, 6753 ),
+	ang = Angle( 7.2, -73.2, 0 )
 }
 GMode.Tips = {
 	"Try not to over shoot - pay attention to the angles!",
@@ -92,12 +91,12 @@ function GMode:ProcessData( ent, data )
 	ent.ProgressWidth = tw * frac
 	ent.CompleteWidth = tw
 
-	ent.ProgressHeight = 72
+	ent.ProgressHeight = 30
 
-	local text = "<font=MultiSubDeluxe><color=white>Hole:</color> " .. string.format("%d / %d", math.abs(cur), max) .. "</font>"
+	local text = "<font=GTowerGMTitle><color=ltgrey>Hole:</color> " .. string.format("%d / %d", math.abs(cur), max) .. "</font>"
 	ent.ProgressText = markup.Parse(text)
-	ent.ParTitle = markup.Parse( "<font=MultiSubDeluxe><color=white>PAR</color></font>" )
-	ent.ParMarkup = markup.Parse( "<font=MultiSubDeluxe>" .. tonumber(Explode[2]) .. "</font>" )
+	ent.ParTitle = markup.Parse( "<font=GTowerGMTitle><color=grey>PAR</color></font>" )
+	ent.ParMarkup = markup.Parse( "<font=GTowerHUDMainLarge>" .. tonumber(Explode[2]) .. "</font>" )
 
 	ent.ParTitle.PosX = ent.TotalMinX + ent.TotalWidth * 0.9 - ent.ParTitle:GetWidth() / 2
 	ent.ParTitle.PosY = ent.TotalMinY + ent.TopHeight * 0.60 - ent.ParTitle:GetHeight() / 2
@@ -115,8 +114,8 @@ function GMode:ProcessData( ent, data )
 
 end
 
-local color_red = Color(255, 255, 255, 100)
-local color_black = Color(255, 255, 255, 150)
+local color_red = Color(200, 0, 0, 100)
+local color_black = Color(0, 0, 0, 150)
 
 GMode.DrawData = function( ent )
 
@@ -127,7 +126,7 @@ GMode.DrawData = function( ent )
 		return
 	end
 
-	surface.SetDrawColor(255, 255, 255, 50)
+	surface.SetDrawColor(color_red)
 	surface.DrawRect(ent.ProgressX, ent.ProgressY, ent.ProgressWidth, ent.ProgressHeight)
 	surface.SetDrawColor(color_black)
 	surface.DrawOutlinedRect(ent.ProgressX, ent.ProgressY, ent.CompleteWidth, ent.ProgressHeight)

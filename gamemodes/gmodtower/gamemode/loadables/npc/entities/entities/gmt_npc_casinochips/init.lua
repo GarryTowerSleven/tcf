@@ -5,7 +5,7 @@ include('shared.lua')
 
 util.AddNetworkString("NPCCasino")
 
-concommand.Add( "gmt_casino_chips_cash", function( ply, cmd, args )
+/*concommand.Add( "gmt_casino_chips_cash", function( ply, cmd, args )
 
 	if ply:PokerChips() > 0 then
 		ply:MsgI( "chips", "PokerChipSpent", string.FormatNumber(ply:PokerChips()) )
@@ -31,11 +31,16 @@ concommand.Add( "gmt_casino_chips_buy", function( ply, cmd, args )
 		ply:MsgI( "chips", "PokerCannotAffordChips" )
 	end
 	
-end )
+end )*/
 
 function ENT:AcceptInput( name, activator, ply )
+	if ( !self.NextUse ) then self.NextUse = 0 end
+    if CurTime() < self.NextUse then return end
+	self.NextUse = CurTime() + 1
+
+	ply:Msg2( T( "PokerDisable" ) )
 	
-    if name == "Use" && ply:IsPlayer() && ply:KeyDownLast(IN_USE) == false then
+    /*if name == "Use" && ply:IsPlayer() && ply:KeyDownLast(IN_USE) == false then
 
 		ply.ChipSeller = self
 
@@ -45,6 +50,6 @@ function ENT:AcceptInput( name, activator, ply )
 		end)
 
 
-    end
+    end*/
 
 end

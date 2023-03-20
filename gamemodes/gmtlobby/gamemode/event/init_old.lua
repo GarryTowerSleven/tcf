@@ -4,7 +4,7 @@
 local EventSound = "gmodtower/misc/notifyevent.wav"
 if time.IsChristmas() then EventSound = "gmodtower/music/christmas/eventnotify.mp3" end
 
-local minigameslist = { "balloonpop", "chainsaw", "snowbattle", "obamasmash", "tronarnia" }
+local minigameslist = { "balloonpop", "chainsaw", "snowbattle", "obamasmash", "pvpnarnia" }
 local shopslist = { 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 15, 16, 17, 20, 22, 23, 24, 25, 26, 27 }
 minsale = 0.1
 maxsale = 0.5

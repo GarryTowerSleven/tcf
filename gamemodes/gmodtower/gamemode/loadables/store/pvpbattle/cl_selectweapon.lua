@@ -1,4 +1,4 @@
----------------------------------
+
 PvpBattle.MainPanel = nil
 PvpBattle.ModelPanels = {}
 PvpBattle.HighestWidth = 100
@@ -47,7 +47,7 @@ function PvpBattle:CloseSelection()
 	self.WhiteBox = nil
 	self.SelectLabel = nil
 
-	GtowerMainGui:GtowerHideMenus()
+	GTowerMainGui.HideMenus()
 
 end
 
@@ -253,27 +253,23 @@ hook.Add("PvpBattleUpdate", "StoreCheck", function( OpenStore, discount )
 
 	if OpenStore then
 
-		local menu = {
-			{
-				title = "Buy Weapons",
-				large = true,
-				icon = "money",
-				func = function()
-					LocalPlayer():ConCommand("storeopen " .. tostring(GTowerStore.PVPBATTLE) .. " " .. tostring(discount))
-					SelectionMenuManager.Remove()
-				end,
-			},
-			{
-				title = "Select Weapons",
-				icon = "shuffle",
-				func = function()
-					PvpBattle:OpenSelection()
-					SelectionMenuManager.Remove()
-				end,
-			},
-		}
-
-		SelectionMenuManager.Create( "pvpbattle", menu )
+		GTowerNPCChat:StartChat({
+			Entity = "gmt_npc_pvpbattle",
+			Text = "Welcome to the PVPBattle store. What would you like to do?",
+			Responses = {
+				{
+					Response = "Buy Weapons",
+					Func = function() GTowerStore:OpenStore( PvpBattle.StoreId, nil, nil, discount ) end
+				},
+				{
+					Response = "Select Weapons",
+					Func = function() PvpBattle:OpenSelection() end
+				},
+				{
+					Response = "Bye",
+				}
+			}
+		})
 
 	else
 		PvpBattle:UpdateItems()

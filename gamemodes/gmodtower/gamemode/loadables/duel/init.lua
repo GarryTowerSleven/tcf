@@ -12,6 +12,8 @@ AddCSLuaFile( "cl_panel.lua" )
 
 module( "Dueling", package.seeall )
 
+DuelLocation = Location.GetIDByName( "Narnia" )
+
 local DuelMessageColor = Color( 150, 35, 35, 255 )
 
 hook.Add( "CanPlayerSuicide", "DuelSuicide", function( ply )
@@ -33,22 +35,37 @@ hook.Add( "EntityTakeDamage", "EntityDamageExample", function( target, dmginfo )
 end )
 
 local SnowSpawnPoints = {
-	Vector(-4866.0224609375,-12475.3984375,7744.03125),
-	Vector(-6331.6708984375,-10977.309570313,7744.03125),
-	Vector(-4868.5385742188,-9497.5908203125,7744.03125),
-	Vector(-4866.0874023438,-10680.135742188,7872.03125),
-	Vector(-4572.9306640625,-11640.715820313,7424.03125),
-	Vector(-5448.21875,-10471.103515625,7424.03125),
-	Vector(-5938.2006835938,-9867.232421875,7616.03125),
-	Vector(-3754.6674804688,-9866.55078125,7616.03125),
-	Vector(-3154.3400878906,-11744.799804688,7744.03125),
-	Vector(-4908.8720703125,-12167.959960938,7424.03125),
-	Vector(-5618.0415039063,-11829.6640625,7420.03125),
-	Vector(-5244.08203125,-9512.1640625,7744.03125),
-	Vector(-3177.51953125,-11676.516601563,7744.03125),
-	Vector(-5193.6206054688,-11636.732421875,7424.03125),
-	Vector(-5903.0205078125,-9899.5791015625,7616.03125),
-	Vector(-4119.2602539063,-9787.984375,7616.03125),
+	{Vector(-4850.8125,-8231.9375,409.15625), Angle(0,187.40008544922,0)},
+	{Vector(-5493.375,-8315.40625,400.5625), Angle(0,187.40008544922,0)},
+	{Vector(-6199.375,-8407.125,391.125), Angle(0,187.40008544922,0)},
+	{Vector(-6919.9375,-8438,378.78125), Angle(0,213.36024475098,0)},
+	{Vector(-7416.375,-9151.625,355.875), Angle(0,242.62026977539,0)},
+	{Vector(-8083.84375,-9914.59375,383.15625), Angle(0,230.740234375,0)},
+	{Vector(-7984.25,-10521.34375,313.28125), Angle(0,306.20031738281,0)},
+	{Vector(-8170.5625,-11329.21875,441.46875), Angle(0,343.16033935547,0)},
+	{Vector(-7441.5,-11350.0625,361.1875), Angle(0,15.500329971313,0)},
+	{Vector(-7163.28125,-10943.96875,368.15625), Angle(0,40.360374450684,0)},
+	{Vector(-6637.0625,-11160.34375,344.4375), Angle(0,321.38037109375,0)},
+	{Vector(-5935.28125,-11744.34375,375.34375), Angle(0,10.000370025635,0)},
+	{Vector(-5399.28125,-11367.46875,445.1875), Angle(0,60.820415496826,0)},
+	{Vector(-5224.375,-10786.96875,483.6875), Angle(0,101.08046722412,0)},
+	{Vector(-5435.15625,-10324.09375,465.375), Angle(0,104.60042572021,0)},
+	{Vector(-5634.8125,-9571.0625,502.1875), Angle(0,106.36043548584,0)},
+	{Vector(-6294.28125,-9199.625,505.15625), Angle(0,195.90051269531,0)},
+	{Vector(-6458.96875,-10027.4375,509.03125), Angle(0,271.80059814453,0)},
+	{Vector(-6724.875,-10618.09375,482.71875), Angle(0,218.78062438965,0)},
+	{Vector(-6973.78125,-8964.21875,517.65625), Angle(0,26.940263748169,0)},
+	{Vector(-4637.71875,-8633,548.75), Angle(0,214.9001159668,0)},
+	{Vector(-4980.5,-9481.5625,241.53125), Angle(0,262.86019897461,0)},
+	{Vector(-5016.65625,-10761.875,230.78125), Angle(0,267.70016479492,0)},
+	{Vector(-5460.96875,-11543.84375,303.59375), Angle(0,168.91996765137,0)},
+	{Vector(-6626.5625,-11304.90625,342.125), Angle(0,171.5599822998,0)},
+	{Vector(-7135.40625,-10803.3125,376.25), Angle(0,132.61996459961,0)},
+	{Vector(-8041,-10248.65625,336.03125), Angle(0,69.699897766113,0)},
+	{Vector(-7406.1875,-9232.53125,421.5625), Angle(0,27.459844589233,0)},
+	{Vector(-6076.3125,-8362.5,416.78125), Angle(0,3.2598395347595,0)},
+	{Vector(-5316.53125,-9853.15625,402.65625), Angle(0,280.75979614258,0)},
+	{Vector(-6155,-10332.53125,524.3125), Angle(0,136.43963623047,0)}
 }
 
 concommand.Add( "gmt_dueldeny", function( ply, cmd, args )
@@ -179,19 +196,25 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	Arriver:AddAchievement( ACHIEVEMENTS.ITCHING, 1 )
 
 	if Requester.BallRaceBall and IsValid( Requester.BallRaceBall ) then
-		Requester.BallRaceBall:SetPos(Spawn1)
+		Requester.BallRaceBall:SetPos(Spawn1[1])
+		Requester.BallRaceBall:SetAngles(Spawn1[2])
 	elseif IsValid(Requester.GolfBall) then
-		Requester.GolfBall:SetPos(Spawn1)
+		Requester.GolfBall:SetPos(Spawn1[1])
+		Requester.GolfBall:SetAngles(Spawn1[2])
 	else
-		Requester.DesiredPosition = Spawn1
+		Requester:SetPos( Spawn1[1] )
+		Requester:SetAngles( Spawn1[2] )
 	end
 
 	if Arriver.BallRaceBall and IsValid( Arriver.BallRaceBall ) then
-		Arriver.BallRaceBall:SetPos(Spawn2)
+		Arriver.BallRaceBall:SetPos(Spawn2[1])
+		Arriver.BallRaceBall:SetAngles(Spawn2[2])
 	elseif IsValid(Arriver.GolfBall) then
-		Arriver.GolfBall:SetPos(Spawn2)
+		Arriver.GolfBall:SetPos(Spawn2[1])
+		Arriver.GolfBall:SetAngles(Spawn2[2])
 	else
-		Arriver.DesiredPosition = Spawn2
+		Arriver:SetPos( Spawn2[1] )
+		Arriver:SetAngles( Spawn2[2] )
 	end
 
 	GAMEMODE:ColorNotifyAll( Requester:Name().." has challenged "..Arriver:Name().." to a duel for "..( Amount || 0 ).." GMC!", DuelMessageColor )
@@ -289,14 +312,13 @@ function GiveDuelerAmmo( ply )
 end
 
 function RespawnDuelers( ply )
+
+	print( ply or "nil" )
 	
 	if IsValid(ply) then
 		ply.DuelRespawnDelay = nil
     	ply:StripWeapons()
 		ply:Spawn()
-    	ply:SetPos( ply.RespawnVector )
-    	ply:SetEyeAngles( Angle( 0, 0, 0 ) )
-		ply.RespawnVector = nil
 		ply:SetNWEntity( "DuelOpponent", NULL )
 	end
 
@@ -379,13 +401,7 @@ local function EndDuel( victim, disconnected )
 
     local target = victim:GetNWEntity( "DuelOpponent", NULL )
 
-	target.RespawnVector = Vector( 4688, -565, -3520 )
-
-	if IsValid( victim ) then
-		victim.RespawnVector = Vector( 4688, -851, -3520 )
-	end
-
-	if disconnected and !IsValid( victim ) and Location.Is( target:Location(), "duelarena" ) then
+	if disconnected and !IsValid( victim ) and target:Location() == DuelLocation then
 		EndDuelClient( target, victim )
 		target.DuelRespawnDelay = 5 + CurTime()
 		target = nil
@@ -445,9 +461,11 @@ end )
 
 hook.Add( "Think", "DuelingWinnerRespawn", function()
 
-	if #Location.GetPlayersInLocation( Location.GetIDByName( "duelarena" ) ) > 0 then
+	local plys = Location.GetPlayersInLocation( DuelLocation )
 
-		for k,v in pairs( Location.GetPlayersInLocation( Location.GetIDByName( "duelarena" ) ) ) do
+	if #plys > 0 then
+
+		for k,v in pairs( plys ) do
 			if IsValid( v ) then
 				if v.DuelRespawnDelay != nil && v.DuelRespawnDelay < CurTime() then
 					RespawnDuelers( v )
@@ -461,7 +479,7 @@ end )
 
 hook.Add( "PlayerDeathThink", "DuelingPreventRespawn", function( ply )
 
-	if Location.Is( ply:Location(), "duelarena" ) then
+	if ply:Location() == DuelLocation then
 		if ply.DuelRespawnDelay != nil && ply.DuelRespawnDelay < CurTime() then
 			if IsValid( ply ) then
 				RespawnDuelers( ply )
@@ -483,8 +501,8 @@ end )
 hook.Add( "Location","DuelingPlayermodel", function( ply, loc, lastloc )
 
 	if IsValid( ply ) then
-		if Location.Is( loc, "duelarena" ) && Dueling.IsDueling( ply ) then
-			ply:SetModel( "models/player/anon/anon.mdl" )
+		if loc == DuelLocation && Dueling.IsDueling( ply ) then
+			ply:SetModel( "models/player/normal.mdl" )
 		end
 	end
 

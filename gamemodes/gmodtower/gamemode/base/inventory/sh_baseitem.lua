@@ -175,7 +175,7 @@ if SERVER then
 
 	function AllowEquipEntity( self )
 
-		if !string.StartWith( game.GetMap(), "gmt_lobby" ) then
+		if !IsLobby then
 			return false
 		end
 

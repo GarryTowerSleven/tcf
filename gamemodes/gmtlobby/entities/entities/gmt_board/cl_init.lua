@@ -17,22 +17,16 @@ surface.CreateFont( "SelectMapFont", {
 })
 
 local donationFeatures = {
-	"A fancy donor tag",
-	"5,000 GMC",
+	"A fancy VIP tag",
 	"VIP only store and items in-game",
 	"VIP icon/avatar glow in-game",
-	"In-game gift basket (unlimited beer)",
-	"Access to closed beta(s)",
-	"Exclusive access to our donor only forums",
-	"Forum signature",
-	"AFK kick delay doubled",
-	"Suite entity limit raised to 150 ← NEW!",
-	"Our eternal love ♥ ",
+	"Suite entity limit raised to 200",
+	"Invites to beta tests",
+	"Our eternal love ♥",
 	"And more!"
 }
 
 local rules = {
-	"Mic Spamming",
 	"Chat Spamming",
 	"Racism, sexism, homophobia or discrimination",
 	"Impersonating developers",
@@ -130,10 +124,10 @@ function ENT:DrawMain()
 		--if LocalPlayer().IsVIP && LocalPlayer():IsVIP() then
 		if LocalPlayer():GetNWBool("VIP") == true then
 
-			draw.SimpleText( "THANKS FOR DONATING!", "SelectMapFont", 0, 0, Color(255,255,255), TEXT_ALIGN_LEFT )
+			draw.SimpleText( "THANKS FOR JOINING!", "SelectMapFont", 0, 0, Color(255,255,255), TEXT_ALIGN_LEFT )
 			draw.SimpleText( "by the way...", "SelectMapFont", 0, 70, Color(255,255,255), TEXT_ALIGN_LEFT )
 
-			draw.SimpleText( "You can press E on this open the VIP forums", "SmallHeaderFont", 30, 300, Color(255,255,255), TEXT_ALIGN_LEFT )
+			draw.SimpleText( "You can press E on this to open the group discord", "SmallHeaderFont", 30, 300, Color(255,255,255), TEXT_ALIGN_LEFT )
 
 			draw.SimpleText( "You're awesome ♥ ", "SmallHeaderFont", 30, 180, Color(255,255,255), TEXT_ALIGN_LEFT )
 
@@ -143,7 +137,7 @@ function ENT:DrawMain()
 
 		// Advertise donating
 
-		draw.SimpleText( "DONATE $15 TODAY!", "SelectMapFont", 0, 0, Color(255,255,255), TEXT_ALIGN_LEFT )
+		draw.SimpleText( "JOIN THE GROUP TODAY!", "SelectMapFont", 0, 0, Color(255,255,255), TEXT_ALIGN_LEFT )
 		draw.SimpleText( "and get...", "SelectMapFont", 0, 65, Color(255,255,255), TEXT_ALIGN_LEFT )
 
 		local curX = 65 + 80
@@ -155,7 +149,7 @@ function ENT:DrawMain()
 
 		end
 
-		draw.SimpleText( "Press E on this to start donating!", "SelectMapFont", 0, curX + 30, Color(255,255,255), TEXT_ALIGN_LEFT )
+		draw.SimpleText( "Press E on this to visit the group page!", "SelectMapFont", 0, curX + 30, Color(255,255,255), TEXT_ALIGN_LEFT )
 
 	end
 
@@ -215,7 +209,7 @@ function ENT:DrawMain()
 
 	if self:GetSkin() == 6 then
 
-		draw.SimpleText( "Welcome to GMod Tower Classic", "SelectMapFont", 200, 0, Color(255,255,255), TEXT_ALIGN_LEFT )
+		draw.SimpleText( "Welcome to GMod Tower!", "SelectMapFont", 200, 0, Color(255,255,255), TEXT_ALIGN_LEFT )
 
 	end
 
@@ -232,11 +226,11 @@ net.Receive( "OpenDonation", function( len, pl )
 	Donation:MakePopup()
 
 	if LocalPlayer():GetNWBool("VIP") != true then
-		Donation:SetTitle("Donate")
-		url = "http://www.gmtower.org/index.php?p=donations&app=1&hide=1&si=" .. LocalPlayer():SteamID()
+		Donation:SetTitle("Steam Group")
+		url = "https://steamcommunity.com/groups/TheCommunityFirst"
 	else
-		Donation:SetTitle("VIP Forums")
-		url = "http://www.gmtower.org/forums/index.php?board=14.0"
+		Donation:SetTitle("Group Discord")
+		url = "https://gmtower.nailgunworld.com/chat"
 	end
 
 	Donation.btnMaxim:Hide()
@@ -269,13 +263,13 @@ end )
 
 usermessage.Hook( "OpenDonation", function( um )
 
-	local URL = "http://www.gmtower.org/index.php?p=donations&app=1&hide=1&si=" .. LocalPlayer():SteamID()
-	local Title = "Donate"
+	local URL = "https://steamcommunity.com/groups/TheCommunityFirst"
+	local Title = "Steam Group"
 
 	if LocalPlayer().IsVIP && LocalPlayer():IsVIP() then
 
-		URL = "http://www.gmtower.org/forums/index.php?board=14.0"
-		Title = "VIP Forums"
+		URL = "https://gmtower.nailgunworld.com/chat"
+		Title = "Group Discord"
 
 	end
 

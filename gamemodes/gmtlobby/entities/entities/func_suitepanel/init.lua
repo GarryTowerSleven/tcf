@@ -19,22 +19,38 @@ function ENT:Initialize()
 	//self:SharedInit()
 
 	self:SetUseType(SIMPLE_USE)
+
+	self:InitDoor()
+	
+end
+
+function ENT:InitDoor()
+	for _, v in ipairs( ents.FindInSphere( self.Entity:GetPos(), 75 ) ) do
+		if (v:GetClass() == "func_door_rotating") then
+			self.DoorEntity = v
+			break
+		end
+	end
+end
+
+function ENT:GetDoor()
+	return self.DoorEntity or nil
 end
 
 function ENT:LookingRoomThink()
 
-	if !GtowerRooms then
+	if !GTowerRooms then
 		return
 	end
 
-	local NewRoomId =  GtowerRooms.ClosestRoom( self:GetPos() )
+	local NewRoomId =  GTowerRooms.ClosestRoom( self:GetPos() )
 
 	if NewRoomId then
 		self:SetId( NewRoomId )
 
 		self.Think = EmptyFunction
 
-		if GtowerRooms.DEBUG then Msg("Found room for: " .. tostring( self ) .. " to roomID: " .. tostring( self:Id() ) .. "\n") end
+		if GTowerRooms.DEBUG then Msg("Found room for: " .. tostring( self ) .. " to roomID: " .. tostring( self:Id() ) .. "\n") end
 	end
 
 	self:NextThink( CurTime() + 1.0 )
@@ -50,6 +66,12 @@ end
 function ENT:SetId( id )
 	self.RoomId = id
 	self:SetSkin( self.RoomId )
+
+	local door = self:GetDoor()
+
+	if ( door ) then
+		door.Id = id
+	end
 end
 
 function ENT:Id()
@@ -58,22 +80,14 @@ end
 
 
 function ENT:DoorFire(str, ti)
-	for k,v in pairs(ents.FindInSphere( self.Entity:GetPos(), 75 )) do
-        if v:GetClass() == "func_door_rotating" then
-            v:Fire(str, "", ti)
+	local door = self:GetDoor()
 
-						if ( str == "Lock" ) then
-							v:Fire("close","")
-							for _,ply in pairs(player.GetAll()) do
-								if GtowerRooms.GetOwner(self:Id()) != ply and !ply:IsAdmin() and Location.Find(ply:GetPos()) == Location.Find(GtowerRooms.Get( self:Id() ).RefEnt:GetPos()) then
-									Suite.RemovePlayer(ply)
-									ply:Msg2("You have been removed from a locked condo.")
-								end
-							end
-						end
-
-        end
-    end
+	if ( door ) then
+		door:Fire(str, "", ti)
+		if ( str == "Lock" ) then
+			door:Fire("close","")
+		end
+	end
 end
 
 function ENT:RoomUnload( room )
@@ -110,8 +124,8 @@ local function LockAllow( owner, ply, Room )
 end
 
 function ENT:Think()
-	local Room = GtowerRooms.Get( self:Id() )
-	local owner = GtowerRooms.GetOwner(self:Id())
+	local Room = GTowerRooms.Get( self:Id() )
+	local owner = GTowerRooms.GetOwner(self:Id())
 
 	for k,v in pairs(player.GetAll()) do
 		Allow( owner, ply, Room )
@@ -120,16 +134,16 @@ end
 
 -- Use Terminal
 function ENT:UsePanel( ply, cur_x, cur_y )
-	local Room = GtowerRooms.Get( self:Id() )
-	local owner = GtowerRooms.GetOwner(self:Id())
+	local Room = GTowerRooms.Get( self:Id() )
+	local owner = GTowerRooms.GetOwner(self:Id())
 
 	if !Allow( owner, ply, Room ) then return end
 
-	if ply != owner && ply._SuitePanelClick && ply._SuitePanelClick > CurTime() then
+	if ply._SuitePanelClick && ply._SuitePanelClick > CurTime() then
 		return
 	end
 
-	ply._SuitePanelClick = CurTime() + 0.34
+	ply._SuitePanelClick = CurTime() + 0.25
 
     if ( cur_x < 80 && cur_x > -70 && cur_y > -30 && cur_y < 160 ) then // Button 1: Open
 
@@ -146,7 +160,7 @@ function ENT:UsePanel( ply, cur_x, cur_y )
 		if !LockAllow( owner, ply, Room ) then return end
 
         self.Entity:EmitSound( self.soundGranted )
-		//GtowerRooms:RoomLock( self:Id(), true )
+		//GTowerRooms:RoomLock( self:Id(), true )
 		self:DoorFire("Lock")
 		owner.GRoomLock = true
 
@@ -155,7 +169,7 @@ function ENT:UsePanel( ply, cur_x, cur_y )
 		if !LockAllow( owner, ply, Room ) then return end
 
         self.Entity:EmitSound( self.soundGranted )
-		//GtowerRooms:RoomLock( self:Id(), false )
+		//GTowerRooms:RoomLock( self:Id(), false )
 		self:DoorFire("Unlock")
 		owner.GRoomLock = false
 
@@ -163,15 +177,18 @@ function ENT:UsePanel( ply, cur_x, cur_y )
 
 end
 
-concommand.Add( "gtower_suitepanel", function(ply, command, args)
+function ENT:SetText( text )
+	if !text || !isstring( text ) then return end
+	self:SetNWString( "RoomName", text:sub( 1, 24 ) )
+end
+
+concommand.Add( "gmt_usesuitepanel", function(ply, command, args)
 
     if #args != 3 then return end
 
     local ent = ents.GetByIndex( tonumber( args[1] ) )
 
     if !IsValid(ent) || ent:GetClass() != "func_suitepanel" then return end
-
-		if !ent:GetPos():WithinDistance( ply:GetShootPos(), 65 ) then return end
 
     ent:UsePanel( ply, tonumber( args[2] ), tonumber( args[3] ) )
 

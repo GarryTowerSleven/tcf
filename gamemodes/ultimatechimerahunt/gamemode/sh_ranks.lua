@@ -6,7 +6,7 @@ end
 
 function meta:GetRankName()
 
-	if !self:GetNWInt( "Rank" ) then return "Invalid" end
+	if !self:GetNWInt( "Rank" ) || !GAMEMODE.Ranks[ self:GetNWInt( "Rank" ) ] then return "Invalid" end
 
 	local name = GAMEMODE.Ranks[ self:GetNWInt( "Rank" ) ].Name
 

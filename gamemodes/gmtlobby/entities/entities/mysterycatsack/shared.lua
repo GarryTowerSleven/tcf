@@ -42,10 +42,10 @@ function ENT:Use( ply )
 
 	--if not ply:IsRoomOwner( self ) then return end
 
-	local Room = GtowerRooms.PositionInRoom( self:GetPos() )
+	local Room = GTowerRooms.PositionInRoom( self:GetPos() )
 
 	if Room then
-		room = GtowerRooms.Get( Room )
+		room = GTowerRooms.Get( Room )
 		if room then
 			if room.Owner != ply then return end
 		end

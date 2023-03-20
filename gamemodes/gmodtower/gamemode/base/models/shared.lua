@@ -95,8 +95,6 @@ AddValidModel( "luigi", "models/player/suluigi_galaxy.mdl" )
 AddValidModel( "mario", "models/player/sumario_galaxy.mdl" )
 AddValidModel( "zero", "models/player/lordvipes/MMZ/Zero/zero_playermodel_cvp.mdl" )
 AddValidModel( "yoshi", "models/player/yoshi.mdl" )
-AddValidModel( "infoplayerstart", "models/player/infoplayerstart.mdl" )
-AddValidModel( "hatman", 		"models/player/hatman.mdl" );
 --AddValidModel( "helite", "models/player/lordvipes/h2_elite/eliteplayer.mdl", "models/player/lordvipes/h2_elite/arms/elitearms.mdl" )
 --AddValidModel( "grayfox", "models/player/lordvipes/Metal_Gear_Rising/gray_fox_playermodel_cvp.mdl" )
 --AddValidModel( "jcdenton", "models/player/lordvipes/de_jc/jcplayer.mdl" )
@@ -116,7 +114,6 @@ AddValidModel( "solidsnake", "models/player/big_boss.mdl" )
 --AddValidModel( "atlas", "models/bots/survivor_mechanic.mdl", "models/bots/arms/v_arms_mechanic_new.mdl" ) -- by Voikanaa
 AddValidModel( "tronanon", "models/player/anon/anon.mdl" ) -- by Rokay "Rambo"
 AddValidModel( "alice", "models/player/alice.mdl" )
-AddValidModel( "windranger", "models/heroes/windranger/windranger.mdl" )
 AddValidModel( "ash", "models/player/red.mdl" )
 AddValidModel( "megaman", "models/vinrax/player/megaman64_player.mdl" )
 AddValidModel( "kilik", "models/player/hhp227/kilik.mdl" )
@@ -129,7 +126,6 @@ AddValidModel( "greenarrow", "models/player/greenarrow.mdl" )
 AddValidModel( "linktp", "models/player/linktp.mdl" )
 AddValidModel( "roman", "models/player/romanbellic.mdl" )
 --AddValidModel( "ornstein", "models/nikout/darksouls2/characters/olddragonslayer.mdl" )
-AddValidModel( "infoplayerstart", "models/player/infoplayerstart.mdl" )
 
 // Remove bad playermodels
 // ============================
@@ -185,7 +181,6 @@ local ScaledModels = {
 local BodyGroupHatModels = {
 	["models/player/freddykruger.mdl"] = { 1, 1 },
 	["models/player/linktp.mdl"] = { 1, 1 },
-	["models/heroes/windranger/windranger.mdl"] = { 1, 0 },
 }
 
 function GetScale( model )

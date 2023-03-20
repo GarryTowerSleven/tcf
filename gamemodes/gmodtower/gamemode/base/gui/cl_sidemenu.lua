@@ -91,5 +91,5 @@ function Close()
 end
 
 
-hook.Add("GtowerShowMenusPre", "GTowerSideMenu", Open )
-hook.Add("GtowerHideMenus", "GTowerSideMenu", Close )
+hook.Add("GTowerShowMenusPre", "GTowerSideMenu", Open )
+hook.Add("GTowerHideMenus", "GTowerSideMenu", Close )

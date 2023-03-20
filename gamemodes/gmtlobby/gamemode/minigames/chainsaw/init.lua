@@ -30,7 +30,7 @@ local net = net
 module("minigames.chainsaw" )
 
 PlayerSpawnOnLobby = {}
-MoneyPerKill = 3
+MoneyPerKill = 10
 TotalMoney = 0
 
 function GiveWeapon( ply )
@@ -48,27 +48,10 @@ end
 
 function CheckGiveWeapon( ply, loc )
 
-	if Location.Is( loc, MinigameLocation )  then
+	if loc == MinigameLocation  then
 		GiveWeapon( ply )
-		ply:SetNWBool("MinigameOn",true)
-
-		if !ply.BMusic then
-			net.Start("MinigameMusic")
-				net.WriteBool(true)
-				net.WriteString("chainsaw")
-			net.Send(ply)
-			ply.BMusic = true
-		end
 	else
 		RemoveWeapon( ply )
-		ply:SetNWBool("MinigameOn",false)
-
-		if ply.BMusic then
-			net.Start("MinigameMusic")
-				net.WriteBool(false)
-			net.Send(ply)
-			ply.BMusic = false
-		end
 	end
 
 end
@@ -76,7 +59,6 @@ end
 function CheckRemoveBall( ply )
 
 	if ply:Location() == MinigameLocation then
-
 
 		if IsValid( ply.BallRaceBall ) then
 
@@ -95,28 +77,18 @@ function RemoveWeapon( ply )
 		ply:StripWeapons()
 	end
 
-	ply:SetNWBool("MinigameOn",false)
-
-	if ply.BMusic then
-		net.Start("MinigameMusic")
-			net.WriteBool(false)
-		net.Send(ply)
-		ply.BMusic = false
-	end
-
 	ply:ResetGod()
 end
 
 function playerDies( ply, inflictor, killer )
 
-	if ply:Location() == Location.GetIDByName( MinigameLocation ) then
+	if ply:Location() == MinigameLocation then
 		table.insert( PlayerSpawnOnLobby, ply )
 
 		//print( ply, inflictor, killer )
 
 		if killer != ply && IsValid( killer ) &&  killer:IsPlayer() then
 			killer:AddMoney( MoneyPerKill )
-			killer:SetNWInt("MinigameScore", ( killer:GetNWInt("MinigameScore") + 100 ) )
 			killer:AddAchievement(ACHIEVEMENTS.MGGIBBIG,1)
 			TotalMoney = TotalMoney + MoneyPerKill
 		end
@@ -142,9 +114,10 @@ function PlayerSpawn( ply )
 
 	local Pos = ply:Location()
 
-	if Pos == Location.GetIDByName( MinigameLocation ) then
+	if Pos == MinigameLocation then
 
 		ply:SetVelocity( VectorRand() * 800 )
+		ply.DisableCollision = CurTime() + 3.0
 		GiveWeapon( ply )
 
 	end
@@ -168,9 +141,9 @@ end
 
 local function GetSpawnPos( flags )
 	if string.find( flags, "a" ) then
-		return Vector( 2676.160889, -18.642038, -787.967468 )
+		return Vector( 2910.156250, 2596.843750, 60)
 	end
-	return Vector(2676.160889, -18.642038, -787.967468)
+	return Vector(938.531250, 1505.062500, 409.437500)
 end
 
 function PlayerDissalowResize( ply )
@@ -191,11 +164,10 @@ function Start( flags )
 	hook.Add("PlayerThink", "ChainsawCheckRemoveBall", CheckRemoveBall )
 
 	for _, v in pairs( player.GetAll() ) do
-		v:SetNWInt("MinigameScore",0)
 		SafeCall( CheckGiveWeapon, v, v:Location() )
 	end
 
-	SetGlobalFloat("MinigameRoundTime",CurTime()+120)
+	SetGlobalFloat("MinigameRoundTime",CurTime()+120) -- Do we need to touch these? I really dont know?
 
 	if !IsValid( FlyingText ) then
 		FlyingText = ents.Create("gmt_skymsg")

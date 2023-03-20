@@ -51,14 +51,14 @@ function GM:InitPostEntity()
 
 	timer.Simple( 1, function()
 		if ( self:GetState() == STATE_WAITING ) then		
-			LocalPlayer().WaitingForPlayers:PlayEx( 1, 100 )
+			LocalPlayer().WaitingForPlayers:PlayEx( music.GetClientVolume(), 100 )
 			LocalPlayer().IsThirdPerson = true
 		end
 	end )
 	
 end
 
-local TimeLeftUsed = { }
+local TimeLeftUsed = {}
 
 function GM:Think()
 
@@ -66,13 +66,11 @@ function GM:Think()
 
 		if v:GetNet( "IsVirus" ) then
 			self:LightThink( v )
-		--else
-		--	self:ClickerThink( v )
+		else
+			self:ClickerThink( v )
 		end
 
-		self:ClickerThink( v )
-
-		local Flame = v:GetNetworkedEntity("Flame1")
+		/*local Flame = v:GetNetworkedEntity("Flame1")
 		local Flame2 = v:GetNetworkedEntity("Flame2")
 		
 		if IsValid( Flame ) && IsValid( Flame2 ) then
@@ -83,7 +81,7 @@ function GM:Think()
 			Flame:SetPos( pos )
 			Flame2:SetPos( pos )
 			
-		end
+		end*/
 		
 	end
 	
@@ -219,6 +217,7 @@ end
 local WalkTimer = 0
 local VelSmooth = 0
 local CurViewPunch = Angle(0,0,0)
+local infecttime
 
 function GM:CalcView( ply, pos, ang, fov )
 
@@ -240,6 +239,16 @@ function GM:CalcView( ply, pos, ang, fov )
 
 		local dist = 150
 		local ent = ply
+
+		if !infecttime or infecttime > CurTime() then
+			infecttime = infecttime or CurTime() + 1
+			local l = infecttime - CurTime()
+			l = l / 1
+			l = math.max(l, 0)
+			l = 1 - l
+			l = math.ease.OutCubic(l)
+			dist = dist * l
+		end
 
 		// Follow rag when dying
 		if !ply:Alive() then
@@ -275,6 +284,10 @@ function GM:CalcView( ply, pos, ang, fov )
 			["origin"] = finalPos,
 			["angles"] = Angle(ang.p + 2, ang.y, ang.r)
 		}
+
+	else
+
+		infecttime = nil
 
 	end
 	
@@ -347,7 +360,7 @@ local function ClientStartRound( len, ply )
 	
 	LocalPlayer().WaitingForInfection = CreateSound( LocalPlayer(), WaitingForInfectionMusic .. tostring( randSong ) .. ".mp3" )
 	
-	LocalPlayer().WaitingForInfection:PlayEx( 1, 100 )
+	LocalPlayer().WaitingForInfection:PlayEx( music.GetClientVolume(), 100 )
 	
 	LocalPlayer().VirusWin:Stop()
 	LocalPlayer().SurvivorsWin:Stop()
@@ -370,10 +383,10 @@ local function ClientEndRound( len, ply )
 	LocalPlayer():EmitSound( "GModTower/virus/ui/menu.wav", 300, 100 )
 	
 	if ( virusWins ) then
-		LocalPlayer().VirusWin:PlayEx( 1, 100 )
+		LocalPlayer().VirusWin:PlayEx( music.GetClientVolume(), 100 )
 		GAMEMODE.WinningTeam = TEAM_INFECTED
 	else
-		LocalPlayer().SurvivorsWin:PlayEx( 1, 100 )
+		LocalPlayer().SurvivorsWin:PlayEx( music.GetClientVolume(), 100 )
 		GAMEMODE.WinningTeam = TEAM_PLAYERS
 	end
 	
@@ -411,10 +424,10 @@ local function ClientInfected( len, ply )
 	end
 	
 	if ( !GetWorldEntity().Started ) then
-		LocalPlayer().Stinger:PlayEx( 1, 100 )
+		LocalPlayer().Stinger:PlayEx( music.GetClientVolume(), 100 )
 	
 		LocalPlayer().RoundMusic = CreateSound( LocalPlayer(), RoundMusic .. tostring( randSong ) .. ".mp3" )
-		LocalPlayer().RoundMusic:PlayEx( 1, 100 )
+		LocalPlayer().RoundMusic:PlayEx( music.GetClientVolume(), 100 )
 		
 		GetWorldEntity().Started = true
 	end
@@ -422,7 +435,7 @@ local function ClientInfected( len, ply )
 	if ( infector != GetWorldEntity() ) then // world entity
 		if ( virusEnt == LocalPlayer() ) then
 			LocalPlayer().IsThirdPerson = true
-			LocalPlayer().LocalInfected:PlayEx( 1, math.random( 170, 200 ) )
+			LocalPlayer().LocalInfected:PlayEx( music.GetClientVolume(), math.random( 170, 200 ) )
 		end
 	end
 	
@@ -459,7 +472,7 @@ local function ClientLastSurvivor( len, ply )
 	end
 	
 	LocalPlayer().LastSurvivor = CreateSound( LocalPlayer(), LastAliveMusic .. tostring( randSong ) .. ".mp3" )
-	LocalPlayer().LastSurvivor:PlayEx( 1, 100 )
+	LocalPlayer().LastSurvivor:PlayEx( music.GetClientVolume(), 100 )
 
 end
 
@@ -520,7 +533,7 @@ local function ClientLateMusic( len, ply )
 		end
 		
 		LocalPlayer().WaitingForInfection = CreateSound( LocalPlayer(), WaitingForInfectionMusic .. tostring( musicNum ) .. ".mp3" )
-		LocalPlayer().WaitingForInfection:PlayEx( 1, 100 )
+		LocalPlayer().WaitingForInfection:PlayEx( music.GetClientVolume(), 100 )
 		
 	elseif ( musicType == MUSIC_INTERMISSION ) then
 	
@@ -536,9 +549,9 @@ local function ClientLateMusic( len, ply )
 		end
 		
 		if ( musicNum == 1 ) then
-			if VirusWin then LocalPlayer().VirusWin:PlayEx( 1, 100 ) end
+			if VirusWin then LocalPlayer().VirusWin:PlayEx( music.GetClientVolume(), 100 ) end
 		else
-			if SurvivorsWin then LocalPlayer().SurvivorsWin:PlayEx( 1, 100 ) end
+			if SurvivorsWin then LocalPlayer().SurvivorsWin:PlayEx( music.GetClientVolume(), 100 ) end
 		end
 		
 	end
@@ -567,3 +580,33 @@ function HudMessage( msg, seconds, font, ignoreY, color )
 	Msg( msg .. "\n")
 
 end
+
+/*hook.Add( "Think", "FlameThink", function()
+	for _, v in ipairs( player.GetAll() ) do
+		
+	end
+end )*/
+
+// WIP flames
+/*function FlamesPlayer( len, ply )
+	local ply = net.ReadEntity()
+
+	if ( !IsValid( ply ) ) then return end
+
+	local on = net.ReadBool() or false
+
+	print( "meow", ply )
+
+	if ( not ply._Flames or not IsValid( ply._Flames ) ) then
+		print( "Creating flames for " .. ply:Name() )
+		ply._Flames = CreateParticleSystem( ply, "jb_burningplayer_green", PATTACH_ABSORIGIN_FOLLOW, 1, nil )
+	end
+
+	if ( on ) then
+		ply._Flames:StartEmission()
+	else
+		ply._Flames:StopEmission()
+	end
+end
+
+net.Receive( "IgnitePlayer", FlamesPlayer )*/

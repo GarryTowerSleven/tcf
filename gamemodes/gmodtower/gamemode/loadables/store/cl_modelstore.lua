@@ -53,7 +53,7 @@ function OpenModelStore( id, title, zpos, modelsize, camerafar )
 	end
 
 	GTowerStore:UpdateStoreList()
-	GtowerMainGui:GtowerShowMenus()
+	GTowerMainGui.ShowMenus()
 	UpdateModelPanel()
 
 end
@@ -114,7 +114,7 @@ function GTowerStore.OpenNormalStore( id, title )
 	StoreGUI.PanelList:SetPadding( 2 )
 
 	GTowerStore:UpdateStoreList()
-	GtowerMainGui:GtowerShowMenus()
+	GTowerMainGui.ShowMenus()
 
 	if DEBUG2 then Msg("Finished opening store " .. tostring(title) .. "(" .. id .. ")\n") end
 end

@@ -89,14 +89,14 @@ function GM:HUDDrawPlayerName( ply, fade, remain )
 		end
 
 		-- Room number
-		local roomid = ply:GetNWBool("RoomID")
+		local roomid = ply:GetNWInt("RoomID")
 		if roomid && roomid > 0 then
 			local room = tostring( roomid ) or ""
 			if room != "" then
 				local dark = colorutil.Brighten( realcolor, .75 )
 				surface.SetDrawColor( dark )
 				surface.DrawRect( pos.x - 40, pos.y + 28 + 20, 80, 2 )
-				draw.SimpleText( "CONDO " .. room, "TargetIDTextSmall", pos.x, pos.y + 28 + 20, dark, TEXT_ALIGN_CENTER )
+				draw.SimpleText( "SUITE " .. room, "TargetIDTextSmall", pos.x, pos.y + 28 + 20, dark, TEXT_ALIGN_CENTER )
 			end
 		end
 

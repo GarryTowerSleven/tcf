@@ -8,7 +8,6 @@ GTowerServers.ChoosenMap = ""
 GTowerServers.ChoosenVotes = {}
 GTowerServers.ChoosenServerId = 0
 GTowerServers.CurrentGamemode = nil
-GTowerServers.Music = nil
 
 function GTowerServers:CanStillVoteMap()
 	return math.max( GTowerServers.MapEndTime - CurTime(), 0 ) >= 1
@@ -66,21 +65,25 @@ function GTowerServers:OpenGamemodeChooser( Gamemode )
 
 	self.MapChooserGUI:SetGamemode( Gamemode )
 	self.CurrentGamemode = Gamemode
+	
 	// Music
-	if Gamemode.Music then
-		local song = table.Random( Gamemode.Music )
-		GTowerServers.Music = CreateSound( LocalPlayer(), song )
-		GTowerServers.Music:PlayEx( .1, 100 )
+	if ( GetConVar( "gmt_bgmusic_enable" ):GetBool() ) then
+		local scape = "music_" .. Gamemode.Gamemode or ""
+
+		if ( not soundscape.IsPlaying( scape ) ) then
+			soundscape.StopChannel( "music" )
+			soundscape.Play( scape, "music" )
+		end
 	end
 
+	soundscape.StopChannel( "background" )
 end
 
 function GTowerServers:CloseChooser()
-
 	// we can't keep calling GTowerMainGui:GTowerHideMenus because of the frequency of this call
 	if !IsValid( self.MapChooserGUI ) then return end
 
-	GtowerMainGui:GtowerHideMenus()
+	GTowerMainGui.HideMenus()
 
 	self.MapChooserGUI:Remove()
 	self.MapChooserGUI = nil
@@ -89,10 +92,7 @@ function GTowerServers:CloseChooser()
 	self.ChoosenServerId = 0
 
 	// Music
-	if GTowerServers.Music && GTowerServers.Music:IsPlaying() then
-		GTowerServers.Music:FadeOut( 2 )
-	end
-
+	soundscape.PlayOptimal()
 end
 
 function GTowerServers:GetVotes( mapname )

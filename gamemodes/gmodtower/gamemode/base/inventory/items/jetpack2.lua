@@ -18,4 +18,4 @@ ITEM.ExtraOnFloor = 25 //Amount of force the player has extra when jumping from 
 
 
 ITEM.StoreId = GTowerStore.MERCHANT
-ITEM.StorePrice = 1400
+ITEM.StorePrice = 1500

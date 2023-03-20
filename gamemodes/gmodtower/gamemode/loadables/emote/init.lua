@@ -70,8 +70,6 @@ for _, emote in pairs(Commands) do
 	local emoteName = emote[1]
 	local Action 	= emote[2]
 	local Duration	= emote[3]
-
-	local emoteMessage = function( ply, emoteName ) GAMEMODE:ColorNotifyAll( ply:Name().." "..GetGrammar(emoteName), Color(150, 150, 150, 255) ) end
 	
 	if emoteName == "sit" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
@@ -79,7 +77,9 @@ for _, emote in pairs(Commands) do
 		ply:SetNWBool("Emoting",true)
 		ply:SetNWBool("Sitting",true)
 
-		emoteMessage( ply, emoteName )
+		for _, v in ipairs( Location.GetPlayersInLocation( ply:Location() ) ) do
+			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
+		end
 
 		return ""
 		end )
@@ -89,7 +89,9 @@ for _, emote in pairs(Commands) do
 		ply:SetNWBool("Emoting",true)
 		ply:SetNWBool("Laying",true)
 
-		emoteMessage( ply, emoteName )
+		for _, v in ipairs( Location.GetPlayersInLocation( ply:Location() ) ) do
+			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
+		end
 
 		return ""
 		end )
@@ -99,15 +101,20 @@ for _, emote in pairs(Commands) do
 		ply:SetNWBool("Emoting",true)
 		ply:SetNWBool("Lounging",true)
 
-		emoteMessage( ply, emoteName )
+		for _, v in ipairs( Location.GetPlayersInLocation( ply:Location() ) ) do
+			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
+		end
 
 		return ""
 		end )
 	elseif emoteName == "suicide" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
+		if !ply:Alive() then return end
 		ply:Kill()
 
-		emoteMessage( ply, emoteName )
+		for _, v in ipairs( Location.GetPlayersInLocation( ply:Location() ) ) do
+			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
+		end
 
 		return ""
 		end )
@@ -139,7 +146,9 @@ for _, emote in pairs(Commands) do
 			end
 		end)
 
-		emoteMessage( ply, emoteName )
+		for _, v in ipairs( Location.GetPlayersInLocation( ply:Location() ) ) do
+			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
+		end
 
 		return ""
 		end )

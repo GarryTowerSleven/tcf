@@ -8,9 +8,9 @@ include "shared.lua"
 
 ENT.UseDelay = 0.5 -- seconds
 
-ENT.IdleScreenTitle = "Daniel Tower Present: Magine TV & Vanilla Thorsten: Raus aus dem Sender-Dschungel"
-ENT.IdleScreenDuration = (2*60) + 06
-ENT.IdleScreenURL = "https://www.youtube.com/watch?v=jk4-d2tBqpc"
+ENT.IdleScreenTitle = "Idlescreen"
+ENT.IdleScreenDuration = (2*60)
+ENT.IdleScreenURL = "https://www.youtube.com/watch?v=P7wLhE7LewU"
 
 hook.Add("Location", "TurnOffTV", function( ply, loc )
 	for k,v in pairs(ents.FindByClass('mediaplayer_*')) do
@@ -129,6 +129,27 @@ hook.Add("Location", "TurnOffTV", function( ply, loc )
 
 	end
 
+	for k,v in pairs(ents.FindByClass('gmt_theater')) do
+		local mp = v:GetMediaPlayer()
+
+		if not mp then
+			ErrorNoHalt("MediaPlayer test entity doesn't have player installed\n")
+			debug.Trace()
+			return
+		end
+
+		if loc == Location.Find(v:GetPos()) then
+			if !mp:HasListener(ply) then
+				mp:AddListener(ply)
+			end
+		else
+			if mp:HasListener(ply) then
+				mp:RemoveListener(ply)
+			end
+		end
+
+	end
+
 	for k,v in pairs(ents.FindByClass('gmt_radio')) do
 		local mp = v:GetMediaPlayer()
 
@@ -223,7 +244,7 @@ function ENT:StartIdleScreen(mp)
 end
 
 function ENT:Think()
-	if self:GetClass() == "gmt_theater_screen" then
+	if self:GetClass() == "gmt_theater" then
 		local mp = self:GetMediaPlayer()
 		if !mp:IsPlaying() then
 			self:StartIdleScreen(mp)

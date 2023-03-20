@@ -4,13 +4,16 @@ ENT.PrintName	= "Vending Machine"
 ENT.Spawnable		= true
 ENT.AdminSpawnable	= true
 
-ENT.Model		= Model("models/map_detail/lobby_vendingmachine.mdl")
-ENT.Sound		= Sound( "GModTower/lobby/trainstation/vendingmachineHumm.mp3")
+ENT.Model		= Model("models/props/cs_office/vending_machine.mdl")
 ENT.StoreId 	= GTowerStore.VENDING
 ENT.IsStore 	= true
 
 function ENT:GetStoreId()
 	return self.StoreId
+end
+
+function ENT:IsOnSale()
+	return self:GetNWBool("Sale")
 end
 
 function ENT:GetTitle()

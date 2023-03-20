@@ -3,10 +3,6 @@
 
 include('shared.lua')
 
-include("waterslide_curve.lua")
-
-include("sh_tube_manager.lua")
-
 
 
 // thirdperson support

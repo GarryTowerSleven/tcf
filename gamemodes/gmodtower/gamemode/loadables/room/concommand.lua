@@ -1,5 +1,5 @@
 ---------------------------------
-module("GtowerRooms", package.seeall )
+module("GTowerRooms", package.seeall )
 
 TimeToLeaveRoom = 6 * 60
 TalkingTo = {}
@@ -219,11 +219,11 @@ function StartParty( ply, flags )
 
 end
 
-concommand.Add("gmt_startroomparty", function( ply, cmd, args )
+concommand.Add("gmt_roomparty", function( ply, cmd, args )
 	StartParty(ply,args[1])
 end)
 
-concommand.Add("gmt_endroomparty", function( ply, cmd, args )
+concommand.Add("gmt_roompartyend", function( ply, cmd, args )
 	ply:SetNWBool("Party",false)
 	ply:Msg2( T( "RoomPartyEnd" ) )
 end)
@@ -457,7 +457,7 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 
 	ply:SetNWBool( "RoomID", PlyRoom.Id )
 
-	local door = GtowerRooms.GetCondoDoor( PlyRoom.Id )
+	local door = GTowerRooms.GetCondoDoor( PlyRoom.Id )
 	if door then
 		local num = math.Clamp( ply:GetInfoNum( "gmt_condodoorbell", 1 ), 1, 50 )
 		door:SetNWInt("DoorBell", num)

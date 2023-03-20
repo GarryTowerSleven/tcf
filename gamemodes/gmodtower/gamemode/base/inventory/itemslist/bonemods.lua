@@ -161,3 +161,13 @@ RegisterItem( "BoneModStickman", {
 	StoreId = GTowerStore.VENDING,
 	StorePrice = 3500
 } )
+
+RegisterItem( "BoneModFancy", {
+	Base = "bonemod",
+	Name = "Fancy Pants",
+	Description = "Heyyy there Fancy Pants!~",
+	BoneModID = BONEMOD_FANCY,
+	StoreId = GTowerStore.VENDING,
+	NewItem = true,
+	StorePrice = 5000
+} )

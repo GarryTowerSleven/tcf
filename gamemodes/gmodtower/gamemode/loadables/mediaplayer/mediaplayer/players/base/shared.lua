@@ -181,12 +181,12 @@ function MEDIAPLAYER:IsPlayerPrivileged( ply )
 
 	local roomnum = ent:GetNWInt("Room")
 
-	if roomnum == 0 then return ply:IsAdmin() end
+	if roomnum == 0 then return ply:IsStaff() end
 	
-	if ply:IsAdmin() then return true end
+	if ply:IsStaff() then return true end
 	
 	if SERVER then
-		return GtowerRooms.GetOwner(roomnum) == ply
+		return GTowerRooms.GetOwner(roomnum) == ply
 	else
 		return roomnum == ply.GRoomId
 	end
@@ -217,7 +217,7 @@ function MEDIAPLAYER:Think()
 	if SERVER then
 	
 	if IsValid(self:GetEntity()) then
-		local num = GtowerRooms.PositionInRoom(self:GetEntity():GetPos())
+		local num = GTowerRooms.PositionInRoom(self:GetEntity():GetPos())
 		if num == nil then num = 0 end
 		self:GetEntity():SetNWInt("Room", num )
 	end

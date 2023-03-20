@@ -1,7 +1,7 @@
-GM.Name     = "GMod Tower: Deluxe"
+GM.Name     = "GMod Tower"
 GM.Author   = "Deluxe Team & PixelTail Games"
-GM.Website  = "https://www.gmtdeluxe.org/"
-GM.WebsiteUrl  = "https://www.gmtdeluxe.org/apps/"
+GM.Website  = "https://gmtower.nailgunworld.com/"
+GM.WebsiteUrl  = GM.Website .. "apps/"
 
 color_green = Color( 50, 255, 50 )
 color_red = Color( 255, 50, 50 )

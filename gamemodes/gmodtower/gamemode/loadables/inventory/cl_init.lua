@@ -32,17 +32,17 @@ function GTowerItems:MaxBank()
 		return GTowerItems.DefaultBankCount
 	end
 
-	return LocalPlayer().GtowerBankMax + 100
+	return LocalPlayer().GtowerBankMax
 end
 
 
-hook.Add( "GtowerShowMenus","OpenInventory", function()
+hook.Add( "GTowerShowMenus","OpenInventory", function()
 	if !LocalPlayer():Alive() then return end
 	GTowerItems:OpenMainInventory()
 end )
 
 
-hook.Add( "GtowerHideMenus","CloseInventory", function()
+hook.Add( "GTowerHideMenus","CloseInventory", function()
 
 	if GTowerItems.MainInvPanel then
 		GTowerItems.MainInvPanel:Close()

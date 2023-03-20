@@ -93,13 +93,10 @@ concommand.Add( "gmt_plyinfo", function()
 	print()
 
 	print("GMod Multicore: " .. LocalPlayer():GetInfo("gmod_mcore_test"))
-	if IsLobby then
-		print("GMT Multicore: " .. LocalPlayer():GetInfo("gmt_usemcore"))
-	end
 
 	if IsLobby then
-		local plyLoc = Location.Get(Location.Find(LocalPlayer():GetPos()))
-		print( "Location: " .. plyLoc.FriendlyName .. " | " .. plyLoc.Name )
+		local plyLoc = LocalPlayer():Location()
+		print( "Location: " .. Location.GetName( plyLoc ) .. " | " .. plyLoc )
 	end
 	
 	if file.Exists( "chrollo", "BASE_PATH" ) or file.Exists( "scripthook", "BASE_PATH" ) then

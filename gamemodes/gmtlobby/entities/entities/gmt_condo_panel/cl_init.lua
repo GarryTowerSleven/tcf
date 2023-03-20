@@ -152,7 +152,7 @@ function ENT:DrawMainGUI()
 
 		local over = DrawButton( Icons.home, (scrw/2)-iconSize/2, scrh-iconSize+padding, iconSize )
 		local room = self:GetNWInt("condoID")
-		local canuse = GtowerRooms.CanManagePanel( room, LocalPlayer() )
+		local canuse = GTowerRooms.CanManagePanel( room, LocalPlayer() )
 
 		if over and self.mousePress and !self.homePress and canuse then
 			self:EmitSound(Sounds["back"])
@@ -171,7 +171,7 @@ function ENT:DrawMainGUI()
 		local info = "Condo #"..tostring( LocalPlayer():Location() )
 		local condo = self:GetCondo()
 		if condo then
-			info = info .. " | Welcome, " .. GtowerRooms:RoomOwnerName( LocalPlayer():Location() )
+			info = info .. " | Welcome, " .. GTowerRooms:RoomOwnerName( LocalPlayer():Location() )
 		end
 		draw.DrawText(info, "AppBarSmall", 16+2+64, 10, Color(255, 255, 255, 200), TEXT_ALIGN_LEFT)
 	end
@@ -194,7 +194,7 @@ function ENT:DrawCursor()
 	if not visible then return end
 
 	local room = self:GetCondo()
-	local canuse, adminoverride = GtowerRooms.CanManagePanel( room, LocalPlayer() )
+	local canuse, adminoverride = GTowerRooms.CanManagePanel( room, LocalPlayer() )
 	local invokeMouseEvents = not ( IsGameUIVisible() or IsConsoleVisible() )
 
 	local cursorSize = 64
@@ -250,7 +250,7 @@ hook.Add( "PlayerBindPress", "PlayerPanelUse", function( ply, bind, pressed )
 	if IsValid( ent ) and ent:GetClass() == "gmt_condo_panel" then
 
 		local room = ent:GetCondo()
-		local canuse, adminoverride = GtowerRooms.CanManagePanel( room, LocalPlayer() )
+		local canuse, adminoverride = GTowerRooms.CanManagePanel( room, LocalPlayer() )
 		local invokeMouseEvents = not ( IsGameUIVisible() or IsConsoleVisible() )
 
 		if bind == "+use" && pressed then

@@ -50,25 +50,8 @@ function CheckGiveWeapon( ply, loc )
 
 	if loc == MinigameLocation  then
 		GiveWeapon( ply )
-		ply:SetNWBool("MinigameOn",true)
-
-		if !ply.BMusic then
-			net.Start("MinigameMusic")
-				net.WriteBool(true)
-				net.WriteString("snowbattle")
-			net.Send(ply)
-			ply.BMusic = true
-		end
 	else
 		RemoveWeapon( ply )
-		ply:SetNWBool("MinigameOn",false)
-
-		if ply.BMusic then
-			net.Start("MinigameMusic")
-				net.WriteBool(false)
-			net.Send(ply)
-			ply.BMusic = false
-		end
 	end
 
 end
@@ -94,15 +77,6 @@ function RemoveWeapon( ply )
 		ply:StripWeapons()
 	end
 
-	ply:SetNWBool("MinigameOn",false)
-
-	if ply.BMusic then
-		net.Start("MinigameMusic")
-			net.WriteBool(false)
-		net.Send(ply)
-		ply.BMusic = false
-	end
-
 	ply:ResetGod()
 end
 
@@ -116,7 +90,6 @@ function playerDies( ply, inflictor, killer )
 		if killer != ply && IsValid( killer ) &&  killer:IsPlayer() then
 			killer:AddMoney( MoneyPerKill )
 			killer:AddAchievement( ACHIEVEMENTS.MGCOLDKILLER, 1 )
-			killer:SetNWInt("MinigameScore", ( killer:GetNWInt("MinigameScore") + 100 ) )
 			TotalMoney = TotalMoney + MoneyPerKill
 		end
 
@@ -168,9 +141,9 @@ end
 
 local function GetSpawnPos( flags )
 	if string.find( flags, "a" ) then
-		return Vector( -3986.153564, 733.518677, -754.026855)
+		return Vector( 2910.156250, 2596.843750, 60)
 	end
-	return Vector(-3986.153564, 733.518677, -754.026855)
+	return Vector(938.531250, 1505.062500, 409.437500)
 end
 
 function PlayerDissalowResize( ply )
@@ -191,11 +164,10 @@ function Start( flags )
 	hook.Add("PlayerThink", "SnowBattleCheckRemoveBall", CheckRemoveBall )
 
 	for _, v in pairs( player.GetAll() ) do
-		v:SetNWInt("MinigameScore",0)
 		SafeCall( CheckGiveWeapon, v, v:Location() )
 	end
 
-	SetGlobalFloat("MinigameRoundTime",CurTime()+120)
+	SetGlobalFloat("MinigameRoundTime",CurTime()+120) -- Again not sure if we need to touch these
 
 	if !IsValid( FlyingText ) then
 		FlyingText = ents.Create("gmt_skymsg")

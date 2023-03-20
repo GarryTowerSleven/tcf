@@ -68,14 +68,14 @@ else -- CLIENT
 			self:DrawMediaPlayerOff()
 		end
 		
-				local offset 	= Vector( 0,0,math.sin( CurTime() * 4 ) * 2 )
-		local pos 		= self:GetPos() + self:GetUp() * 75 + offset
+		local offset 	= Vector( 0,0, math.sin( CurTime() * 4 ) * 2 )
+		local pos 		= self:GetPos() + self:GetUp() * 80 + offset
 		local ang 		= self:GetAngles()
 		
 		local scale 	= .15
-		
-		ang:RotateAroundAxis( Vector(1,0,0), -90 )
-		ang:RotateAroundAxis( Vector(0,1,0), 90 )
+
+		ang:RotateAroundAxis( self:GetForward(), 90 )
+		ang:RotateAroundAxis( self:GetUp(), 90 )
 		
 		cam.Start3D2D( pos, ang, scale )
 			draw.DrawText( "HOLD Q TO REQUEST MUSIC",

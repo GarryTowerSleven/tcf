@@ -70,7 +70,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.ZM28DAYS, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.ZMDINO, {
 	Name = "Wrong Era", 
-	Description = "Underground oil buildups cause strange senstations.", 
+	Description = "Underground oil buildups cause strange sensations.", 
 	Value = 1,
 	Group = 10
 } )

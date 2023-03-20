@@ -15,6 +15,9 @@ SetupGMTGamemode( "Virus", "virus", {
 	ChatScrollColor = Color( 44, 80, 15, 255 ), // Color of the chat scroll bar gui
 } )
 
+-- game.AddParticles( "particles/jb_fire.pcf" )
+-- PrecacheParticleSystem( "jb_burningplayer_green" )
+
 RegisterNWTableGlobal({ 
 	{ "Round", 0, NWTYPE_CHAR, REPL_EVERYONE },
 	{ "MaxRounds", 0, NWTYPE_CHAR, REPL_EVERYONE },
@@ -41,3 +44,9 @@ MUSIC_INTERMISSION			= 4
 team.SetUp( TEAM_PLAYERS, "Survivors", Color( 255, 255, 100, 255 ) )
 team.SetUp( TEAM_INFECTED, "Infected", Color( 175, 225, 175, 255 ) )
 team.SetUp( TEAM_SPEC, "Waiting", Color( 255, 255, 100, 255 ) )
+
+hook.Add("CalcMainActivity", "Virus", function(ply, vel)
+	if ply:Team() == TEAM_INFECTED then
+		return ACT_HL2MP_RUN_ZOMBIE, -1
+	end
+end)

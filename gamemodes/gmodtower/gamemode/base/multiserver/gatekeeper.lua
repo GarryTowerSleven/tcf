@@ -1,6 +1,6 @@
 gateKeep = {}
 
-local ServerName = "GMod Tower: Deluxe"
+local ServerName = "GMod Tower"
 
 gateKeep.Bans = {} --Used to hold all the bans server-side, rather than query every time.
 
@@ -69,6 +69,7 @@ function isPlayerBanned(ID, typ) --Check to see if the player is banned or not.
 		if (string.lower(typ) == "steamid" and ID == v.steamid)
 		or (string.lower(typ) == "ip" and ID == v.ip) then
 			if v.time != 0 and (v.bannedOn + v.time) <= os.time() then
+				LogPrint( (v.name or "Unknown Name") .. " [".. v.steamid .."]'s ban has expired. (" .. string.NiceTimeLong(v.time/60) .. ")", Color(0,255,255), "GateKeeper" )
 				gateKeep:RemoveBan(v.steamid)
 			else
 				return v.reason, (v.bannedOn + v.time), v.time
@@ -96,8 +97,7 @@ end)
 function gateKeep:AddBan(steamID, Name, ip, reason, time)
 
 	--Adds the ban to the MySQL and the server-side variable.
-	if !Name or Name == ""
-	or type(reason) != "string" then return end
+	if !Name or Name == "" or type(reason) != "string" then return end
 
 	local info = {}
 	info.bannedOn = os.time()
@@ -124,10 +124,9 @@ function gateKeep:AddBan(steamID, Name, ip, reason, time)
 
 	for i, v in ipairs(gateKeep.Bans) do
 
-		if (string.lower(v.Name) == string.lower(Name))
-		or (steamID != "unknown" and v.steamid == steamID)
+		if (steamID != "unknown" and v.steamid == steamID)
 		or (ip != "unknown" and v.ip == ip) then
-			if v.time == time and (v.ip == ip or v.steamid == steamID) then --If the person already exists and his time is the same, do not add him again.
+			if (v.steamid == steamID && v.time == time) then --If the person already exists and his time is the same, do not add him again.
 				return
 			else
 				info.Player = gateKeep.Bans[i]
@@ -136,6 +135,8 @@ function gateKeep:AddBan(steamID, Name, ip, reason, time)
 		end
 
 	end
+
+	print( "Start SQL" )
 
 	SQL.getDB():Query("SELECT * FROM gm_bans WHERE steamid=" .. SQLStr(steamID), function(res)
 
@@ -273,7 +274,7 @@ function gateKeep:RetrieveBans(banList) --Obtains the bans from the MySQL.
 
 		if v.time != 0 and (v.bannedOn + v.time) <= os.time() then --If the amount of time as elapsed, then remove the line. time < os.time() then remove
 		
-			LogPrint( v.Name .. " [".. v.steamid .."]'s ban has expired. (" .. string.NiceTimeLong(v.time/60) .. ")", Color(0,255,255), "GateKeeper" )
+			LogPrint( v.name .. " [".. v.steamid .."]'s ban has expired. (" .. string.NiceTimeLong(v.time/60) .. ")", Color(0,255,255), "GateKeeper" )
 			gateKeep:RemoveBan(v.steamid, true)
 
 		else
@@ -305,7 +306,7 @@ function gateKeep:CheckPlayerBan(steam, ip)
 
 end
 
-hook.Add("PlayerAuthed", "OnlyGMTConnectionsSecondary", function(ply, steamID, UniqueID) --Makes sure that if the first line of security misses, this shouldn't.(At least, not as much)
+/*hook.Add("PlayerAuthed", "OnlyGMTConnectionsSecondary", function(ply, steamID, UniqueID) --Makes sure that if the first line of security misses, this shouldn't.(At least, not as much)
 
 	local playerBanned = gateKeep:CheckPlayerBan(steamID, ply:IPAddress())
 
@@ -317,7 +318,23 @@ hook.Add("PlayerAuthed", "OnlyGMTConnectionsSecondary", function(ply, steamID, U
 		end
 	end
 
-end)
+end)*/
+
+hook.Add( "CheckPassword", "GateKeepCheckBanned", function( steamid64, ip )
+	local steamid = util.SteamIDFrom64( steamid64 )
+
+	if ( steamid ) then
+		local playerBanned = gateKeep:CheckPlayerBan( steamid, ip )
+
+		if !playerBanned[1] then
+			if playerBanned[4] == 0 then
+				return false, "You are banned permanently from "..ServerName.." due to the following: " .. playerBanned[2]
+			else
+				return false, "You are banned from "..ServerName.." until (" .. os.date( "%I:%M:%S %p %Z - %m/%d/%Y" , playerBanned[3] ) .. ") due to the following: " .. playerBanned[2]
+			end
+		end
+	end
+end )
 
 hook.Add("PlayerPasswordAuth", "OnlyGMTConnections", function(Name, pass, steam, ip)
 
@@ -433,6 +450,7 @@ end
 // read text file generated to initialize list
 function gateKeep:GrabGoingToServer(ServerID)
 
+	// TODO: ??? dont do this
 	local txt = "authedusers" .. tostring(GTowerServers:GetServerId()) .. ".txt"
 
 	if file.Exists(txt, "DATA") then

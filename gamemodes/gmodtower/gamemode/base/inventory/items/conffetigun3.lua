@@ -2,7 +2,7 @@
 ITEM.MaxUses = 10
 ITEM.Name = "Confetti! ("..ITEM.MaxUses..")"
 ITEM.ClassName = "gmt_confetti"
-ITEM.Description = ""
+ITEM.Description = "Shoot colorful confetti all around you!"
 ITEM.Model = "models/gmod_tower/item_confetti.mdl"
 ITEM.DrawModel = true
 ITEM.CanEntCreate = false

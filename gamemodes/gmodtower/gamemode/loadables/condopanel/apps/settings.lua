@@ -252,7 +252,7 @@ function APP:StartTab( tab )
 		local color_hovered = color_hovered or Color( 255, 255, 255, 50 )
 		local c, columns = 1, 4
 
-		for k,v in pairs(GtowerRooms.Doorbells) do
+		for k,v in pairs(GTowerRooms.Doorbells) do
 
 			self:CreateButton( v.name, x, y, w, h,
 				function( btn, x, y, w, h, isover ) -- draw
@@ -340,9 +340,9 @@ function APP:DrawItemStatus()
 	local items, max = 0, 100
 	local room = LocalPlayer():Location()
 
-	if room and IsValid( GtowerRooms:RoomOwner(room) ) then
-		items = GtowerRooms:RoomOwner(room).GRoomEntityCount
-		max = GtowerRooms:RoomOwner(room):GetSetting("GTSuiteEntityLimit")
+	if room and IsValid( GTowerRooms:RoomOwner(room) ) then
+		items = GTowerRooms:RoomOwner(room).GRoomEntityCount
+		max = GTowerRooms:RoomOwner(room):GetSetting("GTSuiteEntityLimit")
 	end
 
 	draw.RectFillBorder( 16, 120, sideBarWidth-16, 32, 1, (items/max), Color( 31, 31, 31 ), Color( 255, 255, 255 ) )

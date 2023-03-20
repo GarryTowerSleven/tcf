@@ -105,7 +105,7 @@ function string.Uppercase( str )
 	return str:gsub("^%l", string.upper)
 
 end
-hook.Add( "GtowerShowContextMenus", "ShowEmote", function()
+hook.Add( "GTowerShowContextMenus", "ShowEmote", function()
 
 	if IsValid( RADIAL ) then
 		RADIAL:Remove()
@@ -145,7 +145,7 @@ hook.Add( "GtowerShowContextMenus", "ShowEmote", function()
 			net.Start( "EmoteAct" )
 				net.WriteString(emote)
 			net.SendToServer()
-			GtowerMainGui:GtowerHideContextMenus()
+			GTowerMainGui.HideContextMenus()
 		end
 		p.Paint = function( self, w, h )
 			p:SetColor( Color( 255, 255, 255, 150 ) )
@@ -182,7 +182,7 @@ hook.Add( "GtowerShowContextMenus", "ShowEmote", function()
 
 end )
 
-hook.Add( "GtowerHideContextMenus", "HideEmote", function()
+hook.Add( "GTowerHideContextMenus", "HideEmote", function()
 	if IsValid( RADIAL ) then
 		RADIAL:Remove()
 	end

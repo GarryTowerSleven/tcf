@@ -120,13 +120,13 @@ function Remove()
 
 end
 
-hook.Add("GtowerShowMenus", "ShowGamemode", function()
+hook.Add("GTowerShowMenus", "ShowGamemode", function()
 	if GUI and IsValid( GUI ) then
 		GUI:SetVisible( true )
 	end
 end )
 
-hook.Add("GtowerHideMenus", "HideGamemode", function()
+hook.Add("GTowerHideMenus", "HideGamemode", function()
 	if GUI and IsValid( GUI ) then
 		GUI:SetVisible( false )
 	end

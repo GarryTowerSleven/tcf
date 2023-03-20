@@ -176,6 +176,8 @@ function GM:EndRound( teamid )
 
 end
 
+local cid = 0
+
 function GM:RandomChimera()
 
 	Msg( "Finding Chimera...", "\n" )
@@ -187,20 +189,20 @@ function GM:RandomChimera()
 		return
 	end
 
+	if cid == 0 || cid > #plys then
+		cid = 1
+	end
+
 	math.randomseed( RealTime() * 5555 )
 
 	local ucPlayer
 	local PlayerCount = #plys
 
-	repeat
-		local ucRand = math.random( 1, PlayerCount )
-
-		ucPlayer = plys[ ucRand ]
-
-	until ucPlayer != self.LastChimera
+		ucPlayer = plys[ cid ]
 
 	SetGlobalEntity("UC", ucPlayer)
 	self:SetChimera( ucPlayer )
+	cid = cid + 1
 
 	if PlayerCount > 1 then
 		self.LastChimera = ucPlayer

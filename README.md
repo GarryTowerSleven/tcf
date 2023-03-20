@@ -1,24 +1,22 @@
 # GMod Tower: Deluxe
-*Dang, that looks Deluxe!*
+Dang, that looks deluxe!
 
 ## Installation
-Clone into your server's addons folder as `gmtdeluxe`.
+Clone into your server's addons folder.
 
 ### Binary Module Requirements
-
 [FredyH/MySQLOO](https://github.com/FredyH/MySQLOO)
 
-[FredyH/GWSockets](https://github.com/FredyH/GWSockets) (Not in use, yet.)
-
-[WilliamVenner/gmsv_reqwest](https://github.com/FredyH/MySQLOO) (Optional, for now.)
+[TeddiO/gFwens](https://github.com/TeddiO/gFwens) for Steam group VIPs.
 
 Place your OS' specific binaries into `garrysmod/lua/bin`.
 
 ### SQL Setup
 Database module should work with any SQL complient relational database. (MySQL, PostgreSQL, MariaDB, etc)
 
-Edit `.env`'s contents to use your SQL credentials.
+Copy `template.env` to your `garrysmod` folder and rename it to just `.env`.
+Edit it's contents to use your SQL credentials.
 
 ## Credits
 
-[gmod-dotenv](https://github.com/TomDotBat/gmod-dotenv) for `.env` file use.
+[gmod-dotenv](https://github.com/TomDotBat/gmod-dotenv)

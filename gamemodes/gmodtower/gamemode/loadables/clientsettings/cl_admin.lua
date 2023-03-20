@@ -34,7 +34,7 @@ function ClientSettings:OpenAdmin( ply )
 	local PlyId = ply:EntIndex()
 	ClientSettings.AdminPly = ply
 	
-	GtowerMainGui:GtowerShowMenus()
+	GTowerMainGui.ShowMenus()
 	
 	self.AdminGUI = vgui.Create("DFrame")
 	self.AdminGUI:SetSize( 300, 500 )
@@ -175,7 +175,7 @@ function ClientSettings:CloseAdmin()
 	end
 	
 	self.AdminGUI = nil
-	GtowerMainGui:GtowerHideMenus()	
+	GTowerMainGui.HideMenus()	
 end
 
 hook.Add("CanCloseMenu", "AdminTheater", function()

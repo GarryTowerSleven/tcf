@@ -5,7 +5,7 @@ AddCSLuaFile("cl_init.lua")
 
 concommand.Add("gmt_starttour",function(ply)
 
-  if !string.StartWith( game.GetMap(), "gmt_lobby" ) then return end
+  if !IsLobby then return end
 
   ply:SetNWBool("IsWatchingTour", true)
   ply:SetNWBool("EndedTour",false)
@@ -20,7 +20,7 @@ end)
 
 concommand.Add("gmt_endtour",function(ply)
 
-  if !string.StartWith( game.GetMap(), "gmt_lobby" ) then return end
+  if !IsLobby then return end
 
   InitTour(ply, true)
   ply:SetNWBool("EndedTour",true)

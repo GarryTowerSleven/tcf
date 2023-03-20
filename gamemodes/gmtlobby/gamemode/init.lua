@@ -1,15 +1,10 @@
-----------------------------------------------
-PRIVATE_TEST_MODE = true
+PRIVATE_TEST_MODE = false
 
 util.AddNetworkString("AdminMessage")
 util.AddNetworkString("gmt_gamemodestart")
 
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
-
-AddCSLuaFile("cl_soundscape.lua")
-AddCSLuaFile("cl_soundscape_music.lua")
-AddCSLuaFile("cl_soundscape_songlengths.lua")
 
 AddCSLuaFile("cl_playermenu.lua")
 
@@ -18,18 +13,20 @@ AddCSLuaFile("cl_post_events.lua")
 AddCSLuaFile("cl_scoreboard.lua")
 AddCSLuaFile("cl_webboard.lua")
 AddCSLuaFile("cl_hudchat.lua")
-AddCSLuaFile("cl_tetris.lua")
 AddCSLuaFile("milestones/uch_animations.lua")
 
-AddCSLuaFile("cl_changelog.lua")
+AddCSLuaFile("cl_tetris.lua")
 
 AddCSLuaFile("minigames/shared.lua")
+
+AddCSLuaFile( "soundscape/cl_soundscape.lua" )
+AddCSLuaFile( "soundscape/cl_soundscape_music.lua" )
+AddCSLuaFile( "soundscape/cl_soundscape_songlengths.lua" )
 
 include("milestones/uch_animations.lua")
 include("shared.lua")
 include("sv_tetris.lua")
 include("tetris/highscore.lua")
-include("sv_merchant.lua")
 include("mapchange.lua")
 include("sv_hwevent.lua")
 include("minigames/init.lua")
@@ -94,7 +91,7 @@ function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
 		return true
 	else
 		MsgC(Color(51, 204, 51),name.." <"..steam.."> ("..IP..") tried to join the server.\n")
-		return false, "Server is currently in development! Check back later or join our Discord. gmtdeluxe.org/chat"
+		return false, "fail..."
 	end
 
 	return true

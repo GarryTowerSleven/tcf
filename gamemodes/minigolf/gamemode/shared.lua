@@ -3,7 +3,7 @@ GM.Name 	= "GMod Tower: Minigolf"
 
 DeriveGamemode( "gmtgamemode" )
 SetupGMTGamemode( "Minigolf", "minigolf", {
-	DrawHatsAlways = true, -- Always draw hats
+	DrawHatsAlways = false, -- Always draw hats
 	AFKDelay = 30, -- Seconds before they will be marked as AFK
 	DisablePlayerClick = true, -- Disable clicking on players
 	ChatY = 450, -- Chat offset Y

@@ -69,34 +69,3 @@ Maps.Register( "gmt_pvp_shard01", {
 	DateAdded = 1355168548,
 	DateModified = 1355168548,
 } )
-
-Maps.Register( "gmt_pvp_aether", {
-	Name = "Aether",
-	Desc = "Some island floating above the clouds, are now a battleground for some worthy combatants. Some say that this is the home to the gods and that some are even watching these battles, so you better be on your best today. You wouldn't want to embarrass yourself in front of gods.",
-	Author = "Bumpy",
-	DateAdded = 1249150914,
-	DateModified = 1249150914,
-	Priority = 4,
-} )
-
-
-
-Maps.Register( "gmt_pvp_mars", {
-	Name = "Mars",
-	Desc = "A small group of survivors were discovered living in a secret military base. They were also found to be endlessly shooting each other and respawning.",
-	Author = "Bumpy / Zoki",
-	DateAdded = 1249150914,
-	DateModified = 1249150914,
-	Priority = 4,
-} )
-
-
-
-Maps.Register( "gmt_pvp_neo", {
-	Name = "Neo",
-	Desc = "A virtual world that you somehow ended up in. I guess the best thing to do now is to kill people.",
-	Author = "Bumpy",
-	DateAdded = 1249150914,
-	DateModified = 1249150914,
-	Priority = 4,
-} )

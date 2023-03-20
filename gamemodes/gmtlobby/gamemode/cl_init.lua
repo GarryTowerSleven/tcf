@@ -9,15 +9,11 @@ include("event/cl_init.lua")
 include("minigames/shared.lua")
 include("milestones/uch_animations.lua")
 
--- Lobby 2 soundscape system
-include("cl_soundscape.lua")
-include("cl_soundscape_music.lua")
-include("cl_soundscape_songlengths.lua")
-
-include("tetris/cl_init.lua")
-include("cl_webboard.lua")
 include("cl_tetris.lua")
-include("cl_changelog.lua")
+
+include("soundscape/cl_soundscape.lua") -- Soundscapes for the lobby
+include("soundscape/cl_soundscape_music.lua") -- Musicscapes for the lobby
+include("soundscape/cl_soundscape_songlengths.lua") -- List of song lengths
 
 EnableParticles = CreateClientConVar( "gmt_enableparticles", "1", true, false )
 

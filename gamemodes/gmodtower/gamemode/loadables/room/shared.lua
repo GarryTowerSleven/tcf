@@ -1,4 +1,4 @@
-module("GtowerRooms", package.seeall )
+module("GTowerRooms", package.seeall )
 
 DEBUG = false
 StoreId = 1

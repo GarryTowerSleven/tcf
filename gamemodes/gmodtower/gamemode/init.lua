@@ -6,7 +6,7 @@ AddCSLuaFile("nwvar/shared.lua")
 
 // dotenv
 require("dotenv")
-env.load("addons/gmtdeluxe/.env")
+env.load(".env")
 
 include("shared.lua")
 include("nwvar/shared.lua")
@@ -15,23 +15,31 @@ include("sh_loadables.lua")
 
 RunConsoleCommand("sv_hibernate_think", "1")
 
-// Workshop
-resource.AddWorkshop( 148215278 ) -- Accessories
-resource.AddWorkshop( 150404359 ) -- Player model pack
-resource.AddWorkshop( 104548572 ) -- Playable piano
-resource.AddWorkshop( 546392647 ) -- Media player
+// Base Content
+resource.AddWorkshop( 2947436186 ) -- Base
+resource.AddWorkshop( 2947437306 ) -- Lobby
+resource.AddWorkshop( 2947438865 ) -- Ballrace
+resource.AddWorkshop( 2947439169 ) -- Chimera
+resource.AddWorkshop( 2947439518 ) -- Minigolf
+resource.AddWorkshop( 2947440075 ) -- PVP Battle
+resource.AddWorkshop( 2947440462 ) -- Source Karts
+resource.AddWorkshop( 2947440760 ) -- Virus
+resource.AddWorkshop( 2947441080 ) -- Zombie Massacre
 
-// Lobby 2 content from before shutdown, hidden
-/*resource.AddWorkshop( 2667443678 ) -- base
-resource.AddWorkshop( 2667447617 ) -- lobby
-resource.AddWorkshop( 2667452517 ) -- lobby2
-resource.AddWorkshop( 2667461993 ) -- ballrace
-resource.AddWorkshop( 2667463971 ) -- pvpbattle
-resource.AddWorkshop( 2667466895 ) -- virus
-resource.AddWorkshop( 2667468743 ) -- chimera
-resource.AddWorkshop( 2667470886 ) -- minigolf
-resource.AddWorkshop( 2667474570 ) -- zombiemassacre
-resource.AddWorkshop( 2667477578 ) -- karts*/
+// TCF Content
+resource.AddWorkshop( 2948325260 ) -- TCF Lobby
+
+// BACKUP
+/*resource.AddWorkshop( 2949539663 ) -- Base
+resource.AddWorkshop( 2949540184 ) -- Lobby
+resource.AddWorkshop( 2949541045 ) -- Ballrace
+resource.AddWorkshop( 2949541208 ) -- Chimera
+resource.AddWorkshop( 2949541468 ) -- Minigolf
+resource.AddWorkshop( 2949541746 ) -- PVP Battle
+resource.AddWorkshop( 2949542051 ) -- Source Karts
+resource.AddWorkshop( 2949542425 ) -- Virus
+resource.AddWorkshop( 2949542574 ) -- Zombie Massacre
+resource.AddWorkshop( 2949543296 ) -- TCF Lobby*/
 
 MultiUsers = {}
 
@@ -109,126 +117,25 @@ hook.Add("CanPlayerUnfreeze", "GMTOnPhysgunReload", function(ply, ent, physObj)
 		return ply:GetSetting( "GTAllowPhysGun" )
 end)
 
-/////////////////////////////
-// Tester Steam Group Shit //
-/////////////////////////////
-TesterGroupData = ""
-
-local testerCachePath = "tester_cache.txt"
-
-// check for cache and use it immediately for startup
-if PRIVATE_TEST_MODE && file.Exists( testerCachePath, "DATA" ) then
-	LogPrint( "Cached testers found, using...", color_green, "Testers" )
-	TesterGroupData = file.Read( testerCachePath, "DATA" )
+function IsTester()
+	return false
 end
-
-local groupID = "103582791471194784"
-local checkfor = "76561197963035118" // kity
-local updateAttempts = 0
-function UpdateTesters()
-	LogPrint( "Fetching group members...", color_green, "Testers" )
-
-	local url = "https://steamcommunity.com/gid/" .. groupID .. "/memberslistxml/?xml=1"
-
-	http.Fetch( url,
-		function( body, length, headers, code )
-
-			updateAttempts = 0
-
-			// Check if data has a specific user (checkfor) before doing anything, just to be safe
-			if !string.find( body, checkfor ) then
-				LogPrint( "Data received is incomplete, not using.", color_red, "Testers" )
-				return
-			end
-
-			LogPrint( "Successfully got group members!", color_green, "Testers" )
-
-			// get only the members portion of the XML
-			local t1, t2 = string.find( body, "<members>" )
-			local tt1, tt2 = string.find( body, "</members>" )
-			local memberData = string.sub( body, t1, tt2 )
-
-			TesterGroupData = memberData
-
-			// Cache testers if they've changed
-			if file.Exists( testerCachePath, "DATA" ) then
-				if memberData != file.Read( testerCachePath, "DATA" ) then
-					//MsgC( color_green, "[Testers] Testers have changed!\n" )
-					cacheTesters( memberData )	
-				end
-			else
-				cacheTesters( memberData )
-			end
-		end,
-
-		function( message )
-			if updateAttempts <= 5 then
-				LogPrint( "Failed to get group members. \"" .. message .. "\"", color_red, "Testers" )
-				LogPrint( "Retrying...", color_red, "Testers" )
-				updateAttempts = updateAttempts + 1
-				UpdateTesters()
-			else
-				LogPrint( "Failed to get group members 5 times, giving up.", color_red, "Testers" )
-				updateAttempts = 0
-			end
-		end
-	)
-end
-
-local testerTimeDelay = ( 15*60 )
-local testerTimeSince = CurTime() + testerTimeDelay
-if PRIVATE_TEST_MODE then
-	timer.Simple( 2, function()
-		UpdateTesters()
-	end )
-
-	// refresh testers every X minutes
-	hook.Add("Think", "TesterUpdater", function()
-		if testerTimeSince < CurTime() then
-			testerTimeSince = CurTime() + testerTimeDelay
-			UpdateTesters()
-		end
-	end)
-end
-
-// cache the groupdata to use incase steam is down 
-function cacheTesters( data )
-	LogPrint( "Caching testerdata in \"".. "garrysmod/data/" .. testerCachePath .."\"." , color_green, "Testers" )
-	file.Write( testerCachePath, data )
-end
-
-function IsTester( steam64 )
-	return string.find( TesterGroupData, steam64 )
-end
-
-concommand.Add( "gmt_refreshtesters", function( ply, cmd, args )
-	if ply:IsAdmin() then
-		ply:Msg2("Attempting to refresh testers...", "admin")
-		testerTimeSince = CurTime() + testerTimeDelay
-		UpdateTesters()
-	end
-end)
-/////////////////////////////
 
 function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
-
-	if engine.ActiveGamemode() == "gmtlobby" then return end
+	if ( IsLobby ) then return true end
 
 	local steam64 = steam
-	local steam = util.SteamIDFrom64(steam)
+	local steam = util.SteamIDFrom64( steam )
 
 	local PortRemove = string.find(IP,"%:")
 
 	if PortRemove != nil then IP = string.sub( IP, 1, PortRemove - 1 ) end
 
-	--PrintTable(MultiUsers)
-	--print("IP:"..tostring(IP))
-
 	if IsAdmin(steam) or IsTester(steam64) or IsModerator(steam) or MultiUsers[IP] then
 		return true
 	else
 		MsgC( color_red, string.SafeChatName(name) .. " <" .. steam .. "> (" .. IP .. ") tried to join the server.\n" )
-		return false, "You must join from the lobby server, IP: join.gmtdeluxe.org"
+		return false, "You must join from the lobby server, IP: gmt.nailgunworld.com"
 	end
 
 	return true
@@ -284,9 +191,9 @@ end
 
 function GM:PlayerSetModel( ply )
 
-	if ( !IsValid(ply) || ( !IsLobby && ply:IsBot() ) ) then return end
+	if ( !IsValid(ply) ) then return end
 
-	local model, skin = GTowerModels.GetModelName( ply:GetInfo( "gmt_playermodel" ) )
+	local model, skin = GTowerModels.GetModelName( ply:IsBot() && "kleiner" || ply:GetInfo( "gmt_playermodel" ) )
 
 	if ply:IsBot() then
 		local _, randModel = table.Random( GTowerModels.NormalModels )

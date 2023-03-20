@@ -12,7 +12,7 @@ GTowerGroup.AvatarSize = 40
 GTowerGroup.LeaveBtn = nil
 
 
-hook.Add("GtowerShowMenus", "ShowGroupShow", function()
+hook.Add("GTowerShowMenus", "ShowGroupShow", function()
 	if not GTowerGroup:InGroup() then return end
 
 	if not IsValid( GTowerGroup.LeaveBtn ) then
@@ -34,7 +34,7 @@ hook.Add("GtowerShowMenus", "ShowGroupShow", function()
 	GTowerGroup:RefreshGui()
 end )
 
-hook.Add("GtowerHideMenus", "ShowGroupLeave", function()
+hook.Add("GTowerHideMenus", "ShowGroupLeave", function()
 	if IsValid( GTowerGroup.LeaveBtn ) then
 		GTowerGroup.LeaveBtn:Remove()
 	end

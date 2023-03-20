@@ -45,11 +45,3 @@ Maps.Register( "gmt_minigolf_forest04", {
 	DateAdded = 1374298302,
 	DateModified = 1374298302,
 } )
-
-Maps.Register( "gmt_minigolf_desert01", {
-	Name = "Desert",
-	Desc = "Golf your way through the hot desert, on courses build by the pharaohs. Be sure to take a bottle of water with you!",
-	Author = "Bumpy",
-	DateAdded = 1374298302,
-	DateModified = 1374298302,
-} )

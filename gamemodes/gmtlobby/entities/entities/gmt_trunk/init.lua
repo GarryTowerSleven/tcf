@@ -34,11 +34,11 @@ function ENT:Initialize()
 end
 
 function ENT:LoadRoom()
-	self.RoomId = GtowerRooms.ClosestRoom( self:GetPos() )
+	self.RoomId = GTowerRooms.ClosestRoom( self:GetPos() )
 end
 
 function ENT:Use( ply )
-	local Room = GtowerRooms.Get( self.RoomId )
+	local Room = GTowerRooms.Get( self.RoomId )
 
 	if !ply:IsPlayer() then return end
 

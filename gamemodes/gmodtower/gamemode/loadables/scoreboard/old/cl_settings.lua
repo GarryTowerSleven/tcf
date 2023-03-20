@@ -151,7 +151,7 @@ function PANEL:GenerateModelSelection()
 end
 
 function PANEL:OnMousePressed()
-    GtowerMenu:CloseAll()
+    GTowerMenu:CloseAll()
 end
 
 function PANEL:Removing()

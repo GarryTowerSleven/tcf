@@ -26,12 +26,12 @@ end
 /*
 hook.Add("GTowerStoreLoad", "GTowerLoadTableTic", function()
 	
-	if !GtowerRooms then
+	if !GTowerRooms then
 		return
 	end
 	
 	StoreTableId = GTowerStore:SQLInsert( {
-		storeid = GtowerRooms.StoreId,
+		storeid = GTowerRooms.StoreId,
 		upgradable = true,
 		ClientSide = true,
 		unique_name = StoreTableName,

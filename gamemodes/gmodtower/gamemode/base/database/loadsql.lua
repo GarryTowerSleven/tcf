@@ -47,20 +47,20 @@ function RetrieveSQLData(ply)
 					local bankLimit = row.BankLimit
 					local pvp = row.pvpweapons
 					local lvls = row.levels
-					local pendingMoney = row.pendingmoney
+					//local pendingMoney = row.pendingmoney
 
 					if achi == nil or achi == "" then
 						ply:SetNWBool( "IsNewPlayer", true )
 					end
 
 					ply:SetMoney( (money or 0) )
-					ply._PendingMoney = (pendingMoney or 0)
 
+					/*ply._PendingMoney = (pendingMoney or 0)
 					if ply._PendingMoney > 0 then
 						ply:AddMoney( pendingMoney )
 						ply:SetNWInt("VideoPokerAmount",pendingMoney)
 						ply._PendingMoney = 0
-					end
+					end*/
 
 					GTowerModels.Set( ply, tonumber( (plysize or 1) ) )
 

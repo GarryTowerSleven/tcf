@@ -1,6 +1,8 @@
 module("Scoreboard", package.seeall )
 
-MaxWidth = 900
+Rounded = CreateClientConVar( "gmt_scoreboard_rounded", "0", true, false, nil, 0, 1 )
+
+MaxWidth = ScrW() * 0.99
 MinWidth = 640
 
 function ActionBoxLabel( panel, icon, label, valuefunc, clickfunc, fixedWidth )
@@ -182,11 +184,21 @@ local gradient = surface.GetTextureID( "VGUI/gradient_up" )
 
 function SCOREBOARD:Paint( w, h )
 
+	if ( Rounded:GetBool() /*&& self.RightBorderSize != 16*/ ) then
+		self.RightBorderSize = 16
+	else//if ( not Rounded:GetBool() && self.RightBorderSize == 16 ) then
+		self.RightBorderSize = 0
+	end
+
 	surface.SetDrawColor( 255, 255, 255, 255 )
 	
 	surface.SetMaterial( Scoreboard.Customization.HeaderMatFiller )
-	//surface.DrawTexturedRect( self.TitleWidth, 0, self:GetWide() - self.RightBorderSize - self.TitleWidth, self.TitleHeight )
-	surface.DrawTexturedRect( 0, 0, self:GetWide(), self.TitleHeight )
+
+	if ( Rounded:GetBool() ) then
+		surface.DrawTexturedRect( self.TitleWidth, 0, self:GetWide() - self.RightBorderSize - self.TitleWidth, self.TitleHeight )
+	else
+		surface.DrawTexturedRect( 0, 0, self:GetWide(), self.TitleHeight )
+	end
 	
 	surface.SetMaterial( Scoreboard.Customization.HeaderMatHeader )
 	surface.DrawTexturedRect( 0, 0, self.TitleWidth, self.TitleHeight )
@@ -407,16 +419,26 @@ vgui.Register( "ScoreboardMap", MAP, "Panel" )
 local GMC = {}
 GMC.MoneyIcon = Material( "gmod_tower/scoreboard/icon_money.png", "unlitsmooth" )
 GMC.Padding = 8
+GMC.Amount = 0
 
-function GMC:Init() end
+function GMC:Init()
+	self.Amount = Money()
+end
 
 function GMC:PerformLayout()
 
 	surface.SetFont( "GTowerHUDMain" )
-	local w, h = surface.GetTextSize( string.FormatNumber( Money() or 0 ) )
+	local w, h = surface.GetTextSize( string.FormatNumber( self.Amount or 0 ) )
 
 	self:SetSize( w + self.Padding + 16 + 1, h )
 
+end
+
+function GMC:Think()
+	if ( self.Amount != Money() ) then
+		self.Amount = Money()
+		self:PerformLayout()
+	end
 end
 
 function GMC:Paint( w, h )

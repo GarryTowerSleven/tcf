@@ -33,6 +33,6 @@ function GTowerItems:RemoveTooltip()
 
 end
 
-hook.Add("GtowerHideMenus", "HideInvToolTip", function()
+hook.Add("GTowerHideMenus", "HideInvToolTip", function()
 	GTowerItems:HideTooltip()
 end )

@@ -8,17 +8,17 @@ GTowerItems.DEBUG = false
 
 GTowerItems.MaxDistance = 510
 GTowerItems.DragMaxDistance = GTowerItems.MaxDistance * 5
-GTowerItems.EquippableSlotsCosmetic = 4
-GTowerItems.EquippableSlots = 8 + GTowerItems.EquippableSlotsCosmetic
+//GTowerItems.EquippableSlotsCosmetic = 4
+GTowerItems.EquippableSlots = 8
 GTowerItems.BarStoreId = 4
 GTowerItems.OnlyHitWorld = true
 
-GTowerItems.DefaultInvCount = 36
-GTowerItems.DefaultBankCount = 175
+GTowerItems.DefaultInvCount = 32
+GTowerItems.DefaultBankCount = 50
 
 GTowerItems.MaxInvCount = 127
-GTowerItems.MaxBankCount = 227
-GTowerItems.BankSlotWorth = 8000
+GTowerItems.MaxBankCount = 150
+GTowerItems.BankSlotWorth = 1000
 
 /*
 	Each slot will be allowed an array of specific EquipType
@@ -29,23 +29,24 @@ GTowerItems.WearablesList = {
 	[3] = {"BallRaceBall","VirusFlame"}, //Overall
 }
 
-GTowerItems.Sounds = {
-	Move = {
-		["default"] 	= Sound( "GModTower/inventory/move_default.wav" ),
-		["wood"] 		= Sound( "GModTower/inventory/move_wood.wav" ),
-		["concrete"] 	= Sound( "GModTower/inventory/move_concrete.wav" ),
-		["furniture"] 	= Sound( "GModTower/inventory/move_furn.wav" ),
-		["furniture2"] 	= Sound( "GModTower/inventory/move_furn2.wav" ),
-		["furniture3"] 	= Sound( "GModTower/inventory/move_furn3.wav" ),
-		["paper"] 		= Sound( "GModTower/inventory/move_paper.wav" ),
-		["glass"] 		= Sound( "GModTower/inventory/move_glass.wav" ),
-		["guitar"] 		= Sound( "GModTower/inventory/move_guitar.wav" ),
-		["cloth"] 		= Sound( "GModTower/inventory/move_cloth.wav" ),
-		["plush"] 		= Sound( "GModTower/inventory/move_plush.wav" ),
-		["lightsaber"] 	= Sound( "GModTower/inventory/use_lightsaber.wav" ),
-	},
-	//Equip = {},
-	//Use = {},
+GTowerItems.Sounds = {
+	Move = {
+		["default"] 	= Sound( "GModTower/inventory/move_default.wav" ),
+		["wood"] 		= Sound( "GModTower/inventory/move_wood.wav" ),
+		["concrete"] 	= Sound( "GModTower/inventory/move_concrete.wav" ),
+		["furniture"] 	= Sound( "GModTower/inventory/move_furn.wav" ),
+		["furniture2"] 	= Sound( "GModTower/inventory/move_furn2.wav" ),
+		["furniture3"] 	= Sound( "GModTower/inventory/move_furn3.wav" ),
+		["paper"] 		= Sound( "GModTower/inventory/move_paper.wav" ),
+		["glass"] 		= Sound( "GModTower/inventory/move_glass.wav" ),
+		["guitar"] 		= Sound( "GModTower/inventory/move_guitar.wav" ),
+		["cloth"] 		= Sound( "GModTower/inventory/move_cloth.wav" ),
+		["plush"] 		= Sound( "GModTower/inventory/move_plush.wav" ),
+		["lightsaber"] 	= Sound( "GModTower/inventory/use_lightsaber.wav" ),
+	},
+
+	//Equip = {},
+	//Use = {},
 }
 
 function GTowerItems:IsEquipSlot( id )
@@ -53,7 +54,7 @@ function GTowerItems:IsEquipSlot( id )
 end
 
 function GTowerItems:IsCosmeticSlot( id )
-	return self:IsEquipSlot(id) and id > (GTowerItems.EquippableSlots-GTowerItems.EquippableSlotsCosmetic)
+	return false //self:IsEquipSlot(id) and id > (GTowerItems.EquippableSlots-GTowerItems.EquippableSlotsCosmetic)
 end
 
 function GTowerItems:Get( id )

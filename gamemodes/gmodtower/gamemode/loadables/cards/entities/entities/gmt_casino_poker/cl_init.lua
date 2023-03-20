@@ -370,7 +370,7 @@ net.Receive( "ClientPokerCards", function( length, client )
 	if ply == LocalPlayer() then
 
 		PokerPanel:SetHand( hand )
-		--GtowerMainGui:ToggleCursor( true )
+		--GTowerMainGui:ToggleCursor( true )
 
 	// Set the other player hands
 	else

@@ -1,7 +1,6 @@
 ---------------------------------
 GMode.Name = "Ball Race"
 GMode.Gamemode = "ballrace"
-GMode.ThemeColor = Color(172, 121, 84)
 
 //Set true if players should be kicked if their "goserver" value on the database is not the same as the local server
 GMode.Private = true
@@ -15,7 +14,7 @@ GMode.WaitingTime = 20.0
 //Set this to false if you want people to be able to go in and out of the server at any time.
 //Set also the min amount of players to join the sevrer
 GMode.OneTimeJoin = true
-GMode.MinPlayers = 1
+GMode.MinPlayers = 4
 
 //Set this if only a group can join
 GMode.GroupJoin = false
@@ -24,8 +23,8 @@ GMode.MaxPlayers = 8 //Leave nil if the maxplayers are suppost to be the server 
 GMode.Gameplay = "Physics-based Rolling"
 
 GMode.View = {
-	pos = Vector( 3553, -6116, -778 ),
-	ang = Angle( 5, -108, 0 )
+	pos = Vector( 9619, 11281, 6754 ),
+	ang = Angle( 5.3, 157.5, 0 )
 }
 GMode.Tips = {
 	"Falling will result in popping, which is altogether unpleasant.",
@@ -95,25 +94,25 @@ function GMode:ProcessData( ent, data )
 	ent.ProgressWidth = tw * frac
 	ent.CompleteWidth = tw
 
-	ent.ProgressHeight = 72
+	ent.ProgressHeight = 30
 
-	local text = "<font=MultiSubDeluxe><color=white>Round:</color> " .. string.format("%d / %d", math.abs(cur), max) .. "</font>"
+	local text = "<font=GTowerbig><color=ltgrey>Round:</color> " .. string.format("%d / %d", math.abs(cur), max) .. "</font>"
 	ent.ProgressText = markup.Parse(text)
 
 	ent.ProgressText.PosX = ent.ProgressX + ( tw / 2 ) - ( ent.ProgressText:GetWidth() / 2 )
 	ent.ProgressText.PosY = ent.ProgressY + ( ent.ProgressHeight / 2 ) - ( ent.ProgressText:GetHeight() / 2 )
 
-	surface.SetFont("MultiSubDeluxe")
+	surface.SetFont("GTowerbig")
 	local w, h = surface.GetTextSize(bonustext)
 
 	ent.BonusX = ent.TotalMinX + ent.TotalWidth * 0.75 - (w/2)
-	ent.BonusY = ent.TotalMinY + ent.TopHeight * 0.75 - (h/2)
+	ent.BonusY = ent.TotalMinY + ent.TopHeight * 0.78 - (h/2)
 
 end
 
-local color_red = Color(255, 255, 255, 100)
-local color_black = Color(255, 255, 255, 150)
-local color_redbonus = Color(255, 255, 255, 255)
+local color_red = Color(200, 0, 0, 100)
+local color_black = Color(0, 0, 0, 150)
+local color_redbonus = Color(220, 0, 0, 255)
 
 GMode.DrawData = function( ent )
 
@@ -126,7 +125,7 @@ GMode.DrawData = function( ent )
 		return
 	end
 
-	surface.SetDrawColor(255, 255, 255, 50)
+	surface.SetDrawColor(color_red)
 	surface.DrawRect(ent.ProgressX, ent.ProgressY, ent.ProgressWidth, ent.ProgressHeight)
 	surface.SetDrawColor(color_black)
 	surface.DrawOutlinedRect(ent.ProgressX, ent.ProgressY, ent.CompleteWidth, ent.ProgressHeight)
@@ -138,7 +137,7 @@ GMode.DrawData = function( ent )
 	if ent.InBonusRound then
 		surface.SetTextColor(color_redbonus)
 		surface.SetTextPos(ent.BonusX, ent.BonusY)
-		surface.SetFont("MultiSubDeluxe")
+		surface.SetFont("GTowerbig")
 		surface.DrawText(bonustext)
 	end
 
