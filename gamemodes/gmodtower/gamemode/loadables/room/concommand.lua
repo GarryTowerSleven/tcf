@@ -435,13 +435,13 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 		return
 	end
 
-	SQL.getDB():Query("SELECT HEX(roomdata) as roomdata FROM `gm_users` WHERE steamid='"..ply:SteamID().."'", function(res)
+	SQL.getDB():Query("SELECT HEX(condodata) as condodata FROM `gm_users` WHERE steamid='"..ply:SteamID().."'", function(res)
 
 			if !res or res == nil then return end
 			local row = res[1].data[1]
 			if row then
-					local roomdata = row.roomdata
-					Suite.SQLLoadData( ply, roomdata )
+					local condodata = row.condodata
+					Suite.SQLLoadData( ply, condodata )
 					PlyRoom:Load( ply )
 
 					umsg.Start("GRoom", ply)
