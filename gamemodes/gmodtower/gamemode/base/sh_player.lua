@@ -11,12 +11,12 @@ local Roles =
 	["STEAM_0:0:38865393"] = "Developer",	// boXy
 	["STEAM_0:1:39916544"] = "Developer",	// Anoma
 	["STEAM_0:0:35652170"] = "Developer",	// Lead
+	["STEAM_0:1:124798129"] = "Developer", // Amgona
 
 	// Moderators
 	["STEAM_0:1:72402171"] = "Moderator", // Umbre
 	["STEAM_0:1:57386100"] = "Moderator", // Squibbus
 	["STEAM_0:1:85508734"] = "Moderator", // Breezy
-	["STEAM_0:1:124798129"] = "Moderator", // Amgona
 
 	// Pixeltail Games
 	["STEAM_0:1:6044247"] = "PixelTail",	// MacDGuy
