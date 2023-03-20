@@ -1,6 +1,6 @@
 module( "Scoreboard.Customization", package.seeall )
 
-if ( IsDeluxe ) then
+if ( not IsLobbyOne ) then
 	ColorNormal = Color( 55, 55, 111, 255 )
 	ColorBright = Color( 125, 125, 175, 255 )
 	ColorDark = Color( 25, 25, 61, 255 )

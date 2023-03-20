@@ -31,7 +31,7 @@ end
 
 // Loading
 local function Load()
-	local map = (IsLobbyOne) and "lobby1" or (IsDeluxe and "deluxe" or "lobby2")
+	local map = (IsLobbyOne) and "lobby1" or "deluxe"
 	local basedir = "gmodtower/gamemode/loadables/soundscape/maps/"
 
 	local files = {
