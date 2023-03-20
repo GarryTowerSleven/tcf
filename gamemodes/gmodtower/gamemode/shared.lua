@@ -10,6 +10,8 @@ GMT = true
 TestingMode = CreateConVar( "gmt_testing", 0, { FCVAR_ARCHIVE, FCVAR_DONTRECORD, FCVAR_REPLICATED }, "GMT testing mode" )
 EmptyFunction = function() end
 
+IsDeluxe = true
+
 hook.Remove( "PlayerTick", "TickWidgets" ) -- Remove tick widgets
 
 function GetWorldEntity()
