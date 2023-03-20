@@ -10,7 +10,7 @@ GMT = true
 TestingMode = CreateConVar( "gmt_testing", 0, { FCVAR_ARCHIVE, FCVAR_DONTRECORD, FCVAR_REPLICATED }, "GMT testing mode" )
 EmptyFunction = function() end
 
-IsDeluxe = true
+IsDeluxe = string.StartsWith( game.GetMap(), "gmt_lobby2" ) && tonumber( string.Replace( game.GetMap(), "gmt_lobby2_r", "" ) or 0 ) > 3
 
 hook.Remove( "PlayerTick", "TickWidgets" ) -- Remove tick widgets
 
