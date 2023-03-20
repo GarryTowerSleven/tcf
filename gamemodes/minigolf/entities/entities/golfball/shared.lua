@@ -188,7 +188,7 @@ end
 // Determines when the ball is settled and can actually be putted
 function ENT:HandleReady( vel )
 
-	if vel < 2 && self:HitWorld( self:GetDownTrace() ) then
+	if vel < 6 && self:HitWorld( self:GetDownTrace() ) then
 
 		if !self.ReadyDelay then
 			self.ReadyDelay = CurTime() + 1
