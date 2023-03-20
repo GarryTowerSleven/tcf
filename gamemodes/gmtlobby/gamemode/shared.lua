@@ -4,11 +4,14 @@ GM.AllowSpecialModels = true
 GM.AllowEquippables = true
 
 GM.UsesHands = true
+
 IsLobby = true
 
 DeriveGamemode( "gmodtower" )
 
 include("player_class/player_lobby.lua")
+
+IsLobbyOne = string.StartsWith( game.GetMap(), "gmt_build" )
 
 function IsHalloweenMap( map )
 	local map = map or game.GetMap()
@@ -74,11 +77,11 @@ Loadables.Load( {
 	"achievement",			-- Achievements
 	"hacker",				-- Hacker logging
 	"npc",					-- Store NPCs
-	"roomlobby1",			-- Suite/condo system
+	"room",					-- Suite/condo system
 	"scoreboard3",			-- Scoreboard
 	"store",				-- Stores
 	"multiserver",			-- Multiserver
-	"locationlobby1",		-- Location system
+	"location",					-- Location system
 	"seats",				-- Seat manager
 	--"gibsystem",			-- Gibs
 	"thirdperson",			-- Thirdperson
@@ -95,8 +98,8 @@ Loadables.Load( {
 	"ping",					-- Pings the clients to detect for server crashes
 	"soundscape",			-- Soundscape system (Lobby 2)
 	"theater2", 			-- Theater built with the media player (Lobby 2)
-	-- "elevator",				-- Elevator system for suites (Lobby 2)
-	-- "condopanel",			-- Condo OS
+	-- "elevator",			-- Elevator system for suites (Lobby 2)
+	-- "condopanel",		-- Condo OS
 	"mapdata",				-- Map specific fixes and additions
 
 	-- Items Depend On These
@@ -128,6 +131,14 @@ Loadables.Load( {
 	"virus",				-- Virus weapons
 
 } )
+
+// Lobby 2 loadables
+if ( not IsLobbyOne ) then
+	Loadables.Load( {
+		"elevator",		-- Elevator system for condos
+		"condopanel",	-- CondOS
+	} )
+end
 
 function CanPlayerUse( arg1, arg2 )
 

@@ -20,6 +20,11 @@ function Load( name )
 		end
 		return
 	end
+
+	// Lobby 1 loadables
+	if ( IsLobbyOne && table.Count( file.FindDir( LoadablesFolder .. name .. "lobby1" .. "/*", "LUA" ) ) != 0 ) then
+		name = name .. "lobby1"
+	end
 	
 	local ModuleDir = LoadablesFolder .. name .. "/"
 	local ModuleFiles = file.FindDir( ModuleDir .. "*", "LUA" )
