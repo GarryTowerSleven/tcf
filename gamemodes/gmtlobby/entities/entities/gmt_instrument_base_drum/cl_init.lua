@@ -3,7 +3,7 @@
 -----------------------------------------------------
 include("shared.lua")
 
-local Volume = CreateClientConVar( "gmt_volume_instrument", 80, true, false )
+local Volume = GetConVar( "gmt_volume_instrument" )
 
 ENT.DEBUG = false
 
@@ -130,14 +130,18 @@ end
 
 function ENT:IsKeyReleased( key )
 	return self.KeysWasDown[ key ] && !self.KeysDown[ key ]
-end
-
+endlocal function GetClientVolume()
+
+	return Volume:GetInt() / 100
+
+end
+
 function ENT:OnRegisteredKeyPlayed( key )
 	// Play on the client first
 	local sound = self:GetSound( key )
 	local pitch = 100
 	if self.SlightPitchChange then pitch = math.random( 98, 102 ) end
-	self:EmitSound( sound, 100, pitch )
+	self:EmitSound( sound, 100, pitch, GetClientVolume() )
 
 	// Network it
 	net.Start( "InstrumentNetworkDrum" )
@@ -173,7 +177,7 @@ function ENT:SendKeys()
 		if sound then
 			local pitch = 100
 			if self.SlightPitchChange then pitch = math.random( 98, 102 ) end
-			self:EmitSound( sound, 100, pitch )
+			self:EmitSound( sound, 100, pitch, GetClientVolume() )
 		end
 
 	end
@@ -353,10 +357,6 @@ hook.Add( "PlayerBindPress", "InstrumentHook", function( ply, bind, pressed )
 
 end )
 
-local function GetClientVolume()
-	return Volume:GetInt() / 100
-end
-
 net.Receive( "InstrumentNetworkDrum", function( length, client )
 
 	local ent = net.ReadEntity()
@@ -390,7 +390,7 @@ net.Receive( "InstrumentNetworkDrum", function( length, client )
 		if sound then
 			local pitch = 100
 			if ent.SlightPitchChange then pitch = math.random( 98, 102 ) end
-			ent:EmitSound( sound, math.Fit(GetClientVolume() * 100,0,100,35,100), pitch )
+			ent:EmitSound( sound, 80, pitch, GetClientVolume() )
 		end
 
 		// Gather notes

@@ -9,6 +9,8 @@ ENT.AllowAdvancedMode = false
 ENT.AdvancedMode = false
 ENT.ShiftMode = false
 
+local Volume = CreateClientConVar( "gmt_volume_instrument", 100, true, false, "Set how loud instruments will sound.", 0, 100 )
+
 ENT.PageTurnSound = Sound( "GModTower/inventory/move_paper.wav" )
 surface.CreateFont( "InstrumentKeyLabel", {
 	size = 22, weight = 400, antialias = true, font = "Impact"
@@ -125,11 +127,17 @@ function ENT:IsKeyReleased( key )
 	return self.KeysWasDown[ key ] && !self.KeysDown[ key ]
 end
 
+local function GetClientVolume()
+
+	return Volume:GetInt() / 100
+
+end
+
 function ENT:OnRegisteredKeyPlayed( key )
 
 	// Play on the client first
 	local sound = self:GetSound( key )
-	self:EmitSound( sound, 100 )
+	self:EmitSound( sound, 100, _, GetClientVolume() )
 
 	// Network it
 	net.Start( "InstrumentNetwork" )
@@ -470,7 +478,7 @@ net.Receive( "InstrumentNetwork", function( length, client )
 		local sound = ent:GetSound( key )
 
 		if sound then
-			ent:EmitSound( sound, 80 )
+			ent:EmitSound( sound, 80, _, GetClientVolume() )
 		end
 
 		// Gather notes
