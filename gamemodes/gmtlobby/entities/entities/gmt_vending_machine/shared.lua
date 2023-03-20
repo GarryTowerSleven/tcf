@@ -4,7 +4,9 @@ ENT.PrintName	= "Vending Machine"
 ENT.Spawnable		= true
 ENT.AdminSpawnable	= true
 
-ENT.Model		= Model("models/props/cs_office/vending_machine.mdl")
+ENT.Model		= IsLobbyOne and Model("models/props/cs_office/vending_machine.mdl") or Model("models/map_detail/lobby_vendingmachine.mdl")
+ENT.Sound		= Sound( "GModTower/lobby/trainstation/vendingmachineHumm.mp3")
+
 ENT.StoreId 	= GTowerStore.VENDING
 ENT.IsStore 	= true
 

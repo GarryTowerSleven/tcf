@@ -16,7 +16,10 @@ function ENT:Initialize()
 		phys:EnableMotion( false )
 	end
 
-	--self:SetPos(self:GetPos() + Vector(0,0,45))
+	if ( IsDeluxe ) then
+		self:SetMaterial( "models/map_detail/deluxe_vendingmachine", true )
+	end
+
 end
 
 function ENT:SetSale( sale )

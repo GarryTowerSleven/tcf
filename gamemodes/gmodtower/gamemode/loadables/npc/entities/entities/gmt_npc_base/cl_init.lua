@@ -42,6 +42,8 @@ local newsize = 256/2.5
 
 function ENT:DrawTranslucent()
 
+	if ( not IsLobbyOne ) then return end
+
 	local title = self:GetTitle()
 	local offset = Vector( 0, 0, 90 )
 
