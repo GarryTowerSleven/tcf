@@ -283,7 +283,7 @@ end
 
 -- I didn't want to use textures to do this effect, so I made this nice gradient function =P
 -- Thanks to all people at FacePunch forums that helped me to optimize it!
-local g_grds, g_wgrd, g_sz
+/*local g_grds, g_wgrd, g_sz
 function GradientBox(x, y, w, h, al, ...)
 
 	g_grds = {...}
@@ -327,7 +327,7 @@ function GradientBox(x, y, w, h, al, ...)
 		end
 
 	end
-end
+end*/
 
 local verts = {{},{},{},{}}
 local otw, oth, tw, th, uoffset, voffset, umax, vmax
@@ -628,7 +628,7 @@ function TheaterText(text, font, x, y, colour, xalign, yalign)
 	draw.SimpleText(text, font, x, y, colour, xalign, yalign)
 end
 
-/*local GradientDirTextures = {
+local GradientDirTextures = {
 	[UP] = Material( "vgui/gradient-u" ),
 	[DOWN] = Material( "vgui/gradient-d" ),
 	[LEFT] = Material( "vgui/gradient-l" ),
@@ -636,10 +636,10 @@ end
 }
 
 function GradientBox( x, y, w, h, color, dir )
-	surface.SetDrawColor(  )
+	surface.SetDrawColor( color )
 	surface.SetMaterial( GradientDirTextures[dir] )
 	surface.DrawTexturedRect( x, y, w, h )
-end*/
+end
 
 --[[---------------------------------------------------------
     Name: RotatedText(text, font, x, y, degrees, color, xalign, yalign)
