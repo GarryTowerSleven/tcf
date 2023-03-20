@@ -36,6 +36,8 @@ end
 
 if CLIENT then
 
+    if true then return end
+
     local TheaterStatic = Material("theater/static")
 
     function ENT:DrawTranslucent()
@@ -47,6 +49,8 @@ if CLIENT then
 
         local thumb = GTowerTheater.data[self.TheaterID].thumbMat or TheaterStatic
         local title = GTowerTheater.data[self.TheaterID].title or 0
+
+        if ( !thumb ) then return end
 
         local s = .2
         local w, h = self.Width, self.Height
