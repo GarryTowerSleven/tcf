@@ -282,6 +282,11 @@ end
 
 function SWEP:PreDrawViewModel( vm, wep, ply )
 
+	if wep.Charging then
+		vm:SetSequence(11)
+		vm:SetCycle(Lerp(self.ChargeLvl, 0, 0.4))
+	end
+
 	local pos = self:GetMuzzlePos( vm ) + ( vm:GetRight() * -2 )
 
 	// Airblast effect
