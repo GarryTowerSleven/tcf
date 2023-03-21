@@ -18,6 +18,13 @@ payout.Register( "WinBonusGhost", {
 	Diff = 1,
 } )
 
+payout.Register( "ButtonPress", {
+	Name = "The Savior",
+	Desc = "You saved your team from being eaten! (or maybe just yourself)",
+	GMC = 20,
+	Diff = 1,
+} )
+
 payout.Register( "UCWinBonus", {
 	Name = "Ultimate Chimera",
 	Desc = "You truly are the ultimate chimera!",

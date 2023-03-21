@@ -30,6 +30,11 @@ function GAMEMODE:GiveMoney()
 			if ply:Team() == TEAM_PIGS then
 
 				payout.Give( ply, "WinBonus" )
+
+				if ply:GetNWBool("PressedButton") then
+					payout.Give( ply, "ButtonPress" )
+				end
+
 				payout.Give( ply, "Rank" .. ply:GetNWInt("Rank") )
 
 			// You died during play, half of the winning bonus for you

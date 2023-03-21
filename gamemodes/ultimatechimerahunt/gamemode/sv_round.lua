@@ -45,6 +45,7 @@ function GM:StartRound()
 
 	for _, v in ipairs( player.GetAll() ) do
 		v:SetNWBool("IsChimera",false)
+		v:SetNWBool("PressedButton",false)
 	end
 
 	SetGlobalEntity("UC", NULL)
