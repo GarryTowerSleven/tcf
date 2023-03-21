@@ -166,8 +166,8 @@ local function GetSkyBoxOffset(loc)
 
 				if !DOldPos then DOldPos = pos end
 
-				local speed = RealFrameTime() * 200
-				duelCam.SpinAngle = duelCam.SpinAngle + RealFrameTime() * speed
+				local speed = RealFrameTime() * 8
+				duelCam.SpinAngle = duelCam.SpinAngle + speed
 				local spinHeight = math.atan(speed * math.pi/ 180) * 180 / math.pi
 
 				local angle = Angle( 2, -duelCam.SpinAngle, 0) + Angle( 30, 0, 0 )
