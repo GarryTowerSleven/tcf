@@ -335,7 +335,7 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 				attacker:AddFrags( 1 )
 				attacker:AddAchievement( ACHIEVEMENTS.PVPOVERKILL , 1 )
 
-				if attacker.IsPoweredUp then
+				if attacker:GetNet("PowerUp") > 0 then
 					attacker:AddAchievement( ACHIEVEMENTS.PVPMILESTONE2, 1 )
 				end
 
