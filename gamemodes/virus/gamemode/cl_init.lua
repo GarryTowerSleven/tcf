@@ -66,7 +66,6 @@ function GM:Think()
 
 		if v:GetNet( "IsVirus" ) then
 			self:LightThink( v )
-		else
 			self:ClickerThink( v )
 		end
 
