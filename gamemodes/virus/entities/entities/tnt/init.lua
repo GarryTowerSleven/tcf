@@ -76,6 +76,23 @@ function ENT:Think()
 		end
 	end
 
+	if !self.NextBeep or self.NextBeep < CurTime() then
+		self.Beep = self.Beep or 0
+
+		if self.Timer then return end
+
+		if self.Beep == 1 then
+			self.Beep = 0
+			self:EmitSound("buttons/blip1.wav", 65, 90)
+			self.NextBeep = CurTime() + 0.99
+		else
+			self.Beep = self.Beep + 1
+			self:EmitSound("buttons/blip1.wav", 65, 140)
+			self.NextBeep = CurTime() + 0.01
+		end
+
+	end
+
 end
 
 function ENT:EmitLasers()
@@ -93,6 +110,8 @@ function ENT:EmitLasers()
 			util.Effect( "tnt_laser", effectdata )
 
 		end
+
+		self:EmitSound("buttons/blip1.wav", 65, 90)
 
 		self.NextLaserSpawn = CurTime() + 0.1
 
