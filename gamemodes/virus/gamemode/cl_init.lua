@@ -149,6 +149,12 @@ local m = 53
 
 function GM:PostDrawTranslucentRenderables(_, sky)
 	if sky then return end
+
+	if !SetupFlame then
+		flame:SetVector("$color", Vector(0.27, 1, 0.27) * 2)
+		SetupFlame = true
+	end
+
 	for _, ply in ipairs(player.GetAll()) do
 	if !ply:GetNWBool("Flame") then continue end
 	ply.NextFlame = ply.NextFlame or CurTime()
