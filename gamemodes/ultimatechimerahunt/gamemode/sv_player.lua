@@ -10,7 +10,7 @@ function GM:PlayerDeath( ply, wep, killer )
 		ply.DeadPos = ply:GetPos()
 
 		if !ply:GetNWBool("IsPancake") then
-			ply:CreateRagdoll()
+			ply:CreateUCHRagdoll(true)
 		end
 		
 		if ply:GetNWBool("IsTaunting") then
@@ -46,12 +46,15 @@ function GM:PlayerDeath( ply, wep, killer )
 
 		/*ply.DeathTime = 0
 		ply.NextSecond = CurTime() + 1*/
-		timer.Simple( 3, function()
+		timer.Simple( 0, function()
 			
 			if !IsValid(ply) then return end
 			
 			if !ply:GetNWBool("IsChimera") && !ply:GetNWBool("IsGhost") then
+				local ang = ply:EyeAngles()
 				ply:Spawn()
+				ply:SetEyeAngles(ang)
+				ply:ScreenFade(SCREENFADE.IN, color_black, 1, 0.1)
 			end
 
 		end )

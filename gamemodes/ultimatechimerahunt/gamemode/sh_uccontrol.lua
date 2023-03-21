@@ -523,8 +523,8 @@ if SERVER then
 				umsg.Entity( v )
 			umsg.End()
 			
-			v:AddAchievement( ACHIEVEMENTS.UCHBACON, 1 )
-			self:AddAchievement( ACHIEVEMENTS.UCHCHOMP, 1 )
+			// v:AddAchievement( ACHIEVEMENTS.UCHBACON, 1 )
+			// self:AddAchievement( ACHIEVEMENTS.UCHCHOMP, 1 )
 			
 			self:HighestRankKill( v:GetNWInt( "Rank" ) )
 
@@ -625,12 +625,15 @@ if SERVER then
 
 				timer.Simple( .32, function()
 					if IsValid( self ) && IsValid( v ) then
+						// v:ScreenFade(SCREENFADE.IN, color_black, 0.33, 0)
+						// v:SetNoDraw(false)
 						self:DoBiteThing( v )
 					end
 				end )
 
 				if v:IsPlayer() then
 					v:Freeze( true )
+					// v:ScreenFade(SCREENFADE.OUT, color_black, 0.3, 0.1)
 				end
 
 			end
