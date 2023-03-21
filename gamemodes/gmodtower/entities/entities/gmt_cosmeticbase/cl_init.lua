@@ -126,6 +126,12 @@ function ENT:ShouldDraw( ply, dist )
 			return true
 		end
 
+		if engine.ActiveGamemode() == "virus" then
+			if ply:GetNet("IsVirus") then
+				return true
+			end
+		end
+
 		return false
 
 	end
