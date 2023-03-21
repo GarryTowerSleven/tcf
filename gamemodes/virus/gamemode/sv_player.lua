@@ -25,8 +25,11 @@ end
 function GM:HandlePlayerDeath( ply, attacker, inflictor )
 
 	if ( ply.Flame != nil ) then  //flame off, bro
-		ply:SetNWBool("Flame", false)
+		ply.Flame:Remove()
 		ply.Flame = nil
+
+		ply.Flame2:Remove()
+		ply.Flame2 = nil
 	end
 
 	if ply:GetNet( "IsVirus" ) then
@@ -181,8 +184,6 @@ function GM:Infect( ply, infector )
 	PostEvent( ply, "adrenaline_off" )
 
 	ply:SetDSP( 1 ) // turn off adrenaline dsp
-	ply:EmitSound("npc/fast_zombie/fz_scream1.wav", 75, math.random(80, 84), 0.8)
-	ply:ConCommand("act zombie")
 
 	local randSong = math.random( 1, self.NumRoundMusic )
 

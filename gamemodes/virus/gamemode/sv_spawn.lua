@@ -63,7 +63,7 @@ function GM:VirusSpawn( ply )
 
 	timer.Simple( 2, function()
 		if IsValid( ply ) && ply:Alive() then
-			/*local pos = ply:GetPos( ) + Vector( 0, 0, 50 )
+			local pos = ply:GetPos( ) + Vector( 0, 0, 50 )
 
 			//flame OOOONNN!!
 			//yeah fuck me leave it like this it looks fine
@@ -102,10 +102,7 @@ function GM:VirusSpawn( ply )
 				
 				ply:SetNetworkedEntity( "Flame1", ply.Flame )
 				ply:SetNetworkedEntity( "Flame2", ply.Flame2 )
-			end*/
-
-			ply.Flame = true
-			ply:SetNWBool("Flame", true)
+			end
 
 			/*net.Start( "IgnitePlayer" )
 				net.WriteEntity( ply )
@@ -207,8 +204,11 @@ function GM:PlayerSpawn( ply )
 	if ( self:GetState() == STATE_WAITING ) then return end
 	
 	if ( ply.Flame != nil ) then
-		ply:SetNWBool("Flame", false)
+		ply.Flame:Remove()
 		ply.Flame = nil
+		
+		ply.Flame2:Remove()
+		ply.Flame2 = nil
 	end
 
 	if ( ply:GetNet( "IsVirus" ) ) then
