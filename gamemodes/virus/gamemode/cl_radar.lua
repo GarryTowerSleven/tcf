@@ -1,4 +1,5 @@
 local Radar = {}
+HUD_SCALE = ScrW() >= 1080 && 1.4 || 1
 
 Radar.AlphaScale = 0.6
 
@@ -22,8 +23,8 @@ function DrawRadar()
 	local ShowHud = GetConVar( "gmt_virus_hud" )
 	if ShowHud:GetBool() == false then return end 
 
-	Radar.w = 256
-	Radar.h = 128
+	Radar.w = 256 * HUD_SCALE
+	Radar.h = 128 * HUD_SCALE
 	Radar.x = ScrW() - Radar.w - 32
 	Radar.y = 32
 
@@ -37,7 +38,7 @@ function DrawRadar()
 	end
 	
 	surface.SetDrawColor( 255, 255, 255, 255 )
-	surface.DrawTexturedRect( Radar.x, Radar.y, 256, 128 )
+	surface.DrawTexturedRect( Radar.x, Radar.y, Radar.w, Radar.h )
 
 
 	for _, ply in ipairs( player.GetAll() ) do
@@ -72,7 +73,9 @@ function DrawBlip( ply )
 		color = Radar.EnemyColor
 	end
 
-	draw.RoundedBox( 4, ( cx + px * Radar.w / 2 - 4 ), cy + py * Radar.h / 2 - 4, 8, 8, ColorAScale( color, z ) )
+	local s = 8 * HUD_SCALE
+	local s2 = s / 2
+	draw.RoundedBox( 4, ( cx + px * Radar.w / 2 - s2 ), cy + py * Radar.h / 2 - s2, s, s, ColorAScale( color, z ) )
 	//draw.RoundedBox( 4, ( cx + px * Radar.w / 2 - 4 ), cy + py * Radar.h / 2 - 4, 8, 8, ColorAScale( color, 1 - z ) )
 	
 end
