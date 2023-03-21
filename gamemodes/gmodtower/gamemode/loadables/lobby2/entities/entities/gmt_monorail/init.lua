@@ -8,12 +8,13 @@ ENT.LastThink = 0
 ENT.StationWaitTime = 15
 
 ENT.SpeechPositions = {
-  [1]   = "welcome",
-  [80]  = "arcade",
+  [5]   = "welcome1",
+  [51]  = "theatre",
+  [106] = "arcade",
   [150] = "boardwalk",
-  [180] = "stores",
-  [215] = "gamemodes",
-  [234] = "tower",
+  [176] = "stores",
+  [196] = "gamemodes",
+  [240] = "tower",
 }
 
 ENT.SpeechOrigin = Vector(-896, 2240, -89)
@@ -44,6 +45,8 @@ end
 
 function ENT:CheckSpeech(num)
   local curPos = num - 1
+
+print(num)
 
   if self.SpeechPositions[num] && self.CurSpeech != self.SpeechPositions[num] then
     self.CurSpeech = self.SpeechPositions[num]
@@ -127,6 +130,7 @@ function ENT:Think()
   end
 
 	local pos, ang, num, speed = self:GetPosAngle()
+	
   local frontpos, frontang, frontnum = self:GetPosAngle(200)
 
   if speed != self.TargetAcceleration && !self.Arriving then
@@ -155,8 +159,8 @@ function ENT:Think()
   self:CheckSpeech(num)
   self:LerpAcceleration()
 
-	self:SetPos(pos)
-	self:SetAngles(ang)
+  self:SetPos(pos)
+  self:SetAngles(ang)
 
   if IsValid(self.FrontPiece) then
     self.FrontPiece:SetPos(frontpos)
