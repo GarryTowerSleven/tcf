@@ -142,6 +142,7 @@ function SWEP:Deploy()
 	end
 
 	self:SendWeaponAnim( self.AnimDeploy or ACT_VM_DRAW )
+	self:SetNextPrimaryFire( CurTime() + 0.4 )
 	
 	if ( self.Owner.GetViewModel ) then
 		local ViewModel = self.Owner:GetViewModel()
