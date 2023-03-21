@@ -254,7 +254,7 @@ function ENT:Use( ply )
         local wanted = self:GetPlyBlock( ply )
 
         if ( self.SelectedBlock == wanted ) then
-            self.SelectedBlock = nil
+            self.SelectedBlock = 0
         else
             local block = self:GetBlock( wanted )
             if ( !block ) then return end
