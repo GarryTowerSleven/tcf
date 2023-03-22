@@ -8,8 +8,9 @@ SWEP.Category				= "Stolen Junk"
 SWEP.Base					= "weapon_base"
 SWEP.HoldType				= "pistol"
 
-SWEP.ViewModel				= "models/weapons/v_357.mdl"
+SWEP.ViewModel				= "models/weapons/c_357.mdl"
 SWEP.WorldModel				= "models/weapons/w_357.mdl"
+SWEP.UseHands				= true
 
 SWEP.Primary.ClipSize		= -1
 SWEP.Primary.DefaultClip	= -1
@@ -21,7 +22,7 @@ SWEP.Secondary.DefaultClip	= -1
 SWEP.Secondary.Automatic	= false
 SWEP.Secondary.Ammo			= "none"
 
-SWEP.IronSightsPos 			= Vector(-2.9547, -28.7916, 0.9214)
+SWEP.IronSightsPos 			= Vector(-2.9547, -30.7916, 0.9214)
 SWEP.IronSightsAng 			= Vector(95.4548, -9.2427, 0)
 
 SWEP.SoundReady				= Sound( "Weapon_357.Spin" )
