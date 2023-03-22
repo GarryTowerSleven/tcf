@@ -83,7 +83,7 @@ net.Receive("hat_req", function(len, ply)
     local model = net.ReadString()
     local hatdata = getHatFromTable(hat, model)
 
-    if net.ReadBool() then
+    if net.ReadBool() && GTowerHats:IsAdmin(ply) then
         SQL.getDB():Query("SELECT * FROM gm_hats WHERE hat='" .. hat .. "' AND plymodel='" .. model .. "'", function(res)
             if res[1].status != true then
                 MsgC(color_red, "[Hats] MySQL error while obtaining hats: " .. tostring(res[1].error) .. "\n")
