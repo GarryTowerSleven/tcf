@@ -75,30 +75,53 @@ local function getHatFromTable( hat, model )
 
 	return nil
 end
+util.AddNetworkString("hat_req")
+util.AddNetworkString("hat_snd")
 
-util.AddNetworkString( "hat_req" )
-util.AddNetworkString( "hat_snd" )
-net.Receive( "hat_req", function( len, ply )
-	local hat = net.ReadString()
-	local model = net.ReadString()
+net.Receive("hat_req", function(len, ply)
+    local hat = net.ReadString()
+    local model = net.ReadString()
+    local hatdata = getHatFromTable(hat, model)
 
-	local hatdata = getHatFromTable( hat, model )
+    if net.ReadBool() then
+        SQL.getDB():Query("SELECT * FROM gm_hats WHERE hat='" .. hat .. "' AND plymodel='" .. model .. "'", function(res)
+            if res[1].status != true then
+                MsgC(color_red, "[Hats] MySQL error while obtaining hats: " .. tostring(res[1].error) .. "\n")
 
-	if !hatdata then return end
+                return
+            end
 
-	local pos = Vector( tonumber(hatdata[2]), tonumber(hatdata[3]), tonumber(hatdata[4]) )
-	local ang = Angle( tonumber(hatdata[5]), tonumber(hatdata[6]), tonumber(hatdata[7]) )
-	local scale = tonumber(hatdata[8])
+            for k, v in pairs(res[1].data) do
+                hatdata = {v.id, v.vx, v.vy, v.vz, v.ap, v.ay, v.ar, v.scale}
+                // hatsOffetsCount = hatsOffetsCount + 1
+            end
 
-	net.Start( "hat_snd" )
-		net.WriteString(hat)
-		net.WriteString(model)
-
-		net.WriteVector( pos )
-		net.WriteAngle( ang )
-		net.WriteFloat( scale )
-	net.Send( ply )
-end )
+            // MsgC(color_green, "[Hats] Hats Table created with a total of " .. hatsOffetsCount .. " entries!\n")
+            local pos = Vector(tonumber(hatdata[2]), tonumber(hatdata[3]), tonumber(hatdata[4]))
+            local ang = Angle(tonumber(hatdata[5]), tonumber(hatdata[6]), tonumber(hatdata[7]))
+            local scale = tonumber(hatdata[8])
+            net.Start("hat_snd")
+            net.WriteString(hat)
+            net.WriteString(model)
+            net.WriteVector(pos)
+            net.WriteAngle(ang)
+            net.WriteFloat(scale)
+            net.Send(ply)
+        end)
+    else
+        if !hatdata then return end
+        local pos = Vector(tonumber(hatdata[2]), tonumber(hatdata[3]), tonumber(hatdata[4]))
+        local ang = Angle(tonumber(hatdata[5]), tonumber(hatdata[6]), tonumber(hatdata[7]))
+        local scale = tonumber(hatdata[8])
+        net.Start("hat_snd")
+        net.WriteString(hat)
+        net.WriteString(model)
+        net.WriteVector(pos)
+        net.WriteAngle(ang)
+        net.WriteFloat(scale)
+        net.Send(ply)
+    end
+end)
 
 local function HatUpdateResult(res, stats, err)
 	if stats != 1 then
@@ -112,11 +135,11 @@ concommand.Add("gmt_admsethatpos", function( ply, cmd, args )
 		return
 	end
 
-	local HatName = args[1]
+	local HatName = tonumber(args[1])
 	local ModelName = args[2]
-	local XPos = tonumber( args[3] )
+	local XPos = tonumber( args[5] )
 	local YPos = tonumber( args[4] )
-	local ZPos = tonumber( args[5] )
+	local ZPos = tonumber( args[3] )
 	local PAng = tonumber( args[6] )
 	local YAng = tonumber( args[7] )
 	local RAng = tonumber( args[8] )
@@ -126,9 +149,12 @@ concommand.Add("gmt_admsethatpos", function( ply, cmd, args )
 	local Ang = Angle( PAng, YAng, RAng )
 	local ModelList = GTowerHats:GetModelPlayerList()
 
-	if !GTowerHats:GetHatByName( HatName ) || !ModelList[ ModelName ] then
+	print(ModelName, HatName, !GTowerHats:GetHatByID( HatName ), !ModelList[ ModelName ])
+	if !GTowerHats:GetHatByID( HatName ) || !ModelList[ ModelName ] then
 		return
 	end
+
+	HatName = GTowerHats:GetHatByID( HatName ).unique_Name
 
 	if DEBUG then
 		Msg( "HAT ADMIN UPDATE - ", HatName, " - ", ModelName, ":\n" )
@@ -139,7 +165,7 @@ concommand.Add("gmt_admsethatpos", function( ply, cmd, args )
 		HatUpdateResult )*/
 
 		SQL.getDB():Query("SELECT * FROM gm_hats WHERE hat='"..HatName.."' AND plymodel='"..ModelName.."'", function(res)
-
+			PrintTable(res)
 			if #res[1].data == 0 then
 				SQL.getDB():Query( "INSERT INTO `gm_hats`(hat,plymodel,vx,vy,vz,ap,ay,ar,scale) VALUES ('"..HatName.."','"..ModelName.."',"
 		 		..XPos..","..YPos..","..ZPos..","..PAng..","..YAng..","..RAng..","..Scale..")",

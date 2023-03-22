@@ -33,6 +33,16 @@ function GTowerHats:GetHatByName( Name )
 	return nil
 end
 
+function GTowerHats:GetHatByID( Id )
+	for k, v in pairs( self.Hats ) do
+		if k == Id then
+			return v
+		end
+	end
+
+	return nil
+end
+
 function GTowerHats:FindByModel( mdl )
 	for k, v in pairs( self.Hats ) do
 		if v.model == mdl then

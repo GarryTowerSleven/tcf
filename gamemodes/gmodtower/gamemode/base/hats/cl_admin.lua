@@ -75,7 +75,7 @@ hook.Add("GTowerAdminMenus", "AdminHatOffsets", function()
 	}
 end )
 
-/*hook.Add("ExtraMenuPlayer", "AdminHatOffsets", function(ply)
+hook.Add("ExtraMenuPlayer", "AdminHatOffsets", function(ply)
 
 	if GTowerHats:Admin( LocalPlayer() ) then
 		return {
@@ -86,23 +86,18 @@ end )
 
 	return nil
 
-end )*/
+end )
 
 function RequestUpdate()
 
-	if CanUpdate == false or !IsValid( MainPanel ) then
+	print("UPDATING")
+	if !IsValid( MainPanel ) then
 		return
 	end
 	
-	if GTowerHats:Admin( LocalPlayer() ) then
-		//ForceUpdate(GetCurrentItem(), GetCurrentTranslations())
-		timer.Create("Hat" .. Item.Model .. "|" .. Item.Hat, 
-			0.1,
-			1, 
-			ForceUpdate, 
-			Item, 
-			CurrentTranslations )
-	end
+	// if GTowerHats:Admin( LocalPlayer() ) then
+		ForceUpdate(GetCurrentItem(), GetCurrentTranslations())
+	// end
 	
 end
 
@@ -112,21 +107,23 @@ end
 
 function ForceUpdate( Item, Translations )
 
+	print("UPDATING!!!!")
 	print(Item)
 	PrintTable(Translations)
+	PrintTable(Item)
 	
-	//RunConsoleCommand("gmt_admsethatpos",
-	//	Item.Hat,
-	//	Item.Model,
-	//	Translations[1],
-	//	Translations[2],
-	//	Translations[3],
-	//	Translations[4],
-	//	Translations[5],
-	//	Translations[6],
-	//	Translations[7],
-	//	Translations[8]
-	//)
+	RunConsoleCommand("gmt_admsethatpos",
+		Item.Hat,
+		Item.Model,
+		Translations[1],
+		Translations[2],
+		Translations[3],
+		Translations[4],
+		Translations[5],
+		Translations[6],
+		Translations[7],
+		Translations[8]
+	)
 
 end
 
@@ -429,6 +426,9 @@ function GetCurrentTranslations()
 end
 
 function UpdateModelPanels()
+
+	LoadingItem = GetCurrentItem()
+	print("!", string.lower(GTowerHats.Hats[LoadingItem.Hat].unique_Name), string.lower(LoadingItem.Model))
 	
 	if ValuesChanged then RequestUpdate() end
 
@@ -616,7 +616,7 @@ function PANEL:Paint()
 	local PlayerId = GTowerHats:FindPlayerModelByName( PlyModel )
 	local HatId = GTowerHats:FindByModel( HatModel ) or ""
 
-	local trans = GTowerHats:GetTranslation( HatId, PlayerId )
+	local trans = GetCurrentTranslations() or GTowerHats:GetTranslation( HatId, PlayerId )
 
 	self:LayoutEntity( self.Entity )
 
@@ -636,20 +636,20 @@ function PANEL:Paint()
 		end
 	end
 
-	ang:RotateAroundAxis(ang:Right(), trans[2][1])
-	ang:RotateAroundAxis(ang:Up(), trans[2][2])
-	ang:RotateAroundAxis(ang:Right(), trans[2][3])
+	ang:RotateAroundAxis(ang:Right(), trans[4])
+	ang:RotateAroundAxis(ang:Up(), trans[5])
+	ang:RotateAroundAxis(ang:Right(), trans[6])
 
 	self.Entity:DrawModel()
 
 	self.EntityHat:SetPos( pos +
-		(ang:Up() * trans[1][1]) +
-		(ang:Forward() * trans[1][2]) +
-		(ang:Right() * trans[1][3])
+		(ang:Up() * trans[1]) +
+		(ang:Forward() * trans[2]) +
+		(ang:Right() * trans[3])
 	)
 	self.EntityHat:SetAngles( ang )
 
-	local scal = trans[3]
+	local scal = trans[7]
 	if GTowerHats.FixScales[HatId] then
 		scal = math.sqrt(scal)
 	end

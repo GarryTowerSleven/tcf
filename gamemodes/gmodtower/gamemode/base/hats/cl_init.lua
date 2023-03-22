@@ -77,13 +77,22 @@ end
 
 local HatTable = {}
 function GTowerHats:AddOffset( hat, model, data )
-	if HatTable[model] && HatTable[model][hat] then return end
+	if !HatAdmin.ValuesList[1] && HatTable[model] && HatTable[model][hat] then return end
 
 	if !HatTable[model] then
 		HatTable[model] = {}
 	end
 
 	HatTable[model][hat] = data
+
+	if !HatAdmin.ValuesList[1] then return end
+	HatAdmin.ValuesList[1]:SetValue(data[1].z)
+	HatAdmin.ValuesList[2]:SetValue(data[1].y)
+	HatAdmin.ValuesList[3]:SetValue(data[1].x)
+	HatAdmin.ValuesList[4]:SetValue(data[2].p)
+	HatAdmin.ValuesList[5]:SetValue(data[2].y)
+	HatAdmin.ValuesList[6]:SetValue(data[2].r)
+	HatAdmin.ValuesList[7]:SetValue(data[3])
 end
 
 net.Receive("hat_snd", function()
@@ -100,16 +109,20 @@ net.Receive("hat_snd", function()
 end )
 
 function GTowerHats:RequestOffset( hat, model )
+	print("!")
 	if HatTable && HatTable[model] && HatTable[model][hat] then return end
 
+	print(hat, model)
 	net.Start("hat_req")
 		net.WriteString(hat)
 		net.WriteString(model)
+		net.WriteBool(IsValid(HatAdmin.ValuesList[1]))
 	net.SendToServer()
 end
 
 concommand.Add( "gmt_gethat", function( ply, cmd, args )
 	if !args[1] || !args[2] then return end
+	print(args[1], args[2])
 
 	GTowerHats:RequestOffset( args[1], args[2] )
 end )
