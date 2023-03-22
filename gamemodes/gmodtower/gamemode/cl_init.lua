@@ -5,11 +5,17 @@ include("sh_loadables.lua")
 
 // this is to protect console commands you believe could be called at bad times (the player isn't valid to the server yet)
 // or the game would put the command in the buffer to execute on the map change
-hook.Add( "Think", "PlayerValid", function()
 
-	for _, h in pairs(hook.GetTable()["OnViewModelChanged"]) do
-		hook.Remove("OnViewModelChanged", _)
+if !HA then
+	HA = hook.Add
+	hook.Add = function(...)
+		local a = {...}
+		if a[1] == "OnViewModelChanged" then return end
+		HA(...)
 	end
+end
+
+hook.Add( "Think", "PlayerValid", function()
 
 	if IsValid( LocalPlayer() ) && ( GetWorldEntity() != NULL ) then
 		SafeToSend = true
