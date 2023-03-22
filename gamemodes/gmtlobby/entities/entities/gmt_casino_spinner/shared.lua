@@ -27,14 +27,14 @@ ENT.SLOTS = {
 	--odds: how many re-rolls it takes to land on this item
 
 	{"Absolutely Nothing", 5},
-	{"StarFox Trophy", 20 * 4, "trophy_starfox"},
+	{"StarFox Trophy", 20 * 8, "trophy_starfox"},
 	{"Slappers", 16 * 2, "slappers"},
 	{"iMac", 15 * 2, "imac"},
 	{"1 GMC", 4},
 	--{"Playable Piano", 18, "instrument_piano"},
 	{"Playable Piano", 17 * 2, "piano"},
 	{"500 GMC", 9},
-	{"Sunabouzu Shrine", 19 * 4, "sunshrine"},
+	{"Sunabouzu Shrine", 19 * 8, "sunshrine"},
 	{"Hula Doll", 4, "huladoll"},
 	{"Rave Ball", 21 * 2, "rave_ball"},
 	{"1500 GMC", 15 * 2},
