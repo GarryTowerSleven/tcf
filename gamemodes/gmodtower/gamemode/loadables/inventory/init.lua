@@ -125,14 +125,14 @@ function GTowerItems.CreateMysteryItem(ply)
 		return ITEMS.huladoll
 	elseif p <= 0.8 then
 		return ITEMS.microwave
-	elseif p <= 0.801 then
-		SQLLog( "game", tostring(ply) .. " found a sunabouzu shrine from a cat sack" )
-
-		GAMEMODE:ColorNotifyAll( string.upper(ply:Name()).." JUST FOUND A SUNABOUZU SHRINE FROM THE MYSTERIOUS CAT SACK", Color(161, 3, 252, 255) )
-
-		return ITEMS.sunshrine
 	elseif p <= 0.9 then
 		return ITEMS.clipboard
+	elseif p <= 0.901 then
+		SQLLog( "game", tostring(ply) .. " found a blockles machine from a cat sack" )
+
+		GAMEMODE:ColorNotifyAll( string.upper(ply:Name()).." JUST FOUND A BLOCKLES MACHINE FROM THE MYSTERIOUS CAT SACK!", Color(161, 3, 252, 255) )
+
+		return ITEMS.suitetetris
 	else
 		return ITEMS.wepon_357
 	end
