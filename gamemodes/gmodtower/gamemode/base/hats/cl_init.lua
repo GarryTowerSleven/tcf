@@ -108,9 +108,9 @@ net.Receive("hat_snd", function()
 	GTowerHats:AddOffset( hat, model, data )
 end )
 
-function GTowerHats:RequestOffset( hat, model )
+function GTowerHats:RequestOffset( hat, model, skip )
 	print("!")
-	if HatTable && HatTable[model] && HatTable[model][hat] then return end
+	if !skip and HatTable && HatTable[model] && HatTable[model][hat] then return end
 
 	print(hat, model)
 	net.Start("hat_req")
@@ -124,7 +124,7 @@ concommand.Add( "gmt_gethat", function( ply, cmd, args )
 	if !args[1] || !args[2] then return end
 	print(args[1], args[2])
 
-	GTowerHats:RequestOffset( args[1], args[2] )
+	GTowerHats:RequestOffset( args[1], args[2], true )
 end )
 
 concommand.Add( "gmt_listhat", function( ply, cmd, args )

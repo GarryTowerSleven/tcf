@@ -354,6 +354,15 @@ function Open()
 		Save:SetPos( Paste.x + Paste:GetWide() + 10, MainPanel:GetTall() - 60 )
 		Save.DoClick = RequestUpdate
 
+		local Save = vgui.Create("DButton", MainPanel )
+		Save:SetText("RELOAD")
+		Save:SetSize( 100, 50 )
+		Save:SetPos( Paste.x + Paste:GetWide() * 2 + 10, MainPanel:GetTall() - 60 )
+		Save.DoClick = function()
+			UpdateModelPanels()
+		end
+
+
 	end
 	
 	
