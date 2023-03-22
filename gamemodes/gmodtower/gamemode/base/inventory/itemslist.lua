@@ -1525,4 +1525,15 @@ RegisterItem("haybale",{
 	MoveSound = "cloth"
 })
 
+RegisterItem("suitetetris",{
+	Name = "Blockles Machine",
+	Description = "Your own personal Blockles machine!",
+	Model = "models/gmod_tower/gba.mdl",
+	ClassName = "gmt_tetris",
+	DrawModel = true,
+	UniqueInventory = true,
+	Tradable = true,
+	StorePrice = 20000,
+})
+
 //-----------------------------
