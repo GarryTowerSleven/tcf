@@ -1,4 +1,4 @@
----------------------------------
+
 if SERVER then
 	AddCSLuaFile( "shared.lua" )
 end
@@ -12,8 +12,9 @@ SWEP.PrintName 			= "Streamer!"
 SWEP.Slot				= 0
 SWEP.SlotPos			= 0
 
-SWEP.ViewModel			= "models/weapons/v_pistol.mdl"
+SWEP.ViewModel			= "models/weapons/c_pistol.mdl"
 SWEP.WorldModel 		= "models/weapons/w_pistol.mdl"
+SWEP.UseHands			= true
 
 SWEP.Primary.Delay		= 5
 
@@ -80,6 +81,10 @@ end
 
 end*/
 
+function SWEP:Precache()
+	//GtowerPrecacheSound(self.PartySound)
+end
+
 function SWEP:PrimaryAttack()
 
 	if !self:CanPrimaryAttack() then return end
@@ -90,11 +95,22 @@ function SWEP:PrimaryAttack()
 		self.Weapon:SetNextPrimaryFire( CurTime() + self.AdminDelay	)
 	end
 
-	self.Owner:ViewPunch( Angle( -20, 0, 0 ) )
+	self.Owner:ViewPunch( Angle( -4, 0, math.random(-2, 2) ) )
+	-- weird anim code below
+	self:SendWeaponAnim(ACT_VM_DRYFIRE)
+	timer.Simple(0.1, function()
+		self:SendWeaponAnim(ACT_VM_IDLE)
+		timer.Simple(0, function()
+			self:SendWeaponAnim(ACT_VM_HITCENTER)
+		end)
+	end)
+
+	self.Owner:SetAnimation(PLAYER_ATTACK1)
 
 	if !IsFirstTimePredicted() then return end
 
 	local attach = self:LookupAttachment("muzzle")
+
 	if attach > 0 then
 		attach = self:GetAttachment(attach)
 		attach = attach.Pos
@@ -102,9 +118,24 @@ function SWEP:PrimaryAttack()
 		attach = self.Owner:GetShootPos()
 	end
 
+	local normal = self.Owner:GetAngles():Forward()
+
+	if CLIENT and LocalPlayer() == self.Owner and !LocalPlayer():ShouldDrawLocalPlayer() then
+		local vm = LocalPlayer():GetViewModel()
+		attach = vm
+		if IsValid(attach) then
+			attach = attach:LookupAttachment("muzzle")
+			if attach > 0 then
+				local att = vm:GetAttachment(attach)
+				attach = att.Pos
+				normal = att.Ang:Forward()
+			end
+		end
+	end
+
 	local sfx = EffectData()
 		sfx:SetOrigin( attach )
-		sfx:SetNormal( self.Owner:GetAngles():Forward() )
+		sfx:SetNormal( normal )
 		--sfx:SetAttachment( "muzzle" )
 		sfx:SetEntity( self )
 		sfx:SetStart( Vector( self.Color.r, self.Color.g, self.Color.b ) ) //woo hacks
@@ -128,7 +159,7 @@ function SWEP:Reload()
 end
 
 function SWEP:CanPrimaryAttack()
-	return true
+	return !Location.IsEquippablesNotAllowed( self.Owner._Location )
 end
 
 function SWEP:CanSecondaryAttack()
@@ -155,4 +186,10 @@ function SWEP:GetRandomColor()
 
 	return color
 
+end
+
+function SWEP:CalcViewModelView(vm, _, _, pos, ang)
+	-- cool recoil fx
+	local viewpunch = LocalPlayer():GetViewPunchAngles()
+	return pos, ang - viewpunch * 0.1
 end
