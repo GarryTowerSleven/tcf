@@ -168,28 +168,32 @@ end
 function ENT:StartGame()
 
 	for k,v in pairs(player.GetAll()) do v.Points = 0 end
-
 	self:SetState( 2 )
-	self.NextQuestionTime = CurTime() + 2.0
+	self.NextQuestionTime = CurTime() + 10.0
 
-	self.NumQuestions = 3 + self:GetPlayerCount() * 3
-	self.NumQuestionAnswered = 1
-	self.CheckAnswer = false
-	
-	Msg("Start game with: " .. self.NumQuestions .. "\n")
-	
-	if self.NumQuestions > self:GetLimitAnswers() then
-		self.NumQuestions = self.NumQuestions
-	end
-	
-	self.QuestionAnswered = {}
+	http.Fetch("https://opentdb.com/api.php?amount=" .. (3 + self:GetPlayerCount() * 3), function(body)
+		self.NextQuestionTime = CurTime() + 2.0
+
+		self.NumQuestions = 3 + self:GetPlayerCount() * 3
+		self.NumQuestionAnswered = 1
+		self.CheckAnswer = false
+		
+		Msg("Start game with: " .. self.NumQuestions .. "\n")
+		
+		if self.NumQuestions > self:GetLimitAnswers() then
+			self.NumQuestions = self.NumQuestions
+		end
+		
+		self.QuestionAnswered = {}
+		self.Questions = util.JSONToTable(body)
+	end)
 end
 
 function ENT:FindNewQuestion()
 
 	local LimitAnswers = self:GetLimitAnswers()
 	local i = 0
-	print(LimitAnswers)
+	//print(LimitAnswers)
 	if #self.QuestionAnswered >= LimitAnswers then
 		return -1
 	end
@@ -288,34 +292,48 @@ function ENT:QuestionPost()
 		end
 	end
 	
-	if tmysql then
+	--[[if tmysql then
 		self:SQLQuestionPost()
-	end
+	end]]
 end
 
 function ENT:AskQuestion()
 	
 	if self.CheckAnswer == true then
-		print("Posting question")
+		//print("Posting question")
 		self:QuestionPost()
 		
 		return
 	end
 	
 	if self.NumQuestionAnswered > self.NumQuestions then
-		print("All questions answered")
+		//print("All questions answered")
 		self:EndGame()
 		return
 	end
 	
-	local NewQ = self:FindNewQuestion()
+	--[[local NewQ = self:FindNewQuestion()
 	self.QuestionID = NewQ
 	
 	if NewQ == -1 then
-		print("QuestionID -1")
+		//print("QuestionID -1")
 		self:EndGame()
 		return
-	end
+	end]]
+
+	local quest = self.Questions.results[self.NumQuestionAnswered]
+	local QuesTbl = {}
+	QuesTbl["q"] = quest.question
+	QuesTbl["c"] = quest.category
+	QuesTbl["a"] = {}
+	QuesTbl["a"][1] = quest.correct_answer
+	QuesTbl["a"][2] = quest.incorrect_answers[1]
+	QuesTbl["a"][3] = quest.incorrect_answers[2]
+	QuesTbl["a"][4] = quest.incorrect_answers[3]
+	self:SendQuestion(QuesTbl)
+
+	if SERVER then return end
+	
 	
 	if tmysql then
 		self:SQLQuestionOfId( NewQ )
@@ -423,7 +441,7 @@ function ENT:EndGame()
 	local maxPoints = self.NumQuestions * 10
 	local answerScale = ( self.NumQuestionAnswered - 1 ) / self.NumQuestions
 	
-	--winners[1].Player:SetAchievement( ACHIEVEMENTS.TRIVIAMASTER, 1 )
+	winners[1].Player:SetAchivement( ACHIVEMENTS.TRIVIAMASTER, 1 )
 	
 	for i = 1, maxWinners do
 	
@@ -437,8 +455,8 @@ function ENT:EndGame()
 		
 		ply:AddMoney( money )
 		
-		--ply:SetAchievement( ACHIEVEMENTS.TRIVIAMASTER, 1 )
-		--ply:AddAchievement( ACHIEVEMENTS.MILLIONAIRE, 1 )
+		--ply:SetAchivement( ACHIVEMENTS.TRIVIAMASTER, 1 )
+		ply:AddAchivement( ACHIVEMENTS.MILLIONAIRE, 1 )
 		
 		local sfx = EffectData()
 			sfx:SetOrigin( ply:GetPos() )
