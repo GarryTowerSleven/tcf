@@ -410,7 +410,7 @@ end
 function ENT:BroadcastJackpot(ply, amount)
 	for _, v in ipairs(player.GetAll()) do
 		if v != ply then
-			v:MsgI( "slots", "SlotsJackpotAll", ply:Name(), string.FormatNumber(amount) )
+			v:MsgI( "slots", "SlotsJackpotAll", string.upper(ply:Name()), string.FormatNumber(amount) )
 		end
 	end
 end
