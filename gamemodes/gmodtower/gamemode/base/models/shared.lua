@@ -258,6 +258,10 @@ ChangeHull2 = function( ply )
 		local model = ply:GetModel()
 		local scale = Get( ply ) or 1.0
 
+		if scale == 0 then
+			scale = 1
+		end
+
 		if ply.GTowerPlyScale != scale then
 			ply:SetModelScale(scale,0)
 			SetHull( ply, scale )
