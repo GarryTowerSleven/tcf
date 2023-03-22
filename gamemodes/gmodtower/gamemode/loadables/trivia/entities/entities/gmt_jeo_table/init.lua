@@ -158,6 +158,11 @@ function ENT:Use( ply )
 	end
 	self.LastAction = CurTime() + 0.4
 	
+	if true then
+		ply:Msg2( T( "TriviaDisable" ) )
+		return
+	end
+
 	if self:GetBoard():InGame() then
 
 		if self:GetPlayer() != ply || self:GetAnswer() != 0 || !self:GetBoard():CanAnswer() then
