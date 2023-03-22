@@ -161,7 +161,7 @@ RegisterItem("lightsabertoy",{
 	StoreId = GTowerStore.TOY,
 	StorePrice = 5000,
 	MoveSound = "lightsaber",
-	ClassName = "gmt_toy_lightsaber",
+	ClassName = "gmt_lightsaber",
 	DateAdded = 1399271681,
 })
 
