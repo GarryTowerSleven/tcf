@@ -127,7 +127,7 @@ concommand.Add( "gmt_duelinvite", function( ply, cmd, args )
 	local WeaponID = math.Round( args[6] )
 
 	if !Requester:Afford(Amount) || !Arriver:Afford(Amount) then
-		ply:MsgT("DuelInviteFailFunds")
+		ply:MsgT("DuelInviteFailFunds", Arriver:Name() )
 		return
 	end
 
