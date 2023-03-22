@@ -36,7 +36,7 @@ end
 
 function SWEP:Deploy()
 
-	self.Color = self:GetRandomColor()
+	self.Color = colorutil.GetRandomColor()
 
 	if SERVER && self.InventoryItem && self.InventoryItem.WeaponDeployed then
 		self.InventoryItem:WeaponDeployed()
