@@ -79,11 +79,13 @@ util.AddNetworkString("hat_req")
 util.AddNetworkString("hat_snd")
 
 net.Receive("hat_req", function(len, ply)
+	if ( not ply:IsStaff() ) then return end
+
     local hat = net.ReadString()
     local model = net.ReadString()
     local hatdata = getHatFromTable(hat, model)
 
-    if net.ReadBool() && GTowerHats:IsAdmin(ply) then
+    if net.ReadBool() then
         SQL.getDB():Query("SELECT * FROM gm_hats WHERE hat='" .. hat .. "' AND plymodel='" .. model .. "'", function(res)
             if res[1].status != true then
                 MsgC(color_red, "[Hats] MySQL error while obtaining hats: " .. tostring(res[1].error) .. "\n")
@@ -131,7 +133,7 @@ end
 
 concommand.Add("gmt_admsethatpos", function( ply, cmd, args )
 
-	if !GTowerHats:Admin( ply ) then
+	if !ply:IsStaff() then
 		return
 	end
 
@@ -149,7 +151,7 @@ concommand.Add("gmt_admsethatpos", function( ply, cmd, args )
 	local Ang = Angle( PAng, YAng, RAng )
 	local ModelList = GTowerHats:GetModelPlayerList()
 
-	print(ModelName, HatName, !GTowerHats:GetHatByID( HatName ), !ModelList[ ModelName ])
+	//print(ModelName, HatName, !GTowerHats:GetHatByID( HatName ), !ModelList[ ModelName ])
 	if !GTowerHats:GetHatByID( HatName ) || !ModelList[ ModelName ] then
 		return
 	end
@@ -165,7 +167,7 @@ concommand.Add("gmt_admsethatpos", function( ply, cmd, args )
 		HatUpdateResult )*/
 
 		SQL.getDB():Query("SELECT * FROM gm_hats WHERE hat='"..HatName.."' AND plymodel='"..ModelName.."'", function(res)
-			PrintTable(res)
+			//PrintTable(res)
 			if #res[1].data == 0 then
 				SQL.getDB():Query( "INSERT INTO `gm_hats`(hat,plymodel,vx,vy,vz,ap,ay,ar,scale) VALUES ('"..HatName.."','"..ModelName.."',"
 		 		..XPos..","..YPos..","..ZPos..","..PAng..","..YAng..","..RAng..","..Scale..")",
@@ -244,7 +246,7 @@ local function BuildHatsResult(modelhats)
 end
 
 concommand.Add("gmt_writehattranslations", function(ply, cmd, args)
-	if ply != NULL && !ply:IsAdmin() then return end
+	if ply != NULL && !ply:IsStaff() then return end
 
 	local QueryCount = 0
 	local EndTable = {}
