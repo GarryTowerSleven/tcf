@@ -109,10 +109,8 @@ net.Receive("hat_snd", function()
 end )
 
 function GTowerHats:RequestOffset( hat, model, skip )
-	print("!")
 	if !skip and HatTable && HatTable[model] && HatTable[model][hat] then return end
 
-	print(hat, model)
 	net.Start("hat_req")
 		net.WriteString(hat)
 		net.WriteString(model)
