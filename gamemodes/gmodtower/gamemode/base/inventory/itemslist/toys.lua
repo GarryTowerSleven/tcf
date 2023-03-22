@@ -63,7 +63,19 @@ RegisterItem("checkers",{
 	DrawModel = true,
 	CanRemove = true,
 	StoreId = GTowerStore.TOY,
-	StorePrice = 2000,
+	StorePrice = 3000,
+})
+
+RegisterItem("ttttable",{
+	Name = "TicTacToe Table",
+	Description = "Play TicTacToe in your suite.",
+	Model = "models/gmod_tower/gametable.mdl",
+	ClassName = "gmt_tictactoe",
+	DrawModel = true,
+	StoreId = GTowerStore.TOY,
+	StorePrice = 1500,
+	NewItem = false,
+	MoveSound = "furniture2"
 })
 
 RegisterItem("obamacutout",{
@@ -149,7 +161,7 @@ RegisterItem("lightsabertoy",{
 	StoreId = GTowerStore.TOY,
 	StorePrice = 5000,
 	MoveSound = "lightsaber",
-	ClassName = "gmt_toy_lightsaber",
+	ClassName = "gmt_lightsaber",
 	DateAdded = 1399271681,
 })
 

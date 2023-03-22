@@ -437,7 +437,6 @@ end
 function UpdateModelPanels()
 
 	LoadingItem = GetCurrentItem()
-	print("!", string.lower(GTowerHats.Hats[LoadingItem.Hat].unique_Name), string.lower(LoadingItem.Model))
 	
 	if ValuesChanged then RequestUpdate() end
 
