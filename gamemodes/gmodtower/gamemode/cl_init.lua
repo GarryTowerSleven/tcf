@@ -7,6 +7,10 @@ include("sh_loadables.lua")
 // or the game would put the command in the buffer to execute on the map change
 hook.Add( "Think", "PlayerValid", function()
 
+	for _, h in pairs(hook.GetTable()["OnViewModelChanged"]) do
+		hook.Remove("OnViewModelChanged", _)
+	end
+
 	if IsValid( LocalPlayer() ) && ( GetWorldEntity() != NULL ) then
 		SafeToSend = true
 		hook.Remove( "Think", "PlayerValid" )
