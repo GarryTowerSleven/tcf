@@ -127,7 +127,7 @@ concommand.Add( "gmt_duelinvite", function( ply, cmd, args )
 	local WeaponID = math.Round( args[6] )
 
 	if !Requester:Afford(Amount) || !Arriver:Afford(Amount) then
-		ply:MsgT("Can't afford!")
+		ply:MsgT("DuelInviteFailFunds")
 		return
 	end
 
@@ -299,7 +299,7 @@ function GiveDuelerAmmo( ply )
 	ply:GiveAmmo( 250, "XBowBolt", true )
 	ply:GiveAmmo( 250, "Buckshot", true )
 	ply:GiveAmmo( 250, "RPG_Round", true )
-	ply:GiveAmmo( 250, "SMG1_Grenade", true )
+	ply:GiveAmmo( 3, "SMG1_Grenade", true )
 	ply:GiveAmmo( 250, "SniperRound", true )
 	ply:GiveAmmo( 250, "SniperPenetratedRound", true )
 	ply:GiveAmmo( 250, "Grenade", true )
@@ -311,7 +311,7 @@ function GiveDuelerAmmo( ply )
 	ply:GiveAmmo( 250, "AirboatGun", true )
 	ply:GiveAmmo( 250, "StriderMinigun", true )
 	ply:GiveAmmo( 250, "HelicopterGun", true )
-	ply:GiveAmmo( 250, "AR2AltFire", true )
+	ply:GiveAmmo( 2, "AR2AltFire", true )
 	ply:GiveAmmo( 250, "slam", true )
 
 end
