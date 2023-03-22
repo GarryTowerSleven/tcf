@@ -127,7 +127,7 @@ function ENT:ShouldDraw( ply, dist )
 		end
 
 		if engine.ActiveGamemode() == "virus" then
-			if ply:GetNet("IsVirus") or GAMEMODE:GetState() == STATE_WAITING then
+			if ply:ShouldDrawLocalPlayer() then
 				return true
 			end
 		end
