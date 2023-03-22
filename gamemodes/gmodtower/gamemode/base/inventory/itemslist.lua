@@ -145,7 +145,7 @@ RegisterItem( "birthday_head", {
 	end
 
 } )
---[[
+
 RegisterItem("rave_ball",{
 	Name = "Rave Ball",
 	Description = "Get your rave on with this musical orb. Splashes colorful bursts, and unlike the disco ball, can give people seizures (use responsively).",
@@ -156,7 +156,7 @@ RegisterItem("rave_ball",{
 	DrawModel = true,
 	StoreId = GTowerStore.MUSIC,
 	StorePrice = 30000,
-})]]
+})
 
 RegisterItem("disco_ball",{
 	Name = "Disco Ball",
@@ -706,7 +706,6 @@ RegisterItem("pottery09",{
 	StorePrice = 5,
 })
 
---[[
 RegisterItem("radio",{
 	Name = "Radio",
 	Description = "Visualize your music and chill out.",
@@ -717,7 +716,7 @@ RegisterItem("radio",{
 	StorePrice = 150,
 	InvCategory = "7", // electronics
 })
-]]
+
 RegisterItem("remotecontrol",{
 	Name = "Remote Control",
 	Description = "A simple remote.",
