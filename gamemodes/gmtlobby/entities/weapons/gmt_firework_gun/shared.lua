@@ -17,7 +17,8 @@ SWEP.PrintName 			= "Firework Rocket"
 
 
 
-SWEP.ViewModel			= "models/weapons/v_RPG.mdl"
+SWEP.ViewModel			= "models/weapons/c_RPG.mdl"
+SWEP.UseHands			= true
 
 SWEP.WorldModel 		= "models/weapons/w_rocket_launcher.mdl"
 
@@ -159,7 +160,7 @@ function SWEP:PrimaryAttack()
 
 
 
-	self.Owner:ViewPunch( Angle( -20, 0, 0 ) )
+	self.Owner:ViewPunch( Angle( -2, 0, 0 ) )
 
 	self:ShootEffects()
 
@@ -191,11 +192,11 @@ function SWEP:PrimaryAttack()
 
 		local viewAng = self.Owner:EyeAngles()
 
-		local bullet = ents.Create( "ammo_firework" )
+		local bullet = ents.Create( "firework_rocket" )
 
 			bullet:SetAngles( Angle( viewAng.p + 90, viewAng.y, viewAng.r ) )
 
-			bullet:SetPos( self.Owner:EyePos() + ( self.Owner:GetAimVector() * 16 ) )
+			bullet:SetPos( self.Owner:EyePos() + ( self.Owner:GetAimVector() * 16 ) + self.Owner:GetRight() * 8 )
 
 			bullet:SetPhysicsAttacker( self.Owner )
 
@@ -207,13 +208,15 @@ function SWEP:PrimaryAttack()
 
 		bullet:Activate()
 
+		bullet:DoFirework()
+
 
 
 		local phys = bullet:GetPhysicsObject()
 
 		if IsValid( phys ) then
 
-			phys:ApplyForceCenter( self.Owner:GetAimVector() * 500 )
+			phys:SetVelocity( self.Owner:GetAimVector() * 800 )
 
 			phys:AddAngleVelocity( Vector( 0, 0, 500 ) )
 
