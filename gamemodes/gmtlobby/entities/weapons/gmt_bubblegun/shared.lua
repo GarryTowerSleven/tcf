@@ -1,4 +1,4 @@
----------------------------------
+
 if SERVER then
 	AddCSLuaFile( "shared.lua" )
 end
@@ -12,8 +12,9 @@ SWEP.PrintName 			= "Bubble Gun"
 SWEP.Slot				= 0
 SWEP.SlotPos			= 0
 
-SWEP.ViewModel			= "models/weapons/v_pistol.mdl"
+SWEP.ViewModel			= "models/weapons/c_pistol.mdl"
 SWEP.WorldModel 		= "models/weapons/w_pistol.mdl"
+SWEP.UseHands			= true
 
 SWEP.Primary.Delay		= 0.25
 
@@ -26,7 +27,7 @@ SWEP.NextCheck = 0
 function SWEP:Initialize()
 
 	self:SetWeaponHoldType( self.HoldType )
-	self:SetColor( Color( 0, 55, 255 ) )
+	self:SetColor(Color(0,255,255))
 
 	if SERVER then return end
 	self.NextParticle = CurTime()
@@ -35,7 +36,7 @@ end
 
 function SWEP:Deploy()
 
-	self.Color = colorutil.GetRandomColor()
+	self.Color = self:GetRandomColor()
 
 	if SERVER && self.InventoryItem && self.InventoryItem.WeaponDeployed then
 		self.InventoryItem:WeaponDeployed()
@@ -73,9 +74,9 @@ function SWEP:DrawWorldModel()
 	end
 
 	render.SetMaterial( Material( "sprites/powerup_effects" ) )
-	render.DrawSprite( attach, 15, 15, Color( 0, 255, 255 ) )
+	render.DrawSprite( attach, 15, 15, Color( 0,255,255 ) )
 
-	if CLIENT then
+	if CLIENT and LocalPlayer() ~= self.Owner then
 		if self:GetNWBool("Shooting") then
 			if CurTime() < self.NextParticle then return end
 
@@ -101,7 +102,7 @@ function SWEP:DrawWorldModel()
 					particle:SetEndSize( 0 )
 					particle:SetRoll( math.Rand( 0, 360 ) )
 					particle:SetRollDelta( math.Rand( -5.5, 5.5 ) )
-					particle:SetColor( Color( math.random( 240, 255 ), math.random( 240, 255 ), math.random( 240, 255 ) ) )
+					particle:SetColor( math.random( 240, 255 ), math.random( 240, 255 ), math.random( 240, 255 ) )
 					particle:SetCollide( true )
 				end
 			end
@@ -126,6 +127,26 @@ end
 	render.DrawSprite( attach, 10, 10, Color( self.Color.r, self.Color.g, self.Color.b, 255 ) )
 
 end*/
+
+function SWEP:PreDrawViewModel(vm)
+	render.SetColorModulation(0, 1, 1)
+end
+
+function SWEP:PostDrawViewModel(vm)
+	render.SetColorModulation(1, 1, 1)
+
+
+end
+
+hook.Add("PreDrawPlayerHands", "GMT_BubbleGun", function(hands, vm, ply, wep)
+	if IsValid(wep) and wep:GetClass() == "gmt_bubblegun" then
+		render.SetColorModulation(1, 1, 1)
+	end
+end)
+
+function SWEP:Precache()
+	//GtowerPrecacheSound(self.PartySound)
+end
 
 function SWEP:PrimaryAttack()
 
@@ -163,9 +184,10 @@ function SWEP:Think()
 		self.Emitter = ParticleEmitter( self:GetPos() )
 	end
 
-	local attach = self:LookupAttachment("muzzle")
+	local att = (self.Owner == LocalPlayer() and !LocalPlayer():ShouldDrawLocalPlayer() and LocalPlayer():GetViewModel()) or self
+	local attach = att:LookupAttachment("muzzle")
 	if attach > 0 then
-		attach = self:GetAttachment(attach)
+		attach = att:GetAttachment(attach)
 		attach = attach.Pos
 	else
 		attach = self.Owner:GetShootPos()
@@ -191,7 +213,7 @@ function SWEP:Think()
 			particle:SetEndSize( 0 )
 			particle:SetRoll( math.Rand( 0, 360 ) )
 			particle:SetRollDelta( math.Rand( -5.5, 5.5 ) )
-			particle:SetColor( Color( math.random( 240, 255 ), math.random( 240, 255 ), math.random( 240, 255 ) ) )
+			particle:SetColor( math.random( 240, 255 ), math.random( 240, 255 ), math.random( 240, 255 ) )
 			particle:SetCollide( true )
 		end
 	end
@@ -203,7 +225,7 @@ function SWEP:Reload()
 end
 
 function SWEP:CanPrimaryAttack()
-	return true
+	return !Location.IsEquippablesNotAllowed( self.Owner._Location )
 end
 
 function SWEP:CanSecondaryAttack()
