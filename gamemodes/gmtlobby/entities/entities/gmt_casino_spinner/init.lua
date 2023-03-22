@@ -30,7 +30,22 @@ function ENT:SpinRoll()
 	local candidates = {}
 
 	for k,v in pairs( self.SLOTS ) do
-		if v[2] <= rolls then table.insert( candidates, { odds = v[2], num = k } ) end
+		if math.floor(util.SharedRandom(CurTime() + k, 1, v[2] * 2)) == 1 then
+			local rand = v[2] < 36
+			if rand and math.random(4) == 1 or !rand then
+				table.insert(candidates, {num = k, odds = v[2]})
+			end
+		else
+
+		end
+	end
+
+	if #candidates == 0 then
+		if math.random(3) == 1 then
+			table.insert(candidates, {num = 1, 0})
+		else
+			table.insert(candidates, {num = 5, 0})
+		end
 	end
 
 	table.sort( candidates, function(a,b) return a.odds > b.odds end)
@@ -53,6 +68,18 @@ function ENT:Use( activator, caller )
 
 				self:SetSpinTime(self.SpinDuration)
 				self:SetState(4)
+
+				local ent = ents.Create("gmt_money_bezier")
+
+				if IsValid( ent ) then
+				  ent:SetPos( caller:GetPos() + Vector( 0, 0, -10 ) )
+				  ent.GoalEntity = self
+				  ent.GMC = 100
+				  ent.RandPosAmount = 50
+				  ent:Spawn()
+				  ent:Activate()
+				  ent:Begin()
+				end			
 
 				self:SetTarget( tonumber(self:SpinRoll()) - 1 )
 				self:SetUser(caller)
