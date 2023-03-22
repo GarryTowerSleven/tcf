@@ -291,7 +291,7 @@ GtowerLangush.AddWord( 1, "DuelInvite",	"Je bent uitgedaagd door {1} voor een du
 GtowerLangush.AddWord( 1, "DuelInviteFailActive",	"U wacht momenteel op een duel. Je kunt niet meer dan één keer tegelijk duelleren." )
 GtowerLangush.AddWord( 1, "DuelInviteFailCurrent",	"{1} is al bezig met een duel." )
 GtowerLangush.AddWord( 1, "DuelInviteFailPoker",	"{1} speelt poker, wacht tot hij klaar is en probeer opnieuw." )
-GtowerLangush.AddWord( 1, "DuelInviteFailFunds",	"{1} heeft niet genoeg GMC voor dit duel. Verlaag de inzet en probeer het opnieuw." )
+GtowerLangush.AddWord( 1, "DuelInviteFailFunds",	"jij, of {1} heeft niet genoeg GMC voor dit duel. Verlaag de inzet en probeer het opnieuw." )
 GtowerLangush.AddWord( 1, "DuelAcceptFailInGame",	"Wacht tot je game voorbij is voor je het duel accepteerd." )
 GtowerLangush.AddWord( 1, "DuelDeny",	"{1} heeft je duel geweigerd." )
 GtowerLangush.AddWord( 1, "DuelActive",	"Je hebt al een duel uitnodiging. Je kan niet {1}.")
