@@ -126,6 +126,11 @@ concommand.Add( "gmt_duelinvite", function( ply, cmd, args )
 	local WeaponName = args[5]
 	local WeaponID = math.Round( args[6] )
 
+	if !Requester:Afford(Amount) || !Arriver:Afford(Amount) then
+		ply:MsgT("Can't afford!")
+		return
+	end
+
 	if !Dueling.IsDueling( Arriver ) then
 		ply:MsgT( "DuelInvite", Arriver:Name() )
 	else
@@ -251,8 +256,8 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 		GiveDuelerAmmo( Arriver )
 	end
 
-	Requester:GodEnable()
-	Arriver:GodEnable()
+	Requester:Freeze(true)
+	Arriver:Freeze(true)
 
 	Requester:SetCustomCollisionCheck( false )
 	Arriver:SetCustomCollisionCheck( false )
@@ -271,8 +276,8 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 
 	timer.Simple( DuelStartDelay, function()
 		if IsValid( Requester ) && IsValid( Arriver ) then
-			Requester:GodDisable()
-			Arriver:GodDisable()
+			Requester:Freeze(false)
+			Arriver:Freeze(false)
 		end
 	end )
 

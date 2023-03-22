@@ -26,9 +26,7 @@ RegisterItem( "DuelMain", {
 			[ "Name" ] = "Duel A Player",
 			[ "function" ] = function(ply)
 
-				Msg2( T( "DuelsDisable2" ) )
-
-				/*Derma_DuelRequest(
+				Derma_DuelRequest(
 					item.Name,
 					"Select the player you want to duel and the max bet amount.",
 					0,
@@ -42,7 +40,7 @@ RegisterItem( "DuelMain", {
 					nil,
 					"INVITE TO DUEL",
 					"CANCEL"
-				)*/
+				)
 
 				//Msg2( "Dueling is currently disabled!" )
 
