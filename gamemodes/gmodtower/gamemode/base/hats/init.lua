@@ -79,13 +79,11 @@ util.AddNetworkString("hat_req")
 util.AddNetworkString("hat_snd")
 
 net.Receive("hat_req", function(len, ply)
-	if ( not ply:IsStaff() ) then return end
-
     local hat = net.ReadString()
     local model = net.ReadString()
     local hatdata = getHatFromTable(hat, model)
 
-    if net.ReadBool() then
+    if ( net.ReadBool() && (ply:IsStaff() or ply:GetSetting( "GTAllowEditHat" )) ) then
         SQL.getDB():Query("SELECT * FROM gm_hats WHERE hat='" .. hat .. "' AND plymodel='" .. model .. "'", function(res)
             if res[1].status != true then
                 MsgC(color_red, "[Hats] MySQL error while obtaining hats: " .. tostring(res[1].error) .. "\n")
