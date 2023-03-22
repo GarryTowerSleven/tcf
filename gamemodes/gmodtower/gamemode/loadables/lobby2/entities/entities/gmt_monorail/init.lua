@@ -46,8 +46,6 @@ end
 function ENT:CheckSpeech(num)
   local curPos = num - 1
 
-print(num)
-
   if self.SpeechPositions[num] && self.CurSpeech != self.SpeechPositions[num] then
     self.CurSpeech = self.SpeechPositions[num]
 
