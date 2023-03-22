@@ -1531,9 +1531,9 @@ RegisterItem("suitetetris",{
 	Model = "models/gmod_tower/gba.mdl",
 	ClassName = "gmt_tetris",
 	DrawModel = true,
-	UniqueInventory = true,
+	UniqueInventory = false,
 	Tradable = true,
-	StorePrice = 20000,
+	StorePrice = 40000,
 })
 
 //-----------------------------
