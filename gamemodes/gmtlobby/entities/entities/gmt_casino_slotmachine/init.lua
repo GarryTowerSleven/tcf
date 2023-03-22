@@ -332,7 +332,7 @@ function ENT:PickResults()
 
 	if random[1] == 2 and random[2] == 2 and random[3] == 2 then
 		if math.random(20) != 1 then
-			random[3] = math.random(6)
+			random[3] = math.random(3, 6)
 		end
 	end
 
