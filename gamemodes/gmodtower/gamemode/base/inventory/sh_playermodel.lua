@@ -60,6 +60,7 @@ else
 			else
 				self.Ply:SetModel( player_manager.TranslatePlayerModel( self.ModelName ) )
 				self.Ply:SetSkin( self.ModelSkinId )
+				self.Ply:SetupHands()
 			end
 			
 			local Size = self.ModelUseSize

@@ -234,7 +234,29 @@ function GM:PlayerSetModel( ply )
 		ply:ReplaceHat( randHat.unique_Name, randHat.model, key, randHat.slot )
 	end
 
+	ply:SetupHands()
+
 	hook.Call("PlayerSetModelPost", GAMEMODE, ply, model, skin )
+end
+
+function GM:PlayerSetHandsModel(ply, ent)
+	timer.Simple(0.1, function()
+		if !IsValid(ply) || !IsValid(ent) then return end
+
+		ent:SetModel(ply:GetModel())
+		ent:SetMaterial(nil)
+
+		for i = 0, ent:GetBoneCount() - 1 do
+			local name = ent:GetBoneName(i)
+			name = name && string.lower(name) || nil
+
+			if !name || !string.find(name, "arm") && !string.find(name, "hand") && !string.find(name, "finger") && !string.find(name, "wrist") && !string.find(name, "ulna") then
+				ent:ManipulateBoneScale(i, Vector(math.huge, math.huge, math.huge))
+			else
+				ent:ManipulateBoneScale(i, Vector(1, 1, 1))
+			end
+		end
+	end)
 end
 
 net.Receive( "ClientFullyConnected", function( len, ply )

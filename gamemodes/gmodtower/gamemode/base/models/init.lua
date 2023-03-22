@@ -85,6 +85,7 @@ hook.Add("PlayerSetModel", "AllowModelOverride", function( ply )
 		ply._PlyModelOverRide = nil
 		ply:SetModel( OverRide[1] )
 		ply:SetSkin( OverRide[2] )
+		ply:SetupHands()
 		return true
 	end
 	
@@ -150,6 +151,7 @@ concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 	ply:SetModel(model)
 	ply:SetSkin((modelskin || 0))
 	ply:SetModelScale(size)
+	ply:SetupHands()
 	Set( ply, size )
 end )
 
