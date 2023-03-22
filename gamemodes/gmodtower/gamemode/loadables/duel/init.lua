@@ -159,6 +159,8 @@ concommand.Add( "gmt_duelinvite", function( ply, cmd, args )
 end )
 
 function StartDueling( Weapon, Requester, Arriver, Amount )
+	Requester.FinishedDuel = false
+	Arriver.FinishedDuel = false
 
 	if !Requester:Alive() then
 		Requester:Spawn()
@@ -335,17 +337,16 @@ local function ClearDuel( ply, disconnect )
     local Opponent = ply:GetNWEntity( "DuelOpponent", NULL )
 	local Amount = tonumber( ply:GetNWInt( "DuelAmount", 0 ) )
 
-	if ply.LastDuel and ply.LastDuel > CurTime() then return end
-	if IsValid(Opponent) and Opponent.LastDuel and Opponent.LastDuel > CurTime() then return end
-	
-	ply.LastDuel = CurTime() + 1
-
-	if IsValid(Opponent) then
-		Opponent.LastDuel = CurTime() + 1
-	end
+	if ply.FinishedDuel or ( IsValid(Opponent) and Opponent.FinishedDuel ) then return end
 
 	if IsValid( ply ) && !IsDueling( ply ) then return end
 	if IsValid( Opponent ) && !IsDueling( Opponent ) then return end
+
+	ply.FinishedDuel = true
+	
+	if IsValid( Opponent ) then
+		Opponent.FinishedDuel = true
+	end
 
 	if !ByDisconnect then
 		ply:SetCustomCollisionCheck(true)
