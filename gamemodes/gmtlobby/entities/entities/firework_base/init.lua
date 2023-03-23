@@ -165,7 +165,7 @@ function ENT:DoFirework()
 
  	if self.SoundLiftOff then
 
-		self:EmitSound( self.SoundLiftOff, 400, math.random( 85, 125 ) )
+		self:EmitSound( self.SoundLiftOff, 100, math.random( 85, 125 ), 0.5 )
 
 	end
 
