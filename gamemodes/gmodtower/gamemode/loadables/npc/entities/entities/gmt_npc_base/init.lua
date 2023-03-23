@@ -110,6 +110,30 @@ function ENT:Think()
 		self.LineIdle = self.LineIdle or math.random(3)
 		self:PlaySequence(self:LookupSequence("lineidle0" .. self.LineIdle), nil, nil, 1)
 	end
+
+	if !self.LastGreet or self.LastGreet < CurTime() then
+		self.Greetable = self.Greetable or {}
+		self.Greet = nil
+
+		print("!")
+
+		for _, ply in ipairs(player.GetAll()) do
+			if ply:GetPos():Distance(self:GetPos()) < 100 and math.random(4) == 1 and (!ply.LastGreet or ply.LastGreet < CurTime()) and !self.Greetable[ply] then
+				self.Greet = ply
+			elseif self.Greetable[ply] and ply:GetPos():Distance(self:GetPos()) > 100 and self.Greetable[ply] < CurTime() then
+				self.Greetable[ply] = nil
+			end
+		end
+
+		if self.Greet then
+			self:EmitSound("vo/npc/" .. (string.find(self:GetModel(), "fe") and "fe" or "") .. "male01/hi01.wav")
+			self.Greetable[self.Greet] = CurTime() + 40
+			self.Greet.LastGreet = CurTime() + 1
+		end
+
+
+		self.LastGreet = CurTime() + 2
+	end
 end
 
 function ENT:GetSoundInterests()
