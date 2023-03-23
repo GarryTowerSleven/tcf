@@ -3,7 +3,7 @@ ENT.Type 			= "ai"
 ENT.Spawnable		= true
 ENT.AdminSpawnable	= true
 
-ENT.Model		= Model( "models/Humans/GMTsui1/Female_01.mdl" )
+ENT.Model		= Model( "models/player/gmt_shared.mdl" ) // models/Humans/GMTsui1/Female_01.mdl" )
 --ENT.Model		= Model( "models/Humans/GMTsui1/Male_03.mdl" )
 ENT.StoreId 	= GTowerStore.VIP
 

@@ -9,13 +9,14 @@ ENT.AnimSpeed = 1
 function ENT:Think()
 
 	if self.NPCExpression != self:GetExpression() then
+		ClientsideScene("scenes/Expressions/citizen_normal_idle_01.vcd", self.MDL or self)
 		self.NPCExpression = self:GetExpression()
 	end
 
 	if not self:IsDormant() then
-		local dt = RealTime() - (self.LastThink or RealTime())
-		self.Entity:FrameAdvance( dt * self.AnimSpeed )
-		self:SetExpression( self.NPCExpression )
+		// local dt = RealTime() - (self.LastThink or RealTime())
+		// self.Entity:FrameAdvance( dt * self.AnimSpeed )
+		// self:SetExpression( self.NPCExpression )
 	end
 
 	self:SetNextClientThink( CurTime() )
@@ -34,6 +35,18 @@ function ENT:Think()
 end
 
 function ENT:Draw()
+	if self.Bonemerge then
+		if !IsValid(self.MDL) then
+			self.MDL = ClientsideModel(self.Bonemerge)
+		else
+			self.MDL:SetPos(self:GetPos())
+			self.MDL:SetParent(self)
+			self.MDL:AddEffects(EF_BONEMERGE)
+		end
+
+		return
+	end
+
 	self:DrawModel()
 end
 
