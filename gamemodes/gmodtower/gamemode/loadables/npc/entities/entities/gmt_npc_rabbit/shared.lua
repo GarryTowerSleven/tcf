@@ -10,5 +10,6 @@ ENT.Spawnable		= true
 ENT.AdminSpawnable	= true
 
 ENT.Model		= "models/player/redrabbit2.mdl"
+ENT.StoreId 	= GTowerStore.RABBIT
 
 util.PrecacheModel( ENT.Model )

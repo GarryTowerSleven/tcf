@@ -30,6 +30,7 @@ GTowerStore.BATHROOM	= 21
 GTowerStore.MONEY		= 30
 GTowerStore.CONDO		= 50
 GTowerStore.ROOM		= 51
+GTowerStore.RABBIT		= 69
 
 // Definitions
 GTowerStore.Stores = {
@@ -132,6 +133,13 @@ GTowerStore.Stores = {
 	[GTowerStore.PLAYERMODEL] = {
 		NpcClass = "gmt_npc_models",
 		WindowTitle = "Player Models",
+		ModelStore = true,
+		ModelSize = 700,
+		CameraZPos = 45,
+	},
+	[GTowerStore.RABBIT] = {
+		NpcClass = "gmt_npc_rabbit",
+		WindowTitle = "Rabbit Merchant",
 		ModelStore = true,
 		ModelSize = 700,
 		CameraZPos = 45,
