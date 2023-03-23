@@ -29,14 +29,20 @@ function ENT:AcceptInput( name, activator, ply )
 		GTowerStore:OpenStore( ply, 8 )
 			if self:GetNWBool("Sale") then
 				if math.random(1,2) == 1 then
-					self:EmitSound(Sound("GModTower/stores/merchant/sale.wav"))
+					self:EmitSound(Sound("GModTower/stores/merchant/sale.wav"), 75, 100, 1, CHAN_VOICE)
 				else
-					self:EmitSound(Sound("GModTower/stores/merchant/sale2.wav"))
+					self:EmitSound(Sound("GModTower/stores/merchant/sale2.wav"), 75, 100, 1, CHAN_VOICE)
 				end
 			else
-				self:EmitSound(Sound("GModTower/stores/merchant/open.wav"))
+				self:EmitSound(Sound("GModTower/stores/merchant/open.wav"), 75, 100, 1, CHAN_VOICE)
 			end
     end
 
 	--timer.Simple( 0.0, self.UpdateAnimation, self )
+end
+
+function ENT:Think()
+	if self.TaskSequenceEnd == nil then
+		self:PlaySequence(self:LookupSequence("scaredidle"), nil, nil, 1)
+	end
 end
