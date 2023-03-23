@@ -139,7 +139,7 @@ GTowerStore.Stores = {
 	},
 	[GTowerStore.RABBIT] = {
 		NpcClass = "gmt_npc_rabbit",
-		WindowTitle = "Rabbit Merchant",
+		WindowTitle = "Rabbits!",
 		ModelStore = true,
 		ModelSize = 700,
 		CameraZPos = 45,

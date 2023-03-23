@@ -54,6 +54,8 @@ function ENT:DrawTranslucent()
 		offset = Vector( 0, 0, 110 )
 	elseif self:GetStoreId() == 21 then
 		offset = Vector( 0, 0, 100 )
+	elseif self:GetStoreId() == 69 then
+		offset = Vector( 0, 0, 130 )
 	elseif self:IsOnSale() then
 		offset = Vector( 0, 0, 120 )
 	end
