@@ -115,8 +115,6 @@ function ENT:Think()
 		self.Greetable = self.Greetable or {}
 		self.Greet = nil
 
-		print("!")
-
 		for _, ply in ipairs(player.GetAll()) do
 			if ply:GetPos():Distance(self:GetPos()) < 100 and math.random(4) == 1 and (!ply.LastGreet or ply.LastGreet < CurTime()) and !self.Greetable[ply] then
 				self.Greet = ply
@@ -126,7 +124,7 @@ function ENT:Think()
 		end
 
 		if self.Greet then
-			self:EmitSound("vo/npc/" .. (string.find(self:GetModel(), "fe") and "fe" or "") .. "male01/hi01.wav")
+			self:EmitSound("vo/npc/" .. (string.find(self:GetModel(), "fe") and "fe" or "") .. "male01/hi0" .. math.random(2) .. ".wav")
 			self.Greetable[self.Greet] = CurTime() + 40
 			self.Greet.LastGreet = CurTime() + 1
 		end
