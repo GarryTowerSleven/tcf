@@ -116,9 +116,9 @@ function ENT:Think()
 		self.Greet = nil
 
 		for _, ply in ipairs(player.GetAll()) do
-			if ply:GetPos():Distance(self:GetPos()) < 100 and math.random(4) == 1 and (!ply.LastGreet or ply.LastGreet < CurTime()) and !self.Greetable[ply] then
+			if ply:GetPos():Distance(self:GetPos()) < 128 and math.random(4) == 1 and (!ply.LastGreet or ply.LastGreet < CurTime()) and !self.Greetable[ply] then
 				self.Greet = ply
-			elseif self.Greetable[ply] and ply:GetPos():Distance(self:GetPos()) > 100 and self.Greetable[ply] < CurTime() then
+			elseif self.Greetable[ply] and ply:GetPos():Distance(self:GetPos()) > 128 and self.Greetable[ply] < CurTime() then
 				self.Greetable[ply] = nil
 			end
 		end
