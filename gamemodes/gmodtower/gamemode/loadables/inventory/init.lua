@@ -127,7 +127,7 @@ function GTowerItems.CreateMysteryItem(ply)
 		return ITEMS.microwave
 	elseif p <= 0.9 then
 		return ITEMS.clipboard
-	elseif p <= 0.901 then
+	elseif p <= 0.0015 then
 		SQLLog( "game", tostring(ply) .. " found a blockles machine from a cat sack" )
 
 		GAMEMODE:ColorNotifyAll( string.upper(ply:Name()).." JUST FOUND A BLOCKLES MACHINE FROM THE MYSTERIOUS CAT SACK!", Color(161, 3, 252, 255) )
