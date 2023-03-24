@@ -1,15 +1,6 @@
-function GM:FadeWaiting()
-
-	net.Start( "FadeWaiting" )
-	net.Broadcast()
-
-end
-
 function GM:LateJoin( ply )
-
 	ply:SetTeam( TEAM_INFECTED )
 	ply:SetNet( "IsVirus", true )
-
 end
 
 function GM:PlayerInitialSpawn( ply )
@@ -25,11 +16,19 @@ function GM:PlayerInitialSpawn( ply )
 
 	if self:GetState() == STATE_PLAYING then
 		self:LateJoin( ply )
+
+		music.Play( EVENT_PLAY, MUSIC_ROUNDPLAY, ply )
 	end
 
 	if self:GetState() == STATE_INTERMISSION then
 		self:LateJoin( ply )
 		self:PlayerFreeze( true, ply )
+
+		music.Play( EVENT_PLAY, MUSIC_WAITING_FOR_INFECTION, ply )
+	end
+
+	if self:GetState() == STATE_WAITING then
+		music.Play( EVENT_PLAY, MUSIC_WAITING_FOR_PLAYERS, ply )
 	end
 
 	self:ProcessRank( ply )
@@ -103,11 +102,6 @@ function GM:VirusSpawn( ply )
 				ply:SetNetworkedEntity( "Flame1", ply.Flame )
 				ply:SetNetworkedEntity( "Flame2", ply.Flame2 )
 			end
-
-			/*net.Start( "IgnitePlayer" )
-				net.WriteEntity( ply )
-				net.WriteBool( true )
-			net.Broadcast()*/
 
 			ply:EmitSound( "ambient/fire/ignite.wav", 75, 95, 1, CHAN_AUTO )
 		end

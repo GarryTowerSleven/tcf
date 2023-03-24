@@ -185,16 +185,14 @@ function GM:Infect( ply, infector )
 
 	ply:SetDSP( 1 ) // turn off adrenaline dsp
 
-	local randSong = math.random( 1, self.NumRoundMusic )
-
 	net.Start( "Infect" )
 		net.WriteEntity( ply )
 		net.WriteEntity( infector )
-		net.WriteInt( randSong, 8 )
 	net.Broadcast()
 
 	self:CheckSurvivors()
 
+	music.play( EVENT_PLAY, MUSIC_IGNITE, ply )
 end
 
 function GM:CheckSurvivors()

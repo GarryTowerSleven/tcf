@@ -37,19 +37,11 @@ GM.HasLastSurvivor = false
 CreateConVar("gmt_srvid", 6)
 
 function GM:Initialize()
-
 	GetWorldEntity():SetNet( "MaxRounds", self.NumRounds )
-
 end
 
 function GM:LastSurvivor()
-
-	local randSurvSong = math.random( 1, self.NumLastAlive )
-
-	net.Start( "LastSurvivor" )
-		net.WriteInt( randSurvSong, 8 )
-	net.Broadcast()
-
+	music.Play( EVENT_PLAY, MUSIC_LAST_ALIVE )
 end
 
 function GM:HudMessage( ply, index, time, ent, ent2, color )
@@ -81,18 +73,6 @@ function GM:HudMessage( ply, index, time, ent, ent2, color )
 
 end
 
-function GM:StopMusic( player )
-
-	net.Start( "StopMusic" )
-
-	if player == nil then
-		net.Broadcast()
-	else
-		net.Send( player )
-	end
-
-end
-
 function GM:ProcessRank( ply )
 
 	local rank = 1
@@ -118,9 +98,7 @@ function GM:ProcessRank( ply )
 end
 
 hook.Add( "InitPostEntity", "MapCleanUp", function()
-
 	GAMEMODE:CleanUpMap()
-
 end )
 
 hook.Add( "EntityTakeDamage", "DamageNotes",  function( target, dmginfo )
@@ -144,9 +122,5 @@ util.AddNetworkString( "HudMsg" )
 util.AddNetworkString( "StartRound" )
 util.AddNetworkString( "EndRound" )
 util.AddNetworkString( "Infect" )
-util.AddNetworkString( "FadeWaiting" )
-util.AddNetworkString( "LastSurvivor" )
-util.AddNetworkString( "StopMusic" )
 util.AddNetworkString( "DmgTaken" )
 util.AddNetworkString( "Spawn" )
-util.AddNetworkString( "LateMusic" )

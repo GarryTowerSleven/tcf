@@ -38,9 +38,6 @@ TEAM_PLAYERS		= 1
 TEAM_INFECTED		= 2
 TEAM_SPEC			= 3
 
-MUSIC_WAITINGFORINFECTION	= 1
-MUSIC_INTERMISSION			= 4
-
 team.SetUp( TEAM_PLAYERS, "Survivors", Color( 255, 255, 100, 255 ) )
 team.SetUp( TEAM_INFECTED, "Infected", Color( 175, 225, 175, 255 ) )
 team.SetUp( TEAM_SPEC, "Waiting", Color( 255, 255, 100, 255 ) )
@@ -50,3 +47,32 @@ hook.Add("CalcMainActivity", "Virus", function(ply, vel)
 		return ACT_HL2MP_RUN_ZOMBIE, -1
 	end
 end)
+
+// MUSIC
+EVENT_PLAY = 1
+EVENT_STOP = 2
+EVENT_STOPALL = 3
+EVENT_VOLUME = 4
+
+MUSIC_WAITING_FOR_PLAYERS = 1
+MUSIC_WAITING_FOR_INFECTION = 2
+MUSIC_ROUNDPLAY = 3
+MUSIC_LAST_ALIVE = 4
+MUSIC_ROUNDEND_SURVIVORS = 5
+MUSIC_ROUNDEND_VIRUS = 6
+
+MUSIC_STINGER = 7
+MUSIC_IGNITE = 8
+
+music.DefaultVolume = .85
+music.DefaultFolder = "gmodtower/virus"
+
+music.Register( MUSIC_WAITING_FOR_PLAYERS, "waiting_forplayers", { Num = 8 } )
+music.Register( MUSIC_WAITING_FOR_INFECTION, "waiting_forinfection", { Num = 8 } )
+music.Register( MUSIC_ROUNDPLAY, "roundplay", { Num = 5 } )
+music.Register( MUSIC_LAST_ALIVE, "roundlastalive", { Num = 2 } )
+music.Register( MUSIC_ROUNDEND_SURVIVORS, "roundend_survivors" )
+music.Register( MUSIC_ROUNDEND_VIRUS, "roundend_virus" )
+
+music.Register( MUSIC_STINGER, "stinger", { Oneoff = true } )
+music.Register( MUSIC_IGNITE, "ambient/fire/ignite.wav", { Oneoff = true } )

@@ -10,11 +10,6 @@ include( "cl_radar.lua" )
 GM.DamageFade = 255
 GM.NextFadeThink = 0
 
-local WaitingForPlayersMusic = "GModTower/virus/waiting_forplayers" .. math.random( 1, 8 ) .. ".mp3" // this one is not synchronized with other clients
-local WaitingForInfectionMusic = "GModTower/virus/waiting_forinfection"
-local RoundMusic = "GModTower/virus/roundplay"
-local LastAliveMusic = "GModTower/virus/roundlastalive"
-
 hook.Add( "ShouldHideHats", "ShouldHideHats", function( ply ) 
 
 	if GAMEMODE:GetState() != STATE_WAITING && ply == LocalPlayer() && !ply:GetNet( "IsVirus" ) then
@@ -39,19 +34,8 @@ function GM:Initialize()
 end
 
 function GM:InitPostEntity()
-	
-	LocalPlayer().WaitingForPlayers = CreateSound( LocalPlayer(), WaitingForPlayersMusic )
-	
-	LocalPlayer().VirusWin = CreateSound( LocalPlayer(), "GModTower/virus/roundend_virus.mp3" )
-	LocalPlayer().SurvivorsWin = CreateSound( LocalPlayer(), "GModTower/virus/roundend_survivors.mp3" )
-	
-	LocalPlayer().Stinger = CreateSound( LocalPlayer(), "GModTower/virus/stinger.mp3" )
-	
-	LocalPlayer().LocalInfected = CreateSound( LocalPlayer(), "ambient/fire/ignite.wav" )
-
 	timer.Simple( 1, function()
-		if ( self:GetState() == STATE_WAITING ) then		
-			LocalPlayer().WaitingForPlayers:PlayEx( music.GetClientVolume(), 100 )
+		if ( self:GetState() == STATE_WAITING ) then
 			LocalPlayer().IsThirdPerson = true
 		end
 	end )
@@ -159,6 +143,10 @@ function GM:ClickerThink( ply )
 			//ply:ChatPrint( tostring(v) .. "| Scale: " .. tostring(scale) )
 
 			if ( ply.NextRadSound or 0 ) < CurTime() then
+
+				if scale < 0.015 then
+					scale = 0.015
+				end
 
 				ply.NextRadSound = CurTime() + scale
 
@@ -334,9 +322,6 @@ hook.Add( "ShouldDrawLocalPlayer", "ThirdDrawLocal", function()
 end )
 
 local function ClientStartRound( len, ply )
-
-	local randSong = net.ReadInt(8)
-	
 	TimeLeftUsed = {}
 
 	GAMEMODE.WinningTeam = nil
@@ -349,24 +334,9 @@ local function ClientStartRound( len, ply )
 	
 	RunConsoleCommand( "gmt_showscores" )
 	RunConsoleCommand( "r_cleardecals" )
-	
-	LocalPlayer().WaitingForPlayers:Stop()
-	
-	if ( LocalPlayer().WaitingForInfection ) then
-		LocalPlayer().WaitingForInfection:Stop()
-		LocalPlayer().WaitingForInfection = nil
-	end
-	
-	LocalPlayer().WaitingForInfection = CreateSound( LocalPlayer(), WaitingForInfectionMusic .. tostring( randSong ) .. ".mp3" )
-	
-	LocalPlayer().WaitingForInfection:PlayEx( music.GetClientVolume(), 100 )
-	
-	LocalPlayer().VirusWin:Stop()
-	LocalPlayer().SurvivorsWin:Stop()
-	
+
 	LocalPlayer().IsThirdPerson = false
 	LocalPlayer():GetNet( "IsVirus", false )
-	
 end
 
 local function ClientEndRound( len, ply )
@@ -375,127 +345,33 @@ local function ClientEndRound( len, ply )
 	
 	if ( !IsValid( LocalPlayer() ) ) then return end
 	
-	LocalPlayer().WaitingForPlayers:Stop() // just in case
-	
 	RunConsoleCommand( "gmt_showscores", 1 )
 	
 	LocalPlayer():EmitSound( "GModTower/virus/ui/menu.wav", 300, 100 )
 	
-	if ( virusWins ) then
-		LocalPlayer().VirusWin:PlayEx( music.GetClientVolume(), 100 )
-		GAMEMODE.WinningTeam = TEAM_INFECTED
-	else
-		LocalPlayer().SurvivorsWin:PlayEx( music.GetClientVolume(), 100 )
-		GAMEMODE.WinningTeam = TEAM_PLAYERS
-	end
-	
-	if ( LocalPlayer().RoundMusic ) then
-		LocalPlayer().RoundMusic:Stop()
-		LocalPlayer().RoundMusic = nil
-	end
-	
-	LocalPlayer().Stinger:Stop() // so we can replay it next round
-	
-	if ( LocalPlayer().LastSurvivor ) then
-		LocalPlayer().LastSurvivor:Stop()
-		LocalPlayer().LastSurvivor = nil
-	end
-	
-	LocalPlayer().LocalInfected:Stop()
+	GAMEMODE.WinningTeam = virusWins and TEAM_INFECTED or TEAM_PLAYERS
 	
 	GetWorldEntity().Started = false
-
+	
 end
 
 local function ClientInfected( len, ply )
 
 	local virusEnt = net.ReadEntity()
 	local infector = net.ReadEntity()
-	local randSong = net.ReadInt(8)
 	
 	if ( !IsValid( LocalPlayer() ) ) then return end
 	
-	LocalPlayer().WaitingForPlayers:Stop() // just in case
-	
-	if ( LocalPlayer().WaitingForInfection != nil ) then
-		LocalPlayer().WaitingForInfection:Stop()
-		LocalPlayer().WaitingForInfection = nil
-	end
-	
 	if ( !GetWorldEntity().Started ) then
-		LocalPlayer().Stinger:PlayEx( music.GetClientVolume(), 100 )
-	
-		LocalPlayer().RoundMusic = CreateSound( LocalPlayer(), RoundMusic .. tostring( randSong ) .. ".mp3" )
-		LocalPlayer().RoundMusic:PlayEx( music.GetClientVolume(), 100 )
-		
 		GetWorldEntity().Started = true
 	end
 
 	if ( infector != GetWorldEntity() ) then // world entity
 		if ( virusEnt == LocalPlayer() ) then
 			LocalPlayer().IsThirdPerson = true
-			LocalPlayer().LocalInfected:PlayEx( music.GetClientVolume(), math.random( 170, 200 ) )
 		end
 	end
 	
-end
-
-local function ClientFade( len, ply )
-
-	if ( !IsValid( LocalPlayer() ) ) then return end
-	
-	LocalPlayer().WaitingForPlayers:FadeOut( 2 )
-
-end
-
-local function ClientLastSurvivor( len, ply )
-
-	local randSong = net.ReadInt(8)
-	
-	if ( !IsValid( LocalPlayer() ) ) then return end
-
-	LocalPlayer().WaitingForPlayers:Stop() // just in case
-	
-	if ( LocalPlayer().RoundMusic ) then
-	
-		LocalPlayer().RoundMusic:Stop()
-		LocalPlayer().RoundMusic = nil
-		
-	end
-	
-	if ( LocalPlayer().LastSurvivor ) then
-	
-		LocalPlayer().LastSurvivor:Stop()
-		LocalPlayer().LastSurvivor = nil
-		
-	end
-	
-	LocalPlayer().LastSurvivor = CreateSound( LocalPlayer(), LastAliveMusic .. tostring( randSong ) .. ".mp3" )
-	LocalPlayer().LastSurvivor:PlayEx( music.GetClientVolume(), 100 )
-
-end
-
-local function ClientStopMusic( len, ply )
-	
-	if ( !IsValid( LocalPlayer() ) ) then return end
-
-	LocalPlayer().WaitingForPlayers:Stop() // just in case
-	GetWorldEntity().Started = false
-	
-	if ( LocalPlayer().RoundMusic ) then
-	
-		LocalPlayer().RoundMusic:Stop()
-		LocalPlayer().RoundMusic = nil
-		
-	end
-	
-	if ( LocalPlayer().LastSurvivor ) then
-	
-		LocalPlayer().LastSurvivor:Stop()
-		LocalPlayer().LastSurvivor = nil
-		
-	end
-
 end
 
 local function ClientDmgTaken( len, ply )
@@ -517,55 +393,11 @@ local function ClientSpawn( len, ply )
 	
 end
 
-local function ClientLateMusic( len, ply )
-
-	local musicType = net.ReadInt(8)
-	local musicNum = tonumber( net.ReadInt(8) ) or 1
-
-	if musicNum == 0 then musicNum = 1 end
-	
-	if ( musicType == MUSIC_WAITINGFORINFECTION ) then
-	
-		if ( LocalPlayer().WaitingForInfection ) then
-			LocalPlayer().WaitingForInfection:Stop()
-			LocalPlayer().WaitingForInfection = nil
-		end
-		
-		LocalPlayer().WaitingForInfection = CreateSound( LocalPlayer(), WaitingForInfectionMusic .. tostring( musicNum ) .. ".mp3" )
-		LocalPlayer().WaitingForInfection:PlayEx( music.GetClientVolume(), 100 )
-		
-	elseif ( musicType == MUSIC_INTERMISSION ) then
-	
-		local VirusWin = LocalPlayer().VirusWin
-		local SurvivorsWin = LocalPlayer().SurvivorsWin
-		
-		if VirusWin then
-			VirusWin:Stop()
-		end
-		
-		if SurvivorsWin then
-			SurvivorsWin:Stop()
-		end
-		
-		if ( musicNum == 1 ) then
-			if VirusWin then LocalPlayer().VirusWin:PlayEx( music.GetClientVolume(), 100 ) end
-		else
-			if SurvivorsWin then LocalPlayer().SurvivorsWin:PlayEx( music.GetClientVolume(), 100 ) end
-		end
-		
-	end
-
-end
-
 net.Receive( "StartRound", ClientStartRound )
 net.Receive( "EndRound", ClientEndRound )
 net.Receive( "Infect", ClientInfected )
-net.Receive( "FadeWaiting", ClientFade )
-net.Receive( "LastSurvivor", ClientLastSurvivor )
-net.Receive( "StopMusic", ClientStopMusic )
 net.Receive( "DmgTaken", ClientDmgTaken )
 net.Receive( "Spawn", ClientSpawn )
-net.Receive( "LateMusic", ClientLateMusic )
 
 function HudMessage( msg, seconds, font, ignoreY, color )
 	
