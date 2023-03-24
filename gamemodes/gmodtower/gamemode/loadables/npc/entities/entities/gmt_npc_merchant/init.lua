@@ -40,9 +40,3 @@ function ENT:AcceptInput( name, activator, ply )
 
 	--timer.Simple( 0.0, self.UpdateAnimation, self )
 end
-
-function ENT:Think()
-	if self.TaskSequenceEnd == nil then
-		self:PlaySequence(self:LookupSequence("scaredidle"), nil, nil, 1)
-	end
-end
