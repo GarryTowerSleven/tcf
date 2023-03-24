@@ -168,15 +168,13 @@ function ENT:Think()
 	else
 		if !IsValid(self.CurrentPlayer) then
 			self.CurrentPlayer = self:GetOwner()
-
-			if self.CurrentPlayer == LocalPlayer() and !DrawPlayers:GetBool() then
-				for k,v in pairs(player.GetAll()) do
-					v:SetNoDraw(true)
-				end
-			end
-
 			self:StartMusic()
 		else
+			if self.CurrentPlayer == LocalPlayer() and !DrawPlayers:GetBool() then
+				for k,v in ipairs(Location.GetPlayersInLocation( LocalPlayer():Location() )) do
+					v:SetNoDraw(true)
+				end
+			end		
 			self:AdjustMusic( self.Points )
 		end
 	end
