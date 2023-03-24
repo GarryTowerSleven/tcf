@@ -130,7 +130,7 @@ local function MapAdds()
 
     // jukeboxes
     -- casino
-    AddEntity( "gmt_jukebox", Vector(2417,774,192), Angle(0,-135,0) )
+    AddEntity( "gmt_jukebox", Vector(2366, 1039, 192), Angle(0,-90,0) )
 
     // casino
     -- poker
