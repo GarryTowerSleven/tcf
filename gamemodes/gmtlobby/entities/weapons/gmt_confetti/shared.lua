@@ -116,8 +116,8 @@ function SWEP:Reload()
 	return false
 end
 
-function SWEP:CanPrimaryAttack()
-	return true
+function SWEP:CanPrimaryAttack() 
+	return !Location.IsEquippablesNotAllowed( self.Owner._Location )
 end
 
 function SWEP:CanSecondaryAttack()
