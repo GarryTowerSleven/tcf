@@ -49,6 +49,8 @@ function ENT:StartBrowser()
 		if !self.Material then
 
 			if self.Browser then
+				self:SetRenderBounds( Vector( 2, 200, 0 ), Vector( -2, -200, 350 ) )
+
 				self.Browser:UpdateHTMLTexture()
 				self.Material = self.Browser:GetHTMLMaterial()
 
