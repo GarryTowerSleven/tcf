@@ -107,7 +107,7 @@ end
 
 function ENT:Think()
 	if self.TaskSequenceEnd == nil then
-		self.LineIdle = self.LineIdle or math.random(3)
+		self.LineIdle = self.LineIdle or math.random(2) == 1 and 1 or 3
 		self:PlaySequence(self:LookupSequence("lineidle0" .. self.LineIdle), nil, nil, 1)
 	end
 
