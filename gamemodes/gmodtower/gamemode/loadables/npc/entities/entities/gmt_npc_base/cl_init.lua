@@ -10,10 +10,6 @@ function ENT:Think()
 
 	if self.NPCExpression != self:GetExpression() then
 		ClientsideScene("scenes/Expressions/citizen_normal_idle_01.vcd", self.MDL or self)
-		self:SetFlexWeight(self:GetFlexIDByName("smile") or 1, 1)
-		self:SetFlexWeight(self:GetFlexIDByName("lower_lip") or 1, 1)
-		self:SetFlexWeight(self:GetFlexIDByName("jaw_drop") or 1, 1)
-		self:SetFlexScale(1.4)
 		self.NPCExpression = self:GetExpression()
 	end
 
