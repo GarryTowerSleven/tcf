@@ -40,16 +40,14 @@ SWEP.SoundReload			= "GModTower/virus/weapons/DualSilencer/reload.wav"
 
 function SWEP:PrimaryAttack()
 	self.TracerOrigin = "2"
-	if self.BaseClass.PrimaryAttack(self.Weapon) then return end
+	self:SetNWInt("Fire", math.fmod(self:GetNWInt("Fire") + 1, 2))
+	self.TracerOrigin = self:GetNWInt("Fire") + 1
+	if self.BaseClass[self:GetNWInt("Fire") == 1 and "PrimaryAttack" or "SecondaryAttack"](self.Weapon) then return end
 
 	self:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
 end
 
 function SWEP:SecondaryAttack()
-	self.TracerOrigin = "1"
-	if self.BaseClass.SecondaryAttack(self.Weapon) then return end
-
-	self:SetNextSecondaryFire( CurTime() + self.Primary.Delay )
 end
 
 function SWEP:GetTracerOrigin()
