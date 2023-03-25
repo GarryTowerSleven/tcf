@@ -20,6 +20,10 @@ function GM:PlayerInitialSpawn(ply)
 		ply:ChatPrint("You are the first to join, waiting for additional players!")
 	end
 
+	if self:GetState() == STATE_WAITING then
+		self:RoundMessage( MSGSHOW_WAITING, ply, GAMEMODE:GetTime() - CurTime() - 1 )
+	end
+
 end
 
 function GM:PlayerDisconnected(ply)

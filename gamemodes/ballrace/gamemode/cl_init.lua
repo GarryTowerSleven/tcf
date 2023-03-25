@@ -12,6 +12,50 @@ local hud_icon_antlion = surface.GetTextureID( "gmod_tower/balls/hud_icon_antlio
 
 local OUTLINE_COLOR = Color( 166, 117, 80 )
 
+local waitCams = {
+	["gmt_ballracer_skyworld01"] = {
+		origin = Vector( 714.98, -754.61, 83.3 ),
+		angles = Angle( -4.82, 57.82, 0 ),
+		fov = 70
+	},
+
+	["gmt_ballracer_paradise03"] = {
+		origin = Vector( -2465.91, 3476.42, 97.37 ),
+		angles = Angle( 3.06, -134.73, 0 ),
+		fov = 70
+	},
+
+	["gmt_ballracer_grassworld01"] = {
+		origin = Vector( -3589.29, 184.85, -270.66 ),
+		angles = Angle( -2.88, -46.12, 0 ),
+		fov = 70
+	},
+
+	["gmt_ballracer_iceworld03"] = {
+		origin = Vector( 15316.54, -2407.59, 4563.8 ),
+		angles = Angle( -3.5, 117.31, -0.94 ),
+		fov = 70
+	},
+
+	["gmt_ballracer_khromidro02"] = {
+		origin = Vector( -2436.78, -8172.88, 6.28 ),
+		angles = Angle( -8.91, 37.8, 0 ),
+		fov = 70
+	},
+
+	["gmt_ballracer_sandworld02"] = {
+		origin = Vector( -2827.54, 169.35, 66.26 ),
+		angles = Angle( -5, -115.5, 0 ),
+		fov = 60
+	},
+
+	["gmt_ballracer_memories02"] = {
+		origin = Vector( -7534.23, -6870.77, -1579.51 ),
+		angles = Angle( -21.63, 49.83, 0 ),
+		fov = 75
+	}
+}
+
 surface.CreateFont( "BallMessage", { font = "Bebas Neue", size = 48, weight = 200 } )
 surface.CreateFont( "BallMessageCaption", { font = "Bebas Neue", size = 26, weight = 200 } )
 surface.CreateFont( "BallPlayerName", { font = "Coolvetica", size = 32, weight = 500 } )
@@ -269,6 +313,11 @@ function GM:CalcView( ply, origin, angles, fov )
 	view.fov 	= fov
 
 	if !IsValid(ball) || !ball.Center then
+
+		if self:GetState() == STATE_WAITING and waitCams[ game.GetMap() ] then
+			return waitCams[ game.GetMap() ]
+		end
+
 		return lastview or view
 	end
 

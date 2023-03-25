@@ -39,10 +39,14 @@ hook.Add("GTowerMsg", "GamemodeMessage", function()
 	end
 end )
 
-function GM:RoundMessage( msg )
+function GM:RoundMessage( msg, ply )
 	net.Start("roundmessage")
-		net.WriteInt( msg, 3 )
-	net.Broadcast()
+		net.WriteInt( msg, 4 )
+	if IsValid(ply) then
+		net.Send(ply)
+	else
+		net.Broadcast()
+	end
 end
 
 function GetNextSpawn()

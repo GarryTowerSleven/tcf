@@ -1,8 +1,10 @@
 local Textures = {
 	"gmod_tower/balls/hud_message_completed",
 	"gmod_tower/balls/hud_message_failed",
-	"gmod_tower/balls/hud_message_endgame"
+	"gmod_tower/balls/hud_message_endgame",
+	"gmod_tower/balls/hud_message_waiting"
 }
+
 local PanelGui = nil
 local PanelYPos = 0
 local MessagEndTime = 0
@@ -56,8 +58,9 @@ function ShowHudMessage( id )
 	end
 	
 	MessagEndTime = CurTime() + GAMEMODE.IntermissionTime
-	
+
 	PanelGui = vgui.Create("DImage")
+
 	PanelGui:SetImage( Textures[ id ] )
 	PanelGui:SizeToContents()
 	
@@ -70,8 +73,9 @@ function ShowHudMessage( id )
 end
 
 net.Receive( "roundmessage", function( len, pl )
-	local Id = net.ReadInt(3)
-	ShowHudMessage(Id)
+	local Id = net.ReadInt(4)
+
+	ShowHudMessage(Id, Time)
 end )
 
 net.Receive( "br_chatannouce", function( len, pl )
