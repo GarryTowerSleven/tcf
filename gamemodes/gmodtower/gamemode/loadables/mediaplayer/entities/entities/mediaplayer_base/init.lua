@@ -10,7 +10,7 @@ ENT.UseDelay = 0.5 -- seconds
 
 ENT.IdleScreenTitle = "Idlescreen - Spring '23"
 ENT.IdleScreenDuration = (7*60)+49
-ENT.IdleScreenURL = "https://www.youtube.com/watch?v=kBoKOWx5qMs"
+ENT.IdleScreenURL = "https://www.youtube.com/watch?v=tueNGFg5C1Q"
 
 hook.Add("Location", "TurnOffTV", function( ply, loc )
 	for k,v in pairs(ents.FindByClass('mediaplayer_*')) do
