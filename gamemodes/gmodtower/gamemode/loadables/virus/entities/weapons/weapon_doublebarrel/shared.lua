@@ -51,6 +51,7 @@ SWEP.ExtraSounds = {
 	ReloadPump = Sound("GModTower/virus/weapons/DoubleBarrel/shell_insert.wav"),
 	ReloadEnd = Sound("GModTower/virus/weapons/DoubleBarrel/reload_finish.wav")
 }
+SWEP.SoundDeploy = SWEP.ExtraSounds.ReloadEnd
 
 function SWEP:CanPrimaryAttack()
 
