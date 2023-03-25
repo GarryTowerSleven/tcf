@@ -17,12 +17,12 @@ GMode.WaitingTime = 20.0
 //Set this to false if you want people to be able to go in and out of the server at any time.
 //Set also the min amount of players to join the sevrer
 GMode.OneTimeJoin = true
-GMode.MinPlayers = 4
+GMode.MinPlayers = 3
 //Set this if only a group can join
 GMode.GroupJoin = false
 
 GMode.MaxPlayers = 20 //Leave nil if the maxplayers are suppost to be the server maxplayers
-GMode.Gameplay = ""
+GMode.Gameplay = "Casual Minigolf"
 
 GMode.Maps = Maps.GetMapsInGamemode( GMode.Gamemode )
 
