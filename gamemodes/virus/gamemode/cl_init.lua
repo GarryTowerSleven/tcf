@@ -371,7 +371,7 @@ local function ClientInfected( len, ply )
 			LocalPlayer().IsThirdPerson = true
 		end
 
-		infector:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_RANGE_ZOMBIE, false )
+		infector:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_RANGE_ZOMBIE, true )
 	end
 	
 	virusEnt:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_TAUNT_ZOMBIE, true )
