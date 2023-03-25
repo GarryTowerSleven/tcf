@@ -54,7 +54,7 @@ Commands = {
 		"Friend",
 
 		function( ply )
-
+			if ply:IsBot() then return end
 			LocalPlayer():ConCommand( "gmt_friend " .. ply:SteamID64() )
 		end,
 
