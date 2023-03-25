@@ -130,6 +130,10 @@ end
 
 
 
+function SWEP:FrameTime()
+	return SysTime() - self.FT
+end
+
 function SWEP:Think()
 
 
@@ -180,7 +184,7 @@ function SWEP:Think()
 
 		
 
-		self.OverHeat = math.max( self.OverHeat - FrameTime() / self.CoolDownTime, 0.0 )
+		self.OverHeat = math.max( self.OverHeat - self:FrameTime() / self.CoolDownTime, 0.0 )
 
 
 
@@ -198,6 +202,7 @@ function SWEP:Think()
 
 	self:UpdateColor()
 
+	self.FT = SysTime()
 
 
 end
@@ -230,7 +235,7 @@ function SWEP:OverHeatAdd( amt )
 
 
 
-	self.OverHeat = math.min( self.OverHeat + FrameTime() / self.OverHeatTime, 1.0 )
+	self.OverHeat = math.min( self.OverHeat + self:FrameTime() / self.OverHeatTime, 1.0 )
 
 
 
