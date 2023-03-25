@@ -1,4 +1,5 @@
 function GM:StartRound()
+	virusDeath = 0
 	music.Play( EVENT_PLAY, MUSIC_ROUNDPLAY )
 	music.Play( EVENT_PLAY, MUSIC_STINGER )
 
