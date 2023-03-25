@@ -203,7 +203,7 @@ function SWEP:PushEnt( ent, force, charge )
 
 	if (ent:IsPlayer() && ent:GetNWBool("IsVirus") && !IsLobby) or (ent:IsPlayer() && IsLobby) then
 
-		local newvelocity = self.Owner:GetAimVector() * force
+		local newvelocity = Angle(0, self.Owner:EyeAngles().y, 0):Forward() * force
 		newvelocity.z = math.Clamp( newvelocity.z, 0, 400 )
 		
 		ent:SetVelocity( newvelocity )
