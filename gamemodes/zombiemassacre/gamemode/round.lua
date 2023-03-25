@@ -102,7 +102,7 @@ function GM:Think()
 		SetGlobalInt( "ZMDayTime", CurTime() + 8 )
 	elseif self:GetState() == STATE_WARMUP && self:GetTimeLeft() <= 0 then
 		if GetGlobalInt( "Round" ) != 6 then
-			music.Play( EVENT_PLAY, MUSIC_ROUND )
+			music.Play( EVENT_PLAY, GetGlobalInt( "Round" ) )
 		else
 			music.Play( EVENT_PLAY, MUSIC_BOSS )
 			self:StartBossRound()

@@ -715,7 +715,7 @@ function GM:DrawHUDBossHealth()
 	maxBarHealth = 5000
 
 	local totalHealthBars = math.ceil( maxHealth / maxBarHealth )
-	print(totalHealthBars)
+
 	local curHealthBar = math.floor( health / maxBarHealth )
 
 	if health % maxBarHealth == 0 then

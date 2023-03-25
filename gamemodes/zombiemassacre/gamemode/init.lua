@@ -55,10 +55,12 @@ function GM:DoPlayerDeath( victim )
 	grave:SetOwner(victim)
 end
 
-hook.Add("EntityTakeDamage","WeaponAchiCheck",function( target, dmginfo )
+hook.Add("EntityTakeDamage", "WeaponAchiCheck", function( target, dmginfo )
 	local amount = dmginfo:GetDamage()
 	local ply = dmginfo:GetAttacker()
+
 	if !IsValid(ply) then return end
+	
 	if target:IsNPC() && target:Health() < amount then
 		local wepclass = ply:GetActiveWeapon():GetClass()
 

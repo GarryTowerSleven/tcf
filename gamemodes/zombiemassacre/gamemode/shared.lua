@@ -85,30 +85,21 @@ EVENT_STOP = 2
 EVENT_STOPALL = 3
 EVENT_VOLUME = 4
 
-MUSIC_WAITING = 1
-MUSIC_UPGRADING = 2
-MUSIC_WARMUP = 3
-MUSIC_ROUND = 4
-MUSIC_WINLOSE = 5
-MUSIC_BOSS = 6
-MUSIC_DEATH = 7
-MUSIC_DEATHOFF = 8
-MUSIC_WIN = 9
-MUSIC_LOSE = 10
-
-_DEBUG = {
-	[1] = "MUSIC_WAITING",
-	[2] = "MUSIC_UPGRADING",
-	[3] = "MUSIC_WARMUP",
-	[4] = "MUSIC_ROUND",
-	[5] = "MUSIC_WINLOSE",
-	[6] = "MUSIC_BOSS",
-	[7] = "MUSIC_DEATH",
-	[8] = "MUSIC_DEATHOFF"
-}
+MUSIC_WAITING = 6
+MUSIC_UPGRADING = 7
+MUSIC_WARMUP = 8
+MUSIC_ROUND = 9
+MUSIC_BOSS = 10
+MUSIC_DEATH = 11
+MUSIC_WIN = 12
+MUSIC_LOSE = 13
 
 music.DefaultVolume = .85
 music.DefaultFolder = "gmodtower/zom"
+
+for i = 1, 5 do
+	music.Register( i, "music/music_round" .. i + 1 )
+end
 
 music.Register( MUSIC_WAITING, "music/music_waiting", { Num = 3 } )
 music.Register( MUSIC_UPGRADING, "music/music_upgrading1" )
@@ -120,19 +111,6 @@ music.Register( MUSIC_WIN, "music/music_win" )
 music.Register( MUSIC_LOSE, "music/music_lose" )
 music.Register( MUSIC_BOSS, "music/music_boss", { Num = 2 } )
 music.Register( MUSIC_DEATH, "music/music_death" )
-
-GM.Music = {
-	[MUSIC_WAITING] = { "GModTower/zom/music/music_waiting", 3 },
-	[MUSIC_UPGRADING] = { "GModTower/zom/music/music_upgrading", 1 },
-	[MUSIC_WARMUP] = { "GModTower/zom/music/music_preround", 4 },
-	[MUSIC_ROUND] = { "GModTower/zom/music/music_round", 6 },
-	[MUSIC_WINLOSE] = {
-		Win = Sound( "GModTower/zom/music/music_win.mp3" ),
-		Lose = Sound( "GModTower/zom/music/music_lose.mp3" ),
-	},
-	[MUSIC_BOSS] = { "GModTower/zom/music/music_boss", 2 },
-	[MUSIC_DEATH] = Sound( "GModTower/zom/music/music_death.mp3" ),
-}
 
 function GM:GetTimeLeft()
 	return (GetGlobalInt( "ZMDayTime" ) - CurTime())
