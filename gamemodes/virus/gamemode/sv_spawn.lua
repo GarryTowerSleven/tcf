@@ -35,11 +35,15 @@ function GM:PlayerInitialSpawn( ply )
 
 end
 
+virusDeath = 0
+
 function GM:VirusSpawn( ply )
 
 	local numVirus = team.NumPlayers( TEAM_INFECTED )
 	
 	local healthScale = math.Clamp( 15 * ( #player.GetAll() / numVirus ) + 30, 50, 100 )
+
+	virusDeath = virusDeath + 1
 	
 	ply:SetModel( "models/player/virusi.mdl" )
 	
@@ -107,7 +111,7 @@ function GM:VirusSpawn( ply )
 		end
 	end )
 	
-	if ( IsValid( ply ) && ply:GetNet( "IsVirus" ) && ply:Deaths() == 2 && numVirus <= 3 ) then
+	if ( IsValid( ply ) && ply:GetNet( "IsVirus" ) && virusDeath == 2 * numVirus && numVirus <= 3 ) then
 		self:HudMessage( nil, 19 /* Infected has become enraged */, 5 )
 	end
 	
@@ -195,7 +199,7 @@ function GM:PlayerSpawn( ply )
 
 	ply:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
 	
-	if ( self:GetState() == STATE_WAITING ) then return end
+	if ( self:GetState() == STATE_WAITING ) then virusDeath = 0 return end
 	
 	if ( ply.Flame != nil ) then
 		ply.Flame:Remove()

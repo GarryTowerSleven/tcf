@@ -118,7 +118,7 @@ function GM:VirusThink( ply )
 	if NumVirus == 1 then 
 		
 		for k,v in pairs(player.GetAll()) do
-			if ( v:GetNet( "IsVirus" ) && v:Deaths() >= 2 && v.enraged != true ) then
+			if ( v:GetNet( "IsVirus" ) && virusDeath >= 2 * NumVirus && v.enraged != true ) then
 				
 				v.enraged = true
 				
