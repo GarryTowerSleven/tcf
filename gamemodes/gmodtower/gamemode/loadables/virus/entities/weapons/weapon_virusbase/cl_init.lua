@@ -21,15 +21,17 @@ function SWEP:DrawHUD()
 		local r = w2 / h2
 		local w2 = w
 		local h2 = w / r + 0.5
-	
+
+		draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 0, math.random( 230, 255 ), math.random(10, 15) ) )
+
 		if h2 > h then
 			w2 = h * r + 0.5
 			h2 = h
+
+			draw.RoundedBox( 0, 0, 0, w2 / 4, h, color_black )
+			draw.RoundedBox( 0, w / 2 + w2 / 2 - 8, 0, w2 / 2, h, color_black )
 		end
 
-		draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 0, math.random( 230, 255 ), math.random(10, 15) ) )
-		draw.RoundedBox( 0, 0, 0, w2 / 4, h, color_black )
-		draw.RoundedBox( 0, w / 2 + w2 / 2 - 8, 0, w2 / 2, h, color_black )
 		surface.SetTexture( self.IronHUD )
 		surface.SetDrawColor( 0, 0, 0, 255 )
 
