@@ -80,6 +80,11 @@ STATE_INTERMISSION = 5 // in between rounds (scoreboard show)
 STATE_ENDING = 6 // game is ending
 
 /* MUSIC */
+EVENT_PLAY = 1
+EVENT_STOP = 2
+EVENT_STOPALL = 3
+EVENT_VOLUME = 4
+
 MUSIC_WAITING = 1
 MUSIC_UPGRADING = 2
 MUSIC_WARMUP = 3
@@ -88,7 +93,33 @@ MUSIC_WINLOSE = 5
 MUSIC_BOSS = 6
 MUSIC_DEATH = 7
 MUSIC_DEATHOFF = 8
+MUSIC_WIN = 9
+MUSIC_LOSE = 10
 
+_DEBUG = {
+	[1] = "MUSIC_WAITING",
+	[2] = "MUSIC_UPGRADING",
+	[3] = "MUSIC_WARMUP",
+	[4] = "MUSIC_ROUND",
+	[5] = "MUSIC_WINLOSE",
+	[6] = "MUSIC_BOSS",
+	[7] = "MUSIC_DEATH",
+	[8] = "MUSIC_DEATHOFF"
+}
+
+music.DefaultVolume = .85
+music.DefaultFolder = "gmodtower/zom"
+
+music.Register( MUSIC_WAITING, "music/music_waiting", { Num = 3 } )
+music.Register( MUSIC_UPGRADING, "music/music_upgrading1" )
+music.Register( MUSIC_WARMUP, "music/music_preround", { Num = 4 } )
+
+music.Register( MUSIC_ROUND, "music/music_round", { Num = 6 } )
+
+music.Register( MUSIC_WIN, "music/music_win" )
+music.Register( MUSIC_LOSE, "music/music_lose" )
+music.Register( MUSIC_BOSS, "music/music_boss", { Num = 2 } )
+music.Register( MUSIC_DEATH, "music/music_death" )
 
 GM.Music = {
 	[MUSIC_WAITING] = { "GModTower/zom/music/music_waiting", 3 },

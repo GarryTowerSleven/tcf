@@ -29,9 +29,7 @@ function GM:Think()
 			umsg.Bool(true)
 		umsg.End()
 
-		umsg.Start( "ZMPlayMusic" )
-			umsg.Char(2)
-		umsg.End()
+		music.Play( EVENT_PLAY, MUSIC_UPGRADING )
 
 		for k,v in pairs( ents.FindByClass("zm_player_gravestone") ) do
 			v:Remove()
@@ -98,24 +96,16 @@ function GM:Think()
 			umsg.Bool(false)
 		umsg.End()
 
-		umsg.Start( "ZMPlayMusic" )
-			umsg.Char(3)
-		umsg.End()
+		music.Play( EVENT_PLAY, MUSIC_WARMUP )
 
 		self:SetState( STATE_WARMUP )
 		SetGlobalInt( "ZMDayTime", CurTime() + 8 )
 	elseif self:GetState() == STATE_WARMUP && self:GetTimeLeft() <= 0 then
 		if GetGlobalInt( "Round" ) != 6 then
-			umsg.Start( "ZMPlayMusic" )
-				umsg.Char(4)
-			umsg.End()
+			music.Play( EVENT_PLAY, MUSIC_ROUND )
 		else
-			umsg.Start( "ZMPlayMusic" )
-				umsg.Char(6)
-			umsg.End()
-
+			music.Play( EVENT_PLAY, MUSIC_BOSS )
 			self:StartBossRound()
-
 		end
 
 		self:SetState( STATE_PLAYING )
@@ -152,10 +142,7 @@ function GM:Think()
 			v:Remove()
 		end
 
-		umsg.Start( "ZMPlayMusic" )
-			umsg.Char(5)
-			umsg.Bool(true)
-		umsg.End()
+		music.Play( EVENT_PLAY, MUSIC_WIN )
 
 		self:SetState( STATE_INTERMISSION )
 
@@ -193,10 +180,8 @@ function GM:Think()
 	if self.BossRound && self.BossSpawned && !self.HasBoss() then
 
 		self.BossRound = false
-		umsg.Start( "ZMPlayMusic" )
-			umsg.Char(5)
-			umsg.Bool(true)
-		umsg.End()
+		
+		music.Play( EVENT_PLAY, MUSIC_WIN )
 
 		self:SetState( STATE_INTERMISSION )
 
@@ -256,10 +241,7 @@ function GM:Think()
 			v:Remove()
 		end
 
-		umsg.Start( "ZMPlayMusic" )
-			umsg.Char(5)
-			umsg.Bool(false)
-		umsg.End()
+		music.Play( EVENT_PLAY, MUSIC_LOSE )
 
 		self.LostRound = true
 

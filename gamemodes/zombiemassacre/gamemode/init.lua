@@ -107,9 +107,7 @@ hook.Add( "PlayerInitialSpawn", "ResetOnEmptyServer", function( ply )
 		SetGlobalInt( "Round", 1 )
 	end
 
-	umsg.Start( "ZMPlayMusic", ply )
-		umsg.Char(1)
-	umsg.End()
+	music.Play( EVENT_PLAY, MUSIC_WAITING, ply )
 
 end )
 
