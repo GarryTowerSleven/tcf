@@ -19,7 +19,7 @@ SWEP.WorldModel		 		= Model("models/weapons/w_vir_9mm1.mdl")
 //Primary
 SWEP.Primary.ClipSize		= 12
 SWEP.Primary.DefaultClip	= 12
-SWEP.Primary.Ammo			= "AlyxGun"
+SWEP.Primary.Ammo			= "Pistol"
 SWEP.Primary.Delay			= 0.25
 SWEP.Primary.Recoil	 		= 1
 SWEP.Primary.Cone			= 0.015

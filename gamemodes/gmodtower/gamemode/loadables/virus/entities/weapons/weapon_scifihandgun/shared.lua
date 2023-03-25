@@ -19,7 +19,7 @@ SWEP.WorldModel		 		= "models/weapons/w_vir_scifihg.mdl"
 //Primary
 SWEP.Primary.ClipSize		= 12
 SWEP.Primary.DefaultClip	= 12
-SWEP.Primary.Ammo			= "XBowBolt"
+SWEP.Primary.Ammo			= "AR2"
 SWEP.Primary.Delay			= 0.15
 SWEP.Primary.Recoil	 		= 2
 SWEP.Primary.Cone			= 0.005

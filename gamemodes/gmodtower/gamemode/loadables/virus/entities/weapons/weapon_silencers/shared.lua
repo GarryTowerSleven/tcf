@@ -20,7 +20,7 @@ SWEP.WorldModel				= "models/weapons/w_vir_dsilen.mdl"
 //Primary
 SWEP.Primary.ClipSize		= 36
 SWEP.Primary.DefaultClip	= 36
-SWEP.Primary.Ammo			= "357"
+SWEP.Primary.Ammo			= "Pistol"
 SWEP.Primary.Delay			= 0.09
 SWEP.Primary.Recoil	 		= 2
 SWEP.Primary.Cone			= 0.025
