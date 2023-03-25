@@ -53,7 +53,7 @@ SWEP.NextCharge 			= CurTime()
 SWEP.Charging 				= false
 SWEP.ChargeLvl				= 0
 
-SWEP.ChargeIncrease			= 0.008
+SWEP.ChargeIncrease			= 2
 SWEP.NextChargeDelay		= 0.6
 
 SWEP.BlastForce				= 2500
@@ -63,6 +63,10 @@ function SWEP:Initialize()
 	self:SetWeaponHoldType( self.HoldType )
 	self.ChargeSound = CreateSound( self, self.ExtraSounds.Charge )
 	
+end
+
+function SWEP:FrameTime()
+	return SysTime() - self.FT
 end
 
 function SWEP:Think()
@@ -84,6 +88,7 @@ function SWEP:Think()
 	end
 
 	self:UpdateColor()
+	self.FT = SysTime()
 
 end
 
@@ -136,7 +141,7 @@ function SWEP:UpdateCharge()
 
 	if self.ChargeLvl < 1 then
 
-		self.ChargeLvl = self.ChargeLvl + self.ChargeIncrease
+		self.ChargeLvl = self.ChargeLvl + self:FrameTime() / self.ChargeIncrease
 
 	else
 
@@ -297,7 +302,7 @@ function SWEP:PreDrawViewModel( vm, wep, ply )
 			return
 		end
 
-		self.Refract = self.Refract + 2 * FrameTime()
+		self.Refract = self.Refract + 2 * self:FrameTime()
 		self.SpriteSize = ( self.SpriteSizeFinal or 0 ) * self.Refract^(0.2)
 		self.RefractMat:SetFloat( "$refractamount", math.sin( self.Refract * math.pi ) * 0.1 )
 
