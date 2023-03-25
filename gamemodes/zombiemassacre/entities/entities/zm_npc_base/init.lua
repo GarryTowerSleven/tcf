@@ -205,6 +205,19 @@ end
 
 function ENT:Think()
 
+	// Imperfect way to make sure the NPC doesn't t-pose.
+	if self:GetClass() == "zm_npc_zombie" and self:GetSequence() == 0 then
+		if !self.HitType then
+			self.HitType = math.random( 1, 3 )
+
+			self:ResetSequenceInfo()
+			self:SetCycle( 0 )
+		end
+
+		self:SetSequence("attack0" .. self.HitType)
+		self:SetPlaybackRate( 1 )
+	end
+
 	//Small little tidbit to make the NPCs goan and such.
 	if self.IdleTalk < CurTime() then
 		self:EmitSoundTable( self.SIdle )
