@@ -174,6 +174,10 @@ function GM:Infect( ply, infector )
 	//Fucking zoom
 	ply:SetFOV( 0, 0 )
 
+	net.Start( "Scream" )
+	net.WriteEntity( ply )
+	net.Broadcast()
+
 	ply:SetTeam( TEAM_INFECTED )
 
 	self:VirusSpawn( ply )

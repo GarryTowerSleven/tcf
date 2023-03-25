@@ -399,6 +399,51 @@ net.Receive( "Infect", ClientInfected )
 net.Receive( "DmgTaken", ClientDmgTaken )
 net.Receive( "Spawn", ClientSpawn )
 
+local screams = {
+	{
+		"sound/npc/zombie/moan_loop1.wav",
+		4
+	},
+	{
+		"sound/npc/zombie/moan_loop2.wav",
+		5.48
+	},
+	{
+		"sound/npc/zombie/moan_loop4.wav",
+		2.1
+	}
+}
+
+function p(s, e)
+    local p2 = math.Rand(1.04, 1.08)
+    s:SetPlaybackRate(p2)
+    s:SetVolume(8)
+
+	hook.Add("Think", s, function()
+		if !IsValid(e) then return end
+		s:SetPos(e:GetPos())
+	end)
+
+    timer.Simple(2.6 / p2, function()
+		hook.Remove("Think", s)
+		if !IsValid(s) then return end
+        s:Stop()
+    end)
+end
+
+net.Receive( "Scream", function()
+	local ply = net.ReadEntity()
+	local scream = screams[math.random(#screams)]
+
+sound.PlayFile(scream[1], "3d noblock", function(s)
+    s:SetPos(ply:GetPos())
+    s:SetTime(scream[2])
+    s:Set3DFadeDistance(200, 120000)
+    p(s, ply)
+end)
+
+end)
+
 function HudMessage( msg, seconds, font, ignoreY, color )
 	
 	local VguiMsg = vgui.Create( "virus_HudMessage")
