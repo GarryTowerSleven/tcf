@@ -435,12 +435,12 @@ net.Receive( "Scream", function()
 	local ply = net.ReadEntity()
 	local scream = screams[math.random(#screams)]
 
-sound.PlayFile(scream[1], "3d noblock", function(s)
-    s:SetPos(ply:GetPos())
-    s:SetTime(scream[2])
-    s:Set3DFadeDistance(200, 120000)
-    p(s, ply)
-end)
+	sound.PlayFile(scream[1], "3d noblock", function(s)
+		s:SetPos(ply:GetPos())
+		s:SetTime(scream[2])
+		s:Set3DFadeDistance(200, 120000)
+		p(s, ply)
+	end)
 
 end)
 
