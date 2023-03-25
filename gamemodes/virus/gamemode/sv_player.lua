@@ -36,6 +36,8 @@ function GM:HandlePlayerDeath( ply, attacker, inflictor )
 		eff = EffectData()
 			eff:SetOrigin( ply:GetPos() + Vector( 0, 0, 50 ) )
 		util.Effect( "virus_explode", eff )
+
+		virusDeath = virusDeath + 1
 	end
 
 	ply.RespawnTime = CurTime() + 4
