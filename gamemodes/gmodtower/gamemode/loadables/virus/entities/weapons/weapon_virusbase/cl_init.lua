@@ -16,11 +16,24 @@ function SWEP:DrawHUD()
 
 	if self.Owner.Iron && self.IronZoom && !self.IronPost && ( self.HideViewModel && CurTime() > self.HideViewModel ) then
 
-		draw.RoundedBox( 0, 0, 0, ScrW(), ScrH(), Color( 0, 0, math.random( 230, 255 ), math.random(10, 15) ) )
+		local w, h = ScrW(), ScrH()
+		local w2, h2 = 640, 480
+		local r = w2 / h2
+		local w2 = w
+		local h2 = w / r + 0.5
+	
+		if h2 > h then
+			w2 = h * r + 0.5
+			h2 = h
+		end
+
+		draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 0, math.random( 230, 255 ), math.random(10, 15) ) )
+		draw.RoundedBox( 0, 0, 0, w2 / 4, h, color_black )
+		draw.RoundedBox( 0, w / 2 + w2 / 2 - 8, 0, w2 / 2, h, color_black )
 		surface.SetTexture( self.IronHUD )
 		surface.SetDrawColor( 0, 0, 0, 255 )
 
-		surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() )
+		surface.DrawTexturedRect( w / 2 - w2 / 2, 0, w2, h2 )
 		surface.SetDrawColor( 0, 0, 0, 255 )
 
 		surface.DrawLine( 0, ScrH() / 2, ScrW() / 2, ScrH() / 2 )
