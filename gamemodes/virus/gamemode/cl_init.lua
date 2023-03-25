@@ -370,8 +370,10 @@ local function ClientInfected( len, ply )
 		if ( virusEnt == LocalPlayer() ) then
 			LocalPlayer().IsThirdPerson = true
 		end
+		infector:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_RANGE_ZOMBIE, false)
 	end
 	
+	virusEnt:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_TAUNT_ZOMBIE, true)
 end
 
 local function ClientDmgTaken( len, ply )
