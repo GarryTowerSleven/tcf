@@ -133,7 +133,7 @@ function GM:VirusThink( ply )
 			end
 		end
 		
-	elseif NumVirus >= 2 then
+	elseif NumVirus >= 3 then
 		
 		for _, v in ipairs( player.GetAll() ) do
 			if v:GetNet( "IsVirus" ) || v.enraged == true then

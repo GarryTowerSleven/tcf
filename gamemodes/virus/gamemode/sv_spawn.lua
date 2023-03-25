@@ -107,7 +107,7 @@ function GM:VirusSpawn( ply )
 		end
 	end )
 	
-	if ( IsValid( ply ) && ply:GetNet( "IsVirus" ) && ply:Deaths() == 2 && numVirus == 1 ) then
+	if ( IsValid( ply ) && ply:GetNet( "IsVirus" ) && ply:Deaths() == 2 && numVirus <= 3 ) then
 		self:HudMessage( nil, 19 /* Infected has become enraged */, 5 )
 	end
 	
