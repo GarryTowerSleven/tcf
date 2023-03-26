@@ -62,13 +62,13 @@ Maps.Register( "gmt_ballracer_memories02", {
 	Priority = 7,
 } )
 
-Maps.Register( "gmt_ballracer_flyinhigh01", {
-	Name = "Flyin' High",
-	Desc = "Easy levels with fun mechanics. Also home to the one and only Bumper Island.",
-	Author = "Muffin",
+Maps.Register( "gmt_ballracer_waterworld02", {
+	Name = "Water World",
+	Desc = "Meet water physics in this fun, fast paced world. Float, dive and bounce to victory!",
+	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 9,
+	Priority = 8,
 } )
 
 Maps.Register( "gmt_ballracer_neonlights01", {
@@ -77,16 +77,7 @@ Maps.Register( "gmt_ballracer_neonlights01", {
 	Author = "PikaUCH",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 10,
-} )
-
-Maps.Register( "gmt_ballracer_waterworld02", {
-	Name = "Water World",
-	Desc = "Meet water physics in this fun, fast paced world. Float, dive and bounce to victory!",
-	Author = "GMod Tower: Deluxe Team",
-	DateAdded = 1339137397,
-	DateModified = 1339252668,
-	Priority = 11,
+	Priority = 9,
 } )
 
 Maps.Register( "gmt_ballracer_nightball", {
@@ -95,7 +86,7 @@ Maps.Register( "gmt_ballracer_nightball", {
 	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 12,
+	Priority = 10,
 } )
 
 Maps.Register( "gmt_ballracer_metalworld", {
@@ -104,7 +95,7 @@ Maps.Register( "gmt_ballracer_metalworld", {
 	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 13,
+	Priority = 11,
 } )
 
 Maps.Register( "gmt_ballracer_spaceworld01", {
@@ -113,7 +104,7 @@ Maps.Register( "gmt_ballracer_spaceworld01", {
 	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 14,
+	Priority = 12,
 } )
 
 Maps.Register( "gmt_ballracer_tranquil01", {
@@ -122,7 +113,7 @@ Maps.Register( "gmt_ballracer_tranquil01", {
 	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 15,
+	Priority = 13,
 } )
 
 Maps.Register( "gmt_ballracer_facile", {
@@ -131,5 +122,5 @@ Maps.Register( "gmt_ballracer_facile", {
 	Author = "GMod Tower: Deluxe Team",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 16,
+	Priority = 14,
 } )

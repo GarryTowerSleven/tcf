@@ -163,13 +163,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETWATERWORLD, {
 	Group = 6
 	}
 )
-GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETFLYINHIGH, {
-	Name = "Flyin' High Secret Banana",
-	Description = "Find the hidden banana on Flyin' High.",
-	Value = 1,
-	Group = 6
-	}
-)
 GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETNEONLIGHTS, {
 	Name = "Neon Lights Secret Banana",
 	Description = "Find the hidden banana on Neon Lights.",
