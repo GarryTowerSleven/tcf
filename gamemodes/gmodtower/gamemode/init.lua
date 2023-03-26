@@ -27,7 +27,9 @@ resource.AddWorkshop( 2947440760 ) -- Virus
 resource.AddWorkshop( 2947441080 ) -- Zombie Massacre
 
 // TCF Content
+resource.AddWorkshop( 2952547939 ) -- TCF Base
 resource.AddWorkshop( 2948325260 ) -- TCF Lobby
+resource.AddWorkshop( 2952552769 ) -- TCF Ballrace
 
 // BACKUP
 /*resource.AddWorkshop( 2949539663 ) -- Base
