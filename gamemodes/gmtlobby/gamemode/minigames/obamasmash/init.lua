@@ -34,6 +34,7 @@ module("minigames.obamasmash" )
 
 TotalMoney = 0
 ObamaCount = 0
+ObamaMax = 0
 MoneyPerKill = 3
 
 function GiveWeapon( ply )
@@ -86,14 +87,20 @@ end
 local function SmashObama( ent, dmg )
 
 	if ( ent:GetClass() == "gmt_minigame_obama" && dmg:IsDamageType(128) && ent.MiniGame == true ) then
+
+		ObamaMax = 0
+
 		if ObamaCount != nil then
 			ObamaCount = (ObamaCount-1)
 		end
 
+		for _, ply in pairs( Location.GetPlayersInLocation( MinigameLocation ) ) do -- Dynamic? Yes. Bad? Probably. Sorry!
+			ObamaMax = math.Clamp(ObamaMax + 5, 0, 30)
+		end
 		local ply = dmg:GetAttacker()
 		local ComboTime = 1
 
-		ply.Combo = math.Clamp( (ply.Combo or 0) + 1, 0, 15)
+		ply.Combo = (ply.Combo or 0) + 1
 
 		if CurTime() - (ply.SmashTime or CurTime()) > ComboTime then
 			ply.Combo = 0
@@ -101,7 +108,7 @@ local function SmashObama( ent, dmg )
 
 		ply.SmashTime = CurTime()
 
-		MoneyPerKill = (ply.Combo or 0)
+		MoneyPerKill = math.Clamp( (ply.Combo or 0) + 1, 1, 1000)
 
 		TotalMoney = TotalMoney + MoneyPerKill
 
@@ -121,9 +128,10 @@ end
 local function ObamaManStart()
 
 	ObamaCount = 0
+	ObamaMax = 30 -- Lets preload some obamas before the dynamic effect comes in
 
 	timer.Create( "ObamaMan", 0.35, 0, function()
-		if ObamaCount < 30 then
+		if ObamaCount < ObamaMax then
 			ObamaCount = (ObamaCount+1)
 			local entposX = math.Rand(4288.218262, 4911.975586)
 			local entposY = math.Rand(-10543.968750, -9808.031250)
