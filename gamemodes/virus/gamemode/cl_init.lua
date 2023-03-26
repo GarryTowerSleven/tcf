@@ -418,9 +418,9 @@ local screams = {
 }
 
 function p(s, e)
-    local p2 = math.Rand(1.04, 1.08)
+    local p2 = math.Rand(1.02, 1.12)
     s:SetPlaybackRate(p2)
-    s:SetVolume(8)
+    s:SetVolume(0.85)
 
 	hook.Add("Think", s, function()
 		if !IsValid(e) then return end
@@ -441,7 +441,7 @@ net.Receive( "Scream", function()
 	sound.PlayFile(scream[1], "3d noblock", function(s)
 		s:SetPos(ply:GetPos())
 		s:SetTime(scream[2])
-		s:Set3DFadeDistance(200, 120000)
+		s:Set3DFadeDistance(600, 10000) -- Currently doesn't go as far as I'd like it to
 		p(s, ply)
 	end)
 
