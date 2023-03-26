@@ -6,8 +6,11 @@ end
 
 local Roles =
 {
+
+	// Lead Omega Overlord Kitteh1337
+	["STEAM_0:0:1384695"] = "Lead Developer",	// Kity
+	
 	// Developers
-	["STEAM_0:0:1384695"] = "Developer",	// Kity
 	["STEAM_0:0:38865393"] = "Developer",	// boXy
 	["STEAM_0:1:39916544"] = "Developer",	// Anoma
 	["STEAM_0:0:35652170"] = "Developer",	// Lead
@@ -120,9 +123,9 @@ function meta:GetDisplayTextColor()
 
 	if self:IsHidden() then return returnFull(default_color) end
 
-	/*if GetRole( self:SteamID() ) == "Lead Developer" then
+	if GetRole( self:SteamID() ) == "Lead Developer" then
 		return returnFull(color_lead)
-	end*/
+	end
 
 	if self:IsDeveloper() then
 		return returnFull(color_developer) //color_developer
