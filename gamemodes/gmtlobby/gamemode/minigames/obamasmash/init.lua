@@ -93,7 +93,7 @@ local function SmashObama( ent, dmg )
 		local ply = dmg:GetAttacker()
 		local ComboTime = 1
 
-		ply.Combo = (ply.Combo or 0) + 1
+		ply.Combo = math.Clamp( (ply.Combo or 0) + 1, 0, 15)
 
 		if CurTime() - (ply.SmashTime or CurTime()) > ComboTime then
 			ply.Combo = 0
@@ -101,7 +101,7 @@ local function SmashObama( ent, dmg )
 
 		ply.SmashTime = CurTime()
 
-		MoneyPerKill = 1 + (ply.Combo or 0)
+		MoneyPerKill = (ply.Combo or 0)
 
 		TotalMoney = TotalMoney + MoneyPerKill
 
