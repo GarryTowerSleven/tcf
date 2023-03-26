@@ -53,6 +53,48 @@ local waitCams = {
 		origin = Vector( -7534.23, -6870.77, -1579.51 ),
 		angles = Angle( -21.63, 49.83, 0 ),
 		fov = 75
+	},
+
+	["gmt_ballracer_flyinhigh01"] = {
+		origin = Vector( -2738.96, -12664.52, -184.47 ),
+		angles = Angle( -5.27, 21.73, 0 ),
+		fov = 70
+	},
+
+	["gmt_ballracer_neonlights01"] = {
+		origin = Vector( -2098.01, 4244.77, 1703.15 ),
+		angles = Angle( -2.29,-140.11, 0 ),
+		fov = 70
+	},
+
+	["gmt_ballracer_waterworld02"] = {
+		origin = Vector( 4271.66, 886.47, -2226.30 ),
+		angles = Angle( -16.59, -51.16, 0 ),
+		fov = 70
+	},
+	
+	["gmt_ballracer_nightball"] = {
+		origin = Vector( -3749.69, 11127.10, 328.33 ),
+		angles = Angle( -2.2, 20, 0 ),
+		fov = 70
+	},
+
+	["gmt_ballracer_metalworld"] = {
+		origin = Vector( 13261.38, 2545.33, 191.68 ),
+		angles = Angle( -3.54, -43.85, 0 ),
+		fov = 70
+	},
+	
+	["gmt_ballracer_spaceworld01"] = {
+		origin = Vector( -1529.24, 1202.39, 194.8 ),
+		angles = Angle( 1.54, -13, 0 ),
+		fov = 70
+	},
+
+	["gmt_ballracer_facile"] = {
+		origin = Vector( 6849.89, 4036.21, -1319.66 ),
+		angles = Angle( 2.44, -112.38, 0 ),
+		fov = 70
 	}
 }
 
