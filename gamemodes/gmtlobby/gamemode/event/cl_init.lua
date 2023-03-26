@@ -26,6 +26,7 @@ DisplayNames = {
 	["obamasmash"] = "Obama Smash",
 	["chainsaw"] = "Chainsaw Massacre",
 	["pvpnarnia"] = "PVP Narnia",
+	["barfight"] = "Bar Fight",
 }
 
 hook.Add( "GTowerHUDPaint", "DrawNextEvent", function()

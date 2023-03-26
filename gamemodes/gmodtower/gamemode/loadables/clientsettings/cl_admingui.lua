@@ -279,6 +279,7 @@ function CreateMiniGamesControls()
 	minigames.List = {
 
 		"balloonpop",
+		"barfight",
 		"chainsaw",
 		"drumracing",
 		"fun",

@@ -560,8 +560,9 @@ L.AddWord( 1, "Hat Store", "Hat Store" )
 L.AddWord( 1, "Souvenir Store", "Souvenir Store" )
 L.AddWord( 1, "Electronic Store", "Electronic Store" )
 L.AddWord( 1, "Conquest", "Conquest" )
-L.AddWord( 1, "Chainsaw Battle!","Chainsaw Battle!")
+L.AddWord( 1, "Chainsaw Battle!", "Chainsaw Battle!")
 L.AddWord( 1, "Blizzard Storm!", "Blizzard Storm!" )
+L.AddWord( 1, "Bar Fight!", "Bar Fight!")
 
 // Custom/New language
 L.AddWord( 1, "MCSkinChange",	"Your skin will be set in a few seconds.")

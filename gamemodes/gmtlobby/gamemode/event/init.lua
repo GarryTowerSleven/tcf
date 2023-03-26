@@ -2,7 +2,7 @@
 local EventSound = "gmodtower/misc/notifyevent.wav"
 if time.IsChristmas() then EventSound = "gmodtower/music/christmas/eventnotify.mp3" end
 
-local eventlist = { minigames.balloonpop.MinigameName, minigames.chainsaw.MinigameName, minigames.obamasmash.MinigameName,  "storesale", "storesale" }
+local eventlist = { minigames.barfight.MinigameName, minigames.balloonpop.MinigameName, minigames.chainsaw.MinigameName, minigames.obamasmash.MinigameName,  "storesale", "storesale" }
 
 local shopslist = {
     GTowerStore.SUITE,
@@ -138,6 +138,24 @@ function StartEvent( event )
     
         SafeCall( MiniGame.Start, "" )
         MsgC( color_green, "[EVENTS] Starting chainsaw!\n" )
+
+        endtime = CurTime() + minitime
+
+    elseif event == minigames.barfight.MinigameName then
+        local MiniGame = minigames[ "barfight" ]
+
+        if !MiniGame then
+            SendMessageToPlayers( "EventError" )
+            enabled = false
+            return
+        end
+
+        curmini = "barfight"
+        
+        SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
+    
+        SafeCall( MiniGame.Start, "" )
+        MsgC( color_green, "[EVENTS] Starting barfight!\n" )
 
         endtime = CurTime() + minitime
 

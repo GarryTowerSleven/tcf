@@ -51,6 +51,7 @@ ENT.Messages = {
 	[45] = "Building Store",
 	[46] = "Smoothie Bar",
 	[47] = "Casino",
+	[48] = {Name = "Bar Fight!", IgnoreTrace = true, Color = Color( 215, 0, 0, 255 ) },
 }
 
 // Add to this table to override the current messages
