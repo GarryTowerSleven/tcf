@@ -20,7 +20,7 @@ payout.Register( "WinBonusGhost", {
 
 payout.Register( "ButtonPress", {
 	Name = "The Savior",
-	Desc = "You saved your team from being eaten! (or maybe just yourself)",
+	Desc = "You saved your team from being eaten!\n(or maybe just yourself)",
 	GMC = 20,
 	Diff = 1,
 } )
