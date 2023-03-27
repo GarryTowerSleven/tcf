@@ -592,6 +592,13 @@ RegisterModel(
 	20000 )
 
 RegisterModel(
+	"mdl_miku",
+	"Hatsune Miku",
+	"*Admin abuse not included.",
+	"models/player/miku.mdl",
+	"miku",
+	25000 )
+RegisterModel(
 	"mdl_solidsnake",
 	"Big Boss",
 	"Do you think love can bloom even on a battlefield?",
