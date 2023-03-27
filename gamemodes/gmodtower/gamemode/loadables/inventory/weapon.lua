@@ -48,19 +48,11 @@ function GTowerItems:CanHaveWeapon( ply, Classname )
 		return ClientSettings:Get( ply, "GTAllowPhysGun" )
 	end
 
-	if Classname == "weapon_physcannon" && ClientSettings:Get( ply, "GTAllowGravGun" ) == true then
+	if Classname == "weapon_physcannon" then
 		return true
 	end
 
-	if ClientSettings.DEBUG then
-		Msg(ply, " can have ".. Classname .. ": " , ClientSettings:Get( ply, "GTAllowWeapons" ) , "\n")
-	end
-
-	if ClientSettings:Get( ply, "GTAllowWeapons" ) == false then
-		return false
-	end
-
-	if hook.Call("AllowWeapons", GAMEMODE, ply ) == false then
+	if hook.Call( "AllowWeapons", GAMEMODE, ply ) == false then
 		return false
 	end
 
@@ -78,6 +70,8 @@ function GTowerItems:GiveWeapon( ply, item, select )
 	end
 
 	local Classname = item.ClassName
+
+	print( item.WeaponSafe, GTowerItems:CanHaveWeapon( ply, Classname ) )
 
 	if !Classname || (item.WeaponSafe == false && GTowerItems:CanHaveWeapon( ply, Classname ) == false) then
 		return
@@ -138,7 +132,7 @@ hook.Add("ClientSetting", "GTCheckWeapons", function( ply, id, val )
 
 	local Name = ClientSettings:GetName( id )
 
-	if Name == "GTAllowGravGun" || Name == "GTAllowPhysGun" || Name == "GTAllowWeapons" then
+	if Name == "GTAllowPhysGun" then
 		PlayerCheckWeapons( ply )
 	end
 

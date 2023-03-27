@@ -50,7 +50,8 @@ ClientSettings.Items = {
 		Default = 0,
 		SQLSave = false,
 		SendType = true, //false=Admins, true=Player+admins
-		AllowReset = false
+		AllowReset = false,
+		Disabled = true,
 	},
 	[5] = {
 		Name = "Allow Gravity Gun",
@@ -58,7 +59,8 @@ ClientSettings.Items = {
 		Var = "GTAllowGravGun",
 		NWType = "Bool",
 		Default = false,
-		SendType = false //false=Admins, true=Player+admins
+		SendType = false, //false=Admins, true=Player+admins
+		Disabled = true,
 	},
 	[6] = {
 		Name = "Allow Physics Gun",
@@ -74,7 +76,8 @@ ClientSettings.Items = {
 		Var = "GTAllowWeapons",
 		NWType = "Bool",
 		Default = false,
-		SendType = false //false=Admins, true=Player+admins
+		SendType = false, //false=Admins, true=Player+admins
+		Disabled = true,
 	},
 	[8] = {
 		Name = "Allow Suite", //TODO: make false
@@ -192,6 +195,7 @@ ClientSettings.Items = {
 		NWType = "Bool",
 		Default = false,
 		SendType = false, //false=Admins, true=Player+admins
+		Disabled = true,
 	},
 	[22] = {
 		Name = "Allow Emitsound",
@@ -200,6 +204,7 @@ ClientSettings.Items = {
 		NWType = "Bool",
 		Default = false,
 		SendType = false, //false=Admins, true=Player+admins
+		Disabled = true,
 	},
 	[23] = {
 		Name = "Allow Self-Ragdolling",
@@ -208,6 +213,7 @@ ClientSettings.Items = {
 		NWType = "Bool",
 		Default = false,
 		SendType = false, //false=Admins, true=Player+admins
+		Disabled = true,
 	},
 	[24] = {
 		Name = "Can Start Vote",

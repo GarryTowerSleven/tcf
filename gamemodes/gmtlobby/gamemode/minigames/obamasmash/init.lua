@@ -59,7 +59,6 @@ function CheckGiveWeapon( ply, loc )
 end
 
 function RemoveWeapon( ply )
-	--if ply:HasWeapon(WeaponName) && ply:GetSetting( "GTAllowWeapons" ) == false && !ply:IsAdmin() then
 	if ply:HasWeapon(WeaponName) then
 		ply:StripWeapons()
 	end
