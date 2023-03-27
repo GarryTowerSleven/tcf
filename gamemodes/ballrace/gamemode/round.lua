@@ -156,7 +156,7 @@ function GM:UpdateStatus(disc)
 			tries = 0
 			// Fokin' network delay
 			timer.Simple( 0.01, function() GAMEMODE:GiveMoney() end )
-			GetWorldEntity():SetNet( "Passed", true )
+			globalnet.SetNet( "Passed", true )
 
 			if NextMap then
 				if string.StartWith(game.GetMap(),"gmt_ballracer_memories") then
@@ -177,7 +177,7 @@ function GM:UpdateStatus(disc)
 				LateSpawn = BonusTeleport
 				ActiveTeleport = BonusTeleport
 				timer.Simple( 0.01, function() GAMEMODE:GiveMoney() end )
-				GetWorldEntity():SetNet( "Passed", true )
+				globalnet.SetNet( "Passed", true )
 			else
 				if tries < 2 then
 					self:RoundMessage( MSGSHOW_LEVELFAIL )
@@ -233,7 +233,7 @@ function GM:StartRound()
 		v:SetNet( "CompletedRank", 99 )
 	end
 
-	GetWorldEntity():SetNet( "Passed", false )
+	globalnet.SetNet( "Passed", false )
 
 	local NextRoundTime
 	local NextRoundState

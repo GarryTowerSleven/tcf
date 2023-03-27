@@ -90,10 +90,10 @@ function ENT:Use(ply)
 
 			if self.TeleportName == "secret_exit2" then ply:AddAchievement(ACHIEVEMENTS.WTF, 1) end
 
-			if ( ply.BallRaceBall && IsValid(ply.BallRaceBall) ) then
-				ply.BallRaceBall:SetAngles(self.TeleportEnt:GetAngles())
+			if ( ply:GetBallRaceBall() && IsValid(ply:GetBallRaceBall()) ) then
+				ply:GetBallRaceBall():SetAngles(self.TeleportEnt:GetAngles())
 				ply:SetEyeAngles(self.TeleportEnt:GetAngles())
-				ply.BallRaceBall:SetPos( self.TeleportEnt:GetPos() + Vector(0,0,35) )
+				ply:GetBallRaceBall():SetPos( self.TeleportEnt:GetPos() + Vector(0,0,35) )
 			else
 				ply:SetEyeAngles(self.TeleportEnt:GetAngles())
 				ply.DesiredPosition = self.TeleportEnt:GetPos()

@@ -1,7 +1,7 @@
 if CLIENT then
 
 	function Money()
-		return LocalPlayer().GTMoney or 0
+		return LocalPlayer():GetNet( "Money" ) or 0
 	end
 
 	function Afford( price )

@@ -92,8 +92,7 @@ function Cleanup( self )
 
 	if IsValid( self.Owner ) then
 		self.Owner.GRoom = nil
-		--for k,v in pairs(player.GetAll()) do v:SendLua([[ents.GetByIndex( ]]..self.Owner:EntIndex()..[[.GRoomId = 0)]]) end
-		self.Owner.GRoomId = 0
+		self.Owner:SetNet( "RoomID", 0 )
     end
 
     self.Owner = nil
@@ -111,8 +110,7 @@ function Load( self, ply )
 	self.LoadedTime = CurTime()
 	self.SafeToSave = false
 	ply.GRoom = self
-	ply.GRoomId = self.Id
-	--for k,v in pairs(player.GetAll()) do v:SendLua([[ents.GetByIndex( ]]..self.Owner:EntIndex()..[[.GRoomId = ]]..self.Id..[[)]]) end
+	ply:SetNet( "RoomID", self.Id )
 
 	if ply._RoomSaveData == nil then
 		self:LoadDefault()
@@ -160,14 +158,14 @@ function Finish( self )
 
 	for k,v in pairs( ents.FindByClass("gmt_condoplayer") ) do
 		if IsValid(v) && IsValid(v:GetMediaPlayer()) then
-			if v:GetNWInt("condoID") != self.Owner.GRoomId then continue end
+			if v:GetNWInt("condoID") != self.Owner:GetNet( "RoomID" ) then continue end
 			ClearAllMusic(v)
 		end
 	end
 
-	AdminNotif.SendStaff( self.Owner:NickID() .. " has checked out of condo #" .. self.Owner.GRoomId .. ".", nil, "GRAY", 3 )
+	AdminNotif.SendStaff( self.Owner:NickID() .. " has checked out of condo #" .. self.Owner:GetNet( "RoomID" ) .. ".", nil, "GRAY", 3 )
 
-	local door = GTowerRooms.GetCondoDoor( self.Owner.GRoomId )
+	local door = GTowerRooms.GetCondoDoor( self.Owner:GetNet( "RoomID" ) )
 	if door then
 		door:SetNWInt("DoorBell", 1)
 	end

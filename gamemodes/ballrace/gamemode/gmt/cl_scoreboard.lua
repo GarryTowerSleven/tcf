@@ -114,7 +114,7 @@ end
 PlayerAvatarJazz = function( ply )
 
 	if GAMEMODE:GetState() != STATE_INTERMISSION then return false end
-	if not GetWorldEntity():GetNet( "Passed" ) then return false end
+	if not globalnet.GetNet( "Passed" ) then return false end
 
 	CalculateRanks()
 

@@ -8,19 +8,19 @@ local sprint_minimum = .2
 
 function meta:CanRechargeSprint()
 
-	if self:GetNWBool( "IsChimera" ) && self:IsOnGround() && !self:GetNWBool( "IsRoaring" ) && !self:GetNWBool( "IsBiting" ) && !self:GetNWBool( "IsStunned" ) then
+	if self:GetNet( "IsChimera" ) && self:IsOnGround() && !self:GetNet( "IsRoaring" ) && !self:GetNet( "IsBiting" ) && !self:GetNet( "IsStunned" ) then
 		return true
 	end
 
-	if self:GetNWBool( "IsStunned" ) then
+	if self:GetNet( "IsStunned" ) then
 		return false
 	end
 
-	if self:GetNWBool( "IsScared" ) then
+	if self:GetNet( "IsScared" ) then
 		return false
 	end
 
-	if !self.SprintCooldown && ( self:Alive() && !self:GetNWBool( "IsChimera" ) ) then
+	if !self.SprintCooldown && ( self:Alive() && !self:GetNet( "IsChimera" ) ) then
 		return true
 	end
 
@@ -30,19 +30,19 @@ end
 
 function meta:CanSprint()
 	
-	if self:GetNWFloat( "Sprint" ) <= 0 || self.Sprinting then
+	if self:GetNet( "Sprint" ) <= 0 || self.Sprinting then
 		return false
 	end
 
-	if self:GetNWBool( "IsTaunting" ) then
+	if self:GetNet( "IsTaunting" ) then
 		return false
 	end
 
-	if self:GetNWBool( "IsChimera" ) && self:IsOnGround() && !self:GetNWBool( "IsRoaring" ) && !self:GetNWBool( "IsBiting" ) then
+	if self:GetNet( "IsChimera" ) && self:IsOnGround() && !self:GetNet( "IsRoaring" ) && !self:GetNet( "IsBiting" ) then
 		return true
 	end
 
-	if self:GetNWBool( "IsScared" ) then
+	if self:GetNet( "IsScared" ) then
 		return false
 	end
 
@@ -61,12 +61,14 @@ end
 
 function GM:SprintKeyPress( ply, key ) //pigs sprint
 	
-	if key != IN_SPEED || ply:GetNWFloat( "Sprint" ) < sprint_minimum then
+	if key != IN_SPEED || ply:GetNet( "Sprint" ) < sprint_minimum then
 		return
 	end
 	
 	if ply:CanSprint() then
-		ply:SetNWBool( "IsSprinting", true )
+		if SERVER then
+			ply:SetNet( "IsSprinting", true )
+		end
 	end
 	
 end
@@ -78,20 +80,20 @@ if SERVER then
 
 		for _, ply in ipairs( player.GetAll() ) do
 
-			if !ply:Alive() then ply:SetNWBool( "IsSprinting", false ) continue end
+			if !ply:Alive() then ply:SetNet( "IsSprinting", false ) continue end
 
-			ply:SetNWFloat( "Sprint", ply:GetNWFloat( "Sprint", 1 ) )
+			ply:SetNet( "Sprint", ply:GetNet( "Sprint", 1 ) )
 			//if ply.IsChimera then ply.IsSprinting = false end
 
 			if ply.SprintCooldown && ply.SprintCooldown < CurTime() then
 				ply.SprintCooldown = nil
 			end
 
-			if ply:GetNWBool( "IsChimera" ) then
-				ply:SetNWBool( "IsSprinting", ply:KeyDown( IN_SPEED ) && ply:MovementKeyDown() && ply:CanSprint() )
+			if ply:GetNet( "IsChimera" ) then
+				ply:SetNet( "IsSprinting", ply:KeyDown( IN_SPEED ) && ply:MovementKeyDown() && ply:CanSprint() )
 			end
 
-			if ply:GetNWBool( "IsScared" ) then
+			if ply:GetNet( "IsScared" ) then
 				ply:UpdateSpeeds()
 				continue
 			end
@@ -104,25 +106,25 @@ if SERVER then
 
 	function meta:HandleSprinting()  //when they're actually sprinting
 
-		if self:GetNWBool( "IsSprinting" ) then
+		if self:GetNet( "IsSprinting" ) then
 
 			local drain = GAMEMODE.SprintDrain
 
-			if self:GetNWBool( "IsChimera" ) then
+			if self:GetNet( "IsChimera" ) then
 				drain = drain - .004
 
 				if GAMEMODE:IsLastPigmasks() then
 					drain = drain / 2
 				end
 			else
-				drain = drain - ( .005 * ( self:GetNWInt( "Rank" ) / 4 ) )
+				drain = drain - ( .005 * ( self:GetNet( "Rank" ) / 4 ) )
 			end
 
-			self:SetNWFloat( "Sprint", math.Clamp( self:GetNWFloat( "Sprint" ) - drain, 0, 1 ) )
+			self:SetNet( "Sprint", math.Clamp( self:GetNet( "Sprint" ) - drain, 0, 1 ) )
 
-			if self:GetNWFloat( "Sprint" ) <= 0 then //you're all out man!
+			if self:GetNet( "Sprint" ) <= 0 then //you're all out man!
 
-				self:SetNWBool( "IsSprinting", false )
+				self:SetNet( "IsSprinting", false )
 
 				if !self.SprintCooldown then
 					self.SprintCooldown = CurTime() + 1
@@ -136,11 +138,11 @@ if SERVER then
 
 		else
 
-			if self:GetNWFloat( "Sprint" ) < 1 && self:CanRechargeSprint() then
+			if self:GetNet( "Sprint" ) < 1 && self:CanRechargeSprint() then
 
 				local recharge = GAMEMODE.SprintRecharge
 
-				if self:GetNWBool( "IsChimera" ) then
+				if self:GetNet( "IsChimera" ) then
 					recharge = recharge + .001
 				else
 
@@ -149,11 +151,11 @@ if SERVER then
 						num = .02
 					end
 
-					recharge = recharge + ( num * ( self:GetNWInt( "Rank" ) / 4 ) )
+					recharge = recharge + ( num * ( self:GetNet( "Rank" ) / 4 ) )
 
 				end
 
-				self:SetNWFloat( "Sprint", math.Clamp( self:GetNWFloat( "Sprint" ) + recharge, 0, 1 ) )
+				self:SetNet( "Sprint", math.Clamp( self:GetNet( "Sprint" ) + recharge, 0, 1 ) )
 
 			end
 
@@ -175,7 +177,7 @@ else
 
 		local ply = LocalPlayer()
 
-		if !ply:GetNWFloat( "Sprint" ) || ( ply:Team() == TEAM_PIGS && !ply:Alive() ) then
+		if !ply:GetNet( "Sprint" ) || ( ply:Team() == TEAM_PIGS && !ply:Alive() ) then
 			return
 		end
 
@@ -183,19 +185,19 @@ else
 		local rankcolor = ply:GetRankColor()
 		local r, g, b = rankcolor.r, rankcolor.g, rankcolor.b
 	
-		if ply:GetNWBool( "IsChimera" ) then
+		if ply:GetNet( "IsChimera" ) then
 			mat = ucsprintbar
 			r, g, b = 255, 255, 255
 		end
 
 		local a = ply.SprintBarAlpha
 	
-		local diff = math.abs( sprintSmooth - ply:GetNWFloat( "Sprint", 1 ) )
-		sprintSmooth = math.Approach( sprintSmooth, ply:GetNWFloat( "Sprint", 1 ), FrameTime() * ( diff * 5 ) )
+		local diff = math.abs( sprintSmooth - ply:GetNet( "Sprint", 1 ) )
+		sprintSmooth = math.Approach( sprintSmooth, ply:GetNet( "Sprint", 1 ), FrameTime() * ( diff * 5 ) )
 
 		draw.RoundedBox( 0, x, y, w, h, Color( 130, 130, 130, a ) )
 
-		if !ply:GetNWBool( "IsChimera" ) then
+		if !ply:GetNet( "IsChimera" ) then
 			draw.RoundedBox( 0, x, y, ( w * sprint_minimum ), h, Color( 100, 100, 100, a ) )
 		end
 	
@@ -203,7 +205,7 @@ else
 		surface.SetDrawColor( Color( r, g, b, a ) )
 		surface.DrawTexturedRect( x, ( y + 1), ( w * sprintSmooth ), h )
 	
-		if sprintSmooth <= .02 || ply:GetNWBool( "IsScared" ) then
+		if sprintSmooth <= .02 || ply:GetNet( "IsScared" ) then
 			local alpha = ( 100 + ( math.sin( CurTime() * 5 ) * 45 ) )
 			draw.RoundedBox( 0, x, y, w, h, Color( 250, 0, 0, alpha ) )
 		end

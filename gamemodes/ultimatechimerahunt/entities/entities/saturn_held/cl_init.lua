@@ -13,7 +13,7 @@ function ENT:Draw()
 
 	if !IsValid( self:GetOwner() ) then return end
 
-	if LocalPlayer() == self:GetOwner() && !LocalPlayer():GetNWBool("IsTaunting") then return end
+	if LocalPlayer() == self:GetOwner() && !LocalPlayer():GetNet("IsTaunting") then return end
 
 	local Hand = self:GetOwner():LookupBone( "ValveBiped.Bip01_R_Hand" ) 
 	local pos, ang = self:GetOwner():GetBonePosition( Hand )

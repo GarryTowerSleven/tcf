@@ -7,7 +7,6 @@ include("meta_player.lua")
 include("meta_camera.lua")
 
 include("shared.lua")
-include("nwtranslator.lua")
 include("cl_controls.lua")
 include("cl_camera.lua")
 

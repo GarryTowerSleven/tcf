@@ -6,13 +6,13 @@ function AnimatePig( ply, velocity )
 
 		if len2d > 0 then
 
-			if ply:GetNWBool("IsSprinting") then
+			if ply:GetNet("IsSprinting") then
 				ply.CalcSeqOverride = "run"
 			else
 				ply.CalcSeqOverride = "walk"
 			end
 
-			if ply:GetNWBool("IsScared") then
+			if ply:GetNet("IsScared") then
 				ply.CalcSeqOverride = "run_scared"
 			end
 
@@ -22,7 +22,7 @@ function AnimatePig( ply, velocity )
 
 		else
 
-			if ply:GetNWBool("IsScared") then
+			if ply:GetNet("IsScared") then
 				ply.CalcSeqOverride = "idle_scared"
 			end
 
@@ -38,11 +38,11 @@ function AnimatePig( ply, velocity )
 
 	end
 
-	if ply:GetNWBool("IsTaunting") then
+	if ply:GetNet("IsTaunting") then
 
 		local t = "taunt"
 
-		if ply:GetNWInt("Rank") == RANK_COLONEL then
+		if ply:GetNet("Rank") == RANK_COLONEL then
 			t = "taunt2"
 		end
 
@@ -67,7 +67,7 @@ function AnimatePig( ply, velocity )
 		
 	end
 	
-	if ply.SwitchLight && !ply:GetNWBool("IsTaunting") then
+	if ply.SwitchLight && !ply:GetNet("IsTaunting") then
 
 		ply.SwitchLight = false
 		ply:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GESTURE_MELEE_ATTACK1, true )
@@ -94,7 +94,7 @@ function AnimateUC( ply, velocity )
 		
 		if len2d > 0 then
 		
-			if ply:GetNWBool("IsSprinting") then		
+			if ply:GetNet("IsSprinting") then		
 				ply.CalcSeqOverride = "run"
 			else
 				ply.CalcSeqOverride = "walk"
@@ -104,7 +104,7 @@ function AnimateUC( ply, velocity )
 		
 	else
 		
-		if ply:CanDoubleJump() && ply:GetNWInt("DoubleJumpNum") < 1 then
+		if ply:CanDoubleJump() && ply:GetNet("DoubleJumpNum") < 1 then
 			ply.CalcSeqOverride = "jump2"
 		else
 			ply.CalcSeqOverride = "jump3"
@@ -112,11 +112,11 @@ function AnimateUC( ply, velocity )
 		
 	end
 	
-	if ply:GetNWBool("IsBiting") then
+	if ply:GetNet("IsBiting") then
 		ply.CalcSeqOverride = "bite"
 	end
 
-	if ply:GetNWBool("IsRoaring") then
+	if ply:GetNet("IsRoaring") then
 		ply.CalcSeqOverride = "idle3"
 	end
 
@@ -141,7 +141,7 @@ function AnimateGhost( ply, velocity )
 	
 	if len2d > 0 then
 
-		if ply:GetNWBool("IsFancy") then
+		if ply:GetNet("IsFancy") then
 			seq = "walk2"
 		else
 			seq = "walk"
@@ -149,7 +149,7 @@ function AnimateGhost( ply, velocity )
 
 	else
 
-		if ply:GetNWBool("IsFancy") then
+		if ply:GetNet("IsFancy") then
 			seq = "idle2"
 		end
 
@@ -163,7 +163,7 @@ function AnimateGhost( ply, velocity )
 		ply:AnimRestartGesture( GESTURE_SLOT_GRENADE, ACT_GESTURE_RANGE_ATTACK2, true )
 	end
 
-	if ply:GetNWBool("IsFancy") && CurTime() >= ply.LastSippyCup then
+	if ply:GetNet("IsFancy") && CurTime() >= ply.LastSippyCup then
 		ply.LastSippyCup = CurTime() + math.Rand( 20, 40 )
 		ply:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GESTURE_MELEE_ATTACK1, true )
 	end

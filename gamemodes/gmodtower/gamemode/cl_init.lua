@@ -1,5 +1,4 @@
 include("shared.lua")
-include("nwvar/shared.lua")
 include("sh_load.lua")
 include("sh_loadables.lua")
 

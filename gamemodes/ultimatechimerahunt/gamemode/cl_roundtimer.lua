@@ -68,21 +68,21 @@ function GM:DrawRoundTime()
 	local color = LocalPlayer():GetRankColorSat()
 	local r, g, b = color.r, color.g, color.b
 
-	if LocalPlayer():GetNWInt( "Rank" ) == RANK_COLONEL && !LocalPlayer():GetNWBool( "IsGhost" ) then
+	if LocalPlayer():GetNet( "Rank" ) == RANK_COLONEL && !LocalPlayer():IsGhost() then
 		mat = pCmat
 	end
 
-	if LocalPlayer():GetNWInt( "Rank" ) == RANK_ENSIGN then
+	if LocalPlayer():GetNet( "Rank" ) == RANK_ENSIGN then
 		mat = pemat
 		r, g, b = 255, 255, 255
 	end
 
-	if LocalPlayer():GetNWBool( "IsChimera" ) then
+	if LocalPlayer():GetNet( "IsChimera" ) then
 		mat = ucmat
 		r, g, b = 255, 255, 255
 	end
 
-	if LocalPlayer():GetNWBool( "IsGhost" ) then
+	if LocalPlayer():IsGhost() then
 		mat = pmat
 		r, g, b = 255, 255, 255
 	end
@@ -92,8 +92,8 @@ function GM:DrawRoundTime()
 	surface.DrawTexturedRect( x - ( w * .5 ), 0, w, h )
 	
 	local round = "-/" .. self.NumRounds
-	if self:IsPlaying() || self:GetGameState() == STATE_INTERMISSION then
-		round = GetGlobalInt( "Round" ) .. "/" .. self.NumRounds
+	if self:IsPlaying() || self:GetState() == STATE_INTERMISSION then
+		round = globalnet.GetNet( "Round" ) .. "/" .. self.NumRounds
 	end
 
 	self:DrawNiceText( tm, "UCH_KillFont3", sw * .425, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 1, 250 )

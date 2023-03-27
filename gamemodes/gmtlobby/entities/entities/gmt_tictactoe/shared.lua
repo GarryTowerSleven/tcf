@@ -34,15 +34,23 @@ function ENT:ReloadOBBBounds()
 	self.NegativeSize = self.TblSize / 2
 end
 
-function ENT:SharedInit()
-	RegisterNWTable(self, {
-		{"Ply1", Entity(0), NWTYPE_ENTITY, REPL_EVERYONE },
-		{"Ply2", Entity(0), NWTYPE_ENTITY, REPL_EVERYONE },
-		{"PlyTurn", 0, NWTYPE_CHAR, REPL_EVERYONE, self.UpdateTurn },
-		{"initGame", false, NWTYPE_BOOLEAN, REPL_EVERYONE, self.ChangeGameState }
-	})
-end
+function ENT:SetupDataTables()
+	self:NetworkVar( "Entity", 0, "Player1" )
+	self:NetworkVar( "Entity", 1, "Player2" )
 
+	self:NetworkVar( "Int", 0, "Turn" )
+	self:NetworkVarNotify( "Turn", self.UpdateTurn )
+
+	self:NetworkVar( "Bool", 0, "InitGame" )
+	self:NetworkVarNotify( "InitGame", self.ChangeGameState )
+
+	if ( SERVER ) then
+		self:SetPlayer1( NULL )
+		self:SetPlayer2( NULL )
+		self:SetTurn( 1 )
+		self:SetInitGame( false )
+	end
+end
 
 function ENT:Get2DPos( ply )
 
@@ -89,5 +97,5 @@ end
 
 
 function ENT:OnGame()
-	return self.initGame == true
+	return self:GetInitGame() == true
 end

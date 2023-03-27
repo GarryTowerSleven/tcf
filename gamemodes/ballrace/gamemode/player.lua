@@ -12,7 +12,7 @@ function GM:PlayerInitialSpawn(ply)
 	net.Send(ply)
 
 	if self:GetState() == STATE_NOPLAY && #player.GetAll() == 1 then
-		game.CleanUpMap()
+		game.CleanUpMapEx()
 
 		self:SetState( STATE_WAITING )
 		self:SetTime( GAMEMODE.WaitForPlayersTime )

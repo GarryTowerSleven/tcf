@@ -38,13 +38,13 @@ function ENT:ReloadOBBBounds()
 end
 
 function ENT:SharedInit()
-	RegisterNWTable(self, {
+	/*RegisterNWTable(self, {
 		{"Ply", Entity(0), NWTYPE_ENTITY, REPL_EVERYONE, self.UpdateUser },
 		{"ChosenAnswer", 0, NWTYPE_CHAR, REPL_EVERYONE, self.AnswerChosen },
 		{"Points", 0, NWTYPE_SHORT, REPL_EVERYONE},
 		{"AnswerTime", 0.0, NWTYPE_FLOAT, REPL_EVERYONE},
 		{"BoardOwner", Entity(0), NWTYPE_ENTITY, REPL_EVERYONE, self.UpdateOwner }
-	})
+	})*/
 end
 
 

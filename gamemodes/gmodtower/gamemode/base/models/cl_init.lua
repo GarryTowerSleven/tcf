@@ -1,5 +1,4 @@
-
-include('shared.lua')
+include( "shared.lua" )
 
 module("GTowerModels", package.seeall)
 
@@ -10,7 +9,7 @@ cvars.AddChangeCallback( "gmt_playermodel", function()
 end, "GMTPlayermodelUpdate" )
 
 function Get( ply )
-	return ply._PlyModelSize
+	return ply:GetNet( "ModelSize" )
 end
 
 hook.Add("PlayerSpawn","GTowerChangePlyScale", function( ply )

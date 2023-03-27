@@ -29,7 +29,7 @@ end )
 function GM:BeginGame()
 	self:SetState( STATE_WAITING )
 	self:SetTime( WaitTime )
-	SetGlobalBool( "HasPractice", true )
+	globalnet.SetNet( "HasPractice", true )
 end
 
 function GM:Think()
@@ -45,7 +45,7 @@ function GM:Think()
 			self:PlaySound( MUSIC_SETTINGS )
 			SetWaitingCams()
 
-			SetGlobalBool( "HasPractice", false )
+			globalnet.SetNet( "HasPractice", false )
 			self.PreGame = true
 			SetAllTeams(TEAM_FINISHED)
 		end

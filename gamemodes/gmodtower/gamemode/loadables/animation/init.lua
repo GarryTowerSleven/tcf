@@ -42,7 +42,7 @@ function ScaleModel( ply, scale )
 	end
 	
 	ply._IginoreChangeSize = true
-	ply._PlyModelSize = scale
+	ply:SetNet( "ModelSize", scale )
 	
 	AnimUMSG( ply, Animation.TYPE_SCALE, scale )
 	

@@ -4,17 +4,11 @@ include('shared.lua')
 ENT.RenderGroup = RENDERGROUP_BOTH
 
 function ENT:Initialize()
-	self.Ply1 = nil
-	self.Ply2 = nil
-
-	self.CurTurn = false
-
 	self.ImageZoom = 0.4
 
 	self.ActivePlayer = nil
 
 	self:ReloadOBBBounds()
-	self:SharedInit()
 
 	if self.OtherInit != nil then
 		self:OtherInit()
@@ -25,9 +19,9 @@ end
 
 function ENT:UpdateTurn( name, old, new )
 	if new == 1 then
-		self.ActivePlayer = self.Ply1
+		self.ActivePlayer = self:GetPlayer1()
 	elseif new == 2 then
-		self.ActivePlayer = self.Ply2
+		self.ActivePlayer = self:GetPlayer2()
 	else
 		self.ActivePlayer = LocalPlayer()
 	end
@@ -37,7 +31,7 @@ function ENT:ChangeGameState( name, old, new )
 	if new == true then
 		self.ImageZoom = 0.25
 		self.SecondDraw = self.DrawBoard
-		self.ActivePlayer = self.Ply1
+		self.ActivePlayer = self:GetPlayer1()
 	else
 		self.ImageZoom = 0.4
 		self.SecondDraw = self.DrawWaiting
@@ -179,14 +173,14 @@ function ENT:DrawWaiting()
 
 
 	cam.Start3D2D( pos, ang, self.ImageZoom )
-		self:DrawSidePlayer( self.Ply1 )
+		self:DrawSidePlayer( self:GetPlayer1() )
 	cam.End3D2D()
 
 	ang:RotateAroundAxis(ang:Up(), 		180 )
 
 
 	cam.Start3D2D( pos, ang, self.ImageZoom )
-		self:DrawSidePlayer( self.Ply2 )
+		self:DrawSidePlayer( self:GetPlayer2() )
 	cam.End3D2D()
 
 	self:DrawRotatingBoard( EntPos + EyeForward * 64, ang )

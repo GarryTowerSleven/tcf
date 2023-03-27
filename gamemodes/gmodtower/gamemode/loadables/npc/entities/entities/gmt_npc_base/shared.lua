@@ -38,6 +38,7 @@ end
 function ENT:SetupDataTables()
 
 	self:NetworkVar( "Bool", 1, "New" )
+	self:NetworkVar( "Bool", 2, "Sale" )
 
 end
 
@@ -111,13 +112,7 @@ function ENT:PlaySequence(id, name, wait, speed)
 end
 
 function ENT:IsOnSale()
-	return self:GetNWBool("Sale")
-end
-
-function GTowerNPCSharedInit(ent)
-	RegisterNWTable(ent, {
-		{"Sale", false, NWTYPE_BOOL, REPL_EVERYONE, CreateSaleSign},
-	})
+	return self:GetSale()
 end
 
 function CreateSaleSign(npc, name, old, new)
@@ -133,5 +128,3 @@ function CreateSaleSign(npc, name, old, new)
 	end*/
 
 end
-
-ImplementNW() -- Implement transmit tools instead of DTVars

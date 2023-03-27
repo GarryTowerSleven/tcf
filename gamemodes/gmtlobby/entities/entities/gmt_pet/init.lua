@@ -35,8 +35,6 @@ function ENT:Initialize()
 	self.EmoteTime = CurTime()
 	self.LastActionTime = CurTime()
 
-	self:SharedInit()
-
 	local r = math.random( 0, 255 )
 	local g = math.random( 0, 255 )
 	local b = math.random( 0, 255 )
@@ -130,7 +128,7 @@ function ENT:EmotionThink()
 
 	if IsValid(owner) then self:UpdatePetName() end
 
-	if self.Emotion != Pets.GetIDFromEmotion( "Rolling" ) then
+	if self:GetEmotionID() != Pets.GetIDFromEmotion( "Rolling" ) then
 		if ( IsValid( owner ) && owner:IsRabbit() ) then
 			self:SetEmotion( "Rabbit" )
 		else
@@ -159,7 +157,7 @@ function ENT:EmotionThink()
 
 	local actionDiff = self:IdleTime()
 
-	if ( actionDiff > 1 && actionDiff < 3 && self.Emotion == Pets.GetIDFromEmotion( "Rolling" ) ) then
+	if ( actionDiff > 1 && actionDiff < 3 && self:GetEmotionID() == Pets.GetIDFromEmotion( "Rolling" ) ) then
 		self:SetEmotion( "Dizzy", 2 )
 	elseif ( actionDiff > self.DullTime ) then
 		self:SetEmotion( "Dull" )
@@ -267,21 +265,21 @@ function ENT:ConfirmEmotion( soundChance )
 	local tempId = Pets.GetIDFromEmotion( self.TempEmotion )
 
 	// short circuit
-	if ( self.Emotion == tempId ) then return end
+	if ( self:GetEmotionID() == tempId ) then return end
 
-	self.Emotion = tempId
+	self:SetEmotionID( tempId )
 
-	local randIndex = Pets.GetRandomQuoteIndex( "melon", self.Emotion )
+	local randIndex = Pets.GetRandomQuoteIndex( "melon", self:GetEmotionID() )
 
 	if math.random( 1, 2 ) == 1 && randIndex != -1 then
 		umsg.Start( "PetMSG" )
 			umsg.Entity( self )
-			umsg.Char( self.Emotion )
+			umsg.Char( self:GetEmotionID() )
 			umsg.Char( randIndex )
 		umsg.End()
 	end
 
-	self:EmitRandomSound( self.Emotion, soundChance or 10 )
+	self:EmitRandomSound( self:GetEmotionID(), soundChance or 10 )
 
 end
 

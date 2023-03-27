@@ -63,7 +63,7 @@ function ENT:SetupBall()
 
 	if IsValid( owner ) then
 
-		owner.BallRaceBall = self
+		owner:SetDriving( self )
 
 		owner:SendLua([[RunConsoleCommand('gmt_setball',']] .. (owner._PlyChoosenBall or 1) ..[[')]])
 
@@ -117,7 +117,7 @@ function ENT:Think()
 		end
 	end
 
-	if !IsValid( owner.BallRaceBall ) then
+	if !IsValid( owner:GetBallRaceBall() ) then
 		self:SetupBall( owner )
 	end
 
@@ -223,7 +223,7 @@ function ENT:OnRemove()
 		owner:SetNotSolid( false )
 		owner:SetMoveType( MOVETYPE_WALK )
 
-		owner.BallRaceBall = nil
+		owner:SetDriving( nil )
 
 
 	end
@@ -234,7 +234,7 @@ hook.Add("GTowerPhysgunPickup", "DisableBallPickupPhys", function(pl, ent)
 
 	if pl:IsAdmin() then return true end // because admins are badasses
 
-	if IsValid( ent ) && ent:GetClass() == "gmt_ballrace" then return false end
+	if IsValid( ent ) && ent:GetClass() == "gmt_wearable_ballrace" then return false end
 
 	return true
 end )
@@ -243,7 +243,7 @@ hook.Add("GravGunPickupAllowed", "DisableBallPickupGrav", function( pl, ent )
 
 	if pl:IsAdmin() then return true end
 
-	if IsValid( ent ) && ent:GetClass() == "gmt_ballrace" then return false end
+	if IsValid( ent ) && ent:GetClass() == "gmt_wearable_ballrace" then return false end
 
 	return true
 
@@ -253,7 +253,7 @@ hook.Add("GravGunPunt", "DisableBallGravPunt", function( pl, ent )
 
 	if pl:IsAdmin() then return true end
 
-	if IsValid( ent ) && ent:GetClass() == "gmt_ballrace" then return false end
+	if IsValid( ent ) && ent:GetClass() == "gmt_wearable_ballrace" then return false end
 
 	return true
 end )
@@ -271,7 +271,7 @@ hook.Add("Think", "DisableBallGravPull", function( ply )
 		//if ply:KeyPressed( IN_ATTACK2 ) || ply:KeyDown( IN_ATTACK2 ) || ply:KeyReleased( IN_ATTACK2 ) then
 
 			local tr = ply:GetEyeTrace()
-			if IsValid( tr.Entity ) && tr.Entity:GetClass() == "gmt_ballrace" then
+			if IsValid( tr.Entity ) && tr.Entity:GetClass() == "gmt_wearable_ballrace" then
 
 				ply:StripWeapon( wep:GetClass() )
 

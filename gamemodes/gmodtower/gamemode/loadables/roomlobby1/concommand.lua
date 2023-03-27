@@ -37,9 +37,9 @@ net.Receive("gmt_lockcondo",function(len, ply)
 	
 	if !ply.GRoom then return end
 
-	if ply.GRoomId != room then return end
+	if ply:GetNet( "RoomID" ) != room then return end
 	//MsgC( co_color, "[Room] Setting GRoomLock \n")
-	ply.GRoomLock = lock
+	ply:SetNet( "RoomLock", lock )
 
 end)
 
@@ -141,8 +141,8 @@ function StartParty( ply, flags )
 
 	if !flags then return end
 
-	//ply:Msg2( tostring( ply.GRoomLock ) )
-	if ply.GRoomLock then
+	//ply:Msg2( tostring( ply:GetNet( "RoomLock" ) ) )
+	if ply:GetNet( "RoomLock" ) then
 		ply:Msg2( "Please unlock your condo before throwing a party.", "condo" )
 		return
 	end
@@ -165,7 +165,7 @@ function StartParty( ply, flags )
 
 	local amount = 0
 
-	local invString = T( "RoomPartyMainMessage", ply:Name(), tostring(ply.GRoomId) )
+	local invString = T( "RoomPartyMainMessage", ply:Name(), tostring(ply:GetNet( "RoomID" )) )
 
 	local flagString = ""
 
@@ -186,7 +186,7 @@ function StartParty( ply, flags )
 
 	invString = invString .. " " .. T( "RoomPartyActivityMessage", flagString )
 
-	local roomid = ply.GRoomId
+	local roomid = ply:GetNet( "RoomID" )
 
 	if roomid == 0 then return end
 
@@ -277,17 +277,17 @@ concommand.Add( "gmt_buybankslots", function( ply, cmd, args )
 			return
 		end
 
-		if (ply.GtowerBankMax + amount) > GTowerItems.MaxBankCount then
-			if (GTowerItems.MaxBankCount - ply.GtowerBankMax) > 0 then
-				local newAmount = (GTowerItems.MaxBankCount - ply.GtowerBankMax)
-				ply:SetMaxBank( ply.GtowerBankMax + amount )
+		if (ply:BankLimit() + amount) > GTowerItems.MaxBankCount then
+			if (GTowerItems.MaxBankCount - ply:BankLimit()) > 0 then
+				local newAmount = (GTowerItems.MaxBankCount - ply:BankLimit())
+				ply:SetMaxBank( ply:BankLimit() + amount )
 				ply:AddMoney( -cost )
 				ply:Msg2("You've paid for " .. newAmount .. " slots instead of " .. Amount .. " due to reaching the max amount of Trunk slots.")
 			else
 				ply:Msg2("You've reached the max amount of Trunk slots.")
 			end
 		else
-			ply:SetMaxBank( ply.GtowerBankMax + amount )
+			ply:SetMaxBank( ply:BankLimit() + amount )
 			ply:AddMoney( -cost )
 		end
 	end
@@ -402,7 +402,7 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 					umsg.Char( PlyRoom.Id )
 					umsg.End()
 
-					ply.GRoomEntityCount = PlyRoom:ActualEntCount()
+					ply:SetNet( "RoomEntityCount", PlyRoom:ActualEntCount() )
 
 			end
 

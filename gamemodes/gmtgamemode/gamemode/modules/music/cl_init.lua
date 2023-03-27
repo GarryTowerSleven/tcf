@@ -1,5 +1,3 @@
-include("sh_init.lua")
-
 module( "music", package.seeall )
 
 SongData = {}

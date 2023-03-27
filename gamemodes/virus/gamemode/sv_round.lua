@@ -66,7 +66,8 @@ end
 
 function GM:RoundReset()
 
-	GetWorldEntity():SetNet( "Round", GetWorldEntity():GetNet( "Round" ) + 1 )
+	globalnet.SetNet( "Round", globalnet.GetNet( "Round" ) + 1 )
+	//self:IncrementRound()
 
 	for k,v in pairs( player.GetAll() ) do
 		v:SetTeam( TEAM_PLAYERS )

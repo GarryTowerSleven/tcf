@@ -1,4 +1,3 @@
----------------------------------
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
 include('shared.lua')
@@ -30,27 +29,21 @@ function ENT:Initialize()
 		phys:EnableMotion(false)
 	end
 
-	self.Ply1 = nil
-	self.Ply2 = nil
-
-	self.PlyTurn = 1
-
 	self.BlockPly = {}
 	self.LastPress = {}
 
 	self:ReloadOBBBounds()
-	self:SharedInit()
 end
 
 function ENT:Think()
 	local missing = false
 
-	if !IsValid( self.Ply1 ) || !self:CheckDistance( self.Ply1 ) then
+	if !IsValid( self:GetPlayer1() ) || !self:CheckDistance( self:GetPlayer1() ) then
 		self:SetPly1( nil )
 		missing = true
 	end
 
-	if !IsValid( self.Ply2 ) || !self:CheckDistance( self.Ply2 ) then
+	if !IsValid( self:GetPlayer2() ) || !self:CheckDistance( self:GetPlayer2() ) then
 		self:SetPly2( nil )
 		missing = true
 	end
@@ -70,11 +63,11 @@ end
 
 
 function ENT:SetPly1( ply )
-	self.Ply1 = ply or NULL
+	self:SetPlayer1( ply or NULL )
 end
 
 function ENT:SetPly2( ply )
-	self.Ply2 = ply or NULL
+	self:SetPlayer2( ply or NULL )
 end
 
 function ENT:Use( ply )
@@ -93,22 +86,22 @@ function ENT:Use( ply )
 
 	if !self:OnGame() then
 
-		if self.Ply1 == ply then
+		if self:GetPlayer1() == ply then
 			self:SetPly1( nil )
 			return
-		elseif self.Ply2 == ply then
+		elseif self:GetPlayer2() == ply then
 			self:SetPly2( nil )
 			return
 		end
 
 
-		if !IsValid( self.Ply1 ) then
+		if !IsValid( self:GetPlayer1() ) then
 			self:SetPly1( ply )
-		elseif !IsValid( self.Ply2 ) then
+		elseif !IsValid( self:GetPlayer2() ) then
 			self:SetPly2( ply )
 		end
 
-		if IsValid( self.Ply1 ) && IsValid( self.Ply2 ) && self:CheckDistance( self.Ply1 ) && self:CheckDistance( self.Ply2 ) then
+		if IsValid( self:GetPlayer1() ) && IsValid( self:GetPlayer2() ) && self:CheckDistance( self:GetPlayer1() ) && self:CheckDistance( self:GetPlayer2() ) then
 			self:BeginGame()
 		end
 
@@ -116,15 +109,15 @@ function ENT:Use( ply )
 
 		local PlyNum = 0
 
-		if ply == self.Ply1 then
+		if ply == self:GetPlayer1() then
 		  PlyNum = 1
-		elseif ply == self.Ply2 then
+		elseif ply == self:GetPlayer2() then
 		  PlyNum = 2
 		else
 		  return
 		end
 
-		if self.PlyTurn != PlyNum then
+		if self:GetTurn() != PlyNum then
 		  return
 		end
 
@@ -150,12 +143,12 @@ function ENT:Use( ply )
 
 		//If it is 2 it is going to 1
 		//If it is 1 it is going to 2
-		self.PlyTurn = self.PlyTurn % 2 + 1
+		self:SetTurn( self:GetTurn() % 2 + 1 )
 
 		self:CheckBoard()
 
 		//Maybe the game ended
-		if self.initGame == true then
+		if self:GetInitGame() == true then
 			self:SendToClients()
 		end
 
@@ -300,21 +293,20 @@ function ENT:CheckBoard()
 end
 
 function ENT:ResetData()
-	//self:SetNetworkedBool("initGame", false)
-	self.initGame = false
+	self:SetInitGame( false )
 	self:SetPly1( nil )
 	self:SetPly2( nil )
 	self.BlockPly = {}
 end
 
 function ENT:WinPlayer( LastBlock, x1, y1, x2, y2 )
-	self.Ply1:AddAchievement( ACHIEVEMENTS.TICTACTOEPERSITANT, 1 )
-	self.Ply2:AddAchievement( ACHIEVEMENTS.TICTACTOEPERSITANT, 1 )
+	self:GetPlayer1():AddAchievement( ACHIEVEMENTS.TICTACTOEPERSITANT, 1 )
+	self:GetPlayer2():AddAchievement( ACHIEVEMENTS.TICTACTOEPERSITANT, 1 )
 
-	local ply = self.Ply1
+	local ply = self:GetPlayer1()
 
 	if LastBlock == 2 then
-		ply = self.Ply2
+		ply = self:GetPlayer2()
 	end
 
 	ply:AddAchievement( ACHIEVEMENTS.TICTACTOEWIN, 1 )
@@ -330,8 +322,8 @@ end
 
 
 function ENT:BeginGame()
-	self.initGame = true
-	self.PlyTurn = 1
+	self:SetInitGame( true )
+	self:SetTurn( 1 )
 	self.BlockPly = {}
 
 	self:SendToClients()

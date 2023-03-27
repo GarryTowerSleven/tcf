@@ -52,11 +52,3 @@ function ENT:MakeEyeTrace(ply)
     return cur_x, cur_y, ( trace.Entity == self.Entity && math.abs( cur_x ) <= self.scr_x2 && math.abs( cur_y ) <= self.scr_y2 ) 
 
 end
-
-function ENT:SharedInit()
-
-	/*RegisterNWTable( self, {
-		{ "RoomName", "", NWTYPE_STRING, REPL_EVERYONE },
-	} )*/
-	
-end

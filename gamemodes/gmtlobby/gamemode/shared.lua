@@ -48,7 +48,7 @@ Loadables.Load( {
 	--"theater",			-- Theater (Lobby 1)
 	--"soundbrowser",		-- Sound browser (Lobby 1)
 	--"bassemitstream",		-- Emit stream (radios)
-	"ragdollcontroller",	-- Player ragdolling (Lobby 1)
+	--"ragdollcontroller",	-- Player ragdolling (Lobby 1)
 	--"icon",				-- Scoreboard icons, no longer used
 	"npc_chat",				-- Chatting NPCs (suite and PVP Battle)
 	"animation",			-- Force animation system

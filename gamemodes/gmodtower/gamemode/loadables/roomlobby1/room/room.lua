@@ -63,7 +63,7 @@ end
 
 function SetLock( self, state )
 	if self.Owner then
-		self.Owner.GRoomLock = state
+		self.Owner:SetNet( "RoomLock", state )
 	end
 end
 
@@ -76,7 +76,7 @@ function Unlock( self )
 end
 
 function CanManageDoor( self, ply )
-	return self.Owner && (self.Owner.GRoomLock == false || ply == self.Owner || ply:IsAdmin() )
+	return self.Owner && (self.Owner:GetNet( "RoomLock" ) == false || ply == self.Owner || ply:IsAdmin() )
 end
 
 function SendToDoor( self, ply )
@@ -153,7 +153,7 @@ hook.Add( "RoomThink", "GRoomThink", function( ply )
 	local group = ply:GetGroup()
 
 	// Locked
-	if ( owner.GRoomLock ) then
+	if ( owner:GetNet( "RoomLock" ) ) then
 		for _, v in ipairs( players ) do
 			CheckPlayerLocked( v, room, group, ply )
 		end

@@ -8,6 +8,8 @@ end
 
 function meta:SetAchievement( id, value, add )
 
+	if ( self:IsBot() ) then return end
+
 	if !self._Achievements then
 		//ErrorNoHalt("Attention: Setting achievement: " .. id .. " before the player was loaded.\n")
 		return
@@ -69,6 +71,8 @@ end
 
 function meta:GetAchievement( id, raw )
 
+	if ( self:IsBot() ) then return end
+
 	if !self._Achievements then
 		ErrorNoHalt("Attention: Getting achievement: " .. id .. " before the player was loaded.\n")
 		ErrorNoHalt( debug.traceback() )
@@ -98,6 +102,8 @@ end
 
 function meta:AddAchievement( id, value )
 
+	if ( self:IsBot() ) then return end
+
 	self:SetAchievement( id, self:GetAchievement( id ), value )
 
 	return
@@ -105,6 +111,8 @@ function meta:AddAchievement( id, value )
 end
 
 function meta:Achived( id )
+	if ( self:IsBot() ) then return end
+
 	local Achievement = GTowerAchievements:Get( id )
 
 	if Achievement then
@@ -113,5 +121,7 @@ function meta:Achived( id )
 end
 
 function meta:AchievementLoaded()
+	if ( self:IsBot() ) then return false end
+
 	return self._Achievements != nil
 end

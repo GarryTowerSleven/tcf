@@ -202,9 +202,10 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	Requester:AddAchievement( ACHIEVEMENTS.ITCHING, 1 )
 	Arriver:AddAchievement( ACHIEVEMENTS.ITCHING, 1 )
 
-	if Requester.BallRaceBall and IsValid( Requester.BallRaceBall ) then
-		Requester.BallRaceBall:SetPos(Spawn1[1])
-		Requester.BallRaceBall:SetAngles(Spawn1[2])
+	local requester_ball = Requester:GetBallRaceBall()
+	if requester_ball and IsValid( requester_ball ) then
+		requester_ball:SetPos(Spawn1[1])
+		requester_ball:SetAngles(Spawn1[2])
 	elseif IsValid(Requester.GolfBall) then
 		Requester.GolfBall:SetPos(Spawn1[1])
 		Requester.GolfBall:SetAngles(Spawn1[2])
@@ -213,9 +214,10 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 		Requester:SetAngles( Spawn1[2] )
 	end
 
-	if Arriver.BallRaceBall and IsValid( Arriver.BallRaceBall ) then
-		Arriver.BallRaceBall:SetPos(Spawn2[1])
-		Arriver.BallRaceBall:SetAngles(Spawn2[2])
+	local arriver_ball = Requester:GetBallRaceBall()
+	if arriver_ball and IsValid( arriver_ball ) then
+		arriver_ball:SetPos(Spawn2[1])
+		arriver_ball:SetAngles(Spawn2[2])
 	elseif IsValid(Arriver.GolfBall) then
 		Arriver.GolfBall:SetPos(Spawn2[1])
 		Arriver.GolfBall:SetAngles(Spawn2[2])

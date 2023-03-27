@@ -37,7 +37,7 @@ GM.HasLastSurvivor = false
 CreateConVar("gmt_srvid", 6)
 
 function GM:Initialize()
-	GetWorldEntity():SetNet( "MaxRounds", self.NumRounds )
+	globalnet.SetNet( "MaxRounds", self.NumRounds )
 end
 
 function GM:LastSurvivor()

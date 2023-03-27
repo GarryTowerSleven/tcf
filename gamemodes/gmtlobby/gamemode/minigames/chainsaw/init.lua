@@ -57,18 +57,9 @@ function CheckGiveWeapon( ply, loc )
 end
 
 function CheckRemoveBall( ply )
-
 	if ply:Location() == MinigameLocation then
-
-		if IsValid( ply.BallRaceBall ) then
-
-			ply.BallRaceBall:Remove()
-			ply.BallRaceBall = nil
-
-		end
-
+		ply:ExitDriving()
 	end
-
 end
 
 function RemoveWeapon( ply )

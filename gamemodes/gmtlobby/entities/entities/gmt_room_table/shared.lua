@@ -14,10 +14,8 @@ ENT.Model		= "models/gmod_tower/suitetable.mdl"
 util.PrecacheModel( ENT.Model )
 local StoreBedId = nil
 
-function ENT:SharedInit()
-	RegisterNWTable(self, { 
-		{"Level", 1, NWTYPE_CHAR, REPL_EVERYONE, self.LevelChaned }, 
-	})
+function ENT:SetupDataTables()
+	self:NetworkVar( "Int", 0, "Level" )
 end
 
 function ENT:GetStoreId()

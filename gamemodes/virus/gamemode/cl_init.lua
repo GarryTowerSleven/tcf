@@ -326,10 +326,6 @@ local function ClientStartRound( len, ply )
 
 	GAMEMODE.WinningTeam = nil
 	
-	for _, v in pairs( player.GetAll() ) do
-		v:SetNet( "IsVirus", false )
-	end
-	
 	if ( !IsValid( LocalPlayer() ) ) then return end
 	
 	RunConsoleCommand( "gmt_showscores" )

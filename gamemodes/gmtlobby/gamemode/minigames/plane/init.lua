@@ -180,13 +180,7 @@ function OnEntUse( ply, caller )
 		AddPlayer( ply )
 		ply:Spawn()
 
-		if IsValid( ply.BallRaceBall ) then
-
-			ply.BallRaceBall:Remove()
-			ply.BallRaceBall = nil
-
-		end
-
+		ply:ExitDriving()
 	end
 end
 
@@ -257,12 +251,7 @@ function CheckRemoveBall( ply )
 
 	if InGame( ply ) then
 
-		if IsValid( ply.BallRaceBall ) then
-
-			ply.BallRaceBall:Remove()
-			ply.BallRaceBall = nil
-
-		end
+		ply:ExitDriving()
 
 	end
 

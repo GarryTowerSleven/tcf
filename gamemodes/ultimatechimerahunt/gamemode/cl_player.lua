@@ -1,6 +1,6 @@
 function GM:ShouldDrawLocalPlayer()
 	
-	if ( LocalPlayer():GetNWBool( "IsChimera" ) && LocalPlayer():Alive() ) || LocalPlayer():GetNWBool( "IsTaunting" ) || LocalPlayer():GetNWBool( "IsScared" ) then
+	if ( LocalPlayer():GetNet( "IsChimera" ) && LocalPlayer():Alive() ) || LocalPlayer():GetNet( "IsTaunting" ) || LocalPlayer():GetNet( "IsScared" ) then
 		return true
 	end
 	
@@ -69,9 +69,9 @@ function GM:InputMouseApply( cmd, x, y, ang )
 
 	local ply = LocalPlayer()
 	
-	if ply:GetNWBool( "IsGhost" ) then return end
+	if ply:IsGhost() then return end
 
-	if ply:GetNWBool( "IsTaunting" ) || ply:GetNWBool( "IsRoaring" ) || ( ply:GetNWBool( "IsChimera" ) && !ply:Alive() ) then
+	if ply:GetNet( "IsTaunting" ) || ply:GetNet( "IsRoaring" ) || ( ply:GetNet( "IsChimera" ) && !ply:Alive() ) then
 
 		TauntAngSafeGuard( ply )
 
@@ -90,7 +90,7 @@ function GM:InputMouseApply( cmd, x, y, ang )
 
 	end
 
-	if ply:GetNWBool( "IsBiting" ) then
+	if ply:GetNet( "IsBiting" ) then
 		return true
 	end
 		
@@ -150,7 +150,7 @@ end
 
 function GM:CalcView( ply, pos, ang, fov )
 
-	if ply:GetNWBool( "IsGhost" ) then
+	if ply:IsGhost() then
 
 		local num = 3
 		local view = {}
@@ -167,7 +167,7 @@ function GM:CalcView( ply, pos, ang, fov )
 	
 	local tang = ply.TauntAng
 
-	if ply:GetNWBool( "IsTaunting" ) || ply:GetNWBool( "IsRoaring" ) then
+	if ply:GetNet( "IsTaunting" ) || ply:GetNet( "IsRoaring" ) then
 		
 		TauntAngSafeGuard( ply )
 		tang = ply.TauntAng
@@ -196,7 +196,7 @@ function GM:CalcView( ply, pos, ang, fov )
 
 		if tang && ply:Alive() then
 			
-			if !ply:GetNWBool( "IsChimera" ) then
+			if !ply:GetNet( "IsChimera" ) then
 				tang.p = 0
 			end
 
@@ -207,13 +207,13 @@ function GM:CalcView( ply, pos, ang, fov )
 			
 		end
 		
-		if ply:GetNWBool( "IsScared" ) then
+		if ply:GetNet( "IsScared" ) then
 			return ThirdPersonCamera( ply, ply:EyePos(), ang, fov, 100 )
 		end
 		
 	end
 	
-	if ply:GetNWBool( "IsChimera" ) then
+	if ply:GetNet( "IsChimera" ) then
 		
 		if ply:Alive() then
 			return ThirdPersonCamera( ply, ply:EyePos(), ang, fov, 125 )

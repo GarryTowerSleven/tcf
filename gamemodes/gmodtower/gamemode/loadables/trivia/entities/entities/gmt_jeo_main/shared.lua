@@ -18,9 +18,9 @@ hook.Add("LoadAchievements","AchiJeoperty", function ()
 end )
 
 function ENT:SharedInit()
-	RegisterNWTable(self, {
+	/*RegisterNWTable(self, {
 		{"State", 0, NWTYPE_CHAR, REPL_EVERYONE, self.StateChanged },
-	})
+	})*/
 end
 
 ENT.TableHeight = 60

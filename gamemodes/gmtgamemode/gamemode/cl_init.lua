@@ -1,3 +1,5 @@
-include("shared.lua")
-include("nw.lua")
-include("modules/gmt/sh_init.lua")
+include('shared.lua')
+
+function GM:HUDItemPickedUp() return false end
+function GM:HUDAmmoPickedUp() return false end
+function GM:HUDWeaponPickedUp() return false end

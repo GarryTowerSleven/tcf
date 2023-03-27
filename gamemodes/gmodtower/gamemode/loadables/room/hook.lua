@@ -161,7 +161,7 @@ hook.Add("Think", "CreateRoomEnts", function()
 		fuckyou = CurTime() + 2
 		for k,v in pairs(player.GetAll()) do
 			if ( IsValid(v) && v.GRoom ) then
-				v.GRoomEntityCount = v.GRoom:ActualEntCount()
+				v:SetNet( "RoomEntityCount", v.GRoom:ActualEntCount() )
 			end
 		end
 	end

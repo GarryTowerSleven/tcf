@@ -1,7 +1,5 @@
-
-AddCSLuaFile("cl_init.lua")
-AddCSLuaFile("shared.lua")
-include('shared.lua')
+AddCSLuaFile( "cl_init.lua" )
+AddCSLuaFile( "shared.lua" )
 
 module("GTowerModels", package.seeall)
 
@@ -22,7 +20,7 @@ function Get( ply )
 end
 
 function SendToClients( ply )	
-	ply._PlyModelSize = Get( ply ) or 1.0
+	ply:SetNet( "ModelSize", Get( ply ) or 1.0 )
 end
 
 function Set( ply, size )
@@ -150,7 +148,7 @@ concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 
 	ply:SetModel(model)
 	ply:SetSkin((modelskin || 0))
-	ply:SetModelScale(size)
+	ply:SetModelScale( tonumber( size ) or 1 )
 	ply:SetupHands()
 	Set( ply, size )
 end )

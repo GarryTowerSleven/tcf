@@ -5,13 +5,13 @@ if !meta then
 end
 
 function meta:PlaybackRateOV( rate )
-	self:SetNWFloat( "PlaybackRate", math.Round( rate, 2 ) )
-	self:SetNWBool( "PlaybackRateOver", true )
+	self:SetNet( "PlaybackRate", math.Round( rate, 2 ) )
+	self:SetNet( "PlaybackRateOver", true )
 end
 
 function meta:PlaybackReset()
-	self:SetNWFloat( "PlaybackRate", 1 )
-	self:SetNWBool( "PlaybackRateOver", false )
+	/*self:SetNet( "PlaybackRate", 1 )
+	self:SetNet( "PlaybackRateOver", false )*/
 end
 
 function GM:UpdateAnimation( ply, velocity, maxseqgroundspeed )
@@ -56,7 +56,7 @@ function GM:UpdateAnimation( ply, velocity, maxseqgroundspeed )
 				if len2d <= 0 then
 					local num = 65
 					
-					if ply:GetNWBool( "IsGhost" ) then
+					if ply:IsGhost() then
 						num = 25
 					end
 					
@@ -83,7 +83,7 @@ function GM:UpdateAnimation( ply, velocity, maxseqgroundspeed )
 		
 		if CLIENT then
 		
-			if !ply:GetNWBool( "IsGhost" ) && !ply:GetNWBool( "IsChimera" ) then
+			if !ply:IsGhost() && !ply:GetNet( "IsChimera" ) then
 			
 				if ply.IsMicOpen then
 					
@@ -115,8 +115,8 @@ function GM:UpdateAnimation( ply, velocity, maxseqgroundspeed )
 	
 	rate = math.Clamp( rate, 0, 1 )
 	
-	if ply:GetNWBool( "PlaybackRateOver" ) then
-		rate = ply:GetNWFloat( "PlaybackRate" )
+	if ply:GetNet( "PlaybackRateOver" ) then
+		rate = ply:GetNet( "PlaybackRate" )
 	end
 
 	ply:SetPlaybackRate( rate )
@@ -128,12 +128,12 @@ function GM:CalcMainActivity(  ply, velocity  )
 	ply.CalcIdeal = ACT_IDLE
 	ply.CalcSeqOverride = "idle"
 
-	if ply:GetNWBool( "IsChimera" ) then
+	if ply:GetNet( "IsChimera" ) then
 		AnimateUC( ply, velocity )
 		return ply.CalcIdeal, ply:LookupSequence( ply.CalcSeqOverride )
 	end
 
-	if ply:GetNWBool( "IsGhost" ) then
+	if ply:IsGhost() then
 		AnimateGhost( ply, velocity )
 		return ply.CalcIdeal, ply:LookupSequence( ply.CalcSeqOverride )
 	end

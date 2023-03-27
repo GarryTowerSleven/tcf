@@ -3,10 +3,10 @@ GTowerServers:SetRandomPassword()
 
 hook.Add("GTowerMsg", "GamemodeMessage", function()
 
-	if GetGlobalInt("Round") == 0 then		
+	if globalnet.GetNet("Round") == 0 then		
 		return "#nogame"
 	else
-		return math.ceil( GAMEMODE:GetTimeLeft() ).. "||||" .. tostring( GetGlobalInt("Round") ) .. "/" .. GAMEMODE.NumRounds
+		return math.ceil( GAMEMODE:GetTimeLeft() ).. "||||" .. tostring( globalnet.GetNet("Round") ) .. "/" .. GAMEMODE.NumRounds
 	end
 
 end )
@@ -33,12 +33,12 @@ end
 
 		local money = ThanksForPlaying  // everyone gets something for just playing
 
-		if !v:GetNWBool("IsChimera") then money = money + ( v:GetNWInt("Rank") * 8 ) end  // pigs with higher rank get a bonus
+		if !v:GetNet("IsChimera") then money = money + ( v:GetNet("Rank") * 8 ) end  // pigs with higher rank get a bonus
 		
 		//Chimera won
 		if teamid == TEAM_CHIMERA then
 
-			if v:GetNWBool("IsChimera") then
+			if v:GetNet("IsChimera") then
 
 				money = money + ChimeraBonus + ( ( v.HighestKilledRank or 0 ) * 8 )
 				local totalpigs = #team.GetPlayers( TEAM_PIGS ) + #team.GetPlayers( TEAM_GHOST )

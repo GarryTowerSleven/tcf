@@ -7,22 +7,22 @@ surface.CreateFont( "BallPlayerName", { font = "Coolvetica", size = 26, weight =
 
 // thirdperson support
 if ThirdPerson then
-	ThirdPerson.ExcludeEnt( "gmt_ballrace" )
+	ThirdPerson.ExcludeEnt( "gmt_wearable_ballrace" )
 else
 	Msg( "ThirdPerson module not loaded, camera for ball orb will be bugged!!\n" )
 end
 
 hook.Add( "ForceThirdperson", "ForceThirdpersonBall", function( ply )
 
-	return IsValid( ply.BallRaceBall )
+	return IsValid( ply:GetBallRaceBall() )
 
 end )
 
 hook.Add( "OverrideHatEntity", "OverrideHatBallRace", function( ply )
 
 	//local ball = ply:GetBallRaceBall()
-	if IsValid( ply ) and ply:IsPlayer() and IsValid( ply.BallRaceBall ) then
-		return ply.BallRaceBall.PlayerModel
+	if IsValid( ply ) and ply:IsPlayer() and IsValid( ply:GetBallRaceBall() ) then
+		return ply:GetBallRaceBall().PlayerModel
 	end
 
 end )

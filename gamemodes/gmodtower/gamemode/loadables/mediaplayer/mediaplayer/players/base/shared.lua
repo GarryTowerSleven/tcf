@@ -188,7 +188,7 @@ function MEDIAPLAYER:IsPlayerPrivileged( ply )
 	if SERVER then
 		return GTowerRooms.GetOwner(roomnum) == ply
 	else
-		return roomnum == ply.GRoomId
+		return roomnum == ply:GetNet( "RoomID" )
 	end
 
 	/*return ply == self:GetOwner() or ply:IsAdmin() or

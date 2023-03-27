@@ -3,10 +3,6 @@ if SERVER then
 	AddCSLuaFile( "shared.lua" )
 end
 
-if !PVPBaseIncludeGuard && GAMEMODE.Folder == "gamemodes/pvpbattle" then
-	RegisterNWTablePlayer({ {"Iron", false, NWTYPE_BOOLEAN, REPL_PLAYERONLY},
-					{"Reloading", false, NWTYPE_BOOLEAN, REPL_PLAYERONLY} })
-end
 PVPBaseIncludeGuard = true
 
 SWEP.Category		 = "Monotone"

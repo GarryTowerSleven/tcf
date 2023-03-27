@@ -21,7 +21,7 @@ function ServerMeta:AddPlayer( ply )
 	ply._MultiChoosenMap = ""
 	ply._WaitingServer = self.Id
 
-	ply.QueueTime = CurTime()
+	ply:SetNet( "QueueTime", CurTime() )
 	if ply:HasGroup() then
 		ply:GetGroup():Update()
 	end

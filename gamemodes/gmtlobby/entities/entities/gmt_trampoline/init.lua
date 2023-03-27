@@ -24,7 +24,7 @@ end
 local function ValidPhysics( ent )
 
 	local PushableProps = {
-		"gmt_ballrace",
+		"gmt_wearable_ballrace",
 
 		//typical source stuff
 		"prop_physics", "prop_physics_respawnable",

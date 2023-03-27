@@ -1,6 +1,6 @@
 function GM:KeyPress( ply, key )
 	
-	if !ply:GetNWBool( "IsGhost" ) then
+	if !ply:IsGhost() then
 
 		self:SprintKeyPress( ply, key )
 
@@ -12,7 +12,7 @@ function GM:KeyPress( ply, key )
 
 			local t, num = "taunt", 1.1
 
-			if ply:GetNWInt( "Rank" ) == 4 then
+			if ply:GetNet( "Rank" ) == 4 then
 				t, num = "taunt2", 1
 			end
 
@@ -34,7 +34,7 @@ function GM:KeyPress( ply, key )
 				
 				if ply:CanPressButton() then
 
-					if CurTime() - GetGlobalFloat("RoundStart") <= 20 then
+					if CurTime() - globalnet.GetNet("RoundStart") <= 20 then
 						ply:AddAchievement( ACHIEVEMENTS.UCHSPEEDRUN, 1 )
 					end
 
@@ -45,7 +45,7 @@ function GM:KeyPress( ply, key )
 					uc.Presser = ply
 
 					ply:RankUp()
-					ply:SetNWBool("PressedButton",true)
+					ply:SetNet("PressedButton",true)
 					ply:AddAchievement( ACHIEVEMENTS.UCHBUTTON, 1 )
 					ply:AddAchievement( ACHIEVEMENTS.UCHMILESTONE3, 1 )
 					
@@ -59,10 +59,10 @@ function GM:KeyPress( ply, key )
 
 				end
 				
-				if key == IN_ATTACK && ply:GetNWBool( "HasSaturn" ) && !ply:GetNWBool( "IsScared" ) && !ply:GetNWBool( "IsTaunting" ) then
+				if key == IN_ATTACK && ply:GetNet( "HasSaturn" ) && !ply:GetNet( "IsScared" ) && !ply:GetNet( "IsTaunting" ) then
 
 					ply:EmitSound( "UCH/saturn/saturn_throw.wav", 80, 100 )
-					ply:SetNWBool( "HasSaturn", false )
+					ply:SetNet( "HasSaturn", false )
 					ply.GrabTime = CurTime() + 0.1
 					
 					if IsValid( ply.HeldSaturn ) then
@@ -96,13 +96,13 @@ function GM:KeyPress( ply, key )
 
 		end
 
-		if ply:GetNWBool( "IsChimera" ) then
+		if ply:GetNet( "IsChimera" ) then
 			self:UCKeyPress( ply, key )
 		end
 	
 	else
 		
-		if !ply:GetNWBool( "IsGhost" ) && key == IN_ATTACK || key == IN_USE then
+		if !ply:IsGhost() && key == IN_ATTACK || key == IN_USE then
 			LocalPlayer().XHairAlpha = 242
 		end
 		
@@ -114,14 +114,14 @@ function GM:Move( ply, move )
 
 	if !IsValid( ply ) then return end
 		
-	if ply:GetNWBool( "IsGhost" ) then
+	if ply:IsGhost() then
 		
 		local move = ply.GhostMove( move )
 		return move
 		
 	else
 
-		if ply:GetNWBool( "IsTaunting" ) || ply:GetNWBool( "IsBiting" ) || ply:GetNWBool( "IsRoaring" ) || ( ply:GetNWBool( "IsChimera" ) && !ply:Alive() ) then
+		if ply:GetNet( "IsTaunting" ) || ply:GetNet( "IsBiting" ) || ply:GetNet( "IsRoaring" ) || ( ply:GetNet( "IsChimera" ) && !ply:Alive() ) then
 
 			ply:SetLocalVelocity( Vector( 0, 0, 0 ) )
 			
@@ -148,7 +148,7 @@ end
 
 function GM:PlayerFootstep( ply, pos, foot, sound, volume, players )
 	
-	if ply:GetNWBool( "IsChimera" ) || ply:GetNWBool( "IsGhost" ) then
+	if ply:GetNet( "IsChimera" ) || ply:IsGhost() then
 		return true
 	end
 	

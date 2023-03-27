@@ -29,7 +29,7 @@ function RemovePlayer( ply )
 	
 	local tp = table.Random( teleporters )
 	
-	if IsValid(ply.BallRaceBall) then ply.BallRaceBall:SetPos(tp:GetPos() + Vector(0,0,5) + (tp:GetForward()*25)) end
+	if IsValid(ply:GetBallRaceBall()) then ply:GetBallRaceBall():SetPos(tp:GetPos() + Vector(0,0,5) + (tp:GetForward()*25)) end
 	if IsValid(ply.GolfBall) then ply.GolfBall:SetPos(tp:GetPos() + Vector(0,0,5) + (tp:GetForward()*25)) end
 	
 	//ply.DesiredPosition = (tp:GetPos() + Vector(0,0,5) + (tp:GetForward()*25))
@@ -96,8 +96,7 @@ function Cleanup( self )
 
 	if IsValid( self.Owner ) then
 		self.Owner.GRoom = nil
-		--for k,v in pairs(player.GetAll()) do v:SendLua([[ents.GetByIndex( ]]..self.Owner:EntIndex()..[[.GRoomId = 0)]]) end
-		self.Owner.GRoomId = 0
+		self.Owner:SetNet( "RoomID", 0 )
     end
 
     self.Owner = nil
@@ -115,8 +114,7 @@ function Load( self, ply )
 	self.LoadedTime = CurTime()
 	self.SafeToSave = false
 	ply.GRoom = self
-	ply.GRoomId = self.Id
-	--for k,v in pairs(player.GetAll()) do v:SendLua([[ents.GetByIndex( ]]..self.Owner:EntIndex()..[[.GRoomId = ]]..self.Id..[[)]]) end
+	ply:SetNet( "RoomID", self.Id )
 
 	if ply._RoomSaveData == nil then
 		self:LoadDefault()

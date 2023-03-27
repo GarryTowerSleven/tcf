@@ -14,7 +14,7 @@ local timeSinceUpdate = 0
 
 local function displayTimer()
 	if Location.IsCasino( LocalPlayer():Location() ) then return false end
-	local locid = LocalPlayer().GRoomId
+	local locid = LocalPlayer():GetNet( "RoomID" )
 	if locid && locid != 0 then return false end
 
 	return true

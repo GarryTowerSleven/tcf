@@ -5,7 +5,6 @@ AddCSLuaFile("catmull/shared.lua")
 
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
-AddCSLuaFile("nwtranslator.lua")
 AddCSLuaFile("cl_controls.lua")
 AddCSLuaFile("cl_camera.lua")
 
@@ -31,7 +30,6 @@ include("Catmull/shared.lua")
 include("meta_camera.lua");
 include("meta_player.lua")
 
-include("nwtranslator.lua")
 include("shared.lua")
 
 CreateConVar("gmt_srvid", 16 )
@@ -85,6 +83,9 @@ local PlyJoined = false
   end
 
 /////////////////////////////////////////////////////////
+
+// override default of 0
+globalnet.SetNet( "State", STATE_WAITING )
 
 function GM:PlayerSpawn( ply )
 
@@ -232,7 +233,7 @@ function GM:Think()
     for k,v in pairs(player.GetAll()) do v:SetCamera("Waiting",0) end
 
     if (self:NoTimeLeft() && PlyJoined) then
-      game.CleanUpMap()
+      self:CleanUpMap()
 
       for k,v in pairs(player.GetAll()) do self:SpawnPlayerKart( v, false ) v:SetTeam( TEAM_PLAYING ) end
 
@@ -295,8 +296,6 @@ function GM:Think()
 
       end
 
-      self:SetTotalStartTime()
-
     end
   elseif self:GetState() == STATE_PLAYING then
 
@@ -347,7 +346,7 @@ function GM:Think()
   elseif self:GetState() == STATE_NEXTTRACK then
 
     if self:NoTimeLeft() then
-      game.CleanUpMap()
+      self:CleanUpMap()
       self:IncreaseTrack()
       for k,v in pairs(player.GetAll()) do
         v:SetTeam( TEAM_PLAYING )
@@ -366,7 +365,7 @@ function GM:Think()
   elseif self:GetState() == STATE_NEXTBATTLE then
 
     if self:NoTimeLeft() then
-      game.CleanUpMap()
+      self:CleanUpMap()
       self:IncreaseTrack()
       for k,v in pairs(player.GetAll()) do
         local spawns = {}
@@ -456,7 +455,7 @@ function GM:Think()
   elseif self:GetState() == STATE_TOBATTLE then
 
     if self:NoTimeLeft() then
-      game.CleanUpMap()
+      self:CleanUpMap()
 
       self:IncreaseTrack()
 

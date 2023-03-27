@@ -34,8 +34,6 @@ function ENT:Initialize()
 		GMTNPC:SetPos(GMTNPC:GetPos() - Vector( 0, 0, 0.3 ))
 	end
 
-	GTowerNPCSharedInit(self)
-
 end
 
 function ENT:OnTakeDamage( dmginfo )
@@ -54,7 +52,7 @@ function ENT:AcceptInput( name, activator, ply )
 end
 
 function ENT:SetSale( sale )
-	self:SetNWBool("Sale",sale)
+	self:SetSale( sale )
 end
 
 /*

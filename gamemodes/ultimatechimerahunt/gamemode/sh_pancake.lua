@@ -8,11 +8,11 @@ if SERVER then
 
 	function meta:Pancake()
 		
-		if self:GetNWBool( "IsChimera" ) || self:GetNWBool( "IsPancake" ) || self.Bit || !GAMEMODE:IsPlaying() then return end
+		if self:GetNet( "IsChimera" ) || self:GetNet( "IsPancake" ) || self.Bit || !GAMEMODE:IsPlaying() then return end
 		
 		//Msg( "Pancaking Pig: " .. tostring( self ), "\n" )
 
-		self:SetNWBool( "IsPancake", true )
+		self:SetNet( "IsPancake", true )
 		self:Squeal()
 
 		timer.Simple( .5, function()
@@ -25,7 +25,7 @@ if SERVER then
 				local uc = GAMEMODE:GetUC()
 
 				if IsValid( uc ) then
-					uc:HighestRankKill( self:GetNWInt( "Rank" ) )
+					uc:HighestRankKill( self:GetNet( "Rank" ) )
 					uc:AddAchievement( ACHIEVEMENTS.UCHPANCAKE, 1 )
 				end
 

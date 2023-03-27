@@ -22,7 +22,7 @@ hook.Add("EndRound", "CountEndRounds", function()
 end )
 
 hook.Add("StartRound", "CountStartRounds", function()
-	SetGlobalInt( "PVPRoundCount", GAMEMODE:GetRoundCount() + 1 )
+	globalnet.SetNet( "Round", GAMEMODE:GetRoundCount() + 1 )
 
 	Msg("Starting round! " .. tostring( GAMEMODE:GetRoundCount() ) .. "\n")
 

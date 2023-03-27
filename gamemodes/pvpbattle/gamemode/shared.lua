@@ -14,27 +14,19 @@ SetupGMTGamemode( "PVP Battle", "pvpbattle", {
 
 GM.MaxRoundsPerGame = 6
 
-RegisterNWTableGlobal({ {"PVPRoundTime", 0, NWTYPE_FLOAT, REPL_EVERYONE},
-			{"PVPRoundOver", false, NWTYPE_BOOLEAN, REPL_EVERYONE},
-			{"PVPRoundCount", 0, NWTYPE_CHAR, REPL_EVERYONE } })
+globalnet.Register( "Bool", "RoundOver" )
 
 function PowerChange(ply, name, old, new)
 	hook.Call("PowerupChange", GAMEMODE, ply, new)
 end
 
-RegisterNWTablePlayer({ {"PowerUp", 0, NWTYPE_NUMBER, REPL_EVERYONE, PowerChange} })
-
-function GM:GetTimeLeft()
-	return GetGlobalFloat( "PVPRoundTime", 0 ) - CurTime()
-end
+plynet.Register( "Int", "PowerUp", {
+	default = 0,
+	callback = PowerChange,
+} )
 
 function GM:IsRoundOver()
-	return GetGlobalBool( "PVPRoundOver" )
-end
-
--- ROUNDS
-function GM:GetRoundCount()
-	return GetGlobalInt( "PVPRoundCount", 0 )
+	return globalnet.GetNet( "RoundOver" ) == true
 end
 
 function GM:Dash(pl, move)

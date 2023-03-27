@@ -9,11 +9,11 @@ function GM:PlayerDeath( ply, wep, killer )
 		ply.IsDead = true // to set as ghost on next spawn
 		ply.DeadPos = ply:GetPos()
 
-		if !ply:GetNWBool("IsPancake") then
-			ply:CreateUCHRagdoll(true)
+		if !ply:GetNet("IsPancake") then
+			ply:CreateRagdoll()
 		end
 		
-		if ply:GetNWBool("IsTaunting") then
+		if ply:GetNet("IsTaunting") then
 			ply:StopTaunting()
 		end
 
@@ -21,14 +21,14 @@ function GM:PlayerDeath( ply, wep, killer )
 			ply:Flashlight()
 		end
 		
-		if ply:GetNWBool("HasSaturn") then
+		if ply:GetNet("HasSaturn") then
 		
 			ply:StripSaturn()
-			ply:SetNWBool("HasSaturn",false)
+			ply:SetNet("HasSaturn",false)
 
 		end
 
-		if ply:GetNWBool("IsPancake") then
+		if ply:GetNet("IsPancake") then
 
 			local color = ply:GetRankColor()
 			local r, g, b = color.r, color.g, color.b
@@ -37,7 +37,7 @@ function GM:PlayerDeath( ply, wep, killer )
 				effectdata:SetStart( Vector( r, g, b ) )
 			util.Effect( "piggy_pop", effectdata )
 	
-			ply:SetNWBool("IsPancake",false)
+			ply:SetNet("IsPancake",false)
 		end
 
 		if team.AlivePigs() > 0 then
@@ -46,22 +46,21 @@ function GM:PlayerDeath( ply, wep, killer )
 
 		/*ply.DeathTime = 0
 		ply.NextSecond = CurTime() + 1*/
-		timer.Simple( 0, function()
+		timer.Simple( 3, function()
 			
 			if !IsValid(ply) then return end
 			
-			if !ply:GetNWBool("IsChimera") && !ply:GetNWBool("IsGhost") then
+			if !ply:GetNet("IsChimera") && !ply:IsGhost() then
 				local ang = ply:EyeAngles()
 				ply:Spawn()
 				ply:SetEyeAngles(ang)
-				ply:ScreenFade(SCREENFADE.IN, color_black, 1, 0.1)
 			end
 
 		end )
 
 	end
 
-	if ply:GetNWBool("IsChimera") then
+	if ply:GetNet("IsChimera") then
 		ply:CreateBirdProp()
 		ply:CreateRagdoll()
 	end
@@ -72,7 +71,7 @@ end
 
 function GM:PlayerDeathThink( ply )
 
-	if ply:GetNWBool("IsChimera") then
+	if ply:GetNet("IsChimera") then
 		return false
     end
 
@@ -109,7 +108,7 @@ function GM:CanPlayerSuicide( ply ) return false end
 
 function GM:PlayerUse( ply, ent )
 	
-	if ply:GetNWBool("IsGhost") then
+	if ply:IsGhost() then
 		return false
 	end
 
@@ -123,13 +122,13 @@ function GM:EntityTakeDamage( ent, dmg )
 	
 	if IsValid( ent ) && ent:IsPlayer() then
 
-		if ent:GetNWBool("IsChimera") || ent:GetNWBool("IsGhost") || ( ent:Health() - amount ) <= 0 then
+		if ent:GetNet("IsChimera") || ent:IsGhost() || ( ent:Health() - amount ) <= 0 then
 			
-			if ent:GetNWBool("IsChimera") && amount > 100 then
+			if ent:GetNet("IsChimera") && amount > 100 then
 				ent:Kill()
 			end
 
-			if ent:Alive() && !ent:GetNWBool("IsChimera") && ( ( ent:Health() - amount ) <= 0 ) then
+			if ent:Alive() && !ent:GetNet("IsChimera") && ( ( ent:Health() - amount ) <= 0 ) then
 				ent:Kill()
 			end
 			
@@ -149,11 +148,11 @@ function GM:PlayerDeathSound() return true end
 
 function GM:GetFallDamage( ply, vel )
 	
-	if ply:GetNWBool("IsGhost") then
+	if ply:IsGhost() then
 		return false
 	end
 
-	if ply:GetNWBool("IsChimera") then
+	if ply:GetNet("IsChimera") then
 		return 0
 	end
 	

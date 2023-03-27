@@ -1,27 +1,33 @@
 local meta = FindMetaTable( "Player" )
+if !meta then
+	Msg("ALERT! Could not hook Player Meta Table\n")
+	return
+end
 
-if ( !meta ) then return end
+function meta:IsGhost()
+	return self:Team() == TEAM_GHOST
+end
 
 function meta:SetupModel()
 
 	//Msg( "Trying to set model for " .. tostring( self ), "\n" )
 
-	if self:GetNWBool("IsChimera") then
+	if self:GetNet( "IsChimera" ) then
 
 		//Msg( "Setting Chimera model for " .. tostring( self ), "\n" )
-		self:SetModel( "models/UCH/uchimeraGM.mdl" )
+		self:SetModel2( "models/UCH/uchimeraGM.mdl" )
 		self:SetSkin( 0 )
 		self:SetBodygroup( 1, 1 )
 
 		return
 	end
 	
-	if self:GetNWBool("IsGhost") then
+	if self:IsGhost() then
 
 		//Msg( "Setting Ghost model for " .. tostring( self ), "\n" )
-		self:SetModel( "models/UCH/mghost.mdl" )
+		self:SetModel2( "models/UCH/mghost.mdl" )
 
-		if self:GetNWBool("IsFancy") then
+		if self:GetNet( "IsFancy" ) then
 			self:SetBodygroup( 1, 1 )
 		else
 			self:SetBodygroup( 1, 0 )
@@ -31,15 +37,15 @@ function meta:SetupModel()
 	end
 
 	//Msg( "Setting Pig model for " .. tostring( self ), "\n" )
-	self:SetModel( "models/UCH/pigmask.mdl" )
+	self:SetModel2( "models/UCH/pigmask.mdl" )
 	self:SetRankModels()
 	self:SetBodygroup( 4, 1 )
 
 end
 
 function meta:IsPig()
-	
-	if self:Alive() && self:Team() == TEAM_PIGS then
+
+	if !self:GetNet( "IsChimera" ) && !self:IsGhost() && self:IsPlayer() && self:Alive() && self:Team() == TEAM_PIGS then
 		return true
 	end
 	
@@ -66,24 +72,24 @@ function meta:ResetVars()
 	self:SetupSpeeds()  //set the speeds
 	
 	/* Reset Sprint */
-	self:SetNWFloat("Sprint",1)
-	self:SetNWBool("IsSprinting",false)
-	self:SetNWBool("IsStunned",false)
-	self:SendLua( "LocalPlayer().SprintMeterSmooth = 1" )
+	self:SetNet( "Sprint", 1 )
+	self:SetNet( "IsSprinting", false )
+	self:SetNet( "IsStunned", false )
 
 	/* Reset Pig Stuff */
 	self:StopTaunting()
 	self:UnScare()
-	self:SetNWBool("IsPancake",false)
+	self:SetNet( "IsPancake", false )
 	
 	/* Set Rank */
-	self:SetRank( self:GetNWInt("NextRank") )
-	if self:IsPig() && self:GetNWInt("Rank") == RANK_COLONEL then
+	self:SetNet( "Rank", self:GetNet( "NextRank" ) )
+
+	if self:IsPig() && self:GetNet( "Rank" ) == RANK_COLONEL then
 		self:SetAchievement( ACHIEVEMENTS.UCHCAPE, 1 )
 	end
 
 	/* Chimera Variables */
-	if self:GetNWBool("IsChimera") then
+	if self:GetNet( "IsChimera" ) then
 		self:ResetUCVars()
 	end
 	
@@ -91,15 +97,17 @@ function meta:ResetVars()
 	if IsValid( self.HeldSaturn ) then
 		self.HeldSaturn = nil
 	end
-	self:SetNWBool("HasSaturn",false)
+	self:SetNet( "HasSaturn", false )
 
 	GAMEMODE:UpdateHull( self )
+
+	self:CollisionRulesChanged()
 
 end
 
 function meta:CanTaunt()
 
-	if (!self:GetNWBool("IsTaunting") && !self:GetNWBool("IsScared") && !self:GetNWBool("IsSprinting") && self:IsOnGround() && self:Team() == TEAM_PIGS) then
+	if !self:GetNet( "IsTaunting" ) && !self:GetNet( "IsScared" ) && !self:GetNet( "IsSprinting" ) && self:IsOnGround() && self:Team() == TEAM_PIGS then
 		return true
 	end
 
@@ -109,7 +117,7 @@ end
 
 function meta:MovementKeyDown()
 	
-	if (self:KeyDown( IN_FORWARD ) || self:KeyDown( IN_BACK ) || self:KeyDown( IN_MOVELEFT ) || self:KeyDown( IN_MOVERIGHT )) then
+	if self:KeyDown( IN_FORWARD ) || self:KeyDown( IN_BACK ) || self:KeyDown( IN_MOVELEFT ) || self:KeyDown( IN_MOVERIGHT ) then
 		return true	
 	end
 	
@@ -129,14 +137,14 @@ if SERVER then
 	
 	function meta:StripSaturn()
 	
-		if !self:GetNWBool("HasSaturn") then return end
+		if !self:GetNet( "HasSaturn" ) then return end
 		
 		if IsValid( self.HeldSaturn ) then
 			self.HeldSaturn:Remove()
 			self.HeldSaturn = nil
 		end
 
-		local ent = ents.Create( "mr_saturn" )
+		local ent = ents.Create( "gmt_saturn" )
 		if IsValid( ent ) then
 			ent:SetPos( self:GetPos() + Vector( 0, 0, 30 ) )
 			ent:Spawn()
@@ -171,7 +179,7 @@ if SERVER then
 
 			local num = math.Rand( 6, 9 )
 
-			if self:GetNWBool("IsScared") || !self:CanSprint() then
+			if self:GetNet( "IsScared" ) || !self:CanSprint() then
 				num = num * .25
 			end
 			
@@ -185,11 +193,11 @@ if SERVER then
 
 		local spd, cspd = 175, .3
 
-		if GAMEMODE:IsPlaying() && self:GetNWBool("IsChimera") then
+		if GAMEMODE:IsPlaying() && GAMEMODE:GetUC() == self then
 			spd, cspd = 112, 1
 		end
 
-		if self:GetNWBool("IsGhost") then
+		if self:IsGhost() then
 			spd, cspd = 250, 1
 		end
 
@@ -205,17 +213,15 @@ if SERVER then
 			self:SetupSpeeds()
 		end
 
-		if (self:GetNWBool("IsSprinting") || self:GetNWBool("IsScared")) then
+		if self:GetNet( "IsSprinting" ) || self:GetNet( "IsScared" ) then
 
 			local spd, cspd = 375, .5
 
-			if self:GetNWBool("IsScared") then
+			if self:GetNet( "IsScared" ) then
 				spd = 242
 			end
-			
-			if self:GetNWBool("IsChimera") && GAMEMODE.UCAngry then
-				spd = 350
-			elseif self:GetNWBool("IsChimera") then
+
+			if self:GetNet( "IsChimera" ) then
 				spd = 300
 			end
 
@@ -226,7 +232,7 @@ if SERVER then
 			self:SetupSpeeds()
 		end
 		
-		if self:GetNWBool("IsStunned") && !self:GetNWBool("IsChimera") then
+		if self:GetNet( "IsStunned" ) && !self:GetNet( "IsChimera" ) then
 			self:SetSpeed( 0 )
 		end
 
@@ -237,16 +243,16 @@ if SERVER then
 		self:SetRunSpeed( spd )
 	end
 
-	function meta:CreateUCHRagdoll( pig )
+	/*function meta:CreateUCHRagdoll( pig )
 		
-		/*umsg.Start( "CreateUCHRagdoll" )
+		umsg.Start( "CreateUCHRagdoll" )
 			umsg.Entity( self )
 			if ( b ) then
 				umsg.Entity( GAMEMODE:GetUC())
 			end
-		umsg.End()*/
+		umsg.End()
 
-		if self:GetNWBool("IsGhost") then return end
+		if self:IsGhost() then return end
 
 		if IsValid( self.Ragdoll ) then
 			self.Ragdoll:Remove()
@@ -325,23 +331,26 @@ if SERVER then
 
 		return rag
 
-	end
+	end*/
 
 	function meta:StopTaunting()
-		self:SetNWBool("IsTaunting",false)
+		self:SetNet( "IsTaunting", false )
 	end
 	
 	function meta:Taunt( t, playback )
 
-		if (self:IsPig() && self:GetNWBool("IsTaunting")) then return end
+		if !IsValid( self ) || self:GetNet( "IsChimera" ) || self:IsGhost() || self.IsDead || self:GetNet( "IsTaunting" ) then return end
 
-		self:SetNWBool("IsTaunting",true)
+		self:SetNet( "IsTaunting", true )
 		
 		//for achievement
 		local uc = GAMEMODE:GetUC()
-		local dist = self:GetPos():Distance( uc:GetPos() )
-		if dist <= 812 && uc:Alive() && !uc.Pressed then
-			self:AddAchievement( ACHIEVEMENTS.UCHTAUNTING, 1 )
+
+		if IsValid( uc ) then
+			local dist = self:GetPos():Distance( uc:GetPos() )
+			if dist <= 812 && uc:Alive() && !uc.Pressed then
+				self:AddAchievement( ACHIEVEMENTS.UCHTAUNTING, 1 )
+			end
 		end
 
 		self:SetCycle( 0 )
@@ -351,7 +360,7 @@ if SERVER then
 		self:PlaybackRateOV( playback )
 		RestartAnimation( self )
 
-		timer.Simple( self:SequenceDuration() * ( .98 / self:GetNWFloat("PlaybackRate") ), function()
+		timer.Simple( self:SequenceDuration() * ( .98 / 1 /*self:GetNet( "PlaybackRate" )*/ ), function()
 			if IsValid( self ) then
 
 				self:StopTaunting()
@@ -367,11 +376,10 @@ if SERVER then
 		self:SetViewOffset( Vector( 0, 0, num))
 		self:SetViewOffsetDucked( Vector( 0, 0, ( num * .75)))
 	end
-	
-	
+
 	/*function meta:PlaySpawnSound()  //replaced by a 100 times better music system
 
-		if self:GetNWBool("IsGhost") then return end
+		if self:IsGhost() then return end
 		
 		self.LastSpawnSound = self.LastSpawnSound || 0
 		
@@ -379,116 +387,109 @@ if SERVER then
 			
 			local rank = self:GetRankName()
 
-			if self:GetNWBool("IsChimera") then
+			if self.IsChimera then
 				rank = "chimera"
 			end
 
-			self:SendSound( "UCH/music/cues" .. rank:lower() .. "_spawn.mp3" )
+			self:SendSound( "UCH/music/cues" .. rank:lower() .. "_spawn.wav" )
 			self.LastSpawnSound = CurTime() + 15
 
 		end
 
 	end*/
 	
-	/*hook.Add( "Think", "UC_Swimming", function()
+	hook.Add( "Think", "UC_Swimming", function()
 		for k, ply in pairs( player.GetAll() ) do
 
 			if ply:WaterLevel() > 0 then
 
 				if ply:IsOnGround() && ply:WaterLevel() <= 2 then
-					if ply:GetNWBool("IsSwimming") then
-						ply:SetNWBool("IsSwimming",false)
+					if ply.IsSwimming then
+						ply.IsSwimming = false
 					end
 				else
-					if !ply:GetNWBool("IsSwimming") then
-						ply:SetNWBool("IsSwimming",true)
+					if !ply.IsSwimming then
+						ply.IsSwimming = true
 					end
 				end
 
 			else
 
-				if ply:GetNWBool("IsSwimming") then
-					ply:SetNWBool("IsSwimming",false)
+				if ply.IsSwimming then
+					ply.IsSwimming = false
 				end
 
 			end
 
 		end
 		
-	end )*/
+	end )
 
 end
 
-/*	function meta:CreateRagdoll( pig, ply )
-	
-		local rag = ents.Create( "hl2mp_ragdoll" )
-			rag:SetModel( self:GetModel() )
-			rag:SetPos( self:GetPos() )
-			rag:SetAngles( self:GetAngles() )
-		rag:Spawn()
-		if !IsValid( rag ) then	return end
-		rag:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
+/*if SERVER then return end
 
-		local entvel
-		local entphys = self:GetPhysicsObject()
+usermessage.Hook( "CreateUCHRagdoll", function( um )
 
-		if IsValid( entphys ) then
-			entvel = entphys:GetVelocity()
-		else
-			entvel = self:GetVelocity()
-		end
+	local ply = um:ReadEntity()
+	//local rag = ply:CreateRagdoll()
+	local pig = ( ply:Team() == TEAM_PIGS )
 
-		for i = 1, rag:GetPhysicsObjectCount() do
+	local rag = ent:BecomeRagdollOnClient()
+	if !IsValid( rag ) then	return end
 
-			local bone = rag:GetPhysicsObjectNum( i )
-			if IsValid( bone ) then
-				local bonepos, boneang = self:GetBonePosition( rag:TranslatePhysBoneToBone( i ) )
-				bone:SetPos( bonepos )
-				bone:SetAngle( boneang )
+	rag:SetModel( ply:GetModel() )
+	rag:SetPos( ply:GetPos() )
+	rag:SetAngles( ply:GetAngles() )
+	rag:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
+
+	local entvel
+	local entphys = ply:GetPhysicsObject()
+
+	if IsValid( entphys ) then
+		entvel = entphys:GetVelocity()
+	else
+		entvel = ply:GetVelocity()
+	end
+
+	for i = 1, rag:GetPhysicsObjectCount() do
+
+		local bone = rag:GetPhysicsObjectNum( i )
+		if IsValid( bone ) then
+
+			local bonepos, boneang = ply:GetBonePosition( rag:TranslatePhysBoneToBone( i ) )
+			bone:SetPos( bonepos )
+			bone:SetAngles( boneang )
+			
+			if pig && IsValid( GAMEMODE:GetUC() ) then
 				
-				if pig then
-					local fwd = ply:GetForward()
-					fwd.z = 0
-					fwd:Normalize()
-					
-					entvel = entvel + ( fwd * 3200 )
-				end
-
-				bone:ApplyForceOffset( self:GetVelocity(), self:GetPos() )
-				bone:AddVelocity( entvel )
-
+				local fwd = GAMEMODE:GetUC():GetForward()
+				fwd.z = 0
+				fwd:Normalize()
+				
+				entvel = entvel + ( fwd * 3200 ) + Vector( 0, 0, 1600 )
+				
 			end
+			
+			bone:ApplyForceOffset( ply:GetVelocity(), ply:GetPos() )
+			bone:AddVelocity( entvel )
 
 		end
 
-		rag:SetSkin( self:GetSkin() )
-		rag:SetColor( self:GetColor() )
-		rag:SetMaterial( self:GetMaterial() )
+	end
 
-		for i = 1, 2 do
-			rag:SetBodygroup( i, self:GetBodygroup( i ) )
+	rag:SetSkin( ply:GetSkin() )
+	rag:SetColor( ply:GetColor() )
+	rag:SetMaterial( ply:GetMaterial() )
+
+	for i = 1, 2 do
+		rag:SetBodygroup( i, ply:GetBodygroup( i ) )
+	end
+
+	timer.Simple( 32, function()
+		if IsValid( rag ) then
+			rag:Remove()
 		end
+	end )
 
-		return rag
-
-	end
-	
-	local function CreateRagdolls( um )
-
-		local ply = um:ReadEntity()
-		local UC = ( um:ReadEntity() || nil )
-		
-		local pig = ( UC != nil && true ) || false
-		
-		local rag = ply:CreateRagdoll( pig, UC )
-
-		timer.Simple( 32, function()
-			if ( IsValid( rag)) then
-				rag:Remove()
-			end
-		end )
-
-	end
-	usermessage.Hook( "CreateUCHRagdoll", CreateRagdolls )
-
-end*/
+end )*/

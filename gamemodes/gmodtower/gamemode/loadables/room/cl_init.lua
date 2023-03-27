@@ -102,7 +102,7 @@ hook.Add("GTowerScorePlayer", "AddRoomNumber", function()
 		5,
 		75,
 		function(ply)
-			return (ply.GRoomId && ply.GRoomId > 0 && tostring(ply.GRoomId)) or " - "
+			return (ply:GetNet( "RoomID" ) && ply:GetNet( "RoomID" ) > 0 && tostring(ply:GetNet( "RoomID" ))) or " - "
 		end,
 		99
 	)
@@ -113,7 +113,7 @@ hook.Add("GTowerAdminPly", "AddSuiteRemove", function( ply )
 
 	local PlyId = ply:EntIndex()
 
-	if ply.GRoomId then
+	if ply:GetNet( "RoomID" ) then
 		return {
 			["Name"] = "Remove Room",
 			["function"] = function() RunConsoleCommand("gt_act", "remroom", PlyId ) end
@@ -461,11 +461,11 @@ local PANEL = {}
 
 function PANEL:PerformLayout()
 
-	local RoomId = LocalPlayer().GRoomId
+	local RoomId = LocalPlayer():GetNet( "RoomID" )
 
 	if ( RoomId && RoomId != 0 ) then
 
-		local Count = LocalPlayer().GRoomEntityCount
+		local Count = LocalPlayer():GetNet( "RoomEntityCount" )
 
 		self:SetText( "Suite count: " .. tostring(Count) .. "/" .. tostring(LocalPlayer():GetSetting("GTSuiteEntityLimit")) )
 		self:SizeToContents()

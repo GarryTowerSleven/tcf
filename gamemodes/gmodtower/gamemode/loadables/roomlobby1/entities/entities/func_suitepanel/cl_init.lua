@@ -15,8 +15,6 @@ ENT.matButtonLock 		= surface.GetTextureID( "func_touchpanel/button_lock04" )
 ENT.matButtonUnlock		= surface.GetTextureID( "func_touchpanel/button_unlock04" )
 
 function ENT:Initialize()
-	
-	self:SharedInit()
 
 	self:SetModel( self.Model )
 	self:SetRenderBounds( Vector( 75, 0, -72 ), Vector( -8, 2, 72 ) )
@@ -132,7 +130,7 @@ function ENT:OnRoomLock()
 	local Owner = GTowerRooms:RoomOwner( self.RoomId )
 	
 	if Owner then
-		return Owner:GetNWBool("GRoomLock")
+		return Owner:GetNet( "RoomLock" )
 	end
 	
 	return false	

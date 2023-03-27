@@ -90,7 +90,7 @@ function PANEL:DrawGhost( x, y, k )
 	local mat = ( ply.dir == "left" && ghostmatwineL ) || ( ply.dir == "right" && ghostmatwineR )
 	local w, h = sh * .175, sh * .175
 	
-	if !ply:GetNWBool("IsFancy") then
+	if !ply:GetNet("IsFancy") then
 		mat = ( ply.dir == "left" && ghostmatL ) || ( ply.dir == "right" && ghostmatR )
 		w = w * .5
 	end
@@ -104,7 +104,7 @@ function PANEL:DrawGhost( x, y, k )
 	surface.SetDrawColor( 255, 255, 255, 255 )
 	surface.DrawTexturedRectRotated( x, y, w, h, Color( 255, 255, 255, 255 ), 0 )
 
-	if ply:GetNWBool("IsFancy") then
+	if ply:GetNet("IsFancy") then
 		local offset = ScrH() * .0232
 		x = x + ( ( dir == "left" && offset ) or -offset )
 	end

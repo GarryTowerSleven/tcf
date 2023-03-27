@@ -19,8 +19,8 @@ if SERVER then
 			umsg.Char( ply._PlyChoosenBall )
 		umsg.End()
 
-		if IsValid(ply.BallRaceBall) then
-			ply.BallRaceBall:SetModel(BallRacerBalls[ply._PlyChoosenBall])
+		if IsValid(ply:GetBallRaceBall()) then
+			ply:GetBallRaceBall():SetModel(BallRacerBalls[ply._PlyChoosenBall])
 		end
 
 	end
@@ -265,7 +265,7 @@ else // CLIENT
 
 
 	hook.Add("GTowerShowMenus","OpenBallracer", function()
-    if IsValid(LocalPlayer().BallRaceBall) then
+    if IsValid(LocalPlayer():GetBallRaceBall()) then
 		    BallRacerChooser:Open()
     end
 	end )

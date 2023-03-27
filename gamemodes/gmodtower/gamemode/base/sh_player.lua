@@ -231,8 +231,77 @@ function meta:SetColorAll( color )
 
 end
 
+function meta:SetModel2( mdl )
+
+	self:SetModel( mdl )
+
+	//if Hats && SERVER then
+	//	Hats.UpdateWearables( self )
+	//end
+
+end
+
 function meta:IsCameraOut()
 	if IsValid( self ) then
 		return IsValid( self:GetActiveWeapon() ) && self:GetActiveWeapon():GetClass() == "gmt_camera"
 	end
+end
+
+if SERVER then
+	function meta:SetDriving( ent )
+		--self:SetNet( "Driving", ent:EntIndex() )
+		self:SetNet( "DrivingObject", ent )
+	end
+end
+
+function meta:GetDriving( class )
+
+	if self:IsBot() then return end
+
+	local ent = self:GetNet("DrivingObject")
+	if not IsValid( ent ) then return end
+
+	if class and ent:GetClass() ~= class then return end
+
+	return ent
+
+	--[[local entindex = self:GetNet( "Driving" )
+	if not entindex or entindex == 0 then return end
+
+	local ent = Entity(entindex)
+	if not IsValid( ent ) then return end
+
+	if class then
+		if ent:GetClass() == class then
+			return ent
+		else
+			return nil
+		end
+	end
+
+	return ent]]
+
+end
+
+function meta:ExitDriving()
+
+	local ent = self:GetNet("DrivingObject")
+	if not IsValid( ent ) then return end
+
+	self:SetNet( "DrivingObject", nil )
+	ent:Remove()
+
+end
+
+
+if CLIENT then return end -- SERVER
+
+
+function meta:ExitAllVehicles()
+
+	self:ExitVehicle()
+	self:ExitDriving()
+
+	hook.Call( "OnExitVehicles", GAMEMODE, self )
+
 end

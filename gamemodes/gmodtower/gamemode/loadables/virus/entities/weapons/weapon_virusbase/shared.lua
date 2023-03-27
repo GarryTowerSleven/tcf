@@ -2,12 +2,6 @@ if SERVER then
 	AddCSLuaFile( "shared.lua" )
 end
 
-/*if !VirusBaseIncludeGuard then
-	RegisterNWTablePlayer({
-		{"Iron", false, NWTYPE_BOOLEAN, REPL_PLAYERONLY},
-		{"Reloading", false, NWTYPE_BOOLEAN, REPL_PLAYERONLY}
-	})
-end*/
 VirusBaseIncludeGuard = true
 
 //Basic Setup

@@ -1,10 +1,9 @@
 GM.Name 	= "GMod Tower: Ultimate Chimera Hunt"
 GM.Author 	= "Aska & Fluxmage/GMT Krew"
-GM.Email 	= ""
-GM.Website 	= ""
 
 GM.AllowSpecialModels = false
 GM.AllowChangeSize = false
+
 GM.NumRounds = 15
 GM.RoundTime = 2 * 60
 
@@ -17,49 +16,43 @@ SetupGMTGamemode( "Ultimate Chimera Hunt", "ultimatechimerahunt", {
 } )
 
 /* NETWORK VARS SETUP */
+globalnet.Register( "Float", "RoundStart" )
+globalnet.Register( "Entity", "UC" )
 
-function RegisterNWTableG()
-	SetGlobalInt("State",1)
-	SetGlobalFloat("Time", 0)
-	SetGlobalInt("Round", 0)
-	SetGlobalEntity("UC",Entity(0))
-end
+/* Ranks */
+plynet.Register( "Int", "Rank", { default = 1 } )
+plynet.Register( "Int", "NextRank", { default = 1 } )
 
-function RegisterNWTableP(ply)
-	/* Ranks */
-	ply:SetNWInt("Rank",1)
-	ply:SetNWInt("NextRank",1)
-	
-	/* Player States */
-	ply:SetNWBool("IsChimera",false)
-	ply:SetNWBool("IsGhost",false)
-	ply:SetNWBool("IsFancy",false)
-	
-	/* Pigs */
-	ply:SetNWBool("IsScared",false)
-	ply:SetNWBool("IsTaunting",false)
-	ply:SetNWBool("IsStunned",false)
-	ply:SetNWBool("IsPancake",false)
-	
-	/* Chimera */
-	ply:SetNWBool("IsRoaring",false)
-	ply:SetNWBool("IsBiting",false)
-	ply:SetNWBool("FirstDoubleJump",false)
-	ply:SetNWInt("DoubleJumpNum",0)
-	ply:SetNWFloat("SwipeMeter",0)
-	
-	/* Sprint */
-	ply:SetNWFloat("Sprint",1)
-	ply:SetNWBool("IsSprinting",false)
-	//ply:SetNWBool("IsSwimming",false)
-	
-	/* Animations */
-	ply:SetNWFloat("PlaybackRate",1)
-	ply:SetNWBool("PlaybackRateOV",false)
-	
-	/* Saturn */
-	ply:SetNWBool("HasSaturn",false)
-end
+/* Player States */
+plynet.Register( "Bool", "IsChimera" )
+plynet.Register( "Bool", "IsGhost" )
+plynet.Register( "Bool", "IsFancy" )
+
+/* Pigs */
+plynet.Register( "Bool", "IsScared" )
+plynet.Register( "Bool", "IsTaunting" )
+plynet.Register( "Bool", "IsStunned" )
+plynet.Register( "Bool", "IsPancake" )
+
+/* Chimera */
+plynet.Register( "Bool", "IsRoaring" )
+plynet.Register( "Bool", "IsBiting" )
+plynet.Register( "Bool", "FirstDoubleJump" )
+plynet.Register( "Int", "DoubleJumpNum" )
+plynet.Register( "Float", "SwipeMeter" )
+//plynet.Register( "Bool", "Stunned" )
+
+/* Sprint */
+plynet.Register( "Float", "Sprint" )
+plynet.Register( "Bool", "IsSprinting" )
+//plynet.Register( "Bool", "IsSwimming" )
+
+/* Animations */
+plynet.Register( "Float", "PlaybackRate", { default = 1 } )
+plynet.Register( "Bool", "PlaybackRateOver" )
+
+/* Saturn */
+plynet.Register( "Bool", "HasSaturn" )
 
 
 /* WONDERFUL ARRAY OF INDEXES */
@@ -184,54 +177,28 @@ GM.Ranks = {
 	},
 }
 
-
-/* MAP NAMES */
-
-GM.NiceMapNames = {
-	["gmt_uch_tazmily"] = "Tazmily Village",
-	["gmt_uch_shadyoaks"] = "Shady Oaks",
-	["gmt_uch_laboratory"] = "Laboratory",
-	["gmt_uch_clubtitiboo"] = "Club Titiboo",
-	["gmt_uch_camping"] = "Camping Grounds",
-	["gmt_uch_headquarters"] = "Headquarters",
-}
-
 /* STATE/GAMEMODE LOGIC FUNCTIONS */
 
-function GM:SetGameState( state )
-	SetGlobalInt("State",state)
-end
-
-function GM:GetGameState()
-	return GetGlobalInt("State")
-end
-
-function GM:IsPlaying()
-	return self:GetGameState() == STATE_PLAYING
-end
-
 function GM:IsRoundOver()
-	return GetGlobalInt("State") == STATE_INTERMISSION
+	return self:GetState() == STATE_INTERMISSION
 end
 
 function GM:GetUC()
-	return GetGlobalEntity("UC") or NULL
+	return globalnet.GetNet( "UC" ) or NULL
 end
 
 /* Timer Functions */
 
-function GM:GetTimeLeft()
-	return ( GetGlobalFloat("Time") or 0 ) - CurTime()
-end
-
 function GM:AddTime( add )
 
+	if !self:IsPlaying() then return end
 	if self.Intense then return end
 
 	local time = self:GetTimeLeft()
 
 	time = math.Clamp( time + add, 0, 2.10 * 60 )
-	SetGlobalFloat("Time", CurTime() + time)
+	
+	self:SetTime( time )
 
 	umsg.Start( "UpdateRoundTimer" )
 		umsg.Long( add )
@@ -267,7 +234,7 @@ function GM:UpdateHull( ply )
 
 	if !IsValid( ply ) then return end
 
-	if ply:GetNWBool("IsChimera") then
+	if ply:GetNet( "IsChimera" ) then
 
 		ply:SetHull( Vector(-25, -25, 0), Vector( 25, 25, 55 ) )
 		ply:SetHullDuck( Vector(-25, -25, 0), Vector( 25, 25, 55 ) )
@@ -283,7 +250,7 @@ function GM:UpdateHull( ply )
 		ply:SetViewOffset( Vector( 0, 0, 48 ) )
 		ply:SetViewOffsetDucked( Vector( 0, 0, ( 48 * .75 ) ) )
 
-		if ply:GetNWBool("IsGhost") then
+		if ply:IsGhost() then
 
 			ply:SetHull( Vector(-16, -16, 0 ), Vector( 16, 16, 55 ) )
 			ply:SetHullDuck( Vector(-16, -16, 0 ), Vector( 16, 16, 55 ) )
@@ -298,28 +265,26 @@ function GM:UpdateHull( ply )
 end
 
 function GM:ShouldCollide( ent1, ent2 )
-
 	if (ent1:IsValid() && ent2:IsValid()) then
-		if ((ent1:IsPlayer() && ent1:GetNWBool("IsGhost")) || (ent2:IsPlayer() && ent2:GetNWBool("IsGhost"))) then
+		if ((ent1:IsPlayer() && ent1:IsGhost()) || (ent2:IsPlayer() && ent2:IsGhost())) then
 			return false;
 		end
+		
 		if (ent1:IsPlayer() && ent2:IsPlayer() && ent1:Team() == ent2:Team()) then
 			return false;
 		end
 	end
 	
 	return true;
-
-end
-
-function GetWorldEntity()
-	return game.GetWorld()
 end
 
 if CLIENT then return end
 
 function GM:PlayerCanHearPlayersVoice( ply1, ply2 )
 
-	return ( ply1:Team() == ply2:Team() ) || ( ply1:GetNWBool("IsChimera") && !ply2:GetNWBool("IsGhost") ) || ( !ply1:GetNWBool("IsGhost") && ply2:GetNWBool("IsChimera") ) || !self:IsPlaying()
+	return ( ply1:Team() == ply2:Team() ) || 
+			( ply1:GetNet( "IsChimera" ) && !ply2:IsGhost() ) || 
+			( !ply1:IsGhost() && ply2:GetNet( "IsChimera" ) ) || 
+			!self:IsPlaying()
 
 end

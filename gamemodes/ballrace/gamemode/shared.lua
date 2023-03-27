@@ -33,16 +33,11 @@ if game.GetMap() == "gmt_ballracer_facile" then
 	GM.Lives = 3
 end
 
-
 // === GAMEMODE NETVARS ===
-RegisterNWTableGlobal( {
-	{"Passed", false, NWTYPE_BOOLEAN, REPL_EVERYONE },
-} )
+globalnet.Register( "Bool", "Passed" )
 
-RegisterNWTablePlayer( {
-	{"CompletedTime", "", NWTYPE_STRING, REPL_EVERYONE },
-	{"CompletedRank", 99, NWTYPE_NUMBER, REPL_EVERYONE },
-} )
+plynet.Register( "String", "CompletedTime" )
+plynet.Register( "Int", "CompletedRank" )
 
 // === STATES ===
 STATE_WAITING = 1

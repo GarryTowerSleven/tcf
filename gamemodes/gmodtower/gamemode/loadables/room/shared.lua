@@ -116,8 +116,11 @@ function GetCondoDoor( condoid )
 	return nil
 end
 
-RegisterNWTablePlayer({
-	{"GRoomLock", false, NWTYPE_BOOLEAN, REPL_EVERYONE },
-	{"GRoomId", 0, NWTYPE_CHAR, REPL_EVERYONE, RecvPlayerRoom },
-	{"GRoomEntityCount", 999, NWTYPE_NUMBER, REPL_PLAYERONLY },
-})
+plynet.Register( "Bool", "RoomLock" )
+plynet.Register( "Int", "RoomEntityCount", {
+	default = 999,
+} )
+plynet.Register( "Int", "RoomID", {
+	callback = RecvPlayerRoom,
+	default = 0,
+} )

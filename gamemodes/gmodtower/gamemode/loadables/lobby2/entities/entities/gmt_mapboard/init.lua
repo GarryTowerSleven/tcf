@@ -55,10 +55,10 @@ net.Receive("MapBoardTeleport",function( len, ply )
 
       local loc,ang = MapDestinations[Loc][1], MapDestinations[Loc][2]
 
-      if ( ply.BallRaceBall && IsValid(ply.BallRaceBall) ) then
-        ply.BallRaceBall:SetAngles(ang)
+      if ( ply:GetBallRaceBall() && IsValid(ply:GetBallRaceBall()) ) then
+        ply:GetBallRaceBall():SetAngles(ang)
         ply:SetEyeAngles(ang)
-        ply.BallRaceBall:SetPos( loc + Vector(0,0,35) )
+        ply:GetBallRaceBall():SetPos( loc + Vector(0,0,35) )
       else
         ply:SetEyeAngles(ang)
         ply.DesiredPosition = loc

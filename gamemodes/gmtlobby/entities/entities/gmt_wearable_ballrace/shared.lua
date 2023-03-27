@@ -12,20 +12,16 @@ function ENT:Initialize()
     self:SetCustomCollisionCheck( true )
 end
 
-RegisterNWTablePlayer({
-	{ "BallRaceBall", NULL, NWTYPE_ENTITY, REPL_EVERYONE },
-})
-
 hook.Add( "Move", "MoveBall", function( ply, movedata )
 
-	if !IsEntity( ply.BallRaceBall ) or !IsValid( ply.BallRaceBall ) then return end
+	if !IsEntity( ply:GetBallRaceBall() ) or !IsValid( ply:GetBallRaceBall() ) then return end
 
 	movedata:SetForwardSpeed( 0 )
 	movedata:SetSideSpeed( 0 )
 	movedata:SetVelocity( novel )
 	if SERVER then ply:SetGroundEntity( NULL ) end
 
-	local ball = ply.BallRaceBall
+	local ball = ply:GetBallRaceBall()
 	if IsValid( ball ) then
 		movedata:SetOrigin( ball:GetPos() )
 	end
@@ -36,7 +32,7 @@ end )
 
 hook.Add( "PlayerFootstep", "PlayerFootstepBall", function( ply, pos, foot, sound, volume, rf )
 
-	if IsValid( ply.BallRaceBall ) then
+	if IsValid( ply:GetBallRaceBall() ) then
 
 		return true
 
@@ -46,12 +42,18 @@ end )
 
 /*hook.Add( "ShouldCollide", "ShouldCollideBall", function( ent1, ent2 )
 
-	if ent1:GetClass() == "gmt_ballrace" && string.sub( ent2:GetClass(), 1, 9 ) == "func_door" then
+	if ent1:GetClass() == "gmt_wearable_ballrace" && string.sub( ent2:GetClass(), 1, 9 ) == "func_door" then
 		return false
 	end
 
-	if ent1:GetClass() == "gmt_ballrace" && ent2:GetClass() == "gmt_teleporter" then return false end
+	if ent1:GetClass() == "gmt_wearable_ballrace" && ent2:GetClass() == "gmt_teleporter" then return false end
 
 	return true
 
 end )*/
+
+local meta = FindMetaTable("Player")
+
+function meta:GetBallRaceBall()
+	return self:GetDriving( "gmt_wearable_ballrace" )
+end

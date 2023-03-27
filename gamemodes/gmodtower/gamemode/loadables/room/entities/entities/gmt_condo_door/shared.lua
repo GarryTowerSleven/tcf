@@ -48,7 +48,7 @@ function ENT:GetLocked()
 	local room = room or self:GetCondo()
 
 	if room && IsValid(room.Owner) then
-		return room.Owner.GRoomLock
+		return room.Owner:GetNet( "RoomLock" )
 	end
 
 end

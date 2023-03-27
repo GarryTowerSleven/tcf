@@ -2,11 +2,11 @@ function GM:Think()
 
 	if self.Ending then return end
 
-	if self.FirstPlySpawned && self:GetTimeLeft() <= 0 && self:GetGameState() == STATE_WAITING then
+	if self.FirstPlySpawned && self:GetTimeLeft() <= 0 && self:GetState() == STATE_WAITING then
 		hook.Call("StartRound", GAMEMODE )
 	end
 
-	if self:GetTimeLeft() <= 0 && GetGlobalInt("Round") <= self.NumRounds && GetGlobalInt("Round") > 0 then
+	if self:GetTimeLeft() <= 0 && globalnet.GetNet("Round") <= self.NumRounds && globalnet.GetNet("Round") > 0 then
 		if self:IsRoundOver() then
 			hook.Call( "StartRound", GAMEMODE )
 		else
@@ -14,7 +14,7 @@ function GM:Think()
 		end
 	end
 
-	if self:GetGameState() == STATE_INTERMISSION && GetGlobalInt("Round") + 1 > self.NumRounds then
+	if self:GetState() == STATE_INTERMISSION && globalnet.GetNet("Round") + 1 > self.NumRounds then
 
 		for _,ply in ipairs( player.GetAll() ) do
 
@@ -46,7 +46,7 @@ function GM:Think()
 
 	for _, v in ipairs( player.GetAll() ) do
 
-		if v:GetNWBool("IsChimera") then
+		if v:GetNet("IsChimera") then
 			self:UCThink( v )
 		end
 

@@ -60,7 +60,7 @@ end
 
 function SetLock( self, state )
 	if self.Owner then
-		self.Owner.GRoomLock = state
+		self.Owner:SetNet( "RoomLock", state )
 	end
 end
 
@@ -73,7 +73,7 @@ function Unlock( self )
 end
 
 function CanManageDoor( self, ply )
-	return self.Owner && (self.Owner.GRoomLock == false || ply == self.Owner || ply:IsAdmin() )
+	return self.Owner && (self.Owner:GetNet( "RoomLock" ) == false || ply == self.Owner || ply:IsAdmin() )
 end
 
 function Location( self )
@@ -111,7 +111,7 @@ hook.Add( "RoomThink", "GRoomThink", function( ply )
 
 	if !room then return end
 
-	if !room.Owner.GRoomLock then return end // so far we're only thinking for locked rooms
+	if !room.Owner:GetNet( "RoomLock" ) then return end // so far we're only thinking for locked rooms
 
 	local players = room:GetPlayers()
 	local group = ply:GetGroup()

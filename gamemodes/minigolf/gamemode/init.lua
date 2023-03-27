@@ -30,7 +30,6 @@ CreateConVar("gmt_srvid", 14 )
 
 -----------------------------------------------------
 function GM:Intialize()
-	RegisterNWGlobal()
 	self:SetState(STATE_NOPLAY)
 end
 

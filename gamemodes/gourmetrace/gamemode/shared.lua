@@ -8,19 +8,13 @@ GM.MaxSpeed = 800
 GM.NumRounds = 4
 
 // === GAMEMODE NETVARS ===
-RegisterNWTableGlobal( {
-	{ "Round", 0, NWTYPE_NUMBER, REPL_EVERYONE },
-} )
-
-RegisterNWTablePlayer( {
-	{ "Rank", 99, NWTYPE_NUMBER, REPL_EVERYONE },
-	{ "Pos", 99, NWTYPE_NUMBER, REPL_EVERYONE },
-	{ "Invincible", false, NWTYPE_BOOLEAN, REPL_EVERYONE },
-	{ "Powerup", "", NWTYPE_STRING, REPL_EVERYONE },
-	{ "Time", 0, NWTYPE_NUMBER, REPL_EVERYONE },
-	{ "DoubleJumpNum", 0, NWTYPE_NUMBER, REPL_EVERYONE },
-	{ "Points", 0, NWTYPE_NUMBER, REPL_EVERYONE },
-} )
+plynet.Register( "Int", "Rank", { default = 99 } )
+plynet.Register( "Int", "Pos", { default = 99 } )
+plynet.Register( "Bool", "Invincible", { default = false } )
+plynet.Register( "String", "Powerup", { default = "" } )
+plynet.Register( "Int", "Time", { default = 0 } )
+plynet.Register( "Int", "DoubleJumpNum", { default = 0 } )
+plynet.Register( "Int", "Points", { default = 0 } )
 
 STATE_WAITING		= 0 // waiting for players
 STATE_INTERMISSION	= 1 // wait time after end

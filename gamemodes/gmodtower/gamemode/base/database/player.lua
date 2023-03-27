@@ -1,4 +1,3 @@
----------------------------------
 local meta = FindMetaTable( "Player" )
 if (!meta) then
     Msg("ALERT! Could not hook Player Meta Table\n")
@@ -8,7 +7,7 @@ end
 function meta:SQLId()
 	if !self._GTSqlID then
 
-		if !self.SteamID then
+		/*if !self.SteamID then
 			debug.traceback()
 			Error("Trying to get player steamid before player is created!")
 		end
@@ -27,21 +26,21 @@ function meta:SQLId()
 				SQLLog( 'error', "sql id could not be found (".. tostring(SteamId) ..")\n" )
 			end
 			return
-		end
+		end*/
+
+		self._GTSqlID = self:AccountID()
 
 	end
 
 	return self._GTSqlID
 end
 
-
 function meta:Money()
-    return self:GetSetting("GTMoney")
+    return self:GetNet( "Money" ) or 0
 end
 
 function meta:SetMoney( amount )
-    self.GTMoney = math.Clamp( tonumber( amount ), 0, 2147483647 ) // math.pow( 2, 31 )  - 1  -- only allow 31 bits of numbers!
-	self:SetSetting( "GTMoney", self.GTMoney )
+	return self:SetNet( "Money", math.Clamp( tonumber( amount ), 0, 2147483647 ) )
 end
 
 function meta:AddMoney( amount, nosend, nobezier )
@@ -94,4 +93,68 @@ end
 
 function meta:IsBot()
 	return IsValid(self) && self:SteamID() == "BOT"
+end
+
+function meta:ApplyData( data )
+	if ( data.achivement == nil or data.achivement == "" ) then
+		self:SetNWBool( "IsNewPlayer", true )
+	end
+
+	if ( data.money ) then
+		self:SetMoney( data.money )
+	end
+
+	if ( data.plysize ) then
+		GTowerModels.Set( self, tonumber( (data.plysize or 1) ) )
+		self.OldPlayerSize = ( data.plysize or 1 )
+	end
+
+	timer.Simple( 0.0, function()
+		if ( data.hat ) then
+			GTowerHats.SetHat( GTowerHats, self, data.hat, 1 )
+		end
+		
+		if ( data.faceHat ) then
+			GTowerHats.SetHat( GTowerHats, self, data.faceHat, 2 )
+		end
+	end )
+
+
+	if ( data.tetrisscore != "" ) then
+		self._TetrisHighScore = data.tetrisscore
+	end
+
+	if ( data.achivement ) then
+		GTowerAchievements:Load( self, tostring( data.achivement ) )
+	end
+
+	if ( data.clisettings ) then
+		ClientSettings:LoadSQLSave( self, tostring( data.clisettings ) )
+	end
+
+	if ( data.inventory ) then
+		self:LoadInventoryData( tostring( data.inventory ), 1 )
+	end
+
+	if ( data.bank ) then
+		self:LoadInventoryData( tostring( data.bank ), 2 )
+	end
+
+	if ( data.pvpweapons != "" ) then
+		PvpBattle:Load( self, data.pvpweapons )
+	else
+		PvpBattle:LoadDefault( self )
+	end
+
+	if ( data.levels != "" ) then
+		GTowerStore:UpdateInventoryData( self, data.levels )
+	else
+		GTowerStore:DefaultValue( self )
+	end
+
+	if ( data.BankLimit != "" ) then
+		self:SetMaxBank( data.BankLimit )
+	else
+		self:SetMaxBank( GTowerItems.DefaultBankCount )
+	end
 end

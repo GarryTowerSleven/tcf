@@ -569,11 +569,11 @@ end
 
 function ENT:Use( ply )
 
-	if self.IsScared || !ply:IsPig() || ply:GetNWBool("IsScared") || ply:GetNWBool("IsTaunting") || ply:GetNWBool("HasSaturn") then return end
+	if self.IsScared || !ply:IsPig() || ply:GetNet("IsScared") || ply:GetNet("IsTaunting") || ply:GetNet("HasSaturn") then return end
 
 	self:EmitSound( "UCH/saturn/saturn_pickup.wav", 80, 100 )
 	self:Remove()
-	ply:SetNWBool("HasSaturn",true)
+	ply:SetNet("HasSaturn",true)
 	
 	local ent = ents.Create( "saturn_held" )
 	if IsValid( ent ) then
@@ -593,7 +593,7 @@ function ENT:HitChimera( uc, norm )
 
 	local ply = self:GetOwner()
 
-	if IsValid( uc ) && uc:GetNWBool("IsChimera") && IsValid( ply ) && !self.IsScared && GAMEMODE:IsPlaying() then
+	if IsValid( uc ) && uc:GetNet("IsChimera") && IsValid( ply ) && !self.IsScared && GAMEMODE:IsPlaying() then
 
 		if !uc.SaturnHit then
 			uc.SaturnHit = 1

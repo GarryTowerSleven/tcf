@@ -73,7 +73,7 @@ function PlayMusic( idx, teamid )
 
 			if teamid == TEAM_PIGS then
 
-				if ply:Team() == TEAM_PIGS || ply:GetNWBool("IsGhost") then
+				if ply:Team() == TEAM_PIGS || ply:IsGhost() then
 
 					song = GAMEMODE.Music[ MUSIC_ENDROUND ].Pigmask.win
 
@@ -85,7 +85,7 @@ function PlayMusic( idx, teamid )
 
 			elseif teamid == TEAM_CHIMERA then
 
-				if ply:GetNWBool("IsChimera") then
+				if ply:GetNet("IsChimera") then
 
 					song = GAMEMODE.Music[ MUSIC_ENDROUND ].Chimera.win
 
@@ -117,13 +117,13 @@ function PlayMusic( idx, teamid )
 			ply.SpawnMusic = nil
 		end
 
-		if ply:GetNWBool("IsChimera") then
+		if ply:GetNet("IsChimera") then
 
 			song = GAMEMODE.Music[ MUSIC_SPAWN ].Chimera
 
-		elseif !ply:GetNWBool("IsGhost") then
+		elseif !ply:IsGhost() then
 
-			local rank = ply:GetNWInt("Rank")
+			local rank = ply:GetNet("Rank")
 
 			if rank == RANK_ENSIGN then
 
@@ -161,7 +161,7 @@ function PlayMusic( idx, teamid )
 		timer.Simple( 1, function()
 
 			local song = GetRandomSong( MUSIC_GHOST )
-			if ply:GetNWBool("IsFancy") then
+			if ply:GetNet("IsFancy") then
 				song = GetRandomSong( MUSIC_FGHOST )
 			end
 
@@ -174,7 +174,7 @@ function PlayMusic( idx, teamid )
 
 	if idx == MUSIC_30SEC then
 
-		if ply:GetNWBool("IsGhost") then return end
+		if ply:IsGhost() then return end
 
 		if ply.Music then
 			ply.Music:Stop()

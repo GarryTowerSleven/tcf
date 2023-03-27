@@ -144,10 +144,11 @@ GTowerItems.RegisterItem( "BallRaceBall", {
 	OnlyEquippable = true,
 	CreateEquipEntity = function( self )
 
-		local BallRaceBall = ents.Create( "gmt_ballrace" )
+		local BallRaceBall = ents.Create( "gmt_wearable_ballrace" )
 
 		if IsValid( BallRaceBall ) then
 			BallRaceBall:SetOwner( self.Ply )
+			self.Ply:SetDriving( BallRaceBall )
 			BallRaceBall:SetPos( self.Ply:GetPos() + Vector( 0, 0, 48 ) )
 			BallRaceBall:Spawn()
 			self.Ply:EmitSound( "GModTower/balls/TubePop.wav", 30, math.random( 170, 200 ) )

@@ -40,7 +40,7 @@ end )
 
 hook.Add( "ShouldHideHats", "ShouldHideHats", function( ply )
 
-	if ply:GetNWBool( "IsChimera" ) then
+	if ply:GetNet( "IsChimera" ) then
 		return true
 	end
 
@@ -125,13 +125,13 @@ end
 
 function GM:RenderScreenspaceEffects()
 	
-	if LocalPlayer():GetNWBool( "IsGhost" ) then
+	if LocalPlayer():IsGhost() then
 		DoGhostEffects()
 	end
 
 	for k, ply in pairs( player.GetAll() ) do
 
-		if !LocalPlayer():GetNWBool( "IsGhost" ) && ply:GetNWBool( "IsGhost" ) || ( ply:GetNWBool( "IsChimera" ) && !ply:Alive() ) then
+		if !LocalPlayer():IsGhost() && ply:IsGhost() || ( ply:GetNet( "IsChimera" ) && !ply:Alive() ) then
 			ply:SetRenderMode( RENDERMODE_NONE )
 		else
 			ply:SetRenderMode( RENDERMODE_NORMAL )
@@ -147,7 +147,7 @@ function GM:RenderScreenspaceEffects()
 
 		local rag = ply:GetRagdollEntity()
 		if IsValid( rag ) then
-			if !ply:GetNWBool( "IsChimera" ) then
+			if !ply:GetNet( "IsChimera" ) then
 				rag:SetSkin( ply.skin or 1 )
 				rag:SetBodygroup( 1, ply.bgroup or 1 )
 				rag:SetBodygroup( 2, ply.bgroup2 or 1 )
@@ -173,7 +173,7 @@ function GM:RenderScreenspaceEffects()
 			end
 		end
 		
-		if ply:GetNWBool( "IsPancake" ) then
+		if ply:GetNet( "IsPancake" ) then
 			ply:DoPancakeEffect()
 		else
 			ply.PancakeNum = 1
@@ -186,7 +186,7 @@ end
 
 function GM:PrePlayerDraw( ply )
 	
-	if ( !LocalPlayer():GetNWBool( "IsGhost" ) && ply:GetNWBool( "IsGhost" ) || ( ply:GetNWBool( "IsChimera" ) && !ply:Alive() ) || ( ply:GetNWBool( "IsGhost" ) && ply:GetModel() != "models/uch/mghost.mdl" ) ) then
+	if ( !LocalPlayer():IsGhost() && ply:IsGhost() || ( ply:GetNet( "IsChimera" ) && !ply:Alive() ) || ( ply:IsGhost() && ply:GetModel() != "models/uch/mghost.mdl" ) ) then
 		return true
 	end
 	

@@ -5,12 +5,12 @@ GM.OverTimeAdd = 10
 function GM:StartRound()
 
 	//We are done here, send them back to the main server
-	if ( GetGlobalInt("Round") + 1 ) > self.NumRounds then
+	if ( globalnet.GetNet("Round") + 1 ) > self.NumRounds then
 		self:EndServer()
 		return
 	end
 
-	SetGlobalFloat( "RoundStart", CurTime() )
+	globalnet.SetNet( "RoundStart", CurTime() )
 
 	//Check if we have enough players.
 	//local clients = player.GetAll()
@@ -31,24 +31,24 @@ function GM:StartRound()
 
 	end
 
-	SetGlobalInt("Round", GetGlobalInt("Round") + 1)
-	SetGlobalFloat("Time", CurTime() + self.RoundTime)
+	globalnet.SetNet("Round", globalnet.GetNet("Round") + 1)
+	globalnet.SetNet("Time", CurTime() + self.RoundTime)
 	self.Intense = false
 	self.UCAngry = false
 
-	Msg( "Starting round! " .. tostring( GetGlobalInt("Round") ) .. "\n" )
+	Msg( "Starting round! " .. tostring( globalnet.GetNet("Round") ) .. "\n" )
 
-	self:SetGameState( STATE_PLAYING )
+	self:SetState( STATE_PLAYING )
 
 	self:CleanUp()
 	//self.CanStartDead = CurTime() + 5
 
 	for _, v in ipairs( player.GetAll() ) do
-		v:SetNWBool("IsChimera",false)
-		v:SetNWBool("PressedButton",false)
+		v:SetNet("IsChimera",false)
+		v:SetNet("PressedButton",false)
 	end
 
-	SetGlobalEntity("UC", NULL)
+	globalnet.SetNet("UC", NULL)
 	self:RandomChimera()
 	self:NewSaturn()
 
@@ -57,7 +57,7 @@ function GM:StartRound()
 		v:UnGhost()
 		self:SetMusic( v, MUSIC_ROUND )
 		v.IsDead = false
-		if !v:GetNWBool("IsChimera") then v:SetTeam( TEAM_PIGS ) end
+		if !v:GetNet("IsChimera") then v:SetTeam( TEAM_PIGS ) end
 		//v:Freeze( false )
 
 		v:SetFrags( 0 )
@@ -79,10 +79,10 @@ function GM:WaitRound( force )
 
 	Msg( "Waiting for players.", "\n" )
 
-	self:SetGameState( STATE_WAITING )
+	self:SetState( STATE_WAITING )
 
 	if !self.FirstPlySpawned || force then
-		SetGlobalFloat("Time", CurTime() + self.WaitingTime)
+		globalnet.SetNet("Time", CurTime() + self.WaitingTime)
 	end
 
 	if force then
@@ -105,17 +105,17 @@ end
 function GM:EndRound( teamid )
 
 	local endofgame = false
-	if ( GetGlobalInt("Round") + 1 ) > self.NumRounds then endofgame = true end
+	if ( globalnet.GetNet("Round") + 1 ) > self.NumRounds then endofgame = true end
 
-	SetGlobalFloat("Time", CurTime() + ( self.IntermissionTime or 12 ))
+	globalnet.SetNet("Time", CurTime() + ( self.IntermissionTime or 12 ))
 
 	Msg( "Ending Round...\n" )
 
-	self:SetGameState( STATE_INTERMISSION )
+	self:SetState( STATE_INTERMISSION )
 
 	for _, v in ipairs( player.GetAll() ) do
 
-		/*if v:GetNWBool("IsChimera") then
+		/*if v:GetNet("IsChimera") then
 			v:Freeze( true )
 		end*/
 
@@ -201,7 +201,7 @@ function GM:RandomChimera()
 
 		ucPlayer = plys[ cid ]
 
-	SetGlobalEntity("UC", ucPlayer)
+	globalnet.SetNet("UC", ucPlayer)
 	self:SetChimera( ucPlayer )
 	cid = cid + 1
 
@@ -213,7 +213,7 @@ end
 
 function GM:SetChimera( ply )
 
-	ply:SetNWBool("IsChimera",true)
+	ply:SetNet("IsChimera",true)
 	ply:SetTeam( TEAM_CHIMERA )
 	ply.Jumped = false
 
@@ -225,7 +225,7 @@ function GM:CheckGame( ply ) //this function checks if the game should end or no
 
 	Msg( "Alive pigs: " .. team.AlivePigs(), "\n" )
 
-	if ply:GetNWBool("IsChimera") then
+	if ply:GetNet("IsChimera") then
 
 		self:EndRound( TEAM_PIGS )
 
@@ -239,7 +239,7 @@ end
 
 function GM:CleanUp()
 
-	game.CleanUpMap(false, {"gmt_cosmeticbase", "gmt_hat"})
+	self:CleanUpMap( false )
 
 	local rag = self.UCRagdoll
 	if IsValid( rag ) then

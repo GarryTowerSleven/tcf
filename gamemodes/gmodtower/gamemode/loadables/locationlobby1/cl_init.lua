@@ -1,4 +1,5 @@
 include("shared.lua")
+include( "sh_meta.lua" )
 
 module("Location", package.seeall )
 

@@ -16,7 +16,6 @@ function ENT:Initialize()
 	self.Entity:DrawShadow( false )
 
 	self.Think = self.LookingRoomThink
-	//self:SharedInit()
 
 	self:SetUseType(SIMPLE_USE)
 
@@ -100,7 +99,7 @@ local function Allow( owner, ply, Room )
 	// admins always get access
 	if ( ply:IsAdmin() ) then return true end
 
-	if ( owner.GRoomLock && owner != ply ) then
+	if ( owner:GetNet( "RoomLock" ) && owner != ply ) then
 		if Room:PlayerInRoom( ply ) then
 			Suite.RemovePlayer( ply )
 		end
@@ -162,7 +161,7 @@ function ENT:UsePanel( ply, cur_x, cur_y )
         self.Entity:EmitSound( self.soundGranted )
 		//GTowerRooms:RoomLock( self:Id(), true )
 		self:DoorFire("Lock")
-		owner.GRoomLock = true
+		owner:SetNet( "RoomLock", true )
 
 	elseif ( cur_x < -70 && cur_x > -240 && cur_y > 70 && cur_y < 160 ) then // Button 4: Unlock
 
@@ -171,7 +170,7 @@ function ENT:UsePanel( ply, cur_x, cur_y )
         self.Entity:EmitSound( self.soundGranted )
 		//GTowerRooms:RoomLock( self:Id(), false )
 		self:DoorFire("Unlock")
-		owner.GRoomLock = false
+		owner:SetNet( "RoomLock", false )
 
 	end
 
