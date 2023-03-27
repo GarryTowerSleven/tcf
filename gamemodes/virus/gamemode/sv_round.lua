@@ -36,10 +36,12 @@ function GM:EndRound( virusWins )
 
 	end
 
-	local lastSurvivor = team.GetPlayers( TEAM_PLAYERS )[ 1 ]
-	
-	if IsValid( lastSurvivor ) then
-		lastSurvivor:AddAchievement( ACHIEVEMENTS.VIRUSLASTALIVE, 1 )
+	if #team.GetPlayers( TEAM_PLAYERS ) == 1 then
+		local lastSurvivor = team.GetPlayers( TEAM_PLAYERS )[ 1 ]
+		if IsValid( lastSurvivor ) then
+			lastSurvivor:AddAchievement( ACHIEVEMENTS.VIRUSLASTALIVE, 1 )
+			lastSurvivor:AddAchievement( ACHIEVEMENTS.VIRUSMILESTONE3, 1 )
+		end
 	end
 	
 	if #team.GetPlayers( TEAM_PLAYERS ) >=4 then
