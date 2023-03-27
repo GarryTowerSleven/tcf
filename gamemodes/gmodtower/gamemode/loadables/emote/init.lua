@@ -81,7 +81,7 @@ for _, emote in pairs(Commands) do
 	
 	if emoteName == "sit" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
-		if !ply:OnGround() then return end
+		if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
 		ply:SetNWBool("Emoting",true)
 		ply:SetNWBool("Sitting",true)
 
@@ -93,7 +93,7 @@ for _, emote in pairs(Commands) do
 		end )
 	elseif emoteName == "lay" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
-		if !ply:OnGround() then return end
+		if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
 		ply:SetNWBool("Emoting",true)
 		ply:SetNWBool("Laying",true)
 
@@ -105,7 +105,7 @@ for _, emote in pairs(Commands) do
 		end )
 	elseif emoteName == "lounge" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
-		if !ply:OnGround() then return end
+		if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
 		ply:SetNWBool("Emoting",true)
 		ply:SetNWBool("Lounging",true)
 
@@ -128,7 +128,7 @@ for _, emote in pairs(Commands) do
 		end )
 	else
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
-		if !ply:OnGround() then return end
+		if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
 		ply:SetNWBool("Emoting",true)
 
 		ply:SetNWString("EmoteName",emoteName)
