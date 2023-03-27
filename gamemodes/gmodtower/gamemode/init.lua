@@ -139,8 +139,8 @@ function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
 	if IsAdmin(steam) or IsTester(steam64) or IsModerator(steam) or MultiUsers[IP] then
 		return true
 	else
-		//MsgC( color_red, string.SafeChatName(name) .. " <" .. steam .. "> (" .. IP .. ") tried to join the server.\n" )
-		//return false, "You must join from the lobby server, IP: gmt.nailgunworld.com"
+		MsgC( color_red, string.SafeChatName(name) .. " <" .. steam .. "> (" .. IP .. ") tried to join the server.\n" )
+		return false, "You must join from the lobby server, IP: gmt.nailgunworld.com"
 	end
 
 	return true
