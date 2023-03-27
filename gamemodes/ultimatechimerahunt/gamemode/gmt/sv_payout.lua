@@ -44,7 +44,7 @@ function GAMEMODE:GiveMoney()
 
 			end
 
-			if #team.GetPlayers( TEAM_PIGS ) == 1 then
+			if #team.GetPlayers( TEAM_PIGS ) == 1 && ply:Team() == TEAM_PIGS then
 				payout.Give( ply, "UCLastPig" )
 			end
 
