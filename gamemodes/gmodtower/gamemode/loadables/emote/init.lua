@@ -11,6 +11,14 @@ util.AddNetworkString( "EmoteAct" )
 	--idk
 --end)
 
+hook.Add( "PlayerShouldTaunt", "DisableTaunts", function( ply )
+  if ply:GetNWBool("Emoting") then
+    return true
+  end
+
+  return false
+end )
+
 local Grammar = {
 	["agree"] = "agrees.",
 	["beckon"] = "beckons.",
