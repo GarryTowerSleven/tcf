@@ -10,6 +10,9 @@ end)
 hook.Add( "PlayerDeath", "GlobalDeathMessage", function( victim, inflictor, attacker )
 	if victim:GetNWBool("Emoting") then
 		victim:SetNWBool("Emoting",false)
+		victim:SetNWBool("Sitting",false)
+		victim:SetNWBool("Laying",false)
+		victim:SetNWBool("Lounging",false)
 	end
 end )
 
