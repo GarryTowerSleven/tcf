@@ -15,6 +15,8 @@ local function SetDefaultSQLData(ply)
 	ply._PendingMoney = 0
 	GTowerHats:SetHat( ply, 0, 1 )
 	GTowerHats:SetHat( ply, 0, 2 )
+
+	ply._DefaultSet = true
 end
 
 function RetrieveSQLData( ply )
@@ -73,7 +75,7 @@ hook.Add( "PlayerNetInitalized", "SQLSetDefault", function( ply )
 end )
 
 hook.Add( "PlayerThink", "PlayerApplySQL", function( ply )
-	if ( ply._NetInit && ply._SQLDATA ) then
+	if ( ply._NetInit && ply._SQLDATA && ply._DefaultSet ) then
 		ply:ApplyData( ply._SQLDATA )
 		ply._SQLDATA = nil
 	end
