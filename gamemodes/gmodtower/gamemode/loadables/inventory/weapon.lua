@@ -71,8 +71,6 @@ function GTowerItems:GiveWeapon( ply, item, select )
 
 	local Classname = item.ClassName
 
-	print( item.WeaponSafe, GTowerItems:CanHaveWeapon( ply, Classname ) )
-
 	if !Classname || (item.WeaponSafe == false && GTowerItems:CanHaveWeapon( ply, Classname ) == false) then
 		return
 	end
