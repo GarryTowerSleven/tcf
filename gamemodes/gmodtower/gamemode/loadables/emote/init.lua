@@ -128,7 +128,11 @@ for _, emote in pairs(Commands) do
 		end )
 	else
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
+
+		local vel = ply:GetVelocity() -- is this shoddy, yeah..
+
 		if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
+		ply:SetVelocity(vel:GetNegated())
 		ply:SetNWBool("Emoting",true)
 
 		ply:SetNWString("EmoteName",emoteName)
