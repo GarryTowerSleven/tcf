@@ -7,7 +7,7 @@ local Location = Location
 
 module("minigames.barfight")
 
-MinigameName = "Brawl"
+MinigameName = "fist fight"
 MinigameLocation = Location.GetIDByName( "Bar" )
 MinigameMessage = "MiniBattleGameStart"
 MinigameArg1 = MinigameName

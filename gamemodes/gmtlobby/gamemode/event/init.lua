@@ -189,6 +189,9 @@ function EndEvent()
     elseif curevent == minigames.balloonpop.MinigameName then
         SafeCall( minigames[ "balloonpop" ].End )
         MsgC( color_red, "[EVENTS] Balloonpop ended\n" )
+    elseif curevent == minigames.barfight.MinigameName then
+        SafeCall( minigames[ "barfight" ].End )
+        MsgC( color_red, "[EVENTS] Barfight ended\n" )
     elseif curevent == minigames.obamasmash.MinigameName then
         SafeCall( minigames[ "obamasmash" ].End )
         MsgC( color_red, "[EVENTS] Obamasmash ended\n" )
