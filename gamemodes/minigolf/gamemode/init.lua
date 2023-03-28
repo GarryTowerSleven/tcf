@@ -251,12 +251,6 @@ local function BlockSuicide(ply)
 end
 hook.Add( "CanPlayerSuicide", "BlockSuicide", BlockSuicide )
 
-timer.Create( 'GTowerPlayerThink', 1.0, 0, function()
-	for k,v in pairs (player.GetAll()) do
-		hook.Call( 'PlayerPostThink', GAMEMODE, v )
-	end
-end)
-
 hook.Add( "PlayerDisconnected", "PlayerPopulationCheck", function( ply )
 	timer.Simple(0.2, function()
 		if (GAMEMODE:GetState() != STATE_NOPLAY && #player.GetAll() == 0) then
