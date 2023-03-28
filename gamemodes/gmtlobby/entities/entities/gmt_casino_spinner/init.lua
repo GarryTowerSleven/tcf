@@ -53,7 +53,7 @@ function ENT:SpinRoll()
 
 	if !candidates[1] then return 1 end
 
-	return( candidates[1].num )
+	return ( candidates[1].num )
 
 end
 
@@ -123,19 +123,21 @@ function ENT:PayOut(ply,prize)
 	local entity_name
 	local gmc_earn
 
-	if self.SLOTS[prize][3] != nil then
+	local item = self.SLOTS[prize]
+
+	if item[3] != nil then
 		if prize == 14 then
-			entity_name = self.SLOTS[prize][3][math.random(1,13)]
+			entity_name = item[3][math.random(1,13)]
 		elseif prize == 15 then
-			entity_name = self.SLOTS[prize][3][math.random(1,12)]
+			entity_name = item[3][math.random(1,12)]
 		else
-			entity_name = self.SLOTS[prize][3]
+			entity_name = item[3]
 		end
 	else
 		entity_name = "[No Entity Found]"
 	end
 
-	--ply:ChatPrint('Won ' .. self.SLOTS[prize][1] .. ', Entity Name is: ' .. entity_name .. '.')
+	--ply:ChatPrint('Won ' .. item[1] .. ', Entity Name is: ' .. entity_name .. '.')
 
 	if prize == 1 || prize == 5 then
 		self:EmitSound("GModTower/misc/sad.mp3")
@@ -143,23 +145,28 @@ function ENT:PayOut(ply,prize)
 			ply:AddMoney(1)
 		end
 	elseif prize == 2 || prize == 3 || prize == 4 || prize == 6 || prize == 7 || prize == 8 || prize == 10 then
-		local realprize = self.SLOTS[prize][1]
+		local realprize = item[1]
 		BasicWin(self)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		self:EmitSound("GModTower/misc/win_gameshow.mp3")
-		self:SendItem(ply,entity_name)
+		self:SendItem( ply, entity_name )
 		ply:Msg2("[Spinner] You won: " .. string.upper(realprize))
 	else
-		local realprize = self.SLOTS[prize][1]
+		local realprize = item[1]
 		BasicWin(self)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		self:EmitSound("GModTower/misc/win_crowd.mp3")
-		self:SendItem(ply,entity_name)
+		local count = item[4] or 1
+
+		for i=1, count do
+			self:SendItem( ply, entity_name )
+		end
+
 		ply:Msg2("[Spinner] You won: " .. string.upper(realprize))
 	end
 
-	if prize != 5 && string.EndsWith(self.SLOTS[prize][1],'GMC') then
+	if prize != 5 && string.EndsWith(item[1],'GMC') then
 		BasicWin(self)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		timer.Simple( 0.5, function() BasicWin(self) end)
