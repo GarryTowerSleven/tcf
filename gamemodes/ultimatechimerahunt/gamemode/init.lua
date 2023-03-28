@@ -38,6 +38,8 @@ end
 
 function GM:SetMusic( ply, idx, teamid )
 
+	if ( not IsValid( ply ) or ply:IsBot() ) then return end
+
 	umsg.Start( "UC_PlayMusic", ply )
 		umsg.Char( idx )
 		if teamid then
@@ -49,7 +51,7 @@ end
 
 function GM:HUDMessage( ply, index, time, ent, ent2, color )
 
-	if ( !IsValid( ply ) or ply:IsBot() ) then return end
+	if ( not IsValid( ply ) or ply:IsBot() ) then return end
 	
 	umsg.Start( "HudMsg", ply )
 		umsg.Char( index )

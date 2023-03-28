@@ -239,7 +239,7 @@ function GM:UCThink()
 
 			local dist = uc:GetPos():Distance( sat:GetPos() )
 
-			if dist <= roardistance && !sat:GetNet( "IsScared" ) then
+			if dist <= roardistance && !sat.IsScared then
 				sat:Scare()
 			end
 
@@ -552,7 +552,9 @@ if SERVER then
 				timer.Simple( 2, function()
 					v:Explode()
 					v:Remove()
-					GAMEMODE:HUDMessage( nil, MSG_MRSATURNDEAD, 5 )
+					for _, v in ipairs( player.GetAll() ) do
+						GAMEMODE:HUDMessage( v, MSG_MRSATURNDEAD, 5 )
+					end
 				end )
 
 			end

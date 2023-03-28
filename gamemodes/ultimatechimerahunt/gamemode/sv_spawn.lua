@@ -37,8 +37,6 @@ end
 
 function GM:PlayerSpawn( ply )
 
-	// if ply:IsBot() then return end
-
 	if self:GetState() == STATE_WAITING then
 
 		timer.Simple( 1, function()

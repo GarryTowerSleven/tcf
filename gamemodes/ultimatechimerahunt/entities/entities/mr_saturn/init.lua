@@ -45,6 +45,7 @@ function ENT:Initialize()
 	
 	local eff = EffectData()
 		eff:SetOrigin( self:GetPos() )
+		eff:SetEntity( self )
 	util.Effect( "saturn_spawn", eff )
 
 	self:StartMotionController()
@@ -226,7 +227,7 @@ function ENT:MakeBalloon( force, length, offset )
 		
 		local pos1, pos2 = bpos, balloon:GetPos()
 		pos1 = self:WorldToLocal( pos1 )
-		pos2 = balloon:WorldToLocal( ( pos2 + Vector( 0, 0, -10 ) ) )
+		pos2 = balloon:WorldToLocal( pos2 )
 		
 		local length = length
 		
@@ -569,7 +570,7 @@ end
 
 function ENT:Use( ply )
 
-	if self.IsScared || !ply:IsPig() || ply:GetNet("IsScared") || ply:GetNet("IsTaunting") || ply:GetNet("HasSaturn") then return end
+	if self.IsScared || !ply:IsPig() || ply:GetNet("IsScared") || ply:GetNet("IsTaunting") || ply:GetNet("HasSaturn") || ply.GrabTime && ply.GrabTime > CurTime() then return end
 
 	self:EmitSound( "UCH/saturn/saturn_pickup.wav", 80, 100 )
 	self:Remove()
@@ -586,6 +587,8 @@ function ENT:Use( ply )
 		ply.HeldSaturn = ent
 
 	end
+
+	ply.GrabTime = CurTime() + .5
 	
 end
 
@@ -593,7 +596,7 @@ function ENT:HitChimera( uc, norm )
 
 	local ply = self:GetOwner()
 
-	if IsValid( uc ) && uc:GetNet("IsChimera") && IsValid( ply ) && !self.IsScared && GAMEMODE:IsPlaying() then
+	if IsValid( uc ) && uc.GetNet && uc:GetNet("IsChimera") && IsValid( ply ) && !self.IsScared && GAMEMODE:IsPlaying() then
 
 		if !uc.SaturnHit then
 			uc.SaturnHit = 1
