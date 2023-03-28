@@ -227,7 +227,7 @@ concommand.Add("gmt_joinparty", function(ply, cmd, args)
 	if !args[1] then return end
 	if args[1] == 0 then return end
 
-	local room = Get( args[1] )
+	local room = Get( tonumber( args[1] ) or 0 )
 
 	if ( room ) then
 		local owner = room.Owner
