@@ -157,7 +157,13 @@ function meta:Name()
 		return self:GetNWString( "FakeName" )
 	end
 
-	return self:Nick()
+	if !self.name then
+		self.name = self:Nick()
+		string.Replace(self.name, "\\", "\\\\")
+		self.name = string.JavascriptSafe(self.name)
+	end
+
+	return self.name
 end
 
 function meta:GetName()
