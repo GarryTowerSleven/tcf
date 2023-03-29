@@ -15,10 +15,27 @@ Inventory = panel
 panel:SetSize(600, 400)
 panel:CenterHorizontal()
 
-local slotsize = 64
-local border = 24
+local gradient = surface.GetTextureID("vgui/gradient_up")
+
+local slotsize = 54
+local border = 24 / 2
+SlotBarHeight = slotsize
 
 panel:SetSize(slotsize * #inv + border, slotsize * #inv[1] + border)
+panel:CenterHorizontal()
+
+panel.Paint = function(self, w, h)
+    local ew = self.EquipWidth or w
+
+	-- Draw background
+	surface.SetDrawColor( 70, 100, 150, 255 )
+	surface.DrawRect( 0, 0, ew, 3 )
+	draw.RoundedBox( 3, 0, 0, ew, h, Color(70, 100, 150, 255) )
+	
+	surface.SetDrawColor( 0, 0, 0, 50 )
+	surface.SetTexture( gradient )
+	surface.DrawTexturedRect( 0, SlotBarHeight, w, h )
+end
 
 for i = 0, #inv - 1 do
     for i2 = 0, #inv[1] - 1 do
@@ -28,9 +45,27 @@ for i = 0, #inv - 1 do
         button:SetPos(i * slotsize + border / 2, i2 * slotsize + border / 2)
 
         button.Paint = function(self, w, h)
-            draw.RoundedBox(0, 0, 0, w, h, color_black)
-            surface.SetDrawColor(255, 255, 255, 100)
-            surface.DrawOutlinedRect(0, 0, w, h, 2)
+
+            -- Gradient
+            surface.SetDrawColor(0, 0, 0, 100)
+            surface.SetTexture(gradient)
+            surface.DrawTexturedRect(1, 1, w, h)
+            -- Main black
+            surface.SetDrawColor(0, 0, 0, 75)
+            surface.DrawRect(1, 1, w, h)
+
+            if self:IsHovered() then
+                surface.SetDrawColor(56, 142, 203, 50)
+                surface.SetTexture(gradient)
+                surface.DrawTexturedRect(0, 0, w, h)
+            end
+
+            local x, y = 2, 2
+            local w, h = self:GetWide(), 16
+            surface.SetDrawColor(0, 0, 0, 100)
+            --render.SetScissorRect( self.x + x, self.y + y, x + w, y + h, true )
+            surface.DrawRect(x, y, w, h)
+            draw.SimpleText("ITEM", "DermaDefault", x, y, color_white)
         end
     end
 end
