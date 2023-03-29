@@ -60,9 +60,9 @@ local gradient = surface.GetTextureID("vgui/gradient_up")
 
 local slotsize = 54
 local border = 24 / 2
-SlotBarHeight = slotsize
+SlotBarHeight = border
 
-panel:SetSize(slotsize * #inv + border, slotsize * #inv[1] + border)
+panel:SetSize(slotsize * #inv + border, slotsize * #inv[1] + border + SlotBarHeight)
 panel:CenterHorizontal()
 
 panel.Paint = function(self, w, h)
@@ -83,7 +83,7 @@ for i = 0, #inv - 1 do
         local slot = inv[i + 1][i2 + 1]
         local button = vgui.Create("DButton", panel)
         button:SetSize(slotsize, slotsize)
-        button:SetPos(i * slotsize + border / 2, i2 * slotsize + border / 2)
+        button:SetPos(i * slotsize + border / 2, i2 * slotsize + border / 2 + (i2 == 0 and 0 or SlotBarHeight))
 
         button.x2 = i + 1
         button.y2 = i2 + 1
@@ -105,6 +105,10 @@ for i = 0, #inv - 1 do
             end
 
             local item = inv[self.x2][self.y2]
+
+            if i2 == 0 then
+                draw.SimpleText(i + 1, "GTowerHUDMainTiny2", 2, 2, color_white)
+            end
 
             if !item.Name then return end
 
@@ -148,7 +152,7 @@ for i = 0, #inv - 1 do
             end
         end)
 
-        button:SetPos(i * slotsize + border / 2, i2 * slotsize + border / 2)
+        button:SetPos(i * slotsize + border / 2, i2 * slotsize + border / 2 + (i2 == 0 and 0 or SlotBarHeight))
 
     end
 end
