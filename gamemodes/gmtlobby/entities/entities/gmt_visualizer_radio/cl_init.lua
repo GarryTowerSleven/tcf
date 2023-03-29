@@ -4,8 +4,8 @@ ENT.OffsetForward = 4
 ENT.OffsetUp = -5
 ENT.DefaultTitle = T("RadioTurnedOff")
 
-local GreenBox	= Color( 0, 255, 0, 50 )
-local RedBox	= Color( 255, 0, 0, 50 )
+local GreenBox	= Color( 0, 175, 0, 50 )
+local RedBox	= Color( 175, 50, 50, 50 )
 
 ENT.RenderGroup = RENDERGROUP_BOTH
 
@@ -23,7 +23,8 @@ function ENT:DrawTranslucent()
 		return
 	end
 
-	local Alpha = 255 - math.Clamp( PlyDistance / 300 * 255 ,0, 255 )
+	local Alpha = 175 - math.Clamp( PlyDistance / 300 * 255 ,0, 175 )
+	local Alpha2 = 255 - math.Clamp( PlyDistance / 300 * 255 ,0, 255 )
 	local MaxNameLenght = 32
 	
 	ang:RotateAroundAxis(ang:Right(), 	-90 )
@@ -41,10 +42,10 @@ function ENT:DrawTranslucent()
 				Color = GreenBox
 				Title = T( "RadioPlaying" ) .. " " .. Media:Title()
 				
-				self:DrawSpectrumAnalyzer(Alpha)
+				self:DrawSpectrumAnalyzer(Alpha, Alpha2)
 
 				if Media:IsTimed() then
-					self:DrawDuration( Media, Alpha )
+					self:DrawDuration( Media, Alpha, Alpha2 )
 				end
 
 			else
@@ -76,7 +77,7 @@ function ENT:DrawTranslucent()
 			surface.SetDrawColor( Color )
 			surface.DrawRect(-100, -145, w + 16, h + 8 )
 
-			surface.SetTextColor( 255, 255, 255, Alpha ) 
+			surface.SetTextColor( 255, 255, 255, Alpha2 ) 
 			surface.SetTextPos( -100 + 8, -145 + 4 ) 	
 			surface.DrawText( Title )
 		end )
@@ -94,14 +95,14 @@ local SPECWIDTH	= 300
 local BANDS	= 28
 local ox, oy	= -100, -65
 
-function ENT:DrawSpectrumAnalyzer(Alpha)
+function ENT:DrawSpectrumAnalyzer(Alpha, Alpha2)
 
 	local fft = self:GetFFTFromStream()
 	local b0 = 0
 
 	local Col = Color( 0, 255, 255 )
 	for x = 0, BANDS-2 do
-		Col = colorutil.TweenColor( Col, Color( 0, 0, 255), 0.07, Alpha )
+		Col = colorutil.TweenColor( Col, Color( 0, 0, 255), 0.07, Alpha2 )
 		surface.SetDrawColor(Col)
 		local sum = 0
 		local sc = 0
@@ -121,7 +122,7 @@ function ENT:DrawSpectrumAnalyzer(Alpha)
 
 end
 
-function ENT:DrawDuration(Media, Alpha)
+function ENT:DrawDuration(Media, Alpha, Alpha2)
 
 	surface.SetDrawColor( 50, 50, 50, Alpha )
 	surface.DrawRect( ox, oy + 1, 8*(BANDS-1), 18 )
@@ -141,7 +142,7 @@ function ENT:DrawDuration(Media, Alpha)
 	local w,h = surface.GetTextSize( sTime ) 
 
 	surface.SetTextPos( ox + (8*(BANDS-1))/2 - w/2, oy + 2 )
-	surface.SetTextColor( 255, 255, 255, Alpha )
+	surface.SetTextColor( 255, 255, 255, Alpha2 )
 	
 	surface.DrawText( sTime )
 
