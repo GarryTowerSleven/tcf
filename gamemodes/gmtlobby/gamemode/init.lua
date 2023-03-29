@@ -6,7 +6,6 @@ function GM:PlayerSpawnProp(ply)
 end
 
 local meta = FindMetaTable("Player")
-
 util.AddNetworkString("Inventory")
 
 function meta:SendInventory()
@@ -17,6 +16,7 @@ end
 
 function GM:PlayerSpawn(ply)
     ply.Inventory = {}
+
     for i = 1, 9 do
         ply.Inventory[i] = {}
 
@@ -24,6 +24,7 @@ function GM:PlayerSpawn(ply)
             ply.Inventory[i][i2] = {}
         end
     end
+
     ply:SendInventory()
     GAMEMODE:PlayerLoadout(ply)
 end
