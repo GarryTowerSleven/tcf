@@ -4,7 +4,7 @@ ENT.OffsetForward = 4
 ENT.OffsetUp = -5
 ENT.DefaultTitle = T("RadioTurnedOff")
 
-local GreenBox	= Color( 0, 175, 0, 50 )
+local GreenBox	= Color( 50, 175, 50, 50 )
 local RedBox	= Color( 175, 50, 50, 50 )
 
 ENT.RenderGroup = RENDERGROUP_BOTH
@@ -23,8 +23,8 @@ function ENT:DrawTranslucent()
 		return
 	end
 
-	local Alpha = 175 - math.Clamp( PlyDistance / 300 * 255 ,0, 175 )
-	local Alpha2 = 255 - math.Clamp( PlyDistance / 300 * 255 ,0, 255 )
+	local Alpha = 175 - math.Clamp( PlyDistance / 256 * 255 ,0, 175 )
+	local Alpha2 = 255 - math.Clamp( PlyDistance / 256 * 255 ,0, 255 )
 	local MaxNameLenght = 32
 	
 	ang:RotateAroundAxis(ang:Right(), 	-90 )
@@ -48,7 +48,7 @@ function ENT:DrawTranslucent()
 					self:DrawDuration( Media, Alpha, Alpha2 )
 				end
 
-			else
+			else -- there should also be a check for if a file is still loading here. where'd that go?
 
 				Title = self.DefaultTitle
 				Color = RedBox
@@ -75,8 +75,7 @@ function ENT:DrawTranslucent()
 			Color.a = Alpha
 
 			surface.SetDrawColor( Color )
-			surface.DrawRect(-100, -145, w + 16, h + 8 )
-
+			draw.RoundedBox(4, -100 , -145, w + 16, h + 8, Color )
 			surface.SetTextColor( 255, 255, 255, Alpha2 ) 
 			surface.SetTextPos( -100 + 8, -145 + 4 ) 	
 			surface.DrawText( Title )
