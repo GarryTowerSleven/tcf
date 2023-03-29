@@ -114,7 +114,6 @@ local _, y = panel:GetPos()
 panel:SetPos(_, -panel:GetTall())
 
 function GM:OnSpawnMenuOpen()
-    print("!")
     Inventory.Open = true
     gui.EnableScreenClicker(true)
     local _, y = panel:GetPos()
