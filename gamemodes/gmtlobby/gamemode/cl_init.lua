@@ -107,6 +107,27 @@ for i = 0, #inv - 1 do
             surface.DrawRect(x, y, w, h)
             draw.SimpleText("ITEM", "GTowerHUDMainTiny2", x, y, color_white)
         end
+
+        // self.Item = inv[receiver.x][receiver.y]
+        button.x2 = i
+        button.y2 = i2
+
+        button:Droppable("InventorySlot")
+        button:Receiver("InventorySlot", function(self, tbl, dropped)
+            print("!")
+            if dropped then
+                local receiver = tbl[1]
+                print(receiver.x, receiver.y)
+                print(inv[receiver.x])
+                local i1 = inv[receiver.x2][receiver.y2]
+                local i2 = inv[self.x2][self.y2]
+                print(i1, i2)
+                GAMEMODE:OnSpawnMenuOpen()
+            end
+        end)
+
+        button:SetPos(i * slotsize + border / 2, i2 * slotsize + border / 2)
+
     end
 end
 
