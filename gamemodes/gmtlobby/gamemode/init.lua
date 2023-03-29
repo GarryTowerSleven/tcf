@@ -14,6 +14,37 @@ function meta:SendInventory()
     net.Send(self)
 end
 
+Items = {
+    ["ITEM_PISTOL"] = {
+        Name = "Pistol",
+        Description = "Painful firearm!!!!!!!!!!!!!!!!!!",
+        Model = "models/weapons/w_pistol.mdl"
+    }
+}
+
+function GetItem(name)
+    local item = table.Copy(Items[name])
+    return item
+end
+
+function meta:GiveItem(item)
+    local empty
+
+    for i = 1, #self.Inventory do
+        for i2 = 1, #self.Inventory[1] do
+            if !self.Inventory[i][i2].Name and (empty and empty[2] == 1 or !empty) then
+                empty = {i, i2}
+            end
+        end
+    end
+
+    if empty then
+        local item = GetItem(item)
+        self.Inventory[empty[1]][empty[2]] = item
+        self:SendInventory()
+    end
+end
+
 function GM:PlayerSpawn(ply)
     ply.Inventory = {}
 
