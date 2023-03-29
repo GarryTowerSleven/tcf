@@ -1,4 +1,3 @@
----------------------------------
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
 include('shared.lua')
@@ -33,23 +32,12 @@ concommand.Add( "gmt_casino_chips_buy", function( ply, cmd, args )
 	
 end )*/
 
-function ENT:AcceptInput( name, activator, ply )
-	if ( !self.NextUse ) then self.NextUse = 0 end
-    if CurTime() < self.NextUse then return end
-	self.NextUse = CurTime() + 1
-
+function ENT:Use( ply )
 	ply:Msg2( T( "PokerDisable" ) )
 	
-    /*if name == "Use" && ply:IsPlayer() && ply:KeyDownLast(IN_USE) == false then
+    /*ply.ChipSeller = self
 
-		ply.ChipSeller = self
-
-		timer.Simple( 0.0, function()
-			net.Start("NPCCasino")
-			net.Send(ply)
-		end)
-
-
-    end*/
+	net.Start( "NPCCasino" )
+	net.Send( ply )*/
 
 end

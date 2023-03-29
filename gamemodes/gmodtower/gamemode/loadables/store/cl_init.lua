@@ -130,12 +130,12 @@ hook.Add( "InitPostEntity", "LoadStoreItems", function()
 	GTowerStore:LoadItems()
 end )
 
-hook.Add("OpenSideMenu", "ShopAdmin", function()
+hook.Add( "OpenSideMenu", "ShopAdmin", function()
 
 	if !LocalPlayer():IsAdmin() then return end
 	local Ent = LocalPlayer():GetEyeTrace().Entity
 
-	if !IsValid( Ent ) || !Ent:IsNPC() then return end
+	if !IsValid( Ent ) || !Ent.GetTitle then return end
 
 	local class = Ent:GetClass()
 

@@ -1,9 +1,8 @@
 include('shared.lua')
 
+function ENT:AdditionalThink()
 
-function ENT:Think()
-
-	if !LocalPlayer():GetPos():WithinDistance(self:GetPos(), 1500) then return end
+	if !LocalPlayer():GetPos():WithinDistance( self:GetPos(), 1500 ) then return end
 
 	local dlight = DynamicLight( self:EntIndex() )
 	if ( dlight ) then

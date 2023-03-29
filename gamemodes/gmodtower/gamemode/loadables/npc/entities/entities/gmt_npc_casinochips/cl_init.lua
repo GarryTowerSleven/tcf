@@ -12,40 +12,81 @@ local function Rules()
 
 end
 
+local function ChatChipBuy()
+	return {
+		Response = "Buy Chips",
+		Func = function() 
+				
+			Derma_NumberRequest(
+				"Buy Chips",
+				T( "PokerChipWorth", Cards.ChipCost ),
+				function ( val ) RunConsoleCommand( "gmt_casino_chips_buy", val ) end,
+				nil,
+				"Buy",
+				"Cancel",
+				"GMC"
+			)
+
+		end
+	}
+end
+
 net.Receive( "NPCCasino", function( len, pl )
 
-	local menu = {
-		{
-			title = "Cash Chips",
-			large = true,
-			icon = "money",
-			func = function()
-				RunConsoleCommand( "gmt_casino_chips_cash" )
-				SelectionMenuManager.Remove()
-			end,
-		},
-		{
-			title = "Buy Chips",
-			icon = "money",
-			func = function()
-				Derma_NumberRequest(
-					"Buy Chips",
-					T( "PokerChipWorth", Cards.ChipCost ),
-					function ( val ) RunConsoleCommand( "gmt_casino_chips_buy", val ) SelectionMenuManager.Remove() end,
-					nil,
-					"Buy",
-					"Cancel",
-					"GMC"
-				)
-			end,
-		},
-		{
-			title = "Rules",
-			icon = "about",
-			func = function() MsgN( "wow!" ) end,
-		},
-	}
+	if IsLobbyOne then
+		GTowerNPCChat:StartChat( {
+			Entity = "gmt_npc_casinochips",
+			Text = T( "PokerChipWelcome" ),
+			Responses = {
+				ChatChipBuy(),
+				{
+					Response = "Cash Chips",
+					Func = function() RunConsoleCommand( "gmt_casino_chips_cash" ) end	
+				},
+				{
+					Response = "Rules of 5 Card Draw",
+					Text = Rules()
+				},
+				{
+					Response = "Bye",
+				}
+			}
+		} )
+	else
+		local menu = {
+			{
+				title = "Cash Chips",
+				large = true,
+				icon = "money",
+				func = function()
+					RunConsoleCommand( "gmt_casino_chips_cash" )
+					SelectionMenuManager.Remove()
+				end,
+			},
+			{
+				title = "Buy Chips",
+				icon = "money",
+				func = function()
+					Derma_NumberRequest(
+						"Buy Chips",
+						T( "PokerChipWorth", Cards.ChipCost ),
+						function ( val ) RunConsoleCommand( "gmt_casino_chips_buy", val ) SelectionMenuManager.Remove() end,
+						nil,
+						"Buy",
+						"Cancel",
+						"GMC"
+					)
+				end,
+			},
+			{
+				title = "Rules",
+				icon = "about",
+				func = function() MsgN( "wow!" ) end,
+			},
+		}
+	
+		SelectionMenuManager.Create( "towercasino", menu )
+	end
 
-	SelectionMenuManager.Create( "towercasino", menu )
 
 end )

@@ -20,7 +20,7 @@ function GTowerStore:UpdateStatus(id, sale)
 
 	for _, v in pairs( ents.FindByClass( StoreTbl.NpcClass ) ) do
 		v:SetSale( onsale )
-		//v.Sale = onsale
+		
 		rp:AddPVS(v:EyePos())
 	end
 
@@ -58,6 +58,7 @@ function GTowerStore:BeginSale(id, sale)
 			v.Sign:SetStoreID( id )
 		end
 	end
+	
 	self:UpdateStatus(id, sale)
 end
 

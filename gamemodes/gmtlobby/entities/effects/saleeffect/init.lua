@@ -1,4 +1,3 @@
-
 EFFECT.Mat = Material("gmod_tower/lobby/sale")
 
 function EFFECT:Init( data )
@@ -7,7 +6,7 @@ function EFFECT:Init( data )
 end
 
 function EFFECT:Think( )
-	return (self.NPC && self.NPC.Sale) // these deals can't last forever!
+	return (self.NPC && self.NPC:GetSale()) // these deals can't last forever!
 end
 
 function EFFECT:Render( )
@@ -19,9 +18,9 @@ function EFFECT:Render( )
 
 	render.DrawQuadEasy(	self.Pos,
 				eyevec,
-				64 + sin*4,
-				32 + sin*4,
+				(64/2) + sin*4,
+				(32/2) + sin*4,
 				color_white,
-				180
+				180 + ( 20 * sin ) - 10
 				)
 end

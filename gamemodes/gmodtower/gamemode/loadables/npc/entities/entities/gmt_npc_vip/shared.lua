@@ -1,10 +1,9 @@
 ENT.Base			= "gmt_npc_base"
-ENT.Type 			= "ai"
+ENT.Type 			= "anim"
 ENT.Spawnable		= true
 ENT.AdminSpawnable	= true
 
-ENT.Model		= Model( "models/player/gmt_shared.mdl" ) // models/Humans/GMTsui1/Female_01.mdl" )
---ENT.Model		= Model( "models/Humans/GMTsui1/Male_03.mdl" )
+ENT.Model		= Model( "models/Humans/GMTsui1/Female_01.mdl" )
 ENT.StoreId 	= GTowerStore.VIP
 
 ENT.AnimMale		= Model( "models/player/gmt_shared.mdl" )

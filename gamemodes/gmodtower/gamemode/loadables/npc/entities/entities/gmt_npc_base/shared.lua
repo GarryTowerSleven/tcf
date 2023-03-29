@@ -1,5 +1,5 @@
-ENT.Base 			= "base_ai"
-ENT.Type 			= "ai"
+ENT.Base 			= "base_anim"
+ENT.Type 			= "anim"
 ENT.Spawnable		= false
 ENT.AdminSpawnable	= false
 
@@ -7,49 +7,78 @@ ENT.AdminSpawnable	= false
 ENT.AnimMale		= Model( "models/Humans/GMTsui1/Male_03.mdl" )
 ENT.AnimFemale		= Model( "models/Humans/GMTsui1/Female_01.mdl" )
 
-ENT.FemaleSheet = "models/Humans/female/GMTsui1/citizen_sheet"
-ENT.MaleSheet = "models/Humans/male/GMTsui1/citizen_sheet"
-
-ENT.AutomaticFrameAdvance = false
-
 ENT.StoreId = -1
 
 function ENT:GetAnimationBase()
-
 	local bFemale = string.find( string.lower(self.Model), "female" )
 	return bFemale and self.AnimFemale or self.AnimMale
-
 end
 
-function ENT:GetExpression()
-	return self:GetNWString( "GMT_NPC_EXPRESSION", "blank" )
-end
+function ENT:GetEyePos()
 
-function ENT:Expression(str)
-	self:SetNWString( "GMT_NPC_EXPRESSION", str )
+	if CLIENT then
+		local attachId = self.Ragdoll:LookupAttachment("eyes")
+		if attachId then
+			local att = self.Ragdoll:GetAttachment(attachId)
+			if att then
+				return att.Pos
+			end
+		end
+	end
+
+	return vector_origin
 end
 
 function ENT:SetupModel()
 
-	self:SetModel(self:GetAnimationBase())
+	if SERVER then
 
+		self:SetModel(self:GetAnimationBase())
+
+	else
+
+		if IsValid(self.Ragdoll) then
+			self.Ragdoll:Remove()
+		end
+
+		self.Ragdoll = ClientsideModel(self.Model)
+		self.Ragdoll:AddEffects( bit.bor( EF_BONEMERGE, EF_BONEMERGE_FASTCULL, EF_PARENT_ANIMATES ) )
+		self.Ragdoll:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
+		self.Ragdoll:DrawShadow(false)
+		self.Ragdoll:SetNoDraw(true)
+		self.Ragdoll:SetParent(self)
+		self.Ragdoll:SetOwner(self)
+		self.Ragdoll:Spawn()
+
+		self:SetupRagdoll( self.Ragdoll )
+
+	end
+
+end
+
+function ENT:OnRemove()
+	if SERVER then return end
+
+	if IsValid(self.Ragdoll) then
+		self.Ragdoll:Remove()
+	end
 end
 
 function ENT:SetupDataTables()
-
+	self:NetworkVar( "Bool", 0, "Sale" )
 	self:NetworkVar( "Bool", 1, "New" )
-	self:NetworkVar( "Bool", 2, "Sale" )
+end
 
+function ENT:IsOnSale()
+	return self:GetSale()
 end
 
 function ENT:HasNewItems()
-	return false //self:GetNew()
+	return self:GetNew()
 end
 
 function ENT:GetStoreId()
-
 	return self.StoreId
-
 end
 
 function ENT:GetTitle()
@@ -63,68 +92,24 @@ function ENT:GetTitle()
 end
 
 function ENT:CanUse( ply )
-
 	local title = self:GetTitle()
 	if title then
 		return true, "SHOP: " .. string.upper(title)
 	else
 		return true, "TALK"
 	end
-
-end
-
-function ENT:OnRemove()
-end
-
-function ENT:PhysicsCollide( data, physobj )
-end
-
-function ENT:PhysicsUpdate( physobj )
-end
-
-function ENT:SetAutomaticFrameAdvance( bUsingAnim )
-
-	self.AutomaticFrameAdvance = bUsingAnim
-
 end
 
 /* ----------------------------------
 	Animations
 ---------------------------------- */
-function ENT:PlaySequence(id, name, wait, speed)
+function ENT:PlaySequence(str)
 
-    --data.ID 	- sequence id
-	--data.Name 	- sequence name (Must provide either id or name)
-	--data.Wait	- Optional. Should we wait for sequence to finish
-	--data.Speed	- Optional. Playback speed of sequence
+	if self.bAnimating then return end
 
-	if SERVER then
-		local data = {
-			ID = id,
-			Name = name,
-			Wait = wait,
-			Speed = speed or 1
-		}
+	local seq = self:LookupSequence(str)
+	self:ResetSequence(seq)
 
-		self:TaskStart_PlaySequence( data )
-	end
-
-end
-
-function ENT:IsOnSale()
-	return self:GetSale()
-end
-
-function CreateSaleSign(npc, name, old, new)
-
-	/*if new && !old then
-		local edata = EffectData()
-		edata:SetOrigin(npc:EyePos() + Vector(0,0,24))
-		edata:SetEntity(npc)
-
-		util.Effect("saleeffect", edata)
-
-		return
-	end*/
+	self.bAnimating = true
 
 end

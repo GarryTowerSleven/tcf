@@ -1,6 +1,5 @@
 ENT.Base			= "gmt_npc_base"
-ENT.Type 			= "ai"
-ENT.PrintName		= "PVP Battle Store"
+ENT.Type 			= "anim"
 ENT.Spawnable		= true
 ENT.AdminSpawnable	= true
 
