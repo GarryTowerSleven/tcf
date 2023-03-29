@@ -1,0 +1,8 @@
+"gmtlobby"
+{
+	"base"		"darkrp"
+	"title"  "GMod Tower - Lobby"
+	"version"   ""
+	"menusystem"	"1"
+	"category"	"rp"
+}
