@@ -22,9 +22,29 @@ function GM:PlayerSpawn(ply)
 
         for i2 = 1, 5 do
             ply.Inventory[i][i2] = {}
+
+            if math.random(2) == 1 then
+                ply.Inventory[i][i2] = {
+                    Name = "UNKNOWN ITEM"
+                }
+            end
         end
     end
 
     ply:SendInventory()
     GAMEMODE:PlayerLoadout(ply)
 end
+
+net.Receive("Inventory", function(_, ply)
+    local msg = net.ReadInt(8)
+
+    if msg == 1 then
+        local t = net.ReadTable()
+        local item = ply.Inventory[t[1]][t[2]]
+        ply.Inventory[t[1]][t[2]] = ply.Inventory[t[3]][t[4]]
+        ply.Inventory[t[3]][t[4]] = item
+    end
+
+    ply:SendInventory()
+
+end)

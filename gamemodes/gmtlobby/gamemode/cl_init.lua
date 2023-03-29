@@ -84,6 +84,9 @@ for i = 0, #inv - 1 do
         button:SetSize(slotsize, slotsize)
         button:SetPos(i * slotsize + border / 2, i2 * slotsize + border / 2)
 
+        button.x2 = i + 1
+        button.y2 = i2 + 1
+
         button.Paint = function(self, w, h)
 
             -- Gradient
@@ -100,17 +103,19 @@ for i = 0, #inv - 1 do
                 surface.DrawTexturedRect(0, 0, w, h)
             end
 
+            local item = inv[self.x2][self.y2]
+
+            if !item.Name then return end
+
             local x, y = 2, 2
             local w, h = self:GetWide(), 16
             surface.SetDrawColor(0, 0, 0, 100)
             --render.SetScissorRect( self.x + x, self.y + y, x + w, y + h, true )
             surface.DrawRect(x, y, w, h)
-            draw.SimpleText("ITEM", "GTowerHUDMainTiny2", x, y, color_white)
+            draw.SimpleText(item.Name or "ITEM", "GTowerHUDMainTiny2", x, y, color_white)
         end
 
         // self.Item = inv[receiver.x][receiver.y]
-        button.x2 = i
-        button.y2 = i2
 
         button:Droppable("InventorySlot")
         button:Receiver("InventorySlot", function(self, tbl, dropped)
@@ -122,6 +127,14 @@ for i = 0, #inv - 1 do
                 local i1 = inv[receiver.x2][receiver.y2]
                 local i2 = inv[self.x2][self.y2]
                 print(i1, i2)
+                net.Start("Inventory")
+                net.WriteInt(1, 8)
+                net.WriteTable(
+                    {
+                        receiver.x2, receiver.y2, self.x2, self.y2
+                    }
+                )
+                net.SendToServer()
                 GAMEMODE:OnSpawnMenuOpen()
             end
         end)
