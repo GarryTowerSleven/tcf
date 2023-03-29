@@ -22,12 +22,6 @@ function GM:PlayerSpawn(ply)
 
         for i2 = 1, 5 do
             ply.Inventory[i][i2] = {}
-
-            if math.random(2) == 1 then
-                ply.Inventory[i][i2] = {
-                    Name = "UNKNOWN ITEM"
-                }
-            end
         end
     end
 
