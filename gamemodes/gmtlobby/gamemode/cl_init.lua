@@ -46,6 +46,7 @@ net.Receive("Inventory", function()
     inv = net.ReadTable()
 end)
 
+function openInv()
 if IsValid(Inventory) then
     Inventory:Remove()
 end
@@ -117,6 +118,8 @@ for i = 0, #inv - 1 do
 
         // self.Item = inv[receiver.x][receiver.y]
 
+        button:SetText("")
+
         button:Droppable("InventorySlot")
         button:Receiver("InventorySlot", function(self, tbl, dropped)
             print("!")
@@ -126,6 +129,7 @@ for i = 0, #inv - 1 do
                 print(inv[receiver.x])
                 local i1 = inv[receiver.x2][receiver.y2]
                 local i2 = inv[self.x2][self.y2]
+                local mx, my = gui.MousePos()
                 print(i1, i2)
                 net.Start("Inventory")
                 net.WriteInt(1, 8)
@@ -135,7 +139,12 @@ for i = 0, #inv - 1 do
                     }
                 )
                 net.SendToServer()
-                GAMEMODE:OnSpawnMenuOpen()
+                
+                timer.Simple(0, function()
+                    openInv()
+                    gui.EnableScreenClicker(true)
+                    gui.SetMousePos(mx, my)
+                end)
             end
         end)
 
@@ -143,11 +152,13 @@ for i = 0, #inv - 1 do
 
     end
 end
-
-local _, y = panel:GetPos()
-panel:SetPos(_, -panel:GetTall())
+end
 
 function GM:OnSpawnMenuOpen()
+    openInv()
+    local panel = Inventory
+    local _, y = panel:GetPos()
+    panel:SetPos(_, -panel:GetTall())
     Inventory.Open = true
     gui.EnableScreenClicker(true)
     local _, y = panel:GetPos()
@@ -158,6 +169,7 @@ function GM:OnSpawnMenuOpen()
 end
 
 function GM:OnSpawnMenuClose()
+    local panel = Inventory
     Inventory.Open = false
     Inventory.m_AnimList = {}
     gui.EnableScreenClicker(false)
