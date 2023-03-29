@@ -1,4 +1,3 @@
----------------------------------
 local math = math
 local Color = Color
 local HSVToColor = HSVToColor
