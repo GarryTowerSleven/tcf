@@ -6,7 +6,7 @@ end
 
 function GM:SpawnMenuOpen()
     if !InCondo(LocalPlayer():GetPos()) then
-        notification.AddLegacy("Building is only allowed in Condos!", NOTIFY_ERROR, 8)
+        notification.AddLegacy("Build in a Condo, or find Building Supplies!", NOTIFY_ERROR, 8)
         return false
     end
 
