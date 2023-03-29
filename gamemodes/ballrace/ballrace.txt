@@ -1,9 +1,0 @@
-"ballrace"
-{
-	"base"		"base"
-	"title"		"Ball Race"
-	"maps"		"^gmt_ballracer_"
-
-	"author_name"	"AzuiSleet"
-	"menusystem"	"1"
-}

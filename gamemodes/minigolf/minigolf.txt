@@ -1,8 +1,0 @@
-"Gamemode"
-{
-	"base"		"base"
-	"title"		"Minigolf"
-	"maps"		"^gmt_minigolf_"
-	"menusystem"	"1"
-	"help" 		"ayy"
-}

@@ -1,4 +1,0 @@
-"gmodtower"
-{
-	"name"		"GMod Tower"
-}

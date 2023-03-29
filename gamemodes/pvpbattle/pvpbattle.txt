@@ -1,8 +1,0 @@
-"Gamemode"
-{
-	"base"		"base"
-	"title"		"PvP Battle"
-	"maps"		"^gmt_pvp_"
-	"menusystem"	"1"
-	"help" 		"ayy"
-}
