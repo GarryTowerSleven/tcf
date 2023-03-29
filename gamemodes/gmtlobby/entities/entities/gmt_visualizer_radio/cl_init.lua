@@ -23,7 +23,7 @@ function ENT:DrawTranslucent()
 		return
 	end
 
-	local Alpha = 175 - math.Clamp( PlyDistance / 256 * 255 ,0, 175 )
+	local Alpha = 175 - math.Clamp( PlyDistance / 256 * 175 ,0, 175 )
 	local Alpha2 = 255 - math.Clamp( PlyDistance / 256 * 255 ,0, 255 )
 	local MaxNameLenght = 32
 	
@@ -89,7 +89,7 @@ function ENT:Draw()
 	self:DrawModel()
 end
 
-local SPECHEIGHT= 64
+local SPECHEIGHT= 54
 local SPECWIDTH	= 300
 local BANDS	= 28
 local ox, oy	= -100, -65
