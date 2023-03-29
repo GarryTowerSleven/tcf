@@ -1,5 +1,8 @@
 include("shared.lua")
 AddCSLuaFile("shared.lua")
+AddCSLuaFile("cl_hud.lua")
+AddCSLuaFile("cl_icons.lua")
+AddCSLuaFile("cl_draw.lua")
 
 function GM:PlayerSpawnProp(ply)
     return InCondo(ply:GetPos())

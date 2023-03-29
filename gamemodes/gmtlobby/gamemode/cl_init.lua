@@ -1,4 +1,7 @@
 include("shared.lua")
+include("cl_hud.lua")
+include("cl_icons.lua")
+include("cl_draw.lua")
 
 // Create GMT fonts
 surface.CreateFont( "tiny", { font = "Arial", size = 10, weight = 100 } )
