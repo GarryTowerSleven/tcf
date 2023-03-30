@@ -145,7 +145,7 @@ function GTowerHUD.DrawInfo()
 	
 	-- Ease money
     local function Money()
-        return LocalPlayer():getDarkRPVar("money")
+        return LocalPlayer():getDarkRPVar("money") or 0
     end
 	if GTowerHUD.Money.LastAmount != Money() then
 		GTowerHUD.Money.LastAmount = Money()
