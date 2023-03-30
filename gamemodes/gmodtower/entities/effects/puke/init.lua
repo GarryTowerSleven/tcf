@@ -15,9 +15,11 @@ function EFFECT:Init( data )
 	if !IsValid(self.Player) then return end
 
 	self.Length = CurTime() + 1.25;
+	self.NextParticle = CurTime()
+	self.Length = CurTime() + 0.75;
 	self.Emitter = ParticleEmitter( self.Player:GetPos() );
 	
-	sound.Play( table.Random(pukesounds), self.Player:GetShootPos(), 100, 100 );
+	sound.Play( table.Random(pukesounds), self.Player:GetShootPos(), 100, math.random(95,104) );
 end
 
 local function CollideCallback( particle, pos, normal )
@@ -44,38 +46,38 @@ function EFFECT:Think( )
 	
 	// create particle emitter.
 	//local emitter = ParticleEmitter( pos );
+		if CurTime() > self.NextParticle then
+		// create a particle.
+		local particle = self.Emitter:Add( "effects/blood_core", pos );
+		particle:SetVelocity( ( self.Player:GetAimVector() + ( VectorRand() * 0.1 ) ) * math.random( 120, 350 ) );
+		particle:SetDieTime( 3.25 );
+		particle:SetStartAlpha( 255 );
+		particle:SetEndAlpha( 128 );
+		particle:SetStartSize( math.Rand( 12, 16 ) );
+		particle:SetEndSize( math.Rand( 8, 12 ) );
+		particle:SetRoll( 0 );
+		particle:SetRollDelta( 0 );
+		particle:SetColor( 128, 80, 0 );
+		particle:SetCollide( true );
+		particle:SetBounce( 0.2 );
+		particle:SetGravity( Vector( 0, 0, -400 ) );
+		//particle:SetAngleVelocity( Angle( math.random( -100, 100 ), math.random( -100, 100 ), math.random( -100, 100 ) ) );
+		particle:SetCollideCallback( CollideCallback );
 	
-	// create a particle.
-	local particle = self.Emitter:Add( "effects/blood_core", pos );
-	particle:SetVelocity( ( self.Player:GetAimVector() + ( VectorRand() * 0.1 ) ) * math.random( 120, 350 ) );
-	particle:SetDieTime( 3.25 );
-	particle:SetStartAlpha( 255 );
-	particle:SetEndAlpha( 128 );
-	particle:SetStartSize( math.Rand( 12, 16 ) );
-	particle:SetEndSize( math.Rand( 8, 12 ) );
-	particle:SetRoll( 0 );
-	particle:SetRollDelta( 0 );
-	particle:SetColor( 128, 80, 0 );
-	particle:SetCollide( true );
-	particle:SetBounce( 0.2 );
-	particle:SetGravity( Vector( 0, 0, -400 ) );
-	//particle:SetAngleVelocity( Angle( math.random( -100, 100 ), math.random( -100, 100 ), math.random( -100, 100 ) ) );
-	particle:SetCollideCallback( CollideCallback );
+		// finalize te emitter.
+		//emitter:Finish();
 	
-	// finalize te emitter.
-	//emitter:Finish();
-	
-	// trace, decal.
-	local trace = {
-		start = pos,
-		endpos = pos + self.Player:GetAimVector() * 128,
-		filter = ent,
-	};
-	local tr = util.TraceLine( trace );
-	if( tr.Hit && !tr.HitSky ) then
-		util.Decal( "BeerSplash", tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal );
-	end
-	
+		// trace, decal.
+		local trace = {
+			start = pos,
+			endpos = pos + self.Player:GetAimVector() * 128,
+			filter = ent,
+		};
+		local tr = util.TraceLine( trace );
+		if( tr.Hit && !tr.HitSky ) then
+			util.Decal( "BeerSplash", tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal );
+		end
+		self.NextParticle = CurTime() + 0.05	end
 	if( self.Length <= CurTime() ) then self.Emitter:Finish(); end
 	
 	return ( self.Length > CurTime() );
