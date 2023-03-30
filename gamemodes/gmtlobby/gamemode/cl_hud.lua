@@ -177,7 +177,7 @@ function GTowerHUD.DrawInfo()
 
 	-- Location
 	y = y + 24
-	local location = "SOMEWHERE" // string.upper( LocalPlayer():LocationName() )
+	local location = string.upper(LocalPlayer():getDarkRPVar("job")) or "SOMEWHERE" // string.upper( LocalPlayer():LocationName() )
 	draw.SimpleShadowText( location, GTowerHUD.Location.Font, x, y, color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
 
 	-- Condo
