@@ -4,8 +4,13 @@ function InCondo(pos)
     return pos.z > 11000
 end
 
+function CanBuild(ply)
+    ply = ply or LocalPlayer()
+    return !IsValid(ply:GetActiveWeapon()) or ply:GetActiveWeapon():GetClass() ~= "weapon_physgun"
+end
+
 function GM:SpawnMenuOpen()
-    if !InCondo(LocalPlayer():GetPos()) then
+    if CanBuild(ply) then
         notification.AddLegacy("Build in a Condo, or find Building Supplies!", NOTIFY_ERROR, 8)
         return false
     end

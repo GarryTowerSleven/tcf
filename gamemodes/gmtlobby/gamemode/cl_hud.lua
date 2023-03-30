@@ -731,9 +731,17 @@ end
 local e = {
     ["CHudMenu"] = true,
     ["CHudGMod"] = true,
-    ["CHudChat"] = true
+    ["CHudChat"] = true,
+    ["DarkRP_EntityDisplay"] = true,
+    ["DarkRP_HUD"] = false
 }
 
 function GM:HUDShouldDraw(element)
-    return e[element]
+    return e[element] or false
 end
+
+hook.Add("HUDShouldDraw", "HUDFIX", function(e)
+    if e == "DarkRP_HUD" then
+        return false
+    end
+end)

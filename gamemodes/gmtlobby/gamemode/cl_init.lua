@@ -79,6 +79,7 @@ end
 local gradient = Material("vgui/gradient_up")
 
 function GM:HUDPaint()
+    self.BaseClass.HUDPaint(self)
     if !splash then return end
 
     local w, h = ScrW(), ScrH()
@@ -270,13 +271,16 @@ function GM:OnSpawnMenuOpen()
         g_SpawnMenu.HorizontalDivider:SetLeft( nil )
         g_SpawnMenu.CreateMenu:SetParent( g_SpawnMenu )
         g_SpawnMenu.CreateMenu:Dock( FILL )
+        g_SpawnMenu.CreateMenu.tabScroller:Hide()
         if IsValid(g_SpawnMenu.ToolToggle) then
         g_SpawnMenu.ToolToggle:Hide()
         end
 	end
 
-    g_SpawnMenu:SetSize(640, 480)
+    g_SpawnMenu:SetSize(800, 480)
     g_SpawnMenu:Dock(NODOCK)
+    g_SpawnMenu:SetPos(0, ScrH() - g_SpawnMenu:GetTall())
+    g_SpawnMenu:CenterHorizontal()
 
 	hook.Call( "SpawnMenuOpened", self )
 end

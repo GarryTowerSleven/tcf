@@ -19,6 +19,11 @@ function ENT:Use(ply)
 
   if ply.UsingDoor then return end
 
+  if string.find(self.TeleportName, "club") then
+    self:EmitSound("doors/default_locked.wav")
+    return
+  end
+
   for k,v in pairs(ents.FindByClass("info_teleport_destination")) do
     if tostring(v:GetName()) == self.TeleportName then
       self.TeleportEnt = v
@@ -53,7 +58,7 @@ function ENT:Use(ply)
       ply.BallRaceBall:SetPos( self.TeleportEnt:GetPos() + Vector(0,0,35) )
     else
       ply:SetEyeAngles(self.TeleportEnt:GetAngles())
-      ply.DesiredPosition = self.TeleportEnt:GetPos()
+      ply:SetPos(DarkRP.findEmptyPos(self.TeleportEnt:GetPos(), nil, 128, 32, Vector(16, 16, 64)))
     end
   end)
 

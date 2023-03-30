@@ -5,7 +5,18 @@ AddCSLuaFile("cl_icons.lua")
 AddCSLuaFile("cl_draw.lua")
 
 function GM:PlayerSpawnProp(ply)
-    return InCondo(ply:GetPos())
+    return !CanBuild(ply)
+end
+
+function GM:PlayerSpawnedProp(ply, _, prop)
+    ply:AddCount( "props", prop )
+    prop:SetSkin(math.random(1, prop:SkinCount()))
+    prop:SetModelScale(0)
+    prop:SetModelScale(1, 0.2)
+
+    local effect = EffectData()
+    effect:SetEntity(prop)
+    util.Effect("propspawn", effect, true, true)
 end
 
 local meta = FindMetaTable("Player")
@@ -23,12 +34,26 @@ Items = {
         Description = "Painful firearm!!!!!!!!!!!!!!!!!!",
         Model = "models/weapons/w_pistol.mdl",
         Weapon = "weapon_pistol"
+    },
+    ["build"] = {
+        Name = "Building",
+        Description = "Build!",
+        Model = "models/gmod_tower/messengerbag.mdl",
+        Weapon = "weapon_physgun"
     }
 }
 
 function GetItem(name)
     local item = table.Copy(Items[name])
     return item
+end
+
+function GM:Think()
+    for _, ply in ipairs(player.GetAll()) do
+        if !IsValid(ply:GetActiveWeapon()) then
+            ply:Give("keys")
+        end
+    end
 end
 
 function meta:GiveItem(item)
@@ -88,16 +113,14 @@ net.Receive("Inventory", function(_, ply)
         ply:StripWeapons()
         local xy = net.ReadTable()
         local x, y = xy[1], xy[2]
-        print(xy, x, y)
         local item = ply.Inventory[x] and ply.Inventory[x][y]
         if !item then return end
-        print(item)
         if !item.Weapon then return end
-        print("?")
         if class == item.Weapon then return end
-        print(item.Weapon)
         ply:Give(item.Weapon)
         ply:SelectWeapon(ply:GetWeapon(item.Weapon))
+
+        ply:GiveAmmo(9999, ply:GetWeapon(item.Weapon):GetPrimaryAmmoType())
     end
 
     ply:SendInventory()
