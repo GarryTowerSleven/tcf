@@ -44,6 +44,24 @@ surface.CreateFont( "GTowerToolTip", { font = "Tahoma", size = 16, weight = 400 
 //surface.CreateFont( "GTowerFuel", { font = "Impact", size = 18, weight = 400 } )
 
 function GM:CalcView(ply, pos, ang)
+    ragdoll = ply:GetRagdollEntity()
+    if IsValid(ragdoll) then
+
+        if !ragdolled then
+            ply:SetEyeAngles(angle_zero)
+            ragdolled = true
+        end
+
+        local att = ragdoll:GetAttachment(1)
+        ang.y = math.Clamp(ang.y, -90, 90)
+        ply:SetEyeAngles(ang)
+        return {
+            origin = att.Pos + att.Ang:Forward() * 8,
+            angles = att.Ang + Angle(-ang.y, ang.p, ang.y)
+        }
+    else
+        ragdolled = false
+    end
     if !splash then return end
     local ang = Angle(40 + math.sin(CurTime() * 0.1) * 8, 0, 0)
     y = y or 0
