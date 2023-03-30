@@ -17,7 +17,7 @@ include('shared.lua')
 ---------------------------------------------------------*/
 function ENT:Initialize()
 
-	self.BetAmount = 10
+	self.BetAmount = 50
 	self.SlotsPlaying = nil
 	self.SlotsSpinning = false
 	self.LastSpin = CurTime()
@@ -241,10 +241,10 @@ end )
 	Console Commands
 ---------------------------------------------------------*/
 concommand.Add( "slotm_spin", function( ply, cmd, args )
-	local bet = tonumber(args[1]) or 10
+	local bet = tonumber(args[1]) or 50
 	
-	if bet < 5 then bet = 5 end
-	if bet > 800 then bet = 800 end
+	if bet < 50 then bet = 50 end
+	if bet > 500 then bet = 500 end
 	
 	local ent = ply.SlotMachine
 
@@ -331,8 +331,10 @@ function ENT:PickResults()
 	local random = { getRand(), getRand(), getRand() }
 
 	if random[1] == 2 and random[2] == 2 and random[3] == 2 then
-		if math.random(20) != 1 then
+		if math.random(20) != 1 && self:GetJackpot() < 50000 then
 			random[3] = math.random(3, 6)
+		else
+			random[3] = math.random(6)
 		end
 	end
 
