@@ -20,7 +20,7 @@ function ENT:Initialize()
 end
 
 function ENT:PlayClick()
-	self:EmitSound( self.SoundClicker, 80, 100 )
+	self:EmitSound( self.SoundClicker, 70, 100 )
 end
 
 function ENT:CheckClientsideModels()

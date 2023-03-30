@@ -140,7 +140,7 @@ function ENT:PayOut(ply,prize)
 	--ply:ChatPrint('Won ' .. item[1] .. ', Entity Name is: ' .. entity_name .. '.')
 
 	if prize == 1 || prize == 5 then
-		self:EmitSound("GModTower/misc/sad.mp3")
+		self:EmitSound("GModTower/misc/sad.mp3", 70)
 		if prize == 5 then
 			ply:AddMoney(1)
 		end
@@ -149,14 +149,14 @@ function ENT:PayOut(ply,prize)
 		BasicWin(self)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		timer.Simple( 0.5, function() BasicWin(self) end)
-		self:EmitSound("GModTower/misc/win_gameshow.mp3")
+		self:EmitSound("GModTower/misc/win_gameshow.mp3", 70)
 		self:SendItem( ply, entity_name )
 		ply:Msg2("[Spinner] You won: " .. string.upper(realprize))
 	else
 		local realprize = item[1]
 		BasicWin(self)
 		timer.Simple( 0.5, function() BasicWin(self) end)
-		self:EmitSound("GModTower/misc/win_crowd.mp3")
+		self:EmitSound("GModTower/misc/win_crowd.mp3", 70)
 		local count = item[4] or 1
 
 		for i=1, count do
@@ -170,7 +170,7 @@ function ENT:PayOut(ply,prize)
 		BasicWin(self)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		timer.Simple( 0.5, function() BasicWin(self) end)
-		self:EmitSound("GModTower/misc/win_gameshow.mp3")
+		self:EmitSound("GModTower/misc/win_gameshow.mp3", 70)
 		gmc_earn = self.GMCPayouts[prize]
 		ply:AddMoney(gmc_earn)
 	end
