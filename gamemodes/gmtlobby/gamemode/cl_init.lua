@@ -228,6 +228,29 @@ function GM:OnSpawnMenuOpen()
     panel:MoveTo(_, 0, 0.4, 0, 0.4)
     panel:SetAlpha(0)
     panel:AlphaTo(255, 0.4, 0)
+
+    -- Let the gamemode decide whether we should open or not..
+	if ( !hook.Call( "SpawnMenuOpen", self ) ) then return end
+
+	if ( IsValid( g_SpawnMenu ) ) then
+		g_SpawnMenu:Open()
+		// menubar.ParentTo( g_SpawnMenu )
+        if IsValid(menubar.Control) then
+        menubar.Control:Hide()
+        end
+        g_SpawnMenu.HorizontalDivider:SetRight( nil ) -- What an ugly hack
+        g_SpawnMenu.HorizontalDivider:SetLeft( nil )
+        g_SpawnMenu.CreateMenu:SetParent( g_SpawnMenu )
+        g_SpawnMenu.CreateMenu:Dock( FILL )
+        if IsValid(g_SpawnMenu.ToolToggle) then
+        g_SpawnMenu.ToolToggle:Hide()
+        end
+	end
+
+    g_SpawnMenu:SetSize(640, 480)
+    g_SpawnMenu:Dock(NODOCK)
+
+	hook.Call( "SpawnMenuOpened", self )
 end
 
 function GM:OnSpawnMenuClose()
@@ -242,4 +265,7 @@ function GM:OnSpawnMenuClose()
     panel:MoveTo(_, -panel:GetTall(), 0.4, 0, 0.4)
     panel:SetAlpha(0)
     panel:AlphaTo(255, 0.4, 0)
+
+    if ( IsValid( g_SpawnMenu ) ) then g_SpawnMenu:Close() end
+	hook.Call( "SpawnMenuClosed", self )
 end
