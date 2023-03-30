@@ -22,11 +22,11 @@ GM.Config.AdminsCopWeapons              = false
 -- adminBypassJobCustomCheck - Enable/disable whether an admin can force set a job with whenever customCheck returns false.
 GM.Config.adminBypassJobRestrictions    = false
 -- Acts/Taunts - Enable/disable Taunts (e.g. act salute)
-GM.Config.allowActs                     = false
+GM.Config.allowActs                     = true
 -- allow people getting their own custom jobs.
-GM.Config.allowjobswitch                = false
+GM.Config.allowjobswitch                = true
 -- allowrpnames - Allow Players to Set their RP names using the /rpname command.
-GM.Config.allowrpnames                  = false
+GM.Config.allowrpnames                  = true
 -- allowsprays - Enable/disable the use of sprays on the server.
 GM.Config.allowsprays                   = false
 -- allowvehicleowning - Enable/disable whether people can own vehicles.
@@ -364,14 +364,7 @@ GM.Config.DisallowDrop = {
 }
 
 -- The list of weapons people spawn with.
-GM.Config.DefaultWeapons = {
-    "keys",
-    "weapon_physcannon",
-    "gmod_camera",
-    "gmod_tool",
-    "pocket",
-    "weapon_physgun",
-}
+GM.Config.DefaultWeapons = {}
 
 -- Override categories.
 -- NOTE: categories are to be set in the "category" field of the custom jobs/shipments/entities/ammo/pistols/vehicles.

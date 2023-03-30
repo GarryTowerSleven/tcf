@@ -101,6 +101,25 @@ function GM:HUDPaint()
 
 inv = inv or {}
 
+local down = {}
+
+function GM:Move()
+    for i = 2, 9 do
+        local k = i - 1
+        if input.WasKeyPressed(i) then
+            if down[i] then continue end
+            down[i] = true
+            print(k, i)
+            net.Start("Inventory")
+            net.WriteInt(2, 8)
+            net.WriteTable({k, 1})
+            net.SendToServer()
+        else
+            down[i] = nil
+        end
+    end
+end
+
 net.Receive("Inventory", function()
     inv = net.ReadTable()
 end)
@@ -144,6 +163,11 @@ for i = 0, #inv - 1 do
         button:SetSize(slotsize, slotsize)
         button:SetPos(i * slotsize + border / 2, i2 * slotsize + border / 2 + (i2 == 0 and 0 or SlotBarHeight))
 
+        button.MDL = vgui.Create("SpawnIcon", button)
+        button.MDL:Dock(FILL)
+        button.MDL:SetPaintedManually(true)
+        button.MDL:SetMouseInputEnabled(false)
+
         button.x2 = i + 1
         button.y2 = i2 + 1
 
@@ -170,6 +194,9 @@ for i = 0, #inv - 1 do
             end
 
             if !item.Name then return end
+
+            self.MDL:SetModel(item.Model or "models/error.mdl")
+            self.MDL:PaintManual()
 
             local x, y = 2, 2
             local w, h = self:GetWide(), 16

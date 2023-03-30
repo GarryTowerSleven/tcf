@@ -21,7 +21,8 @@ Items = {
     ["pistol"] = {
         Name = "Pistol",
         Description = "Painful firearm!!!!!!!!!!!!!!!!!!",
-        Model = "models/weapons/w_pistol.mdl"
+        Model = "models/weapons/w_pistol.mdl",
+        Weapon = "weapon_pistol"
     }
 }
 
@@ -51,6 +52,16 @@ end
 function GM:PlayerSpawn(ply)
     ply.Inventory = {}
 
+    ply:ScreenFade(SCREENFADE.IN, color_black, 1, 2)
+    ply:EmitSound("gmodtower/lobby/elevator/elevator_bell.wav")
+    ply:EmitSound("gmodtower/lobby/elevator/elevator_doorclose.wav")
+    ply:EmitSound("gmodtower/lobby/elevator/elevator_arrive.wav")
+    // ply:EmitSound("gmodtower/lobby/condo/vault_close.wav")
+
+    timer.Simple(1.8, function()
+        ply:ViewPunch(Angle(-4, 0, 0))
+    end)
+
     for i = 1, 9 do
         ply.Inventory[i] = {}
 
@@ -72,6 +83,21 @@ net.Receive("Inventory", function(_, ply)
         local item = ply.Inventory[t[1]][t[2]]
         ply.Inventory[t[1]][t[2]] = ply.Inventory[t[3]][t[4]]
         ply.Inventory[t[3]][t[4]] = item
+    elseif msg == 2 then
+        local class = IsValid(ply:GetActiveWeapon()) and ply:GetActiveWeapon():GetClass() or ""
+        ply:StripWeapons()
+        local xy = net.ReadTable()
+        local x, y = xy[1], xy[2]
+        print(xy, x, y)
+        local item = ply.Inventory[x] and ply.Inventory[x][y]
+        if !item then return end
+        print(item)
+        if !item.Weapon then return end
+        print("?")
+        if class == item.Weapon then return end
+        print(item.Weapon)
+        ply:Give(item.Weapon)
+        ply:SelectWeapon(ply:GetWeapon(item.Weapon))
     end
 
     ply:SendInventory()
