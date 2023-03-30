@@ -18,7 +18,7 @@ function meta:SendInventory()
 end
 
 Items = {
-    ["ITEM_PISTOL"] = {
+    ["pistol"] = {
         Name = "Pistol",
         Description = "Painful firearm!!!!!!!!!!!!!!!!!!",
         Model = "models/weapons/w_pistol.mdl"
