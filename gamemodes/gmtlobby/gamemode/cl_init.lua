@@ -10,8 +10,8 @@ surface.CreateFont( "small", { font = "Arial", size = 14, weight = 400 } )
 surface.CreateFont( "smalltitle", { font = "Arial", size = 16, weight = 600 } )
 
 local mainFont = "CenterPrintText"
-surface.CreateFont( "GTowerhuge", { font = mainFont, size = 45, weight = 100 } )
-surface.CreateFont( "GTowerbig", { font = mainFont, size = 28, weight = 125 } )
+surface.CreateFont( "GTowerhuge", { font = mainFont, size = 128, weight = 100 } )
+surface.CreateFont( "GTowerbig", { font = mainFont, size = 48, weight = 125 } )
 surface.CreateFont( "GTowerbigbold", { font = mainFont, size = 20, weight = 1200 } )
 surface.CreateFont( "GTowerbiglocation", { font = mainFont, size = 28, weight = 125 } )
 surface.CreateFont( "GTowermidbold", { font = mainFont, size = 16, weight = 1200 } )
@@ -43,6 +43,43 @@ surface.CreateFont( "GTowerToolTip", { font = "Tahoma", size = 16, weight = 400 
 
 //surface.CreateFont( "GTowerFuel", { font = "Impact", size = 18, weight = 400 } )
 
+function GM:CalcView(ply, pos, ang)
+    if !splash then return end
+    local ang = Angle(40 + math.sin(CurTime() * 0.1) * 8, 0, 0)
+    y = y or 0
+    y = y + FrameTime() * 2
+    y = math.fmod(y, 361)
+    ang.y = y
+    return {
+        origin = Vector(2684, -11, -900) - ang:Forward() * 2000,
+        angles = ang,
+        fov = 40
+    }
+end
+
+local gradient = Material("vgui/gradient_up")
+
+function GM:HUDPaint()
+    if !splash then return end
+
+    local w, h = ScrW(), ScrH()
+
+    t = t or {}
+
+    DrawToyTown(2, ScrH() / 4)
+
+    surface.SetMaterial(gradient)
+    surface.SetDrawColor(Color(0, 0, 0, 180))
+    surface.DrawTexturedRect(0, -h * 0.2, w, h * 1.2)
+
+    draw.SimpleText("GMTower", "GTowerhuge", w / 2, h / 2 - 100, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    draw.SimpleText("Click to start!", "GTowerbig", w / 2, h / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    for i = 1, 4 do
+        t[i] = t[i] or draw.NewTicker(w, h / 2 + i * 4, 0.001)
+        draw.TickerText("VIRUS UCH BALLRACE MINIGOLF VIRUS UCH BALLRACE MINIGOLF VIRUS UCH BALLRACE MINIGOLF VIRUS UCH BALLRACE MINIGOLF VIRUS UCH BALLRACE MINIGOLF VIRUS UCH BALLRACE MINIGOLF VIRUS UCH BALLRACE MINIGOLF VIRUS UCH BALLRACE MINIGOLF", "GTowerhuge", Color(255, 255, 255, 255 * (i / 4)), t[i], 2, 200, 0 )
+    end
+    end
+
 inv = inv or {}
 
 net.Receive("Inventory", function()
@@ -72,11 +109,11 @@ panel.Paint = function(self, w, h)
     local ew = self.EquipWidth or w
 
 	-- Draw background
-	surface.SetDrawColor( 70, 100, 150, 255 )
+	surface.SetDrawColor( 64, 64, 64, 255 )
 	surface.DrawRect( 0, 0, ew, 3 )
-	draw.RoundedBox( 3, 0, 0, ew, h, Color(70, 100, 150, 255) )
+	draw.RoundedBox( 3, 0, 0, ew, h, Color(48, 48, 48, 255) )
 	
-	surface.SetDrawColor( 0, 0, 0, 50 )
+	surface.SetDrawColor( 32, 32, 32, 50 )
 	surface.SetTexture( gradient )
 	surface.DrawTexturedRect( 0, SlotBarHeight, w, h )
 end
@@ -102,7 +139,7 @@ for i = 0, #inv - 1 do
             surface.DrawRect(1, 1, w, h)
 
             if self:IsHovered() then
-                surface.SetDrawColor(56, 142, 203, 50)
+                surface.SetDrawColor(128, 128, 128, 50)
                 surface.SetTexture(gradient)
                 surface.DrawTexturedRect(0, 0, w, h)
             end
