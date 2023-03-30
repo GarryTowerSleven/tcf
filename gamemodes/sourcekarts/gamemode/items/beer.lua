@@ -59,7 +59,7 @@ if CLIENT then
 
 
 
-		local BAL = LocalPlayer():GetNWInt("BAL")
+		local BAL = LocalPlayer():GetNet("BAL")
 
 		if BAL <= 0 then return end
 

@@ -159,8 +159,8 @@ local function CalcViewPlaying( ply, origin, angles, fov )
 		end
 
 		// Drunk
-		if ply:GetNWInt("BAL") > 0 then
-			local multiplier = ( 50 / 100 ) * ply:GetNWInt("BAL")
+		if ply:GetNet("BAL") > 0 then
+			local multiplier = ( 50 / 100 ) * ply:GetNet("BAL")
 			newAngles.pitch = newAngles.pitch + math.sin( RealTime() ) * multiplier
 			newAngles.roll = newAngles.roll + math.cos( RealTime() ) * multiplier
 		end

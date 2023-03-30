@@ -1,7 +1,9 @@
+include("shared.lua")
+
 local BAL = 0
 
 hook.Add("CalcView", "DrunkCalc", function(ply, origin, angle, fov)
-	local newBAL = ply:GetNWInt("BAL")
+	local newBAL = ply:GetNet("BAL")
 
 	if !newBAL then return end
 
@@ -55,10 +57,11 @@ hook.Add("RenderScreenspaceEffects", "DrunkEffect", function()
 
 end)
 
+
 hook.Add("CreateMove", "DrunkMove", function(ucmd)
 	local ply = LocalPlayer()
 	if !IsValid(ply) || BAL <= 0 then return end
 
-	local sidemove = math.sin( CurTime() ) * ( ( 150 / 100 ) * ply:GetNWInt("BAL") )
+	local sidemove = math.sin( CurTime() ) * ( ( 150 / 100 ) * ply:GetNet("BAL") )
 	ucmd:SetSideMove( ucmd:GetSideMove() + sidemove )
 end)

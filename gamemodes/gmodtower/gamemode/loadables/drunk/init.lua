@@ -1,4 +1,6 @@
 AddCSLuaFile( "cl_init.lua")
+AddCSLuaFile( "shared.lua" )
+include( "shared.lua" )
 
 local meta = FindMetaTable( "Player" )
 
@@ -9,17 +11,17 @@ end
 function meta:Drink(balamt)
 	local balamt = balamt or 10
 
-	if self:GetNWInt("BAL") + balamt > 100 && IsLobby then
+	if self:GetNet( "BAL" ) + balamt > 100 && IsLobby then
 		self:Kill()
 		self:ChatPrint("You died from alcohol poisoning.")
 		self:UnDrunk()
 		return
 	end
 
-    self:SetNWInt("BAL", math.Clamp(self:GetNWInt("BAL") + balamt, 0, 100))
+    self:SetNet( "BAL", math.Clamp( self:GetNet( "BAL" ) + balamt, 0, 100 ) )
 	self.NextSoberTime = CurTime() + 10
 	self.NextHiccupTime = CurTime() + 5
-	self:SetDSP( self:GetNWInt("BAL") * .2 )
+	self:SetDSP( self:GetNet( "BAL" ) * .2 )
 
 	if !self._DrunkStartTime then
 		self._DrunkStartTime = CurTime()
@@ -27,7 +29,7 @@ function meta:Drink(balamt)
 end
 
 function meta:UnDrunk()
-	self:SetNWInt("BAL", 0)
+	self:SetNet( "BAL", 0 )
 	self._DrunkStartTime = nil
 	self:SetDSP(1)
 end
@@ -43,9 +45,9 @@ function meta:DrunkThink()
 			end
 		end
 
-		self:SetNWInt( "BAL", math.Clamp(self:GetNWInt("BAL") - 1, 0, 100) )
+		self:SetNet( "BAL", math.Clamp(self:GetNet( "BAL" ) - 1, 0, 100) )
 
-		if self:GetNWInt("BAL") == 0 then
+		if self:GetNet( "BAL" ) == 0 then
 			self:UnDrunk()
 			return
 		end
@@ -56,16 +58,16 @@ function meta:DrunkThink()
 	if self:Alive() && CurTime() > self.NextHiccupTime && IsLobby then
 		self.NextHiccupTime = CurTime() + 5;
 
-		if math.random( 1, 100 ) <= ( self:GetNWInt("BAL") * 0.65 ) then
+		if math.random( 1, 100 ) <= ( self:GetNet("BAL") * 0.65 ) then
 			self:Hiccup()
-		elseif math.random( 1, 100 ) <= ( self:GetNWInt("BAL") * 0.35 ) then
+		elseif math.random( 1, 100 ) <= ( self:GetNet("BAL") * 0.35 ) then
 			self:Puke()
 		end
 	end
 end
 
 hook.Add("PlayerThink", "PlayerDrunkThink", function(ply)
-    local bal = ply:GetNWInt("BAL")
+    local bal = ply:GetNet("BAL")
 	if bal && bal > 0 then
 		ply:DrunkThink()
 	end
