@@ -12,9 +12,7 @@ local pukesounds = {
 function EFFECT:Init( data )
 	self.Player = data:GetEntity();
 
-	if !IsValid(self.Player) then return end
-
-	self.Length = CurTime() + 1.25;
+	if !IsValid(self.Player) then return end
 	self.NextParticle = CurTime()
 	self.Length = CurTime() + 0.75;
 	self.Emitter = ParticleEmitter( self.Player:GetPos() );
