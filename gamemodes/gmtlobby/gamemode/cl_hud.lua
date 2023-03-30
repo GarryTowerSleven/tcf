@@ -729,12 +729,11 @@ function GM:GTowerHUDShouldDraw()
 end
 
 local e = {
-    ["DarkRP_HUD"] = true,
-    ["CHudHealth"] = true,
-    ["CHudCrosshair"] = true,
-    ["CHudAmmo"] = true
+    ["CHudMenu"] = true,
+    ["CHudGMod"] = true,
+    ["CHudChat"] = true
 }
 
 function GM:HUDShouldDraw(element)
-    return !e[element]
+    return e[element]
 end
