@@ -83,13 +83,13 @@ function ENT:PhysicsCollide( data, phys )
 		physent:SetVelocity( mulNorm )
 	end
 
-	ent:EmitSound( Sound("GModTower/misc/boing.wav"), 50, pitch )
+	ent:EmitSoundInLocation( self.Sound, 50, pitch )
 	self:Boing()
 
-	/*local loc = ent:Location()
-	local rp = Location.RP( loc )*/
+	local rp = self:GetLocationRP()
+	if ( not rp ) then return end
 
-	umsg.Start( "GTramp" )
+	umsg.Start( "GTramp", rp )
 		umsg.Entity( self.Entity )
 	umsg.End()
 

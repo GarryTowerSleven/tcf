@@ -6,6 +6,18 @@ include( "shared.lua" )
 include( "sh_meta.lua" )
 include( "teleport.lua" )
 
+module( "Location", package.seeall )
+
+function LocationRP( loc )
+    local rf = RecipientFilter()
+
+    for _, v in ipairs( GetPlayersInLocation( loc ) ) do
+        rf:AddPlayer( v )
+    end
+
+    return rf
+end
+
 local Player = FindMetaTable("Player")
 if Player then
     function Player:LastLocation()

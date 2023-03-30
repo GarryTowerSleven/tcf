@@ -87,6 +87,11 @@ local function CreateNewItem( Name, Item )
 	if Item.StoreId then
 		GTowerItems:CreateStoreItem( Item )
 	end
+
+	//Setup use sound with clsound
+	if Item.UseSound and clsound then
+		clsound.Register( "GModTower/inventory/" .. Item.UseSound )
+	end
 	
 	//Prepare the model to be wearable if necessary
 	if Item.ModelItem == true then

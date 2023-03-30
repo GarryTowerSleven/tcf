@@ -13,9 +13,7 @@ function ENT:Initialize()
 end
 
 function ENT:Use(ply, caller)
-
 	SafeCall( self.GivePresent, self, ply )
-
 end
 
 function ENT:TimedPickup(bool)
@@ -37,7 +35,7 @@ function ENT:GivePresent(ply)
 		end
 	end
 
-  self:EmitSound( self.SoundOpen, 80, math.random(80,125) )
+  self:EmitSoundInLocation( self.SoundOpen, 80, math.random(80,125) )
 
 	local function giveItem(item)
 		local itemID = GTowerItems:Get(item)

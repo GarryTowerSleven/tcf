@@ -26,7 +26,7 @@ function ENT:Use( ply, caller )
 	self.no = true
 	self.IsOn = !self.IsOn
 	self:ToggleLamp(RecipientFilter():AddAllPlayers())
-	self:EmitSound(Sound("gmodtower/inventory/use_lightsaber.wav"),70)
+	self:EmitSoundInLocation( self.Sound, 70 )
 	timer.Simple(1,function() self.no = false end)
 end
 

@@ -7,10 +7,10 @@ ENT.LoadRoom	= true
 
 ENT.Model		= Model( "models/gmod_tower/catbag.mdl")
 
-ENT.Nyan 		= {
-	Sound( "GModTower/lobby/catsack/nyan1.wav" ),
-	Sound( "GModTower/lobby/catsack/nyan2.wav" ),
-	Sound( "GModTower/lobby/catsack/nyan3.wav" )
+ENT.Nyan = {
+	clsound.Register( "GModTower/lobby/catsack/nyan1.wav" ),
+	clsound.Register( "GModTower/lobby/catsack/nyan2.wav" ),
+	clsound.Register( "GModTower/lobby/catsack/nyan3.wav" )
 }
 ENT.Phrases = {
 	"How mysterious~",
@@ -70,7 +70,7 @@ function ENT:Use( ply )
 
 	self.Opened = true
 
-	self:EmitSound( self.Nyan[math.random(1, #self.Nyan)] )
+	self:EmitSoundInLocation( self.Nyan[math.random(1, #self.Nyan)] )
 	ply:AddAchievement( ACHIEVEMENTS.CURIOUSCAT, 1 )
 
 	self:Remove()

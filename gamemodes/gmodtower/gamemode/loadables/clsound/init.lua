@@ -24,6 +24,8 @@ function meta:EmitSoundInLocation( snd, vol, pitch )
     local id = GetSoundID( snd )
     if ( not id ) then return end
 
+    // print( "[CLSound]", "Playing ID:", id, "|", ClientSounds[ id ], "in location:", Location.GetFriendlyName( loc ) )
+
     net.Start( "CLSound" )
         net.WriteEntity( self )
         net.WriteInt( id, 8 )

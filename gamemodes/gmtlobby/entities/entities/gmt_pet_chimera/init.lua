@@ -55,7 +55,7 @@ hook.Add( "KeyPress", "ChimeraRoarLol", function( ply, key )
 		ply.RoarTime = CurTime() + 5
 		ply.Chimera:SetCycle(0)
 		ply.Chimera:ResetSequence("idle3")
-		ply:EmitSound(ply.Chimera.Sound,60,125)
+		ply:EmitSoundInLocation(ply.Chimera.Sound,60,125)
 		local dur = ply.Chimera:SequenceDuration()
 		timer.Simple(dur,function()
 			if IsValid(ply.Chimera) then
@@ -99,19 +99,6 @@ function ENT:Teleport( ply )
 	self:PhysWake()
 
 	--self:EmitRandomSound( "Teleporting", 30 )
-end
-
-function ENT:EmitRandomSound( emotion, chance )
-
-	if ( chance && math.random( 1, chance ) != 1 ) then return end
-
-	local soundIndex = Pets.GetRandomSoundIndex( "melon", emotion )
-
-	if ( soundIndex == -1 ) then return end
-
-	local sound = Pets.GetSound( "melon", emotion, soundIndex )
-
-	self:EmitSound( sound, 80, 100 )
 end
 
 function ENT:Use( ply )

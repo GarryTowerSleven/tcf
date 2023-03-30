@@ -98,7 +98,7 @@ function ENT:PhysicsCollide( data, phys )
 
 		self:SetMaterial( self.LitMaterial )
 		self.Lit = CurTime()
-		self:EmitSound( self.BumpSound )
+		self:EmitSoundInLocation( self.BumpSound )
 
 		local edata = EffectData()
 		edata:SetOrigin( data.HitPos )
