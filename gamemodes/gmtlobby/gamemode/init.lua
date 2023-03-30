@@ -60,7 +60,8 @@ function GM:PlayerSpawn(ply)
     end
 
     ply:SendInventory()
-    GAMEMODE:PlayerLoadout(ply)
+    // GAMEMODE:PlayerLoadout(ply)
+    self.BaseClass.PlayerSpawn(self, ply)
 end
 
 net.Receive("Inventory", function(_, ply)

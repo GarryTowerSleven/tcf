@@ -269,7 +269,7 @@ else
 	end
 
 	function ENT:Think()
-		self:CalculateFFT()
+		// self:CalculateFFT()
 	end
 
 	function ENT:Draw()

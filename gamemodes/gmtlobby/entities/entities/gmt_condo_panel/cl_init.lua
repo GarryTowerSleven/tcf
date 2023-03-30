@@ -244,7 +244,7 @@ end
 
 hook.Add( "PlayerBindPress", "PlayerPanelUse", function( ply, bind, pressed )
 
-	local ent = GAMEMODE:PlayerUseTrace( ply )
+	local ent = ply:GetEyeTrace().Entity // GAMEMODE:PlayerUseTrace( ply )
 	ent = GAMEMODE:FindUseEntity( ply, ent )
 
 	if IsValid( ent ) and ent:GetClass() == "gmt_condo_panel" then

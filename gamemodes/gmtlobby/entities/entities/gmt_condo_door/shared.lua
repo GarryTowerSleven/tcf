@@ -26,6 +26,10 @@ function ENT:GetCondoDoorType()
 	return self:GetNWInt("CondoDoorType",1)
 end
 
+function ENT:isDoor()
+	return true
+end
+
 function ENT:GetCondo()
 	local condoid = self:GetCondoID()
 	return GtowerRooms:Get( condoid )

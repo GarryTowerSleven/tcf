@@ -98,8 +98,8 @@ end
 function ENT:Think()
 	self:NextThink(CurTime() + 3)
 
-	self:BuildInformation()
-	self:BuildPlayerInfo()
+	// self:BuildInformation()
+	// self:BuildPlayerInfo()
 
 	return true
 end

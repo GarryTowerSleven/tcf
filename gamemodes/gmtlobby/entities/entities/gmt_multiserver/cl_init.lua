@@ -89,6 +89,8 @@ end
 
 function ENT:DrawTranslucent()
 
+	if true then return end
+
 	if CurTime() > self.NextUpdate then
 		self:UpdateData()
 	end
