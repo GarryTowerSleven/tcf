@@ -6,7 +6,7 @@ module( "clsound", package.seeall )
 
 function GetSoundID( snd )
     for k, v in ipairs( ClientSounds ) do
-        if ( v == snd ) then
+        if ( v:lower() == snd:lower() ) then
             return k
         end
     end
@@ -27,8 +27,8 @@ function meta:EmitSoundInLocation( snd, vol, pitch )
     net.Start( "CLSound" )
         net.WriteEntity( self )
         net.WriteInt( id, 8 )
-        net.WriteInt( vol, 9 )
-        net.WriteInt( pitch, 9 )
+        net.WriteInt( vol or 0, 9 )
+        net.WriteInt( pitch or 0, 9 )
     net.Send( Location.GetPlayersInLocation( loc ) )
 end
 
