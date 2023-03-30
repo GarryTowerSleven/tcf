@@ -144,7 +144,7 @@ if SERVER then
 			self.HeldSaturn = nil
 		end
 
-		local ent = ents.Create( "gmt_saturn" )
+		local ent = ents.Create( "mr_saturn" )
 		if IsValid( ent ) then
 			ent:SetPos( self:GetPos() + Vector( 0, 0, 30 ) )
 			ent:Spawn()
