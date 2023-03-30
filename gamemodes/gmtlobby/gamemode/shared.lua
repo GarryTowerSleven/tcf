@@ -46,7 +46,7 @@ Loadables.Load( {
 	-- Old/Lobby 1
 	--------------------------------------------------------
 	--"theater",			-- Theater (Lobby 1)
-	--"soundbrowser",		-- Sound browser (Lobby 1)
+	"soundbrowser",			-- Sound browser (Lobby 1)
 	--"bassemitstream",		-- Emit stream (radios)
 	--"ragdollcontroller",	-- Player ragdolling (Lobby 1)
 	--"icon",				-- Scoreboard icons, no longer used
@@ -120,7 +120,7 @@ Loadables.Load( {
 	-- UI/Misc
 	---------------------------------------------------------
 	"question",				-- Global voting
-	-- "radialmenu",			-- Zak's radial menu system
+	-- "radialmenu",		-- Zak's radial menu system
 	-- "kickstarter",		-- Kickstarter feed
 	-- "multicore",			-- Possible Performance Booster
 

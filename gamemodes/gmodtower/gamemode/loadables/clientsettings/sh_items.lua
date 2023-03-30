@@ -204,7 +204,7 @@ ClientSettings.Items = {
 		NWType = "Bool",
 		Default = false,
 		SendType = false, //false=Admins, true=Player+admins
-		Disabled = true,
+		Disabled = false,
 	},
 	[23] = {
 		Name = "Allow Self-Ragdolling",

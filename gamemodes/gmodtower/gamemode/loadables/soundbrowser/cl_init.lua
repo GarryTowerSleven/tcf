@@ -1,11 +1,10 @@
----------------------------------
 local GTowerSound = {}
-GTowerSound.SoundPath = "../sound"
+GTowerSound.SoundPath = "sound/"
 GTowerSound.SoundFile = ""
 GTowerSound.PageNum = 0
 GTowerSound.SoundPlaying = {}
 
-GTowerSound.AllowSound = CreateClientConVar("gmt_AllowSoundSpam", 2, true, false)
+GTowerSound.AllowSound = CreateClientConVar("gmt_allowsoundspam", 2, true, false)
 
 function GTowerSound:ShowList()
 
@@ -27,10 +26,10 @@ function GTowerSound:ShowList()
 	self.browser.Text:SetSize(225, 20)
 	self.browser.Text:SetEditable(false)
 	
-	self.browser.BackButton = vgui.Create("DSysButton", self.browser.Panel)
+	self.browser.BackButton = vgui.Create("DButton", self.browser.Panel)
 	self.browser.BackButton:SetPos(20, 25)
 	self.browser.BackButton:SetSize(25, 25)
-	self.browser.BackButton:SetType("left")
+	self.browser.BackButton:SetText("<")
 	self.browser.BackButton.DoClick = function()
 		local backDir = string.Explode("/", self.SoundPath)
 		if #backDir <= 2 then return end
@@ -41,20 +40,20 @@ function GTowerSound:ShowList()
 		self:UpdateList(self.SoundPath) --Goes back a folder
 	end
 	
-	self.browser.BackButton = vgui.Create("DSysButton", self.browser.Panel)
+	self.browser.BackButton = vgui.Create("DButton", self.browser.Panel)
 	self.browser.BackButton:SetPos(self.browser.Text:GetWide() + 60, 25)
 	self.browser.BackButton:SetSize(25, 25)
-	self.browser.BackButton:SetType("left")
+	self.browser.BackButton:SetText("<")
 	self.browser.BackButton.DoClick = function()
 		if self.PageNum <= 0 then return end 
 		self.PageNum = self.PageNum - 1
 		self:UpdateList(self.SoundPath)
 	end
 	
-	self.browser.BackButton = vgui.Create("DSysButton", self.browser.Panel)
+	self.browser.BackButton = vgui.Create("DButton", self.browser.Panel)
 	self.browser.BackButton:SetPos(self.browser.Text:GetWide() + 85, 25)
 	self.browser.BackButton:SetSize(25, 25)
-	self.browser.BackButton:SetType("right")
+	self.browser.BackButton:SetText(">")
 	self.browser.BackButton.DoClick = function()
 		if self.PageNum >= self:PageNums() - 1 then return end
 		self.PageNum = self.PageNum + 1
@@ -62,7 +61,7 @@ function GTowerSound:ShowList()
 	end
 
 	self.browser.PlayButton = vgui.Create("DButton", self.browser.Panel)
-	self.browser.PlayButton:SetText("Play")
+	self.browser.PlayButton:SetText("Preview")
 	self.browser.PlayButton:SetPos(20, self.browser.Panel:GetTall() - 35)
 	self.browser.PlayButton:SetSize(50, 25)
 	self.browser.PlayButton.DoClick = function ()
@@ -84,7 +83,7 @@ function GTowerSound:ShowList()
 	self.browser.Volume:SetEnterAllowed(true)
 	self.browser.Volume:SetEditable(true)
 	
-	self.browser.VolumeL = vgui.Create("Label", self.browser.Panel)
+	self.browser.VolumeL = vgui.Create("DLabel", self.browser.Panel)
 	self.browser.VolumeL:SetPos(140, self.browser.Panel:GetTall() - 55)
 	self.browser.VolumeL:SetText("Volume")
 	
@@ -95,7 +94,7 @@ function GTowerSound:ShowList()
 	self.browser.Pitch:SetEnterAllowed(true)
 	self.browser.Pitch:SetEditable(true)
 	
-	self.browser.PitchL = vgui.Create("Label", self.browser.Panel)
+	self.browser.PitchL = vgui.Create("DLabel", self.browser.Panel)
 	self.browser.PitchL:SetPos(180, self.browser.Panel:GetTall() - 55)
 	self.browser.PitchL:SetText("Pitch")
 	
@@ -114,12 +113,12 @@ function GTowerSound:ShowList()
 	self.browser.ListView:AddColumn("Sound")
 	self.browser.ListView.OnClickLine = function(parent, line, isselected)
 		local soundFile = line:GetValue(1)
-		if self:IsFile( soundFile) then 
-			if self.SoundFile !=  soundFile then self.SoundFile = string.gsub(self.SoundPath, "../sound/", "") .. "/" .. soundFile print(self.SoundFile) end
+		if self:IsFile( soundFile ) then 
+			if self.SoundFile !=  soundFile then self.SoundFile = string.Replace( string.gsub(self.SoundPath, "sound/", "") .. "/" .. soundFile, "[DIR] ", "" ) print(self.SoundFile) end
 			return 
 		end
 		
-		self.SoundPath = self.SoundPath .. "/" .. line:GetValue(1)
+		self.SoundPath = string.Replace( self.SoundPath .. "/" .. line:GetValue(1), "[DIR] ", "" )
 		self:UpdateList(self.SoundPath)
 	end
 
@@ -127,12 +126,12 @@ function GTowerSound:ShowList()
 	
 end
 
-concommand.Add("gmt_SoundBrowser", function(ply, cmd, args) 
-		GTowerSound:ShowList()
-	end)
+concommand.Add( "gmt_soundbrowser", function( ply, cmd, args ) 
+	GTowerSound:ShowList()
+end )
 
 function GTowerSound:IsFile(fileName)
-	return table.HasValue({"wav", "mp3"}, string.GetExtensionFromFileName(fileName))
+	return table.HasValue({"wav", "mp3"}, string.GetExtensionFromFilename(fileName))
 end
 
 function GTowerSound:Play(soundPath, pitch)
@@ -144,7 +143,7 @@ function GTowerSound:Play(soundPath, pitch)
 end
 
 function GTowerSound:Stop()
-	--if timer.Exists("SoundBrowser") then timer.Remove("SoundBrowser") end
+	--if timer.IsTimer("SoundBrowser") then timer.Remove("SoundBrowser") end
 	RunConsoleCommand("stopsounds")
 end
 
@@ -158,28 +157,31 @@ function GTowerSound:UpdateList(dir)
 		local tbl = self:SetPage(self.PageNum)
 		
 		for _, v in pairs(tbl) do
-			self.browser.ListView:AddLine(v)
+			self.browser.ListView:AddLine( v )
 		end
 	end
 end
 
 function GTowerSound:Clear()
-	self.SoundPath = "../sound"
+	self.SoundPath = "sound/"
 	self.SoundFile = ""
 	self.PageNum = 0
 	if self.brower then self.browser.Panel:Close() end
 	self.browser = nil
 	self.FileList = nil
 end
-concommand.Add("gmt_ClearSoundBrowser", function(ply, cmd, args)
-		GTowerSound:Clear()
-	end)
+
+concommand.Add( "gmt_clearsoundbrowser", function(ply, cmd, args)
+	GTowerSound:Clear()
+end )
 	
 function GTowerSound:CreateList(dir)
-	local fileList = file.FindDir(dir .. "/*")
+	local files, fileList = file.Find( dir .. "/*", "GAME" )
+
+	table.Merge( fileList, files )
 	
-	for _, v in ipairs(file.Find(dir .. "/*")) do
-		if self:IsFile(v) then table.insert(fileList, v) end
+	for k, v in ipairs( fileList ) do
+		if not self:IsFile(v) then fileList[k] = "[DIR] " .. v end
 	end
 	
 	return fileList
@@ -199,42 +201,42 @@ function GTowerSound:PageNums()
 	return math.ceil(#self.FileList / 1000)
 end
 
-usermessage.Hook("GMTSoundPlay", function(um)
-		
-		--if GTowerSound.AllowSound:GetInt() == 1 then GTowerSound.SoundPlaying = true end
-		
-		if GTowerSound.AllowSound:GetInt() <= 0 then return end
-		
-		local info = {}
-		info.Ent = um:ReadEntity()
-		info.Sound = Sound(um:ReadString())
-		info.Volume = um:ReadShort()
-		info.Pitch = um:ReadShort()
-		
-		if !IsValid(info.Ent) then return end
-		
-		if GTowerSound.AllowSound:GetInt() == 1 then
-			if table.HasValue(GTowerSound.SoundPlaying, info.Ent:EntIndex()) then return end
-			table.insert(GTowerSound.SoundPlaying, info.Ent:EntIndex())
-		end
-		
-		info.Ent:EmitSound(info.Sound, info.Volume, info.Pitch)
-		
-		
-		if GTowerSound.SoundPlaying then 
-			local soundTime = math.ceil(SoundDuration(info.Sound) / (info.Pitch / 100))
-			
-			--Removes the entity from the list.
-			timer.Simple(soundTime, function()
-				for i, v in ipairs(GTowerSound.SoundPlaying) do
-					if v == info.Ent:EntIndex() then
-						table.remove(GTowerSound.SoundPlaying, i)
-					end
-				end
-			end) 
-		end
+usermessage.Hook( "GMTSoundPlay", function(um)
 
-	end)
+	--if GTowerSound.AllowSound:GetInt() == 1 then GTowerSound.SoundPlaying = true end
+	
+	if GTowerSound.AllowSound:GetInt() <= 0 then return end
+	
+	local info = {}
+	info.Ent = um:ReadEntity()
+	info.Sound = Sound(um:ReadString())
+	info.Volume = um:ReadShort()
+	info.Pitch = um:ReadShort()
+	
+	if !IsValid(info.Ent) then return end
+	
+	if GTowerSound.AllowSound:GetInt() == 1 then
+		if table.HasValue(GTowerSound.SoundPlaying, info.Ent:EntIndex()) then return end
+		table.insert(GTowerSound.SoundPlaying, info.Ent:EntIndex())
+	end
+	
+	info.Ent:EmitSound(info.Sound, info.Volume, info.Pitch)
+	
+	
+	if GTowerSound.SoundPlaying then 
+		local soundTime = math.ceil(SoundDuration(info.Sound) / (info.Pitch / 100))
+		
+		--Removes the entity from the list.
+		timer.Simple(soundTime, function()
+			for i, v in ipairs(GTowerSound.SoundPlaying) do
+				if v == info.Ent:EntIndex() then
+					table.remove(GTowerSound.SoundPlaying, i)
+				end
+			end
+		end) 
+	end
+
+end )
 	
 function ClearSoundList()
 	table.Empty(GTowerSound.SoundPlaying)
