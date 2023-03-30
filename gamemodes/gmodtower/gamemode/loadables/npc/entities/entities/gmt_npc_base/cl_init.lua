@@ -35,8 +35,8 @@ function ENT:Think()
 		end
 	end
 
-	self:AdditionalThink()
 	self:BlinkThink()
+	self:AdditionalThink()
 
 	self:SetNextClientThink( CurTime() )
 	self.LastThink = RealTime()
