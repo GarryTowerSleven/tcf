@@ -149,5 +149,5 @@ end
 -- @param ragdoll Clientside ragdoll model.
 --
 function ENT:SetupRagdoll( ragdoll )
-	self:SetupHats( ragdoll )
+	// self:SetupHats( ragdoll )
 end
