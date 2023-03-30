@@ -40,6 +40,10 @@ Items = {
         Description = "Build!",
         Model = "models/gmod_tower/messengerbag.mdl",
         Weapon = "weapon_physgun"
+    },
+    ["fists"] = {
+        Name = "Fists",
+        Weapon = "weapon_fists"
     }
 }
 
@@ -94,6 +98,8 @@ function GM:PlayerSpawn(ply)
             ply.Inventory[i][i2] = {}
         end
     end
+
+    ply.Inventory[1][1] = GetItem("fists")
 
     ply:SendInventory()
     // GAMEMODE:PlayerLoadout(ply)
