@@ -196,7 +196,7 @@ function SKIP_BTN:Init()
 
 	self.BaseClass.Init( self )
 
-	self:SetIcon( "mp-skip" )
+	self:SetIcon( "mp-thumbs-down" )
 
 end
 
