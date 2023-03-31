@@ -33,12 +33,12 @@ ENT.SLOTS = {
 	{"1 GMC", 4},
 	--{"Playable Piano", 18, "instrument_piano"},
 	{"Playable Piano", 17 * 6, "piano"},
-	{"500 GMC", 9},
+	{"500 GMC", 6*2},
 	{"Sunabouzu Shrine", 19 * 36, "sunshrine"},
 	{"Hula Doll", 4, "huladoll"},
 	{"Rave Ball", 18 * 10, "rave_ball"},
-	{"1500 GMC", 6 * 3},
-	{"Five Catsacks", 8 * 2, "mysterycatsack", 5},
+	{"1500 GMC", 6 * 4},
+	{"Five Catsacks", 6 * 2, "mysterycatsack", 5},
 	{"100 GMC", 6},
 	{"Random Holiday Item", 18 * 4, {
 		"sack_plushie",
@@ -55,7 +55,7 @@ ENT.SLOTS = {
 		"toyspider",
 		"toytraincart"
 	} },
-	{"Fireworks", 6 * 2, {
+	{"Fireworks", 10, {
 		"fwork_blossom",
 		"fwork_fountain",
 		"fwork_multi",
@@ -69,7 +69,7 @@ ENT.SLOTS = {
 		"fwork_ufo",
 		"fwork_firefly"
 	} },
-	{"Backpack", 7 * 2, "backpack"},
+	{"Backpack", 6 * 3, "backpack"},
 }
 
 ENT.GMCPayouts = {
