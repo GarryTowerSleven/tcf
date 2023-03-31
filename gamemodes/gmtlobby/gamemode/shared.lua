@@ -37,7 +37,7 @@ meta.Afford = meta.canAfford
 meta.AddMoney = meta.addMoney
 
 meta.MsgI = function(self, _, msg)
-    self:ChatPrint(msg)
+    // self:ChatPrint(msg)
 end
 
 meta.Location = function(self)
