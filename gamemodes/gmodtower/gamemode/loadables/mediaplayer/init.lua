@@ -6,6 +6,8 @@ function MediaPlayer.AddSkip( mp, ply )
     if ( not IsValid( ply ) or not IsValid( mp ) ) then return end
     if ( not mp._VoteskipManager ) then return end
 
+    if ( mp:GetQueueLocked() ) then return end
+
     local current = mp:CurrentMedia() or nil
     if ( not current ) then return end
     if ( current._Idlescreen ) then return end
