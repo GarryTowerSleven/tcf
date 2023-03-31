@@ -11,8 +11,8 @@ end
 function GM:PlayerSpawnedProp(ply, _, prop)
     ply:AddCount( "props", prop )
     prop:SetSkin(math.random(1, prop:SkinCount()))
-    prop:SetModelscale(0)
-    prop:SetModelscale(1, 0.2)
+    prop:SetModelScale(0)
+    prop:SetModelScale(1, 0.2)
 
     local effect = EffectData()
     effect:SetEntity(prop)
@@ -59,6 +59,38 @@ function GM:Think()
         end
     end
 end
+
+
+local Player = FindMetaTable("Player")
+if Player then
+    function Player:LastLocation()
+        return self._LastLocation
+    end
+end
+
+local _LocationDelay = 1
+local _LastLocationThink = CurTime() + _LocationDelay
+hook.Add( "Think", "GTowerLocation", function()
+    if ( CurTime() < _LastLocationThink ) then
+        return
+    end
+
+    _LastLocationThink = CurTime() + _LocationDelay
+
+    local players = player.GetAll()
+
+    for _, ply in ipairs( players ) do
+        local loc = Location.Find( ply:GetPos() + Vector(0,0,5) )
+
+        if ply._LastLocation != loc then
+            ply._Location = loc
+		    ply._LastLocation = loc
+
+            ply:SetNWInt( "Location", loc )
+            hook.Call( "Location", GAMEMODE, ply, loc, ply._LastLocation or 0 )
+        end
+    end
+end )
 
 function meta:GiveItem(item)
     local empty
