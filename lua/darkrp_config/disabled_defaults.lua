@@ -126,9 +126,9 @@ DarkRP.disabledDefaults["doorgroups"] = {
 Ammo packets
 ---------------------------------------------------------------------------]]
 DarkRP.disabledDefaults["ammo"] = {
-    ["Pistol ammo"]  = true,
-    ["Rifle ammo"]   = true,
-    ["Shotgun ammo"] = true,
+    ["Pistol ammo"]  = false,
+    ["Rifle ammo"]   = false,
+    ["Shotgun ammo"] = false,
 }
 
 --[[---------------------------------------------------------------------------
@@ -144,7 +144,7 @@ Chat groups (chat with /g)
 Chat groups do not have names, so their index is used instead.
 ---------------------------------------------------------------------------]]
 DarkRP.disabledDefaults["groupchat"] = {
-    [1] = true, -- Police group chat (mayor, cp, chief and/or your custom CP teams)
+    [1] = false, -- Police group chat (mayor, cp, chief and/or your custom CP teams)
     [2] = true, -- Group chat between gangsters and the mobboss
     [3] = true, -- Group chat between people of the same team
 }
