@@ -90,6 +90,115 @@ end
 local meta3 = FindMetaTable("Vector")
 meta3.WithinDistance = function(self, v1, d) return v1:DistToSqr(self) <= (d * d) end
 
+UCHAnim = {}
+UCHAnim.ValidPlayer = function(ply) return string.find(ply:GetModel(), "pig") end
+
+hook.Add( "CalcMainActivity", "UCHCalcMainActivity", function( ply, velocity )
+	if UCHAnim.ValidPlayer( ply ) then
+		ply.CalcIdeal = ACT_IDLE
+		ply.CalcSeqOverride = "idle"
+
+
+		local len2d = velocity:Length2D()
+		if ply:OnGround() then
+			if len2d > 0 then
+				if len2d > 200 then
+					ply.CalcSeqOverride = "run"
+				elseif len2d > 80 then
+					ply.CalcSeqOverride = "walk"
+				end
+				if ply:Crouching() then
+					ply.CalcSeqOverride = "crawl"
+				end
+			else
+				if ply:Crouching() || IsValid(ply:GetActiveWeapon()) && ply:GetActiveWeapon():GetClass() ~= "keys" then
+					ply.CalcSeqOverride = "crouchidle"
+				end
+			end
+		else
+			ply.CalcSeqOverride = "jump"
+		end
+		if ply:GetNWBool("Emoting") && ply:GetNWString("EmoteName") == "taunt" then // is taunting
+			ply.CalcSeqOverride = "taunt2"
+		end
+		if ply:GetNWBool("Emoting") && ply:GetNWString("EmoteName") == "wave" then // is taunting/wave
+			ply.CalcSeqOverride = "taunt"
+		end
+		if ply:WaterLevel() > 0 && !( ply:IsOnGround() && ply:WaterLevel() <= 2 ) then
+			local vel = ply:GetVelocity()
+			vel.z = 0
+			if vel:Length() > 5 then
+				ply.CalcSeqOverride = "swim"
+			else
+				ply.CalcSeqOverride = "swimidle"
+			end
+		end
+	
+
+		return ply.CalcIdeal, ply:LookupSequence( ply.CalcSeqOverride )
+	end
+end )
+
+
+hook.Add( "UpdateAnimation", "UCHUpdateAnimation", function( ply, velocity, maxseqgroundspeed )
+	if UCHAnim.ValidPlayer( ply ) then
+		local eye = ply:EyeAngles()
+		local estyaw = math.Clamp(  math.atan2( velocity.y, velocity.x ) * 180 / math.pi, -180, 180  )
+		local myaw = math.NormalizeAngle( math.NormalizeAngle( eye.y ) - estyaw )
+	    // set the move_yaw ( because it's not an hl2mp model )
+		ply:SetPoseParameter( "move_yaw", -myaw )
+		local len2d = velocity:Length2D()
+		local rate = 1.0
+		if len2d > 0.5 then
+			rate = ( len2d * 0.01 ) / maxseqgroundspeed
+		end
+		ply.SmoothBodyAngles = ply.SmoothBodyAngles || eye.y
+		local pp = ply:GetPoseParameter( "head_yaw" )
+		if ( pp > .9 || pp < .1 || len2d > 0 ) then
+			ply.SmoothBodyAngles = math.ApproachAngle( ply.SmoothBodyAngles, eye.y, 5 )
+			local y = ply.SmoothBodyAngles
+			// correct player angles
+			ply:SetLocalAngles(  Angle( 0, y, 0 )  )
+			/*if CLIENT then
+				local rang = ply:GetRenderAngles()
+				//local diff = ( math.abs( eye.y ) - math.abs( rang.y))
+				if len2d <= 0 then
+					local num = 65
+					if ply.IsGhost then
+						num = 25
+					end
+					if pp < .1 then
+						rang.y = ( rang.y - num )
+					else
+						rang.y = ( rang.y + num )
+					end
+				end
+				local diff = math.abs( math.AngleDifference( eye.y, rang.y ) )
+				local num = diff * .12
+				ply.SmoothBodyAnglesCL = ply.SmoothBodyAnglesCL || eye.y
+				ply.SmoothBodyAnglesCL = math.ApproachAngle( ply.SmoothBodyAnglesCL, eye.y, num )
+				ply:SetRenderAngles( Angle( 0, ply.SmoothBodyAnglesCL, 0 ) )
+			end*/
+		end
+		rate = math.Clamp( rate, 0, 1 )
+		ply:SetPlaybackRate( rate )
+	end
+end )
+
+hook.Add( "DoAnimationEvent", "UCHDoAnimationEvent", function( ply, event, data )
+	if UCHAnim.ValidPlayer( ply ) then
+		if event == PLAYERANIMEVENT_ATTACK_PRIMARY then
+			ply:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MELEE_ATTACK1, true )
+			return ACT_VM_PRIMARYATTACK
+		elseif event == PLAYERANIMEVENT_JUMP then
+			ply:AnimRestartMainSequence()
+			return ACT_INVALID
+		end
+		return nil
+	end
+end )
+
+
 Locations =  {
 	[1] = {
 		Regions = {
