@@ -82,7 +82,7 @@ function GetIDByName( name )
 end
 
 function GetByName( name )
-	return Location[ GetByIDName( name ) or 0 ] or nil
+	return Locations[ GetIDByName( name ) or 0 ] or nil
 end
 
 function GetName( id )

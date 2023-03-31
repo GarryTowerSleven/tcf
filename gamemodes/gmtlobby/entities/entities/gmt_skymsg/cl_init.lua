@@ -123,7 +123,7 @@ function ENT:DrawTheaterVideo()
 	--	return
 	--end
 
-	title = GetGlobalString( "CurVideo", "No video playing" )
+	local title = globalnet.GetNet( "CurVideo" ) or "No Video Playing"
 
 	if ( #title > 48 ) then
 		title = title:sub( 1, 48 ):Trim() .. "..."

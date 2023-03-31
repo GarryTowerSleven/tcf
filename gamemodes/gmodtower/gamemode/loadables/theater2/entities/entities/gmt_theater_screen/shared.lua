@@ -1,46 +1,63 @@
-AddCSLuaFile()
-
-ENT.PrintName = "GMT Theater Screen"
+ENT.PrintName = "GMT Theater Screen (Lobby 2)"
 
 ENT.Type = "anim"
 ENT.Base = "mediaplayer_base"
 
-ENT.Model = Model( "models/props_phx/rt_screen.mdl" )
-
-ENT.MediaPlayerType = "entity"
-ENT.IsMediaPlayerEntity = true
-
-ENT._Location = nil
-
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 
-DEFINE_BASECLASS( "mediaplayer_base" )
+local BaseClass = baseclass.Get( "mediaplayer_base" )
 
-list.Set( "MediaPlayerModelConfigs", ENT.Model, {
-	angle = Angle( -90, 90, 0 ),
-	offset = Vector( 0, 0, 0 ),
-	width = 880,
-	height = 495
-} )
+function ENT:Initialize()
 
-function ENT:OnMediaChanged( media )
-	if SERVER && media && self._Location then
-		SetGlobalString( "TheaterThumb_" .. tostring(self._Location), media:Thumbnail() or 0 )
-		SetGlobalString( "TheaterTitle_" .. tostring(self._Location), media:Title() or 0 )
+	if SERVER then
+		self:SetNoDraw( true )
+
+		local kv = self.keyvalues or {}
+
+		-- Unique ID (optional)
+		local mpId = kv.mpid
+
+		-- Media player type (optional)
+		local mpType = kv.mptype or "theater"
+		mpType = tostring(mpType):lower()
+
+		-- Install media player to entity
+		self:InstallMediaPlayer( mpType, mpId )
 	end
+
 end
 
-function ENT:SetupMediaPlayer( mp )
-	if SERVER then
-		mp:on("mediaChanged", function(media) self:OnMediaChanged(media) end)
+if SERVER then
+
+	function ENT:SetupMediaPlayer( mp )
+
+		local kv = self.keyvalues or {}
+
+		mp:SetTheaterConfig({
+			location = kv.location,
+			screenwidth = kv.screenwidth,
+			screenheight = kv.screenheight
+		})
+
 	end
 
-	local locName = Location.Get(self:Location()).Name
-	if locName then
-		self._Location = locName
-		if SERVER then
-			SetGlobalString( "TheaterThumb_" .. tostring(locName), 0 )
-			SetGlobalString( "TheaterTitle_" .. tostring(locName), 0 )
+	function ENT:Use()
+	end
+
+	function ENT:KeyValue( key, value )
+		if MediaPlayer and MediaPlayer.DEBUG then
+			print(self, key, value)
+		end
+
+		if not self.keyvalues then
+			self.keyvalues = {} or self.keyvalues
+		end
+
+		self.keyvalues[key] = value
+
+		if key:StartWith("On") then
+			self:StoreOutput( key, value )
 		end
 	end
+
 end

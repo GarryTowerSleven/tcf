@@ -33,9 +33,12 @@ function ENT:DrawTranslucent()
 	cam.Start3D2D( EntPos , ang, 0.1)
 		
 		pcall( function()
-			local Title
-			local Color
-			local Media = self:GetFirstMediaPlayerInLocation():GetMedia()
+			local Stream = self:GetStream()
+			if not Stream or not self.MediaPlayer then return end
+
+			local Media = self.MediaPlayer:GetMedia()
+			local Title = self.DefaultTitle
+			local Color = RedBox
 			
 			if ( Media != nil ) then
 				

@@ -68,6 +68,10 @@ Loadables.Load( {
 	--"racing",				-- Silly little minigame (WIP)
 	--"boss",				-- Boss battle (WIP)
 
+	-- Mediaplayer
+	---------------------------------------------------------
+	"mediaplayer",			-- Media player
+
 	-- Base Modules
 	---------------------------------------------------------
 	"inventory",			-- Inventory and items
@@ -102,7 +106,6 @@ Loadables.Load( {
 
 	-- Items Depend On These
 	---------------------------------------------------------
-	"mediaplayer",			-- Media player
 	"jetpack",				-- Jetpacks
 	"bonemod",				-- Bone modifications
 	"pet",					-- Pets

@@ -34,4 +34,18 @@ function meta:EmitSoundInLocation( snd, vol, pitch )
     net.Send( Location.GetPlayersInLocation( loc ) )
 end
 
+function meta:EmitSoundToPlayer( ply, snd, vol, pitch )
+    if ( not IsValid( ply ) ) then return end
+
+    local id = GetSoundID( snd )
+    if ( not id ) then return end
+
+    net.Start( "CLSound" )
+        net.WriteEntity( self )
+        net.WriteInt( id, 8 )
+        net.WriteInt( vol or 0, 9 )
+        net.WriteInt( pitch or 0, 9 )
+    net.Send( ply )
+end
+
 util.AddNetworkString( "CLSound" )
