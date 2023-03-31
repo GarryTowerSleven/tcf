@@ -1,5 +1,34 @@
 DeriveGamemode("darkrp")
 
+Items = {
+    ["pistol"] = {
+        Name = "Pistol",
+        Description = "Painful firearm!!!!!!!!!!!!!!!!!!",
+        Model = "models/weapons/w_pistol.mdl",
+        Weapon = "weapon_9mm"
+    },
+    ["build"] = {
+        Name = "Building",
+        Description = "Build!",
+        Model = "models/gmod_tower/messengerbag.mdl",
+        Weapon = "weapon_physgun"
+    },
+    ["fists"] = {
+        Name = "Fists",
+        Weapon = "weapon_fists"
+    },
+	["toyhammer"] = {
+		Name = "Toy Hammer",
+		Weapon = "gmt_kirby_hammer",
+		Model = "models/weapons/w_pvp_toy.mdl"
+	},
+	["grav"] = {
+		Name = "Gravity Gun",
+		Weapon = "weapon_physcannon",
+		Model = "models/weapons/w_physics.mdl"
+	}
+}
+
 function InCondo(pos)
     return pos.z > 11000
 end
@@ -59,7 +88,7 @@ meta2.GetCondoID = function()
 end
 
 local meta3 = FindMetaTable("Vector")
-meta3.WithinDistance = function() end
+meta3.WithinDistance = function(self, v1, d) return v1:DistToSqr(self) <= (d * d) end
 
 Locations =  {
 	[1] = {
@@ -2884,6 +2913,7 @@ Locations =  {
 	},
 } 
 Location = {}
+Location.IsTheater = function() return false end
 Location.Find = function( pos )
 
 	local currentLocation = 0

@@ -56,7 +56,7 @@ GM.Config.copscanunweld                 = false
 -- cpcanarrestcp - Allow/Disallow CPs to arrest other CPs.
 GM.Config.cpcanarrestcp                 = true
 -- currencyLeft - The position of the currency symbol. true for left, false for right.
-GM.Config.currencyLeft                  = true
+GM.Config.currencyLeft                  = false
 -- customjobs - Enable/disable the /job command (personalized job names).
 GM.Config.customjobs                    = true
 -- customspawns - Enable/disable whether custom spawns should be used.
@@ -317,14 +317,14 @@ Other settings
 -- Note: the money packet must support the "Setamount" method (or the amount DTVar).
 GM.Config.MoneyClass = "spawned_money"
 -- In case you do wish to keep the default money, but change the model, this option is the way to go:
-GM.Config.moneyModel = "models/props/cs_assault/money.mdl"
+GM.Config.moneyModel = "models/gmt_money/fifty.mdl"
 -- You can set your own, custom sound to be played for all players whenever a lockdown is initiated.
 -- Note: Remember to include the folder where the sound file is located.
 GM.Config.lockdownsound = "npc/overwatch/cityvoice/f_confirmcivilstatus_1_spkr.wav"
 
 -- The skin DarkRP uses. Set to "default" to use the GMod default derma theme.
-GM.Config.DarkRPSkin = "DarkRP"
-GM.Config.currency = "$"
+GM.Config.DarkRPSkin = "default"
+GM.Config.currency = "GMC"
 GM.Config.currencyThousandSeparator = ","
 GM.Config.chatCommandPrefix = "/"
 GM.Config.F1MenuHelpPage = "https://darkrp.miraheze.org/wiki/Main_Page"

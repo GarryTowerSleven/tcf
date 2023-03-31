@@ -17,7 +17,7 @@ Add your custom jobs under the following line:
 ---------------------------------------------------------------------------]]
 
 
-TEAM_CITIZEN = DarkRP.createJob("Player", {
+TEAM_CITIZEN = DarkRP.createJob("GMTower Player", {
     color = Color(255, 200, 0),
     model = {
         "models/player/Group01/Female_01.mdl",
@@ -35,10 +35,101 @@ TEAM_CITIZEN = DarkRP.createJob("Player", {
         "models/player/Group01/Male_08.mdl",
         "models/player/Group01/Male_09.mdl"
     },
-    description = [[The Citizen is the most basic level of society you can hold besides being a hobo. You have no specific role in city life.]],
+    description = [[]],
     weapons = {},
     command = "player",
     max = 0,
+    salary = GAMEMODE.Config.normalsalary,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    candemote = false,
+    category = "Other",
+})
+
+TEAM_STAFF = DarkRP.createJob("GMTower Shopkeeper", {
+    color = Color(255, 200, 0),
+    model = {
+        "models/humans/gmtsui1//Female_01.mdl",
+        "models/humans/gmtsui1//Female_02.mdl",
+        "models/humans/gmtsui1//Female_03.mdl",
+        "models/humans/gmtsui1//Female_04.mdl",
+        "models/humans/gmtsui1//Female_06.mdl",
+        "models/humans/gmtsui1//male_01.mdl",
+        "models/humans/gmtsui1//Male_02.mdl",
+        "models/humans/gmtsui1//male_03.mdl",
+        "models/humans/gmtsui1//Male_04.mdl",
+        "models/humans/gmtsui1//Male_05.mdl",
+        "models/humans/gmtsui1//Male_06.mdl",
+        "models/humans/gmtsui1//Male_07.mdl",
+        "models/humans/gmtsui1//Male_08.mdl",
+        "models/humans/gmtsui1//Male_09.mdl"
+    },
+    description = [[]],
+    weapons = {},
+    command = "staff",
+    max = 4,
+    salary = GAMEMODE.Config.normalsalary,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    candemote = false,
+    category = "Other",
+})
+
+TEAM_STAFF2 = DarkRP.createJob("GMTower Staff Member", {
+    color = Color(255, 200, 0),
+    model = {
+        "models/humans/gmtsui1//Female_01.mdl",
+        "models/humans/gmtsui1//Female_02.mdl",
+        "models/humans/gmtsui1//Female_03.mdl",
+        "models/humans/gmtsui1//Female_04.mdl",
+        "models/humans/gmtsui1//Female_06.mdl",
+        "models/humans/gmtsui1//male_01.mdl",
+        "models/humans/gmtsui1//Male_02.mdl",
+        "models/humans/gmtsui1//male_03.mdl",
+        "models/humans/gmtsui1//Male_04.mdl",
+        "models/humans/gmtsui1//Male_05.mdl",
+        "models/humans/gmtsui1//Male_06.mdl",
+        "models/humans/gmtsui1//Male_07.mdl",
+        "models/humans/gmtsui1//Male_08.mdl",
+        "models/humans/gmtsui1//Male_09.mdl"
+    },
+    description = [[]],
+    weapons = {},
+    command = "staff2",
+    max = 6,
+    salary = GAMEMODE.Config.normalsalary,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    candemote = false,
+    category = "Other",
+})
+
+TEAM_STAFF3 = DarkRP.createJob("GMTower Owner", {
+    color = Color(255, 200, 0),
+    model = "models/player/macdguy.mdl",
+    description = [[]],
+    weapons = {},
+    command = "staff3",
+    max = 1,
+    salary = GAMEMODE.Config.normalsalary,
+    admin = 0,
+    vote = true,
+    hasLicense = false,
+    candemote = false,
+    mayor = true,
+    category = "Other",
+})
+
+TEAM_STAFF4 = DarkRP.createJob("Merchant", {
+    color = Color(255, 200, 0),
+    model = "models/gmod_tower/merchant.mdl",
+    description = [[]],
+    weapons = {},
+    command = "staff4",
+    max = 3,
     salary = GAMEMODE.Config.normalsalary,
     admin = 0,
     vote = false,
@@ -56,7 +147,8 @@ Define which teams belong to civil protection
 Civil protection can set warrants, make people wanted and do some other police related things
 ---------------------------------------------------------------------------]]
 GAMEMODE.CivilProtection = {
-
+    TEAM_STAFF2,
+    TEAM_STAFF3
 }
 --[[---------------------------------------------------------------------------
 Jobs that are hitmen (enables the hitman menu)

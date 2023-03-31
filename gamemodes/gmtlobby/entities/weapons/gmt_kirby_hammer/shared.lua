@@ -2,55 +2,78 @@ SWEP.Base					= "weapon_base"
 
 if SERVER then
 	AddCSLuaFile( "shared.lua" )
-	util.AddNetworkString("JumpPuff")
 end
 
 if CLIENT then
-	SWEP.DrawCrosshair		= false
+	SWEP.DrawCrosshair	 = false
 end
 
-SWEP.PrintName 				= "Kirby Hammer"
-SWEP.Slot					= 0
-SWEP.SlotPos				= 2
+SWEP.PrintName 			 = "Toy Hammer"
+SWEP.Slot				 = 0
+SWEP.SlotPos			 = 1
 
-SWEP.ViewModel				= "models/weapons/v_kirby_hammer.mdl"
-SWEP.WorldModel				= "models/bumpy/kirby_hammer.mdl"
-SWEP.ViewModelFlip			= false
-SWEP.HoldType				= "melee2"
+SWEP.ViewModel			 = "models/weapons/v_pvp_toy.mdl"
+SWEP.WorldModel			 = "models/weapons/w_pvp_toy.mdl"
+SWEP.ViewModelFlip		 = false
+SWEP.HoldType			 = "melee"
 
-SWEP.Primary.Automatic		= false
-SWEP.Primary.Ammo			= "none"
-SWEP.Primary.Damage			= {35, 45}
-SWEP.Primary.Delay			= 1
+SWEP.Primary.Automatic	= true
+SWEP.Primary.UnlimAmmo	= true
+SWEP.Primary.Effect		= "toy_zap"
+SWEP.Primary.Sound		= "GModTower/pvpbattle/ToyHammer/ToyZap.wav"
+SWEP.Primary.Damage		= {8, 12}
 
-SWEP.CrosshairDisabled	 	= true
-SWEP.SwordHit				= "GModTower/gourmetrace/actions/hammer_hitblock.wav"
-SWEP.SwordHitFlesh			= {	"GModTower/gourmetrace/actions/hammer_hitblock.wav",
-								"GModTower/gourmetrace/actions/hammer_hitblock.wav",
-								"GModTower/gourmetrace/actions/hammer_hitblock.wav",
-								"GModTower/gourmetrace/actions/hammer_hitblock.wav" }
-SWEP.SwordMiss				= {	"GModTower/gourmetrace/actions/hammer1.wav",
-								"GModTower/gourmetrace/actions/hammer2.wav" }
+SWEP.Secondary.Damage	= {80, 90}
 
-function SWEP:Initialize()
+SWEP.AutoReload			= false
 
-	self:SetWeaponHoldType( self.HoldType )
+SWEP.SoundDeploy		= Sound("GModTower/pvpbattle/ToyHammer/ToyDeploy.wav")
+SWEP.SoundSwing			= Sound("weapons/iceaxe/iceaxe_swing1.wav")
+
+SWEP.CrosshairDisabled	= true
+SWEP.LaserDelay			= CurTime()
+
+SWEP.MeleeHitSound		= {	"GModTower/pvpbattle/ToyHammer/ToyHit1.wav",
+							"GModTower/pvpbattle/ToyHammer/ToyHit2.wav",
+							"GModTower/pvpbattle/ToyHammer/ToyHit3.wav" }
+
+SWEP.Description		= "Squeak your opponents to their death. Doesn't deal much damage, so be careful."
+SWEP.StoreBuyable		= true
+SWEP.StorePrice 		= 0
+
+util.PrecacheModel( SWEP.ViewModel )
+util.PrecacheModel( SWEP.WorldModel )
+
+function SWEP:Think()
+	self.BaseClass:Think()
+
+	if self.LaserDelay < CurTime() then
+		self.Owner._LaserOn = false
+	end
+
+	self:SetHoldType("melee")
+end
+
+function SWEP:FireLaser()
+
+	self:SetNextPrimaryFire( CurTime() + 1 )
+	self.Owner._LaserOn = true
+	self.LaserDelay = CurTime() + 0.15
+
+	self:ShootBullet(self.Primary.Damage, 1, 0, "none")
+	self:ShootEffects(self.Primary.Sound, Angle( 2, 1, 0 ), self.Primary.Effect, ACT_VM_HITCENTER)
 
 end
 
 function SWEP:PrimaryAttack()
 	if !self:CanPrimaryAttack() then return end
 
-	if Location.IsTheater( Location.Find(self:GetOwner():GetPos()) ) then return end
 
-	self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
+		self:SetNextPrimaryFire( CurTime() + 0.5 )
+		self:ShootMelee( self.Primary.Damage, self.MeleeHitSound, self.MeleeHitSound, self.SoundSwing )
 
-	/*if IsFirstTimePredicted() then
-		self.Weapon:EmitSound( self.SwordSwing[#self.SwordSwing] )
-	end*/
-
-	self:ShootMelee( self.Primary.Damage, self.SwordHit, self.SwordHitFlesh, self.SwordMiss )
 end
+
 
 function SWEP:ShootMelee( dmg, hitworld_sound, hitply_sound, miss_sound )
 
@@ -62,11 +85,7 @@ function SWEP:ShootMelee( dmg, hitworld_sound, hitply_sound, miss_sound )
 	local sound = miss_sound
 
 	if trace.Hit then
-		if IsValid(trace.Entity) && (trace.Entity:IsPlayer() or trace.Entity:IsNPC()) then
-			sound = hitply_sound
-		else
-			sound = miss_sound
-		end
+		sound = hitply_sound
 	end
 
 	if sound && IsFirstTimePredicted() then
@@ -88,7 +107,19 @@ function SWEP:ShootMelee( dmg, hitworld_sound, hitply_sound, miss_sound )
 		else
 			bdmg	= dmg
 		end
+
+		trace.Entity:TakeDamage(bdmg)
 	end
+end
+
+function SWEP:SecondaryAttack()
+
+	if ( !self.Owner:IsAdmin() ) then return end
+
+	if !string.StartWith(game.GetMap(),"gmt_lobby") then return end
+
+	self:FireLaser()
+
 end
 
 function SWEP:Reload()
@@ -100,75 +131,5 @@ function SWEP:CanPrimaryAttack()
 end
 
 function SWEP:CanSecondaryAttack()
-	return false
-end
-
-function SWEP:Deploy()
-	self:SendWeaponAnim( ACT_VM_DRAW )
 	return true
-end
-
-if SERVER then
-
-function SWEP:Think()
-	if !self.Owner:Alive() then return end
-	self:NextThink(CurTime() + 6)
-end
-
-end
-
-hook.Add( "KeyPress", "keypress_jump_super_l", function( ply, key )
-	if not IsFirstTimePredicted() then return end
-	if !IsValid( ply:GetActiveWeapon() ) or ply:GetActiveWeapon():GetClass() != "gmt_kirby_hammer" then return end
-	if Location.IsTheater( Location.Find(ply:GetPos()) ) then return end
-	if ( key == IN_JUMP ) then
-		if ply:CanDoubleJump() && SERVER then
-			ply:DoubleJump()
-			net.Start("JumpPuff")
-			net.WriteEntity(ply)
-			net.Broadcast()
-		end
-	end
-end )
-
-hook.Add( "OnPlayerHitGround", "ResetDoubleJump", function( ply )
-	ply.FirstDoubleJump = true
-end )
-
-net.Receive("JumpPuff",function()
-	local ent = net.ReadEntity()
-	if !IsValid(ent) then return end
-	local vPoint = ent:GetPos()
-	local effectdata = EffectData()
-	effectdata:SetOrigin( vPoint )
-	util.Effect( "jump_puff", effectdata)
-end)
-
-local meta = FindMetaTable( "Player" )
-
-function meta:CanDoubleJump()
-
-	local add = 36; //how much to increase the required z velocity per jump
-	local numjumps = 1; //how many jumps you're allowed before increasing the required z velocity
-
-	local num = -( 150 - ( add * numjumps ) + ( add * self:GetNWInt( "DoubleJumpNum" ) ) )
-
-	if !self:IsOnGround() and self.FirstDoubleJump then
-		return true
-	else
-	   return false
-   end
-
-end
-
-function meta:DoubleJump()
-
-	local upward_velocity = 175
-
-	self:SetVelocity((self:GetVelocity() * 0.6 )+Vector(0,0,upward_velocity));
-
-	self.FirstDoubleJump = false
-	self:EmitSound( "GModTower/gourmetrace/actions/jump.wav", 60, math.random(100,110) )
-	self:SetNWInt( "DoubleJumpNum", self:GetNWInt( "DoubleJumpNum" ) + 1 )
-
 end

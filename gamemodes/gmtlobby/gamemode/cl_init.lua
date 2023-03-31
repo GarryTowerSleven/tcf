@@ -263,6 +263,7 @@ function GM:OnSpawnMenuOpen()
 
 	if ( IsValid( g_SpawnMenu ) ) then
 		g_SpawnMenu:Open()
+        if LocalPlayer():IsAdmin() then return end
 		// menubar.ParentTo( g_SpawnMenu )
         if IsValid(menubar.Control) then
         menubar.Control:Hide()
@@ -301,3 +302,6 @@ function GM:OnSpawnMenuClose()
     if ( IsValid( g_SpawnMenu ) ) then g_SpawnMenu:Close() end
 	hook.Call( "SpawnMenuClosed", self )
 end
+
+colorutil = {}
+colorutil.Brighten = function(col) return col end

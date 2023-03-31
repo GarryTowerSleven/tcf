@@ -28,27 +28,23 @@ function meta:SendInventory()
     net.Send(self)
 end
 
-Items = {
-    ["pistol"] = {
-        Name = "Pistol",
-        Description = "Painful firearm!!!!!!!!!!!!!!!!!!",
-        Model = "models/weapons/w_pistol.mdl",
-        Weapon = "weapon_pistol"
-    },
-    ["build"] = {
-        Name = "Building",
-        Description = "Build!",
-        Model = "models/gmod_tower/messengerbag.mdl",
-        Weapon = "weapon_physgun"
-    },
-    ["fists"] = {
-        Name = "Fists",
-        Weapon = "weapon_fists"
-    }
-}
-
 function GetItem(name)
     local item = table.Copy(Items[name])
+    item.ID = name
+    return item
+end
+
+function SpawnItem(name)
+    local item = ents.Create("spawned_weapon")
+    local item2 = GetItem(name)
+    item.Use = function(self, ply)
+        ply:GiveItem(name)
+        ply:ChatPrint("Picked up a " .. item2.Name)
+        self:Remove()
+    end
+    item:SetModel(item2.Model or "models/weapons/w_physics.mdl")
+    item:PhysicsInit(SOLID_VPHYSICS)
+    item:Spawn()
     return item
 end
 
@@ -58,6 +54,18 @@ function GM:Think()
             ply:Give("keys")
         end
     end
+end
+
+function GM:PlayerDeath(ply)
+    for _, i in ipairs(ply.Inventory) do
+    for _, i2 in ipairs(i) do
+        if i2.Name and i2.Model then
+            print(i2, i2.ID)
+            local item = SpawnItem(i2.ID)
+            item:SetPos(ply:GetPos())
+        end
+    end
+end
 end
 
 
@@ -133,9 +141,13 @@ function GM:PlayerSpawn(ply)
 
     ply.Inventory[1][1] = GetItem("fists")
 
+    ply.Inventory[2][1] = GetItem("grav")
+
     ply:SendInventory()
     // GAMEMODE:PlayerLoadout(ply)
     self.BaseClass.PlayerSpawn(self, ply)
+
+    ply:SetPlayerColor(Vector(math.Rand(0, 1), math.Rand(0, 1), math.Rand(0, 1)))
 end
 
 net.Receive("Inventory", function(_, ply)
@@ -526,9 +538,24 @@ function load()
             ent:GetPhysicsObject():EnableMotion(false)
         end
     end
+
+    local merchant = ents.Create("npc")
+    merchant:SetPos(Vector(3016, -3084, -831 - 64))
+    merchant:SetAngles(Angle(0, 70, 0))
+    merchant:Spawn()
+    merchant:SetModel("models/gmod_tower/merchant.mdl")
+    merchant:SetSequence(merchant:LookupSequence("lineidle01"))
+    merchant.Selling = {
+        ["build"] = 800,
+        ["pistol"] = 1200,
+        ["toyhammer"] = 900
+    }
+    print(merchant)
 end
 
 function GM:InitPostEntity()
+    if LOADED then return end
+    LOADED = true
     load()
 end
 
