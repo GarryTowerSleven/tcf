@@ -53,7 +53,33 @@ function GM:Think()
         if !IsValid(ply:GetActiveWeapon()) then
             ply:Give("keys")
         end
+
+        if UCHAnim.ValidPlayer(ply) then
+            ply:MakePiggyNoises()
+        end
     end
+end
+
+function meta:MakePiggyNoises()
+
+    if !UCHAnim.ValidPlayer(self) || !self:Alive() then return end
+
+    self.LastSnort = self.LastSnort || CurTime() + math.random( 9, 14 )
+
+    if CurTime() >= self.LastSnort then
+        
+        self:EmitSound( "UCH/pigs/snort" .. tostring( math.random( 1, 4 ) ) .. ".wav", 75, math.random( 90, 105 ) )
+
+        local num = math.Rand( 6, 9 )
+
+        //if self:GetNWBool("IsScared") || !self:CanSprint() then
+        //    num = num * .25
+        //end
+        
+        self.LastSnort = CurTime() + num
+        
+    end
+
 end
 
 function GM:PlayerDeath(ply)
@@ -66,7 +92,32 @@ function GM:PlayerDeath(ply)
         end
     end
 end
+
+if UCHAnim.ValidPlayer(ply) then
+    ply:EmitSound("uch/pigs/die.wav")
+else
+    //ply:EmitSound("player/death" .. math.random(6) .. ".wav")
 end
+
+end
+
+function GM:PostEntityTakeDamage(ply, _, take)
+    if !take then return end
+    print("!", ply)
+    if IsValid(ply) and UCHAnim.ValidPlayer(ply) then
+        ply:EmitSound( "UCH/pigs/squeal" .. tostring( math.random( 1, 3 ) ) .. ".wav", 80, math.random( 90, 105 ) )
+    
+    elseif IsValid(ply) then
+        ply:EmitSound(string.find(ply:GetModel(), "kleiner") and "vo/k_lab/kl_ahhhh.wav" or "vo/npc/" .. (string.find(ply:GetModel(), "female") and "fe" or "") .. "male01/pain0" .. math.random(9) .. ".wav", 80, math.random(90, 105))
+    end
+
+end
+
+function GM:PlayerDeathSound()
+    return true
+end
+
+
 
 
 local Player = FindMetaTable("Player")
@@ -170,7 +221,7 @@ net.Receive("Inventory", function(_, ply)
         ply:Give(item.Weapon)
         ply:SelectWeapon(ply:GetWeapon(item.Weapon))
 
-        ply:GiveAmmo(9999, ply:GetWeapon(item.Weapon):GetPrimaryAmmoType())
+        // ply:GiveAmmo(9999, ply:GetWeapon(item.Weapon):GetPrimaryAmmoType())
     end
 
     ply:SendInventory()
