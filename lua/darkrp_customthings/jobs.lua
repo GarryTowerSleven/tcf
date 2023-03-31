@@ -48,7 +48,7 @@ TEAM_CITIZEN = DarkRP.createJob("GMTower Player", {
 })
 
 TEAM_STAFF = DarkRP.createJob("GMTower Shopkeeper", {
-    color = Color(255, 200, 0),
+    color = Color(81, 182, 255),
     model = {
         "models/humans/gmtsui1//Female_01.mdl",
         "models/humans/gmtsui1//Female_02.mdl",
@@ -78,7 +78,7 @@ TEAM_STAFF = DarkRP.createJob("GMTower Shopkeeper", {
 })
 
 TEAM_STAFF2 = DarkRP.createJob("GMTower Staff Member", {
-    color = Color(255, 200, 0),
+    color = Color(82, 82, 82),
     model = {
         "models/humans/gmtsui1//Female_01.mdl",
         "models/humans/gmtsui1//Female_02.mdl",
@@ -103,12 +103,12 @@ TEAM_STAFF2 = DarkRP.createJob("GMTower Staff Member", {
     admin = 0,
     vote = false,
     hasLicense = false,
-    candemote = false,
+    candemote = true,
     category = "Other",
 })
 
 TEAM_STAFF3 = DarkRP.createJob("GMTower Owner", {
-    color = Color(255, 200, 0),
+    color = Color(21, 21, 21),
     model = "models/player/macdguy.mdl",
     description = [[]],
     weapons = {},
@@ -118,13 +118,13 @@ TEAM_STAFF3 = DarkRP.createJob("GMTower Owner", {
     admin = 0,
     vote = true,
     hasLicense = false,
-    candemote = false,
+    candemote = true,
     mayor = true,
     category = "Other",
 })
 
 TEAM_STAFF4 = DarkRP.createJob("Merchant", {
-    color = Color(255, 200, 0),
+    color = Color(136, 42, 128),
     model = "models/gmod_tower/merchant.mdl",
     description = [[]],
     weapons = {},
@@ -137,6 +137,37 @@ TEAM_STAFF4 = DarkRP.createJob("Merchant", {
     candemote = false,
     category = "Other",
 })
+
+TEAM_PIG = DarkRP.createJob("Pigmask", {
+    color = Color(255, 175, 224),
+    model = "models/uch/pigmask.mdl",
+    description = [[]],
+    weapons = {},
+    command = "pigmask",
+    max = 4,
+    salary = GAMEMODE.Config.normalsalary,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    candemote = false,
+    category = "Other",
+})
+
+TEAM_PIG2 = DarkRP.createJob("Pigmask Colonel", {
+    color = Color(255, 175, 224),
+    model = "models/uch/pigmask.mdl",
+    description = [[]],
+    weapons = {},
+    command = "pigmaskc",
+    max = 1,
+    salary = GAMEMODE.Config.normalsalary,
+    admin = 0,
+    vote = true,
+    hasLicense = false,
+    candemote = true,
+    category = "Other",
+})
+
 
 --[[---------------------------------------------------------------------------
 Define which team joining players spawn into and what team you change to if demoted
