@@ -122,6 +122,8 @@ end )
 
 local function ExitTransition(ply, index)
 
+	if true then return end
+
 
 	if LocalPlayer() == ply && !LocalPlayer().HasWelcomed then
 		LocalPlayer().HasWelcomed = true

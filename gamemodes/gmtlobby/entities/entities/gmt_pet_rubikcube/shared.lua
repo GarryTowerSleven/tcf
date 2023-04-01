@@ -1,5 +1,4 @@
 if !Pets then
-	SQLLog( 'error', "Pets module not loaded, pet entity will not load!\n" )
 	return
 end
 

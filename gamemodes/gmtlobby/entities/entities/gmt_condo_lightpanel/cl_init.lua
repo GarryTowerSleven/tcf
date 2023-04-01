@@ -20,7 +20,6 @@ function ENT:Initialize()
 	self.my = 0
 	self.visible = false
 	self.mousePress = false
-	self:SetupScreen()
 
 end
 
@@ -52,16 +51,7 @@ end
 
 
 function ENT:Draw()
-
-	if !self.screen then
-		self:SetupScreen()
-	end
-
-	self.mx, self.my, self.visible = self.screen:GetMouse()
-	LocalPlayer().UsingPanel = ( self.visible and self or nil )
-	self.screen:Draw()
 	self:DrawModel()
-
 end
 
 function ENT:SetLightColor( color )

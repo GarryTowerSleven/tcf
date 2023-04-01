@@ -5,7 +5,7 @@ ENT.Type = "anim"
 function ENT:Initialize()
 	if CLIENT then
 		timer.Simple( 0.1, function()
-			GtowerRooms.FindRefEnts( GtowerRooms ) 
+			// GtowerRooms.FindRefEnts( GtowerRooms ) 
 		end)
 	end
 	

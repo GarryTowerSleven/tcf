@@ -21,6 +21,7 @@ function ENT:Initialize()
 end
 
 function ENT:Use(ply)
+    self.Selling.BaseClass = nil
     net.Start("shop_open")
     net.WriteEntity(self)
     net.WriteTable(self.Selling or {
@@ -45,7 +46,7 @@ concommand.Add("buy", function(ply, _, args)
 
     cost = tonumber(cost)
 
-    if !ply:canAfford(cost) then return end
+    if !ply:canAfford(cost) then ply:ChatPrint("Not enough cash, stranger!") return end
     
     ply:GiveItem(item)
     ply:AddMoney(-cost)
@@ -68,6 +69,7 @@ net.Receive("shop_open", function()
     local scroll = vgui.Create("DScrollPanel", store)
     scroll:Dock(FILL)
 
+    store:SetTitle("")
     store:SetAlpha(0)
     store:AlphaTo(255, 0.2)
     store:SetPos(ScrW() / 2 - store:GetWide() / 2, ScrH() / 2 - store:GetTall())
@@ -98,6 +100,9 @@ net.Receive("shop_open", function()
             i2:SetText("BUY")
             i2:SetFontInternal("DermaLarge")
             i2:Dock(RIGHT)
+            i2.DoClick = function()
+                RunConsoleCommand("buy", _, item)
+            end
 
             if item2.Model then
                 local mdl = vgui.Create("SpawnIcon", i)

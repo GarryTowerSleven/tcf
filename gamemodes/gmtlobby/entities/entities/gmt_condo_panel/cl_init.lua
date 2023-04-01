@@ -18,9 +18,6 @@ function ENT:Initialize()
 	self.mousePress = false
 	self.interact = false
 	self.homePress = false
-		
-	self:OSInit()
-	self:SetupScreen()
 
 end
 
@@ -62,11 +59,6 @@ function ENT:SetScreenFacade(mat)
 end
 
 function ENT:Draw()
-
-	mx, my, visible = self.screen:GetMouse()
-	LocalPlayer().UsingPanel = ( visible and self or nil )
-	self.screen:Draw()
-	self:DrawModel()
 
 end
 

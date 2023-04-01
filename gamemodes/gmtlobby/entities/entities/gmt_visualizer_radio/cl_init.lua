@@ -2,7 +2,7 @@ include('shared.lua')
 
 ENT.OffsetForward = 4
 ENT.OffsetUp = -5
-ENT.DefaultTitle = T("RadioTurnedOff")
+ENT.DefaultTitle = "OFF" // T("RadioTurnedOff")
 
 local GreenBox	= Color( 0, 255, 0, 50 )
 local RedBox	= Color( 255, 0, 0, 50 )

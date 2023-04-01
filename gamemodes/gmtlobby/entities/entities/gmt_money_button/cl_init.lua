@@ -16,7 +16,6 @@ localInfo_s = {
 
 
 include("cl_overlay.lua")	--screenspace effects
-include("cl_hud.lua")		--hud element
 
 --Bring to localInfo to scope
 local localInfo = localInfo_s

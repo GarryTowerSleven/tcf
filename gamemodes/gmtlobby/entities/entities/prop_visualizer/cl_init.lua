@@ -17,16 +17,6 @@ local function Rainbow( speed, offset, saturation, value )
 end
 
 function ENT:Think()
-	local Controller = self:GetOwner()
-
-	-- Get the theme color from the controller itself
-	if IsValidController(Controller) then
-		self.VisualizerGlowVector = Controller:GetThemeColor():ToVector()
-
-	-- Uhhh just kinda guess what it is
-	else
-		self.VisualizerGlowVector = Rainbow(10):ToVector()
-	end
 end
 
 

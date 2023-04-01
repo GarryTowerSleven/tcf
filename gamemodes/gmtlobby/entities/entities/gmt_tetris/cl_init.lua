@@ -206,10 +206,10 @@ end
 
 function ENT:AdjustMusic( score )
 
-	self.MusicRate = math.Fit( score, 0, 5000, .85, 1.8 )
+	self.MusicRate = math.Rand(0.4, 1.8)
 
 	if self.Music then
-		self.Music:ChangePitch( 100 * self.MusicRate, 0 )
+		self.Music:ChangePitch( 100 * self.MusicRate, 2 )
 		self.RepeatMusicTime = self.MusicStart + ( self.MusicLength / self.MusicRate )
 	end
 

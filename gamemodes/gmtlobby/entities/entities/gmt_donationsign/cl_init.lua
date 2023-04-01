@@ -4,6 +4,20 @@ ENT.RenderGroup = RENDERGROUP_BOTH
 
 function ENT:Draw()
 	self:DrawModel()
+
+	print(self:GetPos())
+	cam.Start3D2D(self:GetPos() + self:GetRight() * -128 - Vector(0, 0, 0) + self:GetForward() * 24, self:GetAngles() + Angle(90, 0, 0), 1)
+	if !IsValid(TowerUnite) then
+		TowerUnite = vgui.Create("DHTML")
+		TowerUnite:SetSize(640, 480)
+		TowerUnite:SetPos(0, 0)
+		TowerUnite:SetPaintedManually(true)
+		TowerUnite:OpenURL("https://store.steampowered.com/widget/394690/")
+	else
+		TowerUnite:PaintManual()
+	end
+
+	cam.End3D2D()
 end
 
 function ENT:Think()

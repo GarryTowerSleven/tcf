@@ -51,7 +51,9 @@ end
 function GM:Think()
     for _, ply in ipairs(player.GetAll()) do
         if !IsValid(ply:GetActiveWeapon()) then
-            ply:Give("keys")
+            ply.PickingUp = true
+            ply:Give((ply:Team() == TEAM_SATURN || ply:Team() == TEAM_KLEINER) && "weapon_bugbait" or "keys")
+            ply.PickingUp = false
         end
 
         if UCHAnim.ValidPlayer(ply) then
@@ -82,10 +84,56 @@ function meta:MakePiggyNoises()
 
 end
 
+function GM:PlayerChangedTeam(ply, _, new)
+    if new == TEAM_PIG then
+        ply:SetSkin(math.random(0, 2))
+        ply:SetBodygroup(2, 0)
+        ply:SetBodygroup(1, ply:GetSkin() == 2 and 1 or 0)
+    elseif new == TEAM_PIG2 then
+        ply:SetSkin(3)
+        ply:SetBodygroup(2, 1)
+    end
+
+    if new == TEAM_PIG or new == TEAM_PIG2 then
+        ply:SetViewOffset(Vector(0, 0, 52))
+    elseif new == TEAM_SATURN then
+        ply:SetViewOffset(Vector(0, 0, 28))
+        ply:SetViewOffsetDucked(Vector(0, 0, 28))
+    else
+        ply:SetViewOffset(Vector(0, 0, 64))
+    end
+
+    if new == TEAM_SATURN then
+        ply:SetHull(Vector(-8, -8, 0), Vector(8, 8, 24))
+        ply:SetHullDuck(ply:GetHull())
+    else
+        ply:SetHull(Vector(-16, -16, 0), Vector(16, 16, 72))
+        ply:SetHullDuck(Vector(-16, -16, 0), Vector(16, 16, 32))
+    end
+end
+
+function GM:PlayerSetHandsModel(ply, ent)
+	timer.Simple(0.1, function()
+		if !IsValid(ply) || !IsValid(ent) then return end
+		ent:SetModel(ply:GetModel())
+		ent:SetMaterial(nil)
+		for i = 0, ent:GetBoneCount() - 1 do
+			local name = ent:GetBoneName(i)
+			name = name && string.lower(name) || nil
+			if !name || !string.find(name, "arm") && !string.find(name, "hand") && !string.find(name, "finger") && !string.find(name, "wrist") && !string.find(name, "ulna") then
+				ent:ManipulateBoneScale(i, Vector(math.huge, math.huge, math.huge))
+			else
+				ent:ManipulateBoneScale(i, Vector(1, 1, 1))
+			end
+		end
+	end)
+end
+
+
 function GM:PlayerDeath(ply)
     for _, i in ipairs(ply.Inventory) do
     for _, i2 in ipairs(i) do
-        if i2.Name and i2.Model then
+        if i2.Name and i2.Model and i2.Name ~= "Gravity Gun" then
             print(i2, i2.ID)
             local item = SpawnItem(i2.ID)
             item:SetPos(ply:GetPos())
@@ -211,6 +259,9 @@ net.Receive("Inventory", function(_, ply)
         ply.Inventory[t[3]][t[4]] = item
     elseif msg == 2 then
         local class = IsValid(ply:GetActiveWeapon()) and ply:GetActiveWeapon():GetClass() or ""
+        for _, wep in ipairs(ply:GetWeapons()) do
+            ply:GiveAmmo(wep:Clip1(), wep:GetPrimaryAmmoType())
+        end
         ply:StripWeapons()
         local xy = net.ReadTable()
         local x, y = xy[1], xy[2]
@@ -218,8 +269,20 @@ net.Receive("Inventory", function(_, ply)
         if !item then return end
         if !item.Weapon then return end
         if class == item.Weapon then return end
+        ply.PickingUp = true
         ply:Give(item.Weapon)
+        ply.PickingUp = false
         ply:SelectWeapon(ply:GetWeapon(item.Weapon))
+
+        local wep = ply:GetWeapon(item.Weapon)
+        wep:SetClip1(0)
+        local ammo = math.min(wep:GetMaxClip1(), wep:GetOwner():GetAmmoCount(wep:GetPrimaryAmmoType()))
+        // print(ammo)
+        if wep.Primary.Pump then
+            ammo = 1
+        end
+        wep:SetClip1(wep:Clip1() + ammo)
+        wep:GetOwner():RemoveAmmo(ammo, wep:GetPrimaryAmmoType())
 
         // ply:GiveAmmo(9999, ply:GetWeapon(item.Weapon):GetPrimaryAmmoType())
     end

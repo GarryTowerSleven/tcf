@@ -78,7 +78,7 @@ end
 
 
 function ENT:GetPlayer()
-  return GtowerRooms:Get( self:GetCondoID() ).Owner
+  return self:getDoorOwner() or nil // GtowerRooms:Get( self:GetCondoID() ).Owner
 end
 
 function ENT:Think()
@@ -129,7 +129,7 @@ function ENT:GetNameText()
 
 	local name = self._Name or "Player"
 
-	name = string.RestrictStringWidth( name, "CondoNameText", maxNameSize )
+	name = name // string.RestrictStringWidth( name, "CondoNameText", maxNameSize )
 
 	return name
 

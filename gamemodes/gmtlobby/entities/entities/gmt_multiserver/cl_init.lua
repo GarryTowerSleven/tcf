@@ -9,34 +9,6 @@ include("cl_mainobj.lua")
 ENT.RenderGroup = RENDERGROUP_BOTH
 
 function ENT:Initialize()
-	self.ImageZoom = 0.3
-	self:ReloadOBBBounds()
-
-	self.Entities = {}
-	self.PlayerData = {}
-	//self.ServerId = 0
-
-	self.ServerPlayers = {}
-	self.ServerMaxPlayers = 0
-	self.ServerMap = "LOADING..."
-	self.ServerName = "LOADING..."
-	self.ServerGamemode = ""
-	self.ServerStatus = ""
-
-	self.WaitingList = {}
-	self.TotalMaxPlayers = 1
-
-	local min, max = self:GetRenderBounds()
-	self:SetRenderBounds( min * 1.0, max * 1.0 )
-
-
-	//self:SharedInit()
-	self.NextUpdate = 0.0
-	self:DrawShadow( false )
-
-	self.DefaultTextHeight = draw.GetFontHeight("Default")
-	self:ReloadPositions()
-
 end
 
 function ENT:Id()

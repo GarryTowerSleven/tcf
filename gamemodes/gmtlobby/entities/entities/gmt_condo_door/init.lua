@@ -75,6 +75,44 @@ local bells = {
   "vocoder2"
 }
 
+hook.Add("playerBuyDoor", "CONDO", function(ply, ent)
+  print(ent, ent:GetCondoID())
+  if ent.GetCondoID then
+    for _, ent2 in ipairs(ents.FindByClass("gmt_condo_door")) do
+
+        if ent:GetCondoDoorType() == 1 then
+          if Location.Find(ent2:GetPos()) == ent:GetCondoID() then
+            ent2:keysOwn(ply)
+          end
+        else
+          if Location.Find(ent:GetPos()) == ent2:GetCondoID() then
+            ent2:keysOwn(ply)
+          end
+        end
+      
+    end
+  end
+end)
+
+hook.Add("playerSellDoor", "CONDO", function(ply, ent)
+  print(ent)
+  if ent.GetCondoID then
+    for _, ent2 in ipairs(ents.FindByClass("gmt_condo_door")) do
+
+        if ent:GetCondoDoorType() == 1 then
+          if Location.Find(ent2:GetPos()) == ent:GetCondoID() then
+            ent2:keysUnOwn(ply)
+          end
+        else
+          if Location.Find(ent:GetPos()) == ent2:GetCondoID() then
+            ent2:keysUnOwn(ply)
+          end
+        end
+      
+    end
+  end
+end)
+
 function ENT:Use( ply )
   if ply.UsingDoor then return end
 
@@ -82,6 +120,7 @@ function ENT:Use( ply )
 
   for k,v in pairs(ents.FindByClass("gmt_condo_door")) do
     if self:GetCondoDoorType() == 1 then
+      print(self:GetCondoID())
       if Location.Find(v:GetPos()) == self:GetCondoID() then
         self.TeleportEnt = v
       end
@@ -104,6 +143,8 @@ function ENT:Use( ply )
         owner = v
       end
     end
+
+    owner = self:getDoorOwner()
 
   if !owner then
     self:EmitSound(self.LockedSound,80)
@@ -157,7 +198,7 @@ function ENT:Use( ply )
       ply.BallRaceBall:SetPos( self.TeleportEnt:GetPos() + Vector(0,0,35) )
     else
       ply:SetEyeAngles(self.TeleportEnt:GetAngles())
-      ply.DesiredPosition = self.TeleportEnt:GetPos() + (self.TeleportEnt:GetForward()*50)
+      ply:SetPos(self.TeleportEnt:GetPos() + (self.TeleportEnt:GetForward()*50))
     end
   end)
 end

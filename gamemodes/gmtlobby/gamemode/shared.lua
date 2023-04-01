@@ -29,6 +29,49 @@ Items = {
 	}
 }
 
+for _, weapon in ipairs(CustomShipments) do
+    Items[weapon.name] = {
+        Name = weapon.name,
+        Model = weapon.model,
+        Weapon = weapon.entity
+    }
+end
+
+function GM:PlayerCanPickupWeapon(ply, wep)
+	if ply.PickingUp then return true end
+
+	if ply.LastPickup and ply.LastPickup > CurTime() then return false end
+	ply.LastPickup = CurTime() + 0.1
+
+	return true
+end
+
+hook.Add("PlayerPickupDarkRPWeapon", "test", function(ply, wep, wep2)
+	for _, i in pairs(Items) do
+		print(i.Weapon, wep:GetClass(), i.Weapon == wep:GetClass())
+		if i.Weapon == wep2:GetClass() then
+			ply:GiveItem(_)
+			if wep.DecreaseAmount then
+				if wep:Getamount() <= 1 then
+					wep:SetModelScale(0)
+					wep:SetPos(Vector(0, 0, 0))
+					wep:Remove()
+				else
+	wep:DecreaseAmount()
+					end
+			else
+				print("REMOVE!!")
+				wep:SetModelScale(0)
+				wep:SetPos(Vector(0, 0, 0))
+				wep:Remove()
+			end
+			return true
+		end
+	end
+
+	return true
+end)
+
 function InCondo(pos)
     return pos.z > 11000
 end
@@ -40,7 +83,7 @@ end
 
 function GM:SpawnMenuOpen()
     if CanBuild(ply) then
-        notification.AddLegacy("Build in a Condo, or find Building Supplies!", NOTIFY_ERROR, 8)
+        // notification.AddLegacy("Build in a Condo, or find Building Supplies!", NOTIFY_ERROR, 8)
         return false
     end
 
@@ -76,16 +119,16 @@ end
 meta.OldNick = meta.OldNick or meta.Nick
 
 meta.Nick = function(self)
-    return Location.GetFriendlyName(self:Location()) .. " | " .. self:OldNick()
+    return self:OldNick()
 end
 
 meta.GetCondoID = function()
     return 0
 end
 
-meta2.GetCondoID = function()
+/*meta2.GetCondoID = function()
     return 0
-end
+end*/
 
 local meta3 = FindMetaTable("Vector")
 meta3.WithinDistance = function(self, v1, d) return v1:DistToSqr(self) <= (d * d) end

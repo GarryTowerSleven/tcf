@@ -2811,11 +2811,23 @@ function GTowerHUD.DrawUseMessage( ent, x, w, h )
 
 end
 
+function GM:InputMouseApply(cmd)
+	if cmd:GetMouseWheel() ~= 0 then
+		thirdperson = cmd:GetMouseWheel() < 0
+	end
+end
+
 function GTowerHUD.DrawCrosshair()
 
-	if LocalPlayer():ShouldDrawLocalPlayer() || !LocalPlayer():Alive() then return end
+	if  !LocalPlayer():Alive() then return end
 
 	local w, h = ScrW() / 2, ScrH() / 2
+
+	if LocalPlayer():ShouldDrawLocalPlayer() then
+		local pos = LocalPlayer():GetEyeTrace().HitPos:ToScreen()
+		w, h = pos.x, pos.y
+	end
+
 	local color = Color( 255, 255, 255 )
 	local x = 0
 

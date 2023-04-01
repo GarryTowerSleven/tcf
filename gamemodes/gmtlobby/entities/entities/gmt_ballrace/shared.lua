@@ -12,10 +12,6 @@ function ENT:Initialize()
     self:SetCustomCollisionCheck( true )
 end
 
-RegisterNWTablePlayer({
-	{ "BallRaceBall", Entity( 0 ), NWTYPE_ENTITY, REPL_EVERYONE },
-})
-
 hook.Add( "Move", "MoveBall", function( ply, movedata )
 
 	if !ply.BallRaceBall || !IsEntity( ply.BallRaceBall ) || !IsValid( ply.BallRaceBall ) then return end

@@ -44,7 +44,7 @@ TEAM_CITIZEN = DarkRP.createJob("GMTower Player", {
     vote = false,
     hasLicense = false,
     candemote = false,
-    category = "Other",
+    category = "GMTower",
 })
 
 TEAM_STAFF = DarkRP.createJob("GMTower Shopkeeper", {
@@ -74,7 +74,7 @@ TEAM_STAFF = DarkRP.createJob("GMTower Shopkeeper", {
     vote = false,
     hasLicense = false,
     candemote = false,
-    category = "Other",
+    category = "GMTower",
 })
 
 TEAM_STAFF2 = DarkRP.createJob("GMTower Staff Member", {
@@ -104,7 +104,8 @@ TEAM_STAFF2 = DarkRP.createJob("GMTower Staff Member", {
     vote = false,
     hasLicense = false,
     candemote = true,
-    category = "Other",
+    category = "GMTower",
+    police = true
 })
 
 TEAM_STAFF3 = DarkRP.createJob("GMTower Owner", {
@@ -120,7 +121,8 @@ TEAM_STAFF3 = DarkRP.createJob("GMTower Owner", {
     hasLicense = false,
     candemote = true,
     mayor = true,
-    category = "Other",
+    category = "GMTower",
+    police = true
 })
 
 TEAM_STAFF4 = DarkRP.createJob("Merchant", {
@@ -166,6 +168,38 @@ TEAM_PIG2 = DarkRP.createJob("Pigmask Colonel", {
     hasLicense = false,
     candemote = true,
     category = "Other",
+})
+
+TEAM_KLEINER = DarkRP.createJob("Kleiner", {
+    color = Vector(0.24, 0.34, 0.41):ToColor() or Color(201, 212, 208),
+    model = "models/player/kleiner.mdl",
+    description = [[]],
+    weapons = {"weapon_bugbait"},
+    command = "kleiner",
+    max = 4,
+    salary = 0 or GAMEMODE.Config.normalsalary,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    candemote = false,
+    category = "Other",
+    hobo = true
+})
+
+TEAM_SATURN = DarkRP.createJob("Saturn", {
+    color = Color(240, 235, 238),
+    model = "models/uch/saturn.mdl",
+    description = [[]],
+    weapons = {"weapon_bugbait"},
+    command = "saturn",
+    max = 2,
+    salary = 0 or GAMEMODE.Config.normalsalary,
+    admin = 0,
+    vote = false,
+    hasLicense = false,
+    candemote = false,
+    category = "Other",
+    hobo = true
 })
 
 

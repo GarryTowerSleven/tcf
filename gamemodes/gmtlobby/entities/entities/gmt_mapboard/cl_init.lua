@@ -118,12 +118,6 @@ function ENT:Initialize()
 	--self:SetRenderBounds( Vector( 0, 75, 0 ), Vector( 0, -75, 125 ) )
 
 
-	self:SetupScreen()
-
-	self:InitXML()
-
-
-
 end
 
 
@@ -245,30 +239,6 @@ end
 function ENT:DrawTranslucent()
 
 	self:DrawModel()
-
-
-	if !LocalPlayer():GetPos():WithinDistance(self:GetPos(), 1000) then return end
-
-	self.screen = nil
-
-
-	for k,v in pairs( self.screens ) do
-
-		if v:CanUse() then
-
-			self.screen = v
-
-		end
-
-		v:Draw()
-
-	end
-
-
-
-	if not self.screen then self.btnfade = 0 return end
-
-
 
 end
 
