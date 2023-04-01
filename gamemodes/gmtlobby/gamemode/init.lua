@@ -110,6 +110,20 @@ function GM:PlayerChangedTeam(ply, _, new)
         ply:SetHull(Vector(-16, -16, 0), Vector(16, 16, 72))
         ply:SetHullDuck(Vector(-16, -16, 0), Vector(16, 16, 32))
     end
+
+    ply:SetSubMaterial()
+
+    timer.Simple(0, function()
+    if new == TEAM_STAFF or new == TEAM_STAFF2 then
+        for i, mat in ipairs(ply:GetMaterials()) do
+            if string.find(mat, "sheet") then
+
+                local fe = string.find(ply:GetModel(), "fe") and "fe" or ""
+                ply:SetSubMaterial(i - 1, "models/humans/" .. fe .. "male/gmtsui1/citizen_sheet")
+            end
+        end
+    end
+end)
 end
 
 function GM:PlayerSetHandsModel(ply, ent)
