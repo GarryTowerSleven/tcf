@@ -101,7 +101,7 @@ function ENT:Use( activator, caller )
 end
 
 function ENT:SendItem(caller,entity_name)
-	if entity_name == "[No Entity Found]" || entity_name == "slappers" then return end
+	if entity_name == "[No Entity Found]" then return end
 
 	local UniqueModel = GTowerItems:Get( simplehash(entity_name) ).Model
 	caller:InvGiveItem( simplehash(entity_name), slot )
