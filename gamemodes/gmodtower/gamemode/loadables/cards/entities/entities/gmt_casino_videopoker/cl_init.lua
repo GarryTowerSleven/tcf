@@ -123,19 +123,6 @@ end
 
 ENT.mX, ENT.mY = -99999, -99999
 
-local function RayQuadIntersect(vOrigin, vDirection, vPlane, vX, vY)
-    local vp = vDirection:Cross(vY)
-    local d = vX:DotProduct(vp)
-    if d <= 0.0 then return end
-    local vt = vOrigin - vPlane
-    local u = vt:DotProduct(vp)
-    if u < 0.0 or u > d then return end
-    local v = vDirection:DotProduct(vt:Cross(vX))
-    if v < 0.0 or v > d then return end
-
-    return Vector(u / d, v / d, 0)
-end
-
 function ENT:MouseRayInteresct(pos, ang, w, h)
     local plane = pos + (ang:Forward() * ((w or self.Width) / 2 / 2)) + (ang:Right() * ((h or self.Height) / 2 / -2))
     local x = ang:Forward() * -((w or self.Width) / 2)

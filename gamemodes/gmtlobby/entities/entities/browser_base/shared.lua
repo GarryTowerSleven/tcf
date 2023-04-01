@@ -25,25 +25,6 @@ function SetupBrowser( ENT, width, height, scale )
 
 end
 
-local function RayQuadIntersect(vOrigin, vDirection, vPlane, vX, vY)
-
-	local vp = vDirection:Cross(vY)
-
-	local d = vX:DotProduct(vp)
-
-	if (d <= 0.0) then return end
-
-	local vt = vOrigin - vPlane
-	local u = vt:DotProduct(vp)
-	if (u < 0.0 or u > d) then return end
-
-	local v = vDirection:DotProduct(vt:Cross(vX))
-	if (v < 0.0 or v > d) then return end
-
-	return Vector(u / d, v / d, 0)
-
-end
-
 local function BuildFace(vMins, vMaxs)
 
 	local p3 = Vector(0, vMaxs.y, vMins.z)

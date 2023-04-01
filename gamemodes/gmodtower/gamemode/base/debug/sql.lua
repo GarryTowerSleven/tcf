@@ -1,4 +1,3 @@
----------------------------------
 local ErrorLogMessages = {}
 
 local function SQLLogResult(res, status, err)
@@ -41,7 +40,7 @@ function SQLLog( source, ... )
 			return
 		end
 		table.insert( ErrorLogMessages, Hash )
-		ErrorNoHalt( message )
+		//ErrorNoHalt( message )
 
 		 SQL.getDB():Query(
 			"INSERT INTO  `gm_log_error`(`message`,`srvid`) VALUES " ..
@@ -59,5 +58,7 @@ function SQLLog( source, ... )
 		, SQLLogResult)
 
 	end
+
+	LogPrint( Format( "(%s) %s", source, message ), color_red, "SQLLog" )
 
 end
