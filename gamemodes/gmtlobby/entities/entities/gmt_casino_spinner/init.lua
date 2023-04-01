@@ -31,7 +31,7 @@ function ENT:SpinRoll()
 
 	for k,v in pairs( self.SLOTS ) do
 		if math.floor( math.Rand( 1, v[2] * 2 ) ) == 1 then
-			local rand = v[2] < 36
+			local rand = v[2] < 75
 			local rand2 = v[2] > 100
 			if rand2 and math.random(100) == 1 or !rand and math.random(20) == 1 or rand then
 				table.insert(candidates, {num = k, odds = v[2]})
