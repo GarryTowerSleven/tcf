@@ -92,7 +92,7 @@ net.Receive( "GMTUse", function( len, ply )
 	net.Broadcast()
 
 	if Item.UseSound then
-		ent:EmitSound("gmodtower/inventory/"..Item.UseSound,70)
+		ent:EmitSoundInLocation( "gmodtower/inventory/" .. Item.UseSound, 70 )
 	end
 end )
 

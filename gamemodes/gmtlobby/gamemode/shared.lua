@@ -46,14 +46,14 @@ Loadables.Load( {
 	-- Old/Lobby 1
 	--------------------------------------------------------
 	--"theater",			-- Theater (Lobby 1)
-	--"soundbrowser",		-- Sound browser (Lobby 1)
+	"soundbrowser",			-- Sound browser (Lobby 1)
 	--"bassemitstream",		-- Emit stream (radios)
-	"ragdollcontroller",	-- Player ragdolling (Lobby 1)
+	--"ragdollcontroller",	-- Player ragdolling (Lobby 1)
 	--"icon",				-- Scoreboard icons, no longer used
 	"npc_chat",				-- Chatting NPCs (suite and PVP Battle)
 	"animation",			-- Force animation system
 	--"ambiance",			-- Ambient music (Lobby 1)
-	"enchant",				-- Player enchantments
+	--"enchant",			-- Player enchantments
 	"trivia",				-- Trivia board
 	--"funmeter",			-- Fun Meter (experimental minigame)
 	--"spawner",			-- Special spawner (presents and candy)
@@ -68,6 +68,10 @@ Loadables.Load( {
 	--"racing",				-- Silly little minigame (WIP)
 	--"boss",				-- Boss battle (WIP)
 
+	-- Mediaplayer
+	---------------------------------------------------------
+	"mediaplayer",			-- Media player
+
 	-- Base Modules
 	---------------------------------------------------------
 	"inventory",			-- Inventory and items
@@ -81,7 +85,7 @@ Loadables.Load( {
 	"scoreboard3",			-- Scoreboard
 	"store",				-- Stores
 	"multiserver",			-- Multiserver
-	"location",					-- Location system
+	"location",				-- Location system
 	"seats",				-- Seat manager
 	--"gibsystem",			-- Gibs
 	"thirdperson",			-- Thirdperson
@@ -98,13 +102,10 @@ Loadables.Load( {
 	"ping",					-- Pings the clients to detect for server crashes
 	"soundscape",			-- Soundscape system (Lobby 2)
 	"theater2", 			-- Theater built with the media player (Lobby 2)
-	-- "elevator",			-- Elevator system for suites (Lobby 2)
-	-- "condopanel",		-- Condo OS
 	"mapdata",				-- Map specific fixes and additions
 
 	-- Items Depend On These
 	---------------------------------------------------------
-	"mediaplayer",			-- Media player
 	"jetpack",				-- Jetpacks
 	"bonemod",				-- Bone modifications
 	"pet",					-- Pets
@@ -120,7 +121,7 @@ Loadables.Load( {
 	-- UI/Misc
 	---------------------------------------------------------
 	"question",				-- Global voting
-	-- "radialmenu",			-- Zak's radial menu system
+	-- "radialmenu",		-- Zak's radial menu system
 	-- "kickstarter",		-- Kickstarter feed
 	-- "multicore",			-- Possible Performance Booster
 

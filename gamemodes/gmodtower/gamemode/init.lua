@@ -2,14 +2,12 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("sh_load.lua")
 AddCSLuaFile("sh_loadables.lua")
-AddCSLuaFile("nwvar/shared.lua")
 
 // dotenv
 require("dotenv")
 env.load(".env")
 
 include("shared.lua")
-include("nwvar/shared.lua")
 include("sh_load.lua")
 include("sh_loadables.lua")
 
@@ -42,6 +40,11 @@ resource.AddWorkshop( 2949542051 ) -- Source Karts
 resource.AddWorkshop( 2949542425 ) -- Virus
 resource.AddWorkshop( 2949542574 ) -- Zombie Massacre
 resource.AddWorkshop( 2949543296 ) -- TCF Lobby*/
+
+hook.Add( "PlayerSpawn", "SetGMTPlayerClass", function( ply )
+	if ( IsLobby ) then return end
+    player_manager.SetPlayerClass( ply, "player_gmt" )
+end )
 
 MultiUsers = {}
 

@@ -36,10 +36,12 @@ function GM:EndRound( virusWins )
 
 	end
 
-	local lastSurvivor = team.GetPlayers( TEAM_PLAYERS )[ 1 ]
-	
-	if IsValid( lastSurvivor ) then
-		lastSurvivor:AddAchievement( ACHIEVEMENTS.VIRUSLASTALIVE, 1 )
+	if #team.GetPlayers( TEAM_PLAYERS ) == 1 then
+		local lastSurvivor = team.GetPlayers( TEAM_PLAYERS )[ 1 ]
+		if IsValid( lastSurvivor ) then
+			lastSurvivor:AddAchievement( ACHIEVEMENTS.VIRUSLASTALIVE, 1 )
+			lastSurvivor:AddAchievement( ACHIEVEMENTS.VIRUSMILESTONE3, 1 )
+		end
 	end
 	
 	if #team.GetPlayers( TEAM_PLAYERS ) >=4 then
@@ -66,7 +68,8 @@ end
 
 function GM:RoundReset()
 
-	GetWorldEntity():SetNet( "Round", GetWorldEntity():GetNet( "Round" ) + 1 )
+	globalnet.SetNet( "Round", globalnet.GetNet( "Round" ) + 1 )
+	//self:IncrementRound()
 
 	for k,v in pairs( player.GetAll() ) do
 		v:SetTeam( TEAM_PLAYERS )

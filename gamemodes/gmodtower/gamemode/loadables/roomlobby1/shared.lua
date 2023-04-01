@@ -42,7 +42,9 @@ function PosInBox( pos, min, max )
            pos.x < max.x and pos.y < max.y and pos.z < max.z
 end
 
-function RecvPlayerRoom(ply, name, old, new)
+function RecvPlayerRoom(ply, old, new)
+	if SERVER then return end
+
 	if new > 0 then
 		ReceiveOwner(ply, new)
 	end
@@ -86,8 +88,9 @@ end
 
 // hook.Add( "InitPostEntity", "SetupLocations", SetupLocations )
 
-RegisterNWTablePlayer({
-	{"GRoomLock", false, NWTYPE_BOOLEAN, REPL_EVERYONE },
-	{"GRoomId", 0, NWTYPE_CHAR, REPL_EVERYONE, RecvPlayerRoom },
-	{"GRoomEntityCount", 999, NWTYPE_NUMBER, REPL_PLAYERONLY },
-})
+plynet.Register( "Bool", "RoomLock" )
+plynet.Register( "Int", "RoomEntityCount" )
+plynet.Register( "Int", "RoomID", {
+	callback = RecvPlayerRoom,
+	default = 0,
+} )

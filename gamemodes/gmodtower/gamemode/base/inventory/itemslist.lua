@@ -872,7 +872,7 @@ RegisterItem("tv_large",{
 	Name = "Bigscreen TV",
 	Description = "Watch YouTube and other videos on a larger screen.",
 	Model = "models/gmod_tower/suitetv_large.mdl",
-	ClassName = "mediaplayer_tv",
+	ClassName = "gmt_room_tv_large",
 	UniqueInventory = true,
 	DrawModel = true,
 	StoreId = GTowerStore.ELECTRONIC,

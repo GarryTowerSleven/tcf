@@ -11,7 +11,7 @@ function GM:DrawTargetID()
 	ply.TargetInfo = ply.TargetInfo or {}
 
 
-	if IsValid( tr.Entity ) && tr.Entity:IsPlayer() && !( tr.Entity:GetNWBool( "IsGhost" ) && !ply:GetNWBool( "IsGhost" ) ) then
+	if IsValid( tr.Entity ) && tr.Entity:IsPlayer() && !( tr.Entity:IsGhost() && !ply:IsGhost() ) then
 
 		if ply.TargetAlpha != 255 then
 
@@ -59,9 +59,9 @@ function GM:DrawTargetID()
 		clr = Color( color.r, color.g, color.b, 255 )
 		name = ply:GetName()
 
-		if ply:GetNWBool( "IsGhost" ) then
+		if ply:IsGhost() then
 
-			if ply:GetNWBool( "IsFancy" ) then
+			if ply:GetNet( "IsFancy" ) then
 				rank = "Fancy Ghostie"
 			else
 				rank = "Spooky Ghostie"
@@ -71,7 +71,7 @@ function GM:DrawTargetID()
 
 		end
 
-		if ply:GetNWBool( "IsChimera" ) then
+		if ply:GetNet( "IsChimera" ) then
 
 			rank = "The Ultimate Chimera"
 			clr = Color( 230, 30, 110, 255 )

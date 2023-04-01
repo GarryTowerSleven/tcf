@@ -18,16 +18,12 @@ SetupGMTGamemode( "Virus", "virus", {
 -- game.AddParticles( "particles/jb_fire.pcf" )
 -- PrecacheParticleSystem( "jb_burningplayer_green" )
 
-RegisterNWTableGlobal({ 
-	{ "Round", 0, NWTYPE_CHAR, REPL_EVERYONE },
-	{ "MaxRounds", 0, NWTYPE_CHAR, REPL_EVERYONE },
-})
+// NWVARS
+globalnet.Register( "Int", "MaxRounds" )
 
-RegisterNWTablePlayer({
-	{ "IsVirus", false, NWTYPE_BOOLEAN, REPL_EVERYONE },
-	{ "MaxHealth", 100, NWTYPE_NUMBER, REPL_PLAYERONLY },
-	{ "Rank", 0, NWTYPE_CHAR, REPL_PLAYERONLY },
-})
+plynet.Register( "Bool", "IsVirus" )
+plynet.Register( "Int", "MaxHealth" )
+plynet.Register( "Int", "Rank" )
 
 STATE_WAITING		= 1
 STATE_INFECTING		= 2

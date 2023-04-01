@@ -50,12 +50,12 @@ function ENT:Touch(v)
       net.WriteString( "YOU HIT "..string.upper( v:GetOwner():Name() ) )
       net.Send( self:GetOwner() )
     end
-v:GetOwner():SetNWInt("BAL",50)
+v:GetOwner():SetNet("BAL",50)
 v:GetOwner():Drink(15)
 v:GetOwner():AddAchievement( ACHIEVEMENTS.SKDWI, 1 )
 
 timer.Simple( 12, function()
-  v:GetOwner():SetNWInt("BAL",0)
+  v:GetOwner():SetNet("BAL",0)
   v:GetOwner():UnDrunk()
 end )
 
@@ -82,12 +82,12 @@ function ENT:Think()
 			end
         net.Send( self:GetOwner() )
 
-		v:GetOwner():SetNWInt("BAL",50)
+		v:GetOwner():SetNet("BAL",50)
 		v:GetOwner():Drink(60)
 		v:GetOwner():AddAchievement( ACHIEVEMENTS.SKDWI, 1 )
 
 		timer.Simple( 12, function()
-			v:GetOwner():SetNWInt("BAL",0)
+			v:GetOwner():SetNet("BAL",0)
 			v:GetOwner():UnDrunk()
 		end )
 

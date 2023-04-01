@@ -89,7 +89,7 @@ end )
 
 hook.Add("GTowerGroupUpdate", "MultiserverGroupUpdate", function(Group)
 	// update the queuetimes (for waiting lists)
-	for _,ply in pairs( Group:GetPlayers() ) do
-		ply.QueueTime = Group.Owner.QueueTime or 0
+	for _, ply in pairs( Group:GetPlayers() ) do
+		ply:SetNet( "QueueTime", Group.Owner:GetNet( "QueueTime" ) or 0 )
 	end
 end)

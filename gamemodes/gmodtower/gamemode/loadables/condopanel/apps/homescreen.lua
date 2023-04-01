@@ -54,7 +54,7 @@ function APP:Start()
 		icon = Icons["lock"],
 		name = "Unlock Condo",
 		func = function() local owner = GTowerRooms:RoomOwner( LocalPlayer():Location() )
-			owner.GRoomLock = false
+			owner:SetNet( "RoomLock", false )
 			NetLock(owner,false)
 			self.homebuttons[1] = self.condoLockButton
 			self:Repl3("LockCondo", false)
@@ -66,7 +66,7 @@ function APP:Start()
 		func = function()
 			local owner = GTowerRooms:RoomOwner( LocalPlayer():Location() )
 			if owner:GetNWBool("Party") then return end
-			owner.GRoomLock = true
+			owner:SetNet( "RoomLock", true )
 			NetLock(owner,true)
 			self.homebuttons[1] = self.condoUnLockButton
 			self:Repl3("LockCondo", true)
@@ -116,7 +116,7 @@ function APP:IsCondoLocked()
 
 	local loc = LocalPlayer():Location()
 	local owner = GTowerRooms:RoomOwner( loc )
-	return IsValid(owner) and owner.GRoomLock
+	return IsValid(owner) and owner:GetNet( "RoomLock" )
 
 end
 

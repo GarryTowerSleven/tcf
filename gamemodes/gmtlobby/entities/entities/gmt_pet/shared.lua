@@ -1,8 +1,3 @@
-if !Pets then
-	SQLLog( 'error', "Pets module not loaded, pet entity will not load!\n" )
-	return
-end
-
 ENT.Base = "base_anim"
 ENT.Type = "anim"
 ENT.PrintName		= "Pet"
@@ -16,11 +11,11 @@ ENT.Model			= "models/props_junk/watermelon01.mdl"
 util.PrecacheModel( ENT.Model )
 
 function ENT:SetupDataTables()
-	self:NetworkVar( "String", 0 , "PetName" )
+	self:NetworkVar( "String", 0, "PetName" )
+	self:NetworkVar( "Int", 0, "EmotionID" )
 end
 
 Pets.Register( 
-
 	// pet name
 	"melon", 
 	
@@ -51,11 +46,3 @@ Pets.Register(
 		Kiss = 3,
 	}
 )
-
-function ENT:SharedInit()
-
-	RegisterNWTable( self, {  
-		{ "Emotion", 0, NWTYPE_CHAR, REPL_EVERYONE },
-	} )
-	
-end

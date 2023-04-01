@@ -24,7 +24,7 @@ function ENT:Draw()
 
 		local plycol = owner:GetPlayerColor()
 
-		local size = owner._PlyModelSize or 1
+		local size = owner:GetNet( "ModelSize" ) or 1
 
 		local pos, ang
 
@@ -35,8 +35,8 @@ function ENT:Draw()
 			pos, ang = owner:GetPos(), owner:GetAngles()
 		end
 
-		if IsValid( owner.BallRaceBall ) then
-			pos = owner.BallRaceBall:GetPos()
+		if IsValid( owner:GetBallRaceBall() ) then
+			pos = owner:GetBallRaceBall():GetPos()
 		end
 
 		if size >= 1 then
@@ -58,8 +58,8 @@ function ENT:OnRemove()
 	end
 
 	local owner = self:GetOwner()
-	if IsValid( owner ) && IsValid( owner.BallRaceBall ) && IsValid( owner.BallRaceBall.PlayerModel ) then
-		owner.BallRaceBall.PlayerModel:SetMaterial( "" )
+	if IsValid( owner ) && IsValid( owner:GetBallRaceBall() ) && IsValid( owner:GetBallRaceBall().PlayerModel ) then
+		owner:GetBallRaceBall().PlayerModel:SetMaterial( "" )
 	end
 
 end
@@ -72,7 +72,7 @@ function ENT:Think()
 
 	local plycol = owner:GetPlayerColor()
 
-	local size = owner._PlyModelSize or 1
+	local size = owner:GetNet( "ModelSize" ) or 1
 	if size < 1 then return end
 
 	if !self.Emitter then
@@ -94,13 +94,13 @@ function ENT:Think()
 		end
 		pos = pos - Vector( 0, 0, 16 )
 
-		if IsValid( owner.BallRaceBall ) then
+		if IsValid( owner:GetBallRaceBall() ) then
 
-			if IsValid( owner.BallRaceBall.PlayerModel ) then
-				owner.BallRaceBall.PlayerModel:SetMaterial( "gmod_tower/pvpbattle/aha_skin" )
+			if IsValid( owner:GetBallRaceBall().PlayerModel ) then
+				owner:GetBallRaceBall().PlayerModel:SetMaterial( "gmod_tower/pvpbattle/aha_skin" )
 			end
 
-			pos = owner.BallRaceBall:GetPos()
+			pos = owner:GetBallRaceBall():GetPos()
 
 		end
 

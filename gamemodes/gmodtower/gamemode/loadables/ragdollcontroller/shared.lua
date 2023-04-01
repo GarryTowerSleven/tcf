@@ -1,10 +1,7 @@
----------------------------------
-local metaPlayer = FindMetaTable("Player")
+local meta = FindMetaTable("Player")
 
-function metaPlayer:IsRagdoll()
-	
+function meta:IsRagdoll()
 	return self.Ragdoll
-	
 end
 
-RegisterNWTablePlayer( { { "Ragdolled", false, NWTYPE_BOOLEAN, REPL_EVERYONE } } )
+plynet.Register( "Bool", "Ragdolled" )

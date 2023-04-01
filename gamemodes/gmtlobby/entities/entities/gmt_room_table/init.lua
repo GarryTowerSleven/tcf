@@ -38,12 +38,12 @@ function ENT:CheckLevel( ply )
 		return
 	end
 
-	self.Level = ply:GetLevel( StoreTableId ) 
-	self:SetLevel( self.Level )
+	self:SetLevel( ply:GetLevel( StoreTableId )  )
+	self:SetLevel2( self.Level )
 
 end
 
-function ENT:SetLevel( lv )
+function ENT:SetLevel2( lv )
 
 	if lv == 2 then
 		self.Use = self.BaseClass.Use

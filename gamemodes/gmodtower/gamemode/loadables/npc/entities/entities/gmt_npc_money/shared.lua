@@ -1,17 +1,18 @@
 ENT.Base			= "gmt_npc_base"
-ENT.Type 			= "ai"
+ENT.Type 			= "anim"
+ENT.Spawnable		= true
+ENT.AdminSpawnable	= true
 ENT.PrintName 		= "Money Giver"
 
 ENT.Model		= Model( "models/player/haroldlott.mdl" )
-ENT.StoreID = GTowerStore.MONEY
+ENT.StoreId 	= GTowerStore.MONEY
 
-ENT.AnimMale		= Model( "models/player/gmt_shared.mdl" )
-ENT.AnimFemale		= Model( "models/player/gmt_shared.mdl" ) -- temp hack
+ENT.AnimMale	= Model( "models/player/haroldlott.mdl" ) -- Bonemerge Fix
 
 function ENT:CanUse( ply )
-	if ply:GetNWBool("MoneyNpcTimeout") then
+	/*if ply:GetNWBool("MoneyNpcTimeout") then
 		return false, "YOU'VE ALREADY GOTTEN SOME DOSH! PLEASE WAIT!"
-	end
+	end*/
 
 	return true, "GIVE ME SOME GMC"
 end

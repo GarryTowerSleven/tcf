@@ -281,7 +281,7 @@ hook.Add("CalcView","TemporarySKCalcView", function( ply, origin, angles, fov )
 
 
     // TODO, use Anomaladox' GetNet() wrapper.
-		if ply:GetNWInt("BAL") > 0 then
+		if ply:GetNet("BAL") > 0 then
 
 			local multiplier = ( 50 / 100 ) * ply:GetNet("BAL")
 

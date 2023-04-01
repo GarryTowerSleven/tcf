@@ -1,5 +1,5 @@
 AddCSLuaFile()
-DEFINE_BASECLASS( "player_default" )
+DEFINE_BASECLASS( "player_gmt" )
 
 if ( CLIENT ) then
 
@@ -27,16 +27,6 @@ PLAYER.UnDuckSpeed			= .25		-- How fast to go from ducking, to not ducking
 PLAYER.WalkSpeed 			= 180
 PLAYER.RunSpeed				= 320
 PLAYER.SlowWalkSpeed		= 100
-
-
---
--- Set up the network table accessors
---
-function PLAYER:SetupDataTables()
-
-	BaseClass.SetupDataTables( self )
-
-end
 
 function PLAYER:Spawn()
 
@@ -67,4 +57,4 @@ end
 function PLAYER:SetModel()
 end
 
-player_manager.RegisterClass( "player_lobby", PLAYER, "player_default" )
+player_manager.RegisterClass( "player_lobby", PLAYER, "player_gmt" )

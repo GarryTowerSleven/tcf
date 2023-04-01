@@ -57,9 +57,9 @@ hook.Add( "InitPostEntity", "MarsExploitFix", function()
 end )
 
 function GM:BeginGame()
-	SetGlobalFloat( "PVPRoundTime", self.DefaultRoundTime + CurTime() )
-	SetGlobalBool( "PVPRoundOver", false )
-	SetGlobalInt( "PVPRoundCount", 1 )
+	self:SetTime( self.DefaultRoundTime )
+	globalnet.SetNet( "RoundOver", false )
+	globalnet.SetNet( "Round", 1 )
 
 	for _, v in ipairs( weapons.GetList() ) do
 		if ( v != nil && v.Base == "weapon_pvpbase" ) then
@@ -213,7 +213,7 @@ end
 
 function SendDeathNote( attacker, ent, amount, death )
 	if attacker == ent then return end
-	if IsValid( attacker ) && !attacker:IsPlayer() then return end
+	if not IsValid( attacker ) and not attacker:IsPlayer() then return end
 
 	net.Start( "DamageNotes" )
 		net.WriteFloat( math.Round( amount ) )
@@ -392,10 +392,10 @@ function GM:StartRound()
 		return
 	end
 
-	game.CleanUpMap( false, {"gmt_cosmeticbase", "gmt_hat"} )
+	self:CleanUpMap( false )
 
-	SetGlobalFloat( "PVPRoundTime", self.DefaultRoundTime + CurTime() )
-	SetGlobalBool( "PVPRoundOver", false )
+	self:SetTime( self.DefaultRoundTime )
+	globalnet.SetNet( "RoundOver", false )
 
 	local plys = player.GetAll()
 	for _, ply in ipairs( plys ) do
@@ -429,9 +429,8 @@ function GM:StartRound()
 end
 
 function GM:EndRound()
-	SetGlobalFloat( "PVPRoundTime", 10 + CurTime() )
-	SetGlobalBool( "PVPRoundOver", true )
-
+	self:SetTime( 10 )
+	globalnet.SetNet( "RoundOver", true )
 
 	local plys = player.GetAll()
 	for _, ply in ipairs( plys ) do

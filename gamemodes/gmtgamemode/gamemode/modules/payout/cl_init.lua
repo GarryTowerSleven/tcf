@@ -1,6 +1,3 @@
----------------------------------
-include("sh_init.lua")
-
 module( "payout", package.seeall )
 
 net.Receive( "Payouts", function( length, ply )

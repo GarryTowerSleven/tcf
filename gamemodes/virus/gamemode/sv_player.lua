@@ -198,7 +198,7 @@ function GM:Infect( ply, infector )
 
 	self:CheckSurvivors()
 
-	music.play( EVENT_PLAY, MUSIC_IGNITE, ply )
+	music.Play( EVENT_PLAY, MUSIC_IGNITE, ply )
 end
 
 function GM:CheckSurvivors()

@@ -11,6 +11,14 @@ util.AddNetworkString( "EmoteAct" )
 	--idk
 --end)
 
+hook.Add( "PlayerShouldTaunt", "DisableTaunts", function( ply )
+  if ply:GetNWBool("Emoting") then
+    return true
+  end
+
+  return false
+end )
+
 local Grammar = {
 	["agree"] = "agrees.",
 	["beckon"] = "beckons.",
@@ -73,7 +81,7 @@ for _, emote in pairs(Commands) do
 	
 	if emoteName == "sit" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
-		if !ply:OnGround() then return end
+		if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
 		ply:SetNWBool("Emoting",true)
 		ply:SetNWBool("Sitting",true)
 
@@ -85,7 +93,7 @@ for _, emote in pairs(Commands) do
 		end )
 	elseif emoteName == "lay" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
-		if !ply:OnGround() then return end
+		if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
 		ply:SetNWBool("Emoting",true)
 		ply:SetNWBool("Laying",true)
 
@@ -97,7 +105,7 @@ for _, emote in pairs(Commands) do
 		end )
 	elseif emoteName == "lounge" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
-		if !ply:OnGround() then return end
+		if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
 		ply:SetNWBool("Emoting",true)
 		ply:SetNWBool("Lounging",true)
 
@@ -120,7 +128,9 @@ for _, emote in pairs(Commands) do
 		end )
 	else
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
-		if !ply:OnGround() then return end
+
+		if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
+		ply:SetAbsVelocity( Vector(0,0,0) )
 		ply:SetNWBool("Emoting",true)
 
 		ply:SetNWString("EmoteName",emoteName)

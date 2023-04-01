@@ -22,7 +22,7 @@ function GTowerChat.GetChatEnum( typestr )
 
 end
 
-net.Receive("ChatBubble",function ()
+net.Receive( "ChatBubble", function ()
 	local pl = net.ReadEntity()
 	local new = net.ReadBool()
 
@@ -33,10 +33,7 @@ net.Receive("ChatBubble",function ()
 	else
 		pl:EndChatBubble()
 	end
-end)
+end )
 
---plynet.Register( "Bool", "Chatting", { callback = PlayerBubble } )
-RegisterNWTablePlayer({
-	{ "Chatting", false, NWTYPE_BOOLEAN, REPL_EVERYONE, PlayerBubble },
-	{ "HideRedir", false, NWTYPE_BOOLEAN, REPL_PLAYERONLY }
-})
+//plynet.Register( "Bool", "Chatting", { callback = PlayerBubble } )
+plynet.Register( "Bool", "HideRedir" )

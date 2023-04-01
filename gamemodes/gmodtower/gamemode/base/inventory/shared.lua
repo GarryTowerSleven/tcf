@@ -150,3 +150,19 @@ end
 function AngleWithinPrecisionError(ang, target)
 	return (ang < target + 0.2 && ang > target - 0.2)
 end
+
+local meta = FindMetaTable( "Entity" )
+if !meta then return end
+
+function meta:IsItem( uniquename )
+
+	local ItemId = GTowerItems:FindByEntity( self )
+
+	if ItemId then
+		local Item = GTowerItems:Get( ItemId )
+		return Item.MysqlId == ITEMS[uniquename]
+	end
+
+	return false
+
+end

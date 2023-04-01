@@ -1,10 +1,7 @@
-
--------------------------------------------------
-
 module( "analytics", package.seeall )
 
 function postDiscord( Type, text )
-
+	LogPrint( Format( "(%s) %s", Type, text ), nil, "Analytics" )
 	/*text = "["..(Type or "Logs").."] " .. text
 
 	local authKey = "PaLy5TCoJ5RZjqWZtVccQpRVFgXkzwwm"

@@ -37,9 +37,7 @@ util.PrecacheModel( SWEP.ViewModel )
 util.PrecacheModel( SWEP.WorldModel )
 
 function SWEP:PrimaryAttack()
-
 	if IsLobby and !Dueling.IsDueling( self.Owner ) and !self.Owner:IsAdmin() then self.Primary.Damage = 0 end
-
 	if !self:CanPrimaryAttack() then return end
 	self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
 

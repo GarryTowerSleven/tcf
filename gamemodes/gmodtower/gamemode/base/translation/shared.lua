@@ -1,76 +1,55 @@
----------------------------------
-GtowerLangush = {}
+GTowerLanguage = {}
 local Lang = 1
 
 local LangTable = {}
 local LangNames = {}
 
+function GTowerLanguage.AddLang(id, Fullname)
 
-function GtowerLangush.AddLang(id, FullName)
-
-    LangTable[id] = {}
-
-    LangNames[id] = FullName
+	LangTable[id] = {}
+	LangNames[id] = FullName
 
 end
 
-
-function GtowerLangush.AddWord(id, key, word)
-
-    LangTable[id][ key ] = word
-
+function GTowerLanguage.AddWord(id, key, word)
+	LangTable[id][ key ] = word
 end
 
-function GtowerLangush.SetLocalLanguage( Id )
+function GetTranslation(name, ...)
 
-	if LangTable[Id] then -- If we have a translation for it
-		Lang = Id
-	else
-		Lang = 1 -- Default , English
+	local args = {...}
+	local str = LangTable[ Lang ][ name ]
+	
+	if str == nil then
+		str = LangTable[ 1 ][ name ] // look for english
+		
+		if str == nil and TestingMode:GetBool() then
+			
+			Msg("Error: Translation of '".. tostring(name) .."' not  found!\n")
+			return ""
+			
+		end
 	end
-
-end
-
-
-function GetTranslation(Name, ...)
-
-	local arg = {...}
-
-    local str = LangTable[ Lang ][ Name ]
-
-    if str == nil then
-        str = LangTable[ 1 ][ Name ] -- look for english
-
-        if str == nil then
-
-            Msg("Error: Translation of '".. Name .."' not  found!")
-            return ""
-
-        end
-    end
-
-    if #arg > 0 then
-
-		str = string.gsub( str, "{(%d+)}",
-			function(s) return arg[ tonumber(s) ] or "{"..s.."}" end
+	
+	if #args > 0 && str then
+		str = string.gsub( str, "{(%d+)}", 
+			function(s) return args[ tonumber(s) ] or "{"..s.."}" end
 		)
-
-    end
-
-    return str
+	end    
+	
+	return str
 
 end
 T = GetTranslation
 
-do //Keep it off the global scope
-	local LangFiles = {"english"}--, "french"}
-	for _, v in pairs( LangFiles ) do
 
-		if SERVER then
-			AddCSLuaFile(  v ..".lua" )
-		end
+local LangFiles = {"english"}
+for _, v in pairs( LangFiles ) do
 
-		include(  v ..".lua" )
-
+	if SERVER then
+		AddCSLuaFile(  v ..".lua" )
 	end
+		
+	include(  v ..".lua" )
+
 end

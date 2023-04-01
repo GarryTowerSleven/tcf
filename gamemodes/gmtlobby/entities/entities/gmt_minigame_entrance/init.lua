@@ -41,7 +41,7 @@ end
 
 function ENT:UseTouch( ply )
 
-	if IsValid( ply.BallRaceBall ) then
+	if IsValid( ply:GetBallRaceBall() ) then
 		return
 	end
 

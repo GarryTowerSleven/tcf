@@ -10,12 +10,16 @@ ENT.Sound		= Sound( "GModTower/lobby/trainstation/vendingmachineHumm.mp3")
 ENT.StoreId 	= GTowerStore.VENDING
 ENT.IsStore 	= true
 
+function ENT:SetupDataTables()
+	self:NetworkVar( "Bool", 2, "Sale" )
+end
+
 function ENT:GetStoreId()
 	return self.StoreId
 end
 
 function ENT:IsOnSale()
-	return self:GetNWBool("Sale")
+	return self:GetSale()
 end
 
 function ENT:GetTitle()

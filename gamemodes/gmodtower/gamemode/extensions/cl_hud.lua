@@ -128,7 +128,7 @@ function GM:HUDDrawTargetID()
 
 	-- Draw all player names when Q is held
 	//if GTowerMainGui.MenuEnabled then
-    if input.IsButtonDown( KEY_Q ) then
+    if GTowerMainGui.MenuEnabled then
 		if IsLobby then
 			for _, ent in pairs( ents.GetAll() ) do
 				local ply = GetValidPlayer( ent )

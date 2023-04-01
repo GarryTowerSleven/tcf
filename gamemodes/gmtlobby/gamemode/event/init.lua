@@ -2,7 +2,7 @@
 local EventSound = "gmodtower/misc/notifyevent.wav"
 if time.IsChristmas() then EventSound = "gmodtower/music/christmas/eventnotify.mp3" end
 
-local eventlist = { minigames.balloonpop.MinigameName, minigames.chainsaw.MinigameName, minigames.obamasmash.MinigameName,  "storesale", "storesale" }
+local eventlist = { minigames.barfight.MinigameName, minigames.balloonpop.MinigameName, minigames.chainsaw.MinigameName, minigames.obamasmash.MinigameName,  "storesale", "storesale" }
 
 local shopslist = {
     GTowerStore.SUITE,
@@ -141,6 +141,24 @@ function StartEvent( event )
 
         endtime = CurTime() + minitime
 
+    elseif event == minigames.barfight.MinigameName then
+        local MiniGame = minigames[ "barfight" ]
+
+        if !MiniGame then
+            SendMessageToPlayers( "EventError" )
+            enabled = false
+            return
+        end
+
+        curmini = "barfight"
+        
+        SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
+    
+        SafeCall( MiniGame.Start, "" )
+        MsgC( color_green, "[EVENTS] Starting barfight!\n" )
+
+        endtime = CurTime() + minitime
+
     elseif event == "pvpnarnia" then
         local MiniGame = minigames[ "pvpnarnia" ]
 
@@ -171,6 +189,9 @@ function EndEvent()
     elseif curevent == minigames.balloonpop.MinigameName then
         SafeCall( minigames[ "balloonpop" ].End )
         MsgC( color_red, "[EVENTS] Balloonpop ended\n" )
+    elseif curevent == minigames.barfight.MinigameName then
+        SafeCall( minigames[ "barfight" ].End )
+        MsgC( color_red, "[EVENTS] Barfight ended\n" )
     elseif curevent == minigames.obamasmash.MinigameName then
         SafeCall( minigames[ "obamasmash" ].End )
         MsgC( color_red, "[EVENTS] Obamasmash ended\n" )

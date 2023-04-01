@@ -22,8 +22,8 @@ function ENT:Think()
 			pos, ang = owner:GetBonePosition( Torso )
 		end
 
-		if IsValid( owner.BallRaceBall ) then
-			pos = owner.BallRaceBall:GetPos()
+		if IsValid( owner:GetBallRaceBall() ) then
+			pos = owner:GetBallRaceBall():GetPos()
 		end
 
 		Flame:SetPos( pos )

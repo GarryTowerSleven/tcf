@@ -495,11 +495,8 @@ concommand.Add("morebeer", function(ply, cmd, args)
 end)
 
 concommand.Add("gmt_giveammo", function(ply, cmd, args) --Temporary fix.
-	if !ply:GetSetting( "GTAllowWeapons" ) then return end
-	/*if ply:GetActiveWeapon() == NULL or ply:GetActiveWeapon():GetPrimaryAmmoType() == "-1" then
-		ply:GiveAmmo(tonumber(args[1]) or 30, ply:GetActiveWeapon():GetPrimaryAmmoType(), true)
-	end*/
-
+	if !ply:IsAdmin() then return end
+	
 	ply:GiveAmmo( 50, "SMG1", true )
 	ply:GiveAmmo( 50, "AR2", true )
 	ply:GiveAmmo( 50, "AlyxGun", true )

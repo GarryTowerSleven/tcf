@@ -70,10 +70,7 @@ function TeleportPlayer( ply, source, goplace )
 		return
 	end
 	
-	if IsValid( ply.BallRaceBall ) then
-		ply.BallRaceBall:Remove()
-		ply.BallRaceBall = nil
-	end
+	ply:ExitDriving()
 	
 	local EntList = table.Copy( Tbl.ents )
 	local min, max =  GetBoundingBox( source, ply )

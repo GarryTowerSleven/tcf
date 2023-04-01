@@ -8,12 +8,6 @@ CreateClientConVar("gmt_petname","",true,true)
 
 local MsgTime = 3
 
-function ENT:Initialize()
-
-	self:SharedInit()
-
-end
-
 function ENT:DrawText( text, font, x, y, alpha, xalign, yalign )
 	if text then
 		draw.DrawText( text, font, x + 2, y + 2, Color( 0, 0, 0, alpha ), xalign, yalign )
@@ -54,9 +48,9 @@ function ENT:Draw()
 	
 	pos.z = pos.z + 20
 	
-	if self.Emotion == 0 then return end
+	if self:GetEmotionID() == 0 then return end
 	
-	local emoteText = Pets.GetEmotionString( self.Emotion )
+	local emoteText = Pets.GetEmotionString( self:GetEmotionID() )
 	
 	cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.1 )
 	

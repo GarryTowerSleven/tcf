@@ -1,19 +1,8 @@
-
-local string, math, timer = string, math, timer
-local Vector, tostring, tonumber = Vector, tostring, tonumber
-local CLIENT = CLIENT
-
-local Msg = Msg
-local _G = _G
-local IsValid = IsValid
-local Matrix = Matrix
-local Scale = Scale
-
 function GM:AllowModel( ply, model )
 	return GTowerModels.AdminModels[ model ] == nil || ply:IsAdmin()
 end
 
-module("GTowerModels")
+module( "GTowerModels", package.seeall )
 
 DEBUG = false
 MaxScale = 4.0
@@ -95,6 +84,7 @@ AddValidModel( "luigi", "models/player/suluigi_galaxy.mdl" )
 AddValidModel( "mario", "models/player/sumario_galaxy.mdl" )
 AddValidModel( "zero", "models/player/lordvipes/MMZ/Zero/zero_playermodel_cvp.mdl" )
 AddValidModel( "yoshi", "models/player/yoshi.mdl" )
+AddValidModel( "miku", "models/player/miku.mdl" )
 --AddValidModel( "helite", "models/player/lordvipes/h2_elite/eliteplayer.mdl", "models/player/lordvipes/h2_elite/arms/elitearms.mdl" )
 --AddValidModel( "grayfox", "models/player/lordvipes/Metal_Gear_Rising/gray_fox_playermodel_cvp.mdl" )
 --AddValidModel( "jcdenton", "models/player/lordvipes/de_jc/jcplayer.mdl" )
@@ -293,6 +283,7 @@ _G.hook.Add("Location","MikuScaleHook", function( ply )
 	end)
 end )
 
-_G.RegisterNWTablePlayer({
-	{"_PlyModelSize", 1.0, _G.NWTYPE_FLOAT, _G.REPL_EVERYONE, ChangeHull},
-})
+plynet.Register( "Float", "ModelSize", {
+	callback = ChangeHull,
+	default = 1.0,
+} )

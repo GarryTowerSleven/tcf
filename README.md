@@ -4,6 +4,9 @@ Dang, that looks deluxe!
 ## Installation
 Clone into your server's addons folder.
 
+### Addon Requirements
+[samuelmaddock/gm-mediaplayer](https://github.com/samuelmaddock/gm-mediaplayer)
+
 ### Binary Module Requirements
 [FredyH/MySQLOO](https://github.com/FredyH/MySQLOO)
 

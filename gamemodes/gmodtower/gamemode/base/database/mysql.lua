@@ -123,7 +123,7 @@ ErrorCheckCallback = function( origin, res, status, error )
 
 end
 
-hook.Add("PlayerAuthed", "GtowerSelectSQL", function(ply, steamid)
+hook.Add( "PlayerAuthed", "GtowerSelectSQL", function( ply, steamid )
 
 	if ply:IsBot() then
 		return

@@ -26,12 +26,6 @@ SitAnims = {
 	"sit_zen",
 }
 
-function IsEmoting( ply )
-
-	return ply:GetNWBool("Emoting") --ply.EmoteID && ply.EmoteID > 0
-
-end
-
 hook.Add( "CalcMainActivity", "Sitting", function( ply )
 
 	if ply:GetNWBool("Sitting") then

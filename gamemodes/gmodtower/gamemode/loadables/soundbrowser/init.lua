@@ -1,15 +1,14 @@
----------------------------------
 AddCSLuaFile("cl_init.lua")
 
 local GTowerSound = {}
 
 function GTowerSound:PlaySound(soundPath, volume, pitch, entity)
 
-	if !IsValid( entity.Entity ) then
+	if !IsValid( entity ) then
 		return
 	end
 	 
-	umsg.Start("GMTSoundPlay", nil )
+	umsg.Start("GMTSoundPlay" )
 		umsg.Entity(entity)
 		umsg.String(soundPath)
 		umsg.Short( math.Clamp(tonumber(volume) or 100, 1, 255) )
@@ -27,15 +26,13 @@ concommand.Add("gmt_emitsound", function(ply, cmd, args) --Allows an Admin to em
 			return
 		end
 		
-		if !( ply:IsSuperAdmin() || ClientSettings:Get( ply, "GTAllowEmitSound" ) ) then return end
+		if !( ply:IsStaff() || ClientSettings:Get( ply, "GTAllowEmitSound" ) ) then return end
 				
 		local entity = ply
 		local PlayerName = ply:GetName()
 		
-		for _, v in ipairs( player.GetAll() ) do --Temporary. Want to print in console to Admins about who is playing what sound.
-			if v:IsSuperAdmin() then
-				v:PrintMessage(HUD_PRINTCONSOLE, PlayerName .. " played: " .. args[1])
-			end
+		for _, v in ipairs( player.GetStaff() ) do --Temporary. Want to print in console to Admins about who is playing what sound.
+			v:PrintMessage(HUD_PRINTCONSOLE, PlayerName .. " played: " .. args[1])
 		end
 		
 		GTowerSound:PlaySound(args[1], Volume, Pitch, entity )
@@ -46,7 +43,9 @@ concommand.Add("gmt_stopsounds", function(ply, cmd, args)
 
 		if !ply:IsSuperAdmin() then return end
 
-		BroadcastLua("RunConsoleCommand('stopsounds'); ClearSoundList()")
-		AdminNotify( T("AdminClrSounds", ply:GetName() ) )
+		BroadcastLua("RunConsoleCommand('stopsound'); ClearSoundList()")
+		for _, v in ipairs(player.GetAll()) do
+			v:Msg2( T("AdminClrSounds", ply:GetName() ) )
+		end
 		
 	end)

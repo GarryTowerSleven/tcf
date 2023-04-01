@@ -61,14 +61,14 @@ function rag:ragdollPlayer(ply, isRagdoll, admin)
 			umsg.End()
 		end)*/
 		
-		ply.Ragdolled = true
+		ply:SetNet( "Ragdolled", true )
 
 		ply:Spectate(OBS_MODE_CHASE)
 		ply:SpectateEntity(ply.Ragdoll)
 		ply:SetAFKExcluded(false)
 	else
 		if !ply.Ragdoll then return end
-		ply.Ragdolled = false
+		ply:SetNet( "Ragdolled", false )
 		rag:removeRagdoll(ply)
 	end
 end
@@ -78,7 +78,7 @@ concommand.Add("gmt_ragdoll", function(ply, cmd, args)
 
 	if !( ply:IsSuperAdmin() || ply:GetSetting( "GTAllowRagdoll" ) ) then return end
 
-	rag:ragdollPlayer( ply, !ply.Ragdolled, ply )
+	rag:ragdollPlayer( ply, !ply:GetNet( "Ragdolled" ), ply )
 
 	//ply:ConCommand("-attack")
 	/*if args[1] then
@@ -89,7 +89,7 @@ concommand.Add("gmt_ragdoll", function(ply, cmd, args)
 		end
 
 		if type(target) != "string" then
-			rag:ragdollPlayer(target, !target.Ragdolled, ply)
+			rag:ragdollPlayer(target, !target:GetNet( "Ragdolled" ), ply)
 			return
 		end
 	else
@@ -97,7 +97,7 @@ concommand.Add("gmt_ragdoll", function(ply, cmd, args)
 		if IsValid(target) then
 				
 			if target:IsPlayer() then
-				rag:ragdollPlayer(target, !target.Ragdolled, ply)
+				rag:ragdollPlayer(target, !target:GetNet( "Ragdolled" ), ply)
 				return
 			elseif target:GetClass() == "prop_ragdoll" and target:GetOwner() then
 				rag:ragdollPlayer(target:GetOwner(), false)

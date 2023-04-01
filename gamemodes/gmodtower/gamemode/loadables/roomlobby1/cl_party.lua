@@ -138,7 +138,7 @@ end
 
 concommand.Add( "gmt_roomparty", function( ply, cmd, args )
 
-	if ply.GRoomId && ply.GRoomId != 0 && !ply:GetNWBool("GRoomParty") then
+	if ply:GetNet( "RoomID" ) && ply:GetNet( "RoomID" ) != 0 && !ply:GetNWBool("GRoomParty") then
 		OpenSuiteParty()
 	end
 

@@ -803,138 +803,137 @@ net.Receive("EntInfo", function(len)
     Msg2("Ent Info recieved.")
 end)
 
-hook.Add("HUDPaint", "AdminShowNetInfo", function()
-    if not LocalPlayer():IsStaff() or not showNetInfo:GetBool() then return end
-    -- Entity trace
-    local trace = LocalPlayer():GetEyeTrace()
-    local ent = trace.Entity
+hook.Add( "HUDPaint", "AdminShowNetInfo", function()
+    
+    if not LocalPlayer():IsStaff() then return end
+    if not showNetInfo:GetBool() then return end
 
-    if trace.HitWorld then
-        ent = LocalPlayer()
-    end
+	// Entity trace
+	local trace = LocalPlayer():GetEyeTrace()
+	local ent = trace.Entity
 
-    local off = 15
+	if trace.HitWorld then
+		ent = LocalPlayer()
+	end
 
-    if IsValid(ent) then
-        local info = ""
+	local off = 15
 
-        if ent.GetClass then
-            info = info .. tostring(ent:GetClass()) .. " "
-        end
+	if IsValid( ent ) then
 
-        if ent.GetModel and ent:GetModel() then
-            info = info .. tostring(ent:GetModel()) .. " "
-        end
+		local info = ""
 
-        if IsValid(ent:GetOwner()) then
-            info = info .. tostring(ent:GetOwner()) .. " "
-        end
+		if ent.GetClass then
+			info = info .. tostring( ent:GetClass() ) .. " "
+		end
+		if ent.GetModel && ent:GetModel() then
+			info = info .. tostring( ent:GetModel() ) .. " "
+		end
+		if IsValid( ent:GetOwner() ) then
+			info = info .. tostring( ent:GetOwner() ) .. " "
+		end
 
-        surface.SetFont("ChatFont")
-        local w, h = surface.GetTextSize(info)
-        surface.SetDrawColor(0, 0, 0, 250)
-        surface.DrawRect(0, 0, w + 5, ScrH())
-        draw.SimpleText(info, "ChatFont", 5, 0, color_white)
-        -- Location!
-        --[[if Location then
+		surface.SetFont( "ChatFont" )
+		local w, h = surface.GetTextSize( info )
 
+		surface.SetDrawColor( 0, 0, 0, 250 )
+		surface.DrawRect( 0, 0, w + 5, ScrH() )
+
+		draw.SimpleText( info, "ChatFont", 5, 0, color_white )
+		// Location!
+		/*if Location then
 			draw.SimpleText( tostring( ent:Location() ) .. " " .. Location.GetName( ent:Location() ), "ChatFont", 5, off, color_white )
-
 			off = 30
+		end*/
 
-		end]]
-        -- Network vars!
-        local index = ent:EntIndex()
-        local nwtable = NW_ENTITY_DATA[index]
+		// Network vars!
 
-        if nwtable then
-            off = off + 15
-            draw.SimpleText("AzuiVars", "ChatFont", 5, off, Color(255, 100, 100))
-            off = off + 15
-
-            for id, item in ipairs(nwtable.__nwtable) do
-                draw.SimpleText(tostring(id) .. " " .. tostring(item.name) .. ": " .. tostring(nwtable[item.name]), "ChatFont", 5, off, color_white)
-                --[[if Location && item.name == "GLocation" then
-
-					draw.SimpleText( tostring( item.name ) .. ": " .. tostring( ent[item.name] ) .. " | " .. Location.GetName( ent[item.name] ), "ChatFont", 5, off, color_white )
-
-				else]]
-                --end
+        if ( ent.GetNetworkVars ) then
+            local nwtable = ent:GetNetworkVars()
+    
+            if nwtable then
+    
                 off = off + 15
-            end
-        end
-
-        if ent._NetworkVarTable then
-            off = off + 15
-            draw.SimpleText("NetworkVars", "ChatFont", 5, off, Color(100, 255, 100))
-            off = off + 15
-
-            table.sort(ent._NetworkVarTable, function(a, b)
-                if a.nettype == b.nettype then
-                    return a.id < b.id
-                else
-                    return string.lower(a.nettype) < string.lower(b.nettype)
-                end
-            end)
-
-            for id, item in pairs(ent._NetworkVarTable) do
-                draw.SimpleText(tostring(id) .. " " .. tostring(item.name) .. " (" .. tostring(item.nettype) .. "," .. item.id .. ")" .. ": " .. tostring(ent:GetNet(item.name)), "ChatFont", 5, off, color_white)
+                draw.SimpleText( "Network Vars", "ChatFont", 5, off, Color( 255, 100, 100 ) )
                 off = off + 15
-            end
-        end
-
-        -- Other stuff!
-        if showNetInfo2:GetBool() then
-            local height = 150
-            local cwidth = 265 * 2
-            local xoff = cwidth
-            local yoff = height
-            local info = ent:GetTable()
-            local sortedInfo = {}
-
-            for prop, val in pairs(info) do
-                table.insert(sortedInfo, {
-                    prop = prop,
-                    val = val
-                })
-            end
-
-            table.sort(sortedInfo, function(a, b) return tostring(a.prop) < tostring(b.prop) end)
-
-            for _, val in pairs(sortedInfo) do
-                if type(val.val) == "function" or type(val.val) == "Panel" then continue end
-                draw.SimpleText(tostring(val.prop) .. ": " .. tostring(val.val), "ChatFont", xoff, yoff, color_white)
-                yoff = yoff + 15
-
-                if yoff > 600 then
-                    yoff = height
-                    xoff = xoff + cwidth
+    
+                for name, value in pairs( nwtable ) do
+    
+                    draw.SimpleText( tostring( name ) .. ": " .. tostring( value ), "ChatFont", 5, off, color_white )
+                    /*if Location && item.name == "GLocation" then
+                        draw.SimpleText( tostring( item.name ) .. ": " .. tostring( ent[item.name] ) .. " | " .. Location.GetName( ent[item.name] ), "ChatFont", 5, off, color_white )
+                    else*/
+                    //end
+    
+                    off = off + 15
+    
                 end
+    
             end
         end
-    end
 
-    -- World entity network vars!
-    off = off + 15
-    draw.SimpleText("AzuiVars - World", "ChatFont", 5, off, Color(255, 100, 100))
-    off = off + 15
-    index = GetWorldEntity():EntIndex()
-    nwtable = NW_ENTITY_DATA[index]
 
-    if nwtable then
-        for id, item in ipairs(nwtable.__nwtable) do
-            local val = nwtable[item.name]
+		// Other stuff!
+		if showNetInfo2:GetBool() then
 
-            -- Handle time/round time
-            if string.find("time", string.lower(item.name)) then
-                val = tostring(val) .. " " .. tostring(math.Round(val - CurTime(), 2))
-            end
+			local height = 150
+			local cwidth = 265 * 2
+			local xoff = cwidth
+			local yoff = height
 
-            draw.SimpleText(tostring(id) .. " " .. tostring(item.name) .. ": " .. tostring(val), "ChatFont", 5, off, color_white)
-            off = off + 15
-        end
-    end
-end)
+			local info = ent:GetTable()
+			local sortedInfo = {}
+
+			for prop, val in pairs( info ) do
+				table.insert( sortedInfo, { prop = prop, val = val } )
+			end
+
+			table.sort( sortedInfo, function( a, b )
+				return tostring( a.prop ) < tostring( b.prop )
+			end )
+
+			for _, val in pairs( sortedInfo ) do
+
+				if type(val.val) == "function" || type(val.val) == "Panel" then continue end
+				draw.SimpleText( tostring( val.prop ) .. ": " .. tostring( val.val ), "ChatFont", xoff, yoff, color_white )
+				yoff = yoff + 15
+
+				if yoff > 600 then
+					yoff = height
+					xoff = xoff + cwidth
+				end
+
+			end
+
+		end
+
+	end
+
+	// World entity network vars!
+	off = off + 15
+	draw.SimpleText( "Globalnet", "ChatFont", 5, off, Color( 255, 100, 100 ) )
+	off = off + 15
+
+	local ent = globalnet.GetGlobalNetworking()
+	local globalvars = ent:GetNetworkVars() or nil
+	if globalvars then
+
+		for name, value in pairs( globalvars ) do
+
+			local val = value
+
+			-- Handle time/round time
+			if string.find( "time", string.lower( name ) ) then
+				val = tostring( val ) .. " " .. tostring( math.Round( val - CurTime(), 2 ) )
+			end
+
+			draw.SimpleText( tostring( name ) .. ": " .. tostring( val ), "ChatFont", 5, off, color_white )
+			off = off + 15
+
+		end
+
+	end
+
+end )
 
 hook.Add("HUDPaint", "AdminShowMapList", function()
     if not LocalPlayer():IsStaff() or not showMapList:GetBool() then return end

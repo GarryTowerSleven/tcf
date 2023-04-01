@@ -1,7 +1,6 @@
-/*module( "plynet", package.seeall )
+module( "plynet", package.seeall )
 
 DEBUG = false
-UseTransmitTools = true
 
 function Register( nettype, name, nwtable )
 
@@ -12,38 +11,9 @@ function Register( nettype, name, nwtable )
 		return
 	end
 
-	if UseTransmitTools then
-
-		local transmittype = DTVarToTransmitTools[nettype]
-
-		if not transmittype then
-			ErrorNoHalt( "Error registering invalid transmit tools network var type! ", name, "\n" )
-			return
-		end
-
-		RegisterNWTablePlayer( { { name, nwtable.default or DTVarDefaults[nettype], transmittype, nwtable.repl or REPL_EVERYONE, function(entity, name, old, new)
-			-- marshall from nwvar callback to simplified plynet callback
-			if nwtable.callback then
-				nwtable.callback(entity, old, new)
-			end
-		end} } )
-
-	else
-
-		RegisterDTVar( nettype, name, nwtable.default, nwtable.callback )
-
-	end
+	RegisterDTVar( nettype, name, nwtable.default, nwtable.callback )
 
 end
-
-------------------------------------------------------------
-if UseTransmitTools then 
-	Register( "Int", "Money" )
-	Register( "String", "FakeName" )
-	if IsLobby then	Register( "Entity", "DrivingObject" ) end
-	return
-end -- DTVar support
-------------------------------------------------------------
 
 PlayerNetworkVars = {}
 TypesAndLimits = {
@@ -121,23 +91,28 @@ function GetByName( name )
 
 end
 
-function InitializeOn( ent, ply )
+function Initialize( ply )
+	-- if ( ply:IsBot() ) then return end
+	if ( ply._NetInit ) then return end
 
 	for i, var in pairs( PlayerNetworkVars ) do
-
-		-- Create the networkvar
 		if DEBUG then MsgN( "Init: ", var.nettype, " id: ", var.id, " name: ", var.name ) end
-		ent:NetworkVar( var.nettype, var.id, var.name )
+		ply:NetworkVar( var.nettype, var.id, var.name )
+
+		if ( var.callback ) then
+			ply:NetworkVarNotify( var.name, function( ent, name, old, new )
+				var.callback( ent, old, new, var )
+			end )
+		end
 
 		-- Set default
 		if var.default and SERVER then
-			ent.dt[var.name] = var.default
+			ply.dt[var.name] = var.default
 		end
-
 	end
 
-	ply._NetworkVarTable = table.Copy( PlayerNetworkVars )
-
+	ply._NetInit = true
+	hook.Call( "PlayerNetInitalized", GAMEMODE, ply )
 end
 
 local meta = FindMetaTable( "Player" )
@@ -145,34 +120,31 @@ if !meta then
 	return
 end
 
+function meta:IsNetInitalized()
+	return self._NetInit == true
+end
+
 if SERVER then
-
-	hook.Add( "PlayerSpawn", "SetupPlayerNetworking", function( ply ) ply:SetupNetworking() end )
-	hook.Add( "PlayerAuthed", "SetupPlayerNetworking", function( ply ) ply:SetupNetworking() end )
-	hook.Add( "PlayerThink", "SetupPlayerNetworking", function( ply ) ply:SetupNetworking() end )
-
-	function meta:SetupNetworking()
-
-		if self:IsBot() then return end
-		if IsValid( self._Network ) then return end
-
-		local ent = ents.Create( "gmt_player_network" )
-		ent:SetOwner( self )
-		ent:Spawn()
-
-		self._Network = ent
-
-	end
 
 	function meta:SetNet( name, value )
 
-		if self:IsBot() then return end
+		-- if self:IsBot() then return end
 
-		if IsValid( self._Network ) then
-			self._Network.dt[name] = value
+		if self._NetInit then
+			if ( self.dt[name] ~= value ) then
+				local var = GetByName( name )
+				if ( var && var.callback ) then
+					self:CallDTVarProxies( var.nettype, var.id, value )
+				end
+			end
+
+			self.dt[name] = value
 		else
-			self:SetupNetworking()
-			if DEBUG then ErrorNoHalt("Missing network! Can't set '", name, "' to ", value, " on ", self, "\n") end
+			// Initialize( self )
+			if DEBUG then
+				ErrorNoHalt("Missing network! Can't set '", name, "' to ", value, " on ", self, "\n")
+				debug.Trace()
+			end
 		end
 
 		return value
@@ -184,28 +156,20 @@ end
 function meta:GetNet( name )
 
 	if not IsValid( self ) then return end
-	if self:IsBot() then return end
+	-- if self:IsBot() then return end
 
-	-- Cache client network
-	if CLIENT and not IsValid( self._Network ) then
-		for _, ent in pairs( ents.FindByClass("gmt_player_network") ) do
-			if ent:GetOwner() == self then
-				self._Network = ent
-			end
-		end
-	end
-
-	local network = self._Network
-
-	if IsValid( network ) and network.dt then
-		return network.dt[name]
+	if self._NetInit and self.dt then
+		return self.dt[name]
 	else
-		if DEBUG then ErrorNoHalt("Missing network! Can't get '", name, "' on ", self, "\n") end
+		if DEBUG then
+			ErrorNoHalt("Missing network! Can't get '", name, "' on ", self, "\n")
+			debug.Trace()
+		end
 	end
 
 end
 
-if CLIENT then
+/*if CLIENT then
 
 	-- Handle clientside call backs
 	hook.Add( "Think", "PlayerNetCallBackThink", function()
@@ -242,8 +206,8 @@ if CLIENT then
 
 	end )
 
-end
+end*/
 
 Register( "Int", "Money" )
 Register( "String", "FakeName" )
-Register( "Entity", "DrivingObject" )*/
+Register( "Entity", "DrivingObject" )

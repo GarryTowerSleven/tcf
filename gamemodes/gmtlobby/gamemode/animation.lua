@@ -2,7 +2,7 @@
 local function RespawnAllow( ply )
 
 	// ragdolled players should not be able to force respawn
-	if ( ply.Ragdolled ) then return false end
+	if ( ply:GetNet( "Ragdolled" ) ) then return false end
 	
 	if ( ply:IsAdmin() ) then return true end
 	

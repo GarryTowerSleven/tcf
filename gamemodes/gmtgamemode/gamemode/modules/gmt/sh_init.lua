@@ -136,8 +136,6 @@ function SetupGMTGamemode( name, folder, settings )
 			hook.Add( "CanMousePress", "DisableClientMenu", function() return false end )
 		end
 
-		HudToHide = GtowerHudToHide
-
 		-- Hide HUD elements
 		table.uinsert( HudToHide, "CHudChat" )
 		table.uinsert( HudToHide, "CHudHealth" )
@@ -224,18 +222,22 @@ function SetupGMTGamemode( name, folder, settings )
 
 end
 
+globalnet.Register( "Int", "State" )
+globalnet.Register( "Float", "Time" )
+globalnet.Register( "Int", "Round" )
+
 // STATE
 STATE_NOPLAY = 0
 
 function GM:SetState( state )
 	if not state then return end
 	MsgN( "[GMode] Setting state: " .. state )
-	SetGlobalInt( "State", state )
-	self.State = GetGlobalInt( "State", 0 )
+	globalnet.SetNet( "State", state )
+	self.State = state
 end
 
 function GM:GetState()
-	return self.State || GetGlobalInt( "State", 0 )
+	return self.State or globalnet.GetNet( "State" ) or 0
 end
 
 function GM:IsPlaying()
@@ -260,19 +262,40 @@ end
 function GM:SetTime( time )
 	if not time then return end
 	MsgN( "[GMode] Setting time: " .. time )
-	SetGlobalFloat( "Time", CurTime() + time )
-	self.Time = GetGlobalFloat( "Time" )
+	globalnet.SetNet( "Time", CurTime() + time )
 end
 
 function GM:GetTime()
-	return self.Time || GetGlobalFloat( "Time" )
+	return globalnet.GetNet( "Time" )
 end
 
 
 -- ROUNDS
 function GM:GetRoundCount()
-	return GetWorldEntity():GetNet( "Round" ) or 0
+	return globalnet.GetNet( "Round" ) or 0
 end
+
+function GM:GetRound()
+	return self:GetRoundCount()
+end
+
+function GM:SetRound( round )
+	globalnet.SetNet( "Round", round )
+end
+
+function GM:IncrementRound()
+	self:SetRound( "Round", self:GetRound() + 1 )
+end
+
+-- CLEAN UP
+local CleanUpPreserveList = { "gmt_global_network", "gmt_cosmeticbase", "gmt_hat" }
+
+function GM:CleanUpMap( noclient, preservegame )
+	local preserve = table.Copy( CleanUpPreserveList )
+	table.Add( preserve, preservegame )
+	game.CleanUpMap( noclient, preserve )
+end
+
 
 if SERVER then
 	-- CONCOMMANDS

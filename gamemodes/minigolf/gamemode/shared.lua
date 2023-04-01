@@ -22,12 +22,6 @@ STATE_PLAYING 		= 4 -- playing game
 STATE_INTERMISSION 	= 5 -- in between holes (scoreboard show)
 STATE_ENDING 		= 6 -- game is ending
 
-// Types of cameras
-STATIC 				= 1 -- does not move. just point/angle
-FUNCTION 			= 2 -- lua controlled. just like calcview
-SPLINE 				= 3 -- looping spline track
-SPLINE_TIMED 		= 4 -- timed spline track (start-finish)
-
 // GAME SETTINGS
 WaitTime = 80
 MaxPower = 300
@@ -94,20 +88,11 @@ function GM:GetHoles()
 	end
 end
 
-function GetWorldEntity()
-	return game.GetWorld()
-end
-
 // NETVARS
-function RegisterNWGlobal()
-	SetGlobalInt( "Hole", 0 )
-	SetGlobalInt( "Par", 0 )
-	SetGlobalString( "HoleName", "" )
-	SetGlobalBool( "HasPractice", false )
-	SetGlobalInt( "State", 0 )
-	SetGlobalInt( "Time", 0 )
-	SetGlobalInt( "Round", 0 )
-end
+globalnet.Register( "Int", "Hole" )
+globalnet.Register( "Int", "Par" )
+globalnet.Register( "String", "HoleName" )
+globalnet.Register( "Bool", "HasPractice" )
 
 -- MUSIC
 MUSIC_NONE = 0
@@ -151,26 +136,15 @@ SOUNDINDEX_ANNOUNCER = 2
 
 --STATE
 function GM:IsPracticing()
-	return GetGlobalInt( "State" ) == STATE_WAITING && GetGlobalBool( "HasPractice" ) == true
+	return self:GetState() == STATE_WAITING && globalnet.GetNet( "HasPractice" ) == true
 end
 
 -- TEAM
 TEAM_PLAYING = 1
 TEAM_FINISHED = 2
 
-function GM:SetState( state )
-	if not state then return end
-	MsgN( "[GMode] Setting state: " .. state )
-	SetGlobalInt( "State", state )
-	--self.State = state
-end
-
-function GM:GetState()
-	return GetGlobalInt( "State", 0 )
-end
-
 function GM:IsPlaying()
-	return GetGlobalInt( "State" ) ==  STATE_PLAYING
+	return self:GetState() ==  STATE_PLAYING
 end
 
 function PracticeSpawn()
@@ -193,70 +167,28 @@ function FirstSpawn()
 	return spawn
 end
 
--- TIME
-function GM:GetTimeLeft()
-	local timeLeft = ( self:GetTime() or 0 ) - CurTime()
-	if timeLeft < 0 then timeLeft = 0 end
-
-	return timeLeft
-end
-
-function GM:NoTimeLeft()
-	return self:GetTimeLeft() <= 0
-end
-
-function GM:SetTime( time )
-	if not time then return end
-
-	if time != 60 then
-		MsgN( "[GMode] Setting time: " .. time )
-	end
-
-	SetGlobalInt( "Time", CurTime() + time )
-end
-
-function GM:GetTime()
-	return GetGlobalInt( "Time" )
-end
-
--- ROUNDS
-function GM:GetRoundCount()
-	return GetGlobalInt( "Round", 0 )
-end
-
--- CONCOMMANDS
-concommand.Add( "mg_setstate", function( ply, cmd, args )
-	if !ply:IsAdmin() then return end
-	GAMEMODE:SetState( tonumber( args[1] ) )
-end )
-
-concommand.Add( "mg_settime", function( ply, cmd, args )
-	if !ply:IsAdmin() then return end
-	GAMEMODE:SetTime( tonumber( args[1] ) )
-end )
-
 function GM:GetPar()
-	return GetGlobalInt( "Par" )
+	return globalnet.GetNet( "Par" )
 end
 
 function GM:SetPar( par )
-	return SetGlobalInt( "Par", par )
+	globalnet.SetNet( "Par", par )
 end
 
 function GM:GetHoleName()
-	return GetGlobalString( "HoleName" )
+	return globalnet.GetNet( "HoleName" )
 end
 
 function GM:SetHoleName( name )
-	SetGlobalString( "HoleName", name )
+	globalnet.SetNet( "HoleName", name )
 end
 
 function GM:UpdateNetHole( hole )
-	SetGlobalInt( "Hole", hole )
+	globalnet.SetNet( "Hole", hole )
 end
 
 function GM:GetHole()
-	return GetGlobalInt( "Hole", 0 )
+	return globalnet.GetNet( "Hole" ) or 0
 end
 
 hook.Add( "ShouldCollide", "ShouldCollideMinigolf", function( ent1, ent2 )

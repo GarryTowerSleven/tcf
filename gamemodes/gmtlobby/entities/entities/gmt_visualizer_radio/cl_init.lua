@@ -4,8 +4,8 @@ ENT.OffsetForward = 4
 ENT.OffsetUp = -5
 ENT.DefaultTitle = T("RadioTurnedOff")
 
-local GreenBox	= Color( 0, 255, 0, 50 )
-local RedBox	= Color( 255, 0, 0, 50 )
+local GreenBox	= Color( 50, 175, 50, 50 )
+local RedBox	= Color( 175, 50, 50, 50 )
 
 ENT.RenderGroup = RENDERGROUP_BOTH
 
@@ -23,7 +23,8 @@ function ENT:DrawTranslucent()
 		return
 	end
 
-	local Alpha = 255 - math.Clamp( PlyDistance / 300 * 255 ,0, 255 )
+	local Alpha = 175 - math.Clamp( PlyDistance / 256 * 175 ,0, 175 )
+	local Alpha2 = 255 - math.Clamp( PlyDistance / 256 * 255 ,0, 255 )
 	local MaxNameLenght = 32
 	
 	ang:RotateAroundAxis(ang:Right(), 	-90 )
@@ -32,22 +33,25 @@ function ENT:DrawTranslucent()
 	cam.Start3D2D( EntPos , ang, 0.1)
 		
 		pcall( function()
-			local Title
-			local Color
-			local Media = self:GetFirstMediaPlayerInLocation():GetMedia()
+			local Stream = self:GetStream()
+			if not Stream or not self.MediaPlayer then return end
+
+			local Media = self.MediaPlayer:GetMedia()
+			local Title = self.DefaultTitle
+			local Color = RedBox
 			
 			if ( Media != nil ) then
 				
 				Color = GreenBox
 				Title = T( "RadioPlaying" ) .. " " .. Media:Title()
 				
-				self:DrawSpectrumAnalyzer(Alpha)
+				self:DrawSpectrumAnalyzer(Alpha, Alpha2)
 
 				if Media:IsTimed() then
-					self:DrawDuration( Media, Alpha )
+					self:DrawDuration( Media, Alpha, Alpha2 )
 				end
 
-			else
+			else -- there should also be a check for if a file is still loading here. where'd that go?
 
 				Title = self.DefaultTitle
 				Color = RedBox
@@ -74,9 +78,8 @@ function ENT:DrawTranslucent()
 			Color.a = Alpha
 
 			surface.SetDrawColor( Color )
-			surface.DrawRect(-100, -145, w + 16, h + 8 )
-
-			surface.SetTextColor( 255, 255, 255, Alpha ) 
+			draw.RoundedBox(4, -100 , -145, w + 16, h + 8, Color )
+			surface.SetTextColor( 255, 255, 255, Alpha2 ) 
 			surface.SetTextPos( -100 + 8, -145 + 4 ) 	
 			surface.DrawText( Title )
 		end )
@@ -89,19 +92,19 @@ function ENT:Draw()
 	self:DrawModel()
 end
 
-local SPECHEIGHT= 64
+local SPECHEIGHT= 54
 local SPECWIDTH	= 300
 local BANDS	= 28
 local ox, oy	= -100, -65
 
-function ENT:DrawSpectrumAnalyzer(Alpha)
+function ENT:DrawSpectrumAnalyzer(Alpha, Alpha2)
 
 	local fft = self:GetFFTFromStream()
 	local b0 = 0
 
 	local Col = Color( 0, 255, 255 )
 	for x = 0, BANDS-2 do
-		Col = colorutil.TweenColor( Col, Color( 0, 0, 255), 0.07, Alpha )
+		Col = colorutil.TweenColor( Col, Color( 0, 0, 255), 0.07, Alpha2 )
 		surface.SetDrawColor(Col)
 		local sum = 0
 		local sc = 0
@@ -121,7 +124,7 @@ function ENT:DrawSpectrumAnalyzer(Alpha)
 
 end
 
-function ENT:DrawDuration(Media, Alpha)
+function ENT:DrawDuration(Media, Alpha, Alpha2)
 
 	surface.SetDrawColor( 50, 50, 50, Alpha )
 	surface.DrawRect( ox, oy + 1, 8*(BANDS-1), 18 )
@@ -141,7 +144,7 @@ function ENT:DrawDuration(Media, Alpha)
 	local w,h = surface.GetTextSize( sTime ) 
 
 	surface.SetTextPos( ox + (8*(BANDS-1))/2 - w/2, oy + 2 )
-	surface.SetTextColor( 255, 255, 255, Alpha )
+	surface.SetTextColor( 255, 255, 255, Alpha2 )
 	
 	surface.DrawText( sTime )
 

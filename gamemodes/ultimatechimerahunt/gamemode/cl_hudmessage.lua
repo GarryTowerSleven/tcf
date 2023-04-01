@@ -163,7 +163,7 @@ local function ClientHudMsg( um )
 	if index == MSG_PIGNOTIFY then
 		
 		local rankName = ""
-		if IsValid( ent ) && ent:IsPlayer() && !ent:GetNWBool( "IsChimera" ) then
+		if IsValid( ent ) && ent:IsPlayer() && !ent:GetNet( "IsChimera" ) then
 
 			if ent:GetRankName() == "Ensign" then
 				rankName = "n " .. ent:GetRankName()

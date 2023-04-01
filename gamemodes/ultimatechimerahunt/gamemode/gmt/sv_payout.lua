@@ -13,7 +13,7 @@ function GAMEMODE:GiveMoney()
 		// Chimera won
 		if teamid == TEAM_CHIMERA then
 
-			if ply:GetNWBool("IsChimera") then
+			if ply:GetNet("IsChimera") then
 
 				payout.Give( ply, "UCWinBonus" )
 
@@ -31,11 +31,11 @@ function GAMEMODE:GiveMoney()
 
 				payout.Give( ply, "WinBonus" )
 
-				if ply:GetNWBool("PressedButton") then
+				if ply:GetNet("PressedButton") then
 					payout.Give( ply, "ButtonPress" )
 				end
 
-				payout.Give( ply, "Rank" .. ply:GetNWInt("Rank") )
+				payout.Give( ply, "Rank" .. ply:GetNet("Rank") )
 
 			// You died during play, half of the winning bonus for you
 			elseif ply:Team() == TEAM_GHOST then
@@ -44,14 +44,14 @@ function GAMEMODE:GiveMoney()
 
 			end
 
-			if #team.GetPlayers( TEAM_PIGS ) == 1 then
+			if #team.GetPlayers( TEAM_PIGS ) == 1 && ply:Team() == TEAM_PIGS then
 				payout.Give( ply, "UCLastPig" )
 			end
 
 		end
 
 		// Chimera gets paid a little more for more action
-		if ply:GetNWBool("IsChimera") then
+		if ply:GetNet("IsChimera") then
 
 			local deadpigs = #team.GetPlayers( TEAM_GHOST )
 			if deadpigs > 0 then

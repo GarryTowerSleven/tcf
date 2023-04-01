@@ -2,8 +2,6 @@
 -----------------------------------------------------
 include("shared.lua")
 
-include("cl_stencilcomposite.lua")
-
 --Local user state ( shared among companion scripts )
 
 localInfo_s = {

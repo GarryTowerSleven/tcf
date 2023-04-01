@@ -1,9 +1,9 @@
 hook.Add("GTowerMsg", "GamemodeMessage", function()
 
-	if GetWorldEntity():GetNet( "Round" ) == 0 then		
+	if GAMEMODE:GetRound() == 0 then		
 		return "#nogame"
 	else
-		return GAMEMODE:GetTimeLeft() .. "||||" .. tostring( GetWorldEntity():GetNet( "Round" ) ) .. "/" .. GetWorldEntity():GetNet( "MaxRounds" )
+		return GAMEMODE:GetTimeLeft() .. "||||" .. tostring( GAMEMODE:GetRound() ) .. "/" .. globalnet.GetNet( "MaxRounds" )
 	end
 
 end )

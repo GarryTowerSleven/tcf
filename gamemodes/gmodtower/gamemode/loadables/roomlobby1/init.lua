@@ -288,9 +288,9 @@ end )
 
 util.AddNetworkString( "SendSuiteName" )
 net.Receive( "SendSuiteName", function( len, ply )
-	if !IsValid(ply) || !ply.GRoomId then return end
+	if !IsValid(ply) || !ply:GetNet( "RoomID" ) then return end
 
-	local Panel = GetPanel( ply.GRoomId )
+	local Panel = GetPanel( ply:GetNet( "RoomID" ) )
 
 	if Panel then
 		local name = net.ReadString()

@@ -6,7 +6,7 @@ ENT.Type		= "anim"
 ENT.PrintName	= "Painkilers"
 
 ENT.Model		= Model("models/props_lab/jar01a.mdl")
-ENT.Sound		= Sound("HL1/fvox/medical_repaired.wav")
+ENT.Sound		= clsound.Register("HL1/fvox/medical_repaired.wav")
 
 function ENT:Initialize()
 	if CLIENT then return end
@@ -30,7 +30,7 @@ function ENT:Use(ply)
 	if CLIENT || self.Used then return end
 
 	self.Used = true
-	self:EmitSound( self.Sound, 100, 150 )
+	self:EmitSoundInLocation( self.Sound, 100, 150 )
 	
 	ply:Extinguish()
 	ply:SetHealth( 100 )

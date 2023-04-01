@@ -1,98 +1,64 @@
-local basepath = "mediaplayer/"
+// MediaPlayer.DEBUG = true
 
-local function IncludeMP( filepath )
-	include( basepath .. filepath )
+-- Load players
+do
+	local path = "players/"
+	local players = {
+		"suitetv",
+		"jukebox",
+		-- "club"
+	}
+
+	for _, player in ipairs(players) do
+		local clfile = path .. player .. "/cl_init.lua"
+		local svfile = path .. player .. "/init.lua"
+
+		MEDIAPLAYER = {}
+		
+		if SERVER then
+			AddCSLuaFile(clfile)
+			include(svfile)
+		else
+			include(clfile)
+		end 
+
+		MediaPlayer.Register( MEDIAPLAYER )
+		MEDIAPLAYER = nil
+	end
 end
 
-local function PreLoadMediaPlayer()
-	-- Check if MediaPlayer has already been loaded
-	if MediaPlayer then
-		MediaPlayer.__refresh = true
+local function GMTInitMediaPlayer( MediaPlayer )
+	local GMTServices = {}
 
-		-- HACK: Lua refresh fix; access local variable of baseclass lib
-		local _, BaseClassTable = debug.getupvalue(baseclass.Get, 1)
-		for classname, _ in pairs(BaseClassTable) do
-			if classname:find("mp_") then
-				BaseClassTable[classname] = nil
-			end
+	for _, serviceId in pairs({
+		"base",
+
+		"browser",
+		"yt",
+		-- "twv",
+		-- "twl",
+
+		"res",
+		"img",
+		"h5v",
+		"www",
+
+		"af",
+		-- "shc",
+		-- "sc"
+	}) do
+		GMTServices[serviceId] = true
+	end
+
+	-- Unregister disallowed services (temporary until they're fixed)
+	for id, service in pairs(MediaPlayer.Services) do
+		if not GMTServices[service.Id] then
+			MediaPlayer.Services[id] = nil
 		end
 	end
 end
+hook.Add("InitMediaPlayer", "GMT.InitMediaPlayer", GMTInitMediaPlayer)
 
-local function PostLoadMediaPlayer()
-	if SERVER then
-		-- Reinstall media players on Lua refresh
-		for _, mp in pairs(MediaPlayer.GetAll()) do
-			if mp:GetType() == "entity" and IsValid(mp) then
-				local ent = mp:GetEntity()
-				local snapshot = mp:GetSnapshot()
-				local listeners = table.Copy(mp:GetListeners())
-
-				-- remove media player
-				mp:Remove()
-
-				-- install new media player
-				ent:InstallMediaPlayer()
-
-				-- restore settings
-				mp = ent._mp
-				mp:RestoreSnapshot( snapshot )
-				mp:SetListeners( listeners )
-			end
-		end
-	end
-end
-
-local function LoadMediaPlayer()
-	--print( "Loading 'mediaplayer' addon..." )
-
-	PreLoadMediaPlayer()
-
-	-- shared includes
-	IncludeCS "includes/extensions/sh_url.lua"
-	IncludeCS "includes/modules/EventEmitter.lua"
-
-	if SERVER then
-		-- download clientside includes
-		AddCSLuaFile "includes/modules/browserpool.lua"
-		AddCSLuaFile "includes/modules/inputhook.lua"
-		//AddCSLuaFile "includes/modules/htmlmaterial.lua"
-		AddCSLuaFile "includes/modules/spritesheet.lua"
-
-		-- initialize serverside mediaplayer
-		IncludeMP "init.lua"
-	else
-		-- clientside includes
-		include "includes/modules/browserpool.lua"
-		include "includes/modules/inputhook.lua"
-		//include "includes/modules/htmlmaterial.lua"
-		include "includes/modules/spritesheet.lua"
-
-		-- initialize clientside mediaplayer
-		IncludeMP "cl_init.lua"
-	end
-
-	if SERVER then
-		AddCSLuaFile "menubar/mp_options.lua"
-		AddCSLuaFile "properties/mediaplayer.lua"
-	else
-		include "menubar/mp_options.lua"
-		include "properties/mediaplayer.lua"
-	end
-
-	--
-	-- Media Player menu includes; remove these if you would rather not include
-	-- the sidebar menu.
-	--
-	if SERVER then
-		AddCSLuaFile "mp_menu/cl_init.lua"
-		include "mp_menu/init.lua"
-	else
-		include "mp_menu/cl_init.lua"
-	end
-
-	PostLoadMediaPlayer()
-end
-
--- First time load
-LoadMediaPlayer()
+hook.Add( "MediaPlayerIsPlayerPrivileged", "GMTMediaPrivileged", function( mp, ply )
+	return ply.IsStaff and ply:IsStaff() or false
+end )

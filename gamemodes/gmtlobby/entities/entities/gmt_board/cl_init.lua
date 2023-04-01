@@ -21,6 +21,7 @@ local donationFeatures = {
 	"VIP only store and items in-game",
 	"VIP icon/avatar glow in-game",
 	"Suite entity limit raised to 200",
+	"Theater duration limit raised to an hour and 30 minutes",
 	"Invites to beta tests",
 	"Our eternal love ♥",
 	"And more!"

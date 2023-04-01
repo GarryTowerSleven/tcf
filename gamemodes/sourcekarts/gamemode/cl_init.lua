@@ -1,13 +1,6 @@
-
-include( "camsystem/cl_init.lua" )
-include( "camsystem/shared.lua" )
-include( "catmull/shared.lua" )
-
 include("meta_player.lua")
-include("meta_camera.lua")
 
 include("shared.lua")
-include("nwtranslator.lua")
 include("cl_controls.lua")
 include("cl_camera.lua")
 
@@ -22,12 +15,6 @@ include("cl_debug3d.lua")
 include("sh_items.lua")
 
 CreateClientConVar( "sk_fun", "0", true, true )
-
-local hide = {
-	["CHudHealth"] = true,
-	["CHudBattery"] = true,
-  ["CHudCrosshair"] = true
-}
 
 net.Receive("online_music", function()
 
@@ -141,12 +128,6 @@ hook.Add( "Think", "LateJoinCameraDefault", function()
 
 
 
-end )
-
-hook.Add( "HUDShouldDraw", "HideHUD", function( name )
-	if ( hide[ name ] ) then return false end
-
-	-- Don't return anything here, it may break other addons that rely on this hook.
 end )
 
 usermessage.Hook( "ShowScores", function( um )

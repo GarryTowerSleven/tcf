@@ -18,7 +18,7 @@ function ENT:Draw()
 	local owner = self:GetOwner()
 	if IsValid( owner ) then
 
-		local size = owner._PlyModelSize or 1
+		local size = owner:GetNet( "ModelSize" ) or 1
 
 		local FootR = owner:LookupBone( "ValveBiped.Bip01_R_Foot" )
 		local FootL = owner:LookupBone( "ValveBiped.Bip01_L_Foot" )
@@ -36,8 +36,8 @@ function ENT:Draw()
 			posL, ang = owner:GetBonePosition( FootL )
 		end
 
-		if IsValid( owner.BallRaceBall ) then
-			pos = owner.BallRaceBall:GetPos()
+		if IsValid( owner:GetBallRaceBall() ) then
+			pos = owner:GetBallRaceBall():GetPos()
 		end
 
 		if size >= 1 then

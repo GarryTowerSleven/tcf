@@ -27,8 +27,7 @@ end
 CreateConVar("gmt_srvid", 7 )
 
 function GM:Initialize()
-	RegisterNWTableG()
-	self:SetGameState( STATE_WAITING )
+	self:SetState( STATE_WAITING )
 	
 	//timer.Simple( .1, GAMEMODE:CacheStuff() ) //Precaching stuff
 	timer.Simple(.1, function() GAMEMODE:CacheStuff() end)
@@ -38,6 +37,8 @@ function GM:Initialize()
 end
 
 function GM:SetMusic( ply, idx, teamid )
+
+	if ( not IsValid( ply ) or ply:IsBot() ) then return end
 
 	umsg.Start( "UC_PlayMusic", ply )
 		umsg.Char( idx )
@@ -49,6 +50,8 @@ function GM:SetMusic( ply, idx, teamid )
 end
 
 function GM:HUDMessage( ply, index, time, ent, ent2, color )
+
+	if ( not IsValid( ply ) or ply:IsBot() ) then return end
 	
 	umsg.Start( "HudMsg", ply )
 		umsg.Char( index )
@@ -86,7 +89,7 @@ end
 
 function GM:DoKillNotice( ply )
 
-	if ply:GetNWBool("IsChimera") then
+	if ply:GetNet("IsChimera") then
 
 		if ply.Pressed && IsValid( ply.Presser ) then
 			GAMEMODE:SendKillNotice( "press", ply, ply.Presser )

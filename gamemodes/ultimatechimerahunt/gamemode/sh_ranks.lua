@@ -6,11 +6,11 @@ end
 
 function meta:GetRankName()
 
-	if !self:GetNWInt( "Rank" ) || !GAMEMODE.Ranks[ self:GetNWInt( "Rank" ) ] then return "Invalid" end
+	if !self:GetNet( "Rank" ) || !GAMEMODE.Ranks[ self:GetNet( "Rank" ) ] then return "Invalid" end
 
-	local name = GAMEMODE.Ranks[ self:GetNWInt( "Rank" ) ].Name
+	local name = GAMEMODE.Ranks[ self:GetNet( "Rank" ) ].Name
 
-	if self:GetNWBool( "IsChimera" ) then
+	if self:GetNet( "IsChimera" ) then
 		name = "Ultimate Chimera"
 	end
 
@@ -22,15 +22,15 @@ function meta:GetRankColor()
 
 	local color = Color( 250, 180, 180 )
 
-	if !self:GetNWInt( "Rank" ) then return color end
+	if !self:GetNet( "Rank" ) then return color end
 
-	color = GAMEMODE.Ranks[ self:GetNWInt( "Rank" ) ].Color
+	color = GAMEMODE.Ranks[ self:GetNet( "Rank" ) ].Color
 
-	if self:GetNWBool( "IsChimera" ) then
+	if self:GetNet( "IsChimera" ) then
 		color = Color( 230, 30, 110 )
 	end
 	
-	if self:GetNWBool( "IsGhost" ) then
+	if self:IsGhost() then
 		color = Color( 250, 250, 250 )
 	end
 
@@ -42,9 +42,9 @@ function meta:GetRankColorSat()
 
 	local color = Color( 255, 255, 255 )
 
-	if !self:GetNWInt( "Rank" ) then return color end
+	if !self:GetNet( "Rank" ) then return color end
 
-	color = GAMEMODE.Ranks[ self:GetNWInt( "Rank" ) ].SatColor
+	color = GAMEMODE.Ranks[ self:GetNet( "Rank" ) ].SatColor
 
 	return color
 
@@ -54,9 +54,9 @@ function meta:SetRank( num )
 
 	local num = math.Clamp( num, 1, 4 )
 
-	self:SetNWInt( "Rank", num )
+	self:SetNet( "Rank", num )
 
-	if !self:GetNWBool( "IsGhost" ) then
+	if !self:IsGhost() then
 		self:SetRankModels()
 	end
 
@@ -64,7 +64,7 @@ end
 
 function meta:SetRankModels()
 
-	local rank = self:GetNWInt( "Rank" )
+	local rank = self:GetNet( "Rank" )
 
 	if rank > 3 then
 		self:SetBodygroup( 2, 1 )
@@ -80,18 +80,18 @@ end
 
 function meta:RankUp()
 
-	self:SetNWInt( "NextRank", math.Clamp( self:GetNWInt( "Rank" ) + 1, 1, 4 ) )
+	self:SetNet( "NextRank", math.Clamp( self:GetNet( "Rank" ) + 1, 1, 4 ) )
 
 end
 
 function meta:RankDown()
 
-	self:SetNWInt( "NextRank", math.Clamp( self:GetNWInt( "Rank" ) - 1, 1, 4 ) )
+	self:SetNet( "NextRank", math.Clamp( self:GetNet( "Rank" ) - 1, 1, 4 ) )
 
 end
 
 function meta:ResetRank()
 
-	self:SetNWInt( "NextRank", 1 )
+	self:SetNet( "NextRank", 1 )
 
 end

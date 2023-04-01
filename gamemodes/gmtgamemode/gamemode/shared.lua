@@ -1,11 +1,12 @@
-GM.Name = "GMTower: Gamemode Base"
-GM.Author = "GTower Team"
-GM.Website = ""
+GM.Name		= "GMTower: Gamemode Base"
+GM.Author	= "pixelTail Games"
+GM.Website	= "http://www.gmtower.org/"
 
 DeriveGamemode( "gmodtower" )
 
 include( "sh_load.lua" )
 
+Loader.Load( "extensions" )
 Loader.Load( "modules" )
 
 /*SetupGMTGamemode( "Base", {

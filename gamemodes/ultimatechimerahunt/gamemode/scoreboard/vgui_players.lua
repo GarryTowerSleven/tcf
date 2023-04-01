@@ -155,7 +155,7 @@ function PANEL:UpdatePlayerData()
 
 	for k, v in pairs( allPlayers ) do
 
-		//if !v:IsPig() || v:GetNWBool("IsGhost") || v.IsDead || v:GetNWBool("IsPancake") then return end
+		//if !v:IsPig() || v:IsGhost() || v.IsDead || v:GetNet("IsPancake") then return end
 		if plys[v] != nil then return end
 
 		local bar = vgui.Create( "UCPlayerBar", self.List )

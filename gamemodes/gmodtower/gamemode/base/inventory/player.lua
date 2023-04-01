@@ -12,23 +12,27 @@ end
  == MAX ITEMS COUNT
 ================================= */
 function meta:MaxItems()
-    return self.GtowerMaxItems or GTowerItems.DefaultInvCount
+	if not IsValid(self) or not self:IsNetInitalized() or not self.GetNet or not self:GetNet("MaxItems") then
+		return GTowerItems.DefaultInvCount
+	end
+
+    return self:GetNet( "MaxItems" ) or GTowerItems.DefaultInvCount
 end
 
 function meta:SetMaxItems( num )
-	self.GtowerMaxItems =  math.Clamp( tonumber( num or GTowerItems.DefaultInvCount ), 1, GTowerItems.MaxInvCount )
+	self:SetNet( "MaxItems", math.Clamp( tonumber( num or GTowerItems.DefaultInvCount ), 1, GTowerItems.MaxInvCount ) )
 end
 
 function meta:BankLimit()
-	if self.GtowerBankMax then
-		return self.GtowerBankMax
+    if not IsValid(self) or not self:IsNetInitalized() or not self.GetNet or not self:GetNet("BankMax") then
+		return GTowerItems.DefaultBankCount
 	end
-
-    return GTowerItems.DefaultBankCount
+	
+	return self:GetNet("BankMax")
 end
 
 function meta:SetMaxBank( num )
-	self.GtowerBankMax =  math.Clamp(
+	local n = math.Clamp(
 		math.max(
 			tonumber( num or GTowerItems.DefaultBankCount ),
 			GTowerItems.DefaultBankCount
@@ -36,6 +40,7 @@ function meta:SetMaxBank( num )
 		1,
 		GTowerItems.MaxBankCount )
 
+	self:SetNet( "BankMax", n )
 end
 
 /* ==============================
@@ -74,6 +79,8 @@ end
 */
 
 function meta:HasItemById( id, invonly )
+	
+	if ( not self._GtowerPlayerItems ) then return false end
 
 	for _, SlotList in pairs(self._GtowerPlayerItems) do
 		for _, Item in pairs( SlotList ) do

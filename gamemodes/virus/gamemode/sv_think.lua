@@ -23,15 +23,15 @@ function GM:Think()
 	if self:GetState() == STATE_PLAYING && #team.GetPlayers( TEAM_PLAYERS ) == 0 then
 		self:EndRound( true )
 	elseif self:GetState() == STATE_WAITING && self:GetTimeLeft() <= 0 then
-		if #player.GetAll() < STATE_INFECTING then return end
+		if player.GetCount() < 2 then return end
 		self:RoundReset()
 	elseif self:GetState() == STATE_INFECTING && self:GetTimeLeft() <= 0 then
-		if #player.GetAll() < STATE_INFECTING then self:EndServer() return end
+		if player.GetCount() < 2 then self:EndServer() return end
 		self:StartRound()
 	elseif self:GetState() == STATE_PLAYING && self:GetTimeLeft() <= 0 then
 		self:EndRound( false )
 	elseif self:GetState() == STATE_INTERMISSION && self:GetTimeLeft() <= 0 then
-		if GetWorldEntity():GetNet( "Round" ) < 10 then
+		if self:GetRound() < 10 then
 			self:RoundReset()
 		else
 			self:EndServer()

@@ -21,16 +21,16 @@ CursorLock2D = surface.GetTextureID( "cursor/cursor_lock" )
 hook.Add( "GShouldCalcView", "ShouldCalcVewBall", function( ply, pos, ang, fov )
 
 	// if the ball race ball is set, we should override the pos and dist
-	return IsValid( ply.BallRaceBall )
+	return IsValid( ply:GetBallRaceBall() )
 
 end )
 
 hook.Add( "GCalcView", "CalcViewBall", function( ply, pos, dist )
 
 	// we'll eventually want to support multiple cases, so that only one ent can override the position and distance
-	if IsValid( ply.BallRaceBall ) then
+	if IsValid( ply:GetBallRaceBall() ) then
 
-		local pos2 = ply.BallRaceBall:GetPos() + Vector( 0, 0, 30 )
+		local pos2 = ply:GetBallRaceBall():GetPos() + Vector( 0, 0, 30 )
 		local dist2 = dist + 50
 
 		return pos2, dist2

@@ -57,6 +57,14 @@ local function MapFixes()
             end
         end
     end
+
+    -- get rid of trigger_push on suite lady
+    for _, v in ipairs( ents.FindByClass( "trigger_push" ) ) do
+        if ( Location.Is( v:Location(), "Suites" ) ) then
+            v:Remove()
+            break
+        end
+    end
 end
 
 // shit to add to the lobe

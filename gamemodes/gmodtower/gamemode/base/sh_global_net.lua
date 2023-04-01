@@ -1,47 +1,21 @@
-/*module( "globalnet", package.seeall )
+module( "globalnet", package.seeall )
 
 DEBUG = false
-UseTransmitTools = false
-_GlobalNetwork = nil
+_GlobalNetwork = _GlobalNetwork or nil
+_Backlog = {}
 
 function Register( nettype, name, nwtable )
 
-	if not nwtable then nwtable= {} end
+	if not nwtable then nwtable = {} end
 
 	if not nettype then
 		ErrorNoHalt( "Error registering null global network var type! ", name, "\n" )
 		return
 	end
 
-	if UseTransmitTools then
-
-		local transmittype = DTVarToTransmitTools[nettype]
-
-		if not transmittype then
-			ErrorNoHalt( "Error registering invalid transmit tools network var type! ", name, "\n" )
-			return
-		end
-
-		RegisterNWTableGlobal( { { name, nwtable.default or DTVarDefaults[nettype], transmittype, nwtable.repl or REPL_EVERYONE, function(entity, name, old, new)
-			-- marshall from nwvar callback to simplified plynet callback
-			if nwtable.callback then
-				nwtable.callback(entity, old, new)
-			end
-		end} } )
-
-	else
-
-		RegisterDTVar( nettype, name, nwtable.default, nwtable.callback )
-
-	end
+	RegisterDTVar( nettype, name, nwtable.default, nwtable.callback )
 
 end
-
-------------------------------------------------------------
-if UseTransmitTools then 
-	return
-end -- DTVar support
-------------------------------------------------------------
 
 _GlobalNetworkVars = {}
 TypesAndLimits = {
@@ -124,12 +98,20 @@ function InitializeOn( ent )
 	for i, var in pairs( _GlobalNetworkVars ) do
 
 		-- Create the networkvar
-		if DEBUG then MsgN( "Init: ", var.nettype, " id: ", var.id, " name: ", var.name ) end
+		if DEBUG then
+			LogPrint( "Init: " .. var.nettype .. " id: " .. var.id .. " name: " .. var.name, nil, "globalnet" )
+		end
 		ent:NetworkVar( var.nettype, var.id, var.name )
+
+		if ( var.callback ) then
+			ent:NetworkVarNotify( var.name, function( ent, name, old, new )
+				var.callback( ent, old, new, var )
+			end )
+		end
 
 		-- Set default
 		if var.default and SERVER then
-			SetNetDefault( ent, var )
+			ent.dt[ var.name ] = var.default
 		end
 
 	end
@@ -148,8 +130,8 @@ end
 
 function GetNet( name )
 
-	-- Cache client global network
-	if CLIENT and not IsValid( _GlobalNetwork ) then
+	-- Cache global network
+	if not IsValid( _GlobalNetwork ) then
 		_GlobalNetwork = GetGlobalNetworking()
 	end
 
@@ -158,7 +140,10 @@ function GetNet( name )
 	if IsValid( network ) and network.dt then
 		return network.dt[name]
 	else
-		if DEBUG then ErrorNoHalt("Missing network! Can't get '", name, "' on ", self, "\n") end
+		if DEBUG then
+			LogPrint( string.format( "Entity not found! Can't get '%s'", name ), color_red, "globalnet" )
+			debug.Trace()
+		end
 	end
 
-end*/
+end

@@ -1,11 +1,10 @@
 function GM:PlayerInitialSpawn( ply )
 	
-	RegisterNWTableP(ply)
 	ply:SetCustomCollisionCheck( true )
 	
 	if ply:IsBot() then return end
 
-	if self:GetGameState() == STATE_WAITING then
+	if self:GetState() == STATE_WAITING then
 
 		local plys = player.GetAll()
 
@@ -38,9 +37,7 @@ end
 
 function GM:PlayerSpawn( ply )
 
-	if ply:IsBot() then return end
-
-	if self:GetGameState() == STATE_WAITING then
+	if self:GetState() == STATE_WAITING then
 
 		timer.Simple( 1, function()
 			self:SetMusic( ply, MUSIC_WAITING )
@@ -48,7 +45,7 @@ function GM:PlayerSpawn( ply )
 
 	end
 
-	if !self:IsPlaying() && !ply:GetNWBool("IsGhost") then
+	if !self:IsPlaying() && !ply:IsGhost() then
 		ply:SetGhost()
 	end
 
@@ -63,7 +60,7 @@ function GM:PlayerSpawn( ply )
 
 		--if self:IsPlaying() then
 
-			if ply:GetNWBool("IsFancy") then
+			if ply:GetNet("IsFancy") then
 				if IsValid( ply ) && ply:AchievementLoaded() then ply:AddAchievement( ACHIEVEMENTS.UCHDRUNKEN, 1 ) end
 			end
 
@@ -71,7 +68,7 @@ function GM:PlayerSpawn( ply )
 
 	end
 
-	if ply:GetNWBool("IsGhost") then
+	if ply:IsGhost() then
 		ply:ResetVars()
 		return
 	end
@@ -88,7 +85,7 @@ function GM:PlayerSpawn( ply )
 	
 	ply:SetupModel()
 
-	if ply:GetNWBool("IsChimera") then
+	if ply:GetNet("IsChimera") then
 
 		ply:SetTeam( 2 )
 		
@@ -113,7 +110,7 @@ function GM:PlayerSelectSpawn( ply )
 
     local spawns = ents.FindByClass( "info_player*" )
 
-	if ply:Team() == TEAM_CHIMERA || ply:GetNWBool("IsChimera") then
+	if ply:Team() == TEAM_CHIMERA || ply:GetNet("IsChimera") or false then
 
 		local chimera_spawns = ents.FindByClass( "chimera_spawn" )
 		return chimera_spawns[ math.random( #chimera_spawns ) ]

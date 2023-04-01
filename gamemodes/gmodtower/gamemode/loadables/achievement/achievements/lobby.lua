@@ -347,7 +347,7 @@ hook.Add("PlayerThink", "AchiZombieHat", function(ply)
 end )
 
 hook.Add( "OnPlayerHitGround", "HumanBlurCheck", function( ply )
-	if ( Location.Is( ply._Location, "Lobby" ) && Location.Is( ply._LastLocation, "Lobby Roof" ) ) then
+	if ( Location.Is( ply:Location(), "Lobby" ) && Location.Is( ply._LastLocation, "Lobby Roof" ) ) then
 		ply:SetAchievement( ACHIEVEMENTS.HUMANBLUR, 1 )
 	end
 end)

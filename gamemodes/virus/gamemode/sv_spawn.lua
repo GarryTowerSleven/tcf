@@ -8,7 +8,7 @@ function GM:PlayerInitialSpawn( ply )
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
 
 	if self:GetState() <= 1 then
-		if #player.GetAll() >= 1 && !ply:IsBot() then
+		if #player.GetAll() >= 1 && !ply:IsBot() && self:GetState() ~= STATE_WAITING then
 			self:SetState( STATE_WAITING )
 			self:SetTime( self.RoundTime )
 		end

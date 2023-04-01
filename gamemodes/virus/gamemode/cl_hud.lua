@@ -55,8 +55,8 @@ function GM:HUDPaint()
 	end
 
 	local state = self:GetState()
-	local currentRound = self:GetRoundCount()
-	local maxRounds = GetWorldEntity():GetNet( "MaxRounds" )
+	local currentRound = self:GetRound()
+	local maxRounds = globalnet.GetNet( "MaxRounds" )
 	
 	local rank = RankToString( LocalPlayer():GetNet( "Rank" ) )
 	local score = tostring( LocalPlayer():Frags() ) or 0

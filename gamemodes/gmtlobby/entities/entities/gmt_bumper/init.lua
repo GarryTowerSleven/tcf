@@ -30,7 +30,7 @@ end
 local function ValidPhysics( ent )
 
 	local PushableProps = {
-		"gmt_ballrace",
+		"gmt_wearable_ballrace",
 
 		//typical source stuff
 		"prop_physics", "prop_physics_respawnable",
@@ -98,7 +98,7 @@ function ENT:PhysicsCollide( data, phys )
 
 		self:SetMaterial( self.LitMaterial )
 		self.Lit = CurTime()
-		self:EmitSound( self.BumpSound )
+		self:EmitSoundInLocation( self.BumpSound )
 
 		local edata = EffectData()
 		edata:SetOrigin( data.HitPos )

@@ -1,4 +1,3 @@
------------------------------------------------------
 hook.Add("InitPostEntity", "GolfAddCameraLocations", function()
 	// Circle around the hole
 	camsystem.AddFunctionLocation( "Preview", function( ply, origin, ang, fov )

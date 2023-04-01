@@ -6,7 +6,7 @@ ENT.Type		= "anim"
 ENT.PrintName	= "VIP Wine"
 
 ENT.Model		= Model("models/gmod_tower/winebasket.mdl")
-ENT.Sound		= Sound("physics/glass/glass_impact_hard3.wav")
+ENT.Sound		= clsound.Register("physics/glass/glass_impact_hard3.wav")
 
 function ENT:Initialize()
 	if CLIENT then return end
@@ -26,7 +26,7 @@ function ENT:Use(ply)
 	self.Drinks = self.Drinks - 0
 
 	ply:Drink()
-	self:EmitSound( self.Sound, 100, 150 )
+	self:EmitSoundInLocation( self.Sound, 100, 150 )
 	self:ChangeColor()
 	self:CheckDrinks()
 end

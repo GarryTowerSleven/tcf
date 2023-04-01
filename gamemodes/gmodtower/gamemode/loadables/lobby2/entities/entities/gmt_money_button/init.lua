@@ -2,8 +2,6 @@
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 
-AddCSLuaFile("cl_stencilcomposite.lua")
-
 AddCSLuaFile("cl_hud.lua")
 AddCSLuaFile("cl_overlay.lua")
 include("shared.lua")

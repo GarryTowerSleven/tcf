@@ -140,7 +140,7 @@ function ENT:Use( ply )
 
 			for k,v in pairs(player.GetAll()) do
 				if !v.GRoom then continue end
-				if v.GRoomId == self:GetCondoID() then
+				if v:GetNet( "RoomID" ) == self:GetCondoID() then
 					owner = v
 				end
 			end
@@ -156,7 +156,7 @@ function ENT:Use( ply )
 				return
 			end
 
-			if owner.GRoomLock && ply != owner && !IsFriendsWith( owner, ply ) then
+			if owner:GetNet( "RoomLock" ) && ply != owner && !IsFriendsWith( owner, ply ) then
 
 			local doorbell = bells[math.Clamp( self:GetNWInt("DoorBell"), 1, #bells )]
 
@@ -195,10 +195,10 @@ function ENT:Use( ply )
 		ply:EmitSound(self.CloseSound,80)
 		self:ResetSequence(CloseSeq)
 
-		if ( ply.BallRaceBall && IsValid(ply.BallRaceBall) ) then
-			ply.BallRaceBall:SetAngles(self.TeleportEnt:GetAngles())
+		if ( ply:GetBallRaceBall() && IsValid(ply:GetBallRaceBall()) ) then
+			ply:GetBallRaceBall():SetAngles(self.TeleportEnt:GetAngles())
 			ply:SetEyeAngles(self.TeleportEnt:GetAngles())
-			ply.BallRaceBall:SetPos( self.TeleportEnt:GetPos() + Vector(0,0,35) )
+			ply:GetBallRaceBall():SetPos( self.TeleportEnt:GetPos() + Vector(0,0,35) )
 		else
 			ply:SetEyeAngles(self.TeleportEnt:GetAngles())
 			ply.DesiredPosition = self.TeleportEnt:GetPos() + (self.TeleportEnt:GetForward()*50)
@@ -213,8 +213,8 @@ concommand.Add( "gmt_setdoorbell", function(ply, cmd, args)
 
 	local num = math.Clamp( tonumber(args[1]), 1, 50 )
 
-	if ply.GRoomId then
-		local door = GTowerRooms.GetCondoDoor(ply.GRoomId)
+	if ply:GetNet( "RoomID" ) then
+		local door = GTowerRooms.GetCondoDoor(ply:GetNet( "RoomID" ))
 		if door then
 		  door:SetNWInt("DoorBell", num)
 		end

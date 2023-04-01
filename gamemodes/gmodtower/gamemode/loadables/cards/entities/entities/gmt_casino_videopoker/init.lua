@@ -11,7 +11,7 @@ local LOSESND = Sound("buttons/button14.wav")
 
 local function playVideoPokerSound(sound, ply)
     if IsValid(ply.VideoPoker) then
-        ply.VideoPoker:EmitSound(sound, 75, 100, 0.5)
+        ply.VideoPoker:EmitSound(sound, 65, 100, 0.5)
     end
 end
 

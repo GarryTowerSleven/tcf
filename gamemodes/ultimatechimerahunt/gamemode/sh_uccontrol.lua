@@ -11,22 +11,22 @@ local stuntime = 5
 function meta:CanDoAction()
 	
 	self.LastAction = self.LastAction || 0
-	return self:Alive() && !self:GetNWBool( "IsBiting" ) && !self:GetNWBool( "IsRoaring" ) && !self:GetNWBool( "IsStunned" ) && CurTime() >= self.LastAction
+	return self:Alive() && !self:GetNet( "IsBiting" ) && !self:GetNet( "IsRoaring" ) && !self:GetNet( "IsStunned" ) && CurTime() >= self.LastAction
 
 end
 
 function meta:ResetUCVars()
 
-	self:SetNWBool( "IsBiting", false )
-	self:SetNWBool( "IsRoaring", false )
+	self:SetNet( "IsBiting", false )
+	self:SetNet( "IsRoaring", false )
 
 end
 
 function meta:Stun()
 
 	self.StunnedTime = CurTime() + stuntime
-	self:SetNWBool( "IsStunned", true )
-	self:SetNWFloat( "Sprint", 0 )
+	self:SetNet( "IsStunned", true )
+	self:SetNet( "Sprint", 0 )
 
 	/*local eff = EffectData()
 		eff:SetEntity( self )
@@ -88,7 +88,7 @@ function meta:FindThingsToBite()
 	debugoverlay.Sphere( vec, rad )
 	for k, v in pairs( ents.FindInSphere( vec, rad ) ) do
 
-		if ( v:IsPlayer() && ( !v:GetNWBool( "IsChimera" ) && !v:GetNWBool( "IsGhost" ) ) ) || !v:IsPlayer() then
+		if ( v:IsPlayer() && ( !v:GetNet( "IsChimera" ) && !v:IsGhost() ) ) || !v:IsPlayer() then
 			
 			local pos = self:GetShootPos()
 			local epos = v:IsPlayer() && v:GetShootPos() || v:GetPos()
@@ -177,13 +177,13 @@ function GM:UCKeyPress( ply, key )
 		if ply:IsOnGround() then
 
 			if ply:CanSprint() then
-				local num = ( ply:GetNWBool( "IsSprinting" ) && .075 ) || .025
-				ply:SetNWFloat( "Sprint", math.Clamp( ply:GetNWInt( "Sprint" ) - num, 0, 1 ) )
+				local num = ( ply:GetNet( "IsSprinting" ) && .075 ) || .025
+				ply:SetNet( "Sprint", math.Clamp( ply:GetNet( "Sprint" ) - num, 0, 1 ) )
 			end
 	
 		else
 
-			if ply:CanDoubleJump() && ply:GetNWInt( "DoubleJumpNum" ) < 1 then
+			if ply:CanDoubleJump() && ply:GetNet( "DoubleJumpNum" ) < 1 then
 				ply:DoubleJump()
 			end
 
@@ -208,12 +208,12 @@ function GM:UCThink()
 	if uc.StunnedTime then
 		uc:StunEffect()
 		if uc.StunnedTime < CurTime() then
-			uc:SetNWBool( "IsStunned", false )
+			uc:SetNet( "IsStunned", false )
 			uc.StunnedTime = nil
 		end
 	end
 
-	if uc:GetNWBool( "IsRoaring" ) && CurTime() >= self.LastUCThink then
+	if uc:GetNet( "IsRoaring" ) && CurTime() >= self.LastUCThink then
 
 		self.LastUCThink = CurTime() + .1
 
@@ -222,12 +222,12 @@ function GM:UCThink()
 			local b, dis = v:WithinRoarDistance( uc )
 			if v != self && b && v:Team() == TEAM_PIGS && v:Alive() then
 				
-				if !v:GetNWBool( "IsScared" ) then
+				if !v:GetNet( "IsScared" ) then
 				
 					local t = ( 3.2 * ( ( 1 - ( dis / roardistance ) ) * 1.8 ) )
 
 					v:Scare( t )					
-					uc:SetNWFloat( "Sprint", uc:GetNWInt( "Sprint" ) + .05 )
+					uc:SetNet( "Sprint", uc:GetNet( "Sprint" ) + .05 )
 
 				end
 				
@@ -239,7 +239,7 @@ function GM:UCThink()
 
 			local dist = uc:GetPos():Distance( sat:GetPos() )
 
-			if dist <= roardistance && !sat:GetNWBool( "IsScared" ) then
+			if dist <= roardistance && !sat.IsScared then
 				sat:Scare()
 			end
 
@@ -257,7 +257,7 @@ function GM:UCThink()
 			uc.PlayStomp = true
 		end
 
-		if uc:CanDoubleJump() && uc:KeyDown( IN_JUMP ) && uc:GetNWInt( "DoubleJumpNum" ) > 0 then
+		if uc:CanDoubleJump() && uc:KeyDown( IN_JUMP ) && uc:GetNet( "DoubleJumpNum" ) > 0 then
 			uc:DoubleJump()
 		end
 
@@ -268,7 +268,7 @@ function GM:UCThink()
 		if UCsLastStompPlace[ uc:EntIndex() ] then
 
 			local dist = UCsLastStompPlace[ uc:EntIndex() ]:Distance( uc:GetPos() )
-			if uc:MovementKeyDown() && ( uc:GetNWBool( "IsSprinting" ) && dist >= 8 ) || ( !uc:GetNWBool( "IsSprinting" ) && dist >= 3 ) && dist < 10 then
+			if uc:MovementKeyDown() && ( uc:GetNet( "IsSprinting" ) && dist >= 8 ) || ( !uc:GetNet( "IsSprinting" ) && dist >= 3 ) && dist < 10 then
 				uc.PlayStomp = true
 			end
 
@@ -281,11 +281,11 @@ function GM:UCThink()
 			uc:Stomp()
 		end
 		
-		if !uc:GetNWBool( "FirstDoubleJump" ) then
-			uc:SetNWBool( "FirstDoubleJump", true )
+		if !uc:GetNet( "FirstDoubleJump" ) then
+			uc:SetNet( "FirstDoubleJump", true )
 		end
-		if uc:GetNWInt( "DoubleJumpNum" ) != 0 then
-			uc:SetNWInt( "DoubleJumpNum", 0 )
+		if uc:GetNet( "DoubleJumpNum" ) != 0 then
+			uc:SetNet( "DoubleJumpNum", 0 )
 		end
 
 	end
@@ -300,13 +300,13 @@ function GM:UCThink()
 		
 	else
 
-		local swipemeter = uc:GetNWFloat( "SwipeMeter" )
+		local swipemeter = uc:GetNet( "SwipeMeter" )
 		if swipemeter != 1 then
 			local add = .00375
 			if self:IsLastPigmasks() then
 				add = add * 2
 			end
-			uc:SetNWFloat( "SwipeMeter", math.Round( math.Clamp( swipemeter + add, 0, 1 ), 3 ) )
+			uc:SetNet( "SwipeMeter", math.Round( math.Clamp( swipemeter + add, 0, 1 ), 3 ) )
 		end
 
 	end
@@ -351,9 +351,9 @@ function meta:CanDoubleJump()
 	local add = 36 //how much to increase the required z velocity per jump
 	local numjumps = 1 //how many jumps you're allowed before increasing the required z velocity
 
-	local num = -( 150 - ( add * numjumps ) + ( add * ( self:GetNWInt( "DoubleJumpNum" ) or 0 ) ) )
+	local num = -( 150 - ( add * numjumps ) + ( add * ( self:GetNet( "DoubleJumpNum" ) or 0 ) ) )
 
-	if !self:IsOnGround() && ( ( self:GetVelocity().z < num ) || self:GetNWBool( "FirstDoubleJump" ) ) then
+	if !self:IsOnGround() && ( ( self:GetVelocity().z < num ) || self:GetNet( "FirstDoubleJump" ) ) then
 		return true
 	end
 	
@@ -365,7 +365,7 @@ function meta:DoubleJump()
 
 	local vel = self:GetVelocity()
 
-	if self:GetNWFloat( "Sprint" ) <= .025 then
+	if self:GetNet( "Sprint" ) <= .025 then
 		vel.x = vel.x * .5
 		vel.y = vel.y * .5
 	end
@@ -374,11 +374,11 @@ function meta:DoubleJump()
 	self:SetGroundEntity( nil )
 	self:SetLocalVelocity( vel )
 	
-	self:SetNWFloat( "Sprint", math.Clamp( self:GetNWFloat( "Sprint" ) - ( GAMEMODE.DJumpPenalty * ( 1 + ( self:GetNWInt( "DoubleJumpNum" ) * .66 ) ) ), 0, 1 ) )
-	self:SetNWBool( "FirstDoubleJump", false )
-	self:SetNWInt( "DoubleJumpNum", self:GetNWInt( "DoubleJumpNum" ) + 1 )
+	self:SetNet( "Sprint", math.Clamp( self:GetNet( "Sprint" ) - ( GAMEMODE.DJumpPenalty * ( 1 + ( self:GetNet( "DoubleJumpNum" ) * .66 ) ) ), 0, 1 ) )
+	self:SetNet( "FirstDoubleJump", false )
+	self:SetNet( "DoubleJumpNum", self:GetNet( "DoubleJumpNum" ) + 1 )
 
-	self:EmitSound( "UCH/chimera/double_jump.wav", 75, 100 - ( self:GetNWInt( "DoubleJumpNum" ) * 2.5 ) ) 
+	self:EmitSound( "UCH/chimera/double_jump.wav", 75, 100 - ( self:GetNet( "DoubleJumpNum" ) * 2.5 ) ) 
 
 	RestartAnimation( self )
 
@@ -394,7 +394,7 @@ function meta:CanDoTailSwipe()
 	if !self:CanDoAction() then return false
 	end
 	
-	if self:Alive() && !self:GetNWBool( "IsRoaring" ) && !self:GetNWBool( "IsBiting" ) && CurTime() >= ( ( self.SwipeTime || 0 ) + .15 ) && self:GetNWFloat( "SwipeMeter" ) >= .25 then
+	if self:Alive() && !self:GetNet( "IsRoaring" ) && !self:GetNet( "IsBiting" ) && CurTime() >= ( ( self.SwipeTime || 0 ) + .15 ) && self:GetNet( "SwipeMeter" ) >= .25 then
 		return true
 	end
 
@@ -445,8 +445,8 @@ function meta:DoTailSwipe()
 
 	self:EmitSound( "UCH/chimera/tailswipe.wav", 75, math.random( 90, 105 ) )
 	
-	self.SwipePower = self:GetNWFloat( "SwipeMeter" )
-	self:SetNWFloat( "SwipeMeter", 0 )
+	self.SwipePower = self:GetNet( "SwipeMeter" )
+	self:SetNet( "SwipeMeter", 0 )
 
 	self.Swiping = true
 	self.SwipeTime = CurTime() + swipedelay
@@ -467,9 +467,9 @@ function meta:DoPigSwipe()
 				v.CanBeSwiped = true
 			end
 
-			if !v:GetNWBool( "IsStunned" ) && v.CanBeSwiped then
+			if !v:GetNet( "IsStunned" ) && v.CanBeSwiped then
 			
-				v:SetNWBool( "IsStunned", true )
+				v:SetNet( "IsStunned", true )
 				v.CanBeSwiped = false
 				
 				if v:GetClass() != "mr_saturn" then
@@ -490,7 +490,7 @@ function meta:DoPigSwipe()
 				v:SetLocalVelocity( vel )
 
 				timer.Simple( self.SwipePower, function()
-					v:SetNWBool( "IsStunned", false )
+					v:SetNet( "IsStunned", false )
 				end )
 
 				timer.Simple( 1, function()
@@ -510,9 +510,9 @@ if SERVER then
 
 	function meta:DoBiteThing( v )
 
-		if !self:Alive() || !self:GetNWBool( "IsChimera" ) then return end
+		if !self:Alive() || !self:GetNet( "IsChimera" ) then return end
 		
-		if v:IsPlayer() && v:Alive() && v:Team() == TEAM_PIGS && !self.Squashed && !v:GetNWBool( "IsPancake" ) && !v:GetNWBool( "IsGhost" ) then
+		if v:IsPlayer() && v:Alive() && v:Team() == TEAM_PIGS && !self.Squashed && !v:GetNet( "IsPancake" ) && !v:IsGhost() then
 
 			v.Bit = true
 			v:Kill()
@@ -523,10 +523,10 @@ if SERVER then
 				umsg.Entity( v )
 			umsg.End()
 			
-			// v:AddAchievement( ACHIEVEMENTS.UCHBACON, 1 )
-			// self:AddAchievement( ACHIEVEMENTS.UCHCHOMP, 1 )
+			v:AddAchievement( ACHIEVEMENTS.UCHBACON, 1 )
+			self:AddAchievement( ACHIEVEMENTS.UCHCHOMP, 1 )
 			
-			self:HighestRankKill( v:GetNWInt( "Rank" ) )
+			self:HighestRankKill( v:GetNet( "Rank" ) )
 
 			v:ResetRank()
 
@@ -552,7 +552,9 @@ if SERVER then
 				timer.Simple( 2, function()
 					v:Explode()
 					v:Remove()
-					GAMEMODE:HUDMessage( nil, MSG_MRSATURNDEAD, 5 )
+					for _, v in ipairs( player.GetAll() ) do
+						GAMEMODE:HUDMessage( v, MSG_MRSATURNDEAD, 5 )
+					end
 				end )
 
 			end
@@ -569,7 +571,7 @@ if SERVER then
 
 		self.LastRoar = CurTime() + roarcooldown
 
-		self:SetNWBool( "IsRoaring", true )
+		self:SetNet( "IsRoaring", true )
 		
 		local seq = self:LookupSequence( "idle3" )
 		self:ResetSequence( seq )
@@ -585,7 +587,7 @@ if SERVER then
 
 			if IsValid( self ) then
 
-				self:SetNWBool( "IsRoaring", false )
+				self:SetNet( "IsRoaring", false )
 				
 				umsg.Start( "UCRoared", self ) //let the clientside meter know
 					umsg.Float( self.LastRoar )
@@ -604,7 +606,7 @@ if SERVER then
 	
 		if !self:CanDoAction() then return end
 	
-		self:SetNWBool( "IsBiting", true )
+		self:SetNet( "IsBiting", true )
 	
 		local seq = self:LookupSequence( "bite" )
 		self:ResetSequence( seq )
@@ -615,7 +617,7 @@ if SERVER then
 		self:EmitSound( "UCH/chimera/bite.wav", 80, math.random( 94, 105 ) )
 	
 		timer.Simple( dur * .98, function()
-			self:SetNWBool( "IsBiting", false )
+			self:SetNet( "IsBiting", false )
 		end )
 
 		local tbl = self:FindThingsToBite()
@@ -626,7 +628,7 @@ if SERVER then
 				timer.Simple( .32, function()
 					if IsValid( self ) && IsValid( v ) then
 						// v:ScreenFade(SCREENFADE.IN, color_black, 0.33, 0)
-						// v:SetNoDraw(false)
+						v:SetNoDraw( false )
 						self:DoBiteThing( v )
 					end
 				end )
@@ -667,7 +669,7 @@ if SERVER then
 		local uc = GAMEMODE:GetUC()
 		
 		if !GAMEMODE:IsPlaying() then return false end
-		if !IsValid( uc ) || !uc:Alive() || self:GetNWBool( "IsScared" ) || self:GetNWBool( "IsGhost" ) || self:GetNWBool( "IsStunned" ) || self:GetNWBool( "IsPancake" ) then
+		if !IsValid( uc ) || !uc:Alive() || self:GetNet( "IsScared" ) || self:IsGhost() || self:GetNet( "IsStunned" ) || self:GetNet( "IsPancake" ) then
 			return false
 		end
 
@@ -734,7 +736,7 @@ else
 
 		ply.RoarMeterSmooth = math.Approach( ply.RoarMeterSmooth, calc, FrameTime() * 750 )
 
-		if LocalPlayer():GetNWBool( "IsStunned" ) then ply.RoarMeterSmooth = 0 end
+		if LocalPlayer():GetNet( "IsStunned" ) then ply.RoarMeterSmooth = 0 end
 
 		draw.RoundedBox( 0, x, y, w, h, Color( 130, 130, 130, 255 ) )
 		surface.SetTexture( mat )
@@ -752,11 +754,11 @@ else
 		local mat = swipebar
 
 		local a = ply.SwipeMeterAlpha
-		local diff = math.abs( swipeSmooth - ply:GetNWFloat( "SwipeMeter" ) )
+		local diff = math.abs( swipeSmooth - ply:GetNet( "SwipeMeter" ) )
 
-		swipeSmooth = math.Approach( swipeSmooth, ply:GetNWFloat( "SwipeMeter" ), FrameTime() * ( diff * 5 ) )
+		swipeSmooth = math.Approach( swipeSmooth, ply:GetNet( "SwipeMeter" ), FrameTime() * ( diff * 5 ) )
 
-		if LocalPlayer():GetNWBool( "IsStunned" ) then swipeSmooth = 0 end
+		if LocalPlayer():GetNet( "IsStunned" ) then swipeSmooth = 0 end
 
 		draw.RoundedBox( 0, x, y, w, h, Color( 130, 130, 130, 255 ) )
 		draw.RoundedBox( 0, x, y, w * .25 , h, Color( 100, 100, 100, 255 ) )

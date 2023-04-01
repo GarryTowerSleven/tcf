@@ -1,9 +1,9 @@
-GTowerHUD = {}
+table.uinsert( HudToHide, "CHudHealth" )
+table.uinsert( HudToHide, "CHudAmmo" )
+table.uinsert( HudToHide, "CHudSecondaryAmmo" )
+table.uinsert( HudToHide, "CHudBattery" )
 
-table.uinsert( GtowerHudToHide, "CHudHealth" )
-table.uinsert( GtowerHudToHide, "CHudAmmo" )
-table.uinsert( GtowerHudToHide, "CHudSecondaryAmmo" )
-table.uinsert( GtowerHudToHide, "CHudBattery" )
+GTowerHUD = {}
 
 // draw the hud?
 GTowerHUD.Enabled = CreateClientConVar( "gmt_hud", 1, true, false )
@@ -375,7 +375,7 @@ function initHud()
 	function GTowerHUD.ShouldDraw()
 		if !IsValid( LocalPlayer() ) then return false end
 	
-		//if not hook.Run( "GTowerHUDShouldDraw" ) then return false end
+		if not hook.Run( "GTowerHUDShouldDraw" ) then return false end
 	
 		if !GTowerHUD.Enabled:GetBool() then return false end
 	
@@ -474,6 +474,10 @@ function initHud()
 
 	hook.Add( "Think", "GTowerHUDThink", GTowerHUD.Think )
 	hook.Add( "HUDPaint", "GTowerHUDPaint", GTowerHUD.Paint )
+
+	function GAMEMODE:GTowerHUDShouldDraw()
+		return true
+	end
 
 	-----------------------------------------------------
 

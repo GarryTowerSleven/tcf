@@ -55,6 +55,18 @@ end
 
 net.Receive( "OpenReqMenu", function()
 	local ent = net.ReadEntity()
+	/*Derma_StringRequest(
+		"Media Player",					-- Title
+		"Enter a URL to request:",		-- Subtitle
+		"", -- Default text
+		function( url )
+			MediaPlayer.Request( ent, url )
+		end,
+		function() end,
+		"Request",
+		"Cancel"
+	)*/
+
 	MediaPlayer.OpenRequestMenu( ent:GetFirstMediaPlayerInLocation() )
 end )
 

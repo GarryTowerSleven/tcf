@@ -7,11 +7,15 @@ local function ReloadMaxItems()
 	end
 end
 
-RegisterNWTablePlayer({
-	{"GtowerMaxItems", GTowerItems.DefaultInvCount, NWTYPE_CHAR, REPL_PLAYERONLY, ReloadMaxItems},
-	{"GtowerBankMax", GTowerItems.DefaultBankCount, NWTYPE_CHAR, REPL_PLAYERONLY, ReloadMaxItems}
-})
+plynet.Register( "Int", "MaxItems", {
+	callback = ReloadMaxItems,
+	default = GTowerItems.DefaultInvCount,
+} )
 
+plynet.Register( "Int", "BankMax", {
+	callback = ReloadMaxItems,
+	default = GTowerItems.DefaultBankCount,
+} )
 
 hook.Add( "GTowerPhysgunPickup", "OnlyAllowInvItems", function( ply, ent )
 

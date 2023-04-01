@@ -6,7 +6,7 @@ end
 
 function meta:SetGhost()
 	
-	self:SetNWBool("IsGhost",true)
+	self:SetNet("IsGhost",true)
 	self:SetTeam( TEAM_GHOST )
 	self:CollisionRulesChanged()
 
@@ -15,18 +15,18 @@ function meta:SetGhost()
 	
 	local rnd = math.random( 1, 6 )
 	if rnd == 1 then
-		self:SetNWBool( "IsFancy", true )
+		self:SetNet( "IsFancy", true )
 	else
-		self:SetNWBool( "IsFancy", false )
+		self:SetNet( "IsFancy", false )
 	end
 
-	if GAMEMODE:GetGameState() != STATE_WAITING then
+	if GAMEMODE:GetState() != STATE_WAITING then
 		GAMEMODE:SetMusic( self, MUSIC_GHOST )
 	end
 	
 	self:SetModel( "models/UCH/mghost.mdl" )
 
-	if self:GetNWBool( "IsFancy" ) then
+	if self:GetNet( "IsFancy" ) then
 		self:SetBodygroup( 1, 1 )
 	else
 		self:SetBodygroup( 1, 0 )
@@ -38,8 +38,8 @@ end
 
 function meta:UnGhost()
 
-	self:SetNWBool( "IsGhost", false )
-	self:SetNWBool( "IsFancy", false )
+	self:SetNet( "IsGhost", false )
+	self:SetNet( "IsFancy", false )
 
 	GAMEMODE:UpdateHull( self )
 	self:SetCollisionGroup( COLLISION_GROUP_PLAYER )
@@ -48,7 +48,7 @@ end
 
 hook.Add( "Move", "UC_GhostMove", function( ply, move )
 	
-	if !ply:GetNWBool( "IsGhost" ) then return end
+	if !ply:IsGhost() then return end
 
 	if !ply:IsOnGround() then
 		

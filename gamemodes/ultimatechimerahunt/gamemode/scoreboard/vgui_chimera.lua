@@ -35,7 +35,7 @@ function PANEL:Init()
 	function self.VoteBtn:Paint()
 		
 		local alpha = 80;
-		if (!LocalPlayer():GetNWBool("UC_Voted", false) && !LocalPlayer():IsUC() && IsPlaying() && LocalPlayer():Team() == TEAM_PIGS) then
+		if (!LocalPlayer():GetNet("UC_Voted", false) && !LocalPlayer():IsUC() && IsPlaying() && LocalPlayer():Team() == TEAM_PIGS) then
 			alpha = 255;
 		end
 		
@@ -76,7 +76,7 @@ function PANEL:UpdatePlayerData()
 	self.plyName:SetText(name);
 	self.plyPing:SetText("Ping: " .. ping);
 	
-	self.VoteBtn:SetCursor(((LocalPlayer():GetNWBool("UC_Voted", false) || !IsPlaying()) && "arrow") || "hand");
+	self.VoteBtn:SetCursor(((LocalPlayer():GetNet("UC_Voted", false) || !IsPlaying()) && "arrow") || "hand");
 	
 	self:InvalidateLayout();
 		

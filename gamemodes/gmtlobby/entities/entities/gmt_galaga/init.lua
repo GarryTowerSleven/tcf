@@ -86,7 +86,7 @@ end
 
 
 function ENT:Use( ply )
-	if !ply:IsPlayer() || IsValid( ply.BallRaceBall ) then return end
+	if !ply:IsPlayer() || IsValid( ply:GetBallRaceBall() ) then return end
 
 	if SysTime() < (self.LastPress or 0) then
 		return

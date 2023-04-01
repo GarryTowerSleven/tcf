@@ -243,8 +243,8 @@ end )
 concommand.Add( "slotm_spin", function( ply, cmd, args )
 	local bet = tonumber(args[1]) or 10
 	
-	if bet < 5 then bet = 5 end
-	if bet > 800 then bet = 800 end
+	if bet < 10 then bet = 10 end
+	if bet > 500 then bet = 500 end
 	
 	local ent = ply.SlotMachine
 
@@ -331,8 +331,10 @@ function ENT:PickResults()
 	local random = { getRand(), getRand(), getRand() }
 
 	if random[1] == 2 and random[2] == 2 and random[3] == 2 then
-		if math.random(20) != 1 then
+		if math.random(20) != 1 && self:GetJackpot() < 50000 then
 			random[3] = math.random(3, 6)
+		else
+			random[3] = math.random(6)
 		end
 	end
 

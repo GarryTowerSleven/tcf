@@ -1,6 +1,5 @@
-local preserve = {"player",
-	--"viewmodel",
-	"gmt_hat",
+local preserve = {
+	"player",
 	"worldspawn",
 	"predicted_viewmodel",
 	"player_manager",
@@ -30,7 +29,8 @@ local preserve = {"player",
 	"trigger_soundscape",
 	"commentary_auto",
 	"point_commentary_node",
-	"point_commentary_viewpoint"}
+	"point_commentary_viewpoint"
+}
 
 local preservegame = {}
 
@@ -40,5 +40,5 @@ end
 
 function game.CleanUpMapEx()
 	if CLIENT then return end
-	game.CleanUpMap(true, preservegame)
+	GAMEMODE:CleanUpMap( true, preservegame )
 end

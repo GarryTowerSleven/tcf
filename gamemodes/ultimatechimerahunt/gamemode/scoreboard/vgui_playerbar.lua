@@ -121,7 +121,7 @@ function PANEL:Paint()
 	
 	local clr = Color( 200, 112, 112, 255 )
 	
-	if self.Player:GetNWBool("IsGhost") then
+	if self.Player:IsGhost() then
 		a = 10
 		clr = Color( 100, 56, 56, 255 )
 	end
@@ -147,7 +147,7 @@ function PANEL:Paint()
 	surface.SetDrawColor( 255, 255, 255, 255 )
 	
 	local rank = self.plyRank:lower()
-	if self.Player:GetNWBool("IsGhost") || self.Player.Bit || self.Player:GetNWBool("IsPancake") || self.Player.IsDead || self.Player:Team() == TEAM_GHOST then
+	if self.Player:IsGhost() || self.Player.Bit || self.Player:GetNet("IsPancake") || self.Player.IsDead || self.Player:Team() == TEAM_GHOST then
 		rank = rank .. "_dead"
 	end
 

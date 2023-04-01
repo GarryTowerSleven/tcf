@@ -58,7 +58,7 @@ end
 local function DrawCrosshair()
 
 	local ply = LocalPlayer()
-	if ply:GetNWBool("IsChimera") then return end
+	if ply:GetNet("IsChimera") then return end
 	
 	local xalpha = 100
 	
@@ -76,7 +76,7 @@ local function DrawCrosshair()
 	surface.SetDrawColor( color )
 	surface.DrawTexturedRectRotated( sw * .5, sh * .5, sh * .04, sh * .04, 0 )
 	
-	if ply:GetNWBool("IsGhost") && ply:GetNWBool("IsFancy") then
+	if ply:IsGhost() && ply:GetNet("IsFancy") then
 
 		surface.SetTexture( glass )
 		surface.SetDrawColor( Color( 255, 255, 255, 160) )
@@ -84,7 +84,7 @@ local function DrawCrosshair()
 		
 	end
 
-	if ply:IsPig() && ply:GetNWBool("HasSaturn") then
+	if ply:IsPig() && ply:GetNet("HasSaturn") then
 
 		surface.SetTexture( saturn )
 		surface.SetDrawColor( Color( 255, 255, 255, 200 ) )
@@ -107,7 +107,7 @@ function GM:DrawHUD()
 	local mat = pigmat
 
 	// Current alive pigs
-	if self:GetGameState() == STATE_PLAYING then
+	if self:GetState() == STATE_PLAYING then
 		local pigs = #team.GetPlayers( TEAM_PIGS )
 		surface.SetTexture( ensignLogo )
 		surface.SetDrawColor( Color( 250, 255, 255 ) )
@@ -116,7 +116,7 @@ function GM:DrawHUD()
 		self:DrawNiceText( pigs, "UCH_KillFont3", ScrW() - 150 + 40, ScrH() - 100, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, 200 )
 	end
 	
-	if ply:GetNWBool("IsChimera") then
+	if ply:GetNet("IsChimera") then
 		
 		mat = ucmat
 
@@ -143,7 +143,7 @@ function GM:DrawHUD()
 
 	else
 	
-		if ply:GetNWBool("IsGhost") then return end
+		if ply:IsGhost() then return end
 		
 		local h = ( sh * .14 )
 		local w = ( h * 4 )
@@ -154,10 +154,10 @@ function GM:DrawHUD()
 		local spw, sph = ( w * .51), ( h * .275 )
 		self:DrawSprintBar( spx, spy, spw, sph )
 
-		if ply:GetNWInt("Rank") == RANK_COLONEL then
+		if ply:GetNet("Rank") == RANK_COLONEL then
 			mat = pigCmat
 		end
-		if ply:GetNWInt("Rank") == RANK_ENSIGN then
+		if ply:GetNet("Rank") == RANK_ENSIGN then
 			mat = pigEmat
 		end
 
@@ -176,15 +176,15 @@ function GM:HUDPaint()
 
 	local txt = nil
 	
-	if self:GetGameState() == STATE_WAITING then
+	if self:GetState() == STATE_WAITING then
 		
 		txt = "Waiting for players..."
 		
-	elseif self:GetGameState() == STATE_INTERMISSION then
+	elseif self:GetState() == STATE_INTERMISSION then
 		
 		txt = "Starting new round..."
 		
-		if ( GetGlobalInt("Round") + 1 ) > self.NumRounds then
+		if ( globalnet.GetNet( "Round" ) + 1 ) > self.NumRounds then
 
 			txt = "Ending game!"
 
@@ -196,7 +196,7 @@ function GM:HUDPaint()
 		DrawInfoBox( txt, sw * .5, sh * .185 )
 	end
 
-	if ( ( ply:Alive() && ply:Team() == TEAM_PIGS ) || ply:GetNWBool("IsGhost") ) && !ply:GetNWBool("IsTaunting") && !ply:GetNWBool("IsScared") then
+	if ( ( ply:Alive() && ply:Team() == TEAM_PIGS ) || ply:IsGhost() ) && !ply:GetNet("IsTaunting") && !ply:GetNet("IsScared") then
 		DrawCrosshair()
 	end
 	

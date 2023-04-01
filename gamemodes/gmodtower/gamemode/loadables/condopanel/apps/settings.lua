@@ -341,7 +341,7 @@ function APP:DrawItemStatus()
 	local room = LocalPlayer():Location()
 
 	if room and IsValid( GTowerRooms:RoomOwner(room) ) then
-		items = GTowerRooms:RoomOwner(room).GRoomEntityCount
+		items = GTowerRooms:RoomOwner(room):GetNet( "RoomEntityCount" )
 		max = GTowerRooms:RoomOwner(room):GetSetting("GTSuiteEntityLimit")
 	end
 

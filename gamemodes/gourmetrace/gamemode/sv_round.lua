@@ -12,7 +12,7 @@ function GM:PreStartRound()
 		return
 	end
 
-	GetWorldEntity():SetNet( "Round", self:GetRoundCount() + 1 )
+	globalnet.SetNet( "Round", self:GetRoundCount() + 1 )
 	self:SetTime( 3 )
 	self.Ending = false
 	self.Intense = false
@@ -23,7 +23,7 @@ function GM:PreStartRound()
 	self:SetState( STATE_WARMUP )
 	self:SetAllSpawn( SPAWN_STARTLINE )
 
-	game.CleanUpMap( false, { "gmt_cosmeticbase", "gmt_hat" } )
+	self:CleanUpMap( false )
 
 	for _, ply in ipairs( player.GetAll() ) do
 

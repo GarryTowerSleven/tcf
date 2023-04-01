@@ -18,14 +18,14 @@ function ENT:Touch(ply)
         return
     end
     
-    if ply == GetGlobalEntity("UC") then
+    if ply == globalnet.GetNet( "UC" ) then
         local spawns = ents.FindByClass("chimera_spawn")
         local respawn = spawns[math.random(#spawns)]
         ply:SetPos(respawn:GetPos() + Vector(0,0,100))
         ply:SetEyeAngles(respawn:GetAngles())
         ply:SetVelocity(ply:GetVelocity() * -1)
         ply:Stun()
-    elseif ply:Alive() && ply:Team() == TEAM_PIGS && GAMEMODE:GetGameState() == STATE_PLAYING then
+    elseif ply:Alive() && ply:Team() == TEAM_PIGS && GAMEMODE:GetState() == STATE_PLAYING then
         ply:Kill()
     end
 end
