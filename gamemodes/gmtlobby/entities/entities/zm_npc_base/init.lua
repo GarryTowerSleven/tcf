@@ -28,8 +28,6 @@ function ENT:Initialize()
 	self:Precache()
 	self:SetModel( self.Model )
 
-	self.IsGhost = true
-
 	self:SetHullSizeNormal()
 	self:SetHullType( HULL_HUMAN )
 	self:SetSolid( SOLID_BBOX )
@@ -37,18 +35,14 @@ function ENT:Initialize()
 	self:CapabilitiesAdd( CAP_MOVE_GROUND )
 	self:CapabilitiesAdd( CAP_INNATE_MELEE_ATTACK1 )
 
+	self:SetCustomCollisionCheck( true )
+
 	self:SetMaxYawSpeed( 5000 )
 	self:ClearSchedule()
 	self:UpdateEnemy( self:FindEnemy() )
 
 	self:SetHealth( self.HP )
 
-end
-
-function ENT:OnRemove()
-    if timer.Exists("CheckInsideTower"..self:EntIndex()) then
-			timer.Destroy("CheckInsideTower"..self:EntIndex())
-		end
 end
 
 function ENT:Precache() return end
@@ -72,6 +66,7 @@ function ENT:EmitSoundTable( sound, vol )
 	self.Entity:EmitSound( sound, vol, pitch )
 
 end
+
 
 //This is a hack to spawn client side ragdolls in a mature way.
 //We simply spawn a env_shooter then setup the correct variables to throw the ragdoll as if it were a gib.
@@ -104,16 +99,9 @@ end
 //We also want to spawn a ragdoll, so we call the function above.
 function ENT:Death( ply )
 	ply:AddFrags( self.Points )
-	ply:AddMoney( 25 )
-	ply:AddAchievement( ACHIEVEMENTS.HALLOWEENGHOST, 1 )
-	--ply:AddPoints( self.Points * 2 )
-	--ply:AddCombo()
 
-	--if self.RagdollDeath then self:SpawnRagdoll( ply ) end
-	--self:OnDeath( ply )
-
-	// lets randomly drop a goodie
-	--DropManager.RandomDrop( self:GetPos() )
+	if self.RagdollDeath then self:SpawnRagdoll( ply ) end
+	self:OnDeath( ply )
 
 	self:EmitSoundTable( self.SDie )
 	self:Remove()
@@ -133,11 +121,6 @@ function ENT:Attack( enemy, hit )
 
 	if hit then
 		enemy:TakeDamage( self.Damage, self )
-
-		if enemy:IsPlayer() && self:GetClass() == "ghost_ghost" && IsHalloween then
-			enemy:AddAchievement( ACHIEVEMENTS.HALLOWEENCREATURE, 1 )
-		end
-
 		self:EmitSoundTable( self.SAttack )
 	else
 		self:EmitSoundTable( self.SMiss )
@@ -217,7 +200,18 @@ end
 
 function ENT:Think()
 
-	--self:SetNoDraw(true)
+	// Imperfect way to make sure the NPC doesn't t-pose.
+	if self:GetClass() == "zm_npc_zombie" and self:GetSequence() == 0 then
+		if !self.HitType then
+			self.HitType = math.random( 1, 3 )
+
+			self:ResetSequenceInfo()
+			self:SetCycle( 0 )
+		end
+
+		self:SetSequence("attack0" .. self.HitType)
+		self:SetPlaybackRate( 1 )
+	end
 
 	//Small little tidbit to make the NPCs goan and such.
 	if self.IdleTalk < CurTime() then
