@@ -110,7 +110,9 @@ function GTowerRooms.PrepareCloset( room )
 			Ents = {}
 		} )
 		
-		if GTowerRooms.DEBUG then DEBUG:Box( GTowerRooms.RefEnt:LocalToWorld(v[1]), GTowerRooms.RefEnt:LocalToWorld(v[2]) ) end
+		if GTowerRooms.DEBUG then
+			// DEBUG:Box( GTowerRooms.RefEnt:LocalToWorld(v[1]), GTowerRooms.RefEnt:LocalToWorld(v[2]) )
+		end
 	end
 	
 	for _, v in pairs( GTowerRooms.ClosetEnts ) do
@@ -144,8 +146,8 @@ function GTowerRooms.PrepareCloset( room )
 			table.insert( v.Ents, ent )
 			
 			if GTowerRooms.DEBUG then 
-				DEBUG:Box( StartTracePos + Vector(-2,-2,-2), StartTracePos + Vector(2,2,2) )
-				DEBUG:Box( EntPos + Vector(-1,-1,-1), EntPos + Vector(1,1,1) )
+				// DEBUG:Box( StartTracePos + Vector(-2,-2,-2), StartTracePos + Vector(2,2,2) )
+				// DEBUG:Box( EntPos + Vector(-1,-1,-1), EntPos + Vector(1,1,1) )
 				Msg("Room closet: Creating ent: " .. tostring( ent ) .. "( " .. tostring(Trace.HitPos) .. " )\n")
 			end
 			

@@ -371,7 +371,7 @@ function GTowerRooms:AdminRoomDebug()
 		OrderVectors( tbl.min, tbl.max )
 
 		for _, v in pairs( EntList ) do
-			DEBUG:Box( v:LocalToWorld( tbl.min ), v:LocalToWorld( tbl.max ) )
+			// DEBUG:Box( v:LocalToWorld( tbl.min ), v:LocalToWorld( tbl.max ) )
 		end
 	end
 end
