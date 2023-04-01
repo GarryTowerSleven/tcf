@@ -4,6 +4,21 @@ AddCSLuaFile("cl_hud.lua")
 AddCSLuaFile("cl_icons.lua")
 AddCSLuaFile("cl_draw.lua")
 
+resource.AddWorkshop( "2947436186" ) // Base
+resource.AddWorkshop( "2947437306" ) // Lobby
+
+resource.AddWorkshop( "2955992724" ) // Lobby 2 - Part 1 - Map
+resource.AddWorkshop( "2955992841" ) // Lobby 2 - Part 2 - UI
+resource.AddWorkshop( "2955992913" ) // Lobby 2 - Part 3 - Sounds
+resource.AddWorkshop( "2955993175" ) // Lobby 2 - Part 4 - Models
+resource.AddWorkshop( "2955993349" ) // Lobby 2 - Part 5 - Materials Map
+resource.AddWorkshop( "2955993720" ) // Lobby 2 - Part 6 - Materials
+resource.AddWorkshop( "2955994894" ) // Lobby 2 - Part 7 - Materials
+resource.AddWorkshop( "2955993979" ) // Lobby 2 - Part 8 - Materials
+resource.AddWorkshop( "2955994289" ) // Lobby 2 - Part 9 - Materials
+
+resource.AddWorkshop( "248302805" ) // DarkRP
+
 function GM:PlayerSpawnProp(ply)
     return !CanBuild(ply)
 end
