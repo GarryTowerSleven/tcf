@@ -5,8 +5,6 @@ AddCSLuaFile( "sh_player.lua" )
 include( "shared.lua" )
 include( "sh_player.lua" )
 
-module( "VIP", package.seeall )
-
 require("fwens")
 
 GroupID = "103582791464989702"
@@ -16,7 +14,7 @@ hook.Add( "PlayerInitialSpawn", "JoinSetVIP", function( ply )
 	if !ply:IsValid() || ply:IsBot() then return end
 
 	if ( VIPForAll ) then
-		ply:SetNWBool( "VIP", true )
+		ply:SetNet( "VIP", true )
 		ply.IsVIP = true
 		return
 	end
@@ -33,7 +31,7 @@ hook.Add( "GroupDataReturned", "GetGroupData", function( returnedData )
 	ply:SetSetting( "GTSuiteEntityLimit", 150 )
 
 	if ( returnedData.isMember ) then
-		ply:SetNWBool( "VIP", true )
+		ply:SetNet( "VIP", true )
 		ply:SetSetting( "GTSuiteEntityLimit", 200 )
 		ply.IsVIP = true
 	end
@@ -49,7 +47,7 @@ concommand.Add( "gmt_updateglowcolor", function( ply, cmd, args )
     local color = ply:GetInfo( "cl_playerglowcolor" )
     if color then
         timeSince = CurTime() + delay
-        ply:SetNWVector( "GlowColor", Vector(color) )
+        ply:SetNet( "GlowColor", Vector(color) )
     end
 end)
 

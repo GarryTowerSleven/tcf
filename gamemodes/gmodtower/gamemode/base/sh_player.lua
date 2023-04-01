@@ -1,4 +1,3 @@
----------------------------------
 local meta = FindMetaTable( "Player" )
 if !meta then
 	return
@@ -6,7 +5,6 @@ end
 
 local Roles =
 {
-
 	// Lead Omega Overlord Kitteh1337
 	["STEAM_0:0:1384695"] = "Lead Developer",	// Kity
 	
@@ -237,6 +235,66 @@ function meta:SetColorAll( color )
 
 end
 
+function meta:SetTransparent( bool )
+
+	if bool then
+		self:SetColorAll( Color(255, 255, 255, 35) )
+	else
+		if self._IsTransparent then
+			self:SetColorAll( Color(255, 255, 255, 255) )
+		end
+	end
+
+	self._IsTransparent = bool
+
+end
+
+function meta:IsTransparent()
+	return self._IsTransparent
+end
+
+function meta:SetNoDrawAll( bool )
+
+	self:SetNoDraw( bool )
+	self:DrawShadow( bool )
+	self._NoDraw = bool
+
+	-- Hide weapons
+	local weapon = self:GetActiveWeapon()
+	if IsValid( weapon ) then
+		weapon:SetNoDraw( bool )
+	end
+
+	-- Wearables (hats, etc.)
+	if self.CosmeticEquipment then
+		for k,v in pairs( self.CosmeticEquipment ) do
+			if IsValid( v ) then
+				v:SetNoDraw( bool )
+				v:DrawShadow( bool )
+			end
+		end
+	end
+
+end
+
+function meta:IsNoDrawAll()
+	return self._NoDraw
+end
+
+function meta:HideLocalPlayers( bool, norender )
+
+	if SERVER then return end
+
+	for _, ply in pairs( Location.GetPlayersInLocation( self:Location() ) ) do
+		if norender then
+			ply:SetNoDrawAll( bool )
+		else
+			ply:SetTransparent( bool )
+		end
+	end
+
+end
+
 function meta:SetModel2( mdl )
 
 	self:SetModel( mdl )
@@ -296,18 +354,5 @@ function meta:ExitDriving()
 
 	self:SetNet( "DrivingObject", nil )
 	ent:Remove()
-
-end
-
-
-if CLIENT then return end -- SERVER
-
-
-function meta:ExitAllVehicles()
-
-	self:ExitVehicle()
-	self:ExitDriving()
-
-	hook.Call( "OnExitVehicles", GAMEMODE, self )
 
 end
