@@ -5,8 +5,6 @@ end
 
 local Roles =
 {
-	// orlok
-	["STEAM_0:1:53166133"] = "Orlok Supreme",	// Orlok
 
 	// Lead Omega Overlord Kitteh1337
 	["STEAM_0:0:1384695"] = "Lead Developer",	// Kity
@@ -62,10 +60,6 @@ function meta:IsDeveloper()
 	return GetRole( self:SteamID() ) == "Developer"
 end
 
-function meta:IsOrlok()
-	return GetRole( self:SteamID() ) == "Orlok Supreme"
-end
-
 function meta:IsModerator()
 	return self:GetUserGroup() == "moderator"
 end
@@ -116,7 +110,6 @@ local color_developer = Color(255, 100, 100, 255) // cool green 125, 177, 30
 local color_vip = Color(185, 100, 255, 255)
 local color_pink = Color(255, 166, 241, 255)
 local color_tester = Color(122, 178, 342, 255 )
-local color_orlok = Color(138, 28, 27, 255 )
 local color_pixeltail = Color( 216, 31, 42, 255 )
 
 local function returnFull(c)
