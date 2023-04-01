@@ -8,5 +8,5 @@ ENT.Sound		= Sound( "GModTower/lobby/trainstation/vendingmachineHumm.mp3")
 ENT.IsStore 	= true
 
 ENT.Selling = {
-	["build"] = 2000
+	["build"] = 200
 }
