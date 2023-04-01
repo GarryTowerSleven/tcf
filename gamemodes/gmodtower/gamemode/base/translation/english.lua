@@ -1,4 +1,6 @@
-local L = GtowerLangush
+if not GTowerLanguage then return end
+
+local L = GTowerLanguage
 
 L.AddLang( 1, "English")
 
@@ -254,6 +256,7 @@ L.AddWord( 1, "MiniNoScale",	"You cannot use potions while in a minigame!")
 L.AddWord( 1, "MiniNext",	"Starting next event in {1} minutes.")
 L.AddWord( 1, "FunMeterStart",	"Fun meter is now activated. Have fun and raise the meter in the Lobby!")
 L.AddWord( 1, "FunMeterEnd",	"Fun meter is now deactivated. Continue on your way.")
+L.AddWord( 1, "FunGameStart", "The Eruption of Fun has arrived!")
 
 
 // === PLAYER MODEL ===

@@ -12,7 +12,7 @@ function Get( ply )
 	return ply:GetNet( "ModelSize" )
 end
 
-hook.Add("PlayerSpawn","GTowerChangePlyScale", function( ply )
+hook.Add( "PlayerSpawn","GTowerChangePlyScale", function( ply )
 	ChangeHull( ply )
 end )
 

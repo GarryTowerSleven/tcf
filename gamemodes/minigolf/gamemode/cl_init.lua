@@ -1,7 +1,3 @@
-include( "camsystem/cl_init.lua" );
-include( "camsystem/shared.lua" );
-include( "catmull/shared.lua" );
-
 include( "cl_camera.lua" );
 include( "cl_controls.lua" );
 include( "cl_draw.lua" );
@@ -11,7 +7,6 @@ include( "cl_music.lua" );
 include( "cl_scorecard.lua" );
 //include( "cl_soundscapes.lua" );
 
-include( "meta_camera.lua" );
 include( "meta_player.lua" );
 
 include( "sh_move.lua" );

@@ -283,7 +283,7 @@ end
 
 -- I didn't want to use textures to do this effect, so I made this nice gradient function =P
 -- Thanks to all people at FacePunch forums that helped me to optimize it!
-/*local g_grds, g_wgrd, g_sz
+local g_grds, g_wgrd, g_sz
 function GradientBox(x, y, w, h, al, ...)
 
 	g_grds = {...}
@@ -312,7 +312,7 @@ function GradientBox(x, y, w, h, al, ...)
 							 Lerp(g_sz/g_wgrd, g_grds[n].b, g_grds[n + 1].b) or 0,
 							 Lerp(g_sz/g_wgrd, g_grds[n].a, g_grds[n + 1].a) or 0 )
 
-		// color = nil
+		color = nil
 
 		if color then
 			surface.SetDrawColor( color )
@@ -327,7 +327,7 @@ function GradientBox(x, y, w, h, al, ...)
 		end
 
 	end
-end*/
+end
 
 local verts = {{},{},{},{}}
 local otw, oth, tw, th, uoffset, voffset, umax, vmax

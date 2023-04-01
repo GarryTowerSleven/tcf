@@ -1,5 +1,11 @@
+Vip = {}
+
 include( "sh_player.lua" )
 
-module( "VIP", package.seeall )
+Vip.VIPForAll = false
 
-VIPForAll = false
+plynet.Register( "Bool", "VIP" )
+
+if IsLobby then
+	plynet.Register( "Vector", "GlowColor" )
+end

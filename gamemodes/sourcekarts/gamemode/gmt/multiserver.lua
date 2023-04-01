@@ -1,4 +1,3 @@
-
 function GAMEMODE:EndServer()
 
 	//I guess it it good bye

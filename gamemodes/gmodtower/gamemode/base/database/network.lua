@@ -12,16 +12,6 @@ hook.Add("ShowSpare1", "GTowerHelpButtonsC", function( ply ) GtowerHelpButtons( 
 hook.Add("ShowSpare2", "GTowerHelpButtonsD", function( ply ) GtowerHelpButtons( ply, 3 ) end )
 */
 
-hook.Add("PlayerSpawn", "SendToClient", function( ply )
-	--ply:ResetEquipmentAfterVehicle()
-
-	umsg.Start("GT", rp )
-		umsg.Char( id )
-		umsg.Char( 4 )
-	umsg.End() 
-	
-end )
-
 ClientNetwork = {}
 ClientNetwork.Players ={}
 

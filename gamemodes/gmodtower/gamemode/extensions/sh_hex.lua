@@ -1,9 +1,8 @@
----------------------------------
 function Hex( Input )	
 	return HexTable.Init( Input )
 end
 
-concommand.Add("gmt_testhex", function( ply, cmd, args )
+/*concommand.Add("gmt_testhex", function( ply, cmd, args )
 	
 	if ply != NULL then return end
 	
@@ -27,7 +26,7 @@ concommand.Add("gmt_testhex", function( ply, cmd, args )
 	end	
 	
 	Msg("SUCESS!\n")
-end )
+end )*/
 
 
 do
@@ -38,7 +37,7 @@ local mathfloor = math.floor
 local stringlen = string.len
 local math = math
 local debug = debug
-local Msg, getfenv, tonumber, setmetatable, ErrorNoHalt = Msg, getfenv, tonumber, setmetatable, ErrorNoHalt
+local Msg, getfenv, tonumber, setmetatable, ErrorNoHalt, Error = Msg, getfenv, tonumber, setmetatable, ErrorNoHalt, Error
 local Vector, Angle = Vector, Angle
 
 module("HexTable")

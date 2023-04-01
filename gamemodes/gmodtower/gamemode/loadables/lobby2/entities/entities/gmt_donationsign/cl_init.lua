@@ -41,11 +41,6 @@ local function DrawIcons(y, w, h)
 	end
 end
 
-local loadMat
-CasinoKit.getRemoteMaterial("http://5.161.54.79/apps/loading/img/gmtdeluxe2.png", function(mat)
-	loadMat = mat
-end)
-
 local Buttons = {
 	{
 		text = "Discord",
@@ -92,10 +87,12 @@ local function DrawButtons(imgui, x, y, w, h)
 	--draw.RectBorder( x, y, w, h, 1, Color( 255,0,0 ) )
 end
 
+local monke = Material("icon16/monkey.png")
+
 function ENT:DrawTranslucent()
 	self:DrawModel()
 
-	local imgui = GTowerUI.imgui
+	/*local imgui = GTowerUI.imgui
 
 	local w, h = 795, 512
 	
@@ -116,7 +113,7 @@ function ENT:DrawTranslucent()
 		draw.SimpleShadowText( "Welcome to", imgui.xFont("!Roboto@24"), w/2, 170, color_white, Color(0,0,0,50), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2 )
 
 		surface.SetDrawColor( 255,255,255 )
-		surface.SetMaterial( loadMat or Material("icon16/monkey.png") )
+		surface.SetMaterial( monke )
 		local imgS = 1
 		local imgW, imgH = 604*imgS, 110*imgS
 		surface.DrawTexturedRect( w/2-(imgW/2), h/2-(imgH/2), imgW, imgH )
@@ -135,5 +132,5 @@ function ENT:DrawTranslucent()
 
 		imgui.ExpandRenderBoundsFromRect(0, 0, w, h)
 		imgui.End3D2D()
-	end
+	end*/
 end

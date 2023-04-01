@@ -1,4 +1,3 @@
-
 local pairs = pairs
 local ipairs = ipairs
 local math = math

@@ -16,7 +16,7 @@ hook.Add( "PlayerThink", "VIPHaloCheck", function( ply )
 	for _, ply2 in pairs( Location.GetPlayersInLocation( ply:Location() ) ) do
 
 		if !ply2:IsPlayer() || !ply2:IsVIP() then continue end
-		//if ply2:IsTransparent() or ply2:IsNoDrawAll() then continue end
+		if ply2:IsTransparent() or ply2:IsNoDrawAll() then continue end // TODO
 
 		if IsValid( ply2 ) and ply2:Alive() and ply2:GetColor().a == 255 and ply2:GetGlowColor() then
 
@@ -30,12 +30,9 @@ hook.Add( "PlayerThink", "VIPHaloCheck", function( ply )
 			local objects = {}
 
 			-- Support driving object glow
-			//local ent = ply2:GetNet("DrivingObject")
-			local ent = ply2.PoolTube
+			local ent = ply2:GetNet("DrivingObject")
 			if IsValid( ent ) then
 				table.insert( objects, ent )
-			elseif IsValid( ply2.GolfBall ) then
-				table.insert( objects, ply2.GolfBall )
 			else
 
 				-- Player is not using a drivable

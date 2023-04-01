@@ -1,4 +1,3 @@
-
 EPSILON = 0.001
 INTRANGE = 32768
 
@@ -25,6 +24,21 @@ function CosBetween( min, max, time )
 
 end
 
+function RayQuadIntersect( vOrigin, vDirection, vPlane, vX, vY )
+	local vp = vDirection:Cross( vY )
+
+	local d = vX:DotProduct( vp )
+	if ( d <= 0.0 ) then return end
+
+	local vt = vOrigin - vPlane
+	local u = vt:DotProduct( vp )
+	if ( u < 0.0 or u > d ) then return end
+
+	local v = vDirection:DotProduct( vt:Cross( vX ) )
+	if ( v < 0.0 or v > d ) then return end
+
+	return Vector( u / d, v / d, 0 )
+end
 
 module( "math", package.seeall )
 
@@ -209,24 +223,3 @@ function PolysToTriangles( verts )
 
 	return out
 end
-
-function RayQuadIntersect(vOrigin, vDirection, vPlane, vX, vY)
-	local vp = vDirection:Cross(vY)
-
-	local d = vX:DotProduct(vp)
-	if (d <= 0.0) then return end
-
-	local vt = vOrigin - vPlane
-	local u = vt:DotProduct(vp)
-	if (u < 0.0 or u > d) then return end
-
-	local v = vDirection:DotProduct(vt:Cross(vX))
-	if (v < 0.0 or v > d) then return end
-
-	return Vector(u / d, v / d, 0)
-end
-
-function AdvRound( val, d )
-    d = d or 0
-    return math.Round( val * (10 ^ d) ) / (10 ^ d)
-end 
