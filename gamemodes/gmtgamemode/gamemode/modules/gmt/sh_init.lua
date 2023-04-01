@@ -136,8 +136,6 @@ function SetupGMTGamemode( name, folder, settings )
 			hook.Add( "CanMousePress", "DisableClientMenu", function() return false end )
 		end
 
-		HudToHide = GtowerHudToHide
-
 		-- Hide HUD elements
 		table.uinsert( HudToHide, "CHudChat" )
 		table.uinsert( HudToHide, "CHudHealth" )

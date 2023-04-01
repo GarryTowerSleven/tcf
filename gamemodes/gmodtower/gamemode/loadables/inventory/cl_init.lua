@@ -21,7 +21,7 @@ GTowerItems.InvItemSize = 52
 GTowerItems.ClientItems = GTowerItems.ClientItems or {}
 GTowerItems.InvDesc = nil
 
-table.insert( GtowerHudToHide, "CHudWeaponSelection" )
+table.uinsert( HudToHide, "CHudWeaponSelection" )
 
 function GTowerItems:MaxItems()
 	if not IsValid(LocalPlayer()) or not LocalPlayer().GetNet or not LocalPlayer():GetNet("MaxItems") then
