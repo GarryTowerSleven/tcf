@@ -27,20 +27,20 @@ ENT.SLOTS = {
 	--odds: how many re-rolls it takes to land on this item
 
 	{"Absolutely Nothing", 2},
-	{"StarFox Trophy", 150, "trophy_starfox"},
-	{"Slappers", 49, "slappers"},
-	{"iMac", 38, "imac"},
+	{"StarFox Trophy", 250, "trophy_starfox"},
+	{"Slappers", 80, "slappers"},
+	{"iMac", 75, "imac"},
 	{"1 GMC", 1},
 	--{"Playable Piano", 18, "instrument_piano"},
-	{"Playable Piano", 38, "piano"},
+	{"Playable Piano", 75, "piano"},
 	{"500 GMC", 10},
-	{"Sunabouzu Shrine", 75, "sunshrine"},
+	{"Sunabouzu Shrine", 150, "sunshrine"},
 	{"Hula Doll", 4, "huladoll"},
-	{"Rave Ball", 74, "rave_ball"},
-	{"1500 GMC", 22},
-	{"Five Catsacks", 6, "mysterycatsack", 5},
+	{"Rave Ball", 95, "rave_ball"},
+	{"1500 GMC", 28},
+	{"Five Catsacks", 8, "mysterycatsack", 5},
 	{"100 GMC", 3},
-	{"Random Holiday Item", 47, {
+	{"Random Holiday Item", 35, {
 		"sack_plushie",
 		"snowman",
 		"candycane",
@@ -69,7 +69,7 @@ ENT.SLOTS = {
 		"fwork_ufo",
 		"fwork_firefly"
 	} },
-	{"Backpack", 14, "backpack"},
+	{"Backpack", 24, "backpack"},
 }
 
 ENT.GMCPayouts = {
