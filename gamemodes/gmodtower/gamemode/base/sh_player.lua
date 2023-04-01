@@ -142,10 +142,6 @@ function meta:GetDisplayTextColor()
 		return returnFull(color_tester)
 	end
 
-	if self:IsOrlok() then
-		return returnFull(color_orlok)
-	end
-
 	if self.IsVIP && self:IsVIP() then
 		return returnFull(color_vip)
 	end
