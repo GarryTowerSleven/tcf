@@ -1,8 +1,3 @@
-
-AddCSLuaFile("camsystem/cl_init.lua")
-AddCSLuaFile("camsystem/shared.lua")
-AddCSLuaFile("catmull/shared.lua")
-
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_controls.lua")
@@ -11,7 +6,6 @@ AddCSLuaFile("cl_camera.lua")
 AddCSLuaFile( "cl_hud.lua" )
 AddCSLuaFile( "cl_huditem.lua" )
 
-AddCSLuaFile("meta_camera.lua");
 AddCSLuaFile("meta_player.lua")
 
 AddCSLuaFile("checkpoints/cl_init.lua")
@@ -24,10 +18,6 @@ include("sh_items.lua")
 
 include("checkpoints/shared.lua")
 
-include("camsystem/shared.lua")
-include("Catmull/shared.lua")
-
-include("meta_camera.lua");
 include("meta_player.lua")
 
 include("shared.lua")

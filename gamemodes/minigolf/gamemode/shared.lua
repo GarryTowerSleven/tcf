@@ -22,12 +22,6 @@ STATE_PLAYING 		= 4 -- playing game
 STATE_INTERMISSION 	= 5 -- in between holes (scoreboard show)
 STATE_ENDING 		= 6 -- game is ending
 
-// Types of cameras
-STATIC 				= 1 -- does not move. just point/angle
-FUNCTION 			= 2 -- lua controlled. just like calcview
-SPLINE 				= 3 -- looping spline track
-SPLINE_TIMED 		= 4 -- timed spline track (start-finish)
-
 // GAME SETTINGS
 WaitTime = 80
 MaxPower = 300

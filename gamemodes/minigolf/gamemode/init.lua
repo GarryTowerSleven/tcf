@@ -1,6 +1,3 @@
-AddCSLuaFile("camsystem/cl_init.lua");
-AddCSLuaFile("camsystem/shared.lua");
-AddCSLuaFile("catmull/shared.lua");
 AddCSLuaFile("cl_camera.lua");
 AddCSLuaFile("cl_controls.lua");
 AddCSLuaFile("cl_draw.lua");
@@ -10,14 +7,12 @@ AddCSLuaFile("cl_init.lua");
 AddCSLuaFile("cl_music.lua");
 AddCSLuaFile("cl_scorecard.lua");
 
-AddCSLuaFile("meta_camera.lua");
 AddCSLuaFile("meta_player.lua");
 
 AddCSLuaFile("sh_move.lua");
 AddCSLuaFile("sh_scores.lua");
 AddCSLuaFile("shared.lua");
 
-include("meta_camera.lua");
 include("meta_player.lua");
 include("round.lua");
 include("sh_move.lua");
