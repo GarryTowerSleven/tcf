@@ -62,13 +62,22 @@ Maps.Register( "gmt_ballracer_memories02", {
 	Priority = 7,
 } )
 
+Maps.Register( "gmt_ballracer_midori02", {
+	Name = "Midori",
+	Desc = "Wait a minute... is that a Robot in the sky?",
+	Author = "Lifeless",
+	DateAdded = 1339137397,
+	DateModified = 1339252668,
+	Priority = 8,
+} )
+
 Maps.Register( "gmt_ballracer_waterworld02", {
 	Name = "Water World",
 	Desc = "Meet water physics in this fun, fast paced world. Float, dive and bounce to victory!",
 	Author = "Bumpy",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 8,
+	Priority = 9,
 } )
 
 Maps.Register( "gmt_ballracer_neonlights01", {
@@ -77,7 +86,7 @@ Maps.Register( "gmt_ballracer_neonlights01", {
 	Author = "PikaUCH",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 9,
+	Priority = 10,
 } )
 
 Maps.Register( "gmt_ballracer_nightball", {
@@ -86,7 +95,7 @@ Maps.Register( "gmt_ballracer_nightball", {
 	Author = "Bumpy",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 10,
+	Priority = 11,
 } )
 
 Maps.Register( "gmt_ballracer_metalworld", {
@@ -95,7 +104,7 @@ Maps.Register( "gmt_ballracer_metalworld", {
 	Author = "Bumpy",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 11,
+	Priority = 12,
 } )
 
 Maps.Register( "gmt_ballracer_spaceworld01", {
@@ -104,7 +113,7 @@ Maps.Register( "gmt_ballracer_spaceworld01", {
 	Author = "Bumpy",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 12,
+	Priority = 13,
 } )
 
 Maps.Register( "gmt_ballracer_tranquil01", {
@@ -113,7 +122,7 @@ Maps.Register( "gmt_ballracer_tranquil01", {
 	Author = "Bumpy",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 13,
+	Priority = 14,
 } )
 
 Maps.Register( "gmt_ballracer_facile", {
@@ -122,5 +131,5 @@ Maps.Register( "gmt_ballracer_facile", {
 	Author = "Bumpy",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
-	Priority = 14,
+	Priority = 15,
 } )

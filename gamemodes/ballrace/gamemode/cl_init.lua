@@ -95,6 +95,18 @@ local waitCams = {
 		origin = Vector( 6849.89, 4036.21, -1319.66 ),
 		angles = Angle( 2.44, -112.38, 0 ),
 		fov = 70
+	},
+	
+	["gmt_ballracer_tranquil01"] = {
+		origin = Vector( -11684.64, 13856.83, 36.693 ),
+		angles = Angle( -6.044, -130.5, 0 ),
+		fov = 70
+	},
+	
+	["gmt_ballracer_midori02"] = {
+		origin = Vector( -9218.5, -2028.57, 2675.98 ),
+		angles = Angle( 19.06, 81.8, 0 ),
+		fov = 70
 	}
 }
 

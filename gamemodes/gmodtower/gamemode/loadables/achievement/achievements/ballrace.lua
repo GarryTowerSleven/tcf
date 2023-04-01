@@ -54,6 +54,14 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRMEMORIES, {
 	}
 )
 
+GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETMIDORI, {
+	Name = "Midori Secret Banana",
+	Description = "Find the hidden banana on Midori.",
+	Value = 1,
+	Group = 6
+	}
+)
+
 GTowerAchievements:Add( ACHIEVEMENTS.BRTHATSARECORD, {
 	Name = "That's A New Record",
 	Description = "Beat a Ballrace record.",

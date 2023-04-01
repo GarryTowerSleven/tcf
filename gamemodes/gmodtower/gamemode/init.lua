@@ -28,6 +28,8 @@ resource.AddWorkshop( 2947441080 ) -- Zombie Massacre
 resource.AddWorkshop( 2952547939 ) -- TCF Base
 resource.AddWorkshop( 2948325260 ) -- TCF Lobby
 resource.AddWorkshop( 2952552769 ) -- TCF Ballrace
+resource.AddWorkshop( 2956124164 ) -- TCF Minigolf
+resource.AddWorkshop( 2956124349 ) -- TCF PVP Battle
 
 // BACKUP
 /*resource.AddWorkshop( 2949539663 ) -- Base
