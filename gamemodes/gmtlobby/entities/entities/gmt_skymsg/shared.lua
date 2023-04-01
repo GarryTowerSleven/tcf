@@ -66,7 +66,6 @@ ENT.OverrideMessages = {
 	[29] = "Appearance Store",
 	[36] = "Monotone",
 	[46] = "Restaurant",
-	[47] = "Orlok Casino",
 	[43] = "Suites 16 - 24",
 	[44] = "Suites 10 - 15",
 	[30] = "General Goods",
