@@ -1,18 +1,18 @@
----------------------------------
 include("shared.lua")
 
 local function UMsgT( icon, target, trans, ... )
+	if ( not trans ) then return end
 
-	umsg.Start("t7", target)
-		umsg.String( trans )
-		umsg.String( icon )
-		umsg.Char( select('#', ...) )
+	net.Start( 'GMTMessageTrans' )
+		net.WriteString( trans )
+		net.WriteChar( select( '#', ... ) )
 
-		for _, v in ipairs( {...} ) do
-			umsg.String( v )
+		for _, v in ipairs( { ... } ) do
+			net.WriteString( v )
 		end
 
-	umsg.End()
+		net.WriteString( icon or "" )
+	net.Send( target )
 
 end
 
@@ -23,21 +23,15 @@ if !meta then
     return
 end
 
-function meta:Msg2( msg, icon )
+function meta:Msg2( msg, icon, time )
 
-	if !msg || type(msg) != "string" then return end
+	if ( not msg ) then return end
 
-	if #msg > 251 then
-		SQLLog('error', "Tried to send a message that would overflow umsg [" .. str .. "]")
-		return
-	end
-	
-	if icon == nil then icon = "" end
-	
-	umsg.Start("t6", self)
-		umsg.String( msg )
-		umsg.String( icon )
-	umsg.End()
+	net.Start( 'GMTMessage' )
+		net.WriteString( msg )
+		net.WriteString( icon or "" )
+		net.WriteChar( time or 0 )
+	net.Send( self )
 
 end
 
@@ -49,3 +43,5 @@ function meta:MsgT( trans, ... )
 	UMsgT( "", self, trans, ... )
 end
 
+util.AddNetworkString( "GMTMessage" )
+util.AddNetworkString( "GMTMessageTrans" )
