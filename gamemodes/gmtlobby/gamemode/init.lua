@@ -155,7 +155,7 @@ function GM:PostEntityTakeDamage(ply, _, take)
     if IsValid(ply) and UCHAnim.ValidPlayer(ply) then
         ply:EmitSound( "UCH/pigs/squeal" .. tostring( math.random( 1, 3 ) ) .. ".wav", 80, math.random( 90, 105 ) )
     
-    elseif IsValid(ply) and ply:isPlayer() then
+    elseif IsValid(ply) and ply:IsPlayer() then
         ply:EmitSound(string.find(ply:GetModel(), "kleiner") and "vo/k_lab/kl_ahhhh.wav" or "vo/npc/" .. (string.find(ply:GetModel(), "female") and "fe" or "") .. "male01/pain0" .. math.random(9) .. ".wav", 80, math.random(90, 105))
     end
 
