@@ -1,8 +1,4 @@
-local GtowerLangush = GtowerLangush
-
 module("minigames.fun")
-
-GtowerLangush.AddWord( 1, "FunGameStart", "The Eruption of Fun has arrived!")
 
 MinigameName = "Fun"
 MinigameMessage = "FunGameStart"
