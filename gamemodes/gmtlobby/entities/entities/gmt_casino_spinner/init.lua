@@ -30,7 +30,7 @@ function ENT:SpinRoll()
 	local candidates = {}
 
 	for k,v in pairs( self.SLOTS ) do
-		if math.floor(util.SharedRandom(CurTime() + k, 1, v[2] * 2)) == 1 then
+		if math.floor( math.Rand( 1, v[2] * 2 ) ) == 1 then
 			local rand = v[2] < 36
 			local rand2 = v[2] > 100
 			if rand2 and math.random(100) == 1 or !rand and math.random(20) == 1 or rand then
@@ -54,8 +54,31 @@ function ENT:SpinRoll()
 	if !candidates[1] then return 1 end
 
 	return ( candidates[1].num )
-
 end
+
+concommand.Add( "spinner_odds", function( ply, cmd, args )
+	if ( ply != NULL ) then return end
+
+	local ent = ents.FindByClass( 'gmt_casino_spinner' )[1]
+	if ( not ent ) then return end
+
+	local num = tonumber( args[1] or 1000 )
+
+	print( Format( "Simulating %s spins...", num ) .. "\n" )
+
+	local res = {}
+
+	for i=1, num do
+		local p = ent:SpinRoll()
+		local prize = ent.SLOTS[ p ][1]
+
+		if ( not res[ prize ] ) then res[ prize ] = 0 end
+
+		res[ prize ] = res[ prize ] + 1
+	end
+
+	PrintTable( res )
+end )
 
 function ENT:Use( activator, caller )
 	local prize
