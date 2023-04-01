@@ -33,14 +33,14 @@ ENT.SLOTS = {
 	{"1 GMC", 4},
 	--{"Playable Piano", 18, "instrument_piano"},
 	{"Playable Piano", 12 * 14, "piano"},
-	{"500 GMC", 7*2},
+	{"500 GMC", 10*3},
 	{"Sunabouzu Shrine", 20 * 40, "sunshrine"},
 	{"Hula Doll", 4, "huladoll"},
 	{"Rave Ball", 20 * 14, "rave_ball"},
-	{"1500 GMC", 6 * 5},
-	{"Five Catsacks", 6 * 2, "mysterycatsack", 5},
+	{"1500 GMC", 10 * 5},
+	{"Five Catsacks", 10 * 2, "mysterycatsack", 5},
 	{"100 GMC", 7},
-	{"Random Holiday Item", 16 * 3, {
+	{"Random Holiday Item", 16 * 6, {
 		"sack_plushie",
 		"snowman",
 		"candycane",
