@@ -40,7 +40,7 @@ ENT.SLOTS = {
 	{"1500 GMC", 36},
 	{"Five Catsacks", 8, "mysterycatsack", 5},
 	{"100 GMC", 3},
-	{"Random Holiday Item", 49, {
+	{"Random Holiday Item", 65, {
 		"sack_plushie",
 		"snowman",
 		"candycane",
