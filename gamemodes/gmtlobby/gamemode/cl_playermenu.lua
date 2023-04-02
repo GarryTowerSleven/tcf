@@ -80,7 +80,7 @@ Commands = {
 	{
 		"Slay",
 		function( ply )
-			RunConsoleCommand( "gt_act", "slay", ply:EntIndex() )
+			RunConsoleCommand( "gmt_act", "slay", ply:EntIndex() )
 		end,
 		function( ply )
 			return LocalPlayer():IsAdmin() or LocalPlayer():IsModerator()

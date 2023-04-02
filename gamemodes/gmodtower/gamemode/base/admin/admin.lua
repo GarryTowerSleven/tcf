@@ -46,7 +46,7 @@ concommand.Add("gmt_create",function(ply,cmd,args,str)
 	AdminNotif.SendStaff( ply:Nick() .. " has created \"" .. ent:GetClass() .. "\" (" .. args[1] .. ") at: " .. string.FormatVector(ply:GetEyeTrace().HitPos) .. ".", nil, "GREEN", 2 )
 end)
 
-concommand.Add( "gt_act", function(ply, command, args)
+concommand.Add( "gmt_act", function(ply, command, args)
     if !ply:IsStaff() then
 		if GTowerHackers then
 			GTowerHackers:NewAttemp( ply, 5, command, args )

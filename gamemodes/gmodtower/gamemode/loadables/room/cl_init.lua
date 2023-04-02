@@ -116,7 +116,7 @@ hook.Add("GTowerAdminPly", "AddSuiteRemove", function( ply )
 	if ply:GetNet( "RoomID" ) then
 		return {
 			["Name"] = "Remove Room",
-			["function"] = function() RunConsoleCommand("gt_act", "remroom", PlyId ) end
+			["function"] = function() RunConsoleCommand("gmt_act", "remroom", PlyId ) end
 		}
 	end
 
