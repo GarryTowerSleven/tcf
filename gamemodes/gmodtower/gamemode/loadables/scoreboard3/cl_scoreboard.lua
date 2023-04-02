@@ -51,8 +51,11 @@ MATERIALS = {
 	Gag = Material("icon16/comments_delete.png"),
 	Goto = Material("icon16/arrow_up.png"),
 	Tele = Material("icon16/arrow_down.png"),
-	VIP = Scoreboard.GenTexture( "ScoreboardVIP", "icon_vip" ),
+	VIP = Material("icons/vip"),
+	LeadDeveloper = Material("icon16/wrench_orange.png"),
+	Developer = Material("icon16/wrench.png"),
 	Admin = Scoreboard.GenTexture( "ScoreboardAdmin", "icon_admin" ),
+	Moderator = Material("icon16/shield.png"),
 	Crown = Scoreboard.GenTexture( "ScoreboardCrown", "icon_note_crown" ),
 	Finish = Scoreboard.GenTexture( "ScoreboardFinish", "icon_note_finish" ),
 	Joystick = Scoreboard.GenTexture( "ScoreboardJoystick", "icon_note_joystick" ),
@@ -1228,6 +1231,22 @@ function PLAYERINFO:PerformLayout()
 
 			if ( name == "VIP" ) then
 				self.RespectIcon:SetMaterial( MATERIALS.VIP, 15, 15, 14, 14 )
+			end
+
+			if ( name == "Lead Developer" ) then
+				self.RespectIcon:SetMaterial( MATERIALS.LeadDeveloper, 15, 15, 14, 14 )
+			end
+
+			if ( name == "Developer" ) then
+				self.RespectIcon:SetMaterial( MATERIALS.Developer, 15, 15, 14, 14 )
+			end
+
+			if ( name == "Admin" ) then
+				self.RespectIcon:SetMaterial( MATERIALS.Admin, 15, 15, 14, 14 )
+			end
+
+			if ( name == "Moderator" ) then
+				self.RespectIcon:SetMaterial( MATERIALS.Moderator, 15, 15, 14, 14 )
 			end
 
 			self.RespectIcon:SetText( name )
