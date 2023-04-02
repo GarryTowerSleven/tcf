@@ -19,7 +19,7 @@ surface.CreateFont( "SelectMapFont", {
 local donationFeatures = {
 	"A fancy VIP tag",
 	"VIP only store and items in-game",
-	"VIP icon/avatar glow in-game",
+	"VIP icon in-game",
 	"Suite entity limit raised to 200",
 	"Theater duration limit raised to an hour and 30 minutes",
 	"Invites to beta tests",
