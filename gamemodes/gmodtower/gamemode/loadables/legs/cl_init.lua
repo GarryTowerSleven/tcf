@@ -343,7 +343,11 @@ function _R.Legs:UpdateAnimation( groundSpeed )
 
 	end
 
-
+	if self.Entity:GetModel() != self.Entity.LastModel then
+		self.Entity.LastModel = self.Entity:GetModel()
+		
+		self:OnSwitchedWeapon()
+	end
 
 	if self.Entity:GetModel() != LocalPlayer():GetFixedModel() then -- Player changed model without spawning?
 
