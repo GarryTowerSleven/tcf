@@ -302,9 +302,16 @@ GTowerRooms.ClosetKeyPress = function( ply, press )
 	if GTowerRooms:RoomOwner( GTowerRooms.ClosetRoom ) == LocalPlayer() && ply == LocalPlayer() && press == IN_USE then
 	
 		local ent = GTowerRooms:GetEyeHat( ply )
-		
+
+
 		if IsValid( ent ) && CurTime() > NextHatEntUse then
-			RunConsoleCommand("gmt_sethat", ent.UniqueName, ent.Slot )
+		
+			if ent.HatId == 0 then
+				RunConsoleCommand("gmt_sethat", 0, SLOT_HEAD )
+				RunConsoleCommand("gmt_sethat", 0, SLOT_FACE )
+			else
+				RunConsoleCommand("gmt_sethat", ent.UniqueName, ent.Slot )
+			end
 			NextHatEntUse = CurTime() + 1.2
 		end
 	end
@@ -318,7 +325,14 @@ hook.Add("GtowerMouseEnt", "RoomClosetSetHat", function( entity, mc )
 		local ent = GTowerRooms:GetEyeHat( ply )
 		
 		if ent then
-			RunConsoleCommand("gmt_sethat", ent.UniqueName, ent.Slot )
+
+			if ent.HatId == 0 then
+				RunConsoleCommand("gmt_sethat", 0, SLOT_HEAD )
+				RunConsoleCommand("gmt_sethat", 0, SLOT_FACE )
+			else
+				RunConsoleCommand("gmt_sethat", ent.UniqueName, ent.Slot )
+			end
+
 			return true
 		end
 		
