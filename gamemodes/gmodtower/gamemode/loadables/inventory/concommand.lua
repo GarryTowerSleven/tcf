@@ -12,10 +12,11 @@ concommand.Add( "gm_invspawn", function( ply, command, args )
     local ItemId = 	args[1]
     local Rotation = 	tonumber( args[2] )
     local AimVec = Vector( tonumber( args[3] ) , tonumber( args[4] ) , tonumber( args[5] ) )
+    local ShootPos = Vector( tonumber( args[6] ) , tonumber( args[7] ) , tonumber( args[8] ) )
 
 	--AimVec = AimVec:Normalize()
 
-	local Message = ply:DropItem( ItemId, AimVec, Rotation )
+	local Message = ply:DropItem( ItemId, AimVec, Rotation, ShootPos )
 
 	if DEBUG then
 		Msg( ply, " dropping ent " .. tostring(ItemId) .. " on the floor. ", Message ," (Rotation: " .. Rotation .. ")\n")

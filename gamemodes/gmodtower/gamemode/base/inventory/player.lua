@@ -280,7 +280,7 @@ function meta:InvSwap( slot1, slot2 )
 	hook.Call("InvSwap", GAMEMODE, self, ItemSlot1, ItemSlot2 )
 end
 
-function meta:DropItem( slot, aim, rotation )
+function meta:DropItem( slot, aim, rotation, shoot )
 
 	rotation = rotation or 0
 	aim = aim or self:GetAimVector()
@@ -297,7 +297,7 @@ function meta:DropItem( slot, aim, rotation )
 		return
 	end
 
-	local ShootPos = self:GetShootPos()
+	local ShootPos = shoot or self:GetShootPos()
 	local Trace = util.QuickTrace(
 		ShootPos,
 		aim * GTowerItems.MaxDistance,
