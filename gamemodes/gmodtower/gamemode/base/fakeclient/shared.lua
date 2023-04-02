@@ -19,6 +19,7 @@ function New( data )
 	data.IsAdmin = function( self ) return self.admin end
 	data.GetRespectName = function() return "" end
 	data.GetTitle = function() return "" end
+	data.GetRole = function() return "" end
 	data.GetDisplayTextColor = function() return Color( 150, 150, 150, 255 ) end
 	data.IsHidden = function() return false end
 	data.Ping = function() return 0 end
