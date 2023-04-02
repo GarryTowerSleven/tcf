@@ -7,7 +7,7 @@ local QueryPanel = nil
 
 include("shared.lua")
 include("room_maps.lua")
-//include("cl_closet.lua")
+include("cl_closet.lua")
 include("cl_party.lua")
 
 usermessage.Hook("GRoom", function(um)
@@ -283,15 +283,15 @@ function GTowerRooms:LoadRooms( um )
 		if ValidOwner then
 			Room.HasOwner = true
 
-			/*if GtowerHats.Hats then
+			if GTowerHats.Hats then
 				Room.Hats[ 0 ] = true
 
-				for k, hat in ipairs( GtowerHats.Hats ) do
-					if hat.unique_name then
+				for k, hat in ipairs( GTowerHats.Hats ) do
+					if hat.unique_Name then
 						Room.Hats[ k ] = um:ReadBool()
 					end
 				end
-			end*/
+			end
 
 		else
 
@@ -332,6 +332,8 @@ function GTowerRooms:FindRefEnts()
 		local EntIndex = v:EntIndex()
 
 		for _, Room in pairs( GTowerRooms.Rooms ) do
+			print(_)
+			print(Room.EntId)
 			if Room.EntId == EntIndex then
 				Room.RefEnt = v
 				Room.StartPos = v:LocalToWorld( MapData.min )
