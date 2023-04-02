@@ -37,10 +37,10 @@ ENT.SLOTS = {
 	{"Sunabouzu Shrine", 150, "sunshrine"},
 	{"Hula Doll", 4, "huladoll"},
 	{"Rave Ball", 95, "rave_ball"},
-	{"1500 GMC", 28},
+	{"1500 GMC", 36},
 	{"Five Catsacks", 8, "mysterycatsack", 5},
 	{"100 GMC", 3},
-	{"Random Holiday Item", 35, {
+	{"Random Holiday Item", 49, {
 		"sack_plushie",
 		"snowman",
 		"candycane",
