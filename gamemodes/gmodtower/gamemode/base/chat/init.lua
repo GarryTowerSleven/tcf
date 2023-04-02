@@ -79,8 +79,6 @@ concommand.Add("say2", function( ply, cmd, args )
 	local message = args[2] or nil
 	if ( not message or string.Trim( message ) == "" ) then return end
 
-	print( ply, type, message )
-
 	ply:Chat( message, type )
 end)
 
@@ -331,6 +329,9 @@ function meta:Chat( text, type, hidden )
 	
 	local typeid = GTowerChat.GetChatEnum( type or "Server" )
 	if ( not typeid ) then return end
+
+	// Give to console
+	LogPrint( Format( "%s (%s): %s", self:GetName(), type, text ), nil, "Chat" )
 
 	// Swear Filter
 	text = GTowerChat.FilterText( text )
