@@ -77,6 +77,10 @@ function meta:IsTester()
 	return false
 end
 
+function meta:GetRole()
+	return GetRole( self:SteamID() ) or ""
+end
+
 function meta:GetTitle()
 	if self:IsHidden() then return end
 

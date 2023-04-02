@@ -1225,7 +1225,7 @@ function PLAYERINFO:PerformLayout()
 
 	if IsValid( self.RespectIcon ) then
 
-		local name = self.Player:GetTitle()
+		local name = self.Player:GetRole()
 
 		if name then
 
