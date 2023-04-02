@@ -32,22 +32,31 @@ SWEP.Secondary = SWEP.Primary
 SWEP._LastSlap = 0
 
 SWEP.Sounds = {
-	Miss = Sound("Weapon_Knife.Slash"),
-	HitWorld = Sound("Default.ImpactSoft"),
+	Miss = {
+		clsound.Register("weapons/knife/knife_slash1.wav"),
+		clsound.Register("weapons/knife/knife_slash2.wav"),
+	},
+	HitWorld = {
+		clsound.Register("physics/plastic/plastic_box_impact_soft2.wav"),
+		clsound.Register("physics/plastic/plastic_box_impact_soft3.wav"),
+		clsound.Register("physics/plastic/plastic_box_impact_soft4.wav"),
+	},
 	Hurt = {
-		Sound("npc_citizen.ow01"),
-		Sound("npc_citizen.ow02")
+		clsound.Register("vo/npc/male01/ow01.wav"),
+		clsound.Register("vo/npc/male01/ow02.wav"),
+		clsound.Register("vo/npc/female01/ow01.wav"),
+		clsound.Register("vo/npc/female01/ow02.wav"),
 	},
 	Slap = {
-		Sound("elevator/effects/slap_hit01.wav"),
-		Sound("elevator/effects/slap_hit02.wav"),
-		Sound("elevator/effects/slap_hit03.wav"),
-		Sound("elevator/effects/slap_hit04.wav"),
-		Sound("elevator/effects/slap_hit05.wav"),
-		Sound("elevator/effects/slap_hit06.wav"),
-		Sound("elevator/effects/slap_hit07.wav"),
-		Sound("elevator/effects/slap_hit08.wav"),
-		Sound("elevator/effects/slap_hit09.wav")
+		clsound.Register("elevator/effects/slap_hit01.wav"),
+		clsound.Register("elevator/effects/slap_hit02.wav"),
+		clsound.Register("elevator/effects/slap_hit03.wav"),
+		clsound.Register("elevator/effects/slap_hit04.wav"),
+		clsound.Register("elevator/effects/slap_hit05.wav"),
+		clsound.Register("elevator/effects/slap_hit06.wav"),
+		clsound.Register("elevator/effects/slap_hit07.wav"),
+		clsound.Register("elevator/effects/slap_hit08.wav"),
+		clsound.Register("elevator/effects/slap_hit09.wav")
 	}
 }
 
@@ -188,7 +197,7 @@ function SWEP:Slap()
 			end
 
 		else
-			self:GetOwner():EmitSound( self.Sounds.Miss, 80, 100 )
+			self:GetOwner():EmitSoundInLocation( table.Random( self.Sounds.Miss ), 50 )
 		end
 
 	end
@@ -207,19 +216,19 @@ function SWEP:SlapPlayer(ply, tr)
 	// local vec = (tr.HitPos - tr.StartPos):GetNormal()
 
 	-- Emit hurt sound on player
-	ply:EmitSound(table.Random(self.Sounds.Hurt), 50, 100 )
+	ply:EmitSoundInLocation(table.Random(self.Sounds.Hurt), 60 )
 
 	-- Apply force to player
 	// ply:SetLocalVelocity( vec * GetConVar("slappers_force"):GetInt() )
 
 	-- Emit slap sound
-	self:GetOwner():EmitSound( table.Random(self.Sounds.Slap), 80, 100)
+	self:GetOwner():EmitSoundInLocation( table.Random(self.Sounds.Slap), 60 )
 
 end
 
 function SWEP:SlapWorld()
 
-	self:GetOwner():EmitSound( self.Sounds.HitWorld, 80, 100)
+	self:GetOwner():EmitSoundInLocation( table.Random(self.Sounds.HitWorld), 60 )
 
 end
 
@@ -258,7 +267,7 @@ function SWEP:SlapProp(ent, tr)
 	end
 
 	-- Emit slap sound
-	self:GetOwner():EmitSound( emitSound, 80, 100 )
+	self:GetOwner():EmitSoundInLocation( emitSound, 80, 100 )
 
 end
 
