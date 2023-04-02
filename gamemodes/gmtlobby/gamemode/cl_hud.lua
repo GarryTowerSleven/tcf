@@ -1,3 +1,4 @@
+table.uinsert( HudToHide, "CHudCrosshair" )
 table.uinsert( HudToHide, "CHudHealth" )
 table.uinsert( HudToHide, "CHudAmmo" )
 table.uinsert( HudToHide, "CHudSecondaryAmmo" )

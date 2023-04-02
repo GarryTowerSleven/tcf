@@ -131,13 +131,6 @@ local function ExitTransition(ply, index)
 			Msg2( T("VideoPokerRefound",ply:GetNWInt("VideoPokerAmount")) )
 		end
 
-		if file.Exists("gmtower/friends.txt", "DATA") then
-
-			local frnds = string.Explode(" ", file.Read("gmtower/friends.txt", "DATA"))
-			PopulateFriendsList()
-
-		end
-
 		net.Start( "CLIENTBRANCH" )
 			net.WriteString(BRANCH)
 		net.SendToServer()

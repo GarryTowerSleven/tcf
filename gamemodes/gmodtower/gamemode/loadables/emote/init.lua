@@ -67,12 +67,28 @@ Commands = {
 	[19] = {"lounge", "", 0},
 }
 
-concommand.Add("gmt_emoteend", function(ply)
-		ply:SetNWBool("Emoting",false)
-		ply:SetNWBool("Sitting",false)
-		ply:SetNWBool("Laying",false)
-		ply:SetNWBool("Lounging",false)
-end)
+concommand.Add( "gmt_emoteend", function(ply)
+	ply:SetNWBool("Emoting",false)
+	ply:SetNWBool("Sitting",false)
+	ply:SetNWBool("Laying",false)
+	ply:SetNWBool("Lounging",false)
+end )
+
+function DoEmoteChat( ply, emote )
+	if ( not IsValid( ply ) ) then return end
+
+	local grammar = GetGrammar( emote ) or nil
+	if ( not grammar ) then return end
+
+	local message = ply:GetName() .. " " .. grammar
+
+	GTowerChat.AddChat(
+		message,
+		Color( 150, 150, 150, 255 ),
+		"Emotes",
+		Location.GetPlayersInLocation( ply:Location() )
+	)
+end
 
 for _, emote in pairs(Commands) do
 	local emoteName = emote[1]
@@ -81,27 +97,23 @@ for _, emote in pairs(Commands) do
 	
 	if emoteName == "sit" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
-		if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
-		ply:SetNWBool("Emoting",true)
-		ply:SetNWBool("Sitting",true)
+			if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
+			ply:SetNWBool("Emoting",true)
+			ply:SetNWBool("Sitting",true)
 
-		for _, v in ipairs( Location.GetPlayersInLocation( ply:Location() ) ) do
-			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
-		end
+			DoEmoteChat( ply, emoteName )
 
-		return ""
+			return ""
 		end )
 	elseif emoteName == "lay" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
-		if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
-		ply:SetNWBool("Emoting",true)
-		ply:SetNWBool("Laying",true)
+			if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
+			ply:SetNWBool("Emoting",true)
+			ply:SetNWBool("Laying",true)
 
-		for _, v in ipairs( Location.GetPlayersInLocation( ply:Location() ) ) do
-			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
-		end
+			DoEmoteChat( ply, emoteName )
 
-		return ""
+			return ""
 		end )
 	elseif emoteName == "lounge" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
@@ -109,9 +121,7 @@ for _, emote in pairs(Commands) do
 		ply:SetNWBool("Emoting",true)
 		ply:SetNWBool("Lounging",true)
 
-		for _, v in ipairs( Location.GetPlayersInLocation( ply:Location() ) ) do
-			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
-		end
+		DoEmoteChat( ply, emoteName )
 
 		return ""
 		end )
@@ -120,9 +130,7 @@ for _, emote in pairs(Commands) do
 		if !ply:Alive() then return end
 		ply:Kill()
 
-		for _, v in ipairs( Location.GetPlayersInLocation( ply:Location() ) ) do
-			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
-		end
+		DoEmoteChat( ply, emoteName )
 
 		return ""
 		end )
@@ -156,9 +164,7 @@ for _, emote in pairs(Commands) do
 			end
 		end)
 
-		for _, v in ipairs( Location.GetPlayersInLocation( ply:Location() ) ) do
-			v:SendLua([[GTowerChat.Chat:AddText("]]..ply:Name()..[[ ]]..GetGrammar(emoteName)..[[", Color(150, 150, 150, 255))]])
-		end
+		DoEmoteChat( ply, emoteName )
 
 		return ""
 		end )

@@ -571,122 +571,38 @@ hook.Add("ExtraMenuPlayer", "AddAdminFunctions", function(ply)
     end
 end)
 
-local function GetFriendStatus(ply)
-    if not IsValid(ply) then return end
+hook.Add( "PlayerActionBoxPanel", "AdminActions", function( panel )
 
-    if file.Exists("gmtower/friends.txt", "DATA") then
-        local Friends = string.Explode(" ", file.Read(LocalFilename, "DATA"))
+    if !LocalPlayer().IsStaff || !LocalPlayer():IsStaff() || !IsLobby then return end
 
-        if table.HasValue(Friends, ply:SteamID64()) then
-            return "Unfriend"
-        else
-            return "Friend"
-        end
-    else
-        return "Friend"
-    end
-end
+	local cmd = panel:CreateItem()
+	cmd:SetMaterial( Scoreboard.PlayerList.MATERIALS.Goto, 16, 16, 16, 16 )
+	cmd:SetText( "Goto" )
+	cmd.OnMousePressed = function( self )
+		RunConsoleCommand("gt_act", "goto", panel:GetPlayer():EntIndex() )
+	end
 
-local function GetBlockStatus(ply)
-    if not IsValid(ply) then return end
+	local cmd = panel:CreateItem()
+	cmd:SetMaterial( Scoreboard.PlayerList.MATERIALS.Tele, 16, 16, 16, 16 )
+	cmd:SetText( "Bring" )
+	cmd.OnMousePressed = function( self )
+		RunConsoleCommand("gt_act", "teleport", panel:GetPlayer():EntIndex() )
+	end
 
-    if file.Exists(BlockList, "DATA") then
-        local Blocked = string.Explode(" ", file.Read(BlockList, "DATA"))
+	local cmd = panel:CreateItem()
+	cmd:SetMaterial( Scoreboard.PlayerList.MATERIALS.Gag, 16, 16, 16, 16 )
+	cmd:SetText( "Gag" )
+	cmd.OnMousePressed = function( self )
+		RunConsoleCommand("gt_act", "gag", panel:GetPlayer():EntIndex() )
+	end
 
-        if table.HasValue(Blocked, ply:SteamID64()) then
-            return "Unblock"
-        else
-            return "Block"
-        end
-    else
-        return "Block"
-    end
-end
+	local cmd = panel:CreateItem()
+	cmd:SetMaterial( Scoreboard.PlayerList.MATERIALS.Mute, 16, 16, 16, 16 )
+	cmd:SetText( "Mute" )
+	cmd.OnMousePressed = function( self )
+		RunConsoleCommand("gt_act", "mute", panel:GetPlayer():EntIndex() )
+	end
 
-hook.Add("PlayerActionBoxPanel", "AdminActions", function(panel)
-    if IsLobby then
-        local cmd = panel:CreateItem()
-        cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Trade, 16, 16, 16, 16)
-        cmd:SetText("Trade")
-
-        cmd.OnMousePressed = function(self)
-            LocalPlayer():ConCommand("gmt_trade" .. " " .. panel:GetPlayer():EntIndex())
-        end
-    end
-
-    local cmd = panel:CreateItem()
-    cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Friend, 16, 16, 16, 16)
-    cmd:SetText("Friend")
-
-    if IsValid(panel) then
-        cmd:SetText(GetFriendStatus(panel:GetPlayer()))
-    end
-
-    cmd.OnMousePressed = function(self)
-        if CheckFriendship(panel:GetPlayer()) then
-            LocalPlayer():ConCommand("gmt_unfriend" .. " " .. panel:GetPlayer():SteamID64())
-            cmd:SetText("Friend")
-        else
-            LocalPlayer():ConCommand("gmt_friend" .. " " .. panel:GetPlayer():SteamID64())
-            cmd:SetText("Unfriend")
-        end
-    end
-
-    local cmd = panel:CreateItem()
-    cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Block, 16, 16, 16, 16)
-    cmd:SetText("Block")
-
-    if IsValid(panel) then
-        cmd:SetText(GetBlockStatus(panel:GetPlayer()))
-    end
-
-    cmd.OnMousePressed = function(self)
-        BlockPlayer(panel:GetPlayer())
-        cmd:SetText(GetBlockStatus(panel:GetPlayer()))
-    end
-
-    if IsLobby then
-        local cmd = panel:CreateItem()
-        cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Group, 16, 16, 16, 16)
-        cmd:SetText("Group")
-
-        cmd.OnMousePressed = function(self)
-            LocalPlayer():ConCommand("gmt_groupinvite" .. " " .. panel:GetPlayer():EntIndex())
-        end
-    end
-
-    if !LocalPlayer():IsStaff() or not IsLobby then return end
-    local cmd = panel:CreateItem()
-    cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Goto, 16, 16, 16, 16)
-    cmd:SetText("Goto")
-
-    cmd.OnMousePressed = function(self)
-        RunConsoleCommand("gt_act", "goto", panel:GetPlayer():EntIndex())
-    end
-
-    local cmd = panel:CreateItem()
-    cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Tele, 16, 16, 16, 16)
-    cmd:SetText("Bring")
-
-    cmd.OnMousePressed = function(self)
-        RunConsoleCommand("gt_act", "teleport", panel:GetPlayer():EntIndex())
-    end
-
-    local cmd = panel:CreateItem()
-    cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Gag, 16, 16, 16, 16)
-    cmd:SetText("Gag")
-
-    cmd.OnMousePressed = function(self)
-        RunConsoleCommand("gt_act", "gag", panel:GetPlayer():EntIndex())
-    end
-
-    local cmd = panel:CreateItem()
-    cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Mute, 16, 16, 16, 16)
-    cmd:SetText("Mute")
-
-    cmd.OnMousePressed = function(self)
-        RunConsoleCommand("gt_act", "mute", panel:GetPlayer():EntIndex())
-    end
 end)
 
 hook.Add("HUDPaint", "AdminShowEnts", function()

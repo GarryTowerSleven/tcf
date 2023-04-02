@@ -351,7 +351,7 @@ end
 local function FilteredPlayerList( players )
 
 	for i=#players, 1, -1 do
-		if players[i]:GetFriendStatus() == "blocked" || CheckBlockedCache(LocalPlayer(players[i])) then
+		if Friends.IsBlocked( LocalPlayer(), players[i] ) then
 			table.remove( players, i )
 		end
 	end
@@ -455,7 +455,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 
 	if tabname == "Friends" then
 		for _, ply in ipairs( player.GetAll() ) do
-			if CheckFriendCache( ply ) and not ply:IsHidden() then
+			if Friends.IsFriend( LocalPlayer(), ply ) and not ply:IsHidden() then
 				table.insert( players, ply )
 			end
 		end
@@ -467,7 +467,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 
 	if tabname == "Blocked" then
 		for _, ply in ipairs( player.GetAll() ) do
-			if ply:GetFriendStatus() == "blocked" || CheckBlockedCache(ply) then
+			if Friends.IsBlocked( LocalPlayer(), ply ) and not ply:IsHidden() then
 				table.insert( players, ply )
 			end
 		end
@@ -880,7 +880,8 @@ function PLAYER:Paint( w, h )
 	surface.SetDrawColor( Scoreboard.Customization.ColorDark )
 
 	local borderSize = 1
-	local DrawRespectBorder = self.Player:GetTitle() and (self.Player:GetTitle() ~= "Blocked") and (self.Player:GetTitle() ~= "VIP")
+
+	local DrawRespectBorder = ( Friends and Friends.IsFriend( LocalPlayer(), self.Player ) ) or ( self.Player.IsStaff and self.Player:IsStaff() )
 
 	// Border effects
 	if DrawRespectBorder then
@@ -1225,31 +1226,32 @@ function PLAYERINFO:PerformLayout()
 
 	if IsValid( self.RespectIcon ) then
 
-		local name = self.Player:GetRole()
+		local text = self.Player:GetRespectName()
+		local title = self.Player:GetRespectName( true )
 
-		if name then
+		if text && title then
 
-			if ( name == "VIP" ) then
+			if ( title == "VIP" ) then
 				self.RespectIcon:SetMaterial( MATERIALS.VIP, 15, 15, 14, 14 )
 			end
 
-			if ( name == "Lead Developer" ) then
+			if ( title == "Lead Developer" ) then
 				self.RespectIcon:SetMaterial( MATERIALS.LeadDeveloper, 15, 15, 14, 14 )
 			end
 
-			if ( name == "Developer" ) then
+			if ( title == "Developer" ) then
 				self.RespectIcon:SetMaterial( MATERIALS.Developer, 15, 15, 14, 14 )
 			end
 
-			if ( name == "Admin" ) then
+			if ( title == "Admin" ) then
 				self.RespectIcon:SetMaterial( MATERIALS.Admin, 15, 15, 14, 14 )
 			end
 
-			if ( name == "Moderator" ) then
+			if ( title == "Moderator" ) then
 				self.RespectIcon:SetMaterial( MATERIALS.Moderator, 15, 15, 14, 14 )
 			end
 
-			self.RespectIcon:SetText( name )
+			self.RespectIcon:SetText( text )
 			self.RespectIcon:SetMouseInputEnabled( false )
 			self.RespectIcon:InvalidateLayout( true )
 			self.RespectIcon:AlignBottom( 2 )
@@ -1281,7 +1283,7 @@ end
 
 function PLAYERINFO:HasRespect()
 	if IsValid(self.Player) && self.Player:IsHidden() then return end
-	return self.Player:GetTitle()
+	return self.Player:GetRespectName( true )
 end
 
 function PLAYERINFO:Paint( w, h )

@@ -50,7 +50,7 @@ end )
 
 // Lua Refresh Notification
 if ( _LUAREFRESH && GTowerChat ) then
-	GTowerChat.AddChat( "Lua refreshed.", Color( 255, 255, 0 ), "Global" )
+	GTowerChat.AddChat( "Lua refreshed.", Color( 255, 255, 0 ), "Server" )
 end
 _LUAREFRESH = true
 

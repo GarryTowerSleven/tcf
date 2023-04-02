@@ -3,7 +3,7 @@ util.AddNetworkString("JoinFriendCheck")
 GTowerAdmins = {
 	//"STEAM_0:0:71992617", -- Haina, praise be
 	"STEAM_0:0:1384695", -- Kity
-	"STEAM_0:0:38865393", -- boXy
+	// "STEAM_0:0:38865393", -- boXy
 	"STEAM_0:1:39916544", -- Anoma
 	"STEAM_0:0:35652170", -- Lead
 	"STEAM_0:1:124798129", -- Amgona
@@ -284,7 +284,7 @@ hook.Add( "PlayerFullyJoined", "JoinedMessage", function(ply)
 			ply:MsgI("gmtsmall", "LobbyWelcome",ply:Name() )
 		end
 	
-		if ply.CosmeticEquipment then
+		/*if ply.CosmeticEquipment then
 	
 			for k,v in pairs( ply.CosmeticEquipment ) do
 				if v:GetNWString("HatName") then
@@ -295,12 +295,15 @@ hook.Add( "PlayerFullyJoined", "JoinedMessage", function(ply)
 					end
 				end
 			end
+		end*/
+
+		// Friend has joined the lobby
+		for _, v in ipairs( player.GetAll() ) do
+			if ( Friends.IsFriend( v, ply ) ) then
+				v:MsgT( "Friends_Joined", ply:GetName() )
+			end
 		end
 	end
-
-	net.Start("JoinFriendCheck")
-		net.WriteEntity(ply)
-	net.Broadcast()
 end)
 
 hook.Add("PlayerDisconnected","LeaveMessage",function(ply)
@@ -336,7 +339,7 @@ end
 
 // Increasing security, maybe someday it will be safe to bring these back
 
-concommand.Add("gmt_runlua", function( ply, cmd, args )
+/*concommand.Add("gmt_runlua", function( ply, cmd, args )
 
 	if ply:IsAdmin() then
 
@@ -356,10 +359,37 @@ concommand.Add("gmt_runlua", function( ply, cmd, args )
 
 	end
 
+end )*/
+
+function GMTRunLua( ply, lua )
+	if ( not lua ) then return end
+
+	AdminNotif.SendStaff( ply:Nick() .. " has ran lua. See console for details.", nil, "YELLOW", 1 )
+	AdminLog.PrintStaff( lua, "YELLOW" )
+
+	local err = RunString( lua, "GMTRunLua", false )
+
+	if ( err ) then
+		LogPrint( err, color_red )
+		AdminLog.PrintStaff( err, "RED" )
+	end
+end
+
+concommand.AdminAdd( "gmt_runlua", function( ply, cmd, args )
+	if ( table.IsEmpty( args ) or args[1] == "" ) then return end
+
+	local lua = tostring( args[1] )
+	
+	if ( #lua >= 243 ) then
+		AdminLog.Print( ply, "String is too long! Max chars is 243.", "RED" )
+		return
+	end
+
+	GMTRunLua( ply, lua )
 end )
 
 
-concommand.Add("gmt_svrunlua", function( ply, cmd, args )
+/*concommand.Add("gmt_svrunlua", function( ply, cmd, args )
 
 	if ply:IsAdmin() then
 
@@ -377,7 +407,7 @@ concommand.Add("gmt_svrunlua", function( ply, cmd, args )
 
 	end
 
-end )
+end )*/
 
 concommand.Add("gmt_sendlua", function( ply, cmd, args )
 	if ply:IsAdmin() then

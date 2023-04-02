@@ -1,12 +1,11 @@
 AddCSLuaFile("cl_init.lua")
-AddCSLuaFile("sh_player.lua")
-include("sh_player.lua")
+AddCSLuaFile("shared.lua")
+include("shared.lua")
 
-net.Receive( "gmt_serverfriends", function( len )
+net.Receive( "FriendStatus", function( len, ply )
 	local friends = net.ReadTable()
-	local ply = net.ReadEntity()
-	
-	ply.FriendsList = friends
+
+	ply._Friends = friends
 end )
 
-util.AddNetworkString( "gmt_serverfriends" )
+util.AddNetworkString( "FriendStatus" )

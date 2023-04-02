@@ -6,17 +6,6 @@ PANEL.TitleBarHeight = 32
 PANEL.UrlPattern = VerPat():StartOfLine():BeginCapture():Then('http'):Maybe('s')
 	:Then("://"):AnythingBut(' '):EndCapture():Compile()
 
-PANEL.SteamIDPattern = VerPat():StartOfLine():BeginCapture():Then('STEAM_'):Numeric():Then(":"):Numeric():Then(":"):Numeric():EndCapture():Compile()
-
-PANEL.MentionPattern = ""
-
-// cant call :Name() before fully connected
-hook.Add( "LocalFullyJoiwned", "MentionPatternMaker", function()
-	PANEL.MentionPattern = VerPat():StartOfLine():BeginCapture():Then(LocalPlayer():Name()):EndCapture():Compile()
-
-	hook.Remove( "LocalFullyJoined", "MentionPatternMaker" )
-end )
-
 PANEL.EmotePattern = "^:([^%s:]+):"
 -- PANEL.EmotePattern = "^ː([^%s:]+)ː" -- uses special character colons
 PANEL.UTF8CharPattern = "[%z\1-\127\194-\244][\128-\191]*"
@@ -375,6 +364,7 @@ local function ClickedPlayer(pname, pID)
 	--GAMEMODE:ScoreboardShow()
 	--GTowerClick:ClickOnPlayer( ply, MOUSE_LEFT )
 	--gui.EnableScreenClicker( true )
+
 	ply:ShowProfile()
 
 end
@@ -395,8 +385,7 @@ local function ParseURL( text )
 
 end
 
-local urlCache = {}
-local function ClickedURL( urlID )
+local function ClickedURL( url )
 
 	if GTowerChat then
 		GTowerChat.Chat:Hide()
@@ -405,11 +394,16 @@ local function ClickedURL( urlID )
 	gui.EnableScreenClicker( false )
 
 	timer.Simple( .1, function()
-		if !urlCache[urlID] then
-			return
-		end
 
-		gui.OpenURL( urlCache[urlID] or "about:blank" )
+		/*Derma_Query( "Warning!\nYou're about to open a remote website link.\nWould you like to open " .. url, "Open URL",
+			"Open", function()
+				browser.OpenURL( "Remote Website", url )
+			end,
+			"Cancel", function() end
+		)*/
+
+		gui.OpenURL( url )
+
 	end )
 
 end
@@ -419,7 +413,6 @@ local color_grey = Color(50, 50, 50, 150)
 local color_white = Color(255, 255, 255, 255)
 local color_blue = Color(100, 100, 255, 255)
 local color_url = Color(27, 142, 224, 255)
-local color_mention = Color(224, 27, 27)
 
 function PANEL:AddChat(type, ply, id, text, color, forcename, forceloc)
 
@@ -448,7 +441,7 @@ function PANEL:AddChat(type, ply, id, text, color, forcename, forceloc)
 		end
 
 		if forceloc || ply == NULL then
-			locationName = forceloc or "Server "
+			locationName = forceloc or "Server"
 		end
 
 		if not GTowerChat.TimeStamp:GetBool() then
@@ -488,7 +481,7 @@ function PANEL:AddChat(type, ply, id, text, color, forcename, forceloc)
 	end
 
 	-- Fancy mode
-	if ply:GetNWBool("IsFancy") then
+	if ply.IsFancy then
 		name = "Sir " .. name
 	end
 
@@ -528,10 +521,7 @@ function PANEL:AddChat(type, ply, id, text, color, forcename, forceloc)
 		if string.find( text, self.UrlPattern ) then
 			local startpos, endpos, url = string.find( text, self.UrlPattern )
 
-			local urlID = #urlCache + 1
-			urlCache[urlID] = url
-
-			local onclick = function() ClickedURL( urlID ) end
+			local onclick = function() ClickedURL( url ) end
 
 			addbuffer()
 			rf:Add(url, color_url, GTowerChat.ChatFont, nil, onclick, nil, filter)
@@ -540,16 +530,6 @@ function PANEL:AddChat(type, ply, id, text, color, forcename, forceloc)
 			text = text:sub(endpos+1)
 		end
 
-		-- Mentions
-		/*if string.find( text, self.MentionPattern ) then
-			local startpos, endpos, localname = string.find( text, self.MentionPattern )
-
-			addbuffer()
-			rf:Add(localname, color_mention, GTowerChat.ChatFont, nil, nil, nil, filter)
-
-			text = text:sub(endpos+1)
-		end*/
-
 		-- Advance by one character; handles utf8 encoding
 		local startpos, endpos = text:find( self.UTF8CharPattern )
 		if not startpos then break end
@@ -557,6 +537,7 @@ function PANEL:AddChat(type, ply, id, text, color, forcename, forceloc)
 		charpos = charpos + endpos
 
 		text = text:sub(endpos+1)
+
 	end
 
 	-- Add last segment of text to chat

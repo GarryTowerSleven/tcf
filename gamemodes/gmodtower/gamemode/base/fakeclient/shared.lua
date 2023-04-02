@@ -37,6 +37,7 @@ function New( data )
 	data.SteamID = function() return 0 end
 	data.UserID = function() return 0 end
 	data.IsBot = function() return false end
+	data.IsPlayer = function() return false end
 
 	data.GetNet = function() return nil end
 

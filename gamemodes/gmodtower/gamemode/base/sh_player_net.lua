@@ -99,7 +99,7 @@ function Initialize( ply )
 		if DEBUG then MsgN( "Init: ", var.nettype, " id: ", var.id, " name: ", var.name ) end
 		ply:NetworkVar( var.nettype, var.id, var.name )
 
-		if ( var.callback ) then
+		if ( var.callback && isfunction( var.callback ) ) then
 			ply:NetworkVarNotify( var.name, function( ent, name, old, new )
 				var.callback( ent, old, new, var )
 			end )
@@ -133,7 +133,7 @@ if SERVER then
 		if self._NetInit then
 			if ( self.dt[name] ~= value ) then
 				local var = GetByName( name )
-				if ( var && var.callback ) then
+				if ( var && var.callback && isfunction( var.callback ) ) then
 					self:CallDTVarProxies( var.nettype, var.id, value )
 				end
 			end

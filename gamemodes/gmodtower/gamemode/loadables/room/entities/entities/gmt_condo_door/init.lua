@@ -156,7 +156,7 @@ function ENT:Use( ply )
 				return
 			end
 
-			if owner:GetNet( "RoomLock" ) && ply != owner && !IsFriendsWith( owner, ply ) then
+			if owner:GetNet( "RoomLock" ) && ply != owner && !Friends.IsFriend( owner, ply ) then
 
 			local doorbell = bells[math.Clamp( self:GetNWInt("DoorBell"), 1, #bells )]
 

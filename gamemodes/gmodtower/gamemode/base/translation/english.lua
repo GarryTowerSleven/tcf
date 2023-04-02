@@ -524,11 +524,10 @@ L.AddWord( 1, "Friends_Block", "You have blocked {1}" )
 L.AddWord( 1, "Friends_BlockAdmin", "You cannot block {1} as they are an admin/mod" )
 L.AddWord( 1, "Friends_Unblock", "You have unblocked {1}" )
 L.AddWord( 1, "Friends_NoRelationship", "You have no relationship with {1}" )
-L.AddWord( 1, "Friends_Joined", "Your friend {1} has joined tower!" )
+L.AddWord( 1, "Friends_Joined", "Your friend {1} has joined the tower!" )
 
 -- Location Notices
 L.AddWord( 1, "LocationIsNil", "You will be kicked out of this unknown location in {1} seconds." )
-
 
 // === LOCATIONS ===
 L.AddWord( 1, "TODO", "TODO")

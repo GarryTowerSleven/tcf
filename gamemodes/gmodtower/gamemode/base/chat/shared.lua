@@ -22,18 +22,16 @@ function GTowerChat.GetChatEnum( typestr )
 
 end
 
-net.Receive( "ChatBubble", function ()
-	local pl = net.ReadEntity()
-	local new = net.ReadBool()
-
-	if !IsValid(pl) then return end
+local function PlayerBubble( ply, old, new )
+	if SERVER then return end
+	if !IsValid( ply ) then return end
 
 	if new then
-		pl:StartChatBubble()
+		ply:StartChatBubble()
 	else
-		pl:EndChatBubble()
+		ply:EndChatBubble()
 	end
-end )
 
-//plynet.Register( "Bool", "Chatting", { callback = PlayerBubble } )
-plynet.Register( "Bool", "HideRedir" )
+end
+
+plynet.Register( "Bool", "Chatting", { callback = PlayerBubble } )

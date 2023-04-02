@@ -71,7 +71,7 @@ end
 
 net.Receive("EndDuelClient", function()
 	local won = net.ReadBool()
-	local Opponent = net.ReadPlayer()
+	local Opponent = net.ReadEntity()
 
 	EndDuelClient( won )
 
@@ -232,8 +232,8 @@ hook.Add( "Think", "DuelMusicThink", function()
 end )
 
 net.Receive( "StartDuel", function( len )
-	local req = net.ReadPlayer()
-	local ply = net.ReadPlayer()
+	local req = net.ReadEntity()
+	local ply = net.ReadEntity()
 
 	if LocalPlayer() == req then
 		LocalPlayer().DuelOpponent = ply
@@ -248,8 +248,8 @@ end )
 
 net.Receive( "InviteDuel", function( len )
 	local amount = net.ReadInt(32)
-	local arriver = net.ReadPlayer()
-	local Inviter = net.ReadPlayer()
+	local arriver = net.ReadEntity()
+	local Inviter = net.ReadEntity()
 	local weapon = net.ReadString()
 
 	if LocalPlayer() != arriver then return end
