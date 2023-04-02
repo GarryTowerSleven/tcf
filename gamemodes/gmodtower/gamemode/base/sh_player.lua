@@ -9,17 +9,17 @@ local Roles =
 	["STEAM_0:0:1384695"] = "Lead Developer",	// Kity
 	
 	// Developers
-	// ["STEAM_0:0:38865393"] = "Developer",	// boXy
+	["STEAM_0:0:38865393"] = "Developer",	// boXy
 	["STEAM_0:1:39916544"] = "Developer",	// Anoma
 	["STEAM_0:0:35652170"] = "Developer",	// Lead
-	["STEAM_0:1:124798129"] = "Developer", // Amgona
+	["STEAM_0:1:124798129"] = "Developer", 	// Amgona
 	["STEAM_0:0:44458854"] = "Developer",	// Bumpy
 
 	// Moderators
-	["STEAM_0:1:72402171"] = "Moderator", // Umbre
-	["STEAM_0:1:57386100"] = "Moderator", // Squibbus
-	["STEAM_0:0:156132358"] = "Moderator", // Basical
-	["STEAM_0:1:85508734"] = "Moderator", // Breezy
+	["STEAM_0:1:72402171"] = "Moderator", 	// Umbre
+	["STEAM_0:1:57386100"] = "Moderator", 	// Squibbus
+	["STEAM_0:0:156132358"] = "Moderator", 	// Basical
+	["STEAM_0:1:85508734"] = "Moderator", 	// Breezy
 
 	// Pixeltail Games
 	["STEAM_0:1:6044247"] = "PixelTail",	// MacDGuy
