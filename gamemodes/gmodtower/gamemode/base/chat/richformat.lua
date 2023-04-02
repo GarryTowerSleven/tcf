@@ -203,8 +203,8 @@ function RichObject:AddURL(url, color, font, time, filter, newline)
 	font = font or "ChatUrlVerdana16"
 
 	self:Add( url, color, font, time, function()
-		--browser.OpenURL(url, url)
 		gui.OpenURL( url )
+		--browser.OpenURL(url, url)
 	end, nil, filter, newline)
 
 end

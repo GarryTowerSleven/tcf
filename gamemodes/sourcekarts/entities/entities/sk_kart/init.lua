@@ -156,24 +156,29 @@ function ENT:Think()
       phys:Wake()
     end
 
-		local tractionNum, tractionType = self:GetTraction()
+	local tractionNum, tractionType = self:GetTraction()
 
-		if (tractionType != self.OldTraction or !self.OldTraction) then
-			self.OldTraction = tractionType
-			self:OnMaterialChange( self.OldTraction )
-		end
+	if (tractionType != self.OldTraction or !self.OldTraction) then
+		self.OldTraction = tractionType
+		self:OnMaterialChange( self.OldTraction )
+	end
 
-		local ply = self:GetOwner()
+	local ply = self:GetOwner()
 
-		if !IsValid( ply ) then return end
+	if !IsValid( ply ) then return end
 
-		if ply:KeyDown(IN_MOVELEFT) then
-			self:SetTurnAngleNet(-1)
-		elseif ply:KeyDown(IN_MOVERIGHT) then
-			self:SetTurnAngleNet(1)
-		else
-			self:SetTurnAngleNet(0)
-		end
+	if ply:KeyDown(IN_MOVELEFT) then
+		self:SetTurnAngleNet(-1)
+	elseif ply:KeyDown(IN_MOVERIGHT) then
+		self:SetTurnAngleNet(1)
+	else
+		self:SetTurnAngleNet(0)
+	end
+
+	if ( self._BoostEnd and self._BoostEnd < CurTime() ) then
+		self._BoostEnd = nil
+		self:SetIsBoosting( false )
+	end
 
 end
 
@@ -342,18 +347,11 @@ end
 
 function ENT:Boost( power, time )
 
-	if timer.Exists( "BoostTimer" .. tostring( self:EntIndex() ) ) then
-		timer.Adjust( "BoostTimer" .. tostring( self:EntIndex() ), time, 1,function()
-			self:SetIsBoosting( false )
-		end)
-		return
-	end
-
 	self:SetIsBoosting( true )
 
-	timer.Create( "BoostTimer" .. tostring( self:EntIndex() ), time, 1, function()
-		self:SetIsBoosting( false )
-	end)
+	if ( time ) then
+		self._BoostEnd = CurTime() + time
+	end
 
 end
 

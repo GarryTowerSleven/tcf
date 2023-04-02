@@ -115,10 +115,10 @@ function SWEP:PunchRagdoll( force, hitworld_sound, hitply_sound, miss_sound )
 		if trace.Entity:IsPlayer() then
 			trace.Entity:SetVelocity( self.Owner:GetAimVector() * force, 0 )
 
-			//Give the achievement for the player
+			--[[//Give the achievement for the player
 			if self.Owner:IsAdmin() then
 				trace.Entity:AddAchievement( 	ACHIEVEMENTS.ADMINABUSE, 1 )
-			end
+			end]]
 
 		else
 			local phys = trace.Entity:GetPhysicsObject()

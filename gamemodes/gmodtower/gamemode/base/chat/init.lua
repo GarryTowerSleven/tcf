@@ -1,8 +1,3 @@
----------------------------------
-util.AddNetworkString("ChatBubble")
-util.AddNetworkString("ColorNotify")
-util.AddNetworkString("ChatSrv")
-
 AddCSLuaFile("cl_autocomplete.lua")
 AddCSLuaFile("richformat.lua")
 AddCSLuaFile("cl_richtext.lua")
@@ -16,183 +11,114 @@ AddCSLuaFile("cl_init.lua")
 GTowerChat = {}
 
 include("shared.lua")
-include("adminchat.lua")
 include("sqllog.lua")
 
-function PlayerBubble(ply, enable)
-	net.Start("ChatBubble")
-	net.WriteEntity(ply)
-	net.WriteBool(enable)
-	net.Broadcast()
-end
+concommand.Add( "gmt_chat", function( ply, cmd, args )
+	local chatting = tobool( args[1] or false ) or false
 
-concommand.Add("gmt_chat", function( ply, cmd, args )
-	local chatting = tobool( args[1] )
-	ply.Chatting = chatting
+	ply:SetNet( "Chatting", chatting )
+end )
 
-	if ply.Chatting then PlayerBubble( ply, true ) else PlayerBubble( ply, false ) end
-
-	// second arg is true if a hack was detected
-	if ( !tobool( args[ 2 ] ) ) then return end
-
-	if ( ply.NextHackCheck && ply.NextHackCheck >= CurTime() ) then return end
-
-	local name = SQL.getDB():Escape( ply:GetName() )
-	local serverId = GetConVarNumber( "gmt_srvid" ) or 99
-
-	local query = "REPLACE INTO gm_hackerlog ( SteamID, Name, ServerID ) " ..
-		"VALUES ( '" .. ply:SteamID() .. "' , '" .. name .. "', " .. tostring( serverId ) .. " );"
-
-	SQL.getDB():Query( query, function( arg, result, query, error )
-	end )
-
-	ply.NextHackCheck = CurTime() + ( 60 * 10 ) // allow the next check in 10 mins
-end)
-
---[[hook.Add("KeyPress", "UnHaxChat", function(ply, key)
-	if ply.Chatting then
-		ply.Chatting = false
+hook.Add( "KeyPress", "UnHaxChat", function(ply, key)
+	if ( ply:GetNet( "Chatting" ) ) then
+		ply:SetNet( "Chatting", false )
 	end
-end)]]--
+end )
 
 local wordfilter = {
-	{"fucking", "hugging"},
-	{"fucked", "hugged"},
-	{"fucker", "hugger"},
-	{"fuck", "hug"},
-	{"shitting", "smithing"},
-	{"shitter", "smither"},
-	{"shit", "smith"},
-	{"fag", "frag"},
-	{"nigger", "racist"},
-	{"nigga", "racist"},
-	{"tetris", "blockles"},
-	{"yiff", "pencil push"},
-	{"rabbit", "wabbit"},
-	{"bieber", "beaver"},
-	{"kek", "gun"},
-	{" ͡° ͜ʖ ͡°", "no"},
+	{ "fucking", "hugging" },
+	{ "fucked", "hugged" },
+	{ "fucker", "hugger" },
+	{ "fuck", "hug" },
+	{ "shitting", "smithing" },
+	{ "shitter", "smither" },
+	{ "shit", "smith" },
+	{ "fag", "frag" },
+	{ "nigger", "racist" },
+	{ "nigga", "racist" },
+	{ "tetris", "blockles" },
+	{ "yiff", "pencil push" },
+	{ "rabbit", "wabbit" },
+	{ "bieber", "beaver" },
+	{ "kek", "gun" },
+	{ " ͡° ͜ʖ ͡°", "no" },
+	
+	{ "tranny" },
 }
 
-concommand.Add("say2", function(ply, cmd, args)
-	local type = args[1]
+function GTowerChat.FilterText( text )
+	for k, v in pairs( wordfilter ) do
+		local chatFiltered = text
+		local chatlower = string.lower(text)
 
-	local chat = table.concat(args, " ", 2)
-	ply:ConCommand("say (Local) "..chat)
+		if string.find( chatlower, v[1] ) then
+			while string.find( chatlower, v[1] ) do
+				local s, e = string.find( chatlower, v[1] )
+				local censored
+				if v[2] then
+					censored = v[2]
+				else
+					censored = string.sub( v[1], 0, 1 ) .. string.rep( "*", #v[1] - 1 )
+				end
+				chatFiltered = string.sub( chatFiltered, 0, s-1 ) .. censored .. string.sub( chatFiltered, e+1 )
+				chatlower = string.sub( chatlower, 0, s-1 ) .. censored .. string.sub( chatlower, e+1 )
+			end
+		end
+
+		text = chatFiltered
+	end
+
+	return text
+end
+
+// Local Chat
+concommand.Add("say2", function( ply, cmd, args )
+	local type = args[1] or nil
+	if ( not type ) then return end
+
+	local message = args[2] or nil
+	if ( not message or string.Trim( message ) == "" ) then return end
+
+	ply:Chat( message, type )
 end)
 
 hook.Add( "PlayerCanSeePlayersChat", "GTChatHookLocal", function( text, team, listener, speaker )
 
 	if speaker:GetNWBool("GlobalGag") then return false end
 
-	if string.StartWith( text, "(Local)" ) then
-		if (listener:Location() == speaker:Location()) then return true else return false end
-	else
-		return true
-	end
-
 end )
 
-hook.Add( "PlayerSay", "GTChatHook", function( ply, chat, toall, type )
-	local type = type or "Server"
+hook.Add( "PlayerSay", "GTChatHook", function( ply, text, teamchat )
+	local _rawtext = text
+	
+	hook.Run( "GTCommands", ply, text )
+	
+	if string.StartWith( text, "/" ) then
+		return ""
+	end
+	
+	local spam, reason = GTowerChat.CheckSpam( ply, text )
+	if spam then
+		ply:Msg2( reason )
+		return ""
+	end
 
-	local spam, reason = GAMEMODE:CheckSpam(ply, chat)
-
-	hook.Run("GTCommands", ply, chat)
-
-	if ply:IsAdmin() then
+	/*if ply:IsAdmin() then
 		if ( string.sub( string.lower(chat), 1, 2 ) == "!l" ) then
-			me = ply
-
+			//me = ply
 			local Lua = string.sub( chat, 4 )
 
-			AdminNotif.SendStaff( ply:Nick() .. " has ran lua. See console for details.", nil, "YELLOW", 1 )
-			AdminLog.PrintStaff( tostring(Lua), "YELLOW" )
-
-			//LogPrint( ply:Nick() .. " has ran LUA", Color(255,255,0) )
-			LogPrint( tostring(Lua), Color(255,255,0) )
-
-			RunString(Lua,"GTChatLua")
+			GMTRunLua( ply, Lua )
 			return ''
 		end
-	end
-
-	if string.StartWith(chat,"/") then
-		return ''
-	end
-
-	if spam then
-		ply:Msg2(reason)
-		return ""
-	end
-
-	if !ply:GetSetting( "GTAllowAllTalk" ) /*&& !ply:IsAdmin()*/ then
-		for k,v in pairs(wordfilter) do
-			local chatFiltered = chat
-			local chatlower = string.lower(chat)
-
-			if string.find( chatlower, v[1] ) then
-				while string.find( chatlower, v[1] ) do
-					local s, e = string.find( chatlower, v[1] )
-					local censored
-					if v[2] then
-						censored = v[2]
-					else
-						censored = string.sub( v[1], 0, 1 ) .. string.rep( "*", #v[1] - 1 )
-					end
-					chatFiltered = string.sub( chatFiltered, 0, s-1 ) .. censored .. string.sub( chatFiltered, e+1 )
-					chatlower = string.sub( chatlower, 0, s-1 ) .. censored .. string.sub( chatlower, e+1 )
-				end
-			end
-
-			chat = chatFiltered
-		end
-	end
-
-	local newchat = GAMEMODE:DrunkSay(ply, chat, toall)
-	if newchat then
-		chat = newchat
-	end
-
-	if IsValid(ply.Hat) && ply.Hat:GetModel() == "models/gmod_tower/catears.mdl" && #chat >= 5 then
-		chat = chat .. " ~nyan"
-	end
-
-	if IsValid(ply.Hat) && ply.Hat:GetModel() == "models/gmod_tower/toetohat.mdl" && #chat >= 5 then
-		chat = chat .. " ~etoeto"
-	end
-
-	local rp = nil
-
-	if !toall && ply.HasGroup && ply:HasGroup() then
-		type = "Group"
-		local Group = ply:GetGroup()
-		rp = Group:GetRP()
-	elseif toall then
-		type = "Local"
-	end
-
-	/*if rp then
-		local typeid = 1
-
-		for k,v in pairs(GTowerChat.ChatGroups) do
-			if v == type then
-				typeid = k
-			end
-		end
-
-		umsg.Start("Chat2", rp)
-			umsg.Char(typeid)
-			umsg.Entity(ply)
-			umsg.String(chat)
-		umsg.End()
-		return ""
 	end*/
 
-	return chat
+	ply:Chat( text, teamchat and "Group" or "Server" )
+
+	return ""
 end )
 
-function GM:CheckSpam(pl, msg)
+function GTowerChat.CheckSpam(pl, msg)
 	local lastmsg = pl.lastmsg or ""
 	local count = pl.spamcount or 0
 	local msgaverage = pl.msgaverage or 0
@@ -253,17 +179,12 @@ local random_words = {
 	"daytona","lumpin","ron paul","beesechurger","kony 2012","goon","wambam","donate","friday",
 }
 
-function GM:DrunkSay(pl, text, team)
+function GTowerChat.DrunkSay( text, bal )
 
-	if pl:IsAdmin() then
-		return
-	end
+	local bal = bal or 20
 
-	local bal = pl:GetNet("BAL")
-	if( bal <= 5 ) then
-
-		return;
-
+	if ( bal <= 5 ) then
+		return text
 	end
 
 	// blow up our chat into words.
@@ -356,24 +277,90 @@ function GM:DrunkSay(pl, text, team)
 
 end
 
-function GM:ColorNotifyAll(message,color)
-	if ( color == nil ) then
-		color = Color( 255, 255, 255, 255 )
-	end
-
-	net.Start( "ColorNotify" )
-		net.WriteString( message) 
-		net.WriteColor( color )
-	net.Broadcast()
+function GM:ColorNotifyAll( message, color, type )
+	GTowerChat.AddChat( message, color, type )
 end
 
-function GM:ColorNotifyPlayer(ply,message,color)
-	if ( color == nil ) then
-		color = Color( 255, 255, 255, 255 )
+function GM:ColorNotifyPlayer( ply, message, color, type )
+	GTowerChat.AddChat( message, color, type, ply )
+end
+
+function GTowerChat.AddChat( message, color, type, recipients )
+	if ( not message ) then return end
+	
+	local typeid = GTowerChat.GetChatEnum( type or "Server" )
+	if ( not typeid ) then return end
+
+	net.Start( "ChatSrv" )
+		net.WriteInt( typeid, GTowerChat.TypeBits )
+		net.WriteString( message )
+		net.WriteColor( color or color_white )
+	if ( recipients ) then
+		net.Send( recipients )
+	else
+		net.Broadcast()
+	end
+end
+
+local meta = FindMetaTable( "Player" )
+if ( not meta ) then return end
+
+function meta:Chat( text, type, hidden )
+	if ( not IsValid( self ) ) then return end
+	if ( not text or string.Trim( text or "" ) == "" ) then return end
+
+	if ( not IsLobby ) then
+		type = "Server"
 	end
 
-	net.Start( "ColorNotify" )
-		net.WriteString( message ) 
-		net.WriteColor( color )
-	net.Send(ply)
+	local recipients
+
+	if ( Location && type == "Server" && Location.IsTheater( self:Location() or 0 ) ) then
+		type = "Theater"
+	end
+	
+	if ( Location && type == "Local" ) then
+		recipients = Location.GetPlayersInLocation( self:Location() or 0 )
+	end
+
+	if ( type == "Group" && self.HasGroup && self:HasGroup() ) then
+		recipients = self:GetGroup():GetPlayers() or {}
+	end
+	
+	local typeid = GTowerChat.GetChatEnum( type or "Server" )
+	if ( not typeid ) then return end
+
+	// Give to console
+	LogPrint( Format( "%s (%s): %s", self:GetName(), type, text ), nil, "Chat" )
+
+	// Swear Filter
+	text = GTowerChat.FilterText( text )
+
+	// Drunk
+	text = GTowerChat.DrunkSay( text, self:GetNet( "BAL" ) or 0 )
+
+	// Hat Text
+	if ( #text > 5 ) then
+		if ( GTowerHats:IsWearing( self, "hatcatear" ) ) then
+			text = text .. " ~nyan"
+		end
+	
+		if ( GTowerHats:IsWearing( self, "toetohat" ) ) then
+			text = text .. " ~etoeto"
+		end
+	end
+
+	net.Start( "ChatPly" )
+		net.WriteInt( typeid, GTowerChat.TypeBits )
+		net.WriteEntity( self )
+		net.WriteString( text )
+		net.WriteBool( hidden or false )
+	if ( recipients ) then
+		net.Send( recipients )
+	else
+		net.Broadcast()
+	end
 end
+
+util.AddNetworkString( "ChatSrv" )
+util.AddNetworkString( "ChatPly" )

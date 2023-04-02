@@ -83,13 +83,13 @@ function GM:HUDDrawPlayerName( ply, fade, remain )
 	if IsLobby then
 
 		-- Show Rank
-		local respect = ply:GetTitle()
+		local respect = ply:GetRespectName()
 		if respect then
 			draw.SimpleText( respect, "TargetIDTextSmall", pos.x, pos.y + 28, realcolor, TEXT_ALIGN_CENTER )
 		end
 
 		-- Room number
-		local roomid = ply:GetNWInt("RoomID")
+		local roomid = ply:GetNet( "RoomID" )
 		if roomid && roomid > 0 then
 			local room = tostring( roomid ) or ""
 			if room != "" then

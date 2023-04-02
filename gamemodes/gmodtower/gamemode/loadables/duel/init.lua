@@ -151,8 +151,8 @@ concommand.Add( "gmt_duelinvite", function( ply, cmd, args )
 
 	net.Start( "InviteDuel" )
 		net.WriteInt( Amount, 32 )
-		net.WritePlayer( Arriver )
-		net.WritePlayer( Requester )
+		net.WriteEntity( Arriver )
+		net.WriteEntity( Requester )
 		net.WriteString( WeaponName )
 	net.Broadcast()
 
@@ -226,7 +226,12 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 		Arriver:SetAngles( Spawn2[2] )
 	end
 
-	GAMEMODE:ColorNotifyAll( Requester:Name().." has challenged "..Arriver:Name().." to a duel for "..( Amount || 0 ).." GMC!", DuelMessageColor )
+	if ( Amount == 0 ) then
+		GAMEMODE:ColorNotifyAll( Format( "%s has challenged %s to a duel!", Requester:Name(), Arriver:Name() ), DuelMessageColor, "Duels" )
+	else
+		GAMEMODE:ColorNotifyAll( Format( "%s has challenged %s to a duel for %s GMC!", Requester:Name(), Arriver:Name(), Amount or 0), DuelMessageColor, "Duels" )
+	end
+
 
 	Requester:StripWeapons()
 	Arriver:StripWeapons()
@@ -286,8 +291,8 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	end )
 
 	net.Start( "StartDuel" )
-		net.WritePlayer( Requester )
-		net.WritePlayer( Arriver )
+		net.WriteEntity( Requester )
+		net.WriteEntity( Arriver )
 	net.Broadcast()
 
 end
@@ -379,7 +384,7 @@ local function ClearDuel( ply, disconnect )
 		ply:SetHealth( 100 )
 		ply:SetCustomCollisionCheck( true )
 
-		GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel!", DuelMessageColor )
+		GAMEMODE:ColorNotifyAll( Format( "%s has won the duel!", ply:Name() ), DuelMessageColor, "Duels" )
 	else
 		ply:SetHealth( 100 )
 		ply:SetCustomCollisionCheck( true )
@@ -387,9 +392,9 @@ local function ClearDuel( ply, disconnect )
 		Opponent:SetCustomCollisionCheck( true )
 		
 		if Amount > 0 then
-			GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel with "..Opponent:Name()..", winning "..Amount.." GMC!", DuelMessageColor )
+			GAMEMODE:ColorNotifyAll( Format( "%s has won the with %s, winning %s GMC!", ply:Name(), Opponent:Name(), Amount ), DuelMessageColor, "Duels" )
 		else
-			GAMEMODE:ColorNotifyAll( ply:Name().." has won the duel with "..Opponent:Name().."!", DuelMessageColor )
+			GAMEMODE:ColorNotifyAll( Format( "%s has won the with %s!", ply:Name(), Opponent:Name() ), DuelMessageColor, "Duels" )
 		end
 	end
 
@@ -400,7 +405,7 @@ local function EndDuelClient( target, victim )
 	if IsValid( target ) then
 		net.Start( "EndDuelClient" )
 			net.WriteBool( true )
-			net.WritePlayer( victim )
+			net.WriteEntity( victim )
 		net.Send( target )
 		ClearDuel( target, !target:GetNWEntity( "DuelOpponent", NULL ) )
 	end
@@ -408,7 +413,7 @@ local function EndDuelClient( target, victim )
 	if IsValid( victim ) then
 		net.Start( "EndDuelClient" )
 			net.WriteBool( false )
-			net.WritePlayer( target )
+			net.WriteEntity( target )
 		net.Send( victim )
 	end
 

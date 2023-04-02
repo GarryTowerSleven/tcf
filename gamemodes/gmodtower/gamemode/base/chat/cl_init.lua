@@ -2,19 +2,15 @@ GTowerChat = GTowerChat or {}
 
 GTowerChat.YOffset = 380
 GTowerChat.XOffset = 40
-
 GTowerChat.BGColor = Color( 26, 75, 117, 180 )
 GTowerChat.ScrollColor = Color( 19, 50, 81, 215 )
-
+//GTowerChat.ChatFont = "GTowerHUDMain"
 GTowerChat.ChatFont = "ChatVerdana16"
-
 GTowerChat.NewChatState = false
-
-GTowerChat.TimeStamp = CreateClientConVar("gmt_chat_timestamp", 0, true, false)
-GTowerChat.TimeStamp24 = CreateClientConVar("gmt_chat_timestamp24", 0, true, false)
-
-GTowerChat.Sounds = CreateClientConVar("gmt_chat_sound", 1, true, false)
-GTowerChat.Location = CreateClientConVar("gmt_chat_loc", 1, true, false)
+GTowerChat.TimeStamp = CreateClientConVar( "gmt_chat_timestamp", 0, true, false )
+GTowerChat.TimeStamp24 = CreateClientConVar( "gmt_chat_timestamp24", 0, true, false )
+GTowerChat.Sounds = CreateClientConVar( "gmt_chat_sound", 1, true, false )
+GTowerChat.Location = CreateClientConVar( "gmt_chat_loc", 1, true, false )
 
 include("cl_autocomplete.lua")
 include("richformat.lua")
@@ -25,100 +21,104 @@ include("cl_emotes.lua")
 include("cl_settings.lua")
 include("shared.lua")
 
---local blip = Sound("HL1/fvox/blip.wav") //friends/message.wav is too annoying
+//local blip = Sound("HL1/fvox/blip.wav") //friends/message.wav is too annoying
 local blip1 = Sound("GModTower/misc/chat1.wav")
 local blip2 = Sound("GModTower/misc/chat2.wav")
-local altBlip = true
+local altBlip = false
 
 function CreateGChat(hide)
-    if GTowerChat.Chat then return end
-    GTowerChat.Chat = vgui.Create("GTowerMainChat")
 
-    if GTowerChat.Chat then
-        GTowerChat.Chat:SetPos(cookie.GetNumber("gui_chatx") or GTowerChat.XOffset, cookie.GetNumber("gui_chaty") or (ScrH() - GTowerChat.YOffset))
-        GTowerChat.Chat:SetSize(cookie.GetNumber("gui_chatbox_width", 440), 255)
+	if GTowerChat.Chat then return end
 
-        if hide then
-            GTowerChat.Chat:Hide()
-        end
-    end
+	GTowerChat.Chat = vgui.Create( "GTowerMainChat" )
+	if GTowerChat.Chat then
+
+		GTowerChat.Chat:SetPos( cookie.GetNumber( "gui_chatx" ) or GTowerChat.XOffset, cookie.GetNumber( "gui_chaty" ) or ( ScrH() - GTowerChat.YOffset ) )
+		GTowerChat.Chat:SetSize( cookie.GetNumber( "gui_chatbox_width", 440 ), 255 )
+
+		if hide then
+			GTowerChat.Chat:Hide()
+		end
+
+	end
+
 end
 
 -- lua refresh fix
-hook.Add("OnReloaded", "ReloadChat", function()
-    if GTowerChat and ValidPanel(GTowerChat.Chat) then
-        GTowerChat.Chat:Remove()
-        GTowerChat.Chat = nil
-        CreateGChat(true)
-    end
-end)
+hook.Add( "OnReloaded", "ReloadChat", function()
+	if GTowerChat and ValidPanel(GTowerChat.Chat) then
+		GTowerChat.Chat:Remove()
+		GTowerChat.Chat = nil
+		CreateGChat( true )
+	end
+end )
 
-hook.Add("InitPostEntity", "CreateGChatPostEntity", function()
-    CreateGChat(true)
-end)
+hook.Add( "InitPostEntity", "CreateGChatPostEntity", function()
+	CreateGChat( true )
+end )
 
--- we need to queue this for the next tick because the game calls FinishChat at odd times
+// we need to queue this for the next tick because the game calls FinishChat at odd times
 local HookSendChatState = function()
-    if SafeToSend then
-        RunConsoleCommand("gmt_chat", tostring(GTowerChat.NewChatState), tostring(LocalPlayer().lc or false))
-        hook.Remove("Tick", "ChatState")
-    end
+	if SafeToSend then
+		RunConsoleCommand("gmt_chat", tostring(GTowerChat.NewChatState), tostring(LocalPlayer().lc or false))
+		hook.Remove("Tick", "ChatState")
+	end
 end
 
-local function UpdateChatState(state)
-    GTowerChat.NewChatState = state
-    hook.Add("Tick", "ChatState", HookSendChatState)
+local function UpdateChatState( state )
+	GTowerChat.NewChatState = state
+	hook.Add("Tick", "ChatState", HookSendChatState)
 end
 
-function GM:StartChat(TeamSay)
-    if not GTowerChat.Chat then
-        CreateGChat(false)
-    end
+function GM:StartChat( TeamSay )
 
-    if not GTowerChat.Chat then return end
-    chat.Close()
+	if !GTowerChat.Chat then CreateGChat( false ) end
+	if !GTowerChat.Chat then return end
+	chat.Close()
 
-    if TeamSay then
-        if GTowerGroup and GTowerGroup:InGroup() then
-            GTowerChat.Chat:Show("Group")
-            UpdateChatState(true)
+	if TeamSay then
 
-            return true
-        else
-            GTowerChat.Chat:Show("Local")
-            UpdateChatState(true)
+		if GTowerGroup && GTowerGroup:InGroup() then
+			GTowerChat.Chat:Show("Group")
+			UpdateChatState( true )
+			return true
+		else
+			GTowerChat.Chat:Show("Local")
+			UpdateChatState( true )
+			return true
+		end
 
-            return true
-        end
-    end
+	end
 
-    --[[elseif TeamSay && IsValid(LocalPlayer()) && LocalPlayer():IsAdmin() && GTowerGroup && !GTowerGroup:InGroup() then
-
+	/*elseif TeamSay && IsValid(LocalPlayer()) && LocalPlayer():IsAdmin() && GTowerGroup && !GTowerGroup:InGroup() then
 		GTowerChat.Chat:Show("MetroChat")
+	else*/
 
-	else]]
-    --if IsLobby && Location && Location.IsTheater( LocalPlayer():Location() ) then
-    --	GTowerChat.Chat:Show("Theater")
-    --else
-    GTowerChat.Chat:Show("Server")
-    --end
-    UpdateChatState(true)
+	if Location && Location.IsTheater( LocalPlayer():Location() ) then
+		GTowerChat.Chat:Show("Theater")
+	else
+		GTowerChat.Chat:Show("Server")
+	end
 
-    return true
+	UpdateChatState( true )
+
+	return true
+
 end
 
 function GM:FinishChat()
-    if not GTowerChat.Chat then
-        CreateGChat(true)
-    end
+	if !GTowerChat.Chat then CreateGChat(true) end
+	
+	if hook.Call("CanCloseChat", GAMEMODE ) == false then
+		return
+	end
 
-    if hook.Call("CanCloseChat", GAMEMODE) == false then return end
-    UpdateChatState(false)
+	UpdateChatState( false )
+	//RunConsoleCommand( "gameui_allowescapetoshow" )
 
-    --RunConsoleCommand( "gameui_allowescapetoshow" )
-    if GTowerChat.Chat then
-        GTowerChat.Chat:Hide()
-    end
+	if GTowerChat.Chat then
+		GTowerChat.Chat:Hide()
+	end
 end
 
 local color_white = Color(255, 255, 255, 255)
@@ -127,138 +127,134 @@ local color_admin = Color(255, 100, 100, 255)
 local color_privadmin = Color(185, 100, 255, 255)
 
 function GM:ChatText(pID, pName, Text, InternalType, Type)
-    if not GTowerChat.Chat then
-        CreateGChat(true)
-    end
 
-    local ply = player.GetByID(pID)
-    local type = Type or "Server"
-    local color = color_white
+	if !GTowerChat.Chat then CreateGChat(true) end
 
-    -- Don't add messages of blocked players
-    --if Friends.IsBlocked( LocalPlayer(), ply ) then return end
-    if InternalType == "chat" then
-        if IsValid(ply) then
-            color = ply:GetDisplayTextColor()
-        else
-            color = color_console
-        end
+	local ply = player.GetByID(pID)
+	local type = Type or "Server"
+	local color = color_white
 
-        -- Play sounds
-        if GTowerChat.Sounds:GetBool() then
-            if altBlip then
-                surface.PlaySound(blip1)
-            else
-                surface.PlaySound(blip2)
-            end
+	-- Don't add messages of blocked players
+	if Friends.IsBlocked( LocalPlayer(), ply ) then return end
 
-            altBlip = not altBlip
-        end
+	if InternalType == "chat" then
 
-        GTowerChat.Chat:AddChat(type, ply, pID, Text, color)
+		if IsValid(ply) then
+			color = ply:GetDisplayTextColor()
+		else
+			color = color_console
+		end
+
+		-- Play sounds
+		if GTowerChat.Sounds:GetBool() then
+
+			if altBlip then
+				surface.PlaySound( blip1 )
+			else
+				surface.PlaySound( blip2 )
+			end
+
+			altBlip = !altBlip
+
+		end
+
+		GTowerChat.Chat:AddChat( type, ply, pID, Text, color )
+		
     elseif InternalType == "joinleave" then
-    else -- Don't show this.
-        GTowerChat.Chat:AddText(Text, color)
-    end
+    	-- Don't show this.
+    else
+		GTowerChat.Chat:AddText(Text, color)
+	end
+
 end
 
-function GM:OnPlayerChat(player, strText, bTeamOnly, bPlayerIsDead)
-    if IsValid(player) and player:IsPlayer() then
-        local name
+function GM:OnPlayerChat( player, strText, bTeamOnly, bPlayerIsDead )
+	
+	if IsValid(player) && player:IsPlayer() then
 
-        if player.Name then
-            name = player:Name()
-        else
-            name = "(Unknown Player)"
-        end
+		local name
+		if player.Name then
+			name = player:Name()
+		else
+			name = "(Unknown Player)"
+		end
 
-        GAMEMODE:ChatText(player:EntIndex(), name, strText, "chat")
-    else
-        GAMEMODE:ChatText(0, "(Unknown Player)", strText, "chat")
-    end
+		GAMEMODE:ChatText( player:EntIndex(), name, strText, "chat" )
 
-    return true
+	else
+		GAMEMODE:ChatText( 0, "(Unknown Player)", strText, "chat" )
+	end
+
+	return true
+
 end
 
-net.Receive("ChatPly", function(len, ply)
-    local type = net.ReadInt(GTowerChat.TypeBits)
-    local pl = net.ReadEntity()
-    local text = net.ReadString()
-    local hidden = net.ReadBool()
-    type = GTowerChat.ChatGroups[type]
-    local name = "(Unknown Player)"
+net.Receive( "ChatPly", function( len, ply )
 
-    if pl.Name then
-        name = pl:Name()
-    end
+	local type = net.ReadInt(GTowerChat.TypeBits)
+	local pl = net.ReadEntity()
+	local text = net.ReadString()
+	local hidden = net.ReadBool()
+	type = GTowerChat.ChatGroups[type]
 
-    if hidden == 1 then
-        type = "Hidden"
-    else
-        if FloatingChat then
-            FloatingChat.AddChat(pl, text)
-        end
-    end
+	local name = "(Unknown Player)"
+	if pl.Name then
+		name = pl:Name()
+	end
 
-    GAMEMODE:ChatText(pl:EntIndex(), name, text, "chat", type)
+	if hidden == 1 then
+		type = "Hidden"
+	else
+		if FloatingChat then FloatingChat.AddChat( pl, text ) end
+	end
+
+	GAMEMODE:ChatText(pl:EntIndex(), name, text, "chat", type)
+
+end )
+
+net.Receive( "ChatSrv", function( len, ply )
+
+	if !GTowerChat.Chat then CreateGChat(true) end
+
+	local type = net.ReadInt(GTowerChat.TypeBits)
+	local text = net.ReadString()
+	local color = net.ReadColor()
+
+	if !color then color = Color(255, 255, 255, 255) end
+	type = GTowerChat.ChatGroups[type]
+
+
+	if text then
+		GTowerChat.Chat:AddText( text, color, type )
+	end
+
 end)
 
-net.Receive("ChatSrv", function(len, ply)
-    if not GTowerChat.Chat then
-        CreateGChat(true)
-    end
-
-    local type = net.ReadInt(GTowerChat.TypeBits)
-    local text = net.ReadString()
-    local color = net.ReadColor()
-
-    if not color then
-        color = Color(255, 255, 255, 255)
-    end
-
-    type = GTowerChat.ChatGroups[type]
-
-    if text then
-        GTowerChat.Chat:AddText(text, color, type)
-    end
-end)
-
---function chat.AddText( ... )
---	for i=#args,1,-1 do
---		if type(args[i])=="table" and args[i][1]=="EMOTE" then args[i] = args[i].str end --So emotes show
---	end
---	return GTowerChat.Chat:AddText(unpack({...}))
---end
 hook.Add("PlayerBindPress", "OverrideChat", function(ply, bind, pressed)
-    if not pressed or IsValid(ply.Instrument) then return end
 
-    if bind == "messagemode" or bind == "messagemode2" then
-        GAMEMODE:StartChat(bind == "messagemode2")
+	if !pressed || IsValid( ply.Instrument ) then return end
 
-        return true
-    end
+	if bind == "messagemode" || bind == "messagemode2" then
+		GAMEMODE:StartChat(bind == "messagemode2")
+		return true
+	end
+
 end)
 
-table.uinsert(HudToHide, "CHudChat")
+table.uinsert( HudToHide, "CHudChat" )
 
---[[hook.Add("UpdateAnimation", "Chatting", function( ply )
-	if CLIENT && ply.Chatting && ( emote && !emote.IsEmoting( ply ) ) then
-		ply:AnimRestartGesture( GESTURE_SLOT_CUSTOM, ACT_GMOD_IN_CHAT )
+hook.Add("UpdateAnimation", "Chatting", function( ply )
+	if CLIENT && ply:GetNet("Chatting") && ( emote && !emote.IsEmoting( ply ) ) then
+		ply:AnimRestartGesture( GESTURE_SLOT_CUSTOM, ACT_GMOD_IN_CHAT, true )
 	end
 end )
-]]
-hook.Add("ShutDown", "RemoveChatBox", function()
-    if ValidPanel(GTowerChat.Chat) then
-        GTowerChat.Chat:Hide()
-        GTowerChat.Chat:Remove()
-        GTowerChat.Chat = nil
-    end
-end)
 
-net.Receive("ColorNotify", function(len, pl)
-    if (!GTowerChat or !GTowerChat.Chat) then return end
+hook.Add( "ShutDown", "RemoveChatBox", function()
 	
-    local msg = net.ReadString()
-    local msgcolor = net.ReadColor()
-    GTowerChat.Chat:AddText(msg, msgcolor)
-end)
+	if ValidPanel( GTowerChat.Chat ) then
+		GTowerChat.Chat:Hide()
+		GTowerChat.Chat:Remove()
+		GTowerChat.Chat = nil
+	end
+
+end )

@@ -86,7 +86,7 @@ local function CheckPlayer( ply, room, group, owner )
 
 	if group && group:HasPlayer( ply ) then return end
 
-	if ply:GetSetting( "GTNoClip" ) || ply:IsAdmin() || IsFriendsWith( owner, ply ) then return end
+	if ply:GetSetting( "GTNoClip" ) || ply:IsAdmin() || Friends.IsFriend( owner, ply ) then return end
 
 	ply:Msg2( "You have been removed from a locked condo." )
 	if math.random( 1, 3 ) == 1 then

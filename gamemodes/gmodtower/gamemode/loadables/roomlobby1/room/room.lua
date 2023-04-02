@@ -128,7 +128,7 @@ local function CheckPlayerLocked( ply, room, group, owner )
 
 	if group && group:HasPlayer( ply ) then return end
 
-	if ply:GetSetting( "GTNoClip" ) || ply:IsStaff() || IsFriendsWith( owner, ply ) then return end
+	if ply:GetSetting( "GTNoClip" ) || ply:IsStaff() || Friends.IsFriend( owner, ply ) then return end
 
 	room.RemovePlayer( ply )
 

@@ -591,6 +591,10 @@ hook.Add( "UpdateAnimation", "UCHUpdateAnimation", function( ply, velocity, maxs
 		rate = math.Clamp( rate, 0, 1 )
 
 		ply:SetPlaybackRate( rate )
+		ply.cycle = ply.cycle or 0
+		ply.cycle = ply.cycle + FrameTime() * rate * (!ply:IsOnGround() && ply.cycle > 0.9 && 0 or len2d > 0 and (ply:IsSprinting() && 4 or 2.4) or 1)
+		ply.cycle = math.fmod(ply.cycle, 1)
+		ply:SetCycle(ply.cycle)
 
 
 

@@ -11,18 +11,18 @@ local ghostAmt = CreateClientConVar("gmt_admin_playerghosts_amount", 150, true, 
 local esp = CreateClientConVar("gmt_admin_esp", 0, true, false)
 
 function GTowerAdmin:PlayerCommand(cmd, target, ...)
-    RunConsoleCommand("gt_act", cmd, target:EntIndex(), ...)
+    RunConsoleCommand("gmt_act", cmd, target:EntIndex(), ...)
 end
 
 local function MenuSetMoney(ply)
     Derma_StringRequest("Set Money", "Set the money of: " .. ply:Name(), "", function(out)
-        RunConsoleCommand("gt_act", "money", ply:EntIndex(), out)
+        RunConsoleCommand("gmt_act", "money", ply:EntIndex(), out)
     end, nil, "Update", "Cancel")
 end
 
 local function MenuGiveMoney(ply)
     Derma_StringRequest("Give Money", "Give money to: " .. ply:Name(), "", function(out)
-        RunConsoleCommand("gt_act", "givemoney", ply:EntIndex(), out)
+        RunConsoleCommand("gmt_act", "givemoney", ply:EntIndex(), out)
     end, nil, "Give", "Cancel")
 end
 
@@ -159,7 +159,7 @@ local function GetLocsTable()
         table.insert(tbltoadd, {
             ["Name"] = loc.Name,
             ["function"] = function(ply)
-                RunConsoleCommand("gt_act", "gotoloc", loc.id)
+                RunConsoleCommand("gmt_act", "gotoloc", loc.id)
             end,
             ["canclose"] = true,
             ["order"] = id
@@ -191,25 +191,25 @@ function GTowerAdmin:AddEnts()
                 {
                     ["Name"] = "100 GMC",
                     ["function"] = function()
-                        RunConsoleCommand("gt_act", "givemoney", LocalPlayer():EntIndex(), 100)
+                        RunConsoleCommand("gmt_act", "givemoney", LocalPlayer():EntIndex(), 100)
                     end
                 },
                 {
                     ["Name"] = "500 GMC",
                     ["function"] = function()
-                        RunConsoleCommand("gt_act", "givemoney", LocalPlayer():EntIndex(), 500)
+                        RunConsoleCommand("gmt_act", "givemoney", LocalPlayer():EntIndex(), 500)
                     end
                 },
                 {
                     ["Name"] = "1000 GMC",
                     ["function"] = function()
-                        RunConsoleCommand("gt_act", "givemoney", LocalPlayer():EntIndex(), 1000)
+                        RunConsoleCommand("gmt_act", "givemoney", LocalPlayer():EntIndex(), 1000)
                     end
                 },
                 {
                     ["Name"] = "1500 GMC",
                     ["function"] = function()
-                        RunConsoleCommand("gt_act", "givemoney", LocalPlayer():EntIndex(), 1500)
+                        RunConsoleCommand("gmt_act", "givemoney", LocalPlayer():EntIndex(), 1500)
                     end
                 },
             },
@@ -229,14 +229,14 @@ function GTowerAdmin:AddEnts()
         table.uinsert( Tabl, {
             ["Name"] = "Remove Entity",
             ["function"] = function()
-                RunConsoleCommand("gt_act", "rement")
+                RunConsoleCommand("gmt_act", "rement")
             end
         } )
         table.uinsert( Tabl, {
             ["Name"] = "Give Physgun",
             ["canclose"] = true,
             ["function"] = function()
-                RunConsoleCommand("gt_act", "physgun")
+                RunConsoleCommand("gmt_act", "physgun")
             end
         } )
         table.uinsert( Tabl, {
@@ -388,7 +388,7 @@ hook.Add("ExtraMenuPlayer", "AddModFunctions", function(ply)
                     ["Name"] = "Mute/Unmute",
                     ["canclose"] = true,
                     ["function"] = function(ply)
-                        RunConsoleCommand("gt_act", "mute", ply)
+                        RunConsoleCommand("gmt_act", "mute", ply)
                     end,
                     ["checkenabled"] = function() return (false) end,
                     ["order"] = 6
@@ -397,7 +397,7 @@ hook.Add("ExtraMenuPlayer", "AddModFunctions", function(ply)
                     ["Name"] = "Gag/Ungag",
                     ["canclose"] = true,
                     ["function"] = function(ply)
-                        RunConsoleCommand("gt_act", "gag", ply)
+                        RunConsoleCommand("gmt_act", "gag", ply)
                     end,
                     ["checkenabled"] = function() return (false) end,
                     ["order"] = 7
@@ -405,20 +405,20 @@ hook.Add("ExtraMenuPlayer", "AddModFunctions", function(ply)
                 {
                     ["Name"] = "Teleport...",
                     ["function"] = function(ply)
-                        RunConsoleCommand("gt_act", "goto", ply)
+                        RunConsoleCommand("gmt_act", "goto", ply)
                     end,
                     ["canclose"] = true,
                     ["sub"] = {
                         {
                             ["Name"] = "Myself to player",
                             ["function"] = function(ply)
-                                RunConsoleCommand("gt_act", "goto", ply)
+                                RunConsoleCommand("gmt_act", "goto", ply)
                             end
                         },
                         {
                             ["Name"] = "Player to myself",
                             ["function"] = function(ply)
-                                RunConsoleCommand("gt_act", "teleport", ply)
+                                RunConsoleCommand("gmt_act", "teleport", ply)
                             end
                         }
                     },
@@ -456,21 +456,21 @@ hook.Add("ExtraMenuPlayer", "AddAdminFunctions", function(ply)
                 {
                     ["Name"] = "Slay",
                     ["function"] = function(ply)
-                        RunConsoleCommand("gt_act", "slay", ply)
+                        RunConsoleCommand("gmt_act", "slay", ply)
                     end,
                     ["order"] = 2
                 },
                 {
                     ["Name"] = "Revive",
                     ["function"] = function(ply)
-                        RunConsoleCommand("gt_act", "revive", ply)
+                        RunConsoleCommand("gmt_act", "revive", ply)
                     end,
                     ["order"] = 3
                 },
                 {
                     ["Name"] = "Slap...",
                     ["function"] = function(ply)
-                        RunConsoleCommand("gt_act", "slap", ply, 0)
+                        RunConsoleCommand("gmt_act", "slap", ply, 0)
                     end,
                     ["canclose"] = true,
                     ["sub"] = function(pl)
@@ -483,7 +483,7 @@ hook.Add("ExtraMenuPlayer", "AddAdminFunctions", function(ply)
                                 ["Name"] = v .. " Damage",
                                 ["canclose"] = true,
                                 ["function"] = function(ply)
-                                    RunConsoleCommand("gt_act", "slap", ply, v)
+                                    RunConsoleCommand("gmt_act", "slap", ply, v)
                                 end
                             })
                         end
@@ -502,25 +502,25 @@ hook.Add("ExtraMenuPlayer", "AddAdminFunctions", function(ply)
                         {
                             ["Name"] = "100 GMC",
                             ["function"] = function()
-                                RunConsoleCommand("gt_act", "givemoney", ply:EntIndex(), 100)
+                                RunConsoleCommand("gmt_act", "givemoney", ply:EntIndex(), 100)
                             end
                         },
                         {
                             ["Name"] = "500 GMC",
                             ["function"] = function()
-                                RunConsoleCommand("gt_act", "givemoney", ply:EntIndex(), 500)
+                                RunConsoleCommand("gmt_act", "givemoney", ply:EntIndex(), 500)
                             end
                         },
                         {
                             ["Name"] = "1000 GMC",
                             ["function"] = function()
-                                RunConsoleCommand("gt_act", "givemoney", ply:EntIndex(), 1000)
+                                RunConsoleCommand("gmt_act", "givemoney", ply:EntIndex(), 1000)
                             end
                         },
                         {
                             ["Name"] = "1500 GMC",
                             ["function"] = function()
-                                RunConsoleCommand("gt_act", "givemoney", ply:EntIndex(), 1500)
+                                RunConsoleCommand("gmt_act", "givemoney", ply:EntIndex(), 1500)
                             end
                         },
                     },
@@ -571,122 +571,38 @@ hook.Add("ExtraMenuPlayer", "AddAdminFunctions", function(ply)
     end
 end)
 
-local function GetFriendStatus(ply)
-    if not IsValid(ply) then return end
+hook.Add( "PlayerActionBoxPanel", "AdminActions", function( panel )
 
-    if file.Exists("gmtower/friends.txt", "DATA") then
-        local Friends = string.Explode(" ", file.Read(LocalFilename, "DATA"))
+    if !LocalPlayer().IsStaff || !LocalPlayer():IsStaff() || !IsLobby then return end
 
-        if table.HasValue(Friends, ply:SteamID64()) then
-            return "Unfriend"
-        else
-            return "Friend"
-        end
-    else
-        return "Friend"
-    end
-end
+	local cmd = panel:CreateItem()
+	cmd:SetMaterial( Scoreboard.PlayerList.MATERIALS.Goto, 16, 16, 16, 16 )
+	cmd:SetText( "Goto" )
+	cmd.OnMousePressed = function( self )
+		RunConsoleCommand("gmt_act", "goto", panel:GetPlayer():EntIndex() )
+	end
 
-local function GetBlockStatus(ply)
-    if not IsValid(ply) then return end
+	local cmd = panel:CreateItem()
+	cmd:SetMaterial( Scoreboard.PlayerList.MATERIALS.Tele, 16, 16, 16, 16 )
+	cmd:SetText( "Bring" )
+	cmd.OnMousePressed = function( self )
+		RunConsoleCommand("gmt_act", "teleport", panel:GetPlayer():EntIndex() )
+	end
 
-    if file.Exists(BlockList, "DATA") then
-        local Blocked = string.Explode(" ", file.Read(BlockList, "DATA"))
+	local cmd = panel:CreateItem()
+	cmd:SetMaterial( Scoreboard.PlayerList.MATERIALS.Gag, 16, 16, 16, 16 )
+	cmd:SetText( "Gag" )
+	cmd.OnMousePressed = function( self )
+		RunConsoleCommand("gmt_act", "gag", panel:GetPlayer():EntIndex() )
+	end
 
-        if table.HasValue(Blocked, ply:SteamID64()) then
-            return "Unblock"
-        else
-            return "Block"
-        end
-    else
-        return "Block"
-    end
-end
+	local cmd = panel:CreateItem()
+	cmd:SetMaterial( Scoreboard.PlayerList.MATERIALS.Mute, 16, 16, 16, 16 )
+	cmd:SetText( "Mute" )
+	cmd.OnMousePressed = function( self )
+		RunConsoleCommand("gmt_act", "mute", panel:GetPlayer():EntIndex() )
+	end
 
-hook.Add("PlayerActionBoxPanel", "AdminActions", function(panel)
-    if IsLobby then
-        local cmd = panel:CreateItem()
-        cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Trade, 16, 16, 16, 16)
-        cmd:SetText("Trade")
-
-        cmd.OnMousePressed = function(self)
-            LocalPlayer():ConCommand("gmt_trade" .. " " .. panel:GetPlayer():EntIndex())
-        end
-    end
-
-    local cmd = panel:CreateItem()
-    cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Friend, 16, 16, 16, 16)
-    cmd:SetText("Friend")
-
-    if IsValid(panel) then
-        cmd:SetText(GetFriendStatus(panel:GetPlayer()))
-    end
-
-    cmd.OnMousePressed = function(self)
-        if CheckFriendship(panel:GetPlayer()) then
-            LocalPlayer():ConCommand("gmt_unfriend" .. " " .. panel:GetPlayer():SteamID64())
-            cmd:SetText("Friend")
-        else
-            LocalPlayer():ConCommand("gmt_friend" .. " " .. panel:GetPlayer():SteamID64())
-            cmd:SetText("Unfriend")
-        end
-    end
-
-    local cmd = panel:CreateItem()
-    cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Block, 16, 16, 16, 16)
-    cmd:SetText("Block")
-
-    if IsValid(panel) then
-        cmd:SetText(GetBlockStatus(panel:GetPlayer()))
-    end
-
-    cmd.OnMousePressed = function(self)
-        BlockPlayer(panel:GetPlayer())
-        cmd:SetText(GetBlockStatus(panel:GetPlayer()))
-    end
-
-    if IsLobby then
-        local cmd = panel:CreateItem()
-        cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Group, 16, 16, 16, 16)
-        cmd:SetText("Group")
-
-        cmd.OnMousePressed = function(self)
-            LocalPlayer():ConCommand("gmt_groupinvite" .. " " .. panel:GetPlayer():EntIndex())
-        end
-    end
-
-    if !LocalPlayer():IsStaff() or not IsLobby then return end
-    local cmd = panel:CreateItem()
-    cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Goto, 16, 16, 16, 16)
-    cmd:SetText("Goto")
-
-    cmd.OnMousePressed = function(self)
-        RunConsoleCommand("gt_act", "goto", panel:GetPlayer():EntIndex())
-    end
-
-    local cmd = panel:CreateItem()
-    cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Tele, 16, 16, 16, 16)
-    cmd:SetText("Bring")
-
-    cmd.OnMousePressed = function(self)
-        RunConsoleCommand("gt_act", "teleport", panel:GetPlayer():EntIndex())
-    end
-
-    local cmd = panel:CreateItem()
-    cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Gag, 16, 16, 16, 16)
-    cmd:SetText("Gag")
-
-    cmd.OnMousePressed = function(self)
-        RunConsoleCommand("gt_act", "gag", panel:GetPlayer():EntIndex())
-    end
-
-    local cmd = panel:CreateItem()
-    cmd:SetMaterial(Scoreboard.PlayerList.MATERIALS.Mute, 16, 16, 16, 16)
-    cmd:SetText("Mute")
-
-    cmd.OnMousePressed = function(self)
-        RunConsoleCommand("gt_act", "mute", panel:GetPlayer():EntIndex())
-    end
 end)
 
 hook.Add("HUDPaint", "AdminShowEnts", function()

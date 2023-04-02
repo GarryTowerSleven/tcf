@@ -248,7 +248,7 @@ function ENT:MakeScreen(info)
 
 				local c2 = colorutil.Brighten( c, .5, c.a * .2 )
 
-				if IsFriendsWith(LocalPlayer(), v) then
+				if Friends.IsFriend(LocalPlayer(), v) then
 					draw.SimpleTextOutlined( v:Name(), "MapLabelSmall", x, y + nameOff, c, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, c2 )
 				end
 
@@ -261,7 +261,7 @@ function ENT:MakeScreen(info)
 
 	local function ShowName(id)
 		if !ShowLabels:GetBool() then return false end
-		return IsFriendsWith(LocalPlayer(), ents.GetByIndex(id)) || LocalPlayer():EntIndex() == id
+		return Friends.IsFriend(LocalPlayer(), ents.GetByIndex(id)) || LocalPlayer():EntIndex() == id
 	end
 
 	function ENT:CheckMapButtons(mx, my)

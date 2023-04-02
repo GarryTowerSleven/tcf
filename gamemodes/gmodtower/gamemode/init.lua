@@ -48,6 +48,12 @@ hook.Add( "PlayerSpawn", "SetGMTPlayerClass", function( ply )
     player_manager.SetPlayerClass( ply, "player_gmt" )
 end )
 
+// Lua Refresh Notification
+if ( _LUAREFRESH && GTowerChat ) then
+	GTowerChat.AddChat( "Lua refreshed.", Color( 255, 255, 0 ), "Server" )
+end
+_LUAREFRESH = true
+
 MultiUsers = {}
 
 local aumsg = umsg.Start

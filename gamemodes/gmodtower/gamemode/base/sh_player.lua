@@ -13,14 +13,14 @@ local Roles =
 	["STEAM_0:0:38865393"] = "Developer",	// boXy
 	["STEAM_0:1:39916544"] = "Developer",	// Anoma
 	["STEAM_0:0:35652170"] = "Developer",	// Lead
-	["STEAM_0:1:124798129"] = "Developer", // Amgona
+	["STEAM_0:1:124798129"] = "Developer", 	// Amgona
 	["STEAM_0:0:44458854"] = "Developer",	// Bumpy
 
 	// Moderators
-	["STEAM_0:1:72402171"] = "Moderator", // Umbre
-	["STEAM_0:1:57386100"] = "Moderator", // Squibbus
-	["STEAM_0:0:156132358"] = "Moderator", // Basical
-	["STEAM_0:1:85508734"] = "Moderator", // Breezy
+	["STEAM_0:1:72402171"] = "Moderator", 	// Umbre
+	["STEAM_0:1:57386100"] = "Moderator", 	// Squibbus
+	["STEAM_0:0:156132358"] = "Moderator", 	// Basical
+	["STEAM_0:1:85508734"] = "Moderator", 	// Breezy
 
 	// Pixeltail Games
 	["STEAM_0:1:6044247"] = "PixelTail",	// MacDGuy
@@ -31,7 +31,7 @@ local Roles =
 	["STEAM_0:0:72861849"] = "PixelTail",	// Madmijk
 }
 
-local function GetRole( steamid )
+local function GetTitle( steamid )
 	return Roles[steamid]
 end
 
@@ -46,7 +46,7 @@ function meta:IsHidden()
 end
 
 function meta:IsOwner()
-	return ( GetRole( self:SteamID() ) == "Owner" )
+	return ( GetTitle( self:SteamID() ) == "Owner" )
 end
 
 function meta:IsPrivAdmin()
@@ -58,7 +58,7 @@ function meta:IsSecretAdmin()
 end
 
 function meta:IsDeveloper()
-	return GetRole( self:SteamID() ) == "Developer"
+	return GetTitle( self:SteamID() ) == "Developer"
 end
 
 function meta:IsModerator()
@@ -69,39 +69,8 @@ function meta:IsStaff()
 	return self:IsModerator() || self:IsAdmin()
 end
 
-// for googoog
-function IsStaff(steamid)
-	return IsAdmin(steamid) or GetRole(steamid) == "Moderator" // TODO: Fuck you
-end
-
 function meta:IsTester()
 	return false
-end
-
-function meta:GetTitle()
-	if self:IsHidden() then return end
-
-	local title
-
-	title = GetRole( self:SteamID() )
-
-	local relationship = CheckRelationshipCache(self)
-
-	if relationship != "" then
-		
-		if title then
-			title = title .. " and " .. relationship
-		else
-			title = relationship
-		end
-
-	end
-
-	if self:IsVIP() and not self:IsHidden() and not ( self:IsAdmin() || self:IsModerator() ) then
-		title = "VIP"
-	end
-	
-	return title
 end
 
 local color_lead = Color(248, 18, 128, 255)
@@ -123,7 +92,7 @@ function meta:GetDisplayTextColor()
 
 	if self:IsHidden() then return returnFull(default_color) end
 
-	if GetRole( self:SteamID() ) == "Lead Developer" then
+	if GetTitle( self:SteamID() ) == "Lead Developer" then
 		return returnFull(color_lead)
 	end
 
@@ -143,11 +112,46 @@ function meta:GetDisplayTextColor()
 		return returnFull(color_tester)
 	end
 
-	if self.IsVIP && self:IsVIP() then
+	// So long, gay bowser
+	/*if self:IsVIP() then
 		return returnFull(color_vip)
-	end
+	end*/
 
 	return returnFull(default_color)
+end
+
+function meta:GetRespectName( nofriend )
+
+	if not IsValid( self ) or self:IsHidden() then return end
+
+	local title
+	
+	if self:IsVIP() then
+		title = "VIP"
+	end
+
+	if ( GetTitle( self:SteamID() ) ) then
+		title = GetTitle( self:SteamID() )
+	end
+
+	if self:IsSecretAdmin() then
+		title = "VIP"
+	end
+
+	-- Show friend status
+	if Friends and not nofriend then
+		local relationship = Friends.GetRelationshipName( LocalPlayer(), self )
+		if relationship then
+			if title then
+				title = title .. " and " .. relationship
+			else
+				title = relationship
+			end
+		end
+	end
+
+	return title
+
 end
 
 function meta:Name()
@@ -157,13 +161,7 @@ function meta:Name()
 		return self:GetNWString( "FakeName" )
 	end
 
-	if !self.name then
-		self.name = self:Nick()
-		string.Replace(self.name, "\\", "\\\\")
-		self.name = string.JavascriptSafe(self.name)
-	end
-
-	return self.name
+	return self:Nick()
 end
 
 function meta:GetName()

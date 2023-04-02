@@ -33,9 +33,10 @@ function GM:CalcMainActivity( ply, velocity )
 	-- Store the model so we don't retrieve it multiple times
 	local model = ply:GetModel()
 	// Roleplay as a zombie
-	if model == "models/player/zombie_classic.mdl" && GTowerHats:IsWearing( ply, "hatheadcrab" ) && ply:IsOnGround() then
+	if model == "models/player/zombie_classic.mdl" && GTowerHats:IsWearing( ply, "hatheadcrab" ) && ply:IsOnGround() && (ply.CalcIdeal == ACT_MP_STAND_IDLE || ply.CalcIdeal == ACT_MP_WALK || ply.CalcIdeal == ACT_MP_RUN) && !ply:InVehicle() then
 
-		ply.CalcSeqOverride = ply:LookupSequence( "zombie_idle" )
+		ply.CalcSeqOverride = -1 // ply:LookupSequence( "zombie_idle" )
+		ply.CalcIdeal = ACT_HL2MP_IDLE_ZOMBIE
 
 		local len2d = velocity:Length2D()
 		if ( len2d > 250 ) then
@@ -103,7 +104,7 @@ function GM:CalcMainActivity( ply, velocity )
 	end
 
 	// Spider animations
-	if model == "models/spider_regular/spider_regular.mdl" then
+	if model == "models/npc/spider_regular/npc_spider_regular.mdl" then
 
 		ply.CalcSeqOverride = ply:LookupSequence( "Idle_1" )
 
@@ -129,7 +130,7 @@ function GM:CalcMainActivity( ply, velocity )
 	end
 
 	// Big spider animations
-	if model == "models/spider_monster/spider_monster.mdl" then
+	if model == "models/npc/spider_monster/npc_spider_monster.mdl" then
 
 		ply.CalcSeqOverride = ply:LookupSequence( "Idle_1" )
 
@@ -186,9 +187,8 @@ function GM:CalcMainActivity( ply, velocity )
 end
 
 function GM:HandlePlayerLanding( ply, velocity, WasOnGround ) 
-	
+	// Removes Max's DUMB ASS LANDING ANIMATION THAT LOOKS LIKE SHIT
 end
-
 
 function GM:HandlePlayerJumping( ply, velocity )
 	if ( ply:GetMoveType() == MOVETYPE_NOCLIP ) then
@@ -246,7 +246,7 @@ function GM:HandlePlayerSwimming( ply, velocity )
 	if ( velocity:Length2D() > 10 ) then
 		ply.CalcIdeal = ACT_MP_SWIM
 	else
-		ply.CalcIdeal = ACT_MP_SWIM_IDLE
+		ply.CalcIdeal = ACT_MP_SWIM
 	end
 
 	// Fix swimming animation
@@ -258,7 +258,7 @@ function GM:HandlePlayerSwimming( ply, velocity )
 
 	ply.m_bInSwim = true
 	return true
-	
+
 end
 
 function GM:HandlePlayerNoClipping( ply, velocity )
@@ -271,7 +271,7 @@ function GM:HandlePlayerNoClipping( ply, velocity )
 	if ( velocity:Length2D() > 10 ) then
 		ply.CalcIdeal = ACT_MP_SWIM
 	else
-		ply.CalcIdeal = ACT_MP_SWIM_IDLE
+		ply.CalcIdeal = ACT_MP_SWIM
 
 		// Fix swimming animation
 		local weapon = ply:GetActiveWeapon()

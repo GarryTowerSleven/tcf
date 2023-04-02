@@ -136,6 +136,7 @@ function GTowerRooms.PrepareCloset( room )
 			ent.HatId = id
 			ent.MaxRad = 		ent:OBBMaxs():Length()
 			ent.ExtraRot = hat.rotation or 0
+			ent.Slot = hat.slot
 			
 			if hat.ModelSkin then
 				ent:SetSkin( hat.ModelSkin )
@@ -191,7 +192,7 @@ function GTowerRooms:GetEyeHat( ply )
 	
 	for k, v in pairs( GTowerRooms.ClosetEnts ) do
 	
-		if GTowerRooms.PosInBox( EyeTrace.HitPos, v.Min, v.Max ) then
+		if GTowerRooms.PosInBox and GTowerRooms.PosInBox( EyeTrace.HitPos, v.Min, v.Max ) then
 		
 			local LowestDistance = 2048
 			local LowEnt = nil
@@ -301,9 +302,16 @@ GTowerRooms.ClosetKeyPress = function( ply, press )
 	if GTowerRooms:RoomOwner( GTowerRooms.ClosetRoom ) == LocalPlayer() && ply == LocalPlayer() && press == IN_USE then
 	
 		local ent = GTowerRooms:GetEyeHat( ply )
-		
+
+
 		if IsValid( ent ) && CurTime() > NextHatEntUse then
-			RunConsoleCommand("gmt_sethat", ent.UniqueName )
+		
+			if ent.HatId == 0 then
+				RunConsoleCommand("gmt_sethat", 0, SLOT_HEAD )
+				RunConsoleCommand("gmt_sethat", 0, SLOT_FACE )
+			else
+				RunConsoleCommand("gmt_sethat", ent.UniqueName, ent.Slot )
+			end
 			NextHatEntUse = CurTime() + 1.2
 		end
 	end
@@ -317,7 +325,14 @@ hook.Add("GtowerMouseEnt", "RoomClosetSetHat", function( entity, mc )
 		local ent = GTowerRooms:GetEyeHat( ply )
 		
 		if ent then
-			RunConsoleCommand("gmt_sethat", ent.UniqueName )
+
+			if ent.HatId == 0 then
+				RunConsoleCommand("gmt_sethat", 0, SLOT_HEAD )
+				RunConsoleCommand("gmt_sethat", 0, SLOT_FACE )
+			else
+				RunConsoleCommand("gmt_sethat", ent.UniqueName, ent.Slot )
+			end
+
 			return true
 		end
 		

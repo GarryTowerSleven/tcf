@@ -34,7 +34,7 @@ HeaderMatRightBorder = Scoreboard.GenTexture( "ScoreboardUCHRightBorder", "uch/m
 // Subtitle (under name)
 PlayerSubtitleText = function( ply )
 
-	if ply:IsGhost() then
+	if ply.IsGhost and ply:IsGhost() then
 
 		if ply:GetNet("IsFancy") then
 			return "FANCY GHOSTIE"
@@ -61,7 +61,7 @@ local backgrounds = {
 
 PlayerBackgroundMaterial = function( ply )
 
-	if ply:IsGhost() then
+	if ply.IsGhost and ply:IsGhost() then
 
 		if ply:GetNet("IsFancy") then
 			return backgrounds["ghostfancy"]
@@ -107,7 +107,7 @@ PlayerNotificationIcon = function( ply )
 
 	if !rank then return nil end
 
-	if ( ply:IsGhost() ) || ply.Bit || ply:GetNet("IsPancake") || ply.IsDead || ply:Team() == TEAM_GHOST then
+	if ( ply.IsGhost and ply:IsGhost() ) || ply.Bit || ply:GetNet("IsPancake") || ply.IsDead || ply:Team() == TEAM_GHOST then
 		rank = rank .. "_dead"
 	end
 

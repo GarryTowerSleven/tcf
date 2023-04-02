@@ -135,16 +135,13 @@ function GTowerTrade:RecieveRequest( ply, bool )
 
 end
 
-hook.Add( "ExtraMenuPlayer", "AddTradeItem", function( ply )
-    if ply != LocalPlayer() then
+hook.Add("PlayerActionBoxPanel", "InventoryTrade", function( panel ) 
 
-		return {
-			["Name"] = T("MenuTrade"),
-			["function"] = function() RunConsoleCommand("gmt_trade", ply:EntIndex() ) end,
-			["icon"] = GTowerIcons:GetIcon( 'trade' ),
-			["order"] = 1
-		}
-
+	local trade = panel:CreateItem()
+	trade:SetMaterial( Scoreboard.PlayerList.MATERIALS.Trade, 16, 16, 16, 16 )
+	trade:SetText( T("MenuTrade") )
+	trade.OnMousePressed = function( self )
+		RunConsoleCommand("gmt_trade", panel:GetPlayer():EntIndex() )
 	end
 
 end )

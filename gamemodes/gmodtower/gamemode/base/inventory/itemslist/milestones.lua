@@ -417,53 +417,6 @@ GTowerItems.RegisterItem( "UCHGhost", {
 
 } )
 
-GTowerItems.RegisterItem( "SKKart", {
-	Name = "Driveable RC Kart",
-	Description = "Kart racing, but smaller!",
-	Model = "models/gmod_tower/kart/kart_frame.mdl",
-	MoveSound = Sound( "gmodtower/sourcekarts/effects/rev.wav" ),
-	UniqueInventory = true,
-	DrawModel = true,
-	Equippable = true,
-	UniqueEquippable = true,
-	EquipType = "BallRaceBall",
-	CanEntCreate = false,
-	DrawName = true,
-	CanRemove = false,
-	NoBank = true,
-	Tradable = false,
-
-	EquippableEntity = true,
-	RemoveOnDeath = true,
-	RemoveOnNoEntsLoc = true,
-	OnlyEquippable = true,
-	OnEquip = function( self )
-		self.Ply:SetNoDraw(true)
-		self.Ply:SetNoDrawAll(true)
-	end,
-	OnUnEquip = function( self )
-		self.Ply:SetNoDraw(false)
-		self.Ply:SetNoDrawAll(false)
-		local curEyeAng = self.Ply:EyeAngles()
-		curEyeAng.r = 0
-		self.Ply:SetEyeAngles(curEyeAng)
-	end,
-	CreateEquipEntity = function( self )
-
-		local BallRaceBall = ents.Create( "gmt_kart" )
-
-		if IsValid( BallRaceBall ) then
-			BallRaceBall:SetOwner( self.Ply )
-			BallRaceBall:SetPos( self.Ply:GetPos() )
-			BallRaceBall:Spawn()
-			self.Ply:EmitSound( "gmodtower/sourcekarts/effects/start.wav", 80, math.random( 120, 140 ) )
-		end
-
-		return BallRaceBall
-
-	end
-} )
-
 GTowerItems.RegisterItem( "UCHPig", {
 
 	Name = "Pigmask",

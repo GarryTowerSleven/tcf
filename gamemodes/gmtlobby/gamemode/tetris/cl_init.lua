@@ -22,7 +22,7 @@ function PrintTetris()
 	
 end
 
-usermessage.Hook("TetHiS", function( um )
+/*usermessage.Hook("TetHiS", function( um )
 	
 	local UmsgId = um:ReadChar() 
 	
@@ -57,4 +57,4 @@ usermessage.Hook("TetHiS", function( um )
 		
 	end
 	
-end ) 
+end )*/

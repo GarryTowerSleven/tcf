@@ -98,6 +98,16 @@ function ENT:PhysicsSimulate( phys, deltatime )
 
 	end
 
+	Vel.x = -Vel.x
+	Vel.y = -Vel.y
+	Vel.z = 0
+	
+	self.Pos = self.Pos or self:GetPos()
+	self.Pos.z = self:GetPos().z
+	local v2 = self.Pos - self:GetPos()
+
+	Vel = Vel + v2 * 32
+	phys:AddVelocity(Vel)
 	return Angular, Linear, SIM_GLOBAL_ACCELERATION
 
 end

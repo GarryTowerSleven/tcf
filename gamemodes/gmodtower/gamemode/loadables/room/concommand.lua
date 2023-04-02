@@ -276,7 +276,7 @@ concommand.Add("gmt_roomkick", function( ply, cmd, args )
 				continue
 			end
 
-			if ply != Room.Owner && !IsFriendsWith( Room.Owner, ply ) && !ply:IsAdmin() then
+			if ply != Room.Owner && !Friends.IsFriend( Room.Owner, ply ) && !ply:IsAdmin() then
 				Suite.RemovePlayer( ply )
 				Room.Owner:AddAchievement( ACHIEVEMENTS.SUITELEAVEMEALONE, 1 )
 			end

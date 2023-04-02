@@ -909,9 +909,9 @@ end
 
 function PLAYERINFO:RespectType()
 
-	if self.Player:GetTitle() != nil then
+	if self.Player:GetRespectName( true ) != nil then
 
-		return self.Player:GetTitle(), MATERIALS.Admin
+		return self.Player:GetRespectName( true ), MATERIALS.Admin
 
 	--elseif self.Player.IsGModDeveloper && self.Player:IsGModDeveloper() then
 

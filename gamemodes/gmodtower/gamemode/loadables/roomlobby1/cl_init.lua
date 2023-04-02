@@ -7,7 +7,7 @@ local QueryPanel = nil
 
 include("shared.lua")
 include("room_maps.lua")
-//include("cl_closet.lua")
+include("cl_closet.lua")
 include("cl_party.lua")
 
 usermessage.Hook("GRoom", function(um)
@@ -89,7 +89,7 @@ hook.Add("GTowerAdminPly", "AddSuiteRemove", function( ply )
 	if ply:GetNet( "RoomID" ) then
 		return {
 			["Name"] = "Remove Room",
-			["function"] = function() RunConsoleCommand("gt_act", "remroom", PlyId ) end
+			["function"] = function() RunConsoleCommand("gmt_act", "remroom", PlyId ) end
 		}
 	end
 
@@ -283,15 +283,15 @@ function GTowerRooms:LoadRooms( um )
 		if ValidOwner then
 			Room.HasOwner = true
 
-			/*if GtowerHats.Hats then
+			if GTowerHats.Hats then
 				Room.Hats[ 0 ] = true
 
-				for k, hat in ipairs( GtowerHats.Hats ) do
-					if hat.unique_name then
+				for k, hat in ipairs( GTowerHats.Hats ) do
+					if hat.unique_Name then
 						Room.Hats[ k ] = um:ReadBool()
 					end
 				end
-			end*/
+			end
 
 		else
 
