@@ -33,7 +33,13 @@ end )
 
 concommand.Add("gmt_sethat", function( ply, cmd, args )
 
+	if #args ~= 2 then return end
 	if hook.Call( "CanUpateHat", GAMEMODE, ply ) == true || GTowerHats:Admin( ply ) then
+		args[2] = tonumber(args[2])
+
+		// FIXME: This does not check if the hat is wearable as either, though.
+		if args[2] ~= SLOT_HEAD && args[2] ~= SLOT_FACE then return end
+
 		local Return = GTowerHats:SetHat( ply, args[1], args[2] )
 		
 		if Return then

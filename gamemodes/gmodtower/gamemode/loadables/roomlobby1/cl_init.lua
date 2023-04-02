@@ -332,8 +332,6 @@ function GTowerRooms:FindRefEnts()
 		local EntIndex = v:EntIndex()
 
 		for _, Room in pairs( GTowerRooms.Rooms ) do
-			print(_)
-			print(Room.EntId)
 			if Room.EntId == EntIndex then
 				Room.RefEnt = v
 				Room.StartPos = v:LocalToWorld( MapData.min )
