@@ -178,8 +178,6 @@ function ENT:Think()
 	if ( self._BoostEnd and self._BoostEnd < CurTime() ) then
 		self._BoostEnd = nil
 		self:SetIsBoosting( false )
-
-		print( "fag boost end" )
 	end
 
 end
