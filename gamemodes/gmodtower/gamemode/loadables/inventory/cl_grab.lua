@@ -1,7 +1,7 @@
 GTowerItems.EntGrab = {}
 local DEBUG = false
 
-local function OnDropFloor( panel, Rotation, AimPos )
+local function OnDropFloor( panel, Rotation, AimPos, ShootPos )
 
 	if GTowerItems:TooFarAway( LocalPlayer():GetShootPos() ) then
 		Msg2( T("InventoryTooFar") )
@@ -16,7 +16,10 @@ local function OnDropFloor( panel, Rotation, AimPos )
 			Rotation,
 			AimPos.x,
 			AimPos.y,
-			AimPos.z
+			AimPos.z,
+			ShootPos.x,
+			ShootPos.y,
+			ShootPos.z
 		)
 	end
 

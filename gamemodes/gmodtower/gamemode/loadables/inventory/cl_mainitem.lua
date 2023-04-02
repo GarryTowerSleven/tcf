@@ -695,7 +695,7 @@ function PANEL:CheckDropItem()
 
         if Trace.Hit then
             local AimPos = GetMouseVector()
-            self:OnDropFloor(self.MouseRotation, AimPos)
+            self:OnDropFloor(self.MouseRotation, AimPos, LocalPlayer().CameraPos)
         end
 
         return
