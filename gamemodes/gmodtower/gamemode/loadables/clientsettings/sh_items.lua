@@ -260,4 +260,12 @@ ClientSettings.Items = {
 		SendType = true, //false=Admins, true=Player+admins
 		AllowReset = false
 	},
+	[29] = {
+		Name = "Ignore Chat Filters",
+		Order = "12",
+		Var = "GTIgnoreChatFilters",
+		NWType = "Bool",
+		Default = false,
+		SendType = false //false=Admins, true=Player+admins
+	},
 }
