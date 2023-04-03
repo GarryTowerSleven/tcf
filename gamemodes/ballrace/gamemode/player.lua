@@ -45,7 +45,7 @@ function GM:DoPlayerDeath(ply)
 	ply:SetDeaths( ply:Deaths() - 1 )
 
 	ply.Fallout = !util.QuickTrace(ply:GetPos(), Vector(0, 0, -64), {ply, ply.Ball}).Hit
-	if !ply.Fallout then
+	if !ply.Fallout || ply.Ball && ply.Ball.links && table.Count(ply.Ball.links) > 0 then
 		self:LostPlayer( ply )
 
 		local effectdata = EffectData()

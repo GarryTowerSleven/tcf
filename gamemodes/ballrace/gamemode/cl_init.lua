@@ -467,6 +467,7 @@ hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDe
 
 		if IsValid( ball ) then
 			ball:SetColor( Color( 255, 255, 255, opacity ) )
+			ball:Draw()
 		end
 	end
 
