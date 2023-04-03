@@ -16,7 +16,6 @@ local Roles =
 	["STEAM_0:0:44458854"] = "Developer",	// Bumpy
 
 	// Moderators
-	["STEAM_0:1:72402171"] = "Moderator", 	// Umbre
 	["STEAM_0:1:57386100"] = "Moderator", 	// Squibbus
 	["STEAM_0:0:156132358"] = "Moderator", 	// Basical
 	["STEAM_0:1:85508734"] = "Moderator", 	// Breezy
