@@ -395,7 +395,7 @@ function GM:CalcView( ply, origin, angles, fov )
 
 	local a = convar:GetInt()
 
-	if a ~= 0 then
+	if a ~= 0 && !ply.Spectating then
 		local tilta = Angle(0, 0, 0)
 		tilta.r = ply:KeyDown(IN_MOVERIGHT) and -a or ply:KeyDown(IN_MOVELEFT) and a or 0
 		tilta.p = ply:KeyDown(IN_FORWARD) and -a or ply:KeyDown(IN_BACK) and a or 0
