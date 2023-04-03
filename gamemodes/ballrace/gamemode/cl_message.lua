@@ -30,6 +30,7 @@ local function PanelGuiThink()
 		local Perc = GAMEMODE.IntermissionTime - TimeLeft
 		local Source = PanelGui:GetWide() * -1
 		local Target = ScrW() / 2 - PanelGui:GetWide() / 2
+		Perc = math.ease.OutCubic(Perc)
 		
 		PanelGui:SetPos( Source + (Target-Source) * Perc, PanelYPos )
 		
@@ -38,6 +39,7 @@ local function PanelGuiThink()
 		local Perc = TimeLeft
 		local Source = ScrW() / 2 - PanelGui:GetWide() / 2
 		local Target = ScrW() + 1
+		Perc = math.ease.OutCubic(Perc)
 		
 		PanelGui:SetPos( Source + (Target-Source) * (1-Perc), PanelYPos )
 		
