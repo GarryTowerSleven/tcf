@@ -41,7 +41,7 @@ concommand.Add("gmt_arcade_open", function(_, _, args)
 	html = vgui.Create("DHTML", arcade)
 	html:Dock(FILL)
 	arcade:SetSize(ScrW() / 1.2, ScrH() / 1.2)
-	arcade:SetTitle(args[1])
+	arcade:SetTitle(args[2] or "Arcade")
 	arcade:Center()
 	arcade:MakePopup()
 	html:OpenURL("https://gmtower.nailgunworld.com/apps/arcade/?game=" .. args[1])
@@ -115,13 +115,5 @@ hook.Add("Move", "ARCADE", function()
 				  }));
 			]])
 		end
-	end
-
-	if key then
-		// key = "Key" .. string.upper(key)
-
-		print(key, code, event)
-
-
 	end
 end)
