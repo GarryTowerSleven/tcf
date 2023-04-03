@@ -3,6 +3,7 @@ table.uinsert( HudToHide, "CHudHealth" )
 table.uinsert( HudToHide, "CHudAmmo" )
 table.uinsert( HudToHide, "CHudSecondaryAmmo" )
 table.uinsert( HudToHide, "CHudBattery" )
+table.uinsert( HudToHide, "CHudZoom" )
 
 GTowerHUD = {}
 

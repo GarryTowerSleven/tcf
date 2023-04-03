@@ -143,6 +143,7 @@ function SetupGMTGamemode( name, folder, settings )
 		table.uinsert( HudToHide, "CHudSuitPower" )
 		table.uinsert( HudToHide, "CHudAmmo" )
 		table.uinsert( HudToHide, "CHudSecondaryAmmo" )
+		table.uinsert( HudToHide, "CHudZoom" )
 
 		-- Weapon selection
 		if not settings.EnableWeaponSelect then
