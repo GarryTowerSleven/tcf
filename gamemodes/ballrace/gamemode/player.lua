@@ -35,6 +35,8 @@ function GM:PlayerDisconnected(ply)
 end
 
 function GM:DoPlayerDeath(ply)
+	if ply.NextSpawn and ply.NextSpawn > CurTime() then return end
+
 	if ply:Deaths() - 1 == 0 then
 		ply:SetTeam( TEAM_DEAD )
 		self:UpdateSpecs( ply, true )
@@ -42,7 +44,21 @@ function GM:DoPlayerDeath(ply)
 
 	ply:SetDeaths( ply:Deaths() - 1 )
 
-	self:LostPlayer( ply )
+	ply.Fallout = !util.QuickTrace(ply:GetPos(), Vector(0, 0, -64), {ply, ply.Ball}).Hit
+	if !ply.Fallout then
+		self:LostPlayer( ply )
+
+		
+	local effectdata = EffectData()
+		effectdata:SetOrigin( ply:GetPos() )
+	util.Effect( "confetti", effectdata )
+
+	ply:EmitSound("weapons/ar2/npc_ar2_altfire.wav", 75, math.random(160,180), 1, CHAN_AUTO )
+	else
+		sound.Play("ambient/levels/labs/teleport_winddown1.wav", ply:GetPos() - Vector(0, 0, 64), 70, 255)
+		ply.Ball:SetModelScale(0, 1)
+		ply:SetModelScale(0, 1)
+	end
 
 	ply.NextSpawn = CurTime() + 2
 end
@@ -54,11 +70,6 @@ function GM:PlayerDeathThink( pl )
 end
 
 function GM:PlayerDeathSound( ply )
-	local effectdata = EffectData()
-		effectdata:SetOrigin( ply:GetPos() )
-	util.Effect( "confetti", effectdata )
-
-	ply:EmitSound("weapons/ar2/npc_ar2_altfire.wav", 75, math.random(160,180), 1, CHAN_AUTO )
 
 	return true
 end
