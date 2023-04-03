@@ -30,6 +30,7 @@ function ENT:Initialize()
 		self:SetModel( ply.ModelSet )
 	end
 
+	self:AddEFlags( EFL_FORCE_CHECK_TRANSMIT )
 	self.links = {}
 end
 
@@ -143,4 +144,8 @@ function ENT:LinkWithRepeller(repel)
 	umsg.Bool(self.links[repel])
 
 	umsg.End()
+end
+
+function ENT:UpdateTransmitState()
+	return TRANSMIT_ALWAYS
 end
