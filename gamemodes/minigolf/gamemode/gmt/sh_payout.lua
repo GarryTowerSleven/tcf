@@ -7,7 +7,7 @@ payout.Register( "ThanksForPlaying", {
 payout.Register( "HoleInOne", {
 	Name = "Hole In One!",
 	Desc = "A perfect putt.",
-	GMC = 250,
+	GMC = 200,
 } )
 
 payout.Register( "OverBogey", {
@@ -17,9 +17,9 @@ payout.Register( "OverBogey", {
 } )
 
 local MoneyScores = {
-	[-4] = { 250, "Way to soar!" },
-	[-3] = { 200, "Really well done!" },
-	[-2] = { 150, "Fly like an eagle." },
+	[-4] = { 150, "Way to soar!" },
+	[-3] = { 120, "Really well done!" },
+	[-2] = { 110, "Fly like an eagle." },
 	[-1] = { 100, "Early bird gets the worm." },
 	[0] = { 80, "Just average." },
 	[1] = { 40, "Not bad. Try lowering your putt amounts." },

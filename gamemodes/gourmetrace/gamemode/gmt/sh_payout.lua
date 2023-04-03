@@ -15,14 +15,14 @@ payout.Register( "FinishBonus", {
 payout.Register( "Rank1", {
 	Name = "1st Place!",
 	Desc = "Congratulations, you won the race!",
-	GMC = 250,
+	GMC = 150,
 	Diff = 3,
 } )
 
 payout.Register( "Rank2", {
 	Name = "2nd Place",
 	Desc = "Better luck next time!",
-	GMC = 150,
+	GMC = 125,
 	Diff = 3,
 } )
 
