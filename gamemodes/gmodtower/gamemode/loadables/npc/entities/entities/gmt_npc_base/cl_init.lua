@@ -15,6 +15,43 @@ function ENT:BlinkThink()
 	local ragdoll = self.Ragdoll or nil 
 	if ( not ragdoll ) then return end
 
+	if !self.LastMove or self.LastMove < CurTime() then
+		self.EyeTarget = VectorRand() * 8
+		self.LastMove = CurTime() + math.Rand(0.2, 1.2)
+	end
+
+	self.ET = self.ET or Vector(0, 0, 0)
+	self.ET = LerpVector(FrameTime() * 8, self.ET, self.EyeTarget)
+
+	local att = self.Ragdoll:GetAttachment(1)
+
+	self.Ragdoll:SetEyeTarget(att.Pos + att.Ang:Forward() * 64 + self.ET)
+
+	local ragdoll = self.Ragdoll or self
+	ragdoll.BlinkTime = ragdoll.BlinkTime or 0
+    ragdoll.BlinkF = ragdoll.BlinkF or 0
+
+    if ragdoll.BlinkTime < CurTime() then
+        ragdoll.Blink = CurTime() + 0.1
+        ragdoll.BlinkTime = CurTime() + math.Rand(1.25, 4)
+    end
+
+    ragdoll.BlinkF = math.Approach(ragdoll.BlinkF, ragdoll.Blink > CurTime() and 1 or 0, FrameTime() * 8)
+
+    ragdoll:SetFlexWeight(ragdoll:GetFlexIDByName("blink"), math.ease.OutCubic(ragdoll.BlinkF))
+
+	if !ragdoll.RandFace or ragdoll.RandFace < CurTime() then
+		ragdoll.Smile = ragdoll.Smile or 0
+		ragdoll.Smile = math.abs(math.fmod(ragdoll.Smile + math.Rand(0, 1), 1))
+		ragdoll.RandFace = CurTime() + math.Rand(1.8, 2.8)
+	end
+	ragdoll.S = ragdoll.S or 0
+	ragdoll.S = math.Approach(ragdoll.S, ragdoll.Smile, FrameTime() * 1.4)
+    ragdoll:SetFlexWeight(ragdoll:GetFlexIDByName("smile"), ragdoll.S)
+    ragdoll:SetFlexWeight(ragdoll:GetFlexIDByName("wrinkler"), ragdoll.S)
+
+
+
 	// TODO
 end
 
