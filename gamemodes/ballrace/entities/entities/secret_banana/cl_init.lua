@@ -43,6 +43,8 @@ function ENT:Draw()
 	self:ParticleThink()
 	self:DrawModel()
 
+	self:SetColor(colorutil.Rainbow(120))
+
 end
 
 function ENT:OnRemove()
