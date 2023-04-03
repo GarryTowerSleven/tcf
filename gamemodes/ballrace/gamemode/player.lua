@@ -44,7 +44,8 @@ function GM:DoPlayerDeath(ply)
 
 	ply:SetDeaths( ply:Deaths() - 1 )
 
-	ply.Fallout = !util.QuickTrace(ply:GetPos(), Vector(0, 0, -64), {ply, ply.Ball}).Hit
+	local tr = util.QuickTrace(ply:GetPos(), Vector(0, 0, -64), {ply, ply.Ball})
+	ply.Fallout = !tr.Hit || tr.HitTexture == "TOOLS/TOOLSSKYBOX"
 	if !ply.Fallout || ply.Ball && ply.Ball.links && table.Count(ply.Ball.links) > 0 then
 		self:LostPlayer( ply )
 
