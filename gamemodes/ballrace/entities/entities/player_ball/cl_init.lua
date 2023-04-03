@@ -197,12 +197,7 @@ function ENT:DrawTranslucent()
 		self.PlayerModel:SetPlayerProperties( ply )
 		self.PlayerModel:SetModelScale( scale, 0 )
 
-		self.L = self.L or 0
-		self.L = math.Approach(self.L, /*(util.QuickTrace(self:GetPos(), Vector(0, 0, -200), {ply, self}).Hit || util.QuickTrace(self:GetPos(), self:GetUp() * -200, {ply, self}).Hit)*/ self:GetModelScale() == 1 and 0 or 1, FrameTime() * 2)
-
-		local l = math.ease.OutSine(self.L)
-		self.PlayerModel:SetPos( self:GetPos() - LerpAngle(l, angle_zero, self:GetAngles()):Up() * model_offset.z * self:GetModelScale() )
-		self.PlayerModel:SetAngles(LerpAngle(l, self.PlayerModel:GetAngles(), self:GetAngles()))
+		self.PlayerModel:SetPos( self:GetPos() - model_offset * self:GetModelScale() )
 		self.PlayerModel:DrawModel()
 		
 
