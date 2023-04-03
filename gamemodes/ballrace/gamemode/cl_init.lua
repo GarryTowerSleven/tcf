@@ -372,6 +372,8 @@ function GM:CalcView( ply, origin, angles, fov )
 	view.angles	= angles
 	view.fov 	= fov
 
+	eyepos = origin
+
 	if !IsValid(ball) || !ball.Center || !ply:Alive() then
 
 		if self:GetState() == STATE_WAITING and waitCams[ game.GetMap() ] then
@@ -389,6 +391,7 @@ function GM:CalcView( ply, origin, angles, fov )
 
 	lastview = view
 	lastball = ball:Center()
+	eyepos = view.origin
 
 	local a = convar:GetInt()
 
@@ -403,6 +406,58 @@ function GM:CalcView( ply, origin, angles, fov )
 	end
 
 	return view
+end
+
+local skies = {
+	lf = "",
+	rt = "",
+	up = "",
+	dn = "",
+	ft = "",
+	bk = ""
+}
+
+local skybox = GetConVar("sv_skyname"):GetString()
+
+
+
+SETUPSKY = true
+function GM:PostDraw2DSkyBox()
+	if !convar:GetBool() then return end
+	if SETUPSKY then
+		for _, sky in pairs(skies) do
+			skies[_] = Material("skybox/" .. skybox .. _)
+		end
+
+		SETUPSKY = false
+	end
+
+	PrintTable(skies)
+	print("!")
+	render.SetColorMaterial()
+	render.CullMode(MATERIAL_CULLMODE_CW)
+	render.DrawSphere(EyePos(), 128, 4, 4, color_black)
+	render.SetMaterial(skies["rt"])
+	render.CullMode(MATERIAL_CULLMODE_CCW)
+	cam.Start3D(eyepos, EyeAngles() - tilt)
+	local s = 64
+	local s2 = s / 2
+	render.DrawQuadEasy( eyepos + Vector(s2, 0, 0), Vector(-1,0,0), s, s, Color(255,255,255), 180 )
+	render.SetMaterial(skies["lf"])
+	render.DrawQuadEasy( eyepos - Vector(s2, 0, 0), Vector(1,0,0), s, s, Color(255,255,255), 180 )
+
+	render.SetMaterial(skies["bk"])
+	render.DrawQuadEasy( eyepos + Vector(0, s2, 0), Vector(0,-1,0), s, s, Color(255,255,255), 180 )
+	render.SetMaterial(skies["ft"])
+	render.DrawQuadEasy( eyepos - Vector(0, s2, 0), Vector(0,1,0), s, s, Color(255,255,255), 180 )
+
+	render.SetMaterial(skies["dn"])
+	render.DrawQuadEasy( eyepos - Vector(0, 0, s2), Vector(0,0,1), s, s, Color(255,255,255), 0 )
+	render.SetMaterial(skies["up"])
+	render.DrawQuadEasy( eyepos + Vector(0, 0, s2), Vector(0,0,-1), s, s, Color(255,255,255), 0 )
+	render.CullMode(MATERIAL_CULLMODE_CCW)
+	cam.End3D()
+	return true
 end
 
 function MouseEnable(ply, key)
@@ -441,6 +496,8 @@ hook.Add("GUIMousePressed", "MouseClick", MouseClick)
 ConVarPlayerFade = CreateClientConVar( "gmt_ballrace_fade", 0, true )
 
 hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDepth, bDrawingSkybox )
+	EyePos()
+
 	local pf = ConVarPlayerFade:GetInt()
 	if pf < 1 then return end // Fk player fade man
 
