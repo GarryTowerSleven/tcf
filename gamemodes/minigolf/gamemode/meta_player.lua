@@ -141,9 +141,6 @@ if SERVER then
 			self:SetSwing( self:Swing() + 1 )
 		end
 
-		// Undo AFK
-		self.AfkTime = (CurTime() + AFKTime)
-
 	end
 
 	function meta:MessageSwing( swing )

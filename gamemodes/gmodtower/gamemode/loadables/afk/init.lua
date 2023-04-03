@@ -2,110 +2,121 @@ include("shared.lua")
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 
-util.AddNetworkString("GTAfk")
-util.AddNetworkString("ResetAFK")
+module( "AntiAFK", package.seeall )
 
-AFKTime = 60
-AFKWarnTime = 15
+AFKTime = IsLobby and 300 or 60
+AFKWarnTime = IsLobby and 30 or 15
 
-if engine.ActiveGamemode() == "gmtlobby" then
-	AFKTime = 360
-	AFKWarnTime = 30
+// Placeholder
+function ForceReset()
+	return false
 end
 
-function SendAFK(warn,ply,time)
-	if warn then
-		net.Start( "GTAfk" )
-		net.WriteInt( 0, 4 )
-		net.WriteInt( CurTime() + time , 32 )
-		net.Send(ply)
-	else
-		net.Start( "GTAfk" )
-		net.WriteInt( 1, 4 )
-		net.Send(ply)
-	end
+function Set( ply, afk )
+	if ( ply:GetNet( "AFK" ) == afk ) then return end
+
+	ply.AFK = afk
+	ply:SetNet( "AFK", afk )
+	ply._AFKTime = afk and CurTime() or nil
+
+	Send( ply, afk, 0 )
+
+	local trans = afk and "AfkBecome" or "AfkBack"
+	GAMEMODE:ColorNotifyAll( T( trans, ply:GetName() ), Color( 200, 200, 200 ) )
+
+	hook.Run( "PlayerAFK", ply, afk )
 end
 
-ChatCommands.Register( "/afk", 60, function( ply )
-	ply.AFK = true
-	ply.AFKWarned = true
-	ply.AfkTime = (CurTime())
-	ply:SetNWBool("AFK",true)
+function Send( ply, afk, time )
+
+	if ( not IsValid( ply ) ) then return end
+	if ( afk and ply._AFKWarned ) then return end
+
+	local id = afk and 0 or 1
+
 	net.Start( "GTAfk" )
-	net.WriteInt( 0, 4 )
-	net.WriteInt( CurTime() , 32 )
-	net.Send(ply)
 
-	local SanitizedName = string.SafeChatName(ply:Name())
+		net.WriteInt( id, 4 )
 
-	GAMEMODE:ColorNotifyAll( T("AfkBecome", SanitizedName ), Color(200, 200, 200, 255) )
+		if ( afk ) then
+			net.WriteInt( CurTime() + ( time or AFKWarnTime ), 32 )
+		end
 
-	return ""
+	net.Send( ply )
+
+	ply._AFKWarned = afk
+
+end
+
+local meta = FindMetaTable( "Player" )
+if ( not meta ) then return end
+
+function meta:ResetAFKTimer()
+	self._AFKTime = nil
+end
+
+function meta:SetAFK( afk )
+	Set( self, afk )
+end
+
+ChatCommands.Register( "/afk", 10, function( ply )
+	Send( ply, true, 0 )
+	Set( ply, true )
 end )
 
-hook.Add("Think","GTAfkThink",function()
-	for k,v in pairs(player.GetAll()) do
-		if !v.AfkTime then
-			v.AFK = false
-			v.AFKWarned = false
-			v.AfkTime = (CurTime() + AFKTime)
-		end
+hook.Add( "PlayerThink", "AFKPlayerThink", function( ply )
+	if ( TestingMode and TestingMode:GetBool() ) then return end
+	if ( not IsValid( ply ) or ply:IsBot() ) then return end
 
-		if (CurTime() > v.AfkTime - AFKWarnTime) and !v.AFKWarned then
-			v.AFKWarned = true
-			SendAFK(true,v, AFKWarnTime)
-		elseif !(CurTime() > v.AfkTime - AFKWarnTime) and v.AFKWarned then
-			v.AFKWarned = false
-			SendAFK(false,v)
-		else
-			--v.AFKWarned = false
-		end
+	// check eye trace, could be a better place for this
+	local eyetrace = ply:EyeAngles()
 
-		if (CurTime() > v.AfkTime) then
-			if !v.AFK then
-				v.AFK = true
-				v:SetNWBool("AFK",true)
-				hook.Run("GTAfk",true,v)
-
-				local SanitizedName = string.SafeChatName(v:Name())
-
-				GAMEMODE:ColorNotifyAll( T("AfkBecome", SanitizedName ), Color(200, 200, 200, 255) )
-
-				if engine.ActiveGamemode() == "gmtlobby" and !v:IsStaff() then
-					if (game.MaxPlayers() - player.GetCount()) < 5 then
-						v:Kick("AFK")
-					end
-				end
-			end
-		else
-			if v.AFK then
-				v.AFK = false
-				v:SetNWBool("AFK",false)
-				hook.Run("GTAfk",false,v)
-
-				local SanitizedName = string.SafeChatName(v:Name())
-
-				GAMEMODE:ColorNotifyAll( T("AfkBack", SanitizedName ), Color(200, 200, 200, 255) )
-			end
-		end
-
-	end
-end)
-
-hook.Add( "KeyPress", "GTAfkKeys", function( ply, key )
-	if ( key == IN_JUMP ) then
-		ply.Jumps = (ply.Jumps or 0) + 1
-		if ply.Jumps > 2 then return end
-	else
-		ply.Jumps = 0
+	if ( ply._LastEyeTrace != eyetrace ) then
+		ply:ResetAFKTimer()
+		ply._LastEyeTrace = eyetrace
 	end
 
-	if ( key == IN_ATTACK or key == IN_ATTACK2 ) then return end
+	local curtime = CurTime()
 
-	ply.AfkTime = (CurTime() + AFKTime)
+	if ( not ply._AFKTime ) then
+		ply._AFKTime = CurTime() + AFKTime
+	end
 
+	local timeleft = math.Clamp( ply._AFKTime - curtime, 0, ply._AFKTime )
+
+	if ( timeleft > AFKWarnTime ) then
+		if ( ply._AFKWarned ) then
+			ply._AFKWarned = false
+			Send( ply, false )
+		end
+
+		Set( ply, false )
+	end
+
+	if ( timeleft <= AFKWarnTime ) then
+		Send( ply, true, timeleft )
+	end
+
+	if ( timeleft <= 0 ) then
+		Set( ply, true )
+	end
 end )
 
-hook.Add( "PlayerSay", "GTAfkChats", function( ply )
-	ply.AfkTime = (CurTime() + AFKTime)
+AFKButtons = {
+	[KEY_ENTER] = true,
+	[KEY_LALT] = true,
+	[KEY_RALT] = true,
+	[KEY_TAB] = true,
+}
+
+hook.Add( "PlayerButtonDown", "AFKKeyPress", function( ply, button )
+	if ( AFKButtons[ button ] ) then return end
+
+	ply:ResetAFKTimer()
 end )
+
+hook.Add( "GTowerChat", "AFKChat", function( ply )
+	ply:ResetAFKTimer()
+end )
+
+util.AddNetworkString( "GTAfk" )

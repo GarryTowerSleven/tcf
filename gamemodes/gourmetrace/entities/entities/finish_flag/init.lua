@@ -39,7 +39,9 @@ function ENT:StartTouch( entity )
 		entity:StripWeapons()
 		entity:SetNet( "Pos", pos )
 
-		entity.AfkTime = CurTime() + 120
+		if ( entity.ResetAFKTimer ) then
+			entity:ResetAFKTimer()
+		end
 
 		local vPoint = self:GetPos()
 		local effectdata = EffectData()

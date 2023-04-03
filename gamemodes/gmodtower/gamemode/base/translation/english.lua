@@ -59,7 +59,7 @@ L.AddWord( 1, "RoomNotAvalibleEnts",		"Greetings, {1}. We're sorry, there are no
 L.AddWord( 1, "RoomWait",					"Please wait while I setup your suite.")
 
 L.AddWord( 1, "RoomLongAway",				"You have been away from your suite for {1} minute(s). You have been checked-out.")
-L.AddWord( 1, "RoomAFKAway",				"You have been checked-out of your suite for being AFK for {1} minute(s).")
+L.AddWord( 1, "RoomAFKAway",				"You have been checked-out of your suite for being AFK.")
 
 L.AddWord( 1, "RoomGet",					"Thank you for staying at GMod Tower.\nI will assign you suite <font=GTowerbigbold><color=white>#{1}</color></font>.\nIf you need any assistance with your suite, please contact local administrators or moderators. Talk to me when you wish to check-out.")
 L.AddWord( 1, "RoomGetSmall",				"You have been assigned to suite #{1}.")

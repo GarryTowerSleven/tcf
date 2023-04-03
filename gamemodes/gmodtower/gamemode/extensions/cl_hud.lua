@@ -63,7 +63,7 @@ function GM:HUDDrawPlayerName( ply, fade, remain )
 	pos = pos:ToScreen()
 	
 	-- Append AFK
-	if ply:GetNWBool("AFK") then
+	if ply:GetNet("AFK") then
 		text = "*AFK* " .. text
 	end
 	

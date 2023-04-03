@@ -425,7 +425,7 @@ function PLAYERS:GetPlayerList( tabname, count )
 
 	if tabname == "AFK" then
 		for _, ply in ipairs( FilteredPlayerList( player.GetAll() ) ) do
-			if ply:GetNWBool("AFK") then
+			if ply:GetNet("AFK") then
 				table.insert( players, ply )
 			end
 		end

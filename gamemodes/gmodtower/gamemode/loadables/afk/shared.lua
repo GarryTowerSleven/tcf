@@ -1,3 +1,3 @@
+module( "AntiAFK", package.seeall )
 
------------------------------------------------------
-module( "AntiAFK", package.seeall )
+plynet.Register( "Bool", "AFK" )

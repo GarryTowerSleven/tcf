@@ -360,6 +360,8 @@ function meta:Chat( text, type, hidden )
 	else
 		net.Broadcast()
 	end
+
+	hook.Call( "GTowerChat", GAMEMODE, self, text, typeid, recipients, hidden )
 end
 
 util.AddNetworkString( "ChatSrv" )

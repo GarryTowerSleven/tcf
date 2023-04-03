@@ -171,12 +171,14 @@ end
 
 local afks = {}
 
-hook.Add("GTAfk","MiniAFK",function(afk,ply)
+hook.Add( "PlayerAFK", "MiniAFK", function( ply, afk )
+	
 	if afk then
 		table.insert(afks,ply)
 	elseif table.HasValue(afks,ply) then
 		table.RemoveByValue(afks,ply)
 	end
+
 end)
 
 function GM:AreAllPlayersFinished()
