@@ -38,7 +38,7 @@ function ENT:Think()
 end
 
 function ENT:PhysicsCollide( data, physobj )
-	if data.Speed > 100 && data.DeltaTime >= 1 then
+	if data.Speed > 100 && data.DeltaTime >= 1 && self:GetModelScale() == 1 then
 		local edata = EffectData()
 		edata:SetOrigin(data.HitPos)
 		edata:SetNormal(data.HitNormal * -1)

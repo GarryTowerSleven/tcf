@@ -48,16 +48,16 @@ function GM:DoPlayerDeath(ply)
 	if !ply.Fallout then
 		self:LostPlayer( ply )
 
-		
-	local effectdata = EffectData()
+		local effectdata = EffectData()
 		effectdata:SetOrigin( ply:GetPos() )
-	util.Effect( "confetti", effectdata )
+		util.Effect( "confetti", effectdata )
 
-	ply:EmitSound("weapons/ar2/npc_ar2_altfire.wav", 75, math.random(160,180), 1, CHAN_AUTO )
+		ply:EmitSound("weapons/ar2/npc_ar2_altfire.wav", 75, math.random(160,180), 1, CHAN_AUTO )
 	else
-		sound.Play("ambient/levels/labs/teleport_winddown1.wav", ply:GetPos() - Vector(0, 0, 64), 70, 255)
+		sound.Play("ambient/levels/labs/teleport_winddown1.wav", ply:GetPos() - Vector(0, 0, 64) + ply.Ball:GetVelocity() * 0.2, 70, 255)
 		ply.Ball:SetModelScale(0, 1)
 		ply:SetModelScale(0, 1)
+		constraint.NoCollide(ply.Ball, game.GetWorld(), 0, 0)
 	end
 
 	ply.NextSpawn = CurTime() + 2
