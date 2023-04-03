@@ -763,7 +763,15 @@ hook.Add( "HUDPaint", "AdminShowNetInfo", function()
 
 		// Network vars!
 
-        if ( ent.GetNetworkVars ) then
+        if ( ent:IsPlayer() ) then
+            off = off + 15
+            draw.SimpleText( "Player Network", "ChatFont", 5, off, Color( 255, 100, 100 ) )
+            off = off + 15
+            for _, v in ipairs( plynet.PlayerNetworkVars ) do
+                draw.SimpleText( tostring( v.name ) .. ": " .. tostring( ent:GetNet( v.name ) ), "ChatFont", 5, off, color_white )
+                off = off + 15
+            end
+        elseif ( ent.GetNetworkVars ) then
             local nwtable = ent:GetNetworkVars()
     
             if nwtable then
@@ -786,6 +794,7 @@ hook.Add( "HUDPaint", "AdminShowNetInfo", function()
     
             end
         end
+
 
 
 		// Other stuff!
