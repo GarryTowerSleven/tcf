@@ -121,7 +121,7 @@ end
 // Notification (above avatar)
 PlayerNotificationIcon = function( ply )
 
-	if ply.IsAFK && ply:IsAFK() then
+	if ply:GetNet( "AFK" ) then
 		return Scoreboard.PlayerList.MATERIALS.Timer
 	end
 

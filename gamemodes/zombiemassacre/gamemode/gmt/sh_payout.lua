@@ -5,7 +5,7 @@ payout.Register( "ThanksForPlaying", {
 
 	Desc = "For participating in the game!",
 
-	GMC = 100,
+	GMC = 50,
 
 } )
 

@@ -48,15 +48,15 @@ Add( 38, "Arcade", "arcade", Vector( -2196, 1508, -679 ), Vector( -796, 3051, 50
 Add( 58, "Arcade Stairs", nil, Vector( -796, 2012, -37 ), Vector( -17, 2495, 506 ) )
 
 // GAMEMODES
-Add( 34, "Gamemode Teleporters", "teleporters", Vector( 12127, 10386, 6650 ), Vector( 11039, 10879, 7040 ) )
-Add( 35, "Gamemode Ports", "gamemodeports", Vector( 9840, 11007, 6650 ), Vector( 11039, 10240, 7103 ) )
+Add( 34, "Gamemode Teleporters", "teleporters", Vector( 12128, 10386, 6650 ), Vector( 11039, 10879, 7040 ) )
+Add( 35, "Gamemode Ports", "gamemodeports", Vector( 9840, 11007, 6650 ), Vector( 11040, 10240, 7103 ) )
 Add( 36, "West GM Ports", "gamemodeports", Vector( 9982, 8897, 6402 ), Vector( 11041, 10289, 7679 ) )
 Add( 37, "East GM Ports", "gamemodeports", Vector( 9982, 10976, 6430 ), Vector( 11041, 12353, 7294 ) )
 
 Add( 74, "Minigolf Port", "minigolf", Vector( 10512.805664, 8900.727539, 6589.746582 ), Vector(9931.981445, 8467.902344, 7096.779297) )
 Add( 75, "Source Karts Port", "sourcekarts", Vector( 9982.151367, 9024.776367, 7164.083984 ), Vector(9623.632813, 9557.327148, 6607.956055) )
 Add( 76, "PVP Battle Port", "pvpbattle", Vector( 9982.511719, 9561.395508, 7102.123535 ), Vector(9634.414063, 10105.034180, 6553.928711) )
-Add( 77, "Ballrace Port", "ballrace", Vector( 9983.404297, 11161.226563, 7109.980469 ), Vector(9572.683594, 11678.227539, 6619.046387) )
+Add( 77, "Ballrace Port", "ballrace", Vector( 9983.404297, 11151.226563, 7109.980469 ), Vector(9572.683594, 11678.227539, 6619.046387) )
 Add( 78, "UCH Port", "ultimatechimerahunt", Vector( 9470.082031, 12297.280273, 7107.578613 ), Vector(9982.288086, 11691.755859, 6618.224609) )
 Add( 81, "ZM Port", "zombiemassacre", Vector( 11040.503906, 12217.260742, 7181.680176 ), Vector(11327.876953, 11676.507813, 6545.638184) )
 Add( 82, "Virus Port", "virus", Vector( 11046.933594, 11680.425781, 6587.111816 ), Vector(11429.869141, 11080.302734, 7076.871094) )

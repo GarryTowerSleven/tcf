@@ -179,3 +179,10 @@ MUSIC_ENDROUND 	= 2
 
 music.Register( MUSIC_ROUND, MusicTable[ game.GetMap() ] )
 music.Register( MUSIC_ENDROUND, "pvpbattle/EndOfRound" )
+
+if Maps.IsMap( "gmt_pvp_meadow01" ) then
+
+	game.AddParticles("particles/karpar.pcf")
+	PrecacheParticleSystem("karpar")
+
+end

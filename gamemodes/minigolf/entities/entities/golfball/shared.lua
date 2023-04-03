@@ -206,9 +206,11 @@ function ENT:HandleReady( vel )
 
 		// Undo AFK
 		local owner = self:GetOwner()
-		if IsValid( owner ) and SERVER then
+		if IsValid( owner ) then
 
-			owner.AfkTime = (CurTime() + AFKTime)
+			if owner.ResetAFKTimer then
+				owner:ResetAFKTimer()
+			end
 
 		end
 

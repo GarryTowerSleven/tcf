@@ -37,14 +37,14 @@ payout.Register( "NoDeath", {
 payout.Register( "Rank1", {
 	Name = "1st Place",
 	Desc = "For completing the level first.",
-	GMC = 150,
+	GMC = 100,
 	Diff = 3,
 } )
 
 payout.Register( "Rank2", {
 	Name = "2nd Place",
 	Desc = "For completing the level second.",
-	GMC = 100,
+	GMC = 75,
 	Diff = 3,
 } )
 

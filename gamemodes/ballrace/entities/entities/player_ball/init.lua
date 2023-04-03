@@ -30,6 +30,7 @@ function ENT:Initialize()
 		self:SetModel( ply.ModelSet )
 	end
 
+	self:AddEFlags( EFL_FORCE_CHECK_TRANSMIT )
 	self.links = {}
 end
 
@@ -38,7 +39,7 @@ function ENT:Think()
 end
 
 function ENT:PhysicsCollide( data, physobj )
-	if data.Speed > 100 && data.DeltaTime >= 1 then
+	if data.Speed > 100 && data.DeltaTime >= 1 && self:GetModelScale() == 1 then
 		local edata = EffectData()
 		edata:SetOrigin(data.HitPos)
 		edata:SetNormal(data.HitNormal * -1)
@@ -143,4 +144,8 @@ function ENT:LinkWithRepeller(repel)
 	umsg.Bool(self.links[repel])
 
 	umsg.End()
+end
+
+function ENT:UpdateTransmitState()
+	return TRANSMIT_ALWAYS
 end

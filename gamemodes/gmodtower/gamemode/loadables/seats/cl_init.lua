@@ -1,3 +1,1 @@
----------------------------------
-// clientside seats!
-include("shared.lua")
+include( "shared.lua" )

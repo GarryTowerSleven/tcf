@@ -47,7 +47,7 @@ function GAMEMODE:GiveMoney()
 
 		if !self.LostRound then
 
-			payout.Give( ply, "Points", math.Round( ply:GetNWInt( "Points" ) * .25 ) )
+			payout.Give( ply, "Points", math.Round( ply:GetNWInt( "Points" ) * .15 ) )
 
 		end
 

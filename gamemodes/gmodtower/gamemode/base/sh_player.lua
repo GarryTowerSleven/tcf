@@ -17,7 +17,6 @@ local Roles =
 	["STEAM_0:0:44458854"] = "Developer",	// Bumpy
 
 	// Moderators
-	["STEAM_0:1:72402171"] = "Moderator", 	// Umbre
 	["STEAM_0:1:57386100"] = "Moderator", 	// Squibbus
 	["STEAM_0:0:156132358"] = "Moderator", 	// Basical
 	["STEAM_0:1:85508734"] = "Moderator", 	// Breezy
@@ -311,13 +310,6 @@ function meta:IsCameraOut()
 	end
 end
 
-if SERVER then
-	function meta:SetDriving( ent )
-		--self:SetNet( "Driving", ent:EntIndex() )
-		self:SetNet( "DrivingObject", ent )
-	end
-end
-
 function meta:GetDriving( class )
 
 	if self:IsBot() then return end
@@ -344,15 +336,5 @@ function meta:GetDriving( class )
 	end
 
 	return ent]]
-
-end
-
-function meta:ExitDriving()
-
-	local ent = self:GetNet("DrivingObject")
-	if not IsValid( ent ) then return end
-
-	self:SetNet( "DrivingObject", nil )
-	ent:Remove()
 
 end

@@ -349,6 +349,8 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 
 					if weapon == "weapon_neszapper" then
 						attacker:AddAchievement( ACHIEVEMENTS.PVPDAMNEDDOG, 1 )
+					elseif weapon == "weapon_akimbo" then
+						attacker:AddAchievement( ACHIEVEMENTS.PVP12SHOTS, 1 )
 					elseif weapon == "weapon_ragingbull" then
 						attacker._TheKid = attacker._TheKid + 1
 						print(attacker._TheKid)

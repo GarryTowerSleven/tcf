@@ -333,22 +333,25 @@ function meta:Chat( text, type, hidden )
 	// Give to console
 	LogPrint( Format( "%s (%s): %s", self:GetName(), type, text ), nil, "Chat" )
 
-	// Swear Filter
-	text = GTowerChat.FilterText( text )
-
-	// Drunk
-	text = GTowerChat.DrunkSay( text, self:GetNet( "BAL" ) or 0 )
-
-	// Hat Text
-	if ( #text > 5 ) then
-		if ( GTowerHats:IsWearing( self, "hatcatear" ) ) then
-			text = text .. " ~nyan"
-		end
+	if ( not self:GetSetting( "GTIgnoreChatFilters" ) ) then
+		// Swear Filter
+		text = GTowerChat.FilterText( text )
 	
-		if ( GTowerHats:IsWearing( self, "toetohat" ) ) then
-			text = text .. " ~etoeto"
+		// Drunk
+		text = GTowerChat.DrunkSay( text, self:GetNet( "BAL" ) or 0 )
+	
+		// Hat Text
+		if ( #text > 5 ) then
+			if ( GTowerHats:IsWearing( self, "hatcatear" ) ) then
+				text = text .. " ~nyan"
+			end
+		
+			if ( GTowerHats:IsWearing( self, "toetohat" ) ) then
+				text = text .. " ~etoeto"
+			end
 		end
 	end
+
 
 	net.Start( "ChatPly" )
 		net.WriteInt( typeid, GTowerChat.TypeBits )
@@ -360,6 +363,8 @@ function meta:Chat( text, type, hidden )
 	else
 		net.Broadcast()
 	end
+
+	hook.Call( "GTowerChat", GAMEMODE, self, text, typeid, recipients, hidden )
 end
 
 util.AddNetworkString( "ChatSrv" )

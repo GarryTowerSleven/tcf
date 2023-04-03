@@ -2,7 +2,6 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_choose.lua")
 AddCSLuaFile("cl_message.lua")
-AddCSLuaFile("sh_mapnames.lua")
 
 include("shared.lua")
 include("round.lua")
@@ -27,9 +26,15 @@ function GM:Initialize()
 
 end
 
-hook.Add( "GTAfk", "BRAFK", function( afk, ply )
+hook.Add( "PlayerAFK", "BRAFK", function( ply, afk )
 
-	afks[ply] = afk
+	if ( not IsValid( ply ) ) then return end
+	if ( not afk ) then return end
+
+	if ( ply:Team() == TEAM_DEAD ) then return end
+
+	ply:SetDeaths( 1 )
+	GAMEMODE:DoPlayerDeath( ply )
 
 end )
 
@@ -43,7 +48,7 @@ hook.Add( "PlayerDisconnected", "NoPlayerCheck", function(ply)
 
 end )
 
-function GM:Think()
+/*function GM:Think()
 
 	local ThatTime = true
 
@@ -65,7 +70,7 @@ function GM:Think()
 		end
 	end
 
-end
+end*/
 
 function NumPlayers(team)
 
@@ -139,8 +144,7 @@ timer.Create( "AchiBallerRoll", 60.0, 0, function()
 
 end )
 
-util.AddNetworkString( "roundmessage" )
-util.AddNetworkString( "BGM" )
+util.AddNetworkString( "BRS" )
 util.AddNetworkString( "br_electrify" )
 util.AddNetworkString( "pick_ball" )
 util.AddNetworkString( "GtBall" )

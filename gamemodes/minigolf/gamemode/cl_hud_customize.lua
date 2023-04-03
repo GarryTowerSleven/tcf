@@ -11,6 +11,7 @@ local colorList = {
 	Color( 238, 57, 162 ),
 	Color( 255, 255, 255 ),
 	Color( 50, 50, 50 ),
+	"player"
 }
 
 local function ToggleCursor( bool )
@@ -27,16 +28,21 @@ local function ToggleCursor( bool )
 			ClickerForced = false
 		end
 	end
-end
+end
+
+CreateConVar( "cl_playercolor", "0.24 0.34 0.41", { FCVAR_ARCHIVE, FCVAR_USERINFO }, "The value is a Vector - so between 0-1 - not between 0-255" )
 
 function GM:DisplayCustomizer( enable, remove )
 	if RADIAL && ValidPanel( RADIAL ) then
 		ToggleCursor( false )
 		RADIAL:Remove()
 		RADIAL = nil
-	end
-	if !enable then return end
-	ToggleCursor( true )
+	end
+
+	if !enable then return end
+
+	ToggleCursor( true )
+
 	RADIAL = vgui.Create( "DRadialMenu" )
 	RADIAL:SetSize( ScrH(), ScrH() )
 	RADIAL:SetRadiusScale( 0.2 )
@@ -58,10 +64,16 @@ function GM:DisplayCustomizer( enable, remove )
 	cp:SetSize( 128, 128 )
 	cp:SetImage( "gmod_tower/minigolf/hud_golf_big.png" )
 	cp:SetColor( color )
-	RADIAL:SetCenterPanel( cp )
+	RADIAL:SetCenterPanel( cp )
+
 	-- Add items
 	for id, color in pairs( colorList ) do
-		local p = vgui.Create( "DImageButton" )
+		local p = vgui.Create( "DImageButton" )
+
+		if color == "player" then
+			color = Vector(GetConVarString("cl_playercolor")):ToColor()
+		end
+
 		p:SetSize( 48, 48 )
 		p:SetImage( "gmod_tower/minigolf/hud_golf_small.png" )
 		p:SetColor( color )
@@ -73,11 +85,14 @@ function GM:DisplayCustomizer( enable, remove )
 			ToggleCursor( false )
 			RADIAL.Hovered = false
 			//LocalPlayer()._ColorID = id
-		end
-		p.Think = function(self)
+		end
+
+		p.Think = function(self)
+
 			if !gui.ScreenClickerEnabled() then
 				RADIAL.Hovered = false
-			end
+			end
+
 			if self.Hovered then
 				self.CenterPanel:SetColor( self.OriginalColor )
 				--self.CenterPanel:SetCursor( "blank" )
@@ -89,13 +104,16 @@ function GM:DisplayCustomizer( enable, remove )
 					self.CenterPanel:SetColor( plycolor )
 				end
 			end
-		end
-		RADIAL:AddItem( p )
+		end
+
+		RADIAL:AddItem( p )
+
 		/*if id == LocalPlayer()._ColorID then
 			RADIAL:SetSaveSelected( p )
 		end*/
 	end
-end
+end
+
 local oldGuiEnable = gui.EnableScreenClicker
 IsClickerEnabled = false
 
@@ -118,9 +136,11 @@ function GetMouseAimVector()
 	else
 		return LocalPlayer():GetAimVector()
 	end
-end
+end
+
 usermessage.Hook( "ShowCustomizer", function( um )
-	local bool = um:ReadBool()
+	local bool = um:ReadBool()
+
 	GAMEMODE:DisplayCustomizer( bool )
 	gui.EnableScreenClicker( bool )
 end )

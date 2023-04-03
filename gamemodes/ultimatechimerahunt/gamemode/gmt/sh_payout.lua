@@ -7,84 +7,84 @@ payout.Register( "ThanksForPlaying", {
 payout.Register( "WinBonus", {
 	Name = "Winning Team",
 	Desc = "You and your team won!",
-	GMC = 15,
+	GMC = 25,
 	Diff = 1,
 } )
 
 payout.Register( "WinBonusGhost", {
 	Name = "Winning Team (Ghost)",
 	Desc = "You were on the winning team, but\nsadly you're a ghost now.",
-	GMC = 8,
+	GMC = 10,
 	Diff = 1,
 } )
 
 payout.Register( "ButtonPress", {
 	Name = "The Savior",
 	Desc = "You saved your team from being eaten!\n(or maybe just yourself)",
-	GMC = 20,
+	GMC = 25,
 	Diff = 1,
 } )
 
 payout.Register( "UCWinBonus", {
 	Name = "Ultimate Chimera",
 	Desc = "You truly are the ultimate chimera!",
-	GMC = 45,
+	GMC = 50,
 	Diff = 1,
 } )
 
 payout.Register( "Rank1", {
 	Name = "Ensign Bonus",
 	Desc = "Good day to be an alive Ensign.",
-	GMC = 10,
+	GMC = 20,
 	Diff = 1,
 } )
 
 payout.Register( "Rank2", {
 	Name = "Captain Bonus",
 	Desc = "Congrats, Captain.",
-	GMC = 20,
+	GMC = 30,
 	Diff = 1,
 } )
 
 payout.Register( "Rank3", {
 	Name = "Major Bonus",
 	Desc = "You are Majorly awesome.",
-	GMC = 30,
+	GMC = 40,
 	Diff = 1,
 } )
 
 payout.Register( "Rank4", {
 	Name = "Colonel Bonus",
 	Desc = "Being a Colonel never felt so good.",
-	GMC = 40,
+	GMC = 50,
 	Diff = 1,
 } )
 
 payout.Register( "UCRank1", {
 	Name = "Rank Chomp Bonus",
 	Desc = "You ate a Ensign.",
-	GMC = 10,
+	GMC = 20,
 	Diff = 1,
 } )
 
 payout.Register( "UCRank2", {
 	Name = "Captain Chomp Bonus",
 	Desc = "You ate a Captain.",
-	GMC = 20,
+	GMC = 30,
 	Diff = 1,
 } )
 
 payout.Register( "UCRank3", {
 	Name = "Major Chomp Bonus",
 	Desc = "You ate a Major.",
-	GMC = 30,
+	GMC = 40,
 	Diff = 1,
 } )
 
 payout.Register( "UCRank4", {
 	Name = "Colonel Chomp Bonus",
 	Desc = "You ate a Colonel.",
-	GMC = 40,
+	GMC = 50,
 	Diff = 1,
 } )
 

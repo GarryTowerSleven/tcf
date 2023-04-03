@@ -202,29 +202,8 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	Requester:AddAchievement( ACHIEVEMENTS.ITCHING, 1 )
 	Arriver:AddAchievement( ACHIEVEMENTS.ITCHING, 1 )
 
-	local requester_ball = Requester:GetBallRaceBall()
-	if requester_ball and IsValid( requester_ball ) then
-		requester_ball:SetPos(Spawn1[1])
-		requester_ball:SetAngles(Spawn1[2])
-	elseif IsValid(Requester.GolfBall) then
-		Requester.GolfBall:SetPos(Spawn1[1])
-		Requester.GolfBall:SetAngles(Spawn1[2])
-	else
-		Requester:SetPos( Spawn1[1] )
-		Requester:SetAngles( Spawn1[2] )
-	end
-
-	local arriver_ball = Requester:GetBallRaceBall()
-	if arriver_ball and IsValid( arriver_ball ) then
-		arriver_ball:SetPos(Spawn2[1])
-		arriver_ball:SetAngles(Spawn2[2])
-	elseif IsValid(Arriver.GolfBall) then
-		Arriver.GolfBall:SetPos(Spawn2[1])
-		Arriver.GolfBall:SetAngles(Spawn2[2])
-	else
-		Arriver:SetPos( Spawn2[1] )
-		Arriver:SetAngles( Spawn2[2] )
-	end
+	Requester:SafeTeleport( Spawn1[1], Spawn1[2] )
+	Arriver:SafeTeleport( Spawn2[1], Spawn2[2] )
 
 	if ( Amount == 0 ) then
 		GAMEMODE:ColorNotifyAll( Format( "%s has challenged %s to a duel!", Requester:Name(), Arriver:Name() ), DuelMessageColor, "Duels" )

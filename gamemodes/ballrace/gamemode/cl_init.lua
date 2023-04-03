@@ -182,6 +182,7 @@ local curRot = 0
 
 // Timer HUD
 local timerSize = 0
+local convar = CreateClientConVar("gmt_ballrace_ms", "0", true)
 
 function GM:HUDPaint()
 
@@ -201,7 +202,8 @@ function GM:HUDPaint()
 	local endtime = self:GetTime() or 0
 
 	local timeleft = endtime - CurTime()
-	local timeformat = string.FormattedTime(timeleft, "%02i:%02i")
+	local ms = convar:GetBool() and ".%02i" or ""
+	local timeformat = string.FormattedTime(timeleft, "%02i:%02i" .. ms)
 
 	local buffer = ""
 	if state == STATE_WAITING then
@@ -302,11 +304,13 @@ function GM:HUDPaint()
 			surface.DrawTexturedRectRotated( ScrW() / 2, timerY + 40, 128 + ( timerSize * 2 ), 128 + ( timerSize * 2 ), sway )
 
 
+			surface.SetFont("BallFont")
+			local tw = surface.GetTextSize(!convar:GetBool() && timeformat || "88:88:88")
 			// Text
 			if timeleft <= 10 then
-				draw.SimpleTextOutlined( timeformat, "BallFont", (ScrW() / 2), 105, Color( 255, 0, 0, 255 ), 1, 1, 2, Color( 255, 255, 255, 255 ) )
+				draw.SimpleTextOutlined( timeformat, "BallFont", (ScrW() / 2) - tw / 2, 105, Color( 255, 0, 0, 255 ), 0, 1, 2, Color( 255, 255, 255, 255 ) )
 			else
-				draw.SimpleTextOutlined( timeformat, "BallFont", (ScrW() / 2), 105, Color( 255, 255, 255, 255 ), 1, 1, 2, OUTLINE_COLOR )
+				draw.SimpleTextOutlined( timeformat, "BallFont", (ScrW() / 2) - tw / 2, 105, Color( 255, 255, 255, 255 ), 0, 1, 2, OUTLINE_COLOR )
 			end
 		end
 	end
@@ -357,6 +361,8 @@ hook.Add("PlayerBindPress", "ZoomCam", ZoomCam)
 hook.Add("Think", "ZoomThink", ZoomThink)
 
 local lastview = nil
+local tilt = Angle(0, 0, 0)
+local convar = CreateClientConVar("gmt_ballrace_tilt", "0", true, false, "Tilting the camera, for extra fun (and sickness!)", -24, 24)
 
 function GM:CalcView( ply, origin, angles, fov )
 	local ball = ply:GetBall()
@@ -366,20 +372,90 @@ function GM:CalcView( ply, origin, angles, fov )
 	view.angles	= angles
 	view.fov 	= fov
 
-	if !IsValid(ball) || !ball.Center then
+	eyepos = origin
+
+	if !IsValid(ball) || !ball.Center || !ply:Alive() then
 
 		if self:GetState() == STATE_WAITING and waitCams[ game.GetMap() ] then
 			return waitCams[ game.GetMap() ]
 		end
 
-		return lastview or view
+		view.origin = ply:CameraTrace(nil, dist, angles)
+		view.angles = IsValid(ball) and ball.Center and (ball:Center() - view.origin):Angle() or angles
+
+		return view
 	end
 
 	view.origin, dist = ply:CameraTrace(ball, dist, angles)
+	view.origin = view.origin + Vector(0, 0, 8)
 
 	lastview = view
+	lastball = ball:Center()
+	eyepos = view.origin
+
+	local a = convar:GetInt()
+
+	if a ~= 0 then
+		local tilta = Angle(0, 0, 0)
+		tilta.r = ply:KeyDown(IN_MOVERIGHT) and -a or ply:KeyDown(IN_MOVELEFT) and a or 0
+		tilta.p = ply:KeyDown(IN_FORWARD) and -a or ply:KeyDown(IN_BACK) and a or 0
+
+		tilt = LerpAngle(FrameTime() * 4, tilt, tilta)
+		view.angles = view.angles + tilt
+		view.origin = view.origin + angles:Up() * tilt.p * 2 + angles:Right() * tilt.r * 0.4
+	end
 
 	return view
+end
+
+local skies = {
+	lf = "",
+	rt = "",
+	up = "",
+	dn = "",
+	ft = "",
+	bk = ""
+}
+
+local skybox = GetConVar("sv_skyname"):GetString()
+
+
+
+SETUPSKY = true
+function GM:PostDraw2DSkyBox()
+	if !convar:GetBool() then return end
+	if SETUPSKY then
+		for _, sky in pairs(skies) do
+			skies[_] = Material("skybox/" .. skybox .. _)
+		end
+
+		SETUPSKY = false
+	end
+
+	render.SetColorMaterial()
+	render.CullMode(MATERIAL_CULLMODE_CW)
+	render.DrawSphere(EyePos(), 128, 4, 4, color_black)
+	render.SetMaterial(skies["rt"])
+	render.CullMode(MATERIAL_CULLMODE_CCW)
+	cam.Start3D(eyepos, EyeAngles() - tilt)
+	local s = 64
+	local s2 = s / 2
+	render.DrawQuadEasy( eyepos + Vector(s2, 0, 0), Vector(-1,0,0), s, s, Color(255,255,255), 180 )
+	render.SetMaterial(skies["lf"])
+	render.DrawQuadEasy( eyepos - Vector(s2, 0, 0), Vector(1,0,0), s, s, Color(255,255,255), 180 )
+
+	render.SetMaterial(skies["bk"])
+	render.DrawQuadEasy( eyepos + Vector(0, s2, 0), Vector(0,-1,0), s, s, Color(255,255,255), 180 )
+	render.SetMaterial(skies["ft"])
+	render.DrawQuadEasy( eyepos - Vector(0, s2, 0), Vector(0,1,0), s, s, Color(255,255,255), 180 )
+
+	render.SetMaterial(skies["dn"])
+	render.DrawQuadEasy( eyepos - Vector(0, 0, s2), Vector(0,0,1), s, s, Color(255,255,255), 0 )
+	render.SetMaterial(skies["up"])
+	render.DrawQuadEasy( eyepos + Vector(0, 0, s2), Vector(0,0,-1), s, s, Color(255,255,255), 0 )
+	render.CullMode(MATERIAL_CULLMODE_CCW)
+	cam.End3D()
+	return true
 end
 
 function MouseEnable(ply, key)
@@ -418,6 +494,8 @@ hook.Add("GUIMousePressed", "MouseClick", MouseClick)
 ConVarPlayerFade = CreateClientConVar( "gmt_ballrace_fade", 0, true )
 
 hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDepth, bDrawingSkybox )
+	EyePos()
+
 	local pf = ConVarPlayerFade:GetInt()
 	if pf < 1 then return end // Fk player fade man
 
@@ -444,6 +522,12 @@ hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDe
 
 		if IsValid( ball ) then
 			ball:SetColor( Color( 255, 255, 255, opacity ) )
+
+			if !ply:Alive() && ply == LocalPlayer() then
+				cam.IgnoreZ(true)
+				ball:Draw()
+				cam.IgnoreZ(false)
+			end
 		end
 	end
 

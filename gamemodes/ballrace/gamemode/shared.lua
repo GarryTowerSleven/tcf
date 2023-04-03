@@ -66,25 +66,46 @@ music.DefaultFolder = "gmodtower/balls"
 
 music.Register( MUSIC_BONUS, "bonusstage" )
 
-music.Register( MUSIC_LEVEL, "ballsmusicwgrass", { Length = 126.955102, Loops = true }, "gmt_ballracer_grassworld" )
-music.Register( MUSIC_LEVEL, "ballsmusicwice", { Length = 225, Loops = true }, "gmt_ballracer_iceworld" )
-music.Register( MUSIC_LEVEL, "ballsmusicwkhromidro", { Length = 322 * ( 1 / .75 ), Pitch = 75, Loops = true }, "gmt_ballracer_khromidro" )
-music.Register( MUSIC_LEVEL, "ballsmusicwmemories", { Length = 260.127347, Loops = true }, "gmt_ballracer_memories" )
-music.Register( MUSIC_LEVEL, "ballsmusicwmetal", { Length = 169, Loops = true }, "gmt_ballracer_metalworld" )
-music.Register( MUSIC_LEVEL, "midori_vox", { Length = 259, Loops = true }, "gmt_ballracer_midori" )
-music.Register( MUSIC_LEVEL, "pikauch/music/manzaibirds", { Length = 164, Loops = true }, "gmt_ballracer_neonlights" )
-music.Register( MUSIC_LEVEL, "ballsmusicwnight", { Length = 162, Loops = true }, "gmt_ballracer_nightball" )
-music.Register( MUSIC_LEVEL, "ballsmusicwparadise", { Length = 305.057959, Loops = true }, "gmt_ballracer_paradise" )
-music.Register( MUSIC_LEVEL, "ballsmusicwsand", { Length = 71, Loops = true }, "gmt_ballracer_sandworld" )
-music.Register( MUSIC_LEVEL, "ballsmusicwsky", { Length = 83.644082, Loops = true }, "gmt_ballracer_skyworld" )
-music.Register( MUSIC_LEVEL, "ballsmusicwspace", { Length = 119, Loops = true }, "gmt_ballracer_spaceworld" )
-music.Register( MUSIC_LEVEL, "ballsmusicwwater", { Length = 195, Loops = true }, "gmt_ballracer_waterworld" )
-music.Register( MUSIC_LEVEL, "ballsmusicwfacile", { Length = 143, Loops = true }, "gmt_ballracer_facile" )
-music.Register( MUSIC_LEVEL, "ballsmusicwflyinhigh", { Length = 195, Loops = true }, "gmt_ballracer_flyinhigh" )
-music.Register( MUSIC_LEVEL, "ballsmusicwtranquil", { Length = 145, Loops = true }, "gmt_ballracer_tranquil" )
-music.Register( MUSIC_LEVEL, "rainbow_world/ravenholm", { Length = 77, Loops = true }, "gmt_ballracer_rainbowworld" )
+music.Register( MUSIC_LEVEL, "BallsMusicWSky", { Length = 83, Loops = true }, "gmt_ballracer_skyworld" )
+music.Register( MUSIC_LEVEL, "BallsMusicWGrass", { Length = 126, Loops = true }, "gmt_ballracer_grassworld" )
+music.Register( MUSIC_LEVEL, "BallsMusicWMemories", { Length = 259, Loops = true }, "gmt_ballracer_memories" )
+music.Register( MUSIC_LEVEL, "BallsMusicWParadise", { Length = 304, Loops = true }, "gmt_ballracer_paradise" )
+music.Register( MUSIC_LEVEL, "BallsMusicWKhromidro", { Length = 322 * ( 1 / .75 ), Pitch = 75, Loops = true }, "gmt_ballracer_khromidro" )
+music.Register( MUSIC_LEVEL, "BallsMusicWSand", { Length = 71, Loops = true }, "gmt_ballracer_sandworld" )
+music.Register( MUSIC_LEVEL, "BallsMusicWIce", { Length = 225, Loops = true }, "gmt_ballracer_iceworld" )
+music.Register( MUSIC_LEVEL, "Midori_Vox", { Length = 259, Loops = true }, "gmt_ballracer_midori" )
 
-GM.ExplodeSound = Sound("weapons/ar2/npc_ar2_altfire.wav")
+music.Register( MUSIC_LEVEL, "BallsMusicWMetal", { Length = 169, Loops = true }, "gmt_ballracer_metalworld" )
+music.Register( MUSIC_LEVEL, "BallsMusicWNight", { Length = 162, Loops = true }, "gmt_ballracer_nightball" )
+music.Register( MUSIC_LEVEL, "BallsMusicWSpace", { Length = 119, Loops = true }, "gmt_ballracer_spaceworld" )
+music.Register( MUSIC_LEVEL, "BallsMusicWWater", { Length = 195, Loops = true }, "gmt_ballracer_waterworld" )
+music.Register( MUSIC_LEVEL, "BallsMusicWFacile", { Length = 143, Loops = true }, "gmt_ballracer_facile" )
+music.Register( MUSIC_LEVEL, "BallsMusicWTranquil", { Length = 145, Loops = true }, "gmt_ballracer_tranquil" )
+music.Register( MUSIC_LEVEL, "PikaUCH/Music/ManzaiBirds", { Length = 164, Loops = true }, "gmt_ballracer_neonlights" )
+
+GM.AvailableModels = {	
+	"models/gmod_tower/BALL.mdl",
+	"models/gmod_tower/cubeball.mdl",
+	"models/gmod_tower/icosahedron.mdl",
+	"models/gmod_tower/catball.mdl",
+	"models/gmod_tower/ballion.mdl",
+	"models/gmod_tower/ball_bomb.mdl",
+	"models/gmod_tower/ball_geo.mdl",
+	"models/gmod_tower/ball_soccer.mdl",
+	"models/gmod_tower/ball_spiked.mdl",
+}
+GM.BallLevels = {
+	"BallRacerCube",
+	"BallRacerIcosahedron",
+	"BallRacerCatBall",
+	"BallRacerVIP",
+	"BallRacerBomb",
+	"BallRacerGeo",
+	"BallRacerSoccerBall",
+	"BallRacerSpiked",
+}
+
+GM.ExplodeSound = Sound( "weapons/ar2/npc_ar2_altfire.wav" )
 GM.FilteredEnts = {}
 
 if Maps.IsMap( "gmt_ballracer_iceworld" ) then
@@ -102,8 +123,6 @@ function GM:Initialize()
 
 end
 
-default_pm = 'models/player/kleiner.mdl'
-
 local novel = Vector(0,0,0)
 function GM:Move(ply, movedata)
 	movedata:SetForwardSpeed(0)
@@ -119,15 +138,9 @@ function GM:Move(ply, movedata)
 	return true
 end
 
-hook.Add("DisableAdminCommand", "BallraceNoAdmin", function(cmd)
-	if cmd == "addent" || cmd == "rement" || cmd == "physgun" then return true end
-end)
-
 function GM:PlayerFootstep( ply, pos, foot, sound, volume, rf )
 	return true
 end
-
-local Player = FindMetaTable("Player")
 
 function GM:ShouldCollide(ent1, ent2)
 	if !self.CollisionsEnabled && ent1:GetClass() == "player_ball" && ent2:GetClass() == "player_ball" then
@@ -136,9 +149,15 @@ function GM:ShouldCollide(ent1, ent2)
 	return true
 end
 
+local Player = FindMetaTable("Player")
+
 function Player:CameraTrace(ball, dist, angles)
 
-	local ballorigin = ball:Center()
+	if !ball and !lastball then
+		return vector_origin
+	end
+
+	local ballorigin = !ball and lastball or ball:Center()
 	local maxview = ballorigin + angles:Forward() * -dist
 
 	local trace = util.TraceLine( { start = ballorigin,

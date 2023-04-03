@@ -715,14 +715,6 @@ function ENT:HandleReady( vel )
 		self.ReadyDelay = nil
 		self:SetReady( false )
 
-		// Undo AFK
-		local owner = self:GetOwner()
-		if IsValid( owner ) and SERVER then
-
-			owner.AfkTime = (CurTime() + AFKTime)
-
-		end
-
 	end
 
 end

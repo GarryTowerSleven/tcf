@@ -88,9 +88,9 @@ function GetSafePosition(player, position, filter)
 end
 
 function goto( ply, admin )
-	admin:SetPos( GetSafePosition( admin, ply:GetPos() ) )
+	admin:SafeTeleport( GetSafePosition( admin, ply:GetPos() ) )
 end
 
 function teleport( ply, admin )
-	ply:SetPos( GetSafePosition( ply, admin:GetPos() ) )
+	ply:SafeTeleport( GetSafePosition( ply, admin:GetPos() ) )
 end

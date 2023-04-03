@@ -8,7 +8,7 @@ include("shared.lua")
 DEBUGMODE = false
 
 local function HandleRollercoasterAnimation( vehicle, player )
-	return player:SelectWeightedSequence( ACT_GMOD_SIT_ROLLERCOASTER )
+	return player:SelectWeightedSequence( ACT_GMOD_SIT_ROLLERCOASTER ) 
 end
 
 function CreateSeatAtPos(pos, angle)
@@ -30,6 +30,10 @@ function CreateSeatAtPos(pos, angle)
 		phys:EnableMotion(false)
 	end
 
+	ent:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
+	
+	ent.IsSeat = true
+
 	return ent
 end
 
@@ -41,16 +45,17 @@ hook.Add("KeyRelease", "EnterSeat", function(ply, key)
 
 	if !IsValid(trace.Entity) then return end
 
-	local model = trace.Entity:GetModel()
+	local seat = trace.Entity
+	local model = seat:GetModel()
 
 	local offsets = ChairOffsets[model]
 	if !offsets then return end
 
-	local usetable = trace.Entity.UseTable or {}
+	local usetable = seat.UseTable or {}
 	local pos = -1
 
 	if #offsets > 1 then
-		local localpos = trace.Entity:WorldToLocal(trace.HitPos)
+		local localpos = seat:WorldToLocal(trace.HitPos)
 		local bestpos, bestdist = -1
 
 		for k,v in pairs(offsets) do
@@ -61,42 +66,44 @@ hook.Add("KeyRelease", "EnterSeat", function(ply, key)
 		end
 
 		if bestpos == -1 then return end
-			pos = bestpos
-		elseif !usetable[1] then
-			pos = 1
-		else
-
+		pos = bestpos
+	elseif !usetable[1] then
+		pos = 1
+	else
 		return
 	end
 
 	usetable[pos] = true
-	trace.Entity.UseTable = usetable
-	
-	//ply.EntryPoint = ply:GetPos()
-	//ply.EntryAngles = ply:EyeAngles()
-	ply.SeatEnt = trace.Entity
-	ply.SeatPos = pos
+	seat.UseTable = usetable
 
-	-- disable jetpack when we sit down
-	ply.JetpackStart = 0
-
-	local ang = trace.Entity:GetAngles()
-	if ( offsets[pos].Ang != nil ) then
-		ang:RotateAroundAxis(trace.Entity:GetForward(), offsets[pos].Ang.p)
-		ang:RotateAroundAxis(trace.Entity:GetUp(), offsets[pos].Ang.y)
-		ang:RotateAroundAxis(trace.Entity:GetRight(), offsets[pos].Ang.r)
+	local ang = seat:GetAngles()
+	if offsets[pos].Ang then
+		ang:RotateAroundAxis(seat:GetForward(), offsets[pos].Ang.p)
+		ang:RotateAroundAxis(seat:GetUp(), offsets[pos].Ang.y)
+		ang:RotateAroundAxis(seat:GetRight(), offsets[pos].Ang.r)
 	else
-		ang:RotateAroundAxis(trace.Entity:GetUp(), -90)
+		ang:RotateAroundAxis(seat:GetUp(), -90)
 	end
 
 	local s = CreateSeatAtPos(trace.Entity:LocalToWorld(offsets[pos].Pos), ang)
 	s:SetParent(trace.Entity)
 	s:SetOwner(ply)
 
+	s.SeatData = {
+		Ent = seat,
+		Pos = pos,
+		EntryPoint = ply:GetPos(),
+		EntryAngles = ply:GetAngles()
+	}
+
 	ply:EnterVehicle(s)
+	ply:SetDriving( s )
+
+	// s:EmitSound( ChairSitSounds[model] or DefaultSitSound, 100, 100 )
 end)
 
 hook.Add("CanPlayerEnterVehicle", "EnterSeat", function(ply, vehicle)
+	if not vehicle.IsSeat then return end
 	if vehicle:GetClass() != "prop_vehicle_prisoner_pod" then return end
 
 	if vehicle.Removing then return false end
@@ -131,62 +138,68 @@ function TryPlayerExit(ply, ent)
 	print("player", ply, "couldn't get out")
 end
 
-local function PlayerLeaveVehice( vehicle, ply )
-
+local function PlayerLeaveVehicle( vehicle, ply )
+	if not vehicle.IsSeat then return end
 	if vehicle:GetClass() != "prop_vehicle_prisoner_pod" then return end
+	if vehicle.Removing == true then return end
 
-	if DEBUGMODE then print("exit") end
-	if !IsValid(ply.SeatEnt) then
+	local seat = vehicle.SeatData
+
+	if not (istable(seat) and IsValid(seat.Ent)) then
 		return true
 	end
 
-	if ply.SeatEnt.UseTable then
-		ply.SeatEnt.UseTable[ply.SeatPos] = false
+	if seat.Ent && seat.Ent.UseTable then
+		seat.Ent.UseTable[seat.Pos] = false
 	end
-	ply.SeatPos = 0
-	ply.SeatEnt = nil
 
-	ply.ExitTime = CurTime()
-	ply:ExitVehicle()
+	if IsValid(ply) and ply:InVehicle() and (CurTime() - (ply.ExitTime or 0)) > 0.001 then
+		ply.ExitTime = CurTime()
+		ply:ExitVehicle()
 
-	//ply:SetEyeAngles(ply.EntryAngles)
+		ply:SetEyeAngles(seat.EntryAngles)
 
-	//local trace = util.TraceEntity({start=ply.EntryPoint, endpos=ply.EntryPoint}, ply)
+		local trace = util.TraceEntity({
+			start = seat.EntryPoint,
+			endpos = seat.EntryPoint
+		}, ply)
 
-	//if vehicle:GetPos():Distance(ply.EntryPoint) < 128 && !trace.StartSolid && trace.Fraction > 0 then
-		//ply:SetPos(ply.EntryPoint)
-	//else
-		TryPlayerExit(ply, vehicle)
-	//end
+		if vehicle:GetPos():Distance(seat.EntryPoint) < 128 && !trace.StartSolid && trace.Fraction > 0 then
+			ply:SetPos(seat.EntryPoint)
+		else
+			TryPlayerExit(ply, vehicle)
+		end
 
-	vehicle.Removing = true
-	vehicle:Remove()
+		ply:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
 
-	ply:ResetEquipmentAfterVehicle()
-	ply:CrosshairDisable()
-	ply:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
+		ply:SetDriving( nil )
+	end
+
+	if !vehicle.bSlots then
+		vehicle.Removing = true
+		vehicle:Remove()
+	end
 
 	return false
-
 end
 
-hook.Add("CanExitVehicle", "Leave", PlayerLeaveVehice)
+hook.Add( "CanExitVehicle", "Leave", PlayerLeaveVehicle )
 
 function PlayerExitLeft( ply )
-
-	ply:CrosshairDisable()
-
-	local Vehicle = ply:GetVehicle()
-
-	if IsValid( Vehicle ) then
-		PlayerLeaveVehice( Vehicle, ply )
+	if ply:IsPlayer() then
+		local Vehicle = ply:GetVehicle()
+		
+		if IsValid( Vehicle ) and Vehicle.IsSeat then
+			PlayerLeaveVehicle( Vehicle, ply )
+		end
 	end
 end
 
+hook.Add("PlayerDisconnected","VehicleCleanup", PlayerExitLeft)
+hook.Add("PlayerLeaveVehicle", "VehicleLeft", PlayerExitLeft)
 hook.Add("PlayerDeath", "VehicleKilled", PlayerExitLeft)
 hook.Add("PlayerSilentDeath", "VehicleKilled", PlayerExitLeft)
-hook.Add("PlayerDisconnected","VehicleCleanup", PlayerExitLeft)
-
+hook.Add("EntityRemoved", "VehicleCleanup", PlayerExitLeft)
 
 timer.Create("GTowerCheckVehicle", 10.0, 0, function()
 	for _, ply in pairs( player.GetAll() ) do
@@ -219,7 +232,7 @@ hook.Add("InitPostEntity", "CreateSeats", function(ent)
 	end
 end)
 
-hook.Add("KeyPress", "DebugPos", function(ply, key)
+/*hook.Add("KeyPress", "DebugPos", function(ply, key)
 	if key != IN_USE then return end
 
 	local trace = util.TraceLine(util.GetPlayerTrace(ply))
@@ -235,7 +248,7 @@ hook.Add("KeyPress", "DebugPos", function(ply, key)
 	table.insert(DEBUGOFFSETS[model], {trace.Entity, ent})
 end)
 
-concommand.Add("dump_seats", function()
+concommand.Add( "dump_seats", function()
 
 	for k,v in pairs(DEBUGOFFSETS) do
 		print("ChairOffsets[\"" .. tostring(k) .. "\"] = {")
@@ -247,4 +260,4 @@ concommand.Add("dump_seats", function()
 		end
 		print("}")
 	end
-end)
+end )*/

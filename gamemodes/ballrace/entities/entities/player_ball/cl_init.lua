@@ -171,7 +171,10 @@ function ENT:Think()
 
 	if CurTime() > ( self.LastBlip + ( 100/velocity ) ) && ( self.AngleAccum.p > 180 || self.AngleAccum.y > 180 || self.AngleAccum.r > 180 ) then
 
-		self.Entity:EmitSound(self.RollSound, 100, 150)
+		local Pitch = 80 + (1 - (100/velocity)) * 90 + math.min(math.max((velocity - 400), 0) * 0.1, 40)
+		Pitch = math.Clamp(Pitch, 75, 255)
+
+		self.Entity:EmitSound(self.RollSound, 100, Pitch)
 
 		self.AngleAccum = Angle( 0, 0, 0 )
 		self.LastBlip = CurTime()
@@ -193,9 +196,14 @@ function ENT:DrawTranslucent()
 			scale = GTowerModels.GetScale( self.PlayerModel:GetModel() )
 		end
 
+		scale = scale * self:GetModelScale()
 		self.PlayerModel:SetPlayerProperties( ply )
 		self.PlayerModel:SetModelScale( scale, 0 )
+
+		self.PlayerModel:SetPos( self:GetPos() - model_offset * self:GetModelScale() )
 		self.PlayerModel:DrawModel()
+		
+
 		ply:ManualEquipmentDraw()
 		ply:ManualBubbleDraw()
 

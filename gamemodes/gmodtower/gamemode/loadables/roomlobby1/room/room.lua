@@ -83,8 +83,7 @@ function SendToDoor( self, ply )
 	for k,v in pairs( ents.FindByClass( 'func_suitepanel' ) ) do
 		if !table.HasValue(GTowerRooms.SuitePanelPos, v:GetPos()) then continue end
 		if v.RoomId == tonumber(self.Id) then
-			ply:SetPos( v:GetPos() + v:GetRight() * -75 + v:GetForward() * 48 )
-			ply:SetEyeAngles( v:GetAngles() + Angle( 0, -90, 0 ) )
+			ply:SafeTeleport( v:GetPos() + v:GetRight() * -75 + v:GetForward() * 48, nil, v:GetAngles() + Angle( 0, -90, 0 ) )
 			ply:DropToFloor()
 		end
 	end
