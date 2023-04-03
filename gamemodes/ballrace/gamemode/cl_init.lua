@@ -182,6 +182,7 @@ local curRot = 0
 
 // Timer HUD
 local timerSize = 0
+local convar = CreateClientConVar("gmt_ballrace_ms", "0", true)
 
 function GM:HUDPaint()
 
@@ -201,7 +202,8 @@ function GM:HUDPaint()
 	local endtime = self:GetTime() or 0
 
 	local timeleft = endtime - CurTime()
-	local timeformat = string.FormattedTime(timeleft, "%02i:%02i.%02i")
+	local ms = convar:GetBool() and ".%02i" or ""
+	local timeformat = string.FormattedTime(timeleft, "%02i:%02i" .. ms)
 
 	local buffer = ""
 	if state == STATE_WAITING then
@@ -303,7 +305,7 @@ function GM:HUDPaint()
 
 
 			surface.SetFont("BallFont")
-			local tw = surface.GetTextSize("88:88:88")
+			local tw = surface.GetTextSize(!convar:GetBool() && timeformat || "88:88:88")
 			// Text
 			if timeleft <= 10 then
 				draw.SimpleTextOutlined( timeformat, "BallFont", (ScrW() / 2) - tw / 2, 105, Color( 255, 0, 0, 255 ), 0, 1, 2, Color( 255, 255, 255, 255 ) )
