@@ -37,7 +37,7 @@ ENT.SLOTS = {
 	{"Sunabouzu Shrine", 200, "sunshrine"},
 	{"Hula Doll", 4, "huladoll"},
 	{"Rave Ball", 100, "rave_ball"},
-	{"1500 GMC", 36},
+	{"1500 GMC", 56},
 	{"Five Catsacks", 8, "mysterycatsack", 5},
 	{"100 GMC", 3},
 	{"Random Holiday Item", 65, {
@@ -69,7 +69,7 @@ ENT.SLOTS = {
 		"fwork_ufo",
 		"fwork_firefly"
 	} },
-	{"Backpack", 24, "backpack"},
+	{"Backpack", 46, "backpack"},
 }
 
 ENT.GMCPayouts = {
