@@ -357,6 +357,8 @@ hook.Add("PlayerBindPress", "ZoomCam", ZoomCam)
 hook.Add("Think", "ZoomThink", ZoomThink)
 
 local lastview = nil
+local tilt = Angle(0, 0, 0)
+local convar = CreateClientConVar("gmt_ballrace_tilt", "0", true, false, "Tilting the camera, for extra fun (and sickness!)", -24, 24)
 
 function GM:CalcView( ply, origin, angles, fov )
 	local ball = ply:GetBall()
@@ -378,6 +380,18 @@ function GM:CalcView( ply, origin, angles, fov )
 	view.origin, dist = ply:CameraTrace(ball, dist, angles)
 
 	lastview = view
+
+	local a = convar:GetInt()
+
+	if a ~= 0 then
+		local tilta = Angle(0, 0, 0)
+		tilta.r = ply:KeyDown(IN_MOVERIGHT) and -a or ply:KeyDown(IN_MOVELEFT) and a or 0
+		tilta.p = ply:KeyDown(IN_FORWARD) and -a or ply:KeyDown(IN_BACK) and a or 0
+
+		tilt = LerpAngle(FrameTime() * 4, tilt, tilta)
+		view.angles = view.angles + tilt
+		view.origin = view.origin + ang:Up() * tilt.p * 2 + ang:Right() * tilt.r * 0.4
+	end
 
 	return view
 end
