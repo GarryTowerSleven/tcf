@@ -432,8 +432,6 @@ function GM:PostDraw2DSkyBox()
 		SETUPSKY = false
 	end
 
-	PrintTable(skies)
-	print("!")
 	render.SetColorMaterial()
 	render.CullMode(MATERIAL_CULLMODE_CW)
 	render.DrawSphere(EyePos(), 128, 4, 4, color_black)
