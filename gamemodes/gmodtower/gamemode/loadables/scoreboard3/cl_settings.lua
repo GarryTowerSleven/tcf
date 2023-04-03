@@ -656,6 +656,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:Header( "Ball Race" )
 			self:Slider( "Ball Fading", "gmt_ballrace_fade", 0, 2048 )
 			self:Slider( "Camera Tilt", "gmt_ballrace_tilt", 0, 8 )
+			self:CheckBox( "Show Milliseconds on the Timer", "gmt_ballrace_ms" )
 
 		end
 
