@@ -1,9 +1,10 @@
----------------------------------
 function ServerMeta:StartMapVote()
 
 	local Gamemode = self:GetGamemode()
 
-	self.GoJoinTime = CurTime() + ( Gamemode.WaitingTime or 15.0 )
+	local time = Gamemode.WaitingTime or 15.0
+
+	self.GoJoinTime = CurTime() + time
 	self.MapChangeSent = false
 
 	umsg.Start("GServ", nil )
@@ -12,14 +13,36 @@ function ServerMeta:StartMapVote()
 		umsg.Long( self.GoJoinTime )
 	umsg.End()
 
+	local rp = RecipientFilter()
+	rp:AddAllPlayers()
 
 	local Players = self:GetPlayers()
 
 	for _, v in pairs( Players ) do
 		Players._MultiChoosenMap = ""
+		if ( IsValid( v ) and v:IsPlayer() ) then
+			rp:RemovePlayer( v )
+		end
 	end
 
 	self:SendMapVote()
+
+	umsg.Start( "GServ", rp )
+
+		umsg.Char( 13 )
+
+		local gmode_name = Gamemode.Name or "A gamemode"
+		local gmode_max = Gamemode.MaxPlayers or 0
+
+		local plycount = #Players or 0
+
+		umsg.Char( self.Id )
+		umsg.Long( time )
+		umsg.String( gmode_name )
+		umsg.Char( plycount )
+		umsg.Bool( plycount >= gmode_max )
+
+	umsg.End()
 
 	--timer.Create("MultiServerReady" .. self.Id, Gamemode.WaitingTime + 0.1, 1, self.Think, self )
 
@@ -84,16 +107,6 @@ function ServerMeta:CountMapVotes()
 
 end
 
-local function SendGMMsg(gmode,plys,id)
-	if timer.Exists( gmode.."delay" ) then return end
-	timer.Create( gmode.."delay", 25, 1, function()  end)
-	net.Start('gmt_gamemodestart')
-		net.WriteString(gmode)
-		net.WriteInt(plys,32)
-		net.WriteInt(id,32)
-	net.Broadcast()
-end
-
 function ServerMeta:SendMapVote()
 
 	local Players = self:GetMovingPlayers()
@@ -102,6 +115,7 @@ function ServerMeta:SendMapVote()
 
 	local Gamemode = self:GetGamemode()
 	local rp = RecipientFilter()
+
 	local Votes = {}
 
 	for k, v in ipairs( Gamemode.Maps ) do
@@ -121,9 +135,8 @@ function ServerMeta:SendMapVote()
 
 	end
 
-	SendGMMsg( self.GamemodeValue, #Players, self.Id )
-
 	umsg.Start("GServ", rp )
+
 		umsg.Char( 11 )
 
 		umsg.Char( self.Id )

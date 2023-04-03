@@ -11,43 +11,7 @@ GTowerServers.Ents = {}
 GTowerServers.WaitinglistSrv = 0
 GTowerServers.Vgui = nil
 
-NoGMMsg 		= CreateClientConVar( "gmt_ignore_gamemode", "0", true, false )
-
-net.Receive("gmt_gamemodestart",function()
-	if NoGMMsg:GetBool() then return end
-
-	local Gmode = net.ReadString()
-	local plys = net.ReadInt(32)
-	local id = net.ReadInt(32)
-
-	timer.Simple( .1, function()
-		if LocalPlayer():GetNWString("QueuedGamemode") == Gmode then return end
-
-		local Gamemode = GTowerServers:GetGamemode( Gmode )
-		local max_plys
-		
-		if Gamemode then
-			Gmode = Gamemode.Name
-			max_plys = Gamemode.MaxPlayers
-		end
-
-		local Question = Msg2( T( "GamemodeStarting", Gmode, plys ), 18 )
-
-		if max_plys && plys >= max_plys then
-			Question = Msg2( T( "GamemodeStartingFull", Gmode, plys ), 18 )
-		end
-
-		Question:SetupQuestion(
-			function() RunConsoleCommand( "gmt_mtsrv", 1, id ) end,
-			function() end,
-			function() end,
-			nil,
-			{120, 160, 120},
-			{160, 120, 120}
-		)
-	end )
-
-end)
+local JoinMessageIgnored = CreateClientConVar( "gmt_ignore_gamemode", 0, true, false )
 
 usermessage.Hook("GServ", function(um)
 
@@ -116,6 +80,33 @@ usermessage.Hook("GServ", function(um)
 	elseif MsgId == 12 then
 
 		GTowerServers:CloseMapChooser()
+
+	elseif MsgId == 13 then
+
+		local ServerId = um:ReadChar()
+		local Endtime = um:ReadLong()
+		local ServerName = um:ReadString()
+		local PlayerCount = um:ReadChar()
+		local MaxPlayers = um:ReadBool()
+
+		if !JoinMessageIgnored:GetBool() then
+
+			local message = "GamemodeStarting"
+			if MaxPlayers then
+				message = "GamemodeStartingFull"
+			end
+
+			local Question = Msg2( T( message, ServerName, PlayerCount ), Endtime - 0.75 )
+			Question:SetupQuestion(
+				function() RunConsoleCommand( "gmt_mtsrv", 1, ServerId ) end, //accept
+				function() end, //decline
+				function() end, //timeout
+				nil,
+				{120, 160, 120}, 
+				{160, 120, 120}
+			)
+
+		end
 		
 	elseif MsgId == 14 then
 
