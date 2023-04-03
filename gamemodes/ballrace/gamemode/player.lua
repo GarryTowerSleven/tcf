@@ -54,7 +54,7 @@ function GM:DoPlayerDeath(ply)
 
 		ply:EmitSound("weapons/ar2/npc_ar2_altfire.wav", 75, math.random(160,180), 1, CHAN_AUTO )
 	else
-		sound.Play("ambient/levels/labs/teleport_winddown1.wav", ply:GetPos() - Vector(0, 0, 64) + ply.Ball:GetVelocity() * 0.2, 70, 255)
+		sound.Play("ambient/levels/labs/teleport_winddown1.wav", util.QuickTrace(ply:GetPos(), Vector(0, 0, -64) + ply.Ball:GetVelocity() * 0.2, ply.Ball).HitPos, 70, 255)
 		ply.Ball:SetModelScale(0, 1)
 		ply:SetModelScale(0, 1)
 		constraint.NoCollide(ply.Ball, game.GetWorld(), 0, 0)
