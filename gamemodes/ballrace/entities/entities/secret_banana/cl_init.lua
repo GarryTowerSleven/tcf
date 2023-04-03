@@ -45,6 +45,20 @@ function ENT:Draw()
 
 	self:SetColor(colorutil.Rainbow(120))
 
+	local light = DynamicLight(self:EntIndex(), false)
+
+	if light then
+		light.Pos = self:GetPos()
+		light.DieTime = CurTime() + 1
+		light.Decay = 1000
+		light.Brightness = 2
+		light.Size = 512
+		local col = self:GetColor()
+		light.r = col.r
+		light.g = col.g
+		light.b = col.b
+	end
+
 end
 
 function ENT:OnRemove()
