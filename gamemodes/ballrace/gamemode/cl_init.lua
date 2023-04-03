@@ -201,7 +201,7 @@ function GM:HUDPaint()
 	local endtime = self:GetTime() or 0
 
 	local timeleft = endtime - CurTime()
-	local timeformat = string.FormattedTime(timeleft, "%02i:%02i")
+	local timeformat = string.FormattedTime(timeleft, "%02i:%02i.%02i")
 
 	local buffer = ""
 	if state == STATE_WAITING then
@@ -302,11 +302,13 @@ function GM:HUDPaint()
 			surface.DrawTexturedRectRotated( ScrW() / 2, timerY + 40, 128 + ( timerSize * 2 ), 128 + ( timerSize * 2 ), sway )
 
 
+			surface.SetFont("BallFont")
+			local tw = surface.GetTextSize("88:88:88")
 			// Text
 			if timeleft <= 10 then
-				draw.SimpleTextOutlined( timeformat, "BallFont", (ScrW() / 2), 105, Color( 255, 0, 0, 255 ), 1, 1, 2, Color( 255, 255, 255, 255 ) )
+				draw.SimpleTextOutlined( timeformat, "BallFont", (ScrW() / 2) - tw / 2, 105, Color( 255, 0, 0, 255 ), 0, 1, 2, Color( 255, 255, 255, 255 ) )
 			else
-				draw.SimpleTextOutlined( timeformat, "BallFont", (ScrW() / 2), 105, Color( 255, 255, 255, 255 ), 1, 1, 2, OUTLINE_COLOR )
+				draw.SimpleTextOutlined( timeformat, "BallFont", (ScrW() / 2) - tw / 2, 105, Color( 255, 255, 255, 255 ), 0, 1, 2, OUTLINE_COLOR )
 			end
 		end
 	end
@@ -378,6 +380,7 @@ function GM:CalcView( ply, origin, angles, fov )
 	end
 
 	view.origin, dist = ply:CameraTrace(ball, dist, angles)
+	view.origin = view.origin + Vector(0, 0, 8)
 
 	lastview = view
 
