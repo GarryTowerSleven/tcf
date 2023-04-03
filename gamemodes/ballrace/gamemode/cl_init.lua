@@ -361,6 +361,7 @@ hook.Add("Think", "ZoomThink", ZoomThink)
 local lastview = nil
 local tilt = Angle(0, 0, 0)
 local convar = CreateClientConVar("gmt_ballrace_tilt", "0", true, false, "Tilting the camera, for extra fun (and sickness!)", -24, 24)
+local convar2 = CreateClientConVar("gmt_ballrace_shake", "1")
 local shake
 local shaket = Angle(0, 0, 0)
 
@@ -379,7 +380,7 @@ function GM:CalcView( ply, origin, angles, fov )
 		else
 			if !shake then
 				shake = CurTime() + 1
-			elseif shake > CurTime() then
+			elseif shake > CurTime() and convar2:GetBool() then
 				shaket = LerpAngle(FrameTime() * 2, shaket, AngleRand() * (shake - CurTime()) * 0.1)
 			end
 		end
