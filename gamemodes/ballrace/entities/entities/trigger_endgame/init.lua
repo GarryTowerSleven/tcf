@@ -23,6 +23,8 @@ function ENT:StartTouch( ply )
 	
 	local ply = ply:GetOwner()
 
+	if ply.NextSpawn and ply.NextSpawn > CurTime() then return end
+
 	NextMap = true
 
 	GAMEMODE:PlayerComplete(ply)
