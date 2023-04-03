@@ -361,6 +361,8 @@ hook.Add("Think", "ZoomThink", ZoomThink)
 local lastview = nil
 local tilt = Angle(0, 0, 0)
 local convar = CreateClientConVar("gmt_ballrace_tilt", "0", true, false, "Tilting the camera, for extra fun (and sickness!)", -24, 24)
+local shake
+local shaket = Angle(0, 0, 0)
 
 function GM:CalcView( ply, origin, angles, fov )
 	local ball = ply:GetBall()
@@ -374,15 +376,25 @@ function GM:CalcView( ply, origin, angles, fov )
 
 		if self:GetState() == STATE_WAITING and waitCams[ game.GetMap() ] then
 			return waitCams[ game.GetMap() ]
+		else
+			if !shake then
+				shake = CurTime() + 1
+			elseif shake > CurTime() then
+				shaket = LerpAngle(FrameTime() * 2, shaket, AngleRand() * (shake - CurTime()) * 0.1)
+			end
 		end
 
-		return lastview or view
+		view.origin = ply:CameraTrace(nil, dist, angles)
+		view.angles = angles + shaket
+
+		return view
 	end
 
 	view.origin, dist = ply:CameraTrace(ball, dist, angles)
 	view.origin = view.origin + Vector(0, 0, 8)
 
 	lastview = view
+	lastball = ball:Center()
 
 	local a = convar:GetInt()
 
@@ -393,8 +405,16 @@ function GM:CalcView( ply, origin, angles, fov )
 
 		tilt = LerpAngle(FrameTime() * 4, tilt, tilta)
 		view.angles = view.angles + tilt
-		view.origin = view.origin + ang:Up() * tilt.p * 2 + ang:Right() * tilt.r * 0.4
+		view.origin = view.origin + angles:Up() * tilt.p * 2 + angles:Right() * tilt.r * 0.4
 	end
+
+	if ply:Alive() then
+		shaket = LerpAngle(FrameTime() * 2, shaket, angle_zero)
+	end
+
+	shake = nil
+	
+	view.angles = view.angles + shaket
 
 	return view
 end

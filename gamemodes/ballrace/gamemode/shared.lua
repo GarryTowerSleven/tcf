@@ -138,7 +138,11 @@ end
 
 function Player:CameraTrace(ball, dist, angles)
 
-	local ballorigin = ball:Center()
+	if !ball and !lastball then
+		return vector_origin
+	end
+
+	local ballorigin = !ball and lastball or ball:Center()
 	local maxview = ballorigin + angles:Forward() * -dist
 
 	local trace = util.TraceLine( { start = ballorigin,
