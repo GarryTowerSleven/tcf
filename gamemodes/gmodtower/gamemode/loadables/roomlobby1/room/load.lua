@@ -16,10 +16,6 @@ function RemovePlayer( ply )
 
 	if !IsValid(ply) then return end
 
-	if ply:InVehicle() then //Do not let player be teleported in a seat!
-		ply:ExitVehicle()
-	end
-
 	//Reset him, and go back to spawn point
 	local teleporters = {}
 	
@@ -28,12 +24,11 @@ function RemovePlayer( ply )
 	end
 	
 	local tp = table.Random( teleporters )
-	
-	if IsValid(ply:GetBallRaceBall()) then ply:GetBallRaceBall():SetPos(tp:GetPos() + Vector(0,0,5) + (tp:GetForward()*25)) end
-	if IsValid(ply.GolfBall) then ply.GolfBall:SetPos(tp:GetPos() + Vector(0,0,5) + (tp:GetForward()*25)) end
-	
+		
 	//ply.DesiredPosition = (tp:GetPos() + Vector(0,0,5) + (tp:GetForward()*25))
-	ply:SetPos( tp:GetPos() + Vector(0,0,5) + (tp:GetForward()*25) )
+	//ply:SetPos( tp:GetPos() + Vector(0,0,5) + (tp:GetForward()*25) )
+
+	ply:SafeTeleport( tp:GetPos() + Vector(0,0,5) + (tp:GetForward()*25) )
 
 	ply:ResetEquipmentAfterVehicle()
 

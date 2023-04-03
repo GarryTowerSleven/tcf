@@ -310,13 +310,6 @@ function meta:IsCameraOut()
 	end
 end
 
-if SERVER then
-	function meta:SetDriving( ent )
-		--self:SetNet( "Driving", ent:EntIndex() )
-		self:SetNet( "DrivingObject", ent )
-	end
-end
-
 function meta:GetDriving( class )
 
 	if self:IsBot() then return end
@@ -343,15 +336,5 @@ function meta:GetDriving( class )
 	end
 
 	return ent]]
-
-end
-
-function meta:ExitDriving()
-
-	local ent = self:GetNet("DrivingObject")
-	if not IsValid( ent ) then return end
-
-	self:SetNet( "DrivingObject", nil )
-	ent:Remove()
 
 end
