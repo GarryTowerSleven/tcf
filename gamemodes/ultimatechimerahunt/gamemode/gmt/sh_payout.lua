@@ -35,56 +35,56 @@ payout.Register( "UCWinBonus", {
 payout.Register( "Rank1", {
 	Name = "Ensign Bonus",
 	Desc = "Good day to be an alive Ensign.",
-	GMC = 10,
+	GMC = 20,
 	Diff = 1,
 } )
 
 payout.Register( "Rank2", {
 	Name = "Captain Bonus",
 	Desc = "Congrats, Captain.",
-	GMC = 20,
+	GMC = 30,
 	Diff = 1,
 } )
 
 payout.Register( "Rank3", {
 	Name = "Major Bonus",
 	Desc = "You are Majorly awesome.",
-	GMC = 30,
+	GMC = 40,
 	Diff = 1,
 } )
 
 payout.Register( "Rank4", {
 	Name = "Colonel Bonus",
 	Desc = "Being a Colonel never felt so good.",
-	GMC = 40,
+	GMC = 50,
 	Diff = 1,
 } )
 
 payout.Register( "UCRank1", {
 	Name = "Rank Chomp Bonus",
 	Desc = "You ate a Ensign.",
-	GMC = 10,
+	GMC = 20,
 	Diff = 1,
 } )
 
 payout.Register( "UCRank2", {
 	Name = "Captain Chomp Bonus",
 	Desc = "You ate a Captain.",
-	GMC = 20,
+	GMC = 30,
 	Diff = 1,
 } )
 
 payout.Register( "UCRank3", {
 	Name = "Major Chomp Bonus",
 	Desc = "You ate a Major.",
-	GMC = 30,
+	GMC = 40,
 	Diff = 1,
 } )
 
 payout.Register( "UCRank4", {
 	Name = "Colonel Chomp Bonus",
 	Desc = "You ate a Colonel.",
-	GMC = 40,
+	GMC = 50,
 	Diff = 1,
 } )
 
