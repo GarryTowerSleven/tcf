@@ -74,10 +74,11 @@ function ShowHudMessage( id )
 
 end
 
-net.Receive( "roundmessage", function( len, pl )
-	local Id = net.ReadInt(4)
+net.Receive( "BRS", function( len, pl )
 
-	ShowHudMessage(Id, Time)
+	local Id = net.ReadInt(4)
+	ShowHudMessage( Id )
+
 end )
 
 net.Receive( "br_chatannouce", function( len, pl )

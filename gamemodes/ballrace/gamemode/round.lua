@@ -40,7 +40,7 @@ hook.Add("GTowerMsg", "GamemodeMessage", function()
 end )
 
 function GM:RoundMessage( msg, ply )
-	net.Start("roundmessage")
+	net.Start("BRS")
 		net.WriteInt( msg, 4 )
 	if IsValid(ply) then
 		net.Send(ply)
@@ -377,12 +377,6 @@ function GM:ResetGame()
 		end
 
 	end
-
-	/*net.Start("BGM")
-	net.WriteInt( STAGE_FAILED, 3 )
-	net.Broadcast()
-
-	music.StopAll( true, 1 )*/
 
 	for k,v in pairs(player.GetAll()) do
 		v:SetFrags(0)

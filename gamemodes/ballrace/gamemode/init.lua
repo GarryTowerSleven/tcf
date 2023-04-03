@@ -2,7 +2,6 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_choose.lua")
 AddCSLuaFile("cl_message.lua")
-AddCSLuaFile("sh_mapnames.lua")
 
 include("shared.lua")
 include("round.lua")
@@ -139,8 +138,7 @@ timer.Create( "AchiBallerRoll", 60.0, 0, function()
 
 end )
 
-util.AddNetworkString( "roundmessage" )
-util.AddNetworkString( "BGM" )
+util.AddNetworkString( "BRS" )
 util.AddNetworkString( "br_electrify" )
 util.AddNetworkString( "pick_ball" )
 util.AddNetworkString( "GtBall" )
