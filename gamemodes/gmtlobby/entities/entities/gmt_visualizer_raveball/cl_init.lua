@@ -5,7 +5,8 @@ ENT.Sprite = Material( "sprites/powerup_effects" )
 FLEnts = FLEnts or {} // For the screen effects.
 
 gmt_visualizer_effects = CreateClientConVar( "gmt_visualizer_effects", 1, true, false )
-gmt_visualizer_shake = CreateClientConVar( "gmt_visualizer_shake", 1, true, false )
+gmt_visualizer_particles = CreateClientConVar( "gmt_visualizer_particles", 1, true, false )
+//gmt_visualizer_shake = CreateClientConVar( "gmt_visualizer_shake", 1, true, false )
 
 local ColorList = {
 
@@ -45,10 +46,15 @@ end
 
 function ENT:Draw()
 
+	if gmt_visualizer_effects:GetBool() == false then
+		self:DrawModel()
+	return end
+
 	if not self:IsStreaming() /*or GTowerMainGui.MenuEnabled*/ then
 		self:DrawModel()
 	end
 
+	if gmt_visualizer_effects:GetBool() == false then return end
 	local size = self.FFTScale or .1
 	render.SetMaterial( self.Sprite )
 	render.DrawSprite( self:GetPos(), 15 + ( size * 400 ), 15 + ( size * 400 ), self.Color )
@@ -182,6 +188,7 @@ end
 
 function ENT:ParticleThink()
 
+	if gmt_visualizer_particles:GetBool() == false then return end
 	if self.FFTScale <= .35 then
 
 		for i=0, ( 20 * self.FFTScale ) do

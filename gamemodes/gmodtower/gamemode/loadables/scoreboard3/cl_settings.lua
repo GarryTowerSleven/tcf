@@ -604,6 +604,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 			self:Header( "Items" )
 			self:CheckBox( "Enable Rave Ball Effects", "gmt_visualizer_effects" )
+			self:CheckBox( "Enable Rave Ball Particles", "gmt_visualizer_particles" )
 			self:CheckBox( "Enable Dynamic Firework Lights", "gmt_fireworkdlight" )
 			self:CheckBox( "Enable Jetpack Smoke", "gmt_jetpacksmoke" )
 
