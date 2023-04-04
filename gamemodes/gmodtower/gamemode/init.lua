@@ -32,7 +32,8 @@ resource.AddWorkshop( 2956124164 ) -- TCF Minigolf
 resource.AddWorkshop( 2956124349 ) -- TCF PVP Battle
 
 // BACKUP
-/*resource.AddWorkshop( 2949539663 ) -- Base
+/*
+resource.AddWorkshop( 2949539663 ) -- Base
 resource.AddWorkshop( 2949540184 ) -- Lobby
 resource.AddWorkshop( 2949541045 ) -- Ballrace
 resource.AddWorkshop( 2949541208 ) -- Chimera
@@ -41,7 +42,13 @@ resource.AddWorkshop( 2949541746 ) -- PVP Battle
 resource.AddWorkshop( 2949542051 ) -- Source Karts
 resource.AddWorkshop( 2949542425 ) -- Virus
 resource.AddWorkshop( 2949542574 ) -- Zombie Massacre
-resource.AddWorkshop( 2949543296 ) -- TCF Lobby*/
+
+resource.AddWorkshop( 2957302618 ) -- TCF Base
+resource.AddWorkshop( 2949543296 ) -- TCF Lobby
+resource.AddWorkshop( 2957302660 ) -- TCF Ballrace
+resource.AddWorkshop( 2957302833 ) -- TCF Minigolf
+resource.AddWorkshop( 2957302861 ) -- TCF PVP Battle
+*/
 
 hook.Add( "PlayerSpawn", "SetGMTPlayerClass", function( ply )
 	if ( IsLobby ) then return end

@@ -40,10 +40,11 @@ local rules = {
 }
 
 local content = {
-	"Press E on this board to download content",
 	"",
-	"Discord Link",
-	"https://discord.gg/6Ty2avgn2C"
+	"Press E on this board to visit our discord",
+	"",
+	"",
+	"https://gmtower.nailgunworld.com/chat"
 }
 
 local OffsetUp = 106.25
@@ -194,12 +195,12 @@ function ENT:DrawMain()
 
 	if self:GetSkin() == 5 then
 
-		draw.SimpleText( "DOWNLOAD CONTENT", "SelectMapFont", 200, 0, Color(255,255,255), TEXT_ALIGN_LEFT )
+		draw.SimpleText( "DISCORD", "SelectMapFont", 200, 0, Color(255,255,255), TEXT_ALIGN_CENTER )
 
 		local curX = 100
 		for _, list in ipairs( content ) do
 
-			draw.SimpleText( list, "SmallHeaderFont", 475, curX, Color(255,255,255), TEXT_ALIGN_CENTER )
+			draw.SimpleText( list, "SmallHeaderFont", 200, curX, Color(255,255,255), TEXT_ALIGN_CENTER )
 			curX = curX + 35
 
 		end
@@ -258,7 +259,7 @@ end)
 
 net.Receive( "OpenDownload", function()
 
-	gui.OpenURL( "http://steamcommunity.com/sharedfiles/filedetails/?id=213278392" )
+	gui.OpenURL( "https://gmtower.nailgunworld.com/chat" )
 
 end )
 

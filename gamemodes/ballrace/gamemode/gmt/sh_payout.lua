@@ -23,14 +23,14 @@ payout.Register( "Collected", {
 payout.Register( "Button", {
 	Name = "Button Master",
 	Desc = "Pressed a button.\nThanks for being a team player.", 
-	GMC = 30,
+	GMC = 15,
 	Diff = 2,
 } )
 
 payout.Register( "NoDeath", {
 	Name = "Didn't Die",
 	Desc = "You didn't lose any lives.", 
-	GMC = 25,
+	GMC = 10,
 	Diff = 2,
 } )
 
