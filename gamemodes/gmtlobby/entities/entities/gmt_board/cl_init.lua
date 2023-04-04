@@ -44,7 +44,7 @@ local content = {
 	"Press E on this board to visit our discord",
 	"",
 	"",
-	"https://gmtower.nailgunworld.com/chat"
+	"https://discord.gg/gmodtower"
 }
 
 local OffsetUp = 106.25
@@ -195,12 +195,12 @@ function ENT:DrawMain()
 
 	if self:GetSkin() == 5 then
 
-		draw.SimpleText( "DISCORD", "SelectMapFont", 200, 0, Color(255,255,255), TEXT_ALIGN_CENTER )
+		draw.SimpleText( "DISCORD", "SelectMapFont", 200, 0, Color(255,255,255), TEXT_ALIGN_LEFT )
 
 		local curX = 100
 		for _, list in ipairs( content ) do
 
-			draw.SimpleText( list, "SmallHeaderFont", 200, curX, Color(255,255,255), TEXT_ALIGN_CENTER )
+			draw.SimpleText( list, "SmallHeaderFont", 0, curX, Color(255,255,255), TEXT_ALIGN_LEFT )
 			curX = curX + 35
 
 		end
