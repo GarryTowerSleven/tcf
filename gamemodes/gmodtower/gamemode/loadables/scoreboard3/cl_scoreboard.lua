@@ -66,10 +66,19 @@ MATERIALS = {
 }
 
 LOCATIONS = {
-	Gamemode = Scoreboard.GenTexture( "GamemodeFloor", "lobby/gamemode" ),
+	Gamemodes = Scoreboard.GenTexture( "GamemodesFloor", "lobby/gamemodes" ),
 	Lobby = Scoreboard.GenTexture( "LobbyFloor", "lobby/lobby" ),
+	Eplaza = Scoreboard.GenTexture( "EplazaFloor", "lobby/eplaza" ),
+	Arcade = Scoreboard.GenTexture( "ArcadeFloor", "lobby/arcade" ),
+	Casino = Scoreboard.GenTexture( "CasinoFloor", "lobby/casino" ),
+	Bar = Scoreboard.GenTexture( "BarFloor", "lobby/bar" ),
 	Narnia = Scoreboard.GenTexture( "NarniaFloor", "lobby/narnia" ),
+	Moon = Scoreboard.GenTexture( "MoonFloor", "lobby/moon" ),
+	Theater = Scoreboard.GenTexture( "TheaterFloor", "lobby/theater" ),
+	Lakeside = Scoreboard.GenTexture( "LakesideFloor", "lobby/lakeside" ),
+	Pool = Scoreboard.GenTexture( "PoolFloor", "lobby/pool" ),
 	Suite = Scoreboard.GenTexture( "SuiteFloor", "lobby/suite" ),
+	Train = Scoreboard.GenTexture( "TrainFloor", "lobby/train" ),
 }
 
 local gradient = surface.GetTextureID( "VGUI/gradient_up" )
