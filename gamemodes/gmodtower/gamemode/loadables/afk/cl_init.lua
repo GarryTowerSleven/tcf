@@ -117,7 +117,7 @@ end
 function DrawStatus( ply )
 
 	if not IsLobby then return end
-	if not GTowerHUD.ShouldDraw() then return end
+	if GTowerHUD and GTowerHUD.ShouldDraw and not GTowerHUD.ShouldDraw() then return end
 
 	if !ply:Alive() then return end
 	
