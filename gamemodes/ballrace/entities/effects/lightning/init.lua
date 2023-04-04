@@ -53,11 +53,13 @@ function EFFECT:Think()
 		return true
 	end
 	
-	local scale = Vector(1,1,1)
+	if IsValid(self.RepellerEnt) then
+		local scale = Vector(1,1,1)
 
-	local mat = Matrix()
-	mat:Scale(scale)
-	self.RepellerEnt:EnableMatrix("RenderMultiply", mat)
+		local mat = Matrix()
+		mat:Scale(scale)
+		self.RepellerEnt:EnableMatrix("RenderMultiply", mat)
+	end
 	
 	return false 
 end
