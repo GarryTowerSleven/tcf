@@ -67,7 +67,7 @@ MATERIALS = {
 
 LOCATIONS = {
 	Gamemodes = Scoreboard.GenTexture( "GamemodesFloor", "lobby/gamemodes" ),
-	Lobby = Scoreboard.GenTexture( "LobbyFloor", "lobby/lobby" ),
+	Lobby = Scoreboard.GenTexture( "LobbyFloor", "lobby/lobby_new" ),
 	Eplaza = Scoreboard.GenTexture( "EplazaFloor", "lobby/eplaza" ),
 	Arcade = Scoreboard.GenTexture( "ArcadeFloor", "lobby/arcade" ),
 	Casino = Scoreboard.GenTexture( "CasinoFloor", "lobby/casino" ),
