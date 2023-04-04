@@ -5,7 +5,7 @@ table.uinsert( HudToHide, "CHudSecondaryAmmo" )
 table.uinsert( HudToHide, "CHudBattery" )
 table.uinsert( HudToHide, "CHudZoom" )
 
-GTowerHUD = {}
+GTowerHUD = GTowerHUD or {}
 
 // draw the hud?
 GTowerHUD.Enabled = CreateClientConVar( "gmt_hud", 1, true, false )
