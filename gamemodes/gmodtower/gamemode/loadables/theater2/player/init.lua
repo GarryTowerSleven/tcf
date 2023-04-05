@@ -42,7 +42,6 @@ function MEDIAPLAYER:Init()
     self._VoteskipManager = MediaPlayer.VoteskipManager:New( self )
 
     self:on( "mediaChanged", function( media )
-        // self._VoteManager:Clear()
         self._VoteskipManager:Clear()
         
         // hacky?
@@ -56,19 +55,23 @@ function MEDIAPLAYER:Init()
 
         if ( not IsValid( media ) or media._Idlescreen ) then return end
 
+        self._VoteManager:ClearVotesForMedia( media )
+        MediaPlayer.UpdateMediaVote( self )
+
         self:NotifyListeners( T( "Theater_VideoRequestedBy", media:OwnerName() or "Unknown" ) )
     end )
 
+    self:on( "mp.events.queueChanged", function( queue )
+
+        // get rid of idlescreen when videos are queued
+        local current = self:CurrentMedia()
+        if ( not self:IsQueueEmpty() && current && current._Idlescreen == true ) then
+            self:OnMediaFinished()
+        end
+        
+    end )
+
     self:AddIdlescreen()
-end
-
-function MEDIAPLAYER:Think()
-    BaseClass.Think( self )
-
-    local current = self:CurrentMedia()
-    if ( not self:IsQueueEmpty() && current && current._Idlescreen == true ) then
-        self:OnMediaFinished()
-    end
 end
 
 function MEDIAPLAYER:SetTheaterConfig( config )
