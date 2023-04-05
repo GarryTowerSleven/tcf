@@ -835,7 +835,7 @@ hook.Add( "HUDPaint", "AdminShowNetInfo", function()
 
 	// World entity network vars!
 	off = off + 15
-	draw.SimpleText( "Globalnet", "ChatFont", 5, off, Color( 255, 100, 100 ) )
+	draw.SimpleText( "Global Network", "ChatFont", 5, off, Color( 255, 100, 100 ) )
 	off = off + 15
 
 	local ent = globalnet.GetGlobalNetworking()
