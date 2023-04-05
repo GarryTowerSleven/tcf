@@ -34,13 +34,13 @@ function ServerMeta:StartMapVote()
 		local gmode_name = Gamemode.Name or "A gamemode"
 		local gmode_max = Gamemode.MaxPlayers or 0
 
-		local plycount = #Players or 0
+		local plycount = math.Clamp( #Players or 0, 0, gmode_max ) or 0
 
 		umsg.Char( self.Id )
 		umsg.Long( time )
 		umsg.String( gmode_name )
 		umsg.Char( plycount )
-		umsg.Bool( plycount >= gmode_max )
+		umsg.Bool( (plycount >= gmode_max) or false )
 
 	umsg.End()
 
