@@ -22,7 +22,7 @@ function Register( id, file, data, map )
 	// Gather data
 	data.ID = id // Unique ID of the song
 
-	if string.StartWith( file, "pikauch" ) || string.StartWith( file, "rainbow_world" ) then // Fix for Neon Lights and Rainbow World
+	if string.StartWith( file:lower(), "pikauch" ) || string.StartWith( file:lower(), "rainbow_world" ) then // Fix for Neon Lights and Rainbow World
 		data.File = file 
 	else
 		data.File = DefaultFolder .. "/" .. file // File of the song
