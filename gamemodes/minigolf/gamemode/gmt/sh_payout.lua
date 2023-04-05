@@ -35,3 +35,32 @@ for k, score in pairs( MoneyScores ) do
 	} )
 
 end
+
+function GAMEMODE:GiveMoney()
+
+	if CLIENT then return end
+
+	for _, ply in pairs( player.GetAll() ) do
+
+		payout.Clear( ply )
+
+		local swing = ply:Swing()
+		local pardiff = ply:GetParDiff( swing )
+
+		if swing == 1 then
+			payout.Give( ply, "HoleInOne" )
+		else		
+			if MoneyScores[pardiff] then
+				payout.Give( ply, Scores[ pardiff ] )
+			end
+		end
+
+		if pardiff > 2 then
+			payout.Give( ply, "OverBogey" )
+		end
+
+		payout.Payout( ply )
+
+	end
+
+end

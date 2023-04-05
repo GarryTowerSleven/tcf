@@ -10,12 +10,11 @@ function SetupGMTGamemode( name, folder, settings )
 
 		local defaultLoadables = {
 			"clientsettings",
-            "achievement",
-            "commands",
+			"achievement",
+			"scoreboard3",
 			"afk",
-            "scoreboard3",
+			"question",
 		}
-
 		if settings.Loadables then
 			table.Add( defaultLoadables, settings.Loadables )
 		end
@@ -32,6 +31,11 @@ function SetupGMTGamemode( name, folder, settings )
 	-- Force smaller models to default player model
 	if settings.DisableSmallModels then
 		GM.DisableSmallModels = true
+	end
+
+	-- Load default 2D particles
+	if settings.Particles then
+		particle_system.LoadBaseParticles( settings.Particles )
 	end
 
 	-- Disable ducking
@@ -186,7 +190,6 @@ function SetupGMTGamemode( name, folder, settings )
 	local gmtfolder = "/gamemode/gmt/"
 
 	-- Load the base GMT files
-	local srvpayout = folder .. gmtfolder .. "sv_payout.lua"
 	local payout = folder .. gmtfolder .. "sh_payout.lua"
 	local scoreboard = folder .. gmtfolder .. "cl_scoreboard.lua"
 	local multi = folder .. gmtfolder .. "multiserver.lua"
@@ -195,12 +198,22 @@ function SetupGMTGamemode( name, folder, settings )
 	local pp = folder .. gmtfolder .. "cl_post_events.lua"
 	local camera = folder .. gmtfolder .. "camera/" .. game.GetMap() .. ".lua"
 	local particles = folder .. gmtfolder .. "cl_particles.lua"
+	local partfolder = folder  .. gmtfolder .. "particles/"
 
 	AddCSLuaFile( payout )
 	AddCSLuaFile( scoreboard )
 
 	-- Camera
 	if file.Exists( camera, "LUA" ) then AddCSLuaFile( camera ) end
+	
+	-- Post processing
+	if file.Exists( pp, "LUA" ) then AddCSLuaFile( pp ) end
+	
+	-- 2D Particles
+	if file.Exists( particles, "LUA" ) then
+		Loader.LoadClientOnly( partfolder )
+		AddCSLuaFile( particles )
+	end
 
 	timer.Simple( .1, function() -- Delay so we can load the gamemode first
 
@@ -214,7 +227,6 @@ function SetupGMTGamemode( name, folder, settings )
 			if file.Exists( particles, "LUA" ) then include( particles ) end
 		else
 			include( multi )
-			include( srvpayout )
 		end
 
 	end )
@@ -299,11 +311,11 @@ end
 
 
 if SERVER then
+
 	-- CONCOMMANDS
 	concommand.Add( "gmt_setstate", function( ply, cmd, args ) 
 
 		if !ply:IsAdmin() then return end
-		ply:PrintMessage( HUD_PRINTCONSOLE, "[GMode] Setting state: " .. args[1] )
 		GAMEMODE:SetState( tonumber( args[1] ) )
 
 	end )
@@ -311,8 +323,8 @@ if SERVER then
 	concommand.Add( "gmt_settime", function( ply, cmd, args ) 
 
 		if !ply:IsAdmin() then return end
-		ply:PrintMessage( HUD_PRINTCONSOLE, "[GMode] Setting time: " .. args[1] )
 		GAMEMODE:SetTime( tonumber( args[1] ) )
 
 	end )
+	
 end
