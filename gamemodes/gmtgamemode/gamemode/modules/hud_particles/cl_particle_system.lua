@@ -70,7 +70,7 @@ local function updateParticle(p, dt)
 	p.grav = p.grav + 200 * dt * weight
 end
 
-function meta:Draw()
+function meta:Draw( dt )
 	for k,v in pairs(self.particles) do
 		drawParticle(v, dt)
 	end
@@ -106,6 +106,7 @@ end
 local def_overrides = {}
 function meta:SpawnFromParams(x, y, params, t, last_emit_time, overrides)
 	if !params then return end
+
 	local rt = RealTime()
 	local ldt = rt - last_emit_time
 	local number = calcWithVariance(params.number, t) * self.num_scale * (overrides.number or 1)

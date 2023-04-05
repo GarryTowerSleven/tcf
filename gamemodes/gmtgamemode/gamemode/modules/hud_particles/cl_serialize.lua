@@ -77,6 +77,8 @@ function ToString( tab )
 	return str
 end
 
+// print( ToString( { { class = "camera_flash", values = particle_params.GetDefault() } } ) )
+
 function FromString( str, tab )
 	for part in string.gmatch(str, "%w+ %b{}") do
 		local class = string.gmatch(part, "%w+")()
