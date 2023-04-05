@@ -204,16 +204,6 @@ concommand.Add("gmt_admsethatpos", function( ply, cmd, args )
 
 end )
 
-hook.Add("PlayerLevel", "ZeldaFanboy", function( ply )
-
-	if GTowerAchievements && !ply:Achived( ACHIEVEMENTS.ZELDAFANBOY ) then
-
-		ply:SetAchievement( ACHIEVEMENTS.ZELDAFANBOY , ply:GetLevel("hatlinkhat") + ply:GetLevel("hatfairywings") + ply:GetLevel("hatmajorasmask") )
-
-	end
-
-end )
-
 local function BuildHatsResult(modelhats)
 
 	local buffer = {"HatTranslations = {"}

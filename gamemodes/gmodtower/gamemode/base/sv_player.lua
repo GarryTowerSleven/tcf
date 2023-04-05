@@ -3,6 +3,15 @@ if !meta then
 	return
 end
 
+function meta:ResetSpeeds()
+    local player_class = player_manager.GetPlayerClass( self ) or "player_gmt"
+    local base = baseclass.Get( player_class )
+
+    self:SetWalkSpeed( base.WalkSpeed or 200 )
+    self:SetRunSpeed( base.RunSpeed or 320 )
+    self:SetSlowWalkSpeed( base.SlowWalkSpeed or 100 )
+end
+
 function meta:SetDriving( ent )
     self:SetNet( "DrivingObject", ent )
 end

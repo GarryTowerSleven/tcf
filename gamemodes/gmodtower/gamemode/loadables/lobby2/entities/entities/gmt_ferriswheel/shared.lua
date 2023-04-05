@@ -156,16 +156,6 @@ function meta:SetPlayerProperties( ply )
 	end]]
 end
 
-function meta:ResetSpeeds()
-	if IsValid( self.TakeOn ) then
-		self:SetWalkSpeed( 550 )
-	else
-		self:SetWalkSpeed( 200 )
-	end
-	self:SetRunSpeed( 320 )
-	self:SetCanWalk( true )
-end
-
 function meta:SetCanMove( bool )
 	self.CanMove = bool
 	if bool then

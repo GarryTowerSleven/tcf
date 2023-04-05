@@ -224,6 +224,12 @@ GTowerAchievements:Add( ACHIEVEMENTS.PLAYERMODEL, {
 	Group = "Suite",
 })*/
 
+/*GTowerAchievements:Add( ACHIEVEMENTS.DVNO, {
+	Name = "DVNO 2010",
+	Description = "Hear a song about four capital letters printed in gold.", 
+	Value = 1
+})*/
+
 GTowerAchievements:Add( ACHIEVEMENTS.SIDEBYSIDE, {
 	Name = "Fighting Side by Side",
 	Description = "Go into a duel while there already is a duel active.",
@@ -260,12 +266,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.ONESMALLSTEP, {
 	Value = 1
 })
 
-/*GTowerAchievements:Add( ACHIEVEMENTS.DVNO, {
-	Name = "DVNO 2010",
-	Description = "Hear a song about four capital letters printed in gold.", 
-	Value = 1
-})*/
-
 /*GTowerAchievements:Add( ACHIEVEMENTS.ADMINABUSE, {
 	Name = "Admin Abuse",
 	Description = "Be slapped by an admin twice.", 
@@ -275,87 +275,149 @@ GTowerAchievements:Add( ACHIEVEMENTS.ONESMALLSTEP, {
 // LOGIC OF ACHIEVEMENTS---------------------
 if CLIENT then return end
 
-timer.Create( "AchiGtowerAddict", 60.0, 0, function()
-	for _, v in pairs( player.GetAll() ) do
-		if  v:AchievementLoaded() then
+// GMT Addict
+timer.Create( "AchiGTowerAddict", 60.0, 0, function()
+
+	for _, v in ipairs( player.GetAll() ) do
+		if v:AchievementLoaded() then
 			v:AddAchievement(  ACHIEVEMENTS.GTOWERADDICTION, 1 )
 		end
 	end
 
 end )
 
-if SERVER then
-	local TimerCheck = {}
+// Jumping jack rabbit
+hook.Add( "KeyPress", "CheckJumpAchievement", function( ply, key )
 
-	hook.Add( "KeyPress", "CheckJumpAchievement", function( ply, key )
-		if ply:AchievementLoaded() && key == IN_JUMP && ply:OnGround() && ply:Alive() && (!ply.NextJump || CurTime() > ply.NextJump) then
-			ply.NextJump = CurTime() + 0.5
-			ply:AddAchievement( ACHIEVEMENTS.JUMPINGJACK, 1 )
-		end
-	end )
-end
+	if ply:AchievementLoaded() && key == IN_JUMP && 
+		ply:OnGround() && !ply:InVehicle() && 
+		ply:Alive() && (!ply.NextJump || CurTime() > ply.NextJump) then
+
+		ply.NextJump = CurTime() + 0.5
+		ply:AddAchievement( ACHIEVEMENTS.JUMPINGJACK, 1 )
+
+	end
+
+end )
 
 local PlysLastPlace = {}
 
-hook.Add("PlayerThink", "AchiLongWalk", function(ply)
-
-		if ply:AchievementLoaded() && ply:Alive() then
-			local PlyIndex = ply:EntIndex()
-			local CurPos = ply:GetPos()
-
-			if PlysLastPlace[ PlyIndex ] then
-
-				local Distance = PlysLastPlace[ PlyIndex ]:Distance( CurPos )
-
-				if Distance > 0 && Distance < 150 then
-
-					ply:AddAchievement(  ACHIEVEMENTS.WALKTOOLONG, Distance / 16 )
-
-				end
-
-			end
-
-			PlysLastPlace[ PlyIndex ] = CurPos
-
-		end
-
-end )
-
-hook.Add("PlayerDisconnected","ResetLongWalk", function( ply )
-
-	PlysLastPlace[ ply:EntIndex() ] = nil
-
-end )
-
-hook.Add("PlayerThink", "AchiZombieHat", function(ply)
+hook.Add( "PlayerThink", "PlayerThinkAchievements", function( ply )
 
 	if ply:AchievementLoaded() && ply:Alive() then
 
-		if ply:GetModel() == "models/player/zombie_classic.mdl" then
+		// Long Walk
+		local PlyIndex = ply:EntIndex()
+		local CurPos = ply:GetPos()
+		
+		if PlysLastPlace[ PlyIndex ] then
+			
+			local Distance = PlysLastPlace[ PlyIndex ]:Distance( CurPos )
+		
+			if Distance > 0 && Distance < 150 then					
+				ply:AddAchievement( ACHIEVEMENTS.WALKTOOLONG, Distance / 16 )
+			end
+		end
+		
+		PlysLastPlace[ PlyIndex ] = CurPos
 
-      if !ply.CosmeticEquipment then return end
+		// Zombie RP
+		if ply:GetModel() == "models/player/zombie_classic.mdl" && GTowerHats:IsWearing( ply, "hatheadcrab" ) then
 
-      for k,v in pairs( ply.CosmeticEquipment ) do
-        if v:GetModel() == "models/gmod_tower/headcrabhat.mdl" then
-          ply:SetAchievement( ACHIEVEMENTS.ZOMBIERP, 1 )
-        end
-      end
+			ply:SetAchievement( ACHIEVEMENTS.ZOMBIERP, 1 )
+
+			if IsLobby then
+				ply._WasZombie = true
+				ply:SetWalkSpeed( 45 )
+			end
+
+		else
+
+			if IsLobby then
+				if ply._WasZombie then
+					ply:ResetSpeeds()
+					ply._WasZombie = false
+				end
+			end
 
 		end
+
 	end
 
 end )
 
+hook.Add( "PlayerDisconnected", "ResetLongWalk", function( ply )
+	
+	PlysLastPlace[ ply:EntIndex() ] = nil
+	
+end )
+
+hook.Add( "PlayerLevel", "PlayerLevelAchievement", function( ply )
+
+	if GTowerAchievements then
+
+		// Zelda Fanboy
+		if !ply:Achived( ACHIEVEMENTS.ZELDAFANBOY ) then
+
+			local addition = ply:GetLevel("hatlinkhat") + ply:GetLevel("hatfairywings" /* Midna's Mask */) + ply:GetLevel("hatmajorasmask") + ply:GetLevel("keatonmask") + ply:GetLevel("makarmask")
+			ply:SetAchievement( ACHIEVEMENTS.ZELDAFANBOY, addition )
+
+		end
+
+		// Geometrically impossible
+		if !ply:Achived( ACHIEVEMENTS.GEOMETRICALLY ) then
+
+			local addition = ply:GetLevel("BallRacerCube") + ply:GetLevel("BallRacerIcosahedron") + ply:GetLevel("BallRacerCatBall") +
+							 ply:GetLevel("BallRacerBomb") + ply:GetLevel("BallRacerGeo") + ply:GetLevel("BallRacerSoccerBall") + 
+							 ply:GetLevel("BallRacerSpikedd")
+
+			ply:SetAchievement( ACHIEVEMENTS.GEOMETRICALLY, addition )
+
+		end
+		
+	end
+
+end )
+
+// Player model purchase, smart invester, hole in pocket
+hook.Add( "StorePurchaseFinish", "PlayerModelAchievement", function( ply, item, money )
+
+	local storeid = item.storeid
+
+	if storeid == GTowerStore.PLAYERMODEL then
+
+		if !ply:Achived( ACHIEVEMENTS.PLAYERMODEL ) then
+			ply:SetAchievement( ACHIEVEMENTS.PLAYERMODEL, 1 )
+		end
+
+	end
+
+	if storeid == GTowerStore.BAR && item.Name != "Empty Bottle" then
+		ply:AddAchievement( ACHIEVEMENTS.SMARTINVESTER, money )
+	end
+
+	ply:AddAchievement( ACHIEVEMENTS.HOLEINPOCKET, money )
+
+end )
+
+// Human Blur
 hook.Add( "OnPlayerHitGround", "HumanBlurCheck", function( ply )
-	if ( Location.Is( ply:Location(), "Lobby" ) && Location.Is( ply._LastLocation, "Lobby Roof" ) ) then
+
+	if ( !ply:Achived( ACHIEVEMENTS.HUMANBLUR ) && Location.Is( ply:Location(), "Lobby" ) && Location.Is( ply._LastLocation, "Lobby Roof" ) ) then
 		ply:SetAchievement( ACHIEVEMENTS.HUMANBLUR, 1 )
 	end
+
 end)
 
-hook.Add("Location","MoonAchiCheck",function( ply, loc, lastloc ) 
+// One Small Step
+hook.Add( "Location", "MoonAchiCheck", function( ply, loc, lastloc )
+
 	if IsValid( ply ) then
+
 		if Location.Is( loc, "Moon" ) then
-			ply:SetAchievement( ACHIEVEMENTS.ONESMALLSTEP, 1 )
+			if ( !ply:Achived( ACHIEVEMENTS.ONESMALLSTEP ) ) then
+				ply:SetAchievement( ACHIEVEMENTS.ONESMALLSTEP, 1 )
+			end
 			ply.MoonStoreModel = ply:GetModel()
 			ply:SetModel("models/player/spacesuit.mdl")
 			ply:SetGravity(0.4)
@@ -363,5 +425,7 @@ hook.Add("Location","MoonAchiCheck",function( ply, loc, lastloc )
 			ply:SetGravity(0)
 			ply:SetModel(ply.MoonStoreModel)
 		end
+
 	end
-end)
+
+end )

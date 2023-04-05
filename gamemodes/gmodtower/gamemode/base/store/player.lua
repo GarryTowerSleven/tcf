@@ -86,7 +86,7 @@ function GTowerStore:SetPlyLevel( ply, id, level )
 		ply.GTowerMaxLevels[ id ] = 0
 	end
 	
-	hook.Call("PlayerLevel", GAMEMODE, ply, id, Item.upgradable )
+	hook.Run("PlayerLevel", ply, id, Item.upgradable )
 end
 
 

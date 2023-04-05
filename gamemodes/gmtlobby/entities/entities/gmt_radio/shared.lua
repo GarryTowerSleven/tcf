@@ -8,17 +8,4 @@ ENT.Instructions	= ""
 ENT.Spawnable		= true
 ENT.AdminSpawnable	= true
 
-ENT.Model		= "models/props/cs_office/radio.mdl"
-
-util.PrecacheModel( ENT.Model )
-
-/*hook.Add("LoadAchievements","AchiPokerFace", function ()
-
-	GTowerAchievements:Add( ACHIEVEMENTS.SUITEPOKERFACE, {
-		Name = "Poker Face� 2009",
-		Description = "Play a song about poker faces.",
-		Value = 1,
-		Group = "Suite",
-	})
-
-end )*/
+ENT.Model		= Model( "models/props/cs_office/radio.mdl" )
