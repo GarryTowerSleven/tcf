@@ -91,6 +91,8 @@ hook.Add("PostPlayerDraw", "hatfix", function(ply, flags)
     end
 
     for _, h in ipairs(ply.Hats) do
+		if ( not h.Draw ) then continue end
+
         h:Draw()
     end
 end)
