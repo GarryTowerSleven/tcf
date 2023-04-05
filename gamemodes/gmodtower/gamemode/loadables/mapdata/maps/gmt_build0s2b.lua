@@ -74,7 +74,7 @@ local function MapAdds()
     CreateBoard( Vector(1418,-3833,-216), Angle(0,0,0), 1 )
     CreateBoard( Vector(1416.84375,-3581.8125,-216), Angle(0,0,0), 3 )
     CreateBoard( Vector(927.1875,-3325.53125,-84), Angle(0,0,0), 4 )
-	CreateBoard( Vector(927.1875,-3167.53125,-100), Angle(0,0,0), 5 )
+	CreateBoard( Vector(927.1875,-3180.53125,-100), Angle(0,0,0), 5 )
     CreateBoard( Vector(439,-3727,-216), Angle(0,180,0), 1 )
     CreateBoard( Vector(439.09375,-3580.75,-216), Angle(0,180,0), 2 )
 

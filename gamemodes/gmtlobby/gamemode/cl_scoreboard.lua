@@ -81,40 +81,60 @@ PlayerInfoValueGet = function( ply )
 	return nil
 end
 
-// ehhh
-local gamemodelocations = {}
+// Cache Location Backgrounds
+local LocationBackgrounds = {}
 
-if ( IsLobbyOne ) then
-	gamemodelocations = {
-		[Location.GetIDByName( "Ballrace Port" ) or nil] = true,
-		[Location.GetIDByName( "Minigolf Port" ) or nil] = true,
-		[Location.GetIDByName( "Source Karts Port" ) or nil] = true,
-		[Location.GetIDByName( "PVP Battle Port" ) or nil] = true,
-		[Location.GetIDByName( "Ballrace Port" ) or nil] = true,
-		[Location.GetIDByName( "UCH Port" ) or nil] = true,
-		[Location.GetIDByName( "ZM Port" ) or nil] = true,
-		[Location.GetIDByName( "Virus Port" ) or nil] = true,
-	}
+if ( Location ) then
+	for location, _ in pairs( Location.Locations ) do
+		if ( Location.IsSuite( location ) ) then
+			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Suite
+			continue
+		elseif ( Location.IsNarnia( location ) ) then
+			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Narnia
+			continue
+		elseif ( Location.Is( location, "Lakeside" ) ) then
+			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Lakeside
+			continue
+		elseif ( Location.Is( location, "Pool" ) ) then
+			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Pool
+			continue
+		elseif ( Location.IsGroup( location, "eplaza" ) or Location.IsGroup( location, "stores" ) ) then
+			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Eplaza
+			continue
+		elseif ( Location.Is( location, "Arcade" ) or Location.Is( location, "Arcade Stairs" ) ) then
+			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Arcade
+			continue
+		elseif ( Location.Is( location, "Casino" ) ) then
+			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Casino
+			continue
+		elseif ( Location.IsGroup( location, "bar" ) ) then
+			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Bar
+			continue
+		elseif ( Location.Is( location, "Theater" ) or Location.Is( location, "Theater Hallway" ) or Location.Is( location, "Theater Vents" ) ) then
+			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Theater
+			continue
+		elseif ( Location.Is( location, "Moon" ) ) then
+			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Moon
+			continue
+		elseif ( Location.IsGroup( location, "gamemodeports" ) or Location.Is( location, "Gamemode Teleporters" ) or Location.IsGroup( location, "minigolf" ) or Location.IsGroup( location, "sourcekarts" ) or Location.IsGroup( location, "pvpbattle" ) or Location.IsGroup( location, "ballrace" ) or Location.IsGroup( location, "ultimatechimerahunt" ) or Location.IsGroup( location, "zombiemassacre" ) or Location.IsGroup( location, "virus" ) ) then
+			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Gamemodes
+			continue
+		elseif ( Location.IsGroup( location, "trainstation" ) ) then
+			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Train
+			continue
+		end
+		
+		LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Lobby
+	end
 end
 
 // Background
 PlayerBackgroundMaterial = function( ply )
 
 	if ( not IsLobbyOne ) then return end
+	if ( not Location or not ply.Location ) then return end
 
-	if ply.Location then
-		local location = ply:Location()
-
-		if ( Location.IsSuite( location ) ) then
-			return Scoreboard.PlayerList.LOCATIONS.Suite
-		elseif ( Location.IsNarnia( location ) ) then
-			return Scoreboard.PlayerList.LOCATIONS.Narnia
-		elseif ( Location.IsGroup( location, "gamemodeports" ) or Location.Is( location, "Gamemode Teleporters" ) or gamemodelocations[ location ] ) then
-			return Scoreboard.PlayerList.LOCATIONS.Gamemode
-		end
-	end
-
-	return Scoreboard.PlayerList.LOCATIONS.Lobby
+	return LocationBackgrounds[ ply:Location() ] or Scoreboard.PlayerList.LOCATIONS.Lobby
 
 end
 

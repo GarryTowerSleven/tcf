@@ -13,7 +13,6 @@ function GTowerItems:UseProp( ent )
 
 	net.Start("GMTUse")
 		net.WriteEntity(ent)
-		net.WriteEntity(LocalPlayer())
 	net.SendToServer()
 
 	GTowerItems:UseEffects( ent )

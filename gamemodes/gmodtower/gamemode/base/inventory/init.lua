@@ -83,12 +83,13 @@ end
 
 net.Receive( "GMTUse", function( len, ply )
 	local ent = net.ReadEntity()
-	local activator = net.ReadEntity()
 	local Item = GTowerItems:GetTableByEntity( ent )
+
+	if ( not Item ) then return end
 
 	net.Start("GMTUseEffect")
 		net.WriteEntity(ent)
-		net.WriteEntity(activator)
+		net.WriteEntity(ply)
 	net.Broadcast()
 
 	if Item.UseSound then
