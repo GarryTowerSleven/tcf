@@ -45,9 +45,8 @@ end
 function RecvPlayerRoom(ply, old, new)
 	if SERVER then return end
 
-	local roomid = ply:GetNet("RoomID")
-	if roomid > 0 then
-		ReceiveOwner(ply, roomid)
+	if new > 0 then
+		ReceiveOwner(ply, new)
 	end
 end
 

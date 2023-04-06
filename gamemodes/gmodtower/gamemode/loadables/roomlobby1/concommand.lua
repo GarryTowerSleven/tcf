@@ -408,7 +408,7 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 
 	end)
 
-	ply:SetNet( "RoomID", PlyRoom.Id )
+	ply:SetNWInt( "RoomID", PlyRoom.Id )
 
 	local panel = GTowerRooms.GetPanel( PlyRoom.Id )
 	if panel then
