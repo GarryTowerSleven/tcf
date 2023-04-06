@@ -232,7 +232,7 @@ net.Receive( "OpenDonation", function( len, pl )
 		url = "https://steamcommunity.com/groups/TheCommunityFirst"
 	else
 		Donation:SetTitle("Group Discord")
-		url = "https://gmtower.nailgunworld.com/chat"
+		url = "http://chat.gtower.net"
 	end
 
 	Donation.btnMaxim:Hide()
@@ -259,7 +259,7 @@ end)
 
 net.Receive( "OpenDownload", function()
 
-	gui.OpenURL( "https://gmtower.nailgunworld.com/chat" )
+	gui.OpenURL( "http://chat.gtower.net" )
 
 end )
 
@@ -270,7 +270,7 @@ usermessage.Hook( "OpenDonation", function( um )
 
 	if LocalPlayer().IsVIP && LocalPlayer():IsVIP() then
 
-		URL = "https://gmtower.nailgunworld.com/chat"
+		URL = "http://chat.gtower.net"
 		Title = "Group Discord"
 
 	end
