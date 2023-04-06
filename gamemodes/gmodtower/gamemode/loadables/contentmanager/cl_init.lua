@@ -32,12 +32,9 @@ for _, item in pairs( engine.GetGames() ) do
 
 		local model = RequiredModels[item.depot]
 
-		if !item.mounted || !item.installed || ( model && !util.IsValidModel( model ) ) then
-
-			table.insert( MissingGames, content )
-
-			if ( model && util.IsValidModel( model ) ) then -- I am annoyed
-				table.remove( MissingGames, content )
+		if !item.mounted || !item.installed then
+			if ( model && !util.IsValidModel( model ) ) then -- wait wtf was I doing LOL
+				table.insert( MissingGames, content )
 			end
 		end
 
@@ -109,7 +106,7 @@ hook.Add( "HUDPaint", "ContentNotice", function()
 		if !HasAllWorkshop then
 			if !message then message = "" end
 			message = message .. "\nAlert: GMT workshop content is not installed, it outdated, or manual content is out of date!\n " ..
-								"Please subscribe to all at https://content.nailgunworld.com/ and restart."
+								"Please subscribe to all at http://content.gtower.net/ and restart."
 		end
 
 		if message then

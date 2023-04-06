@@ -137,7 +137,7 @@ local function DiscordUpdate()
     if IsLobby then
         rpc_data["state"] = Location.GetFriendlyName(location) or "Somewhere"
         //rpc_data["largeImageText"] = "join.gmtdeluxe.org"
-        rpc_data["largeImageText"] = "gmtower.nailgunworld.com/chat"
+        rpc_data["largeImageText"] = "chat.gtower.net"
         rpc_data["largeImageKey"] = getLocationPic(location)
 
         local duel = Dueling.IsDueling(LocalPlayer())

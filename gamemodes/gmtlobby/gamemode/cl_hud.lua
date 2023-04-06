@@ -396,14 +396,12 @@ function initHud()
 
 		if !GTowerHUD.ShouldDraw() then return end
 
-		hook.Call( "GTowerHUDPaint", GAMEMODE )
-
-		// shit shit shit
-		/*if ActiveJetpack && ActiveJetpack:IsValid() then
-			jetpack.JetpackFuelDraw( GTowerHUD.Info.X, GTowerHUD.Info.Y, GTowerHUD.Info.Width, GTowerHUD.Info.Height-4 )
-		end*/
+		jetpack.JetpackFuelDraw( GTowerHUD.Info.X, GTowerHUD.Info.Y + 48, GTowerHUD.Info.Width, GTowerHUD.Info.Height + 1 )
+		
 		GTowerHUD.DrawHealth()
 		GTowerHUD.DrawInfo()
+
+		hook.Call( "GTowerHUDPaint", GAMEMODE )
 
 		GTowerHUD.DrawAmmo()
 		--GTowerHUD.DrawNotice()

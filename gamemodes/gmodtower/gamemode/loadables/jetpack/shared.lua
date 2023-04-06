@@ -12,9 +12,11 @@ local NoVector = Vector(0,0,0)
 local meta = FindMetaTable( "Player" )
 local print = print
 
-//plynet.Register( "Bool", "IsJetpackOn" )
-//plynet.Register( "Float", "JetpackStart" )
-//plynet.Register( "String", "JetpackTexture" )
+plynet.Register( "Bool", "IsJetpackOn" )
+plynet.Register( "Float", "JetpackStart" )
+plynet.Register( "String", "JetpackTexture" )
+
+plynet.Register( "Float", "JetpackFuelRemaining" )
 
 module("jetpack", package.seeall)
 
@@ -41,22 +43,26 @@ local function CalculateAccumulatedFuelRemaining( ply, state )
 	end
 	
 	state._AccumulatedFlightTime = flightTime
-	ply._DisplayFuelAmount = (availableFuel - flightTime) / availableFuel
+	//ply._DisplayFuelAmount = (availableFuel - flightTime) / availableFuel
+	if SERVER then
+		// THIS SUCKS
+		ply:SetNet( "JetpackFuelRemaining", (availableFuel - flightTime) / availableFuel )
+	end
 	return availableFuel - flightTime
 end
 
 local function JetpackBegin( ply )
-	//ply:SetNet("JetpackStart", CurTime())
-	//ply:SetNet("IsJetpackOn", true)
-	ply:SetNWInt("JetpackStart", CurTime())
-	ply:SetNWBool("IsJetpackOn", true)
+	if ( CLIENT ) then return end
+
+	ply:SetNet("JetpackStart", CurTime())
+	ply:SetNet("IsJetpackOn", true)
 end
 
 local function JetpackEnd( ply )
-	//ply:SetNet("JetpackStart", 0)
-	//ply:SetNet("IsJetpackOn", false)
-	ply:SetNWInt("JetpackStart", 0)
-	ply:SetNWBool("IsJetpackOn", false)
+	if ( CLIENT ) then return end
+
+	ply:SetNet("JetpackStart", 0)
+	ply:SetNet("IsJetpackOn", false)
 end
 
 local function GetRollingState( ply )
@@ -99,7 +105,6 @@ end
 local function JetpackMove( ply, mv, state, firstPredicted )
 
 	if !IsValid(ply) then return end
-	if Location.IsEquippablesNotAllowed( ply:Location() ) then return end
 
 	if ply:GetMoveType() == MOVETYPE_NONE then
 		mv:SetVelocity(NoVector)

@@ -28,6 +28,8 @@ if SERVER then
 
 	hook.Add( "PlayerSpray", "SprayTracking", function( ply )
 
+		if ( not ply:CanSpray() ) then return end
+
 		CheckSprays()
 
 		local trace = ply:GetEyeTrace()

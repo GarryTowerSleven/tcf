@@ -44,7 +44,7 @@ concommand.Add("gmt_arcade_open", function(_, _, args)
 	arcade:SetTitle(args[2] or "Arcade")
 	arcade:Center()
 	arcade:MakePopup()
-	html:OpenURL("https://gmtower.nailgunworld.com/apps/arcade/?game=" .. args[1])
+	html:OpenURL("https://gtower.net/apps/arcade/?game=" .. args[1])
 end)
 
 local press = {}

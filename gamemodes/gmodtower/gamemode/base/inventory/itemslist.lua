@@ -170,6 +170,18 @@ RegisterItem("disco_ball",{
 	StorePrice = 4000,
 })
 
+RegisterItem("obama_visualizer",{
+	Name = "Digital Obama",
+	Description = "We have the technology. We have the capability to make the worlds first bionic man, better than he was before.",
+	Model = "models/gmod_tower/obamacutout.mdl",
+	ClassName = "gmt_visualizer_obama",
+	UniqueInventory = true,
+	EnablePhyiscs = false,
+	DrawModel = true,
+	Tradable = false,
+	StoreId = GTowerStore.MUSIC,
+})
+
 RegisterItem("bar01",{
 	Name = "Bar Table",
 	Description = "A table, stolen from a bar.",

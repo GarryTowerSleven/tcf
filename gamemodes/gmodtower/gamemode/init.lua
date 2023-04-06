@@ -155,7 +155,7 @@ function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
 		return true
 	else
 		MsgC( color_red, string.SafeChatName(name) .. " <" .. steam .. "> (" .. IP .. ") tried to join the server.\n" )
-		return false, "You must join from the lobby server, IP: gmt.nailgunworld.com"
+		return false, "You must join from the lobby server, IP: join.gtower.net"
 	end
 
 	return true
@@ -278,6 +278,10 @@ function GM:PlayerSetHandsModel(ply, ent)
 		end
 	end)
 end
+
+hook.Add( "PlayerSpray", "PlayerDisableSprays", function ( ply )
+	return not ply:CanSpray()
+end )
 
 net.Receive( "ClientFullyConnected", function( len, ply )
 	if !IsValid(ply) || ply:GetNWBool("FullyConnected") then return end

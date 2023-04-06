@@ -1,6 +1,6 @@
 GM.Name     = "GMod Tower"
 GM.Author   = "Deluxe Team & PixelTail Games"
-GM.Website  = "https://gmtower.nailgunworld.com/"
+GM.Website  = "https://gtower.net/"
 GM.WebsiteUrl  = GM.Website .. "apps/"
 
 color_green = Color( 50, 255, 50 )
