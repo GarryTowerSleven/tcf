@@ -42,9 +42,11 @@ function EFFECT:Think()
 		
 		local scale = Vector(1 + waveX, 1 + waveY, 1)
 
-		local mat = Matrix()
-		mat:Scale(scale)
-		self.RepellerEnt:EnableMatrix("RenderMultiply", mat)
+		if IsValid(self.RepellerEnt) then
+			local mat = Matrix()
+			mat:Scale(scale)
+			self.RepellerEnt:EnableMatrix("RenderMultiply", mat)
+		end
 
 		if RealTime() > self.Update then
 			self:GeneratePoints()

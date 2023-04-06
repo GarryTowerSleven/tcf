@@ -127,8 +127,3 @@ function PlayerMeta:AdrenalineOff()
 	self.UsingAdrenaline = false
 
 end
-
-function PlayerMeta:ResetSpeeds()
-	self:SetWalkSpeed( 300 )
-	self:SetRunSpeed( 300 )
-end

@@ -8,6 +8,10 @@ if !meta then
 	return
 end
 
+function meta:CanDrink( num )
+	return true
+end
+
 function meta:Drink(balamt)
 	local balamt = balamt or 10
 

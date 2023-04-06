@@ -176,22 +176,8 @@ concommand.Add("gmt_storebuy", function( ply, cmd, args )
 		ply:SetMaxLevel( ItemId, GoLevel )
 		ply:SetLevel( ItemId, GoLevel )
 
-		if Item.storeid == 4 && Item.Name != "Empty Bottle" then
-			ply:AddAchievement( ACHIEVEMENTS.SMARTINVESTER, MoneyNeeded )
-		end
-
-		if Item.storeid == 13 then
-			ply:AddAchievement( ACHIEVEMENTS.PLAYERMODEL, 1 )
-		end
-
-		if Item.storeid == 14 then
-			ply:AddAchievement( ACHIEVEMENTS.CELEBRATEGOODTIMES, 1 )
-		end
-
-		ply:AddAchievement( ACHIEVEMENTS.HOLEINPOCKET, MoneyNeeded )
-	else
-		//You are poor!
-		//This is handled client side - IGINORE
+		hook.Run( "StorePurchaseFinish", ply, Item, MoneyNeeded )
+		
 	end
 
 end )

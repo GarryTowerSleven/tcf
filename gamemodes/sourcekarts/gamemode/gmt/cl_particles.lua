@@ -1,4 +1,5 @@
 if true then return end
+
 --Create particle system (8000 max particles, .5x emission rate)
 local psystem = particle_system.new(8000,.3)
 

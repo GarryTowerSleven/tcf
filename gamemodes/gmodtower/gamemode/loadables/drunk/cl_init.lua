@@ -61,6 +61,7 @@ end)
 hook.Add("CreateMove", "DrunkMove", function(ucmd)
 	local ply = LocalPlayer()
 	if !IsValid(ply) || BAL <= 0 then return end
+	if ( ply:GetMoveType() == MOVETYPE_NOCLIP ) then return end
 
 	local sidemove = math.sin( CurTime() ) * ( ( 150 / 100 ) * ply:GetNet("BAL") )
 	ucmd:SetSideMove( ucmd:GetSideMove() + sidemove )

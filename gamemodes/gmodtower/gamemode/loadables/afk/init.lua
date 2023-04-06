@@ -4,8 +4,8 @@ AddCSLuaFile("shared.lua")
 
 module( "AntiAFK", package.seeall )
 
-AFKTime = IsLobby and 300 or 60
-AFKWarnTime = IsLobby and 30 or 15
+Time = 300
+WarningTime = 30
 
 // Placeholder
 function ForceReset()
@@ -39,7 +39,7 @@ function Send( ply, afk, time )
 		net.WriteInt( id, 4 )
 
 		if ( afk ) then
-			net.WriteInt( CurTime() + ( time or AFKWarnTime ), 32 )
+			net.WriteInt( CurTime() + ( time or WarningTime ), 32 )
 		end
 
 	net.Send( ply )
@@ -59,10 +59,13 @@ function meta:SetAFK( afk )
 	Set( self, afk )
 end
 
-ChatCommands.Register( "/afk", 10, function( ply )
-	Send( ply, true, 0 )
-	Set( ply, true )
-end )
+if ChatCommands then
+	ChatCommands.Register( "/afk", 10, function( ply )
+		Send( ply, true, 0 )
+		Set( ply, true )
+	end )
+end
+
 
 hook.Add( "PlayerThink", "AFKPlayerThink", function( ply )
 	if ( TestingMode and TestingMode:GetBool() ) then return end
@@ -79,12 +82,12 @@ hook.Add( "PlayerThink", "AFKPlayerThink", function( ply )
 	local curtime = CurTime()
 
 	if ( not ply._AFKTime ) then
-		ply._AFKTime = CurTime() + AFKTime
+		ply._AFKTime = CurTime() + Time
 	end
 
 	local timeleft = math.Clamp( ply._AFKTime - curtime, 0, ply._AFKTime )
 
-	if ( timeleft > AFKWarnTime ) then
+	if ( timeleft > WarningTime ) then
 		if ( ply._AFKWarned ) then
 			ply._AFKWarned = false
 			Send( ply, false )
@@ -93,7 +96,7 @@ hook.Add( "PlayerThink", "AFKPlayerThink", function( ply )
 		Set( ply, false )
 	end
 
-	if ( timeleft <= AFKWarnTime ) then
+	if ( timeleft <= WarningTime ) then
 		Send( ply, true, timeleft )
 	end
 

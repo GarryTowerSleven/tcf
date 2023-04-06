@@ -15,6 +15,12 @@ function MEDIAPLAYER:Init()
 
     self:on( "mediaChanged", function( media )
         self._VoteskipManager:Clear()
+
+        if ( IsValid( media ) ) then
+            self._VoteManager:ClearVotesForMedia( media )
+        end
+
+        MediaPlayer.UpdateMediaVote( self )
     end )
 end
 

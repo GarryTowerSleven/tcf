@@ -3,6 +3,8 @@ include "shared.lua"
 
 local BaseClass = baseclass.Get( "mp_entity" )
 
+MEDIAPLAYER._YouTubeAddictionThink = 0
+
 function MEDIAPLAYER:Think()
 	BaseClass.Think( self )
 
@@ -18,8 +20,30 @@ function MEDIAPLAYER:Think()
 
 	local listeners = self:GetListeners()
 	for _, v in ipairs( listeners ) do
+		if ( not IsValid( v ) ) then return end
+
 		if ( v:Location() != self:GetLocation() ) then
 			self:RemoveListener( v )
+		end
+
+		// Youtube Addiction
+		if ( self._YouTubeAddictionThink < CurTime() ) then
+			local media = self:CurrentMedia()
+			if ( media and string.StartsWith( media.UniqueID and media:UniqueID() or "", "yt-" ) ) then
+				v:AddAchievement( ACHIEVEMENTS.SUITEYOUTUBE, 5 / 60 )
+			end
+
+			self._YouTubeAddictionThink = CurTime() + 5
+		end
+	end
+end
+
+function MEDIAPLAYER:AddListener( ply )
+	BaseClass.AddListener( self, ply )
+
+	for _, mp in ipairs( MediaPlayer.GetAll() ) do
+		if ( mp != self and mp:HasListener( ply ) ) then
+			mp:RemoveListener( ply )
 		end
 	end
 end

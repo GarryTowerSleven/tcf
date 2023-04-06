@@ -71,8 +71,7 @@ function PlayerMeta:Adrenaline( state )
 		self.AdrenalineStop = CurTime() + 10
 	else
 		if SERVER then
-			self:SetWalkSpeed( GAMEMODE.HumanSpeed )
-			self:SetRunSpeed( GAMEMODE.HumanSpeed )
+			self:ResetSpeeds()
 		end
 		
 		self:SetDSP( 1 )
@@ -83,6 +82,11 @@ function PlayerMeta:Adrenaline( state )
 		end
 	end
 
+end
+
+function PlayerMeta:ResetSpeeds()
+	self:SetWalkSpeed( GAMEMODE.HumanSpeed )
+	self:SetRunSpeed( GAMEMODE.HumanSpeed )
 end
 
 hook.Add( "PlayerTick", "AdrenalineThink", function( ply, mv )
