@@ -171,15 +171,15 @@ RegisterItem("disco_ball",{
 })
 
 RegisterItem("obama_visualizer",{
-	Name = "Obama Cutout (but cooler!)",
-	Description = "Obama, syncs with music.",
+	Name = "Digital Obama",
+	Description = "We have the technology. We have the capability to make the worlds first bionic man, better than he was before.",
 	Model = "models/gmod_tower/obamacutout.mdl",
 	ClassName = "gmt_visualizer_obama",
 	UniqueInventory = true,
 	EnablePhyiscs = false,
 	DrawModel = true,
+	Tradable = false,
 	StoreId = GTowerStore.MUSIC,
-	StorePrice = 0,
 })
 
 RegisterItem("bar01",{
