@@ -20,6 +20,10 @@ local modelsToCheck = {
 	{ "GMTVirus", {"models/gmod_tower/facility/gmt_facilitydoor.mdl","models/weapons/v_vir_snp.mdl"} },
 	{ "GMTZombie", {"models/weapons/w_flamethro.mdl","models/zom/dog.mdl"} },
 	{ "GMTBallrace", {"models/gmod_tower/ballcrate.mdl","models/props_memories/memories_levelend.mdl"} },
+	{ "TCF Base", {"models/player/miku.mdl" } },
+	{ "TCF Lobby", {"models/weapons/v_watch.mdl" } },
+	{ "TCF Ballrace", {"models/pikauch/ballrace/ringblock.mdl", "models/gmod_tower/balls/midori/midori_island01.mdl" } },
+	{ "TCF PVP", {"models/map_detail/elmtree.mdl" } },
 }
 
 for k,v in pairs(modelsToCheck) do

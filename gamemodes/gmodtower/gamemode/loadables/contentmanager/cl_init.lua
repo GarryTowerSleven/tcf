@@ -20,6 +20,9 @@ RequiredGames = {
 // Check for missing games
 MissingGames = {}
 
+// Check for missing addons
+MissingAddons = {}
+
 // Find missing games, if any
 for _, item in pairs( engine.GetGames() ) do
 
@@ -33,6 +36,9 @@ for _, item in pairs( engine.GetGames() ) do
 
 			table.insert( MissingGames, content )
 
+			if ( model && util.IsValidModel( model ) ) then -- I am annoyed
+				table.remove( MissingGames, content )
+			end
 		end
 
 	end
@@ -43,10 +49,12 @@ end
 // Check for workshop items
 HasAllWorkshop = true
 
-for _, wid in pairs( RequiredWorkshop ) do
+for name, models in pairs( modelsToCheck ) do
 
-	if !steamworks.IsSubscribed( wid ) then
-		HasAllWorkshop = false
+	for _, v in ipairs( models ) do
+		if ( not util.IsValidModel( v ) ) then
+			HasAllWorkshop = false
+		end
 	end
 
 end
@@ -93,15 +101,15 @@ hook.Add( "HUDPaint", "ContentNotice", function()
 			end
 
 			message = "It appears that you are missing the required " .. string.Pluralize( "game", #MissingGames ) .. ": " .. gamesmissing .. "\n" ..
-					  "Please mount the "  .. string.Pluralize( "game", #MissingGames ) .. " to remove errors."
+					  "Please mount the "  .. string.Pluralize( "game", #MissingGames ) .. " and restart to remove errors."
 
 		end
 
 		// Missing GMT Content!
 		if !HasAllWorkshop then
 			if !message then message = "" end
-			message = message .. "\nAlert: GMT workshop content is not installed, it was updated, or workshop is down!\n " ..
-								"Please subscribe to all at https://content.nailgunworld.com/"
+			message = message .. "\nAlert: GMT workshop content is not installed, it outdated, or manual content is out of date!\n " ..
+								"Please subscribe to all at https://content.nailgunworld.com/ and restart."
 		end
 
 		if message then
