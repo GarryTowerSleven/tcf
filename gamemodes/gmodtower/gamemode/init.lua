@@ -279,6 +279,10 @@ function GM:PlayerSetHandsModel(ply, ent)
 	end)
 end
 
+hook.Add( "PlayerSpray", "PlayerDisableSprays", function ( ply )
+	return not ply:CanSpray()
+end )
+
 net.Receive( "ClientFullyConnected", function( len, ply )
 	if !IsValid(ply) || ply:GetNWBool("FullyConnected") then return end
 

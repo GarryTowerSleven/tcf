@@ -3,6 +3,10 @@ if !meta then
 	return
 end
 
+function meta:CanSpray()
+    return self.GetSetting and not self:GetSetting( "GTAllowSpray" )
+end
+
 function meta:ResetSpeeds()
     local player_class = player_manager.GetPlayerClass( self ) or "player_gmt"
     local base = baseclass.Get( player_class )
