@@ -274,6 +274,12 @@ usermessage.Hook("Inv", function( um )
 				Item:ReadFromNW( um )
 			end
 
+			if Item.IsJetpack && (Slot && Slot <= GTowerItems.EquippableSlots && Slot > 0) then
+				timer.Simple(0, function()
+					jetpack.ActiveJetpack = Item
+				end)
+			end
+
 			ItemObj.Item = Item
 
 			if IsValid( ItemObj._VGUI ) then
