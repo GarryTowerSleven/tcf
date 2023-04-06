@@ -496,7 +496,7 @@ GTowerItems.RegisterItem( "ParticleSystemBanana", {
 	NewItem = true,
 
 	StoreId = GTowerStore.VIP,
-	StorePrice = 10000,
+	StorePrice = 12500,
 
 	Tradable = false,
 	UniqueInventory = true,
@@ -537,7 +537,7 @@ GTowerItems.RegisterItem( "ParticleSystemNotes", {
 	NewItem = true,
 
 	StoreId = GTowerStore.VIP,
-	StorePrice = 7500,
+	StorePrice = 10000,
 
 	Tradable = false,
 	UniqueInventory = true,
@@ -578,7 +578,7 @@ GTowerItems.RegisterItem( "ParticleSystemOrbs", {
 	NewItem = true,
 
 	StoreId = GTowerStore.VIP,
-	StorePrice = 12500,
+	StorePrice = 15000,
 
 	Tradable = false,
 	UniqueInventory = true,
