@@ -163,7 +163,7 @@ function Finish( self )
 		self.Owner.SQL:Update( false, true )
 	end
 
-	self.Owner:SetNet( "RoomID", 0 )
+	self.Owner:SetNWInt( "RoomID", 0 )
 
 	local panel = GTowerRooms:GetPanel( self.Id )
 	if panel then

@@ -101,9 +101,8 @@ function PosInBox( pos, min, max )
 end
 
 function RecvPlayerRoom(ply, name, old, new)
-	local roomid = ply:GetNet("RoomID")
-	if roomid > 0 then
-		ReceiveOwner(ply, roomid)
+	if new > 0 then
+		ReceiveOwner(ply, new)
 	end
 end
 
