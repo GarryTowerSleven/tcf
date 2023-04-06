@@ -765,10 +765,11 @@ hook.Add( "HUDPaint", "AdminShowNetInfo", function()
 
         if ( ent:IsPlayer() ) then
             off = off + 15
-            draw.SimpleText( "Player Network", "ChatFont", 5, off, Color( 255, 100, 100 ) )
+            draw.SimpleText( "Player Network", "ChatFont", 5, off, Color( 100, 255, 100 ) )
             off = off + 15
-            for _, v in ipairs( plynet.PlayerNetworkVars ) do
-                draw.SimpleText( tostring( v.name ) .. ": " .. tostring( ent:GetNet( v.name ) ), "ChatFont", 5, off, color_white )
+            for k, v in ipairs( plynet.PlayerNetworkVars ) do
+                draw.SimpleText( Format( "%s %s (%s,%s): %s", k, v.name, v.nettype, v.id, tostring( ent:GetNet( v.name ) ) or "" ), "ChatFont", 5, off, color_white )
+                //draw.SimpleText( tostring( v.name ) .. ": " .. tostring( ent:GetNet( v.name ) ), "ChatFont", 5, off, color_white )
                 off = off + 15
             end
         elseif ( ent.GetNetworkVars ) then
@@ -839,19 +840,20 @@ hook.Add( "HUDPaint", "AdminShowNetInfo", function()
 	off = off + 15
 
 	local ent = globalnet.GetGlobalNetworking()
-	local globalvars = ent:GetNetworkVars() or nil
-	if globalvars then
+	local globalvars = globalnet._GlobalNetworkVars
+	if IsValid( ent ) and globalvars then
 
-		for name, value in pairs( globalvars ) do
+		for k, v in ipairs( globalvars ) do
 
-			local val = value
+            local val = tostring( globalnet.GetNet( v.name ) ) or ""
 
 			-- Handle time/round time
-			if string.find( "time", string.lower( name ) ) then
+			if string.find( "time", string.lower( v.name ) ) then
 				val = tostring( val ) .. " " .. tostring( math.Round( val - CurTime(), 2 ) )
 			end
 
-			draw.SimpleText( tostring( name ) .. ": " .. tostring( val ), "ChatFont", 5, off, color_white )
+            draw.SimpleText( Format( "%s %s (%s,%s): %s", k, v.name, v.nettype, v.id, val ), "ChatFont", 5, off, color_white )
+			//draw.SimpleText( tostring( v.name ) .. ": " .. tostring( val ), "ChatFont", 5, off, color_white )
 			off = off + 15
 
 		end
