@@ -10,7 +10,7 @@ ITEM.EquipType = "Jetpack"
 
 ITEM.IsJetpack = true
 ITEM.JetpackPower = 1.5
-ITEM.JetpackFuel = 2
+ITEM.JetpackFuel = 2.5
 ITEM.JetpackRecharge = 0.5
 ITEM.JetpackHideFuel = false
 ITEM.JetpackStartRecharge = 0.5
@@ -18,4 +18,4 @@ ITEM.ExtraOnFloor = 25 //Amount of force the player has extra when jumping from 
 
 
 ITEM.StoreId = GTowerStore.MERCHANT
-ITEM.StorePrice = 1400
+ITEM.StorePrice = 1500

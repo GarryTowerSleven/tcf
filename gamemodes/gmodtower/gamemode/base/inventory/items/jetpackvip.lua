@@ -17,7 +17,7 @@ ITEM.JetpackStartRecharge = 0.01
 ITEM.ExtraOnFloor = 25 //Amount of force the player has extra when jumping from the floor
 
 ITEM.StoreId = GTowerStore.VIP
-ITEM.StorePrice = 1500
+ITEM.StorePrice = 7500
 
 ITEM.Tradable = false
 ITEM.VIP = true
