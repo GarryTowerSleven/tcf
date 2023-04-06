@@ -248,7 +248,7 @@ function initHud()
 		--draw.GradientBox( w - 512, h, 256, 110, 0, Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 230 ) )
 		--draw.GradientBox( w + 256, h, 256, 110, 0, Color( 0, 0, 0, 230 ), Color( 0, 0, 0, 0 ) )
 		surface.SetDrawColor( 0, 0, 0, 230 )
-		surface.DrawRect( w - 512, h, 1024, 110 )
+		surface.DrawRect( w - 512, h, 1024, 130 )
 	
 		-- Draw title
 		draw.SimpleText( title, "GTowerHudCText", w, h + 20, Color( 255, 255, 255, 255 ), 1, 1 )
