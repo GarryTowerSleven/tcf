@@ -32,12 +32,9 @@ for _, item in pairs( engine.GetGames() ) do
 
 		local model = RequiredModels[item.depot]
 
-		if !item.mounted || !item.installed || ( model && !util.IsValidModel( model ) ) then
-
-			table.insert( MissingGames, content )
-
-			if ( model && util.IsValidModel( model ) ) then -- I am annoyed
-				table.remove( MissingGames, content )
+		if !item.mounted || !item.installed then
+			if ( model && !util.IsValidModel( model ) ) then -- wait wtf was I doing LOL
+				table.insert( MissingGames, content )
 			end
 		end
 
