@@ -37,6 +37,21 @@ function ENT:GetJetpackAttchment( ply )
 
 	if !IsValid( ply ) then return end
 
+	// Try to fix offset for rayman
+	if ply:GetModel() == "models/player/rayman.mdl" then
+		local attachmentData = ply:GetAttachment( ply:LookupAttachment("eyes") )
+		local pos = util.GetCenterPos(ply) + Vector(0,0,ply:BoundingRadius())
+		local ang = attachmentData.Ang
+		local scale = GTowerModels.GetScale( ply:GetModel() )
+
+		if( ply:IsPlayer() && ply:Alive() && ply:KeyDown(IN_DUCK) && ply:GetVelocity():Length() == 0 ) then
+			pos = pos + ang:Forward() * 5 - Vector(0,0,10)
+		end
+
+		return pos, ang, scale
+	end
+
+
 	local Torso = ply:LookupBone( "ValveBiped.Bip01_Spine2" )
 
 	if Torso then
@@ -74,9 +89,9 @@ end
 
 function ENT:DrawFireAttchment( att, ply, seed )
 	
-	if !ply:GetNWBool("IsJetpackOn") then return end
+	if !ply:GetNet("IsJetpackOn") then return end
 
-	local jetpackstart = ply:GetNWInt("JetpackStart") or 0
+	local jetpackstart = ply:GetNet("JetpackStart") or 0
 	local tdiff = (CurTime() - jetpackstart)
 	local Scale = math.Clamp(tdiff * 2, 0, 1 )
 	
@@ -84,7 +99,7 @@ function ENT:DrawFireAttchment( att, ply, seed )
 		Scale = 1
 	end
 	
-	if ( ply:GetNWInt("JetpackStart") or 0 ) < 0 then
+	if ( ply:GetNet("JetpackStart") or 0 ) < 0 then
 		Scale = 1 - Scale
 	end
 	
@@ -157,7 +172,7 @@ function ENT:DrawTranslucent()
 	if ply == LocalPlayer() and !LocalPlayer().ThirdPerson then return end
 	if !IsValid(ply) || !ply:Alive() || ply:OnGround() || ply:InVehicle() then return end
 	
-	if !ply:GetNWBool("IsJetpackOn") then
+	if !ply:GetNet("IsJetpackOn") then
 		return
 	end
 
@@ -179,7 +194,7 @@ function ENT:DrawSmoke( pos, scale, normal )
 	
 	self.Emitter:SetPos(self:GetPos())
 	
-	local sprite = self:GetOwner():GetNWString("JetpackTexture")
+	local sprite = self:GetOwner():GetNet("JetpackTexture")
 	local color = self:GetOwner():GetPlayerColor() * 255
 	if CLIENT and self:GetOwner() == LocalPlayer() then
 		color = Vector( self:GetOwner():GetInfo( "cl_playercolor" ) ) * 255

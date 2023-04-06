@@ -53,28 +53,30 @@ if SERVER then
 	function ITEM:CustomNW()
 		local Valid = self:IsEquiped()
 		
-		//umsg.Bool( Valid )
-		net.WriteBool( Valid )
+		umsg.Bool( Valid )
+		//net.WriteBool( Valid )
 
 		if self:IsEquiped() then
-			//umsg.Float( self.Ply._JetpackFuel )
-			net.WriteFloat( self.Ply._JetpackFuel )
-			net.WriteLong( self.Ply._JetpackLastStart )
-			//umsg.Long( self.Ply._JetpackLastStart )
+			umsg.Float( self.Ply._JetpackFuel )
+			//net.WriteFloat( self.Ply._JetpackFuel )
+			//net.WriteLong( self.Ply._JetpackLastStart )
+			umsg.Long( self.Ply._JetpackLastStart )
 		end	
 	end
 	
 else	
 
-	function ITEM:ReadFromNW( )
+	function ITEM:ReadFromNW( um )
 		
-		//if um:ReadBool() == true then			
-		if net.ReadBool() == true then
+		if um:ReadBool() == true then			
+		//if net.ReadBool() == true then
 			jetpack.ActiveJetpack = self
 			
-			self.Ply._JetpackFuel = net.ReadFloat() //um:ReadFloat()
-			self.Ply._JetpackLastStart = net.ReadLong() //um:ReadLong()
+			self.Ply._JetpackFuel = um:ReadFloat() //net.ReadFloat()
+			self.Ply._JetpackLastStart = um:ReadLong() //net.ReadLong()
 			
+		else
+			jetpack.ActiveJetpack = nil
 		end		
 		
 	end
