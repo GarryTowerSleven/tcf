@@ -170,6 +170,18 @@ RegisterItem("disco_ball",{
 	StorePrice = 4000,
 })
 
+RegisterItem("obama_visualizer",{
+	Name = "Obama Cutout (but cooler!)",
+	Description = "Obama, syncs with music.",
+	Model = "models/gmod_tower/obamacutout.mdl",
+	ClassName = "gmt_visualizer_obama",
+	UniqueInventory = true,
+	EnablePhyiscs = false,
+	DrawModel = true,
+	StoreId = GTowerStore.MUSIC,
+	StorePrice = 0,
+})
+
 RegisterItem("bar01",{
 	Name = "Bar Table",
 	Description = "A table, stolen from a bar.",
