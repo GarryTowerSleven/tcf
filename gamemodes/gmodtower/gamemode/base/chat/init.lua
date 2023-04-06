@@ -42,6 +42,8 @@ local wordfilter = {
 	{ "bieber", "beaver" },
 	{ "kek", "gun" },
 	{ " ͡° ͜ʖ ͡°", "no" },
+
+	{ "cunt", "friend" },
 	
 	{ "tranny" },
 }
