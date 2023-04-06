@@ -251,6 +251,8 @@ function GM:StartRound()
 	self:SetState( NextRoundState )
 	self:SetTime( NextRoundTime )
 
+	GAMEMODE.RunMapAdjustments()
+
 	local banana = ents.Create( "secret_banana" )
 
 	if game.GetMap() == "gmt_ballracer_facile" then

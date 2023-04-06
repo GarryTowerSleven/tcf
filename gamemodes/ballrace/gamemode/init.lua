@@ -7,6 +7,7 @@ include("shared.lua")
 include("round.lua")
 include("player.lua")
 include("sql.lua")
+include("sv_mapadjustments.lua")
 
 ActiveTeleport = nil
 NextMap = nil
@@ -23,7 +24,6 @@ function GM:Initialize()
 	GAMEMODE.LateSpawn = nil
 	GAMEMODE.RoundNum = 0
 	GAMEMODE.PreviousState = self:GetState()
-
 end
 
 hook.Add( "PlayerAFK", "BRAFK", function( ply, afk )
