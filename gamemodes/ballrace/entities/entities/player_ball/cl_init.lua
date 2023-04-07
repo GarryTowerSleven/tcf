@@ -226,11 +226,11 @@ function ENT:DrawTranslucent()
 			scale = GTowerModels.GetScale( self.PlayerModel:GetModel() )
 		end
 
-		//scale = scale * self:GetModelScale()
+		scale = scale * self:GetModelScale()
 		self.PlayerModel:SetPlayerProperties( ply )
 		self.PlayerModel:SetModelScale( scale, 0 )
 
-		//self.PlayerModel:SetPos( self:GetPos() - model_offset * self:GetModelScale() )
+		self.PlayerModel:SetPos( self:GetPos() - model_offset * self:GetModelScale() )
 		self.PlayerModel:DrawModel()
 		
 
@@ -243,6 +243,7 @@ function ENT:DrawTranslucent()
 	if IsValid( self.Ball ) then
 		render.CullMode(FIRSTPERSON and ply == LocalPlayer() and MATERIAL_CULLMODE_CW or MATERIAL_CULLMODE_CCW)
 		render.SetBlend(FIRSTPERSON and ply == LocalPlayer() and 0.4 or self.Opacity or 1)
+		self.Ball:SetModelScale(self:GetModelScale())
 		self.Ball:DrawModel()
 	end
 	render.CullMode(MATERIAL_CULLMODE_CCW)

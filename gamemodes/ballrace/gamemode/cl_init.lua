@@ -385,7 +385,7 @@ function GM:CalcView( ply, origin, angles, fov )
 		end
 
 		view.origin = ply:CameraTrace(nil, dist, angles)
-		// view.angles = IsValid(ball) and ball.Center and (ball:Center() - view.origin):Angle() or angles
+		view.angles = IsValid(ball) and ball.Center and (ball:Center() - view.origin):Angle() or angles
 
 		return view
 	end
@@ -503,11 +503,22 @@ ConVarPlayerFade = CreateClientConVar( "gmt_ballrace_fade", 0, true )
 
 hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDepth, bDrawingSkybox )
 	local pf = ConVarPlayerFade:GetInt()
-	if pf < 1 then return end // Fk player fade man
+	// if pf < 1 then return end // Fk player fade man
 
 	for _, ply in pairs( player.GetAll() ) do
 		local ball = ply:GetBall()
 		local opacity = 255
+
+		if IsValid( ball ) then
+			ball:SetColor( Color( 255, 255, 255, opacity ) )
+			print(ply, ply:Alive())
+			if !ply:Alive() && ply == LocalPlayer() and ball.Draw then
+				cam.IgnoreZ(true)
+				ball:SetModel(ball.Ball and ball.Ball:GetModel() or ball:GetModel())
+				ball:Draw()
+				cam.IgnoreZ(false)
+			end
+		end
 
 		ball = ball.Ball or nil
 
@@ -528,14 +539,6 @@ hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDe
 			end
 		end
 
-		if IsValid( ball ) then
-			ball:SetColor( Color( 255, 255, 255, opacity ) )
 
-			if !ply:Alive() && ply == LocalPlayer() and ball.Draw then
-				cam.IgnoreZ(true)
-				ball:Draw()
-				cam.IgnoreZ(false)
-			end
-		end
 	end
 end )
