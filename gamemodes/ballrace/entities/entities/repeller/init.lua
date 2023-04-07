@@ -25,8 +25,6 @@ function ENT:Initialize()
 		phys:EnableMotion(false)
 	end
 	
-	self:SetNWBool("Repel", self.Repel == 1)
-	
 	if !self.Repel then
 		self.Repel = 0
 	end
