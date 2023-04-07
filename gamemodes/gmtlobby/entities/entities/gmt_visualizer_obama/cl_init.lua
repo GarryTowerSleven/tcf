@@ -40,9 +40,9 @@ function ENT:InLimit( loc )
 end
 
 function ENT:Think()
-	print("!")
+	//print("!")
 	local Stream = self:GetStream()
-	print(Stream)
+	//print(Stream)
 	if not Stream then return end
 	local fft = {}
 	Stream:FFT(fft, 2)
