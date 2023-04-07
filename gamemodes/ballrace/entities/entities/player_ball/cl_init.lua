@@ -219,7 +219,7 @@ function ENT:DrawTranslucent()
 	if !IsValid( ply ) then return end
 
 	// Draw player model
-	if IsValid( self.PlayerModel ) then
+	if IsValid( self.PlayerModel ) and !FIRSTPERSON then
 
 		local scale = 1
 		if GTowerModels then
@@ -241,8 +241,11 @@ function ENT:DrawTranslucent()
 
 	// Draw Ball
 	if IsValid( self.Ball ) then
+		render.CullMode(FIRSTPERSON and MATERIAL_CULLMODE_CW or MATERIAL_CULLMODE_CCW)
+		render.SetBlend(FIRSTPERSON and 0.4 or 1)
 		self.Ball:DrawModel()
 	end
+	render.CullMode(MATERIAL_CULLMODE_CCW)
 
 	// Draw ball
 	// self:DrawModel()

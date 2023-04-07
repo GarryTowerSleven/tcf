@@ -355,6 +355,10 @@ end
 
 function ZoomThink()
 	dist = math.Approach(dist, wantdist, 500 * FrameTime())
+
+	local ply = LocalPlayer():GetViewEntity()
+	if !IsValid(ply) or !IsValid(ply:GetBall()) then return end
+	FIRSTPERSON = wantdist == ply:GetBall():BoundingRadius()
 end
 
 hook.Add("PlayerBindPress", "ZoomCam", ZoomCam)
@@ -403,6 +407,10 @@ function GM:CalcView( ply, origin, angles, fov )
 		tilt = LerpAngle(FrameTime() * 4, tilt, tilta)
 		view.angles = view.angles + tilt
 		view.origin = view.origin + angles:Up() * tilt.p * 2 + angles:Right() * tilt.r * 0.4
+	end
+
+	if FIRSTPERSON then
+		view.origin = ball:Center() + Vector(0, 0, 24)
 	end
 
 	return view
