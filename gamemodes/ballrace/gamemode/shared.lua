@@ -84,15 +84,15 @@ music.Register( MUSIC_LEVEL, "BallsMusicWTranquil", { Length = 145, Loops = true
 music.Register( MUSIC_LEVEL, "PikaUCH/Music/ManzaiBirds", { Length = 164, Loops = true }, "gmt_ballracer_neonlights" )
 
 GM.AvailableModels = {	
-	"models/gmod_tower/BALL.mdl",
-	"models/gmod_tower/cubeball.mdl",
-	"models/gmod_tower/icosahedron.mdl",
-	"models/gmod_tower/catball.mdl",
-	"models/gmod_tower/ballion.mdl",
-	"models/gmod_tower/ball_bomb.mdl",
-	"models/gmod_tower/ball_geo.mdl",
-	"models/gmod_tower/ball_soccer.mdl",
-	"models/gmod_tower/ball_spiked.mdl",
+	Model("models/gmod_tower/ball.mdl"),
+	Model("models/gmod_tower/cubeball.mdl"),
+	Model("models/gmod_tower/icosahedron.mdl"),
+	Model("models/gmod_tower/catball.mdl"),
+	Model("models/gmod_tower/ballion.mdl"),
+	Model("models/gmod_tower/ball_bomb.mdl"),
+	Model("models/gmod_tower/ball_geo.mdl"),
+	Model("models/gmod_tower/ball_soccer.mdl"),
+	Model("models/gmod_tower/ball_spiked.mdl"),
 }
 GM.BallLevels = {
 	"BallRacerCube",

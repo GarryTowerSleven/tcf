@@ -178,42 +178,8 @@ function GetPlayerStatus(ply)
 	return player_status
 end
 
-local function SetBallId( ply, BallId )
-	BallId = tonumber(BallId)
-
-	if BallId == 2 && GTowerStore:GetPlyLevel(ply,"BallRacerCube") == 1  then
-		ply.ModelSet = 'models/gmod_tower/cubeball.mdl'
-	elseif BallId == 3 && GTowerStore:GetPlyLevel(ply,"BallRacerIcosahedron") == 1  then
-		ply.ModelSet = 'models/gmod_tower/icosahedron.mdl'
-	elseif BallId == 4 && GTowerStore:GetPlyLevel(ply,"BallRacerCatBall") == 1 then
-		ply.ModelSet = 'models/gmod_tower/catball.mdl'
-	elseif BallId == 5 && ( ply.IsVIP || ply:IsAdmin() ) then
-		ply.ModelSet = 'models/gmod_tower/ballion.mdl'
-	elseif BallId == 6 && GTowerStore:GetPlyLevel(ply,"BallRacerBomb") == 1 then
-		ply.ModelSet = 'models/gmod_tower/ball_bomb.mdl'
-	elseif BallId == 7 && GTowerStore:GetPlyLevel(ply,"BallRacerGeo") == 1 then
-		ply.ModelSet = 'models/gmod_tower/ball_geo.mdl'
-	elseif BallId == 8 && GTowerStore:GetPlyLevel(ply,"BallRacerSoccerBall") == 1 then
-		ply.ModelSet = 'models/gmod_tower/ball_soccer.mdl'
-	elseif BallId == 9 && GTowerStore:GetPlyLevel(ply,"BallRacerSpikedd") == 1 then
-		ply.ModelSet = 'models/gmod_tower/ball_spiked.mdl'
-	else
-		ply.ModelSet = 'models/gmod_tower/BALL.mdl'
-	end
-end
-
 hook.Add( "PlayerInitialSpawn", "StartMusic", function( ply )
 
 	music.Play( 1, MUSIC_LEVEL, ply )
-
-end )
-
-concommand.Add("gmt_setball", function( ply, cmd, args )
-
-	local BallId = tonumber( args[1] )
-
-	if BallId then
-		SetBallId( ply, BallId )
-	end
 
 end )

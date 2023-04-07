@@ -1,6 +1,6 @@
 include("shared.lua")
-include("cl_choose.lua")
 include("cl_message.lua")
+include( "sh_choose.lua" )
 
 local hud_lives = surface.GetTextureID( "gmod_tower/balls/hud_main_lives" )
 local hud_bananas = surface.GetTextureID( "gmod_tower/balls/hud_main_bananas" )
@@ -494,14 +494,14 @@ hook.Add("GUIMousePressed", "MouseClick", MouseClick)
 ConVarPlayerFade = CreateClientConVar( "gmt_ballrace_fade", 0, true )
 
 hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDepth, bDrawingSkybox )
-	EyePos()
-
 	local pf = ConVarPlayerFade:GetInt()
 	if pf < 1 then return end // Fk player fade man
 
 	for _, ply in pairs( player.GetAll() ) do
 		local ball = ply:GetBall()
 		local opacity = 255
+
+		ball = ball.Ball or nil
 
 		if ply:Alive() and ply:Team() == TEAM_PLAYERS then // Leave dem spectators alone
 			if ply == LocalPlayer() then continue end // Skip ourselves
@@ -530,5 +530,4 @@ hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDe
 			end
 		end
 	end
-
 end )

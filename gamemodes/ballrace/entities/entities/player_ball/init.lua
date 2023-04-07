@@ -24,11 +24,9 @@ function ENT:Initialize()
 
 	self:SphereInit(self.radius)
 
-	if ply.ModelSet == nil then
-		self:SetModel( "models/gmod_tower/BALL.mdl" )
-	else
-		self:SetModel( ply.ModelSet )
-	end
+	self:SetModel( "models/gmod_tower/ball_spiked.mdl" )
+	// self:SetNoDraw( true )
+	self:DrawShadow( false )
 
 	self:AddEFlags( EFL_FORCE_CHECK_TRANSMIT )
 	self.links = {}
