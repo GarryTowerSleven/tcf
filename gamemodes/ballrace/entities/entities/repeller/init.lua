@@ -38,6 +38,8 @@ function ENT:Initialize()
 	if self.Repel <= 0 then
 		self:SetSkin(1)
 	end
+
+	self:SetNWBool( "Repel", self.Repel == 1 )
 end
 
 function ENT:PhysicsCollide(data, phys)
