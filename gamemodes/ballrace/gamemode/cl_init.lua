@@ -371,6 +371,7 @@ local convar = CreateClientConVar("gmt_ballrace_tilt", "0", true, false, "Tiltin
 function GM:CalcView( ply, origin, angles, fov )
 	local ball = ply:GetBall()
 
+	local ply = IsValid(ball) and ball:GetOwner() or ply
 	local view = {}
 	view.origin 	= origin
 	view.angles	= angles
@@ -511,7 +512,7 @@ hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDe
 
 		if IsValid( ball ) then
 			ball:SetColor( Color( 255, 255, 255, opacity ) )
-			if !ply:Alive() && ply == LocalPlayer() and ball.Draw then
+			if !ply:Alive() && (ply == LocalPlayer() || ball:GetOwner() == ply) and ball.Draw then
 				cam.IgnoreZ(true)
 				ball:SetModel(ball.Ball and ball.Ball:GetModel() or ball:GetModel())
 				ball:Draw()

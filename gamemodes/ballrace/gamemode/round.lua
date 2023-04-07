@@ -557,28 +557,21 @@ function GM:SpectateNext(ply)
 
 	local players = player.GetAll()
 
-	local k, v = next(players, start)
-	if !k then k, v = next(players) end
+	if !IsValid(start) or !start:Alive() || start:Team() ~= TEAM_PLAYERS then
+		newspec = nil
 
-	while k != start do
-		if v:Team() == TEAM_PLAYERS then
-			newspec = k
-			break
+		for _, ply in ipairs(player.GetAll()) do
+			if ply:Alive() && ply:Team() == TEAM_PLAYERS then
+				newspec = ply
+			end
 		end
-
-		k, v = next(players, k)
-		if !k then
-			if start == nil then break end
-			k, v = next(players)
-		end
-
-		if v == ply then start = k break end --hack to stop this from doing an infinite loop
 	end
 
 	ply.Spectating = newspec
+	print(ply.Spectating)
 
 	local ent = nil
-	if players[newspec] then ent = players[newspec].Ball end
+	ent = ply.Spectating.Ball
 
 	ply:SetBall(ent)
 
