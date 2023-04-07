@@ -561,7 +561,7 @@ function GM:SpectateNext(ply)
 	if !k then k, v = next(players) end
 
 	while k != start do
-		if v:Team() == TEAM_PLAYERS && v:Alive() then
+		if v:Team() == TEAM_PLAYERS then
 			newspec = k
 			break
 		end
