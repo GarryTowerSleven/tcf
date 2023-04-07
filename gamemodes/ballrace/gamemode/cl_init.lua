@@ -511,7 +511,6 @@ hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDe
 
 		if IsValid( ball ) then
 			ball:SetColor( Color( 255, 255, 255, opacity ) )
-			print(ply, ply:Alive())
 			if !ply:Alive() && ply == LocalPlayer() and ball.Draw then
 				cam.IgnoreZ(true)
 				ball:SetModel(ball.Ball and ball.Ball:GetModel() or ball:GetModel())
