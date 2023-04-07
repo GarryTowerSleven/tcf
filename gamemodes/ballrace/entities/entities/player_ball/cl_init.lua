@@ -21,6 +21,7 @@ function ENT:InitBall()
 
 	self.Ball = ClientsideModel( GAMEMODE.AvailableModels[ ballid ], RENDERGROUP_TRANSLUCENT )
 	if !IsValid( self.Ball ) then return end
+	self.Ball:SetNoDraw(true)
 end
 
 function ENT:InitPlayer()
