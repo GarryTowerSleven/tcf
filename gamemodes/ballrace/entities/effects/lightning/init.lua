@@ -1,7 +1,5 @@
 EFFECT.Mat = Material( "effects/laser1" )
-EFFECT.NumPoints = 12
-
-EFFECT.BaseColor = Color(255, 255, 255, 255)
+EFFECT.NumPoints = 10
 EFFECT.LightningColor = Color(255, 255, 255, 255)
 
 function EFFECT:Init( data )
@@ -9,9 +7,7 @@ function EFFECT:Init( data )
 	self.TargetEntity = data:GetEntity()
 	self.RepellerEnt = Entity(data:GetAttachment())
 	
-	local repels = self.RepellerEnt:GetNWBool("Repel")
-	
-	self.LightningColor = repels and Color(25, 255, 255, 255) or Color(255, 100, 100, 255)
+	//print(self.RepellerEnt)
 	
 	self.Points = {}
 	self:GeneratePoints()
@@ -34,59 +30,26 @@ function EFFECT:GeneratePoints()
 	self:SetRenderBoundsWS( self.Start, endpos )
 end
 
-function EFFECT:Think()
+function EFFECT:Think( )
 	if IsValid(self.TargetEntity) && self.TargetEntity.Links[self.RepellerEnt] then
-	
-		local waveX = math.sin( RealTime() * 32 ) * .075
-		local waveY = math.cos( RealTime() * 32 ) * .075
-		
-		local scale = Vector(1 + waveX, 1 + waveY, 1)
-
-		if IsValid(self.RepellerEnt) then
-			local mat = Matrix()
-			mat:Scale(scale)
-			self.RepellerEnt:EnableMatrix("RenderMultiply", mat)
-		end
-
 		if RealTime() > self.Update then
 			self:GeneratePoints()
 			self.Update = RealTime() + 0.01
 		end
 		return true
 	end
-	
-	if IsValid(self.RepellerEnt) then
-		local scale = Vector(1,1,1)
-
-		local mat = Matrix()
-		mat:Scale(scale)
-		self.RepellerEnt:EnableMatrix("RenderMultiply", mat)
-	end
-	
 	return false 
 end
 
 function EFFECT:Render()
 	render.SetMaterial(self.Mat)
-	
 	render.StartBeam(self.NumPoints + 1)
 	
 	render.AddBeam(self.Start, 32, CurTime(), self.LightningColor)
 	
 	for i = 1, self.NumPoints do
 		local tcoord = CurTime() + ( 1 / 12 ) * i
-		render.AddBeam(self.Points[i], 16, tcoord, self.BaseColor)
-	end
-	
-	render.EndBeam()
-	
-	render.StartBeam(self.NumPoints + 1)
-	
-	render.AddBeam(self.Start, 32, CurTime(), self.LightningColor)
-	
-	for i = 1, self.NumPoints do
-		local tcoord = CurTime() + ( 1 / 12 ) * i
-		render.AddBeam(self.Points[i], 48, tcoord, self.LightningColor)
+		render.AddBeam(self.Points[i], 32, tcoord, self.LightningColor)
 	end
 	
 	render.EndBeam()
