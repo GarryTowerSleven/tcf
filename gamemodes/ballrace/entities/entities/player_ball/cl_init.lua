@@ -196,11 +196,11 @@ function ENT:DrawTranslucent()
 			scale = GTowerModels.GetScale( self.PlayerModel:GetModel() )
 		end
 
-		scale = scale * self:GetModelScale()
+		//scale = scale * self:GetModelScale()
 		self.PlayerModel:SetPlayerProperties( ply )
 		self.PlayerModel:SetModelScale( scale, 0 )
 
-		self.PlayerModel:SetPos( self:GetPos() - model_offset * self:GetModelScale() )
+		//self.PlayerModel:SetPos( self:GetPos() - model_offset * self:GetModelScale() )
 		self.PlayerModel:DrawModel()
 		
 

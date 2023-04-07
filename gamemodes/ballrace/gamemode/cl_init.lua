@@ -381,7 +381,7 @@ function GM:CalcView( ply, origin, angles, fov )
 		end
 
 		view.origin = ply:CameraTrace(nil, dist, angles)
-		view.angles = IsValid(ball) and ball.Center and (ball:Center() - view.origin):Angle() or angles
+		// view.angles = IsValid(ball) and ball.Center and (ball:Center() - view.origin):Angle() or angles
 
 		return view
 	end
