@@ -75,8 +75,6 @@ if SERVER then
 			Msg( ply, " sql connect: ", CanCube, " ", CanIcosahedron )
 		end
 
-		print( ply, CanCube, CanIcosahedron, CanCatBall, CanBomb, CanGeo, CanSoccer, CanSpiked )
-
 		umsg.Start("GtBall", ply )
 			umsg.Char( 0 )
 			umsg.Bool( CanCube )
