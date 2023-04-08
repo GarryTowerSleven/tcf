@@ -1,6 +1,6 @@
 include("shared.lua")
-include("cl_choose.lua")
 include("cl_message.lua")
+include( "sh_choose.lua" )
 
 local hud_lives = surface.GetTextureID( "gmod_tower/balls/hud_main_lives" )
 local hud_bananas = surface.GetTextureID( "gmod_tower/balls/hud_main_bananas" )
@@ -355,6 +355,10 @@ end
 
 function ZoomThink()
 	dist = math.Approach(dist, wantdist, 500 * FrameTime())
+
+	local ply = LocalPlayer():GetViewEntity()
+	if !IsValid(ply) or !IsValid(ply:GetBall()) then return end
+	FIRSTPERSON = wantdist == ply:GetBall():BoundingRadius()
 end
 
 hook.Add("PlayerBindPress", "ZoomCam", ZoomCam)
@@ -367,6 +371,7 @@ local convar = CreateClientConVar("gmt_ballrace_tilt", "0", true, false, "Tiltin
 function GM:CalcView( ply, origin, angles, fov )
 	local ball = ply:GetBall()
 
+	local ply = IsValid(ball) and ball:GetOwner() or ply
 	local view = {}
 	view.origin 	= origin
 	view.angles	= angles
@@ -381,7 +386,7 @@ function GM:CalcView( ply, origin, angles, fov )
 		end
 
 		view.origin = ply:CameraTrace(nil, dist, angles)
-		// view.angles = IsValid(ball) and ball.Center and (ball:Center() - view.origin):Angle() or angles
+		view.angles = IsValid(ball) and ball.Center and (ball:Center() - view.origin):Angle() or angles
 
 		return view
 	end
@@ -403,6 +408,10 @@ function GM:CalcView( ply, origin, angles, fov )
 		tilt = LerpAngle(FrameTime() * 4, tilt, tilta)
 		view.angles = view.angles + tilt
 		view.origin = view.origin + angles:Up() * tilt.p * 2 + angles:Right() * tilt.r * 0.4
+	end
+
+	if FIRSTPERSON then
+		view.origin = ball:Center() + Vector(0, 0, 24)
 	end
 
 	return view
@@ -494,14 +503,24 @@ hook.Add("GUIMousePressed", "MouseClick", MouseClick)
 ConVarPlayerFade = CreateClientConVar( "gmt_ballrace_fade", 0, true )
 
 hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDepth, bDrawingSkybox )
-	EyePos()
-
 	local pf = ConVarPlayerFade:GetInt()
-	if pf < 1 then return end // Fk player fade man
+	// if pf < 1 then return end // Fk player fade man
 
 	for _, ply in pairs( player.GetAll() ) do
 		local ball = ply:GetBall()
 		local opacity = 255
+
+		if IsValid( ball ) then
+			ball:SetColor( Color( 255, 255, 255, opacity ) )
+			if !ply:Alive() && (ply == LocalPlayer() || ball:GetOwner() == ply) and ball.Draw then
+				cam.IgnoreZ(true)
+				ball:SetModel(ball.Ball and ball.Ball:GetModel() or ball:GetModel())
+				ball:Draw()
+				cam.IgnoreZ(false)
+			end
+		end
+
+		ball = ball.Ball or nil
 
 		if ply:Alive() and ply:Team() == TEAM_PLAYERS then // Leave dem spectators alone
 			if ply == LocalPlayer() then continue end // Skip ourselves
@@ -520,15 +539,6 @@ hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDe
 			end
 		end
 
-		if IsValid( ball ) then
-			ball:SetColor( Color( 255, 255, 255, opacity ) )
 
-			if !ply:Alive() && ply == LocalPlayer() then
-				cam.IgnoreZ(true)
-				ball:Draw()
-				cam.IgnoreZ(false)
-			end
-		end
 	end
-
 end )

@@ -23,12 +23,14 @@ function ENT:Draw()
 	// render.DrawSprite( self:WorldSpaceCenter() + self:GetUp() * 16 + self:GetForward() * 4, 15 + ( size * 100 ), 15 + ( size * 100 ), colorutil.Rainbow(self.NextScale) )
 
 	self.FT = self.FT or 0
-	self.FT = self.FT + FrameTime() * self.Bass * 0.4
+	self.FTSpeed = self.FTSpeed or 0
+	self.FTSpeed = Lerp(FrameTime() * (2 + (self.Bass > 4 and 4 or 0)), self.FTSpeed, self.Bass + (self.Bass > 4 and 8 or 0))
+	self.FT = self.FT + FrameTime() * self.FTSpeed * Lerp(math.min(self.Bass, 1) / 4, 0, 1)
 	local pos = self:GetPos()
-	self:SetRenderOrigin(pos + Vector(0, 0, self.Bass * 2 + (self.Bass > 2 && self.Bass * 4 || 0)))
-	self:SetRenderAngles(self:GetAngles() + Angle(self.Bass * 2, math.sin(CurTime() * 8 * self.Bass) * self.Bass * 0, math.sin(self.FT * 2 + self.Bass) * self.Bass * 8))
+	self:SetRenderOrigin(pos + Vector(0, 0, self.Bass * 4) + self:GetRight() * math.sin(self.FT * 2) * self.Bass * -1 + Vector(0, 0, math.abs(math.sin(self.FT * 2)) * -4 * self.Bass)) // + (self.Bass > 2 && self.Bass * 4 || 0)))
+	self:SetRenderAngles(self:GetAngles() + Angle(self.Bass * 2, math.sin(self.FT * 2) * self.Bass * 4, math.sin(self.FT * 2) * self.Bass * -4))
 	self:ManipulateBoneScale(0, Vector(1, 1 + self.Bass * 0.01, 1 + self.Bass * 0.04))
-	self:SetModelScale(1 + self.Bass * 0.01)
+	self:SetModelScale(1 + self.Bass * 0.01 + self.FTSpeed * 0.01)
 	self:DrawModel()
 	self:SetRenderOrigin()
 	self:SetRenderAngles()
@@ -44,15 +46,26 @@ function ENT:Think()
 	local Stream = self:GetStream()
 	//print(Stream)
 	if not Stream then return end
+	if not self:StreamIsPlaying() then
+		self.Bass = 0
+		return
+	end
 	local fft = {}
 	Stream:FFT(fft, 2)
 
 	if #fft <= 0 then return end
 	local b = 0
-	for i = 1, 20 do
+	for i = 1, 40 do
 		b = b + fft[i]
 	end
-	self.Bass = Lerp(FrameTime() * 18, self.Bass, b)
+
+	for i = #fft / 2, #fft do
+		b = b + fft[i]
+	end
+
+	b = b / (40 + (#fft / 2))
+	b = b * 400
+	self.Bass = Lerp(FrameTime() * (18 / 2), self.Bass, b)
 end
 
 function ENT:UpdateStreamVals( Stream )

@@ -42,6 +42,7 @@ end
 
 function ENT:PhysicsCollide(data, phys)
 	if IsValid(data.HitEntity) && data.HitEntity:GetClass() == "player_ball" && self.Repel <= 0 then
+		data.HitEntity.Repel = true
 		data.HitEntity:GetOwner():Kill()
 	end
 end

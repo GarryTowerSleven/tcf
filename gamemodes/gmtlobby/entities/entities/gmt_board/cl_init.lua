@@ -31,7 +31,6 @@ local rules = {
 	"Chat Spamming",
 	"Racism, sexism, homophobia or discrimination",
 	"Impersonating developers",
-	"Selling GMC for real life currencies or items",
 	"Excessive Trolling",
 	"Speed hacking, Aimbotting and similar tools",
 	"Scripting binds",

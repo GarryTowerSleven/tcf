@@ -10,7 +10,7 @@ local Roles =
 	["STEAM_0:0:1384695"] = "Lead Developer",	// Kity
 	
 	// Developers
-	["STEAM_0:0:38865393"] = "Developer",	// boXy
+	//["STEAM_0:0:38865393"] = "Developer",	// boXy
 	["STEAM_0:1:39916544"] = "Developer",	// Anoma
 	["STEAM_0:0:35652170"] = "Developer",	// Lead
 	["STEAM_0:1:124798129"] = "Developer", 	// Amgona
@@ -35,12 +35,12 @@ local function GetTitle( steamid )
 end
 
 function meta:IsHidden()
-	if IsValid( self ) then
+	/*if IsValid( self ) then
 		local fakename = self:GetNWString( "FakeName" )
 		if fakename then
 			return self:GetNWString( "FakeName" ) != ""
 		end
-	end
+	end*/
 	return false
 end
 
@@ -73,7 +73,7 @@ function meta:IsTester()
 end
 
 local color_lead = Color(248, 18, 128, 255)
-local color_admin = Color(255, 100, 100, 255)
+local color_admin = Color(125, 177, 30, 255)
 local color_mod = Color(255, 150, 75, 255)
 local color_developer = Color(255, 100, 100, 255) // cool green 125, 177, 30
 local color_vip = Color(185, 100, 255, 255)
@@ -127,6 +127,10 @@ function meta:GetRespectName( nofriend )
 	
 	if self:IsVIP() then
 		title = "VIP"
+	end
+
+	if self:IsAdmin() then
+		title = "Admin"
 	end
 
 	if ( GetTitle( self:SteamID() ) ) then

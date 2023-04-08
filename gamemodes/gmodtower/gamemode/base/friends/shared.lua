@@ -20,8 +20,8 @@ end
 
 function IsBlocked( ply, plyOther )
 
-	if not IsValid( ply ) or not IsValid( plyOther) then return end
-	if ( ply:IsAdmin() or ply:IsModerator() ) and not ply:IsHidden() and not ply:IsSecretAdmin() then return false end -- Admins cannot be blocked
+	if not IsValid( ply ) or not IsValid( plyOther ) then return end
+	if ( plyOther:IsAdmin() or plyOther:IsModerator() ) and not plyOther:IsHidden() and not plyOther:IsSecretAdmin() then return false end -- Admins cannot be blocked
 
 	if not ply._Friends then return false end
 	if not plyOther:IsPlayer() or plyOther:IsBot() then return end

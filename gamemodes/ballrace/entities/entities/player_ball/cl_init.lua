@@ -8,6 +8,20 @@ function ENT:Initialize()
 	self.PlayerModel = nil
 	self:InitPlayer()
 
+	self.Ball = nil
+	self:InitBall()
+
+end
+
+function ENT:InitBall()
+	local ply = self:GetOwner()
+	if !IsValid( ply ) or self.Ball then return end
+
+	local ballid = math.Clamp( (IsValid( ply ) and ply.GetNet) and ply:GetNet( "BallID" ) or 1, 1, table.Count( GAMEMODE.AvailableModels ) )
+
+	self.Ball = ClientsideModel( GAMEMODE.AvailableModels[ ballid ], RENDERGROUP_TRANSLUCENT )
+	if !IsValid( self.Ball ) then return end
+	self.Ball:SetNoDraw(true)
 end
 
 function ENT:InitPlayer()
@@ -63,6 +77,11 @@ function ENT:OnRemove()
 	if IsValid( self.PlayerModel ) then
 		self.PlayerModel:Remove()
 		self.PlayerModel = nil
+	end
+
+	if IsValid( self.Ball ) then
+		self.Ball:Remove()
+		self.Ball = nil
 	end
 	
 	self.Links = {}
@@ -147,6 +166,17 @@ function ENT:Think()
 	:1: Tried to use a NULL entity!
 	*/
 
+	if !IsValid( self.Ball ) then
+
+		self.Ball = nil
+		self:InitBall()
+		if !IsValid( self.Ball ) then return end
+
+	end
+
+	self.Ball:SetPos( self:GetPos() )
+	self.Ball:SetAngles( self:GetAngles() )
+
 	if !IsValid( self.PlayerModel ) || !self.PlayerModel:GetModel() then
 
 		self.PlayerModel = nil
@@ -189,18 +219,18 @@ function ENT:DrawTranslucent()
 	if !IsValid( ply ) then return end
 
 	// Draw player model
-	if IsValid( self.PlayerModel ) then
+	if IsValid( self.PlayerModel ) and (ply ~= LocalPlayer() || !FIRSTPERSON) then
 
 		local scale = 1
 		if GTowerModels then
 			scale = GTowerModels.GetScale( self.PlayerModel:GetModel() )
 		end
 
-		//scale = scale * self:GetModelScale()
+		scale = scale * self:GetModelScale()
 		self.PlayerModel:SetPlayerProperties( ply )
 		self.PlayerModel:SetModelScale( scale, 0 )
 
-		//self.PlayerModel:SetPos( self:GetPos() - model_offset * self:GetModelScale() )
+		self.PlayerModel:SetPos( self:GetPos() - model_offset * self:GetModelScale() )
 		self.PlayerModel:DrawModel()
 		
 
@@ -209,8 +239,17 @@ function ENT:DrawTranslucent()
 
 	end
 
+	// Draw Ball
+	if IsValid( self.Ball ) then
+		render.CullMode(FIRSTPERSON and ply == LocalPlayer() and MATERIAL_CULLMODE_CW or MATERIAL_CULLMODE_CCW)
+		render.SetBlend(FIRSTPERSON and ply == LocalPlayer() and 0.4 or self.Opacity or 1)
+		self.Ball:SetModelScale(self:GetModelScale())
+		self.Ball:DrawModel()
+	end
+	render.CullMode(MATERIAL_CULLMODE_CCW)
+
 	// Draw ball
-	self:DrawModel()
+	// self:DrawModel()
 
 	// Draw names
 	local name = ply:Name()

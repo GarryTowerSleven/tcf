@@ -1,13 +1,15 @@
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
-AddCSLuaFile("cl_choose.lua")
 AddCSLuaFile("cl_message.lua")
+AddCSLuaFile( "sh_choose.lua" )
 
 include("shared.lua")
 include("round.lua")
 include("player.lua")
 include("sql.lua")
 include("sv_mapadjustments.lua")
+
+include( "sh_choose.lua" )
 
 ActiveTeleport = nil
 NextMap = nil
@@ -91,21 +93,6 @@ local function PlayerSetup( ply )
 	ply:SetModel(default_pm)
 
 end
-
-concommand.Add("gmt_requestballupdate",function(ply)
-
-	net.Start( 'GtBall' )
-		net.WriteInt( 0, 2 )
-		net.WriteBool(GTowerStore:GetPlyLevel(ply,"BallRacerCube") == 1)
-		net.WriteBool(GTowerStore:GetPlyLevel(ply,"BallRacerIcosahedron") == 1)
-		net.WriteBool(GTowerStore:GetPlyLevel(ply,"BallRacerCatBall") == 1)
-		net.WriteBool(GTowerStore:GetPlyLevel(ply,"BallRacerBomb") == 1)
-		net.WriteBool(GTowerStore:GetPlyLevel(ply,"BallRacerGeo") == 1)
-		net.WriteBool(GTowerStore:GetPlyLevel(ply,"BallRacerSoccerBall") == 1)
-		net.WriteBool(GTowerStore:GetPlyLevel(ply,"BallRacerSpikedd") == 1)
-	net.Send( ply )
-
-end)
 
 local function GamemodeNotFull()
 	return true // ballrace will always have afk enabled, even if not full

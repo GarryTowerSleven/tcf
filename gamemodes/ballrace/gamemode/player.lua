@@ -44,9 +44,9 @@ function GM:DoPlayerDeath(ply)
 
 	ply:SetDeaths( ply:Deaths() - 1 )
 
-	local tr = util.QuickTrace(ply:GetPos(), Vector(0, 0, -64), ply.Ball)
-	// ply.Fallout = !tr.Hit || tr.HitTexture == "TOOLS/TOOLSSKYBOX"
-	//if !ply.Fallout || ply.Ball && ply.Ball.links && table.Count(ply.Ball.links) > 0 then
+	local tr = util.QuickTrace(ply:GetPos(), Vector(0, 0, -1024), ply.Ball)
+	ply.Fallout = !tr.Hit or tr.HitTexture == "TOOLS/TOOLSSKYBOX"
+	if !ply.Fallout || ply.Ball && ply.Ball.Repel then
 		self:LostPlayer( ply )
 
 		local effectdata = EffectData()
@@ -54,12 +54,16 @@ function GM:DoPlayerDeath(ply)
 		util.Effect( "confetti", effectdata )
 
 		ply:EmitSound("weapons/ar2/npc_ar2_altfire.wav", 75, math.random(160,180), 1, CHAN_AUTO )
-	/*else
+	else
 		sound.Play("ambient/levels/labs/teleport_winddown1.wav", util.QuickTrace(ply:GetPos(), Vector(0, 0, -64) + ply.Ball:GetVelocity() * 0.2, ply.Ball).HitPos, 70, 255)
 		ply.Ball:SetModelScale(0, 1)
 		ply:SetModelScale(0, 1)
 		constraint.NoCollide(ply.Ball, game.GetWorld(), 0, 0)
-	end*/
+
+		timer.Simple(1, function()
+			self:LostPlayer(ply)
+		end)
+	end
 
 	ply.NextSpawn = CurTime() + 2
 end
@@ -178,42 +182,8 @@ function GetPlayerStatus(ply)
 	return player_status
 end
 
-local function SetBallId( ply, BallId )
-	BallId = tonumber(BallId)
-
-	if BallId == 2 && GTowerStore:GetPlyLevel(ply,"BallRacerCube") == 1  then
-		ply.ModelSet = 'models/gmod_tower/cubeball.mdl'
-	elseif BallId == 3 && GTowerStore:GetPlyLevel(ply,"BallRacerIcosahedron") == 1  then
-		ply.ModelSet = 'models/gmod_tower/icosahedron.mdl'
-	elseif BallId == 4 && GTowerStore:GetPlyLevel(ply,"BallRacerCatBall") == 1 then
-		ply.ModelSet = 'models/gmod_tower/catball.mdl'
-	elseif BallId == 5 && ( ply.IsVIP || ply:IsAdmin() ) then
-		ply.ModelSet = 'models/gmod_tower/ballion.mdl'
-	elseif BallId == 6 && GTowerStore:GetPlyLevel(ply,"BallRacerBomb") == 1 then
-		ply.ModelSet = 'models/gmod_tower/ball_bomb.mdl'
-	elseif BallId == 7 && GTowerStore:GetPlyLevel(ply,"BallRacerGeo") == 1 then
-		ply.ModelSet = 'models/gmod_tower/ball_geo.mdl'
-	elseif BallId == 8 && GTowerStore:GetPlyLevel(ply,"BallRacerSoccerBall") == 1 then
-		ply.ModelSet = 'models/gmod_tower/ball_soccer.mdl'
-	elseif BallId == 9 && GTowerStore:GetPlyLevel(ply,"BallRacerSpikedd") == 1 then
-		ply.ModelSet = 'models/gmod_tower/ball_spiked.mdl'
-	else
-		ply.ModelSet = 'models/gmod_tower/BALL.mdl'
-	end
-end
-
 hook.Add( "PlayerInitialSpawn", "StartMusic", function( ply )
 
 	music.Play( 1, MUSIC_LEVEL, ply )
-
-end )
-
-concommand.Add("gmt_setball", function( ply, cmd, args )
-
-	local BallId = tonumber( args[1] )
-
-	if BallId then
-		SetBallId( ply, BallId )
-	end
 
 end )

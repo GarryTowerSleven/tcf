@@ -151,16 +151,21 @@ hook.Add( "RoomThink", "GRoomThink", function( ply )
 	local players = room:GetPlayers()
 	local group = ply:GetGroup()
 
-	// Locked
-	if ( owner:GetNet( "RoomLock" ) ) then
-		for _, v in ipairs( players ) do
+	for _, v in ipairs( players ) do
+
+		// Blocked
+		if ( Friends.IsBlocked( ply, v ) ) then
+			room.RemovePlayer( v )
+			v:MsgT( "RoomKickedFrom", ply:GetName() )
+		end
+
+		// Locked
+		if ( owner:GetNet( "RoomLock" ) ) then
 			CheckPlayerLocked( v, room, group, ply )
 		end
-	end
 
-	// Bans
-	if ( table.Count( room.Bans ) > 0 ) then
-		for _, v in ipairs( players ) do
+		// Bans
+		if ( table.Count( room.Bans ) > 0 ) then
 			if ( v:IsStaff() ) then return end
 
 			if ( room.Bans[ v:SteamID() ] && room.Bans[ v:SteamID() ] == true ) then
@@ -169,6 +174,7 @@ hook.Add( "RoomThink", "GRoomThink", function( ply )
 				owner:Msg2( T( "RoomBannedPlayer", v:GetName() ) )
 			end
 		end
+
 	end
 
 end )
