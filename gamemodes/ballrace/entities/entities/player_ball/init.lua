@@ -50,6 +50,7 @@ function ENT:PhysicsSimulate( phys, deltatime )
 
 	if !IsValid(ply) then return SIM_NOTHING end
 
+	if !ply:Alive() then return end
 	local vMove = Vector(0,0,0)
 	local vAngle = Vector(0,0,0)
 	local aEyes = ply:EyeAngles()
