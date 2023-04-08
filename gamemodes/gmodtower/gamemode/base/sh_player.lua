@@ -128,6 +128,10 @@ function meta:GetRespectName( nofriend )
 		title = "VIP"
 	end
 
+	if self:IsAdmin() then
+		title = "Admin"
+	end
+
 	if ( GetTitle( self:SteamID() ) ) then
 		title = GetTitle( self:SteamID() )
 	end
