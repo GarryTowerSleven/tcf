@@ -9,7 +9,7 @@ local Roles =
 	["STEAM_0:0:1384695"] = "Lead Developer",	// Kity
 	
 	// Developers
-	["STEAM_0:0:38865393"] = "Developer",	// boXy
+	//["STEAM_0:0:38865393"] = "Developer",	// boXy
 	["STEAM_0:1:39916544"] = "Developer",	// Anoma
 	["STEAM_0:0:35652170"] = "Developer",	// Lead
 	["STEAM_0:1:124798129"] = "Developer", 	// Amgona
@@ -34,12 +34,12 @@ local function GetTitle( steamid )
 end
 
 function meta:IsHidden()
-	if IsValid( self ) then
+	/*if IsValid( self ) then
 		local fakename = self:GetNWString( "FakeName" )
 		if fakename then
 			return self:GetNWString( "FakeName" ) != ""
 		end
-	end
+	end*/
 	return false
 end
 
