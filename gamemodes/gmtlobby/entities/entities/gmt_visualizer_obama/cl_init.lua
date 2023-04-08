@@ -24,7 +24,7 @@ function ENT:Draw()
 
 	self.FT = self.FT or 0
 	self.FTSpeed = self.FTSpeed or 0
-	self.FTSpeed = Lerp(FrameTime() * (2 + (self.Bass > 2 and 4 or 0)), self.FTSpeed, self.Bass + (self.Bass > 2 and 8 or 0))
+	self.FTSpeed = Lerp(FrameTime() * (2 + (self.Bass > 4 and 4 or 0)), self.FTSpeed, self.Bass + (self.Bass > 4 and 8 or 0))
 	self.FT = self.FT + FrameTime() * self.FTSpeed * Lerp(math.min(self.Bass, 1) / 4, 0, 1)
 	local pos = self:GetPos()
 	self:SetRenderOrigin(pos + Vector(0, 0, self.Bass * 4) + self:GetRight() * math.sin(self.FT * 2) * self.Bass * -1 + Vector(0, 0, math.abs(math.sin(self.FT * 2)) * -4 * self.Bass)) // + (self.Bass > 2 && self.Bass * 4 || 0)))
