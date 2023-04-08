@@ -568,7 +568,7 @@ function GM:SpectateNext(ply)
 	end
 
 	ply.Spectating = newspec
-	print(ply.Spectating)
+	//print(ply.Spectating)
 
 	local ent = nil
 	ent = ply.Spectating.Ball
