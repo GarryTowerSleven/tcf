@@ -54,6 +54,7 @@ end
 
 local new = Material( "gmod_tower/icons/new_large.png" )
 local newsize = 256/2.5
+local Mat = Material("gmod_tower/lobby/sale")
 
 function ENT:DrawTranslucent()
 
@@ -80,6 +81,11 @@ function ENT:DrawTranslucent()
 		ang:RotateAroundAxis( ang:Right(), 90 )
 
 		cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.1 )
+		if self:IsOnSale() then
+		draw.DrawText( "50% OFF", "GTowerNPC", 2, -62, Color( 0, 0, 0, 225 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		draw.DrawText( "50% OFF", "GTowerNPC", 0, -64, colorutil.Rainbow(24) or Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		end
+
 			draw.DrawText( title, "GTowerNPC", 2, 2, Color( 0, 0, 0, 225 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 			draw.DrawText( title, "GTowerNPC", 0, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 
@@ -90,6 +96,24 @@ function ENT:DrawTranslucent()
 			end
 
 		cam.End3D2D()
+
+		if !self:IsOnSale() then return end
+
+		render.SetMaterial( Mat )
+
+		local g = 0.8 + math.sin(CurTime()) * 0.2
+		Mat:SetVector("$color", Vector(g, g, g))
+		local sin = math.abs(math.sin(CurTime()*2))
+		local eyevec = EyeVector()*-1
+		eyevec.z = 0
+	
+		render.DrawQuadEasy(	self:GetPos() + offset - self:GetUp() * (24 - math.sin(CurTime() * 4) * 2) + eyevec:Angle():Right() * math.sin(CurTime() * 2) * 4,
+					eyevec,
+					(64/2) + sin*4,
+					(32/2) + sin*4,
+					color_white,
+					180 + ( 4 * math.sin(CurTime() * 2) )
+					)
 
 	else
 
