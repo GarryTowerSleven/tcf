@@ -72,7 +72,7 @@ function meta:IsTester()
 end
 
 local color_lead = Color(248, 18, 128, 255)
-local color_admin = Color(255, 100, 100, 255)
+local color_admin = Color(125, 177, 30, 255)
 local color_mod = Color(255, 150, 75, 255)
 local color_developer = Color(255, 100, 100, 255) // cool green 125, 177, 30
 local color_vip = Color(185, 100, 255, 255)
