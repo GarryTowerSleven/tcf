@@ -59,6 +59,10 @@ function GM:DoPlayerDeath(ply)
 		ply.Ball:SetModelScale(0, 1)
 		ply:SetModelScale(0, 1)
 		constraint.NoCollide(ply.Ball, game.GetWorld(), 0, 0)
+
+		timer.Simple(1, function()
+			self:LostPlayer(ply)
+		end)
 	end
 
 	ply.NextSpawn = CurTime() + 2
