@@ -51,11 +51,11 @@ function GTowerStore:BeginSale(id, sale)
 		
 			if IsValid(v.Sign) then v.Sign:Remove() end
 		
-			/*v.Sign = ents.Create("gmt_salesign")
+			v.Sign = ents.Create("gmt_salesign")
 			v.Sign:SetPos( v:GetPos() )
 			v.Sign:SetAngles( v:GetAngles() )
 			v.Sign:Spawn()
-			v.Sign:SetStoreID( id )*/
+			v.Sign:SetStoreID( id )
 		end
 	end
 	
