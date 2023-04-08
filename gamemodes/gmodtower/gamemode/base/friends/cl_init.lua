@@ -196,12 +196,12 @@ if IsLobby then
 	hook.Add( "Think", "FriendsLobbyVisibility", function()
 
 		--if not LocalPlayer()._Friends then return end
-		if Dueling and Dueling.IsDueling( LocalPlayer() ) then
+		/*if Dueling and Dueling.IsDueling( LocalPlayer() ) then
 			for _, ply in pairs( player.GetAll() ) do
 				ply:SetNoDrawAll( false )
 			end
 			return
-		end
+		end*/
 
 		for _, ply in pairs( player.GetAll() ) do
 

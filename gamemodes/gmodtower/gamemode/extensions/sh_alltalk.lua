@@ -1,4 +1,4 @@
-if SERVER then
+/*if SERVER then
 
     GAllTalk = false
 
@@ -121,4 +121,4 @@ if CLIENT then
     
     hook.Add( "PlayerBindPress", "AllTalkBindPress", AllTalkBindPress )
 
-end
+end*/
