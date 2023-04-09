@@ -93,7 +93,15 @@ concommand.Add( "gmt_forcelevel", function( ply, command, args )
 end )
 
 local function FinalChangeHook(MapName)
-	timer.Simple(0.25,function()
+
+	// SAVE SHIT!
+	for _, ply in ipairs( player.GetAll() ) do
+		if ( ply.SQL ) then
+			ply.SQL:Update( false, true )
+		end
+	end
+
+	timer.Simple( 1, function()
 		hook.Call("LastChanceMapChange", GAMEMODE, MapName)
 
 		RunConsoleCommand("changelevel", MapName)
