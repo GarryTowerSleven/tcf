@@ -3,6 +3,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.VIRUSMILESTONE1, {
 	Description = "Play 250 rounds and get the collectable virus flame!", 
 	Value = 250,
 	Group = 2,
+	GMC = 2500,
 	GiveItem = "VirusFlame"
 	}
 )
@@ -12,6 +13,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.VIRUSMILESTONE2, {
 	Description = "Use the adrenaline 80 times and get your own unlimited use Adrenaline!",
 	Value = 80,
 	Group = 2,
+	GMC = 1000,
 	GiveItem = "VirusAdrenaline"
 	}
 )
@@ -21,6 +23,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.VIRUSMILESTONE3, {
 	Description = "Survive as the last survivor 25 times and get the Virus Radar!",
 	Value = 25,
 	Group = 2,
+	GMC = 5000,
 	GiveItem = "VirusRadar"
 	}
 )
@@ -30,6 +33,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRMILESTONE1, {
 	Description = "Play 300 levels and get the usable orb!", 
 	Value = 300,
 	Group = 2,
+	GMC = 3000,
 	GiveItem = "BallRaceBall"
 	}
 )
@@ -39,6 +43,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRMILESTONE2, {
 	Description = "Bump yourself 500 times and get the bumper in lobby!", 
 	Value = 500,
 	Group = 2,
+	GMC = 1000,
 	GiveItem = "Bumper"
 	}
 )
@@ -48,6 +53,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPMILESTONE1, {
 	Description = "Play 50 rounds of PVP and get the Stealth Box!", 
 	Value = 50,
 	Group = 2,
+	GMC = 1500,
 	GiveItem = "StealthBox"
 	}
 )
@@ -57,6 +63,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPMILESTONE2, {
 	Description = "Kill 100 players while using ANY power up and get the Take On Ball!", 
 	Value = 100,
 	Group = 2,
+	GMC = 5000,
 	GiveItem = "TakeOnBall"
 	}
 )
@@ -66,6 +73,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHMILESTONE1, {
 	Description = "Play 200 rounds of UCH and get the ability to become a Colonel Pigmask!", 
 	Value = 200,
 	Group = 2,
+	GMC = 2000,
 	GiveItem = "UCHPig"
 	}
 )
@@ -75,6 +83,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHMILESTONE2, {
 	Description = "Play 500 rounds of UCH and get the ability to become a Ghost!", 
 	Value = 500,
 	Group = 2,
+	GMC = 5000,
 	GiveItem = "UCHGhost"
 	}
 )
@@ -84,6 +93,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHMILESTONE3, {
 	Description = "Press the button on the Chimera 150 times and get a Ultimate Chimera pet!", 
 	Value = 150,
 	Group = 2,
+	GMC = 5000,
 	GiveItem = "ChimeraPet"
 	}
 )
@@ -102,6 +112,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.MINIMILESTONE1, {
 	Description = "Play 500 holes of Minigolf and get the usable golf ball!", 
 	Value = 500,
 	Group = 2,
+	GMC = 5000,
 	GiveItem = "GolfBall"
 	} 
 )
