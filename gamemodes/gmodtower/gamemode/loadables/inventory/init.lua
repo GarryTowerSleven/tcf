@@ -115,24 +115,30 @@ function GTowerItems.CreateMysteryItem(ply)
 
 	local p = math.Rand(0, 1)
 
-	if p <= 0.1 then
+	if p <= 0.0015 then
+		SQLLog( "game", tostring(ply) .. " found a blockles machine from a cat sack" )
+
+		GAMEMODE:ColorNotifyAll( string.upper(ply:Name()).." JUST FOUND A BLOCKLES MACHINE FROM THE MYSTERIOUS CAT SACK!", Color(255, 200, 0, 255) )
+
+		return ITEMS.suitetetris
+	elseif p <= 0.1 then
 		return ITEMS.mysterycatsack
 	elseif p <= 0.2 then
 		return ITEMS.alcohol_bottle
+	elseif p <= 0.225 then
+		return ITEMS.beercase
+	elseif p <= 0.4 then
+		return ITEMS.computer_display
 	elseif p <= 0.5 then
 		return ITEMS.computer_monitor
 	elseif p <= 0.6 then
 		return ITEMS.huladoll
+	elseif p <= 0.7 then
+		return ITEMS.ingredient_bone
 	elseif p <= 0.8 then
 		return ITEMS.microwave
 	elseif p <= 0.9 then
 		return ITEMS.clipboard
-	elseif p <= 0.0015 then
-		SQLLog( "game", tostring(ply) .. " found a blockles machine from a cat sack" )
-
-		GAMEMODE:ColorNotifyAll( string.upper(ply:Name()).." JUST FOUND A BLOCKLES MACHINE FROM THE MYSTERIOUS CAT SACK!", Color(161, 3, 252, 255) )
-
-		return ITEMS.suitetetris
 	else
 		return ITEMS.wepon_357
 	end
