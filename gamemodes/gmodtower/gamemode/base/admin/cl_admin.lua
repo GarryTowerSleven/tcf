@@ -459,7 +459,7 @@ hook.Add("ExtraMenuPlayer", "AddAdminFunctions", function(ply)
             ["sub"] = {
                 {
                     ["Name"] = "Send To Lobby",
-                    ["function"] = function(ply)
+                    ["function"] = function()
                         SendToLobby( ply )
                     end,
                     ["order"] = 1
