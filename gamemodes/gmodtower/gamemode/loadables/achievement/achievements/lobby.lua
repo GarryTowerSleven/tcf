@@ -61,6 +61,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITEYOUTUBE, {
 	Description = "Watch TV for more than 10 hours.", 
 	Value = 10 * 60,
 	Group = 3,
+	GMC = 1000,
 	GiveItem = "trophy_youtubeaddiction"
 })
 
@@ -75,6 +76,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITEPARTY, {
 	Name = "Party Animal",
 	Description = "Have 4 or more players in your suite for an hour total.", 
 	Value = 60,
+	GMC = 1000,
 	Group = 3
 })
 
@@ -82,6 +84,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.DRUNKENBASTARD, {
 	Name = "Drunken Bastard", 
 	Description = "Be drunk for more than 10 minutes straight in one go.", 
 	Value = 10*60,
+	GMC = 1000,
 	GiveItem = "trophy_drunkenbastard"
 })
 
@@ -100,12 +103,14 @@ GTowerAchievements:Add( ACHIEVEMENTS.PILLSHERE, {
 GTowerAchievements:Add( ACHIEVEMENTS.DOMESTICABUSE, {
 	Name = "Domestic Abuse", 
 	Description = "Break an empty bottle.", 
+	GMC = 100,
 	Value = 1
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.TRASHCOMPACTOR, {
 	Name = "Trash Compactor", 
 	Description = "Break 100 empty bottles.", 
+	GMC = 1000,
 	Value = 100
 })
 
@@ -117,7 +122,8 @@ GTowerAchievements:Add( ACHIEVEMENTS.LONGSEATGETALIFE, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.SMARTINVESTER, {
 	Name = "'Smart' Investor", 
-	Description = "Spend a total of 1,000 GMC on beer.", 
+	Description = "Spend a total of 1,000 GMC on beer.",
+	GMC = 1001,
 	Value = 1000
 })
 
@@ -160,6 +166,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.TETRISMANYPOINTS, {
 	Name = "Tetris Jesus", 
 	Description = "Gain more than 5000 points in Tetris.", 
 	Value = 5000,
+	GMC = 1000,
 	Group = 4
 })
 	
@@ -167,6 +174,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.TETRISMUCHTIME, {
 	Name = "Tetris Lover", 
 	Description = "Play Tetris for more than 4 hours.", 
 	Value = 240,
+	GMC = 1500,
 	Group = 4
 })
 
@@ -208,6 +216,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.GEOMETRICALLY, {
 	Name = "Geometrically Impossible", 
 	Description = "Purchase all the orbs available in the Ball Race store.", 
 	Value = 7,
+	GMC = 1000,
 	GiveItem = "trophy_geometricallyimpossible"	
 })
 

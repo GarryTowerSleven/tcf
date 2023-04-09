@@ -50,6 +50,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPHACKER, {
 	Name = "Hacker", 
 	Description = "Get 10 head shots in one round.", 
 	Value = 1,
+	GMC = 1000,
 	Group = 7
 	}
 )
@@ -58,6 +59,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPTRUEHACKER, {
 	Name = "True Hacker", 
 	Description = "Get 250 total head shots.", 
 	Value = 250,
+	GMC = 2500,
 	Group = 7
 	}
 )

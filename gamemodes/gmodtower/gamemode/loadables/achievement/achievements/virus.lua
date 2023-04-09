@@ -50,6 +50,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.VIRUSLASTALIVE, {
 	Name = "Last Alive", 
 	Description = "Survive as the last survivor 10 times.", 
 	Value = 10,
+	GMC = 1000,
 	Group = 8
 	}
 )
@@ -82,6 +83,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.VIRUSTIMESPLIT, {
 	Name = "Time to Split", 
 	Description = "Play more than 100 rounds of Virus.", 
 	Value = 100,
+	GMC = 1000,
 	Group = 8
 	}
 )

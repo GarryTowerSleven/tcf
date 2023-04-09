@@ -16,6 +16,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.ZMHEALKIT, {
 	Name = "Ribs Grow Back You Know", 
 	Description = "Heal 10,000 health points with the Healing Kit as the Doctor.", 
 	Value = 10000,
+	GMC = 1000,
 	Group = 10
 } )
 
@@ -51,6 +52,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.ZMDAWNOFTHEDEAD, {
 	Name = "Dawn of the Dead", 
 	Description = "Survive 500 Days.", 
 	Value = 500,
+	GMC = 1978,
 	Group = 10
 } )
 
@@ -93,6 +95,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.ZMMASSACRE, {
 	Name = "I Can't Believe It's a Massacre!", 
 	Description = "Kill 10,000 infected.", 
 	Value = 10000,
+	GMC = 5000,
 	Group = 10
 } )
 

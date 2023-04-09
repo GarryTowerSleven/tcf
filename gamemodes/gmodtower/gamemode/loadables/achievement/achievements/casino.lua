@@ -2,6 +2,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.SOREFINGER, {
     Name = "Sore Finger", 
     Description = "Place over 1000 bets in slots.", 
     Value = 1000,
+	GMC = 1000,
     Group = 21
 })
 
@@ -9,6 +10,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.BIGBUX, {
     Name = "Big Bucks", 
     Description = "Put 5000 chips in poker.", 
     Value = 5000,
+	GMC = 1500,
     Group = 21
 })
 
@@ -16,6 +18,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.COUNTINGCARDS, {
     Name = "Counting Cards", 
     Description = "Win 100 games of poker.", 
     Value = 100,
+	GMC = 1000,
     Group = 21
 })
 
@@ -44,5 +47,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.ROYALWINNINGS, {
     Name = "Royal Winnings", 
     Description = "Win with a royal flush in poker.", 
     Value = 1,
+	GMC = 1000,
     Group = 21
 } )
