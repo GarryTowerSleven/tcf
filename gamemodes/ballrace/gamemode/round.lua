@@ -551,6 +551,11 @@ end
 
 function GM:SpectateNext(ply)
 
+	if ply:Alive() && ply:Team() == TEAM_PLAYERS then
+		ply:SetBall(ply.Ball or nil)
+		return
+	end
+
 	local start = ply.Spectating
 
 	local newspec = start
