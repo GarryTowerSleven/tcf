@@ -43,6 +43,17 @@ local function ForceQuitPrompt(ply)
     )
 end
 
+local function SendToLobby(ply)
+    Derma_Query(
+        "Are you sure you want to send "..ply:Nick().." back to lobby?",
+        "Send To Lobby",
+        "Yes",
+        function() RunConsoleCommand( "gmt_sendtolobby", ply:EntIndex() ) end,
+        "Cancel",
+        EmptyFunction
+    )
+end
+
 local function GetNPCTable()
     local Tabl = {}
 
@@ -449,7 +460,7 @@ hook.Add("ExtraMenuPlayer", "AddAdminFunctions", function(ply)
                 {
                     ["Name"] = "Send To Lobby",
                     ["function"] = function(ply)
-                        RunConsoleCommand("gmt_sendtolobby", ply)
+                        SendToLobby( ply )
                     end,
                     ["order"] = 1
                 },
