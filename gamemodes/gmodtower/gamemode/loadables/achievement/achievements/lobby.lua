@@ -318,17 +318,22 @@ hook.Add( "PlayerThink", "PlayerThinkAchievements", function( ply )
 		// Long Walk
 		local PlyIndex = ply:EntIndex()
 		local CurPos = ply:GetPos()
-		
-		if PlysLastPlace[ PlyIndex ] then
+
+		if ( ply:IsOnGround() ) then
+			if PlysLastPlace[ PlyIndex ] then
+				
+				local Distance = PlysLastPlace[ PlyIndex ]:Distance( CurPos )
 			
-			local Distance = PlysLastPlace[ PlyIndex ]:Distance( CurPos )
-		
-			if Distance > 0 && Distance < 150 then					
-				ply:AddAchievement( ACHIEVEMENTS.WALKTOOLONG, Distance / 16 )
+				if Distance > 0 && Distance > 150 then
+					ply:AddAchievement( ACHIEVEMENTS.WALKTOOLONG, Distance / 16 )
+				end
 			end
+			
+			PlysLastPlace[ PlyIndex ] = CurPos
+		else
+			PlysLastPlace[ PlyIndex ] = nil
 		end
 		
-		PlysLastPlace[ PlyIndex ] = CurPos
 
 		// Zombie RP
 		if ply:GetModel() == "models/player/zombie_classic.mdl" && GTowerHats:IsWearing( ply, "hatheadcrab" ) then
