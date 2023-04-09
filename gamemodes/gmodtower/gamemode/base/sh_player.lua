@@ -19,6 +19,7 @@ local Roles =
 	["STEAM_0:1:57386100"] = "Moderator", 	// Squibbus
 	["STEAM_0:0:156132358"] = "Moderator", 	// Basical
 	["STEAM_0:1:85508734"] = "Moderator", 	// Breezy
+	["STEAM_0:0:115320789"] = "Moderator", 	// Zia
 
 	// Pixeltail Games
 	["STEAM_0:1:6044247"] = "PixelTail",	// MacDGuy
