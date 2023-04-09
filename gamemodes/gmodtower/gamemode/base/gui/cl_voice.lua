@@ -45,6 +45,17 @@ function PANEL:Paint( w, h )
 
 	if ( !IsValid( self.ply ) ) then return end
 	if ( !GetConVar( "gmt_voice_enable" ):GetBool() ) then return end
+	if ( GTowerHUD and GTowerHUD.ShouldDraw and not GTowerHUD.ShouldDraw() ) then
+		if IsValid( self.Avatar ) and self.Avatar:IsVisible() then
+			self.Avatar:SetVisible( false )
+		end
+
+		return
+	else
+		if IsValid( self.Avatar ) and not self.Avatar:IsVisible() then
+			self.Avatar:SetVisible( true )
+		end
+	end
 
 	local nick = self.ply:Name()
 
