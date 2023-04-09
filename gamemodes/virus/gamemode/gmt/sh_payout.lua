@@ -7,7 +7,7 @@ payout.Register( "ThanksForPlaying", {
 payout.Register( "WinBonus", {
 	Name = "Winning Team",
 	Desc = "You and your team won!",
-	GMC = 15,
+	GMC = 25,
 	Diff = 1,
 } )
 
@@ -42,21 +42,21 @@ payout.Register( "TeamPlayer", {
 payout.Register( "Rank1", {
 	Name = "1st Place",
 	Desc = "For being the top killer.",
-	GMC = 200,
+	GMC = 100,
 	Diff = 3,
 } )
 
 payout.Register( "Rank2", {
 	Name = "2nd Place",
 	Desc = "For being the second top killer.",
-	GMC = 100,
+	GMC = 50,
 	Diff = 3,
 } )
 
 payout.Register( "Rank3", {
 	Name = "3rd Place",
 	Desc = "For being the third top killer.",
-	GMC = 75,
+	GMC = 25,
 	Diff = 3,
 } )
 
