@@ -2,9 +2,9 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include("shared.lua")
 
-/*hook.Add( "PlayerCanHearPlayersVoice", "BlockedVoices", function( listener, talker )
-    return not Friends.IsBlocked( listener, talker )
-end )*/
+hook.Add( "PlayerCanHearPlayersVoice", "BlockedVoices", function( listener, talker )
+	if ( Friends.IsBlocked( listener, talker ) ) then return false end
+end )
 
 net.Receive( "FriendStatus", function( len, ply )
 	local friends = net.ReadTable()
