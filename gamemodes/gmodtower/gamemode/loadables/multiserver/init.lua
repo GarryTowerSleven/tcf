@@ -153,3 +153,25 @@ concommand.Add("gmt_multiminplay", function( ply, cmd, args )
 
 	Gamemode.MinPlayers = MinPlay
 end )
+
+concommand.Add("gmt_multiforcevote", function( ply, cmd, args )
+	if !ply:IsAdmin() then
+		if GTowerHackers then
+			GTowerHackers:NewAttemp( ply, 5, cmd, args )
+		end
+		return
+	end
+
+	if #args != 1 then return end
+
+	local ServerId = tonumber( args[1] )
+	local Server = GTowerServers:Get( ServerId )
+	local GamemodeName = Server:GetGamemodeName()
+	local Gamemode = GTowerServers:GetGamemode( GamemodeName )
+
+	if !Server || !Server:Online() then return end
+
+	local MinPlay = Gamemode.MinPlayers
+	Gamemode.MinPlayers = 1
+	timer.Simple(60, function() Gamemode.MinPlayers = MinPlay end)
+end )
