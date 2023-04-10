@@ -135,7 +135,7 @@ function GAMEMODE:GiveMoney()
 
 				payout.Give( ply, "WinBonus" )
 
-				if ply:GetNet("PressedButton") then
+				if ply:GetNet( "PressedButton" ) then
 					payout.Give( ply, "ButtonPress" )
 				end
 
