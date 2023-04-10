@@ -18,6 +18,15 @@ end
 function ENT:CheckHand(myhand)
     myhand.evaluated = false
     local score = myhand:Evaluate().hand
+
+    if ( score == Cards.e_handranks.ONE_PAIR ) then
+        local winning = myhand.winningHand
+
+        if ( winning[1].value < Cards.e_card.JACK ) then
+            score = 1
+        end
+    end
+
     self:SetScore(score)
 end
 
@@ -158,7 +167,7 @@ concommand.Add("videopoker_draw", function(ply, cmd, args)
         end
 
         self:SetHeld(held)
-        local handRank = self.hand:Evaluate().hand
+        local handRank = self:GetScore()
 
         if handRank >= 2 and handRank <= 11 then
             playVideoPokerSound(WINSND, ply)

@@ -527,18 +527,25 @@ hook.Add("PlayerSpawn", "PISCollisions", function(ply)
 	ply:CrosshairDisable()
 end)
 
-hook.Add("PlayerSwitchFlashlight", "GMTFlashLight", function(ply, isOn)
+// Flashlight
 
-		if !ply:IsAdmin() then
-			if !ply.FlashLightTime then ply.FlashLightTime = 0 end
-			if ply.FlashLightTime > CurTime() then return false end
+hook.Add( "PlayerSwitchFlashlight", "GMTFlashLight", function( ply, isOn )
+	if ( ply:IsStaff() ) then return true end
+	if ( not isOn ) then return true end
+	if ( Location.IsEquippablesNotAllowed( ply:Location() ) ) then return end
 
-			ply.FlashLightTime = CurTime() + 1
-		end
+	if ply._FlashlightTime and ply._FlashlightTime > CurTime() then return false end
 
-		return true
+	ply._FlashlightTime = CurTime() + 1
 
-	end)
+	return true
+end )
+
+hook.Add( "Location", "LocationChangeFlashlight", function( ply, loc )
+	if ( not ply:IsStaff() and Location.IsEquippablesNotAllowed( loc ) ) then
+		ply:Flashlight( false )
+	end
+end )
 
 hook.Add("GTowerPhysgunPickup", "DisablePrivAdminPickup", function(pl, ent)
 	if IsValid( ent ) then

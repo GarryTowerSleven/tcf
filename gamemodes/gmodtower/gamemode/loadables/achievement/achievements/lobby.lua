@@ -109,8 +109,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.DOMESTICABUSE, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.TRASHCOMPACTOR, {
 	Name = "Trash Compactor", 
-	Description = "Break 100 empty bottles.", 
-	GMC = 1000,
+	Description = "Break 100 empty bottles.",
 	Value = 100
 })
 

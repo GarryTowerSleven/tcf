@@ -259,7 +259,7 @@ function GM:StartRound()
 		banana:SetPos( Vector( 6529.704102, -2639.191895, 976.031250 ) )
 		banana:Spawn()
 	elseif game.GetMap() == "gmt_ballracer_grassworld01" then
-		banana:SetPos( Vector( 15232, 2750, -145 ) )
+		banana:SetPos( Vector( 15232, 2750, -190 ) )
 		banana:Spawn()
 	elseif game.GetMap() == "gmt_ballracer_iceworld03" then
 		banana:SetPos( Vector( -8052.416016, -1020.629761, 3399.081299 ) )
@@ -550,6 +550,11 @@ function GM:UpdateSpecs(ply, dead)
 end
 
 function GM:SpectateNext(ply)
+
+	if ply:Alive() && ply:Team() == TEAM_PLAYERS then
+		ply:SetBall(ply.Ball or nil)
+		return
+	end
 
 	local start = ply.Spectating
 
