@@ -31,11 +31,10 @@ function gateKeep:CreateBanList()
 		end
 
 		if #res[1].data then
-			LogPrint( "Retriving bans from MySQL", color_green, "GateKeeper" )
-			gateKeep:RetrieveBans(res[1].data)
-		else
 			LogPrint( "Setting up Legacy Bans", color_green, "GateKeeper" )
 			gateKeep:LegacyBans()
+			LogPrint( "Retriving bans from MySQL", color_green, "GateKeeper" )
+			gateKeep:RetrieveBans(res[1].data)
 		end
 
 	end)
@@ -49,7 +48,7 @@ function gateKeep:LegacyBans()
 
 	--SteamIDs
 	for _, v in ipairs(gateKeep.HardCodedBans) do
-		gateKeep:AddBan(v[1], v[2], v[3], "Hard coded perma-banned", 0)
+		gateKeep:AddBan(v[1], v[2], "unknown", "Hard coded perma-banned", 0)
 	end
 
 	--IPs
@@ -136,7 +135,7 @@ function gateKeep:AddBan(steamID, Name, ip, reason, time)
 
 	end
 
-	print( "Start SQL" )
+	--print( "Start SQL" )
 
 	SQL.getDB():Query("SELECT * FROM gm_bans WHERE steamid=" .. SQLStr(steamID), function(res)
 
@@ -156,8 +155,8 @@ function gateKeep:AddBan(steamID, Name, ip, reason, time)
 	if info.Player then --and info.Player.steamid == steamID then --If the player exists, then update the current ban
 
 		if info.Player.steamid == "unknown" and info.Player.steamid != steamID then info.Player.steamid = steamID end
-		info.Player.Name = Name
 		if info.Player.ip == "unknown" and info.Player.ip != ip then info.Player.ip = ip end
+		info.Player.Name = Name
 		info.Player.reason = reason
 		info.Player.bannedOn = info.bannedOn
 		info.Player.time = time
@@ -250,15 +249,12 @@ function gateKeep:RemoveBan(user) --Can be either a Name, steamID, or IP; contin
 
 	end)
 
-	/*if continue then return end
-	print(2)
-	--Checks to see if the table already exists.
 	for i, v in ipairs(gateKeep.Bans) do
 		if (typ == "steamid" and v.steamid == user) or (typ == "Name" and v.Name == user) then
 			table.remove(gateKeep.Bans, i)
 			break
 		end
-	end*/
+	end
 
 end
 
