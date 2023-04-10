@@ -252,6 +252,18 @@ hook.Add("OpenSideMenu", "MultiServerAdmin", function()
 		)
 	end
 
+	local ForceVote = Form:Button( "Force vote" )
+	ForceVote.DoClick = function()
+		Derma_Query( "Start a force vote for "..tostring(Ent.ServerName).."?",
+		"Force Vote",
+		"Yes", function()
+			Msg2( "Started a force vote for "..tostring(Ent.ServerName) )
+			RunConsoleCommand("gmt_multiforcevote", Id )
+		end,
+		"Cancel", EmptyFunction
+		)
+	end
+
 	return Form
 
 end )
