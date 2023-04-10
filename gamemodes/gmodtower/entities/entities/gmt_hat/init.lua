@@ -7,11 +7,6 @@ local Player = FindMetaTable("Player")
 
 function Player:ReplaceHat(hatname, model, index, hatSlot)
 
-	// TEMP FIX!
-	if ( engine.ActiveGamemode() == "minigolf" ) then
-		return
-	end
-
 	if hatSlot == SLOT_HEAD && IsValid(self.Hat) then
 		self.OldHat = self.Hat:GetModel()
 	elseif hatSlot == SLOT_FACE && IsValid(self.FaceHat) then
