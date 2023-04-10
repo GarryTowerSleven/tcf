@@ -10,17 +10,22 @@ local MaxNameHeight = 1
 
 ENT.RenderGroup = RENDERGROUP_BOTH
 
+local locationMaterials = {
+	["Lobby"] = Scoreboard.GenTexture( "LobbyFloor", "lobby/lobby_new" ),
+	["Gamemodes"] = Scoreboard.GenTexture( "GamemodesFloor", "lobby/gamemodes" ),
+	["Suites"] = Scoreboard.GenTexture( "SuiteFloor", "lobby/suite" )
+}
 
 function ENT:Initialize()
 
 	self.TotalPlacesHeight = 1
 	
-	self.CamScale = 0.08
+	self.CamScale = 0.04
 	self.TotalSize = 9 / self.CamScale //Do not change
 	
-	self.BoxNameW = 1
-	self.ChoosingItem = 1
-	self.BoxNameH = 1
+	self.BoxNameW = 2
+	self.ChoosingItem = 2
+	self.BoxNameH = 2
 	
 	self.ItemList = {}
 
@@ -39,8 +44,8 @@ local MarkupBackup = {}
 
 function ENT:ProcessNames()
 
-	local HeightSpace = 4
-	local ExtraSpace = 12
+	local HeightSpace = 22
+	local ExtraSpace = 24
 	local CurY = 0
 	
 	local StartPosX = -1 * self.TotalSize
@@ -48,7 +53,7 @@ function ENT:ProcessNames()
 	
 	local LocalPosition = self:Location()
 
-	surface.SetFont("GTowerHUDMainLarge")
+	surface.SetFont("GTowerHUDHuge")
 
 	for k, v in pairs( Location.TeleportLocations ) do
 	
@@ -58,7 +63,7 @@ function ENT:ProcessNames()
 			local Markup = MarkupBackup[ k ]
 			
 			if !Markup then
-				Markup = markup.Parse( "<font=GTowerHUDMainLarge><color=white>" .. v.desc .. "</color></font>", TotalWidth - 2 )
+				Markup = markup.Parse( "<font=GTowerHUDHuge><color=white>" .. v.desc .. "</color></font>", TotalWidth - 2 )
 				MarkupBackup[ k ] = Markup
 			end
 			
@@ -172,24 +177,41 @@ function ENT:DrawTranslucent()
 		self.ChoosingItem = HitItem	
 	end
 
-	surface.SetFont("GTowerHUDMainLarge")
+	surface.SetFont("GTowerHUDHuge")
 	surface.SetTextColor( 60,75,80,255 )
 
 	cam.Start3D2D( Vec, ang, self.CamScale )
 		
 		for k, v in pairs( self.ItemList ) do
 			
+			local bgColor = Color(130,140,145,200)
+			
 			if self.ChoosingItem == k then
+
 				if ActiveHit then
 					surface.SetTextColor( 255,255,255,255 )
-					draw.RoundedBox( 2, self.StartPosX + 2 , v.YPos + 2, self.BoxNameW, self.BoxNameH, Color(150,255,150,100) )					
+					bgColor = Color(150,255,150,100)		
 				else
 					surface.SetTextColor( 255,255,255,150 )
-					draw.RoundedBox( 2, self.StartPosX + 2, v.YPos + 2, self.BoxNameW, self.BoxNameH, Color(130,140,145,200) )
 				end
+				
 			else
-				surface.SetTextColor( 60,75,80,255 )
-				draw.RoundedBox( 2, self.StartPosX + 2 , v.YPos + 2, self.BoxNameW, self.BoxNameH, Color(130,140,145,80) )
+				surface.SetTextColor( 150,150,150,255 )
+				bgColor = Color(130,140,145,80)
+			end
+
+			if self.ChoosingItem != self.LastItem then
+				self:EmitSound("gmodtower/virus/ui/deny.wav")
+			end
+
+			self.LastItem = self.ChoosingItem
+
+			draw.RoundedBox( 2, self.StartPosX + 2, v.YPos + 2, self.BoxNameW, self.BoxNameH, bgColor )
+			
+			if locationMaterials[v.name] then
+				surface.SetMaterial( locationMaterials[v.name] )
+				surface.SetDrawColor( Color(255, 255, 255, 100) )
+				surface.DrawTexturedRect( self.StartPosX + 2, v.YPos + 2, self.BoxNameW, self.BoxNameH )
 			end
 
 			surface.SetTextPos( v.XTextPos, v.YTextPos )
@@ -223,7 +245,7 @@ local function TeleporterTestForClick( ent )
 	local ItemTrace = ent:GetTraceItem( LocalPlayer() )
 	
 	if ItemTrace then
-		--print(ent.ItemList[ ItemTrace ].id)
+		surface.PlaySound("gmodtower/virus/ui/accept.wav")
 		RunConsoleCommand("gmt_cteleporter", ent:EntIndex(), ent.ItemList[ ItemTrace ].id )
 		return true
 	end
