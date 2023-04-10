@@ -312,12 +312,12 @@ function ENT:Use(ply)
         self:SetPlayer(ply)
         self:SetState(1)
 
-        timer.Create("VideoPokerFuckoff" .. ply:EntIndex(), 5 * 60, 1, function()
+        /*timer.Create("VideoPokerFuckoff" .. ply:EntIndex(), 5 * 60, 1, function() -- Not sure what practical use this has besides pissing people off
             if IsValid(ply) and IsValid(ply.VideoPoker) and ply.VideoPoker == self then
                 ply:ExitVehicle()
                 ply:MsgT("VideoPokerEjectTooLong")
             end
-        end)
+        end)*/
     else
         return
     end
