@@ -1,6 +1,7 @@
 ---------------------------------
 GMode.Name = "Zombie Massacre"
 GMode.Gamemode = "zombiemassacre"
+GMode.ThemeColor = Color(111, 14, 8)
 
 //Set true if players should be kicked if their "goserver" value on the database is not the same as the local server
 GMode.Private = true

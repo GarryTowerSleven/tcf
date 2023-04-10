@@ -1,6 +1,7 @@
 ---------------------------------
 GMode.Name = "Source Karts"
 GMode.Gamemode = "sourcekarts"
+GMode.ThemeColor = Color(28, 108, 144)
 
 //Set true if players should be kicked if their "goserver" value on the database is not the same as the local server
 GMode.Private = true

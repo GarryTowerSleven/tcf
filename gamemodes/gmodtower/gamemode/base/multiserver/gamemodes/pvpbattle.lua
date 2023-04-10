@@ -1,5 +1,6 @@
 GMode.Name = "PVP Battle"
 GMode.Gamemode = "pvpbattle"
+GMode.ThemeColor = Color(210, 22, 2)
 
 //Set true if players should be kicked if their "goserver" value on the database is not the same as the local server
 GMode.Private = true

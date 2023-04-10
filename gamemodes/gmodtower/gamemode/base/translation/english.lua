@@ -433,8 +433,8 @@ L.AddWord( 1, "GamemodeGroupNotOwner",		"You are not the group owner. Only group
 L.AddWord( 1, "GamemodeGroupOnly",	"You need to be a in a group to join this server." )
 L.AddWord( 1, "GamemodeCooldown", 	"{1} cannot be voted on because it has been played too much." )
 
-L.AddWord( 1, "GamemodePanelNoGame",	"<font=GTowerbig><color=ltgrey>NO GAME RUNNING</color><font>" )
-L.AddWord( 1, "GamemodeNoGame",	"<font=GTowerbig><color=ltgrey>NO GAME RUNNING</color><font>" )
+L.AddWord( 1, "GamemodePanelNoGame",	"<font=MultiSubDeluxe><color=white>No game running - Join it!</color><font>" )
+L.AddWord( 1, "GamemodeNoGame",	"<font=MultiSubDeluxe><color=white>No game running - Join it!</color><font>" )
 
 // === CINEMA ===
 L.AddWord( 1, "Volume", "Volume" )
