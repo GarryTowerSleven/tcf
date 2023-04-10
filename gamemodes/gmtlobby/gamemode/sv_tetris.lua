@@ -32,7 +32,10 @@ function UpdateTetrisBoard( force, ply )
     local scores = {}
 
     for k,v in pairs(data) do
-      table.insert(scores, k, "#"..k.." "..v.name..": "..v.tetrisscore)
+      table.insert(scores, k, {
+		["Name"] = v.name,
+		["Score"] = v.tetrisscore
+	  })
     end
 
     SendTetrisBoard( scores )

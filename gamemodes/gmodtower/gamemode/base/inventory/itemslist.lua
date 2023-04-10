@@ -724,6 +724,7 @@ RegisterItem("radio",{
 	Model = "models/props/cs_office/radio.mdl",
 	ClassName = "gmt_visualizer_radio",
 	DrawModel = true,
+	UniqueInventory = true,
 	StoreId = GTowerStore.ELECTRONIC,
 	StorePrice = 150,
 	InvCategory = "7", // electronics

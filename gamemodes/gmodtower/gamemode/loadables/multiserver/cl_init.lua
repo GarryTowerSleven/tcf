@@ -225,6 +225,23 @@ hook.Add("OpenSideMenu", "MultiServerAdmin", function()
 			"Cancel" )
 	end
 
+	local ChangeMinPlay = Form:Button( "Change minimum players" )
+	ChangeMinPlay.DoClick = function()
+		Derma_StringRequest( "Set minimum players",
+		"Set minimum players for "..tostring(Ent.ServerName),
+		"",
+		function( strTextOut )
+			local Output = tonumber( strTextOut )
+			if Output then
+				Msg2("You set "..tostring(Ent.ServerName).."'s minimum players to "..Output)
+				RunConsoleCommand("gmt_multiminplay", Id, Output )
+			end
+		end,
+		EmptyFunction,
+		"Update",
+		"Cancel" )
+	end
+
 	local JoinServer = Form:Button( "Join server")
 	JoinServer.DoClick = function()
 

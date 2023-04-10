@@ -2,6 +2,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHCAPE, {
 	Name = "Cape Crusader", 
 	Description = "Get Colonel Pigmask rank.", 
 	Value = 1,
+	GMC = 1000,
 	Group = 9
 	}
 )
@@ -10,6 +11,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHBUTTON, {
 	Name = "Button Masher", 
 	Description = "Turn off the Chimera 50 times.", 
 	Value = 50,
+	GMC = 1000,
 	Group = 9
 	}
 )
@@ -34,6 +36,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHTAUNTING, {
 	Name = "Taunting Death", 
 	Description = "Taunt 10 times near the Chimera.", 
 	Value = 10,
+	GMC = 250,
 	Group = 9
 	}
 )
@@ -82,6 +85,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHHOMERUN, {
 	Name = "Homerun", 
 	Description = "Kill the Chimera 3 times with Mr. Saturn.", 
 	Value = 3,
+	GMC = 750,
 	Group = 9
 	}
 )

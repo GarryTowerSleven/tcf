@@ -11,14 +11,14 @@ function ENT:Initialize()
     end
 end
 
-local BG, FG, RED = Color(25, 15, 38), Color(180, 185, 90), Color(175, 35, 25)
+local BG, FG, RED = Color(25, 15, 38), Color(250, 250, 250), Color(175, 35, 25)
 
 local FontSizes = {12, 24, 32, 48, 64, 96, 18}
 
 for k, v in pairs(FontSizes) do
     surface.CreateFont("poker_" .. k, {
-        --font = "Calibri",
-        font = "Tahoma",
+        font = "Calibri",
+        --font = "Tahoma",
         size = v,
         weight = k == 5 and 800 or (k == 1 or k == 7) and 800 or 500
     })
@@ -91,7 +91,7 @@ function ENT:DrawCard(x, y, w, value, suit, held)
     local color = Color(0, 0, 0)
 
     if held then
-        color = Color(0, 255, 0)
+        color = Color(0, 255, 255)
     end
 
     draw.RoundedBox(2, x, y, w, h, color)
@@ -156,17 +156,17 @@ end
 local Cursor2D = surface.GetTextureID("cursor/cursor_default.vtf")
 
 function ENT:DrawCursor(cur_x, cur_y)
-    local cursorSize = 32
+    local cursorSize = 20
     surface.SetTexture(Cursor2D)
 
     if input.IsMouseDown(MOUSE_LEFT) then
-        cursorSize = 28
+        cursorSize = 18
         surface.SetDrawColor(255, 150, 150, 255)
     else
         surface.SetDrawColor(255, 255, 255, 255)
     end
 
-    local offset = cursorSize / 2
+    local offset = cursorSize / 1.5
     surface.DrawTexturedRect(cur_x - offset + 15, cur_y - offset + 15, cursorSize, cursorSize)
     --draw.DrawText( math.Round( cur_x, 2 ) .. ", " .. math.Round( cur_y, 2 ), "poker_1", cur_x + 15, cur_y + 15, Color( 255, 0, 0 ) )
 end
@@ -334,6 +334,8 @@ ENT.Width = 350
 ENT.Height = 350
 ENT.Scale = 0.035
 
+local gradient = Material("vgui/gradient_up")
+
 function ENT:DrawTranslucent()
     -- statistics
     local Data = {"Welcome to the tower casino!", "This machine's jackpot is being displayed below (in credits). In GMC, it is worth: " .. string.Comma(self:GetJackpot() * self.GMCPerCredit) .. " GMC.", self.GMCPerCredit .. " GMC = 1 credit"}
@@ -393,7 +395,7 @@ function ENT:DrawTranslucent()
         CursorVisible = true
     end
 
-    local DrawScreen = self:GetPlayer() == LocalPlayer() or LocalPlayer():EyePos():Distance(pos) < 100 or CursorVisible
+    local DrawScreen = self:GetPlayer() == LocalPlayer() or LocalPlayer():EyePos():Distance(pos) < 200 or CursorVisible
     cam.Start3D2D(pos, ang, self.Scale)
 
     ErrorTrace.Call(function()
@@ -405,12 +407,17 @@ function ENT:DrawTranslucent()
         end
 
         if DrawScreen then
-            surface.SetDrawColor(Color(0, 0, 128))
+            surface.SetDrawColor(Color(18, 18, 18))
             surface.DrawRect(-self.Width / 2 - 50, -self.Height / 2 - 50, self.Width + 100, self.Height + 100)
+			
+			surface.SetMaterial(gradient)
 
-            local function MainText(text, x, y, ax, ay)
-                draw.SimpleTextOutlined(text, "poker_2", x + 2, y + 2, Color(0, 0, 0), ax, ay, 1, Color(0, 0, 0))
-                draw.SimpleTextOutlined(text, "poker_2", x, y, RED, ax, ay, 1, FG)
+			surface.SetDrawColor(Color(31, 47, 152, 25))
+			surface.DrawTexturedRect(-self.Width / 2 - 50, -self.Height / 2 - 50, self.Width + 100, self.Height + 100)
+
+            local function MainText(text, x, y, ax, ay, size)
+				if not size then size = 2 end
+                draw.SimpleText(text, "poker_" .. size, x, y, FG, ax, ay, 1, FG)
             end
 
             for i = 1, 13 do
@@ -418,14 +425,9 @@ function ENT:DrawTranslucent()
             end
 
             if self:GetState() == self.States.IDLE then
-                MainText("VIDEO POKER", 0, -40, TEXT_ALIGN_CENTER)
-                surface.SetDrawColor(Color(0, 0, 0))
-                surface.DrawRect(-70 + 1, -15 + 1, 142, 3)
+                MainText("VIDEO POKER", 0, -40, TEXT_ALIGN_CENTER, nil, 3)
                 surface.SetDrawColor(FG)
-                surface.DrawRect(-70 - 1, -15 - 1, 140 + 2, 1 + 2)
-                surface.SetDrawColor(RED)
-                surface.DrawRect(-70, -15, 140, 1)
-                MainText("JACKS OR BETTER", 0, 0, 1)
+                surface.DrawRect(-70 - 1, 1, 140 + 2, 1 + 2)
                 MainText(self.GMCPerCredit .. " GMC = 1 CREDIT", 0, 50, 1)
                 MainText("SIT TO PLAY", 0, 77, 1)
             elseif self:GetState() == self.States.BEGIN then
@@ -489,6 +491,9 @@ function ENT:DrawTranslucent()
                     y = 70 + 30,
                     w = 20,
                     h = 20,
+                    text = "✓",
+                    tcol = Color(0, 200, 0),
+                    font = "poker_7",
                     col = Color(0, 66, 0),
                     border = Color(0, 200, 0),
                     bordersize = 2,
@@ -530,11 +535,11 @@ function ENT:DrawTranslucent()
 
                         if self:GetHeld()[i] then
                             y = -40
-                            color = Color(0, 255, 0)
-                            draw.SimpleTextOutlined("HELD", "poker_1", 84 * (i - 3) + 2.5, -28 - 0, Color(0, 255, 0), 1, nil, 2, Color(0, 0, 0))
+                            color = Color(0, 255, 255)
+                            draw.SimpleTextOutlined("HELD", "poker_1", 84 * (i - 3) + 2.5, -28 - 0, Color(0, 255, 255), 1, nil, 2, Color(0, 0, 0))
                         end
 
-                        draw.SimpleTextOutlined(tostring(i), "poker_1", 84 * (i - 3) + 2.5, y - 0, color, 1, nil, 2, Color(0, 0, 0))
+                        draw.SimpleText(tostring(i), "poker_1", 84 * (i - 3) + 2.5, y - 0, color, 1, nil)
                         self:DrawCard(84 * (i - 3) - 37.5, -5 - 8, 80, hand.cards[i].value, hand.cards[i].suit, self:GetHeld()[i])
                     end
                 else
@@ -553,7 +558,7 @@ function ENT:DrawTranslucent()
                 MainText("PROFIT " .. self:GetProfit(), w / 2 + 24, 117, TEXT_ALIGN_RIGHT)
 
                 if self:GetScore() > 1 then
-                    MainText(string.upper(self.Prizes[self:GetScore()].Name), 0, -55, 1)
+                    MainText(string.upper(self.Prizes[self:GetScore()].Name), 0, -65, 1)
 
                     if self:GetState() == self.States.NOPLAY then
                         local Score = self.Prizes[self:GetScore()][self:GetBet()]
@@ -570,11 +575,13 @@ function ENT:DrawTranslucent()
             do
                 -- prizes
                 local w2, h2 = w, h
-                local w, h = w - 00, 110
-                local x, y = w / -2, h2 / -2 + 10
+                local w, h = w * 1.275, 110
+                local x, y = w / -2 + 4, h2 / -2 -12
+				
                 draw.RoundedBox(0, x, y, w, h, BG)
                 draw.RoundedBox(0, x + 2, y + 2, w - 4, h - 4, FG)
                 draw.RoundedBox(0, x + 4, y + 4, 110, h - 8, BG)
+				
                 x = x + 4
                 y = y + 4
                 w = w - 8
@@ -588,7 +595,7 @@ function ENT:DrawTranslucent()
                 for i = 1, 5 do
                     -- inside of each box
                     --draw.RoundedBox( 0, x + 110 + 40 * ( i - 1 ), y, 2, h, FG )
-                    draw.RoundedBox(0, x + 112 + 44 * (i - 1), y, i == 5 and 53 or 42, h, self:GetBet() == i and RED or BG)
+                    draw.RoundedBox(0, x + 112 + 44 * (i - 1), y, i == 5 and 148 or 42, h, self:GetBet() == i and RED or BG)
                 end
 
                 local Count = 0
@@ -634,7 +641,7 @@ function ENT:DrawTranslucent()
                 self:DrawCursor(cx - 10, cy - 7)
             end
 
-            local Percent = math.Clamp(math.TimeFraction(80, 100, LocalPlayer():EyePos():Distance(pos)), 0, 1) * 255
+            local Percent = math.Clamp(math.TimeFraction(80, 200, LocalPlayer():EyePos():Distance(pos)), 0, 1) * 255
             surface.SetDrawColor(0, 0, 0, Percent)
             surface.DrawRect(-self.Width / 2 - 50, -self.Height / 2 - 50, self.Width + 100, self.Height + 100)
         else
@@ -772,8 +779,8 @@ ENT.Buttons2 = {
 	}]]
 for i = 1, 5 do
     ENT.Buttons2[53 + i] = {
-        x = -88 + (i - 1) * 18.9,
-        y = -6,
+        x = -88 + (i - 1) * 18.875,
+        y = -4,
         w = 12,
         h = 12,
         corner = 0,

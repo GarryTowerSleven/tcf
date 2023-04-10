@@ -460,3 +460,13 @@ concommand.Add("gmt_quitplayer", function( ply, cmd, args )
 		end
 	end
 end )
+
+concommand.Add("gmt_sendtolobby", function( ply, cmd, args )
+	if !ply:IsStaff() then return end
+
+	if ents.GetByIndex(args[1]) && ents.GetByIndex(args[1]):IsPlayer() then
+		AdminNotif.SendStaff( ply:Nick().." has sent "..ents.GetByIndex(args[1]):NickID().." back to lobby.", nil, "RED", 3 )
+		ents.GetByIndex(args[1]):SendLua( "LocalPlayer():ConCommand('connect join.gtower.net')" ) -- Change the ip if needed
+		timer.Simple( 5, function() ents.GetByIndex(args[1]):Kick("Not redirected.") end )
+	end
+end )

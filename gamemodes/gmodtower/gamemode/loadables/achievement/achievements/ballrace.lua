@@ -26,6 +26,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRBALLERROLL, {
 	Name = "Baller Roll", 
 	Description = "Spend more than 5 hours playing Ball Race.", 
 	Value = 60*5,
+	GMC = 1500,
 	Group = 6
 	}
 )
@@ -74,6 +75,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRHARDERBETTERFASTERSTRONGER, {
 	Name = "Harder Better Faster Stronger",
 	Description = "Beat your Ballrace records 50 times.",
 	Value = 50,
+	GMC = 1000,
 	Group = 6
 	}
 )

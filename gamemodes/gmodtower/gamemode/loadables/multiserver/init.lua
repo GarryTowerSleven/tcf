@@ -132,3 +132,24 @@ concommand.Add("gmt_multijoin", function( ply, cmd, args )
 		GTowerServers:RedirectPlayers( Server.Ip, Server.Port, Server.Password, {ply} )
 	end)
 end )
+
+concommand.Add("gmt_multiminplay", function( ply, cmd, args )
+	if !ply:IsAdmin() then
+		if GTowerHackers then
+			GTowerHackers:NewAttemp( ply, 5, cmd, args )
+		end
+		return
+	end
+
+	if #args != 2 then return end
+
+	local ServerId = tonumber( args[1] )
+	local Server = GTowerServers:Get( ServerId )
+	local GamemodeName = Server:GetGamemodeName()
+	local Gamemode = GTowerServers:GetGamemode( GamemodeName )
+	local MinPlay = tonumber( args[2] )
+
+	if !Server || !Server:Online() then return end
+
+	Gamemode.MinPlayers = MinPlay
+end )
