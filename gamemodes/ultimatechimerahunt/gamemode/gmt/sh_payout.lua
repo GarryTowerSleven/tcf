@@ -20,7 +20,7 @@ payout.Register( "WinBonusGhost", {
 
 payout.Register( "ButtonPress", {
 	Name = "The Savior",
-	Desc = "You saved your team from being eaten!\n(or maybe just yourself)",
+	Desc = "You saved your team from being eaten!",
 	GMC = 25,
 	Diff = 1,
 } )
@@ -97,8 +97,8 @@ payout.Register( "UCDeadPigs", {
 
 payout.Register( "UCLastPig", {
 	Name = "Last Pig Bonus",
-	Desc = "You're last alive",
-	GMC = 80,
+	Desc = "You're the last pig standing!.. The commander won't be happy.",
+	GMC = 75,
 	Diff = 1,
 } )
 
@@ -135,7 +135,7 @@ function GAMEMODE:GiveMoney()
 
 				payout.Give( ply, "WinBonus" )
 
-				if ply:GetNet("PressedButton") then
+				if ply:GetNet( "PressedButton" ) then
 					payout.Give( ply, "ButtonPress" )
 				end
 

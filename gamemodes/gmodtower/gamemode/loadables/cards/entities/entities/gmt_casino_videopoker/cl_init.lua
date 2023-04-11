@@ -13,7 +13,7 @@ end
 
 local BG, FG, RED = Color(25, 15, 38), Color(250, 250, 250), Color(175, 35, 25)
 
-local FontSizes = {12, 24, 32, 48, 64, 96, 18}
+local FontSizes = {14, 24, 32, 48, 64, 96, 18}
 
 for k, v in pairs(FontSizes) do
     surface.CreateFont("poker_" .. k, {
@@ -620,8 +620,9 @@ function ENT:DrawTranslucent()
                         end
                     end
 
-                    local y2 = y + 6 + 10 * (9 - Count)
+                    local y2 = y + 8 + 10 * (9 - (Count * 1.1))
                     draw.SimpleText(Text, "poker_1", x + 6, y2, self:GetScore() ~= i and FG or nil)
+					
                     local Rainbow = colorutil.Smooth(2)
 
                     for i2 = 1, 4 do

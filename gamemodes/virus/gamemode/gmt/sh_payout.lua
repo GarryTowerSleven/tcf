@@ -1,14 +1,7 @@
 payout.Register( "ThanksForPlaying", {
 	Name = "Thanks For Playing",
 	Desc = "For participating in the game!",
-	GMC = 25,
-} )
-
-payout.Register( "WinBonus", {
-	Name = "Winning Team",
-	Desc = "You and your team won!",
-	GMC = 25,
-	Diff = 1,
+	GMC = 50,
 } )
 
 payout.Register( "FirstInfectedBonus", {
@@ -109,8 +102,6 @@ function GAMEMODE:GiveMoney( VirusWins )
 					payout.Give( ply, "FirstInfectedBonus" )
 				end
 
-				payout.Give( ply, "WinBonus" )
-
 			end
 
 		else // Survivors won
@@ -128,8 +119,6 @@ function GAMEMODE:GiveMoney( VirusWins )
 				if #team.GetPlayers( TEAM_PLAYERS ) >= 3 then
 					payout.Give( ply, "TeamPlayer" )
 				end
-
-				payout.Give( ply, "WinBonus" )
 
 			end
 

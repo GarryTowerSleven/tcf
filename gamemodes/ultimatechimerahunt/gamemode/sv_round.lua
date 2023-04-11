@@ -44,8 +44,8 @@ function GM:StartRound()
 	//self.CanStartDead = CurTime() + 5
 
 	for _, v in ipairs( player.GetAll() ) do
-		v:SetNet("IsChimera",false)
-		v:SetNet("PressedButton",false)
+		v:SetNet( "IsChimera", false )
+		v:SetNet( "PressedButton", false )
 	end
 
 	globalnet.SetNet("UC", NULL)
