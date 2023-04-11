@@ -200,10 +200,6 @@ function ENT:DrawTranslucent()
 				bgColor = Color(130,140,145,80)
 			end
 
-			if self.ChoosingItem != self.LastItem then
-				self:EmitSound("gmodtower/virus/ui/deny.wav")
-			end
-
 			self.LastItem = self.ChoosingItem
 
 			draw.RoundedBox( 2, self.StartPosX + 2, v.YPos + 2, self.BoxNameW, self.BoxNameH, bgColor )
@@ -245,7 +241,6 @@ local function TeleporterTestForClick( ent )
 	local ItemTrace = ent:GetTraceItem( LocalPlayer() )
 	
 	if ItemTrace then
-		surface.PlaySound("gmodtower/virus/ui/accept.wav")
 		RunConsoleCommand("gmt_cteleporter", ent:EntIndex(), ent.ItemList[ ItemTrace ].id )
 		return true
 	end
