@@ -1,7 +1,6 @@
 ---------------------------------
 GMode.Name = "Virus"
 GMode.Gamemode = "virus"
-GMode.ThemeColor = Color(70, 118, 34)
 
 //Set true if players should be kicked if their "goserver" value on the database is not the same as the local server
 GMode.Private = true

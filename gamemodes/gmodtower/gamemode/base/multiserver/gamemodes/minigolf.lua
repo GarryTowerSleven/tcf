@@ -1,7 +1,6 @@
 ---------------------------------
 GMode.Name = "Minigolf"
 GMode.Gamemode = "minigolf"
-GMode.ThemeColor = Color(44, 83, 17)
 
 //Set true if players should be kicked if their "goserver" value on the database is not the same as the local server
 GMode.Private = true

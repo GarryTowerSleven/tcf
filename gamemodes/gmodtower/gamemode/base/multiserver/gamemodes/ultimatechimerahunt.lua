@@ -1,7 +1,6 @@
 ---------------------------------
 GMode.Name = "Ultimate Chimera Hunt"
-GMode.Gamemode = "ultimatechimerahunt"
-GMode.ThemeColor = Color(162, 36, 103)
+GMode.Gamemode = "ultimatechimerahunt"
 //Set true if players should be kicked if their "goserver" value on the database is not the same as the local server
 GMode.Private = true
 //Set true if this is only played by VIPs
