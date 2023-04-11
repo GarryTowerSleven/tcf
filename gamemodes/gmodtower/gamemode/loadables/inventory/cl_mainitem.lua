@@ -244,7 +244,7 @@ function PANEL:OpenMenu()
         })
     end
 
-    if not string.find(CommandId, "-2") then
+    if string.find(CommandId, "-1") then
         --Msg( CommandId )
         table.insert(Menu, {
             ["Name"] = "Send To Trunk",
