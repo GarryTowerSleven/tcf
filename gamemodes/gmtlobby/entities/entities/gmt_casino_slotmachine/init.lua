@@ -331,11 +331,11 @@ function ENT:PickResults()
 	local random = { getRand(), getRand(), getRand() }
 
 	if random[1] == 2 and random[2] == 2 and random[3] == 2 then
-		if self:GetJackpot() < 10000 && math.random(20) != 1 then
+		if self:GetJackpot() < 10000 && math.random(10) != 1 then
 			random[3] = math.random(6)
-		elseif self:GetJackpot() < 25000 && math.random(10) != 1
+		elseif self:GetJackpot() < 25000 && math.random(5) != 1 then
 			random[3] = math.random(6)
-		elseif self:GetJackpot() < 50000 && math.random(5) != 1
+		elseif self:GetJackpot() < 50000 && math.random(3) != 1 then
 			random[3] = math.random(6)
 		end
 	end
