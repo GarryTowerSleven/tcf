@@ -5,6 +5,10 @@ if SERVER then
 	local DEBUG = false
 
 	local function SendBallId( ply )
+		if ply:GetNet( "BallID" ) < 1 then
+			ply._PlyChoosenBall = ply._SQLDATA.ball
+		end
+
 		umsg.Start("GtBall", ply )
 			umsg.Char( 1 )
 			umsg.Char( ply._PlyChoosenBall )
@@ -39,7 +43,7 @@ if SERVER then
 		SendBallId( ply )
 	end
 
-	/*hook.Add("SQLStartColumns", "SQLGetBall", function()
+	hook.Add("SQLStartColumns", "SQLGetBall", function()
 		SQLColumn.Init( {
 			["column"] = "ball",
 			["update"] = function( ply )
@@ -53,7 +57,7 @@ if SERVER then
 				ply._PlyChoosenBall = val
 			end
 		} )
-	end )*/
+	end )
 
 	local function PlayerSendLevels( ply )
 
