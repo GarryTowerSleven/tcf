@@ -3,8 +3,6 @@
 if file.Find("lua/bin/gmcl_gdiscord_*.dll", "GAME")[1] == nil then return end
 require("gdiscord")
 
-if !IsLobby then return end
-
 local rpc_convar = CreateClientConVar( "gmt_rpc", 0, true )
 local rpcDisabled = false
 
@@ -180,6 +178,8 @@ local function DiscordUpdate()
         end
 
 		rpc_data["joinSecret"] = "steam://connect/"..game.GetIPAddress()
+    else
+        rpc_data["largeImageKey"] = map
     end
 
     if rpc_data == lastData then return end
