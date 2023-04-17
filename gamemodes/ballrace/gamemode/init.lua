@@ -26,7 +26,20 @@ function GM:Initialize()
 	GAMEMODE.LateSpawn = nil
 	GAMEMODE.RoundNum = 0
 	GAMEMODE.PreviousState = self:GetState()
+
 end
+
+hook.Add( "InitPostEntity", "InitMaxRounds", function()
+	local lvls = {}
+	
+	for k,v in pairs(ents.FindByClass("info_target")) do
+		local LVL = string.gsub( v:GetName(), '[%a _]', '' )
+		table.insert(lvls,LVL)
+	end
+	
+	// for the client
+	GAMEMODE:SetMaxRounds( table.Count( lvls ) )
+end )
 
 hook.Add( "PlayerAFK", "BRAFK", function( ply, afk )
 

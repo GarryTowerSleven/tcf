@@ -313,6 +313,9 @@ function GM:StartRound()
 
 	placement = 0
 
+	// only for client
+	self:SetRound( level )
+
 end
 
 hook.Add( "Think", "RoundController", function()
