@@ -60,48 +60,79 @@ end
 
 local function getMapPic( map )
     local mapPics = {}
-    mapPics["gmt_lobby2_r6"] = "gmt_lobby2_d"
-    mapPics["gmt_lobby2_r7"] = "gmt_lobby2_d"
+	--mapPics["gmt_lobby2_r6"] = "gmt_lobby2_d"
+	--mapPics["gmt_lobby2_r7"] = "gmt_lobby2_d"
+	mapPics["gmt_build0s2b"] = "gmt_build0s2b_d"
 
     return mapPics[map] or "no_icon"
 end
 
 local function getLocationPic(loc)
-    if Location.IsGroup(loc, "plaza") then
-        return "plaza"
+    if Location.IsGroup(loc, "trainstation") then
+        return "trainstation"
     end
-    if Location.IsGroup(loc, "games") then
-        return "games"
-    end 
-    if Location.IsGroup(loc, "transit") then
-        return "transit"
-    end 
-    if Location.IsGroup(loc, "boardwalk") then
-        return "boardwalk"
-    end 
-    if Location.IsCasino(loc) then
-        return "casino"
-    end
-    if Location.IsNightclub(loc) then
-        return "nightclub"
-    end
-    if Location.IsTheater(loc) || Location.Is(loc, "theatermain") then
-        return "theater"
-    end
-    if Location.Is(loc, "condolobby") then
-        return "condolobby"
-    end
-    if Location.IsGroup(loc, "lobby") then
-        return "towerlobby"
-    end
-    if Location.IsGroup(loc, "condos") then
-        return "condo"
-    end
-    if Location.IsArcade(loc) then
-        return "arcade"
-    end
+	if Location.IsGroup(loc, "devhq") then
+		return "devhq"
+	end
+	if Location.IsGroup(loc, "lobby") then
+		return "lobby"
+	end
+	if Location.IsGroup(loc, "teleporters") then
+		return "teleporters"
+	end
+	if Location.IsGroup(loc, "lobbyroof") then
+		return "lobbyroof"
+	end
+	if Location.IsGroup(loc, "theater") then
+		return "theater"
+	end
+	if Location.IsGroup(loc, "theaterhallway") then
+		return "theaterhallway"
+	end
+	if Location.IsGroup(loc, "vents") then
+		return "vents"
+	end
+	if Location.IsGroup(loc, "moon") then
+		return "moon"
+	end
+	if Location.IsGroup(loc, "eplaza") then
+		return "eplaza"
+	end
+	if Location.IsGroup(loc, "stores") then
+		return "stores"
+	end
+	if Location.IsGroup(loc, "bar") then
+		return "bar"
+	end
+	if Location.IsCasino(loc) then
+		return "casino"
+	end
+	if Location.IsGroup(loc, "arcade") then
+		return "arcade"
+	end
+	if Location.Is("teleporters") then
+		return "teleporters"
+	end
+	if Location.IsGroup(loc, "gamemodeports") then
+		return "gamemodeports"
+	end
+	if Location.IsGroup(loc, "narnia") then
+		return "narnia"
+	end
+	if Location.IsGroup(loc, "pool") then
+		return "pool"
+	end
+	if Location.IsGroup(loc, "lakeside") then
+		return "lakeside"
+	end
+	if Location.IsGroup(loc, "suites") then
+		return "suites"
+	end
+	if Location.IsGroup(loc, "suite") then
+		return "suite"
+	end
 
-    return "gmt_lobby2_d"
+    return "gmt_build0s2b_d"
 end
 
 local lastUpdate = 0
@@ -136,7 +167,7 @@ local function DiscordUpdate()
 
     if IsLobby then
         rpc_data["state"] = Location.GetFriendlyName(location) or "Somewhere"
-        //rpc_data["largeImageText"] = "join.gmtdeluxe.org"
+        //rpc_data["largeImageText"] = "join.gtower.net"
         rpc_data["largeImageText"] = "chat.gtower.net"
         rpc_data["largeImageKey"] = getLocationPic(location)
 
@@ -147,6 +178,8 @@ local function DiscordUpdate()
 				rpc_data["state"] = "Dueling " .. duelist:Name()
 			end
         end
+
+		rpc_data["joinSecret"] = "steam://connect/"..game.GetIPAddress()
     end
 
     if rpc_data == lastData then return end
