@@ -67,6 +67,8 @@ Commands = {
 	[19] = {"lounge", "", 0},
 }
 
+table.insert(Commands, 10, {"dancesync", "dancesync", 1})
+
 concommand.Add( "gmt_emoteend", function(ply)
 	ply:SetNWBool("Emoting",false)
 	ply:SetNWBool("Sitting",false)
@@ -95,7 +97,13 @@ for _, emote in pairs(Commands) do
 	local Action 	= emote[2]
 	local Duration	= emote[3]
 	
-	if emoteName == "sit" then
+	if emote == "dancesync" then
+		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
+		ply:ConCommand("syncdance")
+		DoEmoteChat( ply, emoteName )
+		return ""
+		end)
+	elseif emoteName == "sit" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
 			if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
 			ply:SetNWBool("Emoting",true)
