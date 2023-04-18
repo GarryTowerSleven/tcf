@@ -50,6 +50,8 @@ local minitime = 120 -- 2 minutes
 local saletime = 120 -- 2 minutes
 
 function SendMessageToPlayers(msgtype, ...)
+    BroadcastLua( "surface.PlaySound( \"" .. EventSound .. "\" )" )
+
 	for _, v in ipairs(player.GetAll()) do
 		v:MsgT( msgtype, select( 1, ... ) )
 	end
