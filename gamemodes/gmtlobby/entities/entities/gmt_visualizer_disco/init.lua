@@ -108,3 +108,22 @@ function ENT:PhysicsSimulate( phys, deltatime )
 	return Angular, Linear, SIM_GLOBAL_ACCELERATION
 	
 end
+
+concommand.Add("syncdance", function(ply, _, args)
+	args[1] = args[1] and tonumber(args[1]) or !ply:GetNWBool("dancing") and 1 or 0
+	ply:SetNWBool("dancing", args[1] == 1)
+end)
+
+local dances = {
+	["dance"] = ACT_GMOD_TAUNT_DANCE,
+	["muscle"] = ACT_GMOD_TAUNT_MUSCLE,
+	["robot"] = ACT_GMOD_TAUNT_ROBOT
+}
+
+concommand.Add("syncdance_set", function(ply, _, args)
+	if !args[1] then return end
+	local dance = dances[args[1]]
+	if !dance then return end
+	ply:SetNWInt("dance", dance)
+	BroadcastLua([[ents.GetByIndex(]] .. ply:EntIndex() .. [[).Dance = nil]])
+end)
