@@ -90,7 +90,7 @@ function ENT:UpdateStreamVals(Stream)
     self.NextScaleS = Lerp(FrameTime(), self.NextScaleS, self.NextScale)
     //self.NextScale = 0.5 + math.Clamp( ( Avg / Max ) * 0.8, 0, 0.8 )
     //self.NextScale = math.Clamp( self.NextScale, .1, 3 )
-    self:SetModelScale(1 + self.NextScale, 0)
+    self:SetModelScale(1 + math.Clamp(self.NextScale, 0, 2), 0)
     self:SetRenderAngles(self:GetAngles() + Angle(FrameTime() * 64, FrameTime() * 24, FrameTime() * 64) * self.NextScale)
     self.P2 = self.P2 || {}
     /*self.TP = Location.GetMediaPlayersInLocation( self:Location() )[1]
@@ -180,9 +180,11 @@ hook.Add("Think", "DiscoBall", function()
     local mp2
     DISCO = false // Location.GetSuiteID(LocalPlayer():Location()) != 0
 
-	for _, b in ipairs(ents.FindByClass(("gmt_visualizer_disco"))) do
-		if b:Location() == LocalPlayer():Location() then
-			DISCO = b
+	if GetConVar("gmt_visualizer_effects"):GetBool() then
+		for _, b in ipairs(ents.FindByClass(("gmt_visualizer_disco"))) do
+			if b:Location() == LocalPlayer():Location() then
+				DISCO = b
+			end
 		end
 	end
 
@@ -304,10 +306,10 @@ hook.Add("StartCommand", "ply", function(ply, cmd)
 end)
 
 hook.Add("Think", "t", function()
-    if input.IsKeyDown(KEY_SPACE) then
+    if input.IsMouseDown(MOUSE_RIGHT) then
         if !jumptogg then
             // RHYTHM = RHYTHM == nil and true or !RHYTHM
-
+			DEATH = !DEATH
 			if !RHYTHM then
 				// if IsValid(station2) then
 					// station2:Stop()
@@ -529,6 +531,7 @@ end)
 hook.Add("UpdateAnimation", "DiscoBall", function(ply)
     if ply:GetNWBool("dancing") then
         if ply == LocalPlayer() then
+			ply:SetRenderAngles(ply.RenderAngle or angle_zero)
             DanceLight = IsValid(DanceLight) && DanceLight || ProjectedTexture()
 
             if IsValid(DanceLight) then
@@ -568,11 +571,19 @@ hook.Add("UpdateAnimation", "DiscoBall", function(ply)
 
         return ACT_GMOD_TAUNT_DANCE, -1
     else
-        if ply == LocalPlayer() && IsValid(DanceLight) then
-            DanceLight:Remove()
+        if ply == LocalPlayer() then
+			if IsValid(DanceLight) then
+				DanceLight:Remove()
+			end
+
+			ang = ply:EyeAngles()
+				
+			DEAD = true
+			lerpv = nil
         end
 
-		DEAD = true
+		ply.RenderAngle = ply:EyeAngles()
+
 
         ply:AnimResetGestureSlot(GESTURE_SLOT_CUSTOM)
     end
@@ -586,8 +597,15 @@ hook.Add("CalcMainActivity", "DiscoBall", function(ply)
     end
 end)
 
+DEATH = true
+
+hook.Add("ForceThirdperson", "Dancing", function(ply)
+	if ply:GetNWBool("dancing") and !DEATH then return true end
+end)
+
 hook.Add("CalcView", "DiscoBall", function(ply, pos, ang)
     if !ply:GetNWBool("dancing") then return end
+	if !DEATH then return end
     local ragdoll = ply
     dang = dang || math.random(0, 180)
     ang = Angle(30, dang, 0)
