@@ -61,7 +61,7 @@ payout.Register( "Rank4", {
 } )
 
 payout.Register( "UCRank1", {
-	Name = "Rank Chomp Bonus",
+	Name = "Ensign Chomp Bonus",
 	Desc = "You ate a Ensign.",
 	GMC = 20,
 	Diff = 1,
@@ -90,7 +90,7 @@ payout.Register( "UCRank4", {
 
 payout.Register( "UCDeadPigs", {
 	Name = "Dead Pigs Bonus",
-	Desc = "You get 15 GMC per eaten Pigmask",
+	Desc = "You get 15 GMC per eaten Pigmask.",
 	GMC = 0,
 	Diff = 2,
 } )
@@ -120,10 +120,6 @@ function GAMEMODE:GiveMoney()
 			if ply:GetNet("IsChimera") then
 
 				payout.Give( ply, "UCWinBonus" )
-
-				if ply.HighestKilledRank then
-					payout.Give( ply, "UCRank" .. ply.HighestKilledRank )
-				end
 
 			end
 
@@ -160,6 +156,10 @@ function GAMEMODE:GiveMoney()
 			local deadpigs = #team.GetPlayers( TEAM_GHOST )
 			if deadpigs > 0 then
 				payout.Give( ply, "UCDeadPigs", ( deadpigs * 15 ) )
+			end
+
+			if ply.HighestKilledRank then
+				payout.Give( ply, "UCRank" .. ply.HighestKilledRank )
 			end
 
 		end

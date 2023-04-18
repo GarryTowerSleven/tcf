@@ -74,7 +74,7 @@ end )
 
 function ClickOnPlayer( self, ply, mc )
 
-	if !LocalPlayer():IsAdmin() then return end
+	if !LocalPlayer():IsStaff() then return end
 
 	if !IsValid( ply ) then return end
 	

@@ -7,7 +7,7 @@ payout.Register( "ThanksForPlaying", {
 payout.Register( "FirstInfectedBonus", {
 	Name = "First Infected",
 	Desc = "You successfully spread the virus.",
-	GMC = 50,
+	GMC = 100,
 	Diff = 2,
 } )
 
@@ -28,7 +28,7 @@ payout.Register( "SurvivorBonus", {
 payout.Register( "TeamPlayer", {
 	Name = "Team Player",
 	Desc = "Survived with 3 or more survivors.",
-	GMC = 50,
+	GMC = 100,
 	Diff = 2,
 } )
 

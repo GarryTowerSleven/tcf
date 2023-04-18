@@ -4,6 +4,13 @@ payout.Register( "ThanksForPlaying", {
 	GMC = 100,
 } )
 
+payout.Register( "Kills", {
+	Name = "Kills",
+	Desc = "Bonus for killing players (10 GMC each).", 
+	GMC = 0,
+	Diff = 2,
+} )
+
 payout.Register( "Rank1", {
 	Name = "1st Place",
 	Desc = "For being the top killer.",
@@ -27,7 +34,7 @@ payout.Register( "Rank3", {
 
 payout.Register( "Headshot", {
 	Name = "One Click Headshot",
-	Desc = "Got a headshot",
+	Desc = "Got a headshot.",
 	GMC = 50,
 	Diff = 3,
 } )
@@ -57,6 +64,7 @@ function GAMEMODE:GiveMoney()
 		payout.Clear( ply )
 
 		if ply:Frags() > 0 then
+			payout.Give( ply, "Kills", ply:Frags() * 10 )
 			if k == 1 then payout.Give( ply, "Rank1" ) end
 			if k == 2 then payout.Give( ply, "Rank2" ) end
 			if k == 3 then payout.Give( ply, "Rank3" ) end

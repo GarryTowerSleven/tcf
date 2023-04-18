@@ -313,6 +313,9 @@ function GM:StartRound()
 
 	placement = 0
 
+	// only for client
+	self:SetRound( level )
+
 end
 
 hook.Add( "Think", "RoundController", function()
@@ -513,10 +516,10 @@ function GM:PlayerComplete(ply)
 
 	placement = placement + 1
 
-	local finishTime = string.FormattedTime( ply.RaceTime )
+	local finishTime = string.FormattedTime( ply.RaceTime, "%02i.%02i.%02i" )
 
 	ply:SetNet( "CompletedRank", placement )
-	ply:SetNet( "CompletedTime", tostring(string.format("%0.2i", math.floor(finishTime.s)).."."..string.format("%0.2i", math.floor(finishTime.ms) ) ) )
+	ply:SetNet( "CompletedTime", string.Replace( finishTime, "00.", "" ) )
 
 	--PrintMessage( HUD_PRINTTALK, ply:Name()..' got '..PlacementPostfix(placement)..' place! Time Completed: '..string.FormattedTime(ply.RaceTime, "%02i:%02i:%02i")..'.' )
 	self:ColorNotifyAll( "LVL "..level.." #"..placement.." "..ply:Name().." | "..ply:GetNet( "CompletedTime" ) )
