@@ -48,15 +48,15 @@ function ENT:LookingRoomThink()
 			self.JB:Remove()
 		end
 
-		return
-	end
-
+	else
 		if !IsValid(self.JB) then
 			self.JB = ents.Create("gmt_jukebox")
 			self.JB:SetPos(self:GetPos() + self:GetForward() * 32)
 			self.JB:Spawn()
 			self.JB:SetSolid(SOLID_NONE)
 		end
+	end
+
 
 	local NewRoomId =  GTowerRooms.ClosestRoom( self:GetPos() )
 
