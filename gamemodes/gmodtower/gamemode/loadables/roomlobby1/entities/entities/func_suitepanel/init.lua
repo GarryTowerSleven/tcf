@@ -42,6 +42,22 @@ function ENT:LookingRoomThink()
 		return
 	end
 
+	
+	if Location.GetSuiteID(self:Location()) == 0 then
+		if IsValid(self.JB) then
+			self.JB:Remove()
+		end
+
+		return
+	end
+
+		if !IsValid(self.JB) then
+			self.JB = ents.Create("gmt_jukebox")
+			self.JB:SetPos(self:GetPos() + self:GetForward() * 32)
+			self.JB:Spawn()
+			self.JB:SetSolid(SOLID_NONE)
+		end
+
 	local NewRoomId =  GTowerRooms.ClosestRoom( self:GetPos() )
 
 	if NewRoomId then
@@ -129,6 +145,8 @@ function ENT:Think()
 	for k,v in pairs(player.GetAll()) do
 		Allow( owner, ply, Room )
 	end
+
+	
 end
 
 -- Use Terminal
