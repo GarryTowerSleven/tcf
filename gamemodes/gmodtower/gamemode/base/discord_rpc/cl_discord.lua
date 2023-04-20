@@ -173,11 +173,12 @@ local function DiscordUpdate()
         rpc_data["largeImageKey"] = map_icon
         rpc_data["largeImageText"] = mapName
 
-        if ( GAMEMODE:GetState() == STATE_WAITING ) then
+        /*if ( GAMEMODE:GetState() == STATE_WAITING ) then
             rpc_data["details"] = "Waiting for Players..."
         else
-            rpc_data["details"] = Format( "Round %s of %s", GAMEMODE:GetRound(), GAMEMODE:GetMaxRounds() )
-        end
+            //rpc_data["details"] = Format( "Round %s of %s", GAMEMODE:GetRound(), GAMEMODE:GetMaxRounds() )
+            rpc_data["details"] = "Playing"
+        end*/
 
     end
 
