@@ -154,7 +154,7 @@ function ENT:UpdateStreamVals(Stream)
 
     for i = 1, 1 do
         local p = self.P2[i]
-        self.P2[i] = self.P2[i] || ProjectedTexture()
+        self.P2[i] = IsValid(p) and self.P2[i] || ProjectedTexture()
         if !IsValid(p) then return end
         local os = self:EntIndex()
         p:SetTexture("effects/flashlight001")
@@ -281,7 +281,7 @@ hook.Add("Think", "DiscoBall", function()
     b = b > 1.2 && b / 20 || b / 22
     m = m / 400
     lerp = lerp || 0
-    lerp = Lerp(ft * (2 - (b)), lerp, math.Clamp(b * 2 + m, 0, 0.14))
+    lerp = Lerp(ft * (2 - b), lerp, math.Clamp(b * 2 + m, 0, 0.14))
 
 	// print((lerp - math.Clamp(b * 2 + m, 0, 0.14)) * 24, ft, lerp, math.Clamp(b * 2 + m, 0, 0.1))
     if !CUSTOMTAUNT && MEDIACYCLE <= 0.01 then
