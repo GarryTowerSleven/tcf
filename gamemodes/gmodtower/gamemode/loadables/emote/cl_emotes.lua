@@ -100,7 +100,7 @@ function string.Uppercase( str )
 
 end
 hook.Add( "GTowerShowContextMenus", "ShowEmote", function()
-
+	if UCHAnim && UCHAnim.IsGhost( LocalPlayer() ) then return end
 	if IsValid( RADIAL ) then
 		RADIAL:Remove()
 	end
@@ -177,7 +177,9 @@ hook.Add( "GTowerShowContextMenus", "ShowEmote", function()
 			draw.RoundedBox( 8, 0, 0, w, h, Color( 16 - 30, 77 - 30, 121 - 30, 225 ) )
 		end
 	RADIAL:SetCenterPanel( p )
-
+	
+	if UCHAnim && UCHAnim.IsPig( LocalPlayer() ) then return end
+	
 	local sync = vgui.Create("DButton", RADIAL)
 	sync:SetSize(80 * 2, 30)
 	sync:SetFont("GTowerHUDMain")
