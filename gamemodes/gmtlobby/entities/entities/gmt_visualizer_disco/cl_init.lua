@@ -281,7 +281,7 @@ hook.Add("Think", "DiscoBall", function()
     b = b > 1.2 && b / 20 || b / 22
     m = m / 400
     lerp = lerp || 0
-    lerp = Lerp(ft * (2 - math.abs(lerp - math.Clamp(b * 2 + m, 0, 0.14)) * 24), lerp, math.Clamp(b * 2 + m, 0, 0.14))
+    lerp = Lerp(ft * (2 - (b)), lerp, math.Clamp(b * 2 + m, 0, 0.14))
 
 	// print((lerp - math.Clamp(b * 2 + m, 0, 0.14)) * 24, ft, lerp, math.Clamp(b * 2 + m, 0, 0.1))
     if !CUSTOMTAUNT && MEDIACYCLE <= 0.01 then
