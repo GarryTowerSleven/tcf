@@ -392,18 +392,20 @@ function RenderScreenspaceEffects()
 			local darkness = -multi + 1.5
 			//local avg = math.Clamp( volume * 2  - 0.1, 0, 1 )
 			//local smooth = smooth + (( avr - smooth )*FrameTime()*10)	
+			lerp2 = lerp2 or 0
+			lerp2 = Lerp(FrameTime() * 0.1, lerp2, invert * (multi / 10))
 
-			DrawSunbeams( math.Clamp( 1 * volume, .9, 1 ), math.Clamp( .8 * volume, .1, .8 ), math.Clamp( 3 * bass, 2.5, 3 ), toscrpos.x / w, toscrpos.y / h )
+			//DrawSunbeams( math.Clamp( 1 * volume, .9, 1 ), math.Clamp( .8 * volume, .1, .8 ), math.Clamp( 3 * bass, 2.5, 3 ), toscrpos.x / w, toscrpos.y / h )
 			// DrawSunbeams( darkness, math.max( volume * 0.8, 0.1 ), math.max( volume * 0.5, 0.3 ), toscrpos.x / w, toscrpos.y / h )
 			DrawMotionBlur( blur, 1, 0 )
-			// DrawBloom( darkness, invert * ( multi / 10 ), math.max( invert * 40 + 2, 5 ), math.max( invert * 40 + 2, 5 ), 4, 8, 1, 1, 1 )
+			DrawBloom( -lerp2, lerp2, math.max( lerp2 * 2 + 2, 5 ), math.max( lerp2 * 2 + 2, 5 ), 4, 8, 1, 1, 1 )
 
 			// This shit is too intense, yo
 			FLStream.i = FLStream.i or 0
 			FLStream.i = Lerp(FrameTime() * 2, FLStream.i, FLStream.FFTScale)
 			local c = FLStream.Color
 			local m = Lerp(FLStream.i, 0, 0.2)
-			DrawBloom( darkness, 2, math.max( invert * 40 + 2, 5 ), math.max( invert * 40 + 2, 5 ), 4, 8, (c.r / 255) * m, (c.g / 255) * m, (c.b / 255) * m )
+			// DrawBloom( darkness, 2, math.max( invert * 40 + 2, 5 ), math.max( invert * 40 + 2, 5 ), 4, 8, (c.r / 255) * m, (c.g / 255) * m, (c.b / 255) * m )
 			local colormod = {
 				["$pp_colour_addr"] 		= 0,
 				["$pp_colour_addg"] 		= 0,
