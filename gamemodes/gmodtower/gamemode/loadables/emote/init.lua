@@ -100,9 +100,14 @@ for _, emote in pairs(Commands) do
 	
 	if emoteName == "dancesync" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
-		ply:ConCommand("syncdance")
-		DoEmoteChat( ply, emoteName )
-		return ""
+			if ply:GetNWBool("Emoting") then return end
+			if ply:GetNWBool("Dancing") then ply:ConCommand("syncdance") return end
+			
+			ply:ConCommand("syncdance")
+			
+			DoEmoteChat( ply, emoteName )
+			
+			return ""
 		end)
 	elseif emoteName == "sit" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )

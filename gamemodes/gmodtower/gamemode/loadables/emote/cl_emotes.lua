@@ -189,7 +189,7 @@ hook.Add( "GTowerShowContextMenus", "ShowEmote", function()
 	sync:CenterHorizontal()
 	sync.DoClick = function()
 		if LocalPlayer():GetNWBool("dancing") then
-			RunConsoleCommand( "syncdance")
+			RunConsoleCommand("syncdance", 0)
 			RADIAL:Remove()
 			return
 		end
