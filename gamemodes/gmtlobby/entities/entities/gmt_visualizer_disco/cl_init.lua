@@ -185,11 +185,14 @@ MEDIACYCLE = 0.89
 CUSTOMTAUNT = true
 
 hook.Add("Think", "DiscoBall", function()
+	local ft = LastThink and SysTime() - LastThink or 0
+	LastThink = SysTime()
+
     local mp2 = Location.GetMediaPlayersInLocation(LocalPlayer():Location())[1]
     local mp2
     DISCO = false // Location.GetSuiteID(LocalPlayer():Location()) != 0
 
-	if GetConVar("gmt_visualizer_effects"):GetBool() then
+	if mp and GetConVar("gmt_visualizer_effects"):GetBool() then
 		for _, b in ipairs(ents.FindByClass(("gmt_visualizer_disco"))) do
 			if b:Location() == LocalPlayer():Location() then
 				DISCO = b
@@ -278,19 +281,21 @@ hook.Add("Think", "DiscoBall", function()
     b = b > 1.2 && b / 20 || b / 22
     m = m / 400
     lerp = lerp || 0
-    lerp = Lerp(FrameTime() * 8, lerp, math.Clamp(b * 2 + m, 0, 0.1))
+    lerp = Lerp(ft * 8, lerp, math.Clamp(b * 2 + m, 0, 0.1))
 
     if !CUSTOMTAUNT && MEDIACYCLE <= 0.01 then
         MEDIACYCLE = 0.01
         DEAD = true
     end
 
-    MEDIACYCLE = math.fmod(MEDIACYCLE + FrameTime() * (0.001 + lerp), CUSTOMTAUNT && 1 || 0.9)
+    MEDIACYCLE = math.fmod(MEDIACYCLE + ft * (0.001 + lerp), CUSTOMTAUNT && 1 || 0.9)
 
     if !CUSTOMTAUNT && MEDIACYCLE <= 0.01 then
         MEDIACYCLE = 0.01
         DEAD = true
     end
+
+	lastThink = SysTime()
 end)
 
 local keys = {
@@ -573,7 +578,7 @@ hook.Add("UpdateAnimation", "DiscoBall", function(ply)
                 ply.Danced = false
             end
 
-            ply:SetCycle(c || 0.4 + math.sin(CurTime() * 2) * 0.1)
+            // ply:SetCycle(c || 0.4 + math.sin(CurTime() * 2) * 0.1)
         end
 
         ply:AddVCDSequenceToGestureSlot(GESTURE_SLOT_CUSTOM, CUSTOMTAUNT && ply.Dance || ply:LookupSequence("taunt_dance_base"), mp && c || ply:GetCycle(), true)
