@@ -41,6 +41,7 @@ end
 if SERVER then return end
 
 function ENT:Draw()
+	if Location.GetSuiteID(self:Location()) ~= 0 then return end
 	self:DrawModel()
 
 	local mp = self:GetMediaPlayer()
