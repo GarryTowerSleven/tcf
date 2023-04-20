@@ -8,12 +8,11 @@ hook.Add( "Move", "EmoteMove", function( ply, mv )
 end)
 
 hook.Add( "PlayerDeath", "GlobalDeathMessage", function( victim, inflictor, attacker )
-	if victim:GetNWBool("Emoting") then
-		victim:SetNWBool("Emoting",false)
-		victim:SetNWBool("Sitting",false)
-		victim:SetNWBool("Laying",false)
-		victim:SetNWBool("Lounging",false)
-	end
+	victim:SetNWBool("Emoting",false)
+	victim:SetNWBool("Sitting",false)
+	victim:SetNWBool("Laying",false)
+	victim:SetNWBool("Lounging",false)
+	victim:ConCommand("syncdance", 0)
 end )
 
 function IsEmoting( ply )
