@@ -281,8 +281,9 @@ hook.Add("Think", "DiscoBall", function()
     b = b > 1.2 && b / 20 || b / 22
     m = m / 400
     lerp = lerp || 0
-    lerp = Lerp(ft * 8, lerp, math.Clamp(b * 2 + m, 0, 0.1))
+    lerp = Lerp(ft * (2 - math.abs(lerp - math.Clamp(b * 2 + m, 0, 0.14)) * 24), lerp, math.Clamp(b * 2 + m, 0, 0.14))
 
+	// print((lerp - math.Clamp(b * 2 + m, 0, 0.14)) * 24, ft, lerp, math.Clamp(b * 2 + m, 0, 0.1))
     if !CUSTOMTAUNT && MEDIACYCLE <= 0.01 then
         MEDIACYCLE = 0.01
         DEAD = true
@@ -442,7 +443,7 @@ hook.Add("HUDPaint", "DiscoBall", function()
     c = colorutil.Rainbow(50 + lerp * 0.1) || HSVToColor(MEDIACYCLE * 360, 1, 0.4)
     c.a = lerp * 2555 / 8
     c.a = math.min(c.a, 255)
-    DrawBloom(0, 0.4 * lerp, 1, 1, 1, 2, c.r / 255, c.g / 255, c.b / 255)
+    DrawBloom(0, 2 * lerp, 1, 1, 1, 2, c.r / 255, c.g / 255, c.b / 255)
     surface.SetDrawColor(c)
     surface.DrawTexturedRect(-ScrW() * 0.1, -ScrH() * 0.1, ScrW() * 1.2, ScrH() * 1.2) // ScrH() - 128, ScrW(), 256)
     if !RHYTHM then return end
