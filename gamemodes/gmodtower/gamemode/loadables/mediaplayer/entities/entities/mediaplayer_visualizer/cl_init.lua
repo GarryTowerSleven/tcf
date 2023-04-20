@@ -66,8 +66,10 @@ net.Receive( "OpenReqMenu", function()
 		"Request",
 		"Cancel"
 	)*/
+	ent = MediaPlayer.GetByObject(ent)
+	if !IsValid(ent) then return end
 
-	MediaPlayer.OpenRequestMenu( ent:GetFirstMediaPlayerInLocation() )
+	MediaPlayer.OpenRequestMenu( ent )
 end )
 
 ----------------------------------------------------
