@@ -17,6 +17,6 @@ end )
 
 function IsEmoting( ply )
 
-	return ply:GetNWBool("Emoting") --ply.EmoteID && ply.EmoteID > 0
+	return ply:GetNWBool("Emoting") || ply:GetNWBool("Dancing") --ply.EmoteID && ply.EmoteID > 0
 
 end
