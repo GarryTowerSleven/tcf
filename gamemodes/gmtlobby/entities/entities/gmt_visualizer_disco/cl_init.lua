@@ -70,6 +70,14 @@ function ENT:UpdateStreamVals(Stream)
         self:SetModelScale(1, 0)
         self.NextScale = 0.2
 
+		if self.P2 then
+			for _, p in ipairs(self.P2) do
+				if IsValid(p) then
+					p:Remove()
+				end
+			end
+		end
+
         return
     end
 
