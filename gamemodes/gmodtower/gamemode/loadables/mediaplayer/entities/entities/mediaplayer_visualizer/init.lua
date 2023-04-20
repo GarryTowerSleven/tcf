@@ -25,11 +25,11 @@ function ENT:Initialize()
 end
 
 function ENT:Use( activator )
-	activator:Msg2( "This mediaplayer is currently unavailable, please try again another time." )
+	// activator:Msg2( "This mediaplayer is currently unavailable, please try again another time." )
 
-	/*net.Start( "OpenReqMenu" )
-		net.WriteEntity( self )
-	net.Send( activator )*/
+	net.Start( "OpenReqMenu" )
+		net.WriteEntity( self:GetFirstMediaPlayerInLocation() and self:GetFirstMediaPlayerInLocation().Entity )
+	net.Send( activator )
 end
 
 util.AddNetworkString( "OpenReqMenu" )

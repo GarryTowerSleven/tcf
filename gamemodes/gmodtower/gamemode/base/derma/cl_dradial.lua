@@ -341,7 +341,8 @@ function PANEL:Think()
 
 	local MouseDown = input.IsMouseDown( MOUSE_LEFT )
 
-	if MouseDown and ValidPanel(self.Selected) then
+	local h = vgui.GetHoveredPanel()
+	if MouseDown and ValidPanel(self.Selected) and (!h or !h.NoHover) then
 
 		if self.Selected.DoClick then
 			self.Selected:DoClick()
