@@ -45,7 +45,7 @@ function ENT:Think()
 	//print("!")
 	local Stream = self:GetStream()
 	//print(Stream)
-	if not Stream then return end
+	if not Stream then self.Bass = 0 return end
 	if not self:StreamIsPlaying() then
 		self.Bass = 0
 		return
