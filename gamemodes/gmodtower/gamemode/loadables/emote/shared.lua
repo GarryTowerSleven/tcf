@@ -12,7 +12,7 @@ hook.Add( "PlayerDeath", "GlobalDeathMessage", function( victim, inflictor, atta
 	victim:SetNWBool("Sitting",false)
 	victim:SetNWBool("Laying",false)
 	victim:SetNWBool("Lounging",false)
-	victim:ConCommand("syncdance", 0)
+	victim:SetNWBool("Dancing",false)
 end )
 
 function IsEmoting( ply )
