@@ -429,7 +429,7 @@ hook.Add("HUDPaint", "DiscoBall", function()
     c = colorutil.Rainbow(50 + lerp * 0.1) || HSVToColor(MEDIACYCLE * 360, 1, 0.4)
     c.a = lerp * 2555 / 8
     c.a = math.min(c.a, 255)
-    DrawBloom(0, 2 * lerp, 1, 1, 1, 2, c.r / 255, c.g / 255, c.b / 255)
+    DrawBloom(0, 0.4 * lerp, 1, 1, 1, 2, c.r / 255, c.g / 255, c.b / 255)
     surface.SetDrawColor(c)
     surface.DrawTexturedRect(-ScrW() * 0.1, -ScrH() * 0.1, ScrW() * 1.2, ScrH() * 1.2) // ScrH() - 128, ScrW(), 256)
     if !RHYTHM then return end
