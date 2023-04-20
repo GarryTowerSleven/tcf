@@ -33,6 +33,7 @@ function ENT:OnRemove()
 end
 
 function ENT:Think()
+	if !GetConVar("gmt_visualizer_effects"):GetBool() then return end
     if self:Location() != LocalPlayer():GetLocation() then return self:OnRemove() end
     local Stream = self:GetStream()
     if !Stream then return end
@@ -306,7 +307,7 @@ hook.Add("StartCommand", "ply", function(ply, cmd)
 end)
 
 hook.Add("Think", "t", function()
-    if input.IsMouseDown(MOUSE_RIGHT) then
+    if input.IsMouseDown(MOUSE_RIGHT) and LocalPlayer():GetNWBool("Dancing") then
         if !jumptogg then
             // RHYTHM = RHYTHM == nil and true or !RHYTHM
 			DEATH = !DEATH

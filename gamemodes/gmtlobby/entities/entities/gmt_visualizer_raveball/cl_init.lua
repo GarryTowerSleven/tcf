@@ -311,9 +311,9 @@ function ENT:ParticleThink()
 
 	end
 
-	/*if self.FFTScale >= .8 then
+	if self.FFTScale >= .8 then
 
-		for i=0, 4 do
+		for i=0, 24 do
 
 			local smoke = self.Emitter:Add( "particle/particle_noisesphere", self:GetPos() )
 			if smoke then
@@ -338,13 +338,13 @@ function ENT:ParticleThink()
 				smoke:SetGravity( Vector( 0, 0, 0 ) )
 
 				local RandDarkness = math.Rand( 0.25, 1 )
-				smoke:SetColor( 255 * RandDarkness, 255 * RandDarkness, 255 * RandDarkness )
+				smoke:SetColor( self.Color.r, self.Color.g, self.Color.b )
 
 			end
 
 		end
 		
-	end*/
+	end
 
 end
 
@@ -382,9 +382,9 @@ function RenderScreenspaceEffects()
 			// Post Events
 			if gmt_visualizer_effects:GetBool() == false then return end
 
-			--local bass = FLStream.FFTScale
+			local bass = FLStream.FFTScale
 
-			if --[[bass < .15 ||]] distance > 2048 then return end
+			if /*bass < .15 ||*/ distance > 2048 then return end
 
 			local volume = FLStream.FFTBass * FLStream.FLVolMulti
 			local blur = math.Clamp( ( volume * -10 ) + 1, 0.3, 1 )
@@ -393,24 +393,29 @@ function RenderScreenspaceEffects()
 			//local avg = math.Clamp( volume * 2  - 0.1, 0, 1 )
 			//local smooth = smooth + (( avr - smooth )*FrameTime()*10)	
 
-			--DrawSunbeams( math.Clamp( 1 * volume, .9, 1 ), math.Clamp( .8 * volume, .1, .8 ), math.Clamp( 3 * bass, 2.5, 3 ), toscrpos.x / w, toscrpos.y / h )
-			DrawSunbeams( darkness, math.max( volume * 0.8, 0.1 ), math.max( volume * 0.5, 0.3 ), toscrpos.x / w, toscrpos.y / h )
+			DrawSunbeams( math.Clamp( 1 * volume, .9, 1 ), math.Clamp( .8 * volume, .1, .8 ), math.Clamp( 3 * bass, 2.5, 3 ), toscrpos.x / w, toscrpos.y / h )
+			// DrawSunbeams( darkness, math.max( volume * 0.8, 0.1 ), math.max( volume * 0.5, 0.3 ), toscrpos.x / w, toscrpos.y / h )
 			DrawMotionBlur( blur, 1, 0 )
 			DrawBloom( darkness, invert * ( multi / 10 ), math.max( invert * 40 + 2, 5 ), math.max( invert * 40 + 2, 5 ), 4, 8, 1, 1, 1 )
 
 			// This shit is too intense, yo
-			/*local colormod = {
-				["$pp_colour_addr"] 		= 3 / 255 * multi,
+			FLStream.i = FLStream.i or 0
+			FLStream.i = Lerp(FrameTime() * 2, FLStream.i, FLStream.FFTScale)
+			local c = FLStream.Color
+			local m = Lerp(FLStream.i, 0, 0.2)
+			DrawBloom( darkness, 2, math.max( invert * 40 + 2, 5 ), math.max( invert * 40 + 2, 5 ), 4, 8, (c.r / 255) * m, (c.g / 255) * m, (c.b / 255) * m )
+			local colormod = {
+				["$pp_colour_addr"] 		= 0,
 				["$pp_colour_addg"] 		= 0,
-				["$pp_colour_addb"] 		= 4 / 255 * multi,
-				["$pp_colour_brightness"] 	= Lerp( multi, 0, -0.11 ),
-				["$pp_colour_contrast"] 	= Lerp( multi, 2, 1.4 ),
-				["$pp_colour_colour"] 		= Lerp( multi, 1, 2.32 ),
-				["$pp_colour_mulr"] 		= 0,
-				["$pp_colour_mulg"] 		= 0,
-				["$pp_colour_mulb"] 		= 0,
+				["$pp_colour_addb"] 		= 0,
+				["$pp_colour_brightness"] 	= Lerp( FLStream.i, 0, -0.1, 0 ),
+				["$pp_colour_contrast"] 	= Lerp( multi, 1, 1 ),
+				["$pp_colour_colour"] 		= Lerp( multi, 1, 1 ),
+				["$pp_colour_mulr"] 		= (c.r / 255) * m,
+				["$pp_colour_mulg"] 		= (c.g / 255) * m,
+				["$pp_colour_mulb"] 		= (c.b / 255) * m,
 			}
-			DrawColorModify( colormod )*/
+			DrawColorModify( colormod )
 
 		end
 
