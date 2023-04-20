@@ -127,7 +127,7 @@ hook.Add( "GTowerShowContextMenus", "ShowEmote", function()
 
 		local name = string.Uppercase( emote )
 		if emote == "sexydance" then name = "Sexy Dance" end
-		if emote == "danceforever" then name = "Dance 2" end
+		if emote == "dancesync" then name = "Dance 2" end
 
 		local p = vgui.Create( "DButton" )
 		p:SetSize( 80, 30 )
@@ -135,10 +135,18 @@ hook.Add( "GTowerShowContextMenus", "ShowEmote", function()
 		p:SetColor( Color( 255, 255, 255 ) )
 		p:SetText( name )
 		p.DoClick = function(self)
+			if LocalPlayer():GetNWBool("dancing") then
+				RunConsoleCommand("syncdance_set", emote == "sexydance" and "muscle" or emote)
+				return
+			end
+			if emote == "dancesync" then
+				RunConsoleCommand("syncdance")
+			else
 			RunConsoleCommand( "say", "/" .. emote )
 			net.Start( "EmoteAct" )
 				net.WriteString(emote)
 			net.SendToServer()
+			end
 			GTowerMainGui.HideContextMenus()
 		end
 		p.Paint = function( self, w, h )
@@ -173,6 +181,37 @@ hook.Add( "GTowerShowContextMenus", "ShowEmote", function()
 			draw.RoundedBox( 8, 0, 0, w, h, Color( 16 - 30, 77 - 30, 121 - 30, 225 ) )
 		end
 	RADIAL:SetCenterPanel( p )
+
+	local sync = vgui.Create("DButton", RADIAL)
+	sync:SetSize(80 * 2, 30)
+	sync:SetFont("GTowerHUDMain")
+	sync:SetColor(color_white)
+	sync:SetText("Loop Dancing")
+	sync.NoHover = true
+
+	sync:SetPos(0, ScrH() - 60)
+	sync:CenterHorizontal()
+	sync.DoClick = function()
+		RunConsoleCommand("syncdance")
+		RADIAL:Remove()
+	end
+
+	sync.Paint = function(self, w, h)
+		draw.RoundedBox( 0, 0, 0, w, h, colorutil.Rainbow(50 + (lerp or 0)) or Color( 16, 77, 121, 150 ) )
+		surface.SetDrawColor( Color( 121, 121, 121, 200, 255 ) )
+		surface.SetTexture( gradient )
+		surface.DrawTexturedRect( 0, 0, w, h )
+
+		if self.Hovered then
+			p:SetColor( Color( 255, 255, 255 ) )
+			/*surface.SetDrawColor( Color( 16 + 60, 77 + 60, 121 + 60, 255 ) )
+			surface.SetTexture( gradient )
+			surface.DrawTexturedRect( 0, 0, w, h )*/
+			//surface.DrawRect( 0, 0, w, h )
+			draw.RoundedBox( 0, 0, 0, w, h, Color( 16 - 30, 77 - 30, 121 - 30, 128 ) )
+			draw.RoundedBox( 0, 0, 0, w, h - 2, Color( 16 + 30, 77 + 30, 121 + 30, 128 ) )
+		end
+	end
 
 end )
 

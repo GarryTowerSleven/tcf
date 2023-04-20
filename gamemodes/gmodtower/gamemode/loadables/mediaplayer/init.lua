@@ -79,7 +79,7 @@ function MediaPlayer.UpdateMediaVote( mp, media )
     end
 
     mp:QueueUpdated()
-    mp:BroadcastUpdate()
+    // mp:BroadcastUpdate()
 end
 
 function MediaPlayer.DoVote( ply, mp, uid, value )

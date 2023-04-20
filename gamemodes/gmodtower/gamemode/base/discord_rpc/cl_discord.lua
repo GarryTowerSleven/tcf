@@ -1,9 +1,5 @@
--- This requires a special module to be installed before it works correctly
--- Sorry to disappoint you
 if file.Find("lua/bin/gmcl_gdiscord_*.dll", "GAME")[1] == nil then return end
 require("gdiscord")
-
-if !IsLobby then return end
 
 local rpc_convar = CreateClientConVar( "gmt_rpc", 0, true )
 local rpcDisabled = false
@@ -38,8 +34,8 @@ cvars.AddChangeCallback("gmt_rpc", function(convar_name, value_old, value_new)
 end)
 
 -- Configuration
-local discord_id = "925654500084183060"
-local refresh_time = 30
+local discord_id = "1097587544515936316"
+local refresh_time = IsLobby and 30 or 10
 
 local discord_start = discord_start or -1
 
@@ -58,50 +54,66 @@ local function getGamemodeName( gm )
     return niceNames[gm] or gm
 end
 
-local function getMapPic( map )
-    local mapPics = {}
-    mapPics["gmt_lobby2_r6"] = "gmt_lobby2_d"
-    mapPics["gmt_lobby2_r7"] = "gmt_lobby2_d"
-
-    return mapPics[map] or "no_icon"
-end
-
 local function getLocationPic(loc)
-    if Location.IsGroup(loc, "plaza") then
-        return "plaza"
+    if Location.IsGroup(loc, "trainstation") then
+        return "trainstation"
     end
-    if Location.IsGroup(loc, "games") then
-        return "games"
-    end 
-    if Location.IsGroup(loc, "transit") then
-        return "transit"
-    end 
-    if Location.IsGroup(loc, "boardwalk") then
-        return "boardwalk"
-    end 
-    if Location.IsCasino(loc) then
-        return "casino"
-    end
-    if Location.IsNightclub(loc) then
-        return "nightclub"
-    end
-    if Location.IsTheater(loc) || Location.Is(loc, "theatermain") then
-        return "theater"
-    end
-    if Location.Is(loc, "condolobby") then
-        return "condolobby"
-    end
-    if Location.IsGroup(loc, "lobby") then
-        return "towerlobby"
-    end
-    if Location.IsGroup(loc, "condos") then
-        return "condo"
-    end
-    if Location.IsArcade(loc) then
-        return "arcade"
-    end
+	if Location.IsGroup(loc, "devhq") then
+		return "devhq"
+	end
+	if Location.IsGroup(loc, "teleporters") then
+		return "teleporters"
+	end
+	if Location.IsGroup(loc, "lobbyroof") then
+		return "lobbyroof"
+	end
+	if Location.IsGroup(loc, "theater") or Location.IsGroup(loc, "theaterhallway") then
+		return "theater"
+	end
+	if Location.IsGroup(loc, "vents") then
+		return "vents"
+	end
+	if Location.IsGroup(loc, "moon") then
+		return "moon"
+	end
+	if Location.IsGroup(loc, "eplaza") then
+		return "eplaza"
+	end
+	if Location.IsGroup(loc, "stores") then
+		return "stores"
+	end
+	if Location.IsGroup(loc, "bar") then
+		return "bar"
+	end
+	if Location.IsCasino(loc) then
+		return "casino"
+	end
+	if Location.IsGroup(loc, "arcade") then
+		return "arcade"
+	end
+	if Location.Is("teleporters") then
+		return "teleporters"
+	end
+	if Location.IsGroup(loc, "gamemodeports") or Location.IsGroup( loc, "minigolf" ) or Location.IsGroup( loc, "sourcekarts" ) or Location.IsGroup( loc, "pvpbattle" ) or Location.IsGroup( loc, "ballrace" ) or Location.IsGroup( loc, "ultimatechimerahunt" ) or Location.IsGroup( loc, "zombiemassacre" ) or Location.IsGroup( loc, "virus" ) then
+		return "gamemodes"
+	end
+	if Location.IsGroup(loc, "narnia") then
+		return "narnia"
+	end
+	if Location.IsGroup(loc, "pool") then
+		return "pool"
+	end
+	if Location.IsGroup(loc, "lakeside") then
+		return "lakeside"
+	end
+	if Location.IsGroup(loc, "suites") then
+		return "suites"
+	end
+	if Location.IsGroup(loc, "suite") then
+		return "suite"
+	end
 
-    return "gmt_lobby2_d"
+    return "lobby"
 end
 
 local lastUpdate = 0
@@ -124,29 +136,50 @@ local function DiscordUpdate()
 
     local rpc_data = {}
 
-    rpc_data["details"] = getGamemodeName( gm ) .. " (" .. player.GetCount() .. " of " .. maxPlys .. ")"
+    rpc_data["state"] = Format( "%s ( %s of %s )", gmName, player.GetCount(), maxPlys )
 
-    rpc_data["largeImageKey"] = getMapPic(map)
-    rpc_data["largeImageText"] = mapName
+    //rpc_data["largeImageKey"] = getMapPic(map)
+    //rpc_data["largeImageText"] = mapName
     
     rpc_data["smallImageKey"] = gm
     rpc_data["smallImageText"] = gmName
 
     rpc_data["startTimestamp"] = discord_start
-
+    
     if IsLobby then
-        rpc_data["state"] = Location.GetFriendlyName(location) or "Somewhere"
-        //rpc_data["largeImageText"] = "join.gmtdeluxe.org"
+        rpc_data["details"] = Location.GetFriendlyName(location) or "Somewhere"
         rpc_data["largeImageText"] = "chat.gtower.net"
-        rpc_data["largeImageKey"] = getLocationPic(location)
-
+        rpc_data["largeImageKey"] = "location_" .. getLocationPic(location)
+        
         local duel = Dueling.IsDueling(LocalPlayer())
         if duel then
 			local duelist = LocalPlayer():GetNWEntity("DuelOpponent")
 			if IsValid( duelist ) then
-				rpc_data["state"] = "Dueling " .. duelist:Name()
+				rpc_data["details"] = "Dueling " .. duelist:Name()
 			end
         end
+        
+		rpc_data["joinSecret"] = "steam://connect/"..game.GetIPAddress()
+    else
+        //rpc_data["largeImageKey"] = map
+        /*local timeleft = GAMEMODE:GetTimeLeft()
+
+        rpc_data["startTimestamp"] = os.time() - timeleft
+        rpc_data["endTimestamp"] = os.time() + timeleft*/
+
+        // yuck
+        local map_icon = "map_" .. string.Replace( Maps.GetPreviewIcon( map ), "gmod_tower/maps/preview/gmt_", "" )
+
+        rpc_data["largeImageKey"] = map_icon
+        rpc_data["largeImageText"] = mapName
+
+        /*if ( GAMEMODE:GetState() == STATE_WAITING ) then
+            rpc_data["details"] = "Waiting for Players..."
+        else
+            //rpc_data["details"] = Format( "Round %s of %s", GAMEMODE:GetRound(), GAMEMODE:GetMaxRounds() )
+            rpc_data["details"] = "Playing"
+        end*/
+
     end
 
     if rpc_data == lastData then return end
@@ -174,11 +207,16 @@ function InitRPC()
             DiscordUpdate()
         end)
     
+    else
         hook.Add("Think", "NeedToUpdate", function()
             if lastUpdate > CurTime() && !needToUpdate then return end
             DiscordUpdate()
             needToUpdate = false
         end)
+
+        hook.Add( "GMTRoundChange", "UpdateRound", function( round )
+            DiscordUpdate()
+        end )
     end
     
     hook.Add("PlayerConnect", "DiscordConnect", DiscordUpdate)

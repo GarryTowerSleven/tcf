@@ -25,7 +25,7 @@ function EFFECT:Init( data )
 		return
 	end
 	
-	self.Color = Color( math.random( 0, 255 ), math.random( 0, 255 ), math.random( 0, 255 ), 255 ) 
+	self.Color = data:GetNormal() and data:GetNormal():ToColor() or Color( math.random( 0, 255 ), math.random( 0, 255 ), math.random( 0, 255 ), 255 ) 
 	
 	self.Life = data:GetMagnitude()
 	self.SpawnTime = CurTime()
@@ -48,7 +48,7 @@ function EFFECT:Init( data )
 end
 
 function EFFECT:GetEntStart()
-	return self.Entity:GetPos()
+	return self.Entity:GetPos() + self.Entity:LocalToWorldAngles( self.Rotation ):Forward() * 12 * self.Entity:GetModelScale()
 end
 
 function EFFECT:MakeTrace()
@@ -71,6 +71,11 @@ function EFFECT:FindNextPlace()
 	
 	self.CurPos = self.TargetPos
 	self.TargetPos = self:MakeTrace()
+	self.HitNormal = util.QuickTrace(
+		self:GetEntStart(),
+		self.Entity:LocalToWorldAngles( self.Rotation ):Forward() * 2048,
+		self.Entity
+	).HitNormal
 	
 	local a,b = self:GetEntStart(), self.TargetPos  * 1 
 	
@@ -130,8 +135,13 @@ function EFFECT:Render( )
 		DieRatio = TimeLeft / 0.25
 	end
 	
-	
+	local c = colorutil.Rainbow(50 + self.Entity.NextScale * 0.1)
+	c = Color(c.r, c.g, c.b)
+	self.Mat:SetVector("$color", c:ToVector())
+	render.SetMaterial( matLight )
+	render.DrawSprite( Start, 9, 9, c )
 	render.SetMaterial( self.Mat )	
+
 	render.DrawBeam( Start, 										// Start
 					Target,											// End
 					(1.5 + self.BeatScale * self.OriginalBeamSize) * DieRatio,													// Width
@@ -140,6 +150,6 @@ function EFFECT:Render( )
 					Color( self.Color.r, self.Color.g,self.Color.b, 100 + 155 * self.BeatScale )  )
 	
 	render.SetMaterial( matLight )
-	render.DrawSprite( Target, 32, 32, self.Color )
+	render.DrawQuadEasy( Target, self.HitNormal, 32 * self.BeatScale + 2, 32 * self.BeatScale + 2, c )
 
 end

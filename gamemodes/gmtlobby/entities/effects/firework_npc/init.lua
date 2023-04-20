@@ -9,7 +9,7 @@ function EFFECT:Init( data )
 		
 	local emitter = ParticleEmitter( pos )
 	
-	local size = math.random( 5, 20 )
+	local size = math.random( 5, 20 ) * (data:GetScale() or 1)
 	
 	local state = math.random( 1, 3 )
 	

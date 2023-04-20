@@ -94,9 +94,9 @@ function ENT:SetupChair()
 	--self.chairMdl:SetParent(self)
 
 	if self:GetAngles().y == 270 then
-		self.chairMdl:SetPos( self:GetPos() + Vector(0,-35,-2) )
+		self.chairMdl:SetPos( self:GetPos() + Vector(0,-35,0) )
 	else
-		self.chairMdl:SetPos( self:GetPos() + Vector(0,35,-2) )
+		self.chairMdl:SetPos( self:GetPos() + Vector(0,35,0) )
 	end
 
 	if self:GetAngles().y == 270 then
@@ -266,6 +266,7 @@ concommand.Add( "slotm_spin", function( ply, cmd, args )
 				bzr.GoalEntity = ent
 				bzr.GMC = bet
 				bzr.RandPosAmount = 5
+				bzr.Offset = ent:GetRight() * -8 + ent:GetUp() * 28 - ent:GetForward() * 8
 				bzr:Spawn()
 				bzr:Activate()
 				bzr:Begin()
@@ -347,7 +348,7 @@ function ENT:PickResults()
 		umsg.Short( random[3] )
 	umsg.End()
 
-	self:EmitSound( Casino.SlotPullSound, 60, 100 )
+	self:EmitSound( Casino.SlotPullSound, 60, math.random(98, 102) )
 
 	timer.Simple( Casino.SlotSpinTime[3], function()
 		self:CalcWinnings( random )

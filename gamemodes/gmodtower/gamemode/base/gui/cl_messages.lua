@@ -315,6 +315,7 @@ local dGradient = Material( "gmod_tower/hud/bg_gradient_deluxe2.png", "unlightsm
 function PANEL:Paint( w, h )
 
 	if !self.ReadyToDraw then return end
+	if ( GTowerHUD and GTowerHUD.ShouldDraw and not GTowerHUD.ShouldDraw() ) then return end
 
 	local shadowH = self.ShadowHeight
 
