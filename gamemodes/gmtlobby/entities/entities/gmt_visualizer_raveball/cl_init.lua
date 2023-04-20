@@ -396,7 +396,7 @@ function RenderScreenspaceEffects()
 			DrawSunbeams( math.Clamp( 1 * volume, .9, 1 ), math.Clamp( .8 * volume, .1, .8 ), math.Clamp( 3 * bass, 2.5, 3 ), toscrpos.x / w, toscrpos.y / h )
 			// DrawSunbeams( darkness, math.max( volume * 0.8, 0.1 ), math.max( volume * 0.5, 0.3 ), toscrpos.x / w, toscrpos.y / h )
 			DrawMotionBlur( blur, 1, 0 )
-			DrawBloom( darkness, invert * ( multi / 10 ), math.max( invert * 40 + 2, 5 ), math.max( invert * 40 + 2, 5 ), 4, 8, 1, 1, 1 )
+			// DrawBloom( darkness, invert * ( multi / 10 ), math.max( invert * 40 + 2, 5 ), math.max( invert * 40 + 2, 5 ), 4, 8, 1, 1, 1 )
 
 			// This shit is too intense, yo
 			FLStream.i = FLStream.i or 0
