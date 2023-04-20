@@ -139,14 +139,10 @@ hook.Add( "GTowerShowContextMenus", "ShowEmote", function()
 				RunConsoleCommand("syncdance_set", emote == "sexydance" and "muscle" or emote)
 				return
 			end
-			if emote == "dancesync" then
-				RunConsoleCommand("syncdance")
-			else
 			RunConsoleCommand( "say", "/" .. emote )
 			net.Start( "EmoteAct" )
-				net.WriteString(emote)
+			net.WriteString(emote)
 			net.SendToServer()
-			end
 			GTowerMainGui.HideContextMenus()
 		end
 		p.Paint = function( self, w, h )
@@ -192,7 +188,12 @@ hook.Add( "GTowerShowContextMenus", "ShowEmote", function()
 	sync:SetPos(0, ScrH() - 60)
 	sync:CenterHorizontal()
 	sync.DoClick = function()
-		RunConsoleCommand("syncdance")
+		if LocalPlayer():GetNWBool("dancing") then
+			RunConsoleCommand( "syncdance")
+			RADIAL:Remove()
+			return
+		end
+		RunConsoleCommand( "say", "/dancesync")
 		RADIAL:Remove()
 	end
 

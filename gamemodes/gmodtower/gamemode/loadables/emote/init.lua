@@ -39,6 +39,7 @@ local Grammar = {
 	["lay"] = "lays down.",
 	["robot"] = "does the robot.",
 	["lounge"] = "lounges around.",
+	["dancesync"] = "is lost to the music.",
 }
 
 function GetGrammar( name )
@@ -97,7 +98,7 @@ for _, emote in pairs(Commands) do
 	local Action 	= emote[2]
 	local Duration	= emote[3]
 	
-	if emote == "dancesync" then
+	if emoteName == "dancesync" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
 		ply:ConCommand("syncdance")
 		DoEmoteChat( ply, emoteName )
