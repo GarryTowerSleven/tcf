@@ -41,6 +41,7 @@ plynet.Register( "Bool", "IsBiting" )
 plynet.Register( "Bool", "FirstDoubleJump" )
 plynet.Register( "Int", "DoubleJumpNum" )
 plynet.Register( "Float", "SwipeMeter" )
+plynet.Register( "Int", "TimesRoared" )
 //plynet.Register( "Bool", "Stunned" )
 
 /* Sprint */

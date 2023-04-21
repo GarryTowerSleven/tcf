@@ -5,8 +5,11 @@ if !meta then
 end
 
 local roardistance = 450
-local roarcooldown = 12
 local stuntime = 5
+
+local function RoarCooldown() -- Sorry if this is bad >_>
+	return ( math.Clamp( self:GetNet( "TimesRoared" ) * 2 + 12, 12, 30) )
+end
 
 function meta:CanDoAction()
 	
@@ -19,6 +22,7 @@ function meta:ResetUCVars()
 
 	self:SetNet( "IsBiting", false )
 	self:SetNet( "IsRoaring", false )
+	self:SetNet( "TimesRoared", 0 )
 
 end
 
@@ -569,7 +573,9 @@ if SERVER then
 
 		if !self:CanDoAction() || CurTime() < self.LastRoar then return end
 
-		self.LastRoar = CurTime() + roarcooldown
+		self:SetNet( "TimesRoared", self:GetNet( "TimesRoared" ) + 1 )
+		
+		self.LastRoar = CurTime() + self:RoarCooldown()
 
 		self:SetNet( "IsRoaring", true )
 		
