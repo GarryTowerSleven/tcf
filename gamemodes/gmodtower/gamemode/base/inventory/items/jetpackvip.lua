@@ -34,7 +34,7 @@ ITEM.ExtraMenuItems = function ( item, menu )
 			
 			Derma_StringRequest(
 				"Jetpack Power",
-				"Please enter the power of your jetpack (.1 - 4.0)",
+				"Please enter the power of your jetpack (1.0 - 2.0)",
 				curText,
 				function ( text ) RunConsoleCommand( "gmt_jetpackpower", tonumber(text) )  end
 			)

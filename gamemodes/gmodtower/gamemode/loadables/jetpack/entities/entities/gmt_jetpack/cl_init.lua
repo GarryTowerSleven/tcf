@@ -2,7 +2,7 @@ include('shared.lua')
 
 ENT.RenderGroup 		= RENDERGROUP_TRANSLUCENT
 
-CreateClientConVar( "gmt_jetpackpower", .4, true, true )
+CreateClientConVar( "gmt_jetpackpower", 1, true, true )
 local drawSmoke = CreateClientConVar( "gmt_jetpacksmoke", 1, true, false )
 
 local matHeatWave		= Material( "sprites/heatwave" )

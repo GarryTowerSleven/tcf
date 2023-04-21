@@ -139,7 +139,7 @@ local function JetpackMove( ply, mv, state, firstPredicted )
 	local power = Jetpack.JetpackPower
 
 	if power > 1 && Jetpack.JetpackFuel == -1 && (ply:IsVIP() or ply:IsAdmin()) then
-		power = math.Clamp( ply:GetInfoNum( "gmt_jetpackpower", 1 ), 1, 4.0 )
+		power = math.Clamp( ply:GetInfoNum( "gmt_jetpackpower", 1 ), 1, 2.0 )
 	end
 	
 	local flightVector = Vector(0,0,0)
@@ -147,11 +147,11 @@ local function JetpackMove( ply, mv, state, firstPredicted )
 	local upPower = 700
 	
 	if ply:KeyDown( IN_DUCK ) and not onGround then
-		directionalPower = 2000
+		directionalPower = 2000 * power
 		upPower = 550
 	end
 	
-	if not onGround and power < 1 then
+	if not onGround and power > 1 then
 		upPower = upPower * power
 	end
 	
