@@ -268,4 +268,12 @@ ClientSettings.Items = {
 		Default = false,
 		SendType = false //false=Admins, true=Player+admins
 	},
+	[30] = {
+		Name = "Machinima Mode",
+		Order = "12",
+		Var = "GTMachinimaMode",
+		NWType = "Bool",
+		Default = false,
+		SendType = false
+	}
 }

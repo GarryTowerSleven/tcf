@@ -315,14 +315,14 @@ if SERVER then
 	-- CONCOMMANDS
 	concommand.Add( "gmt_setstate", function( ply, cmd, args ) 
 
-		if !ply:IsAdmin() then return end
+		if !ply:IsAdmin() and !MACHINIMA then return end
 		GAMEMODE:SetState( tonumber( args[1] ) )
 
 	end )
 
 	concommand.Add( "gmt_settime", function( ply, cmd, args ) 
 
-		if !ply:IsAdmin() then return end
+		if !ply:IsAdmin() and !MACHINIMA then return end
 		GAMEMODE:SetTime( tonumber( args[1] ) )
 
 	end )

@@ -27,6 +27,8 @@ function Payout( ply )
 		money = money + earned[k].GMC
 	end
 
+	if MACHINIMA then return end
+
 	if !TestingMode:GetBool() then
 		ply:AddMoney( money, true )
 	else
