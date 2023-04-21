@@ -71,9 +71,9 @@ function SETTINGS:Init()
 	end
 
 	// Add VIP settings
-	/*if LocalPlayer().IsVIP and LocalPlayer():IsVIP() then
+	if LocalPlayer().IsVIP and LocalPlayer():IsVIP() then
 		table.insert( self.TabNames, "VIP" )
-	end*/
+	end
 
 	// Add admin settings
 	if LocalPlayer():IsStaff() then
@@ -716,7 +716,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 	if tabname == "VIP" then
 		self:Header( "VIP" )
-		self:Slider( "Jetpack Power", "gmt_jetpackpower", .1, 4, 1 )
+		self:Slider( "Unlimited Jetpack Power", "gmt_jetpackpower", 1, 2, 1 )
 		//self:CheckBox( VIPCanvas, "Draw Jetpack For Other Players", "gmt_jetpackvipdraw" )
 	end
 
