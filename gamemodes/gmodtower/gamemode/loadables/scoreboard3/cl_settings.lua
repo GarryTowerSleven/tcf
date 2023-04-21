@@ -544,6 +544,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 	if tabname == "Chat" then
 		self:Header( "Chat" )
+		self:CheckBox( "Enable Name Coloring", "gmt_chat_color" )
 		self:CheckBox( "Enable Sounds", "gmt_chat_sound", nil, "SetChatSounds" )
 
 		if IsLobby then
