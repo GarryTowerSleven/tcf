@@ -1,10 +1,15 @@
 include( "shared.lua" )
 
 CreateConVar( "cl_playerglowcolor", "0 0 0", { FCVAR_ARCHIVE, FCVAR_USERINFO }, "The value is a Vector - so between 0-1 - not between 0-255" )
+CreateClientConVar( "gmt_vip_enableglow", 1, true, true )
 
 //local VIPColor = Color( 163, 73, 164 )
 local haloVIP = CreateClientConVar( "gmt_vipglow", 1, true, false )
 local VIPHalos = {}
+
+cvars.AddChangeCallback("gmt_vip_enableglow", function()
+	RunConsoleCommand("gmt_updateglow")
+end)
 
 hook.Add( "PlayerThink", "VIPHaloCheck", function( ply )
 
@@ -15,7 +20,7 @@ hook.Add( "PlayerThink", "VIPHaloCheck", function( ply )
 
 	for _, ply2 in pairs( Location.GetPlayersInLocation( ply:Location() ) ) do
 
-		if !ply2:IsPlayer() || !ply2:IsVIP() then continue end
+		if !ply2:IsPlayer() || !ply2:IsVIP() || !ply2:IsGlowEnabled() then continue end
 		if ply2:IsTransparent() or ply2:IsNoDrawAll() then continue end // TODO
 
 		if IsValid( ply2 ) and ply2:Alive() and ply2:GetColor().a == 255 and ply2:GetGlowColor() then

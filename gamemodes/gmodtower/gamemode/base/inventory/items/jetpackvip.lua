@@ -30,13 +30,13 @@ ITEM.ExtraMenuItems = function ( item, menu )
 		[ "Name" ] = "Set Power",
 		[ "function" ] = function()
 		
-			local curText = LocalPlayer():GetInfo( "gmt_jetpackpower" ) or 1.0
+			local curText = LocalPlayer():GetInfo( "gmt_vip_jetpackpower" ) or 1.0
 			
 			Derma_StringRequest(
 				"Jetpack Power",
 				"Please enter the power of your jetpack (1.0 - 2.0)",
 				curText,
-				function ( text ) RunConsoleCommand( "gmt_jetpackpower", tonumber(text) )  end
+				function ( text ) RunConsoleCommand( "gmt_vip_jetpackpower", tonumber(text) )  end
 			)
 			
 		end
