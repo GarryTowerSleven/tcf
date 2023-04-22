@@ -519,6 +519,11 @@ if SERVER then
 		if v:IsPlayer() && v:Alive() && v:Team() == TEAM_PIGS && !self.Squashed && !v:GetNet( "IsPancake" ) && !v:IsGhost() then
 
 			v.Bit = true
+			
+			if v:GetNet( "IsTaunting" ) then -- silly
+				self:AddAchievement( ACHIEVEMENTS.UCHSHOWBOATING, 1 )
+			end
+			
 			v:Kill()
 			//v:Spawn()
 			//v:CreateUCHRagdoll( true )
