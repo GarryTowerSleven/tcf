@@ -522,9 +522,11 @@ if SERVER then
 			
 			if v:GetNet( "IsTaunting" ) then -- silly
 				self:AddAchievement( ACHIEVEMENTS.UCHSHOWBOATING, 1 )
+				v:Kill()
+			else
+				v:Kill()
 			end
 			
-			v:Kill()
 			//v:Spawn()
 			//v:CreateUCHRagdoll( true )
 
