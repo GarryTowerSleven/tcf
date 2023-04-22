@@ -521,8 +521,8 @@ if SERVER then
 			v.Bit = true
 			
 			if v:GetNet( "IsTaunting" ) then -- silly
-				self:AddAchievement( ACHIEVEMENTS.UCHSHOWBOATING, 1 )
 				v:Kill()
+				self:AddAchievement( ACHIEVEMENTS.UCHSHOWBOATING, 1 )
 			else
 				v:Kill()
 			end
