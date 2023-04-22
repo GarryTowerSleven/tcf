@@ -716,7 +716,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 	if tabname == "VIP" then
 		self:Header( "VIP" )
 		self:CheckBox( "Enable Glow For Yourself", "gmt_vip_enableglow" )
-		self:Slider( "Unlimited Jetpack Power", "gmt_vip_jetpackpower", 1, 2, 1 )
+		self:Slider( "Jetpack Power", "gmt_vip_jetpackpower", 1, 2, 1 )
 		//self:CheckBox( VIPCanvas, "Draw Jetpack For Other Players", "gmt_jetpackvipdraw" )
 	end
 
