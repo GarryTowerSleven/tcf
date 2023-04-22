@@ -7,6 +7,7 @@ GTowerChat.ScrollColor = Color( 19, 50, 81, 215 )
 //GTowerChat.ChatFont = "GTowerHUDMain"
 GTowerChat.ChatFont = "ChatVerdana16"
 GTowerChat.NewChatState = false
+GTowerChat.Color = CreateClientConVar( "gmt_chat_color", 1, true, false )
 GTowerChat.TimeStamp = CreateClientConVar( "gmt_chat_timestamp", 0, true, false )
 GTowerChat.TimeStamp24 = CreateClientConVar( "gmt_chat_timestamp24", 0, true, false )
 GTowerChat.Sounds = CreateClientConVar( "gmt_chat_sound", 1, true, false )
@@ -125,6 +126,7 @@ local color_white = Color(255, 255, 255, 255)
 local color_console = Color(200, 200, 200, 255)
 local color_admin = Color(255, 100, 100, 255)
 local color_privadmin = Color(185, 100, 255, 255)
+local color_nostalgia = Color(255, 255, 100, 255)
 
 function GM:ChatText(pID, pName, Text, InternalType, Type)
 
@@ -139,8 +141,10 @@ function GM:ChatText(pID, pName, Text, InternalType, Type)
 
 	if InternalType == "chat" then
 
-		if IsValid(ply) then
+		if IsValid(ply) && GTowerChat.Color:GetBool() then
 			color = ply:GetDisplayTextColor()
+		elseif IsValid(ply) then
+			color = color_nostalgia
 		else
 			color = color_console
 		end

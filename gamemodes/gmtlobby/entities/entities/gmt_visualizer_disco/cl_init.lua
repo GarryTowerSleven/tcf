@@ -10,6 +10,13 @@ end
 
 function ENT:Draw()
     self:DrawModel()
+	if !GetConVar("gmt_visualizer_effects"):GetBool() then 
+		self:SetColor(Color( 255, 255, 255, 255 ))
+		self:SetModelScale( 1, 0 )
+		if self.P2 && IsValid(self.P2[1]) then
+			self.P2[1]:Remove()
+		end
+	return end
     local c = colorutil.Rainbow(50 + self.NextScale * 0.1)
     c = HSVToColor(ColorToHSV(c), math.Clamp(self.NextScale * 8, 0, 1), 1)
     self:SetColor(c)
@@ -33,14 +40,14 @@ function ENT:OnRemove()
 end
 
 function ENT:Think()
-	if !GetConVar("gmt_visualizer_effects"):GetBool() then return end
     if self:Location() != LocalPlayer():GetLocation() then return self:OnRemove() end
     local Stream = self:GetStream()
     if !Stream then return end
 
     // Lasers
     if CurTime() > self.NextRandomLazers || self.NextScale > 0.4 && (!self.NextBass || self.NextBass < CurTime()) then
-        local effectdata = EffectData()
+		if !GetConVar("gmt_visualizer_effects"):GetBool() then return end
+		local effectdata = EffectData()
         effectdata:SetOrigin(self:GetPos())
         effectdata:SetEntity(self)
         effectdata:SetMagnitude(5.0 + math.Rand(-1, 1))

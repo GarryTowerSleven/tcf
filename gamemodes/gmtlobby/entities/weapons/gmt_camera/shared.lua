@@ -83,6 +83,8 @@ function SWEP:SecondaryAttack() end
 
 function SWEP:Think()
 
+	if !CLIENT then return end
+
 	local cmd = self:GetOwner():GetCurrentCommand()
 	
 	self.LastThink = self.LastThink or 0

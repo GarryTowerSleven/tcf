@@ -8,4 +8,5 @@ plynet.Register( "Bool", "VIP" )
 
 if IsLobby then
 	plynet.Register( "Vector", "GlowColor" )
+	plynet.Register( "Bool", "GlowEnabled" )
 end

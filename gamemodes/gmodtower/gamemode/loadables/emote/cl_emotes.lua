@@ -100,7 +100,7 @@ function string.Uppercase( str )
 
 end
 hook.Add( "GTowerShowContextMenus", "ShowEmote", function()
-
+	if UCHAnim && UCHAnim.IsGhost( LocalPlayer() ) then return end
 	if IsValid( RADIAL ) then
 		RADIAL:Remove()
 	end
@@ -139,14 +139,10 @@ hook.Add( "GTowerShowContextMenus", "ShowEmote", function()
 				RunConsoleCommand("syncdance_set", emote == "sexydance" and "muscle" or emote)
 				return
 			end
-			if emote == "dancesync" then
-				RunConsoleCommand("syncdance")
-			else
 			RunConsoleCommand( "say", "/" .. emote )
 			net.Start( "EmoteAct" )
-				net.WriteString(emote)
+			net.WriteString(emote)
 			net.SendToServer()
-			end
 			GTowerMainGui.HideContextMenus()
 		end
 		p.Paint = function( self, w, h )
@@ -181,7 +177,9 @@ hook.Add( "GTowerShowContextMenus", "ShowEmote", function()
 			draw.RoundedBox( 8, 0, 0, w, h, Color( 16 - 30, 77 - 30, 121 - 30, 225 ) )
 		end
 	RADIAL:SetCenterPanel( p )
-
+	
+	if UCHAnim && UCHAnim.IsPig( LocalPlayer() ) then return end
+	
 	local sync = vgui.Create("DButton", RADIAL)
 	sync:SetSize(80 * 2, 30)
 	sync:SetFont("GTowerHUDMain")
@@ -192,7 +190,12 @@ hook.Add( "GTowerShowContextMenus", "ShowEmote", function()
 	sync:SetPos(0, ScrH() - 60)
 	sync:CenterHorizontal()
 	sync.DoClick = function()
-		RunConsoleCommand("syncdance")
+		if LocalPlayer():GetNWBool("dancing") then
+			RunConsoleCommand("syncdance", 0)
+			RADIAL:Remove()
+			return
+		end
+		RunConsoleCommand( "say", "/dancesync")
 		RADIAL:Remove()
 	end
 

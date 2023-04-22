@@ -9,6 +9,10 @@ function meta:IsVIP()
 	return self:GetNet( "VIP" )
 end
 
+function meta:IsGlowEnabled()
+	return self:GetNet( "GlowEnabled" )
+end
+
 function meta:GetGlowColor()
 	return self:GetNet( "GlowColor" )
 end

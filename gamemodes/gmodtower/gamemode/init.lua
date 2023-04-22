@@ -291,3 +291,15 @@ net.Receive( "ClientFullyConnected", function( len, ply )
 end )
 
 util.AddNetworkString( "ClientFullyConnected" )
+
+hook.Add("PlayerSpawn", "Machinima", function(ply)
+	if ply:GetSetting(30) and !IsLobby then
+		MACHINIMA = true
+	end
+end)
+
+hook.Add("PlayerNoClip", "Machinima", function(ply)
+	if MACHINIMA then
+		return true
+	end
+end)

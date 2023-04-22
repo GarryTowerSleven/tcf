@@ -71,9 +71,9 @@ function SETTINGS:Init()
 	end
 
 	// Add VIP settings
-	/*if LocalPlayer().IsVIP and LocalPlayer():IsVIP() then
+	if LocalPlayer().IsVIP and LocalPlayer():IsVIP() then
 		table.insert( self.TabNames, "VIP" )
-	end*/
+	end
 
 	// Add admin settings
 	if LocalPlayer():IsStaff() then
@@ -544,6 +544,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 	if tabname == "Chat" then
 		self:Header( "Chat" )
+		self:CheckBox( "Enable Name Coloring", "gmt_chat_color" )
 		self:CheckBox( "Enable Sounds", "gmt_chat_sound", nil, "SetChatSounds" )
 
 		if IsLobby then
@@ -603,8 +604,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:Divider()
 
 			self:Header( "Items" )
-			self:CheckBox( "Enable Rave Ball Effects", "gmt_visualizer_effects" )
-			self:CheckBox( "Enable Rave Ball Particles", "gmt_visualizer_particles" )
+			self:CheckBox( "Enable Rave and Disco Ball Effects", "gmt_visualizer_effects" )
 			self:CheckBox( "Enable Dynamic Firework Lights", "gmt_fireworkdlight" )
 			self:CheckBox( "Enable Jetpack Smoke", "gmt_jetpacksmoke" )
 
@@ -715,7 +715,8 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 	if tabname == "VIP" then
 		self:Header( "VIP" )
-		self:Slider( "Jetpack Power", "gmt_jetpackpower", .1, 4, 1 )
+		self:CheckBox( "Enable Glow For Yourself", "gmt_vip_enableglow" )
+		self:Slider( "Unlimited Jetpack Power", "gmt_vip_jetpackpower", 1, 2, 1 )
 		//self:CheckBox( VIPCanvas, "Draw Jetpack For Other Players", "gmt_jetpackvipdraw" )
 	end
 
