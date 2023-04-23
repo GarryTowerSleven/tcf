@@ -96,7 +96,8 @@ function ENT:Use( ply )
 
 		if self.Entity.GameIDs[ self.Entity:GetSkin() - 1 ] == "Fancy Pants" && GTowerHats.Hats[ PlyHat ] then
 			if GTowerHats.Hats[ PlyHat ].Name == "Top Hat" || GTowerHats.Hats[ PlyHat ].Name == "GMod Top Hat" then
-			ply:SetAchievement( ACHIEVEMENTS.FANCYPANTS, 1 )
+				ply:SetAchievement( ACHIEVEMENTS.FANCYPANTS, 1 )
+			end
 		end
 
 	end
