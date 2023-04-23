@@ -552,6 +552,8 @@ local posters = {
 		"I Want To Believe",
 		"Spiderman Trilogy",
 		"I Meow You",
+		"Fishing Boats",
+		"Spy X Family",
 	},
 }
 
