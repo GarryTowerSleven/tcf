@@ -151,7 +151,7 @@ local function JetpackMove( ply, mv, state, firstPredicted )
 		upPower = 550
 	end
 	
-	if not onGround and power > 1 then
+	if not onGround and power > 1.5 then
 		upPower = upPower * power
 	end
 	
