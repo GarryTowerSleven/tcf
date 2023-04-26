@@ -83,7 +83,12 @@ function Get( uri, callback, width, height )
 		html:SetKeyBoardInputEnabled( false )
 		html:SetMouseInputEnabled( false )
 		html:SetAllowLua( true )
-		html:OpenURL( uri )
+
+		if string.StartsWith(uri, "http") then
+			html:SetURL( uri )
+		else
+			html:SetHTML( uri )
+		end
 
 		html:UpdateHTMLTexture()
 

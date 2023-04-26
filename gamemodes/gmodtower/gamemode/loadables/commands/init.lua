@@ -24,24 +24,25 @@ end
 hook.Add( "GTCommands", "GChatCommands", function( ply, chat )
 
 	if ( ply.CmdTime == nil ) then ply.CmdTime = {} end
+	local cmd = string.Split(chat, " ")[1]
 
-	if !ChatCommands.Cmds[ chat ] then return end
+	if !ChatCommands.Cmds[ cmd ] then return end
 
-	local sayFunc = ChatCommands.Cmds[ chat ].Func
-	local funcDelay = ChatCommands.Cmds[ chat ].Time or 1
+	local sayFunc = ChatCommands.Cmds[ cmd ].Func
+	local funcDelay = ChatCommands.Cmds[ cmd ].Time or 1
 
 	if !sayFunc then return end
 
-	local cmdTime = ply.CmdTime[ chat ]
+	local cmdTime = ply.CmdTime[ cmd ]
 
 	if ( !cmdTime || cmdTime < CurTime() ) then
 
-		ply.CmdTime[ chat ] = CurTime() + funcDelay
+		ply.CmdTime[ cmd ] = CurTime() + funcDelay
 
-		local b, ret = pcall( sayFunc, ply )
+		local b, ret = pcall( sayFunc, ply, chat )
 
 		if !b then
-			SQLLog( 'error', "chat function failed for '" .. chat .. "': " .. ret .. "\n" )
+			SQLLog( 'error', "chat function failed for '" .. cmd .. "': " .. ret .. "\n" )
 			return ""
 		end
 

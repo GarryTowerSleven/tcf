@@ -93,6 +93,17 @@ function DoEmoteChat( ply, emote )
 	)
 end
 
+ChatCommands.Register("/me", 1, function(ply, msg)
+	msg = string.Split(msg, " ")
+	msg = table.concat(msg, " ", 2)
+	GTowerChat.AddChat(
+		ply:Nick() .. " " .. (msg or nil),
+		Color( 150, 150, 150, 255 ),
+		"Emotes"
+	//	Location.GetPlayersInLocation( ply:Location() )
+	)
+end)
+
 for _, emote in pairs(Commands) do
 	local emoteName = emote[1]
 	local Action 	= emote[2]

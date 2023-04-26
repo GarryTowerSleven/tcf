@@ -2,17 +2,18 @@ mcmdl = "models/player/mcsteve.mdl"
 
 local function MinecraftSkinUpdated( ply, old, new )
 
-	if CLIENT and old != new then
+	if CLIENT then //and old != new then
 
 		local skinname = new
 
 		-- Add the minecraft url only if there's actual text - else it'll reset to steve
 		if skinname and #skinname > 0 then
-			skinname = string.format( "http://cats.lmao.com/minecraft/?skin=%s", skinname )
-		end
-
-		if skinname then
-			ply:SetMinecraftSkin( skinname )
+			http.Fetch("https://gtower.net/apps/minecraft/?skin=" .. skinname, function(str)
+				if str then
+					ply:SetMinecraftSkin(str)
+				end
+			end)
+			
 		end
 
 	end

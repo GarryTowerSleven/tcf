@@ -110,7 +110,7 @@ Loadables.Load( {
 	"bonemod",				-- Bone modifications
 	"pet",					-- Pets
 	"cards",				-- Poker module
-	-- "minecraftskins",	-- Minecraft Steve model skins
+	"minecraftskins",	-- Minecraft Steve model skins
 	"auction",				-- Auction tables
 
 	-- Debugging/Tools

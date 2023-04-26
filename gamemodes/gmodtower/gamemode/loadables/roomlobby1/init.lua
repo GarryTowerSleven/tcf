@@ -200,21 +200,46 @@ hook.Add("InvUniqueItem", "CheckInRoom", function( ply, id )
 
 end )
 
-/*hook.Add("PlayerCanHearPlayersVoice", "GMTRoomTalk", function(listener, talker)
-	local group = talker:GetGroup() --Maybe i should add some check if groups module turned on?
-	if group then return end
 
-	local Room = Get(ClosestRoom( listener:GetPos() ))
+local suites = {}
+local LastRoom = 0
 
-	if !Room then
-		return
+for i = 0, 64 do
+	suites[i] = {}
+end
+
+hook.Add("PlayerInitialSpawn", "GMTRoomTalk", function(ply)
+	suites[0][ply] = true
+	ply.LastSuite = 0
+end)
+
+hook.Add("PlayerDisconnected", "GMTRoomTalk", function(ply)
+	suites[ply.LastSuite][ply] = nil
+end)
+
+hook.Add("Think", "GMTRoomTalk", function()
+	if !LastRoom or LastRoom > SysTime() then return end
+	LastRoom = SysTime() + 0.1
+
+	for _, ply in ipairs(player.GetAll()) do
+		local suite = Location.GetSuiteID(ply:Location()) or 0
+
+		if ply.LastSuite ~= suite then
+			if ply.LastSuite then
+				suites[ply.LastSuite][ply] = nil
+			end
+
+			suites[suite][ply] = true
+			ply.LastSuite = suite
+		end
 	end
+end)
 
-	if Location.Find(listener:GetPos()) == nil or Location.Find(talker:GetPos()) == nil or Room.Owner == nil then return end
-	if Location.Find(listener:GetPos()) == Location.Find(talker:GetPos()) and Location.IsSuite(Location.Find(listener:GetPos())) and Room.Owner:GetSetting( 20 ) then
-		return true
+hook.Add("PlayerCanHearPlayersVoice", "GMTRoomTalk", function(listener, talker)
+	if listener.LastSuite ~= 0 && talker.LastSuite ~= 0 && !suites[listener.LastSuite][talker] then
+		return false
 	end
-end)*/
+end)
 
 // 0.25 seconds for room precision, PlayerThink's 1 second is too slow for protecting suites
 timer.Create( "GTowerRoomThink", 1, 0, function()
