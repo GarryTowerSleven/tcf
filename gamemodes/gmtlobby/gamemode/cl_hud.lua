@@ -133,6 +133,11 @@ function initHud()
 		end
 
 		local w, h = ScrW() / 2, ScrH() / 2
+
+		local p = EyePos() + LocalPlayer():EyeAngles():Forward()
+		p = p:ToScreen()
+		w, h = math.Round(p.x), math.Round(p.y)
+
 		local color = Color( 255, 255, 255 )
 		local x = 0
 
