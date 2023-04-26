@@ -35,6 +35,8 @@ function Player:ManualBubbleDraw()
 		self.ChatBubble:SetRenderOrigin(pos + Vector(0, 0, math.sin(CurTime())) )
 		self.ChatBubble:SetPlaybackRate(0.1)
 
+		render.ModelMaterialOverride()
+
 		self.ChatBubble:FrameAdvance(FrameTime())
 		self.ChatBubble:DrawModel()
 	end
