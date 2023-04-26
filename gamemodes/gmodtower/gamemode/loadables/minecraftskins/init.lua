@@ -11,7 +11,7 @@ net.Receive("minecraft_skin_updated", function(len, ply)
 	local skin = net.ReadString()
 	MinecraftSkinUpdate( ply, skin )
 
-	//ply:Msg2( T( "MCSkinChange" ) )
+	ply:Msg2( T( "MCSkinChange" ) )
 
 end )
 
