@@ -145,9 +145,19 @@ function ENT:IsSpinning(spinner)
 	return self.Spinners[spinner]
 end
 
+local gpt = {}
+local gpb = {}
+
 
 function ENT:GetPitch(spinner)
-	return self.IconPitches[self.SelectedIcons[spinner]]
+	if !gpb[spinner] or gpt[spinner] and gpt[spinner] > CurTime() then
+		gpb[spinner] = 1
+	else
+		gpb[spinner] = math.max(gpb[spinner] - FrameTime() * 0.1, 0)
+	end
+
+	
+	return self.IconPitches[self.SelectedIcons[spinner]] - math.sin(math.ease.InSine(gpb[spinner]) * 4) * 24
 end
 
 
@@ -172,25 +182,31 @@ function ENT:Spin()
 	// Hacky, but pose parameters don't go over a certain angle D:
 	if self.SpinRotation >= 180 then self.SpinRotation = -179 end
 
-	local speed = 10
+	self.Speed = self.Speed or 0
+	local speed = self.Speed or 0
 	self.SpinRotation = self.SpinRotation + speed
 
 	if self:IsSpinning(1) then
 		self:SendAnim( self.SpinRotation )
+		gpt[1] = CurTime() + 0.01
 	else
 		self:SendAnim( self:GetPitch(1) )
 	end
 
 	if self:IsSpinning(2) then
 		self:SendAnim( nil, self.SpinRotation )
+		gpt[2] = CurTime() + 0.01
 	else
 		self:SendAnim( nil, self:GetPitch(2) )
 	end
 
 	if self:IsSpinning(3) then
 		self:SendAnim( nil, nil, self.SpinRotation )
+		gpt[3] = CurTime() + 0.01
+		self.Speed = self.Speed + FrameTime() * 32
 	else
 		self:SendAnim( nil, nil, self:GetPitch(3) )
+		self.Speed = 0.1
 	end
 
 end
@@ -242,26 +258,27 @@ usermessage.Hook( "slotsResult", function ( um )
 	local SpinSnd = PlayEx
 
 	local SpinSnd = CreateSound( self, Casino.SlotSpinSound )
-	SpinSnd:PlayEx(0.1, 100 )
+	SpinSnd:PlayEx(0.1, math.random(98, 102) )
+	local p = math.random(98, 102)
 	timer.Simple( Casino.SlotSpinTime[1], function()
 		if IsValid( self ) then
 			//print("FALSE")
 			self.Spinners[1] = false
-			self:EmitSound( Casino.SlotSelectSound, 75, 100 )
+			self:EmitSound( Casino.SlotSelectSound, 75, p - 4 )
 		end
 	end )
 
 	timer.Simple( Casino.SlotSpinTime[2], function()
 		if IsValid( self ) then
 			self.Spinners[2] = false
-			self:EmitSound( Casino.SlotSelectSound, 75, 100 )
+			self:EmitSound( Casino.SlotSelectSound, 75, p )
 		end
 	end )
 
 	timer.Simple( Casino.SlotSpinTime[3], function()
 		if IsValid( self ) then
 			self.Spinners[3] = false
-			self:EmitSound( Casino.SlotSelectSound, 75, 100 )
+			self:EmitSound( Casino.SlotSelectSound, 75, p + 4 )
 		end
 		SpinSnd:Stop()
 	end )
@@ -291,13 +308,39 @@ end )
 /*---------------------------------------------------------
 	3D2D Drawing
 ---------------------------------------------------------*/
+local mat = Material("models/gmod_tower/casino/slotmachine")
+local mat2 = Material("models/gmod_tower/casino/spinner")
 function ENT:DrawTranslucent()
 
+	if !SETUPMAT then
+		mat:SetTexture("$detail", "detail/metal_detail_01")
+		// mat:SetTexture("$bumpmap", "models/gmod_tower/casino/bumpmap")
+		// mat:SetFloat("$ssbump", 1)
+		// self.M = false and self.M or Matrix({{24, 0, 24, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}})
+		// mat:SetMatrix("$bumptransform", self.M)
+		mat:SetFloat("$detailscale", 4.283)
+		mat:SetFloat("$detailblendfactor", 0.3)
+		// mat:SetTexture("$envmap", "environment maps/train_01.hdr.vtf")
+		// mat:SetVector("$envmaptint", Vector(1, 1, 1))
+		// mat:SetUndefined("$envmapmask", "models/debug/debugwhite")
+		mat:SetFloat("$selfillum", 1)
+		mat2:SetTexture("$detail", "detail/metal_detail_01")
+		mat2:SetFloat("$detailblendmode", 5)
+		mat2:SetFloat("$detailscale", 24)
+		mat2:SetFloat("$detailblendfactor", 4)
+		SETUPMAT = true
+	end
+
+	self:SetSubMaterial(0, "models/gmod_tower/casino/slotmachine")
+	local s = render.GetToneMappingScaleLinear():Length2D() * 0.7068
+	render.ResetToneMappingScale(1)
 	self:DrawDisplay()
 
+	render.ResetToneMappingScale(s)
 	if Casino.SlotsLocalPlaying != self then return end
 	//self:DrawCombinations()
 	self:DrawControls()
+	render.ResetToneMappingScale(s)
 
 end
 
@@ -305,7 +348,7 @@ surface.CreateFont( "SlotText", {
 
 		font = "Tahoma",
 
-		size = 22,
+		size = 22 * 8,
 
 		weight = 300,
 
@@ -341,11 +384,11 @@ function ENT:DrawDisplay()
 	ang:RotateAroundAxis( ang:Up(), 90 )
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 
-	cam.Start3D2D( pos, ang, scale )
+	cam.Start3D2D( pos, ang, scale / 8 )
 
 		pcall(function()
 
-		draw.SimpleText( "Jackpot: " .. string.FormatNumber( self:GetJackpot() ), "SlotText", 5, 10, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+		draw.SimpleText( "Jackpot: " .. string.FormatNumber( self:GetJackpot() ), "SlotText", 5 * 8, 10 * 8, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 
 
 
@@ -367,7 +410,7 @@ function ENT:DrawDisplay()
 
 		if Casino.SlotsLocalPlaying == self then
 
-			draw.SimpleText( "Bet Amount: " .. Casino.SlotsLocalBet, "SlotText", 190, 190, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM )
+			draw.SimpleText( "Betting: " .. Casino.SlotsLocalBet, "SlotText", 5 * 8, 190 * 8, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM )
 
 		end
 
@@ -407,7 +450,7 @@ ENT.Controls = {
 		text = "BET",
 		x = -40,
 		col = Color(255,0,0,255),
-		bcol = Color(128,0,0,255),
+		bcol = Color(128,0,0,200),
 		selected = false,
 		cmd = "slotm_setbet"
 	},
@@ -416,7 +459,7 @@ ENT.Controls = {
 		text = "SPIN",
 		x = 40,
 		col = Color(0,0,255,255),
-		bcol = Color(0,0,160,255),
+		bcol = Color(0,0,160,200),
 		selected = false,
 		cmd = "slotm_spin"
 	},
@@ -426,6 +469,7 @@ ENT.Controls = {
 surface.CreateFont( "Buttons", { font = "coolvetica", size = 22, weight = 200 } )
 local ButtonTexture = surface.GetTextureID( "models/gmod_tower/casino/button" )
 local CursorTexture = surface.GetTextureID( "cursor/cursor_default.vtf" )
+local c = surface.GetTextureID("vgui/gradient_up")
 function ENT:DrawControls()
 	local attachment = self:GetAttachment( self:LookupAttachment("controls") )
 	local pos, ang = attachment.Pos, attachment.Ang
@@ -446,6 +490,11 @@ function ENT:DrawControls()
 
 	cam.Start3D2D( pos, ang, scale )
 
+	surface.SetDrawColor( Color(0, 0, 0, 100) )
+	surface.SetTexture( c )
+	local w = 189
+	surface.DrawTexturedRect( -w / 2, -22, w, 40 )
+
 		// Draw buttons
 		for _, btn in ipairs( self.Controls ) do
 			local x, col, text = btn.x, btn.col, btn.text
@@ -463,7 +512,15 @@ function ENT:DrawControls()
 			surface.SetTexture( ButtonTexture )
 			surface.DrawTexturedRect( x - (w/2), y - (h/2), w, h )
 
+			local c2 = Color(btn.col.r / 2, btn.col.g / 2, btn.col.b / 2, btn.selected and 200 or 100)
+			surface.SetDrawColor( c2 )
+			surface.SetTexture( c )
+			surface.DrawTexturedRect( x - (w/2), y - (h/2), w, h )
+
 			draw.RoundedBox( 0, x - (w/2), y - (h/2), w, h, btn.col ) // Color button texture
+
+			
+
 
 			draw.SimpleText(text, "Buttons", x, y + 1, btn.bcol, 1, 1)
 		end
@@ -471,7 +528,7 @@ function ENT:DrawControls()
 		// Draw small cursor
 		local mx, my = self:GetCursorPos( pos, ang, scale )
 		if IsMouseOver( -190/2, -35/2, 190, 35 ) then
-			self:DrawCursor( mx, my )
+			//self:DrawCursor( mx, my )
 			vgui.GetWorldPanel():SetCursor( "blank" )
 			/*surface.SetDrawColor(255, 0, 0, 255)
 			surface.DrawRect( mx - 2, my - 2, 4, 4 )*/
