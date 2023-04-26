@@ -245,6 +245,10 @@ function ENT:DrawTranslucent()
 	if IsValid( self.Ball ) then
 		render.CullMode(FIRSTPERSON and ply == LocalPlayer() and MATERIAL_CULLMODE_CW or MATERIAL_CULLMODE_CCW)
 		render.SetBlend(FIRSTPERSON and ply == LocalPlayer() and 0.4 or self.Opacity or 1)
+		render.SetColorModulation(2, 2, 2)
+		self.Ball:SetModelScale(self:GetModelScale() - 0.02)
+		self.Ball:DrawModel()
+		render.SetColorModulation(0.1, 0.1, 0.1)
 		self.Ball:SetModelScale(self:GetModelScale())
 		self.Ball:DrawModel()
 	end
