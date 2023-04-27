@@ -579,7 +579,7 @@ hook.Add("UpdateAnimation", "DiscoBall", function(ply)
 
             if c <= 0.8 then
                 if !ply.Danced then
-                    ply.Dance = ply:SelectWeightedSequenceSeeded(ply:GetNWInt("dance", ACT_GMOD_TAUNT_DANCE), math.random(99999999))
+                    // ply.Dance = ply:SelectWeightedSequenceSeeded(ply:GetNWInt("dance", ACT_GMOD_TAUNT_DANCE), math.random(99999999))
                     ply.Danced = true
                 end
             else
@@ -589,7 +589,21 @@ hook.Add("UpdateAnimation", "DiscoBall", function(ply)
             // ply:SetCycle(c || 0.4 + math.sin(CurTime() * 2) * 0.1)
         end
 
-        ply:AddVCDSequenceToGestureSlot(GESTURE_SLOT_CUSTOM, CUSTOMTAUNT && ply.Dance || ply:LookupSequence("taunt_dance_base"), mp && c || ply:GetCycle(), true)
+        if !ply.DanceSeq or !ply.Dance or ply.DanceCycle and ply.DanceCycle > 0.9 then // !ply.DanceTime or ply.DanceTime < CurTime() then
+            ply.Dance = ply:SelectWeightedSequenceSeeded(ply:GetNWInt("dance", ACT_GMOD_TAUNT_DANCE), math.random(99999999))
+            ply.DanceSeq = ply.DanceSeq == GESTURE_SLOT_ATTACK_AND_RELOAD and GESTURE_SLOT_CUSTOM or GESTURE_SLOT_ATTACK_AND_RELOAD
+            ply.DanceTime = CurTime() + ply:SequenceDuration(ply.Dance) - 0.4
+            ply.DanceCycle = 0
+        end
+
+        ply.DanceCycle = ply.DanceCycle or 0
+        ply.DanceCycle = math.fmod(ply.DanceCycle + FrameTime() * (mp and 0.001 + lerp or 0.1), 1)
+
+        ply:AddVCDSequenceToGestureSlot(ply.DanceSeq or GESTURE_SLOT_CUSTOM, CUSTOMTAUNT && ply.Dance || ply:LookupSequence("taunt_dance_base"), ply.DanceCycle || mp && c || ply:GetCycle(), true)
+
+        local other = ply.DanceSeq == GESTURE_SLOT_ATTACK_AND_RELOAD and GESTURE_SLOT_CUSTOM or GESTURE_SLOT_ATTACK_AND_RELOAD
+        ply:SetLayerWeight(other, 1 - (ply.DanceCycle / 0.1))
+        ply:SetLayerWeight(ply.DanceSeq, (ply.DanceCycle / 0.1))
 
         return ACT_GMOD_TAUNT_DANCE, -1
     else
@@ -710,7 +724,7 @@ hook.Add("CalcView", "DiscoBall", function(ply, pos, ang)
     lerpf = Lerp(FrameTime() * 0.4, lerpf, Lerp(dtr.HitPos:Distance(hitpos) / 256, 64, 32 / 2))
     pos = lerpv - lerpa:Forward() * lerp * 8
     ang = lerpa
-    fov = lerpf - lerp * -2
+    fov = lerpf - lerp * -8
 
     return {
         origin = pos,
