@@ -165,14 +165,14 @@ function ENT:UpdateStreamVals(Stream)
         if !IsValid(p) then return end
         local os = self:EntIndex()
         p:SetTexture("effects/flashlight001")
-        p:SetPos(self:GetPos() + self:GetForward() * (i == 2 && 24 || 0)) // Vector(0, 0, 96))
+        p:SetPos(self:WorldSpaceCenter() + ((self.TP) - self:GetPos()):Angle():Forward() * (i == 2 && 24 || 32)) // Vector(0, 0, 96))
         p:SetAngles(((self.TP) - self:GetPos()):Angle() + Angle(math.sin(CurTime() + os) * 8 + 40, math.sin(CurTime() * 2 + os * 80) * 40, math.sin(CurTime() * 0.1 + os) * 180)) // self:GetRenderAngles() + Angle(i == 1 and 180 or 0, 0, 0))
         p:SetFarZ(2000 * self.NextScaleS)
-        p:SetNearZ(128 + 8 * self:GetModelScale())
+        p:SetNearZ(1 + 0 * self:GetModelScale())
         p:SetBrightness(8 * self.NextScaleS / 2)
         p:SetFOV(120 + 40 * self.NextScaleS)
         p:SetColor(colorutil.Rainbow(50 + self.NextScaleS * 0.1))
-        p:SetEnableShadows(false)
+        p:SetEnableShadows(true)
         p:Update()
     end
 
