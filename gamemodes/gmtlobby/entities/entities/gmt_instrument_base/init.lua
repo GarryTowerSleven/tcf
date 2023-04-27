@@ -187,11 +187,11 @@ net.Receive( "InstrumentNetwork", function( length, client )
 
 			// Offset the note effect
 			local pos = string.sub( key, 2, 3 )
-			pos = math.Fit( tonumber( pos ), 1, 36, -3.8, 4 )
+			pos = math.Fit( tonumber( pos ), 1, 36, -4.2, 4.2 )
 
 			// Note effect
 			local eff = EffectData()
-				eff:SetOrigin( client:GetPos() )
+				eff:SetOrigin( client:GetPos() + ent:GetRight() * pos * -8 + ent:GetUp() * 4 + ent:GetForward() * -16 )
 			util.Effect( "musicnotes", eff, true, true )
 
 			// Gather notes
