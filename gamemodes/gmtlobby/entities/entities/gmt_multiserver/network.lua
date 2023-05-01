@@ -21,6 +21,7 @@ function ENT:BuildInformation()
 		if Gamemode:GetGamemode().ProcessData then
 			umsg.String(msg)
 		end
+		umsg.Char(Gamemode.MinPlayers)
 	umsg.End()
 end
 

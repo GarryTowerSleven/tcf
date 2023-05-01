@@ -39,6 +39,7 @@ function ServerMeta:LoadSQL( Data )
 	self.Password = password
 	self.Map = map
 
+	self.MinPlayers = Gamemode.MinPlayers
 	self.MaxPlayers = TrueMaxPlayers
 	self.ServerMaxPlayers = MaxPlayers
 	self.PlayerCount = playercount
