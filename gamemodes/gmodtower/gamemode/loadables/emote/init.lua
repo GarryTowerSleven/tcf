@@ -96,6 +96,7 @@ end
 ChatCommands.Register("/me", 1, function(ply, msg)
 	msg = string.Split(msg, " ")
 	msg = table.concat(msg, " ", 2)
+	msg = GTowerChat.FilterText( msg )
 	GTowerChat.AddChat(
 		ply:Nick() .. " " .. (msg or nil),
 		Color( 150, 150, 150, 255 ),

@@ -140,6 +140,10 @@ function GTowerItems.CreateMysteryItem(ply)
 	elseif p <= 0.9 then
 		return ITEMS.clipboard
 	else
-		return ITEMS.wepon_357
+		if ply:HasItemById( ITEMS.wepon_357 ) then
+			return ITEMS.mysterycatsack
+		else
+			return ITEMS.wepon_357
+		end
 	end
 end

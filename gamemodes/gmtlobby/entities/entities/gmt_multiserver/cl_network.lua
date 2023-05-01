@@ -51,6 +51,8 @@ function ENT:ParseInformation(um)
 			end
 			
 		end
+
+		Gamemode.MinPlayers = um:ReadChar()
 	else
 		self.ServerName = "TODO: NAME"
 	end
