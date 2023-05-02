@@ -307,7 +307,7 @@ function GM:StartRound()
 		banana:SetPos( Vector( -1076.816895, -3247.885742, -336.675140 ) )
 		banana:Spawn()
 	elseif game.GetMap() == "gmt_ballracer_tranquil01" then
-		banana:SetPos( Vector( -6645.774414, 6593.495117, 110 ) )
+		banana:SetPos( Vector( -6645.774414, 6593.495117, 50 ) )
 		banana:Spawn()
 	end
 
