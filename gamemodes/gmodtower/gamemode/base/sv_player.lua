@@ -58,6 +58,10 @@ function meta:SafeTeleport( pos, ang, eyeangles )
 
     self:ExitAll()
 
+	local velocity = self:GetVelocity()
+
+	self:SetVelocity( velocity:GetNegated() )
+
     self:SetPos( pos )
     self:SetAngles( ang or self:GetAngles() )
     self:SetAngles( eyeangles or self:EyeAngles() )
