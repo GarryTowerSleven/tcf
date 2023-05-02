@@ -221,6 +221,9 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	Requester.DuelStartTime = CurTime()
 	Arriver.DuelStartTime = CurTime()
 
+	GTowerModels.Set( Requester, 1 )
+	GTowerModels.Set( Arriver, 1 )
+
 	timer.Simple( 1, function()
 
 		if IsValid(Requester) then
@@ -240,6 +243,8 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	Arriver:SetNWEntity( "DuelOpponent", Requester )
 
 	if IsValid( Requester ) && IsValid( Arriver ) then
+		Requester:RemoveAllAmmo()
+		Arriver:RemoveAllAmmo()
 		GiveDuelerAmmo( Requester )
 		GiveDuelerAmmo( Arriver )
 	end
@@ -250,10 +255,6 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	Requester:SetCustomCollisionCheck( false )
 	Arriver:SetCustomCollisionCheck( false )
 
-	timer.Simple( 0.5, function()
-		GTowerModels.Set( Requester, 1 )
-		GTowerModels.Set( Arriver, 1 )
-	end )
 
 	timer.Simple( 7, function()
 		if IsValid( Requester ) && IsValid( Arriver ) then
