@@ -371,9 +371,9 @@ local function ClearDuel( ply, disconnect )
 		Opponent:SetCustomCollisionCheck( true )
 		
 		if Amount > 0 then
-			GAMEMODE:ColorNotifyAll( Format( "%s has won the with %s, winning %s GMC!", ply:Name(), Opponent:Name(), Amount ), DuelMessageColor, "Duels" )
+			GAMEMODE:ColorNotifyAll( Format( "%s has won the duel with %s, winning %s GMC!", ply:Name(), Opponent:Name(), Amount ), DuelMessageColor, "Duels" )
 		else
-			GAMEMODE:ColorNotifyAll( Format( "%s has won the with %s!", ply:Name(), Opponent:Name() ), DuelMessageColor, "Duels" )
+			GAMEMODE:ColorNotifyAll( Format( "%s has won the duel with %s!", ply:Name(), Opponent:Name() ), DuelMessageColor, "Duels" )
 		end
 	end
 
