@@ -405,14 +405,14 @@ function GM:DrawHUDClass()
 		surface.SetDrawColor( 255, 255, 255, 255 )
 	end
 
-	if LocalPlayer():GetNWInt( "IsPoweredUp" ) then
+	if LocalPlayer():GetNWBool( "IsPoweredUp" ) then
 		surface.SetDrawColor( 255, 255, 255, SinBetween( 50, 255, CurTime() * 8 ) )
 	end
 
 	surface.SetTexture( class.PowerMat )
 	surface.DrawTexturedRect( x + 48 + 5, ScrH() - 100 - 24, 48, 48 )
 
-	if LocalPlayer():GetNWInt( "Combo" ) > 0 && !LocalPlayer():GetNWInt( "IsPoweredUp" ) then
+	if LocalPlayer():GetNWInt( "Combo" ) > 0 && !LocalPlayer():GetNWBool( "IsPoweredUp" ) then
 		self:DrawHUDCircle( LocalPlayer():GetNWInt( "Combo" ), 5, x + 48 + 29, ScrH() - 100, 20, 255 )
 	end
 end
