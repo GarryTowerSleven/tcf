@@ -31,6 +31,9 @@ function GM:PlayerInitialSpawn( ply )
 		music.Play( EVENT_PLAY, MUSIC_WAITING_FOR_PLAYERS, ply )
 	end
 
+	ply.ProliferationCount = 0
+	ply.ProliferationTimer = CurTime()
+
 	self:ProcessRank( ply )
 
 end

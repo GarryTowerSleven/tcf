@@ -158,6 +158,13 @@ function GM:Infect( ply, infector )
 
 		infector:AddAchievement( ACHIEVEMENTS.VIRUSPANDEMIC, 1 )
 		infector:AddFrags( 1 )
+
+		infector.ProliferationCount = infector.ProliferationCount + 1
+
+		if infector.ProliferationTimer < CurTime() then
+			infector.ProliferationTimer = 6+CurTime()
+		end
+
 		self:ScorePoint( infector )
 
 		ply:AddDeaths( 1 ) // todo: should being infected add 1 to deaths?

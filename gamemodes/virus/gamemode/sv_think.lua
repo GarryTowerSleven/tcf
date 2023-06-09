@@ -92,6 +92,12 @@ function GM:PlayerThink( ply )
 		ply:CrosshairDisable()
 	end
 
+	if ply.ProliferationTimer > CurTime() && ply.ProliferationCount >= 3 then
+		ply:SetAchievement( ACHIEVEMENTS.VIRUSPROLIFERATION, 1 )
+	elseif ply.ProliferationTimer < CurTime() then
+		ply.ProliferationCount = 0
+	end
+
 end
 
 function GM:VirusThink( ply ) 
