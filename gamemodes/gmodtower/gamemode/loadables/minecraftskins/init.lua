@@ -29,4 +29,5 @@ hook.Add( "PlayerInitialSpawn", "JoinMCSkin", function(ply)
 end)
 
 hook.Add( "Location", "SkinRefresh", function(ply)
+	MinecraftSkinUpdate(ply, ply:GetInfo("cl_minecraftskin"))
 end )
