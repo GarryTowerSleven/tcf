@@ -352,6 +352,55 @@ function GM:PostDrawTranslucentRenderables()
 			self:DrawModelMaterial( v, v:GetModelScale(), MaterialSpawn )
 		end*/
 	end
+
+	if GetGlobalBool("Sun") then
+		if !sun then
+			sun = ProjectedTexture()
+		end
+
+		print("SUN")
+
+		sun:SetTexture("effects/flashlight001")
+		local ang = GetGlobalAngle("Sunang", Angle(70, 40, 0))
+		sun:SetPos(LocalPlayer():EyePos() - ang:Forward() * 2000)
+		sun:SetShadowFilter(0.1)
+		sun:SetAngles(ang)
+		sun:SetFarZ(20000)
+		sun:SetBrightness(4)
+		local r, g, b = string.Split(GetGlobalString("Suncolor", "255 255 255"), " ") render.GetFogColor()
+		local rgb = Color(r[1], r[2], r[3])
+		sun:SetColor(rgb)
+		sun:SetEnableShadows(rgb.r != 2)
+		local o = ScrW()
+		sun:SetOrthographic(true, -o, -o, o, o)
+		sun:Update()
+	elseif sun then
+		sun:Remove()
+		sun = nil
+	end
+
+	if self.Days[GetGlobalInt("Round")].time == "midnight" then
+		DrawColorModify({
+			[ "$pp_colour_addr" ] = 0,
+			[ "$pp_colour_addg" ] = 0,
+			[ "$pp_colour_addb" ] = 0,
+			[ "$pp_colour_brightness" ] = -0.04,
+			[ "$pp_colour_contrast" ] = 0.8,
+			[ "$pp_colour_colour" ] = 0.6,
+			[ "$pp_colour_mulr" ] = 0,
+			[ "$pp_colour_mulg" ] = 0,
+			[ "$pp_colour_mulb" ] = 0
+		})
+		DrawBloom(0.2, 2, 2, 2, 2, 0, 1, 1, 1)
+	end
+end
+
+function GM:SetupWorldFog()
+	local day = self.Time[self.Days[GetGlobalInt("Round")].time]
+	render.FogMode(1)
+	render.FogMaxDensity(day[3])
+	render.FogColor(day[2].r, day[2].g, day[2].b)
+	return true
 end
 
 function GM:DrawModelMaterial( ent, scale, material )

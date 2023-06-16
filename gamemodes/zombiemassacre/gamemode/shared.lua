@@ -79,8 +79,12 @@ MUSIC_LOSE = 13
 music.DefaultVolume = .85
 music.DefaultFolder = "gmodtower/zom"
 
-for i = 1, 5 do
-	music.Register( i, "music/music_round" .. i + 1 )
+local rounds = {
+	2, 3, 1, 0, 4, 5
+}
+
+for i = 0, 5 do
+	music.Register( i, "music/music_round" .. rounds[i + 1] + 1 )
 end
 
 music.Register( MUSIC_WAITING, "music/music_waiting", { Num = 3 } )
@@ -93,6 +97,92 @@ music.Register( MUSIC_WIN, "music/music_win" )
 music.Register( MUSIC_LOSE, "music/music_lose" )
 music.Register( MUSIC_BOSS, "music/music_boss", { Num = 2 } )
 music.Register( MUSIC_DEATH, "music/music_death" )
+
+GM.Time = {
+	["day"] = {
+		"z",
+		Color(64, 64, 64),
+		0.8,
+		true,
+		Angle(60, -45, 0),
+		Color(252, 235, 183)
+	},
+	["sunset"] = {
+		"c",
+		Color(230, 144, 113),
+		0.02,
+		true,
+		Angle(120, -45, 0),
+		Color(243, 123, 48)
+	},
+	["night"] = {
+		"b",
+		Color(26, 36, 72),
+		0.2,
+		false,
+		Angle(80, -45, 0),
+		Color(8, 8, 8)
+	},
+	["sunrise"] = {
+		"e",
+		Color(233, 166, 88),
+		0.02,
+		true,
+		Angle(40, -45, 0),
+		Color(240, 176, 102)
+	},
+	["midnight"] = {
+		"b",
+		Color(0, 0, 0),
+		0.2,
+		false,
+		Angle(80, -45, 0),
+		Color(2, 2, 2)
+	},
+}
+GM.Days = {
+	{
+		time = "day"
+	},
+	{
+		time = "sunset"
+	},
+	{
+		time = "night"
+	},
+	{
+		time = "midnight",
+		weather = "rain"
+	},
+	{
+		time = "sunrise",
+		weather = "thunder"
+	},
+	{
+		time = "day"
+	},
+	{
+		time = "sunset"
+	}
+}
+
+function GM:SetTime(time)
+	local time = self.Time[time] or self.Time["day"]
+	print(time[1])
+
+	engine.LightStyle(0, time[1])
+	BroadcastLua([[render.RedownloadAllLightmaps(true, true)]])
+
+	local ent = ents.FindByClass("*fog*")[1]
+	if !IsValid(ent) then ent = ents.Create("env_fog_controller") ent:Spawn() end
+	ent:Fire("SetColor", time[2].r .. " " .. time[2].g .. " " .. time[2].b)
+	ent:Fire("SetMaxDensity", time[3])
+	ent:Fire("TurnOn")
+	ent:Fire("SetFarZ", 200)
+	SetGlobalBool("Sun", time[4] and true)
+	SetGlobalAngle("Sunang", time[5] or angle_zero)
+	SetGlobalString("Suncolor", time[6].r .. " " .. time[6].g .. " " .. time[6].b)
+end
 
 function GM:GetTimeLeft()
 	return (GetGlobalInt( "ZMDayTime" ) - CurTime())
