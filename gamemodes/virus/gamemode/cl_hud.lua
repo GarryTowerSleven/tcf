@@ -75,6 +75,10 @@ function GM:HUDPaint()
 		hudTime = HudVirTime
 		hudRound = HudVirRound
 
+		if GetConVar("gmt_virus_firstperson"):GetBool() then
+			infecttime = CurTime() + 0.4
+		end
+
 		if !infecttime or infecttime > CurTime() then
 			infecttime = infecttime or CurTime() + 1
 			surface.SetMaterial(scope)

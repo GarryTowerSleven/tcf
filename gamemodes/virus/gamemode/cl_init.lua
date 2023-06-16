@@ -205,6 +205,7 @@ local WalkTimer = 0
 local VelSmooth = 0
 local CurViewPunch = Angle(0,0,0)
 local infecttime
+local FIRSTPERSON = CreateClientConVar("gmt_virus_firstperson", 0, true)
 
 function GM:CalcView( ply, pos, ang, fov )
 
@@ -266,6 +267,10 @@ function GM:CalcView( ply, pos, ang, fov )
 
 		// Final position
 		local finalPos = center + ( ang:Forward() * -dist * 0.95 )
+
+		if FIRSTPERSON:GetBool() and ply:Alive() then
+			finalPos = ent:GetAttachment(1).Pos
+		end
 
 		return {
 			["origin"] = finalPos,
