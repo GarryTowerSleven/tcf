@@ -332,15 +332,10 @@ function ENT:DrawTranslucent()
 	end
 
 	self:SetSubMaterial(0, "models/gmod_tower/casino/slotmachine")
-	local s = render.GetToneMappingScaleLinear():Length2D() * 0.7068
-	render.ResetToneMappingScale(1)
 	self:DrawDisplay()
-
-	render.ResetToneMappingScale(s)
 	if Casino.SlotsLocalPlaying != self then return end
 	//self:DrawCombinations()
 	self:DrawControls()
-	render.ResetToneMappingScale(s)
 
 end
 
