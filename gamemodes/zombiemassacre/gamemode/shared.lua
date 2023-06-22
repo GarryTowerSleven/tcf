@@ -173,12 +173,6 @@ function GM:SetTime(time)
 	engine.LightStyle(0, time[1])
 	BroadcastLua([[render.RedownloadAllLightmaps(true, true)]])
 
-	local ent = ents.FindByClass("*fog*")[1]
-	if !IsValid(ent) then ent = ents.Create("env_fog_controller") ent:Spawn() end
-	ent:Fire("SetColor", time[2].r .. " " .. time[2].g .. " " .. time[2].b)
-	ent:Fire("SetMaxDensity", time[3])
-	ent:Fire("TurnOn")
-	ent:Fire("SetFarZ", 200)
 	SetGlobalBool("Sun", time[4] and true)
 	SetGlobalAngle("Sunang", time[5] or angle_zero)
 	SetGlobalString("Suncolor", time[6].r .. " " .. time[6].g .. " " .. time[6].b)
