@@ -23,7 +23,8 @@ GTowerAchievements:Add( ACHIEVEMENTS.WALKTOOLONG, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.ZOMBIERP, {
 	Name = "Zombie RP", 
-	Description = "Roleplay as a zombie.", 
+	Description = "Roleplay as a zombie.",
+	GMC = 100,	
 	Value = 1
 })
 
@@ -39,6 +40,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITEOCD, {
 	Name = "OCD",
 	Description = "Move any furniture item more than 100 times.", 
 	Value = 100,
+	GMC = 100,
 	Group = 3
 })
 	
@@ -46,6 +48,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITEPICKUPLINE, {
 	Name = "Best Pickup Line",
 	Description = "Talk to the suite lady while drunk.", 
 	Value = 1,
+	GMC = 150,
 	Group = 3
 })
 
@@ -58,17 +61,18 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITELADYAFF, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.SUITEYOUTUBE, {
 	Name = "YouTube Addiction",
-	Description = "Watch TV for more than 10 hours.", 
+	Description = "Watch TV for 10 hours.", 
 	Value = 10 * 60,
 	Group = 3,
-	GMC = 1000,
+	GMC = 1500,
 	GiveItem = "trophy_youtubeaddiction"
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.SUITELEAVEMEALONE, {
 	Name = "Leave Me Alone",
-	Description = "Kick more than 15 players out of your suite.", 
+	Description = "Kick 15 players out of your suite.", 
 	Value = 15,
+	GMC = 150,
 	Group = 3
 })
 
@@ -84,7 +88,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.DRUNKENBASTARD, {
 	Name = "Drunken Bastard", 
 	Description = "Be drunk for more than 10 minutes straight in one go.", 
 	Value = 10*60,
-	GMC = 1000,
 	GiveItem = "trophy_drunkenbastard"
 })
 
@@ -97,6 +100,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.CURIOUSCAT, {
 GTowerAchievements:Add( ACHIEVEMENTS.PILLSHERE, {
 	Name = "Hardcore Detective", 
 	Description = "Eat 50 painkillers.", 
+	GMC = 250,
 	Value = 50
 })
 
@@ -115,7 +119,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.TRASHCOMPACTOR, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.LONGSEATGETALIFE, {
 	Name = "Get a Life",
-	Description = "Sit for more than 5 hours.", 
+	Description = "Sit for 5 hours.",
 	Value = 5 * 60
 })
 
@@ -150,6 +154,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.ZELDAFANBOY, {
 	Name = "Zelda Fanboy", 
 	Description = "Buy all Zelda-related hats.", 
 	Value = 3,
+	GMC = 250,
 	GiveItem = "trophy_zeldafanboy"
 })
 
@@ -158,6 +163,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.FANCYPANTS, {
 	Description = "Play Fancy Pants Adventure while wearing a top hat.", 
 	Value = 1,
 	Group = 4,
+	GMC = 250,
 	GiveItem = "trophy_fancypants"
 })
 
@@ -207,7 +213,8 @@ GTowerAchievements:Add( ACHIEVEMENTS.TICTACTOEPERSITANT, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.HUGMYLIFE, {
 	Name = "Hug My Life", 
-	Description = "Suicide gun yourself 200 times.", 
+	Description = "Suicide gun yourself 200 times.",
+	GMC = 200,
 	Value = 200
 })
 

@@ -30,6 +30,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.MINIMASTERS, {
 	Name = "Welcome to the Masters", 
 	Description = "Get 25 HIOs", 
 	Value = 25,
+	GMC = 1000,
 	Group = 12
 } )
 
@@ -58,6 +59,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.MINIGREENGREENS, {
 	Name = "Green Greens", 
 	Description = "Play 340 holes of Minigolf", 
 	Value = 340,
+	GMC = 5000,
 	Group = 12
 } )
 

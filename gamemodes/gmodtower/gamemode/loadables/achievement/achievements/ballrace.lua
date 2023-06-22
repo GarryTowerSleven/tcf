@@ -43,6 +43,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRSPEEDSTER, {
 	Name = "Speedster", 
 	Description = "Exceed a maximum velocity of 2500.", 
 	Value = 1,
+	GMC = 100,
 	Group = 6
 	}
 )
@@ -67,6 +68,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRTHATSARECORD, {
 	Name = "That's A New Record",
 	Description = "Beat a Ballrace record.",
 	Value = 1,
+	GMC = 250,
 	Group = 6
 	}
 )

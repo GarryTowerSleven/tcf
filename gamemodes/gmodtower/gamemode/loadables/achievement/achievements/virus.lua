@@ -10,6 +10,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.VIRUSSTRONG, {
 	Name = "Strong Motivation", 
 	Description = "Survive more than 50 rounds.", 
 	Value = 50,
+	GMC = 1000,
 	Group = 8
 	}
 )
@@ -18,6 +19,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.VIRUSDRUGGIE, {
 	Name = "Druggie", 
 	Description = "Use adrenaline more than 30 times.", 
 	Value = 30,
+	GMC = 250,
 	Group = 8
 	}
 )
@@ -26,6 +28,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.VIRUSOVERDOSE, {
 	Name = "Overdose", 
 	Description = "Pump adrenaline in your veins while being the last survivor.", 
 	Value = 1,
+	GMC = 100,
 	Group = 8
 	}
 )
@@ -50,7 +53,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.VIRUSLASTALIVE, {
 	Name = "Last Alive", 
 	Description = "Survive as the last survivor 10 times.", 
 	Value = 10,
-	GMC = 1000,
+	GMC = 1500,
 	Group = 8
 	}
 )
@@ -59,6 +62,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.VIRUSSHELLAWARE, {
 	Name = "Shell Aware", 
 	Description = "Kill 2 infected with Double Barrel without reloading.", 
 	Value = 1,
+	GMC = 250,
 	Group = 8
 	}
 )
