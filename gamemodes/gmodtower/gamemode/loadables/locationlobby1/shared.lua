@@ -208,7 +208,7 @@ function IsCondo( id, condoid )
 end
 
 function IsEquippablesNotAllowed( id )
-	return IsArcade( id ) or IsTheater( id ) or IsNarnia( id )
+	return IsTheater( id ) or IsNarnia( id )
 end
 
 function IsSuicideNotAllowed( id, ply )
@@ -220,11 +220,11 @@ function IsDrivablesNotAllowed( id ) -- ball race orb
 end
 
 function IsWeaponsNotAllowed( id )
-	return ( IsEquippablesNotAllowed( id ) or IsCasino( id ) ) && !IsNarnia( id )
+	return ( IsEquippablesNotAllowed( id ) or IsArcade( id ) or IsCasino( id ) ) && !IsNarnia( id )
 end
 
 function IsDropNotAllowed( id ) -- fireworks
-	return IsEquippablesNotAllowed( id ) or IsCasino( id ) or id == 52
+	return IsEquippablesNotAllowed( id ) or IsArcade( id ) or IsCasino( id ) or id == 52
 end
 
 function IsEntsNotAllowed( id )
