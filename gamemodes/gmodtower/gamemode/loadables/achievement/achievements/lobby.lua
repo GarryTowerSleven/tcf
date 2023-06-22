@@ -323,7 +323,7 @@ hook.Add( "PlayerThink", "PlayerThinkAchievements", function( ply )
 				
 				local Distance = PlysLastPlace[ PlyIndex ]:Distance( CurPos )
 			
-				if Distance > 0 && Distance > 150 then
+				if Distance > 0 then -- Unsure why && Distance > 150 was in here.. Anyone know? Will need to test myself but I believe a LESS THAN check would be proper.
 					ply:AddAchievement( ACHIEVEMENTS.WALKTOOLONG, Distance / 16 )
 				end
 			end
