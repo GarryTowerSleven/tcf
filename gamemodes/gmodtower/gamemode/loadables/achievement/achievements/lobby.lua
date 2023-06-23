@@ -420,32 +420,34 @@ hook.Add( "StorePurchaseFinish", "PlayerModelAchievement", function( ply, item, 
 
 end )
 
-// Human Blur
-hook.Add( "OnPlayerHitGround", "HumanBlurCheck", function( ply )
+if IsLobby then 
+	// Human Blur
+	hook.Add( "OnPlayerHitGround", "HumanBlurCheck", function( ply )
 
-	if ( !ply:Achived( ACHIEVEMENTS.HUMANBLUR ) && Location.Is( ply:Location(), "Lobby" ) && Location.Is( ply._LastLocation, "Lobby Roof" ) ) then
-		ply:SetAchievement( ACHIEVEMENTS.HUMANBLUR, 1 )
-	end
-
-end)
-
-// One Small Step
-hook.Add( "Location", "MoonAchiCheck", function( ply, loc, lastloc )
-
-	if IsValid( ply ) then
-
-		if Location.Is( loc, "Moon" ) then
-			if ( !ply:Achived( ACHIEVEMENTS.ONESMALLSTEP ) ) then
-				ply:SetAchievement( ACHIEVEMENTS.ONESMALLSTEP, 1 )
-			end
-			ply.MoonStoreModel = ply:GetModel()
-			ply:SetModel("models/player/spacesuit.mdl")
-			ply:SetGravity(0.4)
-		elseif !Location.Is( loc, "Moon" ) && Location.Is( lastloc, "Moon" ) then
-			ply:SetGravity(0)
-			ply:SetModel(ply.MoonStoreModel)
+		if ( !ply:Achived( ACHIEVEMENTS.HUMANBLUR ) && Location.Is( ply:Location(), "Lobby" ) && Location.Is( ply._LastLocation, "Lobby Roof" ) ) then
+			ply:SetAchievement( ACHIEVEMENTS.HUMANBLUR, 1 )
 		end
 
-	end
+	end)
 
-end )
+	// One Small Step
+	hook.Add( "Location", "MoonAchiCheck", function( ply, loc, lastloc )
+
+		if IsValid( ply ) then
+
+			if Location.Is( loc, "Moon" ) then
+				if ( !ply:Achived( ACHIEVEMENTS.ONESMALLSTEP ) ) then
+					ply:SetAchievement( ACHIEVEMENTS.ONESMALLSTEP, 1 )
+				end
+				ply.MoonStoreModel = ply:GetModel()
+				ply:SetModel("models/player/spacesuit.mdl")
+				ply:SetGravity(0.4)
+			elseif !Location.Is( loc, "Moon" ) && Location.Is( lastloc, "Moon" ) then
+				ply:SetGravity(0)
+				ply:SetModel(ply.MoonStoreModel)
+			end
+
+		end
+
+	end )
+end
