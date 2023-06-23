@@ -170,7 +170,7 @@ function GM:ClickerThink( ply )
 	for _, v in pairs( player.GetAll() ) do
 
 		--if v == ply || !v:Alive() || !v:GetNet( "IsVirus" ) then return end
-		if ( v:Team() == ply:Team() ) || !v:Alive() then return end
+		if ( v:Team() == ply:Team() ) || !v:Alive() then continue end
 
 		local dist = ply:GetPos():Distance( v:GetPos() )
 		//ply:ChatPrint( tostring(v) .. "| Dist: " .. tostring(dist) )
@@ -196,9 +196,9 @@ function GM:ClickerThink( ply )
 
 				local ran = math.random( 1, 2 )
 				if ran == 1 then
-					ply:EmitSound( "Geiger.BeepLow", 50, math.random( 90, 110 ) )
+					ply:EmitSound( "player/geiger1.wav", 50, math.random( 90, 110 ), 0.8 )
 				else
-					ply:EmitSound( "Geiger.BeepHigh", 50, math.random( 90, 110 ) )
+					ply:EmitSound( "player/geiger3.wav", 50, math.random( 90, 110 ), 0.8 )
 				end
 
 			end
