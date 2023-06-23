@@ -54,6 +54,7 @@ function GM:VirusSpawn( ply )
 	local healthScale = math.Clamp( 15 * ( #player.GetAll() / numVirus ) + 30, 50, 100 )
 	
 	ply:SetModel( "models/player/virusi.mdl" )
+	ply:SetBloodColor(BLOOD_COLOR_ZOMBIE)
 	
 	ply:SetWalkSpeed( self.VirusSpeed )
 	ply:SetRunSpeed( self.VirusSpeed )
@@ -216,6 +217,8 @@ function GM:PlayerSpawn( ply )
 		ply:SetNWBool("Flame", false)
 		ply.Flame = nil
 	end
+
+	ply:SetBloodColor(BLOOD_COLOR_RED)
 
 	if ( ply:GetNet( "IsVirus" ) ) then
 		self:VirusSpawn( ply )
