@@ -195,8 +195,6 @@ function GM:Infect( ply, infector )
 	PostEvent( ply, "adrenaline_off" )
 
 	ply:SetDSP( 1 ) // turn off adrenaline dsp
-	ply:EmitSound("npc/fast_zombie/fz_scream1.wav", 75, math.random(80, 84), 0.8)
-	ply:ConCommand("act zombie")
 
 	net.Start( "Infect" )
 		net.WriteEntity( ply )
