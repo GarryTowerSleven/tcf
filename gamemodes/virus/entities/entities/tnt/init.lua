@@ -164,3 +164,7 @@ function ENT:OnRemove()
 	owner:RemoveUsedTNT()
 
 end
+
+function ENT:PhysicsCollide(phys)
+	self:GetPhysicsObject():SetVelocity(self:GetPhysicsObject():GetVelocity() / 8)
+end
