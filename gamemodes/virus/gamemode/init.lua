@@ -22,7 +22,7 @@ GM.NumRounds = 10
 GM.VirusSpeed = 330
 GM.HumanSpeed = 300
 
-GM.WaitingTime = 60
+GM.WaitingTime = 45
 GM.IntermissionTime = 12
 GM.InfectingTime = { 15, 24 }
 GM.RoundTime = 90
