@@ -48,9 +48,11 @@ function GM:Think()
 
 	for _, v in pairs( player.GetAll() ) do
 
-		if !LocalPlayer():GetNet("IsVirus") and v:GetNet( "IsVirus" ) then
+		if v:GetNet( "IsVirus" ) then
 			self:LightThink( v )
-			self:ClickerThink( v )
+			if !LocalPlayer():GetNet("IsVirus") then
+				self:ClickerThink( v )
+			end
 		end
 
 		/*local Flame = v:GetNetworkedEntity("Flame1")
