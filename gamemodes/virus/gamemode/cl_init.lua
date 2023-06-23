@@ -48,7 +48,7 @@ function GM:Think()
 
 	for _, v in pairs( player.GetAll() ) do
 
-		if v:GetNet( "IsVirus" ) then
+		if !LocalPlayer():GetNet("IsVirus") and v:GetNet( "IsVirus" ) then
 			self:LightThink( v )
 			self:ClickerThink( v )
 		end
