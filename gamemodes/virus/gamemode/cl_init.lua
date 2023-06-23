@@ -119,6 +119,50 @@ function GM:Think()
 
 end
 
+local flame = Material("sprites/fire1")
+flame = CreateMaterial("Flame", "UnlitGeneric", {
+	["$basetexture"] = "sprites/flames1/flame",
+	["$additive"] = 1,
+	["$alpha"] = 0.8,
+	["$vertexalpha"] = 1,
+	["$color"] = Vector(0.27, 1, 0.27) * 2
+})
+
+local m = 53
+
+function GM:PostDrawTranslucentRenderables(_, sky)
+	if sky then return end
+
+	if !SetupFlame then
+		flame:SetVector("$color", Vector(0.27, 1, 0.27) * 2)
+		SetupFlame = true
+	end
+
+	for _, ply in ipairs(player.GetAll()) do
+	if !ply:GetNWBool("Flame") then continue end
+	ply.NextFlame = ply.NextFlame or CurTime()
+	ply.flamef = ply.flamef or 0
+
+	if ply.NextFlame < CurTime() then
+		ply.flamef = ply.flamef + 1
+		ply.NextFlame = CurTime() + 0.08
+	end
+
+	for i = 1, ply:GetBoneCount() - 1 do
+		local pos = ply:GetBonePosition(i) + Vector(0, 0, 8)
+		if pos:DistToSqr(ply:GetPos() + Vector(0, 0, 8)) < 8 then continue end
+		render.SetMaterial(flame)
+		flame:SetFloat("$frame", math.fmod(ply.flamef + i, m))
+		// render.DrawSprite(pos + Vector(0, 0, 8), 24, 24, color_white)
+		local ep = EyePos()
+		ep.z = pos.z
+		local ang = ep - pos
+		ang = -ang
+		render.DrawQuadEasy(pos, ang, 24, -24, color_white, 0)
+	end
+end
+end
+
 function GM:ClickerThink( ply )
 
 	if self:GetState() != STATE_PLAYING then return end
@@ -172,12 +216,12 @@ function GM:LightThink( ply )
 	local dlight = DynamicLight( ply:EntIndex() )
 	if ( dlight ) then
 		dlight.Pos = ply:GetPos() + Vector( 0, 0, 40 )
-		dlight.r = 150
+		dlight.r = 128
 		dlight.g = 255
-		dlight.b = 150
-		dlight.Brightness = 1
+		dlight.b = 128
+		dlight.Brightness = 4
 		dlight.Decay = 768
-		dlight.Size = 192
+		dlight.Size = 142
 		dlight.DieTime = CurTime() + 1
 	end
 	
