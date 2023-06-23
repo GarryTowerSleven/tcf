@@ -13,11 +13,12 @@ function GM:PlayerDisconnected(ply)
 
 	local NumVirus = #team.GetPlayers( TEAM_INFECTED )
 
-	if ( NumVirus == 1 ) then
-
-		self:HudMessage( nil, 18 /* Last infected has left */, 5 )
-		timer.Simple( 1, function() GAMEMODE:RandomInfect() end )
-
+	if ply:GetNet( "IsVirus" ) then
+		if ( NumVirus <= 1 ) then
+			self:HudMessage( nil, 18 /* Last infected has left */, 5 )
+			timer.Simple( 1, function() GAMEMODE:RandomInfect() end )
+		end
+		NumVirus = NumVirus - 1
 	end
 
 end
