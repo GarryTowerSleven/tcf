@@ -316,12 +316,11 @@ hook.Add("PlayerDisconnected","LeaveMessage",function(ply)
 	if IsLobby then
 		if ply.HideRedir then return end
 		ply:Left()
-	end
-
-	if Dueling.IsDueling( ply ) then
-		local Timestamp = os.time()
-		local TimeString = os.date( "%H:%M:%S - %d/%m/%Y" , Timestamp )
-		SQLLog( 'duel', ply:Nick() .. " has left the game during a duel. (" .. TimeString .. ")" )
+		if Dueling.IsDueling( ply ) then
+			local Timestamp = os.time()
+			local TimeString = os.date( "%H:%M:%S - %d/%m/%Y" , Timestamp )
+			SQLLog( 'duel', ply:Nick() .. " has left the game during a duel. (" .. TimeString .. ")" )
+		end
 	end
 end)
 
