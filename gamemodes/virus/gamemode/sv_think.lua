@@ -121,10 +121,10 @@ function GM:VirusThink( ply )
 
 	local NumVirus = #team.GetPlayers( TEAM_INFECTED )
 
-	if NumVirus <= 2 then 
+	if NumVirus == 1 then 
 		
 		for k,v in pairs(player.GetAll()) do
-			if ( v:GetNet( "IsVirus" ) && virusDeath >= 2 * NumVirus && v.enraged != true ) then
+			if ( v:GetNet( "IsVirus" ) && virusDeath >= 2 && v.enraged != true ) then
 				
 				v.enraged = true
 				
@@ -139,7 +139,7 @@ function GM:VirusThink( ply )
 			end
 		end
 		
-	elseif NumVirus >= 3 then
+	elseif NumVirus >= 2 then 
 		
 		for _, v in ipairs( player.GetAll() ) do
 			if v:GetNet( "IsVirus" ) || v.enraged == true then

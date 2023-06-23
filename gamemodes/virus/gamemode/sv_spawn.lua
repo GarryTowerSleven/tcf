@@ -52,8 +52,6 @@ function GM:VirusSpawn( ply )
 	local numVirus = team.NumPlayers( TEAM_INFECTED )
 	
 	local healthScale = math.Clamp( 15 * ( #player.GetAll() / numVirus ) + 30, 50, 100 )
-
-	virusDeath = virusDeath + 1
 	
 	ply:SetModel( "models/player/virusi.mdl" )
 	
@@ -124,7 +122,7 @@ function GM:VirusSpawn( ply )
 		end
 	end )
 	
-	if ( IsValid( ply ) && ply:GetNet( "IsVirus" ) && virusDeath == 2 * numVirus && numVirus <= 3 ) then
+	if ( IsValid( ply ) && ply:GetNet( "IsVirus" ) && virusDeath == 2 && numVirus == 1 ) then
 		self:HudMessage( nil, 19 /* Infected has become enraged */, 5 )
 	end
 	
