@@ -196,9 +196,9 @@ function GM:ClickerThink( ply )
 
 				local ran = math.random( 1, 2 )
 				if ran == 1 then
-					ply:EmitSound( "player/geiger1.wav", 50, math.random( 90, 110 ), 0.8 )
+					ply:EmitSound( "player/geiger1.wav", 70, math.random( 90, 110 ), 0.8 )
 				else
-					ply:EmitSound( "player/geiger3.wav", 50, math.random( 90, 110 ), 0.8 )
+					ply:EmitSound( "player/geiger3.wav", 70, math.random( 90, 110 ), 0.8 )
 				end
 
 			end
