@@ -10,7 +10,7 @@ function GM:PlayerInitialSpawn( ply )
 	if self:GetState() <= 1 then
 		if #player.GetAll() >= 1 && !ply:IsBot() && self:GetState() ~= STATE_WAITING then
 			self:SetState( STATE_WAITING )
-			self:SetTime( self.RoundTime )
+			self:SetTime( self.WaitingTime )
 		end
 	end
 
