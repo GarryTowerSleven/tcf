@@ -336,7 +336,8 @@ hook.Add( "PlayerDeath", "ScorePointMessage", function( victim, inflictor, attac
 
 	if victim:Team() == TEAM_PLAYERS then
 		if GAMEMODE:GetState() == STATE_PLAYING then 
-			GAMEMODE:LateJoin( victim )
+			victim:SetTeam( TEAM_INFECTED )
+			victim:SetNet( "IsVirus", true )
 			GAMEMODE:CheckSurvivors()
 		end
 	end
