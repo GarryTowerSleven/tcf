@@ -333,7 +333,7 @@ RegisterItem("coffee_mug3",{
 RegisterItem("computer",{
 	Name = "Desktop Computer",
 	Description = "Another computer because you need more power.",
-	Model = "models/props/cs_office/computer_case.mdl",
+	Model = "models/props/cs_office/computer_caseb.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
 	StoreId = GTowerStore.ELECTRONIC,
