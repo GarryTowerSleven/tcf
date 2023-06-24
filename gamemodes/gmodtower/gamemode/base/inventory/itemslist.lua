@@ -350,6 +350,28 @@ RegisterItem("computer_display",{
 	StorePrice = 150,
 })
 
+RegisterItem("computer_mouse",{
+	Name = "Computer Mouse",
+	Description = "This computerized mouse will be making square wave squeaks for days!... erm, actually, I suppose it's just used for cursor control.",
+	Model = "models/props/cs_office/computer_mouse.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	NewItem = true,
+	StoreId = GTowerStore.ELECTRONIC,
+	StorePrice = 25,
+})
+
+RegisterItem("computer_keyboard",{
+	Name = "Computer Keyboard",
+	Description = "This keyboard's clicks and clacks will surely annoy your coworkers for years.",
+	Model = "models/props/cs_office/computer_keyboard.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	NewItem = true,
+	StoreId = GTowerStore.ELECTRONIC,
+	StorePrice = 50,
+})
+
 RegisterItem("computer_monitor",{
 	Name = "Monitor",
 	Description = "Another monitor for your computer.",
