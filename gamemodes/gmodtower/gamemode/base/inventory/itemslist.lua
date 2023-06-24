@@ -360,6 +360,17 @@ RegisterItem("computer_monitor",{
 	StorePrice = 130,
 })
 
+RegisterItem("crt_monitor",{
+	Name = "CRT Monitor",
+	Description = "A higher refresh rate relic of ages past.",
+	Model = "models/props_lab/monitor02.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.ELECTRONIC,
+	NewItem = true,
+	StorePrice = 300,
+})
+
 RegisterItem("couch",{
 	Name = "Couch",
 	Description = "A couch that's both comfortable and stylish.",
