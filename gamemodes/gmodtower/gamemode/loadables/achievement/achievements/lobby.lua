@@ -61,7 +61,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITELADYAFF, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.SUITEYOUTUBE, {
 	Name = "YouTube Addiction",
-	Description = "Watch TV for 10 hours.", 
+	Description = "Watch TV for more than 10 hours.", 
 	Value = 10 * 60,
 	Group = 3,
 	GMC = 1500,
@@ -70,7 +70,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITEYOUTUBE, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.SUITELEAVEMEALONE, {
 	Name = "Leave Me Alone",
-	Description = "Kick 15 players out of your suite.", 
+	Description = "Kick more than 15 players out of your suite.", 
 	Value = 15,
 	GMC = 150,
 	Group = 3
@@ -94,6 +94,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.DRUNKENBASTARD, {
 GTowerAchievements:Add( ACHIEVEMENTS.CURIOUSCAT, {
 	Name = "Curious Cat", 
 	Description = "Open 50 mysterious cat sacks.", 
+	GMC = 250,
 	Value = 50
 })
 
@@ -119,7 +120,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.TRASHCOMPACTOR, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.LONGSEATGETALIFE, {
 	Name = "Get a Life",
-	Description = "Sit for 5 hours.",
+	Description = "Sit for more than 5 hours.",
 	Value = 5 * 60
 })
 
