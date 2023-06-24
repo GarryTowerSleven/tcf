@@ -557,6 +557,17 @@ RegisterItem("gmtdesk",{
 	StorePrice = 450,
 })
 
+RegisterItem("trashcan",{
+	Name = "Trash Can",
+	Description = "Don't forget to recycle, too!",
+	Model = "models/props/cs_office/trash_can_p.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	NewItem = true,
+	StoreId = GTowerStore.SUITE,
+	StorePrice = 40,
+})
+
 RegisterItem("gun_cabinet",{
 	Name = "Gun Cabinet",
 	Description = "A display cabinet filled with authentic shotguns.",

@@ -20,6 +20,65 @@ local function RegisterChildPosters( base, tbl, start, dateadded )
 
 end
 
+RegisterItem("painting1",{
+	Name = "Painting: Sniping",
+	Description = "A painting you can use to decorate your suite with.",
+	Model = "models/props/cs_office/offinspb.mdl",
+	DrawModel = true,
+	InvCategory = "posters",
+	StoreId = GTowerStore.POSTERS,
+	StorePrice = 150,
+	DrawName = true,
+	NewItem = true,
+	MoveSound = "furniture",
+	
+	Manipulator = function( ang, pos, normal )
+		ang:RotateAroundAxis( ang:Right(), 0 )
+		ang:RotateAroundAxis( ang:Up(), -90 )
+		ang:RotateAroundAxis( ang:Forward(), 90 )
+		
+		pos = pos + ( normal * 1.05 )
+		
+		return pos
+	end
+})
+
+RegisterItem("painting2",{
+	Base = "painting1",
+	Name = "Painting: Ping",
+	Model = "models/props/cs_office/offinspc.mdl",
+})
+
+RegisterItem("painting3",{
+	Base = "painting1",
+	Name = "Painting: Camping",
+	Model = "models/props/cs_office/offinspf.mdl",
+})
+
+RegisterItem("painting4",{
+	Base = "painting1",
+	Name = "Painting: Crunch",
+	Model = "models/props/cs_office/offinspg.mdl",
+})
+
+RegisterItem("painting5",{
+	Base = "painting1",
+	Name = "Painting: Canal",
+	Model = "models/props/cs_office/offpaintingh.mdl",
+})
+
+RegisterItem("painting6",{
+	Base = "painting1",
+	Name = "Painting: Docks",
+	Model = "models/props/cs_office/offpaintingd.mdl",
+})
+
+RegisterItem("painting7",{
+	Base = "painting1",
+	Name = "Painting: Nature",
+	Model = "models/props/cs_office/offpaintinge.mdl",
+})
+
 RegisterItem("poster1",{
 	Name = "Poster: Classic Video Games",
 	Description = "A poster you can use to decorate your suite with.",
