@@ -1585,14 +1585,6 @@ RegisterItem("toiletchair",{
 	UseSound = "use_toilet.wav",
 })
 
-RegisterItem("haybale",{
-	Name = "Hay Bale",
-	Description = "A special hay bale that you can't buy!",
-	Model = "models/props_gameplay/haybale.mdl",
-	DrawModel = true,
-	MoveSound = "cloth"
-})
-
 RegisterItem("suitetetris",{
 	Name = "Blockles Machine",
 	Description = "Your own personal Blockles machine!",
