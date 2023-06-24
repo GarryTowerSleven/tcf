@@ -168,10 +168,6 @@ GTowerHats.FixScales = {
 function GTowerHats:GetTranslation( hat, model )
 	GTowerHats:RequestOffset( hat, model )
 
-	if HatTable && (!HatTable[model] || !HatTable[model][hat]) then
-		model = "normal"
-	end
-
 	if HatTable && HatTable[model] && HatTable[model][hat] then
 		local offset = HatTable[model][hat]
 
