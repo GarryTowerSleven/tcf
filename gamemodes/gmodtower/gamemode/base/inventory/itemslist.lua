@@ -959,6 +959,19 @@ RegisterItem("plasmatv",{
 	end
 })
 
+RegisterItem("consoletv",{
+	Name = "Console TV",
+	Description = "Ahh.. 500 pounds of grainy cartoon delight.",
+	Model = "models/props/CS_militia/television_console01.mdl",
+	ClassName = "gmt_room_tv_console",
+	UniqueInventory = true,
+	DrawModel = true,
+	NewItem = true,
+	StoreId = GTowerStore.ELECTRONIC,
+	StorePrice = 2500,
+	InvCategory = "7", // electronics
+})
+
 RegisterItem("wood_table",{
 	Name = "Small Wood Table",
 	Description = "A small, but durable wood table.",
