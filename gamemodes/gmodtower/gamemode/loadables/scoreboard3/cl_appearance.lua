@@ -640,8 +640,8 @@ function APPEARANCE:GenerateModelSelection()
 
 		if !LocalPlayer()._ModelTable then LocalPlayer()._ModelTable = {} end
 		if !GTowerModels.NormalModels[name] && !table.HasValue( LocalPlayer()._ModelTable, model ) then
-			if string.StartWith( name, "medic" ) || string.StartWith( name, "hostage" ) || string.StartWith( name, "dod_" ) then continue end
-			if name == "kdedede_pm" or name == "bond" or name == "classygentleman" || name == "maskedbreen" or name == "windrunner" || name == "grayfox" then continue end
+			if string.StartWith( name, "medic" ) || string.StartWith( name, "dod_" ) then continue end
+			if name == "kdedede_pm" or name == "bond" or name == "classygentleman" || name == "maskedbreen" or name == "windrunner" || name == "grayfox"|| name == "hostage01" || name == "hostage02" || name == "hostage03" then continue end
 			AddSpawnIcon( name, model, skin, IconSetModel, CategoryList, 0, 0, "A standard player model." )
 
 		end
