@@ -662,6 +662,17 @@ RegisterItem("bball",{
 	ClassName = "gmt_beachball",
 })
 
+RegisterItem("ppiece",{
+	Name = "Puzzle Piece",
+	Description = "These pieces.. THEY JUST WONT FIT!",
+	Model = "models/gmod_tower/puzzlepiece1.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	NewItem = true,
+	StoreId = GTowerStore.TOY,
+	StorePrice = 750,
+})
+
 RegisterItem("pot01a",{
 	Name = "Tea Kettle",
 	Description = "Brew tea with this pot.",
@@ -1198,6 +1209,38 @@ RegisterItem("book3",{
 	StorePrice = 250,
 	ModelSkinId = 3,
 	MoveSound = "paper",
+})
+
+RegisterItem("woodcrate",{
+	Name = "Wooden Crate",
+	Description = "What's a Source game without crates?",
+	Model = "models/props_junk/wood_crate001a.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.SOUVENIR,
+	StorePrice = 75,
+	NewItem = true,
+	MoveSound = "wood"
+})
+
+RegisterItem("cardbox",{
+	Name = "Cardboard Box",
+	Description = "Useful for building forts!",
+	Model = "models/props_junk/cardboard_box001a.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.SOUVENIR,
+	StorePrice = 25,
+	NewItem = true,
+	MoveSound = "cloth"
+})
+
+RegisterItem("goldingot",{
+	Name = "Pure Gold Ingot",
+	Description = "The finest gold around. Show off your juicy GMC with this ingot.",
+	Model = "models/props_mining/ingot001.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.SOUVENIR,
+	StorePrice = 100000,
+	NewItem = true
 })
 
 RegisterItem("reallyoldphone",{
