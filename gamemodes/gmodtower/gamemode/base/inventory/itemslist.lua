@@ -936,6 +936,29 @@ RegisterItem("tv_large",{
 	StorePrice = 3150,
 })
 
+RegisterItem("plasmatv",{
+	Name = "Plasma TV",
+	Description = "Finally, a TV for those who want to have to crane their heads to see anything!",
+	Model = "models/props/cs_office/TV_plasma.mdl",
+	ClassName = "gmt_room_tv_plasma",
+	UniqueInventory = true,
+	DrawModel = true,
+	NewItem = true,
+	StoreId = GTowerStore.ELECTRONIC,
+	StorePrice = 1600,
+	InvCategory = "7", // electronics
+	
+	Manipulator = function( ang, pos, normal )
+		ang:RotateAroundAxis( ang:Right(), 90 )
+		ang:RotateAroundAxis( ang:Up(), 0 )
+		ang:RotateAroundAxis( ang:Forward(), 0 )
+		
+		pos = pos + ( normal * 1.5 )
+		
+		return pos
+	end
+})
+
 RegisterItem("wood_table",{
 	Name = "Small Wood Table",
 	Description = "A small, but durable wood table.",
