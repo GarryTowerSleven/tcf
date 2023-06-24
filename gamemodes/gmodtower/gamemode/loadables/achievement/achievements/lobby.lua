@@ -3,7 +3,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.GTOWERADDICTION, {
 	Description = "Play on Tower for 7 days (".. (60*24*7) .." minutes)", 
 	Value = 60*24*7,
 	GiveItem = "trophy_gmodtoweraddiction",
-	GMC = 50000
+	GMC = 25000
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.HUMANBLUR, {
@@ -18,7 +18,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.WALKTOOLONG, {
 	Description = "Walk more than 200,000 feet.", 
 	Value = 200000,
 	GiveItem = "trophy_longwalk",
-	GMC = 20000
+	GMC = 10000
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.ZOMBIERP, {
@@ -30,10 +30,10 @@ GTowerAchievements:Add( ACHIEVEMENTS.ZOMBIERP, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.JUMPINGJACK, {
 	Name = "Jumping Jack Rabbit", 
-	Description = "Jump 200,000 times.", 
-	Value = 200000,
+	Description = "Jump 100,000 times.", 
+	Value = 100000,
 	GiveItem = "trophy_jackrabbit",
-	GMC = 50000
+	GMC = 25000
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.SUITEOCD, {
