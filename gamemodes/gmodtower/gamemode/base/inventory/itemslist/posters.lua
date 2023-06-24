@@ -37,7 +37,7 @@ RegisterItem("painting1",{
 		ang:RotateAroundAxis( ang:Up(), -90 )
 		ang:RotateAroundAxis( ang:Forward(), 90 )
 		
-		pos = pos + ( normal * 1.05 )
+		pos = pos + ( normal * -14 )
 		
 		return pos
 	end
@@ -65,18 +65,48 @@ RegisterItem("painting5",{
 	Base = "painting1",
 	Name = "Painting: Canal",
 	Model = "models/props/cs_office/offpaintingh.mdl",
+	
+	Manipulator = function( ang, pos, normal )
+		ang:RotateAroundAxis( ang:Right(), 0 )
+		ang:RotateAroundAxis( ang:Up(), -90 )
+		ang:RotateAroundAxis( ang:Forward(), 90 )
+		
+		pos = pos + ( normal * -18.9 )
+		
+		return pos
+	end
 })
 
 RegisterItem("painting6",{
 	Base = "painting1",
 	Name = "Painting: Docks",
 	Model = "models/props/cs_office/offpaintingd.mdl",
+	
+	Manipulator = function( ang, pos, normal )
+		ang:RotateAroundAxis( ang:Right(), 0 )
+		ang:RotateAroundAxis( ang:Up(), -90 )
+		ang:RotateAroundAxis( ang:Forward(), 90 )
+		
+		pos = pos + ( normal * -10.85 )
+		
+		return pos
+	end
 })
 
 RegisterItem("painting7",{
 	Base = "painting1",
 	Name = "Painting: Nature",
 	Model = "models/props/cs_office/offpaintinge.mdl",
+	
+	Manipulator = function( ang, pos, normal )
+		ang:RotateAroundAxis( ang:Right(), 0 )
+		ang:RotateAroundAxis( ang:Up(), -90 )
+		ang:RotateAroundAxis( ang:Forward(), 90 )
+		
+		pos = pos + ( normal * -12.95 )
+		
+		return pos
+	end
 })
 
 RegisterItem("poster1",{
