@@ -135,7 +135,7 @@ function MEDIAPLAYER:ShouldQueueMedia( media )
     local duration = media:Duration() or nil
     if ( not duration ) then return false, T( "Theater_RequestFailed" ) end
 
-    local MaxDuration = self._MaxDuration * ( owner:IsVIP() and 3 or 1 )
+    local MaxDuration = self._MaxDuration * ( owner:IsVIP() and 4 or 1 )
 
     // check duration
     if ( duration > MaxDuration ) then return false, T( "TheaterTooLong" ) end
