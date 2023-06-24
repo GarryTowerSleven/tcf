@@ -30,7 +30,7 @@ local net = net
 module("minigames.barfight" )
 
 PlayerSpawnOnLobby = {}
-MoneyPerKill = 10
+MoneyPerKill = 5
 TotalMoney = 0
 
 function GiveWeapon( ply )
