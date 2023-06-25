@@ -170,6 +170,7 @@ function GTowerHats:GetTranslation( hat, model )
 
 	if HatTable && (!HatTable[model] || !HatTable[model][hat]) then
 		model = "normal"
+		GTowerHats:RequestOffset( hat, model )
 	end
 
 	if HatTable && HatTable[model] && HatTable[model][hat] then
