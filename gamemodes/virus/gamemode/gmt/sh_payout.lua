@@ -117,7 +117,10 @@ function GAMEMODE:GiveMoney( VirusWins )
 					payout.Give( ply, "FirstInfectedBonus" )
 				end
 				
-				payout.Give( ply, "InfectedBonus" )
+				// Give bonus to every infected.. except the last survivor. WA WA WAAAAA
+				if ply != lastSurvivor then
+					payout.Give( ply, "InfectedBonus" )
+				end
 				
 			end
 
