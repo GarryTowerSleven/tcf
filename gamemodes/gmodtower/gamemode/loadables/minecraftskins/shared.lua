@@ -2,7 +2,7 @@ mcmdl = "models/player/mcsteve.mdl"
 
 local function MinecraftSkinUpdated( ply, old, new )
 
-	if CLIENT then //and old != new then
+	if CLIENT and old != new then
 
 		local skinname = new
 

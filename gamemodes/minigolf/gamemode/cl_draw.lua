@@ -138,6 +138,8 @@ function GM:PostDrawTranslucentRenderables()
 	end
 end
 
+local c = CreateClientConVar("gmt_minigolf_putter", "1", true)
+
 function GM:PreDrawTranslucentRenderables()
 	local ball = LocalPlayer():GetGolfBall()
 
@@ -149,11 +151,11 @@ function GM:PreDrawTranslucentRenderables()
 		end
 	end
 
-	/*if IsValid( ball ) && LocalPlayer():CanPutt() && Swing.power > 0 then
+	if c:GetBool() && IsValid( ball ) && LocalPlayer():CanPutt() && Swing.power > 0 then
 		RenderUTIL.renderPutter( true, ball )
 	else
 		RenderUTIL.renderPutter( false )
-	end*/
+	end
 end
 
 if !Debug then return end

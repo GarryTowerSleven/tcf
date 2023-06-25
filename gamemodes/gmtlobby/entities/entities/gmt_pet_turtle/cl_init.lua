@@ -6,7 +6,7 @@ CreateClientConVar( "gmt_petname_turtle", "", true, true )
 
 ENT.SpriteMat = Material( "sprites/powerup_effects" )
 
-ENT.OffsetAmount = 30 //Amount, in units, to offset ourselves from the player
+ENT.OffsetAmount = 20 //Amount, in units, to offset ourselves from the player
 ENT.MoveSpeed = 7 //Speed to move to goal position
 ENT.AngleSpeed = 6 //Speed to move the angle to goal angle
 
@@ -75,10 +75,10 @@ function ENT:Think()
 	local pos = util.GetHeadPos( ply )
 	local ang = ply:EyeAngles()
 
-	local offset = ( ang + Angle( 0, 40, 0 ) ):Right() * self.OffsetAmount
+	local offset = ( ang + Angle( 0, -10, 0 ) ):Right() * self.OffsetAmount
 
 	self.GoalPos = pos + offset	+ Vector( 0, 0, math.sin( CurTime() * 1.2 ) * 4 )
-	self.GoalAngle = Angle( 0, ang.y + 90, ang.r )
+	self.GoalAngle = Angle( 0, ang.y - 90, ang.r )
 
 	//Do the splinin' here
 	self.CurPos = LerpVector( FrameTime() * self.MoveSpeed, self.CurPos, self.GoalPos )

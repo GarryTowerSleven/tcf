@@ -189,7 +189,7 @@ function ENT:DrawCursor()
 
 	if !self.mActive then return end
 
-	if !self.InputPanel && ( self:GetClass() == "gmt_room_tv" || self:GetClass() == "gmt_room_tv_large" ) then return end
+	if !self.InputPanel && ( self:GetClass() == "gmt_room_tv*" ) then return end
 
 	local cursorSize = 32
 	

@@ -697,6 +697,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:Header( "Minigolf" )
 			self:CheckBox( "Display HUD", "gmt_minigolf_hud", nil, "SetDisplayHUD" )
 			self:CheckBox( "Display Blur", "gmt_minigolf_blur", nil, "SetDisplayBlur" )
+			self:CheckBox( "Display Putter", "gmt_minigolf_putter" )
 			self:Slider( "Garden Grass Draw Dist", "cl_detaildist", 0, 1000, 0, nil, "SetMiniGrassDist" )
 
 		end

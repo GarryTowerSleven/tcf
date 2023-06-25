@@ -16,7 +16,7 @@ ENT.AdminSpawnable	= false
 
 ENT.AutomaticFrameAdvance = true
 
-ENT.Model			= "models/gmod_tower/plush_turtle.mdl"
+ENT.Model			= "models/props/de_tides/vending_turtle.mdl"
 
 function ENT:SetupDataTables()
 

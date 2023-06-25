@@ -1,6 +1,13 @@
 function GM:LateJoin( ply )
-	ply:SetTeam( TEAM_INFECTED )
-	ply:SetNet( "IsVirus", true )
+	ply:KillSilent() -- Murder Rubat
+	hook.Add("SetupMove", ply:SteamID64(), function(ply2, mv, cmd)
+		if ply2 == ply and !cmd:IsForced() then
+			ply:SetTeam( TEAM_INFECTED )
+			ply:SetNet( "IsVirus", true )
+			ply:Spawn()
+			hook.Remove("SetupMove", ply:SteamID64())
+		end
+	end )
 end
 
 function GM:PlayerInitialSpawn( ply )
@@ -10,7 +17,7 @@ function GM:PlayerInitialSpawn( ply )
 	if self:GetState() <= 1 then
 		if #player.GetAll() >= 1 && !ply:IsBot() && self:GetState() ~= STATE_WAITING then
 			self:SetState( STATE_WAITING )
-			self:SetTime( self.RoundTime )
+			self:SetTime( self.WaitingTime )
 		end
 	end
 
@@ -31,6 +38,9 @@ function GM:PlayerInitialSpawn( ply )
 		music.Play( EVENT_PLAY, MUSIC_WAITING_FOR_PLAYERS, ply )
 	end
 
+	ply.ProliferationCount = 0
+	ply.ProliferationTimer = CurTime()
+
 	self:ProcessRank( ply )
 
 end
@@ -42,10 +52,9 @@ function GM:VirusSpawn( ply )
 	local numVirus = team.NumPlayers( TEAM_INFECTED )
 	
 	local healthScale = math.Clamp( 15 * ( #player.GetAll() / numVirus ) + 30, 50, 100 )
-
-	virusDeath = virusDeath + 1
 	
 	ply:SetModel( "models/player/virusi.mdl" )
+	ply:SetBloodColor(BLOOD_COLOR_ZOMBIE)
 	
 	ply:SetWalkSpeed( self.VirusSpeed )
 	ply:SetRunSpeed( self.VirusSpeed )
@@ -66,7 +75,7 @@ function GM:VirusSpawn( ply )
 
 	timer.Simple( 2, function()
 		if IsValid( ply ) && ply:Alive() then
-			local pos = ply:GetPos( ) + Vector( 0, 0, 50 )
+			/*local pos = ply:GetPos( ) + Vector( 0, 0, 50 )
 
 			//flame OOOONNN!!
 			//yeah fuck me leave it like this it looks fine
@@ -105,13 +114,16 @@ function GM:VirusSpawn( ply )
 				
 				ply:SetNetworkedEntity( "Flame1", ply.Flame )
 				ply:SetNetworkedEntity( "Flame2", ply.Flame2 )
-			end
+			end*/
+
+			ply.Flame = true
+			ply:SetNWBool("Flame", true)
 
 			ply:EmitSound( "ambient/fire/ignite.wav", 75, 95, 1, CHAN_AUTO )
 		end
 	end )
 	
-	if ( IsValid( ply ) && ply:GetNet( "IsVirus" ) && virusDeath == 2 * numVirus && numVirus <= 3 ) then
+	if ( IsValid( ply ) && ply:GetNet( "IsVirus" ) && virusDeath == 2 && numVirus == 1 ) then
 		self:HudMessage( nil, 19 /* Infected has become enraged */, 5 )
 	end
 	
@@ -202,12 +214,11 @@ function GM:PlayerSpawn( ply )
 	if ( self:GetState() == STATE_WAITING ) then virusDeath = 0 return end
 	
 	if ( ply.Flame != nil ) then
-		ply.Flame:Remove()
+		ply:SetNWBool("Flame", false)
 		ply.Flame = nil
-		
-		ply.Flame2:Remove()
-		ply.Flame2 = nil
 	end
+
+	ply:SetBloodColor(BLOOD_COLOR_RED)
 
 	if ( ply:GetNet( "IsVirus" ) ) then
 		self:VirusSpawn( ply )

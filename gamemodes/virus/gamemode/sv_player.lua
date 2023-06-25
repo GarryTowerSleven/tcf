@@ -13,11 +13,12 @@ function GM:PlayerDisconnected(ply)
 
 	local NumVirus = #team.GetPlayers( TEAM_INFECTED )
 
-	if ( NumVirus == 1 ) then
-
-		self:HudMessage( nil, 18 /* Last infected has left */, 5 )
-		timer.Simple( 1, function() GAMEMODE:RandomInfect() end )
-
+	if ply:GetNet( "IsVirus" ) then
+		if ( NumVirus <= 1 ) then
+			self:HudMessage( nil, 18 /* Last infected has left */, 5 )
+			timer.Simple( 1, function() GAMEMODE:RandomInfect() end )
+		end
+		NumVirus = NumVirus - 1
 	end
 
 end
@@ -25,11 +26,8 @@ end
 function GM:HandlePlayerDeath( ply, attacker, inflictor )
 
 	if ( ply.Flame != nil ) then  //flame off, bro
-		ply.Flame:Remove()
+		ply:SetNWBool("Flame", false)
 		ply.Flame = nil
-
-		ply.Flame2:Remove()
-		ply.Flame2 = nil
 	end
 
 	if ply:GetNet( "IsVirus" ) then
@@ -158,6 +156,13 @@ function GM:Infect( ply, infector )
 
 		infector:AddAchievement( ACHIEVEMENTS.VIRUSPANDEMIC, 1 )
 		infector:AddFrags( 1 )
+
+		infector.ProliferationCount = infector.ProliferationCount + 1
+
+		if infector.ProliferationTimer < CurTime() then
+			infector.ProliferationTimer = 6+CurTime()
+		end
+
 		self:ScorePoint( infector )
 
 		ply:AddDeaths( 1 ) // todo: should being infected add 1 to deaths?
@@ -329,7 +334,9 @@ hook.Add( "PlayerDeath", "ScorePointMessage", function( victim, inflictor, attac
 
 	if victim:Team() == TEAM_PLAYERS then
 		if GAMEMODE:GetState() == STATE_PLAYING then 
-			GAMEMODE:LateJoin( victim )
+			victim:SetTeam( TEAM_INFECTED )
+			victim:SetNet( "IsVirus", true )
+			GAMEMODE:HudMessage( nil, 16 /* %s has been infected! */, 5, victim, nil, VirusColor )
 			GAMEMODE:CheckSurvivors()
 		end
 	end

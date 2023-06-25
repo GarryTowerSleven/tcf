@@ -96,3 +96,15 @@ RegisterItem("heartbed",{
 	StorePrice = 2100,
 	StoreId = GTowerStore.SUITE,
 })
+
+RegisterItem("hotelbed",{
+	Name = "Hotel Bed",
+	Description = "While this bed may have been bought at a bankrupt hotel auction, you'll surely never find a comfier bed to sleep on... Ignoring the bedbugs of course.",
+	Model = "models/props_vtmb/fancybed.mdl",
+	ClassName = "gmt_room_bed_fancy",
+	MoveSound = "furniture3",
+	DrawModel = true,
+	StorePrice = 3000,
+	NewItem = true,
+	StoreId = GTowerStore.SUITE,
+})

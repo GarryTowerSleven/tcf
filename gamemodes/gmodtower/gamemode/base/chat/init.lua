@@ -27,11 +27,13 @@ end )
 
 local wordfilter = {
 	{ "fucking", "hugging" },
+	{ "fuckin", "huggin" },
 	{ "fucked", "hugged" },
 	{ "fucker", "hugger" },
 	{ "fuck", "hug" },
 	{ "shitting", "smithing" },
 	{ "shitter", "smither" },
+	{ "shitty", "smithy" },
 	{ "shit", "smith" },
 	{ "fag", "frag" },
 	{ "nigger", "racist" },

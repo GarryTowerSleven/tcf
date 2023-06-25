@@ -23,7 +23,7 @@ payout.Register( "Collected", {
 payout.Register( "Button", {
 	Name = "Button Master",
 	Desc = "Pressed a button.\nThanks for being a team player.", 
-	GMC = 15,
+	GMC = 25,
 	Diff = 2,
 } )
 

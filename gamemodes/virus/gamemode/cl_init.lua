@@ -50,7 +50,9 @@ function GM:Think()
 
 		if v:GetNet( "IsVirus" ) then
 			self:LightThink( v )
-			self:ClickerThink( v )
+			if !LocalPlayer():GetNet("IsVirus") then
+				self:ClickerThink( v )
+			end
 		end
 
 		/*local Flame = v:GetNetworkedEntity("Flame1")
@@ -119,6 +121,50 @@ function GM:Think()
 
 end
 
+local flame = Material("sprites/fire1")
+flame = CreateMaterial("Flame", "UnlitGeneric", {
+	["$basetexture"] = "sprites/flames1/flame",
+	["$additive"] = 1,
+	["$alpha"] = 0.8,
+	["$vertexalpha"] = 1,
+	["$color"] = Vector(0.27, 1, 0.27) * 2
+})
+
+local m = 53
+
+function GM:PostDrawTranslucentRenderables(_, sky)
+	if sky then return end
+
+	if !SetupFlame then
+		flame:SetVector("$color", Vector(0.27, 1, 0.27) * 2)
+		SetupFlame = true
+	end
+
+	for _, ply in ipairs(player.GetAll()) do
+	if !ply:GetNWBool("Flame") then continue end
+	ply.NextFlame = ply.NextFlame or CurTime()
+	ply.flamef = ply.flamef or 0
+
+	if ply.NextFlame < CurTime() then
+		ply.flamef = ply.flamef + 1
+		ply.NextFlame = CurTime() + 0.08
+	end
+
+	for i = 1, ply:GetBoneCount() - 1 do
+		local pos = ply:GetBonePosition(i) + Vector(0, 0, 8)
+		if pos:DistToSqr(ply:GetPos() + Vector(0, 0, 8)) < 8 then continue end
+		render.SetMaterial(flame)
+		flame:SetFloat("$frame", math.fmod(ply.flamef + i, m))
+		// render.DrawSprite(pos + Vector(0, 0, 8), 24, 24, color_white)
+		local ep = EyePos()
+		ep.z = pos.z
+		local ang = ep - pos
+		ang = -ang
+		render.DrawQuadEasy(pos, ang, 24, -24, color_white, 0)
+	end
+end
+end
+
 function GM:ClickerThink( ply )
 
 	if self:GetState() != STATE_PLAYING then return end
@@ -126,7 +172,7 @@ function GM:ClickerThink( ply )
 	for _, v in pairs( player.GetAll() ) do
 
 		--if v == ply || !v:Alive() || !v:GetNet( "IsVirus" ) then return end
-		if ( v:Team() == ply:Team() ) || !v:Alive() then return end
+		if ( v:Team() == ply:Team() ) || !v:Alive() then continue end
 
 		local dist = ply:GetPos():Distance( v:GetPos() )
 		//ply:ChatPrint( tostring(v) .. "| Dist: " .. tostring(dist) )
@@ -152,9 +198,9 @@ function GM:ClickerThink( ply )
 
 				local ran = math.random( 1, 2 )
 				if ran == 1 then
-					ply:EmitSound( "Geiger.BeepLow", 50, math.random( 90, 110 ) )
+					ply:EmitSound( "player/geiger1.wav", 70, math.random( 90, 110 ), 0.8 )
 				else
-					ply:EmitSound( "Geiger.BeepHigh", 50, math.random( 90, 110 ) )
+					ply:EmitSound( "player/geiger3.wav", 70, math.random( 90, 110 ), 0.8 )
 				end
 
 			end
@@ -172,12 +218,12 @@ function GM:LightThink( ply )
 	local dlight = DynamicLight( ply:EntIndex() )
 	if ( dlight ) then
 		dlight.Pos = ply:GetPos() + Vector( 0, 0, 40 )
-		dlight.r = 150
+		dlight.r = 128
 		dlight.g = 255
-		dlight.b = 150
-		dlight.Brightness = 1
+		dlight.b = 128
+		dlight.Brightness = 4
 		dlight.Decay = 768
-		dlight.Size = 192
+		dlight.Size = 142
 		dlight.DieTime = CurTime() + 1
 	end
 	
@@ -205,6 +251,7 @@ local WalkTimer = 0
 local VelSmooth = 0
 local CurViewPunch = Angle(0,0,0)
 local infecttime
+local FIRSTPERSON = CreateClientConVar("gmt_virus_firstperson", 0, true)
 
 function GM:CalcView( ply, pos, ang, fov )
 
@@ -266,6 +313,10 @@ function GM:CalcView( ply, pos, ang, fov )
 
 		// Final position
 		local finalPos = center + ( ang:Forward() * -dist * 0.95 )
+
+		if FIRSTPERSON:GetBool() and ply:Alive() then
+			finalPos = ent:GetAttachment(1).Pos
+		end
 
 		return {
 			["origin"] = finalPos,

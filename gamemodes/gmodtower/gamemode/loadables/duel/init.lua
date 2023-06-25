@@ -221,6 +221,9 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	Requester.DuelStartTime = CurTime()
 	Arriver.DuelStartTime = CurTime()
 
+	GTowerModels.Set( Requester, 1 )
+	GTowerModels.Set( Arriver, 1 )
+
 	timer.Simple( 1, function()
 
 		if IsValid(Requester) then
@@ -240,6 +243,8 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	Arriver:SetNWEntity( "DuelOpponent", Requester )
 
 	if IsValid( Requester ) && IsValid( Arriver ) then
+		Requester:RemoveAllAmmo()
+		Arriver:RemoveAllAmmo()
 		GiveDuelerAmmo( Requester )
 		GiveDuelerAmmo( Arriver )
 	end
@@ -250,10 +255,6 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	Requester:SetCustomCollisionCheck( false )
 	Arriver:SetCustomCollisionCheck( false )
 
-	timer.Simple( 0.5, function()
-		GTowerModels.Set( Requester, 1 )
-		GTowerModels.Set( Arriver, 1 )
-	end )
 
 	timer.Simple( 7, function()
 		if IsValid( Requester ) && IsValid( Arriver ) then
@@ -371,9 +372,9 @@ local function ClearDuel( ply, disconnect )
 		Opponent:SetCustomCollisionCheck( true )
 		
 		if Amount > 0 then
-			GAMEMODE:ColorNotifyAll( Format( "%s has won the with %s, winning %s GMC!", ply:Name(), Opponent:Name(), Amount ), DuelMessageColor, "Duels" )
+			GAMEMODE:ColorNotifyAll( Format( "%s has won the duel with %s, winning %s GMC!", ply:Name(), Opponent:Name(), Amount ), DuelMessageColor, "Duels" )
 		else
-			GAMEMODE:ColorNotifyAll( Format( "%s has won the with %s!", ply:Name(), Opponent:Name() ), DuelMessageColor, "Duels" )
+			GAMEMODE:ColorNotifyAll( Format( "%s has won the duel with %s!", ply:Name(), Opponent:Name() ), DuelMessageColor, "Duels" )
 		end
 	end
 

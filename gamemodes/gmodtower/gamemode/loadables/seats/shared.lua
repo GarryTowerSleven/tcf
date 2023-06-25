@@ -110,6 +110,9 @@ ChairOffsets = {
 	["models/props_vtmb/chairfancyhotel.mdl"] = {
 		{ Pos = Vector(0, 8, 16) },
 	},
+	["models/props_vtmb/hotelchair.mdl"] = {
+		{ Pos = Vector(0, 0, 16) , Ang = Angle(0, 180, 0) },
+	},
 	["models/gmod_tower/comfychair.mdl"] = {
 		{ Pos = Vector(4, 0, 16) },
 	},

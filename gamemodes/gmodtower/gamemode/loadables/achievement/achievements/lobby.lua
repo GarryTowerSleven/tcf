@@ -3,7 +3,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.GTOWERADDICTION, {
 	Description = "Play on Tower for 7 days (".. (60*24*7) .." minutes)", 
 	Value = 60*24*7,
 	GiveItem = "trophy_gmodtoweraddiction",
-	GMC = 50000
+	GMC = 25000
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.HUMANBLUR, {
@@ -18,27 +18,29 @@ GTowerAchievements:Add( ACHIEVEMENTS.WALKTOOLONG, {
 	Description = "Walk more than 200,000 feet.", 
 	Value = 200000,
 	GiveItem = "trophy_longwalk",
-	GMC = 20000
+	GMC = 10000
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.ZOMBIERP, {
 	Name = "Zombie RP", 
-	Description = "Roleplay as a zombie.", 
+	Description = "Roleplay as a zombie.",
+	GMC = 100,	
 	Value = 1
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.JUMPINGJACK, {
 	Name = "Jumping Jack Rabbit", 
-	Description = "Jump 200,000 times.", 
-	Value = 200000,
+	Description = "Jump 100,000 times.", 
+	Value = 100000,
 	GiveItem = "trophy_jackrabbit",
-	GMC = 50000
+	GMC = 25000
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.SUITEOCD, {
 	Name = "OCD",
 	Description = "Move any furniture item more than 100 times.", 
 	Value = 100,
+	GMC = 100,
 	Group = 3
 })
 	
@@ -46,6 +48,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITEPICKUPLINE, {
 	Name = "Best Pickup Line",
 	Description = "Talk to the suite lady while drunk.", 
 	Value = 1,
+	GMC = 150,
 	Group = 3
 })
 
@@ -61,7 +64,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITEYOUTUBE, {
 	Description = "Watch TV for more than 10 hours.", 
 	Value = 10 * 60,
 	Group = 3,
-	GMC = 1000,
+	GMC = 1500,
 	GiveItem = "trophy_youtubeaddiction"
 })
 
@@ -69,6 +72,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITELEAVEMEALONE, {
 	Name = "Leave Me Alone",
 	Description = "Kick more than 15 players out of your suite.", 
 	Value = 15,
+	GMC = 150,
 	Group = 3
 })
 
@@ -84,19 +88,20 @@ GTowerAchievements:Add( ACHIEVEMENTS.DRUNKENBASTARD, {
 	Name = "Drunken Bastard", 
 	Description = "Be drunk for more than 10 minutes straight in one go.", 
 	Value = 10*60,
-	GMC = 1000,
 	GiveItem = "trophy_drunkenbastard"
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.CURIOUSCAT, {
 	Name = "Curious Cat", 
 	Description = "Open 50 mysterious cat sacks.", 
+	GMC = 250,
 	Value = 50
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.PILLSHERE, {
 	Name = "Hardcore Detective", 
 	Description = "Eat 50 painkillers.", 
+	GMC = 250,
 	Value = 50
 })
 
@@ -115,7 +120,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.TRASHCOMPACTOR, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.LONGSEATGETALIFE, {
 	Name = "Get a Life",
-	Description = "Sit for more than 5 hours.", 
+	Description = "Sit for more than 5 hours.",
 	Value = 5 * 60
 })
 
@@ -150,6 +155,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.ZELDAFANBOY, {
 	Name = "Zelda Fanboy", 
 	Description = "Buy all Zelda-related hats.", 
 	Value = 3,
+	GMC = 250,
 	GiveItem = "trophy_zeldafanboy"
 })
 
@@ -158,6 +164,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.FANCYPANTS, {
 	Description = "Play Fancy Pants Adventure while wearing a top hat.", 
 	Value = 1,
 	Group = 4,
+	GMC = 250,
 	GiveItem = "trophy_fancypants"
 })
 
@@ -207,7 +214,8 @@ GTowerAchievements:Add( ACHIEVEMENTS.TICTACTOEPERSITANT, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.HUGMYLIFE, {
 	Name = "Hug My Life", 
-	Description = "Suicide gun yourself 200 times.", 
+	Description = "Suicide gun yourself 200 times.",
+	GMC = 200,
 	Value = 200
 })
 
@@ -323,7 +331,7 @@ hook.Add( "PlayerThink", "PlayerThinkAchievements", function( ply )
 				
 				local Distance = PlysLastPlace[ PlyIndex ]:Distance( CurPos )
 			
-				if Distance > 0 && Distance > 150 then
+				if Distance > 0 then -- Unsure why && Distance > 150 was in here.. Anyone know? Will need to test myself but I believe a LESS THAN check would be proper.
 					ply:AddAchievement( ACHIEVEMENTS.WALKTOOLONG, Distance / 16 )
 				end
 			end
@@ -413,32 +421,34 @@ hook.Add( "StorePurchaseFinish", "PlayerModelAchievement", function( ply, item, 
 
 end )
 
-// Human Blur
-hook.Add( "OnPlayerHitGround", "HumanBlurCheck", function( ply )
+if IsLobby then 
+	// Human Blur
+	hook.Add( "OnPlayerHitGround", "HumanBlurCheck", function( ply )
 
-	if ( !ply:Achived( ACHIEVEMENTS.HUMANBLUR ) && Location.Is( ply:Location(), "Lobby" ) && Location.Is( ply._LastLocation, "Lobby Roof" ) ) then
-		ply:SetAchievement( ACHIEVEMENTS.HUMANBLUR, 1 )
-	end
-
-end)
-
-// One Small Step
-hook.Add( "Location", "MoonAchiCheck", function( ply, loc, lastloc )
-
-	if IsValid( ply ) then
-
-		if Location.Is( loc, "Moon" ) then
-			if ( !ply:Achived( ACHIEVEMENTS.ONESMALLSTEP ) ) then
-				ply:SetAchievement( ACHIEVEMENTS.ONESMALLSTEP, 1 )
-			end
-			ply.MoonStoreModel = ply:GetModel()
-			ply:SetModel("models/player/spacesuit.mdl")
-			ply:SetGravity(0.4)
-		elseif !Location.Is( loc, "Moon" ) && Location.Is( lastloc, "Moon" ) then
-			ply:SetGravity(0)
-			ply:SetModel(ply.MoonStoreModel)
+		if ( !ply:Achived( ACHIEVEMENTS.HUMANBLUR ) && Location.Is( ply:Location(), "Lobby" ) && Location.Is( ply._LastLocation, "Lobby Roof" ) ) then
+			ply:SetAchievement( ACHIEVEMENTS.HUMANBLUR, 1 )
 		end
 
-	end
+	end)
 
-end )
+	// One Small Step
+	hook.Add( "Location", "MoonAchiCheck", function( ply, loc, lastloc )
+
+		if IsValid( ply ) then
+
+			if Location.Is( loc, "Moon" ) then
+				if ( !ply:Achived( ACHIEVEMENTS.ONESMALLSTEP ) ) then
+					ply:SetAchievement( ACHIEVEMENTS.ONESMALLSTEP, 1 )
+				end
+				ply.MoonStoreModel = ply:GetModel()
+				ply:SetModel("models/player/spacesuit.mdl")
+				ply:SetGravity(0.4)
+			elseif !Location.Is( loc, "Moon" ) && Location.Is( lastloc, "Moon" ) then
+				ply:SetGravity(0)
+				ply:SetModel(ply.MoonStoreModel)
+			end
+
+		end
+
+	end )
+end

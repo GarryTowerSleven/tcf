@@ -243,6 +243,52 @@ GTowerItems.RegisterItem( "BalloonicornPet", {
 
 } )
 
+GTowerItems.RegisterItem( "TurtlePet", {
+
+	Name = "Turtle Pet",
+	Description = "Who would have thought that not only do turtles live for 100 years, but they also float...",
+	
+	Model = "models/props/de_tides/vending_turtle.mdl",
+	
+	DrawModel = true,
+	Equippable = true,
+	
+	StoreId = GTowerStore.PET,
+	StorePrice = 20000,
+	
+	UniqueInventory = true,
+	UniqueEquippable = true, 
+	
+	EquipType = "Pet",
+	
+	CanEntCreate = false,
+	DrawName = true,
+	CanRemove = true,
+	Tradable = true,
+	NoBank = false,
+	
+	EquippableEntity = true,
+	RemoveOnDeath = true,
+	RemoveOnNoEntsLoc = true,
+	
+	CreateEquipEntity = function( self )
+		
+		local pet = ents.Create( "gmt_pet_turtle" )
+		
+		if IsValid( pet ) then
+		
+			self.Ply.Pet = pet
+
+			pet:SetOwner( self.Ply )
+			pet:Spawn()
+			
+		end
+		
+		return pet
+		
+	end,
+
+} )
 
 // THIS IS A MILESTONE
 GTowerItems.RegisterItem( "ChimeraPet", {

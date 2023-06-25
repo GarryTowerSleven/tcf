@@ -1,7 +1,7 @@
 GTowerAchievements:Add( ACHIEVEMENTS.PVPOVERKILL, {
 	Name = "Over Kill", 
 	Description = "Kill a total of 500 people.", 
-	Value = 500,
+	Value = 2500,
 	Group = 7
 	}
 )
@@ -18,6 +18,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPLAZOR, {
 	Name = "Laz0rz", 
 	Description = "Kill someone with the secret Toy Hammer laser.", 
 	Value = 1,
+	GMC = 250,
 	Group = 7
 	}
 )
@@ -68,6 +69,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPTHEKID, {
 	Name = "The Kid", 
 	Description = "Kill 10 players with the Raging Bull without dying in one round.", 
 	Value = 1,
+	GMC = 1000,
 	Group = 7
 	}
 )

@@ -96,8 +96,8 @@ function CatalogDefaultModels()
 	for name, model in pairs( player_manager.AllValidModels() ) do
 		if !GTowerModels.NormalModels[name] then
 
-			if string.StartWith( name, "medic" ) || string.StartWith( name, "hostage" ) || string.StartWith( name, "dod_" ) then continue end
-			if name == "kdedede_pm" or name == "bond" or name == "classygentleman" || name == "maskedbreen" or name == "windrunner" || name == "grayfox" then continue end
+			if string.StartWith( name, "medic" ) || string.StartWith( name, "dod_" ) then continue end
+			if name == "kdedede_pm" or name == "bond" or name == "classygentleman" || name == "maskedbreen" or name == "windrunner" || name == "grayfox" || name == "hostage01" || name == "hostage02" || name == "hostage03" then continue end
 			table.insert( DefaultPlayerModels, model )
 
 		end

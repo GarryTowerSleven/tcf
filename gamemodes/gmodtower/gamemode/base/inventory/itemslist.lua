@@ -333,7 +333,7 @@ RegisterItem("coffee_mug3",{
 RegisterItem("computer",{
 	Name = "Desktop Computer",
 	Description = "Another computer because you need more power.",
-	Model = "models/props/cs_office/computer_case.mdl",
+	Model = "models/props/cs_office/computer_caseb.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
 	StoreId = GTowerStore.ELECTRONIC,
@@ -350,6 +350,28 @@ RegisterItem("computer_display",{
 	StorePrice = 150,
 })
 
+RegisterItem("computer_mouse",{
+	Name = "Computer Mouse",
+	Description = "This computerized mouse will be making square wave squeaks for days!... erm, actually, I suppose it's just used for cursor control.",
+	Model = "models/props/cs_office/computer_mouse.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	NewItem = true,
+	StoreId = GTowerStore.ELECTRONIC,
+	StorePrice = 25,
+})
+
+RegisterItem("computer_keyboard",{
+	Name = "Computer Keyboard",
+	Description = "This keyboard's clicks and clacks will surely annoy your coworkers for years.",
+	Model = "models/props/cs_office/computer_keyboard.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	NewItem = true,
+	StoreId = GTowerStore.ELECTRONIC,
+	StorePrice = 50,
+})
+
 RegisterItem("computer_monitor",{
 	Name = "Monitor",
 	Description = "Another monitor for your computer.",
@@ -358,6 +380,17 @@ RegisterItem("computer_monitor",{
 	DrawModel = true,
 	StoreId = GTowerStore.ELECTRONIC,
 	StorePrice = 130,
+})
+
+RegisterItem("crt_monitor",{
+	Name = "CRT Monitor",
+	Description = "A higher refresh rate relic of ages past.",
+	Model = "models/props_lab/monitor02.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.ELECTRONIC,
+	NewItem = true,
+	StorePrice = 300,
 })
 
 RegisterItem("couch",{
@@ -524,6 +557,17 @@ RegisterItem("gmtdesk",{
 	StorePrice = 450,
 })
 
+RegisterItem("trashcan",{
+	Name = "Trash Can",
+	Description = "Don't forget to recycle, too!",
+	Model = "models/props/cs_office/trash_can_p.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	NewItem = true,
+	StoreId = GTowerStore.SUITE,
+	StorePrice = 40,
+})
+
 RegisterItem("gun_cabinet",{
 	Name = "Gun Cabinet",
 	Description = "A display cabinet filled with authentic shotguns.",
@@ -616,6 +660,17 @@ RegisterItem("bball",{
 	StoreId = GTowerStore.TOY,
 	StorePrice = 500,
 	ClassName = "gmt_beachball",
+})
+
+RegisterItem("ppiece",{
+	Name = "Puzzle Piece",
+	Description = "These pieces.. THEY JUST WONT FIT!",
+	Model = "models/gmod_tower/puzzlepiece1.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	NewItem = true,
+	StoreId = GTowerStore.TOY,
+	StorePrice = 750,
 })
 
 RegisterItem("pot01a",{
@@ -892,6 +947,42 @@ RegisterItem("tv_large",{
 	StorePrice = 3150,
 })
 
+RegisterItem("plasmatv",{
+	Name = "Plasma TV",
+	Description = "Finally, a TV for those who want to have to crane their heads to see anything!",
+	Model = "models/props/cs_office/TV_plasma.mdl",
+	ClassName = "gmt_room_tv_plasma",
+	UniqueInventory = true,
+	DrawModel = true,
+	NewItem = true,
+	StoreId = GTowerStore.ELECTRONIC,
+	StorePrice = 1600,
+	InvCategory = "7", // electronics
+	
+	Manipulator = function( ang, pos, normal )
+		ang:RotateAroundAxis( ang:Right(), 90 )
+		ang:RotateAroundAxis( ang:Up(), 0 )
+		ang:RotateAroundAxis( ang:Forward(), 0 )
+		
+		pos = pos + ( normal * 1.5 )
+		
+		return pos
+	end
+})
+
+RegisterItem("consoletv",{
+	Name = "Console TV",
+	Description = "Ahh.. 500 pounds of grainy cartoon delight.",
+	Model = "models/props/CS_militia/television_console01.mdl",
+	ClassName = "gmt_room_tv_console",
+	UniqueInventory = true,
+	DrawModel = true,
+	NewItem = true,
+	StoreId = GTowerStore.ELECTRONIC,
+	StorePrice = 2500,
+	InvCategory = "7", // electronics
+})
+
 RegisterItem("wood_table",{
 	Name = "Small Wood Table",
 	Description = "A small, but durable wood table.",
@@ -1118,6 +1209,38 @@ RegisterItem("book3",{
 	StorePrice = 250,
 	ModelSkinId = 3,
 	MoveSound = "paper",
+})
+
+RegisterItem("woodcrate",{
+	Name = "Wooden Crate",
+	Description = "What's a Source game without crates?",
+	Model = "models/props_junk/wood_crate001a.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.SOUVENIR,
+	StorePrice = 75,
+	NewItem = true,
+	MoveSound = "wood"
+})
+
+RegisterItem("cardbox",{
+	Name = "Cardboard Box",
+	Description = "Useful for building forts!",
+	Model = "models/props_junk/cardboard_box001a.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.SOUVENIR,
+	StorePrice = 25,
+	NewItem = true,
+	MoveSound = "cloth"
+})
+
+RegisterItem("goldingot",{
+	Name = "Pure Gold Ingot",
+	Description = "The finest gold around. Show off your juicy GMC with this ingot.",
+	Model = "models/props_mining/ingot001.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.SOUVENIR,
+	StorePrice = 100000,
+	NewItem = true
 })
 
 RegisterItem("reallyoldphone",{
@@ -1431,8 +1554,20 @@ RegisterItem("leathersofa",{
 	MoveSound = "furniture3",
 })
 
+RegisterItem("chairfabrichotel",{
+	Name = "Fabric Hotel Chair",
+	Description = "Sit by the fireplace and pick up a good long book in this delightfully comfortable chair.",
+	Model = "models/props_vtmb/hotelchair.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.SUITE,
+	StorePrice = 1000,
+	NewItem = true,
+	MoveSound = "furniture",
+})
+
 RegisterItem("chairfancyhotel",{
-	Name = "Hotel Chair",
+	Name = "Leather Hotel Chair",
 	Description = "We stole this chair from a hotel just for you. Don't tell anybody.",
 	Model = "models/props_vtmb/chairfancyhotel.mdl",
 	UniqueInventory = false,
@@ -1527,14 +1662,6 @@ RegisterItem("toiletchair",{
 	StoreId = GTowerStore.SUITE,
 	StorePrice = 1000,
 	UseSound = "use_toilet.wav",
-})
-
-RegisterItem("haybale",{
-	Name = "Hay Bale",
-	Description = "A special hay bale that you can't buy!",
-	Model = "models/props_gameplay/haybale.mdl",
-	DrawModel = true,
-	MoveSound = "cloth"
 })
 
 RegisterItem("suitetetris",{
