@@ -258,6 +258,7 @@ GTowerItems.RegisterItem( "TurtlePet", {
 	
 	UniqueInventory = true,
 	UniqueEquippable = true, 
+	NewItem = true,
 	
 	EquipType = "Pet",
 	
