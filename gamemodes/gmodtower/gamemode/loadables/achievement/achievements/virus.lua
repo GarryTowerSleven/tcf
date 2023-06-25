@@ -37,6 +37,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.VIRUSPANDEMIC, {
 	Name = "Pandemic", 
 	Description = "Infect more than 30 survivors.", 
 	Value = 30,
+	GMC = 750,
 	Group = 8
 	}
 )
@@ -79,7 +80,8 @@ GTowerAchievements:Add( ACHIEVEMENTS.VIRUSLOSTHOPE, {
 	Name = "Lost Hope", 
 	Description = "Start as infected more than 10 times.", 
 	Value = 10,
-	Group = 8
+	Group = 8,
+	GMC = 250
 	}
 )
 
@@ -96,7 +98,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.VIRUSPROLIFERATION, {
 	Name = "Proliferation",
 	Description = "Infect 3 survivors within 6 seconds of the first one.",
 	Value = 1,
-	Group = 8,
-	GMC = 1500,
+	Group = 8
 	}
 )
