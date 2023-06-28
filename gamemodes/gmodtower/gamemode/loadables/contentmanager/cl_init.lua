@@ -65,7 +65,7 @@ end
 			"Would you like to open the collection now?",
 
 			"Workshop Content Missing!",
-			"Yes", function() browser.OpenURL( "https://content.nailgunworld.com", "Workshop Collection" ) end,
+			"Yes", function() browser.OpenURL( "https://content.gtower.net", "Workshop Collection" ) end,
 			"No", EmptyFunction()
 		)
 
