@@ -256,15 +256,15 @@ RegisterModel(
 	"mdl_chrisredfield",
 	"Chris Redfield",
 	"There are only three S.T.A.R.S. members left now.",
-	"models/player/chris.mdl",
+	"models/player/re/chris_bsaa_pm.mdl",
 	"chris",
 	3000 )
 	
 RegisterModel(
 	"mdl_leonkennedy",
 	"Leon Kennedy",
-	"Small world, eh? Well, I see that the President's equipped his daughter with... ballistics too.",
-	"models/player/leon.mdl",
+	"Where's everyone going? Bingo?",
+	"models/player/re/leon_default_pm.mdl",
 	"leon",
 	5500 )
 	
