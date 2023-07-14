@@ -92,7 +92,7 @@ if ( Location ) then
 		elseif ( Location.IsNarnia( location ) ) then
 			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Narnia
 			continue
-		elseif ( Location.Is( location, "Lakeside" ) ) then
+		elseif ( Location.IsGroup( location, "lakeside" ) ) then
 			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Lakeside
 			continue
 		elseif ( Location.Is( location, "Pool" ) ) then
