@@ -69,6 +69,7 @@ Add( 85, "Construction Port", "gamemodeports", Vector( 11049.779297, 8895.711914
 
 // MISC
 Add( 51, "Narnia", "narnia", Vector( -3008, -6100, -512 ), Vector( -10000, -13483 , 2224 ) )
+Add( 55, "Lakeside Cabin", "lakeside", Vector( -11025, 9152, -550 ), Vector( -9800, 10250, 742 ) )
 Add( 56, "Pool", "pool", Vector( -9267, 4958, -550 ), Vector( -1130, 15381, 3693 )  )
 Add( 57, "Lakeside", "lakeside", Vector( -15419, 4958, -550 ), Vector( -9267, 15381, 3693 ) )
 
