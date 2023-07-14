@@ -224,6 +224,26 @@ GTowerItems.RegisterItem( "BalloonicornPet", {
 	RemoveOnDeath = true,
 	RemoveOnNoEntsLoc = true,
 	
+	ExtraMenuItems = function ( item, menu )
+		
+		table.insert( menu, {
+			[ "Name" ] = "Give Name",
+			[ "function" ] = function()
+			
+				local curText = LocalPlayer():GetInfo( "gmt_petname_bcorn" ) or ""
+				
+				Derma_StringRequest(
+					"Pet Name",
+					"Please enter the name of your cute pet!",
+					curText,
+					function ( text ) RunConsoleCommand( "gmt_petname_bcorn", text ) end
+				)
+				
+			end
+		} )
+		
+	end,
+	
 	CreateEquipEntity = function( self )
 		
 		local pet = ents.Create( "gmt_pet_balloonicorn" )
@@ -271,6 +291,26 @@ GTowerItems.RegisterItem( "TurtlePet", {
 	EquippableEntity = true,
 	RemoveOnDeath = true,
 	RemoveOnNoEntsLoc = true,
+	
+	ExtraMenuItems = function ( item, menu )
+		
+		table.insert( menu, {
+			[ "Name" ] = "Give Name",
+			[ "function" ] = function()
+			
+				local curText = LocalPlayer():GetInfo( "gmt_petname_turtle" ) or ""
+				
+				Derma_StringRequest(
+					"Pet Name",
+					"Please enter the name of your cute pet!",
+					curText,
+					function ( text ) RunConsoleCommand( "gmt_petname_turtle", text ) end
+				)
+				
+			end
+		} )
+		
+	end,
 	
 	CreateEquipEntity = function( self )
 		
