@@ -50,7 +50,8 @@ function initHud()
 	GTowerHUD.Crosshair = {
 		Enabled = CreateClientConVar( "gmt_hud_crosshair", 1, true, false ),
 		AlwaysOn = CreateClientConVar( "gmt_hud_crosshair_always", 1, true, false ),
-		Action = CreateClientConVar( "gmt_hud_crosshair_action", 0, true, false ),
+		Action = CreateClientConVar( "gmt_hud_crosshair_action", 1, true, false ),
+		ThreeD = CreateClientConVar( "gmt_hud_crosshair_3d", 1, true, false ),
 		Material = Material( "sprites/powerup_effects" ),
 		Size = 4,
 		MaxSize = 16,
@@ -134,15 +135,17 @@ function initHud()
 
 		local w, h = ScrW() / 2, ScrH() / 2
 
-		local p = EyePos() + LocalPlayer():EyeAngles():Forward()
-		p = p:ToScreen()
-		w, h = math.Round(p.x), math.Round(p.y)
-
+		if GTowerHUD.Crosshair.ThreeD:GetBool() then
+			local p = EyePos() + LocalPlayer():EyeAngles():Forward()
+			p = p:ToScreen()
+			w, h = math.Round(p.x), math.Round(p.y)
+		end
+		
 		local color = Color( 255, 255, 255 )
 		local x = 0
 
 		-- Draw Use message
-		if !GTowerHUD.Crosshair.Action:GetBool() and IsValid( ent ) and CanPlayerUse( ent ) then
+		if GTowerHUD.Crosshair.Action:GetBool() and IsValid( ent ) and CanPlayerUse( ent ) then
 			GTowerHUD.DrawUseMessage( ent, x, w, h )
 		end
 
