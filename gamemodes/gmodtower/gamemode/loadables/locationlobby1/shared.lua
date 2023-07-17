@@ -208,7 +208,7 @@ function IsCondo( id, condoid )
 end
 
 function IsEquippablesNotAllowed( id )
-	return IsTheater( id ) or IsNarnia( id )
+	return IsArcade( id ) or IsTheater( id ) or IsNarnia( id )
 end
 
 function IsSuicideNotAllowed( id, ply )
