@@ -56,7 +56,7 @@ SWEP.ChargeLvl				= 0
 SWEP.ChargeIncrease			= 0.003
 SWEP.NextChargeDelay		= 0.6
 
-SWEP.BlastForce				= 5000
+SWEP.BlastForce				= 6000
 
 function SWEP:Initialize()
 
