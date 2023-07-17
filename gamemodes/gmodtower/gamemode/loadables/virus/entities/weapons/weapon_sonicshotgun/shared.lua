@@ -53,10 +53,10 @@ SWEP.NextCharge 			= CurTime()
 SWEP.Charging 				= false
 SWEP.ChargeLvl				= 0
 
-SWEP.ChargeIncrease			= 0.008
+SWEP.ChargeIncrease			= 0.003
 SWEP.NextChargeDelay		= 0.6
 
-SWEP.BlastForce				= 2500
+SWEP.BlastForce				= 5000
 
 function SWEP:Initialize()
 
@@ -152,7 +152,7 @@ function SWEP:EndCharge()
 	if !self.Charging then return end
 	self.Charging = false
 
-	self:ShootPush( math.Clamp( 800, ( self.BlastForce * self.ChargeLvl ), self.BlastForce ), self.ChargeLvl )
+	self:ShootPush( math.Clamp( 200, ( self.BlastForce * self.ChargeLvl ), self.BlastForce ), self.ChargeLvl )
 
 	self.ChargeLvl = 0
 	self.NextCharge = CurTime() + self.NextChargeDelay
@@ -185,7 +185,7 @@ function SWEP:ShootPush( force, charge )
 
 	for _, v in ipairs( entList ) do
 		for _, propType in ipairs( PushableProps ) do
-			if ( v:GetClass() == propType ) || (v:IsPlayer() && v:GetNWBool("IsVirus")) then
+			if ( v:GetClass() == propType ) || (v:IsPlayer() && v:GetNet("IsVirus")) then
 				self:PushEnt( v, force, charge )
 			end
 		end
@@ -200,8 +200,8 @@ function SWEP:PushEnt( ent, force, charge )
 	
 	if !IsValid( ent ) then return end
 	if ( ent == self.Owner ) then return end
-
-	if (ent:IsPlayer() && ent:GetNWBool("IsVirus") && !IsLobby) or (ent:IsPlayer() && IsLobby) then
+	
+	if (ent:IsPlayer() && ent:GetNet("IsVirus") && !IsLobby) or (ent:IsPlayer() && IsLobby) then
 
 		local newvelocity = Angle(0, self.Owner:EyeAngles().y, 0):Forward() * force
 		newvelocity.z = math.Clamp( newvelocity.z, 0, 400 )
