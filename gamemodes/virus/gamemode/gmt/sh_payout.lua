@@ -21,7 +21,7 @@ payout.Register( "FirstInfectedBonus", {
 payout.Register( "LastSurvivorBonus", {
 	Name = "Last Survivor",
 	Desc = "Cold Blooded.\nYou were the remaining survivor and you lived!",
-	GMC = 200,
+	GMC = 150,
 	Diff = 2,
 } )
 
@@ -35,7 +35,7 @@ payout.Register( "SurvivorBonus", {
 payout.Register( "TeamPlayer", {
 	Name = "Team Player",
 	Desc = "Survived with 3 or more survivors.",
-	GMC = 100,
+	GMC = 50,
 	Diff = 4,
 } )
 
