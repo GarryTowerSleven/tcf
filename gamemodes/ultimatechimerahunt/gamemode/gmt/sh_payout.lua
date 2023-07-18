@@ -1,7 +1,7 @@
 payout.Register( "ThanksForPlaying", {
 	Name = "Thanks For Playing",
 	Desc = "For participating in the game!",
-	GMC = 25,
+	GMC = 50,
 } )
 
 payout.Register( "WinBonus", {

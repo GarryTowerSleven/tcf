@@ -71,7 +71,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHENTERTHEPIG, {
 	Name = "Enter the Pigmasks", 
 	Description = "Be in the winning Pigmask team more than 50 times.", 
 	Value = 50,
-	GMC = 1000,
 	Group = 9
 	}
 )
