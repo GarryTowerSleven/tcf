@@ -263,7 +263,7 @@ RegisterModel(
 RegisterModel(
 	"mdl_leonkennedy",
 	"Leon Kennedy",
-	"Small world, eh? Well, I see that the President's equipped his daughter with... ballistics too.",
+	"Where's everyone going?.. Bingo?",
 	"models/player/leon.mdl",
 	"leon",
 	5500 )
