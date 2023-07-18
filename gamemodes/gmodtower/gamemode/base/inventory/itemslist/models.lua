@@ -838,6 +838,22 @@ RegisterModel(
 	"james",
 	6000 )
 	
+RegisterModel(
+	"mdl_oldgordon",
+	"HL1 Gordon",
+	"*BEEP* *BEEP* *BEEP* .. Emergency. User death imminent.",
+	"models/player/tcf/hl1_gordon.mdl",
+	"oldgordon",
+	10000 )
+	
+RegisterModel(
+	"mdl_gasmask",
+	"Gasmask Citizen",
+	"TV's! Get your free TV's!",
+	"models/player/tcf/gasmask_citizen.mdl",
+	"gasmask",
+	4000 )
+	
 --[[ Has buggy arms
 RegisterModel(
 	"mdl_hunk",
