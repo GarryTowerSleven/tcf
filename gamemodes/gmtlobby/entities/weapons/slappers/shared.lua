@@ -267,7 +267,7 @@ function SWEP:SlapProp(ent, tr)
 	end
 
 	-- Emit slap sound
-	self:GetOwner():EmitSoundInLocation( emitSound, 80, 100 )
+	self:GetOwner():EmitSoundInLocation( emitSound, 90, 100 )
 
 end
 
