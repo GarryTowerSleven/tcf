@@ -26,21 +26,35 @@ ENT.SLOTS = {
 	--{<name>, <odds>}
 	--odds: how many re-rolls it takes to land on this item
 
-	{"Absolutely Nothing", 2},
-	{"StarFox Trophy", 1000, "trophy_starfox"},
-	{"Slappers", 110, "slappers"},
-	{"iMac", 105, "imac"},
 	{"1 GMC", 1},
-	--{"Playable Piano", 18, "instrument_piano"},
-	{"Playable Piano", 105, "piano"},
-	{"500 GMC", 20},
-	{"Sunabouzu Shrine", 250, "sunshrine"},
-	{"Hula Doll", 4, "huladoll"},
-	{"Rave Ball", 130, "rave_ball"},
-	{"1500 GMC", 99},
-	{"Five Catsacks", 8, "mysterycatsack", 5},
+	{"Hula Doll", 3, "huladoll"},
+	{"Fireworks", 2, {
+		"fwork_blossom",
+		"fwork_fountain",
+		"fwork_multi",
+		"fwork_palm",
+		"fwork_ring",
+		"fwork_rocket",
+		"fwork_spinner",
+		"fwork_spinrocket",
+		"fwork_wine",
+		"fwork_screamer",
+		"fwork_ufo",
+		"fwork_firefly"
+	} },
 	{"100 GMC", 3},
-	{"Random Holiday Item", 95, {
+	{"Absolutely Nothing", 5},
+	{"StarFox Trophy", 1000, "trophy_starfox"},
+	{"Slappers", 300, "slappers"},
+	{"iMac", 375, "imac"},
+	--{"Playable Piano", 18, "instrument_piano"},
+	{"Playable Piano", 375, "piano"},
+	{"500 GMC", 14},
+	{"Sunabouzu Shrine", 500, "sunshrine"},
+	{"Rave Ball", 400, "rave_ball"},
+	{"1500 GMC", 70},
+	{"Five Catsacks", 8, "mysterycatsack", 5},
+	{"Random Holiday Item", 99, {
 		"sack_plushie",
 		"snowman",
 		"candycane",
@@ -55,21 +69,7 @@ ENT.SLOTS = {
 		"toyspider",
 		"toytraincart"
 	} },
-	{"Fireworks", 3, {
-		"fwork_blossom",
-		"fwork_fountain",
-		"fwork_multi",
-		"fwork_palm",
-		"fwork_ring",
-		"fwork_rocket",
-		"fwork_spinner",
-		"fwork_spinrocket",
-		"fwork_wine",
-		"fwork_screamer",
-		"fwork_ufo",
-		"fwork_firefly"
-	} },
-	{"Backpack", 75, "backpack"},
+	{"Backpack", 60, "backpack"},
 }
 
 ENT.GMCPayouts = {
