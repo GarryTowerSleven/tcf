@@ -84,7 +84,12 @@ GMode.Tips = {
 	"The infected are not looking for a hug, no matter what they say.",
 	"You always have two different pistols.",
 	"Try not to stand in the same place as the other survivors.",
-	"The Dual Silencers fire with left click and right click."
+	"The Dual Silencers can be fired as fast as you can click your mouse.",
+	"The Flak Handgun only has 3 shots counting reloads, use them wisely!",
+	"TNT will automatically detonate when a infected steps near it.",
+	"The Sonic Shotgun can blast infected backwards when a survivor uses its secondary fire.",
+	"The first infected will become enraged after its second death if it hasn't infected anyone.",
+	"Use your radar in the top left to find fellow survivors, and avoid sneaky infected..."
 }
 
 GMode.Music = {
