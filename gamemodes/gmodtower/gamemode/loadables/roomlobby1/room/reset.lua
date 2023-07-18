@@ -9,27 +9,25 @@ function ResetRoom( self )
 	self:UpdateRoomSaveData()
 
 	for _, ent in pairs( self:EntsInRoom() ) do
-		if ent:GetClass() != "gmt_trunk" then
-			local ItemId = self:InventorySave( ent )
+	
+		local ItemId = self:InventorySave( ent )
+		
+		if ItemId then
+		
+			local Item = GTowerItems:CreateById( ItemId, self.Owner )
+			local ItemSlot = GTowerItems:NewItemSlot( self.Owner, "-2" )
 			
-			if ItemId then
+			ItemSlot:FindUnusedSlot( Item, true )
 			
-				local Item = GTowerItems:CreateById( ItemId, self.Owner )
-				local ItemSlot = GTowerItems:NewItemSlot( self.Owner, "-2" )
+			if ItemSlot:IsValid() && ItemSlot:Allow( Item, true ) then
 				
-				ItemSlot:FindUnusedSlot( Item, true )
+				ItemSlot:Set( Item )
+				ItemSlot:ItemChanged()
 				
-				if ItemSlot:IsValid() && ItemSlot:Allow( Item, true ) then
-					
-					ItemSlot:Set( Item )
-					ItemSlot:ItemChanged()
-					
-					ent:Remove()
-					
-				end
-					
+				ent:Remove()
+				
 			end
-			
+				
 		end
 		
 	end
