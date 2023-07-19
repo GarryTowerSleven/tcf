@@ -58,7 +58,7 @@ function GM:MapThink()
 				if v:WaterLevel() != 0 then
 					if !v:Alive() then return end
 			
-					if v:IsPlayer() && v:Alive() then
+					if v:IsPlayer() && v:Alive() && !v:GetNet( "IsVirus" ) then
 						v:Kill()
 					end
 				end
