@@ -105,7 +105,7 @@ if SERVER then
 			End = function( ply )
 				if !IsValid( ply ) then return end
 				PostEvent( ply, "pcolored_off" )
-			end			
+			end
 		},
 		{ 
 			Name = "Midnight Fruit Shake", 
@@ -118,6 +118,12 @@ if SERVER then
 			Ingredient1 = ORANGE,
 			Ingredient2 = WATERMELON,
 			Color = Color( 209, 73, 31 ),
+		},
+		{ 
+			Name = "Orange Juice",
+			Ingredient1 = ORANGE,
+			Ingredient2 = ORANGE,
+			Color = Color( 245, 175, 65 ),
 		},
 		{ 
 			Name = "Man's Orange Juice",
@@ -240,7 +246,7 @@ if SERVER then
 		if (Room and ply != Room.Owner) && !ply:IsAdmin() then return end
 
 		if #self.Ingredients < 2 then
-			//ply:Msg2( "Not enough ingredients!" )
+			ply:Msg2( "Place two ingredients in before trying to blend." )
 			return
 		end
 
