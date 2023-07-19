@@ -20,6 +20,8 @@ function GM:PlayerDisconnected(ply)
 		end
 		NumVirus = NumVirus - 1
 	end
+	
+	timer.Simple( .1, function() self:CheckSurvivors() end )
 
 end
 
