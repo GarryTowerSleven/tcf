@@ -40,10 +40,6 @@ function GM:Initialize()
 	globalnet.SetNet( "MaxRounds", self.NumRounds )
 end
 
-function GM:LastSurvivor()
-	music.Play( EVENT_PLAY, MUSIC_LAST_ALIVE )
-end
-
 function GM:HudMessage( ply, index, time, ent, ent2, color )
 
 	net.Start( "HudMsg" )

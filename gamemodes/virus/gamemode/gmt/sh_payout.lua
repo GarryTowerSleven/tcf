@@ -72,13 +72,6 @@ function GAMEMODE:GiveMoney( VirusWins )
 	if CLIENT then return end
 
 	local PlayerTable = player.GetAll()
-	local survivors = team.GetPlayers( TEAM_PLAYERS )
-
-	// Gather last survivor
-	local lastSurvivor = nil
-	if #survivors == 1 then
-		lastSurvivor = survivors[ 1 ]
-	end
 
 	// Sort by best score, not rank
 	table.sort( PlayerTable, function( a, b )
@@ -131,7 +124,7 @@ function GAMEMODE:GiveMoney( VirusWins )
 				payout.Give( ply, "SurvivorBonus" )
 
 				// Give the last survivor a bonus!
-				if lastSurvivor && ply == lastSurvivor then
+				if self.HasLastSurvivor && ply == self.LastSurvivor then
 					payout.Give( ply, "LastSurvivorBonus" )
 				end
 

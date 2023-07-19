@@ -214,7 +214,8 @@ function GM:CheckSurvivors()
 
 		if ( self.HasLastSurvivor ) then return end
 
-		self:LastSurvivor()
+		timer.Simple( .2, function() music.Play( EVENT_PLAY, MUSIC_LAST_ALIVE ) end )
+		
 
 		local lastPlayer = team.GetPlayers( TEAM_PLAYERS )[ 1 ]
 
