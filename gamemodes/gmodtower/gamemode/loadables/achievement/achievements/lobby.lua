@@ -107,7 +107,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.PILLSHERE, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.DOMESTICABUSE, {
 	Name = "Domestic Abuse", 
-	Description = "Break an empty bottle.", 
+	Description = "Break an empty bottle with your body, willingly, or unwillingly.", 
 	GMC = 100,
 	Value = 1
 })
