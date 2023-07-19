@@ -120,7 +120,7 @@ if SERVER then
 			Color = Color( 209, 73, 31 ),
 		},
 		{ 
-			Name = "Orange Juice",
+			Name = "Extra Pulpy Orange Juice",
 			Ingredient1 = ORANGE,
 			Ingredient2 = ORANGE,
 			Color = Color( 245, 175, 65 ),
@@ -132,9 +132,22 @@ if SERVER then
 			Color = Color( 122, 78, 20 ),
 			Time = 3,
 			Start = function( ply )
-				if !IsValid( ply ) then return end
+				if !IsValid( ply ) or !ply:CanDrink( 25 ) then return end
 				PostEvent( ply, "pdamage" )
-			end
+				ply:Drink( 25 )
+			end,
+		},
+		{ 
+			Name = "Dangerously Hard Cider",
+			Ingredient1 = GLASS,
+			Ingredient2 = APPLE,
+			Color = Color( 85, 35, 35 ),
+			Time = 3,
+			Start = function( ply )
+				if !IsValid( ply ) or !ply:CanDrink( 20 ) then return end
+				PostEvent( ply, "pdamage" )
+				ply:Drink( 20 )
+			end,
 		},
 		{ 
 			Name = "Deathwish", 
@@ -178,11 +191,11 @@ if SERVER then
 			Time = 30,
 			Start = function( ply )
 				if !IsValid( ply ) or !ply:CanDrink( 30 ) then return end
-				ply:Drink(30)
+				ply:Drink( 30 )
 			end,
 			End = function( ply )
 				if !IsValid( ply ) or !ply:CanDrink( 40 ) then return end
-				ply:Drink(40)
+				ply:Drink( 40 )
 			end
 		},
 		{
