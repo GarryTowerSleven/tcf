@@ -155,11 +155,13 @@ if SERVER then
 			Time = 20,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
-				GAMEMODE:SetPlayerSpeed( ply, 175, 175 )
+				GAMEMODE:SetPlayerSpeed( ply, 360, 640 )
+				PostEvent( ply, "pspeed_on" )
 			end,
 			End = function( ply )
 				if !IsValid( ply ) then return end
 				ply:ResetSpeeds()
+				PostEvent( ply, "pspeed_off" )
 			end,
 		},
 		{

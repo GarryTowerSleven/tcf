@@ -40,6 +40,112 @@ local function playerDeath( mul, time )
 end
 AddPostEvent( "pdeath", playerDeath )
 
+local function speed_On( mul, time )
+	-- Slow bloom
+	layer = postman.NewBloomLayer()
+	layer.sizex = 10
+	layer.sizey = 10
+	layer.multiply = 0.6
+	layer.color = 1.5
+	layer.passes = 2
+	postman.FadeBloomIn( "pspeed_on", layer, 5 )
+end
+AddPostEvent( "pspeed_on", speed_On )
+
+local function speed_Off( mul, time )
+	postman.ForceBloomFade( "pspeed_on" )
+	postman.FadeBloomOut( "pspeed_on", 2 )
+end
+AddPostEvent( "pspeed_off", speed_Off )
+
+local function bone_On( mul, time )
+	layer = postman.NewMotionBlurLayer()
+	layer.addalpha = 0.11
+	layer.drawalpha = 0.36
+	postman.AddMotionBlurLayer( "pbone_on", layer )
+	
+	local layer = postman.NewColorLayer()
+	layer.color = 0.0
+	layer.brightness = -0.02
+	layer.contrast = 0.98
+	postman.FadeColorIn( "pbone_on", layer, 1 )
+	
+	layer = postman.NewSharpenLayer()
+	layer.contrast = -0.55
+	layer.distance = 1.75
+	postman.FadeSharpenIn( "pbone_on", layer, 2 )
+end
+AddPostEvent( "pbone_on", bone_On )
+
+local function bone_Off( mul, time )
+	postman.FadeMotionBlurOut( "pbone_on", mul * 3 )
+	
+	postman.ForceColorFade( "pbone_on" )
+	postman.FadeColorOut( "pbone_on", 1 )
+	
+	postman.ForceSharpenFade( "pbone_on" )
+    postman.FadeSharpenOut( "pbone_on", 1 )
+end
+AddPostEvent( "pbone_off", bone_Off )
+
+local function timeOn( mul, time )
+	layer = postman.NewBloomLayer()
+	layer.sizex = 15.0
+	layer.sizey = 0.0
+	layer.multiply = 2.0
+	layer.color = 0.0
+	layer.passes = 1.0
+	layer.darken = 0.3
+	postman.FadeBloomIn( "ptime_on", layer, 1 )
+	
+	local layer = postman.NewColorLayer()
+	layer.color = 0.5
+	postman.FadeColorIn( "ptime_on", layer, 1 )
+end
+AddPostEvent( "ptime_on", timeOn )
+
+local function timeOff( mul, time )
+	postman.ForceColorFade( "ptime_on" )
+	postman.FadeColorOut( "ptime_on", 1 )
+	
+	postman.ForceBloomFade( "ptime_on" )
+    postman.FadeBloomOut( "ptime_on", 1 )
+end
+AddPostEvent( "ptime_off", timeOff )
+
+local function coloredOn( mul, time )
+	local layer = postman.NewColorLayer()
+	layer.contrast = 1.15
+	layer.color = 4.0
+	postman.FadeColorIn( "pcolored_on", layer, 0.2 )
+	
+	layer = postman.NewBloomLayer()
+	layer.sizex = 9.0
+	layer.sizey = 9.0
+	layer.multiply = 0.45
+	layer.color = 1.0
+	layer.passes = 0.0
+	layer.darken = 0.0
+	postman.FadeBloomIn( "pcolored_on", layer, 1 )
+	
+	layer = postman.NewSharpenLayer()
+	layer.contrast = .20
+	layer.distance = 3
+	postman.FadeSharpenIn( "pcolored_on", layer, 1.5 )
+end
+AddPostEvent( "pcolored_on", coloredOn )
+
+local function coloredOff( mul, time )
+	postman.ForceColorFade( "pcolored_on" )
+	postman.FadeColorOut( "pcolored_on", 1 )
+	
+	postman.ForceBloomFade( "pcolored_on" )
+    postman.FadeBloomOut( "pcolored_on", 1 )
+	
+	postman.ForceSharpenFade( "pcolored_on" )
+    postman.FadeSharpenOut( "pcolored_on", 1 )
+end
+AddPostEvent( "pcolored_off", coloredOff )
 
 //Adrenaline
 local function Adrenaline_On( mul, time )
