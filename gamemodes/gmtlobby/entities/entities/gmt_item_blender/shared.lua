@@ -143,7 +143,7 @@ if SERVER then
 			end,
 			End = function( ply )
 				if !IsValid( ply ) then return end
-				//ply:Kill()  
+				ply:Kill()  
 				PostEvent( ply, "pspawn" )
 			end,
 		},
