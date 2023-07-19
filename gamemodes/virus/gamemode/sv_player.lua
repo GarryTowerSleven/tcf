@@ -18,7 +18,6 @@ function GM:PlayerDisconnected(ply)
 			self:HudMessage( nil, 18 /* Last infected has left */, 5 )
 			timer.Simple( 1, function() GAMEMODE:RandomInfect() end )
 		end
-		NumVirus = NumVirus - 1
 	end
 	
 	timer.Simple( .1, function() self:CheckSurvivors() end )
