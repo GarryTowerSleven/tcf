@@ -27,6 +27,12 @@ function GM:PlayerInitialSpawn( ply )
 		music.Play( EVENT_PLAY, MUSIC_ROUNDPLAY, ply )
 	end
 
+	if self:GetState() == STATE_INFECTING then
+		ply:SetTeam( TEAM_PLAYERS ) -- how..
+
+		music.Play( EVENT_PLAY, MUSIC_WAITING_FOR_INFECTION, ply )
+	end
+
 	if self:GetState() == STATE_INTERMISSION then
 		self:LateJoin( ply )
 		self:PlayerFreeze( true, ply )

@@ -214,7 +214,7 @@ function GM:CheckSurvivors()
 
 		if ( self.HasLastSurvivor ) then return end
 
-		timer.Simple( .2, function() music.Play( EVENT_PLAY, MUSIC_LAST_ALIVE ) end )
+		timer.Simple( .2, function() music.Play( EVENT_PLAY, MUSIC_LAST_ALIVE ) end ) -- jank, but i cant figure out how else to get the music to play properly and not end up overlapping
 		
 
 		local lastPlayer = team.GetPlayers( TEAM_PLAYERS )[ 1 ]
