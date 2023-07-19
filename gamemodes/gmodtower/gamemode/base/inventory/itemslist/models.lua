@@ -263,7 +263,7 @@ RegisterModel(
 RegisterModel(
 	"mdl_leonkennedy",
 	"Leon Kennedy",
-	"Small world, eh? Well, I see that the President's equipped his daughter with... ballistics too.",
+	"Where's everyone going?.. Bingo?",
 	"models/player/leon.mdl",
 	"leon",
 	5500 )
@@ -592,13 +592,6 @@ RegisterModel(
 	20000 )
 
 RegisterModel(
-	"mdl_miku",
-	"Hatsune Miku",
-	"*Admin abuse not included.",
-	"models/player/miku.mdl",
-	"miku",
-	25000 )
-RegisterModel(
 	"mdl_solidsnake",
 	"Big Boss",
 	"Do you think love can bloom even on a battlefield?",
@@ -632,15 +625,6 @@ RegisterModel(
 	"grayfox",
 	15000, nil, nil, 1405502697 )]]
 
--- Too many megabytes
---[[RegisterModel(
-	"mdl_jcdenton",
-	"JC Denton",
-	"My vision is augmented.",
-	"models/player/lordvipes/de_jc/jcplayer.mdl",
-	"jcdenton",
-	5000, nil, nil, 1405502697 )]]
-
 RegisterModel(
 	"mdl_crimsonlance",
 	"Crimson Lance",
@@ -657,14 +641,6 @@ RegisterModel(
 	"models/player/lordvipes/residentevil/nighthawk/nighthawk_playermodel_cvp.mdl",
 	"nighthawk",
 	8000, nil, nil, 1405502697 )
-
-RegisterModel(
-	"mdl_hunk",
-	"Hunk",
-	"This is war; survival is your responsibility.",
-	"models/player/lordvipes/residentevil/HUNK/hunk_playermodel_cvp.mdl",
-	"hunk",
-	9000, nil, nil, 1405502697 )
 
 RegisterModel(
 	"mdl_geth",
@@ -836,6 +812,56 @@ RegisterModel(
 	"models/player/linktp.mdl",
 	"linktp",
 	15000, nil, nil, 1405502697 )
+
+-- New Models
+RegisterModel(
+	"mdl_miku",
+	"Hatsune Miku",
+	"*Admin abuse not included.",
+	"models/player/miku.mdl",
+	"miku",
+	25000 )
+	
+RegisterModel(
+	"mdl_denton",
+	"JC Denton",
+	"My vision is augmented.",
+	"models/player/jcplayer.mdl",
+	"denton",
+	3500 )
+	
+RegisterModel(
+	"mdl_james",
+	"James Sunderland",
+	"This town is full of monsters! How can you sit there and eat pizza!?",
+	"models/player/sh/james_sunderland.mdl",
+	"james",
+	6000 )
+	
+RegisterModel(
+	"mdl_oldgordon",
+	"HL1 Gordon",
+	"*BEEP* *BEEP* *BEEP* .. Emergency. User death imminent.",
+	"models/player/tcf/hl1_gordon.mdl",
+	"oldgordon",
+	10000 )
+	
+RegisterModel(
+	"mdl_gasmask",
+	"Gasmask Citizen",
+	"TV's! Get your free TV's!",
+	"models/player/tcf/gasmask_citizen.mdl",
+	"gasmask",
+	4000 )
+	
+--[[ Has buggy arms
+RegisterModel(
+	"mdl_hunk",
+	"Hunk",
+	"This is war; survival is your responsibility.",
+	"models/player/lordvipes/residentevil/HUNK/hunk_playermodel_cvp.mdl",
+	"hunk",
+	9000, nil, nil, 1405502697 )]]
 
 -- Not available yet
 --[[RegisterModel(

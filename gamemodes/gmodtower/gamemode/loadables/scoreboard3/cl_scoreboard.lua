@@ -56,6 +56,7 @@ MATERIALS = {
 	Developer = Material("icon16/wrench.png"),
 	Admin = Scoreboard.GenTexture( "ScoreboardAdmin", "icon_admin" ),
 	Moderator = Material("icon16/shield.png"),
+	Contributor = Material("icon16/palette.png"),
 	Crown = Scoreboard.GenTexture( "ScoreboardCrown", "icon_note_crown" ),
 	Finish = Scoreboard.GenTexture( "ScoreboardFinish", "icon_note_finish" ),
 	Joystick = Scoreboard.GenTexture( "ScoreboardJoystick", "icon_note_joystick" ),
@@ -1258,6 +1259,10 @@ function PLAYERINFO:PerformLayout()
 
 			if ( title == "Moderator" ) then
 				self.RespectIcon:SetMaterial( MATERIALS.Moderator, 15, 15, 14, 14 )
+			end
+			
+			if ( title == "Contributor" ) then
+				self.RespectIcon:SetMaterial( MATERIALS.Contributor, 15, 15, 14, 14 )
 			end
 
 			self.RespectIcon:SetText( text )

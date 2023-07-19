@@ -6,7 +6,7 @@ CreateClientConVar( "gmt_petname_turtle", "", true, true )
 
 ENT.SpriteMat = Material( "sprites/powerup_effects" )
 
-ENT.OffsetAmount = 20 //Amount, in units, to offset ourselves from the player
+ENT.OffsetAmount = 25 //Amount, in units, to offset ourselves from the player
 ENT.MoveSpeed = 7 //Speed to move to goal position
 ENT.AngleSpeed = 6 //Speed to move the angle to goal angle
 
@@ -46,7 +46,7 @@ function ENT:Draw()
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 	ang:RotateAroundAxis( ang:Right(), 90 )
 
-	pos.z = pos.z + 20
+	pos.z = pos.z + 12
 
 	cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.05 )
 

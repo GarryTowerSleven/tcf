@@ -27,12 +27,14 @@ GMode.View = {
 	ang = Angle( 5.3, 157.5, 0 )
 }
 GMode.Tips = {
-	"Falling will result in popping, which is altogether unpleasant.",
+	"Falling will result in death, which is altogether unpleasant.",
 	"Radioactive waste is hazardous to your health.",
 	"Watch for falling hazards.",
 	"Collect the most bananas to get the most GMC.",
-	"In Memories, be weary of the Repellers and Attractors, they can be quite dangerous!",
-	"New to Ball Race? Play Skyworld first."
+	"In Memories, be wary of the Repellers and Attractors, they can be quite dangerous!",
+	"New to Ball Race? Play Skyworld first.",
+	"Don't forget to check the Ballrace shop to try rolling in some new balls!",
+	"Facile and Midori are the most difficult maps in all of ballrace. Choose your map wisely!"
 }
 
 GMode.Music = {

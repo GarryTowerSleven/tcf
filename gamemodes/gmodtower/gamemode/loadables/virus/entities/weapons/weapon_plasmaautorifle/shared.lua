@@ -90,9 +90,11 @@ SWEP.IronZoomFOV	 		= 50
 
 
 
-SWEP.OverHeatTime			= 5
+SWEP.OverHeatTime			= 3
 
-SWEP.CoolDownTime 			= 3
+SWEP.CoolDownTime 			= 2
+
+SWEP.OhCoolDownTime 		= 3
 
 SWEP.ExponentDelay 			= 0.75
 
@@ -118,49 +120,33 @@ SWEP.KeyLastTime 			= 0
 
 function SWEP:Initialize()
 
-
-
 	self:SetWeaponHoldType( self.HoldType )
 
 	self.OverHeat = 0
-
 	
+	self.OverHeated = false
 
 end
 
 
 
 function SWEP:FrameTime()
+
 	return SysTime() - self.FT
+
 end
 
 function SWEP:Think()
 
-
-
 	if !IsValid( self.Owner )then return end
 
-
-
-	if self.Owner:KeyDown( IN_ATTACK ) then
-
-
-
+	if self.Owner:KeyDown( IN_ATTACK ) && self.OverHeated == false then
 		self:OverHeatAdd()
-
-
-
 	end
-
-
 
 	if !self.Owner:KeyDown( IN_ATTACK ) && self.OverHeat > 0.0 && self.KeyLastTime < CurTime() then
 
-
-
 		if self.OverHeat > 0.5 && !self.CoolSound then
-
-
 
 			self.CoolSound = true
 
@@ -170,40 +156,35 @@ function SWEP:Think()
 
 			end
 
-			
-
 			if self.AlertSound then
 
 				self.AlertSound = false
 
 			end
 
+		end
 
+		if self.OverHeated == true then
+
+			self.OverHeat = math.max( self.OverHeat - self:FrameTime() / self.OhCoolDownTime, 0.0 )
+
+		else
+
+			self.OverHeat = math.max( self.OverHeat - self:FrameTime() / self.CoolDownTime, 0.0 )
 
 		end
 
-		
-
-		self.OverHeat = math.max( self.OverHeat - self:FrameTime() / self.CoolDownTime, 0.0 )
-
-
-
-	else
-
-	
-
-		self.CoolSound = false
-
-		
-
 	end
 
+	if self.OverHeat == 0.0 then 
 
+		self.OverHeated = false
+
+	end
 
 	self:UpdateColor()
 
 	self.FT = SysTime()
-
 
 end
 
@@ -211,11 +192,7 @@ end
 
 function SWEP:OverHeatAdd( amt )
 
-
-
 	if self.OverHeat > 0.25 && !self.AlertSound then
-
-
 
 		self.AlertSound = true
 
@@ -225,19 +202,21 @@ function SWEP:OverHeatAdd( amt )
 
 		end
 
+	end
 
+	if self.OverHeat > 0.5 then
+
+		self.CoolSound = false
 
 	end
 
+	if self.OverHeat == 1.0 then
 
+		self.OverHeated = true
 
-	if self.OverHeat == 1.0 then return end
-
-
+	return end
 
 	self.OverHeat = math.min( self.OverHeat + self:FrameTime() / self.OverHeatTime, 1.0 )
-
-
 
 	if amt then
 
@@ -245,43 +224,27 @@ function SWEP:OverHeatAdd( amt )
 
 	end
 
-
-
 end	
 
 
 
 function SWEP:UpdateColor()
 
-	
-
 	local ViewModel = self.Owner:GetViewModel()
 
 	if IsValid( ViewModel ) then
 
-	
-
 		if self.OverHeat > 0.0 then
-
-
 
 			ViewModel:SetColor( Color( 255, math.floor( self.OverHeat * -255 ), math.floor( self.OverHeat * -255 ), 255 ) )
 
-	
-
 		else
 
-
-
 			ViewModel:SetColor( Color( 255, 255, 255, 255 ) )
-
-
 
 		end
 
 	end
-
-	
 
 end
 
@@ -289,17 +252,11 @@ end
 
 function SWEP:UpdateScale()
 
-
-
 	local Perc = math.pow( self.OverHeat, self.ExponentDelay )
-
-
 
 	self.Primary.Delay = Lerp( Perc, self.MinDelay, self.MaxDelay )
 
 	self.Primary.Cone = Lerp( Perc, self.MinCone, self.MaxCone )
-
-	
 
 end
 
@@ -307,9 +264,12 @@ end
 
 function SWEP:PrimaryAttack()
 
-	if self.OverHeat == 1.0 then
+	if self.OverHeated == true then
+
 		self.Owner:ConCommand("-attack")
+
 		return
+
 	end
 
 	self.KeyLastTime = CurTime() + 1
@@ -317,8 +277,6 @@ function SWEP:PrimaryAttack()
 	self:UpdateScale()
 
 	self.BaseClass.PrimaryAttack( self )
-
-
 
 end
 
@@ -330,21 +288,15 @@ function SWEP:CanSecondaryAttack() return false end
 
 function SWEP:PostDrawViewModel( vm, wep, ply )
 
-
-
 	local pos = self:GetMuzzlePos( vm ) + ( vm:GetRight() * -5 ) + ( vm:GetUp() * 2 )
 
 	if !pos then return end
 
 	local ang = LocalPlayer():EyeAngles()
 
-	
-
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 
 	ang:RotateAroundAxis( ang:Right(), 90 )
-
-
 
 	local perc = self.OverHeat
 
@@ -354,8 +306,6 @@ function SWEP:PostDrawViewModel( vm, wep, ply )
 
 	cam.Start3D2D( pos, Angle( ang.p, ang.y, ang.r ), 0.05 )
 
-
-
 		local w, h = 100, 10
 
 		local padding = 1
@@ -364,18 +314,12 @@ function SWEP:PostDrawViewModel( vm, wep, ply )
 
 		local y = ( h / 2 + ( padding / 2 ) ) * - 1
 
-
-
 		local color = colorutil.TweenColor( Color( 50, 50, 255, 150 ), Color( 255, 100, 255, 150 ), perc )
 
 		draw.RectFillBorder( x, y, w, h, padding, perc, Color( 100, 100, 255, 150 ), color )
 
-			
-
 	cam.End3D2D()
 
 	cam.IgnoreZ(false)
-
-
 
 end

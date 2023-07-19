@@ -22,6 +22,10 @@ local Roles =
 	["STEAM_0:1:85508734"] = "Moderator", 	// Breezy
 	["STEAM_0:0:115320789"] = "Moderator", 	// Zia
 
+	// Contributor
+	["STEAM_0:0:193442077"] = "Contributor", // Nyantendo
+	["STEAM_0:1:53166133"] = "Contributor",	// Orlok
+	
 	// Pixeltail Games
 	["STEAM_0:1:6044247"] = "PixelTail",	// MacDGuy
 	["STEAM_0:0:32497992"] = "PixelTail",	// Caboose700
@@ -69,8 +73,8 @@ function meta:IsStaff()
 	return self:IsModerator() || self:IsAdmin()
 end
 
-function meta:IsTester()
-	return false
+function meta:IsContributor()
+	return GetTitle( self:SteamID() ) == "Contributor"
 end
 
 local color_lead = Color(248, 18, 128, 255)
@@ -79,7 +83,7 @@ local color_mod = Color(255, 150, 75, 255)
 local color_developer = Color(255, 100, 100, 255) // cool green 125, 177, 30
 local color_vip = Color(185, 100, 255, 255)
 local color_pink = Color(255, 166, 241, 255)
-local color_tester = Color(122, 178, 342, 255 )
+local color_contributor = Color(122, 178, 255, 255 )
 local color_pixeltail = Color( 216, 31, 42, 255 )
 
 local function returnFull(c)
@@ -108,8 +112,8 @@ function meta:GetDisplayTextColor()
 		return returnFull(color_admin)
 	end
 
-	if self:IsTester() then
-		return returnFull(color_tester)
+	if self:IsContributor() then
+		return returnFull(color_contributor)
 	end
 
 	// So long, gay bowser

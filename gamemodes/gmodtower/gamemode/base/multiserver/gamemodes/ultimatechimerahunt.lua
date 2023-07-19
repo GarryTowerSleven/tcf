@@ -94,10 +94,11 @@ GMode.Tips = {
 	"You can dash foward for only so long as a Pigmask, use it sparingly!",
 	"Mr. Saturn gets scared easily.",
 	"Right click to taunt as a Pigmask. Try not to get eaten during it.",
-	"Chimeras can press R to wag their tails and swat away Pigmasks.",
+	"Chimeras can press R to wag their tails and swat away Pigmasks that are behind them.",
 	"Right click to roar as a Chimera and scare off the Pigmasks.",
 	"Falling off of cliffs will result in a dazed and confused Ultimate Chimera.",
-	"Falling off of cliffs as a Pigmask results in death."
+	"Falling off of cliffs as a Pigmask results in death.",
+	"Press space repeatedly as the chimera to take to the skies!"
 }
 function GMode:ProcessData( ent, data )
 

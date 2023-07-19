@@ -199,7 +199,7 @@ function PANEL:SetupMaps()
         panel.btnMap.CurProgress = 0
         panel.lblVotes = vgui.Create("DLabel", panel)
 
-        if panel.NumVotes ~= 0 then
+        if panel.NumVotes >= 0 then
             panel.lblVotes:SetText(panel.NumVotes)
         else
             panel.lblVotes:SetText("")

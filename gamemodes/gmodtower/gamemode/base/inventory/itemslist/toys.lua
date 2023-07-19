@@ -42,6 +42,19 @@ RegisterItem("portaltoy",{
 	UseSound = "use_portal.wav"
 })
 
+RegisterItem("towertoy",{
+	Name = "Tower Papertoy",
+	Description = "A commemorative papercraft of the Lobby 1 exterior built to celebrate the original GMod Tower.",
+	Model = "models/gmod_tower/papertower.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	NewItem = true,
+	StoreId = GTowerStore.TOY,
+	StorePrice = 2000,
+	MoveSound = "paper",
+	UseSound = "use_tower.wav"
+})
+
 RegisterItem("trampoline",{
 	Name = "Trampoline",
 	Description = "Jump around all crazy like!",
@@ -51,7 +64,7 @@ RegisterItem("trampoline",{
 	DrawModel = true,
 	CanRemove = true,
 	StoreId = GTowerStore.TOY,
-	StorePrice = 500,
+	StorePrice = 1250,
 })
 
 RegisterItem("checkers",{

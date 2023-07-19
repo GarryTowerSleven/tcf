@@ -48,6 +48,7 @@ GMode.Tips = {
 	"Hold mouse right to look and throw items backwards.",
 	"Disco makes you fast and invincible.",
 	"Accelerate right when 'GO' is displayed for a starting boost.",
+	"Press E to honk your horn."
 }
 
 GMode.Music = {

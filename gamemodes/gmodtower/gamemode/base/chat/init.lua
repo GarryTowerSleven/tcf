@@ -181,6 +181,8 @@ local random_words = {
 
 	"troll","2012","tony stark","robert downey jr","multidimensional","quantum space", "frank sinatra", "helpmepleasegod",
 	"daytona","lumpin","ron paul","beesechurger","kony 2012","goon","wambam","donate","friday",
+	
+	"tim sweeney",
 }
 
 function GTowerChat.DrunkSay( text, bal )

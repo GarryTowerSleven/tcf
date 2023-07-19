@@ -446,8 +446,8 @@ concommand.Add( "gmt_resetroom", function(ply)
 	if !room then return end
 
 	for _, v in pairs ( room:EntsInRoom() ) do
-
-		if GTowerItems:FindByEntity( v ) then
+		
+		if GTowerItems:FindByEntity( v ) && v:GetClass() != "gmt_trunk" then
 
 		local ItemId = GTowerItems:FindByEntity( v )
 		if !ItemId then
@@ -457,7 +457,7 @@ concommand.Add( "gmt_resetroom", function(ply)
 		local Item = GTowerItems:CreateById( ItemId, ply )
 		local Slot = GTowerItems:NewItemSlot( ply, "-2" ) //In the bank!
 
-		ply:SetMaxBank( ply:BankLimit() + 1 )
+		//ply:SetMaxBank( ply:BankLimit() + 1 ) Why would we let them increase their trunk space for free?
 
 		Slot:FindUnusedSlot( Item, true )
 
