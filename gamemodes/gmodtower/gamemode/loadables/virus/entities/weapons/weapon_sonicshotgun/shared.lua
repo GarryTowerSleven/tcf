@@ -53,10 +53,10 @@ SWEP.NextCharge 			= CurTime()
 SWEP.Charging 				= false
 SWEP.ChargeLvl				= 0
 
-SWEP.ChargeIncrease			= 0.003
+SWEP.ChargeIncrease			= 0.002
 SWEP.NextChargeDelay		= 0.6
 
-SWEP.BlastForce				= 6000
+SWEP.BlastForce				= 7500
 
 function SWEP:Initialize()
 
