@@ -13,22 +13,29 @@ payout.Register( "Kills", {
 
 payout.Register( "FirstInfectedBonus", {
 	Name = "First Infected",
-	Desc = "You successfully spread the virus!",
+	Desc = "You successfully spread the virus as patient zero.",
 	GMC = 100,
 	Diff = 2,
 } )
 
-payout.Register( "LastSurvivorBonus", {
-	Name = "Last Survivor",
-	Desc = "Cold Blooded.\nYou were the remaining survivor and you lived!",
-	GMC = 150,
+payout.Register( "InfectedBonus", {
+	Name = "Spread the Infection",
+	Desc = "You helped spread the infection.",
+	GMC = 50,
 	Diff = 2,
 } )
 
 payout.Register( "SurvivorBonus", {
 	Name = "Survived the Infection",
 	Desc = "You didn't get infected with the virus.",
-	GMC = 50,
+	GMC = 100,
+	Diff = 2,
+} )
+
+payout.Register( "LastSurvivorBonus", {
+	Name = "Last Survivor",
+	Desc = "Cold Blooded.\nYou were the only remaining survivor and you lived!",
+	GMC = 100,
 	Diff = 3,
 } )
 
@@ -36,28 +43,28 @@ payout.Register( "TeamPlayer", {
 	Name = "Team Player",
 	Desc = "Survived with 3 or more survivors.",
 	GMC = 50,
-	Diff = 4,
+	Diff = 3,
 } )
 
 payout.Register( "Rank1", {
 	Name = "1st Place",
 	Desc = "For being the top killer.",
 	GMC = 100,
-	Diff = 5,
+	Diff = 4,
 } )
 
 payout.Register( "Rank2", {
 	Name = "2nd Place",
 	Desc = "For being the second top killer.",
 	GMC = 50,
-	Diff = 5,
+	Diff = 4,
 } )
 
 payout.Register( "Rank3", {
 	Name = "3rd Place",
 	Desc = "For being the third top killer.",
 	GMC = 25,
-	Diff = 5,
+	Diff = 4,
 } )
 
 function GAMEMODE:GiveMoney( VirusWins )
@@ -108,6 +115,10 @@ function GAMEMODE:GiveMoney( VirusWins )
 				// Give bonus to first infected for winning the round!
 				if ply == self.FirstInfected then
 					payout.Give( ply, "FirstInfectedBonus" )
+				end
+				
+				if ply != self.LastSurvivor && ply != self.FirstInfected then
+					payout.Give( ply, "InfectedBonus" )
 				end
 				
 			end

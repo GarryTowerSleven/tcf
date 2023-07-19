@@ -229,6 +229,8 @@ function GM:CheckSurvivors()
 
 		self:HudMessage( lastPlayer, 2 /* you are the last survivor */, 5 )
 
+		self.LastSurvivor = lastPlayer
+
 		self.HasLastSurvivor = true
 
 	end
