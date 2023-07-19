@@ -219,10 +219,14 @@ soundscape.Register("music_lobbyroof",
 
 	-- Select a random song to play every once in a while
 	{
-	type = "playlooping",
-		volume = 1,
-		-- All sounds are in a table format of {soundpath, soundlength}
-		sound = { Sound( "gmodtower/music/lobbyroof.mp3" ), 94 },
+	type = "playlist",
+		time = {60 * 0.5, 60 * 1}, -- Play the next song 0.5 to 1 minute after the song ends
+
+		-- Override the sound selector function with our own
+		sounds = {
+			{ "gmodtower/music/lobbyroof.mp3", 94 },
+			{ "gmodtower/music/lobbyroof2.mp3", 196 },
+		},
 	},
 })
 
