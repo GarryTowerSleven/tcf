@@ -117,7 +117,7 @@ function GAMEMODE:GiveMoney( VirusWins )
 					payout.Give( ply, "FirstInfectedBonus" )
 				end
 				
-				if ply != self.LastSurvivor && ply != self.FirstInfected then
+				if ply != self.LastSurvivor && ply != self.FirstInfected then -- dont give a bonus to the last survivor, they likely racked up kills and got first place
 					payout.Give( ply, "InfectedBonus" )
 				end
 				
