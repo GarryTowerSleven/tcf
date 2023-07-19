@@ -45,7 +45,7 @@ function getSounds(mdl, type)
             snd = table.Random(snd)
         end
 
-        if female then
+        if isstring(snd) && female then
             snd = string.Replace(snd, "male", "female")
         end
 
@@ -66,6 +66,8 @@ end
 function emitSound(ent, snd)
     if istable(snd) then
 
+    elseif isfunction(snd) then
+        snd(ent)
     elseif string.StartWith(snd, "S:") then
         EmitSentence(string.sub(snd, 3), ent:GetPos(), ent:EntIndex(), CHAN_VOICE, 1, 60, 0, 100)
     else
