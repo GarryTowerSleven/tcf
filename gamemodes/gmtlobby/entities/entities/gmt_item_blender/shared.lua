@@ -177,12 +177,12 @@ if SERVER then
 			Color = Color( 98, 56, 38 ),
 			Time = 30,
 			Start = function( ply )
-				if !IsValid( ply ) or !ply:CanDrink( 10 ) then return end
-				ply:Drink(10)
+				if !IsValid( ply ) or !ply:CanDrink( 30 ) then return end
+				ply:Drink(30)
 			end,
 			End = function( ply )
-				if !IsValid( ply ) or !ply:CanDrink() then return end
-				ply:Drink()
+				if !IsValid( ply ) or !ply:CanDrink( 40 ) then return end
+				ply:Drink(40)
 			end
 		},
 		{
