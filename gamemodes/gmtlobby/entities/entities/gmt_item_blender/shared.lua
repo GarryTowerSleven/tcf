@@ -119,13 +119,13 @@ if SERVER then
 			Name = "Midnight Fruit Shake", 
 			Ingredient1 = APPLE,
 			Ingredient2 = WATERMELON,
-			Color = Color( 124, 179, 16 ),
+			Color = Color( 205, 55, 15 ),
 		},
 		{ 
 			Name = "Midnight Tang Fruit Shake", 
 			Ingredient1 = ORANGE,
 			Ingredient2 = WATERMELON,
-			Color = Color( 209, 73, 31 ),
+			Color = Color( 235, 115, 60 ),
 		},
 		{ 
 			Name = "Extra Pulpy Orange Juice",
