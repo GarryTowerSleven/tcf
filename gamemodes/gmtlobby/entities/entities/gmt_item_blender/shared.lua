@@ -21,6 +21,7 @@ ENT.PackDelay		= nil
 
 ENT.Ingredients 	= {}
 ENT.Drink			= nil // drink to be produced
+ENT.Bartender		= nil // who mixed the drink?
 ENT.IsBlending		= false
 
 // INGREDIENT IDS
@@ -201,7 +202,7 @@ if SERVER then
 		},
 		{
 			Name = "One Too Many",
-			Flavor = "*hic* .. That is one strong drink.",
+			Flavor = "That is one strong drink.. *hic*",
 			Ingredient1 = GLASS,
 			Ingredient2 = GLASS,
 			Color = Color( 98, 56, 38 ),
@@ -282,6 +283,8 @@ if SERVER then
 			return
 		end
 
+		self.Bartender = ply 
+		
 		self:StartBlend()
 
 	end
@@ -450,8 +453,11 @@ if SERVER then
 				phys:ApplyForceCenter( Vector( math.random( -40, 40 ), math.random( -40, 40 ), 140 ) )
 			end
 			
-		end
-
+			self.Bartender:Msg2( "Nice! You blended a ''" .. self.Drink.Name .. "''!" )
+			
+		return end
+		
+		self.Bartender:Msg2( "These two ingredients don't blend together..." )
 	end
 	
 	function ENT:ResetVars()
