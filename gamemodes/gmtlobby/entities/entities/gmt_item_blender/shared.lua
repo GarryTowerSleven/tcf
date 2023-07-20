@@ -91,6 +91,14 @@ if SERVER then
 			Ingredient1 = APPLE, 
 			Ingredient2 = STRAWBERRY,
 			Color = Color( 159, 209, 31 ),
+			Time = 3,
+			Start = function( ply )
+				if !IsValid( ply ) then return end
+				PostEvent( ply, "ppainkiller" )
+				ply:SetHealth( 100 )
+				ply:Freeze( false )
+				ply:UnDrunk()
+			end,
 		},
 		{
 			Name = "Mid-Afternoon Fruit Shake",
@@ -190,12 +198,12 @@ if SERVER then
 			Color = Color( 98, 56, 38 ),
 			Time = 30,
 			Start = function( ply )
-				if !IsValid( ply ) or !ply:CanDrink( 30 ) then return end
-				ply:Drink( 30 )
+				if !IsValid( ply ) or !ply:CanDrink( 20 ) then return end
+				ply:Drink( 20 )
 			end,
 			End = function( ply )
-				if !IsValid( ply ) or !ply:CanDrink( 40 ) then return end
-				ply:Drink( 40 )
+				if !IsValid( ply ) or !ply:CanDrink( 30 ) then return end
+				ply:Drink( 30 )
 			end
 		},
 		{
