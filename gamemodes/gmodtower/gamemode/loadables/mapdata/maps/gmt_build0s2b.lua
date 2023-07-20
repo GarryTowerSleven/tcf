@@ -105,6 +105,12 @@ local function MapAdds()
 	// Trunk furniture store
 	AddEntity( "gmt_trunk", Vector(-34.3125, 765.5625, 34.5000), Angle(0, -65.840218, 0) )
 
+	// Trunk suite building store
+	AddEntity( "gmt_trunk", Vector(3873.4375, -9730, 4094), Angle(0, -100.5, 0) )
+	
+	// Trunk suite furniture store
+	AddEntity( "gmt_trunk", Vector(3487.4375, -10622, 4094), Angle(0, 79.5, 0) )
+	
     // lobby webboard (changelog)
     AddEntity( "gmt_webboard", Vector(1640.75,-963.8125,5.21875), Angle(0,-135,0) )
 
