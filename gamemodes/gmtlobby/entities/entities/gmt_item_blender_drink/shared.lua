@@ -93,6 +93,10 @@ function ENT:Think()
 
 	if ( !self.Player || !self.Drink ) then return end
 
+	if !self.Player:Alive() then 
+		self.Player = nil
+	return end
+	
 	if ( self.DelayTime && self.DelayTime < CurTime() ) then
 		self.DelayTime = nil
 
