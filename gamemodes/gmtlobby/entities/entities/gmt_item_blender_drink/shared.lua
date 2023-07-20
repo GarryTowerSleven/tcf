@@ -94,8 +94,10 @@ function ENT:Think()
 	if ( !self.Player || !self.Drink ) then return end
 
 	if !self.Player:Alive() then -- prevent effects from persisting/cropping up after death
-		if ( self.EffectEnd && self.Drink.Name != "Deathwish" ) then
-			self.EffectEnd ( self.Player )
+		if ( self.EffectEnd ) then
+			if ( self.Drink.Name != "Deathwish" || self.Drink.Name != "One Too Many" ) then -- annoying..
+				self.EffectEnd ( self.Player )
+			end
 		end
 		self.Player = nil
 	return end
