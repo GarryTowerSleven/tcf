@@ -162,6 +162,30 @@ local function coloredOff( mul, time )
 end
 AddPostEvent( "pcolored_off", coloredOff )
 
+local function sleepyOn( mul, time )
+
+	layer = postman.NewMotionBlurLayer()
+	layer.addalpha = 0.06
+	layer.drawalpha = 0.36
+	postman.AddMotionBlurLayer( "psleepy_on", layer )
+	
+	local layer = postman.NewColorLayer()
+	layer.brightness = -0.1
+	postman.FadeColorIn( "psleepy_on", layer, 3 )
+
+end
+AddPostEvent( "psleepy_on", sleepyOn )
+
+local function sleepyOff( mul, time )
+
+	postman.FadeMotionBlurOut( "psleepy_on", mul * 3 )
+
+    postman.ForceColorFade( "psleepy_on" )
+	postman.FadeColorOut( "psleepy_on", 1.5 )
+
+end
+AddPostEvent( "psleepy_off", sleepyOff )
+
 local function sleepOn( mul, time )
 
 	local layer = postman.NewColorLayer()

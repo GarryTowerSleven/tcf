@@ -123,6 +123,15 @@ if SERVER then
 			Ingredient1 = APPLE,
 			Ingredient2 = WATERMELON,
 			Color = Color( 205, 55, 15 ),
+			Time = 20,
+			Start = function( ply )
+				if !IsValid( ply ) then return end
+				PostEvent( ply, "psleepy_on" )
+			end,
+			End = function( ply )
+				if !IsValid( ply ) then return end
+				PostEvent( ply, "psleepy_off" )
+			end			
 		},
 		{ 
 			Name = "Midnight Tang Fruit Shake",
@@ -130,6 +139,15 @@ if SERVER then
 			Ingredient1 = ORANGE,
 			Ingredient2 = WATERMELON,
 			Color = Color( 235, 115, 60 ),
+			Time = 10,
+			Start = function( ply )
+				if !IsValid( ply ) then return end
+				PostEvent( ply, "psleepy_on" )
+			end,
+			End = function( ply )
+				if !IsValid( ply ) then return end
+				PostEvent( ply, "psleepy_off" )
+			end
 		},
 		{ 
 			Name = "Extra Pulpy Orange Juice",
@@ -137,6 +155,12 @@ if SERVER then
 			Ingredient1 = ORANGE,
 			Ingredient2 = ORANGE,
 			Color = Color( 245, 175, 65 ),
+			Time = 3,
+			Start = function( ply )
+				if !IsValid( ply ) then return end
+				ply:SetHealth( 100 )
+				ply:Freeze( false )
+			end,
 		},
 		{ 
 			Name = "Man's Orange Juice",
