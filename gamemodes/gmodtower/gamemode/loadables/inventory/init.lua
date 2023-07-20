@@ -135,10 +135,24 @@ function GTowerItems.CreateMysteryItem(ply)
 		return ITEMS.huladoll
 	elseif p <= 0.7 then
 		return ITEMS.ingredient_bone
+	elseif p <= 0.7125 then
+		return ITEMS.ingredient_plastic
+	elseif p <= 0.7250 then
+		return ITEMS.ingredient_glass
+	elseif p <= 0.7375 then
+		return ITEMS.ingredient_orange
+	elseif p <= 0.75 then
+		return ITEMS.ingredient_banana
+	elseif p <= 0.7625 then
+		return ITEMS.ingredient_watermel
+	elseif p <= 0.7750 then
+		return ITEMS.ingredient_straw
+	elseif p <= 0.7875 then
+		return ITEMS.ingredient_apple
 	elseif p <= 0.8 then
-		return ITEMS.microwave
-	elseif p <= 0.9 then
 		return ITEMS.clipboard
+	elseif p <= 0.9 then
+		return ITEMS.microwave
 	else
 		if ply:HasItemById( ITEMS.wepon_357 ) then
 			return ITEMS.mysterycatsack
