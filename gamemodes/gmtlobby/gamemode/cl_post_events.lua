@@ -56,18 +56,25 @@ end
 AddPostEvent( "pspawn", playerSpawn )
 
 local function speed_On( mul, time )
-	-- Slow bloom
+
+	local layer = postman.NewColorLayer()
+	layer.color = 2
+	postman.FadeColorIn( "pspeed_on", layer, 5 )
+	
 	layer = postman.NewBloomLayer()
 	layer.sizex = 10
 	layer.sizey = 10
 	layer.multiply = 0.6
-	layer.color = 1.5
 	layer.passes = 2
 	postman.FadeBloomIn( "pspeed_on", layer, 5 )
 end
 AddPostEvent( "pspeed_on", speed_On )
 
 local function speed_Off( mul, time )
+
+	postman.ForceColorFade( "pspeed_on" )
+	postman.FadeColorOut( "pspeed_on", 2 )
+	
 	postman.ForceBloomFade( "pspeed_on" )
 	postman.FadeBloomOut( "pspeed_on", 2 )
 end

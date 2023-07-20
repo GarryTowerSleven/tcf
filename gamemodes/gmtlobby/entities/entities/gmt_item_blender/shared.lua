@@ -211,7 +211,7 @@ if SERVER then
 			Flavor = "Did everything just start to slow down?",
 			Ingredient1 = STRAWBERRY,
 			Ingredient2 = BANANA,
-			Color = Color( 224, 188, 27 ),
+			Color = Color( 230, 140, 160 ),
 			Time = 60,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
