@@ -218,14 +218,15 @@ end
 function Update(  self, ondisconnect, force )
 --MsgN("Checking Update")
 	if TestingMode:GetBool() then return end
-	if !self:Valid() || self.Connected != true then
+	-- IT ALWAYS SAYS THIS WHEN A PLAYER LEAVES AND ITS REALLY ANNOYING .. FUCK SQL!!! FUCK YOU!
+	/*if !self:Valid() || self.Connected != true then 
 
 		if ondisconnect then
 			SQLLog('sqldebug', "Couldn't update player on disconnect calledconnected (" .. tostring(self._DebugHasCalledConnected) .. ") connected (" .. tostring(self.Connected) .. ") updateinprogress (" .. tostring(self.UpdateInProgress) .. ") " .. tostring(self.Player) )
 		end
 
 		return
-	end
+	end*/
 
 	local TimeLeft = self.NextUpdate - CurTime()
 
