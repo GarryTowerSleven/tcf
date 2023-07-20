@@ -107,7 +107,7 @@ if SERVER then
 			Ingredient1 = WATERMELON,
 			Ingredient2 = STRAWBERRY,
 			Color = Color( 209, 73, 31 ),
-			Time = 20,
+			Time = 30,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
 				PostEvent( ply, "pcolored_on" )
@@ -208,11 +208,11 @@ if SERVER then
 		},
 		{ 
 			Name = "Strawberry Banana Shake Boost",
-			Flavor = "Did everything just start to slow down..?",
+			Flavor = "Did everything just start to slow down?",
 			Ingredient1 = STRAWBERRY,
 			Ingredient2 = BANANA,
 			Color = Color( 224, 188, 27 ),
-			Time = 20,
+			Time = 60,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
 				GAMEMODE:SetPlayerSpeed( ply, 360, 640 )
