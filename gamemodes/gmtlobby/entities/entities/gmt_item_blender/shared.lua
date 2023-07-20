@@ -479,6 +479,8 @@ if SERVER then
 			
 			self.Bartender:Msg2( "Nice! You blended a ''" .. self.Drink.Name .. "''!" )
 			
+			self.Bartender:AddAchievement( ACHIEVEMENTS.SUITEBARTENDER, 1 )
+			
 		return end
 		
 		self.Bartender:Msg2( "These two ingredients don't blend together..." )

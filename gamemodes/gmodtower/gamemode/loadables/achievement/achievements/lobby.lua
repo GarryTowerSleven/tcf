@@ -76,6 +76,13 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITELEAVEMEALONE, {
 	Group = 3
 })
 
+GTowerAchievements:Add( ACHIEVEMENTS.SUITEBARTENDER, {
+	Name = "Give me a Drink, Bartender",
+	Description = "Blend more than 50 drinks using a blender.", 
+	Value = 50,
+	Group = 3
+})
+
 GTowerAchievements:Add( ACHIEVEMENTS.SUITEPARTY, {
 	Name = "Party Animal",
 	Description = "Have 4 or more players in your suite for an hour total.", 
