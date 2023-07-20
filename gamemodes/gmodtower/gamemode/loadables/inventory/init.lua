@@ -116,7 +116,7 @@ function GTowerItems.CreateMysteryItem(ply)
 	local p = math.Rand(0, 1)
 
 	if p <= 0.0015 then
-		SQLLog( "game", tostring(ply) .. " found a blockles machine from a cat sack" )
+		SQLLog( "game", ply:Nick() .. " found a blockles machine from a cat sack." )
 
 		GAMEMODE:ColorNotifyAll( string.upper(ply:Name()).." JUST FOUND A BLOCKLES MACHINE FROM THE MYSTERIOUS CAT SACK!", Color(255, 200, 0, 255) )
 
