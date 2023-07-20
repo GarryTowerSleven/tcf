@@ -77,7 +77,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITELEAVEMEALONE, {
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.SUITEBARTENDER, {
-	Name = "Give me a Drink, Bartender",
+	Name = "Give Me A Drink, Bartender",
 	Description = "Blend more than 50 drinks using a blender.", 
 	Value = 50,
 	Group = 3
