@@ -62,6 +62,9 @@ function ENT:Use( ply )
 	
 	if ( !self.Drink ) then return end
 
+	if self.Drink.Flavor != nil then
+		ply:ChatPrint( self.Drink.Flavor )
+	end
 
 	ply:EmitSound( table.Random( self.DrinkSounds ), 80, 100 )
 

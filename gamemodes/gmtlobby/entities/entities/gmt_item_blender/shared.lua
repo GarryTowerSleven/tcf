@@ -88,13 +88,13 @@ if SERVER then
 	local DrinkCombos = {
 		{ 
 			Name = "Morning Fruit Shake", 
+			Flavor = "Mmmm.. So refreshing!",
 			Ingredient1 = APPLE, 
 			Ingredient2 = STRAWBERRY,
 			Color = Color( 159, 209, 31 ),
 			Time = 3,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
-				PostEvent( ply, "ppainkiller" )
 				ply:SetHealth( 100 )
 				ply:Freeze( false )
 				ply:UnDrunk()
@@ -102,6 +102,7 @@ if SERVER then
 		},
 		{
 			Name = "Mid-Afternoon Fruit Shake",
+			Flavor = "Huh.. things look.. fruity?",
 			Ingredient1 = WATERMELON,
 			Ingredient2 = STRAWBERRY,
 			Color = Color( 209, 73, 31 ),
@@ -117,24 +118,28 @@ if SERVER then
 		},
 		{ 
 			Name = "Midnight Fruit Shake", 
+			Flavor = "Wow, this stuff sure can make you sleepy...",
 			Ingredient1 = APPLE,
 			Ingredient2 = WATERMELON,
 			Color = Color( 205, 55, 15 ),
 		},
 		{ 
-			Name = "Midnight Tang Fruit Shake", 
+			Name = "Midnight Tang Fruit Shake",
+			Flavor = "Wow, this stuff sure can make you sleepy.. but it also tastes pretty good!",
 			Ingredient1 = ORANGE,
 			Ingredient2 = WATERMELON,
 			Color = Color( 235, 115, 60 ),
 		},
 		{ 
 			Name = "Extra Pulpy Orange Juice",
+			Flavor = "I can feel my tooth enamel corroding.",
 			Ingredient1 = ORANGE,
 			Ingredient2 = ORANGE,
 			Color = Color( 245, 175, 65 ),
 		},
 		{ 
 			Name = "Man's Orange Juice",
+			Flavor = "Ough!.. What a way to start the evening.",
 			Ingredient1 = GLASS,
 			Ingredient2 = ORANGE,
 			Color = Color( 122, 78, 20 ),
@@ -147,6 +152,7 @@ if SERVER then
 		},
 		{ 
 			Name = "Dangerously Hard Cider",
+			Flavor = "Does this still keep the doctor away?",
 			Ingredient1 = GLASS,
 			Ingredient2 = APPLE,
 			Color = Color( 85, 35, 35 ),
@@ -158,7 +164,8 @@ if SERVER then
 			end,
 		},
 		{ 
-			Name = "Deathwish", 
+			Name = "Deathwish",
+			Flavor = "Oh no...",
 			Ingredient1 = PLASTIC,
 			Ingredient2 = GLASS,
 			Color = Color( 30, 30, 30 ),
@@ -175,7 +182,8 @@ if SERVER then
 			end,
 		},
 		{ 
-			Name = "Strawberry Banana Shake Boost", 
+			Name = "Strawberry Banana Shake Boost",
+			Flavor = "Did everything just start to slow down..?",
 			Ingredient1 = STRAWBERRY,
 			Ingredient2 = BANANA,
 			Color = Color( 224, 188, 27 ),
@@ -193,6 +201,7 @@ if SERVER then
 		},
 		{
 			Name = "One Too Many",
+			Flavor = "*hic* .. That is one strong drink.",
 			Ingredient1 = GLASS,
 			Ingredient2 = GLASS,
 			Color = Color( 98, 56, 38 ),
@@ -208,6 +217,7 @@ if SERVER then
 		},
 		{
 			Name = "Slow Down",
+			Flavor = "This tastes.. Alright?.. Wait a second...",
 			Ingredient1 = PLASTIC,
 			Ingredient2 = WATERMELON,
 			Color = Color( 155, 155, 155 ),
@@ -227,6 +237,7 @@ if SERVER then
 		},
 		{
 			Name = "Bone Meal",
+			Flavor = "I don't think this is edible...",
 			Ingredient1 = PLASTIC,
 			Ingredient2 = BONE,
 			Color = Color( 255, 255, 255 ),
