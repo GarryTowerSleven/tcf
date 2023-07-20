@@ -381,7 +381,13 @@ function PLAYERS:GetPlayerList( tabname, count )
 
 	-- Handle tabs
 	if tabname == "All" then
-		players = FilteredPlayerList( player.GetAll() )
+		if ( ShowTabs:GetBool() ) then 
+			players = FilteredPlayerList( player.GetAll() )
+		else -- if players dont have tabs showing, make sure we show blocked players
+			for _, ply in ipairs( player.GetAll() ) do 
+				table.insert( players, ply )
+			end
+		end
 	end
 
 	if tabname == "Location" then
