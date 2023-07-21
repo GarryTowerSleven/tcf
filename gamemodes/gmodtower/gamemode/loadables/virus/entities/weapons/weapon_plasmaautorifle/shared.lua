@@ -149,7 +149,7 @@ function SWEP:Think()
 	
 	if !self.Owner:KeyDown( IN_ATTACK ) && self.OverHeat > 0.0 && self.KeyLastTime < CurTime() || !self:CanPrimaryAttack() && self.JOverHeated == false then
 
-		if self.OverHeat > 0.5 && !self.CoolSound then
+		if self.OverHeat > 0.5 && !self.CoolSound && self.FDeployed == true then
 
 			self.CoolSound = true
 
@@ -266,7 +266,7 @@ function SWEP:UpdateScale()
 end
 
 function SWEP:Deploy()
-	timer.Simple( .4, function() self.FDeployed = true end )
+	timer.Simple( .6, function() self.FDeployed = true end )
 	
 	self.BaseClass.Deploy( self )
 
