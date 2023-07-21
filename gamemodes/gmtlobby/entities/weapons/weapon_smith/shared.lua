@@ -11,11 +11,11 @@ SWEP.Base				= "weapon_base"
 SWEP.Spawnable			= true
 SWEP.AdminSpawnable		= true
 
-SWEP.PrintName 			= "Smith Clone Maker"
+SWEP.PrintName 			= "Smith's Hands"
 SWEP.Slot				= 0
 SWEP.SlotPos			= 0
 
-SWEP.ViewModel			= ""
+SWEP.ViewModel			= "models/weapons/c_arms_citizen.mdl"
 SWEP.WorldModel			= ""
 
 SWEP.Primary.Delay		= 1
@@ -23,16 +23,20 @@ local TotalTime = 7.5
 --local heartsound = Sound(ply, "player/heartbeat1.wav")
 
 function SWEP:Deploy()
-	self.Owner:DrawViewModel(false)
+	self.Owner:DrawViewModel(true)
+	local vm = self:GetOwner():GetViewModel()
+	vm:SendViewModelMatchingSequence( vm:LookupSequence( "fists_draw" ) )
+	vm:SetPlaybackRate( 1 )
 	self.Owner:DrawWorldModel(false)
 end
 
 local function UpdatePlayerColor( ply, TargetTime )
 
-	local Color = ( TargetTime - CurTime() ) / TotalTime * 255
+	local Color2 = ( TargetTime - CurTime() ) / TotalTime * 255
 
+	print(Color2)
 	if IsValid( ply ) then
-		ply:SetColor( Color, Color, Color, 255 )
+		ply:SetColor( Color(Color2, Color2, Color2) )
 	end
 
 end
@@ -44,7 +48,7 @@ local function EndPlayerTransformation( ply, owner )
 		ply:StopSound("player/heartbeat1.wav")
 		ply:EmitSound("vo/npc/Barney/ba_laugh02.wav", 120)
 
-		ply:SetColor(255, 255, 255, 255)
+		ply:SetColor(Color(255, 255, 255))
 		ply:SetModel("models/player/smith.mdl")
 		ply:Freeze(false)
 
@@ -83,20 +87,38 @@ function SWEP:PrimaryAttack()
 			self.Owner:SetAnimation( PLAYER_ATTACK1 )
 
 			ply:Freeze(true)
-			--[[ply.CanPickupWeapons = true
-			ply:Give("clone_maker")
-			oly:SelectWeapon( "clone_maker" )
-			ply.CanPickupWeapons = false]]
+
+			if SMITH then
+				ply.CanPickupWeapons = true
+				ply:Give("clone_maker")
+				ply:SelectWeapon( "clone_maker" )
+				ply.CanPickupWeapons = false
+			end
+
 			self.Owner:Freeze(true)
 
 			ply:EmitSound("vo/npc/Barney/ba_pain08.wav", 120)
 			self.Owner:EmitSound("vo/gman_misc/gman_04.wav", 120)
 
+			local vm = self:GetOwner():GetViewModel()
+			vm:SendViewModelMatchingSequence( vm:LookupSequence( "fists_uppercut" ) )
+			vm:SetPlaybackRate( 1 )
+
+
+			ply:EmitSound("physics/body/body_medium_break2.wav")
+			self:SetHoldType("pistol")
+
+			timer.Simple(1, function()
+				vm:SetPlaybackRate(0.01)
+			end)
+
+			self.Time = CurTime() + TotalTime
 			timer.Create( "SmithTransform" .. self.Owner:UserID(), 0.01, TotalTime * 100, function()
-				UpdatePlayerColor(ply, CurTime() + TotalTime)
+				UpdatePlayerColor(ply, self.Time)
 			end)
 			timer.Simple( TotalTime, function()
 				EndPlayerTransformation(ply, self.Owner)
+				self:SetHoldType("normal")
 			end)
 		end
 
