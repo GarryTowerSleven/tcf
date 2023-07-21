@@ -78,3 +78,5 @@ function voiceline.Emit(ent, snd)
         ent:EmitSound(snd, 60, 100, 1, CHAN_VOICE)
     end
 end
+
+include("voices/default.lua")
