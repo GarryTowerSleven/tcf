@@ -34,9 +34,9 @@ Add( 48, {
 Add( 9, {
     Name = "Dev HQ",
     Group = "devhq",
-    Min = Vector(-553,-1324,0),
+    Min = Vector(-553,-1344,0),
     Max = Vector(-215,-1016,801),
-    Priority = 0,
+    Priority = 1,
 } )
 Add( 2, {
     Name = "Lobby",
@@ -56,7 +56,7 @@ Add( 43, {
     Name = "Lobby Roof",
     Group = "lobbyroof",
     Min = Vector(-350,-3200,2500),
-    Max = Vector(2050,-500,3460),
+    Max = Vector(2050,-500,3465),
     Priority = 0,
 } )
 
@@ -94,8 +94,8 @@ Add( 50, {
 Add( 3, {
     Name = "Entertainment Plaza",
     Group = "eplaza",
-    Min = Vector(238,-736,-35),
-    Max = Vector(1600,2050,506),
+    Min = Vector(-17,-736,-35),
+    Max = Vector(1864,2050,506),
     Priority = 0,
 } )
 Add( 59, {
@@ -105,7 +105,6 @@ Add( 59, {
     Max = Vector(1864,2780,506),
     Priority = 0,
 } )
-
 // STORES
 Add( 31, {
     Name = "Appearance Store",
@@ -311,22 +310,22 @@ Add( 51, {
 Add( 55, {
     Name = "Lakeside Cabin",
     Group = "lakeside",
-    Min = Vector(-11025,9152,-550),
+    Min = Vector(-11025,9152,-129),
     Max = Vector(-9800,10250,742),
     Priority = 0,
 } )
 Add( 56, {
     Name = "Pool",
     Group = "pool",
-    Min = Vector(-9267,4958,-550),
-    Max = Vector(-1130,15381,3693),
+    Min = Vector(-9267,8860,-330),
+    Max = Vector(-5952,11860,742),
     Priority = 0,
 } )
 Add( 57, {
     Name = "Lakeside",
     Group = "lakeside",
-    Min = Vector(-15419,4958,-550),
-    Max = Vector(-9267,15381,3693),
+    Min = Vector(-12258,9145,-150),
+    Max = Vector(-9267,11860,742),
     Priority = 0,
 } )
 
