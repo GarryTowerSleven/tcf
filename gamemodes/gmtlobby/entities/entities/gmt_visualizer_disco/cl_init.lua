@@ -46,7 +46,7 @@ function ENT:Think()
 
     // Lasers
     if CurTime() > self.NextRandomLazers || self.NextScale > 0.4 && (!self.NextBass || self.NextBass < CurTime()) then
-		if !GetConVar("gmt_visualizer_effects"):GetBool() then return end
+	if !GetConVar("gmt_visualizer_effects"):GetBool() then return end
 		local effectdata = EffectData()
         effectdata:SetOrigin(self:GetPos())
         effectdata:SetEntity(self)
@@ -58,7 +58,7 @@ function ENT:Think()
     end
 
     if !self.NextSpark || self.NextSpark < CurTime() then
-        if self.NextScale > 0.5 then
+        if self.NextScale > 0.5 && GetConVar("gmt_visualizer_advanced"):GetBool() then
             local fx = EffectData()
             fx:SetOrigin(self:WorldSpaceCenter() + VectorRand() * 4)
             fx:SetScale(24)
@@ -172,7 +172,11 @@ function ENT:UpdateStreamVals(Stream)
         p:SetBrightness(8 * self.NextScaleS / 2)
         p:SetFOV(120 + 40 * self.NextScaleS)
         p:SetColor(colorutil.Rainbow(50 + self.NextScaleS * 0.1))
-        p:SetEnableShadows(true)
+		if GetConVar("gmt_visualizer_advanced"):GetBool() then 
+			p:SetEnableShadows(true)
+		else
+			p:SetEnableShadows(false)
+		end
         p:Update()
     end
 
@@ -199,7 +203,7 @@ hook.Add("Think", "DiscoBall", function()
     local mp2
     DISCO = false // Location.GetSuiteID(LocalPlayer():Location()) != 0
 
-	if mp and GetConVar("gmt_visualizer_effects"):GetBool() then
+	if mp and GetConVar("gmt_visualizer_advanced"):GetBool() then
 		for _, b in ipairs(ents.FindByClass(("gmt_visualizer_disco"))) do
 			if b:Location() == LocalPlayer():Location() then
 				DISCO = b

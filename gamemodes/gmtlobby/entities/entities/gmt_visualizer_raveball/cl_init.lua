@@ -5,6 +5,7 @@ ENT.Sprite = Material( "sprites/glow04_noz" )
 FLEnts = FLEnts or {} // For the screen effects.
 
 gmt_visualizer_effects = CreateClientConVar( "gmt_visualizer_effects", 1, true, false )
+gmt_visualizer_advanced = CreateClientConVar( "gmt_visualizer_advanced", 1, true, false )
 //gmt_visualizer_shake = CreateClientConVar( "gmt_visualizer_shake", 1, true, false )
 
 local ColorList = {
@@ -32,6 +33,8 @@ function ENT:Think()
 
 	self.BaseClass.Think( self )
 
+	if gmt_visualizer_effects:GetBool() == false then if IsValid(self.Proj) then self.Proj:Remove() end return end
+	
 	if not self:IsStreaming() then if IsValid(self.Proj) then self.Proj:Remove() end return end
 
 	if not self.Emitter then
@@ -47,7 +50,11 @@ function ENT:Think()
 		self.Proj:SetTexture("effects/flashlight001")
 		self.Proj:SetAngles(Angle(90, 0, 0))
 		self.Proj:SetPos(self:GetPos())
-		self.Proj:SetEnableShadows(true)
+		if gmt_visualizer_advanced:GetBool() == true then
+			self.Proj:SetEnableShadows(true)
+		else
+			self.Proj:SetEnableShadows(false)
+		end
 		self.Proj:SetBrightness(2)
 		self.Proj:SetColor(self.Color)
 		self.Proj:SetFOV(109 + (70) * self.FFTScale)
@@ -76,15 +83,11 @@ function ENT:Draw()
 
 	self:SetMaterial()
 
-	if gmt_visualizer_effects:GetBool() == false then
-		self:DrawModel()
-	return end
-
 	self.F = self.F or 0
 	self.S = self.S or 0
 	self.F = self.F + FrameTime() * 8 * (!self:IsStreaming() && 1 or self.FFTScale * 1.8 + (self.S * 0.1))
 
-	if !self:IsStreaming() /*or GTowerMainGui.MenuEnabled*/ then
+	if !self:IsStreaming() or gmt_visualizer_effects:GetBool() == false /*or GTowerMainGui.MenuEnabled*/ then
 		render.DrawWireframeSphere(self:GetPos(), 8 + math.sin(CurTime()), 8, 8, color_white, true)
 		//render.DrawWireframeSphere(self:GetPos(), 9 + math.sin(CurTime()), 6, 6, Color(255, 255, 255, 32), true)
 
@@ -120,7 +123,6 @@ function ENT:Draw()
 	//self:DrawModel()
 	local add = self.FFTScale * 4 + 1
 	render.DrawWireframeSphere(self:WorldSpaceCenter(), 8 + self.FFTScale * 8, 3 + add, 3 + add, col, true)
-	if gmt_visualizer_effects:GetBool() == false then return end
 	local size = self.FFTScale or .1
 	render.SetMaterial( self.Sprite )
 	render.DrawSprite( self:GetPos(), 15 + ( size * 128 ), 15 + ( size * 128 ), self.Color )
@@ -297,7 +299,6 @@ end
 
 function ENT:ParticleThink()
 
-	if gmt_visualizer_effects:GetBool() == false then return end
 	if self.FFTScale <= .35 then
 
 		for i=0, ( 20 * self.FFTScale ) do
@@ -420,6 +421,8 @@ function ENT:ParticleThink()
 
 	end
 
+	if gmt_visualizer_advanced:GetBool() == false then return end
+	
 	if self.FFTScale >= .1 then
 
 		for i=0, 24 do
@@ -489,7 +492,7 @@ function RenderScreenspaceEffects()
 			end*/
 
 			// Post Events
-			if gmt_visualizer_effects:GetBool() == false then return end
+			if gmt_visualizer_advanced:GetBool() == false then return end
 
 			local bass = FLStream.FFTScale
 
