@@ -61,6 +61,8 @@ function SWEP:PrimaryAttack()
 
 	if !IsFirstTimePredicted() || CLIENT then return end
 
+	if ( !self:CanPrimaryAttack() ) then return end
+	
 	if self:Thrown() || IsValid( self.Owner.TNT ) then
 
 		self.Owner:EmitSound( self.Secondary.Sound )
@@ -69,6 +71,8 @@ function SWEP:PrimaryAttack()
 
 	else
 
+		self.Throwing = true
+		
 		self.Owner:SetAnimation( PLAYER_ATTACK1 )
 		
 		local vm = self.Owner:GetViewModel()
@@ -93,6 +97,10 @@ function SWEP:ThrowTNT()
 
 	if !IsValid( self ) then return end
 
+	if self.Throwing == false then return end
+	
+	self.Throwing = false
+	
 	self.Owner:DrawViewModel( false )
 	self.Owner:EmitSound( self.Primary.Sound )
 
@@ -156,8 +164,23 @@ function SWEP:Deploy()
 	else
 	
 		self.BaseClass.Deploy( self )
-
+		self.Throwing = false
+		
 		return true
+	
+	end
+
+end
+
+function SWEP:CanPrimaryAttack()
+
+	if self.Throwing == true then
+
+		return false
+
+	else
+	
+	return true
 	
 	end
 
