@@ -13,6 +13,16 @@ function ENT:SpawnFunction( ply, tr )
 	return ent
 end
 
+function ENT:Think()
+	self.Pos = self.Pos or self:GetPos()
+
+	if self.Pos ~= self:GetPos() then
+		self.Pos = self:GetPos()
+		self.Ang = self:GetAngles()
+		BroadcastLua([[obama = Entity(]] .. self:EntIndex() .. [[) obama.Pos = Vector(]] .. self.Pos.x .. [[,]] .. self.Pos.y .. [[,]] .. self.Pos.z ..[[) obama.Ang = Angle(]] .. self.Ang.p .. [[, ]] .. self.Ang.y .. [[, ]] .. self.Ang.r .. [[)]])
+	end
+end
+
 function ENT:Initialize()
 	self:SetModel(self.Model)
 	self:PhysicsInit(SOLID_VPHYSICS)
