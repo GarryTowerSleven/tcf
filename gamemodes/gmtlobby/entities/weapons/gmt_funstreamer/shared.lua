@@ -148,7 +148,9 @@ function SWEP:PrimaryAttack()
 		self.Owner:EmitSound( self.PartySound, 50, math.random( 200, 255 ) )
 
 		if self.InventoryItem && self.InventoryItem.WeaponFired then
-			self.InventoryItem:WeaponFired()
+			timer.Simple(0.1, function()
+				self.InventoryItem:WeaponFired()
+			end)
 		end
 	end
 
