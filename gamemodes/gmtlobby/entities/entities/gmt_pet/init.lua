@@ -14,6 +14,7 @@ ENT.BoredTime		= 15
 
 local NEARBY_NOTHING	= 0 // nothing found nearby
 local NEARBY_PET		= 1 // another pet nearby
+local NEARBY_PLAYER = 2
 
 function ENT:Initialize()
 
@@ -114,9 +115,7 @@ function ENT:Touch( ent )
 	if !IsValid( ent ) then return end
 
 	if ( ent:GetClass() == "gmt_pet" ) then
-		self:SetEmotion( "Kiss", 0.5 )
-		self:ResetIdle()
-		self:ConfirmEmotion( 5 )
+
 	end
 end
 
@@ -171,6 +170,15 @@ function ENT:EmotionThink()
 		self:SetEmotion( "Wink" )
 	end
 
+	print(nearby, "!")
+	if nearby == NEARBY_PLAYER then
+		self:SetEmotion( "Kiss", 0.5 )
+		self:ResetIdle()
+		self:ConfirmEmotion( 5 )
+		self.NextEmotionThink = CurTime() + 1
+		return
+	end
+
 	self:ConfirmEmotion()
 
 	self.NextEmotionThink = CurTime() + 0.5
@@ -219,6 +227,7 @@ function ENT:GetNearby()
 	local results = {}
 
 	table.Add( entTable, ents.FindByClass( "gmt_pet" ) )
+	table.Add( entTable, ents.FindByClass( "player" ) )
 
 	for _, v in ipairs( entTable ) do
 		if IsValid( v ) && v != self then
@@ -244,6 +253,8 @@ function ENT:GetNearby()
 
 	if ( closestType == "gmt_pet" ) then
 		return NEARBY_PET
+	elseif closestType == "player" then
+		return NEARBY_PLAYER
 	end
 
 	return NEARBY_NOTHING
