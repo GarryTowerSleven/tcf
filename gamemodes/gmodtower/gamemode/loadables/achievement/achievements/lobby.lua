@@ -76,6 +76,13 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITELEAVEMEALONE, {
 	Group = 3
 })
 
+GTowerAchievements:Add( ACHIEVEMENTS.SUITEBARTENDER, {
+	Name = "Give Me A Drink, Bartender",
+	Description = "Blend more than 50 drinks using a blender.", 
+	Value = 50,
+	Group = 3
+})
+
 GTowerAchievements:Add( ACHIEVEMENTS.SUITEPARTY, {
 	Name = "Party Animal",
 	Description = "Have 4 or more players in your suite for an hour total.", 
@@ -107,7 +114,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.PILLSHERE, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.DOMESTICABUSE, {
 	Name = "Domestic Abuse", 
-	Description = "Break an empty bottle.", 
+	Description = "Break an empty bottle with your body, willingly, or unwillingly.", 
 	GMC = 100,
 	Value = 1
 })

@@ -142,7 +142,7 @@ function AWARDS:Init()
 
 	self.ProgressText:SetFont("SCAwardCategory")
 
-	self.ProgressText:SetTextColor( colorutil.Brighten(Scoreboard.Customization.ColorAwardsDescription, .5) )
+	self.ProgressText:SetTextColor( colorutil.Brighten(Scoreboard.Customization.ColorAwardsBarAchievedProgress, .5) )
 
 end
 

@@ -90,11 +90,9 @@ SWEP.IronZoomFOV	 		= 50
 
 
 
-SWEP.OverHeatTime			= 3
+SWEP.OverHeatTime			= 2.5
 
 SWEP.CoolDownTime 			= 2
-
-SWEP.OhCoolDownTime 		= 3
 
 SWEP.ExponentDelay 			= 0.75
 
@@ -102,7 +100,7 @@ SWEP.ExponentDelay 			= 0.75
 
 SWEP.MinDelay 				= 0.075
 
-SWEP.MaxDelay 				= 0.13
+SWEP.MaxDelay 				= 0.14
 
 
 
@@ -124,7 +122,11 @@ function SWEP:Initialize()
 
 	self.OverHeat = 0
 	
+	self.JOverHeated = false
+	
 	self.OverHeated = false
+	
+	self.FDeployed = false
 
 end
 
@@ -140,13 +142,14 @@ function SWEP:Think()
 
 	if !IsValid( self.Owner )then return end
 
-	if self.Owner:KeyDown( IN_ATTACK ) && self.OverHeated == false then
+	if self.Owner:KeyDown( IN_ATTACK ) && self.FDeployed == true && self.OverHeated == false then
 		self:OverHeatAdd()
 	end
+	
+	
+	if !self.Owner:KeyDown( IN_ATTACK ) && self.OverHeat > 0.0 && self.KeyLastTime < CurTime() || !self:CanPrimaryAttack() && self.JOverHeated == false then
 
-	if !self.Owner:KeyDown( IN_ATTACK ) && self.OverHeat > 0.0 && self.KeyLastTime < CurTime() then
-
-		if self.OverHeat > 0.5 && !self.CoolSound then
+		if self.OverHeat > 0.5 && !self.CoolSound && self.FDeployed == true then
 
 			self.CoolSound = true
 
@@ -166,7 +169,7 @@ function SWEP:Think()
 
 		if self.OverHeated == true then
 
-			self.OverHeat = math.max( self.OverHeat - self:FrameTime() / self.OhCoolDownTime, 0.0 )
+			self.OverHeat = math.max( self.OverHeat - self:FrameTime() / ( self.CoolDownTime * 2 ), 0.0 )
 
 		else
 
@@ -192,7 +195,7 @@ end
 
 function SWEP:OverHeatAdd( amt )
 
-	if self.OverHeat > 0.25 && !self.AlertSound then
+	if self.OverHeat > 0.5 && !self.AlertSound then
 
 		self.AlertSound = true
 
@@ -210,10 +213,12 @@ function SWEP:OverHeatAdd( amt )
 
 	end
 
-	if self.OverHeat == 1.0 then
+	if self.OverHeat == 1.0 && self.OverHeated == false then
 
+		self.JOverHeated = true
 		self.OverHeated = true
-
+		timer.Simple( 1.0 , function() self.JOverHeated = false end )
+		
 	return end
 
 	self.OverHeat = math.min( self.OverHeat + self:FrameTime() / self.OverHeatTime, 1.0 )
@@ -260,17 +265,37 @@ function SWEP:UpdateScale()
 
 end
 
+function SWEP:Deploy()
+	timer.Simple( .6, function() self.FDeployed = true end )
+	
+	self.BaseClass.Deploy( self )
 
+	return true
+end
 
-function SWEP:PrimaryAttack()
+function SWEP:Holster()
+	self.FDeployed = false
+	
+	return true
+end
+
+function SWEP:CanPrimaryAttack()
 
 	if self.OverHeated == true then
 
-		self.Owner:ConCommand("-attack")
+		return false
 
-		return
-
+	else
+	
+	return true
+	
 	end
+
+end
+
+function SWEP:PrimaryAttack()
+	
+	if ( !self:CanPrimaryAttack() ) then return end
 
 	self.KeyLastTime = CurTime() + 1
 

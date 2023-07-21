@@ -175,6 +175,7 @@ function ENT:PayOut(ply,prize)
 		self:EmitSound("GModTower/misc/win_gameshow.mp3", 70)
 		self:SendItem( ply, entity_name )
 		ply:Msg2("[Spinner] You won: " .. string.upper(realprize))
+		SQLLog( "spinner", ply:Nick() .. " won: " .. string.upper(realprize) .. "." )
 	else
 		local realprize = item[1]
 		BasicWin(self)
@@ -187,6 +188,7 @@ function ENT:PayOut(ply,prize)
 		end
 
 		ply:Msg2("[Spinner] You won: " .. string.upper(realprize))
+		SQLLog( "spinner", ply:Nick() .. " won: " .. string.upper(realprize) .. "." )
 	end
 
 	if prize != 5 && string.EndsWith(item[1],'GMC') then

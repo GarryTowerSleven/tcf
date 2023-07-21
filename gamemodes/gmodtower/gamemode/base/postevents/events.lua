@@ -6,41 +6,6 @@
 	in here.
 ]]--
 
-
-
-
-local function playerDeath( mul, time )
-
-	-- Fade to near black and white
-	local layer = postman.NewColorLayer()
-	layer.color = 0.2
-	postman.FadeColorIn( "pdeath", layer, 2 )
-
-	-- Fade to sharp edges
-	layer = postman.NewSharpenLayer()
-	layer.contrast = 3
-	layer.distance = 1
-	postman.FadeSharpenIn( "pdeath", layer, 2 )
-
-	-- Slow fade to white
-	layer = postman.NewColorLayer()
-	layer.contrast = 2
-	layer.brightness = 0.5
-	postman.FadeColorIn( "pdeathslow", layer, 20 )
-
-	-- Slow bloom
-	layer = postman.NewBloomLayer()
-	layer.sizex = 10
-	layer.sizey = 10
-	layer.multiply = 0.9
-	layer.color = 0.2
-	layer.passes = 2
-	postman.FadeBloomIn( "pdeathslow", layer, 20 )
-
-end
-AddPostEvent( "pdeath", playerDeath )
-
-
 //Adrenaline
 local function Adrenaline_On( mul, time )
 	local layer = postman.NewSharpenLayer()
@@ -68,22 +33,6 @@ local function Adrenaline_Off( mul, time )
 	postman.FadeBloomOut( "adrenaline_on", 2 )
 end
 AddPostEvent( "adrenaline_off", Adrenaline_Off )
-
-local function playerSpawn( mul, time )
-
-	-- Undo death effects
-	postman.ForceColorFade( "pdeath" )
-    postman.RemoveColorLayer( "pdeath" )
-    postman.ForceSharpenFade( "pdeath" )
-    postman.RemoveSharpenLayer( "pdeath" )
-    
-	postman.ForceColorFade( "pdeathslow" )
-	postman.FadeColorOut( "pdeathslow", 2 )
-	postman.ForceBloomFade( "pdeathslow" )
-	postman.FadeBloomOut( "pdeathslow", 2 )
-
-end
-AddPostEvent( "pspawn", playerSpawn )
 
 
 

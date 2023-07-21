@@ -62,6 +62,9 @@ function ENT:Use( ply )
 	
 	if ( !self.Drink ) then return end
 
+	if self.Drink.Flavor != nil then
+		ply:ChatPrint( self.Drink.Flavor )
+	end
 
 	ply:EmitSound( table.Random( self.DrinkSounds ), 80, 100 )
 
@@ -90,6 +93,15 @@ function ENT:Think()
 
 	if ( !self.Player || !self.Drink ) then return end
 
+	if !self.Player:Alive() then -- prevent effects from persisting/cropping up after death
+		if ( self.EffectEnd ) then
+			if ( self.Drink.Name != "Deathwish" || self.Drink.Name != "One Too Many" ) then -- annoying..
+				self.EffectEnd ( self.Player )
+			end
+		end
+		self.Player = nil
+	return end
+	
 	if ( self.DelayTime && self.DelayTime < CurTime() ) then
 		self.DelayTime = nil
 

@@ -8,4 +8,4 @@ ITEM.DrawModel = true
 
 ITEM.Tradable = false
 ITEM.StoreId = GTowerStore.VIP
-ITEM.StorePrice = 500
+ITEM.StorePrice = 3000

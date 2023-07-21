@@ -352,6 +352,10 @@ function meta:Chat( text, type, hidden )
 				text = text .. " ~nyan"
 			end
 		
+			if ( GTowerHats:IsWearing( self, "CatEarsAlternative" ) ) then
+				text = text .. " ~meow"
+			end
+		
 			if ( GTowerHats:IsWearing( self, "toetohat" ) ) then
 				text = text .. " ~etoeto"
 			end

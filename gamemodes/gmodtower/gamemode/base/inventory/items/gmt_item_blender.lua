@@ -8,4 +8,4 @@ ITEM.UniqueInventory = true
 ITEM.InvCategory = "food"
 
 ITEM.StoreId = GTowerStore.FOOD
-ITEM.StorePrice = 4000
+ITEM.StorePrice = 2500

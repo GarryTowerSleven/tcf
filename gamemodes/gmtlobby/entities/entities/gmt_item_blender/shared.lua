@@ -21,6 +21,7 @@ ENT.PackDelay		= nil
 
 ENT.Ingredients 	= {}
 ENT.Drink			= nil // drink to be produced
+ENT.Bartender		= nil // who mixed the drink?
 ENT.IsBlending		= false
 
 // INGREDIENT IDS
@@ -88,16 +89,25 @@ if SERVER then
 	local DrinkCombos = {
 		{ 
 			Name = "Morning Fruit Shake", 
+			Flavor = "Mmmm.. So refreshing!",
 			Ingredient1 = APPLE, 
 			Ingredient2 = STRAWBERRY,
 			Color = Color( 159, 209, 31 ),
+			Time = 3,
+			Start = function( ply )
+				if !IsValid( ply ) then return end
+				ply:SetHealth( 100 )
+				ply:Freeze( false )
+				ply:UnDrunk()
+			end,
 		},
 		{
 			Name = "Mid-Afternoon Fruit Shake",
+			Flavor = "Huh.. things look.. fruity?",
 			Ingredient1 = WATERMELON,
 			Ingredient2 = STRAWBERRY,
 			Color = Color( 209, 73, 31 ),
-			Time = 20,
+			Time = 30,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
 				PostEvent( ply, "pcolored_on" )
@@ -105,33 +115,82 @@ if SERVER then
 			End = function( ply )
 				if !IsValid( ply ) then return end
 				PostEvent( ply, "pcolored_off" )
-			end			
+			end
 		},
 		{ 
 			Name = "Midnight Fruit Shake", 
+			Flavor = "Wow, this stuff sure can make you sleepy...",
 			Ingredient1 = APPLE,
 			Ingredient2 = WATERMELON,
-			Color = Color( 124, 179, 16 ),
+			Color = Color( 205, 55, 15 ),
+			Time = 20,
+			Start = function( ply )
+				if !IsValid( ply ) then return end
+				PostEvent( ply, "psleepy_on" )
+			end,
+			End = function( ply )
+				if !IsValid( ply ) then return end
+				PostEvent( ply, "psleepy_off" )
+			end			
 		},
 		{ 
-			Name = "Midnight Tang Fruit Shake", 
+			Name = "Midnight Tang Fruit Shake",
+			Flavor = "Wow, this stuff sure can make you sleepy.. but it also tastes pretty good!",
 			Ingredient1 = ORANGE,
 			Ingredient2 = WATERMELON,
-			Color = Color( 209, 73, 31 ),
+			Color = Color( 235, 115, 60 ),
+			Time = 10,
+			Start = function( ply )
+				if !IsValid( ply ) then return end
+				PostEvent( ply, "psleepy_on" )
+			end,
+			End = function( ply )
+				if !IsValid( ply ) then return end
+				PostEvent( ply, "psleepy_off" )
+			end
+		},
+		{ 
+			Name = "Extra Pulpy Orange Juice",
+			Flavor = "I can feel my tooth enamel corroding.",
+			Ingredient1 = ORANGE,
+			Ingredient2 = ORANGE,
+			Color = Color( 245, 175, 65 ),
+			Time = 3,
+			Start = function( ply )
+				if !IsValid( ply ) then return end
+				ply:SetHealth( 100 )
+				ply:Freeze( false )
+			end,
 		},
 		{ 
 			Name = "Man's Orange Juice",
+			Flavor = "Ough!.. What a way to start the evening.",
 			Ingredient1 = GLASS,
 			Ingredient2 = ORANGE,
 			Color = Color( 122, 78, 20 ),
 			Time = 3,
 			Start = function( ply )
-				if !IsValid( ply ) then return end
+				if !IsValid( ply ) or !ply:CanDrink( 25 ) then return end
 				PostEvent( ply, "pdamage" )
-			end
+				ply:Drink( 25 )
+			end,
 		},
 		{ 
-			Name = "Deathwish", 
+			Name = "Dangerously Hard Cider",
+			Flavor = "Does this still keep the doctor away?",
+			Ingredient1 = GLASS,
+			Ingredient2 = APPLE,
+			Color = Color( 85, 35, 35 ),
+			Time = 3,
+			Start = function( ply )
+				if !IsValid( ply ) or !ply:CanDrink( 20 ) then return end
+				PostEvent( ply, "pdamage" )
+				ply:Drink( 20 )
+			end,
+		},
+		{ 
+			Name = "Deathwish",
+			Flavor = "Oh no...",
 			Ingredient1 = PLASTIC,
 			Ingredient2 = GLASS,
 			Color = Color( 30, 30, 30 ),
@@ -143,42 +202,47 @@ if SERVER then
 			end,
 			End = function( ply )
 				if !IsValid( ply ) then return end
-				//ply:Kill()  
+				ply:Kill()  
 				PostEvent( ply, "pspawn" )
 			end,
 		},
 		{ 
-			Name = "Strawberry Banana Shake Boost", 
+			Name = "Strawberry Banana Shake Boost",
+			Flavor = "Did everything just start to slow down?",
 			Ingredient1 = STRAWBERRY,
 			Ingredient2 = BANANA,
-			Color = Color( 224, 188, 27 ),
-			Time = 20,
+			Color = Color( 230, 140, 160 ),
+			Time = 60,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
-				GAMEMODE:SetPlayerSpeed( ply, 175, 175 )
+				GAMEMODE:SetPlayerSpeed( ply, 360, 640 )
+				PostEvent( ply, "pspeed_on" )
 			end,
 			End = function( ply )
 				if !IsValid( ply ) then return end
 				ply:ResetSpeeds()
+				PostEvent( ply, "pspeed_off" )
 			end,
 		},
 		{
 			Name = "One Too Many",
+			Flavor = "That is one strong drink.. *hic*",
 			Ingredient1 = GLASS,
 			Ingredient2 = GLASS,
 			Color = Color( 98, 56, 38 ),
 			Time = 30,
 			Start = function( ply )
-				if !IsValid( ply ) or !ply:CanDrink( 10 ) then return end
-				ply:Drink(10)
+				if !IsValid( ply ) or !ply:CanDrink( 20 ) then return end
+				ply:Drink( 20 )
 			end,
 			End = function( ply )
-				if !IsValid( ply ) or !ply:CanDrink() then return end
-				ply:Drink()
+				if !IsValid( ply ) or !ply:CanDrink( 30 ) then return end
+				ply:Drink( 30 )
 			end
 		},
 		{
 			Name = "Slow Down",
+			Flavor = "This tastes.. Alright?.. Wait a second...",
 			Ingredient1 = PLASTIC,
 			Ingredient2 = WATERMELON,
 			Color = Color( 155, 155, 155 ),
@@ -198,6 +262,7 @@ if SERVER then
 		},
 		{
 			Name = "Bone Meal",
+			Flavor = "I don't think this is edible...",
 			Ingredient1 = PLASTIC,
 			Ingredient2 = BONE,
 			Color = Color( 255, 255, 255 ),
@@ -238,10 +303,12 @@ if SERVER then
 		if (Room and ply != Room.Owner) && !ply:IsAdmin() then return end
 
 		if #self.Ingredients < 2 then
-			//ply:Msg2( "Not enough ingredients!" )
+			ply:Msg2( "Place two ingredients in before trying to blend." )
 			return
 		end
 
+		self.Bartender = ply 
+		
 		self:StartBlend()
 
 	end
@@ -410,8 +477,13 @@ if SERVER then
 				phys:ApplyForceCenter( Vector( math.random( -40, 40 ), math.random( -40, 40 ), 140 ) )
 			end
 			
-		end
-
+			self.Bartender:Msg2( "Nice! You blended a ''" .. self.Drink.Name .. "''!" )
+			
+			self.Bartender:AddAchievement( ACHIEVEMENTS.SUITEBARTENDER, 1 )
+			
+		return end
+		
+		self.Bartender:Msg2( "These two ingredients don't blend together..." )
 	end
 	
 	function ENT:ResetVars()

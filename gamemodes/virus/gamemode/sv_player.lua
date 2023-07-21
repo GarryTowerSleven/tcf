@@ -1,3 +1,9 @@
+moans = {
+	Sound( "npc/zombie/zombie_die1.wav" ),
+	Sound( "npc/zombie/zombie_die2.wav" ),
+	Sound( "npc/zombie/zombie_die3.wav" )
+}
+
 function GM:PlayerDisconnected(ply)
 
 	if ( self:GetState() == 0 ) then return end
@@ -18,8 +24,9 @@ function GM:PlayerDisconnected(ply)
 			self:HudMessage( nil, 18 /* Last infected has left */, 5 )
 			timer.Simple( 1, function() GAMEMODE:RandomInfect() end )
 		end
-		NumVirus = NumVirus - 1
 	end
+	
+	timer.Simple( .1, function() self:CheckSurvivors() end )
 
 end
 
@@ -36,6 +43,8 @@ function GM:HandlePlayerDeath( ply, attacker, inflictor )
 		util.Effect( "virus_explode", eff )
 
 		virusDeath = virusDeath + 1
+		
+		ply:EmitSound(table.Random(moans), 75)
 	end
 
 	ply.RespawnTime = CurTime() + 4
@@ -214,7 +223,8 @@ function GM:CheckSurvivors()
 
 		if ( self.HasLastSurvivor ) then return end
 
-		self:LastSurvivor()
+		timer.Simple( .2, function() music.Play( EVENT_PLAY, MUSIC_LAST_ALIVE ) end ) -- jank, but i cant figure out how else to get the music to play properly and not end up overlapping
+		
 
 		local lastPlayer = team.GetPlayers( TEAM_PLAYERS )[ 1 ]
 
@@ -228,6 +238,8 @@ function GM:CheckSurvivors()
 		end
 
 		self:HudMessage( lastPlayer, 2 /* you are the last survivor */, 5 )
+
+		self.LastSurvivor = lastPlayer
 
 		self.HasLastSurvivor = true
 
