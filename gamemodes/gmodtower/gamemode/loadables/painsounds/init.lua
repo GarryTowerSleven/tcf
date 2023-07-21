@@ -80,3 +80,4 @@ function voicelines.Emit(ent, snd)
 end
 
 include("voices/default.lua")
+include("voices/gmod.lua")
