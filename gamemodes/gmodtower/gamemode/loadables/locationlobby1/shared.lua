@@ -24,7 +24,7 @@ function Add( id, tbl )
 		LogPrint("ATTENTION: Adding the same location twice for id: " .. id .. " OldName:" .. Locations[ id ].Name .. ", new name: " .. tbl.Name, color_red, "GTowerLocation")
 	end
 
-	Msg( "Adding location... " .. id .. " - " .. tbl.Name, "\n" )
+	// Msg( "Adding location... " .. id .. " - " .. tbl.Name, "\n" )
 
 	Locations[ id ] = {}
 	Locations[ id ].Name = tbl.Name
