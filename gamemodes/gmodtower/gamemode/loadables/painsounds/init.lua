@@ -93,6 +93,7 @@ function voicelines.Emit(ent, snd)
     end
 end
 
+include("sv_pain.lua")
 include("sv_taunt.lua")
 
 include("voices/default.lua")

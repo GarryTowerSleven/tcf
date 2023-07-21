@@ -140,5 +140,4 @@ for i = 1, 9 do
     voicelines.Add("models/player/group01/female0" .. i .. ".mdl", citizen)
     voicelines.Add("models/player/group02/female0" .. i .. ".mdl", citizen)
     voicelines.Add("models/player/group03/female0" .. i .. ".mdl", citizen)
-
 end
