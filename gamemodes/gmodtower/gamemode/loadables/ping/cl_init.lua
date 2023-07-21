@@ -2,11 +2,11 @@ module( "ping", package.seeall )
 
 local enableNotice = CreateClientConVar( "gmt_notice_reconnect", 1, true, false )
 
-ConnectionTimeout = 40
+ConnectionTimeout = 20
 LostConnection = false
 LastPing = RealTime() + ConnectionTimeout
 
-ReconnectIn = 30
+ReconnectIn = 40
 
 net.Receive( "ServerPing", function( length, ply )
 
@@ -27,23 +27,24 @@ hook.Add( "Think", "ClientPingCheck", function( ply )
 
 	if LostConnection then
 
-		// Slowly increase that jazzy music
+		/*// Slowly increase that jazzy music
 		if LostConnectionMusic then
 			MusicApproach = math.Approach( MusicApproach, .05, .0001 )
 			LostConnectionMusic:SetVolume( MusicApproach )
-		end
+		end*/
 
 		if !ReconnectDelay then
 
 			ReconnectDelay = RealTime() + ReconnectIn
 
+			RunConsoleCommand( "stopsound" )
+
 			// Play some jazzy music. FUCK THIS WE'RE DOING A STREAM!
-			//LostConnectionMusic = CreateSound( LocalPlayer(), "GModTower/zom/music/music_upgrading1.mp3" )
-			//LostConnectionMusic:PlayEx( 1, 100 )
+			LostConnectionMusic = CreateSound( LocalPlayer(), "GModTower/zom/music/music_upgrading1.mp3" )
+			LostConnectionMusic:PlayEx( 1, 100 )
 
 			// Connect to the jazziest radio station on the planet
-			RunConsoleCommand( "stopsound" )
-			sound.PlayURL( "http://yp.shoutcast.com/sbin/tunein-station.pls?id=1217932", "loop", function(snd)
+			/*sound.PlayURL( "http://yp.shoutcast.com/sbin/tunein-station.pls?id=1217932", "loop", function(snd)
 
 				if snd then
 					snd:SetVolume( 0 )
@@ -53,7 +54,7 @@ hook.Add( "Think", "ClientPingCheck", function( ply )
 					MusicApproach = 0
 				end
 
-			end )
+			end )*/
 
 		end
 
