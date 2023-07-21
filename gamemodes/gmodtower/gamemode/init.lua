@@ -260,7 +260,11 @@ function GM:PlayerSetModel( ply )
 end
 
 local toobig = {
-	["models/player/mcsteve.mdl"] = true
+	["models/player/mcsteve.mdl"] = true,
+	["models/player/rayman.mdl"] = true,
+	["models/player/raz.mdl"] = true,
+	["models/player/midna.mdl"] = true,
+	["models/player/nuggets.mdl"] = true
 }
 
 function GM:PlayerSetHandsModel(ply, ent)
