@@ -170,7 +170,6 @@ function ENT:EmotionThink()
 		self:SetEmotion( "Wink" )
 	end
 
-	print(nearby, "!")
 	if nearby == NEARBY_PLAYER and math.random(24) == 1 then
 		self:SetEmotion( "Kiss", 0.5 )
 		self:ResetIdle()
