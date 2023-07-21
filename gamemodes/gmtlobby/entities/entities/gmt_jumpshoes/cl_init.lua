@@ -17,7 +17,11 @@ function ENT:Draw()
 
 	local owner = self:GetOwner()
 	if IsValid( owner ) then
+	
+		if ( owner == LocalPlayer() && !LocalPlayer().ThirdPerson ) then return end
 
+		if IsValid( self:GetOwner():GetBallRaceBall() ) then return end
+		
 		local size = owner:GetNet( "ModelSize" ) or 1
 
 		local FootR = owner:LookupBone( "ValveBiped.Bip01_R_Foot" )
