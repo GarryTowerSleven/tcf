@@ -13,9 +13,9 @@ function getSounds(mdl, type)
     if !tbl then
         if mdls[mdl] then
             tbl = playerSounds["default_male"]
-            female = true
+            female = mdls[mdl] == 1
         else
-            mdls[mdl] = isFemaleDefault(mdl)
+            mdls[mdl] = isFemaleDefault(mdl) or 0
             return getSounds(mdl, type)
         end
     end
@@ -61,7 +61,7 @@ end
 
 function isFemaleDefault(mdl)
     if mdls[mdl] then
-        return mdls[mdl] == 1
+        return mdls[mdl]
     end
 
     mdls[mdl] = string.find(mdl, "female") and 1 or 0
