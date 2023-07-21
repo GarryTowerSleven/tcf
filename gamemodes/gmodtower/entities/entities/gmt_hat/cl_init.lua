@@ -102,7 +102,7 @@ end
 
 
 // debug:
-
+/*
 concommand.Add("gmt_printhatoffsets", function()
 
 	for _, ent in pairs( ents.FindByClass("gmt_hat") ) do
@@ -141,4 +141,4 @@ concommand.Add("gmt_printhatoffsets", function()
 
 	end
 
-end )
+end )*/
