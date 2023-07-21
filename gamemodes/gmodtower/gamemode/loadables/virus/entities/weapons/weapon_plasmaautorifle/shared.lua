@@ -266,7 +266,7 @@ function SWEP:UpdateScale()
 end
 
 function SWEP:Deploy()
-	timer.Simple( .6, function() self.FDeployed = true end )
+	timer.Simple( .5, function() self.FDeployed = true end )
 	
 	self.BaseClass.Deploy( self )
 
