@@ -53,6 +53,7 @@ function ENT:DrawTranslucent()
 	
 	if ( !IsValid( owner ) || owner:IsPlayer() && !owner:Alive() ) then return end
 
+	if IsValid( self:GetOwner():GetBallRaceBall() ) then return end
 	
 	if ( owner == LocalPlayer() && !LocalPlayer().ThirdPerson ) then return end
 	
