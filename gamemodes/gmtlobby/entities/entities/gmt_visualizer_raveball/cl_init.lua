@@ -66,7 +66,7 @@ function ENT:Draw()
 
 	self.F = self.F or 0
 	self.S = self.S or 0
-	self.F = self.F + FrameTime() * 8 * (!self:IsStreaming() && 1 or self.FFTScale * 4 + (self.S * 0.1))
+	self.F = self.F + FrameTime() * 8 * (!self:IsStreaming() && 1 or self.FFTScale * 1.8 + (self.S * 0.1))
 
 	if !self:IsStreaming() /*or GTowerMainGui.MenuEnabled*/ then
 		render.DrawWireframeSphere(self:GetPos(), 8 + math.sin(CurTime()), 8, 8, color_white, true)
@@ -98,7 +98,7 @@ function ENT:Draw()
 		hue = hue + 190
 	end
 
-	local col = HSVToColor( hue, 2 * self.FFTScale, val )
+	local col = HSVToColor( hue, 0.8 + 0.2 * self.FFTScale, val )
 
 	render.SetColorModulation(col.r / 255, col.g / 255, col.b / 255)
 	//self:DrawModel()
