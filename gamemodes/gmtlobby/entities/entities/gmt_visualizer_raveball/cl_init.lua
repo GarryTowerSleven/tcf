@@ -45,19 +45,82 @@ end
 
 function ENT:Draw()
 
+	self:SetMaterial()
+
 	if gmt_visualizer_effects:GetBool() == false then
 		self:DrawModel()
 	return end
 
 	if not self:IsStreaming() /*or GTowerMainGui.MenuEnabled*/ then
-		self:DrawModel()
+		render.DrawWireframeSphere(self:GetPos(), 8 + math.sin(CurTime()), 8, 4, color_white, true)
+		render.DrawWireframeSphere(self:GetPos(), 9 + math.sin(CurTime()), 6, 6, Color(255, 255, 255, 32), true)
+		
+		//self:DrawModel()
+		return
 	end
 
+	self:SetMaterial("models/debug/debugwhite")
+
+
+	local color = colorutil.Smooth( .15 )
+
+	local hue, sat, val = ColorToHSV( color )
+
+	if val > 1 - 1 / (math.Clamp( self.FFTScale / 2, 0, 1 )) then
+		hue = hue + 190
+	end
+
+	local col = HSVToColor( hue, 2 * self.FFTScale, val )
+
+	render.SetColorModulation(col.r / 255, col.g / 255, col.b / 255)
+	//self:DrawModel()
+	local add = self.FFTScale * 4 + 1
+	render.DrawWireframeSphere(self:WorldSpaceCenter(), 8 + self.FFTScale * 8, 3 + add, 3 + add, col, true)
 	if gmt_visualizer_effects:GetBool() == false then return end
 	local size = self.FFTScale or .1
 	render.SetMaterial( self.Sprite )
-	render.DrawSprite( self:GetPos(), 15 + ( size * 400 ), 15 + ( size * 400 ), self.Color )
-	
+	render.DrawSprite( self:GetPos(), 15 + ( size * 128 ), 15 + ( size * 128 ), self.Color )
+	//i = i + math.sin(CurTime() * 8) * util.SharedRandom(i + math.sin(CurTime()) * 8, 0, 40)
+	self.S = self.S or 0
+	self.Ang = self.Ang or Angle(0, 0, 0)
+
+	if !self.LastAng or self.LastAng < CurTime() then
+		self.Ang2 = AngleRand()
+		self.LastAng = CurTime() + 0.4
+
+	end
+
+	self.Ang = LerpAngle(FrameTime() * 4 * self.FFTScale, self.Ang, self.Ang2)
+	self.S = math.Approach(self.S, self.FFTScale, FrameTime() * 0)
+	self.F = self.F or 0
+	self.F = self.F + FrameTime() * (42 * self.FFTScale)
+	for i=1, 25 do
+		local lscale = 1.6 + (self.FFT[i] + self.FFT[i + 1]) * (8 + i)
+		local base = self:GetPos()
+		//local i = i + util.SharedRandom(i, 0, 4)
+		local basepos1 = base // + Vector(math.sin(RealTime() + i) * 18, math.cos(RealTime() + i) * 18, math.cos(RealTime()*2 + i) * 18) * size * 0.1
+		local basepos2 = base + Vector(math.sin(RealTime() + i) * 18, math.cos(RealTime() + i) * 18, math.sin(RealTime()*2 + i) * 18) * size * 0.1
+
+		
+		local ang = Angle(self.F * 8, self.F * 8, 0)
+		ang.p = ang.p + util.SharedRandom(i, -90, 90)
+		ang.y = ang.y + util.SharedRandom(i, -360, 360)
+		//basepos1 = basepos1 + Angle(util.SharedRandom(i, -90, 90), util.SharedRandom(i, -3600, 3600), 0):Forward() * (64 - self.S * 32) // (32 + util.SharedRandom(i, -8, 0))
+		basepos1 = basepos1 + ang:Forward() * (16 * self.S + (32 * lscale * 0.1) + math.sin(i * 4) * 32)
+		size = 8 + self.FFTBass * 80
+
+		render.SetColorMaterial()
+
+		lscale = lscale * 0.8
+		render.DrawLine(self:GetPos() + ang:Forward() * 0, basepos1, col, true)
+		col.a = self.FFTScale * 255
+		render.DrawWireframeBox( basepos1, (base - basepos1):Angle(), Vector(-1, -1, -1) * lscale, Vector(1, 1, 1) * lscale, col, true )
+		col.a = self.FFTScale * 100
+		render.DrawBox( basepos1, (base - basepos1):Angle(), Vector(-1, -1, -1) * lscale, Vector(1, 1, 1) * lscale, col, true )
+		//lscale = 1.6 + math.pow(self.FFT[i], 2) * (8*i)//(math.abs(math.log(2048)/math.log(self.FFT[i])))// * (8 + i)
+		//render.DrawBox( basepos2, (base - basepos2):Angle(), Vector(-1, -1, -1) * lscale, Vector(1, 1, 1) * lscale, col, false )
+	end
+
 end
 
 function ENT:OnRemove()
@@ -213,7 +276,7 @@ function ENT:ParticleThink()
 				glow:SetLifeTime( 0 )
 				glow:SetDieTime( .2 * ( self.FFTScale * 2 ) )
 
-				glow:SetStartAlpha( 255 )
+				glow:SetStartAlpha( 24 )
 				glow:SetEndAlpha( 0 )
 
 				local Size = math.Rand( 60, 80 )
@@ -254,15 +317,15 @@ function ENT:ParticleThink()
 
 				local color = self:FLGetColor( math.Clamp( f_fr, 0, 1 ) )
 			
-				local velocity = ( ( EyePos() - self:GetPos() ):GetNormal() * 2 + VectorRand() ):GetNormal()* volume
+				local velocity = AngleRand():Forward() * volume //( ( EyePos() - self:GetPos() ):GetNormal() * 2 + VectorRand() ):GetNormal()* volume
 			
-				local particle = self.Emitter:Add( "sprites/light_glow02_add", self:GetPos() + ( velocity * 80 * self.FLScale ) )
+				local particle = self.Emitter:Add( "sprites/powerup_effects", self:GetPos() + ( velocity * 80 * self.FLScale ) )
 				if particle then
 
 					particle:SetVelocity( velocity * 1200 * self.FLScale )
 			
 					particle:SetLifeTime( 0 )
-					particle:SetDieTime( math.Clamp( volume^3, 0.1, 0.8 ) )
+					particle:SetDieTime( 1 - self.FLScale * 0.4 )
 
 					particle:SetStartLength( size * 3 * self.FLScale )
 					particle:SetStartSize( size * .5 * self.FLScale )
@@ -287,7 +350,7 @@ function ENT:ParticleThink()
 
 	if self.FFTScale >= .5 && self.FFTScale <= 1.8 then
 
-		for i=1, ( 32 * self.FFTScale ) do
+		/*for i=1, ( 32 * self.FFTScale ) do
 			local particle = self.Emitter:Add( "sprites/powerup_effects", self:GetPos() )
 			if particle then
 			
@@ -306,13 +369,13 @@ function ENT:ParticleThink()
 			end
 		end
 
-		self.NextParticle = CurTime() + ( 1 - self.FFTScale ) * .25
+		self.NextParticle = CurTime() + ( 1 - self.FFTScale ) * .25*/
 
 	end
 
 	if self.FFTScale >= .8 then
 
-		for i=0, 24 do
+		for i=0, 4 do
 
 			local smoke = self.Emitter:Add( "particle/particle_noisesphere", self:GetPos() )
 			if smoke then
@@ -321,7 +384,7 @@ function ENT:ParticleThink()
 				smoke:SetVelocity( vel )
 
 				smoke:SetLifeTime( 0 )
-				smoke:SetDieTime( 2 )
+				smoke:SetDieTime( 0.4 )
 
 				smoke:SetStartAlpha( 20 )
 				smoke:SetEndAlpha( 0 )
