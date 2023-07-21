@@ -259,12 +259,16 @@ function GM:PlayerSetModel( ply )
 	hook.Call("PlayerSetModelPost", GAMEMODE, ply, model, skin )
 end
 
+local toobig = {
+	["models/player/mcsteve.mdl"] = true
+}
+
 function GM:PlayerSetHandsModel(ply, ent)
 	timer.Simple(0.1, function()
 		if !IsValid(ply) || !IsValid(ent) then return end
 
 		ent:SetModel(ply:GetModel())
-		ent:SetMaterial(nil)
+		ent:SetMaterial(toobig[ply:GetModel()] && "null" || nil)
 
 		for i = 0, ent:GetBoneCount() - 1 do
 			local name = ent:GetBoneName(i)
