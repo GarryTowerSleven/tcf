@@ -24,7 +24,7 @@ function SWEP:DrawHUD()
 
 		draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 0, math.random( 230, 255 ), math.random(10, 15) ) )
 
-		if h2 > h then
+		if ( ( w / h ) > 1.7 ) then
 			w2 = h * r + 0.5
 			h2 = h
 
@@ -34,8 +34,11 @@ function SWEP:DrawHUD()
 
 		surface.SetTexture( self.IronHUD )
 		surface.SetDrawColor( 0, 0, 0, 255 )
-
-		surface.DrawTexturedRect( w / 2 - w2 / 2, 0, w2, h2 )
+		if ( ( w / h ) > 1.3 ) then
+			surface.DrawTexturedRect( w / 2 - w2 / 2, 0, w2, h2 )
+		else
+			surface.DrawTexturedRect( w / 2 - w2 / 2, 0, w2, h2 + 64 )
+		end
 		surface.SetDrawColor( 0, 0, 0, 255 )
 
 		surface.DrawLine( 0, ScrH() / 2, ScrW() / 2, ScrH() / 2 )
