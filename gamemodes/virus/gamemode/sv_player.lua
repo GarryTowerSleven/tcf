@@ -4,6 +4,12 @@ moans = {
 	Sound( "npc/zombie/zombie_die3.wav" )
 }
 
+strikes = {
+	Sound( "npc/zombie/claw_strike1.wav" ),
+	Sound( "npc/zombie/claw_strike2.wav" ),
+	Sound( "npc/zombie/claw_strike3.wav" )
+}
+
 function GM:PlayerDisconnected(ply)
 
 	if ( self:GetState() == 0 ) then return end
@@ -166,6 +172,8 @@ function GM:Infect( ply, infector )
 		infector:AddAchievement( ACHIEVEMENTS.VIRUSPANDEMIC, 1 )
 		infector:AddFrags( 1 )
 
+		infector:EmitSound(table.Random(strikes), 75, math.random( 90, 150 ), .5 )
+		
 		infector.ProliferationCount = infector.ProliferationCount + 1
 
 		if infector.ProliferationTimer < CurTime() then
@@ -190,10 +198,12 @@ function GM:Infect( ply, infector )
 	//Fucking zoom
 	ply:SetFOV( 0, 0 )
 
-	net.Start( "Scream" )
-	net.WriteEntity( ply )
-	net.Broadcast()
-
+	if self.HasLastSurvivor != true then -- unnecessary 
+		net.Start( "Scream" )
+		net.WriteEntity( ply )
+		net.Broadcast()
+	end
+	
 	ply:SetTeam( TEAM_INFECTED )
 
 	self:VirusSpawn( ply )

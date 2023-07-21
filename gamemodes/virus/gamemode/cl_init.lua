@@ -488,7 +488,7 @@ net.Receive( "Scream", function()
 	sound.PlayFile(scream[1], "3d noblock", function(s)
 		s:SetPos(ply:GetPos())
 		s:SetTime(scream[2])
-		s:Set3DFadeDistance(600, 10000) -- Currently doesn't go as far as I'd like it to
+		s:Set3DFadeDistance(450, 20000)
 		p(s, ply)
 	end)
 
