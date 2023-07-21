@@ -21,7 +21,15 @@ voicelines.Add("default_male", {
     Death = {}, // We'll typically reuse Large Pain.
     Taunts = {
         Generic = {
-            "vo/npc/male01/pain07.wav"
+        },
+        Kill = {
+            "vo/coast/odessa/male01/nlo_cheer03.wav",
+            "vo/npc/male01/gotone02.wav",
+            "vo/npc/male01/likethat.wav",
+            "vo/npc/male01/nice01.wav",
+            "vo/npc/male01/question17.wav",
+            "vo/npc/male01/yeah02.wav",
+            "vo/npc/male01/vquestion01.wav"
         }
     }
 })
