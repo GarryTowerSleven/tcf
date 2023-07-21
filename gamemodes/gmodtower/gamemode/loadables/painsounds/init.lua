@@ -2,7 +2,7 @@ voicelines = {}
 playerSounds = {}
 local mdls = {}
 
-function voiceines.Add(mdl, tbl)
+function voicelines.Add(mdl, tbl)
     playerSounds[mdl] = tbl
 end
 
@@ -67,7 +67,7 @@ function isFemaleDefault(mdl)
     mdls[mdl] = string.find(mdl, "female") and 1 or 0
 end
 
-function voiceline.Emit(ent, snd)
+function voicelines.Emit(ent, snd)
     if istable(snd) then
 
     elseif isfunction(snd) then
