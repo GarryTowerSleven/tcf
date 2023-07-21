@@ -1,8 +1,15 @@
 local m = FindMetaTable("Player")
 
 function m:Taunt()
-    return voicelines.Emit(self, "Taunts,Generic")
+    if !self.LastKillTime or self.LastKillTime + 8 < CurTime() then return end
+    return voicelines.Emit(self, "Taunts,Kill")
 end
+
+hook.Add("EntityTakeDamage", "a", function(e, dmg)
+    if dmg:GetDamage() >= e:Health() then
+        dmg:GetAttacker().LastKillTIme = CurTime() + 8
+    end
+end)
 
 function GM:CanUndo(ply)
     print("!")
