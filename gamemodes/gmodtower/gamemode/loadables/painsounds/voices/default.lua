@@ -19,5 +19,9 @@ voicelines.Add("default_male", {
         }
     },
     Death = {}, // We'll typically reuse Large Pain.
-    Taunts = {}
+    Taunts = {
+        Generic = {
+            "vo/npc/male01/pain07.wav"
+        }
+    }
 })

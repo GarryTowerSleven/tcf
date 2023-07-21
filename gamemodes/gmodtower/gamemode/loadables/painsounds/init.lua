@@ -24,13 +24,13 @@ function getSounds(mdl, type)
         local snd = "null.wav"
         type = string.Split(type, ",")
 
-        if type[1] == "Pain" then
+        if type[1] == "Pain" || type[1] == "Taunts" then
             if #type[1] == 1 then
                 return table.Random(tbl[type[1]])
             else
                 // TODO: Go from large to medium to small idiot!!!
-                if !tbl["Pain"][type[2]] then
-                    snd = table.Random(tbl["Pain"])
+                if !tbl[type[1]][type[2]] then
+                    snd = table.Random(tbl[type[1]])
                 else
                     snd = tbl[type[1]][type[2]]
                 end
@@ -67,7 +67,21 @@ function isFemaleDefault(mdl)
     mdls[mdl] = string.find(mdl, "female") and 1 or 0
 end
 
+local cooldowns = {
+    ["Pain"] = 0.4,
+    ["Death"] = 0,
+    ["Taunts"] = 1.4
+}
+
 function voicelines.Emit(ent, snd)
+    local type = string.Split(snd, ",")[1]
+
+    ent.CoolDowns = ent.CoolDowns or {}
+    if ent.CoolDowns[type] and ent.CoolDowns[type] > CurTime() then return end
+    ent.CoolDowns[type] = CurTime() + (cooldowns[type] or 2)
+
+    snd = getSounds(ent:GetModel(), snd)
+
     if istable(snd) then
 
     elseif isfunction(snd) then
@@ -78,6 +92,8 @@ function voicelines.Emit(ent, snd)
         ent:EmitSound(snd, 60, 100, 1, CHAN_VOICE)
     end
 end
+
+include("sv_taunt.lua")
 
 include("voices/default.lua")
 include("voices/gmod.lua")
