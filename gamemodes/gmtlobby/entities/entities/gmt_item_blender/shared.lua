@@ -262,18 +262,22 @@ if SERVER then
 		},
 		{
 			Name = "Bone Meal",
-			Flavor = "I don't think this is edible...",
-			Ingredient1 = PLASTIC,
+			Flavor = "This might be too much calcium for today.",
+			Ingredient1 = BONE,
 			Ingredient2 = BONE,
 			Color = Color( 255, 255, 255 ),
-			Time = 20,
+			Time = 60,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
+				ply:SetModel( "models/player/skeleton.mdl" )
+				ply:SetNWBool("Skeleton", true)
 				PostEvent( ply, "pbone_on" )
 			end,
 			End = function( ply )
 				if !IsValid( ply ) then return end
 				PostEvent( ply, "pbone_off" )
+				ply:SetNWBool("Skeleton", false)
+				ply:ConCommand( "gmt_updateplayermodel" )
 			end			
 		},
 	}

@@ -124,6 +124,9 @@ hook.Add("AdminCommand", "ChangePlayerSize", function( args, admin, target )
 end )
 
 concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
+
+	if ply:GetNWBool("Skeleton") then return end
+	
 	local modelinfo = string.Explode( "-", ply:GetInfo("gmt_playermodel") )
 	local modelname = modelinfo[1]
 	local modelskin = modelinfo[2]
