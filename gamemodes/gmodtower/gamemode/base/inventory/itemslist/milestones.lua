@@ -295,7 +295,7 @@ GTowerItems.RegisterItem( "JumpShoes", {
 	EquippableEntity = true,
 	RemoveOnDeath = true,
 	RemoveOnNoEntsLoc = true,
-	OverrideOnlyEquippable = true,
+	OverrideOnlyEquippable = false,
 	CreateEquipEntity = function( self )
 
 		local Shoes = ents.Create( "gmt_jumpshoes" )

@@ -96,7 +96,7 @@ RegisterItem( "gmt_texthat", {
 	end,
 
 	EquippableEntity = true,
-	OverrideOnlyEquippable = true,
+	OverrideOnlyEquippable = false,
 	CreateEquipEntity = function( self )
 
 		local hatEnt = ents.Create( "gmt_wearable_texthat" )
