@@ -38,7 +38,7 @@ SWEP.Primary.Sound			= "GModTower/virus/weapons/Sniper/shoot.wav"
 
 //Iron
 SWEP.IronZoom		 		= true
-SWEP.IronZoomFOV	 		= 15
+SWEP.IronZoomFOV	 		= 25
 SWEP.IronSightsPos 			= Vector (3.6707, -6.297, 1.6166)
 SWEP.IronSightsAng 			= Vector (-0.7847, 4.1086, 0.8058)
 
