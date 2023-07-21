@@ -100,7 +100,7 @@ ResortVectors()
 
 SUITETELEPORTERS = 33
 
-TeleportLocations = {
+TeleportLocations = TeleportLocations or {
 	[8] = { 
 		["name"] = "Lobby", 
 		["desc"] = "A place to play and chat.",
