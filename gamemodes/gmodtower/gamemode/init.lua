@@ -271,7 +271,7 @@ function GM:PlayerSetHandsModel(ply, ent)
 			name = name && string.lower(name) || nil
 
 			if !name || !string.find(name, "arm") && !string.find(name, "hand") && !string.find(name, "finger") && !string.find(name, "wrist") && !string.find(name, "ulna") then
-				ent:ManipulateBoneScale(i, Vector(math.huge, math.huge, math.huge))
+				ent:ManipulateBoneScale(i, Vector(0, 0, 0))
 			else
 				ent:ManipulateBoneScale(i, Vector(1, 1, 1))
 			end
