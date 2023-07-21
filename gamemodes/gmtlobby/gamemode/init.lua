@@ -73,6 +73,7 @@ function GM:PlayerSpawn( pl )
 	local col = pl:GetInfo( "cl_playercolor" )
 	pl:SetPlayerColor( Vector( col ) )
 	pl:SetCustomCollisionCheck(true)
+	pl:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 
 	-- Set player model
 	hook.Call( "PlayerSetModel", GAMEMODE, pl )

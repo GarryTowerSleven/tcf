@@ -274,5 +274,5 @@ end )
 
 function GM:ShouldCollide( ent1, ent2 )
 	if IsValid( ent1:GetNWEntity("DuelOpponent") ) && IsValid( ent2:GetNWEntity("DuelOpponent") ) then return true end
-	return !(ent1:IsPlayer() and ent2:IsPlayer())
+	return true // !(ent1:IsPlayer() and ent2:IsPlayer())
 end
