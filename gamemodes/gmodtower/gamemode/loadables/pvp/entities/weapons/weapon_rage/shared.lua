@@ -36,12 +36,36 @@ SWEP.FistMiss			= {	"GModTower/pvpbattle/Rage/RageMiss1.wav",
 util.PrecacheModel( SWEP.ViewModel )
 util.PrecacheModel( SWEP.WorldModel )
 
+function SWEP:Deploy()
+
+	if SERVER && self.InventoryItem && self.InventoryItem.WeaponDeployed then
+		self.InventoryItem:WeaponDeployed()
+	end
+
+	return true
+
+end
+
+function SWEP:Holster()
+	if SERVER && self.InventoryItem && self.InventoryItem.WeaponHolstered then
+		self.InventoryItem:WeaponHolstered()
+	end
+
+	return true
+end
+
 function SWEP:PrimaryAttack()
 	if IsLobby and !Dueling.IsDueling( self.Owner ) and !self.Owner:IsAdmin() then self.Primary.Damage = 0 end
 	if !self:CanPrimaryAttack() then return end
 	self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
 
 	self:ShootMelee( self.Primary.Damage, self.FistHit, self.FistHitFlesh, self.FistMiss )
+	
+	if SERVER then
+		if self.InventoryItem && self.InventoryItem.WeaponFired then
+			self.InventoryItem:WeaponFired()
+		end
+	end
 end
 
 function SWEP:SecondaryAttack()
