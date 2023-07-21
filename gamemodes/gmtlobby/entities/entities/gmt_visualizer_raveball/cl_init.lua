@@ -455,7 +455,6 @@ function RenderScreenspaceEffects()
 			local distance = eyepos:Distance( pos )
 			local multi = math.max( eyeangles:Forward():DotProduct( ( pos - eyepos ):GetNormal() ), 0 ) ^ 3
 			multi = 1 - math.Clamp( ( distance / 400 ), 0, 1 )
-			print(multi)
 
 			//if multi < 0.001 then return end
 			multi = math.Clamp( multi, 0, 1 )
