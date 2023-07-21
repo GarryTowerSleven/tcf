@@ -605,6 +605,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 			self:Header( "Items" )
 			self:CheckBox( "Enable Rave and Disco Ball Effects", "gmt_visualizer_effects" )
+			self:CheckBox( "Enable Advanced Rave and Disco Ball Effects (expensive)", "gmt_visualizer_advanced", "gmt_visualizer_effects" )
 			self:CheckBox( "Enable Dynamic Firework Lights", "gmt_fireworkdlight" )
 			self:CheckBox( "Enable Jetpack Smoke", "gmt_jetpacksmoke" )
 
@@ -626,7 +627,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:CheckBox( "Enable Crosshair", "gmt_hud_crosshair", "gmt_hud" )
 			self:CheckBox( "Enable 3D Crosshair", "gmt_hud_crosshair_3d", "gmt_hud_crosshair" )
 			self:CheckBox( "Crosshair Always Visible", "gmt_hud_crosshair_always", "gmt_hud_crosshair" )
-			self:CheckBox( "Enable Use Prompts", "gmt_hud_crosshair_action", "gmt_hud_crosshair" )
+			self:CheckBox( "Enable Use Prompts", "gmt_hud_crosshair_action", "gmt_hud_crosshair" ) -- graying out is broken when multiple options use the same prerequisite?
 			self:CheckBox( "Enable Third Person Button", "gmt_thirdpersonbutton" )
 			//self:CheckBox( LobbyCanvas, "Enable Gamemode Notice", "gmt_gmnotice" )
 			//self:CheckBox( LobbyCanvas, "Enable News Ticker", "gmt_newsticker" )
