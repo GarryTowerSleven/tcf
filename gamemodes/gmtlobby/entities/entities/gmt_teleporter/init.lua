@@ -29,7 +29,7 @@ function ENT:Initialize()
 	
 	if Location then
 		--local LocalPosition = self:Location()
-		local LocalPosition = Location.DefaultLocation( self:GetPos() )
+		local LocalPosition = Location.Find( self:GetPos() )
 		
 		if LocalPosition then 
 			Location.AddEnt( self, LocalPosition )

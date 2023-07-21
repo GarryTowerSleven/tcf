@@ -13,7 +13,32 @@ function GetLocationByIndex( id )
 	return Locations[id]
 end
 
-function Add( id, name, group, min, max, issuite, suiteid )
+function Add( id, tbl )
+
+	if type( id ) != "number" then
+		Msg("Adding location that is not a number")
+		return
+	end
+
+	if Locations[ id ] then
+		LogPrint("ATTENTION: Adding the same location twice for id: " .. id .. " OldName:" .. Locations[ id ].Name .. ", new name: " .. tbl.Name, color_red, "GTowerLocation")
+	end
+
+	Msg( "Adding location... " .. id .. " - " .. tbl.Name, "\n" )
+
+	Locations[ id ] = {}
+	Locations[ id ].Name = tbl.Name
+	Locations[ id ].Min = tbl.Min or Vector(0,0,0)
+	Locations[ id ].Max = tbl.Max or Vector(0,0,0)
+	Locations[ id ].IsSuite = tbl.IsSuite or false
+	Locations[ id ].SuiteID = tbl.SuiteID or 0
+
+	Locations[ id ].Group = tbl.Group or nil
+	Locations[ id ].Priority = tbl.Priority or nil
+
+end
+
+function AddLegacy( id, name, group, min, max, issuite, suiteid, priority )
 	
 	if type( id ) != "number" then
 		Msg("Adding location that is not a number")
@@ -34,6 +59,7 @@ function Add( id, name, group, min, max, issuite, suiteid )
 	Locations[ id ].SuiteID = suiteid or 0
 
 	Locations[ id ].Group = group or nil
+	Locations[ id ].Priority = priority or 0
 	
 end
 
@@ -132,6 +158,8 @@ function GetSuiteID( location )
 	if loc then
 		return loc.SuiteID
 	end
+
+	return 0
 
 end
 
@@ -240,42 +268,25 @@ function IsNightclub()
 end
 
 function Find( pos )
-	local HookTbl = hook.GetTable().FindLocation
-	
-	if HookTbl then
-		for _, v in pairs( HookTbl ) do
-			
-			local b, location = SafeCall( v, pos )
-			
-			if b && location then 
-				return location
-			end		
+
+	local currentLocation = 0
+	local highestPriority = -1
+
+	for id, loc in pairs( Locations ) do
+		if InBox( pos, loc.Min, loc.Max ) and loc.Priority > highestPriority then
+			highestPriority = loc.Priority
+			currentLocation = id
 		end
 	end
-	
-	return DefaultLocation( pos )
+
+	return currentLocation
+
 end
 
 function InBox( pos, vec1, vec2 )
 	return pos.x >= vec1.x && pos.x <= vec2.x &&
 		pos.y >= vec1.y && pos.y <= vec2.y &&
 		pos.z >= vec1.z && pos.z <= vec2.z
-end
-
-function DefaultLocation( pos )
-
-	for id, loc in pairs( Locations ) do
-
-		if !loc.Min || !loc.Max then continue end
-
-		if InBox( pos, loc.Min, loc.Max ) then
-			return id
-		end
-
-	end
-	
-	return 0
-
 end
 
 function GetEntitiesInLocation( location )
