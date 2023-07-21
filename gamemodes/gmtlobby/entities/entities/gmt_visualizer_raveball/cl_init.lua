@@ -1,6 +1,6 @@
 include('shared.lua')
 
-ENT.Sprite = Material( "sprites/powerup_effects" )
+ENT.Sprite = Material( "sprites/glow04_noz" )
 
 FLEnts = FLEnts or {} // For the screen effects.
 
@@ -41,6 +41,19 @@ function ENT:Think()
 	self:FLUpdateSpec( Stream )
 	self:ParticleThink()
 
+	local dlight = DynamicLight( self:EntIndex() + 10)
+	if ( dlight ) then
+		local r, g, b, a = col
+		dlight.Pos = self:GetPos()
+		dlight.r = self.Color.r
+		dlight.g = self.Color.g
+		dlight.b = self.Color.b
+		dlight.Brightness = 1
+		dlight.Size = self.FFTScale * 2400
+		dlight.Decay = (self.FFTScale * 1200) * 2
+		dlight.DieTime = CurTime() + 1
+	end
+
 end
 
 function ENT:Draw()
@@ -51,9 +64,23 @@ function ENT:Draw()
 		self:DrawModel()
 	return end
 
-	if not self:IsStreaming() /*or GTowerMainGui.MenuEnabled*/ then
-		render.DrawWireframeSphere(self:GetPos(), 8 + math.sin(CurTime()), 8, 4, color_white, true)
-		render.DrawWireframeSphere(self:GetPos(), 9 + math.sin(CurTime()), 6, 6, Color(255, 255, 255, 32), true)
+	self.F = self.F or 0
+	self.F = self.F + FrameTime() * 8 * (!self:IsStreaming() && 1 or self.FFTScale * 4 + (self.S * 0.1))
+
+	if !self:IsStreaming() /*or GTowerMainGui.MenuEnabled*/ then
+		render.DrawWireframeSphere(self:GetPos(), 8 + math.sin(CurTime()), 8, 8, color_white, true)
+		//render.DrawWireframeSphere(self:GetPos(), 9 + math.sin(CurTime()), 6, 6, Color(255, 255, 255, 32), true)
+
+		render.SetMaterial( self.Sprite )
+		render.DrawSprite( self:GetPos(), 72, 72, Color(255, 255, 255, 128 + math.sin(CurTime()) * 32) )
+
+		for i = 1, 24 do
+			local ang = Angle(i * 30 + self.F * 8, i * 45 + self.F * 8, 0)
+
+			local hsv = HSVToColor(math.fmod(i * 8 + self.F * 8, 360), 1, 1)
+			local r = Vector(math.sin(self.F * 0.4) * 8 + i, math.sin(self.F * 0.4) * 8 - i, math.sin(self.F / 2) * 6 + i) * 0.1
+			render.DrawWireframeBox(self:GetPos() + ang:Forward() * (math.sin(i) * 8 + 24), Angle(self.F * 8 + i * 8, -self.F * 3, self.F * 2), -r, r, hsv, true)
+		end
 		
 		//self:DrawModel()
 		return
@@ -90,10 +117,10 @@ function ENT:Draw()
 
 	end
 
-	self.Ang = LerpAngle(FrameTime() * 4 * self.FFTScale, self.Ang, self.Ang2)
+	self.Ang = LerpAngle(FrameTime() * 4 * 0, self.Ang, self.Ang2)
+	self.Ang.p = math.ApproachAngle(self.Ang.p, self.Ang2.p, 0)
 	self.S = math.Approach(self.S, self.FFTScale, FrameTime() * 0)
-	self.F = self.F or 0
-	self.F = self.F + FrameTime() * (42 * self.FFTScale)
+
 	for i=1, 25 do
 		local lscale = 1.6 + (self.FFT[i] + self.FFT[i + 1]) * (8 + i)
 		local base = self:GetPos()
@@ -373,31 +400,31 @@ function ENT:ParticleThink()
 
 	end
 
-	if self.FFTScale >= .8 then
+	if self.FFTScale >= .1 then
 
-		for i=0, 4 do
+		for i=0, 24 do
 
-			local smoke = self.Emitter:Add( "particle/particle_noisesphere", self:GetPos() )
+			local smoke = self.Emitter:Add( "particle/particle_noisesphere", util.QuickTrace(self:GetPos(), Vector(0, 0, -2400), self).HitPos )
 			if smoke then
 
-				local vel = VectorRand():GetNormal() * math.Rand( 150, 300 ) * self.FFTScale
+				local vel = VectorRand():GetNormal() * math.Rand( 150, 300 ) * 20
 				smoke:SetVelocity( vel )
 
 				smoke:SetLifeTime( 0 )
-				smoke:SetDieTime( 0.4 )
+				smoke:SetDieTime( 2 )
 
-				smoke:SetStartAlpha( 20 )
-				smoke:SetEndAlpha( 0 )
+				smoke:SetStartAlpha( 0 )
+				smoke:SetEndAlpha( 1 )
 
 				smoke:SetRoll( 0, 360 )
 				smoke:SetRollDelta( math.Rand( -1, 1 ) )
 
-				local Size = math.Rand( 5, 10 )
+				local Size = math.Rand( 5, 10 ) * 8
 				smoke:SetStartSize( Size * self.FFTScale )
 				smoke:SetEndSize( Size * math.Rand( 2, 5 ) )
 
-				smoke:SetAirResistance( 100 )
-				smoke:SetGravity( Vector( 0, 0, 0 ) )
+				smoke:SetAirResistance( 600 )
+				smoke:SetGravity( Vector( 0, 0, -400 ) )
 
 				local RandDarkness = math.Rand( 0.25, 1 )
 				smoke:SetColor( self.Color.r, self.Color.g, self.Color.b )
@@ -427,9 +454,10 @@ function RenderScreenspaceEffects()
 			// Limit effects
 			local distance = eyepos:Distance( pos )
 			local multi = math.max( eyeangles:Forward():DotProduct( ( pos - eyepos ):GetNormal() ), 0 ) ^ 3
-			multi = multi * math.Clamp( ( -distance / 6000 ) + 1, 0, 1 )
+			multi = 1 - math.Clamp( ( distance / 400 ), 0, 1 )
+			print(multi)
 
-			if multi < 0.001 then return end
+			//if multi < 0.001 then return end
 			multi = math.Clamp( multi, 0, 1 )
 
 			// Shake player.
@@ -460,29 +488,32 @@ function RenderScreenspaceEffects()
 			//DrawSunbeams( math.Clamp( 1 * volume, .9, 1 ), math.Clamp( .8 * volume, .1, .8 ), math.Clamp( 3 * bass, 2.5, 3 ), toscrpos.x / w, toscrpos.y / h )
 			// DrawSunbeams( darkness, math.max( volume * 0.8, 0.1 ), math.max( volume * 0.5, 0.3 ), toscrpos.x / w, toscrpos.y / h )
 			DrawMotionBlur( blur, 1, 0 )
-			DrawBloom( -lerp2, lerp2, math.max( lerp2 * 2 + 2, 5 ), math.max( lerp2 * 2 + 2, 5 ), 4, 8, 1, 1, 1 )
 
 			// This shit is too intense, yo
 			FLStream.i = FLStream.i or 0
 			FLStream.i = Lerp(FrameTime() * 2, FLStream.i, FLStream.FFTScale)
 			local c = FLStream.Color
-			local m = Lerp(FLStream.i, 0, 0.2)
+			local m = Lerp(FLStream.i, 0, 0.2) * multi
+
 			// DrawBloom( darkness, 2, math.max( invert * 40 + 2, 5 ), math.max( invert * 40 + 2, 5 ), 4, 8, (c.r / 255) * m, (c.g / 255) * m, (c.b / 255) * m )
 			local colormod = {
 				["$pp_colour_addr"] 		= 0,
 				["$pp_colour_addg"] 		= 0,
 				["$pp_colour_addb"] 		= 0,
-				["$pp_colour_brightness"] 	= Lerp( FLStream.i, 0, -0.1, 0 ),
+				["$pp_colour_brightness"] 	= Lerp( FLStream.i * multi * 2, 0, -0.3, 0 ),
 				["$pp_colour_contrast"] 	= Lerp( multi, 1, 1 ),
 				["$pp_colour_colour"] 		= Lerp( multi, 1, 1 ),
 				["$pp_colour_mulr"] 		= (c.r / 255) * m,
 				["$pp_colour_mulg"] 		= (c.g / 255) * m,
 				["$pp_colour_mulb"] 		= (c.b / 255) * m,
 			}
-			DrawColorModify( colormod )
+			//DrawColorModify( colormod )
+			DrawBloom( -lerp2, multi * 0.01, math.max( lerp2 * 2 + 2, 5 ), math.max( lerp2 * 2 + 2, 5 ), 4, 8, c.r / 255, c.g / 255, c.b / 255 )
 
 		end
 
 	end
 
 end
+
+hook.Add( "RenderScreenspaceEffects", "FLPost", RenderScreenspaceEffects )
