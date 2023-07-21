@@ -345,11 +345,13 @@ end )
 hook.Add( "PlayerDeath", "ScorePointMessage", function( victim, inflictor, attacker )
 
 	if victim:Team() == TEAM_PLAYERS then
-		if GAMEMODE:GetState() == STATE_PLAYING then 
-			victim:SetTeam( TEAM_INFECTED )
-			victim:SetNet( "IsVirus", true )
-			GAMEMODE:HudMessage( nil, 16 /* %s has been infected! */, 5, victim, nil, VirusColor )
-			GAMEMODE:CheckSurvivors()
+		if GAMEMODE:GetState() == STATE_PLAYING then
+			timer.Simple ( 0.01, function()
+				victim:SetTeam( TEAM_INFECTED )
+				victim:SetNet( "IsVirus", true )
+				GAMEMODE:HudMessage( nil, 16 /* %s has been infected! */, 5, victim, nil, VirusColor )
+				GAMEMODE:CheckSurvivors()
+			end )
 		end
 	end
 
