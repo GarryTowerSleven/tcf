@@ -1,3 +1,39 @@
+local citizen = {
+    Pain = {
+        Small = {
+            "vo/npc/male01/ow01.wav",
+            "vo/npc/male01/ow02.wav"
+        },
+        Medium = {
+            "vo/npc/male01/pain01.wav",
+            "vo/npc/male01/pain02.wav",
+            "vo/npc/male01/pain03.wav",
+            "vo/npc/male01/pain04.wav",
+            "vo/npc/male01/pain05.wav",
+            "vo/npc/male01/pain06.wav"
+        },
+        Large = {
+            "vo/npc/male01/pain07.wav",
+            "vo/npc/male01/pain08.wav",
+            "vo/npc/male01/pain09.wav"
+        }
+    },
+    Death = {}, // We'll typically reuse Large Pain.
+    Taunts = {
+        Generic = {
+        },
+        Kill = {
+            "vo/coast/odessa/male01/nlo_cheer03.wav",
+            "vo/npc/male01/gotone02.wav",
+            "vo/npc/male01/likethat.wav",
+            "vo/npc/male01/nice01.wav",
+            "vo/npc/male01/question17.wav",
+            "vo/npc/male01/yeah02.wav",
+            "vo/npc/male01/vquestion01.wav"
+        }
+    }
+}
+
 local zombie = {
     Pain = {"Zombie.Pain"},
     Death = {"Zombie.Die"},
@@ -96,3 +132,13 @@ voicelines.SetFemale("models/player/mossman.mdl")
 voicelines.SetFemale("models/player/mossman_arctic.mdl")
 voicelines.SetFemale("models/player/p2_chell.mdl")
 voicelines.SetFemale("models/player/police_fem.mdl")
+
+for i = 1, 9 do
+    voicelines.Add("models/player/group01/male0" .. i .. ".mdl", citizen)
+    voicelines.Add("models/player/group02/male0" .. i .. ".mdl", citizen)
+    voicelines.Add("models/player/group03/male0" .. i .. ".mdl", citizen)
+    voicelines.Add("models/player/group01/female0" .. i .. ".mdl", citizen)
+    voicelines.Add("models/player/group02/female0" .. i .. ".mdl", citizen)
+    voicelines.Add("models/player/group03/female0" .. i .. ".mdl", citizen)
+
+end
