@@ -148,7 +148,7 @@ RegisterItem( "birthday_head", {
 
 RegisterItem("rave_ball",{
 	Name = "Rave Ball",
-	Description = "Get your rave on with this musical orb. Splashes colorful bursts, and unlike the disco ball, can give people seizures (use responsively).",
+	Description = "This strange polyhedronspherecube will sync to your music, and even summons 4 dimensional boxes of colorful visualizers!",
 	Model = "models/gmod_tower/discoball.mdl",
 	ClassName = "gmt_visualizer_raveball",
 	UniqueInventory = true,
@@ -160,7 +160,7 @@ RegisterItem("rave_ball",{
 
 RegisterItem("disco_ball",{
 	Name = "Disco Ball",
-	Description = "A colorful disco ball that plays music. Comes with lasers.",
+	Description = "A disco ball which emits colorful lights, lasers, glows, and fun times!",
 	Model = "models/gmod_tower/discoball.mdl",
 	ClassName = "gmt_visualizer_disco",
 	UniqueInventory = true,
