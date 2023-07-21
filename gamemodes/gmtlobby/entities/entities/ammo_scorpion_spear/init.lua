@@ -47,6 +47,8 @@ function ENT:StartTouch( ent )
 
     self:EmitSound(self.SoundHit)
     self.Owner:EmitSound(Sound("gmodtower/lobby/scorpion/getoverhere.wav"), 75)
+    self.Owner:GetActiveWeapon().Victim = Victim
+    self.Owner:GetActiveWeapon():SetState(3)
     --ent:SetEyeAngles(self.Owner:GetShootPos():Angle() )
     --ent:ApplyForceCenter(self.Owner:GetForward() * -800 )
   else
@@ -61,15 +63,23 @@ function ENT:Think()
     if table.HasValue(ents.FindInSphere( self.Owner:GetPos(), 64 ),Victim) then
       TooFar = false
       Active = false
-      net.Start("FatalityClient")
+      /*net.Start("FatalityClient")
       net.WriteEntity(Victim)
-      net.Broadcast()
+      net.Broadcast()*/
     else
       TooFar = true
     end
   end
 
   if Active and TooFar then
-    Victim:SetVelocity(self.Owner:GetForward() * -250)
+    //Victim:SetVelocity(self.Owner:GetForward() * -500)
   end
 end
+
+hook.Add("EntityTakeDamage", "Spear", function(ent, dmg)
+  if IsValid(dmg:GetInflictor()) && dmg:GetInflictor():GetClass() == "ammo_scorpion_spear" then
+
+    print(dmg:GetInflictor():GetClass())
+    return true
+  end
+end)
