@@ -32,7 +32,7 @@ function ENT:Think()
 
 	self.BaseClass.Think( self )
 
-	if not self:IsStreaming() then return end
+	if not self:IsStreaming() then if IsValid(self.Proj) then self.Proj:Remove() end return end
 
 	if not self.Emitter then
 		self.Emitter = ParticleEmitter( self:GetPos() )
@@ -40,6 +40,22 @@ function ENT:Think()
 
 	self:FLUpdateSpec( Stream )
 	self:ParticleThink()
+
+	if !IsValid(self.Proj) then
+		self.Proj = ProjectedTexture()
+	else
+		self.Proj:SetTexture("effects/flashlight001")
+		self.Proj:SetAngles(Angle(90, 0, 0))
+		self.Proj:SetPos(self:GetPos())
+		self.Proj:SetEnableShadows(true)
+		self.Proj:SetBrightness(2)
+		self.Proj:SetColor(self.Color)
+		self.Proj:SetFOV(109 + (70) * self.FFTScale)
+		self.Proj:SetFarZ(140 + (100) * self.FFTScale)
+		self.Proj:Update()
+
+		return
+	end
 
 	local dlight = DynamicLight( self:EntIndex() + 10)
 	if ( dlight ) then
@@ -157,6 +173,10 @@ function ENT:OnRemove()
 		self.Emitter:Finish()
 		self.Emitter = nil
 
+	end
+
+	if IsValid(self.Proj) then
+		self.Proj:Remove()
 	end
 
 	self:FLUnload()
