@@ -39,7 +39,7 @@ SWEP.FistMiss = {Sound("GModTower/pvpbattle/Rage/RageMiss1.wav"),
 SWEP.God = {["Hand"] = Sound("GModTower/misc/godhand_ko.wav"),
 			["HandInit"] = Sound("GModTower/misc/godhand_initialize.wav"),
 			["HandStop"] = Sound("GModTower/misc/godhand_end.wav"),
-			["HandMusic"] = "ambient/music/mirame_radio_thru_wall.wav"}
+			["HandMusic"] = "GModTower/misc/godhand_music.mp3"}
 
 SWEP.GodHandToggle = 0.0
 
@@ -50,38 +50,8 @@ SWEP.HoldType = "fist"
 function SWEP:Initialize()
 	self:SetWeaponHoldType( self.HoldType )
 
-	//self.BGM = CreateSound( self.Weapon, self.God.HandMusic )
-end
-
-function SWEP:Deploy()
-	if CLIENT then return end
-	self:EmitSound("weapons/fx/rics/ric4.wav", 75, 50)
-	self:EmitSound("weapons/physcannon/physcannon_charge.wav", 75, 200, 0.4)
-	self:GodHand(true)
 	self.BGM = CreateSound( self.Weapon, self.God.HandMusic )
-	self.BGM:PlayEx(0.01, 100)
-	self.BGM:ChangeVolume(1, 2)
-	self:SendWeaponAnim(ACT_VM_DEPLOY)
-	self:GetOwner():SetWalkSpeed(100)
 end
-
-function SWEP:Think()
-	if self:GetOwner():IsSprinting() then
-		self.BGM:ChangePitch(200, 0)
-	else
-		self.BGM:ChangePitch(100, 0)
-	end
-end
-
-function SWEP:Holster()
-	if self.BGM then
-		self.BGM:Stop()
-	end
-
-	return true
-end
-
-SWEP.OnRemove = SWEP.Holster
 
 function SWEP:Precache()
 end
@@ -176,7 +146,6 @@ end
 function SWEP:GodHandStart(ply)
 	if !IsValid(ply) and !IsValid(self.Owner) then return end
 
-	self.Pos = util.QuickTrace(self:GetOwner():GetPos(), Vector(0, 0, 512), self:GetOwner()).HitPos - Vector(0, 0, 72)
 	self.Owner.GHVictim = ply
 	ply:EmitSound( self.God.Hand )
 	ply:Freeze( true )
@@ -207,8 +176,6 @@ end
 
 function SWEP:GodHandJump( victim )
 	self.Owner:SetVelocity( Vector(0, 0, 250) )
-	victim:SetVelocity(-victim:GetVelocity() + self.Owner:GetVelocity())
-	victim:SetPos(self.Owner:GetPos() + self.Owner:GetForward() * 64)
 
 	timer.Simple(1.5, function()
 		if IsValid(self) && IsValid(self.Owner) && IsValid(victim) then
