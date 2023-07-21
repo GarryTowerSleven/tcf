@@ -65,6 +65,7 @@ function ENT:Draw()
 	return end
 
 	self.F = self.F or 0
+	self.S = self.S or 0
 	self.F = self.F + FrameTime() * 8 * (!self:IsStreaming() && 1 or self.FFTScale * 4 + (self.S * 0.1))
 
 	if !self:IsStreaming() /*or GTowerMainGui.MenuEnabled*/ then
@@ -108,7 +109,6 @@ function ENT:Draw()
 	render.SetMaterial( self.Sprite )
 	render.DrawSprite( self:GetPos(), 15 + ( size * 128 ), 15 + ( size * 128 ), self.Color )
 	//i = i + math.sin(CurTime() * 8) * util.SharedRandom(i + math.sin(CurTime()) * 8, 0, 40)
-	self.S = self.S or 0
 	self.Ang = self.Ang or Angle(0, 0, 0)
 
 	if !self.LastAng or self.LastAng < CurTime() then
