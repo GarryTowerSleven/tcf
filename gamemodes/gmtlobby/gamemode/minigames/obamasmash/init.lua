@@ -64,7 +64,7 @@ end
 
 function RemoveWeapon( ply )
 	if ply:HasWeapon(WeaponName) then
-		Smashers = Smashers - 1 
+		Smashers = Smashers - 1
 		ply:StripWeapons()
 		ply.HasCrowbar = false
 	end
@@ -79,14 +79,25 @@ end
 local function ObamaBounds()
 
 	local entities = ents.FindInSphere(Vector(4512.097656, -10177.549805, 4096),130)
-
-	for index, ent in pairs(entities) do
-		if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
-			ent:Remove()
-			ObamaCount = (ObamaCount-1)
+	local entities2 = ents.FindInSphere(Vector(928, -1472, 0),130)
+	
+	if MinigameLocation == 4 then
+		for index, ent in pairs(entities) do
+			if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
+				ent:Remove()
+				ObamaCount = (ObamaCount-1)
+			end
 		end
 	end
-
+	
+	if MinigameLocation == 2 then
+		for index, ent in pairs(entities2) do
+			if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
+				ent:Remove()
+				ObamaCount = (ObamaCount-1)
+			end
+		end
+	end
 end
 
 local function SmashObama( ent, dmg )
@@ -99,7 +110,7 @@ local function SmashObama( ent, dmg )
 			ObamaCount = (ObamaCount-1)
 		end
 
-		ObamaMax = math.Clamp(Smashers * 5, 0, 50)
+		ObamaMax = math.Clamp(Smashers * 5, 10, 50)
 		
 		local ply = dmg:GetAttacker()
 		local ComboTime = 1
@@ -129,29 +140,41 @@ local function SmashObama( ent, dmg )
 
 end
 
-local function ObamaManStart()
+local function ObamaManStart( flags )
 
 	ObamaCount = 0
 	ObamaMax = 25 -- Lets preload some obamas before the dynamic effect comes in
 	LastSmash = CurTime()
 	
+	if flags == "a" then
+		MinigameLocation = Location.GetIDByName( "Lobby" )
+	else
+		MinigameLocation = Location.GetIDByName( "Suites" )
+	end
+	
 	timer.Create( "ObamaMan", 0.15, 0, function()
-		if Smashers >= 1 then
+		if Smashers >= 5 then
 			LastSmash = CurTime()
-			ObamaRate = ( CurTime() + math.Clamp( 0.37 - ( Smashers * 0.016 ), 0.15, 0.35) )
+			ObamaRate = ( CurTime() + math.Clamp( 0.40 - ( Smashers * 0.01 ), 0.15, 0.35) )
 		else
 			ObamaRate = CurTime() + 0.35
 		end
 		//Debug
-		print("Obama count is: " .. ObamaCount .. " Max: " .. ObamaMax .. "  Obama rate is: " .. ( ObamaRate - CurTime() ) .. " Smasher count is: " .. Smashers )
+		//print("Obama count is: " .. ObamaCount .. " Max: " .. ObamaMax .. "  Obama rate is: " .. ( ObamaRate - CurTime() ) .. " Smasher count is: " .. Smashers )
 		if LastSmash < ObamaRate then
 			if ObamaCount < ObamaMax then
 				ObamaCount = (ObamaCount+1)
-				local entposX = math.Rand(4288.218262, 4911.975586)
-				local entposY = math.Rand(-10543.968750, -9808.031250)
 				local ent = ents.Create("gmt_minigame_obama")
+				if flags == "a" then
+					local entposX = math.Rand(345, 1510)	
+					local entposY = math.Rand(-2125.968750, -815.031250)
+					ent:SetPos( Vector(entposX,entposY, 0) )
+				else
+					local entposX = math.Rand(4288.218262, 4911.975586)	
+					local entposY = math.Rand(-10543.968750, -9808.031250)
+					ent:SetPos( Vector(entposX,entposY, 4096) )
+				end
 				ent:SetAngles(Angle(0,math.Rand(0,360),0))
-				ent:SetPos( Vector(entposX,entposY, 4096) )
 				ent.MiniGame = true
 				ent:Spawn()
 			end
@@ -179,7 +202,7 @@ function Start( flags )
 
 	OBAMA_GAME_ACTIVE = true
 
-	ObamaManStart()
+	ObamaManStart( flags )
 
 	hook.Add("Location", "ObamaSmashLocation", CheckGiveWeapon )
 	hook.Add("EntityTakeDamage", "SmashObama", SmashObama )
@@ -239,7 +262,9 @@ function End()
 end
 
 hook.Add("ScalePlayerDamage","ObamaDamage",function(ply, h, d)
-	if ( OBAMA_GAME_ACTIVE and Location.Is( ply:Location(), "Suites" ) ) then
-		return true
+	if ( OBAMA_GAME_ACTIVE && ply.HasCrowbar == true ) then
+		if Location.Is( ply:Location(), "Suites" ) || Location.Is( ply:Location(), "Lobby" ) then
+			return true
+		end
 	end
 end)

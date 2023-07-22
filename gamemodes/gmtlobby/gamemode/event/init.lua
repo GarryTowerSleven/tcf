@@ -117,10 +117,13 @@ function StartEvent( event )
         end
 
         curmini = "obamasmash"
-        
-        SendMessageToPlayers( MiniGame._M.MinigameMessage, ( MiniGame._M.MinigameArg1 or "" ), ( MiniGame._M.MinigameArg2 or "" ) )
-    
-        SafeCall( MiniGame.Start, "" )
+    if ( math.random( 0, 1 ) == 0 ) then 
+		SendMessageToPlayers( MiniGame._M.MinigameMessage, "Suites" )
+		SafeCall( MiniGame.Start, "" )
+	else
+		SendMessageToPlayers( MiniGame._M.MinigameMessage, "Lobby" )
+		SafeCall( MiniGame.Start, "a" )
+	end
         MsgC( color_green, "[EVENTS] Starting obama smash!\n" )
 
         endtime = CurTime() + minitime

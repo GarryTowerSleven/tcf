@@ -9,6 +9,5 @@ module("minigames.obamasmash")
 
 MinigameName = "Obama Smash"
 MinigameMessage = "MiniObamaGameStart"
-MinigameLocation = Location.GetIDByName( "Suites" )
 
 WeaponName = "weapon_crowbar"
