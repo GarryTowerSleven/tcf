@@ -71,12 +71,14 @@ hook.Add( "PlayerThink", "AFKPlayerThink", function( ply )
 	if ( TestingMode and TestingMode:GetBool() ) then return end
 	if ( not IsValid( ply ) or ply:IsBot() ) then return end
 
-	// check eye trace, could be a better place for this
-	local eyetrace = ply:EyeAngles()
+	if IsLobby then // only check eye trace in lobby, people get teleported around A Lot in gamemodes
+		// check eye trace, could be a better place for this
+		local eyetrace = ply:EyeAngles()
 
-	if ( ply._LastEyeTrace != eyetrace ) then
-		ply:ResetAFKTimer()
-		ply._LastEyeTrace = eyetrace
+		if ( ply._LastEyeTrace != eyetrace ) then
+			ply:ResetAFKTimer()
+			ply._LastEyeTrace = eyetrace
+		end
 	end
 
 	local curtime = CurTime()
