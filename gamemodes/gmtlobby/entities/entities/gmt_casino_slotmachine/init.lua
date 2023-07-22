@@ -43,8 +43,15 @@ function ENT:Initialize()
 		phys:EnableMotion(false)
 		phys:Sleep()
 	end
-
-	self:SetJackpot(1000)
+	
+	SQL.getDB():Query( "SELECT * FROM gm_casino WHERE type='slots'", function(res)
+		local data = res[1].data[1]
+		if #res[1].data == 0 then
+			SQL.getDB():Query( "INSERT INTO gm_casino (type,jackpot) VALUES ('slots', 1000)" )
+		else
+			self:SetJackpot(data.jackpot)
+		end
+	end)
 
 end
 
@@ -332,11 +339,11 @@ function ENT:PickResults()
 	local random = { getRand(), getRand(), getRand() }
 
 	if random[1] == 2 and random[2] == 2 and random[3] == 2 then
-		if self:GetJackpot() < 10000 && math.random(10) != 1 then
+		if self:GetJackpot() < 5000 && math.random(5) != 1 then
 			random[3] = math.random(6)
-		elseif self:GetJackpot() < 25000 && math.random(5) != 1 then
+		elseif self:GetJackpot() < 10000 && math.random(3) != 1 then
 			random[3] = math.random(6)
-		elseif self:GetJackpot() < 50000 && math.random(3) != 1 then
+		elseif self:GetJackpot() < 25000 && math.random(2) != 1 then
 			random[3] = math.random(6)
 		end
 	end
@@ -388,6 +395,8 @@ function ENT:CalcWinnings( random )
 		local winnings = math.Round( self:GetJackpot() + self.BetAmount )
 		self:SendWinnings( ply, winnings, true )
 
+		SQL.getDB():Query("UPDATE gm_casino SET jackpot=1000 WHERE type='slots'")
+		
 		self:SetJackpot(1000)
 
 		return
@@ -412,6 +421,7 @@ function ENT:CalcWinnings( random )
 	end
 
 	// Player lost
+	SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. self.BetAmount .. " WHERE type='slots'")
 	self:SetJackpot( self:GetJackpot() + self.BetAmount )
 	//print( self:GetJackpot() )
 	ply:MsgI( "slots", "SlotsLose" )
