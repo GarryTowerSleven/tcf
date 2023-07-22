@@ -136,6 +136,7 @@ concommand.Add("videopoker_draw", function(ply, cmd, args)
         end
 
         self:SetProfit(self:GetProfit() - self:GetBet())
+		SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. self:GetBet() .. " WHERE type='videopoker'")
         self:SetJackpot(self:GetJackpot() + self:GetBet())
         self:SetState(3)
         self.deck = Cards.Deck()
@@ -219,6 +220,16 @@ function ENT:Initialize()
         phys:EnableMotion(false)
         phys:Sleep()
     end
+	
+	SQL.getDB():Query( "SELECT * FROM gm_casino WHERE type='videopoker'", function(res)
+		local data = res[1].data[1]
+		if #res[1].data == 0 then
+			SQL.getDB():Query( "INSERT INTO gm_casino (type,jackpot) VALUES ('videopoker', 0)" )
+		else
+			self:SetJackpot(data.jackpot)
+		end
+	end)
+	
 end
 
 local function HandleRollercoasterAnimation(vehicle, player)
