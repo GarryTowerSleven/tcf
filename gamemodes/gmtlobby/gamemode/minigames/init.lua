@@ -19,18 +19,32 @@ concommand.Add("gmt_loadmini", function( ply, cmd, args )
 	end
 	
 	if MiniGameStr == "obamasmash" then
-		if ( math.random( 0, 1 ) == 0 ) then
-			for _, v in ipairs(player.GetAll()) do
-				v:MsgT( minigames[ MiniGameStr ]._M.MinigameMessage, "Suites" )
-			end
-			AdminNotify(T( "AdminMiniStart", ply:GetName(), minigames[ MiniGameStr ]._M.MinigameName or MiniGameStr ))
-			SafeCall( MiniGame.Start, "" )
-		else
+		if args[2] == "a" then
 			for _, v in ipairs(player.GetAll()) do
 				v:MsgT( minigames[ MiniGameStr ]._M.MinigameMessage, "Lobby" )
 			end
 			AdminNotify(T( "AdminMiniStart", ply:GetName(), minigames[ MiniGameStr ]._M.MinigameName or MiniGameStr ))
 			SafeCall( MiniGame.Start, "a" )
+		elseif !args[2] then
+			if ( math.random( 0, 1 ) == 0 ) then
+				for _, v in ipairs(player.GetAll()) do
+					v:MsgT( minigames[ MiniGameStr ]._M.MinigameMessage, "Suites" )
+				end
+				AdminNotify(T( "AdminMiniStart", ply:GetName(), minigames[ MiniGameStr ]._M.MinigameName or MiniGameStr ))
+				SafeCall( MiniGame.Start, "" )
+			else
+				for _, v in ipairs(player.GetAll()) do
+					v:MsgT( minigames[ MiniGameStr ]._M.MinigameMessage, "Lobby" )
+				end
+				AdminNotify(T( "AdminMiniStart", ply:GetName(), minigames[ MiniGameStr ]._M.MinigameName or MiniGameStr ))
+				SafeCall( MiniGame.Start, "a" )
+			end	
+		else
+			for _, v in ipairs(player.GetAll()) do
+				v:MsgT( minigames[ MiniGameStr ]._M.MinigameMessage, "Suites" )
+			end
+			AdminNotify(T( "AdminMiniStart", ply:GetName(), minigames[ MiniGameStr ]._M.MinigameName or MiniGameStr ))
+			SafeCall( MiniGame.Start, "" )
 		end
 	return
 	end
