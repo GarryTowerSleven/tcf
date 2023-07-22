@@ -46,6 +46,7 @@ function GiveWeapon( ply )
 		ply:Give( WeaponName )
 		ply:SelectWeapon( WeaponName )
 		ply.CanPickupWeapons = false
+		ply.HasCrowbar = true
 	end
 
 end
@@ -63,8 +64,9 @@ end
 
 function RemoveWeapon( ply )
 	if ply:HasWeapon(WeaponName) then
-		Smashers = Smashers - 1
+		Smashers = Smashers - 1 
 		ply:StripWeapons()
+		ply.HasCrowbar = false
 	end
 end
 
@@ -136,9 +138,9 @@ local function ObamaManStart()
 	timer.Create( "ObamaMan", 0.15, 0, function()
 		if Smashers >= 1 then
 			LastSmash = CurTime()
-			ObamaRate = ( CurTime() + math.Clamp( 0.37 - ( Smashers * 0.02 ), 0.15, 0.35) )
+			ObamaRate = ( CurTime() + math.Clamp( 0.37 - ( Smashers * 0.016 ), 0.15, 0.35) )
 		else
-			ObamaRate = 0.35
+			ObamaRate = CurTime() + 0.35
 		end
 		//Debug
 		print("Obama count is: " .. ObamaCount .. " Max: " .. ObamaMax .. "  Obama rate is: " .. ( ObamaRate - CurTime() ) .. " Smasher count is: " .. Smashers )
@@ -184,9 +186,23 @@ function Start( flags )
 	hook.Add("Think", "ObamaBoundsCheck", ObamaBounds )
 	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissallowResize )
 
+	hook.Add("PlayerDeath", "Piratespeak", function( victim )
+		if ( victim.HasCrowbar == true ) then
+			victim.HasCrowbar = false
+			Smashers = Smashers - 1
+		end
+	end)
+
+	hook.Add("PlayerDisconnected", "Pirateleave", function(ply)
+		if ( ply.HasCrowbar == true ) then
+			Smashers = Smashers - 1
+		end
+	end)
+
 	Smashers = 0
 
-	for _, v in pairs( Location.GetPlayersInLocation( MinigameLocation ) ) do
+	for _, v in pairs( player.GetAll() ) do
+		v.HasCrowbar = false
 		SafeCall( CheckGiveWeapon, v, v:Location() )
 	end
 
@@ -204,7 +220,9 @@ function End()
 	hook.Remove("EntityTakeDamage", "SmashObama" )
 	hook.Remove("Think", "ObamaBoundsCheck" )
 	hook.Remove("PlayerResize", "DoNotAllowResize")
-
+	hook.Remove("PlayerDeath", "Piratespeak")
+	hook.Remove("PlayerDisconnected", "Pirateleave")
+	
 	for _, v in pairs( player.GetAll() ) do
 		SafeCall( RemoveWeapon, v )
 	end
