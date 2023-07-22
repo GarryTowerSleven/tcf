@@ -710,7 +710,7 @@ RegisterModel(
 RegisterModel(
 	"mdl_carley",
 	"Carley",
-	"You're just a scared little girl. Get the fuck over it.",
+	"Don't mess with a reporter, especially one that's three days out from her last cup of coffee.",
 	"models/nikout/carleypm.mdl",
 	"carley",
 	15000, nil, nil, 1405502697 )
