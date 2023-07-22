@@ -81,15 +81,16 @@ function voicelines.Emit(ent, snd)
     ent.CoolDowns[type] = CurTime() + (cooldowns[type] or 2)
 
     snd = getSounds(ent:GetModel(), snd)
+    local vol, pitch = 75, 100
 
     if istable(snd) then
 
     elseif isfunction(snd) then
         snd(ent)
     elseif string.StartWith(snd, "S:") then
-        EmitSentence(string.sub(snd, 3), ent:GetPos(), ent:EntIndex(), CHAN_VOICE, 1, 60, 0, 100)
+        EmitSentence(string.sub(snd, 3), ent:GetPos(), ent:EntIndex(), CHAN_VOICE, 1, vol, 0, pitch)
     else
-        ent:EmitSound(snd, 60, 100, 1, CHAN_VOICE)
+        ent:EmitSound(snd, vol, pitch, 1, CHAN_VOICE)
     end
 end
 
