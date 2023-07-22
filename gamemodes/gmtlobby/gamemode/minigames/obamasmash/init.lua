@@ -35,7 +35,9 @@ module("minigames.obamasmash" )
 TotalMoney = 0
 ObamaCount = 0
 ObamaMax = 0
+ObamaRate = 0
 MoneyPerKill = 3
+Smashers = 0
 
 function GiveWeapon( ply )
 
@@ -51,6 +53,7 @@ end
 function CheckGiveWeapon( ply, loc )
 
 	if loc == MinigameLocation  then
+		Smashers = Smashers + 1
 		GiveWeapon( ply )
 	else
 		RemoveWeapon( ply )
@@ -60,6 +63,7 @@ end
 
 function RemoveWeapon( ply )
 	if ply:HasWeapon(WeaponName) then
+		Smashers = Smashers - 1
 		ply:StripWeapons()
 	end
 end
@@ -93,9 +97,8 @@ local function SmashObama( ent, dmg )
 			ObamaCount = (ObamaCount-1)
 		end
 
-		for _, ply in pairs( Location.GetPlayersInLocation( MinigameLocation ) ) do -- Dynamic? Yes. Bad? Probably. Sorry!
-			ObamaMax = math.Clamp(ObamaMax + 5, 0, 30)
-		end
+		ObamaMax = math.Clamp(Smashers * 5, 0, 50)
+		
 		local ply = dmg:GetAttacker()
 		local ComboTime = 1
 
@@ -107,7 +110,7 @@ local function SmashObama( ent, dmg )
 
 		ply.SmashTime = CurTime()
 
-		MoneyPerKill = math.Clamp( (ply.Combo or 0) + 1, 1, 1000)
+		MoneyPerKill = math.Clamp( (ply.Combo or 0), 1, 1000)
 
 		TotalMoney = TotalMoney + MoneyPerKill
 
@@ -127,18 +130,29 @@ end
 local function ObamaManStart()
 
 	ObamaCount = 0
-	ObamaMax = 30 -- Lets preload some obamas before the dynamic effect comes in
-
-	timer.Create( "ObamaMan", 0.35, 0, function()
-		if ObamaCount < ObamaMax then
-			ObamaCount = (ObamaCount+1)
-			local entposX = math.Rand(4288.218262, 4911.975586)
-			local entposY = math.Rand(-10543.968750, -9808.031250)
-			local ent = ents.Create("gmt_minigame_obama")
-			ent:SetAngles(Angle(0,math.Rand(0,360),0))
-			ent:SetPos( Vector(entposX,entposY, 4096) )
-			ent.MiniGame = true
-			ent:Spawn()
+	ObamaMax = 25 -- Lets preload some obamas before the dynamic effect comes in
+	LastSmash = CurTime()
+	
+	timer.Create( "ObamaMan", 0.15, 0, function()
+		if Smashers >= 1 then
+			LastSmash = CurTime()
+			ObamaRate = ( CurTime() + math.Clamp( 0.37 - ( Smashers * 0.02 ), 0.15, 0.35) )
+		else
+			ObamaRate = 0.35
+		end
+		//Debug
+		print("Obama count is: " .. ObamaCount .. " Max: " .. ObamaMax .. "  Obama rate is: " .. ( ObamaRate - CurTime() ) .. " Smasher count is: " .. Smashers )
+		if LastSmash < ObamaRate then
+			if ObamaCount < ObamaMax then
+				ObamaCount = (ObamaCount+1)
+				local entposX = math.Rand(4288.218262, 4911.975586)
+				local entposY = math.Rand(-10543.968750, -9808.031250)
+				local ent = ents.Create("gmt_minigame_obama")
+				ent:SetAngles(Angle(0,math.Rand(0,360),0))
+				ent:SetPos( Vector(entposX,entposY, 4096) )
+				ent.MiniGame = true
+				ent:Spawn()
+			end
 		end
 	end)
 
@@ -170,7 +184,9 @@ function Start( flags )
 	hook.Add("Think", "ObamaBoundsCheck", ObamaBounds )
 	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissallowResize )
 
-	for _, v in pairs( player.GetAll() ) do
+	Smashers = 0
+
+	for _, v in pairs( Location.GetPlayersInLocation( MinigameLocation ) ) do
 		SafeCall( CheckGiveWeapon, v, v:Location() )
 	end
 
