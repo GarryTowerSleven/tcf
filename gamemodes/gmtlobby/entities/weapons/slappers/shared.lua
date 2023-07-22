@@ -216,7 +216,8 @@ function SWEP:SlapPlayer(ply, tr)
 	// local vec = (tr.HitPos - tr.StartPos):GetNormal()
 
 	-- Emit hurt sound on player
-	ply:EmitSoundInLocation(table.Random(self.Sounds.Hurt), 60 )
+	// ply:EmitSoundInLocation(table.Random(self.Sounds.Hurt), 60 )
+	voicelines.Emit(ply, "Pain,Small")
 
 	-- Apply force to player
 	// ply:SetLocalVelocity( vec * GetConVar("slappers_force"):GetInt() )
