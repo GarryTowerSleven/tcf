@@ -38,7 +38,11 @@ function getSounds(mdl, type)
         elseif type[1] == "Death" then
             if !tbl["Death"] or #tbl["Death"] == 0 then
                 return getSounds(mdl, "Pain,Large")
+            else
+                snd = tbl[type[1]]
             end
+        else
+            snd = tbl[type[1]] or "null.wav"
         end
 
         if istable(snd) then
