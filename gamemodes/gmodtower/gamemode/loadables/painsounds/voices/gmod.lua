@@ -82,6 +82,20 @@ local cs_bot = {
         "bot/pain5.wav",
         "bot/pain8.wav",
         "bot/pain9.wav"
+    },
+    Taunts = {
+        "bot/do_not_mess_with_me.wav",
+        "bot/i_am_dangerous.wav",
+        "bot/i_am_on_fire.wav",
+        "bot/i_wasnt_worried_for_a_minute.wav",
+        "bot/nice2.wav",
+        "bot/owned.wav",
+        "bot/made_him_cry.wav",
+        "bot/they_never_knew_what_hit_them.wav",
+        "bot/who_wants_some_more.wav",
+        "bot/whos_the_man.wav",
+        "bot/yea_baby.wav",
+        "bot/wasted_him.wav"
     }
 }
 
@@ -95,6 +109,9 @@ local combine = {
         "S:METROPOLICE_DIE0",
         "S:METROPOLICE_DIE1",
         "S:METROPOLICE_DIE2"
+    },
+    Taunts = {
+        "S:METROPOLICE_KILL_PLAYER4"
     }
 }
 
@@ -109,6 +126,9 @@ local combine2 = {
         "S:COMBINE_DIE0",
         "S:COMBINE_DIE1",
         "S:COMBINE_DIE2"
+    },
+    Taunts = {
+        "S:COMBINE_PLAYERHIT2"
     }
 }
 
@@ -126,6 +146,11 @@ voicelines.Add("models/player/phoenix.mdl", cs_bot)
 voicelines.Add("models/player/riot.mdl", cs_bot)
 voicelines.Add("models/player/swat.mdl", cs_bot)
 voicelines.Add("models/player/urban.mdl", cs_bot)
+
+voicelines.Add("models/player/police.mdl", combine)
+voicelines.Add("models/player/police_fem.mdl", combine)
+voicelines.Add("models/player/combine_soldier.mdl", combine2)
+voicelines.Add("models/player/combine_super_soldier.mdl", combine2)
 
 voicelines.SetFemale("models/player/alyx.mdl")
 voicelines.SetFemale("models/player/mossman.mdl")

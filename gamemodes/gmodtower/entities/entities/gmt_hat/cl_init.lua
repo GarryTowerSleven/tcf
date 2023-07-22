@@ -54,6 +54,7 @@ function ENT:PositionItem(ent)
 		local ball = ent:GetGolfBall()
 		pos, ang, scale = hook.Run("PositionHatOverride", ball)
 	end
+	local s = ent:GetManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1") or 0)
 	local modelscale = ent:GetModelScale()
 	if !IsLobby && engine.ActiveGamemode() != "ballrace" then modelscale = 1 end
 	local Offsets
@@ -69,7 +70,7 @@ function ENT:PositionItem(ent)
 		ang:RotateAroundAxis(ang:Right(), Offsets[2][3])
 	end
 
-	local HatOffsets = ang:Up() * Offsets[1][1] + ang:Forward() * Offsets[1][2] + ang:Right() * Offsets[1][3]
+	local HatOffsets = ang:Up() * Offsets[1][1] * (1 + ((1 - s.z) * 0)) + ang:Forward() * Offsets[1][2] + ang:Right() * Offsets[1][3]
 
 	HatOffsets.x = HatOffsets.x * modelscale
 	HatOffsets.y = HatOffsets.y * modelscale
@@ -80,7 +81,7 @@ function ENT:PositionItem(ent)
 	scale = Offsets[3] * modelscale
 
 	if GTowerHats.FixScales[self.HatModel] then
-		scale = math.sqrt(scale)
+		scale = math.sqrt(scale) + math.sqrt(s.z - 1) / 2
 	end
 	return pos, ang, scale
 end
