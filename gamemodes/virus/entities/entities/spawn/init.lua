@@ -7,7 +7,7 @@ function ENT:Initialize()
 	self:SetModel( "models/Combine_Helicopter/helicopter_bomb01.mdl" )
 	self:DrawShadow( false )
 	self:SetSolid( SOLID_BBOX )
-	self:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
+	self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 
 	self.RemoveTime = CurTime() + 2
 
