@@ -72,3 +72,8 @@ music.Register( MUSIC_ROUNDEND_VIRUS, "roundend_virus" )
 
 music.Register( MUSIC_STINGER, "stinger", { Oneoff = true } )
 music.Register( MUSIC_IGNITE, "ambient/fire/ignite.wav", { Oneoff = true } )
+
+function GM:ShouldCollide(ply, ply2)
+	if ply:IsPlayer() && ply2:IsPlayer() && ply:Team() == ply2:Team() then return false end
+	return true
+end
