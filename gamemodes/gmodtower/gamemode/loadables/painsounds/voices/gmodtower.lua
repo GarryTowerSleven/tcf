@@ -152,6 +152,14 @@ voicelines.Add("models/player/lordvipes/haloce/spartan_classic.mdl", {
     Death =  "gmodtower/player/halo/death_violent_{1-5}.wav"
 })
 
+voicelines.Add("models/player/jcplayer.mdl", {
+    Pain = {
+        Small = "gmodtower/player/deusex/malepainsmall.wav",
+        Medium = "gmodtower/player/deusex/malepainmedium.wav",
+        Large = "gmodtower/player/deusex/malepainlarge.wav"
+    },
+    Death = "gmodtower/player/deusex/maledeath.wav"
+})
 
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
 
