@@ -81,3 +81,36 @@ voicelines.Add("models/player/virusi.mdl", {
     Death = {"Zombie.Die"},
     Taunts = {"Zombie.Idle"}
 })
+
+voicelines.Add("models/player/drpyspy/spy.mdl", {
+    Pain = {
+        Small = {
+            "vo/spy_painsharp01.mp3",
+            "vo/spy_painsharp02.mp3",
+            "vo/spy_painsharp03.mp3",
+            "vo/spy_painsharp04.mp3"
+        },
+        Large = {
+            "vo/spy_painsevere01.mp3",
+            "vo/spy_painsevere02.mp3",
+            "vo/spy_painsevere03.mp3",
+            "vo/spy_painsevere04.mp3",
+            "vo/spy_painsevere05.mp3"
+        }
+    },
+    Death = {
+        "vo/spy_paincrticialdeath01.mp3",
+        "vo/spy_paincrticialdeath02.mp3",
+        "vo/spy_paincrticialdeath03.mp3"
+    },
+    Laughs = {
+        "vo/spy_laughlong01.mp3"
+    },
+    Cheers = {
+        "vo/spy_laughevil02.mp3"
+    },
+    RoundWin = {
+        "vo/spy_sf13_influx_big01.mp3",
+        "vo/spy_sf13_influx_big02.mp3"
+    }
+})
