@@ -115,6 +115,16 @@ voicelines.Add("models/player/drpyspy/spy.mdl", {
     }
 })
 
+voicelines.Add("models/player/zoey.mdl", {
+    Pain = {
+        Small = "player/survivor/voice/TeenGirl/HurtMinor0{1-4}.wav",
+        Medium = "player/survivor/voice/TeenGirl/HurtMajor0{1-4}.wav",
+        Large = "player/survivor/voice/TeenGirl/HurtCritical0{1-4}.wav"
+    },
+    Death = "player/survivor/voice/TeenGirl/DeathScream0{1-9}.wav",
+    Taunts = "player/survivor/voice/TeenGirl/Taunt{18-31}.wav"
+})
+
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
 
 voicelines.SetFemale("models/player/zoey.mdl")

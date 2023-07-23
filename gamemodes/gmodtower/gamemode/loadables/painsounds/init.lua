@@ -22,6 +22,15 @@ function voicelines.Add(mdl, tbl)
                     end
                 end
             end
+        elseif isstring(t) and string.find(t, "{") then
+            local ids = string.Split(string.Split(t, "{")[2], "}")[1]
+            ids = string.Split(ids, "-")
+
+            tbl[_] = {}
+            for i = ids[1], ids[2] do
+                local s = string.Split(t, "{")[1] .. i .. string.Split(t, "}")[2]
+                table.insert(tbl[_], s)
+            end
         end
     end
 
