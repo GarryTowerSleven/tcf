@@ -190,6 +190,12 @@ for _, emote in pairs(Commands) do
 			end
 		end)
 
+		if emoteName == "laugh" then
+			voicelines.Emit(ply, "Laughs")
+		elseif emoteName == "cheer" then
+			voicelines.Emit(ply, "Cheers")
+		end
+
 		DoEmoteChat( ply, emoteName )
 
 		return ""
