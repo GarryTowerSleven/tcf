@@ -102,14 +102,12 @@ hook.Add("PostPlayerDraw", "Wesker", function(ply)
 	render.StartBeam(#ply.Eyes[1])
 	local color = Color(124, 72, 0, 100)
 	for _, e in ipairs(ply.Eyes[1]) do
-		print(e)
 		render.AddBeam(e, 1 - (_ / (#ply.Eyes[1])), 1 - (_ / (#ply.Eyes[1])), color)
 	end
 	render.EndBeam()
 
 	render.StartBeam(#ply.Eyes[2])
 	for _, e in ipairs(ply.Eyes[2]) do
-		print(e)
 		render.AddBeam(e, 1 - (_ / (#ply.Eyes[2])), 1 - (_ / (#ply.Eyes[2])), color)
 	end
 	render.EndBeam()
