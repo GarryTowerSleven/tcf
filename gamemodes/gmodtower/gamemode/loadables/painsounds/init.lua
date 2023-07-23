@@ -1,12 +1,17 @@
 voicelines = {}
 playerSounds = {}
 local mdls = {}
+local retry = {
+    Laughs = {"Cheers"},
+    Flails = {"Death"},
+    Cheers = {"Laughs"}
+}
 
 function voicelines.Add(mdl, tbl)
     playerSounds[mdl] = tbl
 end
 
-function getSounds(mdl, type)
+function getSounds(ply, mdl, type)
     local tbl = playerSounds[mdl]
     local female = isFemaleDefault(mdl) or 0
 
@@ -16,7 +21,7 @@ function getSounds(mdl, type)
             female = mdls[mdl] == 1
         else
             mdls[mdl] = isFemaleDefault(mdl) or 0
-            return getSounds(mdl, type)
+            return getSounds(ent, mdl, type)
         end
     end
 
@@ -37,12 +42,22 @@ function getSounds(mdl, type)
             end
         elseif type[1] == "Death" then
             if !tbl["Death"] or #tbl["Death"] == 0 then
-                return getSounds(mdl, "Pain,Large")
+                return getSounds(ent, mdl, "Pain,Large")
             else
                 snd = tbl[type[1]]
             end
         else
             snd = tbl[type[1]] or "null.wav"
+
+            if snd == "null.wav" then
+                if retry[type[1]] && ply.LastTry ~= retry[type[1]][1] then
+                    ply.LastTry = retry[type[1]][1]
+                    return getSounds(ent, mdl, ply.LastTry)
+                else
+                    ply.LastTry = nil
+                    return "null.wav"
+                end
+            end
         end
 
         if istable(snd) then
@@ -85,7 +100,7 @@ function voicelines.Emit(ent, snd)
     if ent.CoolDowns[type] and ent.CoolDowns[type] > CurTime() then return end
     ent.CoolDowns[type] = CurTime() + (cooldowns[type] or 2)
 
-    snd = getSounds(ent:GetModel(), snd)
+    snd = getSounds(ent, ent:GetModel(), snd)
     local vol, pitch = 75, 100
 
     if istable(snd) then
