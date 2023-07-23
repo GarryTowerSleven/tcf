@@ -64,9 +64,8 @@ voicelines.Add("models/player/re/albert_wesker_overcoat_pm.mdl", {
         "gmodtower/player/wesker/w_43.mp3"
     },
     RoundStart = {
-        "gmodtower/player/wesker/s508_69_Wesker.mp3",
-        "gmodtower/player/wesker/s508_69_Wesker.mp3",
-        "gmodtower/player/wesker/s309_87_Wesker.mp3",
+        "gmodtower/player/wesker/s508_87_Wesker.mp3",
+        "gmodtower/player/wesker/s309_88_Wesker.mp3",
         "gmodtower/player/wesker/s309_73_Wesker.mp3"
     },
     RoundWin = {
