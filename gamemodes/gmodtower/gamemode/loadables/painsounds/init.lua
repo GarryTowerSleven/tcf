@@ -64,7 +64,7 @@ function getSounds(ply, mdl, type)
             snd = table.Random(snd)
         end
 
-        if isstring(snd) && female = 1 then
+        if isstring(snd) && female == 1 then
             snd = string.Replace(snd, "male", "female")
         end
 
@@ -103,8 +103,10 @@ local models = {
 }
 
 local DSP_GASMASK = 30
+local DSP_ROBOT = 38
 local dsps = {
-    ["models/player/tcf/gasmask_citizen.mdl"] = DSP_GASMASK
+    ["models/player/tcf/gasmask_citizen.mdl"] = DSP_GASMASK,
+    ["models/player/robot.mdl"] = DSP_ROBOT
 }
 
 function voicelines.Emit(ent, snd)
