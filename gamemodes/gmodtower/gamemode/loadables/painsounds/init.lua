@@ -64,7 +64,7 @@ function getSounds(ply, mdl, type)
             snd = table.Random(snd)
         end
 
-        if isstring(snd) && female == 1 then
+        if isstring(snd) && (female == true || female == 1) then
             snd = string.Replace(snd, "male", "female")
         end
 
