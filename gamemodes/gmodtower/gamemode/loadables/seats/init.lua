@@ -170,8 +170,6 @@ local function PlayerLeaveVehicle( vehicle, ply )
 			TryPlayerExit(ply, vehicle)
 		end
 
-		ply:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
-
 		ply:SetDriving( nil )
 	end
 
