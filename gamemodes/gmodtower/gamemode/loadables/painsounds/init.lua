@@ -8,6 +8,23 @@ local retry = {
 }
 
 function voicelines.Add(mdl, tbl)
+    for _, t in pairs(tbl) do
+        if istable(t) then
+            for _2, t in pairs(t) do
+                if isstring(t) and string.find(t, "{") then
+                    local ids = string.Split(string.Split(t, "{")[2], "}")[1]
+                    ids = string.Split(ids, "-")
+
+                    tbl[_][_2] = {}
+                    for i = ids[1], ids[2] do
+                        local s = string.Split(t, "{")[1] .. i .. string.Split(t, "}")[2]
+                        table.insert(tbl[_][_2], s)
+                    end
+                end
+            end
+        end
+    end
+
     playerSounds[mdl] = tbl
 end
 
