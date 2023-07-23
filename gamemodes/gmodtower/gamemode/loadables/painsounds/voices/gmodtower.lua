@@ -115,6 +115,8 @@ voicelines.Add("models/player/drpyspy/spy.mdl", {
     }
 })
 
+voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
+
 voicelines.SetFemale("models/player/zoey.mdl")
 voicelines.SetFemale("models/player/miku.mdl")
 voicelines.SetFemale("models/player/samusz.mdl")
