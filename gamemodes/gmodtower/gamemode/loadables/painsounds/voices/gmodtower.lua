@@ -25,7 +25,7 @@ voicelines.Add("models/player/re/albert_wesker_overcoat_pm.mdl", {
         Small = {
             "gmodtower/player/wesker/25.mp3",
             "gmodtower/player/wesker/28.mp3"
-        }
+        },
         Medium = {
             "gmodtower/player/wesker/26.mp3",
             "gmodtower/player/wesker/27.mp3",
@@ -45,7 +45,7 @@ voicelines.Add("models/player/re/albert_wesker_overcoat_pm.mdl", {
     },
     Taunts = {
         "gmodtower/player/wesker/s506_80_Wesker.mp3",
-        "gmodtower/player/wesker/s506_79_Wesker.mp3",
+        // "gmodtower/player/wesker/s506_79_Wesker.mp3",
         "gmodtower/player/wesker/s506_79_Wesker.mp3",
         "gmodtower/player/wesker/s506_76_Wesker.mp3",
         "gmodtower/player/wesker/s506_75_Wesker.mp3",
