@@ -215,7 +215,7 @@ function GM:PlayerSpawn( ply )
 		vm:SetColor( Color( 255, 255, 255, 255 ) )
 	end
 
-	ply:SetCollisionGroup( COLLISION_GROUP_WEAPON )
+	ply:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
 	
 	if ( self:GetState() == STATE_WAITING ) then virusDeath = 0 return end
 	
