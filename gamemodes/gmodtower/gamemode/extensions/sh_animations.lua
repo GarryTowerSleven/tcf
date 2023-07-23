@@ -47,6 +47,12 @@ function GM:CalcMainActivity( ply, velocity )
 
 	end
 
+	if model == "models/player/re/albert_wesker_overcoat_pm.mdl" then
+		if velocity:Length2D() >= ply:GetWalkSpeed() + 50 && ply:IsOnGround() && (!IsValid(weapon) || ht == "normal" || ht == "") then
+			ply.CalcIdeal = ACT_HL2MP_RUN_FAST
+		end
+	end
+
 	// Dog animations
 	if model == "models/zom/dog.mdl" then
 
