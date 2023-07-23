@@ -106,35 +106,49 @@ function GM:RandomInfect()
 	local time = self.RoundTime
 	self:SetTime( time )
 
-	local plys = player.GetAll()
+	local plycount = player.GetAll()
 
-	if ( #plys == 0 ) then
+	if ( #plycount <= 1 ) then
+	
 		GAMEMODE:EndServer()
 		return
+		
 	end
+	
+	local plysawake = {}
+	local plys = {}
 
+	for _, ply in ipairs(player.GetAll()) do
+		if !ply:GetNet("AFK") then
+			table.insert(plysawake, ply)
+			if ply != GAMEMODE.LastInfected then
+				table.insert (plys, ply)
+			end
+		end
+	end
+	
 	math.randomseed( RealTime() * 5555 )
-
-	local virusPlayer
-	local PlayerCount = #plys
-
-	repeat
-
-		local virusRand = math.random( 1, PlayerCount )
-		virusPlayer = plys[ virusRand ]
-
-	until virusPlayer != GAMEMODE.LastInfected
-
-	if #team.GetPlayers( TEAM_INFECTED ) < 1 then
-
-		self.FirstInfected = virusPlayer
-
+	
+	local infected = table.Random(plys)
+	
+	if table.IsEmpty(plys) then
+		if !table.IsEmpty(plysawake) then
+			infected = table.Random(plysawake)
+		elseif table.IsEmpty(plysawake) then
+			local plyfuckit = {}
+			for _, ply in ipairs(player.GetAll()) do
+				table.insert(plysfuckit, ply)
+			end
+			infected = table.Random(plysfuckit)
+		end
 	end
-
-	GAMEMODE:Infect( virusPlayer )
-
-	if PlayerCount > 1 then
-		GAMEMODE.LastInfected = virusPlayer
+	
+	self.FirstInfected = infected
+	
+	self:Infect(infected)
+	
+	if #plycount > 1 then
+		GAMEMODE.LastInfected = infected
 	end
 
 end
