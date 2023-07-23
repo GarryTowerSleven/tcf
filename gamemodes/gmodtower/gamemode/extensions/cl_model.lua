@@ -76,6 +76,31 @@ local limit = 4
 local glow = Material("cable/redlaser")
 local glow2 = Material("sprites/glow04_noz")
 
+hook.Add("Think", "Wesker", function()
+	for _, ply in ipairs(player.GetAll()) do
+		if ply:GetModel() ~= "models/player/re/albert_wesker_overcoat_pm.mdl" then continue end
+
+		local pos = ply:GetAttachment(1)
+		ply.Eyes = ply.Eyes or {{}, {}}
+	
+		if !ply.LastEyes2 or ply.LastEyes2 < SysTime() then
+			table.remove(ply.Eyes[1], limit + 1)
+			table.remove(ply.Eyes[2], limit + 1)
+
+			if ply:GetVelocity():Length2D() < 64 or math.abs(math.NormalizeAngle(ply:EyeAngles().y - ply:GetVelocity():Angle().y)) > 90 then
+				// table.insert(ply.Eyes[1], 1, pos.Pos + pos.Ang:Forward() * 0 + pos.Ang:Up() * 0.5 + pos.Ang:Right() * 1)
+				// table.insert(ply.Eyes[2], 1, pos.Pos + pos.Ang:Forward() * 0 + pos.Ang:Up() * 0.5 - pos.Ang:Right() * 1.25)
+			else
+				table.remove(ply.Eyes[1], 1)
+				table.remove(ply.Eyes[2], 1)
+			end
+
+			ply.LastEyes2 = SysTime() + 0.01
+		end
+	
+	end
+end)
+
 hook.Add("PostPlayerDraw", "Wesker", function(ply)
 	if ply:GetModel() ~= "models/player/re/albert_wesker_overcoat_pm.mdl" then return end
 	local pos = ply:GetAttachment(1)
@@ -88,9 +113,6 @@ hook.Add("PostPlayerDraw", "Wesker", function(ply)
 		if ply:GetVelocity():Length2D() < 64 or math.abs(math.NormalizeAngle(ply:EyeAngles().y - ply:GetVelocity():Angle().y)) > 90 then
 			table.insert(ply.Eyes[1], 1, pos.Pos + pos.Ang:Forward() * 0 + pos.Ang:Up() * 0.5 + pos.Ang:Right() * 1)
 			table.insert(ply.Eyes[2], 1, pos.Pos + pos.Ang:Forward() * 0 + pos.Ang:Up() * 0.5 - pos.Ang:Right() * 1.25)
-		else
-			table.remove(ply.Eyes[1], 1)
-			table.remove(ply.Eyes[2], 1)
 		end
 
 		ply.LastEyes = SysTime() + 0.01
