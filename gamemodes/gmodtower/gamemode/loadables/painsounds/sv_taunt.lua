@@ -2,6 +2,7 @@ local m = FindMetaTable("Player")
 
 function m:Taunt()
     if !self.LastKillTime or (self.LastKillTime + 8) < CurTime() then return end
+    self.LastKillTime = nil
     return voicelines.Emit(self, "Taunts,Kill")
 end
 
