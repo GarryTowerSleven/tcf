@@ -194,6 +194,8 @@ for _, emote in pairs(Commands) do
 			voicelines.Emit(ply, "Laughs")
 		elseif emoteName == "cheer" then
 			voicelines.Emit(ply, "Cheers")
+		elseif emoteName == "flail" then
+			voicelines.Emit(ply, "Flails")
 		end
 
 		DoEmoteChat( ply, emoteName )
