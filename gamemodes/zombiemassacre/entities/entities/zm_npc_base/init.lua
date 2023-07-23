@@ -36,6 +36,7 @@ function ENT:Initialize()
 	self:CapabilitiesAdd( CAP_INNATE_MELEE_ATTACK1 )
 
 	self:SetCustomCollisionCheck( true )
+	self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 
 	self:SetMaxYawSpeed( 5000 )
 	self:ClearSchedule()

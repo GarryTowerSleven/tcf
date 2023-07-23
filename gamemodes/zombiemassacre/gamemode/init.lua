@@ -138,7 +138,7 @@ hook.Add( "PlayerSpawn", "Weapon_Give", function( ply )
 	// Set player model
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
 
-	ply:SetNoCollideWithTeammates( true )
+	ply:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 
 	ply:ConCommand( 'zm_comboclear' )
 

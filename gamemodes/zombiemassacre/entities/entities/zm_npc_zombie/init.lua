@@ -33,6 +33,8 @@ function ENT:Initialize()
 	self:SetMoveType( MOVETYPE_STEP )
 	self:CapabilitiesAdd( CAP_MOVE_GROUND ) 	
 	self:CapabilitiesAdd( CAP_INNATE_MELEE_ATTACK1 )
+	self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
+	self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 
 	self:SetMaxYawSpeed( 5000 )
 	self:ClearSchedule()
