@@ -15,7 +15,7 @@ voicelines.Add("models/player/re/chris.mdl", {
     },
     Death = {
         "gmodtower/player/re/chris/death01.wav"
-    }, // We'll typically reuse Large Pain.
+    },
     Taunts = {
     }
 })

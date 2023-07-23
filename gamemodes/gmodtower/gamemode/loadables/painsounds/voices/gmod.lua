@@ -18,7 +18,7 @@ local citizen = {
             "vo/npc/male01/pain09.wav"
         }
     },
-    Death = {}, // We'll typically reuse Large Pain.
+    Death = {},
     Taunts = {
         Generic = {
         },
@@ -40,7 +40,6 @@ local zombie = {
     Taunts = {"Zombie.Idle"}
 }
 
-// This isn't used, since we're reimplementing HEV Voice Lines...
 local hev = {
     Pain = {
         Small = {"S:HEV_DMG4"},
