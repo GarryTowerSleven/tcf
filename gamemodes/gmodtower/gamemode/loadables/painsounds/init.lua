@@ -105,3 +105,5 @@ include("sv_taunt.lua")
 include("voices/default.lua")
 include("voices/gmod.lua")
 include("voices/gmodtower.lua")
+
+AddCSLuaFile("cl_init.lua")
