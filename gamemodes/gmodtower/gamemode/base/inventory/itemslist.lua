@@ -167,7 +167,7 @@ RegisterItem("disco_ball",{
 	EnablePhyiscs = true,
 	DrawModel = true,
 	StoreId = GTowerStore.MUSIC,
-	StorePrice = 4000,
+	StorePrice = 20000,
 })
 
 RegisterItem("obama_visualizer",{
