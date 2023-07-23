@@ -161,6 +161,31 @@ voicelines.Add("models/player/jcplayer.mdl", {
     Death = "gmodtower/player/deusex/maledeath.wav"
 })
 
+voicelines.Add("models/player/sumario_galaxy.mdl", {
+    Pain = {
+        Small = "gmodtower/player/mario/pain_small0{1-2}.wav",
+        Medium = "gmodtower/player/mario/pain_medium0{1-2}.wav",
+        Large = "gmodtower/player/mario/pain_large0{1-2}.wav",
+    },
+    Death = "gmodtower/player/mario/death0{1-2}.wav"
+})
+
+voicelines.Add("models/player/suluigi_galaxy.mdl", {
+    Pain = {
+        Medium = "gmodtower/player/luigi/pain_medium0{1-3}.wav",
+        Large = "gmodtower/player/luigi/pain_large0{1-2}.wav",
+    },
+    Death = "gmodtower/player/mario/death01.wav"
+})
+
+voicelines.Add("models/player/yoshi.mdl", {
+    Pain = {
+        Large = "gmodtower/player/yoshi/pain_large0{1-3}.wav",
+    },
+    Death = "gmodtower/player/yoshi/death01.wav",
+    Taunt = "gmodtower/player/yoshi/taunt01.wav"
+})
+
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
 
 voicelines.SetFemale("models/player/zoey.mdl")
