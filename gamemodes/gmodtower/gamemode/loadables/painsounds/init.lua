@@ -75,7 +75,7 @@ function getSounds(ply, mdl, type)
 end
 
 function voicelines.SetFemale(mdl)
-    mdls[mdl] = true
+    mdls[mdl] = 1
 end
 
 function isFemaleDefault(mdl)
@@ -93,6 +93,15 @@ local cooldowns = {
     ["Taunts"] = 1.4
 }
 
+// TODO: Don't hardcode this.
+local models = {
+    ["models/player/zoey.mdl"] = 2,
+    ["models/player/miku.mdl"] = 8,
+    ["models/nikout/carleypm.mdl"] = 1,
+    ["models/player/faith.mdl"] = 2,
+    ["models/player/midna.mdl"] = 20
+}
+
 function voicelines.Emit(ent, snd)
     local type = string.Split(snd, ",")[1]
 
@@ -101,7 +110,7 @@ function voicelines.Emit(ent, snd)
     ent.CoolDowns[type] = CurTime() + (cooldowns[type] or 2)
 
     snd = getSounds(ent, ent:GetModel(), snd)
-    local vol, pitch = 75, 100
+    local vol, pitch = 75, 100 + (models[ent:GetModel()] or 0)
 
     if istable(snd) then
 

@@ -114,3 +114,11 @@ voicelines.Add("models/player/drpyspy/spy.mdl", {
         "vo/spy_sf13_influx_big02.mp3"
     }
 })
+
+voicelines.SetFemale("models/player/zoey.mdl")
+voicelines.SetFemale("models/player/miku.mdl")
+voicelines.SetFemale("models/player/samusz.mdl")
+voicelines.SetFemale("models/player/zelda.mdl")
+voicelines.SetFemale("models/player/faith.mdl")
+voicelines.SetFemale("models/nikout/carleypm.mdl")
+voicelines.SetFemale("models/player/midna.mdl")
