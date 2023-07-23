@@ -125,6 +125,24 @@ voicelines.Add("models/player/zoey.mdl", {
     Taunts = "player/survivor/voice/TeenGirl/Taunt{18-31}.wav"
 })
 
+voicelines.Add("models/player/mcsteve.mdl", {
+    Pain = {
+        "gmodtower/player/minecraft/classic_hurt.ogg"
+    }
+})
+
+voicelines.Add("models/ex-mo/quake3/players/doom.mdl", {
+    Pain = {
+        Small = "gmodtower/player/doom/pain50_1.wav",
+        Medium = "gmodtower/player/doom/pain75_1.wav",
+        Large = "gmodtower/player/doom/pain100_1.wav",
+    },
+    Death =  "gmodtower/player/doom/death{1-3}.wav",
+    Taunts = {
+        "gmodtower/player/doom/taunt.wav"
+    }
+})
+
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
 
 voicelines.SetFemale("models/player/zoey.mdl")
