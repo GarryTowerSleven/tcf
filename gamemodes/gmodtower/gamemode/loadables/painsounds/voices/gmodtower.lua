@@ -117,12 +117,12 @@ voicelines.Add("models/player/drpyspy/spy.mdl", {
 
 voicelines.Add("models/player/zoey.mdl", {
     Pain = {
-        Small = "player/survivor/voice/TeenGirl/HurtMinor0{1-4}.wav",
-        Medium = "player/survivor/voice/TeenGirl/HurtMajor0{1-4}.wav",
-        Large = "player/survivor/voice/TeenGirl/HurtCritical0{1-4}.wav"
+        Small = "gmodtower/player/zoey/HurtMinor0{1-4}.wav",
+        Medium = "gmodtower/player/zoey/HurtMajor0{1-4}.wav",
+        Large = "gmodtower/player/zoey/HurtCritical0{1-4}.wav"
     },
-    Death = "player/survivor/voice/TeenGirl/DeathScream0{1-9}.wav",
-    Taunts = "player/survivor/voice/TeenGirl/Taunt{18-31}.wav"
+    Death = "gmodtower/player/zoey/DeathScream0{1-9}.wav",
+    Taunts = "gmodtower/player/zoey/Taunt{18-31}.wav"
 })
 
 voicelines.Add("models/player/mcsteve.mdl", {
@@ -184,6 +184,24 @@ voicelines.Add("models/player/yoshi.mdl", {
     },
     Death = "gmodtower/player/yoshi/death01.wav",
     Taunt = "gmodtower/player/yoshi/taunt01.wav"
+})
+
+voicelines.Add("models/player/chris.mdl", {
+    Pain = {
+        Small = "gmodtower/player/chris/3{1-5}.wav",
+        Medium = "gmodtower/player/chris/3{6-9}.wav",
+        Large = "gmodtower/player/chris/40.wav"
+    },
+    Death = "gmodtower/player/chris/9.wav"
+})
+
+voicelines.Add("modesl/player/leon.mdl", {
+    Damage = {
+        {
+            "gmodtower/player/leon/leon_dam{1-5}.ogg"
+        }
+    },
+    Death = "gmodtower/player/leon/leon_death.ogg"
 })
 
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
