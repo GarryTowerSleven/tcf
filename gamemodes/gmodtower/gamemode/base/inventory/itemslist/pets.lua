@@ -331,6 +331,89 @@ GTowerItems.RegisterItem( "TurtlePet", {
 
 } )
 
+GTowerItems.RegisterItem( "YoshiEggs", {
+
+	Name = "Yoshi Eggs",
+
+	Description = "Cute little eggs that follow you around.",
+
+	Model = "models/map_detail/toy_yoshiegg.mdl",
+
+
+
+	DrawModel = true,
+
+	Equippable = true,
+
+	NewItem = true,
+
+	StoreId = 26,
+
+	StorePrice = 25000,
+
+
+
+	UniqueInventory = true,
+
+	UniqueEquippable = false,
+
+
+
+	EquipType = "PetSimple",
+
+	InvCategory = "pet",
+
+
+
+	CanEntCreate = false,
+
+	DrawName = true,
+
+	CanRemove = true,
+
+	Tradable = true,
+
+	NoBank = false,
+
+
+
+	EquippableEntity = true,
+
+	RemoveOnDeath = true,
+
+	RemoveOnNoEntsLoc = true,
+
+
+	CreateEquipEntity = function( self )
+
+
+
+		local pet = ents.Create( "gmt_wearable_eggs" )
+
+
+
+		if IsValid( pet ) then
+
+			pet:SetOwner( self.Ply )
+
+			pet:SetParent( self.Ply )
+
+			pet:SetPos( self.Ply:GetPos() )
+
+			pet:Spawn()
+
+		end
+
+
+
+		return pet
+
+
+
+	end,
+
+} )
+
 // THIS IS A MILESTONE
 GTowerItems.RegisterItem( "ChimeraPet", {
 

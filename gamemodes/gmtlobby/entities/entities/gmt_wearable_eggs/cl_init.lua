@@ -68,7 +68,7 @@ function ENT:Think()
 			local pos = ply:GetPos()
 			local ang = ply:EyeAngles()
 			local offset = ang:Forward() * ( i * -35 )
-			offset.z = 0
+			offset.z = 3
 
 			egg.GoalPos = pos + offset + Vector( 0, 0, math.sin( CurTime() * 1.2 ) * 2 )
 			egg.GoalAngle = Angle( 0, ang.y - 90, ang.r )
