@@ -102,6 +102,11 @@ local models = {
     ["models/player/midna.mdl"] = 20
 }
 
+local DSP_GASMASK = 30
+local dsps = {
+    ["models/player/tcf/gasmask_citizen.mdl"] = DSP_GASMASK
+}
+
 function voicelines.Emit(ent, snd)
     local type = string.Split(snd, ",")[1]
 
@@ -119,7 +124,7 @@ function voicelines.Emit(ent, snd)
     elseif string.StartWith(snd, "S:") then
         EmitSentence(string.sub(snd, 3), ent:GetPos(), ent:EntIndex(), CHAN_VOICE, 1, vol, 0, pitch)
     else
-        ent:EmitSound(snd, vol, pitch, 1, CHAN_VOICE)
+        ent:EmitSound(snd, vol, pitch, 1, CHAN_VOICE, 0, dsps[ent:GetModel()] or 0)
     end
 end
 
