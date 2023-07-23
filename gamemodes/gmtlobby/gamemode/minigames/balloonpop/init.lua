@@ -47,7 +47,7 @@ function BalloonPopStart()
 	timer.Create( "BalloonPop", 0.25, 0, function()
 		if Poppers >= 6 then
 			LastSpawn = CurTime()
-			BalloonRate = ( CurTime() + math.Clamp( 0.55 - ( Poppers * 0.01 ), 0.25, 0.50) )
+			BalloonRate = ( CurTime() + math.Clamp( 0.525 - ( Poppers * 0.005 ), 0.25, 0.50) )
 		else
 			BalloonRate = CurTime() + 0.5
 		end
