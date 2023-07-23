@@ -91,7 +91,7 @@ Maps.Register( "gmt_ballracer_neonlights01", {
 
 Maps.Register( "gmt_ballracer_nightball", {
 	Name = "Night World",
-	Desc = "Roll trough this gravity defying world with moving obstacles, lasers, and lots of speed!",
+	Desc = "Roll through this gravity defying world with moving obstacles, lasers, and lots of speed!",
 	Author = "Bumpy",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
@@ -127,7 +127,7 @@ Maps.Register( "gmt_ballracer_tranquil01", {
 
 Maps.Register( "gmt_ballracer_facile", {
 	Name = "Facile",
-	Desc = "A simplisic, but difficult world. Avoid repellers in space, or go full hyperspeed while magnetized.",
+	Desc = "A simplisic, but extremely difficult world. Avoid repellers in space, or go full hyperspeed while magnetized.",
 	Author = "Bumpy",
 	DateAdded = 1339137397,
 	DateModified = 1339252668,
