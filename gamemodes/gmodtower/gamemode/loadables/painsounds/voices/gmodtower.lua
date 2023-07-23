@@ -175,7 +175,7 @@ voicelines.Add("models/player/suluigi_galaxy.mdl", {
         Medium = "gmodtower/player/luigi/pain_medium0{1-3}.wav",
         Large = "gmodtower/player/luigi/pain_large0{1-2}.wav",
     },
-    Death = "gmodtower/player/mario/death01.wav"
+    Death = "gmodtower/player/luigi/death01.wav"
 })
 
 voicelines.Add("models/player/yoshi.mdl", {
