@@ -125,18 +125,6 @@ voicelines.Add("models/player/zoey.mdl", {
     Taunts = "player/survivor/voice/TeenGirl/Taunt{18-31}.wav"
 })
 
-
-local hev = {
-    Pain = {
-        Small = {"S:HEV_DMG4"},
-        Medium = {"S:HEV_DMG5"},
-        Large = {"S:HEV_DMG5"}
-    },
-    Death = {"S:HEV_DEAD0", "S:HEV_DEAD1"}
-}
-voicelines.Add("models/player/normal.mdl", hev)
-voicelines.Add("modesl/player/gordon.mdl", hev)
-
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
 
 voicelines.SetFemale("models/player/zoey.mdl")
