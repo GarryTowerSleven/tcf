@@ -267,6 +267,15 @@ RegisterModel(
 	"models/player/leon.mdl",
 	"leon",
 	5500 )
+
+RegisterModel(
+	"mdl_albertwesker",
+	"Albert Wesker",
+	"7 minutes... 7 minutes is all I can spare to play with you.",
+	"models/player/re/albert_wesker_overcoat_pm.mdl",
+	"wesker",
+	0
+)
 	
 RegisterModel(
 	"mdl_postaldude",
