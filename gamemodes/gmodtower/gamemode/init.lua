@@ -280,8 +280,10 @@ function GM:PlayerSetHandsModel(ply, ent)
 
 			if !name || !string.find(name, "arm") && !string.find(name, "hand") && !string.find(name, "finger") && !string.find(name, "wrist") && !string.find(name, "ulna") then
 				ent:ManipulateBoneScale(i, Vector(0, 0, 0))
+				ent:ManipulateBonePosition(i, Vector(-512, -512, -512))
 			else
 				ent:ManipulateBoneScale(i, Vector(1, 1, 1))
+				ent:ManipulateBonePosition(i, vector_origin)
 			end
 		end
 	end)
