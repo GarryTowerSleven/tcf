@@ -135,11 +135,7 @@ function GM:RandomInfect()
 		if !table.IsEmpty(plysawake) then
 			infected = table.Random(plysawake)
 		elseif table.IsEmpty(plysawake) then
-			local plyfuckit = {}
-			for _, ply in ipairs(player.GetAll()) do
-				table.insert(plysfuckit, ply)
-			end
-			infected = table.Random(plysfuckit)
+			infected = table.Random(player.GetAll())
 		end
 	end
 	
