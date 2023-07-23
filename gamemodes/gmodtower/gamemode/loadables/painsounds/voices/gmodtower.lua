@@ -143,6 +143,16 @@ voicelines.Add("models/ex-mo/quake3/players/doom.mdl", {
     }
 })
 
+voicelines.Add("models/player/lordvipes/haloce/spartan_classic.mdl", {
+    Pain = {
+        {
+            "gmodtower/player/halo/shield_hit.wav"
+        }
+    },
+    Death =  "gmodtower/player/halo/death_violent_{1-5}.wav"
+})
+
+
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
 
 voicelines.SetFemale("models/player/zoey.mdl")
