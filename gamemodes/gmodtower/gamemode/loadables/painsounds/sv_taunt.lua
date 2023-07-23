@@ -12,10 +12,6 @@ hook.Add("EntityTakeDamage", "a", function(e, dmg)
     end
 end)
 
-function GM:CanUndo(ply)
-    print("!")
-end
-
 util.AddNetworkString("Taunt")
 net.Receive("Taunt", function(_, ply)
     ply:Taunt()

@@ -152,7 +152,7 @@ function voicelines.Emit(ent, snd)
     elseif string.StartWith(snd, "S:") then
         EmitSentence(string.sub(snd, 3), ent:GetPos(), ent:EntIndex(), CHAN_VOICE, 1, vol, 0, pitch)
     else
-        ent:EmitSound(snd, vol, pitch, 1, CHAN_VOICE, 0, dsps[ent:GetModel()] or 0)
+        ent:EmitSound(snd, vol, pitch, 0.65, CHAN_VOICE, 0, dsps[ent:GetModel()] or 0)
     end
 end
 
