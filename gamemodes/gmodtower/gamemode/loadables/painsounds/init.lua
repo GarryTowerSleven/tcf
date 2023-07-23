@@ -8,7 +8,7 @@ end
 
 function getSounds(mdl, type)
     local tbl = playerSounds[mdl]
-    local female
+    local female = isFemaleDefault(mdl) or 0
 
     if !tbl then
         if mdls[mdl] then
@@ -69,6 +69,7 @@ function isFemaleDefault(mdl)
     end
 
     mdls[mdl] = string.find(mdl, "female") and 1 or 0
+    return mdls[mdl]
 end
 
 local cooldowns = {

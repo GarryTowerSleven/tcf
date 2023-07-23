@@ -96,9 +96,9 @@ local cs_bot = {
 
 local combine = {
     Pain = {
-            "S:METROPOLICE_PAIN0",
-            "S:METROPOLICE_PAIN1",
-            "S:METROPOLICE_PAIN2"
+        "S:METROPOLICE_PAIN0",
+        "S:METROPOLICE_PAIN1",
+        "S:METROPOLICE_PAIN2"
     },
     Death = {
         "S:METROPOLICE_DIE0",
@@ -154,10 +154,10 @@ voicelines.SetFemale("models/player/p2_chell.mdl")
 voicelines.SetFemale("models/player/police_fem.mdl")
 
 for i = 1, 9 do
-    voicelines.Add("models/player/group01/male0" .. i .. ".mdl", citizen)
-    voicelines.Add("models/player/group02/male0" .. i .. ".mdl", citizen)
-    voicelines.Add("models/player/group03/male0" .. i .. ".mdl", citizen)
-    voicelines.Add("models/player/group01/female0" .. i .. ".mdl", citizen)
-    voicelines.Add("models/player/group02/female0" .. i .. ".mdl", citizen)
-    voicelines.Add("models/player/group03/female0" .. i .. ".mdl", citizen)
+    voicelines.Add("models/player/group01/male_0" .. i .. ".mdl", citizen)
+    voicelines.Add("models/player/group02/male_0" .. i .. ".mdl", citizen)
+    voicelines.Add("models/player/group03/male_0" .. i .. ".mdl", citizen)
+    voicelines.Add("models/player/group01/female_0" .. i .. ".mdl", citizen)
+    voicelines.Add("models/player/group02/female_0" .. i .. ".mdl", citizen)
+    voicelines.Add("models/player/group03/female_0" .. i .. ".mdl", citizen)
 end
