@@ -25,6 +25,7 @@ local print = print
 local CurTime = CurTime
 local ACHIEVEMENTS = ACHIEVEMENTS
 local Location = Location
+local Dueling = Dueling
 local EffectData = EffectData
 local util = util
 
@@ -153,9 +154,9 @@ local function ObamaManStart( flags )
 	end
 	
 	timer.Create( "ObamaMan", 0.15, 0, function()
-		if Smashers >= 5 then
+		if Smashers >= 6 then
 			LastSmash = CurTime()
-			ObamaRate = ( CurTime() + math.Clamp( 0.40 - ( Smashers * 0.01 ), 0.15, 0.35) )
+			ObamaRate = ( CurTime() + math.Clamp( 0.39 - ( Smashers * 0.01 ), 0.15, 0.35) )
 		else
 			ObamaRate = CurTime() + 0.35
 		end
@@ -262,9 +263,9 @@ function End()
 end
 
 hook.Add("ScalePlayerDamage","ObamaDamage",function(ply, h, d)
-	if ( OBAMA_GAME_ACTIVE && ply.HasCrowbar == true ) then
-		if Location.Is( ply:Location(), "Suites" ) || Location.Is( ply:Location(), "Lobby" ) then
-			return true
-		end
+
+	if ( OBAMA_GAME_ACTIVE && !Dueling.IsDueling( ply ) ) then
+		return true
 	end
+
 end)

@@ -37,22 +37,34 @@ local BALLOON_GAME_ACTIVE = false
 module("minigames.balloonpop" )
 
 TotalMoney = 0
+Poppers = 0
+BalloonRate = 0
 
 function BalloonPopStart()
 
 	SetGlobalFloat("MinigameRoundTime",CurTime()+120) -- We'll need to change this, probably
 
-	timer.Create( "BalloonPop", 0.5, 0, function()
-		local entposX = math.Rand(151.338440,1696.545044)
-		local entposY = math.Rand(-2046.452148,-910.703613)
-		local ent = ents.Create("gmt_minigame_balloon")
-		ent:SetModel("models/maxofs2d/balloon_classic.mdl")
-		ent:SetAngles(Angle(0,0,0))
-		ent:SetPos( Vector(entposX,entposY,373.151642) )
-		ent.MiniGame = true
-		ent:SetColor(Color(math.random(100,255),math.random(100,255),math.random(100,255),255))
-		ent:Spawn()
-		ent:SetForce(12.5)
+	timer.Create( "BalloonPop", 0.25, 0, function()
+		if Poppers >= 6 then
+			LastSpawn = CurTime()
+			BalloonRate = ( CurTime() + math.Clamp( 0.55 - ( Poppers * 0.01 ), 0.25, 0.50) )
+		else
+			BalloonRate = CurTime() + 0.5
+		end
+		if LastSpawn < BalloonRate then
+			print(BalloonRate - CurTime())
+			print(Poppers)
+			local entposX = math.Rand(151.338440,1696.545044)
+			local entposY = math.Rand(-2046.452148,-910.703613)
+			local ent = ents.Create("gmt_minigame_balloon")
+			ent:SetModel("models/maxofs2d/balloon_classic.mdl")
+			ent:SetAngles(Angle(0,0,0))
+			ent:SetPos( Vector(entposX,entposY,373.151642) )
+			ent.MiniGame = true
+			ent:SetColor(Color(math.random(100,255),math.random(100,255),math.random(100,255),255))
+			ent:Spawn()
+			ent:SetForce(12.5)
+		end
 	end )
 end
 
@@ -119,6 +131,7 @@ function GiveWeapon( ply )
 		ply:GiveAmmo( 999, WeaponAmmo )
 		ply:SelectWeapon( WeaponName )
 		ply.CanPickupWeapons = false
+		ply.HasCrossbow = true
 	end
 
 	--ply:GodDisable()
@@ -128,6 +141,7 @@ end
 function CheckGiveWeapon( ply, loc )
 
 	if loc == MinigameLocation then
+		Poppers = Poppers + 1
 		GiveWeapon( ply )
 	else
 		RemoveWeapon( ply )
@@ -137,7 +151,9 @@ end
 
 function RemoveWeapon( ply )
 	if ply:HasWeapon(WeaponName) then
+		Poppers = Poppers - 1
 		ply:StripWeapons()
+		ply.HasCrossbow = false
 	end
 end
 
@@ -157,6 +173,21 @@ function Start( flags )
 	hook.Add("Think", "StagnancyCheck", BalloonStagnancy )
 	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissalowResize )
 
+	hook.Add("PlayerDeath", "Ninjaspeak", function( victim )
+		if ( victim.HasCrossbow == true ) then
+			victim.HasCrossbow = false
+			Poppers = Poppers - 1
+		end
+	end)
+
+	hook.Add("PlayerDisconnected", "Ninjaleave", function(ply)
+		if ( ply.HasCrossbow == true ) then
+			Poppers = Poppers - 1
+		end
+	end)
+
+	Poppers = 0
+	
 	for _, v in pairs( player.GetAll() ) do
 		SafeCall( CheckGiveWeapon, v, v:Location() )
 	end
