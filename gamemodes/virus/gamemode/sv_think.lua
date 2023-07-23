@@ -115,6 +115,7 @@ function GM:VirusThink( ply )
 		for _, v in ipairs( objs ) do
 			if ( IsValid( v ) && v:IsPlayer() && !v:GetNet( "IsVirus" ) ) then	
 				self:Infect( v, ply )
+				ply.LastKillTime = CurTime() + 8
 			end
 		end
 	end

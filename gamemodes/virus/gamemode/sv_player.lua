@@ -1,9 +1,3 @@
-moans = {
-	Sound( "npc/zombie/zombie_die1.wav" ),
-	Sound( "npc/zombie/zombie_die2.wav" ),
-	Sound( "npc/zombie/zombie_die3.wav" )
-}
-
 strikes = {
 	Sound( "npc/zombie/claw_strike1.wav" ),
 	Sound( "npc/zombie/claw_strike2.wav" ),
@@ -49,8 +43,6 @@ function GM:HandlePlayerDeath( ply, attacker, inflictor )
 		util.Effect( "virus_explode", eff )
 
 		virusDeath = virusDeath + 1
-		
-		ply:EmitSound(table.Random(moans), 75)
 	end
 
 	ply.RespawnTime = CurTime() + 4

@@ -1,7 +1,7 @@
 // === GMT SETUP ===
 DeriveGamemode( "gmtgamemode" )
 SetupGMTGamemode( "Virus", "virus", {
-	Loadables = { "weaponfix", "virus" }, // Additional loadables
+	Loadables = { "weaponfix", "virus", "painsounds" }, // Additional loadables
 	AllowSmall = true, // Small player models
 	DrawHatsAlways = false, // Always draw hats
 	AFKDelay = 90 - 20, // Seconds before they will be marked as AFK

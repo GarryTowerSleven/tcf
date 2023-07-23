@@ -45,8 +45,6 @@ voicelines.Add("models/player/re/albert_wesker_overcoat_pm.mdl", {
     },
     Taunts = {
         "gmodtower/player/wesker/s506_80_Wesker.mp3",
-        // "gmodtower/player/wesker/s506_79_Wesker.mp3",
-        "gmodtower/player/wesker/s506_79_Wesker.mp3",
         "gmodtower/player/wesker/s506_76_Wesker.mp3",
         "gmodtower/player/wesker/s506_75_Wesker.mp3",
         "gmodtower/player/wesker/s508_95_Wesker.mp3",
@@ -77,4 +75,10 @@ voicelines.Add("models/player/re/albert_wesker_overcoat_pm.mdl", {
         "gmodtower/player/wesker/s508_86_Wesker.mp3",
         "gmodtower/player/wesker/s508_88_Wesker.mp3"
     }
+})
+
+voicelines.Add("models/player/virusi.mdl", {
+    Pain = {"Zombie.Pain"},
+    Death = {"Zombie.Die"},
+    Taunts = {"Zombie.Idle"}
 })
