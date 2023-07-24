@@ -206,6 +206,24 @@ voicelines.Add("models/player/leon.mdl", {
     Taunts = "gmodtower/player/leon/leon_no.ogg"
 })
 
+voicelines.Add("models/player/azuisleet1.mdl", {
+    Damage = {
+        Light = "gmodtower/player/metropolice/knockout{1-3}.wav",
+        Medium = "S:METROPOLICE_PAIN{0-2}",
+        Large = "S:METROPOLICE_PAIN{0-2}"
+    },
+    Death = "gmodtower/player/metropolice/fire_scream{2-3}.wav",
+    Taunts = {
+        "gmodtower/player/metropolice/mc1ans_enoughouttayou.wav",
+        "gmodtower/player/metropolice/mc1ans_bellyaching.wav",
+        "gmodtower/player/metropolice/mc1ans_stopwhining.wav",
+        "gmodtower/player/metropolice/mc1ans_theresyerproblem.wav",
+        "gmodtower/player/metropolice/mc1que_career.wav",
+        "gmodtower/player/metropolice/mc1que_everythingihoped.wav",
+        "gmodtower/player/metropolice/mc1que_feelinggood.wav"
+    }
+})
+
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
 
 voicelines.SetFemale("models/player/zoey.mdl")
