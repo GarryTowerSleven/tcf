@@ -90,23 +90,41 @@ net.Receive("hat_req", function(len, ply)
 
                 return
             end
+			if #res[1].data == 0 then
+				SQL.getDB():Query( "INSERT INTO `gm_hats`(id,hat,plymodel,vx,vy,vz,ap,ay,ar,scale) VALUES ("..GTowerHats:GetHatByName( hat )..",'"..hat.."','"..model.."',0,-2.5,6,13,0,0,1)")
+				
+				hatdata = {GTowerHats:GetHatByName( hat ), 0, 2.5, 6, 13, 0, 0, 1}
+				// hatsOffetsCount = hatsOffetsCount + 1
 
-            for k, v in pairs(res[1].data) do
-                hatdata = {v.id, v.vx, v.vy, v.vz, v.ap, v.ay, v.ar, v.scale}
-                // hatsOffetsCount = hatsOffetsCount + 1
-            end
+				// MsgC(color_green, "[Hats] Hats Table created with a total of " .. hatsOffetsCount .. " entries!\n")
+				local pos = Vector(tonumber(hatdata[2]), tonumber(hatdata[3]), tonumber(hatdata[4]))
+				local ang = Angle(tonumber(hatdata[5]), tonumber(hatdata[6]), tonumber(hatdata[7]))
+				local scale = tonumber(hatdata[8])
+				net.Start("hat_snd")
+				net.WriteString(hat)
+				net.WriteString(model)
+				net.WriteVector(pos)
+				net.WriteAngle(ang)
+				net.WriteFloat(scale)
+				net.Send(ply)
+			else
+				for k, v in pairs(res[1].data) do
+					hatdata = {v.id, v.vx, v.vy, v.vz, v.ap, v.ay, v.ar, v.scale}
+					// hatsOffetsCount = hatsOffetsCount + 1
+				end
 
-            // MsgC(color_green, "[Hats] Hats Table created with a total of " .. hatsOffetsCount .. " entries!\n")
-            local pos = Vector(tonumber(hatdata[2]), tonumber(hatdata[3]), tonumber(hatdata[4]))
-            local ang = Angle(tonumber(hatdata[5]), tonumber(hatdata[6]), tonumber(hatdata[7]))
-            local scale = tonumber(hatdata[8])
-            net.Start("hat_snd")
-            net.WriteString(hat)
-            net.WriteString(model)
-            net.WriteVector(pos)
-            net.WriteAngle(ang)
-            net.WriteFloat(scale)
-            net.Send(ply)
+				// MsgC(color_green, "[Hats] Hats Table created with a total of " .. hatsOffetsCount .. " entries!\n")
+				local pos = Vector(tonumber(hatdata[2]), tonumber(hatdata[3]), tonumber(hatdata[4]))
+				local ang = Angle(tonumber(hatdata[5]), tonumber(hatdata[6]), tonumber(hatdata[7]))
+				local scale = tonumber(hatdata[8])
+				net.Start("hat_snd")
+				net.WriteString(hat)
+				net.WriteString(model)
+				net.WriteVector(pos)
+				net.WriteAngle(ang)
+				net.WriteFloat(scale)
+				net.Send(ply)
+			end
         end)
     else
         if !hatdata then return end
