@@ -171,6 +171,8 @@ local function PlayerLeaveVehicle( vehicle, ply )
 		end
 
 		ply:SetDriving( nil )
+		
+		ply:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 	end
 
 	if !vehicle.bSlots then

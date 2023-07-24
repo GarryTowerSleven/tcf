@@ -452,7 +452,7 @@ function UpdateModelPanels()
 		ModelPanel:SetModelHat( GetHatModel() )
 
         timer.Create("RequestHatInfo", 0.2, 1, function()
-            RunConsoleCommand( "gmt_gethat",  string.lower(GTowerHats.Hats[LoadingItem.Hat].unique_Name), string.lower(LoadingItem.Model) )
+            RunConsoleCommand( "gmt_gethat",  (GTowerHats.Hats[LoadingItem.Hat].unique_Name), string.lower(LoadingItem.Model) )
         end)
 
 	end)

@@ -43,17 +43,16 @@ BalloonRate = 0
 function BalloonPopStart()
 
 	SetGlobalFloat("MinigameRoundTime",CurTime()+120) -- We'll need to change this, probably
-
+	LastSpawn = CurTime()
+	
 	timer.Create( "BalloonPop", 0.25, 0, function()
 		if Poppers >= 6 then
 			LastSpawn = CurTime()
-			BalloonRate = ( CurTime() + math.Clamp( 0.55 - ( Poppers * 0.01 ), 0.25, 0.50) )
+			BalloonRate = ( CurTime() + math.Clamp( 0.525 - ( Poppers * 0.005 ), 0.25, 0.50) )
 		else
 			BalloonRate = CurTime() + 0.5
 		end
 		if LastSpawn < BalloonRate then
-			print(BalloonRate - CurTime())
-			print(Poppers)
 			local entposX = math.Rand(151.338440,1696.545044)
 			local entposY = math.Rand(-2046.452148,-910.703613)
 			local ent = ents.Create("gmt_minigame_balloon")
