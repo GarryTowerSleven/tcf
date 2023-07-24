@@ -53,8 +53,6 @@ function BalloonPopStart()
 			BalloonRate = CurTime() + 0.5
 		end
 		if LastSpawn < BalloonRate then
-			print(BalloonRate - CurTime())
-			print(Poppers)
 			local entposX = math.Rand(151.338440,1696.545044)
 			local entposY = math.Rand(-2046.452148,-910.703613)
 			local ent = ents.Create("gmt_minigame_balloon")
