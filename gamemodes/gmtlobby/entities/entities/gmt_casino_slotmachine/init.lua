@@ -231,6 +231,7 @@ hook.Add( "PlayerLeaveVehicle", "ResetCollisionVehicle", function( ply )
 	umsg.Start("slotsPlaying", ply)
 	umsg.End()
 
+	ply:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 end )
 
 hook.Add( "CanPlayerEnterVehicle", "PreventEntry", function( ply, vehicle )
