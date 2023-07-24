@@ -43,7 +43,8 @@ BalloonRate = 0
 function BalloonPopStart()
 
 	SetGlobalFloat("MinigameRoundTime",CurTime()+120) -- We'll need to change this, probably
-
+	LastSpawn = CurTime()
+	
 	timer.Create( "BalloonPop", 0.25, 0, function()
 		if Poppers >= 6 then
 			LastSpawn = CurTime()
