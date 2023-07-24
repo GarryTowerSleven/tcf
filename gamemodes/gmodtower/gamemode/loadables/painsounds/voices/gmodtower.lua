@@ -47,7 +47,6 @@ voicelines.Add("models/player/re/albert_wesker_overcoat_pm.mdl", {
         "gmodtower/player/wesker/s506_80_Wesker.mp3",
         "gmodtower/player/wesker/s506_76_Wesker.mp3",
         "gmodtower/player/wesker/s506_75_Wesker.mp3",
-        "gmodtower/player/wesker/s508_95_Wesker.mp3",
         "gmodtower/player/wesker/w_67.mp3",
         "gmodtower/player/wesker/w_68.mp3",
         "gmodtower/player/wesker/s309_74_Wesker.mp3",
