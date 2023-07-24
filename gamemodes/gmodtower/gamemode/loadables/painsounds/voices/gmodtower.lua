@@ -158,7 +158,8 @@ voicelines.Add("models/player/jcplayer.mdl", {
         Medium = "gmodtower/player/deusex/malepainmedium.wav",
         Large = "gmodtower/player/deusex/malepainlarge.wav"
     },
-    Death = "gmodtower/player/deusex/maledeath.wav"
+    Death = "gmodtower/player/deusex/maledeath.wav",
+    Taunts = "gmodtower/player/deusex/MaleLaugh.wav"
 })
 
 voicelines.Add("models/player/sumario_galaxy.mdl", {
@@ -192,7 +193,8 @@ voicelines.Add("models/player/chris.mdl", {
         Medium = "gmodtower/player/chris/3{6-9}.wav",
         Large = "gmodtower/player/chris/40.wav"
     },
-    Death = "gmodtower/player/chris/9.wav"
+    Death = "gmodtower/player/chris/9.wav",
+    Taunts = "gmodtower/player/chris/72.wav"
 })
 
 voicelines.Add("models/player/leon.mdl", {
@@ -201,7 +203,8 @@ voicelines.Add("models/player/leon.mdl", {
             "gmodtower/player/leon/leon_dam{1-5}.ogg"
         }
     },
-    Death = "gmodtower/player/leon/leon_death.ogg"
+    Death = "gmodtower/player/leon/leon_death.ogg",
+    Taunts = "gmodtower/player/leon/leon_no.ogg"
 })
 
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
