@@ -195,7 +195,7 @@ voicelines.Add("models/player/chris.mdl", {
     Death = "gmodtower/player/chris/9.wav"
 })
 
-voicelines.Add("modesl/player/leon.mdl", {
+voicelines.Add("models/player/leon.mdl", {
     Damage = {
         {
             "gmodtower/player/leon/leon_dam{1-5}.ogg"
