@@ -264,25 +264,25 @@ local toobig = {
 }
 
 function GM:PlayerSetHandsModel(ply, ent)
-	timer.Simple(0.1, function()
-		if !IsValid(ply) || !IsValid(ent) then return end
+	if !IsValid(ply) || !IsValid(ent) then return end
+	if (ply:GetInfoNum( "gmt_playermodel_hands", 1 ) != 1) then
+		ent:SetModel("models/weapons/c_arms_hev.mdl")
+	return end
+	ent:SetModel(ply:GetModel())
+	ent:SetMaterial(toobig[ply:GetModel()] && "null" || nil)
 
-		ent:SetModel(ply:GetModel())
-		ent:SetMaterial(toobig[ply:GetModel()] && "null" || nil)
+	for i = 0, ent:GetBoneCount() - 1 do
+		local name = ent:GetBoneName(i)
+		name = name && string.lower(name) || nil
 
-		for i = 0, ent:GetBoneCount() - 1 do
-			local name = ent:GetBoneName(i)
-			name = name && string.lower(name) || nil
-
-			if !name || !string.find(name, "arm") && !string.find(name, "hand") && !string.find(name, "finger") && !string.find(name, "wrist") && !string.find(name, "ulna") then
-				ent:ManipulateBoneScale(i, Vector(0, 0, 0))
-				ent:ManipulateBonePosition(i, Vector(-512, -512, -512))
-			else
-				ent:ManipulateBoneScale(i, Vector(1, 1, 1))
-				ent:ManipulateBonePosition(i, vector_origin)
-			end
+		if !name || !string.find(name, "arm") && !string.find(name, "hand") && !string.find(name, "finger") && !string.find(name, "wrist") && !string.find(name, "ulna") then
+			ent:ManipulateBoneScale(i, Vector(0, 0, 0))
+			ent:ManipulateBonePosition(i, Vector(-512, -512, -512))
+		else
+			ent:ManipulateBoneScale(i, Vector(1, 1, 1))
+			ent:ManipulateBonePosition(i, vector_origin)
 		end
-	end)
+	end
 end
 
 hook.Add( "PlayerSpray", "PlayerDisableSprays", function ( ply )
