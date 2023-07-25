@@ -197,7 +197,7 @@ voicelines.Add("models/player/chris.mdl", {
 })
 
 voicelines.Add("models/player/leon.mdl", {
-    Damage = {
+    Pain = {
         {
             "gmodtower/player/leon/leon_dam{1-5}.ogg"
         }
@@ -207,7 +207,7 @@ voicelines.Add("models/player/leon.mdl", {
 })
 
 voicelines.Add("models/player/azuisleet1.mdl", {
-    Damage = {
+    Pain = {
         Light = "gmodtower/player/metropolice/knockout{1-3}.wav",
         Medium = "S:METROPOLICE_PAIN{0-2}",
         Large = "S:METROPOLICE_PAIN{0-2}"
@@ -225,7 +225,7 @@ voicelines.Add("models/player/azuisleet1.mdl", {
 })
 
 voicelines.Add("models/player/hunter.mdl", {
-    Damage = {
+    Pain = {
         {
             "gmodtower/player/hunter/hunter_pain_0{5-9}.wav"
         }
@@ -238,6 +238,30 @@ voicelines.Add("models/player/hunter.mdl", {
     Taunts = {
         "gmodtower/player/hunter/hunter_warn_10.wav",
         "gmodtower/player/hunter/hunter_warn_14.wav"
+    }
+})
+
+voicelines.Add("models/player/dude.mdl", {
+    Pain = {
+        {
+            "gmodtower/player/postal/dude_augh.wav",
+            "gmodtower/player/postal/dude_augh2.wav",
+            "gmodtower/player/postal/dude_augh3.wav",
+            "gmodtower/player/postal/dude_augh4.wav"
+        }
+    },
+    Death = {
+        "gmodtower/player/postal/shit.wav"
+    },
+    Taunts = {
+        "gmodtower/player/postal/dude_andonetogrowon.wav",
+        "gmodtower/player/postal/dude_dontcrowdtheres.wav",
+        "gmodtower/player/postal/dude_gunsdontkill.wav",
+        "gmodtower/player/postal/dude_hehiknowyouve.wav",
+        "gmodtower/player/postal/dude_machete_daddy.wav",
+        "gmodtower/player/postal/dude_machete_imgood.wav",
+        "gmodtower/player/postal/dude_pigeons2.wav",
+        "gmodtower/player/postal/dude_youthoughtyou.wav"
     }
 })
 
