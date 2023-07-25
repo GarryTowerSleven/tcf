@@ -224,6 +224,23 @@ voicelines.Add("models/player/azuisleet1.mdl", {
     }
 })
 
+voicelines.Add("models/player/hunter.mdl", {
+    Damage = {
+        {
+            "gmodtower/player/hunter/hunter_pain_0{5-9}.wav"
+        }
+    },
+    Death = {
+        "gmodtower/player/hunter/hunter_death_02.wav",
+        "gmodtower/player/hunter/hunter_death_04.wav",
+        "gmodtower/player/hunter/hunter_death_06.wav"
+    },
+    Taunts = {
+        "gmodtower/player/hunter/hunter_warn_10.wav",
+        "gmodtower/player/hunter/hunter_warn_14.wav"
+    }
+})
+
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
 
 voicelines.SetFemale("models/player/zoey.mdl")
