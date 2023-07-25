@@ -61,18 +61,23 @@ function PvpBattle:GiveWeapons( ply )
 	return Weapons
 end
 
-function PvpBattle:GetData( ply )
-
-	if !ply._PVPBattleData  then
-		return
-	end
-
-	if DEBUG then
-		Msg("WRITING PVPBattle of " , ply, "\n")
-		PrintTable( ply._PVPBattleData )
-		Msg("\n")
-	end
-
+function PvpBattle:SndData( ply )
+	hook.Add("SetupMove", ply:SteamID64(), function(ply2, mv, cmd)
+		if ply2 == ply and !cmd:IsForced() then
+			if !ply._PVPBattleData  then
+				//Msg("DEFAULT PVPBattle of " , ply, "\n")
+				ply._PVPBattleData = table.Copy( PvpBattle.DefaultWeapons )
+				//PrintTable( ply._PVPBattleData )
+				//Msg("\n")
+			else
+				//Msg("WRITING PVPBattle of " , ply, "\n")
+				//PrintTable( ply._PVPBattleData )
+				//Msg("\n")
+			end
+			hook.Remove("SetupMove", ply:SteamID64())
+		end
+	end )
+	
 	local Data = Hex()
 
 	for k, v in pairs( ply._PVPBattleData ) do

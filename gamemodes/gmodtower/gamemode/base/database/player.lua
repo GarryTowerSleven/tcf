@@ -143,6 +143,7 @@ function meta:ApplyData( data )
 	if ( data.pvpweapons != "" ) then
 		PvpBattle:Load( self, data.pvpweapons )
 	else
+		SQLLog( "pvpbattle", self:Nick() .. " has no data??? did they lose it?" )
 		PvpBattle:LoadDefault( self )
 	end
 
