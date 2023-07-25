@@ -198,9 +198,7 @@ voicelines.Add("models/player/chris.mdl", {
 
 voicelines.Add("models/player/leon.mdl", {
     Pain = {
-        {
-            "gmodtower/player/leon/leon_dam{1-5}.ogg"
-        }
+        "gmodtower/player/leon/leon_dam{1-5}.ogg"
     },
     Death = "gmodtower/player/leon/leon_death.ogg",
     Taunts = "gmodtower/player/leon/leon_no.ogg"
@@ -226,9 +224,7 @@ voicelines.Add("models/player/azuisleet1.mdl", {
 
 voicelines.Add("models/player/hunter.mdl", {
     Pain = {
-        {
-            "gmodtower/player/hunter/hunter_pain_0{5-9}.wav"
-        }
+        "gmodtower/player/hunter/hunter_pain_0{5-9}.wav"
     },
     Death = {
         "gmodtower/player/hunter/hunter_death_02.wav",
@@ -262,6 +258,15 @@ voicelines.Add("models/player/dude.mdl", {
         "gmodtower/player/postal/dude_machete_imgood.wav",
         "gmodtower/player/postal/dude_pigeons2.wav",
         "gmodtower/player/postal/dude_youthoughtyou.wav"
+    }
+})
+
+voicelines.Add("models/player/sh/james_sunderland.mdl", {
+    Pain = {
+        "gmodtower/player/james/sddata13{3-8}.wav"
+    },
+    Death = {
+        "gmodtower/player/james/sddata1{39-40}.wav"
     }
 })
 
