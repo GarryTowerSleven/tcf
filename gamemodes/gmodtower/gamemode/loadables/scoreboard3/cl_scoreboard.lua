@@ -749,6 +749,7 @@ function PLAYER:Init()
 	self.Info:SetZPos( 1 )
 
 	self.Action = vgui.Create( "ScoreboardActionBox", self )
+	self.Model = vgui.Create( "DModelPanel", self)
 
 end
 
@@ -782,6 +783,7 @@ function PLAYER:SetPlayer( ply )
 	self.Avatar:SetVisible( true )
 
 	self.Info:SetPlayer( ply )
+	self.Model:SetModel( ply:GetModel() )
 
 end
 
@@ -829,6 +831,29 @@ function PLAYER:PerformLayout()
 		end
 	end
 
+	local s = self:GetTall()
+	self.Model:SetSize(s * 3, s)
+
+	if ActionVisible then
+	self.Model:MoveLeftOf(self.Action, 5)
+	else
+		self.Model:AlignRight()
+	end
+	self.Model:SetModel(self.Player:GetModel())
+
+	self.Model.LayoutEntity = function(self, ent)
+		local att = ent:LookupAttachment("eyes")
+		if att > 0 then
+			local att = ent:GetAttachment(att)
+			self:SetLookAt(att.Pos)
+			self:SetCamPos(att.Pos - att.Ang:Right() * 128 + att.Ang:Forward() * 128)
+			ent:SetSequence(ent:LookupSequence("flinch_01"))
+		end
+
+		self.LayoutEntity = function() end
+	end
+
+	self.Model:SetFOV(12)
 end
 
 function PLAYER:Update()
