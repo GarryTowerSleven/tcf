@@ -105,7 +105,7 @@ function PvpBattle:Load( ply, val )
 end
 
 //Long story
-hook.Add("PlayerSQLApplied", "AliensAreReal", function()
+hook.Add("PlayerSQLApplied", "AliensAreReal", function( ply )
 	if !ply._PVPBattleData  then
 		ply._PVPBattleData = table.Copy( PvpBattle.DefaultWeapons )
 	end
