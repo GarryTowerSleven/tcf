@@ -197,10 +197,13 @@ function GM:ClickerThink( ply )
 				ply.NextRadSound = CurTime() + scale
 
 				local ran = math.random( 1, 2 )
-				if ran == 1 then
-					ply:EmitSound( "player/geiger1.wav", 70, math.random( 90, 110 ), 0.8 )
+				if string.find(LocalPlayer():GetModel(), "/sh/") then
+					ply:EmitSound("ambient/levels/prison/radio_random6.wav", 80, 100, 0.8, CHAN_ITEM)
+					ply.NextRadSound = CurTime() + 0.6
+				elseif ran == 1 then
+					ply:EmitSound( "player/geiger1.wav", 80, math.random( 90, 110 ), 0.8 )
 				else
-					ply:EmitSound( "player/geiger3.wav", 70, math.random( 90, 110 ), 0.8 )
+					ply:EmitSound( "player/geiger3.wav", 80, math.random( 90, 110 ), 0.8 )
 				end
 
 			end
