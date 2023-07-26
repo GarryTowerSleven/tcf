@@ -15,6 +15,7 @@ end
 
 SWEP.SoundDeploy		 = "physics/cardboard/cardboard_box_break1.wav"
 SWEP.Box			 = nil
+SWEP.WorldModel			= "models/gmod_tower/stealth box/box.mdl"
 SWEP.HoldType			= "normal"
 
 SWEP.Taunts			= {}
@@ -23,8 +24,8 @@ for i=1,6 do
 end
 
 SWEP.Description = "Hide yourself inside a box and dissapear completely from your enemies' view.  Taunt them over towards you, then pop out and end their lives.  Snake used it, so can you."
-SWEP.StoreBuyable = false
-SWEP.StorePrice = 0
+SWEP.StoreBuyable = true
+SWEP.StorePrice = 1000
 
 function SWEP:PrimaryAttack()
 	self.Weapon:SetNextPrimaryFire( CurTime() + 7 )
@@ -83,6 +84,7 @@ function SWEP:Deploy()
 	if SERVER then
 		self.BoxTimer = CurTime() + 0.1
 		self:RemoveBox()
+		self.Owner:DrawWorldModel(false)
 	end
 
 	return true
