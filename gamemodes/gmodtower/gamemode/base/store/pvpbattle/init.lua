@@ -62,12 +62,6 @@ function PvpBattle:GiveWeapons( ply )
 end
 
 function PvpBattle:SndData( ply )
-
-	hook.Add("PlayerSQLApplied", "AliensAreReal", function()
-		if !ply._PVPBattleData  then
-			ply._PVPBattleData = table.Copy( PvpBattle.DefaultWeapons )
-		end
-	end )
 	
 	local Data = Hex()
 
@@ -109,6 +103,13 @@ function PvpBattle:Load( ply, val )
 	ply._PVPBattleData = Table
 
 end
+
+//Long story
+hook.Add("PlayerSQLApplied", "AliensAreReal", function()
+	if !ply._PVPBattleData  then
+		ply._PVPBattleData = table.Copy( PvpBattle.DefaultWeapons )
+	end
+end )
 
 //Only set the weapons that are not seted after the levels are loaded
 hook.Add("SQLConnect", "CheckPVPWeapons", function( ply )

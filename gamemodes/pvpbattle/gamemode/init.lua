@@ -365,7 +365,7 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 						end
 					elseif weapon == "weapon_patriot" then
 						if game.GetMap() == "gmt_pvp_meadow01" then
-							attacker:AddAchievement( ACHIEVEMENT.PVPBIGBOSS, 1 )
+							attacker:AddAchievement( ACHIEVEMENTS.PVPBIGBOSS, 1 )
 						end
 					end
 				end
