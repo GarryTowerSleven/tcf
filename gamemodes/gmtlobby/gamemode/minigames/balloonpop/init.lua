@@ -41,30 +41,26 @@ Poppers = 0
 BalloonRate = 0
 
 function BalloonPopStart()
-
-	SetGlobalFloat("MinigameRoundTime",CurTime()+120) -- We'll need to change this, probably
-	LastSpawn = CurTime()
-	
-	timer.Create( "BalloonPop", 0.25, 0, function()
-		if Poppers >= 6 then
-			LastSpawn = CurTime()
-			BalloonRate = ( CurTime() + math.Clamp( 0.525 - ( Poppers * 0.005 ), 0.25, 0.50) )
-		else
-			BalloonRate = CurTime() + 0.5
-		end
-		if LastSpawn < BalloonRate then
-			local entposX = math.Rand(151.338440,1696.545044)
-			local entposY = math.Rand(-2046.452148,-910.703613)
-			local ent = ents.Create("gmt_minigame_balloon")
-			ent:SetModel("models/maxofs2d/balloon_classic.mdl")
-			ent:SetAngles(Angle(0,0,0))
-			ent:SetPos( Vector(entposX,entposY,373.151642) )
-			ent.MiniGame = true
-			ent:SetColor(Color(math.random(100,255),math.random(100,255),math.random(100,255),255))
-			ent:Spawn()
-			ent:SetForce(12.5)
-		end
-	end )
+	CompareSpawn = (CurTime() - LastSpawn)	
+	if Poppers >= 6 then
+		BalloonRate = math.Clamp( 0.525 - ( Poppers * 0.005 ), 0.25, 0.5 )
+	else
+		BalloonRate = 0.5
+	end
+	if CompareSpawn > BalloonRate then
+		//print(CompareSpawn .. " " .. BalloonRate)
+		local entposX = math.Rand(151.338440,1696.545044)
+		local entposY = math.Rand(-2046.452148,-910.703613)
+		local ent = ents.Create("gmt_minigame_balloon")
+		ent:SetModel("models/maxofs2d/balloon_classic.mdl")
+		ent:SetAngles(Angle(0,0,0))
+		ent:SetPos( Vector(entposX,entposY,373.151642) )
+		ent.MiniGame = true
+		ent:SetColor(Color(math.random(100,255),math.random(100,255),math.random(100,255),255))
+		ent:Spawn()
+		ent:SetForce(12.5)
+		LastSpawn = CurTime()
+	end
 end
 
 function BalloonPopStop()
@@ -166,8 +162,8 @@ function Start( flags )
 
 	BALLOON_GAME_ACTIVE = true
 
-	BalloonPopStart()
-
+	LastSpawn = CurTime()
+	hook.Add("Think", "BalloonPopSpawning", BalloonPopStart )
 	hook.Add("Location", "BalloonPopLocation", CheckGiveWeapon )
 	hook.Add("Think", "StagnancyCheck", BalloonStagnancy )
 	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissalowResize )
@@ -201,9 +197,12 @@ function End()
 
 	BalloonPopStop()
 
+	hook.Remove("Think", "BalloonPopSpawning" )
 	hook.Remove("Location", "BalloonPopLocation" )
 	hook.Remove("Think", "StagnancyCheck" )
 	hook.Remove("PlayerResize", "DoNotAllowResize" )
+	hook.Remove("PlayerDeath", "Ninjaspeak" )
+	hook.Remove("PlayerDisconnected", "Ninjaleave" )
 
 	for _, v in pairs( player.GetAll() ) do
 		SafeCall( RemoveWeapon, v )
