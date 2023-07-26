@@ -22,7 +22,7 @@ SWEP.Primary.Automatic		= true
 
 SWEP.Primary.UnlimAmmo		= true
 
-SWEP.Primary.Damage			= {45, 70}
+SWEP.Primary.Damage			= {50, 70}
 
 SWEP.Primary.Delay			= 0.55
 
