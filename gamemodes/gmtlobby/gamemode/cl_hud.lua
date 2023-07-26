@@ -124,6 +124,10 @@ function initHud()
 
 		if LocalPlayer():ShouldDrawLocalPlayer() || !LocalPlayer():Alive() then return end
 
+		local wep = LocalPlayer():GetActiveWeapon()
+
+		if IsValid(wep) and (wep.DoDrawCrosshair and wep:DoDrawCrosshair() == true || !wep.DrawCrosshair || wep.DrawHUDCrosshair) then return end
+
 		local ent = GAMEMODE:PlayerUseTrace( LocalPlayer() )
 
 		if !GTowerHUD.Crosshair.AlwaysOn:GetBool() && !IsValid( ent ) && !CanPlayerUse( ent ) then return end
