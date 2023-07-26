@@ -328,8 +328,9 @@ function GM:DrawHealth( ply )
 	
 end
 
-function GM:PostDrawTranslucentRenderables()
-
+hook.Add("PostDrawTranslucentRenderables", "idiot", function(_, sky)
+	if sky then return end
+	local self = GAMEMODE
 	for _, v in pairs( player.GetAll() ) do
 		if ( v != LocalPlayer() ) then
 			self:DrawName( v )
@@ -339,8 +340,7 @@ function GM:PostDrawTranslucentRenderables()
 			end
 		end
 	end
-	
-end
+end)
 
 local function ClientScorePoint( len, ply )
 
