@@ -43,4 +43,12 @@ function SWEP:SecondaryAttack()
 	self.Weapon:SetNextSecondaryFire( CurTime() + self.Secondary.Delay )
 
 	self:ShootZoom()
+	
+	if !SERVER then return end
+	
+	if self.Owner.Iron then
+		self.Owner:DrawViewModel( false )
+	else
+		self.Owner:DrawViewModel( true )
+	end
 end
