@@ -56,7 +56,9 @@ function getSounds(ply, mdl, type)
         type = string.Split(type, ",")
 
         if type[1] == "Pain" || type[1] == "Taunts" then
-            if #type[1] == 1 then
+            if isstring(tbl[type[1]]) then
+                snd = tbl[type[1]]
+            elseif #type[1] == 1 then
                 return table.Random(tbl[type[1]])
             else
                 // TODO: Go from large to medium to small idiot!!!
@@ -84,6 +86,10 @@ function getSounds(ply, mdl, type)
                     return "null.wav"
                 end
             end
+        end
+
+        if istable(snd) then
+            snd = table.Random(snd)
         end
 
         if istable(snd) then

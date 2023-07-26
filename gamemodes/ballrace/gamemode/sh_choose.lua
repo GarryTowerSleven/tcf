@@ -92,7 +92,7 @@ if SERVER then
 		
 	end
 
-	hook.Add( "SQLApplied", "SendPlayerBallLevels", PlayerSendLevels )
+	hook.Add( "PlayerSQLApplied", "SendPlayerBallLevels", PlayerSendLevels )
 	hook.Add( "PlayerInitialSpawn", "SendPlayerBallLevels", PlayerSendLevels )
 
 	concommand.Add("gmt_setball", function( ply, cmd, args )

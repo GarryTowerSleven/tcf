@@ -5,7 +5,7 @@ hook.Add("SQLStartColumns", "SQLLoadPvpWeapons", function()
 		["selectquery"] = "HEX(pvpweapons) as pvpweapons",
 		["selectresult"] = "pvpweapons",
 		["update"] = function( ply ) 
-			return PvpBattle:GetData( ply )
+			return PvpBattle:SndData( ply )
 		end,
 		["defaultvalue"] = function( ply )
 			PvpBattle:LoadDefault( ply )

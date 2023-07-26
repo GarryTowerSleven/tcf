@@ -47,7 +47,6 @@ voicelines.Add("models/player/re/albert_wesker_overcoat_pm.mdl", {
         "gmodtower/player/wesker/s506_80_Wesker.mp3",
         "gmodtower/player/wesker/s506_76_Wesker.mp3",
         "gmodtower/player/wesker/s506_75_Wesker.mp3",
-        "gmodtower/player/wesker/s508_95_Wesker.mp3",
         "gmodtower/player/wesker/w_67.mp3",
         "gmodtower/player/wesker/w_68.mp3",
         "gmodtower/player/wesker/s309_74_Wesker.mp3",
@@ -158,7 +157,8 @@ voicelines.Add("models/player/jcplayer.mdl", {
         Medium = "gmodtower/player/deusex/malepainmedium.wav",
         Large = "gmodtower/player/deusex/malepainlarge.wav"
     },
-    Death = "gmodtower/player/deusex/maledeath.wav"
+    Death = "gmodtower/player/deusex/maledeath.wav",
+    Taunts = "gmodtower/player/deusex/MaleLaugh.wav"
 })
 
 voicelines.Add("models/player/sumario_galaxy.mdl", {
@@ -192,16 +192,82 @@ voicelines.Add("models/player/chris.mdl", {
         Medium = "gmodtower/player/chris/3{6-9}.wav",
         Large = "gmodtower/player/chris/40.wav"
     },
-    Death = "gmodtower/player/chris/9.wav"
+    Death = "gmodtower/player/chris/9.wav",
+    Taunts = "gmodtower/player/chris/72.wav"
 })
 
-voicelines.Add("modesl/player/leon.mdl", {
-    Damage = {
+voicelines.Add("models/player/leon.mdl", {
+    Pain = {
+        "gmodtower/player/leon/leon_dam{1-5}.ogg"
+    },
+    Death = "gmodtower/player/leon/leon_death.ogg",
+    Taunts = "gmodtower/player/leon/leon_no.ogg"
+})
+
+voicelines.Add("models/player/azuisleet1.mdl", {
+    Pain = {
+        Light = "gmodtower/player/metropolice/knockout{1-3}.wav",
+        Medium = "S:METROPOLICE_PAIN{0-2}",
+        Large = "S:METROPOLICE_PAIN{0-2}"
+    },
+    Death = "gmodtower/player/metropolice/fire_scream{2-3}.wav",
+    Taunts = {
+        "gmodtower/player/metropolice/mc1ans_enoughouttayou.wav",
+        "gmodtower/player/metropolice/mc1ans_bellyaching.wav",
+        "gmodtower/player/metropolice/mc1ans_stopwhining.wav",
+        "gmodtower/player/metropolice/mc1ans_theresyerproblem.wav",
+        "gmodtower/player/metropolice/mc1que_career.wav",
+        "gmodtower/player/metropolice/mc1que_everythingihoped.wav",
+        "gmodtower/player/metropolice/mc1que_feelinggood.wav"
+    }
+})
+
+voicelines.Add("models/player/hunter.mdl", {
+    Pain = {
+        "gmodtower/player/hunter/hunter_pain_0{5-9}.wav"
+    },
+    Death = {
+        "gmodtower/player/hunter/hunter_death_02.wav",
+        "gmodtower/player/hunter/hunter_death_04.wav",
+        "gmodtower/player/hunter/hunter_death_06.wav"
+    },
+    Taunts = {
+        "gmodtower/player/hunter/hunter_warn_10.wav",
+        "gmodtower/player/hunter/hunter_warn_14.wav"
+    }
+})
+
+voicelines.Add("models/player/dude.mdl", {
+    Pain = {
         {
-            "gmodtower/player/leon/leon_dam{1-5}.ogg"
+            "gmodtower/player/postal/dude_augh.wav",
+            "gmodtower/player/postal/dude_augh2.wav",
+            "gmodtower/player/postal/dude_augh3.wav",
+            "gmodtower/player/postal/dude_augh4.wav"
         }
     },
-    Death = "gmodtower/player/leon/leon_death.ogg"
+    Death = {
+        "gmodtower/player/postal/shit.wav"
+    },
+    Taunts = {
+        "gmodtower/player/postal/dude_andonetogrowon.wav",
+        "gmodtower/player/postal/dude_dontcrowdtheres.wav",
+        "gmodtower/player/postal/dude_gunsdontkill.wav",
+        "gmodtower/player/postal/dude_hehiknowyouve.wav",
+        "gmodtower/player/postal/dude_machete_daddy.wav",
+        "gmodtower/player/postal/dude_machete_imgood.wav",
+        "gmodtower/player/postal/dude_pigeons2.wav",
+        "gmodtower/player/postal/dude_youthoughtyou.wav"
+    }
+})
+
+voicelines.Add("models/player/sh/james_sunderland.mdl", {
+    Pain = {
+        "gmodtower/player/james/sddata13{3-8}.wav"
+    },
+    Death = {
+        "gmodtower/player/james/sddata1{39-40}.wav"
+    }
 })
 
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
