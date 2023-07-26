@@ -40,7 +40,7 @@ TotalMoney = 0
 Poppers = 0
 BalloonRate = 0
 
-function BalloonPopStart()
+function BalloonControl()
 	CompareSpawn = (CurTime() - LastSpawn)	
 	if Poppers >= 6 then
 		BalloonRate = math.Clamp( 0.525 - ( Poppers * 0.005 ), 0.25, 0.5 )
@@ -61,19 +61,35 @@ function BalloonPopStart()
 		ent:SetForce(12.5)
 		LastSpawn = CurTime()
 	end
+	
+	for k,v in pairs (ents.FindByClass("gmt_minigame_balloon")) do
+		if v:GetClass() == "gmt_minigame_balloon" && v.MiniGame == true && v:GetPos().z >= 3200 then
+			v:Remove()
+		end
+		if v:GetClass() == "gmt_minigame_balloon" && v.MiniGame == true then
+			local check_stagnant = v:GetPos().z
+			timer.Simple( 2, function()
+				if v:IsValid() then
+					if check_stagnant == v:GetPos().z then
+						v:Remove()
+					end
+				end
+			end)
+		end
+	end
+	
 end
 
 function BalloonPopStop()
 
-	if ( timer.Exists( "BalloonPop" ) ) then
-		timer.Remove( "BalloonPop" )
-
-		for k,v in pairs (ents.FindByClass("gmt_minigame_balloon")) do
-			if v.MiniGame == true then
-				v:Remove()
-			end
+	hook.Remove("Think", "BalloonPopSpawning" )
+	
+	for k,v in pairs (ents.FindByClass("gmt_minigame_balloon")) do
+		if v.MiniGame == true then
+			v:Remove()
 		end
 	end
+	
 end
 
 local function BalloonPopped( ent, dmg )
@@ -99,24 +115,6 @@ local function BalloonPopped( ent, dmg )
 	end
 end
 hook.Add( "EntityTakeDamage", "BalloonPop", BalloonPopped )
-
-local function BalloonStagnancy()
-	for k,v in pairs (ents.FindByClass("gmt_minigame_balloon")) do
-		if v:GetClass() == "gmt_minigame_balloon" && v.MiniGame == true && v:GetPos().z >= 3200 then
-			v:Remove()
-		end
-		if v:GetClass() == "gmt_minigame_balloon" && v.MiniGame == true then
-			local check_stagnant = v:GetPos().z
-			timer.Simple( 2, function()
-				if v:IsValid() then
-					if check_stagnant == v:GetPos().z then
-						v:Remove()
-					end
-				end
-			end)
-		end
-	end
-end
 
 function GiveWeapon( ply )
 
@@ -163,7 +161,7 @@ function Start( flags )
 	BALLOON_GAME_ACTIVE = true
 
 	LastSpawn = CurTime()
-	hook.Add("Think", "BalloonPopSpawning", BalloonPopStart )
+	hook.Add("Think", "BalloonPopSpawning", BalloonControl )
 	hook.Add("Location", "BalloonPopLocation", CheckGiveWeapon )
 	hook.Add("Think", "StagnancyCheck", BalloonStagnancy )
 	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissalowResize )
@@ -197,9 +195,7 @@ function End()
 
 	BalloonPopStop()
 
-	hook.Remove("Think", "BalloonPopSpawning" )
 	hook.Remove("Location", "BalloonPopLocation" )
-	hook.Remove("Think", "StagnancyCheck" )
 	hook.Remove("PlayerResize", "DoNotAllowResize" )
 	hook.Remove("PlayerDeath", "Ninjaspeak" )
 	hook.Remove("PlayerDisconnected", "Ninjaleave" )
