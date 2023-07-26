@@ -2,6 +2,7 @@ payout.Register( "ThanksForPlaying", {
 	Name = "Thanks For Playing",
 	Desc = "For participating in the game!",
 	GMC = 100,
+	Diff = 1,
 } )
 
 payout.Register( "Kills", {
@@ -11,30 +12,30 @@ payout.Register( "Kills", {
 	Diff = 2,
 } )
 
+payout.Register( "Headshot", {
+	Name = "Headshot Kills",
+	Desc = "Bonus for getting headshot kills (5 GMC each).",
+	GMC = 0,
+	Diff = 3,
+} )
+
 payout.Register( "Rank1", {
 	Name = "1st Place",
 	Desc = "For being the top killer.",
-	GMC = 150,
+	GMC = 100,
 	Diff = 3,
 } )
 
 payout.Register( "Rank2", {
 	Name = "2nd Place",
 	Desc = "For being the second top killer.",
-	GMC = 100,
+	GMC = 50,
 	Diff = 3,
 } )
 
 payout.Register( "Rank3", {
 	Name = "3rd Place",
 	Desc = "For being the third top killer.",
-	GMC = 50,
-	Diff = 3,
-} )
-
-payout.Register( "Headshot", {
-	Name = "One Click Headshot",
-	Desc = "Got a headshot.",
 	GMC = 25,
 	Diff = 3,
 } )
@@ -70,8 +71,8 @@ function GAMEMODE:GiveMoney()
 			if k == 3 then payout.Give( ply, "Rank3" ) end
 		end
 
-		if ply._HackerAmt >= 1 then
-			payout.Give( ply, "Headshot" )
+		if ply._HackerAmt >= 0 then
+			payout.Give( ply, "Headshot", ply._HackerAmt * 5 )
 		end
 
 		payout.Payout( ply )
