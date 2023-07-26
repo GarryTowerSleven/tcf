@@ -783,7 +783,6 @@ function PLAYER:SetPlayer( ply )
 	self.Avatar:SetVisible( true )
 
 	self.Info:SetPlayer( ply )
-	self.Model:SetModel( ply:GetModel() )
 
 end
 
@@ -832,28 +831,32 @@ function PLAYER:PerformLayout()
 	end
 
 	local s = self:GetTall()
-	self.Model:SetSize(s * 3, s)
+	self.Model:SetSize(s * 2, s)
 
 	if ActionVisible then
 		self.Model:MoveLeftOf(self.Action, 5)
 	else
 		self.Model:AlignRight()
 	end
-	self.Model:SetModel(self.Player:GetModel())
 
-	self.Model.LayoutEntity = function(self, ent)
-		local att = ent:LookupAttachment("eyes")
-		if att > 0 then
-			local att = ent:GetAttachment(att)
-			self:SetLookAt(att.Pos)
-			self:SetCamPos(att.Pos - att.Ang:Right() * 128 + att.Ang:Forward() * 128)
-			ent:SetSequence(ent:LookupSequence("flinch_01"))
+	if self.Model:GetModel() ~= self.Player:GetModel() then
+		self.Model:SetModel(self.Player:GetModel())
+
+		self.Model.LayoutEntity = function(self, ent)
+			local att = ent:LookupAttachment("eyes")
+			if att > 0 then
+				local att = ent:GetAttachment(att)
+				self:SetLookAt(att.Pos - Vector(0, 0, 0))
+				self:SetCamPos(att.Pos - att.Ang:Right() * 128 + att.Ang:Forward() * 128 - Vector(0, 0, 0))
+				ent:SetSequence(ent:LookupSequence("idle_all_01"))
+			end
+
+			self.LayoutEntity = function() end
 		end
 
-		self.LayoutEntity = function() end
 	end
 
-	self.Model:SetFOV(12)
+	self.Model:SetFOV(8)
 end
 
 function PLAYER:Update()
