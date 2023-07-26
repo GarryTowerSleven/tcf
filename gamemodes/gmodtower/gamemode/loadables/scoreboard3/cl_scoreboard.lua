@@ -556,10 +556,10 @@ end
 
 function PLAYERS:Think()
 
-	--if CurTime() < self.NextUpdate then return end
+	if CurTime() < self.NextUpdate then return end
 
 	self:PopulatePlayers()
-	--self.NextUpdate = CurTime() + .25
+	self.NextUpdate = CurTime() + .25
 
 	self.Size = GetPlayerSize()
 	self.Height = self.Size + self.Padding
