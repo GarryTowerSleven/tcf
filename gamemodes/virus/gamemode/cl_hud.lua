@@ -248,6 +248,7 @@ function AddDamageNote( len, ply )
 	note.Pos 	= net.ReadVector()
 	note.Time 	= CurTime()
 
+	LocalPlayer():EmitSound("physics/body/body_medium_break" .. math.random(3, 4) .. ".wav", 75, math.random(120, 125), 0.6)
 	table.insert( DamageNotes, note )
 
 end
