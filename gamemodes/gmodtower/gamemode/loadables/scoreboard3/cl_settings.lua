@@ -544,6 +544,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		if ( IsLobby ) then
 			self:CheckBox( "Player Card Backgrounds", "gmt_scoreboard_player_backgrounds" )
 		end
+		self:Checkbox( "Player Models", "gmt_scoreboard_player_models" )
 		self:Slider( "Player Card Height", "gmt_scoreboard_player_height", 32, 42, 0, nil, "SetScoreHeight" )
 		self:CheckBox( "Enable Respect Icons", "gmt_scoreboard_player_respecticons" )
 	end

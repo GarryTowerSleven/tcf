@@ -2,6 +2,7 @@ module( "Scoreboard.PlayerList", package.seeall )
 
 DrawRespectIcons = CreateClientConVar( "gmt_scoreboard_player_respecticons", "1", true, false, nil, 0, 1 )
 DrawLobbyBackgrounds = CreateClientConVar( "gmt_scoreboard_player_backgrounds", "1", true, false, nil, 0, 1 )
+DrawModels = CreateClientConVar( "gmt_scoreboard_player_models", "1", true, false, nil, 0, 1 )
 ScoreGridMode = CreateClientConVar( "gmt_scoreboard_player_grid", "0", true, false, nil, 0, 1 )
 ShowTabs = CreateClientConVar( "gmt_scoreboard_player_tabs", "1", true, false, nil, 0, 1 )
 
@@ -751,6 +752,7 @@ function PLAYER:Init()
 
 	self.Action = vgui.Create( "ScoreboardActionBox", self )
 	self.Model = vgui.Create( "DModelPanel", self)
+	self.Model:SetPaintedManually( true )
 
 end
 
@@ -991,10 +993,6 @@ function PLAYER:Paint( w, h )
 
 	end
 
-	surface.SetMaterial(g)
-	surface.SetDrawColor(Color(0, 0, 0, 200))
-	surface.DrawTexturedRect(w - h * 2, 0, h * 2, h)
-
 	// Name
 	local nameX = self.Avatar.x + self.Avatar:GetWide() + 5
 	local nameY = self.Avatar.y - 6 + ( self.PlayerNameOffset or 0 )
@@ -1046,13 +1044,22 @@ function PLAYER:PaintBG( w, h )
 		self:DrawBGImage()
 	end
 
+	if DrawModels:GetBool() then
+		surface.SetMaterial(g)
+		surface.SetDrawColor(Color(0, 0, 0, 200))
+		surface.DrawTexturedRect(w - h * 2, 0, h * 2, h)
+		self.Model:PaintManual()
+	end
+
 	// Highlight yourself!
 	if self.Player == LocalPlayer() then
 
 		local col = Scoreboard.Customization.ColorBright
 		local alpha = SinBetween( 0, 150, RealTime() * 2 )
 		surface.SetDrawColor( Color( col.r, col.g, col.b, alpha ) )
-		surface.DrawRect( 0, 0, w, h )
+		surface.SetTexture(gradient)
+		surface.DrawTexturedRect(0, 0, w, h)
+		// surface.DrawRect( 0, 0, w, h )
 
 	end
 
