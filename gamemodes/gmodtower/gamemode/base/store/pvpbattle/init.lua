@@ -62,19 +62,10 @@ function PvpBattle:GiveWeapons( ply )
 end
 
 function PvpBattle:SndData( ply )
-	hook.Add("SetupMove", ply:SteamID64(), function(ply2, mv, cmd)
-		if ply2 == ply and !cmd:IsForced() then
-			if !ply._PVPBattleData  then
-				//Msg("DEFAULT PVPBattle of " , ply, "\n")
-				ply._PVPBattleData = table.Copy( PvpBattle.DefaultWeapons )
-				//PrintTable( ply._PVPBattleData )
-				//Msg("\n")
-			else
-				//Msg("WRITING PVPBattle of " , ply, "\n")
-				//PrintTable( ply._PVPBattleData )
-				//Msg("\n")
-			end
-			hook.Remove("SetupMove", ply:SteamID64())
+
+	hook.Add("PlayerSQLApplied", "AliensAreReal", function()
+		if !ply._PVPBattleData  then
+			ply._PVPBattleData = table.Copy( PvpBattle.DefaultWeapons )
 		end
 	end )
 	

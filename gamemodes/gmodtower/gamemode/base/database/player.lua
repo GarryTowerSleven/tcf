@@ -159,5 +159,5 @@ function meta:ApplyData( data )
 		self:SetMaxBank( GTowerItems.DefaultBankCount )
 	end
 
-	hook.Run( "SQLApplied", self )
+	hook.Run( "PlayerSQLApplied", self )
 end
