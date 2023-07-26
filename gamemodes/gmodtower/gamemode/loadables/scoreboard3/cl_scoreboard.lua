@@ -835,7 +835,7 @@ function PLAYER:PerformLayout()
 	self.Model:SetSize(s * 3, s)
 
 	if ActionVisible then
-	self.Model:MoveLeftOf(self.Action, 5)
+		self.Model:MoveLeftOf(self.Action, 5)
 	else
 		self.Model:AlignRight()
 	end
