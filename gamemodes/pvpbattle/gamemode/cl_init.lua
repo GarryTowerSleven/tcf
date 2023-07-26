@@ -12,7 +12,9 @@ local VelSmooth = 0
 local hacker = nil
 local hackerangle = 0
 
-local UseOldAmmo = CreateClientConVar( "gmt_pvp_oldammo", "0", true, false )
+local ShowDamageNotes = CreateClientConVar( "gmt_pvp_damagenotes", 1, true )
+local PlayHitSounds = CreateClientConVar( "gmt_pvp_hitsounds", 1, true )
+local UseOldAmmo = CreateClientConVar( "gmt_pvp_oldammo", 0, true )
 
 local hud_heart = surface.GetTextureID( "gmod_tower/pvpbattle/hud_heart" )
 local hud_headphones = surface.GetTextureID( "gmod_tower/pvpbattle/hud_headphones" )
@@ -87,7 +89,10 @@ function GM:HUDPaint()
 
 	self:DrawDeathNotice( 0.032, 0.68 )
 
-	self:DamageNotes()
+	if ShowDamageNotes:GetBool() == true then
+		self:DamageNotes()
+	end
+
 end
 
 function GM:DrawHUDRound()
@@ -280,6 +285,10 @@ net.Receive( "DamageNotes", function( len, ply )
 	note.Message = note.Amount
 	note.Font = "DamageNote"
 	note.TotalTime = .75
+
+	if PlayHitSounds:GetBool() == true then
+		LocalPlayer():EmitSound("physics/body/body_medium_break" .. math.random(3, 4) .. ".wav", 75, math.random(120, 125), 0.6)
+	end
 
 	local type = net.ReadInt(3) or 0
 

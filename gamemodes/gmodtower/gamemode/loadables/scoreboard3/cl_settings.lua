@@ -718,6 +718,8 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		if engine.ActiveGamemode() == "pvpbattle" then
 
 			self:Header( "PVP Battle" )
+			self:CheckBox( "Display Damage Notes", "gmt_pvp_damagenotes" )
+			self:CheckBox( "Enable Hit Sounds", "gmt_pvp_hitsounds" )
 			self:CheckBox( "Enable Old Ammo Display", "gmt_pvp_oldammo", nil, "SetOldAmmoDisplay" )
 
 		end
