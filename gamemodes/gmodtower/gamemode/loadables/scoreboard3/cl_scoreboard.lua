@@ -2,7 +2,6 @@ module( "Scoreboard.PlayerList", package.seeall )
 
 DrawRespectIcons = CreateClientConVar( "gmt_scoreboard_player_respecticons", "1", true, false, nil, 0, 1 )
 DrawLobbyBackgrounds = CreateClientConVar( "gmt_scoreboard_player_backgrounds", "1", true, false, nil, 0, 1 )
-DrawModels = CreateClientConVar( "gmt_scoreboard_player_models", "1", true, false, nil, 0, 1 )
 ScoreGridMode = CreateClientConVar( "gmt_scoreboard_player_grid", "0", true, false, nil, 0, 1 )
 ShowTabs = CreateClientConVar( "gmt_scoreboard_player_tabs", "1", true, false, nil, 0, 1 )
 
@@ -751,8 +750,6 @@ function PLAYER:Init()
 	self.Info:SetZPos( 1 )
 
 	self.Action = vgui.Create( "ScoreboardActionBox", self )
-	self.Model = vgui.Create( "DModelPanel", self)
-	self.Model:SetPaintedManually( true )
 
 end
 
@@ -833,46 +830,6 @@ function PLAYER:PerformLayout()
 		end
 	end
 
-	local s = self:GetTall()
-	self.Model:SetSize(s * 2, s)
-
-	if ActionVisible then
-		self.Model:MoveLeftOf(self.Action, 5)
-	else
-		self.Model:AlignRight(-5)
-	end
-
-	if self.Model:GetModel() ~= self.Player:GetModel() then
-		self.Model:SetModel(self.Player:GetModel())
-
-		self.Setup = false
-
-		self.Model.LayoutEntity = function(self, ent)
-			local att = ent:LookupAttachment("eyes")
-			if att > 0 then
-				local att = ent:GetAttachment(att)
-				local t = PositionSpawnIcon(ent, ent:GetPos(), false)
-				//self:SetLookAt(att.Pos - Vector(0, 0, 0))
-				//self:SetCamPos(att.Pos - att.Ang:Right() * 128 + att.Ang:Forward() * 64 - Vector(0, 0, 0))
-				self:SetCamPos(t.origin - att.Ang:Right() * 64)
-				self:SetLookAt(att.Pos)
-				self:SetFOV(t.fov * 1.4)
-				ent:SetSequence(ent:LookupSequence("taunt_laugh_base"))
-			end
-
-			if !self.Setup then
-				self.Setup = true
-				timer.Simple(1, function()
-					if IsValid(self) then
-						self.LayoutEntity = function() end
-					end
-				end)
-			end
-		end
-
-	end
-
-	// self.Model:SetFOV(8)
 end
 
 function PLAYER:Update()
@@ -1042,13 +999,6 @@ function PLAYER:PaintBG( w, h )
 	if Scoreboard.Customization.ShowBackgrounds then
 		if ( IsLobby && not DrawLobbyBackgrounds:GetBool() ) then return end
 		self:DrawBGImage()
-	end
-
-	if DrawModels:GetBool() then
-		surface.SetMaterial(g)
-		surface.SetDrawColor(Color(0, 0, 0, 100))
-		surface.DrawTexturedRect(w - h * 2, 0, h * 2, h)
-		self.Model:PaintManual()
 	end
 
 	// Highlight yourself!
