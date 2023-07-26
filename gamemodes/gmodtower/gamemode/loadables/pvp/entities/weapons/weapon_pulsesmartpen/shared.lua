@@ -18,7 +18,7 @@ SWEP.WorldModel			 = "models/weapons/w_psmartpen.mdl"
 SWEP.ViewModelFlip		 = false
 SWEP.HoldType			 = "melee"
 
-SWEP.Primary.Damage	= {75, 90}
+SWEP.Primary.Damage	= {40, 60}
 
 SWEP.AutoReload			= false
 SWEP.SoundSwing			= "weapons/iceaxe/iceaxe_swing1.wav"
@@ -42,7 +42,7 @@ util.PrecacheModel( SWEP.WorldModel )
 function SWEP:PrimaryAttack()
 	if !self:CanPrimaryAttack() then return end
 
-	self:SetNextPrimaryFire( CurTime() + 0.4 )
+	self:SetNextPrimaryFire( CurTime() + 0.5 )
 	self:ShootMelee( self.Primary.Damage, self.MeleeHitSound, self.MeleeHitSound, self.SoundSwing )
 end
 
