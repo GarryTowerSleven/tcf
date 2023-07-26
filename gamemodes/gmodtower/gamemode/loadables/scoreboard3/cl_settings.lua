@@ -678,6 +678,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:Header( "Virus" )
 			self:CheckBox( "Display HUD", "gmt_virus_hud" )
 			self:CheckBox( "Display Damage Notes", "gmt_virus_damagenotes" )
+			self:CheckBox( "Enable Hit Sounds", "gmt_virus_hitsounds" )
 
 		end
 		

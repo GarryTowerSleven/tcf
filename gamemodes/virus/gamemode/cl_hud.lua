@@ -27,6 +27,7 @@ local HudAmmo = surface.GetTextureID( "gmod_tower/virus/hud_survivor_ammo" )
 
 local ShowHud = CreateClientConVar( "gmt_virus_hud", 1, true )
 local ShowDamageNotes = CreateClientConVar( "gmt_virus_damagenotes", 1, true )
+local PlayHitSounds = CreateClientConVar( "gmt_virus_hitsounds", 1, true )
 
 local ScoreStageTime = 0
 local ScoreStage = 0 // 0 - not displayed, 1 - scrolling right, 2 - static, 3 - scrolling left
@@ -247,8 +248,10 @@ function AddDamageNote( len, ply )
 	note.Amount = net.ReadFloat()
 	note.Pos 	= net.ReadVector()
 	note.Time 	= CurTime()
-
-	LocalPlayer():EmitSound("physics/body/body_medium_break" .. math.random(3, 4) .. ".wav", 75, math.random(120, 125), 0.6)
+	
+	if PlayHitSounds:GetBool() == true then
+		LocalPlayer():EmitSound("physics/body/body_medium_break" .. math.random(3, 4) .. ".wav", 75, math.random(120, 125), 0.6)
+	end
 	table.insert( DamageNotes, note )
 
 end
