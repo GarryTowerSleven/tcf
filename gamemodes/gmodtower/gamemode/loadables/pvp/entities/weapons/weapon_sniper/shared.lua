@@ -18,7 +18,7 @@ SWEP.WorldModel		 = "models/weapons/w_pvp_as50.mdl"
 SWEP.HoldType		 = "ar2"
 
 SWEP.Primary.Delay	 = 1.5
-SWEP.Primary.Damage	 = {25, 40}
+SWEP.Primary.Damage	 = {65, 80}
 SWEP.Primary.Recoil	 = 6
 SWEP.Primary.Cone	 = 0
 SWEP.Primary.ClipSize	 = 3
