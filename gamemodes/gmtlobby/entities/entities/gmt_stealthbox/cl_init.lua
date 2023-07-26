@@ -12,16 +12,14 @@ end
 
 function ENT:PositionBox( ply )
 
-	local ang = ply:GetAngles()
+	local ang = ply:EyeAngles()
 	local pos = ply:EyePos()
-
-	if ply == LocalPlayer() then pos, ang = ply:EyePos(), EyeAngles() end
 
 	ang.p = 0
 
 	ang:RotateAroundAxis(ang:Right(), 40 * self.Delta)
 	
-	pos = pos - Vector(0,0,28 - (self.Delta * 18))
+	pos = pos - Vector(0,0,24 - (self.Delta * 18))
 
 	if ply != LocalPlayer() then
 		pos = pos + ang:Forward() * 14
@@ -34,20 +32,40 @@ end
 
 function ENT:SetAlpha( ply, alpha )
 
-	if ply == LocalPlayer() || LocalPlayer():IsAdmin() then
-		alpha = math.Clamp(alpha, 150, 255)
-	end
-
-	local r,g,b,a = ply:GetColor()
-
-	self:SetColor( r, g, b, alpha )
-	ply:SetColor( r, g, b, alpha )
+	if ply:InVehicle() then
+		self:SetNoDraw( true )
+	return end
 	
-	local weapon = ply:GetActiveWeapon()
+	if emote && emote.IsEmoting( ply ) then
+		self:SetNoDraw( true )
+	return end
 	
-	if IsValid(weapon) then
-		r,g,b,a = weapon:GetColor()
-		weapon:SetColor( r, g, b, alpha )
+	if self.Delta == 1 then 
+		ply:SetColor( Color( 255, 255, 255, 255 ) )
+		ply:SetRenderMode( RENDERMODE_NORMAL )
+		self:SetColor( Color( 255, 255, 255, 255 ) )
+		self:SetRenderMode( RENDERMODE_NORMAL )
+		self:SetNoDraw( false )
+		if IsValid(weapon) then
+			weapon:SetColor( Color( 255, 255, 255, 255 ) )
+			weapon:SetRenderMode( RENDERMODE_NORMAL )
+		end
+	else
+		if ply == LocalPlayer() || LocalPlayer():IsAdmin() then
+			alpha = math.Clamp(alpha, 150, 255)
+		end
+		
+		self:SetColor( Color( 255, 255, 255, alpha ) )
+		self:SetRenderMode( RENDERMODE_TRANSCOLOR )
+		self:SetNoDraw( false )
+		ply:SetColor( Color( 255, 255, 255, alpha ) )
+		ply:SetRenderMode( RENDERMODE_TRANSCOLOR )
+		local weapon = ply:GetActiveWeapon()
+		
+		if IsValid(weapon) then
+			weapon:SetRenderMode( RENDERMODE_TRANSCOLOR )
+			weapon:SetColor( Color(255, 255, 255, alpha) )
+		end
 	end
 
 end
@@ -92,7 +110,13 @@ function ENT:OnRemove()
 	local ply = self:GetOwner()
 
 	if IsValid(ply) then
-		self:SetAlpha( ply, 255 )
+		ply:SetColor( Color( 255, 255, 255, 255 ) )
+		ply:SetRenderMode( RENDERMODE_NORMAL )
+	end
+	
+	if IsValid(weapon) then
+		weapon:SetColor( Color( 255, 255, 255, 255 ) )
+		weapon:SetRenderMode( RENDERMODE_NORMAL )
 	end
 
 end
