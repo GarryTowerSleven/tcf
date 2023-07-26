@@ -1,17 +1,14 @@
 include("shared.lua")
 
 function ENT:Initialize()
-
 	local min, max = self:GetRenderBounds()
 	self:SetRenderBounds(min *2, max * 2)
 
 	self.Delta = 1
 	self.Hide = 0
-
 end
 
 function ENT:PositionBox( ply )
-
 	local ang = ply:EyeAngles()
 	local pos = ply:EyePos()
 
@@ -27,11 +24,9 @@ function ENT:PositionBox( ply )
 
 	self.Entity:SetAngles(ang)
 	self.Entity:SetPos(pos)
-
 end
 
 function ENT:SetAlpha( ply, alpha )
-
 	if ply:InVehicle() then
 		self:SetNoDraw( true )
 	return end
@@ -40,38 +35,31 @@ function ENT:SetAlpha( ply, alpha )
 		self:SetNoDraw( true )
 	return end
 	
-	if self.Delta == 1 then 
-		ply:SetColor( Color( 255, 255, 255, 255 ) )
-		ply:SetRenderMode( RENDERMODE_NORMAL )
-		self:SetColor( Color( 255, 255, 255, 255 ) )
-		self:SetRenderMode( RENDERMODE_NORMAL )
-		self:SetNoDraw( false )
-		if IsValid(weapon) then
-			weapon:SetColor( Color( 255, 255, 255, 255 ) )
-			weapon:SetRenderMode( RENDERMODE_NORMAL )
-		end
-	else
-		if ply == LocalPlayer() || LocalPlayer():IsAdmin() then
-			alpha = math.Clamp(alpha, 150, 255)
-		end
-		
-		self:SetColor( Color( 255, 255, 255, alpha ) )
-		self:SetRenderMode( RENDERMODE_TRANSCOLOR )
-		self:SetNoDraw( false )
-		ply:SetColor( Color( 255, 255, 255, alpha ) )
-		ply:SetRenderMode( RENDERMODE_TRANSCOLOR )
-		local weapon = ply:GetActiveWeapon()
-		
-		if IsValid(weapon) then
-			weapon:SetRenderMode( RENDERMODE_TRANSCOLOR )
-			weapon:SetColor( Color(255, 255, 255, alpha) )
-		end
+	if !alpha then
+		alpha = 0
 	end
+	
+	if ply == LocalPlayer() || LocalPlayer():IsAdmin() then
+		alpha = math.Clamp(alpha, 150, 255)
+	end
+	
+	local c = ply:GetColor() // GMod 13
+	local r,g,b = c.r, c.g, c.b
 
+	self:SetColor( Color( r, g, b, alpha ) )
+	ply:SetColorAll( Color( r, g, b, alpha ) )
+	self:SetRenderMode( RENDERMODE_TRANSALPHA )
+	self:SetNoDraw( false )
+	
+	local weapon = ply:GetActiveWeapon()
+		
+	if IsValid(weapon) then
+		weapon:SetColor( Color( 255, 255, 255, alpha or 150 ) )
+		weapon:SetRenderMode( RENDERMODE_TRANSALPHA )
+	end
 end
 
 function ENT:Think()
-
 	local ply = self:GetOwner()
 	if !IsValid(ply) || !ply:Alive() then return end
 
@@ -91,32 +79,26 @@ function ENT:Think()
 	end
 
 	self:SetAlpha( ply, self.Delta * 255 )
-
 end
 
 function ENT:Draw()
-
 	local ply = self:GetOwner()
 	if !IsValid(ply) || !ply:Alive() then return end
 
 	self:PositionBox(ply)
 
 	self.Entity:DrawModel()
-
 end
 
 function ENT:OnRemove()
-
 	local ply = self:GetOwner()
 
 	if IsValid(ply) then
 		ply:SetColor( Color( 255, 255, 255, 255 ) )
-		ply:SetRenderMode( RENDERMODE_NORMAL )
 	end
 	
 	if IsValid(weapon) then
 		weapon:SetColor( Color( 255, 255, 255, 255 ) )
 		weapon:SetRenderMode( RENDERMODE_NORMAL )
 	end
-
 end
