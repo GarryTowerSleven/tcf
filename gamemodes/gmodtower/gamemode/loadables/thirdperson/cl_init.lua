@@ -17,6 +17,8 @@ function ThirdPerson.Override( ply )
 	local forceThird = hook.Call( "ForceThirdperson", GAMEMODE, ply )
 	local forceView = hook.Call( "ForceViewSelf", GAMEMODE, ply )
 
+	if Dueling.IsDueling(LocalPlayer()) then return false end
+
 	// Always be in third person...
 	if forceThird || forceView then
 
@@ -66,6 +68,7 @@ end
 
 hook.Add( "CalcView", "GMTThirdPerson", function( ply, origin, angles, fov )
 
+	if Dueling.IsDueling(LocalPlayer()) then return end
 	if ThirdPerson.Override( ply ) then return end
 
 	// there should only be one hook for this, per gamemode
@@ -310,6 +313,8 @@ hook.Add( "PlayerBindPress", "ThirdPersonViewSelfZoomWheel", function( ply, bind
 		end
 
 	end
+
+	if Dueling.IsDueling(LocalPlayer()) then return end
 
 	if bind == "invprev" && pressed then
 

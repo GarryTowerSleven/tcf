@@ -126,6 +126,11 @@ concommand.Add( "gmt_duelinvite", function( ply, cmd, args )
 	local WeaponName = args[5]
 	local WeaponID = math.Round( args[6] )
 
+	if Arriver:IsBot() then
+		StartDueling( Weapon, ply, Arriver, 0 )
+		return
+	end
+
 	if !Requester:Afford(Amount) || !Arriver:Afford(Amount) then
 		ply:MsgT("DuelInviteFailFunds", Arriver:Name() )
 		return
