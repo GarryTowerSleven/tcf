@@ -36,70 +36,70 @@ payout.Register( "Rank1", {
 	Name = "Ensign Bonus",
 	Desc = "Good day to be an alive Ensign.",
 	GMC = 20,
-	Diff = 1,
+	Diff = 2,
 } )
 
 payout.Register( "Rank2", {
 	Name = "Captain Bonus",
 	Desc = "Congrats, Captain.",
 	GMC = 30,
-	Diff = 1,
+	Diff = 2,
 } )
 
 payout.Register( "Rank3", {
 	Name = "Major Bonus",
 	Desc = "You are Majorly awesome.",
 	GMC = 40,
-	Diff = 1,
+	Diff = 2,
 } )
 
 payout.Register( "Rank4", {
 	Name = "Colonel Bonus",
 	Desc = "Being a Colonel never felt so good.",
 	GMC = 50,
-	Diff = 1,
+	Diff = 2,
 } )
 
 payout.Register( "UCRank1", {
 	Name = "Ensign Chomp Bonus",
 	Desc = "You ate a Ensign.",
 	GMC = 20,
-	Diff = 1,
+	Diff = 2,
 } )
 
 payout.Register( "UCRank2", {
 	Name = "Captain Chomp Bonus",
 	Desc = "You ate a Captain.",
 	GMC = 30,
-	Diff = 1,
+	Diff = 2,
 } )
 
 payout.Register( "UCRank3", {
 	Name = "Major Chomp Bonus",
 	Desc = "You ate a Major.",
 	GMC = 40,
-	Diff = 1,
+	Diff = 2,
 } )
 
 payout.Register( "UCRank4", {
 	Name = "Colonel Chomp Bonus",
 	Desc = "You ate a Colonel.",
 	GMC = 50,
-	Diff = 1,
-} )
-
-payout.Register( "UCDeadPigs", {
-	Name = "Dead Pigs Bonus",
-	Desc = "You get 15 GMC per eaten Pigmask.",
-	GMC = 0,
 	Diff = 2,
 } )
 
 payout.Register( "UCLastPig", {
 	Name = "Last Pig Bonus",
 	Desc = "You're the last pig standing!.. The commander won't be happy.",
-	GMC = 75,
-	Diff = 1,
+	GMC = 100,
+	Diff = 3,
+} )
+
+payout.Register( "UCDeadPigs", {
+	Name = "Dead Pigs Bonus",
+	Desc = "Bonus for eating pigmasks (15 GMC each).",
+	GMC = 0,
+	Diff = 3,
 } )
 
 function GAMEMODE:GiveMoney()
