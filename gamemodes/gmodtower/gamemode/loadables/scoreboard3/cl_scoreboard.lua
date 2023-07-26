@@ -1046,7 +1046,7 @@ function PLAYER:PaintBG( w, h )
 
 	if DrawModels:GetBool() then
 		surface.SetMaterial(g)
-		surface.SetDrawColor(Color(0, 0, 0, 200))
+		surface.SetDrawColor(Color(0, 0, 0, 100))
 		surface.DrawTexturedRect(w - h * 2, 0, h * 2, h)
 		self.Model:PaintManual()
 	end
