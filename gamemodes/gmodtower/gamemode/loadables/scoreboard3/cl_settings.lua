@@ -67,7 +67,7 @@ function SETTINGS:Init()
 
 	// Add gamemode settings
 	if table.HasValue( self.GamemodesWithSettings, engine.ActiveGamemode() ) then
-		table.insert( self.TabNames, "Gamemode" )
+		table.insert( self.TabNames, 1, "Gamemode" )
 	end
 
 	// Add VIP settings
