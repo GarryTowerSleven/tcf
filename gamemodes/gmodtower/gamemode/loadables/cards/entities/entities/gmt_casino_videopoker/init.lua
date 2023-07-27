@@ -175,8 +175,9 @@ concommand.Add("videopoker_draw", function(ply, cmd, args)
             local winnings = self.Prizes[self:GetScore()][self:GetBet()]
 
             if winnings == -1 then
-                winnings = self:GetJackpot()
-                self:SetJackpot(0)
+				winnings = self:GetJackpot()
+				SQL.getDB():Query("UPDATE gm_casino SET jackpot=0 WHERE type='videopoker'")
+				self:SetJackpot(0)
             end
 
             self:SetCredits(self:GetCredits() + winnings)
