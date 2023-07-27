@@ -75,5 +75,6 @@ music.Register( MUSIC_IGNITE, "ambient/fire/ignite.wav", { Oneoff = true } )
 
 function GM:ShouldCollide(ply, ply2)
 	if ply:IsPlayer() && ply2:IsPlayer() && ply:Team() == ply2:Team() then return false end
+	if ply:GetClass() == "tnt" && ply:IsPlayer() || ply2:GetClass() == "tnt" && ply:IsPlayer() then return false end
 	return true
 end
