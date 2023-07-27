@@ -16,7 +16,7 @@ GMode.OneTimeJoin = true
 GMode.MinPlayers = 6
 //Set this if only a group can join
 GMode.GroupJoin = false
-GMode.MaxPlayers = 11 //Leave nil if the maxplayers are suppost to be the server maxplayers
+GMode.MaxPlayers = nil //Leave nil if the maxplayers are suppost to be the server maxplayers
 GMode.Gameplay = "Mother 3"
 function Pluralize( str, num )
 
