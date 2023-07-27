@@ -520,8 +520,7 @@ hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDe
 			end
 		end
 
-		ball.Opacity = opacity
-		//ball = ball.Ball or nil
+		ball = ball.Ball or nil
 
 		if ply:Alive() and ply:Team() == TEAM_PLAYERS then // Leave dem spectators alone
 			if ply == LocalPlayer() then continue end // Skip ourselves
@@ -536,11 +535,9 @@ hook.Add( "PostDrawTranslucentRenderables", "BallraceBall", function( bDrawingDe
 				opacity = math.Clamp( (distance / math.Clamp(pf, 1, 2048)) * 255, 0, 255 ) // Close enough
 
 				ball:SetRenderMode( RENDERMODE_TRANSALPHA )
-				ball.Opacity = opacity
 				--ball:SetColor( Color( 255, 255, 255, opacity ) )
 			end
 		end
-
 
 
 	end
