@@ -447,6 +447,10 @@ GTowerItems.RegisterItem( "UCHPig", {
 
 	Tradable = false,
 
+	StoreId = GTowerStore.PLAYERMODEL,
+
+	StorePrice = 0,
+
 	OnEquip = function( self )
 
 		if UCHAnim && SERVER then
