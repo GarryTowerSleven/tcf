@@ -119,6 +119,10 @@ function GM:PlayerSpawn( ply )
 	if !ply._TheKid then
 		ply._TheKid = 0
 	end
+	
+	if !ply._Camper then
+		ply._Camper = 0
+	end
 
 	self:PlayerResetSpeed( ply )
 end
@@ -325,6 +329,10 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 				net.Send( rp )
 			end
 
+			if ( ply:GetNWFloat("TauntTime") > CurTime() ) then
+				ply:SetAchievement( ACHIEVEMENTS.PVPBOXFAIL, 1 )
+			end
+			
 			ply.HackerLastGroup = HITGROUP_GENERIC
 
 			if IsValid( attacker ) && !attacker:IsPlayer() && IsValid(attacker:GetOwner()) then
@@ -349,6 +357,15 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 
 					if weapon == "weapon_neszapper" then
 						attacker:AddAchievement( ACHIEVEMENTS.PVPDAMNEDDOG, 1 )
+					elseif weapon == "weapon_stealthpistol" then
+						if attacker:GetNWBool("Cloaked") then
+							attacker._Camper = attacker._Camper + 1
+							
+							if attacker._Camper >= 5 then
+								attacker:SetAchievement( ACHIEVEMENTS.PVPCAMPER, 1 )
+								attacker._Camper = 0
+							end
+						end
 					elseif weapon == "weapon_akimbo" then
 						attacker:AddAchievement( ACHIEVEMENTS.PVP12SHOTS, 1 )
 					elseif weapon == "weapon_ragingbull" then
@@ -438,6 +455,7 @@ function GM:EndRound()
 	for _, ply in ipairs( plys ) do
 		if ply:GetNet("PowerUp") > 0 then ply:SetNet("PowerUp", CurTime() - 1) end
 		ply:Freeze( true )
+		ply._Camper = 0
 		ply:AddAchievement( ACHIEVEMENTS.PVPVETERAN, 1 )
 		ply:AddAchievement( ACHIEVEMENTS.PVPMILESTONE1, 1 )
 	end

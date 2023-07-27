@@ -35,6 +35,7 @@ function SWEP:PrimaryAttack()
 
 	local soundnum = math.random( 1, 6 )
 	self.Owner:EmitSound( self.Taunts[math.random(1, #self.Taunts)] )
+	self.Owner:SetNWFloat("TauntTime", (CurTime() + 5))
 end
 
 function SWEP:Think()

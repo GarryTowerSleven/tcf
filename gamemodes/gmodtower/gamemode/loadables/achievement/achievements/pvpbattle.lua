@@ -6,13 +6,13 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPOVERKILL, {
 	}
 )
 
-/*GTowerAchievements:Add( ACHIEVEMENTS.PVPABORTIONIST, {
-	Name = "Abortionist", 
+GTowerAchievements:Add( ACHIEVEMENTS.PVPABORTIONIST, {
+	Name = "Happy Birthday", 
 	Description = "Get 2 or more kills with a single baby nade.", 
 	Value = 1,
 	Group = 7
 	}
-)*/
+)
 
 GTowerAchievements:Add( ACHIEVEMENTS.PVPLAZOR, {
 	Name = "Laz0rz", 
@@ -25,7 +25,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPLAZOR, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.PVPDAMNEDDOG, {
 	Name = "That Damned Dog", 
-	Description = "50 kills total with just the NES Zapper.", 
+	Description = "Get 50 kills total with the NES Zapper.", 
 	Value = 50,
 	Group = 7
 	}
@@ -97,5 +97,22 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVP12SHOTS, {
 	Value = 50,
 	Group = 7,
 	GMC = 750
+	}
+)
+
+GTowerAchievements:Add( ACHIEVEMENTS.PVPCAMPER, {
+	Name = "It's A Legitimate Strategy", 
+	Description = "Kill 5 people with the stealth pistol while cloaked in a single round.", 
+	Value = 1,
+	Group = 7
+	}
+)
+
+GTowerAchievements:Add( ACHIEVEMENTS.PVPBOXFAIL, {
+	Name = "Not Very Stealthy", 
+	Description = "Get killed within 5 seconds of taunting with the stealth box.", 
+	Value = 1,
+	Group = 7,
+	GMC = 100
 	}
 )

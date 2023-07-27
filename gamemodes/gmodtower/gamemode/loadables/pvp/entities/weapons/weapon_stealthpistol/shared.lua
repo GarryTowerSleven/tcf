@@ -84,6 +84,7 @@ function SWEP:CloakOn()
 		self.Cloaked = true
 		PostEvent( self.Owner, "cloak_on" )
 		self.Owner:SetMaterial( "models/gmod_tower/pvpbattle/stealth" )
+		self.Owner:SetNWBool("Cloaked", true)
 		if CLIENT then self.Owner:DrawShadow( false ) end
 		self:SetNoDraw( true )
 	end
@@ -94,6 +95,7 @@ function SWEP:CloakOff()
 		self.Cloaked = false
 		PostEvent( self.Owner, "cloak_off" )
 		self.Owner:SetMaterial( "" )
+		self.Owner:SetNWBool("Cloaked", false)
 		if CLIENT then self.Owner:DrawShadow( true ) end
 		self:SetNoDraw( false )
 	end
