@@ -12,7 +12,6 @@ local DEBUG = false
 AccessorFunc( PANEL, "m_fAnimSpeed", 	"AnimSpeed" )
 AccessorFunc( PANEL, "Entity", 			"Entity" )
 AccessorFunc( PANEL, "vCamPos", 		"CamPos" )
-AccessorFunc( PANEL, "vCamAng", 		"CamAng" )
 AccessorFunc( PANEL, "fFOV", 			"FOV" )
 AccessorFunc( PANEL, "vLookatPos", 		"LookAt" )
 AccessorFunc( PANEL, "colAmbientLight", "AmbientLight" )
@@ -197,7 +196,7 @@ function PANEL:Paint( w, h )
 	
 		self:LayoutEntity( self.Entity )
 		
-		cam.Start3D( self.vCamPos, self.vCamAng or (self.vLookatPos-self.vCamPos):Angle(), self.fFOV, x, y, w, h )
+		cam.Start3D( self.vCamPos, (self.vLookatPos-self.vCamPos):Angle(), self.fFOV, x, y, w, h )
 		cam.IgnoreZ( false )
 		
 		render.SuppressEngineLighting( true )
