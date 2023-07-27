@@ -164,10 +164,10 @@ function ENT:Enter( ply )
 	--ply:SetPos( self:GetPos() + Vector( 0, 0, -32 ) )
 	--ply:SetParent( self )
 	ply:SetMoveType( MOVETYPE_NONE )
-	ply:SetNoDraw( true )
+	ply:SetNoDraw( false )
 	if ply.CosmeticEquipment then
 		for k,v in pairs(ply.CosmeticEquipment) do
-			v:SetNoDraw( true )
+			v:SetNoDraw( false )
 		end
 	end
 	constraint.Keepupright( self, Angle( 0, 0, 0 ), self.PhysicsBone, 0 )
