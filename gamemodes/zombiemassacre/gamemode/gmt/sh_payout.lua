@@ -1,7 +1,7 @@
 payout.Register( "ThanksForPlaying", {
 	Name = "Thanks For Playing",
 	Desc = "For participating in the game!",
-	GMC = 50,
+	GMC = 100,
 } )
 
 payout.Register( "BossDefeat", {
@@ -65,7 +65,7 @@ function GAMEMODE:GiveMoney()
 		payout.Clear( ply )
 
 		if !self.LostRound then
-			payout.Give( ply, "Points", math.Round( ply:GetNWInt( "Points" ) * .25 ) )
+			payout.Give( ply, "Points", math.Round( ply:GetNWInt( "Points" ) * .15 ) )
 		end
 
 		if self.WonBossRound then
