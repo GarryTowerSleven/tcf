@@ -44,7 +44,7 @@ end
 function PvpBattle:GiveWeapons( ply )
 
 	if !ply._PVPBattleData then
-		return nil
+		ply._PVPBattleData = table.Copy( PvpBattle.DefaultWeapons )
 	end
 
 	local Weapons = {}
@@ -109,6 +109,8 @@ hook.Add("PlayerSQLApplied", "AliensAreReal", function( ply )
 	if !ply._PVPBattleData  then
 		ply._PVPBattleData = table.Copy( PvpBattle.DefaultWeapons )
 	end
+	
+	ply:SetNWBool( "SQLApplied", true )
 end )
 
 //Only set the weapons that are not seted after the levels are loaded

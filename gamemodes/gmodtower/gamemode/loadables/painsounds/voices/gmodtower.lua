@@ -267,6 +267,10 @@ voicelines.Add("models/player/sh/james_sunderland.mdl", {
     },
     Death = {
         "gmodtower/player/james/sddata1{39-40}.wav"
+    },
+    Taunts = {
+        "gmodtower/player/james/01-bp_mae.mp3",
+        "gmodtower/player/james/02-killer_edi_4.mp3"
     }
 })
 

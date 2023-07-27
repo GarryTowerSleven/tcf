@@ -173,6 +173,13 @@ concommand.Add("videopoker_draw", function(ply, cmd, args)
         if handRank >= 2 and handRank <= 11 then
             playVideoPokerSound(WINSND, ply)
             local winnings = self.Prizes[self:GetScore()][self:GetBet()]
+
+            if winnings == -1 then
+				winnings = self:GetJackpot()
+				SQL.getDB():Query("UPDATE gm_casino SET jackpot=0 WHERE type='videopoker'")
+				self:SetJackpot(0)
+            end
+
             self:SetCredits(self:GetCredits() + winnings)
             ply._PendingMoney = self:GetCredits() * 2
             ply:MsgT("VideoPokerWin", winnings)

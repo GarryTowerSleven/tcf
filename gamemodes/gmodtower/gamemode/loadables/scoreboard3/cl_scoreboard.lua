@@ -556,10 +556,10 @@ end
 
 function PLAYERS:Think()
 
-	--if CurTime() < self.NextUpdate then return end
+	if CurTime() < self.NextUpdate then return end
 
 	self:PopulatePlayers()
-	--self.NextUpdate = CurTime() + .25
+	self.NextUpdate = CurTime() + .25
 
 	self.Size = GetPlayerSize()
 	self.Height = self.Size + self.Padding
@@ -727,6 +727,7 @@ end
 
 vgui.Register( "ScoreboardPlayerAvatar", PLAYERAVATAR )
 
+local g = Material("vgui/gradient-r")
 
 PLAYER = {}
 
@@ -1006,7 +1007,9 @@ function PLAYER:PaintBG( w, h )
 		local col = Scoreboard.Customization.ColorBright
 		local alpha = SinBetween( 0, 150, RealTime() * 2 )
 		surface.SetDrawColor( Color( col.r, col.g, col.b, alpha ) )
-		surface.DrawRect( 0, 0, w, h )
+		surface.SetTexture(gradient)
+		surface.DrawTexturedRect(0, 0, w, h)
+		// surface.DrawRect( 0, 0, w, h )
 
 	end
 

@@ -20,7 +20,7 @@ SWEP.HoldType			 = "pistol"
 
 SWEP.Primary.Delay	 = 0.2
 SWEP.Primary.Damage	 = {12, 18}
-SWEP.Primary.Cone	 = 0.04
+SWEP.Primary.Cone	 = 0.01
 SWEP.Primary.ClipSize	 = 14
 SWEP.Primary.DefaultClip = 14
 SWEP.Primary.Ammo	 = "Pistol"
@@ -49,12 +49,20 @@ end
 
 function SWEP:Think()
 	if CLIENT then return end
-
-	if self.Owner:Crouching() && self.Owner:GetVelocity():Length() == 0 &&
-	   self.Owner:IsOnGround() && self.Owner.PowerUp == 0 then
-		self:CloakOn()
+	if !IsLobby then
+		if self.Owner:Crouching() && self.Owner:GetVelocity():Length() == 0 &&
+		self.Owner:IsOnGround() && self.Owner:GetNet("PowerUp") == 0 then
+			self:CloakOn()
+		else
+			self:CloakOff()
+		end
 	else
-		self:CloakOff()
+		if self.Owner:Crouching() && self.Owner:GetVelocity():Length() == 0 &&
+		self.Owner:IsOnGround() then
+			self:CloakOn()
+		else
+			self:CloakOff()
+		end
 	end
 
 	self:NextThink( CurTime() + 1 )
@@ -76,6 +84,7 @@ function SWEP:CloakOn()
 		self.Cloaked = true
 		PostEvent( self.Owner, "cloak_on" )
 		self.Owner:SetMaterial( "models/gmod_tower/pvpbattle/stealth" )
+		self.Owner:SetNWBool("Cloaked", true)
 		if CLIENT then self.Owner:DrawShadow( false ) end
 		self:SetNoDraw( true )
 	end
@@ -86,6 +95,7 @@ function SWEP:CloakOff()
 		self.Cloaked = false
 		PostEvent( self.Owner, "cloak_off" )
 		self.Owner:SetMaterial( "" )
+		self.Owner:SetNWBool("Cloaked", false)
 		if CLIENT then self.Owner:DrawShadow( true ) end
 		self:SetNoDraw( false )
 	end

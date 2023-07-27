@@ -18,7 +18,7 @@ SWEP.WorldModel		 = "models/weapons/w_pvp_as50.mdl"
 SWEP.HoldType		 = "ar2"
 
 SWEP.Primary.Delay	 = 1.5
-SWEP.Primary.Damage	 = {25, 40}
+SWEP.Primary.Damage	 = {65, 80}
 SWEP.Primary.Recoil	 = 6
 SWEP.Primary.Cone	 = 0
 SWEP.Primary.ClipSize	 = 3
@@ -35,7 +35,7 @@ SWEP.IronZoom		 = true
 SWEP.IronZoomFOV	 = 15
 
 
-SWEP.Description = "With only two bullets a clip and deadly accuracy, this sniper will be critical for picking off innocent targets. However, be wary, as each bullet leaves a trail in the air."
+SWEP.Description = "With only three bullets a clip and deadly accuracy, this sniper will be critical for picking off innocent targets. However, be wary, as each bullet leaves a trail in the air."
 SWEP.StoreBuyable = true
 SWEP.StorePrice = 575
 
@@ -50,4 +50,12 @@ function SWEP:SecondaryAttack()
 	self.Weapon:SetNextSecondaryFire( CurTime() + self.Secondary.Delay )
 	
 	self:ShootZoom()
+	
+	if !SERVER then return end
+	
+	if self.Owner.Iron then
+		self.Owner:DrawViewModel( false )
+	else
+		self.Owner:DrawViewModel( true )
+	end
 end

@@ -17,6 +17,8 @@ function ThirdPerson.Override( ply )
 	local forceThird = hook.Call( "ForceThirdperson", GAMEMODE, ply )
 	local forceView = hook.Call( "ForceViewSelf", GAMEMODE, ply )
 
+	if Dueling.IsDueling(LocalPlayer()) then return false end
+
 	// Always be in third person...
 	if forceThird || forceView then
 
@@ -64,14 +66,17 @@ function ThirdPerson.RestoreThirdPersonStatus( ply )
 
 end
 
+local d = 0
+
 hook.Add( "CalcView", "GMTThirdPerson", function( ply, origin, angles, fov )
 
+	if Dueling.IsDueling(LocalPlayer()) then return end
 	if ThirdPerson.Override( ply ) then return end
 
 	// there should only be one hook for this, per gamemode
 	local ret = hook.Call( "GShouldCalcView", GAMEMODE, ply, origin, angles, fov )
 
-	if ply.ThirdPerson || ret || !ply:Alive() then
+	if ply.ThirdPerson || ret || !ply:Alive() || d ~= 0 then
 
 		local filters = {}
 
@@ -99,6 +104,9 @@ hook.Add( "CalcView", "GMTThirdPerson", function( ply, origin, angles, fov )
 
 		local ang = angles
 		local dist = math.Clamp( ThirdPerson.Dist:GetInt() or 1, 35, 150 )
+		d = math.Approach(d, ply.ThirdPerson and dist or 0, FrameTime() * 512)
+
+		local dist = d
 
 		// we'll let the gamemode calcview override our position and distance
 		local thirdHook = hook.GetTable().GCalcView
@@ -239,6 +247,7 @@ hook.Add( "CalcView", "GMTThirdPerson", function( ply, origin, angles, fov )
 			fov = fov,
 			vm_origin = ply:GetShootPos(),
 			vm_angles = ply:EyeAngles(),
+			drawviewer = true
 		}
 
 	else
@@ -310,6 +319,8 @@ hook.Add( "PlayerBindPress", "ThirdPersonViewSelfZoomWheel", function( ply, bind
 		end
 
 	end
+
+	if Dueling.IsDueling(LocalPlayer()) then return end
 
 	if bind == "invprev" && pressed then
 

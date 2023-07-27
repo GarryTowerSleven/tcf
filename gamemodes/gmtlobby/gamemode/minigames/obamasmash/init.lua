@@ -77,26 +77,75 @@ function PlayerDissallowResize( ply )
 	end
 end
 
-local function ObamaBounds()
+local function ObamaControlSuites()
 
 	local entities = ents.FindInSphere(Vector(4512.097656, -10177.549805, 4096),130)
-	local entities2 = ents.FindInSphere(Vector(928, -1472, 0),130)
 	
-	if MinigameLocation == 4 then
-		for index, ent in pairs(entities) do
-			if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
-				ent:Remove()
-				ObamaCount = (ObamaCount-1)
-			end
+	CompareSpawn = (CurTime() - LastSpawn)
+	
+	if Smashers >= 6 then
+		ObamaRate = math.Clamp( 0.39 - ( Smashers * 0.01 ), 0.15, 0.35)
+	else
+		ObamaRate = 0.35
+	end
+	//Debug
+	//print("Obama count is: " .. ObamaCount .. " Max: " .. ObamaMax .. "  Obama rate is: " .. ( ObamaRate - CurTime() ) .. " Smasher count is: " .. Smashers )
+	if CompareSpawn > ObamaRate then
+		if ObamaCount < ObamaMax then
+			//print(CompareSpawn .. " " .. ObamaRate)
+			ObamaCount = (ObamaCount+1)
+			local ent = ents.Create("gmt_minigame_obama")
+			local entposX = math.Rand(4288.218262, 4911.975586)	
+			local entposY = math.Rand(-10543.968750, -9808.031250)
+			ent:SetPos( Vector(entposX,entposY, 4096) )
+			ent:SetAngles(Angle(0,math.Rand(0,360),0))
+			ent.MiniGame = true
+			ent:Spawn()
+			LastSpawn = CurTime()
 		end
 	end
 	
-	if MinigameLocation == 2 then
-		for index, ent in pairs(entities2) do
-			if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
-				ent:Remove()
-				ObamaCount = (ObamaCount-1)
-			end
+	for index, ent in pairs(entities) do
+		if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
+			ent:Remove()
+			ObamaCount = (ObamaCount-1)
+		end
+	end
+	
+end
+
+local function ObamaControlLobby()
+
+	local entities = ents.FindInSphere(Vector(928, -1472, 0),130)
+	
+	CompareSpawn = (CurTime() - LastSpawn)
+	
+	if Smashers >= 6 then
+		ObamaRate = math.Clamp( 0.39 - ( Smashers * 0.01 ), 0.15, 0.35)
+	else
+		ObamaRate = 0.35
+	end
+	//Debug
+	//print("Obama count is: " .. ObamaCount .. " Max: " .. ObamaMax .. "  Obama rate is: " .. ( ObamaRate - CurTime() ) .. " Smasher count is: " .. Smashers )
+	if CompareSpawn > ObamaRate then
+		if ObamaCount < ObamaMax then
+			ObamaCount = (ObamaCount+1)
+			local ent = ents.Create("gmt_minigame_obama")
+			local entposX = math.Rand(345, 1510)	
+			local entposY = math.Rand(-2125.968750, -815.031250)
+			ent:SetPos( Vector(entposX,entposY, 0) )
+			ent:SetAngles(Angle(0,math.Rand(0,360),0))
+			ent.MiniGame = true
+			ent:Spawn()
+			LastSpawn = CurTime()
+		end
+	end
+	
+
+	for index, ent in pairs(entities) do
+		if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
+			ent:Remove()
+			ObamaCount = (ObamaCount-1)
 		end
 	end
 end
@@ -110,8 +159,13 @@ local function SmashObama( ent, dmg )
 		if ObamaCount != nil then
 			ObamaCount = (ObamaCount-1)
 		end
-
-		ObamaMax = math.Clamp(Smashers * 5, 10, 50)
+		
+		if MinigameLocation == 4 then
+			ObamaMax = math.Clamp(Smashers * 5, 10, 50)
+		else
+			ObamaMax = math.Clamp(Smashers * 5, 10, 100)
+		end
+		//print(ObamaMax)
 		
 		local ply = dmg:GetAttacker()
 		local ComboTime = 1
@@ -141,59 +195,15 @@ local function SmashObama( ent, dmg )
 
 end
 
-local function ObamaManStart( flags )
-
-	ObamaCount = 0
-	ObamaMax = 25 -- Lets preload some obamas before the dynamic effect comes in
-	LastSmash = CurTime()
-	
-	if flags == "a" then
-		MinigameLocation = Location.GetIDByName( "Lobby" )
-	else
-		MinigameLocation = Location.GetIDByName( "Suites" )
-	end
-	
-	timer.Create( "ObamaMan", 0.15, 0, function()
-		if Smashers >= 6 then
-			LastSmash = CurTime()
-			ObamaRate = ( CurTime() + math.Clamp( 0.39 - ( Smashers * 0.01 ), 0.15, 0.35) )
-		else
-			ObamaRate = CurTime() + 0.35
-		end
-		//Debug
-		//print("Obama count is: " .. ObamaCount .. " Max: " .. ObamaMax .. "  Obama rate is: " .. ( ObamaRate - CurTime() ) .. " Smasher count is: " .. Smashers )
-		if LastSmash < ObamaRate then
-			if ObamaCount < ObamaMax then
-				ObamaCount = (ObamaCount+1)
-				local ent = ents.Create("gmt_minigame_obama")
-				if flags == "a" then
-					local entposX = math.Rand(345, 1510)	
-					local entposY = math.Rand(-2125.968750, -815.031250)
-					ent:SetPos( Vector(entposX,entposY, 0) )
-				else
-					local entposX = math.Rand(4288.218262, 4911.975586)	
-					local entposY = math.Rand(-10543.968750, -9808.031250)
-					ent:SetPos( Vector(entposX,entposY, 4096) )
-				end
-				ent:SetAngles(Angle(0,math.Rand(0,360),0))
-				ent.MiniGame = true
-				ent:Spawn()
-			end
-		end
-	end)
-
-end
-
 local function ObamaManStop()
 
-	if ( timer.Exists( "ObamaMan" ) ) then
-		timer.Remove( "ObamaMan" )
-
-		for k,v in pairs (ents.FindByClass("gmt_minigame_obama")) do
-			if v.MiniGame == true then
-				v:Remove()
-				ObamaCount = 0
-			end
+	hook.Remove("Think", "ObamaControlLobby" )
+	hook.Remove("Think", "ObamaControlSuites" )
+	
+	for k,v in pairs (ents.FindByClass("gmt_minigame_obama")) do
+		if v.MiniGame == true then
+			v:Remove()
+			ObamaCount = 0
 		end
 	end
 
@@ -203,11 +213,21 @@ function Start( flags )
 
 	OBAMA_GAME_ACTIVE = true
 
-	ObamaManStart( flags )
+	ObamaCount = 0
+	ObamaMax = 25 -- Lets preload some obamas before the dynamic effect comes in
+	
+	LastSpawn = CurTime()
+	
+	if flags == "a" then
+		MinigameLocation = Location.GetIDByName( "Lobby" )
+		hook.Add("Think", "ObamaControlLobby", ObamaControlLobby )
+	else
+		MinigameLocation = Location.GetIDByName( "Suites" )
+		hook.Add("Think", "ObamaControlSuites", ObamaControlSuites )
+	end
 
 	hook.Add("Location", "ObamaSmashLocation", CheckGiveWeapon )
 	hook.Add("EntityTakeDamage", "SmashObama", SmashObama )
-	hook.Add("Think", "ObamaBoundsCheck", ObamaBounds )
 	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissallowResize )
 
 	hook.Add("PlayerDeath", "Piratespeak", function( victim )
@@ -242,7 +262,6 @@ function End()
 
 	hook.Remove("Location", "ObamaSmashLocation" )
 	hook.Remove("EntityTakeDamage", "SmashObama" )
-	hook.Remove("Think", "ObamaBoundsCheck" )
 	hook.Remove("PlayerResize", "DoNotAllowResize")
 	hook.Remove("PlayerDeath", "Piratespeak")
 	hook.Remove("PlayerDisconnected", "Pirateleave")

@@ -7,6 +7,20 @@ include('shared.lua')
 
 // thirdperson support
 
+hook.Add("PrePlayerDraw", "pool", function(ply)
+	if ply.PoolTube then
+		ply:SetPos(ply.PoolTube:WorldSpaceCenter() - ply:GetForward() * 16 + ply.PoolTube:GetUp() * 8 - ply:GetRight() * 4)
+		ply:SetRenderAngles(Angle(ply.PoolTube:GetAngles().p + 32, ply:EyeAngles().y, ply.PoolTube:GetAngles().r + 0))
+	end
+end)
+
+hook.Add("CalcMainActivity", "pool", function(ply)
+	if ply.PoolTube then
+		local seq = UCHAnim.GetIdleSequence( ply ) or "zombie_slump_idle_02"
+		return ACT_INVALID, ply:LookupSequence(seq)
+	end
+end)
+
 if ThirdPerson then
 
 	ThirdPerson.ExcludeEnt( "gmt_pooltube" )
@@ -18,6 +32,9 @@ end
 
 
 function ENT:Enter( ply )
+
+	/*
+
 
 	if IsValid(self.PlayerModel) then return end
 	self.PlayerModel = ClientsidePlayer( ply )
@@ -33,7 +50,7 @@ function ENT:Enter( ply )
 	self.PlayerModel:ForceThirdPerson( true )
 
 
-
+*/
 	ply.PoolTube = self
 
 
@@ -381,7 +398,7 @@ hook.Add("CalcView","PoolTubeCalc", function( ply, pos, angles, fov )
 	view.origin = ply.PoolTube:GetPos() - ( angles:Forward()*100 ) + Vector(0,0,50)
 	view.angles = angles
 	view.fov = fov
-	view.drawviewer = false
+	view.drawviewer = true
 
 	return view
 

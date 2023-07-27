@@ -1,27 +1,22 @@
 include("shared.lua")
 
 function ENT:Initialize()
-
 	local min, max = self:GetRenderBounds()
 	self:SetRenderBounds(min *2, max * 2)
 
 	self.Delta = 1
 	self.Hide = 0
-
 end
 
 function ENT:PositionBox( ply )
-
-	local ang = ply:GetAngles()
+	local ang = ply:EyeAngles()
 	local pos = ply:EyePos()
-
-	if ply == LocalPlayer() then pos, ang = ply:EyePos(), EyeAngles() end
 
 	ang.p = 0
 
 	ang:RotateAroundAxis(ang:Right(), 40 * self.Delta)
 	
-	pos = pos - Vector(0,0,28 - (self.Delta * 18))
+	pos = pos - Vector(0,0,24 - (self.Delta * 18))
 
 	if ply != LocalPlayer() then
 		pos = pos + ang:Forward() * 14
@@ -29,31 +24,42 @@ function ENT:PositionBox( ply )
 
 	self.Entity:SetAngles(ang)
 	self.Entity:SetPos(pos)
-
 end
 
 function ENT:SetAlpha( ply, alpha )
-
+	if ply:InVehicle() then
+		self:SetNoDraw( true )
+	return end
+	
+	if emote && emote.IsEmoting( ply ) then
+		self:SetNoDraw( true )
+	return end
+	
+	if !alpha then
+		alpha = 0
+	end
+	
 	if ply == LocalPlayer() || LocalPlayer():IsAdmin() then
 		alpha = math.Clamp(alpha, 150, 255)
 	end
+	
+	local c = ply:GetColor() // GMod 13
+	local r,g,b = c.r, c.g, c.b
 
-	local r,g,b,a = ply:GetColor()
-
-	self:SetColor( r, g, b, alpha )
-	ply:SetColor( r, g, b, alpha )
+	self:SetColor( Color( r, g, b, alpha ) )
+	ply:SetColorAll( Color( r, g, b, alpha ) )
+	self:SetRenderMode( RENDERMODE_TRANSALPHA )
+	self:SetNoDraw( false )
 	
 	local weapon = ply:GetActiveWeapon()
-	
+		
 	if IsValid(weapon) then
-		r,g,b,a = weapon:GetColor()
-		weapon:SetColor( r, g, b, alpha )
+		weapon:SetColor( Color( 255, 255, 255, alpha or 150 ) )
+		weapon:SetRenderMode( RENDERMODE_TRANSALPHA )
 	end
-
 end
 
 function ENT:Think()
-
 	local ply = self:GetOwner()
 	if !IsValid(ply) || !ply:Alive() then return end
 
@@ -73,26 +79,26 @@ function ENT:Think()
 	end
 
 	self:SetAlpha( ply, self.Delta * 255 )
-
 end
 
 function ENT:Draw()
-
 	local ply = self:GetOwner()
 	if !IsValid(ply) || !ply:Alive() then return end
 
 	self:PositionBox(ply)
 
 	self.Entity:DrawModel()
-
 end
 
 function ENT:OnRemove()
-
 	local ply = self:GetOwner()
 
 	if IsValid(ply) then
-		self:SetAlpha( ply, 255 )
+		ply:SetColor( Color( 255, 255, 255, 255 ) )
 	end
-
+	
+	if IsValid(weapon) then
+		weapon:SetColor( Color( 255, 255, 255, 255 ) )
+		weapon:SetRenderMode( RENDERMODE_NORMAL )
+	end
 end

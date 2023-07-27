@@ -9,16 +9,14 @@ function ENT:Initialize()
 end
 
 function ENT:PositionBox( ply )
-	local ang = ply:GetAngles()
+	local ang = ply:EyeAngles()
 	local pos = ply:EyePos()
-
-	if ply == LocalPlayer() then pos, ang = ply:EyePos(), EyeAngles() end
 
 	ang.p = 0
 
 	ang:RotateAroundAxis(ang:Right(), 40 * self.Delta)
 	
-	pos = pos - Vector(0,0,28 - (self.Delta * 18))
+	pos = pos - Vector(0,0,24 - (self.Delta * 18))
 
 	if ply != LocalPlayer() then
 		pos = pos + ang:Forward() * 14
@@ -29,7 +27,10 @@ function ENT:PositionBox( ply )
 end
 
 function ENT:SetAlpha( ply, alpha )
-
+	if IsLobby && emote && emote.IsEmoting( ply ) then
+		self:SetNoDraw( true )
+	return end
+	
 	if !alpha then
 		alpha = 0
 	end
@@ -44,6 +45,7 @@ function ENT:SetAlpha( ply, alpha )
 	self:SetColor( Color( r, g, b, alpha ) )
 	ply:SetColorAll( Color( r, g, b, alpha ) )
 	self:SetRenderMode( RENDERMODE_TRANSALPHA )
+	self:SetNoDraw( false )
 	
 	local weapon = ply:GetActiveWeapon()
 	
@@ -51,7 +53,6 @@ function ENT:SetAlpha( ply, alpha )
 		weapon:SetColor( Color( 255, 255, 255, alpha or 150 ) )
 		weapon:SetRenderMode( RENDERMODE_TRANSALPHA )
 	end
-
 end
 
 function ENT:Think()

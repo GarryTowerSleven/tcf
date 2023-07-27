@@ -108,7 +108,7 @@ function SWEP:PrimaryAttack()
 		sound = self.Sounds[1]
 
 		if SERVER then
-			target:TakeDamage( math.random(90, 120), self.Owner)
+			target:TakeDamage( math.random(100, 130), self.Owner)
 		end
 
 		local effectdata = EffectData()

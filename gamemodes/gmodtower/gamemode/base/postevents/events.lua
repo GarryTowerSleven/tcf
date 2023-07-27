@@ -79,54 +79,33 @@ local function ironsightsOff( mul, time )
 end
 AddPostEvent( "isights_off", ironsightsOff )
 
-
-
-
-local function cloakOn( mul, time )
-
-	-- Grey/blue fade
+local function Cloak_On( mul, time )
 	local layer = postman.NewColorLayer()
-	layer.addr = -0.1
-	layer.addg = -0.1
-	layer.addb = 0.25
-	layer.mulr = 0.2
-	layer.mulg = 0.2
-	layer.mulb = 0.2
-	layer.color = 0.1
-	layer.contrast = 1.1
-	layer.brightness = 0.1
-	postman.FadeColorIn( "cloak", layer, 0.5 )
-	
-	-- Fade to sharp edges
-	layer = postman.NewSharpenLayer()
-	layer.contrast = 3
-	layer.distance = 0.75
-	postman.FadeSharpenIn( "cloak", layer, 0.5 )
-	
-	-- Ripple overlay
-	layer = postman.NewMaterialLayer()
-	layer.material = "models/props_combine/com_shield001a"
-	layer.alpha = 0.5
-	layer.refract = 0.1
-	postman.FadeMaterialIn( "cloak", layer, 0.5 )
-	
+	layer.color = 0.20
+	layer.addr = 0.0
+	layer.addg = 0.15
+	layer.addb = 0.45
+	postman.FadeColorIn( "cloak_on", layer, 0.5 )
+
+	layer = postman.NewBloomLayer()
+	layer.sizex = 0.0
+	layer.sizey = 50.0
+	layer.multiply = 1.0
+	layer.color = 1.0
+	layer.passes = 1.0
+	layer.darken = 0.45
+	postman.FadeBloomIn( "cloak_on", layer, 0.5 )
 end
-AddPostEvent( "cloakon", cloakOn )
+AddPostEvent( "cloak_on", Cloak_On )
 
+local function Cloak_Off( mul, time )
+	postman.ForceColorFade( "cloak_on" )
+	postman.FadeColorOut( "cloak_on", 0.5 )
 
-local function cloakOff( mul, time )
-
-	postman.ForceColorFade( "cloak" )
-	postman.FadeColorOut( "cloak", 0.5 )
-
-	postman.ForceSharpenFade( "cloak" )
-	postman.FadeSharpenOut( "cloak", 0.5 )
-
-    postman.ForceMaterialFade( "cloak" )
-	postman.FadeMaterialOut( "cloak", 0.5 )
-	
+	postman.ForceBloomFade( "cloak_on" )
+    postman.FadeBloomOut( "cloak_on", 0.5 )
 end
-AddPostEvent( "cloakoff", cloakOff )
+AddPostEvent( "cloak_off", Cloak_Off )
 
 
 local function testOn( mul, time )

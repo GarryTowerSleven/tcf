@@ -4,13 +4,6 @@ payout.Register( "ThanksForPlaying", {
 	GMC = 50,
 } )
 
-payout.Register( "Kills", {
-	Name = "Kills",
-	Desc = "Bonus for killing players (5 GMC each).", 
-	GMC = 0,
-	Diff = 1,
-} )
-
 payout.Register( "FirstInfectedBonus", {
 	Name = "First Infected",
 	Desc = "You successfully spread the virus as patient zero.",
@@ -46,25 +39,32 @@ payout.Register( "TeamPlayer", {
 	Diff = 3,
 } )
 
+payout.Register( "Kills", {
+	Name = "Kills",
+	Desc = "Bonus for killing players (5 GMC each).", 
+	GMC = 0,
+	Diff = 4,
+} )
+
 payout.Register( "Rank1", {
 	Name = "1st Place",
 	Desc = "For being the top killer.",
 	GMC = 100,
-	Diff = 4,
+	Diff = 5,
 } )
 
 payout.Register( "Rank2", {
 	Name = "2nd Place",
 	Desc = "For being the second top killer.",
 	GMC = 50,
-	Diff = 4,
+	Diff = 5,
 } )
 
 payout.Register( "Rank3", {
 	Name = "3rd Place",
 	Desc = "For being the third top killer.",
 	GMC = 25,
-	Diff = 4,
+	Diff = 5,
 } )
 
 function GAMEMODE:GiveMoney( VirusWins )
