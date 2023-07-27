@@ -241,7 +241,7 @@ function GM:StartRound()
 	if LateSpawn != nil && (LateSpawn:GetName() == 'bonus_start' || LateSpawn:GetName() == 'bns_start' || LateSpawn:GetName() == 'bonus') then
 		music.Play( 1, MUSIC_BONUS )
 		NextRoundState = STATE_PLAYINGBONUS
-		NextRoundTime = ( self.DefaultLevelTime/2 )
+		NextRoundTime = 30
 	else
 		music.Play( 1, MUSIC_LEVEL )
 		NextRoundState = STATE_PLAYING
