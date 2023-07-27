@@ -49,12 +49,20 @@ end
 
 function SWEP:Think()
 	if CLIENT then return end
-
-	if self.Owner:Crouching() && self.Owner:GetVelocity():Length() == 0 &&
-	   self.Owner:IsOnGround() && self.Owner:GetNet("PowerUp") == 0 then
-		self:CloakOn()
+	if !IsLobby then
+		if self.Owner:Crouching() && self.Owner:GetVelocity():Length() == 0 &&
+		self.Owner:IsOnGround() && self.Owner:GetNet("PowerUp") == 0 then
+			self:CloakOn()
+		else
+			self:CloakOff()
+		end
 	else
-		self:CloakOff()
+		if self.Owner:Crouching() && self.Owner:GetVelocity():Length() == 0 &&
+		self.Owner:IsOnGround() then
+			self:CloakOn()
+		else
+			self:CloakOff()
+		end
 	end
 
 	self:NextThink( CurTime() + 1 )
