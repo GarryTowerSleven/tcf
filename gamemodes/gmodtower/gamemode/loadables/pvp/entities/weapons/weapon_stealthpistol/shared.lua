@@ -51,7 +51,7 @@ function SWEP:Think()
 	if CLIENT then return end
 
 	if self.Owner:Crouching() && self.Owner:GetVelocity():Length() == 0 &&
-	   self.Owner:IsOnGround() && self.Owner.PowerUp == 0 then
+	   self.Owner:IsOnGround() && self.Owner:GetNet("PowerUp") == 0 then
 		self:CloakOn()
 	else
 		self:CloakOff()
