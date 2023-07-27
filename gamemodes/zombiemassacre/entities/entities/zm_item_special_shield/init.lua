@@ -12,7 +12,12 @@ function ENT:Initialize()
 	self.sheildsound = CreateSound( self, self.Sound )
 	self.sheildsound:Play()
 	self.KillCount = 0
-	timer.Simple( self.RemoveDelay, function() self.sheildsound:Stop() self:GetOwner():SetNWInt( "Combo", 0 ) self:GetOwner():SetNWBool( "IsPowerCombo", false ) self:GetOwner():ResetSpeeds() self:Remove() end )
+	timer.Simple( self.RemoveDelay, function()
+		self.sheildsound:Stop()
+		self:GetOwner():SetLaggedMovementValue( 1 )
+		self:GetOwner():SetNWInt( "Combo", 0 )
+		self:GetOwner():SetNWBool( "IsPowerCombo", false )
+		self:Remove() end )
 end
 
 function ENT:Think()
