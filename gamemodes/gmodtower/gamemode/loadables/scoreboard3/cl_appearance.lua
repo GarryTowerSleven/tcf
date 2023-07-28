@@ -415,7 +415,7 @@ function APPEARANCE:GenerateModelSelection()
 
 
 
-		if category != CategoryList then
+		if category != CategoryList && file.Find(path, "GAME")[1] then
 
 			dvgui = "DImageButton"
 
