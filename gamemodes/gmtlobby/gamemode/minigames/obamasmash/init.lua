@@ -91,19 +91,17 @@ local function ObamaControlSuites()
 	end
 	//Debug
 	//print("Obama count is: " .. ObamaCount .. " Max: " .. ObamaMax .. "  Obama rate is: " .. ( ObamaRate - CurTime() ) .. " Smasher count is: " .. Smashers )
-	if CompareSpawn > ObamaRate then
-		if ObamaCount < ObamaMax then
-			//print(CompareSpawn .. " " .. ObamaRate)
-			ObamaCount = (ObamaCount+1)
-			local ent = ents.Create("gmt_minigame_obama")
-			local entposX = math.Rand(4288.218262, 4911.975586)	
-			local entposY = math.Rand(-10543.968750, -9808.031250)
-			ent:SetPos( Vector(entposX,entposY, 4096) )
-			ent:SetAngles(Angle(0,math.Rand(0,360),0))
-			ent.MiniGame = true
-			ent:Spawn()
-			LastSpawn = CurTime()
-		end
+	if CompareSpawn > ObamaRate && ObamaCount < ObamaMax then
+		//print(CompareSpawn .. " " .. ObamaRate)
+		ObamaCount = (ObamaCount+1)
+		local ent = ents.Create("gmt_minigame_obama")
+		local entposX = math.Rand(4288.218262, 4911.975586)	
+		local entposY = math.Rand(-10543.968750, -9808.031250)
+		ent:SetPos( Vector(entposX,entposY, 4096) )
+		ent:SetAngles(Angle(0,math.Rand(0,360),0))
+		ent.MiniGame = true
+		ent:Spawn()
+		LastSpawn = CurTime()
 	end
 	
 	Adjustment = 0
@@ -131,18 +129,16 @@ local function ObamaControlLobby()
 	end
 	//Debug
 	//print("Obama count is: " .. ObamaCount .. " Max: " .. ObamaMax .. "  Obama rate is: " .. ( ObamaRate - CurTime() ) .. " Smasher count is: " .. Smashers )
-	if CompareSpawn > ObamaRate then
-		if ObamaCount < ObamaMax then
-			ObamaCount = (ObamaCount+1)
-			local ent = ents.Create("gmt_minigame_obama")
-			local entposX = math.Rand(345, 1510)	
-			local entposY = math.Rand(-2125.968750, -815.031250)
-			ent:SetPos( Vector(entposX,entposY, 0) )
-			ent:SetAngles(Angle(0,math.Rand(0,360),0))
-			ent.MiniGame = true
-			ent:Spawn()
-			LastSpawn = CurTime()
-		end
+	if CompareSpawn > ObamaRate && ObamaCount < ObamaMax then
+		ObamaCount = (ObamaCount+1)
+		local ent = ents.Create("gmt_minigame_obama")
+		local entposX = math.Rand(345, 1510)	
+		local entposY = math.Rand(-2125.968750, -815.031250)
+		ent:SetPos( Vector(entposX,entposY, 0) )
+		ent:SetAngles(Angle(0,math.Rand(0,360),0))
+		ent.MiniGame = true
+		ent:Spawn()
+		LastSpawn = CurTime()
 	end
 	
 	Adjustment = 0
@@ -166,7 +162,7 @@ local function ObamaControlPlaza()
 	local entities6 = ents.FindInSphere(Vector(1135, 1525, 0),100)
 	
 	CompareSpawn = (CurTime() - LastSpawn + Adjustment)
-	print(CompareSpawn)
+	
 	if Smashers >= 6 then
 		ObamaRate = math.Clamp( 0.39 - ( Smashers * 0.01 ), 0.10, 0.35)
 	else
@@ -174,18 +170,16 @@ local function ObamaControlPlaza()
 	end
 	//Debug
 	//print("Obama count is: " .. ObamaCount .. " Max: " .. ObamaMax .. "  Obama rate is: " .. ( ObamaRate - CurTime() ) .. " Smasher count is: " .. Smashers )
-	if CompareSpawn > ObamaRate then
-		if ObamaCount < ObamaMax then
-			ObamaCount = (ObamaCount+1)
-			local ent = ents.Create("gmt_minigame_obama")
-			local entposX = math.Rand(675, 1175)	
-			local entposY = math.Rand(200, 1600)
-			ent:SetPos( Vector(entposX,entposY, -16) )
-			ent:SetAngles(Angle(0,math.Rand(0,360),0))
-			ent.MiniGame = true
-			ent:Spawn()
-			LastSpawn = CurTime()
-		end
+	if CompareSpawn > ObamaRate && ObamaCount < ObamaMax then
+		ObamaCount = (ObamaCount+1)
+		local ent = ents.Create("gmt_minigame_obama")
+		local entposX = math.Rand(675, 1175)	
+		local entposY = math.Rand(200, 1600)
+		ent:SetPos( Vector(entposX,entposY, -16) )
+		ent:SetAngles(Angle(0,math.Rand(0,360),0))
+		ent.MiniGame = true
+		ent:Spawn()
+		LastSpawn = CurTime()
 	end
 
 	Adjustment = 0
