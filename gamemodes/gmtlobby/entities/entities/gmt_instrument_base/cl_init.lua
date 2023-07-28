@@ -6,7 +6,7 @@ ENT.KeysDown = {}
 ENT.KeysWasDown = {}
 
 ENT.AllowAdvancedMode = false
-ENT.AdvancedMode = true
+ENT.AdvancedMode = false
 ENT.ShiftMode = false
 
 local Volume = CreateClientConVar( "gmt_volume_instrument", 100, true, false, "Set how loud instruments will sound.", 0, 100 )
@@ -456,8 +456,9 @@ hook.Add( "PostDrawTranslucentRenderables", "InstrumentPaint", function()
 		// HUD
 		local inst = LocalPlayer().Instrument
 		local s = 1.94 / 1.5
-		cam.Start3D2D(inst:WorldSpaceCenter() - inst:GetRight() * -18.55 * s - inst:GetForward() * -1 - inst:GetUp() * -7.5, Angle(180, 90, 240), 0.04 * s)
-		inst.AdvancedMode = true
+		cam.Start3D2D(inst:WorldSpaceCenter() - inst:GetRight() * (inst.AdvancedMode && -18.55 || -18.23) * s - inst:GetForward() * -1 - inst:GetUp() * -7.5, Angle(180, 90, 240), 0.04 * s)
+		inst.MainHUD.X = 305
+		inst.MainHUD.Y = -60
 		inst.AdvMainHUD.X = 0
 		inst.AdvMainHUD.Y = -60
 		//draw.RoundedBox(0, 0, 0, 128, 128, color_white)
