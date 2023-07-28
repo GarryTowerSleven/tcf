@@ -21,7 +21,7 @@ GMode.MinPlayers = 3 // 4
 //Set this if only a group can join
 GMode.GroupJoin = false
 
-GMode.MaxPlayers = 6 //Leave nil if the maxplayers are suppost to be the server maxplayers
+GMode.MaxPlayers = nil //Leave nil if the maxplayers are suppost to be the server maxplayers
 GMode.Gameplay = "3rd Person"
 
 GMode.Maps = Maps.GetMapsInGamemode( GMode.Gamemode )

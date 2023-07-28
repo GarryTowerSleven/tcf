@@ -56,7 +56,7 @@ GMode.Tips = {
 
 GMode.Maps = Maps.GetMapsInGamemode( GMode.Gamemode )
 
-GMode.MaxPlayers = 8 //Leave nil if the maxplayers are suppost to be the server maxplayers
+GMode.MaxPlayers = nil //Leave nil if the maxplayers are suppost to be the server maxplayers
 GMode.Gameplay = "FPS"
 
 function GMode:GetMapTexture( map )

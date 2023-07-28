@@ -19,7 +19,7 @@ GMode.MinPlayers = 3
 //Set this if only a group can join
 GMode.GroupJoin = false
 
-GMode.MaxPlayers = 8 //Leave nil if the maxplayers are suppost to be the server maxplayers
+GMode.MaxPlayers = nil //Leave nil if the maxplayers are suppost to be the server maxplayers
 GMode.Gameplay = "Physics-based Rolling"
 
 GMode.View = {
