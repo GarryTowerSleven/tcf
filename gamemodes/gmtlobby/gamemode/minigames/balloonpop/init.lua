@@ -163,7 +163,6 @@ function Start( flags )
 	LastSpawn = CurTime()
 	hook.Add("Think", "BalloonPopSpawning", BalloonControl )
 	hook.Add("Location", "BalloonPopLocation", CheckGiveWeapon )
-	hook.Add("Think", "StagnancyCheck", BalloonStagnancy )
 	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissalowResize )
 
 	hook.Add("PlayerDeath", "Ninjaspeak", function( victim )

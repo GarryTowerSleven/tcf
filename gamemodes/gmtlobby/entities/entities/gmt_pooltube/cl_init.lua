@@ -9,6 +9,7 @@ include('shared.lua')
 
 hook.Add("PrePlayerDraw", "pool", function(ply)
 	if ply.PoolTube then
+		ply:SetAngles(Angle(0, ply:EyeAngles().y, 0))
 		ply:SetPos(ply.PoolTube:WorldSpaceCenter() - ply:GetForward() * 16 + ply.PoolTube:GetUp() * 8 - ply:GetRight() * 4)
 		ply:SetRenderAngles(Angle(ply.PoolTube:GetAngles().p + 32, ply:EyeAngles().y, ply.PoolTube:GetAngles().r + 0))
 	end

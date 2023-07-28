@@ -9,6 +9,8 @@ IsLobby = true
 
 DeriveGamemode( "gmodtower" )
 
+team.SetUp(1, "Tower Fans", team.GetColor(TEAM_UNASSIGNED), true)
+
 include("player_class/player_lobby.lua")
 
 IsLobbyOne = string.StartsWith( game.GetMap(), "gmt_build" )
