@@ -465,6 +465,7 @@ hook.Add( "PostDrawTranslucentRenderables", "InstrumentPaint", function()
 		cam.End3D2D()
 		cam.Start3D2D(inst:WorldSpaceCenter() - inst:GetRight() * -8.5 * s - inst:GetForward() * 1 - inst:GetUp() * -25.5, Angle(180, 90, -100), 0.04 * s)
 		if inst.Browser then
+			inst.Browser:SetWide(428)
 			inst.Browser:SetPos(0, 0)
 			inst.Browser:PaintManual()
 		end
