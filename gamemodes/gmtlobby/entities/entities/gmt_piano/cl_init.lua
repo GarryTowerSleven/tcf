@@ -10,7 +10,7 @@ ENT.DefaultMatHeight = 128
 // Override by adding TextX/TextY to key data
 ENT.DefaultTextX = 11
 ENT.DefaultTextY = 100
-ENT.DefaultTextColor = Color( 150, 150, 150, 150 )
+ENT.DefaultTextColor = Color( 0, 0, 0, 200 )
 ENT.DefaultTextColorActive = Color( 80, 80, 80, 150 )
 ENT.DefaultTextInfoColor = Color( 46, 20, 6, 255 )
 
