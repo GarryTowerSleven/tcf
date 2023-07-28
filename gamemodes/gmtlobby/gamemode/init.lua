@@ -70,10 +70,12 @@ function GM:PlayerSpawn( pl )
 	player_manager.OnPlayerSpawn( pl )
 	player_manager.RunClass( pl, "Spawn" )
 
+	pl:SetTeam(1)
 	local col = pl:GetInfo( "cl_playercolor" )
 	pl:SetPlayerColor( Vector( col ) )
 	pl:SetCustomCollisionCheck(true)
-	pl:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+	//pl:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+	pl:SetNoCollideWithTeammates(true)
 
 	-- Set player model
 	hook.Call( "PlayerSetModel", GAMEMODE, pl )
