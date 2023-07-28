@@ -132,7 +132,8 @@ Loadables.Load( {
 	--"weaponmanager",		-- Manages minigame weapons and such
 	"pvp",					-- PVP weapons
 	"virus",				-- Virus weapons
-	"painsounds"
+	"painsounds",
+	"models"
 
 } )
 
