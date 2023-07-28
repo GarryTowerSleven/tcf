@@ -70,26 +70,24 @@ function GM:HudMessage( ply, index, time, ent, ent2, color )
 end
 
 function GM:ProcessRank( ply )
-
-	local rank = 1
 	
-	for _, v in ipairs( player.GetAll() ) do
-		
-		if ( v:Frags() > ply:Frags() ) then
-		
-			rank = rank + 1
-			
-		elseif ( v:Frags() == ply:Frags() ) then
+	local Players = player.GetAll()
+	
+	table.sort( Players, function( a, b )
 
-			if ( v:Deaths() < ply:Deaths() ) then
-				rank = rank + 1
-			end
+		local aScore, bScore = a:Frags(), b:Frags()
 
+		if aScore == bScore then
+			return a:Deaths() < b:Deaths()
 		end
 
+		return aScore > bScore
+
+	end )
+	PrintTable(Players)
+	for k, ply in pairs( Players ) do
+		ply:SetNet( "Rank", k )
 	end
-	
-	ply:SetNet( "Rank", rank )
 	
 end
 
