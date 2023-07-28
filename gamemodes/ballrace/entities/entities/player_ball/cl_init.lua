@@ -244,9 +244,8 @@ function ENT:DrawTranslucent()
 	// Draw Ball
 	if IsValid( self.Ball ) then
 		local blend = GetConVar("gmt_ballrace_fade"):GetFloat() / 255
-		print(blend, self.Opacity)
 		render.CullMode(FIRSTPERSON and ply == LocalPlayer() and MATERIAL_CULLMODE_CW or MATERIAL_CULLMODE_CCW)
-		render.SetBlend(FIRSTPERSON and ply == LocalPlayer() and 0.4 or self.Opacity / 255 or 1)
+		render.SetBlend(FIRSTPERSON and ply == LocalPlayer() and 0.4 or self.Opacity and self.Opacity / 255 or 1)
 		render.SetColorModulation(2, 2, 2)
 		self.Ball:SetModelScale(self:GetModelScale() - 0.02)
 		self.Ball:DrawModel()
