@@ -21,7 +21,7 @@ GMode.MinPlayers = 3
 //Set this if only a group can join
 GMode.GroupJoin = false
 
-GMode.MaxPlayers = 16 //Leave nil if the maxplayers are suppost to be the server maxplayers
+GMode.MaxPlayers = 12 //Leave nil if the maxplayers are suppost to be the server maxplayers
 GMode.Gameplay = "Casual Minigolf"
 
 GMode.Maps = Maps.GetMapsInGamemode( GMode.Gamemode )
