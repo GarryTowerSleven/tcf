@@ -19,25 +19,30 @@ concommand.Add("gmt_loadmini", function( ply, cmd, args )
 	end
 	
 	if MiniGameStr == "obamasmash" then
+	
+		local locationname = ""
+		local flags = ""
+
 		if args[2] == "lobby" then
-			for _, v in ipairs(player.GetAll()) do
-				v:MsgT( minigames[ MiniGameStr ]._M.MinigameMessage, "Lobby" )
-			end
-			AdminNotify(T( "AdminMiniStart", ply:GetName(), minigames[ MiniGameStr ]._M.MinigameName or MiniGameStr ))
-			SafeCall( MiniGame.Start, "a" )
+			locationname = "Lobby"
+			flags = "a"
+		elseif args[2] == "plaza" then
+			locationname = "Entertainment Plaza"
+			flags = "b"
 		elseif args[2] == "suites" then
-			for _, v in ipairs(player.GetAll()) do
-				v:MsgT( minigames[ MiniGameStr ]._M.MinigameMessage, "Suites" )
-			end
-			AdminNotify(T( "AdminMiniStart", ply:GetName(), minigames[ MiniGameStr ]._M.MinigameName or MiniGameStr ))
-			SafeCall( MiniGame.Start, "" )
+			locationname = "Suites"
+			flags = ""
 		else
-			for _, v in ipairs(player.GetAll()) do
-				v:MsgT( minigames[ MiniGameStr ]._M.MinigameMessage, "Suites" )
-			end
-			AdminNotify(T( "AdminMiniStart", ply:GetName(), minigames[ MiniGameStr ]._M.MinigameName or MiniGameStr ))
-			SafeCall( MiniGame.Start, "" )
+			locationname = "Suites"
+			flags = ""
 		end
+		
+		for _, v in ipairs(player.GetAll()) do
+			v:MsgT( minigames[ MiniGameStr ]._M.MinigameMessage, locationname )
+		end
+		AdminNotify(T( "AdminMiniStart", ply:GetName(), minigames[ MiniGameStr ]._M.MinigameName or MiniGameStr ))
+		SafeCall( MiniGame.Start, flags )
+		
 	return
 	end
 	
