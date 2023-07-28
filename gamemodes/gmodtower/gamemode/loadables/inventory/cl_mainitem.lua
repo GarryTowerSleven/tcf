@@ -92,8 +92,10 @@ function PANEL:OnModelCreated()
 
     if Item then
         local look, cam = Item:GetRenderPos(self.Entity)
-        self:SetLookAt(look)
-        self:SetCamPos(cam)
+        local t = PositionSpawnIcon(self.Entity, self.Entity:GetPos(), false)
+        self:SetCamAng(t.angles or self.Entity:WorldSpaceCenter())
+        self:SetCamPos(t.origin)
+        self:SetFOV(t.fov)
     end
 end
 
