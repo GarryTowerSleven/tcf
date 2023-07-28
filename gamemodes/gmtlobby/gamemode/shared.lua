@@ -9,7 +9,7 @@ IsLobby = true
 
 DeriveGamemode( "gmodtower" )
 
-team.SetUp(1, "Tower Fans", color_white, true)
+team.SetUp(1, "Tower Fans", team.GetColor(TEAM_UNASSIGNED), true)
 
 include("player_class/player_lobby.lua")
 
