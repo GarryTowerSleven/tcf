@@ -112,7 +112,9 @@ function ENT:Use( activator, caller )
 					self:SetState(0)
 					self:SetUser(NULL)
 					caller.IsSpinning = false
-					self:PayOut(ply,prize)
+					if IsValid( ply ) then
+						self:PayOut(ply,prize)
+					end
 				end)
 			else
 				caller:Msg2('You cannot spin, you have do not have enough GMC.')

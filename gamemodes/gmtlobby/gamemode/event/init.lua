@@ -115,15 +115,24 @@ function StartEvent( event )
             enabled = false
             return
         end
-
+		
+		local randomchoice = math.random( 0, 2 )
+		local locationname = "Suites"
+		
         curmini = "obamasmash"
-    if ( math.random( 0, 1 ) == 0 ) then 
-		SendMessageToPlayers( MiniGame._M.MinigameMessage, "Suites" )
-		SafeCall( MiniGame.Start, "" )
-	else
-		SendMessageToPlayers( MiniGame._M.MinigameMessage, "Lobby" )
-		SafeCall( MiniGame.Start, "a" )
-	end
+		
+		if randomchoice == 0 then 
+			SafeCall( MiniGame.Start, "" )
+		elseif randomchoice == 1 then
+			locationname = "Lobby"
+			SafeCall( MiniGame.Start, "a" )
+		elseif randomchoice == 2 then
+			locationname = "Entertainment Plaza"
+			SafeCall( MiniGame.Start, "b" )
+		end
+		
+		SendMessageToPlayers( MiniGame._M.MinigameMessage, locationname )
+		
         MsgC( color_green, "[EVENTS] Starting obama smash!\n" )
 
         endtime = CurTime() + minitime

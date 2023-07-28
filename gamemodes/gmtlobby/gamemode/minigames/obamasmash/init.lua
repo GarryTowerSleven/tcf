@@ -39,6 +39,7 @@ ObamaMax = 0
 ObamaRate = 0
 MoneyPerKill = 3
 Smashers = 0
+Adjustment = 0
 
 function GiveWeapon( ply )
 
@@ -81,7 +82,7 @@ local function ObamaControlSuites()
 
 	local entities = ents.FindInSphere(Vector(4512.097656, -10177.549805, 4096),130)
 	
-	CompareSpawn = (CurTime() - LastSpawn)
+	CompareSpawn = (CurTime() - LastSpawn + Adjustment)
 	
 	if Smashers >= 6 then
 		ObamaRate = math.Clamp( 0.39 - ( Smashers * 0.01 ), 0.15, 0.35)
@@ -90,25 +91,26 @@ local function ObamaControlSuites()
 	end
 	//Debug
 	//print("Obama count is: " .. ObamaCount .. " Max: " .. ObamaMax .. "  Obama rate is: " .. ( ObamaRate - CurTime() ) .. " Smasher count is: " .. Smashers )
-	if CompareSpawn > ObamaRate then
-		if ObamaCount < ObamaMax then
-			//print(CompareSpawn .. " " .. ObamaRate)
-			ObamaCount = (ObamaCount+1)
-			local ent = ents.Create("gmt_minigame_obama")
-			local entposX = math.Rand(4288.218262, 4911.975586)	
-			local entposY = math.Rand(-10543.968750, -9808.031250)
-			ent:SetPos( Vector(entposX,entposY, 4096) )
-			ent:SetAngles(Angle(0,math.Rand(0,360),0))
-			ent.MiniGame = true
-			ent:Spawn()
-			LastSpawn = CurTime()
-		end
+	if CompareSpawn > ObamaRate && ObamaCount < ObamaMax then
+		//print(CompareSpawn .. " " .. ObamaRate)
+		ObamaCount = (ObamaCount+1)
+		local ent = ents.Create("gmt_minigame_obama")
+		local entposX = math.Rand(4288.218262, 4911.975586)	
+		local entposY = math.Rand(-10543.968750, -9808.031250)
+		ent:SetPos( Vector(entposX,entposY, 4096) )
+		ent:SetAngles(Angle(0,math.Rand(0,360),0))
+		ent.MiniGame = true
+		ent:Spawn()
+		LastSpawn = CurTime()
 	end
+	
+	Adjustment = 0
 	
 	for index, ent in pairs(entities) do
 		if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
 			ent:Remove()
 			ObamaCount = (ObamaCount-1)
+			Adjustment = .35
 		end
 	end
 	
@@ -118,7 +120,7 @@ local function ObamaControlLobby()
 
 	local entities = ents.FindInSphere(Vector(928, -1472, 0),130)
 	
-	CompareSpawn = (CurTime() - LastSpawn)
+	CompareSpawn = (CurTime() - LastSpawn + Adjustment)
 	
 	if Smashers >= 6 then
 		ObamaRate = math.Clamp( 0.425 - ( Smashers * 0.015 ), 0.10, 0.35)
@@ -127,25 +129,106 @@ local function ObamaControlLobby()
 	end
 	//Debug
 	//print("Obama count is: " .. ObamaCount .. " Max: " .. ObamaMax .. "  Obama rate is: " .. ( ObamaRate - CurTime() ) .. " Smasher count is: " .. Smashers )
-	if CompareSpawn > ObamaRate then
-		if ObamaCount < ObamaMax then
-			ObamaCount = (ObamaCount+1)
-			local ent = ents.Create("gmt_minigame_obama")
-			local entposX = math.Rand(345, 1510)	
-			local entposY = math.Rand(-2125.968750, -815.031250)
-			ent:SetPos( Vector(entposX,entposY, 0) )
-			ent:SetAngles(Angle(0,math.Rand(0,360),0))
-			ent.MiniGame = true
-			ent:Spawn()
-			LastSpawn = CurTime()
-		end
+	if CompareSpawn > ObamaRate && ObamaCount < ObamaMax then
+		ObamaCount = (ObamaCount+1)
+		local ent = ents.Create("gmt_minigame_obama")
+		local entposX = math.Rand(345, 1510)	
+		local entposY = math.Rand(-2125.968750, -815.031250)
+		ent:SetPos( Vector(entposX,entposY, 0) )
+		ent:SetAngles(Angle(0,math.Rand(0,360),0))
+		ent.MiniGame = true
+		ent:Spawn()
+		LastSpawn = CurTime()
 	end
 	
+	Adjustment = 0
 
 	for index, ent in pairs(entities) do
 		if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
 			ent:Remove()
 			ObamaCount = (ObamaCount-1)
+			Adjustment = .35
+		end
+	end
+end
+
+local function ObamaControlPlaza()
+
+	local entities = ents.FindInSphere(Vector(715, 270, 0),100)
+	local entities2 = ents.FindInSphere(Vector(1135, 270, 0),100)
+	local entities3 = ents.FindInSphere(Vector(930, 545, 0),100)
+	local entities4 = ents.FindInSphere(Vector(930, 1245, 0),100)
+	local entities5 = ents.FindInSphere(Vector(715, 1525, 0),100)
+	local entities6 = ents.FindInSphere(Vector(1135, 1525, 0),100)
+	
+	CompareSpawn = (CurTime() - LastSpawn + Adjustment)
+	
+	if Smashers >= 6 then
+		ObamaRate = math.Clamp( 0.39 - ( Smashers * 0.01 ), 0.10, 0.35)
+	else
+		ObamaRate = 0.35
+	end
+	//Debug
+	//print("Obama count is: " .. ObamaCount .. " Max: " .. ObamaMax .. "  Obama rate is: " .. ( ObamaRate - CurTime() ) .. " Smasher count is: " .. Smashers )
+	if CompareSpawn > ObamaRate && ObamaCount < ObamaMax then
+		ObamaCount = (ObamaCount+1)
+		local ent = ents.Create("gmt_minigame_obama")
+		local entposX = math.Rand(675, 1175)	
+		local entposY = math.Rand(200, 1600)
+		ent:SetPos( Vector(entposX,entposY, -16) )
+		ent:SetAngles(Angle(0,math.Rand(0,360),0))
+		ent.MiniGame = true
+		ent:Spawn()
+		LastSpawn = CurTime()
+	end
+
+	Adjustment = 0
+	
+	for index, ent in pairs(entities) do
+		if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
+			ent:Remove()
+			ObamaCount = (ObamaCount-1)
+			Adjustment = .35
+		end
+	end
+	
+	for index, ent in pairs(entities2) do
+		if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
+			ent:Remove()
+			ObamaCount = (ObamaCount-1)
+			Adjustment = .35
+		end
+	end
+
+	for index, ent in pairs(entities3) do
+		if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
+			ent:Remove()
+			ObamaCount = (ObamaCount-1)
+			Adjustment = .35
+		end
+	end
+	
+	for index, ent in pairs(entities4) do
+		if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
+			ent:Remove()
+			ObamaCount = (ObamaCount-1)
+			Adjustment = .35
+		end
+	end
+
+	for index, ent in pairs(entities5) do
+		if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
+			ent:Remove()
+			ObamaCount = (ObamaCount-1)
+			Adjustment = .35
+		end
+	end
+
+	for index, ent in pairs(entities6) do
+		if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
+			ent:Remove()
+			ObamaCount = (ObamaCount-1)
+			Adjustment = .35
 		end
 	end
 end
@@ -160,25 +243,24 @@ local function SmashObama( ent, dmg )
 			ObamaCount = (ObamaCount-1)
 		end
 		
-		if MinigameLocation == 4 then
-			ObamaMax = math.Clamp(Smashers * 5, 10, 50)
-		else
+		if MinigameLocation == 2 then
 			ObamaMax = math.Clamp(Smashers * 5, 10, 100)
+		else
+			ObamaMax = math.Clamp(Smashers * 5, 50, 50)
 		end
 		//print(ObamaMax)
 		
 		local ply = dmg:GetAttacker()
 		local ComboTime = 1
 
-		ply.Combo = (ply.Combo or 0) + 1
-
 		if CurTime() - (ply.SmashTime or CurTime()) > ComboTime then
 			ply.Combo = 0
 		end
+		ply.Combo = (ply.Combo or 0) + 1
 
 		ply.SmashTime = CurTime()
 
-		MoneyPerKill = math.Clamp( (ply.Combo or 0), 1, 1000)
+		MoneyPerKill = math.Clamp( (ply.Combo or 1), 1, 1000)
 
 		TotalMoney = TotalMoney + MoneyPerKill
 
@@ -198,6 +280,7 @@ end
 local function ObamaManStop()
 
 	hook.Remove("Think", "ObamaControlLobby" )
+	hook.Remove("Think", "ObamaControlPlaza" )
 	hook.Remove("Think", "ObamaControlSuites" )
 	
 	for k,v in pairs (ents.FindByClass("gmt_minigame_obama")) do
@@ -221,6 +304,9 @@ function Start( flags )
 	if flags == "a" then
 		MinigameLocation = Location.GetIDByName( "Lobby" )
 		hook.Add("Think", "ObamaControlLobby", ObamaControlLobby )
+	elseif flags == "b" then
+		MinigameLocation = Location.GetIDByName( "Entertainment Plaza" )
+		hook.Add("Think", "ObamaControlLobby", ObamaControlPlaza )
 	else
 		MinigameLocation = Location.GetIDByName( "Suites" )
 		hook.Add("Think", "ObamaControlSuites", ObamaControlSuites )
