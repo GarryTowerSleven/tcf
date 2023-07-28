@@ -121,7 +121,7 @@ local function ObamaControlLobby()
 	CompareSpawn = (CurTime() - LastSpawn)
 	
 	if Smashers >= 6 then
-		ObamaRate = math.Clamp( 0.39 - ( Smashers * 0.01 ), 0.15, 0.35)
+		ObamaRate = math.Clamp( 0.425 - ( Smashers * 0.015 ), 0.10, 0.35)
 	else
 		ObamaRate = 0.35
 	end
