@@ -107,6 +107,10 @@ function ENT:Position( ply )
 		ply = override
 	end
 
+	if ply.MDLs[1] then
+		ply = ply.MDLs[1]
+	end
+
 	if ply.Alive && !ply:Alive() then
 		ply = ply:GetRagdollEntity()
 	end
