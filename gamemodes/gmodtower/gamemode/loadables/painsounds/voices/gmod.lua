@@ -92,6 +92,29 @@ local breen = { // a bit silly
     }
 }
 
+local alyx = {
+    Pain = {
+        Small = {
+            "vo/npc/alyx/hurt08.wav",
+            "vo/npc/alyx/hurt04.wav",
+			"vo/npc/alyx/uggh01.wav"
+        },
+        Medium = {
+            "vo/npc/alyx/hurt06.wav"
+        },
+        Large = {
+            "vo/npc/alyx/hurt05.wav",
+            "vo/npc/alyx/uggh02.wav"
+        }
+    },
+    Taunts = {
+        "vo/trainyard/al_noyoudont.wav",
+        "vo/eli_lab/al_sweet.wav",
+        "vo/eli_lab/al_laugh01.wav",
+        "vo/eli_lab/al_laugh02.wav"
+    }
+}
+
 local zombie = {
     Pain = {"Zombie.Pain"},
     Death = {"Zombie.Die"},
@@ -213,10 +236,10 @@ voicelines.Add("models/player/combine_super_soldier.mdl", combine2)
 
 voicelines.Add("models/player/barney.mdl", barney)
 voicelines.Add("models/player/kleiner.mdl", kleiner)
+voicelines.Add("models/player/alyx.mdl", alyx)
 
 voicelines.Add("models/player/breen.mdl", breen)
 
-voicelines.SetFemale("models/player/alyx.mdl")
 voicelines.SetFemale("models/player/mossman.mdl")
 voicelines.SetFemale("models/player/mossman_arctic.mdl")
 voicelines.SetFemale("models/player/p2_chell.mdl")
