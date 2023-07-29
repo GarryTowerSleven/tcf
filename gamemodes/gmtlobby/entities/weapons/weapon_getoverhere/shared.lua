@@ -361,8 +361,6 @@ function SWEP:SetState( state )
 
 		self.VictimNo = nil
 
-		print("?")
-
 
 		timer.Simple(0.8, function()
 			if IsValid(self.Victim) then
@@ -386,8 +384,6 @@ function SWEP:SetState( state )
 					umsg.Bool( true )
 
 				umsg.End()
-
-				print("TEST")
 
 
 
@@ -629,7 +625,6 @@ function SWEP:Think()
 	end
 
 	if self.State == 3 then
-		print("WHAT")
 
 
 		if !IsValid( self.Victim ) || !self.Victim:Alive() || self.PullTime < CurTime() then
@@ -669,11 +664,7 @@ function SWEP:Think()
 
 	end
 
-	print(self.State)
-
 	if self.State == 4 then
-
-		print("!")
 
 
 		if !IsValid( self.Victim ) || !self.Victim:Alive() || self.WaitTime < CurTime() then
@@ -695,9 +686,6 @@ function SWEP:Think()
 			return
 
 		end
-
-
-		self.Owner:ChatPrint("GO!")
 
 		if self.CanFatality then // && self.Owner:KeyDown( IN_RELOAD ) then
 
