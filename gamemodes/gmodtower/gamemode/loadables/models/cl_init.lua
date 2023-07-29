@@ -6,6 +6,17 @@ cvars.AddChangeCallback("gmt_outfit", function(convar_name, value_old, value_new
     RunConsoleCommand("gmt_updateplayermodel")
 end)
 
+outfits = {
+    players = {},
+    outfits = {
+        ["models/player/gman_high.mdl"] = {
+            mats = {
+                
+            }
+        }
+    }
+}
+
 function DrawPlayer(ply)
     ply:SetMaterial("null")
     ply:DrawShadow(false)
@@ -22,6 +33,24 @@ function DrawPlayer(ply)
 
                 mdl.GetPlayerColor = function()
                     return ply:GetPlayerColor()
+                end
+
+                local face = false
+                local neck = false
+
+                for _, mat in ipairs(mdl:GetMaterials()) do
+                    if string.find(mat, "face") || string.find(mat, "eye") || string.find(mat, "face") || string.find(mat, "tongue") || string.find(mat, "teeth") then
+                        face = _
+
+                        if i == 2 then
+                            mdl:SetSubMaterial(_ - 1, "null")
+                        else
+                            mdl:SetSubMaterial()
+                        end
+                    /*elseif i == 1 and string.find(mat, "sheet") then
+                        mdl:SetSubMaterial(_ - 1, "null")
+                        neck = _*/
+                    end
                 end
 
                 mdl:SetupBones()
@@ -59,11 +88,13 @@ function DrawPlayer(ply)
                         if i == 2 || IsValid(ply.MDLs[2]) && i == 1 then
                             for i2 = 0, mdl:GetBoneCount() - 1 do
                                 local name = mdl:GetBoneName(i2)
-                                local die = string.find(name, "Finger") || string.find(name, "Hand") || string.find(name, "Neck") || string.find(name, "Head")
+                                local die = string.find(name, "Finger") || string.find(name, "Hand") // || string.find(name, "Forearm") || string.find(name, "Wrist")
+                                local head = string.find(name, "Neck") || string.find(name, "Head")
+                                local spine = false // string.find(name, "Spine4")
                             
                                 print(name, die)
-                                if die and i == 2 || !die && i == 1 then
-                                    mdl:ManipulateBoneScale(i2, Vector(0, 0, 0))
+                                if (die || head && !face) and i == 2 || ((!neck and !head) && !die && !spine) && i == 1 then
+                                    mdl:ManipulateBoneScale(i2, spine and Vector(0.4, 0.4, 0.4) or Vector(0, 0, 0))
                                 else
                                     mdl:ManipulateBoneScale(i2, Vector(1, 1, 1))
                                 end
