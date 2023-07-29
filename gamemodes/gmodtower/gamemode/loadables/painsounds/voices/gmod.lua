@@ -74,6 +74,24 @@ local kleiner = {
     }
 }
 
+local breen = { // a bit silly
+    Pain = {
+		"vo/citadel/br_youfool.wav",
+		"vo/citadel/br_no.wav",
+		"vo/citadel/br_failing11.wav",
+    },
+    Death = {
+		"vo/citadel/br_youneedme.wav"
+	},
+    Taunts = {
+        "vo/citadel/br_laugh01.wav",
+        "vo/citadel/br_mock05.wav",
+        "vo/citadel/br_mock06.wav",
+        "vo/citadel/br_mock13.wav",
+        "vo/citadel/br_mock09.wav"
+    }
+}
+
 local zombie = {
     Pain = {"Zombie.Pain"},
     Death = {"Zombie.Die"},
@@ -195,6 +213,8 @@ voicelines.Add("models/player/combine_super_soldier.mdl", combine2)
 
 voicelines.Add("models/player/barney.mdl", barney)
 voicelines.Add("models/player/kleiner.mdl", kleiner)
+
+voicelines.Add("models/player/breen.mdl", breen)
 
 voicelines.SetFemale("models/player/alyx.mdl")
 voicelines.SetFemale("models/player/mossman.mdl")
