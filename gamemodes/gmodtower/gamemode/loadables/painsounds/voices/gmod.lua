@@ -63,6 +63,17 @@ local barney = {
     }
 }
 
+local kleiner = {
+    Pain = {
+        "vo/k_lab/kl_ohdear.wav",
+        "vo/k_lab/kl_hedyno03.wav",
+        "vo/k_lab2/kl_greatscott.wav"
+    },
+    Death = {
+        "vo/k_lab/kl_ahhhh.wav"
+    }
+}
+
 local zombie = {
     Pain = {"Zombie.Pain"},
     Death = {"Zombie.Die"},
@@ -183,6 +194,7 @@ voicelines.Add("models/player/combine_soldier.mdl", combine2)
 voicelines.Add("models/player/combine_super_soldier.mdl", combine2)
 
 voicelines.Add("models/player/barney.mdl", barney)
+voicelines.Add("models/player/kleiner.mdl", kleiner)
 
 voicelines.SetFemale("models/player/alyx.mdl")
 voicelines.SetFemale("models/player/mossman.mdl")
