@@ -47,8 +47,6 @@ function ENT:Think()
 
     if self.Visible then
         self:SetSubMaterial()
-        PrintTable(self:GetMaterials())
-
 
         for i = 0, 24 do
             self:SetSubMaterial(i, "models/debug/debugwhite")

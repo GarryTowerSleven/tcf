@@ -70,8 +70,6 @@ function ENT:Think()
                 if !self.LastLocation or !self.Location or self.LastLocation < CurTime() then
                     self.Location2 = self:FindSpot("far", {pos = self:GetPos()})
                     self.LastLocation = CurTime() + 2
-
-                    print("UPDATE!")
                 end
 
 
@@ -90,7 +88,6 @@ function ENT:Think()
         return true
     else
         self:ChaseEnemy()
-        print("Oh no.")
     end
 end
 
