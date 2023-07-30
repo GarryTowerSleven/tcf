@@ -18,7 +18,7 @@ SWEP.Secondary.DefaultClip	= -1
 SWEP.Secondary.Ammo			= "none"
 
 if CLIENT then
-  local entityToTrack = "ghost_*"
+  local entityToTrack = "miku"
 
 
 local params = {
@@ -67,13 +67,18 @@ local function DrawPoints( pingloc )
 		vpos.z = yaw
 		local alpha = (dist + 600 - pingloc) / 600
 		if pingloc < dist then
-			storedLocations[k] = vpos
+			storedLocations[k] = nil
 			alpha = 0
 		else
+			if !storedLocations[k] and dist < 200 then
+				surface.PlaySound("garrysmod/content_downloaded.wav")
+				end
+
 			vpos = storedLocations[k] or vpos
 			storedLocations[k] = vpos
 			dist = vpos:Length()
 			yaw = vpos.z
+			
 		end
 
 		--[[if alpha > .5 then
@@ -219,14 +224,16 @@ local function DrawScreen( w, h )
 		-- Sweep noise
 		if sm < -140 and sm > -150 then
 			if not sweeped then
-				LocalPlayer():EmitSound(sweep,40)
+				LocalPlayer():EmitSound(sweep,40,60)
 				sweeped = true
 			end
 		end
 		if sm > 0 then sweeped = false end
 
 		for k,v in pairs(ents.FindByClass(entityToTrack)) do
-			v:DrawModel()
+			v.Visible = math.random(24) == 1
+			v:Draw()
+			v.Visible = false
 		end
 
     for k,v in pairs(ents.FindByClass("gmt_item_bucket")) do
@@ -248,7 +255,7 @@ local function DrawScreen( w, h )
 		surface.DrawTexturedRect(-w/2, -h/2,w,h)
 
 		-- Background
-		surface.SetDrawColor( 0,10,50,80 )
+		surface.SetDrawColor( 50,10,0,80 )
 		surface.SetMaterial( whiteTex )
 		surface.DrawTexturedRect(
 			-w/2,
@@ -288,15 +295,15 @@ local function DrawScreen( w, h )
 	draw.SimpleText(
 		"Paranormal Detector",
 		"LabelFont",
-		-w/2 + 6,
+		w/2-6,
 		-h/2 + h - 24,
 		Color(255,255,255,255),
-		TEXT_ALIGN_LEFT,
+		TEXT_ALIGN_RIGHT,
 		TEXT_ALIGN_LEFT
 	)
 
 	-- Battery
-	DrawBattery( -w/2 + h - 44, -h/2 + h - 28 + 5, GetBatteryPercent() )
+	DrawBattery( -w/2 + 8, -h/2 + h - 28 + 5, GetBatteryPercent() )
 
 	-- Static
 	local staticAlpha = 35
@@ -383,10 +390,10 @@ hook.Add("PreDrawViewModel", "screen_vmview", function( viewmodel, client, weapo
 	local angle = Angle(0,0,0)
 
 	if at then
-		pos = at.Pos + at.Ang:Right() * -5 + at.Ang:Forward() * 20 + at.Ang:Up() * 5 + at.Ang:Right() * 4
+		pos = at.Pos + at.Ang:Right() * -4 + at.Ang:Forward() * 6 + at.Ang:Up() * 11 + at.Ang:Right() * 4
 		angle = at.Ang
 		--angle:RotateAroundAxis(angle:Forward(), -90)
-		angle:RotateAroundAxis(angle:Right(), 90)
+		angle:RotateAroundAxis(angle:Right(), 120)
 	end
 
 	render.DepthRange( 0, 0.1 )
@@ -397,6 +404,8 @@ hook.Add("PreDrawViewModel", "screen_vmview", function( viewmodel, client, weapo
 	render.SetStencilEnable( true )
 	render.SetStencilReferenceValue( 0 )
 	render.SetStencilCompareFunction( STENCILCOMPARISONFUNCTION_EQUAL )
+
+	return true
 
 end)
 

@@ -133,7 +133,8 @@ Loadables.Load( {
 	"pvp",					-- PVP weapons
 	"virus",				-- Virus weapons
 	"painsounds",
-	"models"
+	"models",
+	"miku"
 
 } )
 

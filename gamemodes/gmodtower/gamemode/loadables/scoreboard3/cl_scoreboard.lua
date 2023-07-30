@@ -390,6 +390,11 @@ function PLAYERS:GetPlayerList( tabname, count )
 		end
 	end
 
+	local miku = ents.FindByClass("miku")[1]
+	if IsValid(miku) and miku.VisibleTime and miku.VisibleTime + 0.4 > CurTime() then
+	table.insert(players, miku)
+	end
+
 	if tabname == "Location" then
 		if Location then
 			players = FilteredPlayerList( Location.GetPlayersInLocation( LocalPlayer():Location(), true ) )
