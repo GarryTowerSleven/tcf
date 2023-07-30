@@ -245,6 +245,15 @@ RegisterItem("breenglobe",{
 	StorePrice = 5,
 })
 
+RegisterItem("statueofbreen",{
+	Name = "Statue Of Breen",
+	Description = "When the singularity collapses, I will be far away from here. In another universe, as a matter of fact. You, on the other hand, will be destroyed in every way it is possible to be destroyed-and even in some which are essentially impossible.",
+	Model = "models/props_combine/breenbust.mdl",
+	ClassName = "gmt_statueofbreen",
+	DrawModel = true,
+	MoveSound = "vo/Citadel/br_gravgun.wav"
+})
+
 RegisterItem("cabinet",{
 	Name = "Letter Box Cabinet",
 	Description = "Used to store mail with.",
