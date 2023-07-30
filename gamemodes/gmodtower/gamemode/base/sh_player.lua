@@ -5,11 +5,14 @@ end
 
 local Roles =
 {	
+
+	// Lead, as in Leedle
+	["STEAM_0:0:35652170"] = "Lead Developer",	// Lead
+	
 	// Developers
 	["STEAM_0:0:1384695"] = "Developer",	// kity
 	//["STEAM_0:0:38865393"] = "Developer",	// boXy
 	["STEAM_0:1:39916544"] = "Developer",	// Anoma
-	["STEAM_0:0:35652170"] = "Developer",	// Lead
 	["STEAM_0:1:124798129"] = "Developer", 	// Amgona
 	["STEAM_0:0:44458854"] = "Developer",	// Bumpy
 	["STEAM_0:0:193442077"] = "Developer", // Nyantendo
