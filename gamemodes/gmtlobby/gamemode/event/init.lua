@@ -116,7 +116,7 @@ function StartEvent( event )
             return
         end
 		
-		local randomchoice = math.random( 0, 2 )
+		local randomchoice = math.random( 0, 3 )
 		local locationname = "Suites"
 		
         curmini = "obamasmash"
@@ -129,6 +129,9 @@ function StartEvent( event )
 		elseif randomchoice == 2 then
 			locationname = "Entertainment Plaza"
 			SafeCall( MiniGame.Start, "b" )
+		elseif randomchoice == 3 then
+			locationname = "Gamemode Ports"
+			SafeCall( MiniGame.Start, "c" )
 		end
 		
 		SendMessageToPlayers( MiniGame._M.MinigameMessage, locationname )
