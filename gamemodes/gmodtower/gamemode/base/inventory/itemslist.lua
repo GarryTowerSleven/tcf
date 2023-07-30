@@ -1675,4 +1675,15 @@ RegisterItem("suitetetris",{
 	StorePrice = 40000,
 })
 
+RegisterItem("cow",{
+	Name = "Cow Cutout",
+	Description = "Reminds me of some place... with 2forts...",
+	Model = "models/props_2fort/cow001_reference.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.BASICAL,
+	StorePrice = 1250,
+})
+
+
 //-----------------------------
