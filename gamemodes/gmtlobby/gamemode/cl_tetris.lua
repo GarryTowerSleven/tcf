@@ -1,6 +1,6 @@
 surface.CreateFont( "TetrisLeaderTitle", {
 	font = "Oswald",
-	size = 152,
+	size = 130,
 	weight = 800,
 	antialias = true,
 	additive = false
@@ -89,7 +89,7 @@ hook.Add( "PostDrawTranslucentRenderables", "DrawTetrisBoard", function()
 		surface.SetDrawColor( Color(0, 0, 0, 180) )
 			
 		local w, h = 620, 850
-		local m = 42
+		local m = 24
 		
 		surface.DrawRect(-m - (w/2), -16, w + (m*2), h)
 	
