@@ -104,17 +104,8 @@ function PvpBattle:Load( ply, val )
 
 end
 
-//Long story
-hook.Add("PlayerSQLApplied", "AliensAreReal", function( ply )
-	if !ply._PVPBattleData  then
-		ply._PVPBattleData = table.Copy( PvpBattle.DefaultWeapons )
-	end
-	
-	ply:SetNWBool( "SQLApplied", true )
-end )
-
 //Only set the weapons that are not seted after the levels are loaded
-hook.Add("SQLConnect", "CheckPVPWeapons", function( ply )
+hook.Add("PlayerSQLApplied", "CheckPVPWeapons", function( ply )
 
 	for k, weplist in pairs( PvpBattle.WeaponList ) do
 		if ply._PVPBattleData == nil then continue end
