@@ -8,6 +8,7 @@ GTowerAdmins = {
 	"STEAM_0:0:35652170", -- Lead
 	"STEAM_0:1:124798129", -- Amgona
 	"STEAM_0:0:44458854", -- Bumpy
+	"STEAM_0:0:193442077", -- Nyantendo
 }
 
 GTowerAdminPrivileged = {
