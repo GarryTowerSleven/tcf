@@ -101,7 +101,7 @@ hook.Add( "PostDrawTranslucentRenderables", "DrawTetrisBoard", function()
 	
 		drawLeaderBlocks(w, h)
 	
-		draw.DrawText("TETRIS LEADERBOARD", "TetrisLeaderTitle", -(w/2), -m, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT)
+		draw.DrawText("BLOCKLES LEADERBOARD", "TetrisLeaderTitle", -(w/2), -m, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT)
 		
 		surface.SetDrawColor( Color(255, 255, 255) )
 		surface.DrawRect(-(w/2), 100, 620, 3)
