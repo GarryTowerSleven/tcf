@@ -501,20 +501,16 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 	self.Contents:SetRowHeight( 20 )
 
 	if tabname == "General" then
-		self:Header( "Volume" )
 		if IsLobby then
+			self:Header( "Volume" )
 			--self:Slider( "Music Volume", Volume.VarAudio, 0, 100 )
 			self:Slider( "Media Volume", "gmt_volume_video", 0, 100 )
 			self:Slider( "Instrument Volume", "gmt_volume_instrument", 0, 100 )
 			self:CheckBox( "Enable Background Music", "gmt_bgmusic_enable" )
 			self:Slider( "Background Music Volume", "gmt_bgmusic_volume", 0, 100, 0, "gmt_bgmusic_enable" )
-		else
-			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
 		end
 
 		if !IsLobby then
-			self:Divider()
-
 			self:Header( "General" )
 			self:CheckBox( "Use Playermodel Hands", "gmt_playermodel_hands" )
 		else
@@ -663,6 +659,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		if engine.ActiveGamemode() == "ballrace" then
 
 			self:Header( "Ball Race" )
+			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
 			self:Slider( "Ball Fading", "gmt_ballrace_fade", 0, 2048 )
 			self:Slider( "Camera Tilt", "gmt_ballrace_tilt", 0, 8 )
 			self:CheckBox( "Show Milliseconds on the Timer", "gmt_ballrace_ms" )
@@ -675,6 +672,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		if engine.ActiveGamemode() == "virus" then
 
 			self:Header( "Virus" )
+			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
 			self:CheckBox( "Display HUD", "gmt_virus_hud" )
 			self:CheckBox( "Display Damage Notes", "gmt_virus_damagenotes" )
 			self:CheckBox( "Enable Hit Sounds", "gmt_virus_hitsounds" )
@@ -687,6 +685,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		if engine.ActiveGamemode() == "zombiemassacre" then
 
 			self:Header( "Zombie Massacre" )
+			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
 			self:CheckBox( "Display HUD", "gmt_zm_hud" )
 			self:CheckBox( "Display Blur", "gmt_zm_blur" )
 			self:CheckBox( "Display Damage Notes", "gmt_zm_notes" )
@@ -704,6 +703,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		if engine.ActiveGamemode() == "minigolf" then
 
 			self:Header( "Minigolf" )
+			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
 			self:CheckBox( "Display HUD", "gmt_minigolf_hud", nil, "SetDisplayHUD" )
 			self:CheckBox( "Display Blur", "gmt_minigolf_blur", nil, "SetDisplayBlur" )
 			self:CheckBox( "Display Putter", "gmt_minigolf_putter" )
@@ -717,9 +717,31 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		if engine.ActiveGamemode() == "pvpbattle" then
 
 			self:Header( "PVP Battle" )
+			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
 			self:CheckBox( "Display Damage Notes", "gmt_pvp_damagenotes" )
 			self:CheckBox( "Enable Hit Sounds", "gmt_pvp_hitsounds" )
 			self:CheckBox( "Enable Old Ammo Display", "gmt_pvp_oldammo", nil, "SetOldAmmoDisplay" )
+
+		end
+		
+		/*=========
+		UCH Settings
+		============*/
+		if engine.ActiveGamemode() == "ultimatechimerahunt" then
+
+			self:Header( "Ultimate Chimera Hunt" )
+			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
+
+		end
+		
+		/*=========
+		Source Karts Settings
+		============*/
+		if engine.ActiveGamemode() == "sourcekarts" then
+
+			self:Header( "Source Karts" )
+			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
+			self:Slider( "Horn Selection", "sk_hornnum", 1, 23 )
 
 		end
 

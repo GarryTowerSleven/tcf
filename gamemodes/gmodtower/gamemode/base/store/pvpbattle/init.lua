@@ -62,7 +62,6 @@ function PvpBattle:GiveWeapons( ply )
 end
 
 function PvpBattle:SndData( ply )
-	
 	local Data = Hex()
 
 	for k, v in pairs( ply._PVPBattleData ) do
@@ -81,7 +80,6 @@ function PvpBattle:LoadDefault( ply )
 end
 
 function PvpBattle:Load( ply, val )
-
 	local Table = {}
 	local Data = Hex( val )
 
@@ -106,7 +104,8 @@ end
 
 //Only set the weapons that are not seted after the levels are loaded
 hook.Add("PlayerSQLApplied", "CheckPVPWeapons", function( ply )
-
+	ply:SetNWBool( "SQLApplied", true )
+	
 	for k, weplist in pairs( PvpBattle.WeaponList ) do
 		if ply._PVPBattleData == nil then continue end
 		if ply:GetLevel( ply._PVPBattleData[ k ] ) != 1 then
