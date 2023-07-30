@@ -246,7 +246,7 @@ local function SmashObama( ent, dmg )
 		if MinigameLocation == 2 then
 			ObamaMax = math.Clamp(Smashers * 5, 10, 100)
 		else
-			ObamaMax = math.Clamp(Smashers * 5, 50, 50)
+			ObamaMax = math.Clamp(Smashers * 5, 10, 50)
 		end
 		//print(ObamaMax)
 		
