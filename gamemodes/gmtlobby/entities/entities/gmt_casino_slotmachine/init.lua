@@ -397,7 +397,7 @@ function ENT:CalcWinnings( random )
 		self:SendWinnings( ply, winnings, true )
 
 		self:SetJackpot(self:GetRandomPotSize())
-		SQL.getDB():Query("UPDATE gm_casino SET jackpot=" .. self:GetRandomPotSize() .. " WHERE type='slots'")
+		SQL.getDB():Query("UPDATE gm_casino SET jackpot=" .. self:GetJackpot() .. " WHERE type='slots'")
 
 		return
 	end
