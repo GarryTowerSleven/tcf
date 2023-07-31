@@ -47,7 +47,7 @@ function ENT:Initialize()
 	SQL.getDB():Query( "SELECT * FROM gm_casino WHERE type='slots'", function(res)
 		local data = res[1].data[1]
 		if #res[1].data == 0 then
-			SQL.getDB():Query( "INSERT INTO gm_casino (type,jackpot) VALUES ('slots', 1000)" )
+			SQL.getDB():Query( "INSERT INTO gm_casino (type,jackpot) VALUES ('slots', " .. self:GetRandomPotSize() .. ")" )
 		else
 			self:SetJackpot(data.jackpot)
 		end
@@ -252,7 +252,7 @@ concommand.Add( "slotm_spin", function( ply, cmd, args )
 	local bet = tonumber(args[1]) or 10
 	
 	if bet < 10 then bet = 10 end
-	if bet > 500 then bet = 500 end
+	if bet > 100 then bet = 100 end
 	
 	local ent = ply.SlotMachine
 
@@ -396,9 +396,8 @@ function ENT:CalcWinnings( random )
 		local winnings = math.Round( self:GetJackpot() + self.BetAmount )
 		self:SendWinnings( ply, winnings, true )
 
-		SQL.getDB():Query("UPDATE gm_casino SET jackpot=1000 WHERE type='slots'")
-		
-		self:SetJackpot(1000)
+		self:SetJackpot(self:GetRandomPotSize())
+		SQL.getDB():Query("UPDATE gm_casino SET jackpot=" .. self:GetRandomPotSize() .. " WHERE type='slots'")
 
 		return
 	end
