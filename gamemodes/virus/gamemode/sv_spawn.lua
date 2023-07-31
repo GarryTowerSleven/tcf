@@ -4,6 +4,7 @@ function GM:LateJoin( ply )
 		if ply2 == ply and !cmd:IsForced() then
 			ply:SetTeam( TEAM_INFECTED )
 			ply:SetNet( "IsVirus", true )
+			ply:SetModel( "models/player/virusi.mdl" )
 			ply:Spawn()
 			hook.Remove("SetupMove", ply:SteamID64())
 		end
@@ -34,7 +35,6 @@ function GM:PlayerInitialSpawn( ply )
 	end
 
 	if self:GetState() == STATE_INTERMISSION then
-		self:LateJoin( ply )
 		self:PlayerFreeze( true, ply )
 
 		music.Play( EVENT_PLAY, MUSIC_WAITING_FOR_INFECTION, ply )
