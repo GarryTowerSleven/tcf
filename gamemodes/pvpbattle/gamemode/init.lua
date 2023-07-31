@@ -456,6 +456,7 @@ function GM:EndRound()
 		if ply:GetNet("PowerUp") > 0 then ply:SetNet("PowerUp", CurTime() - 1) end
 		ply:Freeze( true )
 		ply._Camper = 0
+		ply._TheKid = 0
 		ply:AddAchievement( ACHIEVEMENTS.PVPVETERAN, 1 )
 		ply:AddAchievement( ACHIEVEMENTS.PVPMILESTONE1, 1 )
 	end

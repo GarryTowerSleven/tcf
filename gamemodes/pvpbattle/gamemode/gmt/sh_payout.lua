@@ -73,6 +73,7 @@ function GAMEMODE:GiveMoney()
 
 		if ply._HackerAmt > 0 then
 			payout.Give( ply, "Headshot", ply._HackerAmt * 5 )
+			ply._HackerAmt = 0
 		end
 
 		payout.Payout( ply )
