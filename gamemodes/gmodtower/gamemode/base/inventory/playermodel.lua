@@ -1,22 +1,14 @@
 
 util.AddNetworkString('gmt_models')
 
-hook.Add("SQLConnect", "RecheckPlayerModel", function( ply )
-	
-	if ply._ReloadPlayerModel then
-		timer.Simple( 0, hook.Call, "PlayerSetModel", GAMEMODE, ply )
-		ply._ReloadPlayerModel = nil
-	end
+hook.Add("PlayerSQLApplied", "RecheckPlayerModel", function( ply )
+
+	timer.Simple( 0, hook.Call, "PlayerSetModel", GAMEMODE, ply )
 
 end )
 
 
 hook.Add("AllowModel", "InventoryCheck", function( ply, model, skin )
-		
-	if !ply.SQL then
-		ply._ReloadPlayerModel = true
-		return
-	end
 	
 	local Model = GTowerItems.ModelItems[ model .. "-" .. skin ]
 	
