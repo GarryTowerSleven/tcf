@@ -2,11 +2,11 @@ module( "ping", package.seeall )
 
 local enableNotice = CreateClientConVar( "gmt_notice_reconnect", 1, true, false )
 
-ConnectionTimeout = 20
+ConnectionTimeout = 30
 LostConnection = false
 LastPing = RealTime() + ConnectionTimeout
 
-ReconnectIn = 40
+ReconnectIn = 30
 
 net.Receive( "ServerPing", function( length, ply )
 
