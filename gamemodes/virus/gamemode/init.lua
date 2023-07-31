@@ -84,7 +84,7 @@ function GM:ProcessRank( ply )
 		return aScore > bScore
 
 	end )
-	PrintTable(Players)
+	
 	for k, ply in pairs( Players ) do
 		ply:SetNet( "Rank", k )
 	end
