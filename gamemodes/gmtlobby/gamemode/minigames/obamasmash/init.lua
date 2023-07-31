@@ -233,6 +233,44 @@ local function ObamaControlPlaza()
 	end
 end
 
+local function ObamaControlGamemodes()
+
+	local entities = ents.FindInSphere(Vector(10240, 10625, 6655),325)
+	
+	CompareSpawn = (CurTime() - LastSpawn + Adjustment)
+	
+	if Smashers >= 6 then
+		ObamaRate = math.Clamp( 0.39 - ( Smashers * 0.01 ), 0.15, 0.35)
+	else
+		ObamaRate = 0.35
+	end
+	//Debug
+	//print("Obama count is: " .. ObamaCount .. " Max: " .. ObamaMax .. "  Obama rate is: " .. ( ObamaRate - CurTime() ) .. " Smasher count is: " .. Smashers )
+	if CompareSpawn > ObamaRate && ObamaCount < ObamaMax then
+		//print(CompareSpawn .. " " .. ObamaRate)
+		ObamaCount = (ObamaCount+1)
+		local ent = ents.Create("gmt_minigame_obama")
+		local entposX = math.Rand(10000, 11020)	
+		local entposY = math.Rand(10260, 10985)
+		ent:SetPos( Vector(entposX,entposY, 6657) )
+		ent:SetAngles(Angle(0,math.Rand(0,360),0))
+		ent.MiniGame = true
+		ent:Spawn()
+		LastSpawn = CurTime()
+	end
+	
+	Adjustment = 0
+	
+	for index, ent in pairs(entities) do
+		if ent:GetClass() == "gmt_minigame_obama" && ent.MiniGame == true then
+			ent:Remove()
+			ObamaCount = (ObamaCount-1)
+			Adjustment = .35
+		end
+	end
+	
+end
+
 local function SmashObama( ent, dmg )
 
 	if ( ent:GetClass() == "gmt_minigame_obama" && dmg:IsDamageType(128) && ent.MiniGame == true ) then
@@ -246,7 +284,7 @@ local function SmashObama( ent, dmg )
 		if MinigameLocation == 2 then
 			ObamaMax = math.Clamp(Smashers * 5, 10, 100)
 		else
-			ObamaMax = math.Clamp(Smashers * 5, 50, 50)
+			ObamaMax = math.Clamp(Smashers * 5, 10, 50)
 		end
 		//print(ObamaMax)
 		
@@ -281,6 +319,7 @@ local function ObamaManStop()
 
 	hook.Remove("Think", "ObamaControlLobby" )
 	hook.Remove("Think", "ObamaControlPlaza" )
+	hook.Remove("Think", "ObamaControlGamemodes" )
 	hook.Remove("Think", "ObamaControlSuites" )
 	
 	for k,v in pairs (ents.FindByClass("gmt_minigame_obama")) do
@@ -306,7 +345,10 @@ function Start( flags )
 		hook.Add("Think", "ObamaControlLobby", ObamaControlLobby )
 	elseif flags == "b" then
 		MinigameLocation = Location.GetIDByName( "Entertainment Plaza" )
-		hook.Add("Think", "ObamaControlLobby", ObamaControlPlaza )
+		hook.Add("Think", "ObamaControlPlaza", ObamaControlPlaza )
+	elseif flags == "c" then
+		MinigameLocation = Location.GetIDByName( "Gamemode Ports" )
+		hook.Add("Think", "ObamaControlGamemodes", ObamaControlGamemodes )
 	else
 		MinigameLocation = Location.GetIDByName( "Suites" )
 		hook.Add("Think", "ObamaControlSuites", ObamaControlSuites )

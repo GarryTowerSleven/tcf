@@ -29,6 +29,9 @@ concommand.Add("gmt_loadmini", function( ply, cmd, args )
 		elseif args[2] == "plaza" then
 			locationname = "Entertainment Plaza"
 			flags = "b"
+		elseif args[2] == "gamemodes" then
+			locationname = "Gamemode Ports"
+			flags = "c"
 		elseif args[2] == "suites" then
 			locationname = "Suites"
 			flags = ""

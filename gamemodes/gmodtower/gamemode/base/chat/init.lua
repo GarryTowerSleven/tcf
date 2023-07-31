@@ -47,7 +47,8 @@ local wordfilter = {
 
 	{ "cunt", "friend" },
 	
-	{ "tranny" },
+	{ "tranny", "transmission" },
+	{ "trannies", "transmissions" },
 }
 
 function GTowerChat.FilterText( text )

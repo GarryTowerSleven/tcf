@@ -12,8 +12,7 @@ hook.Add("SQLStartColumns", "SQLLoadPvpWeapons", function()
 			PvpBattle:LoadDefault( ply )
 		end,
 		["onupdate"] = function( ply, val )
-			if ply:GetNWBool("SQLApplied") == true then PvpBattle:Load( ply, val ) end
-			return
+			PvpBattle:Load( ply, val )
 		end
 	} )
 end )

@@ -30,6 +30,91 @@ local citizen = {
     }
 }
 
+local barney = {
+    Pain = {
+        Small = {
+            "vo/k_lab/ba_thingaway02.wav",
+            "vo/npc/barney/ba_pain08.wav",
+			"vo/npc/barney/ba_pain04.wav"
+        },
+        Medium = {
+            "vo/npc/barney/ba_pain07.wav",
+            "vo/npc/barney/ba_pain09.wav",
+            "vo/npc/barney/ba_pain01.wav",
+            "vo/npc/barney/ba_pain02.wav"
+        },
+        Large = {
+            "vo/npc/barney/ba_pain05.wav",
+            "vo/npc/barney/ba_pain06.wav"
+        }
+    },
+    Death = {
+		"vo/npc/barney/ba_pain03.wav",
+		"vo/npc/barney/ba_pain10.wav"
+	},
+    Taunts = {
+        "vo/npc/barney/ba_bringiton.wav",
+        "vo/npc/barney/ba_gotone.wav",
+        "vo/npc/barney/ba_laugh01.wav",
+        "vo/npc/barney/ba_laugh02.wav",
+        "vo/npc/barney/ba_laugh03.wav",
+        "vo/npc/barney/ba_laugh04.wav",
+        "vo/npc/barney/ba_yell.wav"
+    }
+}
+
+local kleiner = {
+    Pain = {
+        "vo/k_lab/kl_ohdear.wav",
+        "vo/k_lab/kl_hedyno03.wav",
+        "vo/k_lab2/kl_greatscott.wav"
+    },
+    Death = {
+        "vo/k_lab/kl_ahhhh.wav"
+    }
+}
+
+local breen = { // a bit silly
+    Pain = {
+		"vo/citadel/br_youfool.wav",
+		"vo/citadel/br_no.wav",
+		"vo/citadel/br_failing11.wav",
+    },
+    Death = {
+		"vo/citadel/br_youneedme.wav"
+	},
+    Taunts = {
+        "vo/citadel/br_laugh01.wav",
+        "vo/citadel/br_mock05.wav",
+        "vo/citadel/br_mock06.wav",
+        "vo/citadel/br_mock13.wav",
+        "vo/citadel/br_mock09.wav"
+    }
+}
+
+local alyx = {
+    Pain = {
+        Small = {
+            "vo/npc/alyx/hurt08.wav",
+            "vo/npc/alyx/hurt04.wav",
+			"vo/npc/alyx/uggh01.wav"
+        },
+        Medium = {
+            "vo/npc/alyx/hurt06.wav"
+        },
+        Large = {
+            "vo/npc/alyx/hurt05.wav",
+            "vo/npc/alyx/uggh02.wav"
+        }
+    },
+    Taunts = {
+        "vo/trainyard/al_noyoudont.wav",
+        "vo/eli_lab/al_sweet.wav",
+        "vo/eli_lab/al_laugh01.wav",
+        "vo/eli_lab/al_laugh02.wav"
+    }
+}
+
 local zombie = {
     Pain = {"Zombie.Pain"},
     Death = {"Zombie.Die"},
@@ -134,6 +219,8 @@ voicelines.Add("models/player/zombie_classic.mdl", zombie)
 voicelines.Add("models/player/zombie_fast.mdl", zombie)
 voicelines.Add("models/player/zombie_soldier.mdl", zombie)
 
+voicelines.Add("models/player/hostage/hostage_04.mdl", cs)
+
 voicelines.Add("models/player/arctic.mdl", cs_bot)
 voicelines.Add("models/player/gasmask.mdl", cs_bot)
 voicelines.Add("models/player/leet.mdl", cs_bot)
@@ -147,7 +234,12 @@ voicelines.Add("models/player/police_fem.mdl", combine)
 voicelines.Add("models/player/combine_soldier.mdl", combine2)
 voicelines.Add("models/player/combine_super_soldier.mdl", combine2)
 
-voicelines.SetFemale("models/player/alyx.mdl")
+voicelines.Add("models/player/barney.mdl", barney)
+voicelines.Add("models/player/kleiner.mdl", kleiner)
+voicelines.Add("models/player/alyx.mdl", alyx)
+
+voicelines.Add("models/player/breen.mdl", breen)
+
 voicelines.SetFemale("models/player/mossman.mdl")
 voicelines.SetFemale("models/player/mossman_arctic.mdl")
 voicelines.SetFemale("models/player/p2_chell.mdl")
