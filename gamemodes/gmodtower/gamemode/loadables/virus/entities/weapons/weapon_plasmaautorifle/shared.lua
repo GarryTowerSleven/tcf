@@ -274,6 +274,13 @@ function SWEP:Deploy()
 end
 
 function SWEP:Holster()
+
+	if self.OverHeated == true then
+
+		return false
+
+	end
+	
 	self.FDeployed = false
 	
 	return true
