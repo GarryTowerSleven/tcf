@@ -14,7 +14,7 @@ end
 
 function SendToClient( ply )
     net.Start( "PVPBattle.ClientLoadout" )
-        net.WriteTable( ply:PVPGetLoadout() )
+        net.WriteTable( ply:GetPVPLoadout() )
     net.Send( ply )
 end
 
@@ -35,7 +35,7 @@ function GiveWeapons( ply )
 
     local weps = {}
 
-    for _, v in pairs( ply:PVPGetLoadout() ) do
+    for _, v in pairs( ply:GetPVPLoadout() ) do
 		local classname = WeaponsIDs[ v ]
 
 		if classname then
@@ -87,14 +87,14 @@ util.AddNetworkString( "PVPBattle.OpenStore" )
 local meta = FindMetaTable( "Player" )
 if ( not meta ) then return end
 
-function meta:PVPGetLoadout()
+function meta:GetPVPLoadout()
     return self._PVPLoadout or DefaultWeapons
 end
 
-function meta:PVPSetLoadout( tbl )
+function meta:SetPVPLoadout( tbl )
     SetWeapons( self, tbl )
 end
 
-function meta:PVPEquipLoadout()
+function meta:EquipPVPLoadout()
     GiveWeapons( self )
 end
