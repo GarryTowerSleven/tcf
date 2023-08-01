@@ -22,7 +22,7 @@ SWEP.Primary.Automatic	= true
 SWEP.Primary.UnlimAmmo	= true
 SWEP.Primary.Effect		= "toy_zap"
 SWEP.Primary.Sound		= "GModTower/pvpbattle/ToyHammer/ToyZap.wav"
-SWEP.Primary.Damage		= {50, 70}
+SWEP.Primary.Damage		= {70, 80}
 
 SWEP.Secondary.Damage	= {20, 30}
 
