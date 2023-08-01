@@ -22,9 +22,9 @@ SWEP.Primary.Automatic	= true
 SWEP.Primary.UnlimAmmo	= true
 SWEP.Primary.Effect		= "toy_zap"
 SWEP.Primary.Sound		= "GModTower/pvpbattle/ToyHammer/ToyZap.wav"
-SWEP.Primary.Damage		= {20, 30}
+SWEP.Primary.Damage		= {50, 70}
 
-SWEP.Secondary.Damage	= {80, 90}
+SWEP.Secondary.Damage	= {20, 30}
 
 SWEP.AutoReload			= false
 
@@ -75,7 +75,7 @@ function SWEP:PrimaryAttack()
 
 	else
 		self:SetNextPrimaryFire( CurTime() + 0.45 )
-		self:ShootMelee( self.Primary.Damage, self.MeleeHitSound, self.MeleeHitSound, self.SoundSwing )
+		self:ShootMelee( self.Secondary.Damage, self.MeleeHitSound, self.MeleeHitSound, self.SoundSwing )
 	end
 end
 
