@@ -57,7 +57,7 @@ function GM:VirusSpawn( ply )
 
 	local numVirus = team.NumPlayers( TEAM_INFECTED )
 	
-	local healthScale = math.Clamp( 15 * ( #player.GetAll() / numVirus ) + 30, 50, 100 )
+	local healthScale = math.Clamp( 20 * ( #player.GetAll() / numVirus ) + 30, 50, 100 )
 	
 	ply:SetModel( "models/player/virusi.mdl" )
 	ply:SetBloodColor(BLOOD_COLOR_ZOMBIE)
