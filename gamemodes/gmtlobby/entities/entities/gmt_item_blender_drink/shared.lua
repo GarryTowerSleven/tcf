@@ -91,7 +91,7 @@ function ENT:Think()
 		end
 	end
 
-	if ( !self.Player || !self.Drink ) then return end
+	if ( !self.Player || !IsValid( self.Player ) || !self.Drink ) then return end
 
 	if !self.Player:Alive() then -- prevent effects from persisting/cropping up after death
 		if ( self.EffectEnd ) then

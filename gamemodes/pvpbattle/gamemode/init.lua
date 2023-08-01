@@ -133,15 +133,18 @@ function GM:PlayerResetSpeed( ply )
 end
 
 function GM:PlayerLoadout( ply )
-	if self.GiveAllWeapons == true || !PVPBattle || ply:IsBot() then
-		for _, v in ipairs( self.Weapons ) do
-			ply:Give( v )
-		end
-	else
-		self:GivePVPWeapons( ply )
-	end
+	if ( not ply || not IsValid( ply ) || ply:IsBot() ) then return end
 
-	//Ammo
+    self:GivePVPWeapons( ply )
+    self:GivePVPAmmo( ply )
+end
+
+function GM:GivePVPWeapons( ply )
+    PVPBattle.GiveWeapons( ply )
+end
+
+
+function GM:GivePVPAmmo( ply )
 	ply:GiveAmmo( 54, "SMG1", true )
 	ply:GiveAmmo( 1, "SMG1_Grenade", true )
 	ply:GiveAmmo( 24, "357", true )
@@ -153,43 +156,12 @@ function GM:PlayerLoadout( ply )
 	ply:GiveAmmo( 4, "slam", true )
 end
 
-function GM:GivePVPWeapons( ply )
-	local delay = 5
+// Apply Late SQL Weapons
+hook.Add( "PlayerSQLApplied", "LateWeapons", function(ply)
+    ply:StripWeapons()
 
-	if ply.WeaponList != nil then
-		delay = 0
-	end
-
-	PopulateLoadout( ply, delay )
-end
-
-local WeaponDefaults = {
-	"weapon_toyhammer",
-	"weapon_bouncynade",
-	"weapon_semiauto",
-	"weapon_supershotty",
-	"weapon_thompson"
-}
-
-function PopulateLoadout( ply, delay )
-	if !IsValid( ply ) then return end
-
-	timer.Simple( delay, function()
-		if IsValid( ply ) then
-			if ply.WeaponList == nil then
-				if table.IsEmpty( PVPBattle.GiveWeapons( ply ) ) then
-					ply.WeaponList = WeaponDefaults
-				else
-					ply.WeaponList = PVPBattle.GiveWeapons( ply )
-				end
-			end
-
-			for k,v in pairs( ply.WeaponList ) do
-				ply:Give(v)
-			end
-		end
-	end )
-end
+    hook.Run( "PlayerLoadout", ply )
+end )
 
 function GM:PlayerHurt( ply )
 	PostEvent( ply, "pdamage" )
