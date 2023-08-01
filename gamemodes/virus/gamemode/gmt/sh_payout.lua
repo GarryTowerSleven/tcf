@@ -7,35 +7,35 @@ payout.Register( "ThanksForPlaying", {
 payout.Register( "FirstInfectedBonus", {
 	Name = "First Infected",
 	Desc = "You successfully spread the virus as patient zero.",
-	GMC = 100,
+	GMC = 50,
 	Diff = 2,
 } )
 
 payout.Register( "InfectedBonus", {
 	Name = "Spread the Infection",
 	Desc = "You helped spread the infection.",
-	GMC = 50,
+	GMC = 25,
 	Diff = 2,
 } )
 
 payout.Register( "SurvivorBonus", {
 	Name = "Survived the Infection",
 	Desc = "You didn't get infected with the virus.",
-	GMC = 100,
+	GMC = 50,
 	Diff = 2,
 } )
 
 payout.Register( "LastSurvivorBonus", {
 	Name = "Last Survivor",
 	Desc = "Cold Blooded.\nYou were the only remaining survivor and you lived!",
-	GMC = 200,
+	GMC = 100,
 	Diff = 3,
 } )
 
 payout.Register( "TeamPlayer", {
 	Name = "Team Player",
 	Desc = "Survived with 3 or more survivors.",
-	GMC = 50,
+	GMC = 25,
 	Diff = 3,
 } )
 
