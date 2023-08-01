@@ -16,7 +16,7 @@ SWEP.HoldType			 = "ar2"
 
 SWEP.Primary.Automatic	 = true
 SWEP.Primary.Delay	 = 0.1
-SWEP.Primary.Damage	 = 15
+SWEP.Primary.Damage	 = {8, 15}
 SWEP.Primary.Cone	 = 0.015
 SWEP.Primary.ClipSize	 = 30
 SWEP.Primary.DefaultClip = 30

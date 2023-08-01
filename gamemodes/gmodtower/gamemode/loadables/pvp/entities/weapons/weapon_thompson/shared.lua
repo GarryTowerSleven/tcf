@@ -18,7 +18,7 @@ SWEP.Primary.Automatic	 = true
 
 SWEP.Primary.Delay	 = 0.10
 
-SWEP.Primary.Damage	 = {10, 18}
+SWEP.Primary.Damage	 = {10, 20}
 
 SWEP.Primary.Cone	 = 0.025
 

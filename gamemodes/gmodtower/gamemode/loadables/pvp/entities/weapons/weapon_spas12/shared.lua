@@ -16,8 +16,8 @@ SWEP.HoldType		 = "shotgun"
 SWEP.AutoReload		 = false
 
 SWEP.Primary.Delay	 = 0.3
-SWEP.Primary.Damage	 = {8, 10}
-SWEP.Primary.Cone	 = 0.09
+SWEP.Primary.Damage	 = {10, 12}
+SWEP.Primary.Cone	 = 0.065
 SWEP.Primary.NumShots	 = 6
 SWEP.Primary.ClipSize	 = 6
 SWEP.Primary.DefaultClip = 12

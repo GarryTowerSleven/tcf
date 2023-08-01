@@ -44,7 +44,7 @@ function ENT:OnRemove()
 end
 
 function ENT:Touch( ply )
-	if !ply:IsPlayer() || self.Disabled || CurTime() < ply:GetNet("PowerUp") then return end
+	if !ply:IsPlayer() || self.Disabled || CurTime() < ply:GetNet("PowerUp") + 1 then return end
 
 	self.PoweredUpPly = ply
 

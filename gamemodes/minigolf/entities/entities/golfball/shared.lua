@@ -204,15 +204,15 @@ function ENT:HandleReady( vel )
 		self.ReadyDelay = nil
 		self:SetReady( false )
 
-		// Undo AFK
-		local owner = self:GetOwner()
+		// Undo AFK.. Why?
+		/*local owner = self:GetOwner()
 		if IsValid( owner ) then
 
 			if owner.ResetAFKTimer then
 				owner:ResetAFKTimer()
 			end
 
-		end
+		end*/
 
 	end
 
