@@ -158,9 +158,10 @@ end
 
 // Apply Late SQL Weapons
 hook.Add( "PlayerSQLApplied", "LateWeapons", function(ply)
-    ply:StripWeapons()
+	ply:StripWeapons()
+	ply:RemoveAllAmmo()
 
-    hook.Run( "PlayerLoadout", ply )
+	hook.Run( "PlayerLoadout", ply )
 end )
 
 function GM:PlayerHurt( ply )
