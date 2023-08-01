@@ -247,11 +247,14 @@ end
 
 function GM:PlayerDeath( Victim, Inflictor, Attacker )
 	if IsValid( Inflictor ) && Inflictor:GetClass() == "pvp_babynade" then
-		Inflictor.Kills = ( Inflictor.Kills or 0 ) + 1
+		if ( IsValid(Attacker) && IsValid(Victim) && Victim != Attacker ) then
+			Inflictor.Kills = ( Inflictor.Kills or 0 ) + 1
+		end
 		if Inflictor.Kills >= 2 && IsValid( Attacker ) then
 			Attacker:SetAchievement( ACHIEVEMENTS.PVPABORTIONIST, 1 )
 		end
 	end
+	
 	
 	//Unused?
 	/*if IsValid(Inflictor) && Inflictor:GetClass() == "pvp_babynade" && IsValid(Attacker) && Attacker:IsPlayer() && string.StartWith( game.GetMap(), "gmt_pvp_aether" ) then
