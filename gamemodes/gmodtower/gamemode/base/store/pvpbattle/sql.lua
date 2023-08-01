@@ -1,8 +1,8 @@
 hook.Add("SQLStartColumns", "SQLLoadPvpWeapons", function()
 	SQLColumn.Init( {
 		["column"] = "pvpweapons",
-        ["fullupdate"] = function( ply ) 
-			return Format( "`pvpweapons`='%s'", SQL.getDB():Escape( PVPBattle.Serialize( ply:GetPVPLoadout() ) ) )
+        ["update"] = function( ply )
+			return "'" .. PVPBattle.Serialize( ply:GetPVPLoadout() ) .. "'"
 		end,
 		["defaultvalue"] = function( ply )
             //LogPrint( string.format( "SQLColumn-DefaultValue : ply=%s", ply:Nick() ), nil, "PVPColumns" )
