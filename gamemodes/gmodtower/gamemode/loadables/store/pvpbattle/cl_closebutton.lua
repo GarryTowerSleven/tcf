@@ -1,11 +1,10 @@
----------------------------------
 local PANEL = {}
 
 function PANEL:Init() 
 	self:SetFont( "GTowerbigbold" )
 	self:SetText( "Close" )
 	self:SetContentAlignment( 5 )
-	self:SetSize( PvpBattle.HighestWidth * 0.75, 30 )
+	self:SetSize( PVPBattleGUI.HighestWidth * 0.75, 30 )
 	self:Center()
 
 	self:SetMouseInputEnabled( true )
@@ -21,7 +20,7 @@ function PANEL:OnCursorExited()
 end
 
 function PANEL:OnMouseReleased()
-	PvpBattle:CloseSelection()
+	PVPBattleGUI:CloseSelection()
 end
 	
 function PANEL:Paint( w, h )

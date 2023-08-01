@@ -1,130 +1,100 @@
----------------------------------
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_init.lua")
 
 include("shared.lua")
 include("sql.lua")
 
-local DEBUG = false
+module( "PVPBattle", package.seeall )
 
-function PvpBattle:SendToClient( ply, ShouldOpen )
-
-	if !ply._PVPBattleData then
-		return
-	end
-
-	umsg.Start("PvpB", ply )
-		umsg.Char( 1 )
-		umsg.Bool( ShouldOpen or false )
-
-		umsg.Char( table.Count( ply._PVPBattleData ) )
-
-		if self.DEBUG then
-			Msg("PVPBATTLE: Sendint to ", ply ,": \n")
-			PrintTable( ply._PVPBattleData )
-		end
-
-		for k, v in pairs( ply._PVPBattleData ) do
-
-			umsg.Char( k )
-			umsg.Short( v - 32768 )
-
-		end
-
-		local discount = GTowerStore.Discount[self.StoreId] or 0
-		umsg.Float(discount)
-	umsg.End()
-
-	if ShouldOpen then
-		GTowerStore:SendItemsOfStore( ply, self.StoreId )
-	end
-
+function printweapons( ply, tbl )
+    for k, v in pairs( tbl or ply._PVPLoadout ) do
+        LogPrint( Format( "tbl[%s] = %s - %s", k, v, WeaponsIDs[v] ), nil, "PVPBattle.printweapons" )
+    end
 end
 
-function PvpBattle:GiveWeapons( ply )
+function SendToClient( ply )
+    net.Start( "PVPBattle.ClientLoadout" )
+        net.WriteTable( ply:PVPGetLoadout() )
+    net.Send( ply )
+end
 
-	if !ply._PVPBattleData then
-		ply._PVPBattleData = table.Copy( PvpBattle.DefaultWeapons )
-	end
+function SetWeapons( ply, tbl )
+    if ( DEBUG ) then
+        LogPrint( "Setting weapons for " .. ply:Nick() .. "...", nil, "PVPBattle.SetWeapons" )
+        printweapons( ply, tbl )
+    end
 
-	local Weapons = {}
+    ply._PVPLoadout = tbl
+    SendToClient( ply )
+end
 
-	for _, v in pairs( ply._PVPBattleData ) do
-		local Weapon = PvpBattle.WeaponsIds[ v ]
+function GiveWeapons( ply )
+    if ( DEBUG ) then
+        LogPrint( "Giving weapons to " .. ply:Nick() .. "...", nil, "PVPBattle.GiveWeapons" )
+    end
 
-		if Weapon then
-			ply:Give( Weapon )
-			table.insert( Weapons, Weapon )
+    local weps = {}
+
+    for _, v in pairs( ply:PVPGetLoadout() ) do
+		local classname = WeaponsIDs[ v ]
+
+		if classname then
+			ply:Give( classname )
+			table.insert( weps, classname )
 		end
 	end
 
-	return Weapons
+    if ( DEBUG ) then
+        PrintTable( weps )
+    end
+
+	return weps
 end
 
-function PvpBattle:SndData( ply )
-	local Data = Hex()
-
-	for k, v in pairs( ply._PVPBattleData ) do
-		Data:SafeWrite( k )
-		Data:SafeWrite( v )
-	end
-
-	return Data:Get()
-
+function Serialize( tbl )
+    return util.TableToJSON( tbl ) or ""
 end
 
-
-function PvpBattle:LoadDefault( ply )
-	if self.DEBUG then Msg("Loading default data for ", ply ,"\n") end
-	ply._PVPBattleData = table.Copy( PvpBattle.DefaultWeapons )
+function Deserialize( str )
+    return util.JSONToTable( str ) or nil
 end
 
-function PvpBattle:Load( ply, val )
-	local Table = {}
-	local Data = Hex( val )
+function Load( ply, str )
+    local loadout = Deserialize( str )
+    if ( not loadout ) then
+        if ( DEBUG ) then
+            LogPrint( "Loadout Invalid for " .. ply:Nick() .. "! (" .. (str or "nil") .. ") Setting defaults...", nil, "PVPBattle.Load" )
+        end
+        loadout = DefaultWeapons
+    end
 
-	while Data:CanRead() do
-		local Id = Data:SafeRead()
-		local Value = Data:SafeRead()
-
-		if PvpBattle.WeaponsIds[ Value ] then
-			Table[ Id ] = Value
-		end
-	end
-
-	if DEBUG then
-		Msg("Reading PVPBattle of " , ply, "\n")
-		PrintTable( Table )
-		Msg("\n")
-	end
-
-	ply._PVPBattleData = Table
-
+    SetWeapons( ply, loadout )
 end
 
-//Only set the weapons that are not seted after the levels are loaded
-hook.Add("PlayerSQLApplied", "CheckPVPWeapons", function( ply )
-	ply:SetNWBool( "SQLApplied", true )
-	
-	for k, weplist in pairs( PvpBattle.WeaponList ) do
-		if ply._PVPBattleData == nil then continue end
-		if ply:GetLevel( ply._PVPBattleData[ k ] ) != 1 then
-			ply._PVPBattleData[ k ] = nil
-		end
+function OpenStore( ply )
+	GTowerStore:SendItemsOfStore( ply, StoreID )
+	SendToClient( ply, true )
 
-		if !ply._PVPBattleData[ k ] then
+    net.Start( "PVPBattle.OpenStore" )
+        net.WriteFloat(GTowerStore.Discount[StoreID] or 0)
+    net.Send( ply )
+end
 
-			for _, wep in pairs( weplist ) do
+util.AddNetworkString( "PVPBattle.ClientLoadout" )
+util.AddNetworkString( "PVPBattle.OpenStore" )
 
-				if ply:GetLevel( wep ) == 1 then
-					ply._PVPBattleData[ k ] = GTowerStore:GetItemByName( wep )
-					break
-				end
+// helpers if needed
+local meta = FindMetaTable( "Player" )
+if ( not meta ) then return end
 
-			end
+function meta:PVPGetLoadout()
+    return self._PVPLoadout or DefaultWeapons
+end
 
-		end
+function meta:PVPSetLoadout( tbl )
+    SetWeapons( self, tbl )
+end
 
-	end
-
-end )
+function meta:PVPEquipLoadout()
+    GiveWeapons( self )
+end

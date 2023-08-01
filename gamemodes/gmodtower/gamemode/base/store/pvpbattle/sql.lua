@@ -1,19 +1,14 @@
----------------------------------
 hook.Add("SQLStartColumns", "SQLLoadPvpWeapons", function()
 	SQLColumn.Init( {
 		["column"] = "pvpweapons",
-		["selectquery"] = "HEX(pvpweapons) as pvpweapons",
-		["selectresult"] = "pvpweapons",
-		["update"] = function( ply ) 
-			if ply:GetNWBool("SQLApplied") == true then return PvpBattle:SndData( ply ) end
-			return
+        ["fullupdate"] = function( ply ) 
+			return Format( "`pvpweapons`='%s'", SQL.getDB():Escape( PVPBattle.Serialize( ply:PVPGetLoadout() ) ) )
 		end,
 		["defaultvalue"] = function( ply )
-			PvpBattle:LoadDefault( ply )
-		end,
+            //LogPrint( string.format( "SQLColumn-DefaultValue : ply=%s", ply:Nick() ), nil, "PVPColumns" )
+        end,
 		["onupdate"] = function( ply, val )
-			if ply:GetNWBool("SQLApplied") == true then PvpBattle:Load( ply, val ) end
-			return
-		end
+            //LogPrint( string.format( "SQLColumn-OnUpdate : ply=%s val=%s", ply:Nick(), val or "nil" ), nil, "PVPColumns" )
+        end
 	} )
 end )
