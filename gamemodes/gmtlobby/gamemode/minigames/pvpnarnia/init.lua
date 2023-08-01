@@ -91,11 +91,11 @@ function SpawnPlayer( ply )
 	ply.CanPickupWeapons = true
 	local GivenWeapons
 
-	if RandomWeapons == true then
+	//if RandomWeapons == true then
 		GivenWeapons = GiveRandomWeapons( ply )
-	else
-		GivenWeapons = PvpBattle:GiveWeapons( ply )
-	end
+	//else
+		//GivenWeapons = PvpBattle:GiveWeapons( ply )
+	//end
 
 	//Ammo
 	ply:GiveAmmo( 54, "SMG1", true )
@@ -253,7 +253,7 @@ function Start( flags )
 
 	WeaponList = {}
 
-	for k, v in ipairs( PvpBattle.WeaponList ) do
+	for k, v in ipairs( PVPBattle.WeaponList ) do
 
 		if !WeaponList[k] then
 			WeaponList[k] = {}
@@ -262,7 +262,7 @@ function Start( flags )
 		for _, name in ipairs( v ) do
 
 			local Item = GTowerStore:GetItemByName( name )
-			local WeaponName = PvpBattle.WeaponsIds[ Item ]
+			local WeaponName = PVPBattle.WeaponsIDs[ Item ]
 
 			table.insert( WeaponList[k], WeaponName )
 

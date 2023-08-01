@@ -1,4 +1,3 @@
----------------------------------
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("cl_selectweapon.lua")
@@ -22,7 +21,7 @@ concommand.Add("gmt_pvpselwep", function( ply, cmd, args )
 	if !Item then return end
 	if ply:GetLevel( ItemId ) != 1 then return end
 	
-	local WeaponClass = PvpBattle.WeaponsIds[ ItemId ]
+	local WeaponClass = PVPBattle.WeaponsIDs[ ItemId ]
 	local Weapon = weapons.Get( WeaponClass )
 
 	if !Weapon then
@@ -32,27 +31,27 @@ concommand.Add("gmt_pvpselwep", function( ply, cmd, args )
 
 	local Slot = Weapon.Slot + 1
 	
-	ply._PVPBattleData[ Slot ] = ItemId
+	ply._PVPLoadout[ Slot ] = ItemId
 	
-	if PvpBattle.DEBUG then
+	if PVPBattle.DEBUG then
 		Msg("Setting ", ply, " - Slot: " .. Slot .. " - " .. ItemId .. "\n")
 	end
 	
-	PvpBattle:SendToClient( ply )
+	PVPBattle.SendToClient( ply )
 
 end )
 
 concommand.Add("gmt_pvpopenstore", function( ply, cmd, args )
 
 	if ply:IsAdmin() then
-		PvpBattle:OpenStore( ply )
+		PVPBattle.OpenStore( ply )
 	end
 
 end )
 
-function PvpBattle:OpenStore( ply, ent )
+/*function PvpBattle:OpenStore( ply, ent )
 
 	GTowerStore:SendItemsOfStore( ply, self.StoreId )
 	self:SendToClient( ply, true )
 
-end
+end*/

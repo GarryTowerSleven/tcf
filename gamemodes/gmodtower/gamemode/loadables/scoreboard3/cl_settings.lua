@@ -546,13 +546,13 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 	if tabname == "Chat" then
 		self:Header( "Chat" )
-		self:CheckBox( "Enable Name Coloring", "gmt_chat_color" )
 		self:CheckBox( "Enable Sounds", "gmt_chat_sound", nil, "SetChatSounds" )
 
 		if IsLobby then
 			self:CheckBox( "Enable Locations", "gmt_chat_loc", nil, "SetChatLocation" )
 		end
 
+		self:CheckBox( "Enable Name Coloring", "gmt_chat_color" )
 		self:CheckBox( "Enable Timestamps", "gmt_chat_timestamp" )
 		self:CheckBox( "Enable Timestamp 24 Hour Mode", "gmt_chat_timestamp24", "gmt_chat_timestamp" )
 		self:CheckBox( "Enable Floating Chat", "gmt_drawfloatingchat" )

@@ -1,12 +1,13 @@
+PVPBattleGUI = {}
 
-PvpBattle.MainPanel = nil
-PvpBattle.ModelPanels = {}
-PvpBattle.HighestWidth = 100
-PvpBattle.CreateTime = 0
+PVPBattleGUI.MainPanel = nil
+PVPBattleGUI.ModelPanels = {}
+PVPBattleGUI.HighestWidth = 100
+PVPBattleGUI.CreateTime = 0
 
-PvpBattle.PvpLabel = nil
-PvpBattle.WhiteBox = nil
-PvpBattle.SelectLabel = nil
+PVPBattleGUI.PvpLabel = nil
+PVPBattleGUI.WhiteBox = nil
+PVPBattleGUI.SelectLabel = nil
 
 local DEBUG = false
 
@@ -24,7 +25,7 @@ local function PanelDrawBackgroundInvalid( self )
 end
 
 local function PanelDrawBlur( self )
-	Derma_DrawBackgroundBlur( self, PvpBattle.CreateTime )
+	Derma_DrawBackgroundBlur( self, PVPBattleGUI.CreateTime )
 	draw.RoundedBox( 8, 0, 0, self:GetWide(), self:GetTall(), Color(14,31,41,150) )
 end
 
@@ -34,7 +35,7 @@ local function PanelWhiteSquare( self )
 	surface.DrawTexturedRect( 0, 0, self:GetWide(), self:GetTall() )
 end
 
-function PvpBattle:CloseSelection()
+function PVPBattleGUI:CloseSelection()
 
 	if self.MainPanel then self.MainPanel:Remove() end
 	if self.PvpLabel then self.PvpLabel:Remove() end
@@ -51,16 +52,16 @@ function PvpBattle:CloseSelection()
 
 end
 
-function PvpBattle:OpenSelection()
+function PVPBattleGUI:OpenSelection()
 
-	PvpBattle:CloseSelection()
+	PVPBattleGUI:CloseSelection()
 
 	gui.EnableScreenClicker( true )
 
 	self.MainPanel = vgui.Create("DPanel")
-	PvpBattle.ModelPanels = {}
-	PvpBattle.HighestWidth = 100
-	PvpBattle.CreateTime = SysTime()
+	PVPBattleGUI.ModelPanels = {}
+	PVPBattleGUI.HighestWidth = 100
+	PVPBattleGUI.CreateTime = SysTime()
 
 	self.MainPanel:SetSize( ScrW() * 0.45, ScrH() * 0.5 )
 	self.MainPanel:SetPos( ScrW() * 0.3 - self.MainPanel:GetWide() * 0.5, ScrH() * 0.4 - self.MainPanel:GetTall() * 0.4 )
@@ -74,7 +75,7 @@ function PvpBattle:OpenSelection()
 	self.MainPanel.PanelList.Paint = EmptyFunction
 
 
-	for k, v in pairs( self.WeaponList ) do
+	for k, v in pairs( PVPBattle.WeaponList ) do
 
 		local NewPanel = vgui.Create("Panel")
 		local CurX = 2
@@ -138,15 +139,15 @@ function PvpBattle:OpenSelection()
 				ModelPanel:GetTall() - TextLabel:GetTall() - 5
 			)
 
-			PvpBattle.ModelPanels[ UName ] = ModelPanel
+			PVPBattleGUI.ModelPanels[ UName ] = ModelPanel
 
 			CurX = CurX + ModelPanel:GetWide() + 2
 		end
 
 		NewPanel:SetSize( CurX, 75 )
 
-		if CurX > PvpBattle.HighestWidth then
-			PvpBattle.HighestWidth = CurX
+		if CurX > PVPBattleGUI.HighestWidth then
+			PVPBattleGUI.HighestWidth = CurX
 		end
 
 		self.MainPanel.PanelList:AddItem( NewPanel )
@@ -154,7 +155,7 @@ function PvpBattle:OpenSelection()
 	end
 
 	local BigFrameButton = vgui.Create("Panel")
-	BigFrameButton:SetSize( PvpBattle.HighestWidth, 50 )
+	BigFrameButton:SetSize( PVPBattleGUI.HighestWidth, 50 )
 	local Closebutton = vgui.Create("PvpBtClose", BigFrameButton )
 	self.MainPanel.PanelList:AddItem( BigFrameButton )
 
@@ -190,17 +191,17 @@ function PvpBattle:OpenSelection()
 	self.WhiteBox = SmallWhiteBox
 	self.SelectLabel = SelWeaponLabel
 
-	PvpBattle:UpdateItems()
+	PVPBattleGUI:UpdateItems()
 
 end
 
-function PvpBattle:UpdateItems()
+function PVPBattleGUI:UpdateItems()
 
 	if !self.MainPanel then
 		return
 	end
 
-	for UName, v in pairs( PvpBattle.ModelPanels ) do
+	for UName, v in pairs( PVPBattleGUI.ModelPanels ) do
 
 		local Item = GTowerStore:Get( UName )
 		local ItemId = Item.Id
@@ -209,7 +210,7 @@ function PvpBattle:UpdateItems()
 
 			if DEBUG then Msg("Setting item: " .. UName .. "(".. tostring(ItemId) ..") to " .. tostring(Item.level) .. "\n") end
 
-			if ItemId && table.HasValue( PvpBattle.SelectedItems, ItemId ) then
+			if ItemId && table.HasValue( PVPBattle.SelectedItems, ItemId ) then
 				v:SetColor( Color(255, 255, 255, 255) )
 				//v.BackgroundColor = Color(32, 180, 103, 255)
 				v.BackgroundDraw = PanelDrawBackgroundSel
@@ -229,7 +230,7 @@ function PvpBattle:UpdateItems()
 
 	self.MainPanel.PanelList:PerformLayout()
 	self.MainPanel.PanelList:SizeToContents()
-	self.MainPanel.PanelList:SetWide( PvpBattle.HighestWidth )
+	self.MainPanel.PanelList:SetWide( PVPBattleGUI.HighestWidth )
 	self.MainPanel.PanelList:SetPos( 5, 5 )
 
 	self.MainPanel:SetSize(
@@ -246,45 +247,43 @@ function PvpBattle:UpdateItems()
 end
 
 hook.Add("PlayerLevel", "GTowerStorePvpBattle", function()
-	PvpBattle:UpdateItems()
+	PVPBattleGUI:UpdateItems()
 end )
 
-hook.Add("PvpBattleUpdate", "StoreCheck", function( OpenStore, discount )
+hook.Add( "PVPBattle.OpenStore", "PVPStoreCheck", function( discount )
 
-	if OpenStore then
+    GTowerNPCChat:StartChat({
+        Entity = "gmt_npc_pvpbattle",
+        Text = "Welcome to the PVPBattle store. What would you like to do?",
+        Responses = {
+            {
+                Response = "Buy Weapons",
+                Func = function() GTowerStore:OpenStore( PVPBattle.StoreID, nil, nil, discount ) end
+            },
+            {
+                Response = "Select Weapons",
+                Func = function() PVPBattleGUI:OpenSelection() end
+            },
+            {
+                Response = "Bye",
+            }
+        }
+    })
 
-		GTowerNPCChat:StartChat({
-			Entity = "gmt_npc_pvpbattle",
-			Text = "Welcome to the PVPBattle store. What would you like to do?",
-			Responses = {
-				{
-					Response = "Buy Weapons",
-					Func = function() GTowerStore:OpenStore( PvpBattle.StoreId, nil, nil, discount ) end
-				},
-				{
-					Response = "Select Weapons",
-					Func = function() PvpBattle:OpenSelection() end
-				},
-				{
-					Response = "Bye",
-				}
-			}
-		})
+end )
 
-	else
-		PvpBattle:UpdateItems()
-	end
-
+hook.Add( "PVPBattle.WeaponsUpdated", "PVPUpdated", function()
+    PVPBattleGUI:UpdateItems()
 end )
 
 hook.Add("CanOpenMenu", "GTowerPVPBattle", function()
-	if PvpBattle.MainPanel then
+	if PVPBattleGUI.MainPanel then
 		return false
 	end
 end )
 
 hook.Add("CanCloseMenu", "GTowerPVPBattle", function()
-	if PvpBattle.MainPanel then
+	if PVPBattleGUI.MainPanel then
 		return false
 	end
 end )
