@@ -140,14 +140,7 @@ function meta:ApplyData( data )
 		self:LoadInventoryData( tostring( data.bank ), 2 )
 	end
 
-	timer.Simple( 0.0, function()
-		if ( data.pvpweapons != "" ) then
-			PvpBattle:Load( self, data.pvpweapons )
-		else
-			SQLLog( "pvpbattle", self:Nick() .. " has no data??? did they lose it?" )
-			PvpBattle:LoadDefault( self )
-		end
-	end)
+    PVPBattle.Load( self, data.pvpweapons or "" )
 	
 	if ( data.levels != "" ) then
 		GTowerStore:UpdateInventoryData( self, data.levels )

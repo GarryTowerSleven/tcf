@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 17, 2023 at 01:35 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.1.12
+-- Host: 127.0.0.1:4406
+-- Generation Time: Aug 01, 2023 at 01:34 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -75,6 +75,17 @@ INSERT INTO `gm_bans` (`steamid`, `name`, `ip`, `reason`, `bannedOn`, `time`) VA
 ('STEAM_0:0:5142513', 'Groove [FranceRp]', 'clean', 'clean', 1494061708, 0),
 ('STEAM_0:0:121531418', 'ARKANIUM ~ ???', NULL, '', 0, 0),
 ('STEAM_0:0:44240558', 'basedexe', 'clean', 'clean', 1500268937, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gm_casino`
+--
+
+CREATE TABLE `gm_casino` (
+  `type` tinytext NOT NULL,
+  `jackpot` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 

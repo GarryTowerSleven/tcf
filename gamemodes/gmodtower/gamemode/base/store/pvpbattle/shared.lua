@@ -1,20 +1,20 @@
----------------------------------
-PvpBattle = PvpBattle or {}
-PvpBattle.StoreId = 3
-PvpBattle.WeaponList = {}
-PvpBattle.DefaultWeapons = {}
-PvpBattle.WeaponsIds = {}
+module( "PVPBattle", package.seeall )
 
-PvpBattle.DEBUG = false
+StoreID = 3
+WeaponList = WeaponList or {}
+DefaultWeapons = DefaultWeapons or {}
+WeaponsIDs = WeaponsIDs or {}
+
+DEBUG = false
 
 hook.Add("GTowerStoreLoad", "AddPVPBattleWeapons", function()
 	
-	local WeaponList = weapons.GetList()
-	PvpBattle.WeaponList = {}
-	PvpBattle.DefaultWeapons = {}
-	PvpBattle.WeaponsIds = {}
+	local wepList = weapons.GetList()
+	WeaponList = {}
+	DefaultWeapons = {}
+	WeaponsIDs = {}
 	
-	for _, v in pairs( WeaponList ) do
+	for _, v in pairs( wepList ) do
 		
 		if v.Base == "weapon_pvpbase" && v.StoreBuyable == true then
 			
@@ -28,21 +28,21 @@ hook.Add("GTowerStoreLoad", "AddPVPBattleWeapons", function()
 				model = v.WorldModel,
 				ClientSide = true,
 				upgradable = true,
-				storeid = PvpBattle.StoreId
+				storeid = StoreID
 			} )
 			
 			if v.Slot && v.SlotPos then
 				local Slot = v.Slot + 1
 				local SlotId = v.SlotPos + 1
 				
-				if !PvpBattle.WeaponList[ Slot ] then
-					PvpBattle.WeaponList[ Slot ] = {}
+				if !WeaponList[ Slot ] then
+					WeaponList[ Slot ] = {}
 				end
 				
-				PvpBattle.WeaponList[ Slot ][ SlotId ] = UniqueName
+				WeaponList[ Slot ][ SlotId ] = UniqueName
 				
 				if SERVER && v.StorePrice == 0 then
-					PvpBattle.DefaultWeapons[ Slot ] = NewItemId
+					DefaultWeapons[ Slot ] = NewItemId
 				end
 				
 			else
@@ -51,7 +51,7 @@ hook.Add("GTowerStoreLoad", "AddPVPBattleWeapons", function()
 			
 			if SERVER then
 				v.StoreItemId = NewItemId
-				PvpBattle.WeaponsIds[ NewItemId ] = v.ClassName
+				WeaponsIDs[ NewItemId ] = v.ClassName
 			end
 			
 		end

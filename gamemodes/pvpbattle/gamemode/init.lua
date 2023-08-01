@@ -133,7 +133,7 @@ function GM:PlayerResetSpeed( ply )
 end
 
 function GM:PlayerLoadout( ply )
-	if self.GiveAllWeapons == true || !PvpBattle || ply:IsBot() then
+	if self.GiveAllWeapons == true || !PVPBattle || ply:IsBot() then
 		for _, v in ipairs( self.Weapons ) do
 			ply:Give( v )
 		end
@@ -177,10 +177,10 @@ function PopulateLoadout( ply, delay )
 	timer.Simple( delay, function()
 		if IsValid( ply ) then
 			if ply.WeaponList == nil then
-				if table.IsEmpty( PvpBattle:GiveWeapons( ply ) ) then
+				if table.IsEmpty( PVPBattle.GiveWeapons( ply ) ) then
 					ply.WeaponList = WeaponDefaults
 				else
-					ply.WeaponList = PvpBattle:GiveWeapons( ply )
+					ply.WeaponList = PVPBattle.GiveWeapons( ply )
 				end
 			end
 

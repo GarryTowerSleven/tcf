@@ -1,8 +1,7 @@
----------------------------------
 hook.Add("SQLStartColumns", "StartBasicColumns", function()
 	SQLColumn.Init( {
 		["column"] = "money",
-		["update"] = function( ply ) 
+		["update"] = function( ply )
 			return math.Clamp( ply:Money(), 0, 2147483647 )
 		end,
 		["defaultvalue"] = function( ply )

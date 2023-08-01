@@ -3,5 +3,5 @@ AddCSLuaFile( "shared.lua" )
 include('shared.lua')
 
 function ENT:Use( ply )
-	PvpBattle:OpenStore( ply )
+	PVPBattle.OpenStore( ply )
 end
