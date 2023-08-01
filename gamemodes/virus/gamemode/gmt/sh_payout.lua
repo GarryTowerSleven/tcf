@@ -28,7 +28,7 @@ payout.Register( "SurvivorBonus", {
 payout.Register( "LastSurvivorBonus", {
 	Name = "Last Survivor",
 	Desc = "Cold Blooded.\nYou were the only remaining survivor and you lived!",
-	GMC = 100,
+	GMC = 200,
 	Diff = 3,
 } )
 
