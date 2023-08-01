@@ -5,21 +5,24 @@ function PlayerMeta:SwitchToNextWeapon()
 
 	if !SERVER then return end
 	
+	local solved = false
+	
 	local weps = self:GetWeapons()
 	
-	local index = 1
+	local curwep = self:GetActiveWeapon():GetClass()
 	
 	for k, v in ipairs( weps ) do
-		if ( self.Classname == v.Classname ) then
-			index = k + 1
+		Classname = v:GetClass()
+		if ( curwep != Classname ) then
+			solved = true
 			break
 		end
 	end
 	
-	if ( index > #weps ) then
-		index = 1
+	if solved == true then
+		self:SelectWeapon( Classname )
+	else
+		return
 	end
-		
-	self:SelectWeapon( weps[ index ].Classname )
 	
 end
