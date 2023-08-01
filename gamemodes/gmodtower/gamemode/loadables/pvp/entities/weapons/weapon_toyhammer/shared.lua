@@ -75,7 +75,7 @@ function SWEP:PrimaryAttack()
 
 	else
 		self:SetNextPrimaryFire( CurTime() + 0.45 )
-		self:ShootMelee( self.Secondary.Damage, self.MeleeHitSound, self.MeleeHitSound, self.SoundSwing )
+		self:ShootMelee( self.Primary.Damage, self.MeleeHitSound, self.MeleeHitSound, self.SoundSwing )
 	end
 end
 
