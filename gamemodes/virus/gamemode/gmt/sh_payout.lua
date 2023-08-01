@@ -49,21 +49,21 @@ payout.Register( "Kills", {
 payout.Register( "Rank1", {
 	Name = "1st Place",
 	Desc = "For being the top killer.",
-	GMC = 100,
+	GMC = 50,
 	Diff = 5,
 } )
 
 payout.Register( "Rank2", {
 	Name = "2nd Place",
 	Desc = "For being the second top killer.",
-	GMC = 50,
+	GMC = 25,
 	Diff = 5,
 } )
 
 payout.Register( "Rank3", {
 	Name = "3rd Place",
 	Desc = "For being the third top killer.",
-	GMC = 25,
+	GMC = 10,
 	Diff = 5,
 } )
 
