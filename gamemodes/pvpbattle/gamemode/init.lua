@@ -250,7 +250,7 @@ function GM:PlayerDeath( Victim, Inflictor, Attacker )
 		if ( IsValid(Attacker) && IsValid(Victim) && Victim != Attacker ) then
 			Inflictor.Kills = ( Inflictor.Kills or 0 ) + 1
 		end
-		if Inflictor.Kills >= 2 && IsValid( Attacker ) then
+		if Inflictor.Kills >= 2 then
 			Attacker:SetAchievement( ACHIEVEMENTS.PVPABORTIONIST, 1 )
 		end
 	end
