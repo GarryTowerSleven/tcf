@@ -125,9 +125,9 @@ end )
 
 concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 
-	if ply:GetNWBool("Skeleton") then return end
-	
 	if ( engine.ActiveGamemode() == "ultimatechimerahunt" ) then return end
+	
+	if ply:GetNWBool("Skeleton") then return end
 	
 	local modelinfo = string.Explode( "-", ply:GetInfo("gmt_playermodel") )
 	local modelname = modelinfo[1]
