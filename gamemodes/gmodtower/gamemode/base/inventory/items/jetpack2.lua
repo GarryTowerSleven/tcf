@@ -9,7 +9,7 @@ ITEM.UniqueEquippable = true
 ITEM.EquipType = "Jetpack"
 
 ITEM.IsJetpack = true
-ITEM.JetpackPower = 1.5
+ITEM.JetpackPower = 1
 ITEM.JetpackFuel = 2.5
 ITEM.JetpackRecharge = 0.5
 ITEM.JetpackHideFuel = false

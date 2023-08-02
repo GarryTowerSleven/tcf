@@ -138,7 +138,7 @@ local function JetpackMove( ply, mv, state, firstPredicted )
 	
 	local power = Jetpack.JetpackPower
 
-	if power > 1 && (ply:IsVIP() or ply:IsAdmin()) then
+	if power > 1 && Jetpack.JetpackFuel == -1 && ( ply:IsVIP() or ply:IsAdmin() )  then
 		power = math.Clamp( ply:GetInfoNum( "gmt_vip_jetpackpower", 1 ), 1, 2.0 )
 	end
 	
