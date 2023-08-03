@@ -138,6 +138,7 @@ local DSP_GASMASK = 30
 local DSP_ROBOT = 38
 local dsps = {
     ["models/player/tcf/gasmask_citizen.mdl"] = DSP_GASMASK,
+	["models/player/aphaztech.mdl"] = DSP_GASMASK,
     ["models/player/robot.mdl"] = DSP_ROBOT
 }
 

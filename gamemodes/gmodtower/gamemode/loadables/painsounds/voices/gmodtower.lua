@@ -275,6 +275,7 @@ voicelines.Add("models/player/sh/james_sunderland.mdl", {
 })
 
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
+voicelines.Add("models/player/aphaztech.mdl", playerSounds["models/player/group01/male_07.mdl"])
 
 voicelines.SetFemale("models/player/zoey.mdl")
 voicelines.SetFemale("models/player/miku.mdl")
