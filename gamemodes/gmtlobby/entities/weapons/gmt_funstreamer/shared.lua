@@ -99,6 +99,7 @@ function SWEP:PrimaryAttack()
 	-- weird anim code below
 	self:SendWeaponAnim(ACT_VM_DRYFIRE)
 	timer.Simple(0.1, function()
+		if !IsValid(self) then return end
 		self:SendWeaponAnim(ACT_VM_IDLE)
 		timer.Simple(0, function()
 			self:SendWeaponAnim(ACT_VM_HITCENTER)
