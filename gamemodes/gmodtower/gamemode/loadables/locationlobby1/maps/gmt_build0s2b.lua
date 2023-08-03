@@ -72,7 +72,7 @@ Add( 42, {
     Name = "Theater Hallway",
     Group = "theaterhallway",
     Min = Vector(-831,-1600,0),
-    Max = Vector(-300,-800,191),
+    Max = Vector(-300,-800,310),
     Priority = 0,
 } )
 Add( 46, {
