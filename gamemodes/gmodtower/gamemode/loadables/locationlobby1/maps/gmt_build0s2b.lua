@@ -110,8 +110,8 @@ Add( 31, {
     Name = "Appearance Store",
     Group = "stores",
     Min = Vector(1600,256,-24),
-    Max = Vector(1960,895,168),
-    Priority = 0,
+    Max = Vector(1960,895,175),
+    Priority = 1,
 } )
 Add( 32, {
     Name = "Furniture Store",
@@ -124,14 +124,14 @@ Add( 44, {
     Name = "Electronic Store",
     Group = "stores",
     Min = Vector(-768,1295,192),
-    Max = Vector(-12,1935,383),
+    Max = Vector(-12,1935,390),
     Priority = 0,
 } )
 Add( 45, {
     Name = "General Goods",
     Group = "stores",
     Min = Vector(1863,1392,192),
-    Max = Vector(2431,1807,383),
+    Max = Vector(2431,1807,390),
     Priority = 0,
 } )
 
@@ -140,13 +140,13 @@ Add( 39, {
     Name = "Bar",
     Group = "bar",
     Min = Vector(2472,2050,-24),
-    Max = Vector(3436,2935,506),
+    Max = Vector(3436,2936,506),
     Priority = 0,
 } )
 Add( 40, {
     Name = "Bar Restrooms",
     Group = "bar",
-    Min = Vector(2688,2935,-24),
+    Min = Vector(2630,2936,-24),
     Max = Vector(3328,3456,506),
     Priority = 0,
 } )
@@ -163,14 +163,14 @@ Add( 10, {
     Name = "Casino",
     Group = "casino",
     Min = Vector(1864,112,168),
-    Max = Vector(3300,1280,381),
+    Max = Vector(3300,1280,390),
     Priority = 0,
 } )
 Add( 7, {
     Name = "Restaurant",
     Group = "stores",
     Min = Vector(-580,128,190),
-    Max = Vector(-12,1060,381),
+    Max = Vector(-12,1060,390),
     Priority = 0,
 } )
 
@@ -202,21 +202,21 @@ Add( 35, {
     Name = "Gamemode Ports",
     Group = "gamemodeports",
     Min = Vector(9840,10240,6650),
-    Max = Vector(11040,11007,7103),
+    Max = Vector(11040,11007,7150),
     Priority = 0,
 } )
 Add( 36, {
     Name = "West GM Ports",
     Group = "gamemodeports",
     Min = Vector(9982,8897,6402),
-    Max = Vector(11041,10289,7679),
+    Max = Vector(11041,10289,7150),
     Priority = 0,
 } )
 Add( 37, {
     Name = "East GM Ports",
     Group = "gamemodeports",
     Min = Vector(9982,10976,6430),
-    Max = Vector(11041,12353,7294),
+    Max = Vector(11041,12353,7150),
     Priority = 0,
 } )
 
