@@ -18,7 +18,8 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRMASTER, {
 	Name = "Master of Ballrace", 
 	Description = "Complete 50 levels.", 
 	Value = 50,
-	Group = 6
+	Group = 6,
+	GiveItem = "trophy_ballracevirgin"
 	}
 )
 
