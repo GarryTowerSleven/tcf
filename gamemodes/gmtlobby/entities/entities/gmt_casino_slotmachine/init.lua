@@ -340,11 +340,15 @@ function ENT:PickResults()
 	local random = { getRand(), getRand(), getRand() }
 
 	if random[1] == 2 and random[2] == 2 and random[3] == 2 then
-		if self:GetJackpot() < 5000 && math.random(5) != 1 then
+		if self:GetJackpot() < 5000 && math.random(20) != 1 then
 			random[3] = math.random(6)
-		elseif self:GetJackpot() < 10000 && math.random(3) != 1 then
+		elseif self:GetJackpot() < 10000 && math.random(10) != 1 then
 			random[3] = math.random(6)
-		elseif self:GetJackpot() < 25000 && math.random(2) != 1 then
+		elseif self:GetJackpot() < 25000 && math.random(5) != 1 then
+			random[3] = math.random(6)
+		elseif self:GetJackpot() < 50000 && math.random(3) != 1 then
+			random[3] = math.random(6)
+		elseif self:GetJackpot() < 100000 && math.random(2) != 1 then
 			random[3] = math.random(6)
 		end
 	end
@@ -421,8 +425,8 @@ function ENT:CalcWinnings( random )
 	end
 
 	// Player lost
-	SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. self.BetAmount .. " WHERE type='slots'")
-	self:SetJackpot( self:GetJackpot() + self.BetAmount )
+	SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. math.Round( self.BetAmount / 2 ).. " WHERE type='slots'")
+	self:SetJackpot( self:GetJackpot() + math.Round( self.BetAmount / 2 ) )
 	//print( self:GetJackpot() )
 	ply:MsgI( "slots", "SlotsLose" )
 
