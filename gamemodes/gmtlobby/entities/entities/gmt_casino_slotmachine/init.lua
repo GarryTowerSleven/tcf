@@ -252,7 +252,7 @@ concommand.Add( "slotm_spin", function( ply, cmd, args )
 	local bet = tonumber(args[1]) or 10
 	
 	if bet < 10 then bet = 10 end
-	if bet > 100 then bet = 100 end
+	if bet > 1000 then bet = 1000 end
 	
 	local ent = ply.SlotMachine
 
