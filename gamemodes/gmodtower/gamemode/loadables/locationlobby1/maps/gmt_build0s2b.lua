@@ -139,7 +139,7 @@ Add( 45, {
 Add( 39, {
     Name = "Bar",
     Group = "bar",
-    Min = Vector(1864,2050,-24),
+    Min = Vector(2472,2050,-24),
     Max = Vector(3436,2935,506),
     Priority = 0,
 } )
@@ -150,7 +150,14 @@ Add( 40, {
     Max = Vector(3328,3456,506),
     Priority = 0,
 } )
-
+// BAR
+Add( 49, {
+    Name = "Bar Stairs",
+    Group = "nil",
+    Min = Vector(1864,2050,-24),
+    Max = Vector(2472,2500,506),
+    Priority = 0,
+} )
 // ACTIVITIES
 Add( 10, {
     Name = "Casino",
