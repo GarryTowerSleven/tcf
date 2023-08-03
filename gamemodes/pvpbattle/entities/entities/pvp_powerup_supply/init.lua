@@ -14,14 +14,12 @@ function ENT:PowerUpOn( ply )
 	ply:GiveAmmo( 4, "RPG_Round", true )
 	ply:GiveAmmo( 1, "SMG1_Grenade", true )
 	ply:GiveAmmo( 2, "slam", true )
-
-	if ply:Health() < 100 then
-		if ply:Health() < 10 then
-			ply:SetAchievement( ACHIEVEMENTS.PVPONTHEBRINK, 1 )
-		end
-
-		ply:SetHealth( math.min( ply:Health() + 50, 100 ) )
+	
+	if ply:Health() < 10 then
+		ply:SetAchievement( ACHIEVEMENTS.PVPONTHEBRINK, 1 )
 	end
+
+	ply:SetHealth( math.min( ply:Health() + 50, 100 ) )
 
 	PostEvent( ply, "pheal" )
 end
