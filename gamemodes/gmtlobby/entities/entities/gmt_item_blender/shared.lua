@@ -348,7 +348,7 @@ if SERVER then
 
 			if #self.Ingredients != 2 || !self.PackDelay || self.PackDelay < CurTime() then
 
-				for _, ent in pairs( ents.FindInSphere( self:GetPos(), 64 ) ) do
+				for _, ent in pairs( ents.FindInSphere( self:GetPos(), 32 ) ) do
 					self:Pack( ent )
 				end
 
