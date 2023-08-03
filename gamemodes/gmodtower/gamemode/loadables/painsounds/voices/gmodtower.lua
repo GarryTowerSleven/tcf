@@ -291,9 +291,27 @@ voicelines.Add("models/player/nuggets.mdl", {
     }
 })
 
+voicelines.Add("models/player/normal.mdl", {
+    Pain = {
+        Small = {"S:HEV_DMG4"},
+        Medium = {"S:HEV_DMG5"},
+        Large = {"S:HEV_DMG5"}
+    },
+    Death = {"S:HEV_DEAD0", "S:HEV_DEAD1"}
+})
+
+voicelines.Add("models/player/gordon.mdl", {
+    Pain = {
+        Small = {"S:HEV_DMG4"},
+        Medium = {"S:HEV_DMG5"},
+        Large = {"S:HEV_DMG5"}
+    },
+    Death = {"S:HEV_DEAD0", "S:HEV_DEAD1"}
+})
+
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
 voicelines.Add("models/player/aphaztech.mdl", playerSounds["models/player/group01/male_07.mdl"])
-voicelines.Add("models/player/normal.mdl", playerSounds["models/player/group01/male_07.mdl"])
+voicelines.Add("models/player/spacesuit.mdl", playerSounds["models/player/group01/male_07.mdl"])
 voicelines.Add("models/player/sunabouzu.mdl", playerSounds["models/player/breen.mdl"])
 
 voicelines.SetFemale("models/player/zoey.mdl")
