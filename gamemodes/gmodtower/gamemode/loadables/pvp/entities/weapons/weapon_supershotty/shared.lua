@@ -17,7 +17,7 @@ SWEP.AutoReload		 = false
 
 SWEP.Primary.Delay	 = 0.6
 
-SWEP.Primary.Damage	 = 10
+SWEP.Primary.Damage	 = {12, 14}
 
 SWEP.Primary.Cone	 = 0.075
 

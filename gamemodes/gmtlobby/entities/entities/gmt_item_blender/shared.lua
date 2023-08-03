@@ -107,7 +107,7 @@ if SERVER then
 			Ingredient1 = WATERMELON,
 			Ingredient2 = STRAWBERRY,
 			Color = Color( 209, 73, 31 ),
-			Time = 30,
+			Time = 60,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
 				PostEvent( ply, "pcolored_on" )
@@ -123,7 +123,7 @@ if SERVER then
 			Ingredient1 = APPLE,
 			Ingredient2 = WATERMELON,
 			Color = Color( 205, 55, 15 ),
-			Time = 20,
+			Time = 60,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
 				PostEvent( ply, "psleepy_on" )
@@ -139,7 +139,7 @@ if SERVER then
 			Ingredient1 = ORANGE,
 			Ingredient2 = WATERMELON,
 			Color = Color( 235, 115, 60 ),
-			Time = 10,
+			Time = 30,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
 				PostEvent( ply, "psleepy_on" )
@@ -212,7 +212,7 @@ if SERVER then
 			Ingredient1 = STRAWBERRY,
 			Ingredient2 = BANANA,
 			Color = Color( 230, 140, 160 ),
-			Time = 60,
+			Time = 300,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
 				GAMEMODE:SetPlayerSpeed( ply, 360, 640 )
@@ -246,7 +246,7 @@ if SERVER then
 			Ingredient1 = PLASTIC,
 			Ingredient2 = WATERMELON,
 			Color = Color( 155, 155, 155 ),
-			Time = 20,
+			Time = 45,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
 				PostEvent( ply, "ptime_on" )
@@ -266,7 +266,7 @@ if SERVER then
 			Ingredient1 = BONE,
 			Ingredient2 = BONE,
 			Color = Color( 255, 255, 255 ),
-			Time = 60,
+			Time = 300,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
 				ply:SetModel( "models/player/skeleton.mdl" )
