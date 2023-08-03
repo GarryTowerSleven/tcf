@@ -42,7 +42,7 @@ Add( 2, {
     Name = "Lobby",
     Group = "lobby",
     Min = Vector(-309,-2796,-119),
-    Max = Vector(1850,-736,2551),
+    Max = Vector(1850,-736,2500),
     Priority = 0,
 } )
 Add( 8, {
@@ -79,8 +79,8 @@ Add( 46, {
     Name = "Theater Vents",
     Group = "vents",
     Min = Vector(-773,-772,265),
-    Max = Vector(-261,-400,2598),
-    Priority = 0,
+    Max = Vector(-261,-400,2614),
+    Priority = 1,
 } )
 Add( 50, {
     Name = "Moon",
