@@ -196,7 +196,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.TETRIS4ONETIME, {
 	Name = "Long Savior", 
 	Description = "Clean 4 rows at once in Tetris.", 
 	Value = 1,
-	GMC = 250
+	GMC = 250,
 	Group = 4
 })
 

@@ -40,6 +40,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.MONEYWASTER, {
     Name = "Money Waster", 
     Description = "Win 10 jackpots in slots.", 
     Value = 10,
+	GMC = 2500,
     Group = 21
 } )
 
@@ -48,5 +49,12 @@ GTowerAchievements:Add( ACHIEVEMENTS.ROYALWINNINGS, {
     Description = "Win with a royal flush in poker.", 
     Value = 1,
 	GMC = 1000,
+    Group = 21
+} )
+
+GTowerAchievements:Add( ACHIEVEMENTS.BORNTOSPIN, {
+    Name = "Live To Spin", 
+    Description = "Spin the spin to win wheel more than 500 times.", 
+    Value = 500,
     Group = 21
 } )
