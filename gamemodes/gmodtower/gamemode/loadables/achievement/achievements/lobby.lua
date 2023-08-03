@@ -95,6 +95,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.DRUNKENBASTARD, {
 	Name = "Drunken Bastard", 
 	Description = "Be drunk for more than 10 minutes straight in one go.", 
 	Value = 10*60,
+	GMC = 1000,
 	GiveItem = "trophy_drunkenbastard"
 })
 
@@ -195,6 +196,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.TETRIS4ONETIME, {
 	Name = "Long Savior", 
 	Description = "Clean 4 rows at once in Tetris.", 
 	Value = 1,
+	GMC = 250
 	Group = 4
 })
 
@@ -202,6 +204,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.TETRIS1000AGAME, {
 	Name = "Patience and Skill", 
 	Description = "Get more than 1000 points in one Tetris game.", 
 	Value = 1000,
+	GMC = 1000,
 	Group = 4
 })
 
@@ -257,12 +260,13 @@ GTowerAchievements:Add( ACHIEVEMENTS.SIDEBYSIDE, {
 	Name = "Fighting Side by Side",
 	Description = "Go into a duel while there already is a duel active.",
 	Value = 1,
+	GMC = 250
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.ITCHING, {
 	Name = "Itching For Fights",
 	Description = "Commence in more than 15 duels.",
-	Value = 15,
+	Value = 15
 })
 
 /* the achievement has issues + the arcades aren't all there
@@ -294,6 +298,12 @@ GTowerAchievements:Add( ACHIEVEMENTS.ONESMALLSTEP, {
 	Description = "Be slapped by an admin twice.", 
 	Value = 2
 })*/
+
+GTowerAchievements:Add( ACHIEVEMENTS.BORNTOFAIL, {
+	Name = "Non Addictive Personality", 
+	Description = "Die from alcohol poisoning more than 50 times.", 
+	Value = 50
+})
 
 // LOGIC OF ACHIEVEMENTS---------------------
 if CLIENT then return end

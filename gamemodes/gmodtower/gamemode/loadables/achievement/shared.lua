@@ -247,6 +247,8 @@ ACHIEVEMENTS.SUITEBARTENDER = 199
 ACHIEVEMENTS.PVPCAMPER = 200
 ACHIEVEMENTS.PVPBOXFAIL = 201
 
+ACHIEVEMENTS.BORNTOFAIL = 202
+
 hook.Add("Initialize", "LoadAchivments", function()
 	hook.Call("LoadAchievements")
 

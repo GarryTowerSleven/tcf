@@ -18,6 +18,7 @@ function meta:Drink(balamt)
 	if self:GetNet( "BAL" ) + balamt > 100 && IsLobby then
 		self:Kill()
 		self:ChatPrint("You died from alcohol poisoning.")
+		self:AddAchievement( ACHIEVEMENTS.BORNTOFAIL, 1 )
 		self:UnDrunk()
 		return
 	end
