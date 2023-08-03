@@ -411,7 +411,6 @@ function ENT:CalcWinnings( random )
 		if table.concat(random) == table.concat(combo) then
 			local winnings = math.Round( self.BetAmount * tonumber(x) )
 			self:SendWinnings( ply, winnings )
-			return
 		end
 	end
 
@@ -420,7 +419,6 @@ function ENT:CalcWinnings( random )
 		if random[3] == combo then
 			local winnings = math.Round( self.BetAmount * tonumber(x) )
 			self:SendWinnings( ply, winnings )
-			return
 		end
 	end
 
