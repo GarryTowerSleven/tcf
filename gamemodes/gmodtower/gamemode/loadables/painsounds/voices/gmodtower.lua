@@ -274,6 +274,23 @@ voicelines.Add("models/player/sh/james_sunderland.mdl", {
     }
 })
 
+voicelines.Add("models/player/nuggets.mdl", {
+    Pain = {
+        Small = {
+            "physics/cardboard/cardboard_box_impact_soft{1-7}.wav"
+        },
+		Medium = {
+			"physics/cardboard/cardboard_box_impact_bullet{1-5}.wav"
+		},
+        Large = {
+            "physics/cardboard/cardboard_box_impact_hard{1-7}.wav"
+        }
+    },
+    Death = {
+		"physics/cardboard/cardboard_box_break{1-3}.wav"
+    }
+})
+
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
 voicelines.Add("models/player/aphaztech.mdl", playerSounds["models/player/group01/male_07.mdl"])
 voicelines.Add("models/player/normal.mdl", playerSounds["models/player/group01/male_07.mdl"])
