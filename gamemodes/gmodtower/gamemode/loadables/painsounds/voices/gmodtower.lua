@@ -206,7 +206,7 @@ voicelines.Add("models/player/leon.mdl", {
 
 voicelines.Add("models/player/azuisleet1.mdl", {
     Pain = {
-        Light = "gmodtower/player/metropolice/knockout{1-3}.wav",
+        Small = "gmodtower/player/metropolice/knockout{1-3}.wav",
         Medium = "S:METROPOLICE_PAIN{0-2}",
         Large = "S:METROPOLICE_PAIN{0-2}"
     },
@@ -276,15 +276,9 @@ voicelines.Add("models/player/sh/james_sunderland.mdl", {
 
 voicelines.Add("models/player/nuggets.mdl", {
     Pain = {
-        Small = {
-            "physics/cardboard/cardboard_box_impact_soft{1-7}.wav"
-        },
-		Medium = {
-			"physics/cardboard/cardboard_box_impact_bullet{1-5}.wav"
-		},
-        Large = {
-            "physics/cardboard/cardboard_box_impact_hard{1-7}.wav"
-        }
+        Small = "physics/cardboard/cardboard_box_impact_soft{1-7}.wav",
+        Medium = "physics/cardboard/cardboard_box_impact_bullet{1-5}.wav",
+        Large = "physics/cardboard/cardboard_box_impact_hard{1-7}.wav"
     },
     Death = {
 		"physics/cardboard/cardboard_box_break{1-3}.wav"
