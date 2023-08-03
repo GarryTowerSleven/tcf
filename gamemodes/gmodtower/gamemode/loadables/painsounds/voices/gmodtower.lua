@@ -303,6 +303,18 @@ voicelines.Add("models/player/gordon.mdl", {
     Death = {"S:HEV_DEAD0", "S:HEV_DEAD1"}
 })
 
+voicelines.Add("models/player/sam.mdl", {
+    /*Pain = {
+		//TODO?
+    },*/
+    Death = {
+        "gmodtower/player/lprime/death{1-4}.ogg"
+    },
+    Taunts = {
+        "gmodtower/player/lprime/taunt{1-10}.ogg"
+    }
+})
+
 voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/player/group01/male_07.mdl"])
 voicelines.Add("models/player/aphaztech.mdl", playerSounds["models/player/group01/male_07.mdl"])
 voicelines.Add("models/player/spacesuit.mdl", playerSounds["models/player/group01/male_07.mdl"])
