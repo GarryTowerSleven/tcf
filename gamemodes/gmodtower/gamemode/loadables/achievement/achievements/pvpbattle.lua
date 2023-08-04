@@ -1,7 +1,7 @@
 GTowerAchievements:Add( ACHIEVEMENTS.PVPOVERKILL, {
 	Name = "Over Kill", 
 	Description = "Kill a total of 500 people.", 
-	Value = 2500,
+	Value = 500,
 	Group = 7
 	}
 )
