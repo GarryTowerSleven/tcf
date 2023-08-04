@@ -27,8 +27,6 @@ local util = util
 local SetGlobalFloat = SetGlobalFloat
 local net = net
 
-local CHAINSAW_GAME_ACTIVE = false
-
 module("minigames.chainsaw" )
 
 PlayerSpawnOnLobby = {}
@@ -146,8 +144,6 @@ end
 
 function Start( flags )
 
-	CHAINSAW_GAME_ACTIVE = true
-	
 	hook.Add("Location", "ChainsawLocation", CheckGiveWeapon )
 	//hook.Add("ShouldCollide", "LobbyColide", ShouldCollide )
 	hook.Add( "PlayerDeath", "ChainSawCheckDeath", playerDies )
@@ -179,8 +175,6 @@ end
 
 function End()
 
-	CHAINSAW_GAME_ACTIVE = false
-	
 	hook.Remove("Location", "ChainsawLocation" )
 	//hook.Remove("ShouldCollide", "LobbyColide" )
 	hook.Remove( "PlayerDeath", "ChainSawCheckDeath" )
@@ -211,11 +205,3 @@ function End()
 
 
 end
-
-hook.Add("ScalePlayerDamage","BalloonDamage",function(ply, h, d)
-
-	if ( CHAINSAW_GAME_ACTIVE and !Dueling.IsDueling( ply ) ) then
-		return true
-	end
-
-end)
