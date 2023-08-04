@@ -70,8 +70,8 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPMILESTONE2, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.PVPMILESTONE3, {
 	Name = "PVP Battle Milestone #3", 
-	Description = "Kill 80 players while you are airborne and get the Jumper Super Shotty!", 
-	Value = 80,
+	Description = "Kill 80 players while you are airborne and get the Jumper Super Shotty!",
+	Value = 100,
 	Group = 2,
 	GMC = 2500,
 	GiveItem = "JumperShotty"
