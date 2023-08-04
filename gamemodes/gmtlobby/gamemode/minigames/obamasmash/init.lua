@@ -289,6 +289,9 @@ local function SmashObama( ent, dmg )
 		//print(ObamaMax)
 		
 		local ply = dmg:GetAttacker()
+		
+		ply:AddAchievement( ACHIEVEMENTS.MGVOTED, 1 )
+		
 		local ComboTime = 1
 
 		if CurTime() - (ply.SmashTime or CurTime()) > ComboTime then

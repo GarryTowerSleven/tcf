@@ -309,7 +309,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.THEATERGOER, {
 	Name = "Binge God", 
 	Description = "Watch media in the theater for more than 10 hours.", 
 	Value = 10 * 60,
-	GMC = 1500,
+	GMC = 1000,
 	GiveItem = "trophy_bringsomepopcorn"
 })
 

@@ -88,6 +88,7 @@ function playerDies( ply, inflictor, killer )
 
 		if killer != ply && IsValid( killer ) &&  killer:IsPlayer() then
 			killer:AddMoney( MoneyPerKill )
+			killer:AddAchievement( ACHIEVEMENTS.MGFIGHTER, 1 )
 			TotalMoney = TotalMoney + MoneyPerKill
 		end
 
