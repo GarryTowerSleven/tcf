@@ -257,6 +257,9 @@ ACHIEVEMENTS.MGPOPPER = 207
 
 ACHIEVEMENTS.PVPMILESTONE3 = 208
 
+ACHIEVEMENTS.DEVHQ = 209 // No functionality yet, waiting for Lead
+ACHIEVEMENTS.LUCKYCAT = 210
+
 hook.Add("Initialize", "LoadAchivments", function()
 	hook.Call("LoadAchievements")
 

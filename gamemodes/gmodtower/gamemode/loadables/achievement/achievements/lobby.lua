@@ -306,11 +306,26 @@ GTowerAchievements:Add( ACHIEVEMENTS.BORNTOFAIL, {
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.THEATERGOER, {
-	Name = "Binge God", 
+	Name = "Bring Some Popcorn", 
 	Description = "Watch media in the theater for more than 10 hours.", 
 	Value = 10 * 60,
 	GMC = 1000,
 	GiveItem = "trophy_bringsomepopcorn"
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.LUCKYCAT, {
+	Name = "Lucky Cat", 
+	Description = "Get lucky and find a rare item hidden inside a catsack.", 
+	Value = 1,
+	GMC = 1000,
+	GiveItem = "trophy_catsack"
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.DEVHQ, {
+	Name = "Smooth Detective", 
+	Description = "Find a hidden area in the lobby.", 
+	Value = 1,
+	GiveItem = "trophy_devhq"
 })
 
 // LOGIC OF ACHIEVEMENTS---------------------

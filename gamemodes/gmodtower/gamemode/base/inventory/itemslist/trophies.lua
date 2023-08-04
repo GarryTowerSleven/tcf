@@ -37,6 +37,18 @@ RegisterItem("trophy_bringsomepopcorn",{
 	UseSound = "use_trophy.wav",
 })
 
+RegisterItem("trophy_catsack",{
+	Name = "Trophy: Lucky Cat",
+	Description = "",
+	Model = "models/gmod_tower/trophy_catsack.mdl",
+	UniqueInventory = true,
+	DrawModel = true,
+	CanRemove = false,
+	Tradable = false,
+	InvCategory = "trophy",
+	UseSound = "use_trophy.wav",
+})
+
 RegisterItem("trophy_devhq",{
 	Name = "Trophy: Smooth Detective",
 	Description = "",
