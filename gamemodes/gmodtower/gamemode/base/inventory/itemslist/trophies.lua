@@ -133,6 +133,18 @@ RegisterItem("trophy_jackrabbit",{
 	UseSound = "use_trophy.wav",
 })
 
+RegisterItem("trophy_lazorz",{
+	Name = "Trophy: Laz0rz",
+	Description = "",
+	Model = "models/gmod_tower/trophy_toyhammer.mdl",
+	UniqueInventory = true,
+	DrawModel = true,
+	CanRemove = false,
+	Tradable = false,
+	InvCategory = "trophy",
+	UseSound = "use_trophy.wav",
+})
+
 RegisterItem("trophy_longwalk",{
 	Name = "Trophy: Long Walk Through GMT",
 	Description = "",
