@@ -314,7 +314,7 @@ hook.Add( "PlayerBindPress", "ThirdPersonViewSelfZoomWheel", function( ply, bind
 
 		local weapon = LocalPlayer():GetActiveWeapon()
 
-		if IsValid( weapon ) && weapon:GetClass() == "weapon_physgun" then
+		if IsValid( weapon ) && weapon:GetClass() == "weapon_physgun" && ply:KeyDown(IN_ATTACK) then
 			return false
 		end
 
