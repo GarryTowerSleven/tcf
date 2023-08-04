@@ -22,10 +22,10 @@ local Roles =
 	["STEAM_0:0:156132358"] = "Moderator", 	// Basical
 	["STEAM_0:1:85508734"] = "Moderator", 	// Breezy
 	["STEAM_0:0:115320789"] = "Moderator", 	// Zia
+	["STEAM_0:0:241528576"] = "Moderator", // Scienti[-]
 
 	// Contributor
 	["STEAM_0:1:53166133"] = "Contributor",	// Orlok
-	["STEAM_0:0:241528576"] = "Contributor", // Scienti[-]
 	
 	// Pixeltail Games
 	["STEAM_0:1:6044247"] = "PixelTail",	// MacDGuy
