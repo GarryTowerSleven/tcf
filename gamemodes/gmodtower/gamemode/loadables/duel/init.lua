@@ -486,7 +486,7 @@ end )
 
 hook.Add( "PlayerDeathThink", "DuelingPreventRespawn", function( ply )
 
-	if ply:Location() == DuelLocation then
+	if ply:Location() == DuelLocation && Dueling.IsDueling( ply ) then
 		if ply.DuelRespawnDelay != nil && ply.DuelRespawnDelay < CurTime() then
 			if IsValid( ply ) then
 				RespawnDuelers( ply )
