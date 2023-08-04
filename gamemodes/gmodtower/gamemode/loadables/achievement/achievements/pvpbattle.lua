@@ -19,7 +19,8 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPLAZOR, {
 	Description = "Kill someone with the secret Toy Hammer laser.", 
 	Value = 1,
 	GMC = 250,
-	Group = 7
+	Group = 7,
+	GiveItem = "trophy_toyhammer"
 	}
 )
 

@@ -118,6 +118,7 @@ function GTowerItems.CreateMysteryItem(ply)
 	if p <= 0.0015 then
 		SQLLog( "game", ply:Nick() .. " found a blockles machine from a cat sack." )
 
+		ply:AddAchievement( ACHIEVEMENTS.LUCKYCAT, 1 )
 		GAMEMODE:ColorNotifyAll( string.upper(ply:Name()).." JUST FOUND A BLOCKLES MACHINE FROM THE MYSTERIOUS CAT SACK!", Color(255, 200, 0, 255) )
 
 		return ITEMS.suitetetris

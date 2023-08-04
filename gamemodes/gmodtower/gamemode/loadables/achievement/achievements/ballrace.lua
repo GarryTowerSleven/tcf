@@ -15,7 +15,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRLASTINLINE, {
 )
 
 GTowerAchievements:Add( ACHIEVEMENTS.BRMASTER, {
-	Name = "On A Roll", 
+	Name = "Master Of Ballrace", 
 	Description = "Complete 50 levels.", 
 	Value = 50,
 	Group = 6
@@ -23,7 +23,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRMASTER, {
 )
 
 GTowerAchievements:Add( ACHIEVEMENTS.BRBALLERROLL, {
-	Name = "Baller Roll", 
+	Name = "On A Roll", 
 	Description = "Spend more than 5 hours playing Ball Race.", 
 	Value = 60*5,
 	GMC = 1500,
@@ -75,7 +75,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRHARDERBETTERFASTERSTRONGER, {
 )
 
 GTowerAchievements:Add( ACHIEVEMENTS.BRVIRGIN, {
-	Name = "Master Of Ballrace",
+	Name = "Ball Race Virgin",
 	Description = "Complete 500 levels.",
 	Value = 500,
 	GMC = 5000,

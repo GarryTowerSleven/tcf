@@ -26,7 +26,8 @@ GTowerAchievements:Add( ACHIEVEMENTS.MGVOTED, {
 	Name = "I Voted", 
 	Description = "Smash 500 cutouts total in Obama Smash.", 
 	Value = 500,
-	Group = 5
+	Group = 5,
+	GiveItem = "trophy_obama",
 	}
 )
 
