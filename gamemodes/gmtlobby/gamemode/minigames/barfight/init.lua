@@ -27,6 +27,8 @@ local util = util
 local SetGlobalFloat = SetGlobalFloat
 local net = net
 
+local BAR_GAME_ACTIVE = false
+
 module("minigames.barfight" )
 
 PlayerSpawnOnLobby = {}
@@ -153,6 +155,8 @@ end
 
 function Start( flags )
 
+	BAR_GAME_ACTIVE = true
+	
 	hook.Add("Location", "BarFightLocation", CheckGiveWeapon )
 	//hook.Add("ShouldCollide", "LobbyColide", ShouldCollide )
 	hook.Add( "PlayerDeath", "BarFightCheckDeath", playerDies )
@@ -184,6 +188,8 @@ end
 
 function End()
 
+	BAR_GAME_ACTIVE = false
+	
 	hook.Remove("Location", "BarFightLocation" )
 	//hook.Remove("ShouldCollide", "LobbyColide" )
 	hook.Remove( "PlayerDeath", "BarFightCheckDeath" )
@@ -214,3 +220,11 @@ function End()
 
 
 end
+
+hook.Add("ScalePlayerDamage","BalloonDamage",function(ply, h, d)
+
+	if ( BAR_GAME_ACTIVE and !Dueling.IsDueling( ply ) ) then
+		return true
+	end
+
+end)
