@@ -324,6 +324,10 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 					attacker:AddAchievement( ACHIEVEMENTS.PVPMILESTONE2, 1 )
 				end
 
+				if !attacker:OnGround() then
+					attacker:AddAchievement( ACHIEVEMENTS.PVPMILESTONE3, 1 )
+				end
+
 				local dist = attacker:GetPos():Distance( ply:GetPos() )
 				if dist >= 2400 then
 					attacker:SetAchievement( ACHIEVEMENTS.PVPEAGLEEYE, 1 )
@@ -356,10 +360,6 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 					elseif weapon == "weapon_toyhammer" then
 						if attacker._LaserOn then
 							attacker:SetAchievement( ACHIEVEMENTS.PVPLAZOR, 1 )
-						end
-					elseif weapon == "weapon_supershotty" then
-						if !attacker:OnGround() then
-							attacker:AddAchievement( ACHIEVEMENTS.PVPMILESTONE3, 1 )
 						end
 					elseif weapon == "weapon_patriot" then
 						if game.GetMap() == "gmt_pvp_meadow01" then
