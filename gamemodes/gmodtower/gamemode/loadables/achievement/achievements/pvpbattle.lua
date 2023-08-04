@@ -87,8 +87,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPBIGBOSS, {
 	Name = "Big Boss",
 	Description = "Kill 5 people with the patriot on Meadows.",
 	Value = 5,
-	Group = 7,
-	GMC = 500
+	Group = 7
 	}
 )
 
@@ -96,8 +95,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVP12SHOTS, {
 	Name = "12 Shots",
 	Description = "Kill 50 people with the mighty Akimbo Pistols.",
 	Value = 50,
-	Group = 7,
-	GMC = 750
+	Group = 7
 	}
 )
 
