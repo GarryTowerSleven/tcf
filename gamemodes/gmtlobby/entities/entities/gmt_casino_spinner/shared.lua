@@ -30,15 +30,15 @@ ENT.SLOTS = {
 	{"StarFox Trophy", 2000, "trophy_starfox"},
 	{"Slappers", 500, "slappers"},
 	{"iMac", 499, "imac"},
-	{"1 GMC", 2},
+	{"1 GMC", 10},
 	--{"Playable Piano", 18, "instrument_piano"},
 	{"Playable Piano", 499, "piano"},
-	{"500 GMC", 14},
+	{"500 GMC", 10},
 	{"Sunabouzu Shrine", 1000, "sunshrine"},
-	{"Hula Doll", 3, "huladoll"},
+	{"Hula Doll", 4, "huladoll"},
 	{"Rave Ball", 599, "rave_ball"},
-	{"1500 GMC", 70},
-	{"Five Catsacks", 8, "mysterycatsack", 5},
+	{"1500 GMC", 50},
+	{"Five Catsacks", 7, "mysterycatsack", 5},
 	{"100 GMC", 3},
 	{"Random Holiday Item", 99, {
 		"sack_plushie",
@@ -69,7 +69,7 @@ ENT.SLOTS = {
 		"fwork_ufo",
 		"fwork_firefly"
 	} },
-	{"Backpack", 60, "backpack"},
+	{"Backpack", 40, "backpack"},
 }
 
 ENT.GMCPayouts = {
