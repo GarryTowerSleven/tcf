@@ -300,9 +300,17 @@ GTowerAchievements:Add( ACHIEVEMENTS.ONESMALLSTEP, {
 })*/
 
 GTowerAchievements:Add( ACHIEVEMENTS.BORNTOFAIL, {
-	Name = "Non Addictive Personality", 
+	Name = "One More Drink", 
 	Description = "Die from alcohol poisoning more than 50 times.", 
 	Value = 50
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.THEATERGOER, {
+	Name = "Binge God", 
+	Description = "Watch media in the theater for more than 10 hours.", 
+	Value = 10 * 60,
+	GMC = 1500,
+	GiveItem = "trophy_bringsomepopcorn"
 })
 
 // LOGIC OF ACHIEVEMENTS---------------------
@@ -334,11 +342,21 @@ hook.Add( "KeyPress", "CheckJumpAchievement", function( ply, key )
 end )
 
 local PlysLastPlace = {}
+local TheatergoerThink = 0
 
 hook.Add( "PlayerThink", "PlayerThinkAchievements", function( ply )
 
 	if ply:AchievementLoaded() && ply:Alive() then
+	
+		// Theatergoer 
+		if ( TheatergoerThink < CurTime() ) then
+			if ply:Location() == Location.GetIDByName( "Theater" ) then
+				ply:AddAchievement( ACHIEVEMENTS.THEATERGOER, 5 / 60 )
+			end
 
+			TheatergoerThink = CurTime() + 5
+		end
+		
 		// Long Walk
 		local PlyIndex = ply:EntIndex()
 		local CurPos = ply:GetPos()

@@ -249,6 +249,7 @@ ACHIEVEMENTS.PVPBOXFAIL = 201
 
 ACHIEVEMENTS.BORNTOFAIL = 202
 ACHIEVEMENTS.BORNTOSPIN = 203
+ACHIEVEMENTS.THEATERGOER = 204
 
 hook.Add("Initialize", "LoadAchivments", function()
 	hook.Call("LoadAchievements")
