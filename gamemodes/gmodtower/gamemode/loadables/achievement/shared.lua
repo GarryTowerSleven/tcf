@@ -255,6 +255,8 @@ ACHIEVEMENTS.MGVOTED = 205
 ACHIEVEMENTS.MGFIGHTER = 206
 ACHIEVEMENTS.MGPOPPER = 207
 
+ACHIEVEMENTS.PVPMILESTONE3 = 208
+
 hook.Add("Initialize", "LoadAchivments", function()
 	hook.Call("LoadAchievements")
 
