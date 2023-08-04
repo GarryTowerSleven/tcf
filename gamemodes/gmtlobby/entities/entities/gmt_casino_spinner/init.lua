@@ -89,6 +89,7 @@ function ENT:Use( activator, caller )
 			if caller:Afford( self.Cost ) then
 				caller.IsSpinning = true
 				caller:AddMoney(-self.Cost)
+				caller:AddAchievement( ACHIEVEMENTS.BORNTOSPIN, 1 )
 
 				self:SetSpinTime(self.SpinDuration)
 				self:SetState(4)

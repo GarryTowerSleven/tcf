@@ -95,6 +95,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.DRUNKENBASTARD, {
 	Name = "Drunken Bastard", 
 	Description = "Be drunk for more than 10 minutes straight in one go.", 
 	Value = 10*60,
+	GMC = 1000,
 	GiveItem = "trophy_drunkenbastard"
 })
 
@@ -195,6 +196,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.TETRIS4ONETIME, {
 	Name = "Long Savior", 
 	Description = "Clean 4 rows at once in Tetris.", 
 	Value = 1,
+	GMC = 250,
 	Group = 4
 })
 
@@ -202,6 +204,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.TETRIS1000AGAME, {
 	Name = "Patience and Skill", 
 	Description = "Get more than 1000 points in one Tetris game.", 
 	Value = 1000,
+	GMC = 1000,
 	Group = 4
 })
 
@@ -257,12 +260,13 @@ GTowerAchievements:Add( ACHIEVEMENTS.SIDEBYSIDE, {
 	Name = "Fighting Side by Side",
 	Description = "Go into a duel while there already is a duel active.",
 	Value = 1,
+	GMC = 250
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.ITCHING, {
 	Name = "Itching For Fights",
 	Description = "Commence in more than 15 duels.",
-	Value = 15,
+	Value = 15
 })
 
 /* the achievement has issues + the arcades aren't all there
@@ -295,6 +299,35 @@ GTowerAchievements:Add( ACHIEVEMENTS.ONESMALLSTEP, {
 	Value = 2
 })*/
 
+GTowerAchievements:Add( ACHIEVEMENTS.BORNTOFAIL, {
+	Name = "One More Drink", 
+	Description = "Die from alcohol poisoning more than 50 times.", 
+	Value = 50
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.THEATERGOER, {
+	Name = "Bring Some Popcorn", 
+	Description = "Watch media in the theater for more than 10 hours.", 
+	Value = 10 * 60,
+	GMC = 1000,
+	GiveItem = "trophy_bringsomepopcorn"
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.LUCKYCAT, {
+	Name = "Lucky Cat", 
+	Description = "Get lucky and find a rare item hidden inside a catsack.", 
+	Value = 1,
+	GMC = 1000,
+	GiveItem = "trophy_catsack"
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.DEVHQ, {
+	Name = "Smooth Detective", 
+	Description = "Find a hidden area in the lobby.", 
+	Value = 1,
+	GiveItem = "trophy_devhq"
+})
+
 // LOGIC OF ACHIEVEMENTS---------------------
 if CLIENT then return end
 
@@ -324,11 +357,21 @@ hook.Add( "KeyPress", "CheckJumpAchievement", function( ply, key )
 end )
 
 local PlysLastPlace = {}
+local TheatergoerThink = 0
 
 hook.Add( "PlayerThink", "PlayerThinkAchievements", function( ply )
 
 	if ply:AchievementLoaded() && ply:Alive() then
+	
+		// Theatergoer 
+		if ( TheatergoerThink < CurTime() ) then
+			if ply:Location() == Location.GetIDByName( "Theater" ) then
+				ply:AddAchievement( ACHIEVEMENTS.THEATERGOER, 5 / 60 )
+			end
 
+			TheatergoerThink = CurTime() + 5
+		end
+		
 		// Long Walk
 		local PlyIndex = ply:EntIndex()
 		local CurPos = ply:GetPos()

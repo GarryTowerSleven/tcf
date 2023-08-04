@@ -76,7 +76,7 @@ local function powerupShaft_On( mul, time )
 	local layer = postman.NewColorLayer()
 	layer.color = .55
 	layer.contrast = 1.30
-	layer.brightness = -0.60
+	layer.brightness = -0.55
 	layer.addr = 0.25
 	layer.addg = 0.10
 	layer.addb = 0.50

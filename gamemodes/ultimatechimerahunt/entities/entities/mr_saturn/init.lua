@@ -600,6 +600,7 @@ function ENT:HitChimera( uc, norm )
 
 		if !uc.SaturnHit then
 			uc.SaturnHit = 1
+			ply:AddAchievement( ACHIEVEMENTS.UCHBESTFRIEND, 1 )
 			uc:Stun()
 		else
 			uc.SaturnHit = uc.SaturnHit + 1

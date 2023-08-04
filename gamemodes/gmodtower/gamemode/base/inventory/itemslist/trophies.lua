@@ -37,6 +37,18 @@ RegisterItem("trophy_bringsomepopcorn",{
 	UseSound = "use_trophy.wav",
 })
 
+RegisterItem("trophy_catsack",{
+	Name = "Trophy: Lucky Cat",
+	Description = "",
+	Model = "models/gmod_tower/trophy_catsack.mdl",
+	UniqueInventory = true,
+	DrawModel = true,
+	CanRemove = false,
+	Tradable = false,
+	InvCategory = "trophy",
+	UseSound = "use_trophy.wav",
+})
+
 RegisterItem("trophy_devhq",{
 	Name = "Trophy: Smooth Detective",
 	Description = "",
@@ -121,10 +133,46 @@ RegisterItem("trophy_jackrabbit",{
 	UseSound = "use_trophy.wav",
 })
 
+RegisterItem("trophy_lazorz",{
+	Name = "Trophy: Laz0rz",
+	Description = "",
+	Model = "models/gmod_tower/trophy_toyhammer.mdl",
+	UniqueInventory = true,
+	DrawModel = true,
+	CanRemove = false,
+	Tradable = false,
+	InvCategory = "trophy",
+	UseSound = "use_trophy.wav",
+})
+
 RegisterItem("trophy_longwalk",{
 	Name = "Trophy: Long Walk Through GMT",
 	Description = "",
 	Model = "models/gmod_tower/trophy_longwalk.mdl",
+	UniqueInventory = true,
+	DrawModel = true,
+	CanRemove = false,
+	Tradable = false,
+	InvCategory = "trophy",
+	UseSound = "use_trophy.wav",
+})
+
+RegisterItem("trophy_saturn",{
+	Name = "Trophy: A Pigs Best Friend",
+	Description = "",
+	Model = "models/gmod_tower/trophy_saturn.mdl",
+	UniqueInventory = true,
+	DrawModel = true,
+	CanRemove = false,
+	Tradable = false,
+	InvCategory = "trophy",
+	UseSound = "use_trophy.wav",
+})
+
+RegisterItem("trophy_obama",{
+	Name = "Trophy: I Voted",
+	Description = "",
+	Model = "models/gmod_tower/trophy_obama.mdl",
 	UniqueInventory = true,
 	DrawModel = true,
 	CanRemove = false,

@@ -15,7 +15,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRLASTINLINE, {
 )
 
 GTowerAchievements:Add( ACHIEVEMENTS.BRMASTER, {
-	Name = "Master of Ballrace", 
+	Name = "Master Of Ballrace", 
 	Description = "Complete 50 levels.", 
 	Value = 50,
 	Group = 6
@@ -23,7 +23,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRMASTER, {
 )
 
 GTowerAchievements:Add( ACHIEVEMENTS.BRBALLERROLL, {
-	Name = "Baller Roll", 
+	Name = "On A Roll", 
 	Description = "Spend more than 5 hours playing Ball Race.", 
 	Value = 60*5,
 	GMC = 1500,
@@ -56,14 +56,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRMEMORIES, {
 	}
 )
 
-GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETMIDORI, {
-	Name = "Midori Secret Banana",
-	Description = "Find the hidden banana on Midori.",
-	Value = 1,
-	Group = 6
-	}
-)
-
 GTowerAchievements:Add( ACHIEVEMENTS.BRTHATSARECORD, {
 	Name = "That's A New Record",
 	Description = "Beat a Ballrace record.",
@@ -82,31 +74,28 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRHARDERBETTERFASTERSTRONGER, {
 	}
 )
 
+GTowerAchievements:Add( ACHIEVEMENTS.BRVIRGIN, {
+	Name = "Ball Race Virgin",
+	Description = "Complete 500 levels.",
+	Value = 500,
+	GMC = 5000,
+	Group = 6,
+	GiveItem = "trophy_ballracevirgin"
+	}
+)
+
 // Secret bonanos
+GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETSKYWORLD, {
+	Name = "Sky World Secret Banana",
+	Description = "Find the hidden banana on Sky World.",
+	Value = 1,
+	GMC = 250,
+	Group = 6
+	}
+)
 GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETGRASSWORLD, {
 	Name = "Grass World Secret Banana",
 	Description = "Find the hidden banana on Grass World.",
-	Value = 1,
-	Group = 6
-	}
-)
-GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETICEWORLD, {
-	Name = "Ice World Secret Banana",
-	Description = "Find the hidden banana on Ice World.",
-	Value = 1,
-	Group = 6
-	}
-)
-GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETKHROMIDRO, {
-	Name = "Khromidro Secret Banana",
-	Description = "Find the hidden banana on Khromidro.",
-	Value = 1,
-	Group = 6
-	}
-)
-GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETMEMORIES, {
-	Name = "Memories Secret Banana",
-	Description = "Find the hidden banana on Memories.",
 	Value = 1,
 	Group = 6
 	}
@@ -115,6 +104,23 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETPARADISE, {
 	Name = "Paradise Secret Banana",
 	Description = "Find the hidden banana on Paradise.",
 	Value = 1,
+	GMC = 750,
+	Group = 6
+	}
+)
+GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETICEWORLD, {
+	Name = "Ice World Secret Banana",
+	Description = "Find the hidden banana on Ice World.",
+	Value = 1,
+	GMC = 250,
+	Group = 6
+	}
+)
+GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETKHROMIDRO, {
+	Name = "Khromidro Secret Banana",
+	Description = "Find the hidden banana on Khromidro.",
+	Value = 1,
+	GMC = 250,
 	Group = 6
 	}
 )
@@ -122,27 +128,36 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETSANDWORLD, {
 	Name = "Sand World Secret Banana",
 	Description = "Find the hidden banana on Sand World.",
 	Value = 1,
+	GMC = 250,
 	Group = 6
 	}
 )
-GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETSKYWORLD, {
-	Name = "Sky World Secret Banana",
-	Description = "Find the hidden banana on Sky World.",
+GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETMEMORIES, {
+	Name = "Memories Secret Banana",
+	Description = "Find the hidden banana on Memories.",
+	Value = 1,
+	GMC = 250,
+	Group = 6
+	}
+)
+GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETMIDORI, {
+	Name = "Midori Secret Banana",
+	Description = "Find the hidden banana on Midori.",
+	Value = 1,
+	GMC = 1000,
+	Group = 6
+	}
+)
+GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETWATERWORLD, {
+	Name = "Water World Secret Banana",
+	Description = "Find the hidden banana on Water World.",
 	Value = 1,
 	Group = 6
 	}
 )
-
-GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETFACILE, {
-	Name = "Facile Secret Banana",
-	Description = "Find the hidden banana on Facile.",
-	Value = 1,
-	Group = 6
-	}
-)
-GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETMETALWORLD, {
-	Name = "Metal World Secret Banana",
-	Description = "Find the hidden banana on Metal World.",
+GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETNEONLIGHTS, {
+	Name = "Neon Lights Secret Banana",
+	Description = "Find the hidden banana on Neon Lights.",
 	Value = 1,
 	Group = 6
 	}
@@ -150,6 +165,13 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETMETALWORLD, {
 GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETNIGHTWORLD, {
 	Name = "Night World Secret Banana",
 	Description = "Find the hidden banana on Night World.",
+	Value = 1,
+	Group = 6
+	}
+)
+GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETMETALWORLD, {
+	Name = "Metal World Secret Banana",
+	Description = "Find the hidden banana on Metal World.",
 	Value = 1,
 	Group = 6
 	}
@@ -165,19 +187,13 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETTRANQUIL, {
 	Name = "Tranquil Secret Banana",
 	Description = "Find the hidden banana on Tranquil.",
 	Value = 1,
+	GMC = 1000,
 	Group = 6
 	}
 )
-GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETWATERWORLD, {
-	Name = "Water World Secret Banana",
-	Description = "Find the hidden banana on Water World.",
-	Value = 1,
-	Group = 6
-	}
-)
-GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETNEONLIGHTS, {
-	Name = "Neon Lights Secret Banana",
-	Description = "Find the hidden banana on Neon Lights.",
+GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETFACILE, {
+	Name = "Facile Secret Banana",
+	Description = "Find the hidden banana on Facile.",
 	Value = 1,
 	Group = 6
 	}

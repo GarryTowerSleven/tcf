@@ -68,6 +68,16 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPMILESTONE2, {
 	}
 )
 
+GTowerAchievements:Add( ACHIEVEMENTS.PVPMILESTONE3, {
+	Name = "PVP Battle Milestone #3", 
+	Description = "Kill 80 players while they are airborne and get the Jumper Super Shotty!", 
+	Value = 80,
+	Group = 2,
+	GMC = 2500,
+	GiveItem = "JumperShotty"
+	}
+)
+
 GTowerAchievements:Add( ACHIEVEMENTS.UCHMILESTONE1, {
 	Name = "UCH Milestone #1", 
 	Description = "Play 200 rounds of UCH and get the ability to become a Colonel Pigmask!", 

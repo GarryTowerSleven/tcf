@@ -45,7 +45,9 @@ end
 
 function ENT:Touch( ply )
 	if !ply:IsPlayer() || self.Disabled || CurTime() < ply:GetNet("PowerUp") + 1 then return end
-
+	
+	if self:GetClass() == "pvp_powerup_supply" && ply:Health() >= 100 then return end
+	
 	self.PoweredUpPly = ply
 
 	ply:SetNet("PowerUp", CurTime() + self.ActiveTime + 1)

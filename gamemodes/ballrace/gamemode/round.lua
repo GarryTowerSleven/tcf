@@ -426,6 +426,7 @@ function GM:SaveBestTime(ply, lvl, time, update)
 		"UPDATE gm_ballrace SET time=".. time .." WHERE ply='"..ply:SteamID64().."' AND name='"..ply:Name().."' AND map='"..game.GetMap().."' AND lvl='"..lvl.."'", SQLLogResult)
 		ply:AddAchievement( ACHIEVEMENTS.BRTHATSARECORD, 1 )
 		ply:AddAchievement( ACHIEVEMENTS.BRHARDERBETTERFASTERSTRONGER, 1 )
+		ply:AddAchievement( ACHIEVEMENTS.BRVIRGIN, 1 )
 		return
 	end
 

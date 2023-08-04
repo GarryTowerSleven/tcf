@@ -92,6 +92,15 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHHOMERUN, {
 	}
 )
 
+GTowerAchievements:Add( ACHIEVEMENTS.UCHBESTFRIEND, {
+	Name = "A Pigs Best Friend", 
+	Description = "Stun the Chimera 10 times with Mr. Saturn.", 
+	Value = 10,
+	Group = 9,
+	GiveItem = "trophy_saturn"
+	}
+)
+
 GTowerAchievements:Add( ACHIEVEMENTS.UCHSPEEDRUN, {
 	Name = "Speedrun",
 	Description = "Deactive the Chimera within 20 seconds.",
@@ -105,6 +114,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHMOTHER, {
 	Name = "MOTHER Of All Chimeras",
 	Description = "Win as the Chimera more than 20 times.",
 	Value = 20,
+	GMC = 750,
 	Group = 9
 	}
 )

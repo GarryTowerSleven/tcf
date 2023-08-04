@@ -350,6 +350,46 @@ GTowerItems.RegisterItem( "StealthBox", {
 	end
 } )
 
+GTowerItems.RegisterItem( "JumperShotty", {
+
+	Name = "Jumper Super Shotty",
+
+	Description = "Fly around the lobby with this shotgun full of highly propelled blanks! Don't ask us about the physics of this, we're not quite sure how it works ourselves.",
+
+	Model = "models/weapons/w_pvp_supershoty.mdl",
+
+	ClassName = "gmt_supershotty",
+
+	UniqueInventory = true,
+
+	DrawModel = true,
+
+	Equippable = true,
+
+	CanEntCreate = false,
+
+	DrawName = true,
+
+	CanRemove = false,
+
+	EquipType = "Weapon",
+
+	Equippable = true,
+
+	WeaponSafe = true,
+
+	NoBank = true,
+
+	Tradable = false,
+
+	IsWeapon = function( self )
+
+		return true
+
+	end
+
+} )
+
 GTowerItems.RegisterItem( "Bumper", {
 	Name = "Bumper",
 	Description = "Place a bumper from Ball Race anywhere you'd like.",
