@@ -157,6 +157,18 @@ RegisterItem("trophy_longwalk",{
 	UseSound = "use_trophy.wav",
 })
 
+RegisterItem("trophy_saturn",{
+	Name = "Trophy: A Pigs Best Friend",
+	Description = "",
+	Model = "models/gmod_tower/trophy_saturn.mdl",
+	UniqueInventory = true,
+	DrawModel = true,
+	CanRemove = false,
+	Tradable = false,
+	InvCategory = "trophy",
+	UseSound = "use_trophy.wav",
+})
+
 RegisterItem("trophy_obama",{
 	Name = "Trophy: I Voted",
 	Description = "",
