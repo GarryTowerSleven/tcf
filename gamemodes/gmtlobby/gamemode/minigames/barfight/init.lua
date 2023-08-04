@@ -27,6 +27,8 @@ local util = util
 local SetGlobalFloat = SetGlobalFloat
 local net = net
 
+local BAR_GAME_ACTIVE = false
+
 module("minigames.barfight" )
 
 PlayerSpawnOnLobby = {}
@@ -48,7 +50,7 @@ end
 
 function CheckGiveWeapon( ply, loc )
 
-	if loc == MinigameLocation  then
+	if loc == MinigameLocation || loc == MinigameLocation2  then
 		GiveWeapon( ply )
 	else
 		RemoveWeapon( ply )
@@ -58,7 +60,7 @@ end
 
 function CheckRemoveBall( ply )
 
-	if ply:Location() == MinigameLocation then
+	if ply:Location() == MinigameLocation || ply:Location() == MinigameLocation2 then
 
 		if IsValid( ply.BallRaceBall ) then
 
@@ -81,13 +83,14 @@ end
 
 function playerDies( ply, inflictor, killer )
 
-	if ply:Location() == MinigameLocation then
+	if ply:Location() == MinigameLocation || ply:Location() == MinigameLocation2 then
 		table.insert( PlayerSpawnOnLobby, ply )
 
 		//print( ply, inflictor, killer )
 
 		if killer != ply && IsValid( killer ) &&  killer:IsPlayer() then
 			killer:AddMoney( MoneyPerKill )
+			killer:AddAchievement( ACHIEVEMENTS.MGFIGHTER, 1 )
 			TotalMoney = TotalMoney + MoneyPerKill
 		end
 
@@ -112,7 +115,7 @@ function PlayerSpawn( ply )
 
 	local Pos = ply:Location()
 
-	if Pos == MinigameLocation then
+	if Pos == MinigameLocation || pos == MinigameLocation2 then
 
 		ply:SetVelocity( VectorRand() * 800 )
 		ply.DisableCollision = CurTime() + 3.0
@@ -152,6 +155,8 @@ end
 
 function Start( flags )
 
+	BAR_GAME_ACTIVE = true
+	
 	hook.Add("Location", "BarFightLocation", CheckGiveWeapon )
 	//hook.Add("ShouldCollide", "LobbyColide", ShouldCollide )
 	hook.Add( "PlayerDeath", "BarFightCheckDeath", playerDies )
@@ -183,6 +188,8 @@ end
 
 function End()
 
+	BAR_GAME_ACTIVE = false
+	
 	hook.Remove("Location", "BarFightLocation" )
 	//hook.Remove("ShouldCollide", "LobbyColide" )
 	hook.Remove( "PlayerDeath", "BarFightCheckDeath" )
@@ -213,3 +220,11 @@ function End()
 
 
 end
+
+hook.Add("ScalePlayerDamage","BalloonDamage",function(ply, h, d)
+
+	if ( BAR_GAME_ACTIVE and !Dueling.IsDueling( ply ) ) then
+		return true
+	end
+
+end)

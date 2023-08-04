@@ -250,21 +250,28 @@ timer.Create( "GTowerRoomThink", 1, 0, function()
 	end
 end)
 
-timer.Create( "AchiSuiteParty", 60.0, 0, function()
-	for _, v in pairs( player.GetAll() ) do
-		if !v:AchievementLoaded() then return end
+local timer = 0
 
-		local Room = v:GetRoom()
+hook.Add("Think", "AchiSuiteParty2", function()
+  if timer < CurTime() then
+    local players = 0
+    for _, ply in ipairs(player.GetAll()) do
+      if !ply:AchievementLoaded() then continue end
 
-		if Room then
-			local Players = Room:GetPlayers()
+      local room = ply:GetRoom()
 
-			if #Players >= 5 then
-				v:AddAchievement(  ACHIEVEMENTS.SUITEPARTY, 1 )
-			end
-		end
-	end
-end )
+      if room then
+        local count = #room:GetPlayers()
+
+        if count >= 4 then
+          ply:AddAchievement(ACHIEVEMENTS.SUITEPARTY, 1)
+        end
+      end
+    end
+
+    timer = CurTime() + 60
+  end
+end)
 
 hook.Add( "PlayerAFK", "RoomAFK", function( ply, afk )
 	if ( not IsValid( ply ) ) then return end

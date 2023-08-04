@@ -252,7 +252,7 @@ concommand.Add( "slotm_spin", function( ply, cmd, args )
 	local bet = tonumber(args[1]) or 10
 	
 	if bet < 10 then bet = 10 end
-	if bet > 100 then bet = 100 end
+	if bet > 1000 then bet = 1000 end
 	
 	local ent = ply.SlotMachine
 
@@ -411,7 +411,6 @@ function ENT:CalcWinnings( random )
 		if table.concat(random) == table.concat(combo) then
 			local winnings = math.Round( self.BetAmount * tonumber(x) )
 			self:SendWinnings( ply, winnings )
-			return
 		end
 	end
 
@@ -420,7 +419,6 @@ function ENT:CalcWinnings( random )
 		if random[3] == combo then
 			local winnings = math.Round( self.BetAmount * tonumber(x) )
 			self:SendWinnings( ply, winnings )
-			return
 		end
 	end
 

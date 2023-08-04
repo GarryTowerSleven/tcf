@@ -28,7 +28,7 @@ Casino = {}
 Casino.SlotSpinTime = { 0.8, 1.6, 2.4 }
 Casino.SlotsLocalBet = 10
 Casino.SlotsMinBet = 10
-Casino.SlotsMaxBet = 100
+Casino.SlotsMaxBet = 1000
 //Casino.SlotGameSound = Sound( /* NEED A SOUND HERE */ )
 Casino.SlotSelectSound = Sound( "buttons/lightswitch2.wav" )
 Casino.SlotPullSound = Sound( "GModTower/casino/slots/slotpull.wav" )
@@ -42,7 +42,7 @@ function ENT:SetupDataTables()
 	self:NetworkVar( "Float", 0, "LastPlayerTime" )
 end
 
-local potsizes = { 8000, 5000, 2500, 2000, 1500, 1000, 500, 250 }
+local potsizes = { 8000, 5000, 2500, 2000, 1500, 1000, 750, 500, 250 }
 function ENT:GetRandomPotSize()
 	return table.Random( potsizes )
 end

@@ -92,6 +92,37 @@ local breen = { // a bit silly
     }
 }
 
+local monk = {
+    Pain = {
+        Small = {
+            "vo/ravenholm/monk_pain01.wav",
+            "vo/ravenholm/monk_pain02.wav",
+			"vo/ravenholm/monk_pain03.wav",
+			"vo/ravenholm/monk_pain05.wav"
+        },
+        Medium = {
+            "vo/ravenholm/monk_pain04.wav",
+            "vo/ravenholm/monk_pain06.wav",
+            "vo/ravenholm/monk_pain08.wav",
+            "vo/ravenholm/monk_pain09.wav"
+        },
+        Large = {
+            "vo/ravenholm/monk_pain07.wav",
+            "vo/ravenholm/monk_pain10.wav",
+			"vo/ravenholm/monk_pain12.wav"
+        }
+    },
+    Taunts = {
+        "vo/ravenholm/madlaugh01.wav",
+        "vo/ravenholm/madlaugh02.wav",
+        "vo/ravenholm/madlaugh03.wav",
+        "vo/ravenholm/madlaugh04.wav",
+        "vo/ravenholm/monk_kill08.wav",
+        "vo/ravenholm/monk_kill10.wav",
+        "vo/ravenholm/monk_kill07.wav",
+    }
+}
+
 local alyx = {
     Pain = {
         Small = {
@@ -237,6 +268,7 @@ voicelines.Add("models/player/combine_super_soldier.mdl", combine2)
 voicelines.Add("models/player/barney.mdl", barney)
 voicelines.Add("models/player/kleiner.mdl", kleiner)
 voicelines.Add("models/player/alyx.mdl", alyx)
+voicelines.Add("models/player/monk.mdl", monk)
 
 voicelines.Add("models/player/breen.mdl", breen)
 

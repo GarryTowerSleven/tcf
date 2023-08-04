@@ -96,7 +96,9 @@ local function BalloonPopped( ent, dmg )
 	if ( ent:GetClass() == "gmt_minigame_balloon" && ent.MiniGame == true ) then
 
 		local ply = dmg:GetAttacker()
-
+		
+		ply:AddAchievement( ACHIEVEMENTS.MGPOPPER, 1 )
+		
 		local magni
 
 		if IsValid(ply) then

@@ -19,7 +19,7 @@ ColorTabDivider = ColorBright
 ColorTabInnerActive = ColorTabActive
 ColorTabHighlight = colorutil.Brighten( ColorBright, 3 )
 
-ColorAwardsBarAchievedProgress = Color( 54, 67, 77, 255 )
+ColorAwardsBarAchievedProgress = Color( 54, 54, 54, 255 )
 ColorAwardsDescription = Color( 162, 203, 233, 255 )
 ColorAwardsBarAchieved = Color( 178, 215, 243, 150 )
 ColorAwardsBarNotAchieved = colorutil.Brighten( Color( 3, 67, 114 ), 2, 150 )
