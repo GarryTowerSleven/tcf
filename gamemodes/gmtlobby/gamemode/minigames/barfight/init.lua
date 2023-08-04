@@ -48,7 +48,7 @@ end
 
 function CheckGiveWeapon( ply, loc )
 
-	if loc == MinigameLocation  then
+	if loc == MinigameLocation || loc == MinigameLocation2  then
 		GiveWeapon( ply )
 	else
 		RemoveWeapon( ply )
@@ -58,7 +58,7 @@ end
 
 function CheckRemoveBall( ply )
 
-	if ply:Location() == MinigameLocation then
+	if ply:Location() == MinigameLocation || ply:Location() == MinigameLocation2 then
 
 		if IsValid( ply.BallRaceBall ) then
 
@@ -81,7 +81,7 @@ end
 
 function playerDies( ply, inflictor, killer )
 
-	if ply:Location() == MinigameLocation then
+	if ply:Location() == MinigameLocation || ply:Location() == MinigameLocation2 then
 		table.insert( PlayerSpawnOnLobby, ply )
 
 		//print( ply, inflictor, killer )
@@ -113,7 +113,7 @@ function PlayerSpawn( ply )
 
 	local Pos = ply:Location()
 
-	if Pos == MinigameLocation then
+	if Pos == MinigameLocation || pos == MinigameLocation2 then
 
 		ply:SetVelocity( VectorRand() * 800 )
 		ply.DisableCollision = CurTime() + 3.0
