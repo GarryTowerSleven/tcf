@@ -41,6 +41,8 @@ function ENT:PhysicsCollide(data, phys)
 		table.insert( ent.StickyNades, self.Entity )
 
 		self.Entity:SetParent( ent )
+
+		self.Entity:SetNotSolid(true)
 	--self.Entity:SetCollisionGroup( GROUP_DEBRIS_TRIGGER )
 
 	end
