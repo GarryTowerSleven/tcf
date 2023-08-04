@@ -324,7 +324,7 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 					attacker:AddAchievement( ACHIEVEMENTS.PVPMILESTONE2, 1 )
 				end
 
-				if !ply:OnGround() then
+				if !attacker:OnGround() then
 					attacker:AddAchievement( ACHIEVEMENTS.PVPMILESTONE3, 1 )
 				end
 
