@@ -54,12 +54,14 @@ end
 hook.Add("PlayerBindPress", "WeaponChange", function( ply, bind, pressed)
 	local weapon = ply:GetActiveWeapon()
 	local weapon_class = ""
+
+	if Location.IsNarnia( LocalPlayer():Location() ) then return end
+
 	if IsValid(weapon) then
 		weapon_class = weapon:GetClass()
 	end
 
-	if string.sub( bind, 1, 4 ) == "slot" && !Dueling.IsDueling( ply ) then
-
+	if string.sub( bind, 1, 4 ) == "slot" then
 		ChangeToWeapon( tonumber( string.sub( bind, 5 ) ) )
 		return
 

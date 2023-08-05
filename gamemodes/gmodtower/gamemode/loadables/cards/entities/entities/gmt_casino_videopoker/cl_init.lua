@@ -795,13 +795,17 @@ for i = 1, 5 do
 end
 
 hook.Add("PlayerBindPress", "VideoPokerVideoPress", function(ply, bind, pressed)
-    if string.sub(bind, 1, 4) == "slot" and pressed then
-        RunConsoleCommand("videopoker_hold", tonumber(string.sub(bind, 5)))
+	local self = EntData.Entity
 
-        return true
-    end
+    if IsValid(self) then
+		if string.sub(bind, 1, 4) == "slot" and pressed then
+			RunConsoleCommand("videopoker_hold", tonumber(string.sub(bind, 5)))
 
-    if bind == "+jump" and pressed then
-        RunConsoleCommand("videopoker_draw")
-    end
+			return true
+		end
+
+		if bind == "+jump" and pressed then
+			RunConsoleCommand("videopoker_draw")
+		end
+	end
 end)
