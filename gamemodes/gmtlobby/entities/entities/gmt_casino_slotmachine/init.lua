@@ -426,6 +426,8 @@ function ENT:CalcWinnings( random )
 
 	// Player lost
 	ply:MsgI( "slots", "SlotsLose" )
+	SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. math.Round( self.BetAmount / 2 ).. " WHERE type='slots'")
+	self:SetJackpot( self:GetJackpot() + math.Round( self.BetAmount / 2 ) )
 
 end
 
