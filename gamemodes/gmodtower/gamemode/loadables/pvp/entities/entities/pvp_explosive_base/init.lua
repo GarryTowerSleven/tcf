@@ -5,6 +5,8 @@ include( "shared.lua" )
 ENT.Model		= nil
 ENT.TrailColor	= Color( 0, 0, 0 )
 ENT.BlastAuto	= true
+ENT.BlastRange	= 320
+ENT.BlastDmg	= 320
 
 function ENT:Initialize()
 	if self.BlastAuto then self.BlastTime = CurTime() + math.random( 2.5, 3 ) end
@@ -44,6 +46,10 @@ function ENT:OnRemove()
 	local owner = self:GetOwner()
 	local pos = self:GetPos()
 
+	if IsValid(owner) then
+		util.BlastDamage( self, owner, pos, self.BlastRange, self.BlastDmg )
+	end
+
  	self:EmitSound( self.BlastSound, 400, 150 )
 	self:EmitSound( "GModTower/balls/TubePop.wav", 100, 50 )
 
@@ -58,4 +64,8 @@ function ENT:OnRemove()
 	local eff3 = EffectData()
 	eff3:SetOrigin( self:GetPos() )
 	util.Effect( "stars", eff3 )
+	
+	local eff4 = EffectData()
+	eff4:SetOrigin( self:GetPos() )
+	util.Effect( "Explosion", eff4 )
 end

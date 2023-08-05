@@ -17,7 +17,6 @@ function ThirdPerson.Override( ply )
 	local forceThird = hook.Call( "ForceThirdperson", GAMEMODE, ply )
 	local forceView = hook.Call( "ForceViewSelf", GAMEMODE, ply )
 
-	if Dueling.IsDueling(LocalPlayer()) then return false end
 
 	// Always be in third person...
 	if forceThird || forceView then
@@ -38,6 +37,12 @@ function ThirdPerson.Override( ply )
 		return true
 	end
 
+	if Location.IsNarnia( LocalPlayer():Location() ) then 
+		ply.ThirdPerson = false
+		ply.ViewingSelf = false
+		return true 
+	end
+	
 	// Disable view self
 	if hook.Call( "DisableViewSelf", GAMEMODE, ply ) then
 		ply.ViewingSelf = false
@@ -70,7 +75,6 @@ local d = 0
 
 hook.Add( "CalcView", "GMTThirdPerson", function( ply, origin, angles, fov )
 
-	if Dueling.IsDueling(LocalPlayer()) then return end
 	if ThirdPerson.Override( ply ) then return end
 
 	// there should only be one hook for this, per gamemode
@@ -314,13 +318,13 @@ hook.Add( "PlayerBindPress", "ThirdPersonViewSelfZoomWheel", function( ply, bind
 
 		local weapon = LocalPlayer():GetActiveWeapon()
 
-		if IsValid( weapon ) && weapon:GetClass() == "weapon_physgun" then
+		if IsValid( weapon ) && weapon:GetClass() == "weapon_physgun" && ply:KeyDown(IN_ATTACK) then
 			return false
 		end
 
 	end
 
-	if Dueling.IsDueling(LocalPlayer()) then return end
+	if Location.IsNarnia( LocalPlayer():Location() ) then return end
 
 	if bind == "invprev" && pressed then
 
@@ -360,7 +364,7 @@ end )
 
 hook.Add( "KeyRelease", "ThirdPersonViewSelfKeyRelease", function( ply, key )
 
-	if key == IN_ATTACK2 && ply.ViewingSelf && !Location.IsNarnia( LocalPlayer():Location() ) then
+	if key == IN_ATTACK2 && ply.ViewingSelf then
 		ThirdPerson.ViewSelfToggle( ply, false )
 	end
 
