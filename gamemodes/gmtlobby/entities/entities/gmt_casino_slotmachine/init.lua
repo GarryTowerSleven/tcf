@@ -407,6 +407,9 @@ function ENT:CalcWinnings( random )
 		if table.concat(random) == table.concat(combo) then
 			local winnings = math.Round( self.BetAmount * tonumber(x) )
 			self:SendWinnings( ply, winnings )
+			SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. math.Round( self.BetAmount / 2 ).. " WHERE type='slots'")
+			self:SetJackpot( self:GetJackpot() + math.Round( self.BetAmount / 2 ) )
+			return
 		end
 	end
 
@@ -415,13 +418,13 @@ function ENT:CalcWinnings( random )
 		if random[3] == combo then
 			local winnings = math.Round( self.BetAmount * tonumber(x) )
 			self:SendWinnings( ply, winnings )
+			SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. math.Round( self.BetAmount / 2 ).. " WHERE type='slots'")
+			self:SetJackpot( self:GetJackpot() + math.Round( self.BetAmount / 2 ) )
+			return
 		end
 	end
 
 	// Player lost
-	SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. math.Round( self.BetAmount / 2 ).. " WHERE type='slots'")
-	self:SetJackpot( self:GetJackpot() + math.Round( self.BetAmount / 2 ) )
-	//print( self:GetJackpot() )
 	ply:MsgI( "slots", "SlotsLose" )
 
 end
@@ -439,7 +442,7 @@ function ENT:SendWinnings( ply, amount, bJackpot )
 	if bJackpot then
 		self:BroadcastJackpot(ply, amount)
 		ply:MsgI( "slots", "SlotsJackpot" )
-		ply:AddMoney(amount, false, true)
+		ply:AddMoney(amount, true, true)
 		ply:AddAchievement( ACHIEVEMENTS.MONEYWASTER, 1 )
 		self:EmitSound( Casino.SlotJackpotSound, 100, 100 )
 		self.Jackpot = CurTime() + 25
@@ -463,7 +466,7 @@ function ENT:SendWinnings( ply, amount, bJackpot )
 	else
 		self:EmitSound( Casino.SlotWinSound, 75, 100 )
 		ply:MsgI( "slots", "SlotsWin", string.FormatNumber(amount) )
-		ply:AddMoney(amount, false, true)
+		ply:AddMoney(amount, true, true)
 
 		local bzr = ents.Create("gmt_money_bezier")
 
