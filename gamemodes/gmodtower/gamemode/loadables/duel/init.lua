@@ -426,6 +426,7 @@ end
 
 hook.Add( "PostPlayerDeath", "DuelDeathCheck", function( ply )
 
+	ply.RespawnDelay = 1.5 + CurTime()
 	if !Dueling.IsDueling( ply ) then return end
     EndDuel( ply, false )
 
@@ -486,6 +487,7 @@ end )
 
 hook.Add( "PlayerDeathThink", "DuelingPreventRespawn", function( ply )
 
+	//LETS JUST MAKE THIS THE ENTIRE LOBBY RESPWAN SYSTEM?? GENIUS ^_^
 	if ply:Location() == DuelLocation && Dueling.IsDueling( ply ) then
 		if ply.DuelRespawnDelay != nil && ply.DuelRespawnDelay < CurTime() then
 			if IsValid( ply ) then
@@ -495,10 +497,14 @@ hook.Add( "PlayerDeathThink", "DuelingPreventRespawn", function( ply )
 		else
 			return false
 		end
-	else
-		if ( ply:IsBot() || ply:KeyPressed( IN_ATTACK ) || ply:KeyPressed( IN_ATTACK2 ) || ply:KeyPressed( IN_JUMP ) ) then
-			ply:Spawn()
+	elseif ply.RespawnDelay != nil then // is this necessary? are catch alls good?
+		if ply.RespawnDelay < CurTime() then
+			if ( ply:IsBot() || ply:KeyPressed( IN_ATTACK ) || ply:KeyPressed( IN_ATTACK2 ) || ply:KeyPressed( IN_JUMP ) ) then
+				ply:Spawn()
+			end
 		end
+	else // see above
+		ply:Spawn()
 	end
 
 	return true
