@@ -209,6 +209,7 @@ function ENT:Use( ply )
 		ply.SeatEnt = self.chair
 		ply.EntryPoint = ply:GetPos()
 		ply.EntryAngles = ply:EyeAngles()
+		ply.LastBetTime = CurTime()
 
 		ply:SetNWVector("SeatEntry",ply.EntryPoint)
 		ply:SetNWVector("SeatEntryAng",ply.EntryAngles)
@@ -245,15 +246,13 @@ hook.Add( "CanPlayerEnterVehicle", "PreventEntry", function( ply, vehicle )
 
 end )
 
-local LastBetTime = CurTime()
-
 /*---------------------------------------------------------
 	Console Commands
 ---------------------------------------------------------*/
 concommand.Add( "slotm_spin", function( ply, cmd, args )
 	local bet = tonumber(args[1]) or 10
-	
-	if LastBetTime <= CurTime() then
+
+	if ply.LastBetTime <= CurTime() then
 		if bet < 10 then bet = 10 end
 		if bet > 1000 then bet = 1000 end
 		
@@ -285,7 +284,7 @@ concommand.Add( "slotm_spin", function( ply, cmd, args )
 
 			end
 		end
-		LastBetTime = CurTime() + 1
+		ply.LastBetTime = CurTime() + 1
 	end
 end )
 
