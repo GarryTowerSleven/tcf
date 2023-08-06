@@ -20,7 +20,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPLAZOR, {
 	Value = 1,
 	GMC = 250,
 	Group = 7,
-	GiveItem = "trophy_toyhammer"
+	GiveItem = "trophy_laz0rz"
 	}
 )
 

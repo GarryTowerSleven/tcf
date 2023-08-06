@@ -72,7 +72,7 @@ concommand.Add("videopoker_credit", function(ply, cmd, args)
                 self:SetBet(1)
             end
 
-            ply:AddMoney(-(self:GetBeginCredits() * 2))
+            ply:AddMoney(-(self:GetBeginCredits() * 2), false, true)
             local bzr = ents.Create("gmt_money_bezier")
 
             if IsValid(bzr) then
@@ -118,7 +118,6 @@ concommand.Add("videopoker_draw", function(ply, cmd, args)
 
     if self:GetState() == 2 then
         -- DEAL BUTTON DURING BET SELECTION
-        self:SetCredits(self:GetCredits() - self:GetBet())
 
         if self:GetBet() == 1 then
             ply:MsgT("VideoPokerSpend", self:GetBet(), "")
@@ -135,6 +134,7 @@ concommand.Add("videopoker_draw", function(ply, cmd, args)
             return
         end
 
+        self:SetCredits(self:GetCredits() - self:GetBet())
         self:SetProfit(self:GetProfit() - self:GetBet())
 		SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. self:GetBet() .. " WHERE type='videopoker'")
         self:SetJackpot(self:GetJackpot() + self:GetBet())
@@ -348,14 +348,14 @@ hook.Add("PlayerLeaveVehicle", "VideoPokerLeave", function(ply)
     ply.EntryAngles = nil
 
     if ply.VideoPoker:GetState() > 1 then
-        ply:AddMoney(ply.VideoPoker:GetCredits() * 2)
+        ply:AddMoney(ply.VideoPoker:GetCredits() * 2, true, false)
     end
 
     if ply.VideoPoker:GetClass() == "gmt_casino_videopoker" then
-        if ply.VideoPoker:GetCredits() > 0 and ply.VideoPoker:GetState() > 1 then
-            ply:MsgT("VideoPokerProfit", "earned", string.FormatNumber(math.abs(ply.VideoPoker:GetCredits() * 2)))
-        elseif ply.VideoPoker:GetCredits() < 0 then
-            ply:MsgT("VideoPokerProfit", "lost", string.FormatNumber(math.abs(ply.VideoPoker:GetCredits() * 2)))
+        if ply.VideoPoker:GetProfit() > 0 and ply.VideoPoker:GetState() > 1 then
+            ply:MsgT("VideoPokerProfit", "earned", string.FormatNumber(math.abs(ply.VideoPoker:GetProfit() * 2)))
+        elseif ply.VideoPoker:GetProfit() < 0 then
+            ply:MsgT("VideoPokerProfit", "lost", string.FormatNumber(math.abs(ply.VideoPoker:GetProfit() * 2)))
         end
 
         if timer.Exists("VideoPokerFuckoff" .. ply:EntIndex()) then

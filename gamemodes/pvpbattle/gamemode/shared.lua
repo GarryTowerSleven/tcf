@@ -158,6 +158,8 @@ function GM:Move(pl, move)
 	self:FinishMoveCurrent(pl, move)
 end
 
+function GM:OnPlayerHitGround() return true end -- Disable fall damage sound
+
 local MusicTable = {
 	["gmt_pvp_mars"] = "pvpbattle/StartOfColonyRound",
 	["gmt_pvp_meadow01"] = "pvpbattle/StartOfMeadowRound",

@@ -209,6 +209,7 @@ function ENT:Use( ply )
 		ply.SeatEnt = self.chair
 		ply.EntryPoint = ply:GetPos()
 		ply.EntryAngles = ply:EyeAngles()
+		ply.LastBetTime = CurTime()
 
 		ply:SetNWVector("SeatEntry",ply.EntryPoint)
 		ply:SetNWVector("SeatEntryAng",ply.EntryAngles)
@@ -250,37 +251,40 @@ end )
 ---------------------------------------------------------*/
 concommand.Add( "slotm_spin", function( ply, cmd, args )
 	local bet = tonumber(args[1]) or 10
-	
-	if bet < 10 then bet = 10 end
-	if bet > 1000 then bet = 1000 end
-	
-	local ent = ply.SlotMachine
 
-	if !ply:Afford( bet ) && IsValid(ent) && !ent.SlotsSpinning && !ent.Jackpot then
-		ply:MsgI( "slots", "SlotsNoAfford" )
-	else
-		if IsValid(ent) && !ent.SlotsSpinning && !ent.Jackpot then
-			ply:AddMoney(-bet)
-			ply:AddAchievement( ACHIEVEMENTS.SOREFINGER, 1 )
-			ent.LastSpin = CurTime()
-			ent.BetAmount = bet
-			ent:PullLever()
-			ent:PickResults()
+	if ply.LastBetTime <= CurTime() then
+		if bet < 10 then bet = 10 end
+		if bet > 1000 then bet = 1000 end
+		
+		local ent = ply.SlotMachine
 
-			local bzr = ents.Create("gmt_money_bezier")
+		if !ply:Afford( bet ) && IsValid(ent) && !ent.SlotsSpinning && !ent.Jackpot then
+			ply:MsgI( "slots", "SlotsNoAfford" )
+		else
+			if IsValid(ent) && !ent.SlotsSpinning && !ent.Jackpot then
+				ply:AddMoney(-bet)
+				ply:AddAchievement( ACHIEVEMENTS.SOREFINGER, 1 )
+				ent.LastSpin = CurTime()
+				ent.BetAmount = bet
+				ent:PullLever()
+				ent:PickResults()
 
-			if IsValid( bzr ) then
-				bzr:SetPos( ply:GetPos() - Vector(0,0,10) )
-				bzr.GoalEntity = ent
-				bzr.GMC = bet
-				bzr.RandPosAmount = 5
-				bzr.Offset = ent:GetRight() * -8 + ent:GetUp() * 28 - ent:GetForward() * 8
-				bzr:Spawn()
-				bzr:Activate()
-				bzr:Begin()
+				local bzr = ents.Create("gmt_money_bezier")
+
+				if IsValid( bzr ) then
+					bzr:SetPos( ply:GetPos() - Vector(0,0,10) )
+					bzr.GoalEntity = ent
+					bzr.GMC = bet
+					bzr.RandPosAmount = 5
+					bzr.Offset = ent:GetRight() * -8 + ent:GetUp() * 28 - ent:GetForward() * 8
+					bzr:Spawn()
+					bzr:Activate()
+					bzr:Begin()
+				end
+
 			end
-
 		end
+		ply.LastBetTime = CurTime() + 1
 	end
 end )
 

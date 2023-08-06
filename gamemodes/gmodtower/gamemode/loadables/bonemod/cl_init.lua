@@ -133,7 +133,7 @@ function BoneMod:ScaleBone( ply, bone, scale, position )
 
 end
 
-function BoneMod:GetBoneScale( ply, bone )
+function BoneMod:GetBoneScale( ply, bone ) // WHY CAN I NOT CALL THIS FUNCTION
 
 	if !IsValid( ply ) then return Vector( 1, 1, 1 ) end
 
