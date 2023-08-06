@@ -36,10 +36,16 @@ BONEMOD_BIGPANTS = 17
 BONEMOD_STICK = 18
 BONEMOD_FANCY = 19
 
+hook.Add("PlayerFullyJoined", "RecheckBoneMod", function( ply )
+	if BoneMod && ply.BoneModID != 0 then
+		BoneMod.SetBoneMod( ply, ply.BoneModID )
+	end
+end )
+
 if SERVER then
 	function ITEM:OnEquip( locationchange )
-		if BoneMod then
-			BoneMod.SetBoneMod( self.Ply, self.BoneModID )
+		if BoneMod then
+			BoneMod.SetBoneMod( self.Ply, self.BoneModID )			self.Ply.BoneModID = self.BoneModID
 			if self.BoneModID == 4 /*and not locationchange*/ then
 
 				if !self.Ply._DKModeSoundDelay || CurTime() > self.Ply._DKModeSoundDelay then
