@@ -72,7 +72,7 @@ concommand.Add("videopoker_credit", function(ply, cmd, args)
                 self:SetBet(1)
             end
 
-            ply:AddMoney(-(self:GetBeginCredits() * 2))
+            ply:AddMoney(-(self:GetBeginCredits() * 2), false, true)
             local bzr = ents.Create("gmt_money_bezier")
 
             if IsValid(bzr) then
@@ -348,7 +348,7 @@ hook.Add("PlayerLeaveVehicle", "VideoPokerLeave", function(ply)
     ply.EntryAngles = nil
 
     if ply.VideoPoker:GetState() > 1 then
-        ply:AddMoney(ply.VideoPoker:GetCredits() * 2)
+        ply:AddMoney(ply.VideoPoker:GetCredits() * 2, true, false)
     end
 
     if ply.VideoPoker:GetClass() == "gmt_casino_videopoker" then
