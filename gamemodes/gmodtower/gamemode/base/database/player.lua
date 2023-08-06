@@ -142,7 +142,11 @@ function meta:ApplyData( data )
 		self:LoadInventoryData( tostring( data.bank ), 2 )
 	end
 
-    PVPBattle.Load( self, data.pvpweapons or "" )
+	if ( data.pvpweapons ) then
+		PVPBattle.Load( self, data.pvpweapons )
+	else
+		PVPBattle.Load( self, "" )
+	end
 	
 	if ( data.levels != "" ) then
 		GTowerStore:UpdateInventoryData( self, data.levels )
