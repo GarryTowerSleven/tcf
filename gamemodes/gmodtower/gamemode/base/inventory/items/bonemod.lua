@@ -37,7 +37,7 @@ BONEMOD_STICK = 18
 BONEMOD_FANCY = 19
 
 hook.Add("PlayerFullyJoined", "RecheckBoneMod", function( ply )
-	if BoneMod && ply.BoneModID != 0 then
+	if BoneMod && ply.BoneModID != nil then
 		BoneMod.SetBoneMod( ply, ply.BoneModID )
 	end
 end )
