@@ -25,3 +25,9 @@ function MinecraftSkinUpdate( ply, new )
 		net.WriteString( new or "" )
 	net.Broadcast()
 end
+
+hook.Add( "PlayerFullyJoined", "JoinMCSkin", function(ply)
+	if engine.ActiveGamemode() != "ballrace" && ply:GetModel() == "models/player/mcsteve.mdl" && ply:GetInfo("cl_minecraftskin") != "" then
+		ply:SetNet( "MCSkinName", ply:GetInfo("cl_minecraftskin"))
+	end
+end )

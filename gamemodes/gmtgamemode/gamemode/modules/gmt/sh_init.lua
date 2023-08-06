@@ -14,6 +14,7 @@ function SetupGMTGamemode( name, folder, settings )
 			"scoreboard3",
 			"afk",
 			"question",
+			"minecraftskins",
 		}
 		if settings.Loadables then
 			table.Add( defaultLoadables, settings.Loadables )

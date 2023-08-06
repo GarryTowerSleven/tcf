@@ -133,9 +133,10 @@ concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 	local modelname = modelinfo[1]
 	local modelskin = modelinfo[2]
 	local model = player_manager.TranslatePlayerModel(modelname)
-
-	if ( CLIENT ) then
-		MinecraftSendUpdatedSkin(self.Ply:GetInfo( "cl_minecraftskin" ) or "")
+	
+	if modelname == "steve" && ply:GetInfo("cl_minecraftskin") != "" && ply:GetInfo("cl_minecraftskin") != ply:GetNet( "MCSkinName" ) then
+		ply:SetNet( "MCSkinName", ply:GetInfo("cl_minecraftskin")) 
+		ply:Msg2( T( "MCSkinChange" ) )
 	end
 
 	local size = ( List[model] or 1 )
