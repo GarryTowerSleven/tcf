@@ -313,23 +313,19 @@ function initHud()
 		if !IsValid( weapon ) then return end
 
 		local name = weapon:GetPrintName()
-
+		
+		//self.Ply.UsesLeft is FUCKED. HUG THIS.
+		if name == "Confetti!" || name == "Streamer!" || name == "Firework Rocket" || name == "Fists" then return end // FIX THIS EVENTUALLY??? I DONT KNOW
+		
 		local currentMag = weapon:Clip1()
 		local currentMax = 100 // default max
 		local currentAmmoType = weapon:GetPrimaryAmmoType()
 		local currentAmmoLeft = LocalPlayer():GetAmmoCount( currentAmmoType )
 
-		// if we have uses, lets override the clip
-		if LocalPlayer().UsesLeft != -1 then
-			currentMag = LocalPlayer().UsesLeft
-			currentMax = LocalPlayer().MaxUses
-			currentAmmoLeft = currentMax
+		if weapon.Primary then
+			currentMax = weapon.Primary.ClipSize
 		else
-			if weapon.Primary then
-				currentMax = weapon.Primary.ClipSize
-			else
-				currentMax = GTowerHUD.GetMaxAmmo( name, currentMag )
-			end
+			currentMax = GTowerHUD.GetMaxAmmo( name, currentMag )
 		end
 
 		if !currentMag || currentMag == -1 then return end //there's no ammo
