@@ -49,7 +49,7 @@ end)
 
 local function SetSkin( ply, mat, uri )
 
-	print( ply, mat, uri )
+	//print( ply, mat, uri )
 
 	if !IsValid(ply) then return end
 
@@ -81,7 +81,7 @@ local function SetSkin( ply, mat, uri )
 	end)
 
 	if ( mat:Height() != 32 || mat:Width() != 64 ) then
-		print( "Skin ('".. uri .. "') does not exist!" )
+		//print( "Skin ('".. uri .. "') does not exist!" )
 		// return
 	end
 

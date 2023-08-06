@@ -886,7 +886,7 @@ GTowerItems.RegisterItem( "mdl_blockdude", {
 	Description = "Minecraft, I'm talkin' 'bout Minecraft... You can now load your Minecraft skin for everybody to see!",
 	Model = "models/player/mcsteve.mdl",
 	ModelName = "steve",
-	UniqueInventory = false,
+	UniqueInventory = true,
 	DrawModel = true,
 	CanEntCreate = false,
 	Equippable = true,
@@ -901,6 +901,25 @@ GTowerItems.RegisterItem( "mdl_blockdude", {
 	DrawName = true,
 	MoveSound = "cloth",
 
+	OnEquip = function( self )
+		timer.Simple( 0.2, function()
+			if IsValid(self.Ply) then
+				self.Ply.LastMdl = self.Ply:GetInfo( "gmt_playermodel" )
+				self.Ply:ConCommand( "gmt_playermodel steve-0" )
+				self.Ply:ConCommand( "gmt_updateplayermodel" )
+			end
+		end )
+	end,
+
+	OnUnEquip = function( self )
+		timer.Simple( 0.2, function()
+			if ((self.Ply.UCHType == nil || self.Ply.UCHType <= 0) && IsValid(self.Ply)) then
+				self.Ply:ConCommand( "gmt_playermodel kleiner" )
+				self.Ply:ConCommand( "gmt_updateplayermodel" )
+			end
+		end )
+	end,
+	
 	ExtraMenuItems = function ( item, menu )
 		table.insert( menu, {
 			[ "Name" ] = "Set Skin",
