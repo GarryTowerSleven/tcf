@@ -907,6 +907,10 @@ GTowerItems.RegisterItem( "mdl_blockdude", {
 				self.Ply.LastMdl = self.Ply:GetInfo( "gmt_playermodel" )
 				self.Ply:ConCommand( "gmt_playermodel steve-0" )
 				self.Ply:ConCommand( "gmt_updateplayermodel" )
+				if self.Ply:GetInfo("cl_minecraftskin") != "" then
+					self.Ply:SetNet( "MCSkinName", self.Ply:GetInfo("cl_minecraftskin")) 
+					self.Ply:Msg2( T( "MCSkinChange" ) )
+				end
 			end
 		end )
 	end,
