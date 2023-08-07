@@ -79,7 +79,8 @@ function ENT:PositionItem(ent)
 	pos = pos + HatOffsets
 
 	if GTowerHats.FixScales[self.HatModel] then
-        scale = Offsets[3] * modelscale + math.sqrt(s.z - 1) / 2
+		scale = Offsets[3] * modelscale
+		scale = math.sqrt(scale) + math.sqrt(s.z - 1) / 2
 		return pos, ang, scale
 	else
 		scale = Offsets[3] * modelscale * s.z 
