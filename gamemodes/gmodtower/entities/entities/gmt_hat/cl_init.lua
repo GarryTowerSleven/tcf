@@ -78,12 +78,13 @@ function ENT:PositionItem(ent)
 
 	pos = pos + HatOffsets
 
-	scale = Offsets[3] * modelscale
-
 	if GTowerHats.FixScales[self.HatModel] then
-		scale = math.sqrt(scale) + math.sqrt(s.z - 1) / 2
-	end
-	return pos, ang, scale
+        scale = Offsets[3] * modelscale + math.sqrt(s.z - 1) / 2
+		return pos, ang, scale
+	else
+		scale = Offsets[3] * modelscale * s.z 
+		return pos, ang, scale
+    end
 end
 
 function ENT:UpdatedModel(ply)
