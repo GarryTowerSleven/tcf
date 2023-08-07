@@ -28,7 +28,7 @@ function MinecraftSendUpdatedSkin( text )
 	text = string.TrimRight( text )
 
 	-- Check if they set the same skin
-	if LocalPlayer():GetInfo( "cl_minecraftskin" ) == text then return end
+	if LocalPlayer():GetNet( "MCSkinName" ) == text then return end
 
 	RunConsoleCommand( "cl_minecraftskin", text )
 

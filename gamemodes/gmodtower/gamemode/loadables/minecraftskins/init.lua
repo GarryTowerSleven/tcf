@@ -11,23 +11,23 @@ net.Receive("minecraft_skin_updated", function(len, ply)
 	local skin = net.ReadString()
 	MinecraftSkinUpdate( ply, skin )
 
-	ply:Msg2( T( "MCSkinChange" ) )
+	if ply:GetModel() == "models/player/mcsteve.mdl" then
+		ply:Msg2( T( "MCSkinChange" ) )
+		ply:SetNet( "MCSkinName", skin )
+	end
 
 end )
 
 function MinecraftSkinUpdate( ply, new )
 	net.Start( "minecraft_skin_update" )
 		net.WriteEntity( ply )
-		net.WriteString( ply:GetNWString( "MinecraftSkin", "" ) )
+		net.WriteString( ply:GetInfo("cl_minecraftskin") )
 		net.WriteString( new or "" )
 	net.Broadcast()
-
-	ply:SetNWString( "MinecraftSkin", new )
 end
 
-hook.Add( "PlayerInitialSpawn", "JoinMCSkin", function(ply)
-end)
-
-hook.Add( "Location", "SkinRefresh", function(ply)
-	MinecraftSkinUpdate(ply, ply:GetInfo("cl_minecraftskin"))
+hook.Add( "PlayerFullyJoined", "JoinMCSkin", function(ply)
+	if engine.ActiveGamemode() != "ballrace" && ply:GetModel() == "models/player/mcsteve.mdl" && ply:GetInfo("cl_minecraftskin") != "" then
+		ply:SetNet( "MCSkinName", ply:GetInfo("cl_minecraftskin"))
+	end
 end )

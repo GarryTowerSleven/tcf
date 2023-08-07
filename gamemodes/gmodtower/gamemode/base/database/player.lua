@@ -52,34 +52,32 @@ function meta:AddMoney( amount, nosend, nobezier )
 
     self:SetMoney( self:Money() + amount )
 
-	if amount > 0 then
-		local pitch = math.Clamp( math.Fit( amount, 1, 500, 90, 160 ), 90, 160 )
-		self:EmitSound( "GModTower/misc/gmc_earn.wav", 50, math.ceil( pitch ) )
-	else
-		local pitch = math.Clamp( math.Fit2( -amount, 1, 500, 90, 160 ), 90, 160 )
-		self:EmitSound( "gmodtower/misc/gmc_lose.wav", 50, math.ceil( pitch ) )
-	end
-
 	if nosend != true then
 		if amount > 0 then
 			self:MsgI( "money", "MoneyEarned", string.FormatNumber( amount ) )
+
+      local pitch = math.Clamp( math.Fit( amount, 1, 500, 90, 160 ), 90, 160 )
+      self:EmitSound( "GModTower/misc/gmc_earn.wav", 50, math.ceil( pitch ) )
+
+    if !nobezier then
+
+      local ent = ents.Create("gmt_money_bezier")
+
+      if IsValid( ent ) then
+        ent:SetPos( self:GetPos() + Vector( 0, 0, -10 ) )
+        ent.GoalEntity = self
+        ent.GMC = amount
+        ent.RandPosAmount = 50
+        ent:Spawn()
+        ent:Activate()
+        ent:Begin()
+      end
+    end
+
 		else
 			self:MsgI( "moneylost", "MoneySpent", string.FormatNumber( -amount ))
-		end
-	end
-
-	if !nobezier then
-
-		local ent = ents.Create("gmt_money_bezier")
-
-		if IsValid( ent ) then
-			ent:SetPos( self:GetPos() + Vector( 0, 0, -10 ) )
-			ent.GoalEntity = self
-			ent.GMC = amount
-			ent.RandPosAmount = 50
-			ent:Spawn()
-			ent:Activate()
-			ent:Begin()
+	  local pitch = math.Clamp( math.Fit2( -amount, 1, 500, 90, 160 ), 90, 160 )
+      self:EmitSound( "gmodtower/misc/gmc_lose.wav", 50, math.ceil( pitch ) )
 		end
 	end
 

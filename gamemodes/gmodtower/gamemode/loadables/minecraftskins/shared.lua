@@ -33,4 +33,6 @@ if CLIENT then
 	end )
 end
 
--- plynet.Register( "String", "MinecraftSkin", { callback = MinecraftSkinUpdated } )
+plynet.Register( "String", "MCSkinName", {
+	callback = MinecraftSkinUpdated
+} )
