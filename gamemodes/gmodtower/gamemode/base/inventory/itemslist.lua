@@ -722,6 +722,16 @@ RegisterItem("potted_plant2",{
 	StorePrice = 10,
 })
 
+RegisterItem("potted_plant3",{
+	Name = "Potted Plant - Orange",
+	Description = "A plant with orange flowers.",
+	Model = "models/props/de_inferno/potted_plant3.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.SOUVENIR,
+	StorePrice = 10,
+})
+
 RegisterItem("pottery02",{
 	Name = "Round Pot",
 	Description = "A squat, round pot.",
