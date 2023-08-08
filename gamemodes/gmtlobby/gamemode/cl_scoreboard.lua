@@ -86,7 +86,7 @@ local LocationBackgrounds = {}
 
 if ( Location ) then
 	for location, _ in pairs( Location.Locations ) do
-		if ( Location.IsGroup( location, "suites" ) or Location.IsSuite( location )  ) then
+		if ( Location.IsSuite( location )  ) then
 			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Suite
 			continue
 		elseif ( Location.IsNarnia( location ) ) then

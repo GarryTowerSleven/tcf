@@ -364,7 +364,7 @@ Add( 4, {
     Group = "suites",
     Min = Vector(4048,-10680,4096),
     Max = Vector(5440,-9673,4480),
-    IsSuite = false,
+    IsSuite = true,
     SuiteID = 0,
     Priority = 0,
 } )
@@ -373,16 +373,16 @@ Add( 5, {
     Group = "suites",
     Min = Vector(4356,-12508,4096),
     Max = Vector(4736,-10680,4334),
-    IsSuite = false,
+    IsSuite = true,
     SuiteID = 0,
     Priority = 0,
 } )
 Add( 60, {
-    Name = "Suites 10 - 15",
+    Name = "Party Suite Hallway",
     Group = "suites",
     Min = Vector(3036,-10370,4096),
     Max = Vector(4048,-9985,4334),
-    IsSuite = false,
+    IsSuite = true,
     SuiteID = 0,
     Priority = 0,
 } )
@@ -391,7 +391,7 @@ Add( 6, {
     Group = "suites",
     Min = Vector(4356,-9673,4096),
     Max = Vector(4736,-7855,4334),
-    IsSuite = false,
+    IsSuite = true,
     SuiteID = 0,
     Priority = 0,
 } )
@@ -401,7 +401,7 @@ Add( 33, {
     Group = "teleporters",
     Min = Vector(5440,-10432,4090),
     Max = Vector(6160,-9920,4480),
-    IsSuite = false,
+    IsSuite = true,
     SuiteID = 0,
     Priority = 0,
 } )
@@ -410,7 +410,7 @@ Add( 61, {
     Group = "suites",
     Min = Vector(3360,-10816,4084),
     Max = Vector(4048,-10370,4328),
-    IsSuite = false,
+    IsSuite = true,
     SuiteID = 0,
     Priority = 0,
 } )
@@ -419,7 +419,7 @@ Add( 62, {
     Group = "suites",
     Min = Vector(3360,-9985,4084),
     Max = Vector(4048,-9525,4328),
-    IsSuite = false,
+    IsSuite = true,
     SuiteID = 0,
     Priority = 0,
 } )
@@ -588,10 +588,10 @@ Add( 28, {
 } )
 Add( 29, {
     Name = "Party Suite",
-    Group = "suites",
+    Group = "partysuite",
     Min = Vector( 2225, -10400, 4080 ),
     Max = Vector( 3036, -9885, 4483 ),
-    IsSuite = false,
+    IsSuite = true,
     SuiteID = 0,
     Priority = 0,
 } )

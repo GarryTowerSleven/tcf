@@ -30,6 +30,13 @@ DefaultItems = {
 	"tv",
 	"trunk",
 	"bed",
+	"suitecouch",
+	"suitespeaker",
+	"potted_plant2",
+	"sofachair",
+	"plant1",
+	"radio",
+	"suitelamp",
 }
 
 SuitePanelPos = {
