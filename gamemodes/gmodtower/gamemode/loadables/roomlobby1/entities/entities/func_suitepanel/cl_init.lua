@@ -130,7 +130,7 @@ function ENT:DrawOverDoor()
 
 	local loc = self:Location() or 0
 	
-	if loc == 6 || loc == 5 || loc == 60 then
+	if loc == 6 || loc == 5 then
 		return true
 	end
 
