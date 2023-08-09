@@ -138,6 +138,55 @@ hook.Add( "HUDPaint", "ChangeLevelUI", function()
 	draw.NiceText( display or "???", "GTowerHUDMainSmall", ScrW()/2, (ScrH()/1.90)+18, c, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1 )
 end )
 
+local skies = {
+	lf = "",
+	rt = "",
+	up = "",
+	dn = "",
+	ft = "",
+	bk = ""
+}
+
+local skybox = GetConVar("sv_skyname"):GetString()
+
+SETUPSKY = true
+function GM:PostDraw2DSkyBox()
+	if SETUPSKY then
+		for _, sky in pairs(skies) do
+			skies[_] = Material("skybox/" .. skybox .. _)
+		end
+
+		SETUPSKY = false
+	end
+
+	render.SetColorMaterial()
+	render.CullMode(MATERIAL_CULLMODE_CW)
+	render.DrawSphere(EyePos(), 128, 4, 4, color_black)
+	render.SetMaterial(skies["rt"])
+	render.CullMode(MATERIAL_CULLMODE_CCW)
+	cam.Start3D(EyePos(), EyeAngles())
+	
+	local s = 64
+	local s2 = s / 2
+	print(EyePos().z * -1 / 100)
+	render.DrawQuadEasy( EyePos() + Vector(s2, 0, (((EyePos().z - 7000 )* -1) / 1000)), Vector(-1,0,0), s, s, Color(255,255,255), 180 )
+	render.SetMaterial(skies["lf"])
+	render.DrawQuadEasy( EyePos() - Vector(s2, 0, ((EyePos().z - 7000 ) / 1000)), Vector(1,0,0), s, s, Color(255,255,255), 180 )
+
+	render.SetMaterial(skies["bk"])
+	render.DrawQuadEasy( EyePos() + Vector(0, s2, (((EyePos().z - 7000 )* -1) / 1000)), Vector(0,-1,0), s, s, Color(255,255,255), 180 )
+	render.SetMaterial(skies["ft"])
+	render.DrawQuadEasy( EyePos() - Vector(0, s2, ((EyePos().z - 7000 ) / 1000)), Vector(0,1,0), s, s, Color(255,255,255), 180 )
+
+	render.SetMaterial(skies["dn"])
+	render.DrawQuadEasy( EyePos() - Vector(0, 0, (EyePos().z + 24500) / 1000), Vector(0,0,1), s, s, Color(255,255,255), 0 )
+	render.SetMaterial(skies["up"])
+	render.DrawQuadEasy( EyePos() + Vector(0, 0, ((EyePos().z - 38950) * -1) / 1000), Vector(0,0,-1), s, s, Color(255,255,255), 0 )
+	render.CullMode(MATERIAL_CULLMODE_CCW)
+	cam.End3D()
+	return true
+end
+
 /*hook.Add("HUDPaint", "PaintMapChanging", function()
 	if !GetGlobalBool("ShowChangelevel") then return end
 
