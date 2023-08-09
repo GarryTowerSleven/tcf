@@ -357,19 +357,21 @@ hook.Add( "KeyPress", "CheckJumpAchievement", function( ply, key )
 end )
 
 local PlysLastPlace = {}
-local TheatergoerThink = 0
 
 hook.Add( "PlayerThink", "PlayerThinkAchievements", function( ply )
 
 	if ply:AchievementLoaded() && ply:Alive() then
 	
 		// Theatergoer 
-		if ( TheatergoerThink < CurTime() ) then
+		if ply.TheatergoerThink == nil then
+			ply.TheatergoerThink = 0
+		end
+		if ( ply.TheatergoerThink < CurTime() ) then
 			if ply:Location() == Location.GetIDByName( "Theater" ) then
 				ply:AddAchievement( ACHIEVEMENTS.THEATERGOER, 5 / 60 )
 			end
 
-			TheatergoerThink = CurTime() + 5
+			ply.TheatergoerThink = CurTime() + 4
 		end
 		
 		// Long Walk
