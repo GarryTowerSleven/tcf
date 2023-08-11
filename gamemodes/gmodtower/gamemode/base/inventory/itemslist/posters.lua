@@ -22,11 +22,11 @@ end
 
 RegisterItem("painting1",{
 	Name = "Painting: Sniping",
-	Description = "A painting you can use to decorate your suite with.",
+	Description = "A painting you can use to decorate your suite.",
 	Model = "models/props/cs_office/offinspb.mdl",
 	DrawModel = true,
 	InvCategory = "posters",
-	StoreId = GTowerStore.POSTERS,
+	StoreId = GTowerStore.SUITE,
 	StorePrice = 150,
 	DrawName = true,
 	NewItem = true,
