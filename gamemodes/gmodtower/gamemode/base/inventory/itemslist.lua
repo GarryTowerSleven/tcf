@@ -557,6 +557,18 @@ RegisterItem("furniture_couch02a",{
 	MoveSound = "furniture3"
 })
 
+RegisterItem("furniturecouch002a",{
+	Name = "Old Couch",
+	Description = "Ever feel like you've got too good of a couch? Try out this bad boy we picked up on the outside of an apartment complex.",
+	Model = "models/props_c17/furniturecouch002a.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.SUITE,
+	StorePrice = 100,
+	MoveSound = "furniture3",
+	NewItem = true
+})
+
 RegisterItem("furniture_shelf01a",{
 	Name = "Shelf",
 	Description = "Place trophies or other items on this nice shelf.",

@@ -4,6 +4,10 @@ ChairOffsets = {
 	["models/props/de_inferno/furniture_couch02a.mdl"] = {
 		{ Pos = Vector(7.6080, 0.2916, -5.1108) },
 	},
+	["models/props_c17/furniturecouch002a.mdl"] = {
+		{ Pos = Vector(0.6080, 10.2916, -6.1108) },
+		{ Pos = Vector(0.6080, -10.2916, -6.1108) },
+	},
 	["models/fishy/furniture/piano_seat.mdl"] = {
 		{ Pos = Vector(2.7427, 13.2392, 22) },
 	},
