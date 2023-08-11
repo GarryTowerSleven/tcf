@@ -247,7 +247,7 @@ RegisterItem("breenglobe",{
 
 RegisterItem("statueofbreen",{
 	Name = "Statue Of Breen",
-	Description = "When the singularity collapses, I will be far away from here. In another universe, as a matter of fact. You, on the other hand, will be destroyed in every way it is possible to be destroyed-and even in some which are essentially impossible.",
+	Description = "When the singularity collapses, I will be far away from here. In another universe, as a matter of fact. You, on the other hand, will be destroyed in every way it is possible to be destroyed.. and even in some which are essentially impossible.",
 	Model = "models/props_combine/breenbust.mdl",
 	ClassName = "gmt_statueofbreen",
 	DrawModel = true,
@@ -273,6 +273,18 @@ RegisterItem("cabitnetdarw",{
 	StoreId = GTowerStore.SUITE,
 	StorePrice = 185,
 	MoveSound = "furniture3"
+})
+
+RegisterItem("cabitnetdarw2",{
+	Name = "Folded Out Cabinet",
+	Description = "A nice cabinet for displaying something treasured and loved.",
+	Model = "models/props_interiors/furniture_cabinetdrawer01a.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.SUITE,
+	StorePrice = 200,
+	MoveSound = "furniture3",
+	NewItem = true
 })
 
 RegisterItem("chair1",{
@@ -901,14 +913,26 @@ RegisterItem("suitetable",{
 	MoveSound = "furniture2"
 })
 
-RegisterItem("tablecoffe",{
+RegisterItem("cscoffeetable",{
 	Name = "Coffee Table",
-	Description = "Place your coffee on this nice table.",
+	Description = "A nicely finished coffee table from a nearby office complex.",
+	Model = "models/props/cs_office/table_coffee.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.SUITE,
+	StorePrice = 175,
+	MoveSound = "furniture2",
+	NewItem = true
+})
+
+RegisterItem("tablecoffe",{
+	Name = "Wooden Coffee Table",
+	Description = "Place your coffee on this homemade table.",
 	Model = "models/props/de_inferno/tablecoffee.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
 	StoreId = GTowerStore.SUITE,
-	StorePrice = 150,
+	StorePrice = 125,
 	MoveSound = "furniture"
 })
 
@@ -919,8 +943,20 @@ RegisterItem("table_shed",{
 	UniqueInventory = false,
 	DrawModel = true,
 	StoreId = GTowerStore.SUITE,
-	StorePrice = 95,
+	StorePrice = 275,
 	MoveSound = "furniture2"
+})
+
+RegisterItem("dinnertable",{
+	Name = "Dinner Table",
+	Description = "A extremely large table.. Lay out something nice and yummy on it, a body perhaps?",
+	Model = "models/props/cs_militia/table_shed.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.SUITE,
+	StorePrice = 325,
+	MoveSound = "furniture2",
+	NewItem = true
 })
 
 RegisterItem("toothbrushset01",{
@@ -1067,7 +1103,7 @@ RegisterItem("pianostool",{
 
 RegisterItem("coffeetable",{
 	Name = "Modern Coffee Table",
-	Description = "A nice coffee table for your drinks.",
+	Description = "A modern coffee table for your fancy drinks.",
 	Model = "models/gmod_tower/coffeetable.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
