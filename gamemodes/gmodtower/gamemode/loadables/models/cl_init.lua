@@ -135,8 +135,7 @@ function DrawPlayer(ply)
 
 
             mdl:SetPos(ply:GetPos())
-            mdl:RemoveAllDecals()
-            mdl:SetEyeTarget(ply:EyePos() + ply:GetAimVector() * 64)
+            
 
             mdl:SetParent(ply)
             mdl:AddEffects(EF_BONEMERGE)
