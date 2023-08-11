@@ -32,8 +32,8 @@ Add( 48, {
 
 // LOBBY
 Add( 9, {
-    Name = "Dev HQ",
-    Group = "devhq",
+    Name = "Dev HQ?",
+    Group = "olddevhq",
     Min = Vector(-553,-1344,0),
     Max = Vector(-215,-1016,801),
     Priority = 1,
@@ -58,6 +58,14 @@ Add( 43, {
     Min = Vector(-350,-3200,2500),
     Max = Vector(2050,-500,3465),
     Priority = 0,
+} )
+
+Add( 7, {
+    Name = "Dev HQ",
+    Group = "devhq",
+    Min = Vector(430,-2830,2500 ),
+    Max = Vector(702,-2570,2700),
+    Priority = 1,
 } )
 
 // THEATER
@@ -96,7 +104,7 @@ Add( 3, {
     Group = "eplaza",
     Min = Vector(-17,-736,-35),
     Max = Vector(1864,2050,506),
-    Priority = 0,
+    Priority = 2,
 } )
 Add( 59, {
     Name = "Food Court",
@@ -111,14 +119,14 @@ Add( 31, {
     Group = "stores",
     Min = Vector(1600,256,-24),
     Max = Vector(1960,895,175),
-    Priority = 1,
+    Priority = 3,
 } )
 Add( 32, {
     Name = "Furniture Store",
     Group = "stores",
-    Min = Vector(-710,256,-25),
-    Max = Vector(256,895,190),
-    Priority = 0,
+    Min = Vector(-1040,256,-25),
+    Max = Vector(256,895,450),
+    Priority = 1,
 } )
 Add( 44, {
     Name = "Electronic Store",
@@ -165,13 +173,13 @@ Add( 10, {
     Max = Vector(3300,1280,390),
     Priority = 0,
 } )
-Add( 7, {
+/*Add( 7, {
     Name = "Restaurant",
     Group = "stores",
     Min = Vector(-580,128,190),
     Max = Vector(-12,1060,390),
     Priority = 0,
-} )
+} )*/ 
 
 // ARCADE
 Add( 38, {
