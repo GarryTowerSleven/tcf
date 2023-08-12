@@ -3,8 +3,6 @@ include('shared.lua')
 net.Receive("TurtleUse",function()
 	local bool = net.ReadBool()
 	local turtle = net.ReadEntity()
-	
-	print(bool)
 
 	if IsValid(turtle) then
 	

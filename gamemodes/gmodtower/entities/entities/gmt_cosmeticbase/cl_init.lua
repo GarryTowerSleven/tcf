@@ -54,7 +54,7 @@ end
 function ENT:Draw()
 
 	local ply = self:GetOwner()
-	if !IsValid( ply ) || !self:ShouldDraw( ply ) then return end
+	if !IsValid( ply ) || !self:ShouldDraw( ply ) || ply:GetNWBool( "Outside" ) then return end
 
 	pos, ang, scale = self:Position( ply )
 	if !pos then return end
