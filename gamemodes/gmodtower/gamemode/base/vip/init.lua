@@ -32,7 +32,7 @@ hook.Add( "GroupDataReturned", "GetGroupData", function( returnedData )
 
 	if ( returnedData.isMember ) then
 		ply:SetNet( "VIP", true )
-		ply:SetSetting( "GTSuiteEntityLimit", 250 )
+		ply:SetSetting( "GTSuiteEntityLimit", 400 )
 		ply.IsVIP = true
 	end
 end )
