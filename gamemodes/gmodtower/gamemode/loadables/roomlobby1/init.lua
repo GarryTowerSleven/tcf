@@ -37,6 +37,7 @@ DefaultItems = {
 	"plant1",
 	"radio",
 	"suitelamp",
+	"toiletchair",
 }
 
 SuitePanelPos = {

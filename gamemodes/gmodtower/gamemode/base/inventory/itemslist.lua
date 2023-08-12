@@ -1727,7 +1727,7 @@ RegisterItem("toiletchair",{
 	UniqueInventory = false,
 	DrawModel = true,
 	StoreId = GTowerStore.SUITE,
-	StorePrice = 1000,
+	StorePrice = 500,
 	UseSound = "use_toilet.wav",
 })
 
