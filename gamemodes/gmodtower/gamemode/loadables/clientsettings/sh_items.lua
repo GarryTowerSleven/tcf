@@ -116,9 +116,9 @@ ClientSettings.Items = {
 		Order = "10",
 		Var = "GTSuiteEntityLimit",
 		NWType = "Short",
-		Default = 150,
+		Default = 200,
 		MinValue = 1,
-		MaxValue = 200,
+		MaxValue = 400,
 		Decimals = 0,
 		SendType = true //false=Admins, true=Player+admins
 	},
