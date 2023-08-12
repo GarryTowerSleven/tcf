@@ -93,6 +93,20 @@ function ENT:Think()
 
 	if ( !self.Player || !IsValid( self.Player ) || !self.Drink ) then return end
 
+	if self.Player:GetNWBool( "Outside" ) then 
+		if ( self.EffectEnd ) then
+			if ( self.Drink.Name != "Deathwish" || self.Drink.Name != "One Too Many" ) then -- annoying..
+				self.EffectEnd ( self.Player )
+				
+				self.Player:SetNWBool( "ForceModel", true )
+				GAMEMODE:SetPlayerSpeed( self.Player, 100, 100 )
+				self.Player:SetModel("models/player/group01/male_01.mdl")
+			end
+		end
+		self.Player = nil
+		self:Remove()
+	return end
+
 	if !self.Player:Alive() then -- prevent effects from persisting/cropping up after death
 		if ( self.EffectEnd ) then
 			if ( self.Drink.Name != "Deathwish" || self.Drink.Name != "One Too Many" ) then -- annoying..
@@ -100,6 +114,7 @@ function ENT:Think()
 			end
 		end
 		self.Player = nil
+		self:Remove()
 	return end
 	
 	if ( self.DelayTime && self.DelayTime < CurTime() ) then
