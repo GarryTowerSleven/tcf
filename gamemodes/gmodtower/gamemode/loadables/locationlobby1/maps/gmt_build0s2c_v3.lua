@@ -202,7 +202,7 @@ Add( 34, {
     Name = "Gamemode Teleporters",
     Group = "teleporters",
     Min = Vector(11039,10386,6650),
-    Max = Vector(12128,10879,7040),
+    Max = Vector(12290,10879,7040),
     Priority = 0,
 } )
 Add( 35, {
