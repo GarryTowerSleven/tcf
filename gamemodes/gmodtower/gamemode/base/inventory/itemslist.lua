@@ -1078,7 +1078,7 @@ RegisterItem("picnic_table",{
 	UniqueInventory = false,
 	DrawModel = true,
 	StoreId = GTowerStore.SUITE,
-	StorePrice = 150,
+	StorePrice = 300,
 	MoveSound = "wood"
 })
 
