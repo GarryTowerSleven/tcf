@@ -19,6 +19,8 @@ local DuelMessageColor = Color( 150, 35, 35, 255 )
 hook.Add( "CanPlayerSuicide", "DuelSuicide", function( ply )
 
 	if Dueling.IsDueling( ply ) then return false end
+	
+	if ply:GetNWBool( "Outside" ) then return false end
 
 end )
 

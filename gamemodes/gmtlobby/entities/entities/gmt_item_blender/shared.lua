@@ -270,13 +270,13 @@ if SERVER then
 			Start = function( ply )
 				if !IsValid( ply ) then return end
 				ply:SetModel( "models/player/skeleton.mdl" )
-				ply:SetNWBool("Skeleton", true)
+				ply:SetNWBool("ForceModel", true)
 				PostEvent( ply, "pbone_on" )
 			end,
 			End = function( ply )
 				if !IsValid( ply ) then return end
 				PostEvent( ply, "pbone_off" )
-				ply:SetNWBool("Skeleton", false)
+				ply:SetNWBool("ForceModel", false)
 				ply:ConCommand( "gmt_updateplayermodel" )
 			end			
 		},

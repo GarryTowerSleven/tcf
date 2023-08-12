@@ -32,11 +32,11 @@ Add( 48, {
 
 // LOBBY
 Add( 9, {
-    Name = "Dev HQ?",
-    Group = "olddevhq",
-    Min = Vector(-553,-1344,0),
-    Max = Vector(-215,-1016,801),
-    Priority = 1,
+    Name = "???",
+    Group = "hallway",
+    Min = Vector(15555,-16350,6235),
+    Max = Vector(16225,16320,6615),
+    Priority = 0,
 } )
 Add( 2, {
     Name = "Lobby",
@@ -59,7 +59,6 @@ Add( 43, {
     Max = Vector(2050,-500,3465),
     Priority = 0,
 } )
-
 Add( 7, {
     Name = "Dev HQ",
     Group = "devhq",
@@ -80,8 +79,15 @@ Add( 42, {
     Name = "Theater Hallway",
     Group = "theaterhallway",
     Min = Vector(-831,-1600,0),
-    Max = Vector(-300,-800,310),
+    Max = Vector(-215,-800,310),
     Priority = 0,
+} )
+Add( 49, {
+    Name = "Super Secret",
+    Group = "olddevhq",
+    Min = Vector(-553,-1344,0),
+    Max = Vector(-215,-1016,801),
+	Priority = 1,
 } )
 Add( 46, {
     Name = "Theater Vents",

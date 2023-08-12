@@ -23,6 +23,7 @@ function ENT:Use( activator )
 		
 		if activator.Delay <= CurTime() then
 			activator.Delay = CurTime() + 3
+			
 			if self.TurtleNumber == 6 && activator.TurtleNumber == 6 then
 				activator.TurtleNumber = 0
 				net.Start( "TurtleUse" )
@@ -30,6 +31,11 @@ function ENT:Use( activator )
 					net.WriteEntity( self )
 				net.Send( activator )
 				// Pt 2
+				activator:SetNWBool("Outside", true)
+				GAMEMODE:SetPlayerSpeed( activator, 100, 100 )
+				activator:SetModel("models/player/group01/male_01.mdl")
+				activator:SetNWBool("ForceModel", true)
+				activator:SafeTeleport( Vector(15880, 16225, 6335 ))
 			elseif self.TurtleNumber == 1 && activator.TurtleNumber == 0 then
 				activator.TurtleNumber = 2
 				net.Start( "TurtleUse" )
@@ -49,6 +55,7 @@ function ENT:Use( activator )
 					net.WriteEntity( self )
 				net.Send( activator )
 			end
+			
 		end
 	end
 end
@@ -60,3 +67,15 @@ function ENT:KeyValue( key, value )
 	end
 
 end
+
+hook.Add("PlayerDeath", "RemoveEffects", function( ply )
+
+	if ply:GetNWBool("Outside") then
+
+		ply:SetNWBool("Outside", false)
+		ply:SetNWBool("ForceModel", false)
+		ply:ConCommand( "gmt_updateplayermodel" )
+
+	end
+
+end )

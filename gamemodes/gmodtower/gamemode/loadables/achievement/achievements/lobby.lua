@@ -321,11 +321,12 @@ GTowerAchievements:Add( ACHIEVEMENTS.LUCKYCAT, {
 	GiveItem = "trophy_catsack"
 })
 
-GTowerAchievements:Add( ACHIEVEMENTS.DEVHQ, {
+GTowerAchievements:Add( ACHIEVEMENTS.SMOOTHDETECTIVE, {
 	Name = "Smooth Detective", 
-	Description = "Find a hidden area in the lobby.", 
+	Description = "Find something lost and forgotten.", 
 	Value = 1,
-	GiveItem = "trophy_devhq"
+	GMC = 1000,
+	GiveItem = "trophy_hallway"
 })
 
 // LOGIC OF ACHIEVEMENTS---------------------

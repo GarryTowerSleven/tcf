@@ -49,7 +49,7 @@ RegisterItem("trophy_catsack",{
 	UseSound = "use_trophy.wav",
 })
 
-RegisterItem("trophy_devhq",{
+RegisterItem("trophy_hallway",{
 	Name = "Trophy: Smooth Detective",
 	Description = "",
 	Model = "models/gmod_tower/trophy_devhq.mdl",
