@@ -24,7 +24,7 @@ function ENT:Initialize()
 
 	self:SphereInit(self.radius)
 
-	self:SetModel( "models/gmod_tower/ball_spiked.mdl" )
+	self:SetModel( "models/gmod_tower/ball.mdl" )
 	// self:SetNoDraw( true )
 	self:DrawShadow( false )
 
