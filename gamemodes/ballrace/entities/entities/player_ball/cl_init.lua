@@ -246,12 +246,18 @@ function ENT:DrawTranslucent()
 		local blend = GetConVar("gmt_ballrace_fade"):GetFloat() / 255
 		render.CullMode(FIRSTPERSON and ply == LocalPlayer() and MATERIAL_CULLMODE_CW or MATERIAL_CULLMODE_CCW)
 		render.SetBlend(FIRSTPERSON and ply == LocalPlayer() and 0.4 or self.Opacity and self.Opacity / 255 or 1)
-		render.SetColorModulation(2, 2, 2)
-		self.Ball:SetModelScale(self:GetModelScale() - 0.02)
-		self.Ball:DrawModel()
-		render.SetColorModulation(0.1, 0.1, 0.1)
-		self.Ball:SetModelScale(self:GetModelScale())
-		self.Ball:DrawModel()
+		if self.Ball:GetModel() == "models/gmod_tower/ballion.mdl" then
+			render.SetColorModulation(2, 2, 2)
+			self.Ball:SetModelScale(self:GetModelScale() + 0.12)
+			self.Ball:DrawModel()
+		else
+			render.SetColorModulation(2, 2, 2)
+			self.Ball:SetModelScale(self:GetModelScale() - 0.02)
+			self.Ball:DrawModel()
+			render.SetColorModulation(0.1, 0.1, 0.1)
+			self.Ball:SetModelScale(self:GetModelScale())
+			self.Ball:DrawModel()
+		end
 	end
 	render.CullMode(MATERIAL_CULLMODE_CCW)
 
