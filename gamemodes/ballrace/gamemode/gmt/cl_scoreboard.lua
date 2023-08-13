@@ -63,12 +63,25 @@ end
 PlayersSort = function( a, b )
 
 	CalculateRanks()
+	
+	if GAMEMODE:GetState() == STATE_PLAYINGBONUS then
+		if !a.TrophyRank || !b.TrophyRank then
+			if a:Frags() != b:Frags() then
+				return a:Frags() < b:Frags()
+			end
+		end
 
-	if !a.TrophyRank || !b.TrophyRank then
-		return
+		return a.TrophyRank < b.TrophyRank
+		
+	else
+		
+		if !a.TrophyRank || !b.TrophyRank then
+			return
+		end
+
+		return a.TrophyRank < b.TrophyRank
+		
 	end
-
-	return a.TrophyRank < b.TrophyRank
 
 end
 
