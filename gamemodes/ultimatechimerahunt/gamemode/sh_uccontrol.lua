@@ -8,7 +8,7 @@ local roardistance = 450
 local stuntime = 5
 
 function meta:RoarCooldown() -- Sorry if this is bad >_>
-	return( math.Clamp( self:GetNet( "TimesRoared" ) * 3 + 12, 12, 30) )
+	return( math.Clamp( self:GetNet( "TimesRoared" ) * 5 + 15, 15, 30) )
 end
 
 function meta:CanDoAction()
