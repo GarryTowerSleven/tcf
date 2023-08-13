@@ -45,7 +45,7 @@ SETTINGS.TabNames = {
 	--"VIP", -- Automatically adds when needed.
 }
 SETTINGS.LobbyOnlyTabs = {
-	//"Graphics",
+	"Graphics",
 	"HUD",
 	"Notifications",
 	"Advanced",
@@ -56,7 +56,9 @@ SETTINGS.GamemodesWithSettings = {
 	"virus",
 	"zombiemassacre",
 	"minigolf",
-	"pvpbattle"
+	"pvpbattle",
+	"ultimatechimerahunt",
+	"sourcekarts"
 }
 SETTINGS.Tabs = {}
 
