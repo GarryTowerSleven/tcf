@@ -2,12 +2,25 @@ function GM:IsSpawnpointSuitable( pl, spawnpointent, bMakeSuitable )
 	return
 end
 
+function GM:LateJoin( ply )
+	hook.Add("SetupMove", ply:SteamID64(), function(ply2, mv, cmd)
+		if ply2 == ply and !cmd:IsForced() then
+			ply.Late = false
+			hook.Remove("SetupMove", ply:SteamID64())
+		end
+	end )
+end
+
 function GM:PlayerInitialSpawn(ply)
 
+	if self:GetState() != STATE_WAITING then
+		ply:SetTeam( TEAM_DEAD )
+		ply.Late = true
+		self:LateJoin( ply )
+	end
+
 	if ply:IsBot() then return end
-
-	ply:SetTeam(TEAM_DEAD)
-
+	
 	net.Start("pick_ball")
 	net.Send(ply)
 
@@ -20,9 +33,11 @@ function GM:PlayerInitialSpawn(ply)
 		ply:ChatPrint("You are the first to join, waiting for additional players!")
 	end
 
-	if self:GetState() == STATE_WAITING then
-		self:RoundMessage( MSGSHOW_WAITING, ply, GAMEMODE:GetTime() - CurTime() - 1 )
-	end
+	hook.Add( "PlayerFullyJoined", "WaitingMessage", function(ply)
+		if self:GetState() == STATE_WAITING then
+			self:RoundMessage( MSGSHOW_WAITING, ply, GAMEMODE:GetTime() - CurTime() - 1 )
+		end
+	end)
 
 end
 
@@ -80,7 +95,7 @@ function GM:PlayerDeathSound( ply )
 end
 
 function GM:PlayerSpawn(ply)
-	if self:GetState() == STATE_SPAWNING || ply:Team() == TEAM_PLAYERS then
+	if self:GetState() == STATE_SPAWNING && ply.Late != true || ply:Team() == TEAM_PLAYERS then
 
 		ply.Spectating = nil
 
