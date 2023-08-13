@@ -28,6 +28,11 @@ function meta:ExitDriving()
 	ent:Remove()
 end
 
+function meta:StopEmoting()
+    if ( not StopAllEmotes ) then return end
+    StopAllEmotes( self )
+end
+
 function meta:ExitAll()
 	self:ExitDriving()
 
@@ -56,6 +61,7 @@ end
 function meta:SafeTeleport( pos, ang, eyeangles )
     if ( not pos ) then return end
 
+    self:StopEmoting()
     self:ExitAll()
 
 	local velocity = self:GetVelocity()

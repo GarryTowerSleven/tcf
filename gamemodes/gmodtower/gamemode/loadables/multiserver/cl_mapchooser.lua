@@ -170,7 +170,9 @@ hook.Add( "CanCloseMenu", "GTowerMapSelection", function()
 end )
 
 hook.Add( "DisableThirdpersonAll", "DisableThirdpersonAllMapSelection", function()
-	return IsValid( GTowerServers.MapChooserGUI )
+	if ( IsValid( GTowerServers.MapChooserGUI ) ) then
+		return true
+	end
 end )
 
 hook.Add( "GTowerServerUpdate", "CheckForLocalPlayer", function( ServerId )

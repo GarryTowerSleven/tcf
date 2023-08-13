@@ -1,10 +1,11 @@
-AddCSLuaFile("cl_init.lua")
-AddCSLuaFile("shared.lua")
-include("shared.lua")
+ENT.Type = "anim"
+ENT.Base = "base_anim"
 
-ENT.rouletteExit = false
+ENT.Model = Model("models/props_c17/door01_left.mdl")
+
 function ENT:Initialize()
 	self:SetModel(self.Model)
+
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_NONE)
 	self:DrawShadow(false)
@@ -13,22 +14,15 @@ end
 function ENT:Use(ply)
 	if ply:IsPlayer() then
 
-		if ply.DoorDelay == nil then ply.DoorDelay = CurTime() end
+		ply.DoorDelay = ply.DoorDelay or CurTime()
 
 		if ply.DoorDelay <= CurTime() then
 			ply.DoorDelay = CurTime() + 3
+			
 			self:EmitSound( "doors/door1_stop.wav", 75, 100, 1, CHAN_AUTO )
-			if ply:GetNWBool("Outside") then
-				timer.Simple(0.25, function()
-					ply:SetNWBool("Outside", false)
-					ply:ConCommand( "gmt_updateplayermodel" )
-					ply:ConCommand( "gmt_updateplayercolor" )
-					ply:ResetSpeeds()
-
-					ply:SafeTeleport( Vector(928, -1472, 168 ))
-					ply:SetAchievement( ACHIEVEMENTS.SMOOTHDETECTIVE, 1 )
-				end)
-			end
+			timer.Simple( 0.25, function()
+				RemoveFromHallway( ply, true )
+			end )
 		end
 
 	end

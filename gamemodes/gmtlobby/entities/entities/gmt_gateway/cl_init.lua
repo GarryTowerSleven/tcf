@@ -14,3 +14,21 @@ net.Receive("TurtleUse",function()
 	
 	end
 end)
+
+hook.Add( "DisableThirdpersonAll", "LimboDisableThirdperson", function()
+	if ( LocalPlayer():GetNWBool( "InLimbo", false ) ) then
+		return true
+	end
+end )
+
+hook.Add( "DisableMenu", "LimboDisableMenus", function()
+	if ( LocalPlayer():GetNWBool( "InLimbo", false ) ) then
+		return true
+	end
+end )
+
+hook.Add( "GTowerInventoryDisable", "LimboDisableInventory", function()
+	if ( LocalPlayer():GetNWBool( "InLimbo", false ) ) then
+		return true
+	end
+end )

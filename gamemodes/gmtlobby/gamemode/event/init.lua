@@ -50,9 +50,10 @@ local minitime = 120 -- 2 minutes
 local saletime = 120 -- 2 minutes
 
 function SendMessageToPlayers(msgtype, ...)
-    BroadcastLua( "surface.PlaySound( \"" .. EventSound .. "\" )" )
-
 	for _, v in ipairs(player.GetAll()) do
+        if ( v:GetNWBool( "InLimbo", false ) ) then continue end
+
+        v:SendLua( "surface.PlaySound( \"" .. EventSound .. "\" )" )
 		v:MsgT( msgtype, select( 1, ... ) )
 	end
 end

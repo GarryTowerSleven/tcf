@@ -17,7 +17,6 @@ function ThirdPerson.Override( ply )
 	local forceThird = hook.Call( "ForceThirdperson", GAMEMODE, ply )
 	local forceView = hook.Call( "ForceViewSelf", GAMEMODE, ply )
 
-
 	// Always be in third person...
 	if forceThird || forceView then
 
@@ -34,6 +33,8 @@ function ThirdPerson.Override( ply )
 
 	// Disable all
 	if hook.Call( "DisableThirdpersonAll", GAMEMODE, ply ) then
+		ply.ViewingSelf = false
+		ply.ThirdPerson = false
 		return true
 	end
 
@@ -436,6 +437,7 @@ if !meta then return end
 
 function meta:CanViewSelf()
 
+	//if hook.Call( "DisableThirdpersonAll", GAMEMODE, self ) then return false end
 	if hook.Call( "DisableViewSelf", GAMEMODE, self ) then return false end
 
 	if !self:Alive() then

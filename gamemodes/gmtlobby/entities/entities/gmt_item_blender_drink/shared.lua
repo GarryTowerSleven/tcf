@@ -93,7 +93,7 @@ function ENT:Think()
 
 	if ( !self.Player || !IsValid( self.Player ) || !self.Drink ) then return end
 
-	if self.Player:GetNWBool( "Outside" ) then 
+	if self.Player:GetNWBool( "InLimbo" ) then 
 		if ( self.EffectEnd ) then
 			if ( self.Drink.Name != "Deathwish" || self.Drink.Name != "One Too Many" ) then -- annoying..
 				self.EffectEnd ( self.Player )

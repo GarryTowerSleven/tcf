@@ -20,7 +20,7 @@ hook.Add( "CanPlayerSuicide", "DuelSuicide", function( ply )
 
 	if Dueling.IsDueling( ply ) then return false end
 	
-	if ply:GetNWBool( "Outside" ) then return false end
+	if ply:GetNWBool( "InLimbo" ) then return false end
 
 end )
 

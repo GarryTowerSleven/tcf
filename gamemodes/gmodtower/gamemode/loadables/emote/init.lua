@@ -71,11 +71,15 @@ Commands = {
 table.insert(Commands, 10, {"dancesync", "dancesync", 1})
 
 concommand.Add( "gmt_emoteend", function(ply)
+	StopAllEmotes( ply )
+end )
+
+function StopAllEmotes( ply )
 	ply:SetNWBool("Emoting",false)
 	ply:SetNWBool("Sitting",false)
 	ply:SetNWBool("Laying",false)
 	ply:SetNWBool("Lounging",false)
-end )
+end
 
 function DoEmoteChat( ply, emote )
 	if ( not IsValid( ply ) ) then return end
@@ -112,6 +116,8 @@ for _, emote in pairs(Commands) do
 	
 	if emoteName == "dancesync" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
+			if ( hook.Run( "DisableEmotes", ply ) ) then return end
+
 			if ply:GetNWBool("Emoting") then return end
 			if ply:GetNWBool("Dancing") then ply:ConCommand("syncdance") return end
 			
@@ -123,6 +129,8 @@ for _, emote in pairs(Commands) do
 		end)
 	elseif emoteName == "sit" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
+			if ( hook.Run( "DisableEmotes", ply ) ) then return end
+
 			if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
 			ply:SetNWBool("Emoting",true)
 			ply:SetNWBool("Sitting",true)
@@ -133,6 +141,8 @@ for _, emote in pairs(Commands) do
 		end )
 	elseif emoteName == "lay" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
+			if ( hook.Run( "DisableEmotes", ply ) ) then return end
+
 			if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
 			ply:SetNWBool("Emoting",true)
 			ply:SetNWBool("Laying",true)
@@ -143,64 +153,69 @@ for _, emote in pairs(Commands) do
 		end )
 	elseif emoteName == "lounge" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
-		if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
-		ply:SetNWBool("Emoting",true)
-		ply:SetNWBool("Lounging",true)
+			if ( hook.Run( "DisableEmotes", ply ) ) then return end
 
-		DoEmoteChat( ply, emoteName )
+			if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
+			ply:SetNWBool("Emoting",true)
+			ply:SetNWBool("Lounging",true)
 
-		return ""
+			DoEmoteChat( ply, emoteName )
+
+			return ""
 		end )
 	elseif emoteName == "suicide" then
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
-		if !ply:Alive() then return end
-		ply:Kill()
+			if ( hook.Run( "DisableEmotes", ply ) ) then return end
 
-		DoEmoteChat( ply, emoteName )
+			if !ply:Alive() then return end
+			ply:Kill()
 
-		return ""
+			DoEmoteChat( ply, emoteName )
+
+			return ""
 		end )
 	else
 		ChatCommands.Register( "/" .. emoteName, 5, function( ply )
+			if ( hook.Run( "DisableEmotes", ply ) ) then return end
 
-		if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
-		ply:SetAbsVelocity( Vector(0,0,0) )
-		ply:SetNWBool("Emoting",true)
+			if !ply:OnGround() || ply:GetNWBool("Emoting") then return end
+			ply:SetAbsVelocity( Vector(0,0,0) )
+			ply:SetNWBool("Emoting",true)
 
-		ply:SetNWString("EmoteName",emoteName)
+			ply:SetNWString("EmoteName",emoteName)
 
-		net.Start("EmoteAct")
-			net.WriteString(Action)
-		net.Send(ply)
+			net.Start("EmoteAct")
+				net.WriteString(Action)
+			net.Send(ply)
 
-		if ply:GetModel() == "models/player/hatman.mdl" && emoteName == "dance" then
-		
-			if !Location.IsTheater( ply.Location ) && !Location.IsNightclub( ply.Location ) && !ply:Location().CondoID then
-		
-				ply.DanceSND = CreateSound( ply, "misc/halloween/hwn_dance_loop.wav" )
-				ply.DanceSND:PlayEx( 80, 100 )
+			if ply:GetModel() == "models/player/hatman.mdl" && emoteName == "dance" then
 			
+				if !Location.IsTheater( ply.Location ) && !Location.IsNightclub( ply.Location ) && !ply:Location().CondoID then
+			
+					ply.DanceSND = CreateSound( ply, "misc/halloween/hwn_dance_loop.wav" )
+					ply.DanceSND:PlayEx( 80, 100 )
+				
+				end
 			end
-		end
 
-		timer.Simple(Duration, function()
-			if IsValid(ply) then 
-				ply:SetNWBool("Emoting",false) 
-				if ply.DanceSND then ply.DanceSND:FadeOut(1) end
+			timer.Simple(Duration, function()
+				if IsValid(ply) then 
+					ply:SetNWBool("Emoting",false) 
+					if ply.DanceSND then ply.DanceSND:FadeOut(1) end
+				end
+			end)
+
+			if emoteName == "laugh" then
+				voicelines.Emit(ply, "Laughs")
+			elseif emoteName == "cheer" then
+				voicelines.Emit(ply, "Cheers")
+			elseif emoteName == "flail" then
+				voicelines.Emit(ply, "Flails")
 			end
-		end)
 
-		if emoteName == "laugh" then
-			voicelines.Emit(ply, "Laughs")
-		elseif emoteName == "cheer" then
-			voicelines.Emit(ply, "Cheers")
-		elseif emoteName == "flail" then
-			voicelines.Emit(ply, "Flails")
-		end
+			DoEmoteChat( ply, emoteName )
 
-		DoEmoteChat( ply, emoteName )
-
-		return ""
+			return ""
 		end )
 	end
 

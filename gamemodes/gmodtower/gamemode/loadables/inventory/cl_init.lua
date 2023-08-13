@@ -71,11 +71,15 @@ hook.Add( "InvGuiDrop", "GTowerMainDrop", function( panel )
 end )
 
 function GTowerItems:OpenAll()
+	if ( hook.Run( "GTowerInventoryDisable" ) ) then return end
+
 	self:OpenMainInventory()
 	self:OpenDropInventory()
 end
 
 function GTowerItems:OpenMainInventory()
+
+	if ( hook.Run( "GTowerInventoryDisable" ) ) then return end
 
 	if !self.MainInvPanel then
 		self.MainInvPanel = vgui.Create( "GTowerInvMain" )
@@ -88,6 +92,8 @@ function GTowerItems:OpenMainInventory()
 end
 
 function GTowerItems:OpenDropInventory()
+
+	if ( hook.Run( "GTowerInventoryDisable" ) ) then return end
 
 	if !self.DropInvPanel then
 		self.DropInvPanel = vgui.Create( "GTowerInvDrop" )
@@ -164,6 +170,15 @@ function GTowerItems:GetOriginalParent( id )
 end
 
 function GTowerItems:CheckSubClose()
+	
+	if ( hook.Run( "GTowerInventoryDisable" ) ) then
+		if ( IsValid( self.MainInvPanel ) ) then
+			self.MainInvPanel:ForceClose()
+		end
+		if ( IsValid( self.DropInvPanel ) ) then
+			self.DropInvPanel:ForceClose()
+		end
+	end
 
 	if GTowerItems.DropInvPanel then
 		GTowerItems.DropInvPanel:CheckClose()

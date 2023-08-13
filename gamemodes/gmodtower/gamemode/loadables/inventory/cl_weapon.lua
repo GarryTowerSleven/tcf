@@ -55,7 +55,7 @@ hook.Add("PlayerBindPress", "WeaponChange", function( ply, bind, pressed)
 	local weapon = ply:GetActiveWeapon()
 	local weapon_class = ""
 
-	if Location.IsNarnia( LocalPlayer():Location() ) || LocalPlayer():GetNWBool( "Outside" ) then return end
+	if Location.IsNarnia( LocalPlayer():Location() ) || LocalPlayer():GetNWBool( "InLimbo" ) then return end
 
 	if IsValid(weapon) then
 		weapon_class = weapon:GetClass()

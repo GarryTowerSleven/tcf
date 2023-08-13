@@ -387,7 +387,7 @@ function initHud()
 	
 		if not hook.Run( "GTowerHUDShouldDraw" ) then return false end
 	
-		if LocalPlayer():GetNWBool("Outside") then return false end
+		if LocalPlayer():GetNWBool( "InLimbo" ) then return false end
 		
 		if !GTowerHUD.Enabled:GetBool() then return false end
 		

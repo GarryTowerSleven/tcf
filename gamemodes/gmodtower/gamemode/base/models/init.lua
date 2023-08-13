@@ -127,7 +127,7 @@ concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 
 	if ( engine.ActiveGamemode() == "ultimatechimerahunt" ) then return end
 	
-	if ply:GetNWBool("ForceModel") || ply:GetNWBool("Outside") then return end
+	if ply:GetNWBool("ForceModel") || ply:GetNWBool("InLimbo") then return end
 	
 	local modelinfo = string.Explode( "-", ply:GetInfo("gmt_playermodel") )
 	local modelname = modelinfo[1]
@@ -160,7 +160,7 @@ concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 end )
 
 concommand.Add("gmt_updateplayercolor", function(ply)
-	if ply:GetNWBool( "Outside" ) then 
+	if ply:GetNWBool( "InLimbo" ) then 
 		ply:SetPlayerColor( Vector(0.098039, 0.254902, 0.309804) )
 		return
 	end

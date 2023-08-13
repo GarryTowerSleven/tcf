@@ -1,4 +1,3 @@
----------------------------------
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
 
@@ -11,15 +10,53 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_VPHYSICS)
+
+	self:SetUseType( SIMPLE_USE )
 end
+
+function SendToHallway( ply )
+	ply:SetNWBool( "InLimbo", true )
+	GAMEMODE:SetPlayerSpeed( ply, 100, 100 )
+	ply:SetModel("models/player/group01/male_01.mdl")
+	ply:ConCommand( "gmt_updateplayercolor" )
+	ply:SetModelScale(1)
+	ply:StripWeapons()
+	ply:SafeTeleport( Vector(math.random(15945, 16155), math.random(-3935, -3485), -16290 ))
+end
+
+function RemoveFromHallway( ply, giveachievement )
+	if ( not ply:GetNWBool( "InLimbo" ) ) then return end
+
+	ply:SetNWBool( "InLimbo", false )
+	ply:ConCommand( "gmt_updateplayermodel" )
+	ply:ConCommand( "gmt_updateplayercolor" )
+	ply:ResetSpeeds()
+
+	ply:SafeTeleport( Vector(928, -1472, 168 ))
+
+	if ( giveachievement ) then
+		ply:SetAchievement( ACHIEVEMENTS.SMOOTHDETECTIVE, 1 )
+	end
+end
+
+concommand.AdminAdd( "gmt_hallway", function( ply, cmd, args )
+	local user = args[1] and ( IsValid( player.GetByID( args[1] ) ) and player.GetByID( args[1] ) or NULL ) or ply
+
+	if ( not user ) then return end
+
+	if ( ply:GetNWBool( "InLimbo" ) ) then
+		RemoveFromHallway( user )
+	else
+		SendToHallway( user )
+	end
+end )
 
 function ENT:Use( activator )
 
 	if activator:IsPlayer() then
 	
-		if activator.TurtleList == nil then activator.TurtleList = {} end
-		if activator.Delay == nil then activator.Delay = CurTime() end
-		if activator.TurtleNumber == nil then activator.TurtleNumber = 0 end
+		activator.Delay = activator.Delay or CurTime()
+		activator.TurtleNumber = activator.TurtleNumber or 0
 		
 		if activator.Delay <= CurTime() then
 			activator.Delay = CurTime() + 3
@@ -32,13 +69,7 @@ function ENT:Use( activator )
 				net.Send( activator )
 				// Pt 2
 				timer.Simple(0.25, function()
-					activator:SetNWBool("Outside", true)
-					GAMEMODE:SetPlayerSpeed( activator, 100, 100 )
-					activator:SetModel("models/player/group01/male_01.mdl")
-					activator:ConCommand( "gmt_updateplayercolor" )
-					activator:SetModelScale(1)
-					activator:StripWeapons()
-					activator:SafeTeleport( Vector(math.random(15945, 16155), math.random(-3935, -3485), -16290 ))
+					SendToHallway( ply )
 				end)
 			elseif self.TurtleNumber == 1 && activator.TurtleNumber == 0 then
 				activator.TurtleNumber = 2
@@ -72,14 +103,19 @@ function ENT:KeyValue( key, value )
 
 end
 
-hook.Add("PlayerDeath", "RemoveEffects", function( ply )
+hook.Add("PlayerDeath", "RemoveHallwayEffects", function( ply )
 
-	if ply:GetNWBool("Outside") then
+	if ply:GetNWBool( "InLimbo" ) then
 
-		ply:SetNWBool("Outside", false)
-		ply:SetNWBool("ForceModel", false)
+		ply:SetNWBool( "InLimbo", false )
 		ply:ConCommand( "gmt_updateplayermodel" )
 
 	end
 
+end )
+
+hook.Add( "DisableEmotes", "LimboDisableEmotes", function( ply )
+	if ( ply:GetNWBool( "InLimbo", false ) ) then
+		return true
+	end
 end )

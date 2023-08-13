@@ -561,6 +561,13 @@ hook.Add("ExtraMenuPlayer", "AddAdminFunctions", function(ply)
                     end,
                     ["order"] = 8
                 },
+                {
+                    ["Name"] = "Send/Remove To/From Hallway",
+                    ["function"] = function()
+                        RunConsoleCommand( "gmt_hallway", ply:EntIndex(), 0 )
+                    end,
+                    ["order"] = 9
+                },
             }
         }
 
