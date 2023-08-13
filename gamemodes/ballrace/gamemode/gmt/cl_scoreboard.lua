@@ -93,8 +93,8 @@ PlayerSubtitleText = function( ply )
 		return completedtime .. " secs"
 	end
 
-	if !ply:Alive() && ply:Team() != TEAM_COMPLETED then
-		return "DEAD"
+	if !ply:Alive() || ply:Team() == TEAM_DEAD && GAMEMODE:GetState() != STATE_WAITING then
+		return "DEAD"	
 	end
 
 	return ""
