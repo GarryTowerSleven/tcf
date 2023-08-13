@@ -70,3 +70,16 @@ end )
 -- TODO: Better place to put these? --
 --------------------------------------
 
+soundscape.Register("hallway",
+{
+	-- Tell the soundscape system that when this is usually removed and faded out, keep it alive
+	dsp = 0,
+
+	-- Select a random song to play every once in a while
+	{
+		type = "playlooping",
+		volume = 1,
+		-- All sounds are in a table format of {soundpath, soundlength}
+		sound = { Sound( "gmodtower/music/secret.mp3" ), 80 },
+	},
+})
