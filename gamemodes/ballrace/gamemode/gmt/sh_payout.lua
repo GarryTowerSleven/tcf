@@ -69,7 +69,7 @@ function GAMEMODE:GiveMoney()
 
 		local placement = ply:GetNet( "CompletedRank" )
 
-		if ply:Team() == TEAM_COMPLETED then
+		if ply:Team() == TEAM_COMPLETED && GAMEMODE.PreviousState != STATE_PLAYINGBONUS then
 			payout.Give( ply, "Completed" )
 		end
 

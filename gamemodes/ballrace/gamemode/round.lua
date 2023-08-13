@@ -173,6 +173,9 @@ function GM:UpdateStatus(disc)
 		else
 
 			if LateSpawn != nil && (LateSpawn:GetName() == 'bonus_start' || LateSpawn:GetName() == 'bns_start' || LateSpawn:GetName() == 'bonus') then
+				for _, ply in pairs(player.GetAll()) do
+					ply:SetTeam(TEAM_COMPLETED)
+				end
 				self:RoundMessage( MSGSHOW_LEVELCOMPLETE )
 				LateSpawn = BonusTeleport
 				ActiveTeleport = BonusTeleport

@@ -36,12 +36,19 @@ local function CalculateRanks()
 
 	local Players = player.GetAll()
 
-	table.sort( Players, function( a, b )
+	if GAMEMODE:GetState() != STATE_PLAYINGBONUS then
+		table.sort( Players, function( a, b )
 
-		local aScore, bScore = a:GetNet( "CompletedRank" ), b:GetNet( "CompletedRank" )
-		return aScore < bScore
+			local aScore, bScore = a:GetNet( "CompletedRank" ), b:GetNet( "CompletedRank" )
+			return aScore < bScore
 
-	end )
+		end )
+	else
+		table.sort( Players, function( a, b )
+			local aScore, bScore = a:Frags(), b:Frags()
+			return aScore > bScore
+		end )
+	end
 
 	for k, ply in pairs( Players ) do
 		ply.TrophyRank = k
@@ -95,19 +102,32 @@ local Trophies =
 // Notification (above avatar)
 PlayerNotificationIcon = function( ply )
 
-	if ply.TrophyRank && ply:Team() == TEAM_COMPLETED then
-		if Trophies[ ply.TrophyRank ] then
-			return Trophies[ ply.TrophyRank ]
+	if GAMEMODE:GetState() != STATE_PLAYINGBONUS then
+		if ply.TrophyRank && ply:Team() == TEAM_COMPLETED then
+			if Trophies[ ply.TrophyRank ] then
+				return Trophies[ ply.TrophyRank ]
+			end
+			return Scoreboard.PlayerList.MATERIALS.Finish
 		end
-		return Scoreboard.PlayerList.MATERIALS.Finish
+
+		if ply:Team() == TEAM_COMPLETED then
+			return Scoreboard.PlayerList.MATERIALS.Finish
+		end
+
+		return nil
+	else
+		if ply.TrophyRank && ply:Frags() > 0 then
+			if Trophies[ ply.TrophyRank ] then
+				return Trophies[ ply.TrophyRank ]
+			end
+		end
+			
+		if ply:Team() == TEAM_COMPLETED then
+			return Scoreboard.PlayerList.MATERIALS.Finish
+		end
+		
+		return nil
 	end
-
-	if ply:Team() == TEAM_COMPLETED then
-		return Scoreboard.PlayerList.MATERIALS.Finish
-	end
-
-	return nil
-
 end
 
 // Jazz the player avatar? (for winner only)
