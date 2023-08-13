@@ -46,7 +46,7 @@ function GM:PlayerDisconnected(ply)
 	self:UpdateSpecs( ply, true )
 
 	self:LostPlayer( ply, true )
-	--PrintMessage( HUD_PRINTTALK, ply:Name().. " has dropped out of the race." )
+	self:ColorNotifyAll( ply:Name().. " has dropped out of the race." )
 end
 
 function GM:DoPlayerDeath(ply)
