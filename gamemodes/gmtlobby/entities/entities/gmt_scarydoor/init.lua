@@ -12,14 +12,10 @@ end
 
 function ENT:Use(ply)
 	if ply:IsPlayer() then
-	
-		if ply.DoorDelay == nil then ply.DoorDelay = CurTime() end
-		
-		if ply.DoorDelay <= CurTime() then
-			ply.DoorDelay = CurTime() + 3
-			self:EmitSound( "doors/door1_stop.wav", 75, 100, 1, CHAN_AUTO ) 
-			if ply:GetNWBool("Outside") then
 
+		if ply:GetNWBool("Outside") then
+			self:EmitSound( "doors/door1_stop.wav", 75, 100, 1, CHAN_AUTO ) 
+			timer.Simple(0.25, function()
 				ply:SetNWBool("Outside", false)
 				ply:ConCommand( "gmt_updateplayermodel" )
 				ply:ConCommand( "gmt_updateplayercolor" )
@@ -27,8 +23,8 @@ function ENT:Use(ply)
 				
 				ply:SafeTeleport( Vector(928, -1472, 168 ))
 				ply:SetAchievement( ACHIEVEMENTS.SMOOTHDETECTIVE, 1 )
-			end
-			
+			end)
 		end
+
 	end
 end
