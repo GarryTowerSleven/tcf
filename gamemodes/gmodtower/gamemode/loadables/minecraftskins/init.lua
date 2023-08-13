@@ -31,3 +31,7 @@ hook.Add( "PlayerFullyJoined", "JoinMCSkin", function(ply)
 		ply:SetNet( "MCSkinName", ply:GetInfo("cl_minecraftskin"))
 	end
 end )
+
+hook.Add( "Location", "SkinRefresh", function(ply)
+	MinecraftSkinUpdate(ply, ply:GetInfo("cl_minecraftskin"))
+end )
