@@ -280,7 +280,7 @@ hook.Add("PostDrawOpaqueRenderables", "UCAngry", function()
 
 	if GAMEMODE:IsLastPigmasks() then
 		local uch = GAMEMODE:GetUC()
-		if IsValid( uch ) then
+		if IsValid( uch ) && uch:Alive() then
 
 			local LEye = GetEyeAttach( uch, "L_eye" )
 			local REye = GetEyeAttach( uch, "R_eye" )
