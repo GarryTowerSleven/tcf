@@ -391,8 +391,6 @@ function GM:CalcView( ply, origin, angles, fov )
 		return view
 	end
 
-	ball = ball.Ball
-
 	view.origin, dist = ply:CameraTrace(ball, dist, angles)
 	view.origin = view.origin + Vector(0, 0, 8)
 

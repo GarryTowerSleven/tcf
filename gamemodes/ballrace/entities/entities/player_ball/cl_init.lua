@@ -13,135 +13,6 @@ function ENT:Initialize()
 
 end
 
-
-function ENT:SphereInit(r)
-	self:PhysicsInitSphere(r)
-
-	local phys = self:GetPhysicsObjectNum(0)
-	phys:SetMass(100)
-	phys:SetDamping( 0.05, 1 )
-	phys:SetBuoyancyRatio(0.5)
-
-	self:StartMotionController()
-end
-
-function ENT:Initialize()
-
-	self:SetCustomCollisionCheck( true )
-
-	local ply = self:GetOwner()
-
-	self.radius = 44
-
-	self:SphereInit(self.radius)
-
-	self:SetModel( "models/gmod_tower/ball_spiked.mdl" )
-	// self:SetNoDraw( true )
-	self:DrawShadow( false )
-
-	self:AddEFlags( EFL_FORCE_CHECK_TRANSMIT )
-	self.links = {}
-end
-
-function ENT:Think()
-	self:GetPhysicsObject():Wake()
-end
-
-function ENT:PhysicsCollide( data, physobj )
-	if data.Speed > 100 && data.DeltaTime >= 1 && self:GetModelScale() == 1 then
-		local edata = EffectData()
-		edata:SetOrigin(data.HitPos)
-		edata:SetNormal(data.HitNormal * -1)
-		util.Effect("ball_hit", edata)
-	end
-end
-
-function ENT:PhysicsSimulate( phys, deltatime )
-	local ply = self:GetOwner()
-
-	if !IsValid(ply) then return SIM_NOTHING end
-
-	if !ply:Alive() then return end
-	local vMove = Vector(0,0,0)
-	local vAngle = Vector(0,0,0)
-	local aEyes = ply:EyeAngles()
-
-	local mass = phys:GetMass()
-	local velocity = phys:GetVelocity()
-	local anglevel = phys:GetAngleVelocity()
-
-	if velocity:Length() >= 3000 then
-		ply:SetAchievement( ACHIEVEMENTS.BRSPEEDSTER, 1 )
-	end
-
-	if ( ply:KeyDown( IN_FORWARD ) ) then vMove = vMove + aEyes:Forward() end
-	if ( ply:KeyDown( IN_BACK) ) then vMove = vMove - aEyes:Forward() end
-	if ( ply:KeyDown( IN_MOVELEFT ) ) then vMove = vMove - aEyes:Right() end
-	if ( ply:KeyDown( IN_MOVERIGHT ) ) then vMove = vMove + aEyes:Right() end
-
-	vMove.z = 0;
-
-	if vMove:Length() > 0 then
-		local dir = vMove:GetNormal()
-
-		local dot = 1 - dir:Dot(velocity:GetNormal())
-
-		vMove = dir * mass * 20000 * deltatime
-
-		vMove = vMove + (vMove * dot)
-
-	elseif math.abs(velocity.z) <= 10 then
-
-		velocity.z = 0
-
-		local length = velocity:Length()
-		velocity:Normalize()
-
-		vMove = velocity * -length * 200 * (1 - deltatime)
-	end
-
-	vMove = self:ApplyRepellers(phys, deltatime, vMove)
-
-	return vAngle, vMove, SIM_GLOBAL_FORCE
-
-end
-
-//local repellers
-function ENT:ApplyRepellers(phys, deltatime, vMove)
-	//if !repellers then
-		local repellers = ents.FindByClass("repeller")
-	//end
-
-	for k,v in pairs(repellers) do
-		local diff = (phys:GetPos() - v:LocalToWorld(v:OBBCenter()))
-		local dist = diff:Length()
-		local scaledist = dist / 100
-
-		if dist < v.Radius then
-			if !self.links[v] then
-				self:LinkWithRepeller(v)
-			end
-
-			diff:Normalize()
-
-			if v.Repel <= 0 then
-				diff = diff * -1
-			end
-
-			local accel = v.Power * phys:GetMass() / (scaledist * scaledist)
-			vMove = vMove + (diff * accel)
-
-		elseif self.links[v] then
-			self:LinkWithRepeller(v)
-		end
-	end
-
-	return vMove
-end
-
-function ENT:LinkWithRepeller(repel)
-end
-
 function ENT:InitBall()
 	local ply = self:GetOwner()
 	if !IsValid( ply ) or self.Ball then return end
@@ -286,36 +157,7 @@ function ENT:SelectSequence( ply )
 
 end
 
-net.Receive("test", function(_, ply)
-	if BALL then
-		BALL:SetPos(net.ReadVector())
-	end
-end)
-
 function ENT:Think()
-
-	if self:EntIndex() == -1 then
-		self:SetOwner(LocalPlayer())
-		self:PhysWake()
-		BALL = self
-		if !self.LastSend or self.LastSend < CurTime() then
-			net.Start("test")
-			net.WriteVector(self:GetPos())
-			local v = self:GetPhysicsObject():GetVelocity()
-			net.WriteVector(v)
-			net.SendToServer()
-			self.LastSend = CurTime() + 0.01
-		end
-	else
-		if self:GetOwner() == LocalPlayer() then
-			if !IsValid(self.Ball) then
-				self.Ball = ents.CreateClientside("player_ball")
-				self.Ball:SetPos(self:GetPos())
-				self.Ball:Spawn()
-			end
-		end
-		return
-	end
 
 	// BUG: Invisible players inside the ball
 	// the CSEnt is IsValid, but GetModel throws an error
@@ -376,10 +218,6 @@ end
 function ENT:DrawTranslucent()
 
 	local ply = self:GetOwner()
-	if ply == LocalPlayer() && self:EntIndex() ~= -1 then
-		render.DrawWireframeSphere(self:GetPos(), 44, 8, 8, color_white, false)
-		return
-	end
 	if !IsValid( ply ) then return end
 
 	// Draw player model
