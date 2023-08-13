@@ -98,7 +98,6 @@ function ENT:Think()
 			if ( self.Drink.Name != "Deathwish" || self.Drink.Name != "One Too Many" ) then -- annoying..
 				self.EffectEnd ( self.Player )
 				
-				self.Player:SetNWBool( "ForceModel", true )
 				GAMEMODE:SetPlayerSpeed( self.Player, 100, 100 )
 				self.Player:SetModel("models/player/group01/male_01.mdl")
 			end
