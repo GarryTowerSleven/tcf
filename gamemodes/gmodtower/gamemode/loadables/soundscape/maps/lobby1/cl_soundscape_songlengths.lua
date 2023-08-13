@@ -8,6 +8,7 @@ soundLengths["sound/gmodtower/balls/ballsmusicwgrass.mp3"] = 126.943107
 soundLengths["sound/uch/music/waiting/waiting_music10.mp3"] = 69.029002
 soundLengths["sound/gmodtower/music/lobbyroof.mp3"] = 94.107188
 soundLengths["sound/gmodtower/music/lobbyroof2.mp3"] = 196.633000
+soundLengths["sound/gmodtower/music/secret.mp3"] = 80.961000
 soundLengths["sound/gmodtower/virus/waiting_forplayers8.mp3"] = 30.263923
 soundLengths["sound/gmodtower/balls/ballsmusicwsky.mp3"] = 83.632086
 soundLengths["sound/uch/music/waiting/waiting_music7.mp3"] = 53.600000

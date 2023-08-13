@@ -34,8 +34,8 @@ Add( 48, {
 Add( 9, {
     Name = "???",
     Group = "hallway",
-    Min = Vector(15555,-16350,6235),
-    Max = Vector(16225,16320,6615),
+    Min = Vector(15745,-16275,-16375),
+    Max = Vector(16350,-3411,-15975),
     Priority = 0,
 } )
 Add( 2, {
