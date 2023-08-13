@@ -160,5 +160,10 @@ concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 end )
 
 concommand.Add("gmt_updateplayercolor", function(ply)
+	if ply:GetNWBool( "Outside" ) then 
+		ply:SetPlayerColor( Vector(0.098039, 0.254902, 0.309804) )
+		return
+	end
+	
 	ply:SetPlayerColor( Vector(ply:GetInfo("cl_playercolor")) )
 end)

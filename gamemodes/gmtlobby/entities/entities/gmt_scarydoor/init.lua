@@ -11,14 +11,24 @@ function ENT:Initialize()
 end
 
 function ENT:Use(ply)
-	if ply:GetNWBool("Outside") then
-
-		ply:SetNWBool("Outside", false)
-		ply:SetNWBool("ForceModel", false)
-		ply:ConCommand( "gmt_updateplayermodel" )
-		ply:ResetSpeeds()
+	if ply:IsPlayer() then
+	
+		if ply.DoorDelay == nil then ply.DoorDelay = CurTime() end
 		
-		ply:SafeTeleport( Vector(928, -1472, 168 ))
-		ply:SetAchievement( ACHIEVEMENTS.SMOOTHDETECTIVE, 1 )
+		if ply.DoorDelay <= CurTime() then
+			ply.DoorDelay = CurTime() + 3
+			self:EmitSound( "doors/door1_stop.wav", 75, 100, 1, CHAN_AUTO ) 
+			if ply:GetNWBool("Outside") then
+
+				ply:SetNWBool("Outside", false)
+				ply:ConCommand( "gmt_updateplayermodel" )
+				ply:ConCommand( "gmt_updateplayercolor" )
+				ply:ResetSpeeds()
+				
+				ply:SafeTeleport( Vector(928, -1472, 168 ))
+				ply:SetAchievement( ACHIEVEMENTS.SMOOTHDETECTIVE, 1 )
+			end
+			
+		end
 	end
 end

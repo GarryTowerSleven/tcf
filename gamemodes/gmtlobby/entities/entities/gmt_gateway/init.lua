@@ -35,8 +35,10 @@ function ENT:Use( activator )
 					activator:SetNWBool("Outside", true)
 					GAMEMODE:SetPlayerSpeed( activator, 100, 100 )
 					activator:SetModel("models/player/group01/male_01.mdl")
+					activator:ConCommand( "gmt_updateplayercolor" )
+					activator:SetModelScale(1)
 					activator:StripWeapons()
-					activator:SafeTeleport( Vector(15880, 16225, 6335 ))
+					activator:SafeTeleport( Vector(math.random(15945, 16155), math.random(-3935, -3485), -16250 ))
 				end)
 			elseif self.TurtleNumber == 1 && activator.TurtleNumber == 0 then
 				activator.TurtleNumber = 2
