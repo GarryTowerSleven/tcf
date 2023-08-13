@@ -192,14 +192,17 @@ function GM:PrePlayerDraw( ply )
 	
 end
 
-/*hook.Add( "PreDrawHalos", "UCAngryHalo", function()
+hook.Add( "PreDrawHalos", "UCAngryHalo", function()
 
-	if GAMEMODE:IsLastPigmasks() then
-		halo.Add( { GAMEMODE:GetUC() }, Color( 255, 80, 80, 150 ), 2, 2, math.random( 4, 6 ), true, false )
-		halo.Add( { GAMEMODE:GetUC() }, Color( 255, 255, 255, 150 ), 1, 1, 1, true, false )
+	if math.ceil( GAMEMODE:GetTimeLeft() ) <= 30 && GAMEMODE:IsLastPigmasks() && LocalPlayer():GetNet( "IsChimera" ) then
+		for k, ply in pairs( player.GetAll() ) do
+			if ply:IsPig() then
+				halo.Add( { ply }, Color( 255, 80, 80, 50 ), 2, 2, 1 , true, true )
+			end
+		end
 	end
 
-end )*/
+end )
 
 usermessage.Hook( "UCMakeRagFly", function( um )
 
