@@ -38,7 +38,7 @@ function ENT:Use( activator )
 					activator:ConCommand( "gmt_updateplayercolor" )
 					activator:SetModelScale(1)
 					activator:StripWeapons()
-					activator:SafeTeleport( Vector(math.random(15945, 16155), math.random(-3935, -3485), -16250 ))
+					activator:SafeTeleport( Vector(math.random(15945, 16155), math.random(-3935, -3485), -16290 ))
 				end)
 			elseif self.TurtleNumber == 1 && activator.TurtleNumber == 0 then
 				activator.TurtleNumber = 2
