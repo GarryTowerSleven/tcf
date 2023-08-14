@@ -8,7 +8,7 @@ ITEM.UniqueInventory = false
 ITEM.DrawModel = true
 ITEM.CanUse = true
 ITEM.UseDesc = "Drink"
-ITEM.AllowDropLocation = "Bar"
+ITEM.AllowBarDrop = true
 
 ITEM.StoreId = GTowerItems.BarStoreId
 ITEM.StorePrice = 100

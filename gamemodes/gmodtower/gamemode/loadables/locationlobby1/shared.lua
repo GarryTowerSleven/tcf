@@ -231,6 +231,10 @@ function IsNarnia( id )
 	return id == 51
 end
 
+function IsBar( id )
+	return id == 39 or id == 54
+end
+
 function IsCondo( id, condoid )
 	return Is( id, "Suite #" .. condoid )
 end

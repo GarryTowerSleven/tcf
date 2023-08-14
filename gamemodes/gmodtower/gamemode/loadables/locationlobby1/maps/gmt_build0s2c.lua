@@ -327,6 +327,13 @@ Add( 51, {
     Max = Vector(-3008,-6100,2224),
     Priority = 0,
 } )
+Add( 54, {
+    Name = "Pool Bar",
+    Group = "pool",
+    Min = Vector(-9000,9400,-330),
+    Max = Vector(-8445,11300,742),
+    Priority = 1,
+} )
 Add( 55, {
     Name = "Lakeside Cabin",
     Group = "lakeside",
@@ -337,7 +344,7 @@ Add( 55, {
 Add( 56, {
     Name = "Pool",
     Group = "pool",
-    Min = Vector(-9267,8860,-330),
+    Min = Vector(-8445,8860,-330),
     Max = Vector(-5952,11860,742),
     Priority = 0,
 } )
@@ -345,7 +352,7 @@ Add( 57, {
     Name = "Lakeside",
     Group = "lakeside",
     Min = Vector(-12258,9145,-300),
-    Max = Vector(-9267,11860,742),
+    Max = Vector(-9000,11860,742),
     Priority = 0,
 } )
 

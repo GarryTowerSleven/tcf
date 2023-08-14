@@ -51,7 +51,8 @@ OverrideOnlyEquippable = false
 AllowAnywhereDrop = false
 // For Dropping in Specific Locations
 AllowDropLocation = nil
-
+// For Dropping in the bar
+AllowBarDrop = nil
 
 
 CanRemove = true //If it the ent can be removed trough inventory,  on the sub menu

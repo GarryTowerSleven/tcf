@@ -302,7 +302,7 @@ function meta:DropItem( slot, aim, rotation, shoot )
 		return
 	end
 
-	if Item.AllowAnywhereDrop then
+	if Item.AllowAnywhereDrop || Item.AllowDropLocation || Item.AllowBarDrop then
 		local playerEnts = 0
 		for _, v in ipairs( ents.GetAll() ) do
 			if ( v.PlayerOwner == self ) then
@@ -319,7 +319,7 @@ function meta:DropItem( slot, aim, rotation, shoot )
 
 	end
 
-	if !Item.AllowDropLocation && !Item.AllowAnywhereDrop then
+	if !Item.AllowDropLocation && !Item.AllowAnywhereDrop && !Item.AllowBarDrop then
 		if hook.Call("GTowerInvDrop", GAMEMODE, self, Trace, Item ) != true && ClientSettings:Get( self, "GTAllowInvAllEnts" ) == false then
 			return
 		end
@@ -372,8 +372,13 @@ function meta:DropItem( slot, aim, rotation, shoot )
 		e:SetEntity( DropEnt )
 		util.Effect( 'spawneffect', e, true, true )
 
-		if Item.AllowDropLocation or Item.AllowAnywhereDrop then // if they're droppable anywhere, lets assign the owner here so we can count how many items we dropped
+		if Item.AllowDropLocation or Item.AllowAnywhereDrop or Item.AllowBarDrop then // if they're droppable anywhere, lets assign the owner here so we can count how many items we dropped
 			DropEnt.PlayerOwner = self
+		end
+
+		if Item.AllowBarDrop && !ClientSettings:Get( self, "GTAllowInvAllEnts" ) && !Item.AllowAnywhereDrop && Location.GetSuiteID( DropEnt:Location() ) < 1 && !Location.IsBar( DropEnt:Location() ) then
+			DropEnt:Remove()
+			return
 		end
 
 		if Item.AllowDropLocation && !ClientSettings:Get( self, "GTAllowInvAllEnts" ) && !Item.AllowAnywhereDrop && Location.GetSuiteID( DropEnt:Location() ) < 1 && !Location.Is( DropEnt:Location(), Item.AllowDropLocation ) then
