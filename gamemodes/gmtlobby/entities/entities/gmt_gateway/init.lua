@@ -16,13 +16,18 @@ end
 
 function SendToHallway( ply )
 	ply:SetNWBool( "InLimbo", true )
+	
 	ply:SafeTeleport( Vector(math.random(15945, 16155), math.random(-3935, -3485), -16330 ), nil, Angle(0, -90, 0) )
+	
 	if UCHAnim && UCHAnim.IsGhost( ply ) or UCHAnim.IsPig ( ply ) then
 		UCHAnim.ClearPlayer( ply )
 	end
 	if ply.UsingAdrenaline == true then
 		AdrenalineOff(ply)
 	end
+	
+	RunConsoleCommand("gmt_leavegroup")
+	
 	ply:UnDrunk()
 	GAMEMODE:SetPlayerSpeed( ply, 100, 100 )
 	ply:SetModel("models/player/group01/male_01.mdl")

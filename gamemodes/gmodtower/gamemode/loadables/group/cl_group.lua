@@ -54,7 +54,7 @@ function GTowerGroup:RecieveInvite( id, ent )
 
 	if !IsValid( Inviter ) || !Inviter:IsPlayer() then return end
 
-	if IgnoreGroups:GetBool() then
+	if IgnoreGroups:GetBool() || LocalPlayer():GetNWBool( "InLimbo" ) then
 		RunConsoleCommand("gmt_denygroup", GroupId )
 		return
 	end
