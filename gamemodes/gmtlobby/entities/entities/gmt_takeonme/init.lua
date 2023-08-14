@@ -36,7 +36,7 @@ function ENT:SetTakeOn( ply )
 		ply:SetMaterial( "gmod_tower/pvpbattle/aha_skin" )
 	end
 
-	ply:SetWalkSpeed( 550 )
+	GAMEMODE:SetPlayerSpeed( ply, 550, 750 )
 	ply.TakeOn = self
 
 end
@@ -61,7 +61,11 @@ function ENT:OnRemove()
 
 		owner.TakeOn = nil
 		owner:SetMaterial( "" )
-		owner:SetWalkSpeed( 250 )
+		if owner:GetNWBool( "InLimbo" ) then
+			GAMEMODE:SetPlayerSpeed( ply, 100, 100 )
+		else
+			owner:ResetSpeeds()
+		end
 
 	end
 
