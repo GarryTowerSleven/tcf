@@ -13,3 +13,6 @@ function concommand.Add(cmd, ...)
     cmd = string.Replace(cmd, "vrmod_", "gmt_vr_")
     return old2(cmd, ...)
 end
+
+old1("vrmod_floatinghands", "0")
+old1("vrmod_althead", "0")
