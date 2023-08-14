@@ -76,5 +76,5 @@ function meta:SafeTeleport( pos, ang, eyeangles )
 
     self:SetPos( pos )
     self:SetAngles( ang or self:GetAngles() )
-    self:SetAngles( eyeangles or self:EyeAngles() )
+    self:SetEyeAngles( eyeangles or self:EyeAngles() )
 end
