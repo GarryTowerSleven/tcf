@@ -563,6 +563,16 @@ hook.Add("PhysgunDrop", "ResetPISCollisions", function(pl, ent)
 	end
 end)
 
+hook.Add( "Location", "KeepOut", function( ply, loc )
+
+	if Location.Is( loc, "???" ) && !ply:GetNWBool( "InLimbo" ) then
+		ply:SafeTeleport( Vector(1630, -3510, -190 ))
+	end
+
+ end )
+
+// unused
+/* 
 hook.Add( "Location", "BWDev", function( ply, loc )
 
 	if Location.Is( loc, "secret_hallway" ) || Location.Is( loc, "secret_devhq" ) then
@@ -571,4 +581,4 @@ hook.Add( "Location", "BWDev", function( ply, loc )
 		PostEvent( ply, "bw_off" )
 	end
 
- end )
+ end )/*
