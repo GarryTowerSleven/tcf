@@ -38,6 +38,8 @@ DefaultItems = {
 	"radio",
 	"suitelamp",
 	"toiletchair",
+	"artwork",
+	"artwork2",
 }
 
 SuitePanelPos = {
@@ -348,6 +350,6 @@ net.Receive( "SendSuiteName", function( len, ply )
 	if Panel then
 		local name = net.ReadString()
 
-		Panel:SetText( tostring(name) or "oboy" )
+		Panel:SetText( tostring(name) or "oboy", ply )
 	end
 end )
