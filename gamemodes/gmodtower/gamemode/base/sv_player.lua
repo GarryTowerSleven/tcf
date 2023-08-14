@@ -45,6 +45,12 @@ function meta:ExitAll()
         end
     end
 
+	// golfball
+	if ( IsValid( self.GolfBall ) ) then
+		self.Teleport = true
+		self.GolfBall:Remove()
+	end
+
     // Exit Tetris
     if ( self.InTetris ) then
         for _, v in ipairs( ents.FindByClass( "gmt_tetris" ) ) do

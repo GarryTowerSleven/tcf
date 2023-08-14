@@ -628,6 +628,9 @@ function ENT:OnRemove()
 		end
 	end
 
+	gui.EnableScreenClicker( false )
+	LocalPlayer()._ClickerEnabled = false // we need to redo this eventually, this entire entity is ripped straight from MG and has many issues
+
 	ply:SetNoDraw(false)
 	ply.GolfBall = nil
 end
