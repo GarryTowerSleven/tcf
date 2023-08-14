@@ -101,6 +101,22 @@ function PlayerMeta:AdrenalineOn()
 
 end
 
+function AdrenalineOff(ply)
+
+	if !IsValid( ply ) then return end
+	
+	if SERVER then
+		ply:ResetSpeeds()
+	end
+	
+	ply:SetDSP( 1 )
+	PostEvent( ply, "adrenaline_off" )
+	ply.UsingAdrenaline = false
+
+	timer.Destroy( "Adrenaline" .. ply:UserID() )
+	
+end
+
 function PlayerMeta:AdrenalineOff()
 
 	if !IsValid( self ) then return end

@@ -240,7 +240,7 @@ function IsCondo( id, condoid )
 end
 
 function IsEquippablesNotAllowed( id )
-	return IsArcade( id ) or IsTheater( id ) or IsNarnia( id )
+	return IsArcade( id ) or IsTheater( id ) or IsNarnia( id ) or id == 9 // hallway
 end
 
 function IsSuicideNotAllowed( id, ply )

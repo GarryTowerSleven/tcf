@@ -537,6 +537,7 @@ function initHud()
 
 		--if LocalPlayer():GetSetting(29 --[["GTAllowVirusHUD"]]) != true then return end
 
+		if LocalPlayer():GetNWBool("InLimbo") then return end
 		if !LocalPlayer():GetNWBool("VirusRadar") then return end
 
 		Radar.w = 256

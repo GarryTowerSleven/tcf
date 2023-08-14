@@ -17,8 +17,16 @@ end
 function SendToHallway( ply )
 	ply:SetNWBool( "InLimbo", true )
 	ply:SafeTeleport( Vector(math.random(15945, 16155), math.random(-3935, -3485), -16290 ))
+	if UCHAnim && UCHAnim.IsGhost( ply ) or UCHAnim.IsPig ( ply ) then
+		UCHAnim.ClearPlayer( ply )
+	end
+	if ply.UsingAdrenaline == true then
+		AdrenalineOff(ply)
+	end
+	ply:UnDrunk()
 	GAMEMODE:SetPlayerSpeed( ply, 100, 100 )
 	ply:SetModel("models/player/group01/male_01.mdl")
+	BoneMod.SetBoneMod( ply, BONEMOD_NORMAL )
 	ply:ConCommand( "gmt_updateplayercolor" )
 	ply:SetModelScale(1)
 	ply:StripWeapons()
@@ -32,8 +40,6 @@ function RemoveFromHallway( ply, giveachievement )
 	ply:ConCommand( "gmt_updateplayermodel" )
 	ply:ConCommand( "gmt_updateplayercolor" )
 	ply:ResetSpeeds()
-
-	
 
 	if ( giveachievement ) then
 		ply:SetAchievement( ACHIEVEMENTS.SMOOTHDETECTIVE, 1 )
