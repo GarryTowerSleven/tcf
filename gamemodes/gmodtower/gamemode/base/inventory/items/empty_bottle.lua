@@ -6,6 +6,7 @@ ITEM.UniqueInventory = false
 ITEM.DrawModel = true
 ITEM.AllowEntBreak = true
 ITEM.MoveSound = "glass"
+ITEM.AllowBarDrop = true
 
 ITEM.StoreId = GTowerItems.BarStoreId
 ITEM.StorePrice = 3
