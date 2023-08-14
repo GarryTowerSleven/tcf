@@ -16,7 +16,7 @@ end
 
 function SendToHallway( ply )
 	ply:SetNWBool( "InLimbo", true )
-	ply:SafeTeleport( Vector(math.random(15945, 16155), math.random(-3935, -3485), -16290 ))
+	ply:SafeTeleport( Vector(math.random(15945, 16155), math.random(-3935, -3485), -16330 ), nil, Angle(0, -90, 0) )
 	if UCHAnim && UCHAnim.IsGhost( ply ) or UCHAnim.IsPig ( ply ) then
 		UCHAnim.ClearPlayer( ply )
 	end
@@ -36,7 +36,7 @@ function RemoveFromHallway( ply, giveachievement )
 	if ( not ply:GetNWBool( "InLimbo" ) ) then return end
 
 	ply:SetNWBool( "InLimbo", false )
-	ply:SafeTeleport( Vector(928, -1472, 168 ))
+	ply:SafeTeleport( Vector(928, -1472, 100 ), nil, Angle(0, 90, 0) )
 	ply:ConCommand( "gmt_updateplayermodel" )
 	ply:ConCommand( "gmt_updateplayercolor" )
 	ply:ResetSpeeds()

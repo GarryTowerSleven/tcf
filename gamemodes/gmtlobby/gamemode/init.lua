@@ -566,7 +566,7 @@ end)
 hook.Add( "Location", "KeepOut", function( ply, loc )
 
 	if Location.Is( loc, "???" ) && !ply:GetNWBool( "InLimbo" ) then
-		ply:SafeTeleport( Vector(1630, -3510, -190 ))
+		ply:SafeTeleport( Vector(1630, -3510, -190 ), nil, Angle(0, 180, 0) )
 	end
 
  end )
