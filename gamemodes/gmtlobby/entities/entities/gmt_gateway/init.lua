@@ -16,23 +16,24 @@ end
 
 function SendToHallway( ply )
 	ply:SetNWBool( "InLimbo", true )
+	ply:SafeTeleport( Vector(math.random(15945, 16155), math.random(-3935, -3485), -16290 ))
 	GAMEMODE:SetPlayerSpeed( ply, 100, 100 )
 	ply:SetModel("models/player/group01/male_01.mdl")
 	ply:ConCommand( "gmt_updateplayercolor" )
 	ply:SetModelScale(1)
 	ply:StripWeapons()
-	ply:SafeTeleport( Vector(math.random(15945, 16155), math.random(-3935, -3485), -16290 ))
 end
 
 function RemoveFromHallway( ply, giveachievement )
 	if ( not ply:GetNWBool( "InLimbo" ) ) then return end
 
 	ply:SetNWBool( "InLimbo", false )
+	ply:SafeTeleport( Vector(928, -1472, 168 ))
 	ply:ConCommand( "gmt_updateplayermodel" )
 	ply:ConCommand( "gmt_updateplayercolor" )
 	ply:ResetSpeeds()
 
-	ply:SafeTeleport( Vector(928, -1472, 168 ))
+	
 
 	if ( giveachievement ) then
 		ply:SetAchievement( ACHIEVEMENTS.SMOOTHDETECTIVE, 1 )
@@ -69,7 +70,7 @@ function ENT:Use( activator )
 				net.Send( activator )
 				// Pt 2
 				timer.Simple(0.25, function()
-					SendToHallway( ply )
+					SendToHallway( activator )
 				end)
 			elseif self.TurtleNumber == 1 && activator.TurtleNumber == 0 then
 				activator.TurtleNumber = 2
