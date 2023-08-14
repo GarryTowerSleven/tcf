@@ -45,7 +45,7 @@ function PANEL:Paint( w, h )
 
 	if ( !IsValid( self.ply ) ) then return end
 	if ( !GetConVar( "gmt_voice_enable" ):GetBool() ) then return end
-	if ( GTowerHUD and GTowerHUD.ShouldDraw and not GTowerHUD.ShouldDraw() ) then
+	if ( GTowerHUD and GTowerHUD.ShouldDraw and not GTowerHUD.ShouldDraw() and !LocalPlayer():GetNWBool( "InLimbo" ) ) then
 		if IsValid( self.Avatar ) and self.Avatar:IsVisible() then
 			self.Avatar:SetVisible( false )
 		end
