@@ -119,7 +119,7 @@ end
 
 function PlayerMeta:AdrenalineOff()
 
-	if !IsValid( self ) then return end
+	if !IsValid( self ) or self.UsingAdrenaline == false then return end
 	
 	if SERVER then
 		self:ResetSpeeds()
