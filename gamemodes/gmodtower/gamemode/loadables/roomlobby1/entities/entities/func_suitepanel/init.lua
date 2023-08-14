@@ -194,9 +194,9 @@ function ENT:UsePanel( ply, cur_x, cur_y )
 
 end
 
-function ENT:SetText( text )
+function ENT:SetText( text, ply )
 	if !text || !isstring( text ) then return end
-	self:SetNWString( "RoomName", text:sub( 1, 24 ) )
+	ply:SetNWString( "RoomName", text:sub( 1, 24 ) )
 end
 
 concommand.Add( "gmt_usesuitepanel", function(ply, command, args)

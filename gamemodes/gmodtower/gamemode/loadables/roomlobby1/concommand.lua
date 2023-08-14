@@ -412,7 +412,7 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 
 	local panel = GTowerRooms.GetPanel( PlyRoom.Id )
 	if panel then
-		panel:SetText( ply:GetInfo( "gmt_suitename" ) or "" )
+		panel:SetText( ply:GetInfo( "gmt_suitename" ) or "", ply)
 	end
 
 	AdminNotif.SendStaff( ply:NickID() .. " has checked into suite #" .. PlyRoom.Id .. ".", nil, nil, 3 )

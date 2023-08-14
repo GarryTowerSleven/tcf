@@ -321,9 +321,9 @@ function ENT:DrawMessage()
 	local owner = GTowerRooms:RoomOwner( self.RoomId )
 	if IsValid( owner ) then
 
-		if self:GetNWString("RoomName") != "" then
-			draw.SimpleText( self:GetNWString("RoomName"), "SuiteNameFont", -190+2, -250+2, Color( 0, 0, 0 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-			draw.SimpleText( self:GetNWString("RoomName"), "SuiteNameFont", -190, -250, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		if owner:GetNWString("RoomName") != "" then
+			draw.SimpleText( owner:GetNWString("RoomName"), "SuiteNameFont", -190+2, -250+2, Color( 0, 0, 0 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.SimpleText( owner:GetNWString("RoomName"), "SuiteNameFont", -190, -250, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		end
 
 		if owner:GetNWBool("GRoomParty") then
