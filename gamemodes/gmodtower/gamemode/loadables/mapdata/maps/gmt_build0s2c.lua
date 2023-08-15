@@ -44,7 +44,7 @@ local function MapAdds()
     AddEntity( "gmt_webboard", Vector(1640.75,-963.8125,5.21875), Angle(0,-135,0) )
 
     // Lobby Piano
-    AddEntity( "gmt_piano", Vector(1836, -1215, 0), Angle(0, 180 ,0) )
+    AddEntity( "gmt_piano", Vector(1836, -1240, 0), Angle(0, 180 ,0) )
 
     // Arcade Checkers
     for _, v in ipairs( ents.FindByClass( "gmt_tictactoe" ) ) do
