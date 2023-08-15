@@ -20,7 +20,7 @@ end
 function HideMenus()
 
 	if ContextMenuEnabled then return end
-	if hook.Call( "DisableMenu", GAMEMODE ) == true then return end
+	//if hook.Call( "DisableMenu", GAMEMODE ) == true then return end
 
 	if CanClose() == false then return end
 
@@ -37,7 +37,7 @@ function HideContextMenus()
 
 	if MenuEnabled then return end
 
-	if hook.Call( "DisableMenu", GAMEMODE ) == true then return end
+	//if hook.Call( "DisableMenu", GAMEMODE ) == true then return end
 
 	RememberCursorPosition()
 	gui.EnableScreenClicker( false )
@@ -126,6 +126,11 @@ hook.Add( "ScoreboardHide", "KeepMouseAvaliable", function()
 end )
 
 hook.Add( "Think", "AutoHideMenu", function()
+
+	if ( (MenuEnabled or ContextMenuEnabled) and hook.Call( "DisableMenu", GAMEMODE ) ) then
+		HideContextMenus()
+		HideMenus()
+	end
 
 	if not LocalPlayer():Alive() then
 		GTowerMainGui:HideMenus()
