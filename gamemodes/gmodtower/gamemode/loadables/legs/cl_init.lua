@@ -289,7 +289,8 @@ local function LegsShouldDraw()
 
 	if LocalPlayer():InVehicle() then
 
-		angLimit = 8 // why was this disabled?
+		return // angLimit = 8 // why was this disabled?
+		// i see why this was disabled.
 
 	end
 
