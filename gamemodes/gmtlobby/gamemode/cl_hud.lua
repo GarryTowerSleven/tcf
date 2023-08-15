@@ -139,7 +139,7 @@ function initHud()
 
 		local w, h = ScrW() / 2, ScrH() / 2
 
-		if GTowerHUD.Crosshair.ThreeD:GetBool() then
+		if GTowerHUD.Crosshair.ThreeD:GetBool() && !IsValid( LocalPlayer():GetNet( "DrivingObject" ) ) then
 			local p = EyePos() + LocalPlayer():EyeAngles():Forward()
 			p = p:ToScreen()
 			w, h = math.Round(p.x), math.Round(p.y)
