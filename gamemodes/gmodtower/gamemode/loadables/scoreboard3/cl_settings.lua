@@ -625,27 +625,26 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		self:Header( "General" )
 		if IsLobby then
 			self:CheckBox( "Enable HUD", "gmt_hud" )
-			self:Divider()
 			self:CheckBox( "Enable HUD Ammo", "gmt_hud_ammo", "gmt_hud" )
 			self:CheckBox( "Enable HUD Location", "gmt_hud_location", "gmt_hud" )
 			self:CheckBox( "Enable Event Timer", "gmt_draweventtimer", "gmt_hud" )
-			self:Divider()
 			self:CheckBox( "Enable Third Person Button", "gmt_thirdpersonbutton" )
-			self:CheckBox( "Enable New Name Hovering", "gmt_targetid_new" )
 			self:Divider()
 			self:Header( "Crosshair" )
 			self:CheckBox( "Enable Crosshair", "gmt_hud_crosshair" )
-			self:Divider()
 			self:CheckBox( "Enable 3D Crosshair", "gmt_hud_crosshair_3d", "gmt_hud_crosshair" )
 			self:CheckBox( "Crosshair Always Visible", "gmt_hud_crosshair_always", "gmt_hud_crosshair" )
 			self:CheckBox( "Enable Use Prompts", "gmt_hud_crosshair_action", "gmt_hud_crosshair" ) -- graying out is broken when multiple options use the same prerequisite?	
 			//self:CheckBox( LobbyCanvas, "Enable Gamemode Notice", "gmt_gmnotice" )
 			//self:CheckBox( LobbyCanvas, "Enable News Ticker", "gmt_newsticker" )
 			//self:CheckBox( LobbyCanvas, "Allow Sound Spam", "gmt_allowSoundSpam" )
-
 			self:Divider()
 			self:Header( "Store" )
 			self:CheckBox( "Enable Compact Store GUI", "gmt_compactstores" )
+			self:Divider()
+			self:Header( "Misc." )
+			self:CheckBox( "Enable New Name Hovering", "gmt_targetid_new" ) 
+			self:CheckBox( "Enable Playermenu", "gmt_playermenu" )
 		end
 	end
 
@@ -764,6 +763,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 	if tabname == "VIP" then
 		self:Header( "VIP" )
 		self:CheckBox( "Enable Glow For Yourself", "gmt_vip_enableglow" )
+		self:Divider()
 		self:Slider( "Jetpack Power", "gmt_vip_jetpackpower", 1, 2, 1 )
 		//self:CheckBox( VIPCanvas, "Draw Jetpack For Other Players", "gmt_jetpackvipdraw" )
 	end
