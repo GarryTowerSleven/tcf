@@ -372,11 +372,11 @@ function meta:DropItem( slot, aim, rotation, shoot )
 		e:SetEntity( DropEnt )
 		util.Effect( 'spawneffect', e, true, true )
 
-		if Item.AllowDropLocation or Item.AllowAnywhereDrop or Item.AllowBarDrop then // if they're droppable anywhere, lets assign the owner here so we can count how many items we dropped
+		if Item.AllowDropLocation or Item.AllowAnywhereDrop or Item.AllowBarDrop then // lets assign the owner here so we can count how many items we dropped
 			DropEnt.PlayerOwner = self
 		end
 
-		if Item.AllowBarDrop && !ClientSettings:Get( self, "GTAllowInvAllEnts" ) && !Item.AllowAnywhereDrop && Location.GetSuiteID( DropEnt:Location() ) < 1 && !Location.IsBar( DropEnt:Location() ) then
+		if Item.AllowBarDrop && !ClientSettings:Get( self, "GTAllowInvAllEnts" ) && !Item.AllowAnywhereDrop && Location.GetSuiteID( DropEnt:Location() ) < 1 && !Location.IsBarDropAllowed( DropEnt:Location() ) then
 			DropEnt:Remove()
 			return
 		end

@@ -235,6 +235,10 @@ function IsBar( id )
 	return id == 39 or id == 54
 end
 
+function IsBarDropAllowed( id )
+	return IsBar( id ) or id == 21 // party suite
+end
+
 function IsCondo( id, condoid )
 	return Is( id, "Suite #" .. condoid )
 end
