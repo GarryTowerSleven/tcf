@@ -520,7 +520,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 			self:Header( "General" )
 			self:CheckBox( "Enable View Bob", "gmt_viewbob" )
-			self:CheckBox( "Use Playermodel Hands", "gmt_playermodel_hands" )
+			self:CheckBox( "Enable Playermodel Hands", "gmt_playermodel_hands" )
 			self:CheckBox( "Draw First Person Legs", "gmt_drawlegs" )
 			self:CheckBox( "Draw Players While Playing Blockles", "gmt_tetris_drawplayers" )
 			--self:Slider( "Condo Snap Grid Size (hold C while dragging)", "gmt_invsnapsize", 2, 16 )
