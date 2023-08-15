@@ -68,7 +68,7 @@ local function IconSetModel( icon )
 
 
 
-	if IsLobby && !IsValid( LocalPlayer():GetVehicle() ) then
+	if IsLobby then
 
 		Msg2( T("PlayerModelUpdated") )
 
@@ -84,11 +84,7 @@ local function IconSetModel( icon )
 
 
 
-	if !IsValid( LocalPlayer():GetVehicle() ) then
-
-		RunConsoleCommand( "gmt_updateplayermodel" )
-
-	end
+	RunConsoleCommand( "gmt_updateplayermodel" )
 
 
 
