@@ -173,12 +173,3 @@ net.Receive("MinigameMusic",function()
 		LocalPlayer().BMusic:FadeOut(1)
 	end
 end)
-
-hook.Add( "KeyPress", "UsePlayerMenu", function( ply, key )
-	if ( key == IN_USE ) then
-		local ent = LocalPlayer():GetEyeTrace().Entity
-		if IsValid(ent) and ent:IsPlayer() and ent:Alive() and (LocalPlayer():GetPos():Distance(ent:GetPos()) < 100) then
-			PlayerMenu.Show(ent)
-		end
-	end
-end )
