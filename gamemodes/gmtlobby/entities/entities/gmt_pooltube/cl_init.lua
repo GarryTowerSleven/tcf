@@ -54,7 +54,9 @@ function ENT:Enter( ply )
 */
 	ply.PoolTube = self
 
-
+	if ThirdPerson && ply.ViewingSelf then
+		ThirdPerson.ViewSelfToggle( ply, false )
+	end
 
 end
 

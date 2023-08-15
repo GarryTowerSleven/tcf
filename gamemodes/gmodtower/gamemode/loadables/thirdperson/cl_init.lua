@@ -353,7 +353,7 @@ end )
 
 hook.Add( "KeyPress", "ThirdPersonViewSelfKeyPress", function( ply, key )
 
-	if key == IN_ATTACK2 && !ply.ViewingSelf && !Location.IsNarnia( LocalPlayer():Location() ) then
+	if key == IN_ATTACK2 && !ply.ViewingSelf && !Location.IsNarnia( LocalPlayer():Location() ) && ply.PoolTube == nil then
 		ThirdPerson.ViewSelfToggle( ply, true )
 	end
 
