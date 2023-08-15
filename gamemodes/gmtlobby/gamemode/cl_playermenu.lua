@@ -178,6 +178,7 @@ function Hide()
 	end
 
 end
+concommand.Add("-menu_player", Hide)
 
 function IsVisible()
 	return ValidPanel( RADIAL )

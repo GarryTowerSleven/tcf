@@ -26,8 +26,10 @@ function SendToHallway( ply )
 		AdrenalineOff(ply)
 	end
 	
-	RunConsoleCommand("gmt_leavegroup")
-	RunConsoleCommand("gmt_mtsrv", 2 )
+	ply:ConCommand( "gmt_leavegroup" )
+	ply:ConCommand( "gmt_mtsrv 2" )
+	ply:ConCommand( "-menu_context" )
+	ply:ConCommand( "-menu_player" )
 	
 	ply:UnDrunk()
 	GAMEMODE:SetPlayerSpeed( ply, 100, 100 )
@@ -83,6 +85,8 @@ function ENT:Use( activator )
 				// Pt 2
 				timer.Simple(0.25, function()
 					SendToHallway( activator )
+					net.Start( "HallwayClientside" )
+					net.Send( activator )
 				end)
 			elseif self.TurtleNumber == 1 && activator.TurtleNumber == 0 then
 				activator.TurtleNumber = 2

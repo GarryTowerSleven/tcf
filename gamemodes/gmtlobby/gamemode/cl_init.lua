@@ -48,7 +48,7 @@ local cl_viewbob = CreateConVar( "gmt_viewbob", "0", { FCVAR_ARCHIVE } )
 
 hook.Add("CalcView", "GMTViewBob", function( ply, origin, angle, fov)
 
-	if cl_viewbob:GetBool() && ply:Alive() && not ( ply.ThirdPerson || ply.ViewingSelf ) then
+	if cl_viewbob:GetBool() && ply:Alive() && !ply:GetNWBool( "InLimbo" ) && not ( ply.ThirdPerson || ply.ViewingSelf ) then
 
 		local vel = ply:GetVelocity()
 		local ang = ply:EyeAngles()
@@ -74,7 +74,7 @@ function GM:DrawDeathNotice( x, y ) end
 
 hook.Add( "PlayerBindPress", "PlayerGMTUse", function( ply, bind, pressed )
 
-	if bind == "+use" && pressed then
+	if bind == "+use" && pressed && !ply:GetNWBool( "InLimbo" ) then
 
 		if !ply._NextUse || CurTime() > ply._NextUse then
 
