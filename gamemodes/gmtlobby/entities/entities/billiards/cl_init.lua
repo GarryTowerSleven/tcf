@@ -44,7 +44,7 @@ b_scrTitle = nil
 b_scrText = nil
 b_BarInfo = nil
 
-b_keyf7_pressed = nil
+//b_keyf7_pressed = nil
 
 b_requests_panel = nil
 b_client_panel = nil
@@ -82,10 +82,10 @@ hook.Add("Think", "CBilliardThink", function()
 	if(!b_FPerson && LocalPlayer():KeyDown(IN_ATTACK) && !LocalPlayer():KeyDown(IN_SPEED)) then
 		RunConsoleCommand("billiard_strike", b_ShotForce)
 	end
-	if(input.IsKeyDown(KEY_F7) && !b_keyf7_pressed) then
+	/*if(input.IsKeyDown(KEY_F7) && !b_keyf7_pressed) then
 		b_keyf7_pressed = true
 		guiBilliardClientConfig()
-	end
+	end*/
 	
 	if ( LocalPlayer().IsPlayingBilliards ) then
 
@@ -577,7 +577,7 @@ function guiBilliardClientConfig()
 		RunConsoleCommand("billiard_cl_cue_invmouse_v", tostring(cfCIV))
 		RunConsoleCommand("billiard_cl_invmouse_h", tostring(cfIH))
 		RunConsoleCommand("billiard_cl_invmouse_v", tostring(cfIV))
-		b_keyf7_pressed = nil
+		//b_keyf7_pressed = nil
 		b_client_panel:Remove()
 	end
 	
@@ -587,7 +587,7 @@ function guiBilliardClientConfig()
 	CancelBtn:SetSize(180, 25)
 	CancelBtn:SetText("Cancel")
 	CancelBtn.DoClick = function()
-		b_keyf7_pressed = nil
+		//b_keyf7_pressed = nil
 		b_client_panel:Remove()
 	end
 end
