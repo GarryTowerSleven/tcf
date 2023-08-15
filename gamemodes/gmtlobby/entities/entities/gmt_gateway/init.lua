@@ -27,6 +27,7 @@ function SendToHallway( ply )
 	end
 	
 	RunConsoleCommand("gmt_leavegroup")
+	RunConsoleCommand("gmt_mtsrv", 2 )
 	
 	ply:UnDrunk()
 	GAMEMODE:SetPlayerSpeed( ply, 100, 100 )
