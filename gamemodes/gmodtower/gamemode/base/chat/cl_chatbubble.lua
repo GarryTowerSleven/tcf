@@ -20,7 +20,7 @@ end
 local eye_offset = Vector(0,0,24)
 
 function Player:ManualBubbleDraw()
-	if !IsValid(self.ChatBubble) then return end
+	if !IsValid(self.ChatBubble) || self:GetNWBool( "InLimbo" ) then return end
 
 	local pos
 	local override = hook.Call( "ChatBubbleOverride", GAMEMODE, self )

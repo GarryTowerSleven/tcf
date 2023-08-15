@@ -23,7 +23,7 @@ function Draw( id, chat )
 
 	local ply = chat.Player
 
-	if ply == LocalPlayer() && !LocalPlayer().ThirdPerson then return end
+	if ply == LocalPlayer() && !LocalPlayer().ThirdPerson || LocalPlayer():GetNWBool( "InLimbo" ) then return end
 
 	chat.Alpha = math.Approach( chat.Alpha, chat.CurAlpha, FrameTime() * 800 )
 	BGColor.a = ( chat.Alpha / 1.1 ) / id

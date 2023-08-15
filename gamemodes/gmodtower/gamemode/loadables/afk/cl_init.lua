@@ -158,7 +158,7 @@ hook.Add( "PostDrawTranslucentRenderables", "AFKStatusDraw", function()
 
 	for _, ply in pairs( player.GetAll() ) do
 
-		if ply:GetNet( "AFK" ) then
+		if ply:GetNet( "AFK" ) && !ply:GetNWBool( "InLimbo" ) then
 			DrawStatus( ply )
 		end
 

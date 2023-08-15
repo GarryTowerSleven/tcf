@@ -38,7 +38,7 @@ function CreateSeatAtPos(pos, angle)
 end
 
 hook.Add("KeyRelease", "EnterSeat", function(ply, key)
-	if key != IN_USE || ply:InVehicle() || (ply.ExitTime && CurTime() < ply.ExitTime + 1) then return end
+	if key != IN_USE || ply:GetNWBool( "InLimbo" ) || ply:InVehicle() || (ply.ExitTime && CurTime() < ply.ExitTime + 1) then return end
 
 	local eye = ply:EyePos()
 	local trace = util.TraceLine({start=eye, endpos=eye+ply:GetAimVector()*100, filter=ply})
