@@ -173,7 +173,6 @@ function GM:HUDDrawTargetID()
 	local tr = util.GetPlayerTrace( LocalPlayer(), GetMouseAimVector() )
 	if old then
 		if GTowerMainGui.ContextMenuEnabled or PlayerMenu.IsVisible() then
-			print("TEST")
 			tr = util.GetPlayerTrace( LocalPlayer(), LocalPlayer():GetAimVector() )
 		end
 	end
