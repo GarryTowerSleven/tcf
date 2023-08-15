@@ -289,7 +289,7 @@ local function LegsShouldDraw()
 
 	if LocalPlayer():InVehicle() then
 
-		return--angLimit = 14
+		angLimit = 8 // why was this disabled?
 
 	end
 
@@ -304,6 +304,8 @@ local function LegsShouldDraw()
 			LocalPlayer().Legs:IsValid() and
 
 			LocalPlayer():Alive() and
+			
+			!LocalPlayer():GetNWBool( "InLimbo" ) and
 
 			( LocalPlayer():InVehicle() and cl_legs_vehicle:GetBool() or !LocalPlayer():InVehicle() ) and
 
