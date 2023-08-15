@@ -170,10 +170,12 @@ function GM:HUDDrawTargetID()
 	end
 
 	-- Add new player to draw name tag of
-	
 	local tr = util.GetPlayerTrace( LocalPlayer(), GetMouseAimVector() )
-	if old && GTowerMainGui.ContextMenuEnabled then
-		tr = util.GetPlayerTrace( LocalPlayer(), LocalPlayer():GetAimVector() )
+	if old then
+		if GTowerMainGui.ContextMenuEnabled or PlayerMenu.IsVisible() then
+			print("TEST")
+			tr = util.GetPlayerTrace( LocalPlayer(), LocalPlayer():GetAimVector() )
+		end
 	end
 	local trace = util.TraceLine( tr )
 	if (!trace.Hit) then return end
@@ -185,7 +187,10 @@ function GM:HUDDrawTargetID()
 	end
 
 	if old then
-		if !GTowerMainGui.ContextMenuEnabled then
+		if GTowerMainGui.ContextMenuEnabled or PlayerMenu.IsVisible() then
+			x = ScrW() / 2
+			y = ScrH() / 2
+		else
 			-- Get mouse position
 			local MouseX, MouseY = gui.MousePos()
 			if ( MouseX == 0 && MouseY == 0 ) then
@@ -194,10 +199,7 @@ function GM:HUDDrawTargetID()
 			end
 			
 			x = MouseX
-			y = MouseY
-		else
-			x = ScrW() / 2
-			y = ScrH() / 2
+			y = MouseY			
 		end
 		
 		self:HUDDrawPlayerName( ply, false, 0, x, y )
