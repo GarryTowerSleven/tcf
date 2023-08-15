@@ -143,11 +143,11 @@ function ENT:ShouldDraw( ply, dist )
 			return true
 		end
 
-		if ThirdPerson && !ThirdPerson.ShouldDraw then
+		if ThirdPerson && !ThirdPerson.ShouldDraw && ply.PoolTube == nil then
 			return false
 		end
 
-		if ply.ThirdPerson || ply.ViewingSelf then
+		if ply.ThirdPerson || ply.ViewingSelf || ply.PoolTube != nil then
 			return true
 		end
 
