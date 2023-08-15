@@ -34,7 +34,7 @@ end )
 
 local function AfkTimerThink()
 
-	if IsValid( LocalPlayer().ActiveBrowser ) then return end
+	if IsValid( LocalPlayer().ActiveBrowser ) || LocalPlayer():GetNWBool( "InLimbo" ) then return end
 	if !IsValid( DermaPanel ) then return end
 
 	local TimeLeft = ( EndTime or 0 ) - CurTime()
@@ -58,7 +58,7 @@ end
 
 local function AfkTimerPaint( panel )
 
-	if IsValid( LocalPlayer().ActiveBrowser ) then return end
+	if IsValid( LocalPlayer().ActiveBrowser ) || LocalPlayer():GetNWBool( "InLimbo" ) then return end
 
 	local TimeLeft = math.Clamp( ( ( EndTime or 0 ) - CurTime() ) / TotalTime , 0, 1 )
 	local W, H = panel:GetSize()
@@ -77,7 +77,7 @@ function CreateWarning()
 	
 	RemoveWarning()
 
-	if IsValid( LocalPlayer().ActiveBrowser ) then return end
+	if IsValid( LocalPlayer().ActiveBrowser ) || LocalPlayer():GetNWBool( "InLimbo" ) then return end
 	
 	DermaPanel = vgui.Create("DPanel")
 	DermaPanel.WarningLabel = Label( T("AfkTimer", 30.0), DermaPanel )
@@ -158,7 +158,7 @@ hook.Add( "PostDrawTranslucentRenderables", "AFKStatusDraw", function()
 
 	for _, ply in pairs( player.GetAll() ) do
 
-		if ply:GetNet( "AFK" ) && !ply:GetNWBool( "InLimbo" ) then
+		if ply:GetNet( "AFK" ) then
 			DrawStatus( ply )
 		end
 
