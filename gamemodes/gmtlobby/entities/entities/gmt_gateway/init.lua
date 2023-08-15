@@ -66,6 +66,14 @@ concommand.AdminAdd( "gmt_hallway", function( ply, cmd, args )
 	end
 end )
 
+concommand.AdminAdd( "gmt_sendalltohallway", function()
+	for _, ply in ipairs( player.GetAll() ) do
+		if ( !ply:GetNWBool( "InLimbo" ) ) then
+			SendToHallway( ply )
+		end
+	end
+end )
+
 function ENT:Use( activator )
 
 	if activator:IsPlayer() then
