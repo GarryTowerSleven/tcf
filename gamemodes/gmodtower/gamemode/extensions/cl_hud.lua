@@ -1,6 +1,8 @@
 surface.CreateFont( "TargetIDText", { font = "Impact", size = 32, weight = 500, antialias = true } )
 surface.CreateFont( "TargetIDTextSmall", { font = "Impact", size = 20, weight = 500, antialias = true } )
 
+local Lobby2ID = CreateClientConVar( "gmt_targetid_new", 1, true )
+
 HudToHide = {}
 function GM:HUDShouldDraw( name )
 	return !table.HasValue( HudToHide, name )
@@ -33,12 +35,16 @@ local function GetValidPlayer( ent )
 
 end
 
-function GM:HUDDrawPlayerName( ply, fade, remain )
+function GM:HUDDrawPlayerName( ply, fade, remain, x, y )
 
 	if not IsValid( ply ) then return end
 
 	local text = "ERROR"
 	local font = "TargetIDText"
+	old = LocalPlayer():GetNWBool( "InLimbo" ) || !Lobby2ID:GetBool()
+	if old then
+		font = "TargetID"
+	end
 	local opacity = 1
 
 	-- Fade based on distance
@@ -62,6 +68,12 @@ function GM:HUDDrawPlayerName( ply, fade, remain )
 	local pos = util.GetCenterPos( ply )
 	pos = pos:ToScreen()
 	
+	if old && x != nil then
+		pos.x = x
+		pos.y = y + 30
+		opacity = 1
+	end
+	
 	-- Append AFK
 	if ply:GetNet("AFK") then
 		text = "*AFK* " .. text
@@ -80,8 +92,7 @@ function GM:HUDDrawPlayerName( ply, fade, remain )
 	draw.SimpleText( text, font, pos.x, pos.y, realcolor, TEXT_ALIGN_CENTER )
 
 	-- Lobby HUD
-	if IsLobby then
-
+	if IsLobby && !old then
 		-- Show Rank
 		local respect = ply:GetRespectName()
 		if respect then
@@ -128,7 +139,7 @@ function GM:HUDDrawTargetID()
 
 	-- Draw all player names when Q is held
 	//if GTowerMainGui.MenuEnabled then
-    if GTowerMainGui.MenuEnabled then
+    if GTowerMainGui.MenuEnabled && !old then
 		if IsLobby then
 			for _, ent in pairs( ents.GetAll() ) do
 				local ply = GetValidPlayer( ent )
@@ -139,7 +150,7 @@ function GM:HUDDrawTargetID()
 	end
 
 	-- Draw recently rolled over players
-	if DrawnPlayerNames then
+	if DrawnPlayerNames && !old then
 		for id, plyname in pairs( DrawnPlayerNames ) do
 
 			-- Auto remove name
@@ -159,7 +170,11 @@ function GM:HUDDrawTargetID()
 	end
 
 	-- Add new player to draw name tag of
+	
 	local tr = util.GetPlayerTrace( LocalPlayer(), GetMouseAimVector() )
+	if old && GTowerMainGui.ContextMenuEnabled then
+		tr = util.GetPlayerTrace( LocalPlayer(), LocalPlayer():GetAimVector() )
+	end
 	local trace = util.TraceLine( tr )
 	if (!trace.Hit) then return end
 	if (!trace.HitNonWorld) then return end
@@ -169,11 +184,22 @@ function GM:HUDDrawTargetID()
 		AddNewPlayerToDraw( ply )
 	end
 
-	-- Get mouse position
-	--[[local MouseX, MouseY = gui.MousePos()
-	if ( MouseX == 0 && MouseY == 0 ) then
-		MouseX = ScrW() / 2
-		MouseY = ScrH() / 2
-	end]]
-
+	if old then
+		if !GTowerMainGui.ContextMenuEnabled then
+			-- Get mouse position
+			local MouseX, MouseY = gui.MousePos()
+			if ( MouseX == 0 && MouseY == 0 ) then
+				MouseX = ScrW() / 2
+				MouseY = ScrH() / 2
+			end
+			
+			x = MouseX
+			y = MouseY
+		else
+			x = ScrW() / 2
+			y = ScrH() / 2
+		end
+		
+		self:HUDDrawPlayerName( ply, false, 0, x, y )
+	end
 end

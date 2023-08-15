@@ -622,18 +622,23 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 	end
 
 	if tabname == "HUD" then
-		self:Header( "HUD" )
+		self:Header( "General" )
 		if IsLobby then
 			self:CheckBox( "Enable HUD", "gmt_hud" )
 			self:Divider()
 			self:CheckBox( "Enable HUD Ammo", "gmt_hud_ammo", "gmt_hud" )
 			self:CheckBox( "Enable HUD Location", "gmt_hud_location", "gmt_hud" )
 			self:CheckBox( "Enable Event Timer", "gmt_draweventtimer", "gmt_hud" )
-			self:CheckBox( "Enable Crosshair", "gmt_hud_crosshair", "gmt_hud" )
+			self:Divider()
+			self:CheckBox( "Enable Third Person Button", "gmt_thirdpersonbutton" )
+			self:CheckBox( "Enable New Name Hovering", "gmt_targetid_new" )
+			self:Divider()
+			self:Header( "Crosshair" )
+			self:CheckBox( "Enable Crosshair", "gmt_hud_crosshair" )
+			self:Divider()
 			self:CheckBox( "Enable 3D Crosshair", "gmt_hud_crosshair_3d", "gmt_hud_crosshair" )
 			self:CheckBox( "Crosshair Always Visible", "gmt_hud_crosshair_always", "gmt_hud_crosshair" )
-			self:CheckBox( "Enable Use Prompts", "gmt_hud_crosshair_action", "gmt_hud_crosshair" ) -- graying out is broken when multiple options use the same prerequisite?
-			self:CheckBox( "Enable Third Person Button", "gmt_thirdpersonbutton" )
+			self:CheckBox( "Enable Use Prompts", "gmt_hud_crosshair_action", "gmt_hud_crosshair" ) -- graying out is broken when multiple options use the same prerequisite?	
 			//self:CheckBox( LobbyCanvas, "Enable Gamemode Notice", "gmt_gmnotice" )
 			//self:CheckBox( LobbyCanvas, "Enable News Ticker", "gmt_newsticker" )
 			//self:CheckBox( LobbyCanvas, "Allow Sound Spam", "gmt_allowSoundSpam" )
