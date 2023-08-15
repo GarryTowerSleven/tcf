@@ -643,8 +643,8 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:CheckBox( "Enable Compact Store GUI", "gmt_compactstores" )
 			self:Divider()
 			self:Header( "Misc." )
-			self:CheckBox( "Enable New Name Hovering", "gmt_targetid_new" ) 
-			self:CheckBox( "Enable Playermenu", "gmt_playermenu" )
+			self:CheckBox( "Enable Classic Name Display", "gmt_targetid_classic" ) 
+			self:CheckBox( "Enable Player Context Menu", "gmt_playermenu" )
 		end
 	end
 

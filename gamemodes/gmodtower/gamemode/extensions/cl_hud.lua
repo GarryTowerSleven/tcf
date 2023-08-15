@@ -1,7 +1,7 @@
 surface.CreateFont( "TargetIDText", { font = "Impact", size = 32, weight = 500, antialias = true } )
 surface.CreateFont( "TargetIDTextSmall", { font = "Impact", size = 20, weight = 500, antialias = true } )
 
-local Lobby2ID = CreateClientConVar( "gmt_targetid_new", 1, true )
+local Lobby1ID = CreateClientConVar( "gmt_targetid_classic", 0, true )
 
 HudToHide = {}
 function GM:HUDShouldDraw( name )
@@ -41,7 +41,7 @@ function GM:HUDDrawPlayerName( ply, fade, remain, x, y )
 
 	local text = "ERROR"
 	local font = "TargetIDText"
-	old = LocalPlayer():GetNWBool( "InLimbo" ) || !Lobby2ID:GetBool()
+	old = LocalPlayer():GetNWBool( "InLimbo" ) || Lobby1ID:GetBool()
 	if old then
 		font = "TargetID"
 	end
