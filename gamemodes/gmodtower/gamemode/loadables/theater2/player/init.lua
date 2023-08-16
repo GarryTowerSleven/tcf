@@ -7,9 +7,9 @@ local BaseClass = baseclass.Get( "mp_entity" )
 include "shared.lua"
 
 MEDIAPLAYER._IdlescreenData = {
-    url = "https://www.youtube.com/watch?v=67huxZxmXp4",
+    url = "https://www.youtube.com/watch?v=NZt8O35_fPw",
     title = "Idlescreen",
-    duration = (60*11)+25,
+    duration = (60*10)+01,
 }
 
 function MEDIAPLAYER:CreateIdlescreenMedia( url, title, duration )
