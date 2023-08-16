@@ -478,7 +478,7 @@ function ENT:DrawControls()
 	local scale = 0.1
 
 	if vrmod and vrmod.IsPlayerInVR(LocalPlayer()) then
-		if Casino.SlotsLocalPlaying && vrmod.GetRightHandPos(LocalPlayer()):Distance(self:GetAttachment(1).Pos) < 16 then
+		if Casino.SlotsLocalPlaying && vrmod.GetRightHandPos(LocalPlayer()):Distance(self:GetAttachment(1).Pos) < 24 then
 			if Casino.SlotsLocalPlaying.Controls != nil then
 				for _, btn in ipairs( Casino.SlotsLocalPlaying.Controls ) do
 					if btn.selected then
