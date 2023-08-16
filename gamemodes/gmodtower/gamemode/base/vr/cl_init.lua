@@ -1,3 +1,5 @@
+if ( not vrmod ) then return end
+
 concommand.Add("gmt_vr_start", function(ply)
     if !ply:IsAdmin() && !ply:IsStaff() && !ply:IsContributor() then return end
     RunConsoleCommand("vrmod_useworldmodels", "1")
