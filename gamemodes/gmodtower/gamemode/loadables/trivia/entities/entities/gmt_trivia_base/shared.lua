@@ -11,19 +11,21 @@ ENT.ChildClass = "gmt_trivia_podium"
 ENT.MaxDistance = 512
 
 ENT.PlayerCount = 8
-ENT.MinPlayers = 2
+ENT.MinPlayers = 1
 
-ENT.QuestionCount = 10
+ENT.QuestionCount = 1
 
 ENT.BasePoints = 100
 ENT.SafeZone = 3 // seconds
 
-ENT.WaitingTime = 30
-ENT.RoundTime = 20
-ENT.IntermissionTime = 5
+ENT.WaitingTime = 5
+ENT.RoundTime = 5
+ENT.IntermissionTime = 2
 ENT.EndTime = 10
 
 ENT.ErrorTimeout = 60 * 5
+
+ENT.WinSound = Sound( "gmodtower/misc/win.wav" )
 
 function ENT:SetupDataTables()
     self:NetworkVar( "Int", 0, "State" )
@@ -47,6 +49,29 @@ function ENT:GetPodiums()
     end )
 
     return self.Podiums
+end
+
+function ENT:GetActivePodiums()
+    local active = {}
+
+    for _, v in ipairs( self:GetPodiums() ) do
+        if ( IsValid( v:GetPlayer() ) ) then
+            table.insert( active, v )
+        end
+    end
+
+    return active
+end
+
+function ENT:GetWinner()
+    local winning = nil
+    for _, v in ipairs( self:GetActivePodiums() ) do
+        if ( not winning or winning:GetPoints() < v:GetPoints() ) then
+            winning = v
+        end
+    end
+
+    return winning
 end
 
 function ENT:GetContestents()

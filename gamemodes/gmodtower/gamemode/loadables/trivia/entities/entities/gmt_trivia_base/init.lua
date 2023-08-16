@@ -235,13 +235,11 @@ function ENT:EndGame()
 end
 
 function ENT:CheckAnswered()
-	local podiumns = self:GetPodiums()
+	local podiumns = self:GetActivePodiums()
 	
 	local allSelected = true
 
 	for _, v in ipairs( podiumns ) do
-		if ( not IsValid( v:GetPlayer() ) ) then continue end
-
 		if ( not v:GetAnswered() ) then
 			allSelected = false
 			break
@@ -273,12 +271,10 @@ function ENT:CalculatePoints( timeRemaining, difficulty )
 end
 
 function ENT:CheckAnswers()
-	local podiums = self:GetPodiums()
+	local podiums = self:GetActivePodiums()
 	local q = self:GetQuestionInfo()
 
 	for _, v in ipairs( podiums ) do
-		if ( not IsValid( v:GetPlayer() ) ) then continue end
-
 		//trivia.log.info( "self:CheckAnswers %s %s", self, v:GetPlayer() )
 		
 		if ( not v:GetAnswered() ) then			
@@ -297,6 +293,35 @@ function ENT:CheckAnswers()
 		//else
 			//v:SetStreak( 0 )
 		end
+	end
+end
+
+function ENT:StartEnd()
+	self:SetState( trivia.STATE_END )
+	self:SetTimer( self.EndTime )
+
+	self:Payout()
+end
+
+function ENT:Payout()
+	local winner = self:GetWinner()
+	for _, v in ipairs( self:GetActivePodiums() ) do
+		if ( v:GetPoints() < 5 ) then continue end
+
+		local gmc = math.floor( v:GetPoints() / 5 )
+
+		if ( v == winner ) then
+			gmc = gmc + 100
+
+			local sfx = EffectData()
+			sfx:SetOrigin( v:GetPlayer():GetPos() + Vector( 0, 0, 50 ) )
+
+			util.Effect( "confetti", sfx, true, true )
+
+			v:EmitSound( self.WinSound, 100 )
+		end
+
+		v:GetPlayer():GiveMoney( gmc )
 	end
 end
 
@@ -353,8 +378,7 @@ function ENT:Think()
 			if ( self:GetQuestion() < self.QuestionCount ) then
 				self:StartRound()
 			else
-				self:SetState( trivia.STATE_END )
-				self:SetTimer( self.EndTime )
+				self:StartEnd()
 			end
 		end
 	end
