@@ -101,7 +101,7 @@ if ( Location ) then
 		elseif ( Location.IsGroup( location, "eplaza" ) or Location.IsGroup( location, "stores" ) ) then
 			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Eplaza
 			continue
-		elseif ( Location.Is( location, "Arcade" ) or Location.Is( location, "Arcade Stairs" ) ) then
+		elseif ( Location.IsGroup( location, "arcade" ) or Location.Is( location, "Arcade Stairs" ) ) then
 			LocationBackgrounds[ location ] = Scoreboard.PlayerList.LOCATIONS.Arcade
 			continue
 		elseif ( Location.Is( location, "Casino" ) ) then
