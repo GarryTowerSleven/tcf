@@ -525,7 +525,7 @@ net.Receive( "InstrumentNetwork", function( length, client )
 		local sound = ent:GetSound( key )
 
 		if sound then
-			ent:EmitSound( sound, 80, _, GetClientVolume() )
+			ent:EmitSound( sound, 80, 100, GetClientVolume() )
 		end
 
 		// Gather notes
