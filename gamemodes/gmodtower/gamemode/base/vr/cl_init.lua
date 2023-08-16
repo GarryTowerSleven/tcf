@@ -27,7 +27,14 @@ hook.Add("ShouldDrawLocalPlayer", "a", function()
     end
 end)
 
-g_VR.menuItems = {}
+// g_VR.menuItems = {}
+
+vrmod.RemoveInGameMenuItem("Toggle Noclip")
+vrmod.RemoveInGameMenuItem("Settings")
+vrmod.RemoveInGameMenuItem("Spawn Menu")
+vrmod.RemoveInGameMenuItem("Context Menu")
+vrmod.RemoveInGameMenuItem("Map Browser")
+
 vrmod.AddInGameMenuItem("Scoreboard", 1, 1, function()
     local Gui
 
