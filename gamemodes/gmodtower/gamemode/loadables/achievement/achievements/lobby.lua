@@ -347,7 +347,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.TRIVIABRAINIAC, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.TRIVIAREALLY, {
 	Name = "Trivial, Really",
-	Description = "Win 25 or more games of Trivia.", 
+	Description = "Win a total of 25 games of Trivia.", 
 	Value = 25,
 	Group = 4,
 	GMC = 500
