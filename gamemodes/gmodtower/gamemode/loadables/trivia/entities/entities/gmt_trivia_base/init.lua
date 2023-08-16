@@ -325,7 +325,7 @@ function ENT:Payout()
 
 			util.Effect( "confetti", sfx, true, true )
 
-			v:GetPlayer():EmitSound( self.WinSound, 75 )
+			v:GetPlayer():EmitSound( self.WinSound, 60 )
 			v:GetPlayer():AddAchievement( ACHIEVEMENTS.TRIVIAREALLY, 1 )
 		end
 
