@@ -3,6 +3,7 @@ local RealTime = RealTime
 local FrameTime = FrameTime
 local Material = Material
 local pairs = pairs
+local ipairs = ipairs
 local tonumber = tonumber
 local table = table
 local string = string
@@ -250,40 +251,44 @@ end
     Name: Shape( x, y, sides, radius, percent, color )
     Desc: 
 -----------------------------------------------------------]]
-local circle
+//local circle
 function Shape( x, y, sides, radius, percent, color )
-	
-	circle = {}
-	circle[1] = {
-		["x"] = x,
-		["y"] = y,
-		["u"] = 0,
-		["v"] = 0
-	}
+
+	if ( percent <= 0 ) then return end
 	
 	local angle = math.Round( percent * 360 )
-	
-	for i = 0, angle, (angle / sides) do
-		local num = #circle + 1
-		local x2, y2 = x + math.sin( math.rad( i + 180 ) ) * radius, y + math.cos( math.rad( i + 180 ) ) * radius
+	if ( angle <= 0 ) then return end
+
+	local cir = {}
+	table.insert( cir, { x = x, y = y, u = 0.5, v = 0.5 } )
+
+	//local sides_render = math.ceil( sides * percent )
+	for i = 0, sides do
+		//local a = math.rad( (( i / sides - 1 ) * -360) - 180 )
+		local a = math.rad( (( i / sides - 1 ) * -angle) - 180 )
+
+		//if ( i > sides_render ) then
+		//	break
+		//end
 		
-		circle[num] = {
-			["x"] = x2,
-			["y"] = y2,
-			["u"] = 0, --todo: fix UVs
-			["v"] = 0
-		}
-		
+		table.insert( cir, { x = x + math.sin( a ) * radius, y = y + math.cos( a ) * radius, u = math.sin( a ) / 2 + 0.5, v = math.cos( a ) / 2 + 0.5 } )
 	end
 	
 	surface.SetDrawColor( color )
-	surface.DrawPoly( circle )
-	
+	draw.NoTexture()
+	surface.DrawPoly( cir )
+
+	/*draw.SimpleText( "draw.Circle( " .. x .. ", " .. y .. ", " .. sides .. ", " .. radius .. ", " .. percent .. " )", nil, x, y - radius - 25, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+	for k, v in pairs( cir ) do
+		draw.Rectangle( v.x - 1, v.y - 1, 2, 2, color_white )
+		draw.SimpleText( k .. ", x" .. math.Round( v.x ) .. " y" .. math.Round( v.y ), nil, v.x, v.y - 10, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+	end*/
+
 end
 
 -- I didn't want to use textures to do this effect, so I made this nice gradient function =P
 -- Thanks to all people at FacePunch forums that helped me to optimize it!
-local g_grds, g_wgrd, g_sz
+/*local g_grds, g_wgrd, g_sz
 function GradientBox(x, y, w, h, al, ...)
 
 	g_grds = {...}
@@ -327,7 +332,7 @@ function GradientBox(x, y, w, h, al, ...)
 		end
 
 	end
-end
+end*/
 
 local verts = {{},{},{},{}}
 local otw, oth, tw, th, uoffset, voffset, umax, vmax
@@ -370,7 +375,17 @@ end
 -----------------------------------------------------------]]
 function SimpleShadowText( text, font, x, y, color, colorshadow, alignx, aligny, offset, offsetx, offsety )
 
-	draw.SimpleText( text, font, x + ( offset or 2 ) + ( offsetx or 0 ), y + ( offset or 2 ) + ( offsety or 0 ), colorshadow or color_black, alignx or TEXT_ALIGN_CENTER, aligny or TEXT_ALIGN_CENTER )
+	local offx = ( offset or 2 ) + ( offsetx or 0 )
+	local offy = ( offset or 2 ) + ( offsety or 0 )
+
+	if ( alignx == TEXT_ALIGN_CENTER ) then
+		x = x - offx
+	end
+	if ( aligny == TEXT_ALIGN_CENTER ) then
+		y = y - offy
+	end
+
+	draw.SimpleText( text, font, x + offx, y + offy, colorshadow or color_black, alignx or TEXT_ALIGN_CENTER, aligny or TEXT_ALIGN_CENTER )
 	draw.SimpleText( text, font, x, y, color or color_white, alignx or TEXT_ALIGN_CENTER, aligny or TEXT_ALIGN_CENTER )
 
 end
@@ -409,6 +424,86 @@ function TextBackground( text, font, x, y, padding, height, color )
 	surface.SetDrawColor( color or Color(0, 0, 0, 245) )
 	surface.DrawRect( x - ( w / 2 + ( padding / 2 ) ), y, w + padding, height or 40 )
 
+end
+
+--[[---------------------------------------------------------
+    Name: draw.TextInBox
+-----------------------------------------------------------]]
+function TextInBox( text, font, x, y, w, h, color, shadowoffset, shadowcolor )
+    local str = string.RestrictStringWidth( text, font, w )
+	
+    surface.SetFont( font )
+    local tW, tH = surface.GetTextSize( str )
+
+    local tX, tY = x + (w / 2) - tW / 2, y + (h / 2) - tH / 2
+
+    if ( shadowoffset ) then
+        surface.SetTextColor( shadowcolor or Color( 0, 0, 0, 150 ) )
+        surface.SetTextPos( tX + shadowoffset, tY + shadowoffset )
+        surface.DrawText( str )
+    end
+
+    surface.SetTextColor( color or color_white )
+    surface.SetTextPos( tX, tY )
+    surface.DrawText( str )
+end
+
+--[[---------------------------------------------------------
+    Name: draw.WordWrapped
+	Desc: Function to draw word-wrapped text
+-----------------------------------------------------------]]
+function WordWrapped(text, font, x, y, maxwidth, color, shadowoffset, shadowcolor)
+    -- Split the text into words
+    local words = string.Explode(" ", text)
+  
+    -- Table to store lines of text
+    local lines = {}
+    -- Current line of text being built
+    local line = ""
+  
+    -- Set the font for text height calculations
+    surface.SetFont(font)
+    -- Get the height of the text
+    local _, textHeight = surface.GetTextSize(" ")
+
+    -- Loop through each word
+    for i, word in ipairs(words) do
+        -- Calculate the size of the text if the current word is added to the current line
+        local width = surface.GetTextSize(line .. word .. " ")
+
+        -- If the width of the text exceeds maxwidth, add the current line to the table of lines
+        -- and start a new line with the current word
+        if width > maxwidth then
+            table.insert(lines, line)
+            line = word .. " "
+        else
+            -- Otherwise, add the current word to the current line
+            line = line .. word .. " "
+        end
+    end
+  
+    -- Add the last line to the table of lines
+    table.insert(lines, line)
+  
+    -- Set the font for each line
+    surface.SetFont(font)
+  
+    -- Loop through each line and draw it on the screen
+    local totalHeight = textHeight * table.Count( lines )
+    for i, line in ipairs(lines) do
+        -- Set the position of the line based on the Y coordinate and the height of the text
+        //surface.SetTextPos(x, y + (i - 1) * textHeight)
+        //surface.DrawText(line)
+
+        local tx, ty = x, (y + (i - 1) * textHeight) - ( totalHeight*.5 ) + (textHeight*.5)
+        if ( shadowoffset ) then
+            draw.SimpleText( line, font, tx + shadowoffset, ty + shadowoffset, shadowcolor or Color( 0, 0, 0, 150 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+        end
+
+        draw.SimpleText( line, font, tx, ty, color or color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+    end
+
+    //return totalHeight
 end
 
 --[[---------------------------------------------------------
@@ -639,6 +734,13 @@ function GradientBox( x, y, w, h, color, dir )
 	surface.SetDrawColor( color )
 	surface.SetMaterial( GradientDirTextures[dir] )
 	surface.DrawTexturedRect( x, y, w, h )
+end
+
+function GradientVignette( x, y, w, h, color )
+    draw.GradientBox( x, y, w*.5, h, color or color_black, LEFT )
+    draw.GradientBox( x + w*.5, y, w*.5, h, color or color_black, RIGHT )
+    draw.GradientBox( x, y, w, h*.5, color or color_black, UP )
+    draw.GradientBox( x, y + h*.5, w, h*.5, color or color_black, DOWN )
 end
 
 --[[---------------------------------------------------------

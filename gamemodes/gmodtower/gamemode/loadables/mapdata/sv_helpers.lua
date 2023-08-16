@@ -196,3 +196,26 @@ function AddMultiServer( pos, ang, id, oldSky, newSky )
 	return ms
 
 end
+
+function CreateTriviaBase( pos, ang )
+	local ent = ents.Create( "gmt_trivia_base" )
+	ent:SetPos( pos )
+	ent:SetAngles( ang )
+
+	ent:Spawn()
+
+	return ent
+end
+
+function CreateTriviaPodium( parent, id, pos, ang )
+	local ent = ents.Create( "gmt_trivia_podium" )
+	ent:SetPos( pos )
+	ent:SetAngles( ang )
+
+	ent:Spawn()
+	ent:DropToFloor()
+
+	parent:AddPodium( ent )
+
+	return ent
+end

@@ -1,6 +1,6 @@
 module("Location", package.seeall )
 
-// Last Used ID: 85
+// Last Used ID: 86
 // NOTE: NEVER, EVER, EVER CHANGE THE IDS!!
 
 Add( 1, {
@@ -194,6 +194,13 @@ Add( 38, {
     Min = Vector(-2196,1508,-679),
     Max = Vector(-796,3051,506),
     Priority = 0,
+} )
+Add( 86, {
+    Name = "Trivia",
+    Group = "arcade",
+    Min = Vector(-2196,1508,-679),
+    Max = Vector(-796,3051,-280),
+    Priority = 1,
 } )
 Add( 58, {
     Name = "Arcade Stairs",

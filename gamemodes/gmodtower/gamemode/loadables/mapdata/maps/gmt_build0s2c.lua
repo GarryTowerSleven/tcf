@@ -21,6 +21,25 @@ local function MapFixes()
     end
 end
 
+local trivia_pos = {
+    [1] = { pos = Vector(-1523,2558,-553), ang = Angle(23,270,0) },
+    [2] = { pos = Vector(-1258,2553,-553), ang = Angle(23,270,0) },
+    [3] = { pos = Vector(-1687,2413,-553), ang = Angle(23,270,0) },
+    [4] = { pos = Vector(-1100,2421,-553), ang = Angle(23,270,0) },
+    [5] = { pos = Vector(-1717,2179,-553), ang = Angle(23,270,0) },
+    [6] = { pos = Vector(-1076,2193,-553), ang = Angle(23,270,0) },
+    [7] = { pos = Vector(-1489,2069,-553), ang = Angle(23,270,0) },
+    [8] = { pos = Vector(-1288,2070,-553), ang = Angle(23,270,0) },
+}
+local function SetupTrivia()
+    local base = CreateTriviaBase( Vector( -1390.99, 2747.01, -530.8 ), Angle( 0, 270, 0 ) )
+    base:DropToFloor()
+
+    for i, v in ipairs( trivia_pos ) do
+        CreateTriviaPodium( base, i, v.pos, v.ang )
+    end
+end
+
 // shit to add to the lobe
 local function MapAdds()
 
@@ -33,7 +52,6 @@ local function MapAdds()
     CreateBoard( Vector(439.09375,-3580.75,-216), Angle(0,180,0), 2 )
 
     // shops
-
     AddEntity( "gmt_npc_vip", Vector(165.90625,-2042.78125,0), Angle(0,45,0) )
     AddEntity( "gmt_npc_duel", Vector(2448,184,192), Angle(0,90,0) )
     AddEntity( "gmt_npc_casinochips", Vector(2713,375,192), Angle(0,180,0) )
@@ -100,6 +118,9 @@ local function MapAdds()
 	-- seats
 	AddSeat( "models/props/cs_office/sofa_chair.mdl", Vector(2015,1115,208), Angle(0,30,0), 0 )
 	AddSeat( "models/props/cs_office/sofa_chair.mdl", Vector(2720,1115,208), Angle(0,130,0), 0 )
+
+    -- trivia
+    SetupTrivia()
 end
 
 hook.Add( "InitPostEntity", "MapDataAdd", function()

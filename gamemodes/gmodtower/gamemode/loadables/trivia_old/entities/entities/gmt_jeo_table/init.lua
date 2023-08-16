@@ -20,6 +20,22 @@ function ENT:UpdateModel()
 	self.Entity:SetModel(self.Model)
 end
 
+local function TypeToLuaString( obj )
+	local t = type(obj)
+
+	if t == "Vector" then
+		return "Vector(" .. obj.x .. ","..obj.y..","..obj.z..")"
+	elseif t == "Angle" then
+		return "Angle(" .. obj.p .. ","..obj.y..","..obj.r..")"
+	elseif t == "number" then
+		return tostring(obj)
+	elseif t == "table" then
+		return "util.JSONToTable([[" .. util.TableToJSON(obj) .. "]])"
+	end
+	-- welp
+	return tostring(obj)
+end
+
 function ENT:Initialize()
 	self:UpdateModel()
 	self.Entity:PhysicsInit(SOLID_VPHYSICS)
@@ -30,6 +46,8 @@ function ENT:Initialize()
 	if (phys:IsValid()) then
 		phys:EnableMotion(false)
 	end	
+
+	print( self.Entity, TypeToLuaString(self:GetPos()), TypeToLuaString(self:GetAngles()) )
 	
 	self:ReloadOBBBounds()
 	
