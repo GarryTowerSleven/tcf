@@ -11,16 +11,16 @@ ENT.ChildClass = "gmt_trivia_podium"
 ENT.MaxDistance = 512
 
 ENT.PlayerCount = 8
-ENT.MinPlayers = 1
+ENT.MinPlayers = 2
 
-ENT.QuestionCount = 1
+ENT.QuestionCount = 10
 
 ENT.BasePoints = 100
 ENT.SafeZone = 3 // seconds
 
-ENT.WaitingTime = 5
-ENT.RoundTime = 5
-ENT.IntermissionTime = 2
+ENT.WaitingTime = 30
+ENT.RoundTime = 20
+ENT.IntermissionTime = 5
 ENT.EndTime = 10
 
 ENT.ErrorTimeout = 60 * 5

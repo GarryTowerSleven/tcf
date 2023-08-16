@@ -329,6 +329,30 @@ GTowerAchievements:Add( ACHIEVEMENTS.SMOOTHDETECTIVE, {
 	GiveItem = "trophy_hallway"
 })
 
+GTowerAchievements:Add( ACHIEVEMENTS.TRIVIADUNCE, {
+	Name = "Dunce",
+	Description = "Get every question wrong in a game of Trivia... you idiot.", 
+	Value = 1,
+	Group = 4,
+	GMC = 100
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.TRIVIABRAINIAC, {
+	Name = "Brainiac",
+	Description = "Get every question right in a game of Trivia.", 
+	Value = 1,
+	Group = 4,
+	GMC = 1000
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.TRIVIAREALLY, {
+	Name = "Trivial, Really",
+	Description = "Win 25 or more games of Trivia.", 
+	Value = 25,
+	Group = 4,
+	GMC = 500
+})
+
 // LOGIC OF ACHIEVEMENTS---------------------
 if CLIENT then return end
 
@@ -364,15 +388,13 @@ hook.Add( "PlayerThink", "PlayerThinkAchievements", function( ply )
 	if ply:AchievementLoaded() && ply:Alive() then
 	
 		// Theatergoer 
-		if ply.TheatergoerThink == nil then
-			ply.TheatergoerThink = 0
-		end
-		if ( ply.TheatergoerThink < CurTime() ) then
+		ply.TheatergoerThink = ply.TheatergoerThink or CurTime()
+		if ( ply.TheatergoerThink <= CurTime() ) then
 			if ply:Location() == Location.GetIDByName( "Theater" ) then
 				ply:AddAchievement( ACHIEVEMENTS.THEATERGOER, 5 / 60 )
 			end
 
-			ply.TheatergoerThink = CurTime() + 4
+			ply.TheatergoerThink = CurTime() + 5
 		end
 		
 		// Long Walk

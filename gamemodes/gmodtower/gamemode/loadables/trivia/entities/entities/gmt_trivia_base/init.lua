@@ -306,10 +306,17 @@ end
 function ENT:Payout()
 	local winner = self:GetWinner()
 	for _, v in ipairs( self:GetActivePodiums() ) do
-		if ( v:GetPoints() < 5 ) then continue end
+		if ( v:GetPoints() < 5 ) then
+			v:GetPlayer():SetAchievement( ACHIEVEMENTS.TRIVIADUNCE, 1 )
+			continue 
+		end
 
 		local gmc = math.floor( v:GetPoints() / 5 )
 
+		if ( v:GetNumCorrect() == self.QuestionCount ) then
+			v:GetPlayer():SetAchievement( ACHIEVEMENTS.TRIVIABRAINIAC, 1 )
+		end
+		
 		if ( v == winner ) then
 			gmc = gmc + 100
 
@@ -318,7 +325,8 @@ function ENT:Payout()
 
 			util.Effect( "confetti", sfx, true, true )
 
-			v:EmitSound( self.WinSound, 100 )
+			v:GetPlayer():EmitSound( self.WinSound, 100 )
+			v:GetPlayer():AddAchievement( ACHIEVEMENTS.TRIVIAREALLY, 1 )
 		end
 
 		v:GetPlayer():GiveMoney( gmc )
