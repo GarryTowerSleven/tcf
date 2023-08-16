@@ -534,8 +534,8 @@ end)
 
 hook.Add( "PlayerSwitchFlashlight", "GMTFlashLight", function( ply, isOn )
 	if ( ply:IsStaff() ) then return true end
-	if ( not isOn ) then return true end
 	if ( Location.IsEquippablesNotAllowed( ply:Location() ) ) then return false end
+	if ( not isOn ) then return true end
 
 	if ply._FlashlightTime and ply._FlashlightTime > CurTime() then return false end
 
