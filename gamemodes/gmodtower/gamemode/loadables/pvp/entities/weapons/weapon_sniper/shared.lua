@@ -27,7 +27,7 @@ SWEP.Primary.Ammo	 = "SniperRound"
 SWEP.Primary.Effect	 = "sniper_trace"
 SWEP.Primary.Sound	 = "GModTower/pvpbattle/Sniper/SniperFire.wav"
 
-SWEP.Secondary.Delay	 = .25
+SWEP.Secondary.Delay	 = .5
 
 SWEP.SoundEmpty		 = "Weapon_Pistol.Empty"
 
