@@ -137,7 +137,7 @@ function ENT:OnRegisteredKeyPlayed( key )
 
 	// Play on the client first
 	local sound = self:GetSound( key )
-	self:EmitSound( sound, 100, _, GetClientVolume() )
+	self:EmitSound( sound, 100, 100, GetClientVolume() )
 
 	// Network it
 	net.Start( "InstrumentNetwork" )
