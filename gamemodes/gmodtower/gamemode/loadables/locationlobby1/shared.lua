@@ -224,7 +224,7 @@ function IsCasino( id )
 end
 
 function IsArcade( id )
-	return id == 38
+	return IsGroup( id, "arcade" ) // id == 38
 end
 
 function IsNarnia( id )

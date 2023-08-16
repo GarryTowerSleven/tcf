@@ -64,7 +64,7 @@ net.Receive( "gmt_mdlbezier_start", function()
 	if !self.Model then return end
 
 
-
+	if ( not self.RandomPosAmount or not self.VecOffset ) then return end
 	local rand = VectorRand() * self.RandomPosAmount + self:GetPos() + self.VecOffset
 
 	local randTime = self.ApproachTime + (math.Rand( -self.RandomTime, self.RandomTime ) )
