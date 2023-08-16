@@ -15,7 +15,6 @@ local Roles =
 	["STEAM_0:1:39916544"] = "Developer",	// Anoma
 	["STEAM_0:1:124798129"] = "Developer", 	// Amgona
 	["STEAM_0:0:44458854"] = "Developer",	// Bumpy
-	["STEAM_0:0:193442077"] = "Developer", // Nyantendo
 
 	// Moderators
 	["STEAM_0:1:57386100"] = "Moderator", 	// Squibbus
@@ -26,6 +25,7 @@ local Roles =
 
 	// Contributor
 	["STEAM_0:1:53166133"] = "Contributor",	// Orlok
+	["STEAM_0:0:193442077"] = "Contributor", // Nyantendo
 	
 	// Pixeltail Games
 	["STEAM_0:1:6044247"] = "PixelTail",	// MacDGuy
