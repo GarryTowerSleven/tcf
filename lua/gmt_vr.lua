@@ -16,3 +16,4 @@ end
 
 old1("vrmod_floatinghands", "0")
 old1("vrmod_althead", "0")
+old1("vrmod_useworldmodels", "1")

@@ -270,7 +270,9 @@ hook.Add( "CalcView", "GMTThirdPerson", function( ply, origin, angles, fov )
 end )
 
 hook.Add("ShouldDrawLocalPlayer", "GMTThirdDrawLocal", function( ply )
-	return ( ply.ThirdPerson || ply.ViewingSelf ) && ThirdPerson.ShouldDraw
+	if ( ply.ThirdPerson || ply.ViewingSelf ) && ThirdPerson.ShouldDraw then
+		return true
+	end
 end )
 
 local function ExEnt( ent )
