@@ -20,7 +20,7 @@ hook.Add("GTowerInvDrop", "BlockSuiteUsageDrop", function( ply, trace, Item, mov
 
 			//Check if the player has reached entity limit count
 			if moving != true then
-				local Maximun = ply:GetSetting("GTSuiteEntityLimit")
+				local Maximun = ply:GetNet("RoomMaxEntityCount")
 
 				if Room:ActualEntCount() >= Maximun then
 					umsg.Start("GRoom", ply)

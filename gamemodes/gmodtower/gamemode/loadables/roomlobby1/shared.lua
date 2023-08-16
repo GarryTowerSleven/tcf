@@ -90,6 +90,9 @@ end
 
 plynet.Register( "Bool", "RoomLock" )
 plynet.Register( "Int", "RoomEntityCount" )
+plynet.Register( "Int", "RoomMaxEntityCount", {
+	default = 200,
+} )
 plynet.Register( "Int", "RoomID", {
 	callback = RecvPlayerRoom,
 	default = 0,

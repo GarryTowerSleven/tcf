@@ -28,13 +28,15 @@ hook.Add( "GroupDataReturned", "GetGroupData", function( returnedData )
 	local ply = player.GetBySteamID64(returnedData.steamID64)
 	if !ply || !IsValid(ply) then return end
 
-	ply:SetSetting( "GTSuiteEntityLimit", 200 )
-
 	if ( returnedData.isMember ) then
 		ply:SetNet( "VIP", true )
-		ply:SetSetting( "GTSuiteEntityLimit", 400 )
+		ply:SetNet( "RoomMaxEntityCount", 400 )
 		ply.IsVIP = true
+		return
 	end
+	
+	ply:SetNet( "RoomMaxEntityCount", 200 )
+
 end )
 
 // Glow Stuff

@@ -485,7 +485,7 @@ function PANEL:PerformLayout()
 	if ( RoomId && RoomId != 0 ) then
 		local Count = LocalPlayer():GetNet( "RoomEntityCount" )
 
-		self:SetText( "Suite count: " .. tostring(Count) .. "/" .. tostring(LocalPlayer():GetSetting("GTSuiteEntityLimit")) )
+		self:SetText( "Suite count: " .. tostring(Count) .. "/" .. tostring(LocalPlayer():GetNet("RoomMaxEntityCount")) )
 		self:SizeToContents()
 	end
 end

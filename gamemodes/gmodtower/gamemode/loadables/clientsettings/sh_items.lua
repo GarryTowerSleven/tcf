@@ -120,7 +120,8 @@ ClientSettings.Items = {
 		MinValue = 1,
 		MaxValue = 400,
 		Decimals = 0,
-		SendType = true //false=Admins, true=Player+admins
+		SendType = true,
+		Disabled = true,		//false=Admins, true=Player+admins
 	},
 	[13] = {
 		Name = "Allow Theater Control",
