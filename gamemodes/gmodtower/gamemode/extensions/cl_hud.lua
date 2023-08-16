@@ -172,8 +172,10 @@ function GM:HUDDrawTargetID()
 	-- Add new player to draw name tag of
 	local tr = util.GetPlayerTrace( LocalPlayer(), GetMouseAimVector() )
 	if old then
-		if GTowerMainGui.ContextMenuEnabled or PlayerMenu.IsVisible() then
+	aimed = false
+		if GTowerMainGui.ContextMenuEnabled or PlayerMenu.IsVisible() or LocalPlayer():GetNet("Chatting") then // there has to be a better way to do this
 			tr = util.GetPlayerTrace( LocalPlayer(), LocalPlayer():GetAimVector() )
+			aimed = true
 		end
 	end
 	local trace = util.TraceLine( tr )
@@ -186,7 +188,7 @@ function GM:HUDDrawTargetID()
 	end
 
 	if old then
-		if GTowerMainGui.ContextMenuEnabled or PlayerMenu.IsVisible() then
+		if aimed then
 			x = ScrW() / 2
 			y = ScrH() / 2
 		else
