@@ -9,6 +9,7 @@ end
 function meta:SetAchievement( id, value, add )
 
 	if ( self:IsBot() ) then return end
+	if self.AFK then return end
 
 	if !self._Achievements then
 		//ErrorNoHalt("Attention: Setting achievement: " .. id .. " before the player was loaded.\n")
