@@ -62,7 +62,7 @@ function ENT:OnRemove()
 		owner.TakeOn = nil
 		owner:SetMaterial( "" )
 		if owner:GetNWBool( "InLimbo" ) then
-			GAMEMODE:SetPlayerSpeed( ply, 100, 100 )
+			GAMEMODE:SetPlayerSpeed( owner, 100, 100 )
 		else
 			owner:ResetSpeeds()
 		end
