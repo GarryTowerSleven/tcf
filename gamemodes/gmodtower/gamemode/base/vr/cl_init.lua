@@ -10,6 +10,14 @@ end)
 if !startVR then
     startVR = VRUtilClientStart
     VRUtilClientStart = function() end
+    renderview = render.RenderView
+    render.RenderView = function(data)
+        if hook.GetTable()["RenderScene"]["cardboardmod_renderscene"] then
+            data.dopostprocess = false
+        end
+
+        return renderview(data)
+    end
 end
 
 hook.Add("CreateMove", "a", function()
