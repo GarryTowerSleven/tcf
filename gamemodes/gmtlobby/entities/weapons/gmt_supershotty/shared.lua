@@ -32,6 +32,8 @@ end
 
 function SWEP:PrimaryAttack()
 
+	if !self:CanPrimaryAttack() then return end
+	
 	self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
 	self:ShootEffects()
 
@@ -43,6 +45,10 @@ function SWEP:ShootEffects(sound, recoil)
 	if SERVER then
 		self.Owner:SetVelocity( self.Owner:GetAimVector() * -500, 0 )
 	end
+end
+
+function SWEP:CanPrimaryAttack()
+	return !Location.IsEquippablesNotAllowed( self.Owner._Location )
 end
 
 function SWEP:CanSecondaryAttack()
