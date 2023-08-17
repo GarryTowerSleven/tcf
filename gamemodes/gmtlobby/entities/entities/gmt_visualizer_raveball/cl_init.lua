@@ -140,6 +140,7 @@ function ENT:Draw()
 	self.S = math.Approach(self.S, self.FFTScale, FrameTime() * 0)
 
 	for i=1, 25 do
+		if !self.FFT then continue end
 		local lscale = 1.6 + (self.FFT[i] + self.FFT[i + 1]) * (8 + i)
 		local base = self:GetPos()
 		//local i = i + util.SharedRandom(i, 0, 4)
