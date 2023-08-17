@@ -225,6 +225,7 @@ function ENT:EndGame()
 
 	for _, v in ipairs( self:GetPodiums() ) do
 		v:RemoveContestant()
+		v:Clear( true )
 	end
 
 	self:SetState( trivia.STATE_IDLE )
