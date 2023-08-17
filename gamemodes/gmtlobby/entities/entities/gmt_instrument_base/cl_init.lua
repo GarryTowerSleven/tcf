@@ -456,7 +456,10 @@ hook.Add( "PostDrawTranslucentRenderables", "InstrumentPaint", function()
 		// HUD
 		local inst = LocalPlayer().Instrument
 		local s = 1.94 / 1.5
-		cam.Start3D2D(inst:WorldSpaceCenter() - inst:GetRight() * (inst.AdvancedMode && -18.55 || -18.23) * s - inst:GetForward() * -1 - inst:GetUp() * -7.5, Angle(180, inst:GetAngles().y - 90, 240), 0.04 * s)
+		local ang = inst:GetAngles()
+		ang:RotateAroundAxis(ang:Up(), 90)
+		ang:RotateAroundAxis(ang:Forward(), 60)
+		cam.Start3D2D(inst:WorldSpaceCenter() - inst:GetRight() * (inst.AdvancedMode && -18.55 || -18.23) * s - inst:GetForward() * -1 - inst:GetUp() * -7.5, ang or Angle(180, inst:GetAngles().y - 90, 240), 0.04 * s)
 		inst.MainHUD.X = 305
 		inst.MainHUD.Y = -60
 		inst.AdvMainHUD.X = 0
@@ -464,7 +467,8 @@ hook.Add( "PostDrawTranslucentRenderables", "InstrumentPaint", function()
 		//draw.RoundedBox(0, 0, 0, 128, 128, color_white)
 		inst:DrawHUD()
 		cam.End3D2D()
-		cam.Start3D2D(inst:WorldSpaceCenter() - inst:GetRight() * -8.5 * s - inst:GetForward() * 1 - inst:GetUp() * -25.5, Angle(180, inst:GetAngles().y - 90, -100), 0.04 * s)
+		ang:RotateAroundAxis(ang:Forward(), 20)
+		cam.Start3D2D(inst:WorldSpaceCenter() - inst:GetRight() * -8.5 * s - inst:GetForward() * 1 - inst:GetUp() * -25.5, ang or Angle(180, inst:GetAngles().y - 90, -100), 0.04 * s)
 		if inst.Browser then
 			inst.Browser:SetWide(428)
 			inst.Browser:SetPos(0, 0)
