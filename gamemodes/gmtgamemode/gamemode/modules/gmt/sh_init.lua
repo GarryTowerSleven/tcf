@@ -1,6 +1,6 @@
 function SetupGMTGamemode( name, folder, settings )
 
-	GM.Name = "[GMT] " .. name
+	GM.Name = "[TCF] " .. name
 
 	if SERVER then
 		game.ConsoleCommand('hostname "' .. GM.Name .. '" \n')
