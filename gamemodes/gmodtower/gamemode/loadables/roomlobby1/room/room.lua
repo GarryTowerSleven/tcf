@@ -58,6 +58,12 @@ function IsValid( self )
 end
 
 function CanRent( self )
+	if self and self:IsValid() then
+		if self.Owner.AFK then
+			return true
+		end
+	end
+
 	return !self:IsValid()
 end
 

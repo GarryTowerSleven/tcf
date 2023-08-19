@@ -378,6 +378,12 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 	//Select a random one
 	local PlyRoom = UnusedRooms[ math.random( 1, #UnusedRooms ) ]
 
+	if IsValid(PlyRoom.Owner) then
+		PlyRoom:Finish()
+
+		PlyRoom.Owner:MsgT( "RoomAFKAway" )
+	end
+
 	if !tmysql then
 		PlyRoom:Load( ply )
 

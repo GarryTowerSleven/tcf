@@ -283,19 +283,6 @@ hook.Add("Think", "AchiSuiteParty2", function()
   end
 end)
 
-hook.Add( "PlayerAFK", "RoomAFK", function( ply, afk )
-	if ( not IsValid( ply ) ) then return end
-	if ( not afk ) then return end
-
-	local Room = ply:GetRoom() or nil
-
-	if Room then
-		Room:Finish()
-
-		ply:MsgT( "RoomAFKAway" )
-	end
-end )
-
 function GetPanel( id )
 	for _, ent in pairs( ents.FindByClass("func_suitepanel") ) do
 		if ent.RoomId == id then

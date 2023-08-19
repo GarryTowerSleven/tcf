@@ -87,6 +87,15 @@ Maps.Register( "gmt_build0s2b", {
 	DateModified = 1399590414,
 } )
 
+
+Maps.Register( "gmt_build0s2c", {
+	Name = "Summer '23 Lobby",
+	Desc = "For the first time in 9 years, the Lobby has been given a look over by our maintenance staff! Take a look around and explore all the new sights, plus a few new secrets!",
+	Author = "PixelTail Games / TCF Team",
+	DateAdded = 1399590414,
+	DateModified = 1399590414,
+} )
+
 Maps.Register( "gmt_lobby2_01", {
 	Name = "Lobby 2 Beta #1",
 	Desc = "Welcome to Lobby 2. A new, fresh, and exciting map full of gorgeous views and fun. As it is a beta, things might not always work. No refunds.",

@@ -225,6 +225,7 @@ function ENT:EndGame()
 
 	for _, v in ipairs( self:GetPodiums() ) do
 		v:RemoveContestant()
+		v:Clear( true )
 	end
 
 	self:SetState( trivia.STATE_IDLE )
@@ -325,7 +326,7 @@ function ENT:Payout()
 
 			util.Effect( "confetti", sfx, true, true )
 
-			v:GetPlayer():EmitSound( self.WinSound, 75 )
+			v:GetPlayer():EmitSound( self.WinSound, 60 )
 			v:GetPlayer():AddAchievement( ACHIEVEMENTS.TRIVIAREALLY, 1 )
 		end
 

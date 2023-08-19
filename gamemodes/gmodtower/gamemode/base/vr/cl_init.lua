@@ -1,5 +1,11 @@
+if ( not vrmod ) then return end
+
 concommand.Add("gmt_vr_start", function(ply)
     if !ply:IsAdmin() && !ply:IsStaff() && !ply:IsContributor() then return end
+    hook.Remove("VRMod_Start", "voicepermissions")
+    permissions.EnableVoiceChat(true)
+    permissions.EnableVoiceChat(false)
+
     RunConsoleCommand("vrmod_useworldmodels", "1")
     RunConsoleCommand("gmt_vr_useworldmodels", "1")
     startVR()
@@ -8,6 +14,14 @@ end)
 if !startVR then
     startVR = VRUtilClientStart
     VRUtilClientStart = function() end
+    renderview = render.RenderView
+    render.RenderView = function(data)
+        if hook.GetTable()["RenderScene"]["cardboardmod_renderscene"] then
+            data.dopostprocess = false
+        end
+
+        return renderview(data)
+    end
 end
 
 hook.Add("CreateMove", "a", function()
