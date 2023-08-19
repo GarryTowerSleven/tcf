@@ -25,8 +25,8 @@ vgui.Register( "AboutTab", TAB, "ScoreboardTab" )
 
 
 ABOUT = {}
-ABOUT.Website = "http://74.91.116.176/leaderboards/index.php?map="
-
+//ABOUT.Website = "https://gtower.net/leaderboards/index.php?map=" temp
+ABOUT.Website = "https://gtower.net/index.html"
 
 function ABOUT:Init()
 
