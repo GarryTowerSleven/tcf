@@ -216,7 +216,9 @@ end
     ================================================ */
 
 function Update(  self, ondisconnect, force )
---MsgN("Checking Update")
+	if ( not self.Player._DataApplied ) then return end
+
+	--MsgN("Checking Update")
 	if TestingMode:GetBool() then return end
 	-- IT ALWAYS SAYS THIS WHEN A PLAYER LEAVES AND ITS REALLY ANNOYING .. FUCK SQL!!! FUCK YOU!
 	/*if !self:Valid() || self.Connected != true then 
