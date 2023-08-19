@@ -83,7 +83,6 @@ end )
 function ENT:Use( activator, caller )
 	local prize
 	local gmc_earn
-	local ply = caller
 	if IsValid( caller ) and caller:IsPlayer() then
 		if self:GetState() == 0 && caller.IsSpinning != true  then
 			if caller:Afford( self.Cost ) then
@@ -110,11 +109,11 @@ function ENT:Use( activator, caller )
 				self:SetUser(caller)
 				prize = self:GetTarget() + 1
 				timer.Simple( self.SpinDuration + self.ExtraSettleTime, function()
-					self:SetState(0)
-					self:SetUser(NULL)
-					caller.IsSpinning = false
-					if IsValid( ply ) then
-						self:PayOut(ply,prize)
+					if IsValid( caller ) then
+						self:SetState(0)
+						self:SetUser(NULL)
+						caller.IsSpinning = false
+						self:PayOut(caller,prize)
 					end
 				end)
 			else
