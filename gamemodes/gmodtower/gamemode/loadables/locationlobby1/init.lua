@@ -25,18 +25,16 @@ if Player then
     end
 end
 
-hook.Add( "PlayerThink", "GTowerLocation", function()
-    local players = player.GetAll()
+hook.Add( "PlayerThink", "GTowerLocation", function( ply )
 
-    for _, ply in ipairs( players ) do
-        local loc = Location.Find( ply:GetPos() + Vector(0,0,5) )
+    local loc = Location.Find( ply:GetPos() + Vector(0,0,5) )
 
-        if ply._Location != loc then
-		    ply._LastLocation = ply._Location
-            ply._Location = loc
+    if ply._Location != loc then
+        ply._LastLocation = ply._Location
+        ply._Location = loc
 
-            ply:SetNet( "Location", loc or 0 )
-            hook.Call( "Location", GAMEMODE, ply, loc, ply._LastLocation or 0 )
-        end
+        ply:SetNet( "Location", loc or 0 )
+        hook.Call( "Location", GAMEMODE, ply, loc, ply._LastLocation or 0 )
     end
+
 end )

@@ -8,16 +8,6 @@ MEDIAPLAYER._YouTubeAddictionThink = 0
 function MEDIAPLAYER:Think()
 	BaseClass.Think( self )
 
-	if ( not self:GetOwner() ) then
-		local roomid = Location.GetSuiteID( self:GetLocation() )
-		if ( roomid > 0 ) then
-			local owner = GTowerRooms.GetOwner( roomid )
-			if ( not owner ) then return end
-
-			self:SetOwner( owner )
-		end
-	end
-
 	local listeners = self:GetListeners()
 	for _, v in ipairs( listeners ) do
 		if ( not IsValid( v ) ) then return end
@@ -34,6 +24,16 @@ function MEDIAPLAYER:Think()
 			end
 
 			self._YouTubeAddictionThink = CurTime() + 5
+		end
+	end
+	
+	if ( not self:GetOwner() ) then
+		local roomid = Location.GetSuiteID( self:GetLocation() )
+		if ( roomid > 0 ) then
+			local owner = GTowerRooms.GetOwner( roomid )
+			if ( not owner ) then return end
+
+			self:SetOwner( owner )
 		end
 	end
 end

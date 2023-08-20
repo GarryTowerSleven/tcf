@@ -102,6 +102,7 @@ function SWEP:PrimaryAttack()
 		if !IsValid(self) then return end
 		self:SendWeaponAnim(ACT_VM_IDLE)
 		timer.Simple(0, function()
+			if !IsValid(self) then return end
 			self:SendWeaponAnim(ACT_VM_HITCENTER)
 		end)
 	end)

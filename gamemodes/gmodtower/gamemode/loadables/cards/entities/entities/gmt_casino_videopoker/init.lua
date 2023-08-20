@@ -177,6 +177,8 @@ concommand.Add("videopoker_draw", function(ply, cmd, args)
             if winnings == -1 then
 				winnings = self:GetJackpot()
 				SQL.getDB():Query("UPDATE gm_casino SET jackpot=0 WHERE type='videopoker'")
+				ply:MsgI( "videopoker", "VideoPokerJackpot" )
+				self:BroadcastJackpot(ply, winnings)
 				self:SetJackpot(0)
             end
 
@@ -394,4 +396,12 @@ hook.Add("CanPlayerEnterVehicle", "PreventEntry", function(ply, vehicle) return 
 function ENT:GetPlayer()
     local ply = player.GetByID(self.SlotsPlaying)
     if IsValid(ply) and ply:IsPlayer() and self:IsInUse() then return ply end
+end
+
+function ENT:BroadcastJackpot(ply, winnings)
+	for _, v in ipairs(player.GetAll()) do
+		if v != ply then
+			v:MsgI( "videopoker", "VideoPokerJackpotAll", string.upper(ply:Name()), string.FormatNumber(winnings) )
+		end
+	end
 end

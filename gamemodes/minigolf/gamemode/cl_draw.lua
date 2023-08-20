@@ -81,7 +81,7 @@ RenderUTIL.renderPutter = function( draw, ball )
 
 		// Animate the swing
 		if LocalPlayer().Swung then
-			dist = 2
+			dist = 4
 		end
 
 		if !PutterDist then

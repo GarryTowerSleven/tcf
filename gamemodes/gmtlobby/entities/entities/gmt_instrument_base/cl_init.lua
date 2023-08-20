@@ -519,6 +519,9 @@ net.Receive( "InstrumentNetwork", function( length, client )
 		// Instrument doesn't exist
 		if !IsValid( ent ) then return end
 
+		// Getsound will fail
+		if ( not ent.GetSound ) then return end
+		
 		// Don't play for the owner, they've already heard it!
 		if IsValid( LocalPlayer().Instrument ) && LocalPlayer().Instrument == ent then
 			return
@@ -526,7 +529,7 @@ net.Receive( "InstrumentNetwork", function( length, client )
 
 		// Gather note
 		local key = net.ReadString()
-		local sound = ent:GetSound( key )
+		local sound = ent:GetSound( key ) 
 
 		if sound then
 			ent:EmitSound( sound, 80, 100, GetClientVolume() )

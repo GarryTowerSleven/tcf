@@ -13,6 +13,8 @@ function MEDIAPLAYER:Init()
     self._VoteManager = MediaPlayer.VoteManager:New( self )
     self._VoteskipManager = MediaPlayer.VoteskipManager:New( self )
 
+	self._IsRoom = false // Temp, we should make a proper player for all of this
+	
     self:on( "mediaChanged", function( media )
         self._VoteskipManager:Clear()
 
@@ -22,6 +24,21 @@ function MEDIAPLAYER:Init()
 
         MediaPlayer.UpdateMediaVote( self )
     end )
+end
+
+function MEDIAPLAYER:Think()
+	BaseClass.Think( self )
+
+	if ( not self:GetOwner() ) then // Temp, we should make a proper player for all of this
+		local roomid = Location.GetSuiteID( self:GetLocation() )
+		if ( roomid > 0 ) then
+			local owner = GTowerRooms.GetOwner( roomid )
+			if ( not owner ) then return end
+
+			self:SetOwner( owner )
+			self._IsRoom = true // Temp, we should make a proper player for all of this
+		end
+	end
 end
 
 function MEDIAPLAYER:NetWriteUpdate( ply )
@@ -68,8 +85,10 @@ function MEDIAPLAYER:ShouldQueueMedia( media )
     local duration = media:Duration() or nil
     if ( not duration ) then return false, T( "Theater_RequestFailed" ) end
 
+	local MaxDuration = self._MaxDuration * ( owner:IsVIP() and 2 or 1 )
+	
     // check duration
-    if ( duration > self._MaxDuration ) then return false, T( "TheaterTooLong" ) end
+    if ( duration > MaxDuration ) && self._IsRoom == false then return false, T( "TheaterTooLong" ) end  // Temp, we should make a proper player for all of this
 
     for _, v in ipairs( self._Queue ) do
         if ( v.IsOwner && v:IsOwner( owner ) ) then
