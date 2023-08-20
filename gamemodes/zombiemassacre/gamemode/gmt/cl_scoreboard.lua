@@ -83,7 +83,7 @@ end
 
 // Subtitle (under name)
 PlayerSubtitleText = function( ply )
-
+	if ( not IsValid( ply ) or not ply.GetNWString ) then return end
 	local class = ply:GetNWString( "ClassName" )
 
 	if !class then return "" end
