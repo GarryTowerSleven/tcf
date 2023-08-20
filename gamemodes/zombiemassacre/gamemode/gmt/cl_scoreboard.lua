@@ -84,9 +84,9 @@ end
 // Subtitle (under name)
 PlayerSubtitleText = function( ply )
 
-	local class = ply:GetNWString( "ClassName" )
+	local class = ply:GetNWString( "ClassName" ) or ""
 
-	if !class then return "" end
+	if class == "" then return "" end
 
 	if !ply:Alive() then
 		return "DEAD " .. class
