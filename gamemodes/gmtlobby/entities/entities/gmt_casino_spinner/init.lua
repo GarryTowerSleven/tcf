@@ -109,9 +109,9 @@ function ENT:Use( activator, caller )
 				self:SetUser(caller)
 				prize = self:GetTarget() + 1
 				timer.Simple( self.SpinDuration + self.ExtraSettleTime, function()
+					self:SetState(0)
+					self:SetUser(NULL)
 					if IsValid( caller ) then
-						self:SetState(0)
-						self:SetUser(NULL)
 						caller.IsSpinning = false
 						self:PayOut(caller,prize)
 					end
