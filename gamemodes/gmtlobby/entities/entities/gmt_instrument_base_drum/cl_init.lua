@@ -703,8 +703,14 @@ net.Receive( "InstrumentNetworkDrum", function( length, client )
 
 		if !IsValid( ent ) then return end
 
+		
+		
+		// Getsound won't work
+		
+		if ( not ent.GetSound ) then return end
 
-
+		
+		
 		// Don't play for the owner, they've already heard it!
 
 		if IsValid( LocalPlayer().Instrument ) && LocalPlayer().Instrument == ent then
