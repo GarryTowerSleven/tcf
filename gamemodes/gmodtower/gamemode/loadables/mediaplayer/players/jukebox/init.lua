@@ -24,6 +24,20 @@ function MEDIAPLAYER:Init()
     end )
 end
 
+function MEDIAPLAYER:Think()
+	BaseClass.Think( self )
+
+	if ( not self:GetOwner() ) then
+		local roomid = Location.GetSuiteID( self:GetLocation() )
+		if ( roomid > 0 ) then
+			local owner = GTowerRooms.GetOwner( roomid )
+			if ( not owner ) then return end
+
+			self:SetOwner( owner )
+		end
+	end
+end
+
 function MEDIAPLAYER:NetWriteUpdate( ply )
     BaseClass.NetWriteUpdate( self )
 
