@@ -93,8 +93,6 @@ function ENT:Use( activator )
 				// Pt 2
 				timer.Simple(0.25, function()
 					SendToHallway( activator )
-					net.Start( "HallwayClientside" )
-					net.Send( activator )
 				end)
 			elseif self.TurtleNumber == 1 && activator.TurtleNumber == 0 then
 				activator.TurtleNumber = 2
