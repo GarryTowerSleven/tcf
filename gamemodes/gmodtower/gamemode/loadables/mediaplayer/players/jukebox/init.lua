@@ -85,8 +85,10 @@ function MEDIAPLAYER:ShouldQueueMedia( media )
     local duration = media:Duration() or nil
     if ( not duration ) then return false, T( "Theater_RequestFailed" ) end
 
+	local MaxDuration = self._MaxDuration * ( owner:IsVIP() and 2 or 1 )
+	
     // check duration
-    if ( duration > self._MaxDuration ) && self._IsRoom == false then return false, T( "TheaterTooLong" ) end  // Temp, we should make a proper player for all of this
+    if ( duration > MaxDuration ) && self._IsRoom == false then return false, T( "TheaterTooLong" ) end  // Temp, we should make a proper player for all of this
 
     for _, v in ipairs( self._Queue ) do
         if ( v.IsOwner && v:IsOwner( owner ) ) then
