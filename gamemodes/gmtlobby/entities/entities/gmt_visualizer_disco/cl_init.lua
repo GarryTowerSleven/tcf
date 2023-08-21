@@ -93,7 +93,7 @@ function ENT:UpdateStreamVals(Stream)
     local Sum = 0
     local Total = 40
 
-    if Bands then
+    if Bands[1] then
         for i = 1, Total do
             Max = math.max(Max, Bands[i])
             Sum = Sum + Bands[i]
