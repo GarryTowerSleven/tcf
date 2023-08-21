@@ -36,8 +36,9 @@ function SendToHallway( ply )
 	ply:SetModel("models/player/group01/male_01.mdl")
 	BoneMod.SetBoneMod( ply, BONEMOD_NORMAL )
 	ply:ConCommand( "gmt_updateplayercolor" )
-	ply:SetModelScale(1)
 	ply:StripWeapons()
+
+	GTowerModels.SetTemp( ply, 1 )
 end
 
 function RemoveFromHallway( ply, giveachievement )

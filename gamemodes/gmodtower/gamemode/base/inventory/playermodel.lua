@@ -1,5 +1,5 @@
 
-util.AddNetworkString('gmt_models')
+// util.AddNetworkString('gmt_models')
 
 hook.Add("PlayerSQLApplied", "RecheckPlayerModel", function( ply )
 
@@ -20,7 +20,7 @@ hook.Add("AllowModel", "InventoryCheck", function( ply, model, skin )
 	
 end )
 
-concommand.Add("gmt_requestmodelupdate", function(ply)
+/*concommand.Add("gmt_requestmodelupdate", function(ply)
 
 	local tbl = {}
 
@@ -40,7 +40,7 @@ concommand.Add("gmt_requestmodelupdate", function(ply)
 		net.WriteTable( tbl )
 	net.Send(ply)
 	
-end)
+end)*/
 
 hook.Add("PlayerSetModelPost", "InventoryCheckSkin", function( ply, model, skin )
 

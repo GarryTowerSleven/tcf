@@ -1,197 +1,126 @@
----------------------------------
 hook.Add("LoadInventory","LoadSizeChangingPotion", function()
-
+	
 	local Potions = {
-
 		{ "Tiny Potion", 				0.1, 0, nil, Color( 0, 255, 255 ) },
-
 		{ "Smaller Potion", 			0.25, 0, 1000, Color( 0, 0, 255 ) },
-
 		{ "Small Potion", 				0.5,  1, 600, Color( 255, 0, 255 ) },
-
 		{ "Medium Potion", 				0.75, 1, 350, Color( 0, 255, 0 ) },
-
 		{ "Normal Potion", 				1,  2, 150, Color( 255, 255, 0 ) },
-
 		{ "Slightly Bigger Potion", 	1.2,  2, 500, Color( 10, 140, 255 ) },
-
 		{ "Large Potion", 				1.6, 3, nil, Color( 255, 0, 0 ) }
-
 	}
-
+	
 	local ITEM = {}
-
+	
 	if SERVER then
-		function ITEM:ApplyScale( temp, defaultsize )
+
+		local function ApplyScale( potion, temp, defaultsize )
 
 			if not IsLobby then return end
 
-			local size_translation = ( GTowerModels.List[self.Ply:GetModel()] or 1 )
-			local size = size_translation * self.PlayerChangeSize
+			local size = defaultsize or potion.PlayerChangeSize
 
-			if !temp then
-				size = size_translation * defaultsize
-			end
-
-			if self.Ply:Alive() && not self.Ply:InVehicle() then
-
-
+			if potion.Ply:Alive() && not potion.Ply:InVehicle() then
 
 				-- No need to apply this
-
-				if GTowerModels.Get( self.Ply ) == size then
-
+				if GTowerModels.Get( potion.Ply ) == size then
 					return false
-
 				end
 
+				-- Forbid usage in theater
+				/*if Location and Location.IsEquippablesNotAllowed( potion.Ply:Location() ) then
+					if not potion._TraceFailedNotified then
+						potion.Ply:MsgI( "exclamation", "InventoryEquipNotAllowed", potion.Name, potion.Ply:LocationName() )
+					end
+					potion._TraceFailedNotified = true
+					return false
+				end*/
 
-
-				local plyPos = self.Ply:GetPos() + Vector(0,0,5) -- Add 5 to ignore the ground a bit
-
-
-
-				-- Trace
-
-				local tr = util.TraceHull( {
-
-					start = plyPos,
-
-					endpos = plyPos,
-
-					maxs = (Vector( 16,  16,  72 ) * size) + Vector(2, 2, 2), -- Make our bounding box a bit bigger
-
-					mins = (Vector( -16, -16, 0 ) * size) - Vector(2, 2, 0), -- Make our bounding box a bit bigger
-
-					filter = self.Ply
-
-				} )
-
-
-
-				if not tr.HitWorld then
-
-
-						GTowerModels.Set( self.Ply, size )
-
-
-
-					self.Ply:EmitSound( "GModTower/inventory/use_potion.wav", 80, math.Clamp( 80, 150, 100 / size ) )
-
-					self._TraceFailed = false
-
-
-
-					return true
-
-
-
-				else
-
-
-
-					if not self._TraceFailedNotified then
-
-						if defaultsize then
-							self.Ply:Msg2( T( "InventoryWallTraceFailedDefaultSize" ), "exclamation" )
-						else
-							self.Ply:Msg2( T( "InventoryWallTraceFailed", self.Name ), "exclamation" )
-						end
-
+				local tr = GTowerModels.TestSize( potion.Ply, size )
+				if ( tr.HitWorld or IsValid( tr.Entity ) ) then
+					if defaultsize then
+						potion.Ply:MsgI( "exclamation", "InventoryWallTraceFailedDefaultSize" )
+					else
+						potion.Ply:MsgI( "exclamation", "InventoryWallTraceFailed", potion.Name )
 					end
 
-
-
-					self._TraceFailedNotified = true
-
-
-
 					return false
-
-
-
 				end
 
+				if temp then
+					GTowerModels.SetTemp( potion.Ply, size )
+				else
+					GTowerModels.Set( potion.Ply, size )
+				end
 
+				potion.Ply:EmitSound( "GModTower/inventory/use_potion.wav", 80, math.Clamp( 80, 150, 100 / size ) )
 
 			end
-		end
-	end
 
+		end
 
 		function ITEM:OnEquip()
-
-			return self:ApplyScale( true ) -- temp
-
+			return ApplyScale( self, true ) -- temp
 		end
-
-
 
 		function ITEM:OnUnEquip()
-
-			return self:ApplyScale( false, 1 )
-
+			return ApplyScale( self, false, 1 )
 		end
-
-
 
 		function ITEM:OnUse()
-
-			self:ApplyScale( true ) -- temp
-
+			ApplyScale( self, true ) -- temp
 			return true
-
 		end
 
+		function ITEM:OnSecondaryUse()
+			ApplyScale( self )
+			return true
+		end
+
+	end	
+	
 	ITEM.Model = "models/gmod_tower/aigik/bottle1.mdl"
 	ITEM.DrawModel = true
 	ITEM.CanUse = true
+	ITEM.CanSecondaryUse = true
+	ITEM.UseDesc = "Drink"
+	ITEM.SecondaryUseDesc = "Set As Default Size"
 	ITEM.CanEntCreate = true
 	ITEM.DrawName = true
+	ITEM.InvCategory = "potions"
 	ITEM.MoveSound = "glass"
 	ITEM.Equippable = true
-	ITEM.UseDesc = "Drink"
 	ITEM.EquipType = "Potion"
 	ITEM.UniqueEquippable = true
-
-
+	
 	for _, potion in pairs( Potions ) do
 		local NEWITEM = table.Copy( ITEM )
-
+		
 		NEWITEM.Name = potion[1]
 		NEWITEM.PlayerChangeSize = potion[2]
 		NEWITEM.ModelSkinId = potion[3]
 		NEWITEM.ModelColor = potion[5] or Color( 255, 255, 255 )
-		NEWITEM.Description = "Change your size to " .. potion[2] .. " the original."
 
 		if potion[2] == 1 then
-
 			NEWITEM.Description = "Change your size back to normal."
-
 		else
-
 			NEWITEM.Description = "Change your size to " .. potion[2] * 100 .. "% of normal."
-
 		end
 
 		NEWITEM.Description = NEWITEM.Description .. " Potions are unlimited use."
-
+		
 		if potion[4] then
-
-			NEWITEM.StoreId = 17
+			NEWITEM.StoreId = GTowerStore.VENDING
 			NEWITEM.StorePrice = potion[4]
-
 		else
-
-			NEWITEM.StoreId = 9
+			NEWITEM.StoreId = GTowerStore.VIP
 			NEWITEM.StorePrice = 4000 * potion[2]
 			NEWITEM.Tradable = false
-
+			NEWITEM.VIP = true
+			NEWITEM.UniqueInventory = true
 		end
-
-
+		
 		GTowerItems.RegisterItem("potion" .. potion[2], NEWITEM )
 	end
-
 
 end )

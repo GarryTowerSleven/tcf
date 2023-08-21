@@ -189,16 +189,16 @@ concommand.Add( "hat_stress", function( ply, cmd, args )
 	local am = args[1] or 25
 
 	//local hatCount = #GTowerHats.Hats
-	//local plyCount = #GTowerModels.NormalModels
+	//local plyCount = #GTowerModels.Models
 
 	for i=1, am do
 		local randHat = table.Random(GTowerHats.Hats).unique_Name
 		while !randHat do
 			randHat = table.Random(GTowerHats.Hats).unique_Name
 		end
-		local _, randPly = table.Random(GTowerModels.NormalModels)
+		local _, randPly = table.Random(GTowerModels.Models)
 		while !randPly do
-			_, randPly = table.Random(GTowerModels.NormalModels)
+			_, randPly = table.Random(GTowerModels.Models)
 		end
 
 		GTowerHats:RequestOffset( randHat, randPly )

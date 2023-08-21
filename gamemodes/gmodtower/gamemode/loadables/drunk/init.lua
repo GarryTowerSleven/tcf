@@ -19,7 +19,7 @@ function meta:Drink(balamt)
 		self:Kill()
 		self:ChatPrint("You died from alcohol poisoning.")
 		self:AddAchievement( ACHIEVEMENTS.BORNTOFAIL, 1 )
-		self:UnDrunk()
+
 		return
 	end
 
@@ -71,12 +71,16 @@ function meta:DrunkThink()
 	end
 end
 
-hook.Add("PlayerThink", "PlayerDrunkThink", function(ply)
+hook.Add( "PlayerThink", "PlayerDrunkThink", function(ply)
     local bal = ply:GetNet("BAL")
 	if bal && bal > 0 then
 		ply:DrunkThink()
 	end
-end)
+end )
+
+hook.Add( "PlayerDeath", "DrunkRemove", function( ply )
+	ply:UnDrunk()
+end )
 
 function meta:Puke()
 	self:ViewPunch(Angle(20, 0, 0))

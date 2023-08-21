@@ -1,4 +1,3 @@
----------------------------------
 local lastpos = Vector(0,0,0)
 local lastang = Angle(0,0,0)
 local DEBUG = false

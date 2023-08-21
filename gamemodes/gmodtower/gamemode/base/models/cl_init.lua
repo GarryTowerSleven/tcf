@@ -5,18 +5,22 @@ module("GTowerModels", package.seeall)
 ConVar = CreateClientConVar( "gmt_playermodel", "kleiner", true, true )
 
 cvars.AddChangeCallback( "gmt_playermodel", function()
-	LocalPlayer():ConCommand( "gmt_updateplayermodel" )
-end, "GMTPlayermodelUpdate" )
+	RunConsoleCommand( "gmt_updateplayermodel" )
+end )
+
+cvars.AddChangeCallback("cl_playercolor", function()
+    RunConsoleCommand( "gmt_updateplayercolor" )
+end )
 
 function Get( ply )
 	return ply:GetNet( "ModelSize" )
 end
 
-hook.Add( "PlayerSpawn","GTowerChangePlyScale", function( ply )
+hook.Add( "PlayerSpawn", "GTowerChangePlyScale", function( ply )
 	ChangeHull( ply )
 end )
 
-hook.Add("OnEntityCreated", "Test", function( spawned )
+/*hook.Add("OnEntityCreated", "Test", function( spawned )
 	
 	if IsValid( spawned ) then
 		local class = spawned:GetClass()
@@ -32,7 +36,7 @@ hook.Add("OnEntityCreated", "Test", function( spawned )
 		end
 	end
 	
-end )
+end )*/
 
 /*
 usermessage.Hook("PlySize", function( um )
@@ -81,7 +85,7 @@ function AskTempOverrideSize( ply )
 	)
 end
 
-function AskPerNamentSize( ply )
+function AskPernamentSize( ply )
 	Derma_StringRequest( "PerNament player size", 
 		"Set the player size for: " .. ply:Name() .. " (0-"..MaxScale..")", 
 		"", 
@@ -101,12 +105,12 @@ local function AdminSetPlayerSize( ply )
 		["Name"] = "Player size",
 		["sub"] = {
 			{
-				["Name"] = "Temp. override",
+				["Name"] = "Change Size (Temp)",
 				["function"] = function() AskTempOverrideSize( ply ) end	 
 			},
 			{
-				["Name"] = "Change size",
-				["function"] = function() AskPerNamentSize( ply ) end	 
+				["Name"] = "Change Size (Permanent)",
+				["function"] = function() AskPernamentSize( ply ) end	 
 			},
 			{
 				["Name"] = "Remove",
@@ -118,8 +122,3 @@ end
 
 hook.Add("GTowerAdminPly", "ChangePlayersize", AdminSetPlayerSize )
 hook.Add("GTowerAdminMenus", "ChangePlayersize", AdminSetPlayerSize )
-
-
-cvars.AddChangeCallback("cl_playercolor", function(convar_name, value_old, value_new)
-    RunConsoleCommand("gmt_updateplayercolor")
-end)
