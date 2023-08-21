@@ -228,9 +228,6 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	Requester.DuelStartTime = CurTime()
 	Arriver.DuelStartTime = CurTime()
 
-	GTowerModels.Set( Requester, 1 )
-	GTowerModels.Set( Arriver, 1 )
-
 	timer.Simple( 1, function()
 
 		if IsValid(Requester) then
@@ -518,6 +515,7 @@ hook.Add( "Location","DuelingPlayermodel", function( ply, loc, lastloc )
 	if IsValid( ply ) then
 		if loc == DuelLocation && Dueling.IsDueling( ply ) then
 			ply:SetModel( "models/player/normal.mdl" )
+			GTowerModels.SetTemp( ply, 1 )
 		end
 	end
 
