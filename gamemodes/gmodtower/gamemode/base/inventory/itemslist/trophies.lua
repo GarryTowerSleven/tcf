@@ -211,7 +211,7 @@ RegisterItem("trophy_starfox",{
 	Model = "models/gmod_tower/trophy_starfox.mdl",
 	UniqueInventory = true,
 	DrawModel = true,
-	Tradable = false,
+	Tradable = true,
 	InvCategory = "trophy",
 	UseSound = "use_fox.wav",
 })
