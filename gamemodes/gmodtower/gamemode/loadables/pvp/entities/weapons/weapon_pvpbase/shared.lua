@@ -399,7 +399,7 @@ end
 
 
 
-function SWEP:ShootMelee( dmg, hitworld_sound, hitply_sound, miss_sound )
+function SWEP:ShootMelee( dmg, hitworld_sound, hitply_sound, miss_sound, chainsaw )
 
 	self.Owner:LagCompensation(true)
 
@@ -530,6 +530,13 @@ function SWEP:ShootMelee( dmg, hitworld_sound, hitply_sound, miss_sound )
 
 			if trace.Entity:IsPlayer() then
 
+				if chainsaw then
+					local effectdata = EffectData()
+						effectdata:SetOrigin( trace.HitPos )
+						effectdata:SetNormal( self.Owner:GetAngles():Forward() )
+					util.Effect( "gib_bloodemitter", effectdata, true, true )
+				end
+				
 				local effectdata = EffectData()
 
 					effectdata:SetOrigin( trace.HitPos )
