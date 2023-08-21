@@ -99,8 +99,8 @@ Add( 46, {
 Add( 50, {
     Name = "Moon",
     Group = "moon",
-    Min = Vector(-11721,-11841,3200),
-    Max = Vector(-6714,-6735,5800),
+    Min = Vector(-14500,-14171,5500),
+    Max = Vector(-11925,-11555,8000),
     Priority = 0,
 } )
 
