@@ -67,7 +67,7 @@ hook.Add( "Think", "ClientPingCheck", function( ply )
 		ReconnectDelay = nil
 
 		if LostConnectionMusic then
-			LostConnectionMusic:Stop()
+			RunConsoleCommand( "stopsound" )
 			LostConnectionMusic = nil
 		end
 	end
