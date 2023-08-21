@@ -88,7 +88,7 @@ Maps.Register( "gmt_build0s2b", {
 } )
 
 
-Maps.Register( "gmt_build0s2c", {
+Maps.Register( "gmt_build0s3a", {
 	Name = "Summer '23 Lobby",
 	Desc = "For the first time in 9 years, the Lobby has been given a look over by our maintenance staff! Take a look around and explore all the new sights, plus a few new secrets!",
 	Author = "PixelTail Games / TCF Team",
