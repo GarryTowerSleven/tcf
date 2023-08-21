@@ -231,7 +231,7 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 
 	Requester:SetModel( "models/player/normal.mdl" )
 	Arriver:SetModel( "models/player/normal.mdl" )
-	print(Weapon)
+	
 	timer.Simple( 1, function()
 
 		if IsValid(Requester) then
