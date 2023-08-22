@@ -96,7 +96,7 @@ if SERVER then
 			Time = 3,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
-				ply:SetHealth( 100 )
+				ply:SetHealth( ply:GetMaxHealth() )
 				ply:Freeze( false )
 				ply:UnDrunk()
 			end,
@@ -110,6 +110,7 @@ if SERVER then
 			Time = 60,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
+				ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
 				PostEvent( ply, "pcolored_on" )
 			end,
 			End = function( ply )
@@ -126,6 +127,7 @@ if SERVER then
 			Time = 60,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
+				ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
 				PostEvent( ply, "psleepy_on" )
 			end,
 			End = function( ply )
@@ -142,6 +144,7 @@ if SERVER then
 			Time = 30,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
+				ply:SetHealth( math.min( ply:Health() + 45, ply:GetMaxHealth() ) )
 				PostEvent( ply, "psleepy_on" )
 			end,
 			End = function( ply )
@@ -158,7 +161,7 @@ if SERVER then
 			Time = 3,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
-				ply:SetHealth( 100 )
+				ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
 				ply:Freeze( false )
 			end,
 		},
@@ -215,6 +218,7 @@ if SERVER then
 			Time = 300,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
+				ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
 				GAMEMODE:SetPlayerSpeed( ply, 360, 640 )
 				PostEvent( ply, "pspeed_on" )
 			end,
@@ -271,6 +275,8 @@ if SERVER then
 			Time = 300,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
+				ply:Ignite(.25, 0)
+				ply:SetHealth( ply:Health + 1 )
 				ply:SetModel( "models/player/skeleton.mdl" )
 				ply:SetNWBool("ForceModel", true)
 				PostEvent( ply, "pbone_on" )
