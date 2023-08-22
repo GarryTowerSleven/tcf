@@ -3,7 +3,7 @@ local BananaBonus = 5 // Bonus for the amount of bananas you got
 payout.Register( "ThanksForPlaying", {
 	Name = "Thanks For Playing",
 	Desc = "For participating in the game!",
-	GMC = 25,
+	GMC = 50,
 } )
 
 payout.Register( "Completed", {
