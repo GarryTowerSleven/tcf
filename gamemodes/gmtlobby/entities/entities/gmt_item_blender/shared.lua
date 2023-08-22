@@ -41,7 +41,7 @@ local IngredientsModels = {
 	[WATERMELON]	= Model("models/props_junk/watermelon01_chunk01b.mdl"),
 	[BANANA]		= Model("models/props/cs_italy/bananna.mdl"),
 	[ORANGE]		= Model("models/props/cs_italy/orange.mdl"),
-	[GLASS]			= Model("models/props_junk/garbage_glassbottle001a.mdl"),
+	[GLASS]			= Model("models/props_junk/glassjug01.mdl"),
 	[PLASTIC]		= Model("models/props_junk/garbage_plasticbottle002a.mdl"),
 	[BONE]			= Model("models/gibs/hgibs.mdl"),
 }
@@ -171,7 +171,7 @@ if SERVER then
 			Time = 3,
 			Start = function( ply )
 				if !IsValid( ply ) or !ply:CanDrink( 25 ) then return end
-				PostEvent( ply, "pdamage" )
+				ply:ViewPunch(Angle(2, math.random(-1, 1), 0))
 				ply:Drink( 25 )
 			end,
 		},
@@ -184,7 +184,7 @@ if SERVER then
 			Time = 3,
 			Start = function( ply )
 				if !IsValid( ply ) or !ply:CanDrink( 20 ) then return end
-				PostEvent( ply, "pdamage" )
+				ply:ViewPunch(Angle(2, math.random(-1, 1), 0))
 				ply:Drink( 20 )
 			end,
 		},
@@ -233,10 +233,12 @@ if SERVER then
 			Time = 30,
 			Start = function( ply )
 				if !IsValid( ply ) or !ply:CanDrink( 20 ) then return end
+				ply:ViewPunch(Angle(2, math.random(-1, 1), 0))
 				ply:Drink( 20 )
 			end,
 			End = function( ply )
 				if !IsValid( ply ) or !ply:CanDrink( 30 ) then return end
+				ply:ViewPunch(Angle(4, math.random(-2, 2), 0))
 				ply:Drink( 30 )
 			end
 		},

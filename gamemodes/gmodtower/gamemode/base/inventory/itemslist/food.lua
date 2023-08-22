@@ -56,7 +56,7 @@ RegisterItem("ingredient_glass",{
 	
 	OnUse = function(self)
 		if IsValid( self.Ply ) && self.Ply:IsPlayer() then
-			self.Ply:Drink(20)
+			self.Ply:Drink(15)
 			self.Ply:ViewPunch(Angle(2, math.random(-1, 1), 0))
 			self.Ply:EmitSound("ambient/levels/canals/toxic_slime_gurgle7.wav", 75, math.random(90, 110))
 			return nil
@@ -92,7 +92,6 @@ RegisterItem("ingredient_bone",{
 	
 	OnUse = function(self)
 		if IsValid( self.Ply ) && self.Ply:IsPlayer() then
-			self.Ply:TakeDamage(5, self.Ply, self.Ply)
 			self.Ply:Ignite(3, 0)
 			self.Ply:EmitSound("ambient/levels/canals/toxic_slime_gurgle" .. math.random(7, 8) .. ".wav", 75, math.random(90, 110))
 			return nil
