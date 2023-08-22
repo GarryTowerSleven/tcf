@@ -604,7 +604,7 @@ hook.Add("UpdateAnimation", "DiscoBall", function(ply)
 
         ply.DanceCycle = ply.DanceCycle or 0
 		lerp = lerp or 0.1
-        ply.DanceCycle = math.fmod(ply.DanceCycle + FrameTime() * (mp and 0.001 + lerp), 1)
+        ply.DanceCycle = math.fmod(ply.DanceCycle + FrameTime() * (mp and 0.001 + lerp or 0.1), 1)
 
         ply:AddVCDSequenceToGestureSlot(ply.DanceSeq or GESTURE_SLOT_CUSTOM, CUSTOMTAUNT && ply.Dance || ply:LookupSequence("taunt_dance_base"), ply.DanceCycle || mp && c || ply:GetCycle(), true)
 
