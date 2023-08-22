@@ -308,6 +308,7 @@ voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/pla
 voicelines.Add("models/player/aphaztech.mdl", playerSounds["models/player/group01/male_07.mdl"])
 voicelines.Add("models/player/spacesuit.mdl", playerSounds["models/player/group01/male_07.mdl"])
 voicelines.Add("models/player/sunabouzu.mdl", playerSounds["models/player/breen.mdl"])
+voicelines.Add("models/player/tcf/hl1_gordon.mdl", playerSounds["models/player/gordon.mdl"])
 voicelines.Add("models/player/clopsy.mdl", playerSounds["models/player/zombie_classic.mdl"])
 voicelines.Add("models/player/virusi.mdl", playerSounds["models/player/zombie_classic.mdl"])
 
