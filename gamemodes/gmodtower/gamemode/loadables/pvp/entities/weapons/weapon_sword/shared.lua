@@ -22,13 +22,13 @@ SWEP.Primary.Automatic		= true
 
 SWEP.Primary.UnlimAmmo		= true
 
-SWEP.Primary.Damage			= {50, 70}
+SWEP.Primary.Damage			= {45, 70}
 
-SWEP.Primary.Delay			= 0.6
+SWEP.Primary.Delay			= 0.625
 
 SWEP.Secondary.Automatic	= false
 SWEP.Secondary.UnlimAmmo	= true
-SWEP.Secondary.Delay		= 2
+SWEP.Secondary.Delay		= 3
 
 SWEP.SoundDeploy		= "GModTower/pvpbattle/Sword/SwordDeploy.wav"
 

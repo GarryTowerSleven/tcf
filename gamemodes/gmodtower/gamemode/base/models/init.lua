@@ -3,7 +3,7 @@ AddCSLuaFile( "shared.lua" )
 
 module("GTowerModels", package.seeall)
 
-hook.Add("SQLStartColumns", "SQLForcePlySize", function()
+/*hook.Add("SQLStartColumns", "SQLForcePlySize", function()
 	_G.SQLColumn.Init( {
 		["column"] = "plysize",
 		["update"] = function( ply ) 
@@ -13,70 +13,86 @@ hook.Add("SQLStartColumns", "SQLForcePlySize", function()
 			Set( ply, tonumber( val ) )
 		end
 	} )
-end )
+end )*/
 
 function Get( ply )
-	return ply._TempPlayerSize or ply._ForcePlayerSize
+	return ply._PlyScaleTemp or ( ply._PlyScaleNormal or 1.0 )
 end
 
-function SendToClients( ply )	
+function SendToClients( ply )
 	ply:SetNet( "ModelSize", Get( ply ) or 1.0 )
+end
+
+local function CalculateScale( ply, size )
+	return math.Clamp( (size or 1) * GetScale( ply:GetModel() ), 0, MaxScale )
 end
 
 function Set( ply, size )
 	
-	if hook.Call("PlayerResize", _G.GAMEMODE, ply, size ) == false then
+	if hook.Call("PlayerResize", GAMEMODE, ply, size ) == false then
 		return 
 	end
 
-	size = math.Clamp( size or 0, 0, MaxScale )
+	local scale = CalculateScale( ply, size )
 	
-	if size <= 0.01 || size == 1 then
-		ply._ForcePlayerSize = nil	
-		ply._TempPlayerSize = nil
+	if ( scale <= 0.01 ) then
+		ply._PlyScaleNormal = 1.0
 	else
-		ply._ForcePlayerSize = size
+		ply._PlyScaleNormal = scale
 	end
+
+	ClearTemp( ply )
 	
+	SendToClients( ply )
 	ChangeHull( ply )
-	SendToClients( ply )	
+
 end
 
 function SetTemp( ply, size )
 
-	if hook.Call("PlayerResize", _G.GAMEMODE, ply, size ) == false then
+	if hook.Call("PlayerResize", GAMEMODE, ply, size ) == false then
 		return 
 	end
 	
-	size = math.Clamp( size or 0, 0, MaxScale )
-	local OldSize = ply._TempPlayerSize
+	local scale = CalculateScale( ply, size )
 	
-	if size <= 0.01 || size == 1 then
-		ply._TempPlayerSize = nil	
+	if ( scale <= 0.01 ) then
+		ply._PlyScaleTemp = nil
 	else
-		ply._TempPlayerSize = size
+		ply._PlyScaleTemp = scale
 	end
 	
-	if OldSize != ply._TempPlayerSize then
-		ply._IginoreChangeSize = true
-		timer.Simple( 0.1, function() ply.Spawn( ply ) end)
-		timer.Simple( 0.15, function() ply.SetPos( ply:GetPos() ) end)
-	end
-	
-	ChangeHull( ply )
 	SendToClients( ply )
+	ChangeHull( ply )
 	
 end
 
-function RemoveTemp( ply )
-	if ply._TempPlayerSize then
-		ply._TempPlayerSize = nil
-		ChangeHull( ply, Get( ply ) )
+function ClearTemp( ply, send )
+
+	ply._PlyScaleTemp = nil
+
+	if ( send ) then
 		SendToClients( ply )
+		ChangeHull( ply )
 	end
+
 end
 
-hook.Add("PlayerSetModel", "AllowModelOverride", function( ply )
+function TestSize( ply, scale )
+
+	local tr = util.TraceHull( {
+		start = ply:GetPos(),
+		endpos = ply:GetPos(),
+		maxs = Vector( 16,  16,  72 ) * scale,
+		mins = Vector( -16, -16, 0 ) * scale,
+		filter = ply
+	} )
+
+	return tr
+
+end
+
+/*hook.Add("PlayerSetModel", "AllowModelOverride", function( ply )
 
 	if ply._PlyModelOverRide then
 		local OverRide = ply._PlyModelOverRide
@@ -87,41 +103,79 @@ hook.Add("PlayerSetModel", "AllowModelOverride", function( ply )
 		return true
 	end
 	
-end )
+end )*/
 	
-hook.Add("PlayerDeath","GTowerChangePlyDeath", RemoveTemp )
-hook.Add("PlayerSpawn","GTowerChangePlySpawn", function( ply )
-	if !ply._IginoreChangeSize then
-		RemoveTemp( ply )
-	end
-	ply._IginoreChangeSize = nil
-	ply:UnDrunk()
+hook.Add( "PlayerDeath", "GTowerChangePlyDeath", function( victim )
+	ClearTemp( victim, true )
 end )
 
-concommand.Add("gmt_plysize", function( ply, cmd, args )
-	if ply:IsAdmin() then	
-		Set( ply, tonumber(args[1]) )
-	end
-end )
-
-concommand.Add("gmt_plysize2", function( ply, cmd, args )
+concommand.Add( "gmt_setsize", function( ply, cmd, args )
 	if ply:IsAdmin() then	
 		SetTemp( ply, tonumber(args[1]) )
 	end
 end )
 
-hook.Add("AdminCommand", "ChangePlayerSize", function( args, admin, target )
+hook.Add( "AdminCommand", "ChangePlayerSize", function( args, admin, target )
 	
 	if args[1] == "plysize" then
 		Set( target, tonumber(args[3]) )
 	elseif args[1] == "plytsize" then
 		SetTemp( target, tonumber(args[3]) )
 	elseif args[1] == "remsize" then
-		Set( target, 1 )
-		SetTemp( target, 1 )
+		ClearTemp( target )
+		Set( target, nil )
 	end
 	
 end )
+
+DefaultModels = DefaultModels or {}
+
+function CatalogDefaultModels()
+	for name, model in pairs( player_manager.AllValidModels() ) do
+		if not GTowerModels.Models[name] or not GTowerModels.AdminModels[name] then
+
+			if string.StartWith( name, "medic" ) || string.StartWith( name, "dod_" ) then continue end
+			if name == "kdedede_pm" or name == "bond" or name == "classygentleman" || name == "maskedbreen" or name == "windrunner" || name == "grayfox" || name == "hostage01" || name == "hostage02" || name == "hostage03" then continue end
+			table.insert( DefaultModels, model )
+
+		end
+	end
+end
+
+function GM:DefaultPlayerModel(model)
+	return table.HasValue( DefaultModels, model )
+end
+
+function IsDefaultModel( name )
+	return GTowerModels.AdminModels[ name ] == nil and GTowerModels.Models[ name ] == nil
+end
+
+hook.Add( "InitPostEntity", "DefaultPlayermodels", CatalogDefaultModels )
+
+// should make this a hook
+function CanUseModel( ply, name, skin )
+
+	// local model = player_manager.TranslatePlayerModel( name )
+
+	if ( engine.ActiveGamemode() == "virus" and name == "infected" ) then
+		return ply:GetNet( "IsVirus" )
+	end
+
+	if ( GTowerModels.AdminModels[ name ] ) then
+		return ply:IsAdmin()
+	end
+
+	if ( GTowerModels.Models[ name ] ) then		
+		local model_item = GTowerItems.ModelItems[ name .. "-" .. (skin or "none") ]
+		
+		if model_item && ply:HasItemById( model_item.MysqlId ) then
+			return true
+		end
+	end
+
+	return IsDefaultModel( name ) or false
+	
+end
 
 concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 
@@ -129,34 +183,32 @@ concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 	
 	if ply:GetNWBool("ForceModel") || ply:GetNWBool("InLimbo") then return end
 	
+	if IsLobby && IsValid( ply:GetVehicle() ) then return end
+
 	local modelinfo = string.Explode( "-", ply:GetInfo("gmt_playermodel") )
 	local modelname = modelinfo[1]
-	local modelskin = modelinfo[2]
-	local model = player_manager.TranslatePlayerModel(modelname)
+	local modelskin = tonumber( modelinfo[2] or 0 ) or 0
 	
+	if ( not CanUseModel( ply, modelname, modelskin ) ) then
+		modelname = nil
+		modelskin = 0
+	end
+
 	if modelname == "steve" && ply:GetInfo("cl_minecraftskin") != "" && ply:GetInfo("cl_minecraftskin") != ply:GetNet( "MCSkinName" ) then
 		ply:SetNet( "MCSkinName", ply:GetInfo("cl_minecraftskin")) 
 		ply:Msg2( T( "MCSkinChange" ) )
 	end
 
-	local size = ( List[model] or 1 )
-
-	if ( IsLobby ) then
-		if ( ( ply:GetModelScale() != size && ply:GetModel() == model ) ) then
-			size = ply.OldPlayerSize
-			ply.OldPlayerSize = size
-		end
-	else
-		if ( engine.ActiveGamemode() != "ballrace" ) then
-			size = 1
-		end
-	end
+	local model = player_manager.TranslatePlayerModel(modelname)
 
 	ply:SetModel(model)
-	ply:SetSkin((modelskin || 0))
-	ply:SetModelScale( tonumber( size ) or 1 )
+	ply:SetSkin(modelskin)
 	ply:SetupHands()
-	Set( ply, size )
+
+	Set( ply )
+
+	hook.Call( "PlayerSetModelPost", GAMEMODE, ply, model, modelskin )
+
 end )
 
 concommand.Add("gmt_updateplayercolor", function(ply)

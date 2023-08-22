@@ -21,7 +21,7 @@ SWEP.HoldType			 = "ar2"
 SWEP.Primary.Automatic	 = true
 SWEP.Primary.UnlimAmmo	 = true
 SWEP.Primary.Delay	 = 0.15
-SWEP.Primary.Damage	 = {3, 5}
+SWEP.Primary.Damage	 = {5, 7}
 SWEP.Primary.Sound	 = "GModTower/pvpbattle/Patriot/PatriotFire.wav"
 
 SWEP.SoundDeploy	 = "GModTower/pvpbattle/Patriot/PatriotDeploy.wav"

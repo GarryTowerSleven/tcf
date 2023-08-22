@@ -42,7 +42,7 @@ util.PrecacheModel( SWEP.WorldModel )
 function SWEP:PrimaryAttack()
 	if !self:CanPrimaryAttack() then return end
 
-	self:SetNextPrimaryFire( CurTime() + 0.5 )
+	self:SetNextPrimaryFire( CurTime() + 0.45 )
 	self:ShootMelee( self.Primary.Damage, self.MeleeHitSound, self.MeleeHitSound, self.SoundSwing )
 end
 

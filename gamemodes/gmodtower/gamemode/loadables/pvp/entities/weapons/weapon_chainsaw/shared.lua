@@ -21,6 +21,7 @@ SWEP.ViewModel			= Model( "models/weapons/v_pvp_chainsaw.mdl")
 SWEP.WorldModel 		= Model( "models/weapons/w_pvp_chainsaw.mdl")
 SWEP.ViewModelFlip		= true
 
+SWEP.Primary.Damage		= 100
 SWEP.Primary.Delay		= 1.1
 SWEP.Secondary.Delay	= 5
 SWEP.HoldType			= "slam"
@@ -60,7 +61,7 @@ function SWEP:Deploy()
 	self.Owner:DrawViewModel(false)
 	self.Owner:DrawWorldModel(false)
 end
-
+/*
 local function TestTrace( pos, ang, ply )
 
 	local trace = util.TraceLine({
@@ -85,7 +86,7 @@ local function TestTraces( ply )
 		TestTrace( pos, ang + Angle(0,15,0), ply ) ||
 		TestTrace( pos, ang + Angle(0,-15,0), ply )
 
-end
+end*/
 
 
 function SWEP:PrimaryAttack()
@@ -96,10 +97,16 @@ function SWEP:PrimaryAttack()
 	self.Weapon:SendWeaponAnim(ACT_VM_HITCENTER)
 	self.Owner:SetAnimation( PLAYER_ATTACK1 )
 
+	if IsFirstTimePredicted() then
+		self.Weapon:EmitSound( self.Sounds[5] )
+	end
+	
+	self:ShootMelee( self.Primary.Damage, self.Sounds[1], self.Sounds[1], self.Sounds[5], true )
+	
 	/*local trace = util.TraceHull({start=self.Owner:GetShootPos(),
 			endpos=self.Owner:GetShootPos() + self.Owner:GetAimVector() * 50,
 			mins=Vector(-8, -8, -8), maxs=Vector(8, 8, 8),
-			filter=self.Owner})*/
+			filter=self.Owner})
 
 	local target = TestTraces( self.Owner )
 	local sound = self.Sounds[5]
@@ -116,9 +123,7 @@ function SWEP:PrimaryAttack()
 			effectdata:SetNormal( self.Owner:GetAngles():Forward() )
 		util.Effect( "gib_bloodemitter", effectdata )
 	end
-
-	self.Weapon:EmitSound( sound )
-
+	*/
 end
 
 function SWEP:Think()

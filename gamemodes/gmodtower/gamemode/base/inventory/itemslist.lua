@@ -1739,7 +1739,7 @@ RegisterItem("suitetetris",{
 	DrawModel = true,
 	UniqueInventory = false,
 	Tradable = true,
-	StorePrice = 40000,
+	StorePrice = 50000,
 })
 
 RegisterItem("cow",{

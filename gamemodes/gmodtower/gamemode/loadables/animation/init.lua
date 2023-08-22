@@ -41,8 +41,7 @@ function ScaleModel( ply, scale )
 		Msg( "Scaling model to " .. tostring( scale ) .. " for player " .. tostring( ply ) .. "\n" )
 	end
 	
-	ply._IginoreChangeSize = true
-	ply:SetNet( "ModelSize", scale )
+	GTowerModels.Set( ply, scale )
 	
 	AnimUMSG( ply, Animation.TYPE_SCALE, scale )
 	

@@ -140,7 +140,7 @@ function ENT:Draw()
 	self.S = math.Approach(self.S, self.FFTScale, FrameTime() * 0)
 
 	for i=1, 25 do
-		if !self.FFT then continue end
+		if !self.FFT[1] then continue end
 		local lscale = 1.6 + (self.FFT[i] + self.FFT[i + 1]) * (8 + i)
 		local base = self:GetPos()
 		//local i = i + util.SharedRandom(i, 0, 4)
@@ -232,6 +232,7 @@ function ENT:FLUpdateSpec( stream )
 
 	local Stream = self:GetStream()
 	self.FFT = self:GetFFTFromStream()
+	if !self.FFT[1] then return end
 	self.FFTBass = fft.GetBass( self.FFT )
 	self.FFTScale = ( self.FFTBass ) * 10
 

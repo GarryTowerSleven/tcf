@@ -1,7 +1,7 @@
 ---------------------------------
 module( "GTowerItems", package.seeall )
 
-ModelItems = {}
+ModelItems = ModelItems or {}
 
 local ITEMExtraFunc = {}
 

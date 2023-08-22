@@ -248,7 +248,7 @@ function ENT:CheckAnswered()
 	end
 
 	if ( allSelected ) then
-		self:StartIntermission()
+		self:SetTimer( 0 )
 	end
 end
 

@@ -152,6 +152,7 @@ concommand.Add( "gmt_duelinvite", function( ply, cmd, args )
 	Requester:SetNWBool( "HasSendInvite", true )
 	Requester:SetNWString( "DuelWeapon", Weapon )
 	Requester:SetNWInt( "DuelID", WeaponID )
+	
 
     Requester:SetNWInt( "DuelAmount", Amount )
     Arriver:SetNWInt( "DuelAmount", Amount )
@@ -228,9 +229,9 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	Requester.DuelStartTime = CurTime()
 	Arriver.DuelStartTime = CurTime()
 
-	GTowerModels.Set( Requester, 1 )
-	GTowerModels.Set( Arriver, 1 )
-
+	Requester:SetModel( "models/player/normal.mdl" )
+	Arriver:SetModel( "models/player/normal.mdl" )
+	
 	timer.Simple( 1, function()
 
 		if IsValid(Requester) then
@@ -243,6 +244,13 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 
 	end )
 
+	if Weapon == "weapon_giant_fist" then
+		GTowerModels.SetTemp( Requester, 4 )
+		GTowerModels.SetTemp( Arriver, 4 )
+	else
+		GTowerModels.SetTemp( Requester, 1 )
+		GTowerModels.SetTemp( Arriver, 1 )
+	end
 	Requester:SetHealth( 300 )
 	Arriver:SetHealth( 300 )
 
@@ -510,15 +518,5 @@ hook.Add( "PlayerDeathThink", "DuelingPreventRespawn", function( ply )
 	end
 
 	return true
-
-end )
-
-hook.Add( "Location","DuelingPlayermodel", function( ply, loc, lastloc )
-
-	if IsValid( ply ) then
-		if loc == DuelLocation && Dueling.IsDueling( ply ) then
-			ply:SetModel( "models/player/normal.mdl" )
-		end
-	end
 
 end )

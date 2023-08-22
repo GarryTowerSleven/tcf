@@ -2,12 +2,12 @@ include("shared.lua")
 
 ENT.Color = nil
 ENT.SpriteMat = Material( "sprites/powerup_effects" )
-ENT.csModel = ClientsideModel("models/props_combine/breenbust.mdl")
 
 function ENT:Initialize()
 
 	self.NextParticle = CurTime() + 0.15
 
+	self.csModel = ClientsideModel("models/props_combine/breenbust.mdl")
 	self:DrawShadow(false)
 
 		if IsValid( self ) then

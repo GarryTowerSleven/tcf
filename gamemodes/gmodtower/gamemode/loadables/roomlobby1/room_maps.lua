@@ -185,7 +185,7 @@ GTowerRooms.RoomMapData = {
 			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
 		}
 	},
-	["gmt_build0s2c"] = {
+	["gmt_build0s3a"] = {
 		["refobj"] = "gmt_roomloc",
 		["min"] = Vector(-32, -600, -33.1250),
 		["max"] = Vector(336, 715, 246.8750),

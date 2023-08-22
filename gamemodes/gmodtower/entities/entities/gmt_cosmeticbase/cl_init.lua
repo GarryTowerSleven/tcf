@@ -181,3 +181,13 @@ function PlayerMeta:ManualEquipmentDraw()
 		end
 	end
 end
+
+function PlayerMeta:ResetEquipmentScale()
+	if !self.CosmeticEquipment then return end
+
+   for k,v in pairs(self.CosmeticEquipment) do
+	   if IsValid( v ) then
+		   v:SetModelScale( self:GetModelScale(), 0 )
+	   end
+   end
+end

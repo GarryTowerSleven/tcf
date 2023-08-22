@@ -536,6 +536,20 @@ function meta:GetEquipedItems()
 
 end
 
+hook.Add( "PlayerSetModelPost", "ApplyEquips", function( ply )
+
+	local equips = ply:GetEquipedItems()
+
+	for _, v in ipairs( equips ) do
+		
+		if ( v.UniqueEquippable and v.EquipType == "Potion" and isfunction( v.OnEquip ) ) then
+			v:OnEquip()
+		end
+
+	end
+
+end )
+
 /* ==============================
  == MySQL Saving
 ================================= */

@@ -17,6 +17,10 @@ EnableParticles = CreateClientConVar( "gmt_enableparticles", "1", true, false )
 Cursor2D = surface.GetTextureID( "cursor/cursor_default" )
 CursorLock2D = surface.GetTextureID( "cursor/cursor_lock" )
 
+hook.Add( "ShouldAutoScalePlayers", "AutoScalePlayers", function()
+	return true
+end )
+
 // ball orb support
 hook.Add( "GShouldCalcView", "ShouldCalcVewBall", function( ply, pos, ang, fov )
 

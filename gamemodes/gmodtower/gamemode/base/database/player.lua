@@ -104,10 +104,10 @@ function meta:ApplyData( data )
 		self:SetMoney( data.money )
 	end
 
-	if ( data.plysize ) then
+	/*if ( data.plysize ) then
 		GTowerModels.Set( self, tonumber( (data.plysize or 1) ) )
 		self.OldPlayerSize = ( data.plysize or 1 )
-	end
+	end*/
 
 	timer.Simple( 0.0, function()
 		if ( data.hat ) then

@@ -88,7 +88,7 @@ hook.Add( "CalcView", "GMTThirdPerson", function( ply, origin, angles, fov )
 		ThirdPerson.ShouldDraw = true
 
 		// default values
-		local scale = ( ply:GetModelScale() ) * GTowerModels.GetScale( ply:GetModel() )
+		local scale = ( ply:GetNet("ModelSize") or 1 ) // * GTowerModels.GetScale( ply:GetModel() )
 
 		// Adjust for bone modifications
 		/*if BoneMod && ply.BoneMod != 0 then

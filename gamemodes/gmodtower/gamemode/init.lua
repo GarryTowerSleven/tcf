@@ -90,27 +90,7 @@ umsg.End = function()
 	s = false
 end
 
-local DefaultPlayerModels = {}
-
-function CatalogDefaultModels()
-	for name, model in pairs( player_manager.AllValidModels() ) do
-		if !GTowerModels.NormalModels[name] then
-
-			if string.StartWith( name, "medic" ) || string.StartWith( name, "dod_" ) then continue end
-			if name == "kdedede_pm" or name == "bond" or name == "classygentleman" || name == "maskedbreen" or name == "windrunner" || name == "grayfox" || name == "hostage01" || name == "hostage02" || name == "hostage03" then continue end
-			table.insert( DefaultPlayerModels, model )
-
-		end
-	end
-end
-
-function GM:DefaultPlayerModel(model)
-	return table.HasValue( DefaultPlayerModels, model )
-end
-
 hook.Add("InitPostEntity", "AddTempBot", function()
-
-	CatalogDefaultModels()
 
 	if GetConVarNumber("sv_voiceenable") != 1 then
 		RunConsoleCommand("sv_voiceenable","1")
@@ -131,6 +111,16 @@ hook.Add("InitPostEntity", "AddTempBot", function()
 
 	SQLLog('start', "Server start - ", game.GetMap() )
 
+end )
+
+concommand.Add( "gmt_bot", function( ply, _, args )
+	if ply != NULL then return end
+
+	local count = args[1] and tonumber( args[1] ) or 1
+
+	for i=1, count do
+		RunConsoleCommand("bot")
+	end
 end )
 
 hook.Add("CanPlayerUnfreeze", "GMTOnPhysgunReload", function(ply, ent, physObj)
@@ -179,44 +169,12 @@ timer.Remove( "HostNameThink" )
 //Handled in server/admin.lua
 hook.Remove( "PlayerInitialSpawn", "PlayerAuthSpawn")
 
-local function CanUseFuckingModel(ply,model,skin)
-	if !ply.SQL then
-		ply._ReloadPlayerModel = true
-		return
-	end
-
-	for name, model2 in pairs( player_manager.AllValidModels() ) do
-
-		if !GTowerModels.NormalModels[name] then
-			if name == "kdedede_pm" or name == "bond" or name == "maskedbreen" or name == "grayfox" then continue end
-
-			local modelName = player_manager.TranslatePlayerModel( model )
-
-			if modelName == model2 then return true end
-
-			if engine.ActiveGamemode() == "virus" && modelName == "infected" then return true end
-
-		end
-	end
-
-
-	local Model = GTowerItems.ModelItems[ model .. "-" .. (skin or "none") ]
-
-	if Model && ply:HasItemById( Model.MysqlId ) then
-		return true
-	end
-
-	return GAMEMODE:DefaultPlayerModel(model)
-end
-
 function GM:PlayerSetModel( ply )
 
-	if ( !IsValid(ply) ) then return end
-
-	local model, skin = GTowerModels.GetModelName( ply:IsBot() && "kleiner" || ply:GetInfo( "gmt_playermodel" ) )
+	/*local model, skin = GTowerModels.GetModelName( ply:IsBot() && "kleiner" || ply:GetInfo( "gmt_playermodel" ) )
 
 	if ply:IsBot() then
-		local _, randModel = table.Random( GTowerModels.NormalModels )
+		local _, randModel = table.Random( GTowerModels.Models)
 		model, skin = GTowerModels.GetModelName(randModel)
 	end
 
@@ -254,9 +212,10 @@ function GM:PlayerSetModel( ply )
 		ply:ReplaceHat( randHat.unique_Name, randHat.model, key, randHat.slot )
 	end
 
-	ply:SetupHands()
+	ply:SetupHands()*/
 
-	hook.Call("PlayerSetModelPost", GAMEMODE, ply, model, skin )
+	ply:ConCommand( "gmt_updateplayermodel" )
+
 end
 
 local toobig = {

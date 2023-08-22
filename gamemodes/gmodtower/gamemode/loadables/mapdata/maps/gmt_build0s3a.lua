@@ -64,6 +64,10 @@ local function MapAdds()
     // Lobby Piano
     AddEntity( "gmt_piano", Vector(1836, -1240, 0), Angle(0, 180 ,0) )
 
+	// pool diving boards
+	AddEntity( "gmt_divingboard", Vector(-7056, 9630, 25), Angle( 0, 90, 0 ) )
+	AddEntity( "gmt_divingboard", Vector(-7228, 9630, -80), Angle( 0, 90, 0 ) )
+
     // Arcade Checkers
     for _, v in ipairs( ents.FindByClass( "gmt_tictactoe" ) ) do
         if ( v:GetPos().x == -1392 or v:GetPos().x == -1390 ) then
