@@ -50,8 +50,8 @@ RegisterItem("ingredient_orange",{
 
 RegisterItem("ingredient_glass",{
 	Base = "ingredient_apple",
-	Name = "Alcohol",
-	Model = "models/props_junk/garbage_glassbottle001a.mdl",
+	Name = "Ethanol",
+	Model = "models/props_junk/glassjug01.mdl",
 	StorePrice = 20,
 	
 	OnUse = function(self)
