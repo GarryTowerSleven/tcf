@@ -287,7 +287,7 @@ voicelines.Add("models/player/gordon.mdl", {
     Pain = {
         Small = {"S:HEV_DMG4"},
         Medium = {"S:HEV_DMG5"},
-        Large = {"S:HEV_DMG5"}
+        Large = {"S:HEV_HLTH3"}
     },
     Death = {"S:HEV_DEAD0", "S:HEV_DEAD1"}
 })
