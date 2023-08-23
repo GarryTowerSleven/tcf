@@ -8,13 +8,6 @@ surface.CreateFont( "TetrisLeaderTitle", {
 
 local ScoreTable = {}
 
-net.Receive("UpdateTetrisBoard",function()
-  local tbl = net.ReadTable()
-
-  if !tbl then ScoreTable = {"No scores available!"} return end
-  ScoreTable = tbl
-end)
-
 local lastAng
 
 local blockColors = {
@@ -72,11 +65,18 @@ local function drawLeaderBlocks(w, h)
 end
 
 local pos = Vector(-1390, 2275, -50)
+local entryMargin = 62
+local entryStartHeight = 128
 
 hook.Add( "PostDrawTranslucentRenderables", "DrawTetrisBoard", function()
 	local Wobbl = (math.sin( CurTime() ) * 2)
 	
 	if LocalPlayer():GetPos():Distance(pos) > 785 then return end
+
+	local localRank = LocalPlayer()._TetrisHighScoreRank
+	if localRank and localRank <= 10 then
+		entryMargin = 68
+	end
 
 	local plyVec, plyAng = WorldToLocal( LocalPlayer():GetPos(), LocalPlayer():GetAngles(), pos, Angle(0,0,0) )
 	
@@ -108,21 +108,57 @@ hook.Add( "PostDrawTranslucentRenderables", "DrawTetrisBoard", function()
 		
 		local players = ""
 		local scores = ""
-		
-		for k,v in pairs(ScoreTable) do
+
+		for k, v in pairs(ScoreTable) do
 			if not v.Name or not v.Score then continue end
-		
+			if v.Local and v.Pos <= 10 then continue end
+
 			local name = v.Name
 			
 			if #name > 12 then
 				name = name:sub(1, 12) .. "..."
 			end
 			
-			players = players .. "#" .. k .. "  -  " .. name .. "\n"
-			scores = scores .. string.FormatNumber( v.Score ) .. "\n"
+			local nameString = "#" .. v.Pos .. "  -  " .. name .. "\n"
+			local scoreString = string.FormatNumber( v.Score ) .. "\n"
+
+			local textColor = Color( 255, 255, 255, 255 )
+
+			if v.Id == LocalPlayer():SteamID() then
+				textColor = Color( 255, 255, 0, 255 )
+			end
+
+			local heightOffset = (k-1) * entryMargin
+
+			draw.DrawText(nameString, "GTowerSkyMsgSmall", -(w/2), entryStartHeight + heightOffset, textColor, TEXT_ALIGN_LEFT)
+			draw.DrawText(scoreString, "GTowerSkyMsgSmall", -(w/2) + 620, entryStartHeight + heightOffset, textColor, TEXT_ALIGN_RIGHT)
 		end
 		
-		draw.DrawText(players, "GTowerSkyMsgSmall", -(w/2), 152, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT)
-		draw.DrawText(scores, "GTowerSkyMsgSmall", -(w/2) + 620, 152, Color( 255, 255, 255, 255 ), TEXT_ALIGN_RIGHT)
 	cam.End3D2D()
 end )
+
+net.Receive("UpdateTetrisBoard",function()
+	local tbl = net.ReadTable()
+  
+	if !tbl then ScoreTable = {"No scores available!"} return end
+	ScoreTable = tbl
+end)
+  
+net.Receive("UpdatePersonalTetrisScore", function()
+	local score = net.ReadInt(32)
+	local rank = net.ReadInt(32)
+  
+	if !score or !rank then return end
+  
+	LocalPlayer()._TetrisHighScore = score
+	LocalPlayer()._TetrisHighScoreRank = rank
+  
+	-- This can be better! Up for the challenge?
+	ScoreTable[11] = {
+	  ["Name"] = LocalPlayer():Nick(),
+	  ["Score"] = score,
+	  ["Id"] = LocalPlayer():SteamID(),
+	  ["Pos"] = rank,
+	  ["Local"] = true
+	}
+end)
