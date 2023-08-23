@@ -20,7 +20,15 @@ end
 ChatCommands.Register( "/tetris", 5, function( ply )
 	SQL.getDB():Query( "SELECT COUNT(*) FROM gm_users WHERE `tetrisscore`>" .. Get( ply ), function(res)
 		local Position = ( res[1].data[1]["COUNT(*)"] + 1 )
-		ply:ChatPrint( "Tetris: "..ply:Name().. " is #" .. Position.. " in tetris." )
+		ply:ChatPrint( "Blockles: "..ply:Name().. " is #" .. Position.. " in blockles." )
+	end )
+	return ""
+end )
+
+ChatCommands.Register( "/tetris", 5, function( ply )
+	SQL.getDB():Query( "SELECT COUNT(*) FROM gm_users WHERE `tetrisscore`>" .. Get( ply ), function(res)
+		local Position = ( res[1].data[1]["COUNT(*)"] + 1 )
+		ply:ChatPrint( "Blockles: "..ply:Name().. " is #" .. Position.. " in blockles." )
 	end )
 	return ""
 end )
