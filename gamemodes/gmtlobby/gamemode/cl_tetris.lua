@@ -42,7 +42,7 @@ local blocks = {
 local function drawLeaderBlocks(w, h)
 	surface.SetDrawColor(255, 255, 255)
 
-	local s = 33
+	local s = 31
 
 	local lineOffset = 0
 	local rowOffset = 0
@@ -55,13 +55,13 @@ local function drawLeaderBlocks(w, h)
 			rowOffset = 0
 		end
 		
-		surface.DrawRect((-(w/2)-38) + ( rowOffset * (s + 2) ), h-s-20 + ((s + 2) * -lineOffset), s, s)
+		surface.DrawRect((-(w/2)-20) + ( rowOffset * (s + 2) ), h-s-20 + ((s + 2) * -lineOffset), s, s)
 		
 		rowOffset = rowOffset + 1
 	end
 	
 	surface.SetDrawColor( blockColors.y )
-	surface.DrawRect(317, h - 53, s, s)
+	surface.DrawRect(297, h - 51, s, s)
 end
 
 local pos = Vector(-1390, 2275, -50)
