@@ -42,7 +42,7 @@ function ENT:SetupDataTables()
 	self:NetworkVar( "Float", 0, "LastPlayerTime" )
 end
 
-local potsizes = { 8000, 5000, 2500, 2000, 1500, 1000, 750, 500, 250 }
+local potsizes = { 5000, 2500, 2000, 1500, 1000, 750, 500, 250 }
 function ENT:GetRandomPotSize()
 	return table.Random( potsizes )
 end
