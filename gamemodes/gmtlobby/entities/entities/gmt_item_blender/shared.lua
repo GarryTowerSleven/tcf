@@ -23,6 +23,7 @@ ENT.Ingredients 	= {}
 ENT.Drink			= nil // drink to be produced
 ENT.Bartender		= nil // who mixed the drink?
 ENT.IsBlending		= false
+ENT.ShouldSpin		= false
 
 // INGREDIENT IDS
 local APPLE			= 1
@@ -276,7 +277,7 @@ if SERVER then
 			Start = function( ply )
 				if !IsValid( ply ) then return end
 				ply:Ignite(.25, 0)
-				ply:SetHealth( ply:Health + 1 )
+				ply:SetHealth( ply:Health() + 1 )
 				ply:SetModel( "models/player/skeleton.mdl" )
 				ply:SetNWBool("ForceModel", true)
 				PostEvent( ply, "pbone_on" )
@@ -328,7 +329,7 @@ if SERVER then
 	function ENT:StartBlend()
 
 		//Msg("STARTING BLENDER\n")
-
+		self.ShouldSpin = true
 		self.IsBlending = true
 		self.BlendTime = CurTime() + self.BlendDelay
 
@@ -344,7 +345,7 @@ if SERVER then
 	end
 	
 	function ENT:EndBlend()
-
+	
 		self.BlendTime = nil
 		self:StartSpitDrink()
 	
@@ -545,6 +546,13 @@ else //CLIENT
 		if ( self:GetSequence() == self:LookupSequence( "spit" ) && self:GetCycle() > 25 ) then //Loop prevention to keep it from spitting
 			self:SetSequence( self:LookupSequence( "idle" ) )
 		end
+		print(self.ShouldSpin)
+		if ( self.ShouldSpin ) then
+			self.IngredientSpin = ( self.IngredientSpin or 0 ) - 5
+			if self.IngredientSpin == -180 then
+				self.IngredientSpin = 180
+			end
+		end
 		
 		//Make the fruit shake with the blender	
 		if IsValid( self.Model1 ) && IsValid( self.Model2 ) then
@@ -552,11 +560,11 @@ else //CLIENT
 			local attPos = self:GetAttachment( attID )
 			
 			self.Model1:SetPos( attPos.Pos )
-			self.Model1:SetAngles( attPos.Ang - Angle( 0, 180, 90) ) //Offset from the blender angles
+			self.Model1:SetAngles( attPos.Ang - Angle( 0, self.IngredientSpin, 90) ) //Offset from the blender angles
 			
 			local normal = attPos.Ang:Right()
 			self.Model2:SetPos( attPos.Pos - (normal * 5 ) ) //Move the second prop upwards from the origin
-			self.Model2:SetAngles( attPos.Ang - Angle( 0, 180, 90) )
+			self.Model2:SetAngles( attPos.Ang - Angle( 0, self.IngredientSpin, 90) )
 		end
 
 		if ( self.DrawSprite ) then
@@ -586,6 +594,7 @@ else //CLIENT
 
 		local bool = um:ReadBool()
 		blender.IsBlending = bool
+		blender.ShouldSpin = bool
 		
 		if ( bool ) then
 
@@ -619,7 +628,7 @@ else //CLIENT
 		
 		local sequence = blender:LookupSequence( "spit" )
 		blender:ResetSequence( sequence )
-
+		blender.ShouldSpin = false
 		blender.DrawSprite = true
 		blender.Color = Color( 255, 255, 0 )
 		
