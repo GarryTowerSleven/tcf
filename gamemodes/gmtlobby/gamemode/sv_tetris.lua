@@ -72,10 +72,6 @@ concommand.Add("gmt_updatetetrisboard",function(ply)
   if ply:IsAdmin() then UpdateTetrisBoard() end
 end)
 
-concommand.Add("gmt_test", function(ply)
-  NetworkLocalScorePosition(ply)
-end)
-
 hook.Add("InitPostEntity", "StartTetrisBoard", function()
   UpdateTetrisBoard()
   timer.Create("TetrisBoardUpdater", UpdateInterval, 0, function()
