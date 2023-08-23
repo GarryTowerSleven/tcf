@@ -546,7 +546,7 @@ else //CLIENT
 		if ( self:GetSequence() == self:LookupSequence( "spit" ) && self:GetCycle() > 25 ) then //Loop prevention to keep it from spitting
 			self:SetSequence( self:LookupSequence( "idle" ) )
 		end
-		print(self.ShouldSpin)
+		
 		if ( self.ShouldSpin ) then
 			self.IngredientSpin = ( self.IngredientSpin or 0 ) - 5
 			if self.IngredientSpin == -180 then
