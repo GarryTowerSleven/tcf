@@ -136,8 +136,15 @@ concommand.Add("videopoker_draw", function(ply, cmd, args)
 
         self:SetCredits(self:GetCredits() - self:GetBet())
         self:SetProfit(self:GetProfit() - self:GetBet())
-		SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. self:GetBet() .. " WHERE type='videopoker'")
-        self:SetJackpot(self:GetJackpot() + self:GetBet())
+		if ( self:GetJackpot() < 50000 ) then
+			if ( ( self:GetJackpot() + self:GetBet() ) < 50000 ) then
+				SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. self:GetBet() .. " WHERE type='videopoker'")
+				self:SetJackpot(self:GetJackpot() + self:GetBet())
+			else
+				SQL.getDB():Query("UPDATE gm_casino SET jackpot=50000 WHERE type='videopoker'")
+				self:SetJackpot(50000)
+			end
+		end
         self:SetState(3)
         self.deck = Cards.Deck()
         self.deck:Shuffle()
