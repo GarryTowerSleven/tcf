@@ -40,6 +40,9 @@ ChairOffsets = {
 	["models/props/de_tides/patio_chair2.mdl"] = {
 		{ Pos = Vector(1.4963380098343, -1.5668944120407, 17.591537475586), Ang = Angle(0, 180, 0) },
 	},
+	["models/props_c17/furniturearmchair001a.mdl"] = {
+		{ Pos = Vector(25.4963380098343, 31.5668944120407, 20.591537475586) },
+	},
 	["models/gmod_tower/plazabooth.mdl"] = {
 		{ Pos = Vector(26.779298782349, -48.443725585938, 17.575805664063) },
 		{ Pos = Vector(24.627443313599, -22.173582077026, 17.693496704102) },
