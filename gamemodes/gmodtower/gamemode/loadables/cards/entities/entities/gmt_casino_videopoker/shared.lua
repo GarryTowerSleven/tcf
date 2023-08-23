@@ -59,7 +59,7 @@ ENT.Prizes = {
         25, 50, 75, 100, 125, Name = "FULL HOUSE"
     },
     [6] = {
-        15, 25, 50, 75, 100, Name = "FLUSH"
+        20, 25, 50, 75, 100, Name = "FLUSH"
     },
     [5] = {
         10, 20, 30, 40, 50, Name = "STRAIGHT"
