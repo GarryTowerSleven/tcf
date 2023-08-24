@@ -185,7 +185,7 @@ concommand.Add( "gmt_updateplayermodel", function( ply, cmd, args )
 	
 	if IsLobby && IsValid( ply:GetVehicle() ) then return end
 
-	local modelinfo = string.Explode( "-", ply:GetInfo("gmt_playermodel") )
+	local modelinfo = string.Explode( "-", ply:GetInfo("gmt_playermodel") or "kleiner" )
 	local modelname = modelinfo[1]
 	local modelskin = tonumber( modelinfo[2] or 0 ) or 0
 	
