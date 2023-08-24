@@ -71,12 +71,14 @@ function ENT:Draw()
 
 	local c = colorutil.Rainbow(b * 512)
 	c = HSVToColor(self.Sine * 256 or ColorToHSV(c), self.Lerp == 0 and 0 or self.Lerp + 0.4, 1)
-	render.SetMaterial(glow)
-	local x, y = 24 + self.Lerp * 48, 24 + self.Lerp * 48
-	local c2 = Color(c.r, c.g, c.b, 128 + 255 * self.Lerp)
-	local r = self.Sine * 8
-	for i = 1, 8 do
-	render.DrawQuadEasy(self:GetPos() + ang:Forward() * (6.25 + ((i - 1) * 0.25)) + ang:Up() * (48 + (self:GetManipulateBoneScale(0).z - 1) * 48), self:GetForward(), x, y, c2, r)
+	if media then
+		render.SetMaterial(glow)
+		local x, y = 24 + self.Lerp * 48, 24 + self.Lerp * 48
+		local c2 = Color(c.r, c.g, c.b, 128 + 255 * self.Lerp)
+		local r = self.Sine * 8
+		for i = 1, 8 do
+		render.DrawQuadEasy(self:GetPos() + ang:Forward() * (6.25 + ((i - 1) * 0.25)) + ang:Up() * (48 + (self:GetManipulateBoneScale(0).z - 1) * 48), self:GetForward(), x, y, c2, r)
+		end
 	end
 
 	self:ManipulateBoneScale(0, Vector(1, 1, 1 + self.Lerp * 0.5 + math.sin(self.Sine * 2) * 0.04))
