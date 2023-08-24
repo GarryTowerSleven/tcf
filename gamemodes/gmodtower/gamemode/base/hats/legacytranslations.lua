@@ -369,9 +369,7 @@ function UpdateLegacy()
             new.id = v.id
 
             GTowerStore:UpdateInventoryData( new, v.levels )
-            new.levels = new.GTowerLevels or {}
-            new.GTowerMaxLevels = new.GTowerMaxLevels or {}
-
+			
             new.hat = tonumber( v.hat ) or 0
             new.face_hat = tonumber( v.faceHat ) or 0
 
@@ -380,18 +378,19 @@ function UpdateLegacy()
 
         local transaction = db:createTransaction()
 
-        for k, user in ipairs( temp_users ) do
-            for hash, level in pairs( user.levels ) do
+        for k, user in pairs( temp_users ) do
+            for hash, level in pairs( user.GTowerLevels ) do
                 local trans = getbyhash( hash )
 
                 if trans and trans.hash.new != hash then
-                    temp_users[k].levels[ trans.hash.new ] = level
-                    temp_users[k].levels[ hash ] = nil
+                    temp_users[k].GTowerLevels[ trans.hash.new ] = level
+                    temp_users[k].GTowerLevels[ hash ] = nil
 
-                    temp_users[k].GTowerMaxLevels[ trans.hash.new ] = temp_users[k].GTowerMaxLevels[ hash ]
-                    temp_users[k].GTowerMaxLevels[ hash ] = nil
+					if temp_users[k].GTowerMaxLevels[ hash ] then
+						temp_users[k].GTowerMaxLevels[ trans.hash.new ] = temp_users[k].GTowerMaxLevels[ hash ]
+						temp_users[k].GTowerMaxLevels[ hash ] = nil
+					end
 
-                    //print( "hash", hash, trans.hash.old, trans.hash.new )
                     user.updated = true
                 end
             end
@@ -412,23 +411,18 @@ function UpdateLegacy()
                 //print( "face_hat", user.face_hat, face_hat.id.old, face_hat.id.new )
                 user.updated = true
             end
-
-            if not user.updated then
-                table.remove( temp_users, k )
-            end
         end
 
         for _, user in pairs( temp_users ) do
-            user.SQLCanSave = true
+			if not user.updated then continue end
 
-            user.GTowerLevels = user.levels
             local levels = GTowerStore:GetPlayerData( user )
 
-            local q = db:prepare("UPDATE gm_users SET levels=?, hat=?, faceHat=? WHERE id = ?")
-            q:setString(1, levels)
-            q:setString(2, tostring( user.hat ))
-            q:setNumber(3, user.face_hat)
-            q:setString(4, tostring( user.id ))
+            local q = db:prepare(Format("UPDATE gm_users SET levels=%s, hat=?, faceHat=? WHERE id = ?", levels))
+            //q:setNumber(1, tonumber( levels ))
+            q:setString(1, tostring( user.hat ))
+            q:setNumber(2, user.face_hat)
+            q:setString(3, tostring( user.id ))
 
             transaction:addQuery(q)
         end
