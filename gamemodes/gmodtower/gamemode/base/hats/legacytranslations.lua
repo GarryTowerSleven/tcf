@@ -359,7 +359,7 @@ function UpdateLegacy()
 
     local db = SQL.getDB()
 
-    local query = db:query("SELECT id, hat, faceHat, HEX(levels) as levels FROM gm_users WHERE name = 'kity'")
+    local query = db:query("SELECT id, hat, faceHat, HEX(levels) as levels FROM gm_users")
     function query:onSuccess(data)
         
         local temp_users = {}
