@@ -49,9 +49,9 @@ function Update( len, ply )
     local HatID = net.ReadUInt( 8 )
 	local ModelName = string.lower( net.ReadString() )
 
-	local z = net.ReadFloat()
-	local y = net.ReadFloat()
 	local x = net.ReadFloat()
+	local y = net.ReadFloat()
+	local z = net.ReadFloat()
 
 	local ap = net.ReadFloat()
 	local ay = net.ReadFloat()
