@@ -65,6 +65,13 @@ function UpdateWearable( ply, hatid, slot )
     end
 
     if not IsValid( ent ) or ent._PlayerModel != playermodel or ent._HatID != hatid then
+
+        // ?????????????? asshole
+        local shouldnotify = IsValid( ent ) and ent._HatID != hatid or true
+
+        if IsLobby and shouldnotify then
+            ply:MsgT( "HatUpdated", item.name )
+        end
        
         ent = CreateWearable( ply, item, slot )
 
@@ -86,10 +93,16 @@ function UpdateWearable( ply, hatid, slot )
 
 end
 
-function RemoveWearable( ply, slot )
+function RemoveWearable( ply, slot, notify )
 
-    if IsValid( ply.WearableEntities[ slot ] ) then
-        ply.WearableEntities[ slot ]:Remove()
+    local ent = ply.WearableEntities[ slot ] or nil
+
+    if IsValid( ent ) then
+        if IsLobby and notify then
+            ply:MsgT( slot == SLOT_HEAD and "HatNone" or "HatFaceNone" )
+        end
+
+        ent:Remove()
     end
 
 end
@@ -105,17 +118,17 @@ function UpdateWearables( ply )
     end
 
     if ( slot1 == 0 ) then
-        RemoveWearable( ply, SLOT_HEAD )
+        RemoveWearable( ply, SLOT_HEAD, true )
     else
         local item = GetItem( slot1 )
-
+        
         if item and item.slot == SLOT_HEAD then
             UpdateWearable( ply, slot1, SLOT_HEAD )
         end
     end
-
+    
     if ( slot2 == 0 ) then
-        RemoveWearable( ply, SLOT_FACE )
+        RemoveWearable( ply, SLOT_FACE, true )
     else
         local item = GetItem( slot2 )
 
