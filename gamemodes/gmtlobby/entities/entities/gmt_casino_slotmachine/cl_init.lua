@@ -150,6 +150,9 @@ local gpb = {}
 
 
 function ENT:GetPitch(spinner)
+	self.gpt = self.gpt or {0, 0, 0}
+	self.gpb = self.gpb or {0, 0, 0}
+
 	local gpt = self.gpt
 	local gpb = self.gpb
 
