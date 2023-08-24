@@ -54,7 +54,7 @@ function GTowerRooms.PrepareCloset( room )
 	end
 	
 	local function CanCreateHats()
-		for hatid, tbl in pairs( GTowerHats.Hats ) do
+		for hatid, tbl in pairs( Hats.List ) do
 			if RoomData.Hats[ hatid ] == true && hatid != 0 then
 				return true
 			end
@@ -91,7 +91,7 @@ function GTowerRooms.PrepareCloset( room )
 		
 		PosDir:Rotate( GTowerRooms.BaseAngle )
 		
-		for hatid, tbl in pairs( GTowerHats.Hats ) do
+		for hatid, tbl in pairs( Hats.List ) do
 			if tbl.closetrow == k && RoomData.Hats[ hatid ] == true then
 				HatList[ hatid ] = tbl
 			end
@@ -303,17 +303,17 @@ GTowerRooms.ClosetKeyPress = function( ply, press )
 	
 		local ent = GTowerRooms:GetEyeHat( ply )
 
-
 		if IsValid( ent ) && CurTime() > NextHatEntUse then
-		
 			if ent.HatId == 0 then
 				RunConsoleCommand("gmt_sethat", 0, SLOT_HEAD )
 				RunConsoleCommand("gmt_sethat", 0, SLOT_FACE )
 			else
-				RunConsoleCommand("gmt_sethat", ent.UniqueName, ent.Slot )
+				RunConsoleCommand("gmt_sethat", ent.HatId, ent.Slot )
 			end
+
 			NextHatEntUse = CurTime() + 1.2
 		end
+		
 	end
 
 end
@@ -323,15 +323,16 @@ hook.Add("GtowerMouseEnt", "RoomClosetSetHat", function( entity, mc )
 	if GTowerRooms:RoomOwner( GTowerRooms.ClosetRoom ) == LocalPlayer() then
 	
 		local ent = GTowerRooms:GetEyeHat( ply )
-		
-		if ent then
 
+		if IsValid( ent ) && CurTime() > NextHatEntUse then
 			if ent.HatId == 0 then
 				RunConsoleCommand("gmt_sethat", 0, SLOT_HEAD )
 				RunConsoleCommand("gmt_sethat", 0, SLOT_FACE )
 			else
-				RunConsoleCommand("gmt_sethat", ent.UniqueName, ent.Slot )
+				RunConsoleCommand("gmt_sethat", ent.HatId, ent.Slot )
 			end
+
+			NextHatEntUse = CurTime() + 1.2
 
 			return true
 		end

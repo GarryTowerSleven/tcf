@@ -418,7 +418,7 @@ hook.Add( "PlayerThink", "PlayerThinkAchievements", function( ply )
 		
 
 		// Zombie RP
-		if ply:GetModel() == "models/player/zombie_classic.mdl" && GTowerHats:IsWearing( ply, "hatheadcrab" ) then
+		if ply:GetModel() == "models/player/zombie_classic.mdl" && Hats.IsWearing( ply, "hatheadcrab" ) then
 
 			ply:SetAchievement( ACHIEVEMENTS.ZOMBIERP, 1 )
 
@@ -455,7 +455,7 @@ hook.Add( "PlayerLevel", "PlayerLevelAchievement", function( ply )
 		// Zelda Fanboy
 		if !ply:Achived( ACHIEVEMENTS.ZELDAFANBOY ) then
 
-			local addition = ply:GetLevel("hatlinkhat") + ply:GetLevel("hatfairywings" /* Midna's Mask */) + ply:GetLevel("hatmajorasmask") + ply:GetLevel("keatonmask") + ply:GetLevel("makarmask")
+			local addition = ply:GetLevel("hatlinkhat") + ply:GetLevel("hatmidnasmask") + ply:GetLevel("hatmajorasmask") + ply:GetLevel("keatonmask") + ply:GetLevel("makarmask")
 			ply:SetAchievement( ACHIEVEMENTS.ZELDAFANBOY, addition )
 
 		end

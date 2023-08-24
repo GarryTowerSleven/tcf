@@ -99,7 +99,7 @@ function PANEL:SetModelWearables( ply )
 
 	if !ClientsideModel then return end
 	
-	local wear1, wear2 = GTowerHats.GetWearablesModels( ply )
+	local wear1, wear2 = Hats.GetWearablesModels( ply )
 
 	if wear1 != Hats.GetNoHat() then
 		self.EntityWear1 = ClientsideModel( wear1, RENDER_GROUP_OPAQUE_ENTITY )

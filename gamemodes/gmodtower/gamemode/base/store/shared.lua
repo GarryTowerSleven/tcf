@@ -19,14 +19,14 @@ function GTowerStore:Get( id )
 	return GTowerStore.Items[ id ]
 end
 
-function GTowerStore:GetItemByName( Name )
+function GTowerStore:GetItemByName( name )
 
 	for k, v in pairs( self.Items ) do
-
-		if v.unique_Name == Name then
+		
+		if v.unique_Name == name then
 			return k
 		end
-
+	
 	end
 
 	return nil

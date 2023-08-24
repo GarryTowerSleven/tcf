@@ -25,7 +25,7 @@ include("sh_potion.lua")
 include("sh_baseitem.lua")
 include("equip.lua")
 
-local ListOfStoreItems = {}
+local ListOfStoreItems = ListOfStoreItems or {}
 local DEBUG = false
 
 local function OnBuyItem( ply, itemid )

@@ -31,11 +31,10 @@ local function SendRoomData( buffer, rp )
 			umsg.Bool( ValidOwner )
 			
 			if ValidOwner then
-				if GTowerHats then
-					for _, hat in ipairs( GTowerHats.Hats ) do
+				if Hats then
+					for _, hat in ipairs( Hats.List ) do
 						if hat.unique_Name then
-							local level = Room.Owner:GetLevel( hat.id ) //Get the sql id, and get the player level
-							umsg.Bool( level > 0 )
+							umsg.Bool( hook.Run( "CanWearHat", Room.Owner, hat.unique_Name ) == 1 )
 						end
 					end
 				end

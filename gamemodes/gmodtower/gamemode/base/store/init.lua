@@ -11,7 +11,7 @@ AddCSLuaFile('sh_store.lua')
 
 GTowerStore.Items = (GTowerStore.Items or {})
 
-function GTowerStore:Get( id )
+/*function GTowerStore:Get( id )
 	
 	if type( id ) == "string" then
 	
@@ -28,6 +28,8 @@ end
 function GTowerStore:GetItemByName( Name )
 
 	for k, v in pairs( self.Items ) do
+
+		print( k, Name, v.unique_Name )
 		
 		if v.unique_Name == Name then
 			return k
@@ -37,4 +39,4 @@ function GTowerStore:GetItemByName( Name )
 
 	return nil
 
-end
+end*/

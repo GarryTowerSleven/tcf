@@ -104,21 +104,15 @@ function meta:ApplyData( data )
 		self:SetMoney( data.money )
 	end
 
-	/*if ( data.plysize ) then
-		GTowerModels.Set( self, tonumber( (data.plysize or 1) ) )
-		self.OldPlayerSize = ( data.plysize or 1 )
-	end*/
-
-	timer.Simple( 0.0, function()
+	timer.Simple( 0, function()
 		if ( data.hat ) then
-			GTowerHats.SetHat( GTowerHats, self, data.hat, 1 )
+			Hats.SetWearable( self, data.hat, Hats.SLOT_HEAD )
 		end
 		
 		if ( data.faceHat ) then
-			GTowerHats.SetHat( GTowerHats, self, data.faceHat, 2 )
+			Hats.SetWearable( self, data.faceHat, Hats.SLOT_FACE )
 		end
 	end )
-
 
 	if ( data.tetrisscore != "" ) then
 		self._TetrisHighScore = data.tetrisscore

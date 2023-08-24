@@ -5,28 +5,34 @@ include( "shared.lua" )
 ENT.ActiveTime = 22
 
 function ENT:PowerUpOn( ply )
+
 	ply.Shaft = true
 	ply:SetColor( Color(255, 0, 255, 255) )
 	ply:SetWalkSpeed( 250 )
 	ply:SetRunSpeed( 150 )
 	PostEvent( ply, "pushaft_on" )
 
-	local pimpHat = GTowerHats:GetHatByName( "hatpimphat" )
-	if !pimpHat then return end
-	local hatData = GTowerHats.Hats[pimpHat]
-	if !hatData then return end
+	if not Hats then return end
 
-	ply:ReplaceHat( hatData.unique_Name, hatData.model, pimpHat, hatData.slot )
+	local hat, _ = Hats.GetWearables( ply )
+
+	ply._SavedHat = hat
+	ply:SetHat( "hatpimphat", Hats.SLOT_HEAD, true )
+
 end
 
 function ENT:PowerUpOff( ply )
+
 	ply.Shaft = nil
 	ply:SetColor( Color(255, 255, 255, 255) )
 	ply:SetWalkSpeed( 450 )
 	ply:SetRunSpeed( 450 )
 	PostEvent( ply, "pushaft_off" )
 
-	ply:ReturnHat()
+	if ply._SavedHat then
+		ply:SetHatID( ply._SavedHat or 0, Hats.SLOT_HEAD, true )
+	end
+	
 end
 
 /*function ShaftProtect( ply, inflictor, attacker, amount, dmginfo )
