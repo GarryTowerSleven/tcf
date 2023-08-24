@@ -103,9 +103,15 @@ function ENT:Draw()
 
 	if !media then return end
 
+	name = media._metadata.title or media.Name 
+	
+	if string.len( name ) >= 32 then
+		name = string.sub(name, 1, 32) .. "..."
+	end
+	
 	cam.Start3D2D( pos - ang:Right() * self.Lerp * 84, ang, media and scale / 1.5 + self.Lerp or scale )
 	// draw.SimpleText(b, "DebugFixed", 0, 0, color_white)
-	draw.DrawText( media._metadata.title or media.Name or "HOLD Q TO REQUEST MUSIC",
+	draw.DrawText( name or "HOLD Q TO REQUEST MUSIC",
 	"GTowerSkyMsgSmall",
 	0,
 	32,
