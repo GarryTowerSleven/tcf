@@ -1,15 +1,6 @@
 if ( not vrmod ) then return end
 
-concommand.Add("gmt_vr_start", function(ply)
-    if !ply:IsAdmin() && !ply:IsStaff() && !ply:IsContributor() then return end
-    hook.Remove("VRMod_Start", "voicepermissions")
-    permissions.EnableVoiceChat(true)
-    permissions.EnableVoiceChat(false)
 
-    RunConsoleCommand("vrmod_useworldmodels", "1")
-    RunConsoleCommand("gmt_vr_useworldmodels", "1")
-    startVR()
-end)
 
 if !startVR then
     startVR = VRUtilClientStart
@@ -24,6 +15,42 @@ if !startVR then
     end
 end
 
+local vrmod = vrmod
+local hook = hook
+
+module("vr", package.seeall)
+
+// include("cl_hud.lua")
+
+function InVR()
+    return VR
+end
+
+function Start()
+    if InVR() then return end
+    
+    hook.Remove("VRMod_Start", "voicepermissions")
+    permissions.EnableVoiceChat(true)
+    permissions.EnableVoiceChat(false)
+
+    RunConsoleCommand("vrmod_useworldmodels", "1")
+    RunConsoleCommand("gmt_vr_useworldmodels", "1")
+    startVR()
+    VR = true
+end
+
+function End()
+    VRUtilClientExit()
+    VR = false
+end
+
+concommand.Add("gmt_vr_start", function(ply)
+    if !ply:IsAdmin() && !ply:IsStaff() && !ply:IsContributor() then return end
+    Start()
+end)
+
+
+
 hook.Add("CreateMove", "a", function()
     timer.Simple(2.1, function()
         timer.Remove("vrutil_timer_tryautostart")
@@ -32,13 +59,7 @@ hook.Add("CreateMove", "a", function()
 end)
 
 hook.Add("ShouldDrawLocalPlayer", "a", function()
-    if vrmod.IsPlayerInVR(LocalPlayer()) then
-        return true
-    end
-end)
-
-hook.Add("ShouldDrawLocalPlayer", "a", function()
-    if vrmod.IsPlayerInVR(LocalPlayer()) then
+    if InVR() then
         return true
     end
 end)

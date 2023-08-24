@@ -290,7 +290,7 @@ end )
 ---------------------------------------------------------*/
 concommand.Add( "slotm_setbet", function( ply, cmd, args )
 
-	if vrmod.IsPlayerInVR(ply) then
+	if vr and vr.InVR() then
 		local amount = math.fmod(Casino.SlotsLocalBet * 2, 1000) or tonumber( strTextOut ) or Casino.SlotsLocalBet
 		Casino.SlotsLocalBet = math.Clamp( math.Round(amount), Casino.SlotsMinBet, Casino.SlotsMaxBet )
 		Casino.SlotsSettingBet = false
@@ -477,7 +477,7 @@ function ENT:DrawControls()
 	local pos, ang = attachment.Pos, attachment.Ang
 	local scale = 0.1
 
-	if vrmod and vrmod.IsPlayerInVR(LocalPlayer()) then
+	if vr and vr.InVR() then
 		if Casino.SlotsLocalPlaying && vrmod.GetRightHandPos(LocalPlayer()):Distance(self:GetAttachment(1).Pos) < 24 then
 			if Casino.SlotsLocalPlaying.Controls != nil then
 				for _, btn in ipairs( Casino.SlotsLocalPlaying.Controls ) do
@@ -582,7 +582,7 @@ function ENT:MouseRayInteresct( pos, ang )
 
 	local pos, ang = EyePos(), GetMouseAimVector()
 
-	if vrmod.IsPlayerInVR(LocalPlayer()) then
+	if vr and vr.InVR() then
 		pos, ang = vrmod.GetRightHandPos(LocalPlayer()), vrmod.GetRightHandAng(LocalPlayer()):Forward()
 	end
 
