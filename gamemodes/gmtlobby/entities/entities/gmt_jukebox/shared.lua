@@ -113,4 +113,17 @@ function ENT:Draw()
 	TEXT_ALIGN_CENTER
 	)
 cam.End3D2D()
+
+local light = DynamicLight(self:EntIndex())
+
+if light then
+	light.pos= self:WorldSpaceCenter() + self:GetForward() * 8
+	light.size = 200
+	light.brightness = 2
+	light.r = c.r
+	light.g = c.g
+	light.b = c.b
+	light.decay = 64
+	light.dietime = CurTime() + 0.1
+end
 end
