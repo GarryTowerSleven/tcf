@@ -130,7 +130,7 @@ function initHud()
 
 		local ent = GAMEMODE:PlayerUseTrace( LocalPlayer() )
 
-		if !GTowerHUD.Crosshair.AlwaysOn:GetBool() && !IsValid( ent ) && !CanPlayerUse( ent ) then return end
+		if !IsValid(wep) and !GTowerHUD.Crosshair.AlwaysOn:GetBool() && !IsValid( ent ) && !CanPlayerUse( ent ) then return end
 
 		// no crosshair if using condOS or mapboard
 		if /*LocalPlayer().UsingPanel or*/ IsValid( ent ) and ( ent:GetClass() == "gmt_mapboard" ) then
