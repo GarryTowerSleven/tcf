@@ -12,9 +12,9 @@ hook.Add("EntityTakeDamage", "LetsAllowATaunt", function(e, dmg)
     end
 end)
 
-hook.Add( "PlayerDeath", "GlobalDeathMessage", function( victim, inflictor, attacker )
-    if self.LastKillTime then
-        self.LastKillTime = nil
+hook.Add( "PlayerDeath", "DeathTauntRemoval", function( victim )
+    if victim.LastKillTime then // HIGH PERSON CODING
+        victim.LastKillTime = nil
     end
 end )
 
