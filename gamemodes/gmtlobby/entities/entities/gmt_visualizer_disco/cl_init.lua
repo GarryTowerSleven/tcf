@@ -231,8 +231,7 @@ hook.Add("Think", "DiscoBall", function()
     mp = mp2.Channel
     if !mp then return end
     local b = 0
-    local fft = {}
-    mp:FFT(fft, FFT_2048)
+    local fft = mp2.fft
     if #fft <= 0 then return end
     station = mp
     local url = tostring(mp)

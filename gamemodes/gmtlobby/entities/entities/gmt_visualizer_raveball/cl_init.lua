@@ -425,7 +425,7 @@ function ENT:ParticleThink()
 
 	if gmt_visualizer_advanced:GetBool() == false then return end
 	
-	if self.FFTScale >= .1 then
+	/*if self.FFTScale >= .1 then
 
 		for i=0, 24 do
 
@@ -458,7 +458,7 @@ function ENT:ParticleThink()
 
 		end
 		
-	end
+	end*/
 
 end
 
