@@ -126,7 +126,7 @@ function initHud()
 
 		local wep = LocalPlayer():GetActiveWeapon()
 
-		if IsValid(wep) and (wep.DoDrawCrosshair and wep:DoDrawCrosshair() == true || !wep.DrawCrosshair || wep.DrawHUDCrosshair) then return end
+		if IsValid(wep) and (wep.DoDrawCrosshair and wep:DoDrawCrosshair() == true || wep:IsScripted() and !wep.DrawCrosshair || wep.DrawHUDCrosshair) then return end
 
 		local ent = GAMEMODE:PlayerUseTrace( LocalPlayer() )
 
