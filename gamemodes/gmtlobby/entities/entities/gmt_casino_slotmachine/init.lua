@@ -66,6 +66,13 @@ function ENT:Think()
 			self.chair:Remove()
 		end
 		self.SlotsPlaying = nil
+	else
+		if !self.LastPlay or self.LastPlay < CurTime() then
+			// self:PullLever()
+			self:PickResults(true)
+			self:EmitSound( Casino.SlotWinSound, 60, 100 )
+			self.LastPlay = CurTime() + math.Rand(60, 140)
+		end
 	end
 
 	// Player Idling Check
@@ -333,9 +340,9 @@ function ENT:PullLever()
 end
 
 
-function ENT:PickResults()
+function ENT:PickResults(fake)
 
-	self.SlotsSpinning = true
+	self.SlotsSpinning = !fake
 
 	local rf = RecipientFilter()
 	//rf:AddPlayer( self:GetPlayer() )
@@ -362,6 +369,8 @@ function ENT:PickResults()
 		umsg.Short( random[3] )
 	umsg.End()
 
+	if fake then return end
+	
 	self:EmitSound( Casino.SlotPullSound, 60, math.random(98, 102) )
 
 	timer.Simple( Casino.SlotSpinTime[3], function()
