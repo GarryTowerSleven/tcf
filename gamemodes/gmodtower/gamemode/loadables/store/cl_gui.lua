@@ -64,7 +64,16 @@ function GTowerStore:UpdateStoreList()
 		end
 	end
 
-	table.sort( self.StoreGUI.PanelList.Items, function( a, b ) return a:GetFirstPrice() < b:GetFirstPrice() end )
+	table.sort( self.StoreGUI.PanelList.Items, function( a,b )
+    local APrice = a:GetFirstPrice()
+    local BPrice = b:GetFirstPrice()    
+    
+    if APrice == BPrice then
+        return a.Id < b.Id
+    end
+    
+    return APrice < BPrice
+end )
 
 	self.StoreGUI.PanelList:InvalidateLayout()
 end
