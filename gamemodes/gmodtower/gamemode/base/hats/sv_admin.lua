@@ -95,6 +95,10 @@ function Update( len, ply )
             ply:Msg2( Format( "Successfully updated hat \"%s\" for model \"%s\".", item.unique_Name, ModelName ) )
             LogPrint( Format( "Successfully updated hat \"%s\" for model \"%s\".", item.unique_Name, ModelName ), nil, "HatsAdmin" )
         
+            if not Hats.Data[ ModelName ] then
+                Hats.Data[ ModelName ] = {}
+            end
+
             Hats.Data[ ModelName ][ string.lower( item.unique_Name ) ] = {
                 x, y, z,
                 ap, ay, ar,
