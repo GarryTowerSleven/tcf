@@ -43,7 +43,7 @@ function meta:SetMoney( amount )
 	return self:SetNet( "Money", math.Clamp( tonumber( amount ), 0, 2147483647 ) )
 end
 
-function meta:AddMoney( amount, nosend, nobezier )
+function meta:AddMoney( amount, nosend, nobezier, onlybezier )
 	function math.Fit2( val, valMin, valMax, outMin, outMax )
 		return ( val - valMax ) * ( outMax - outMin ) / ( valMin - valMax ) + outMin
 	end
@@ -52,7 +52,8 @@ function meta:AddMoney( amount, nosend, nobezier )
 
     self:SetMoney( self:Money() + amount )
 
-	if nosend != true then
+	if !nosend then
+
 		if amount > 0 then
 			self:MsgI( "money", "MoneyEarned", string.FormatNumber( amount ) )
 
@@ -78,6 +79,20 @@ function meta:AddMoney( amount, nosend, nobezier )
 			self:MsgI( "moneylost", "MoneySpent", string.FormatNumber( -amount ))
 	  local pitch = math.Clamp( math.Fit2( -amount, 1, 500, 90, 160 ), 90, 160 )
       self:EmitSound( "gmodtower/misc/gmc_lose.wav", 50, math.ceil( pitch ) )
+		end
+	end
+	
+	if onlybezier then
+		local ent = ents.Create("gmt_money_bezier")
+
+		if IsValid( ent ) then
+		ent:SetPos( self:GetPos() + Vector( 0, 0, -10 ) )
+		ent.GoalEntity = self
+		ent.GMC = amount
+		ent.RandPosAmount = 50
+		ent:Spawn()
+		ent:Activate()
+		ent:Begin()
 		end
 	end
 

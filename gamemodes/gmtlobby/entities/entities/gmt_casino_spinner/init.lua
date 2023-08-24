@@ -167,7 +167,8 @@ function ENT:PayOut(ply,prize)
 	if prize == 1 || prize == 5 then
 		self:EmitSound("GModTower/misc/sad.mp3", 70)
 		if prize == 5 then
-			ply:AddMoney(1)
+			ply:AddMoney(1, true, true, true)
+			ply:Msg2("[Spinner] You won: ... 1 GMC")
 		end
 	elseif prize == 2 || prize == 3 || prize == 4 || prize == 6 || prize == 7 || prize == 8 || prize == 10 then
 		local realprize = item[1]
@@ -197,7 +198,7 @@ function ENT:PayOut(ply,prize)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		self:EmitSound("GModTower/misc/win_gameshow.mp3", 70)
 		gmc_earn = self.GMCPayouts[prize]
-		ply:AddMoney(gmc_earn)
+		ply:AddMoney(gmc_earn, true, true, true)
 	end
 end
 

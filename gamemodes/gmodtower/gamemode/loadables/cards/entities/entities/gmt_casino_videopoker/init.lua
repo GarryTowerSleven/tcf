@@ -357,7 +357,19 @@ hook.Add("PlayerLeaveVehicle", "VideoPokerLeave", function(ply)
     ply.EntryAngles = nil
 
     if ply.VideoPoker:GetState() > 1 then
-        ply:AddMoney(ply.VideoPoker:GetCredits() * 2, true, false)
+        ply:AddMoney(ply.VideoPoker:GetCredits() * 2, true, true)
+		local bzr = ents.Create("gmt_money_bezier")
+
+		if IsValid(bzr) then
+			print(bzr)
+			bzr:SetPos(ply.VideoPoker:GetPos())
+			bzr.GoalEntity = ply
+			bzr.GMC = ply.VideoPoker:GetCredits() * 2
+			bzr.RandPosAmount = 1
+			bzr:Spawn()
+			bzr:Activate()
+			bzr:Begin()
+		end
     end
 
     if ply.VideoPoker:GetClass() == "gmt_casino_videopoker" then
