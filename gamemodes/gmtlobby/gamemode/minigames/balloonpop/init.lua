@@ -138,7 +138,7 @@ function CheckGiveWeapon( ply, loc )
 	if loc == MinigameLocation then
 		Poppers = Poppers + 1
 		GiveWeapon( ply )
-	else
+	elseif ply.HasCrossbow then
 		RemoveWeapon( ply )
 	end
 
