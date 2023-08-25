@@ -45,6 +45,7 @@ SETTINGS.TabNames = {
 	--"VIP", -- Automatically adds when needed.
 }
 SETTINGS.LobbyOnlyTabs = {
+	"General",
 	"Graphics",
 	"HUD",
 	"Notifications",
@@ -510,17 +511,12 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:Slider( "Instrument Volume", "gmt_volume_instrument", 0, 100 )
 			self:CheckBox( "Enable Background Music", "gmt_bgmusic_enable" )
 			self:Slider( "Background Music Volume", "gmt_bgmusic_volume", 0, 100, 0, "gmt_bgmusic_enable" )
-		end
 
-		if !IsLobby then
-			self:Header( "General" )
-			self:CheckBox( "Use Playermodel Hands", "gmt_playermodel_hands" )
-		else
 			self:Divider()
 
 			self:Header( "General" )
 			self:CheckBox( "Enable View Bob", "gmt_viewbob" )
-			self:CheckBox( "Enable Playermodel Hands", "gmt_playermodel_hands" )
+			//self:CheckBox( "Enable Playermodel Hands", "gmt_playermodel_hands" )
 			self:CheckBox( "Draw First Person Legs", "gmt_drawlegs" )
 			self:CheckBox( "Draw Players While Playing Blockles", "gmt_tetris_drawplayers" )
 			--self:Slider( "Condo Snap Grid Size (hold C while dragging)", "gmt_invsnapsize", 2, 16 )

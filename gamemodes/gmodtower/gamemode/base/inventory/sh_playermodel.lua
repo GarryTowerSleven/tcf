@@ -7,11 +7,11 @@ local ITEMExtraFunc = {}
 
 if CLIENT then
 
-	CreateConVar( "gmt_playermodel_hands", "1", { FCVAR_ARCHIVE, FCVAR_USERINFO } )
+	/*CreateConVar( "gmt_playermodel_hands", "1", { FCVAR_ARCHIVE, FCVAR_USERINFO } )
 
 	cvars.AddChangeCallback("gmt_playermodel_hands", function()
 		 RunConsoleCommand("gmt_updateplayermodel")
-	end)
+	end)*/
 	
 	local Look, Cam = Vector(0,0,60), Vector(60,0,60)
 	function ITEMExtraFunc:GetRenderPos()
