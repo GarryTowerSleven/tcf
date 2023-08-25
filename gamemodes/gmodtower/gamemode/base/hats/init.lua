@@ -34,10 +34,6 @@ function CreateWearable( ply, data, slot )
     local ent = ents.Create( "gmt_hat" )
     ent:SetOwner( ply )
 
-    if engine.ActiveGamemode() == "minigolf" then
-        ent:SetOwner( ply:GetGolfBall() )
-    end
-
     ent:SetModel( data.model )
     ent:SetSkin( data.ModelSkinId or 0 )
 
@@ -48,28 +44,41 @@ function CreateWearable( ply, data, slot )
 
     ply.WearableEntities[ slot ] = ent
 
+    if DEBUG then
+        print( "Hats.CreateWearable", ent )
+    end
+
     return ent
 
 end
 
 function UpdateWearable( ply, hatid, slot )
 
+    if DEBUG then
+        print( "Hats.UpdateWearable", ply, hatid, slot )
+    end
+
     local item = GetItem( hatid )
     if not item then return end
+
+    if DEBUG then
+        print( "Hats.UpdateWearable", "GetItem", "Valid" )
+    end
 
     local ent = ply.WearableEntities[ slot ]
 
     local playermodel = ply:GetModel()
-    if engine.ActiveGamemode() == "minigolf" then
-        playermodel = ply:GetGolfBall():GetModel()
-    end
 
-    if not IsValid( ent ) or ent._PlayerModel != playermodel or ent._HatID != hatid then
+    local override = hook.Call( "OverrideHatEntity", GAMEMODE, ply )
+    if override then
+        playermodel = override:GetModel()
+    end    
 
-        // ?????????????? asshole
-        local shouldnotify = IsValid( ent ) and ent._HatID != hatid or true
+    local oldid = ent and ent._HatID or 0
 
-        if IsLobby and shouldnotify then
+    if not IsValid( ent ) or ent._PlayerModel != playermodel or oldid != hatid then
+
+        if IsLobby and (oldid != hatid) and ply:IsPlayer() then
             ply:MsgT( "HatUpdated", item.name )
         end
        
@@ -77,6 +86,10 @@ function UpdateWearable( ply, hatid, slot )
 
         ent._PlayerModel = playermodel
         ent._HatID = hatid
+
+        if DEBUG then
+            print( "Hats.UpdateWearable", "Valid", ent, playermodel )
+        end
 
         local data = Get( item.unique_Name, Hats.FindPlayerModelByName( playermodel ) )
 
@@ -95,10 +108,18 @@ end
 
 function RemoveWearable( ply, slot, notify )
 
+    if DEBUG then
+        print( "Hats.RemoveWearable", ply, slot, notify )
+    end
+
     local ent = ply.WearableEntities[ slot ] or nil
 
     if IsValid( ent ) then
-        if IsLobby and notify then
+        if DEBUG then
+            print( "Hats.RemoveWearable", "valid" )
+        end
+
+        if IsLobby and notify and ply:IsPlayer() then
             ply:MsgT( slot == SLOT_HEAD and "HatNone" or "HatFaceNone" )
         end
 
@@ -109,7 +130,9 @@ end
 
 function UpdateWearables( ply )
 
-    // print( "Hats.UpdateWearables", ply )
+    if DEBUG then
+        print( "Hats.UpdateWearables", ply )
+    end
     
 	local slot1, slot2 = GetWearables( ply )
 

@@ -33,6 +33,10 @@ function meta:SetupModel()
 			self:SetBodygroup( 1, 0 )
 		end
 
+		if SERVER then
+			Hats.UpdateWearables( self )
+		end
+
 		return
 	end
 
@@ -41,6 +45,10 @@ function meta:SetupModel()
 	self:SetRankModels()
 	self:SetBodygroup( 4, 1 )
 
+	if SERVER then
+		Hats.UpdateWearables( self )
+	end
+	
 end
 
 function meta:IsPig()

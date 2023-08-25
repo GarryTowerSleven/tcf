@@ -127,6 +127,8 @@ function meta:ApplyData( data )
 		if ( data.faceHat ) then
 			Hats.SetWearable( self, data.faceHat, Hats.SLOT_FACE )
 		end
+
+		Hats.UpdateWearables( self )
 	end )
 
 	if ( data.tetrisscore != "" ) then

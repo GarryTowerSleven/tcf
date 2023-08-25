@@ -153,31 +153,11 @@ function ENT:IsVisible()
 	return true
 end
 
-local ScaledModels = {
-	/*["models/player/sackboy.mdl"] = 0.55,*/
-	["models/player/rayman.mdl"] = 0.75,
-	["models/player/midna.mdl"] = 0.45,
-	["models/player/mcsteve.mdl"] = 0.75,
-	["models/player/raz.mdl"] = 0.50,
-	["models/player/jawa.mdl"] = 0.65,
-	["models/player/sumario_galaxy.mdl"] = 0.45,
-	["models/player/suluigi_galaxy.mdl"] = 0.5,
-	["models/player/lordvipes/mmz/zero/zero_playermodel_cvp.mdl"] = 0.85,
-	["models/vinrax/player/megaman64_player.mdl"] = 0.7,
-	["models/player/alice.mdl"] = 0.85,
-	["models/player/harry_potter.mdl"] = 0.75,
-	["models/player/yoshi.mdl"] = 0.5,
-	["models/player/linktp.mdl"] = 0.85,
-	["models/player/red.mdl"] = 0.85,
-	["models/player/martymcfly.mdl"] = 0.85,
-	["models/player/hhp227/kilik.mdl"] = 1.05,
-}
-
 function ENT:InitPlayer( ply )
 
 	if !IsValid( ply ) || self.PlayerModel then return end
 
-	self.PlayerModel = ClientsideModel( ply:GetModel() )
+	self.PlayerModel = ClientsideModel( ply:GetModel() or GTowerModels.GetModelName( "kleiner" ) )
 
 	if !IsValid( self.PlayerModel ) then return end
 
@@ -626,7 +606,7 @@ function ENT:PlayerModelThink( ply )
 
 	if IsValid( self.PlayerModel ) then
 		// Scale down the players
-		local mdlscale =  ScaledModels[ self.PlayerModel:GetModel() ] or 1 --GTowerModels.GetScale( self.PlayerModel:GetModel() )
+		local mdlscale =  GTowerModels.GetScale( self.PlayerModel:GetModel() ) or 1 --GTowerModels.GetScale( self.PlayerModel:GetModel() )
 		self.PlayerModel:SetModelScale( mdlscale * .8 )
 
 		local ang = KartModel:GetAngles()
@@ -815,7 +795,7 @@ function ENT:Draw()
 
 		if ply.CosmeticEquipment then
 			for k,v in pairs( ply.CosmeticEquipment ) do
-				v:SetModelScale( ScaledModels[ ply:GetModel() ] or 1 )
+				v:SetModelScale( GTowerModels.GetScale( self:GetModel() ) or 1 )
 			end
 		end
 		hook.Call( "DrawKart", GAMEMODE, self, self.ClientModel, ply )
