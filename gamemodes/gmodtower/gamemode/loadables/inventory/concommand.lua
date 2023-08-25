@@ -215,6 +215,7 @@ concommand.Add( "gm_invmove", function( ply, command, args )
 
 			Ent:SetPos( Pos /*Trace.HitPos - Trace.HitNormal * min.z*/ )
 			Ent:SetAngles( Ang )
+			Ent.Pos = Pos
 
 			if Ent.LoadRoom && type( Ent.LoadRoom ) == "function" then
 				Ent:LoadRoom()
