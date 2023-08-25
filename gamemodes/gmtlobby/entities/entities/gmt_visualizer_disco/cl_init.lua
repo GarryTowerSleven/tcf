@@ -28,6 +28,7 @@ function ENT:Draw()
     render.SetMaterial(self.Sprite)
     self.Sprite:SetFloat("$alpha", self.NextScale)
     render.DrawSprite(self:GetPos(), 64 + (size * 32), 64 + (size * 32), colorutil.Rainbow(50 + self.NextScale * 0.1 || self.NextScale))
+    self.Sprite:SetFloat("$alpha", 1)
 end
 
 function ENT:InLimit(loc)
