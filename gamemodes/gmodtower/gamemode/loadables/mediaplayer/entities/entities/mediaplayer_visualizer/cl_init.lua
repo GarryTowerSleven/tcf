@@ -46,9 +46,13 @@ end
 
 function ENT:GetFFTFromStream()
 
-	if not IsValid(self.Stream) then return end -- There's no stream apparently
+	local mp = self:GetFirstMediaPlayerInLocation()
+	if not IsValid( mp ) then return end
 
-	self.Stream:FFT( self.CurFFT, FFT_2048 )
+	local media = mp:GetMedia()
+	if not IsValid(media) then return end
+	
+	self.CurFFT = media.fft or self.CurFFT
 	return self.CurFFT
 
 end

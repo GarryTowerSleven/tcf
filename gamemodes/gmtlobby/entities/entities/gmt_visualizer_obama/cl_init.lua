@@ -49,8 +49,7 @@ function ENT:Think()
 		self.Bass = 0
 		return
 	end
-	local fft = {}
-	Stream:FFT(fft, 2)
+	local fft = self:GetFFTFromStream()
 
 	if #fft <= 0 then return end
 	local b = 0
