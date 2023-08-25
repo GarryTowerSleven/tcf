@@ -66,7 +66,7 @@ function ENT:Think()
 			self.chair:Remove()
 		end
 		self.SlotsPlaying = nil
-	else
+	elseif !self:IsInUse() then
 		if !self.LastPlay or self.LastPlay < CurTime() then
 			// self:PullLever()
 			self:PickResults(true)
