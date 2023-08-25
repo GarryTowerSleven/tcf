@@ -68,9 +68,12 @@ function ENT:Think()
 		self.SlotsPlaying = nil
 	elseif !self:IsInUse() then
 		if !self.LastPlay or self.LastPlay < CurTime() then
-			// self:PullLever()
-			self:PickResults(true)
-			self:EmitSound( Casino.SlotWinSound, 60, 100 )
+			if #Location.GetPlayersInLocation(self:Location()) > 3 then
+				// self:PullLever()
+				self:PickResults(true)
+				self:EmitSound( Casino.SlotWinSound, 60, 100 )
+			end
+
 			self.LastPlay = CurTime() + math.Rand(60, 140)
 		end
 	end
