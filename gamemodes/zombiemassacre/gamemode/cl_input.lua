@@ -150,15 +150,6 @@ local function SnapToEntityBelowCursor( radius, offset, maxsnapdist )
 	return position, enemy
 end
 
-local mat = Material("cable/redlaser")
-hook.Add("PostDrawTranslucentRenderables","vr_laserpointer",function( bDrawingDepth, bDrawingSkybox )
-	if bDrawingSkybox then return end
-	if g_VR.viewModelMuzzle and not g_VR.menuFocus then
-		render.SetMaterial(mat)
-		render.DrawBeam(g_VR.viewModelMuzzle.Pos, g_VR.viewModelMuzzle.Pos + g_VR.viewModelMuzzle.Ang:Forward()*10000, 1, 0, 1, Color(255,255,255,255))
-	end
-end)
-
 function GM:CreateMove( cmd )
 	if vr and vr.InVR() then
 		local wep = LocalPlayer():GetActiveWeapon()
