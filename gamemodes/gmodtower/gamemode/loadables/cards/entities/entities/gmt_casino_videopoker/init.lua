@@ -334,6 +334,7 @@ function ENT:Use(ply)
         ply:SetNWVector("SeatEntry", ply.EntryPoint)
         ply:SetNWVector("SeatEntryAng", ply.EntryAngles)
         ply:EnterVehicle(self.chair)
+        ply:SetEyeAngles(self:GetAngles() + Angle(0, 90, 0))
         ply.VideoPoker = self
         --self:SendPlaying( ply )
         self:SetPlayer(ply)
@@ -399,6 +400,7 @@ hook.Add("PlayerLeaveVehicle", "VideoPokerLeave", function(ply)
         ply._PendingMoney = 0
         ply.VideoPoker:SetProfit(0)
         ply.VideoPoker:SetBeginCredits(0)
+        ply.VideoPoker:SetHandInternal(0)
     end
 
     ply.VideoPoker = nil
