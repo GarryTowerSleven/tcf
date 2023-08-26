@@ -203,7 +203,7 @@ function PLAYERS:SetActiveTab( tab )
 	self.NextUpdate = CurTime() + .25
 
 	self:PopulatePlayers( true )
-	self:InvalidateLayout()
+	--self:InvalidateLayout()
 
 end
 
@@ -346,6 +346,12 @@ function PLAYERS:AddPlayer( ply )
 	self.PlayerList:AddItem( panel )
 
 	self:SortPlayers()
+
+	timer.Simple(.1, function()
+		if IsValid( self ) then
+			self.NextLayout = true
+		end
+	end )
 end
 
 function PLAYERS:RemovePlayer( ply )
@@ -356,6 +362,12 @@ function PLAYERS:RemovePlayer( ply )
 	end
 
 	self:SortPlayers()
+
+	timer.Simple(.1, function()
+		if IsValid( self ) then
+			self.NextLayout = true
+		end
+	end)
 end
 
 local function FilteredPlayerList( players )
@@ -388,11 +400,6 @@ function PLAYERS:GetPlayerList( tabname, count )
 				table.insert( players, ply )
 			end
 		end
-	end
-
-	local miku = ents.FindByClass("miku")[1]
-	if IsValid(miku) and miku.VisibleTime and miku.VisibleTime + 0.4 > CurTime() then
-	table.insert(players, miku)
 	end
 
 	if tabname == "Location" then
@@ -575,8 +582,12 @@ function PLAYERS:Think()
 		self.NextLoadingUpdate = CurTime() + 10
 	end
 
-	self:InvalidateLayout()
-	self.PlayerList:InvalidateLayout()
+	if self.NextLayout then
+		self:InvalidateLayout()
+		self.PlayerList:InvalidateLayout()
+
+		self.NextLayout = false
+	end
 
 end
 
@@ -888,7 +899,6 @@ function PLAYER:Update()
 
 	// Background
 	self.BackgroundMaterial = Scoreboard.Customization.PlayerBackgroundMaterial( self.Player )
-
 end
 
 function PLAYER:Paint( w, h )
@@ -1077,8 +1087,8 @@ function PLAYER:Think()
 	if IsValid( self.Player ) then
 		self.Info:Update()
 		self:Update()
-		//self.Avatar:InvalidateLayout( true )
-		self.Info:InvalidateLayout( true )
+		--self.Avatar:InvalidateLayout( true )
+		--self.Info:InvalidateLayout( true )
 	end
 
 	// Not enabled
@@ -1240,7 +1250,7 @@ function PLAYERINFO:PerformLayout()
 		self.ValueIconPanel:SetVisible( false )
 	end
 
-	self.Ping:InvalidateLayout( true )
+	--self.Ping:InvalidateLayout( true )
 	self.Ping:AlignBottom(4)
 	self.Ping:AlignRight(2)
 
@@ -1281,7 +1291,7 @@ function PLAYERINFO:PerformLayout()
 
 			self.RespectIcon:SetText( text )
 			self.RespectIcon:SetMouseInputEnabled( false )
-			self.RespectIcon:InvalidateLayout( true )
+			--self.RespectIcon:InvalidateLayout( true )
 			self.RespectIcon:AlignBottom( 2 )
 			self.RespectIcon:AlignRight( wide + 4 )
 
