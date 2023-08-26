@@ -26,6 +26,8 @@ function PlayerMeta:ResetEquipmentAfterVehicle()
 	if !IsValid(self) || !self.CosmeticEquipment then return end
 
 	for k,v in pairs(self.CosmeticEquipment) do
-		v:ReParent()
+		if v.Reparent then
+			v:ReParent()
+		end
 	end
 end
