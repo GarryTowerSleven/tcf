@@ -213,9 +213,20 @@ function GM:PlayerSetModel( ply )
 	end
 
 	ply:SetupHands()*/
-
-	ply:ConCommand( "gmt_updateplayermodel" )
-
+	
+	local modelinfo = string.Explode( "-", ply:GetInfo("gmt_playermodel") or "kleiner" )
+	local modelname = modelinfo[1]
+	local modelskin = tonumber( modelinfo[2] or 0 ) or 0
+	
+	if ( not GTowerModels.CanUseModel( ply, modelname, modelskin ) ) then
+		modelname = nil
+		modelskin = 0
+	end
+	
+	local model = player_manager.TranslatePlayerModel(modelname)
+	
+	ply:SetModel(model)
+	ply:SetSkin(modelskin)
 end
 
 hook.Add( "PlayerSpray", "PlayerDisableSprays", function ( ply )
