@@ -142,7 +142,6 @@ function ENT:ResetPos()
 	if self.NoReset then return end
 	if self.OriginalPos then
 		self:SetPos( self.OriginalPos )
-		print( self, "ResetPos()" )
 	end
 end
 
