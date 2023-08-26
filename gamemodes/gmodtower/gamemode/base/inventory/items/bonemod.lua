@@ -36,12 +36,6 @@ BONEMOD_BIGPANTS = 17
 BONEMOD_STICK = 18
 BONEMOD_FANCY = 19
 
-hook.Add("PlayerFullyJoined", "RecheckBoneMod", function( ply )
-	if BoneMod && ply.BoneModID != nil then
-		BoneMod.SetBoneMod( ply, ply.BoneModID )
-	end
-end )
-
 if SERVER then
 	function ITEM:OnEquip( locationchange )
 		if BoneMod then

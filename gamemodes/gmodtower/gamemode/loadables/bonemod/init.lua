@@ -12,4 +12,20 @@ function SetBoneMod( ply, id )
 	net.Broadcast()
 end
 
+hook.Add("PlayerFullyJoined", "RecheckBoneMod", function( ply )
+	print("FullyJoined")
+	if BoneMod && ply.BoneModID != nil then
+		SetBoneMod( ply, ply.BoneModID )
+	end
+end )
+
+
+hook.Add( "PlayerSetModelPost", "BonemodModelRefresh", function( ply )
+	timer.Simple(.05, function()
+		if BoneMod && ply.BoneModID != nil then
+			SetBoneMod( ply, ply.BoneModID )
+		end
+	end )
+end ) 
+
 util.AddNetworkString( "BoneMod" )

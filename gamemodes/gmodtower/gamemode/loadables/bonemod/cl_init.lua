@@ -428,6 +428,6 @@ function BoneMod:ModFancyPants( ply )
 
 end
 
-hook.Add( "Location", "BonemodRefresh", function(ply)
+hook.Add( "Location", "BonemodLocationRefresh", function(ply)
 	BoneMod:ApplyBoneMod( ply.BoneMod, ply )
 end )
