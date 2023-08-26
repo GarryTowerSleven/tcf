@@ -90,6 +90,8 @@ function ENT:ShouldDraw( ply, dist )
 
 	if IsLobby then
 
+		if ( ply:GetNWBool( "InLimbo" ) ) then return false end
+
 		// Hide for distance
 		local dist = LocalPlayer():EyePos():Distance( self:GetPos() )
 		if dist > self.MaxDist then
