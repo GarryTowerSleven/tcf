@@ -194,17 +194,13 @@ function APPEARANCE:GenerateModelSelection()
 
 		end
 
-		local dvgui = "SpawnIcon"
+		local dvgui = "DImageButton"
 
 		-- Custom icon support
 		local path = "materials/gmod_tower/icons/" .. string.StripExtension( model )
 		if name == "Cap Reversed" then path = path .. "_backwards" end
 		if skin and skin > 0 then path = path .. "_skin" .. skin end -- Skin support
 		path = path .. ".png"
-
-		if category != CategoryList then
-			dvgui = "DImageButton"
-		end
 
 		local icon = vgui.Create( dvgui, self )
 
@@ -222,7 +218,7 @@ function APPEARANCE:GenerateModelSelection()
 
 		icon:SetTooltip( false )
 		if category == CategoryList then
-			icon:SetSize( 40, 40 )
+			icon:SetSize( 48, 48 )
 		end
 
 		//icon:SetIconSize( 64 )
