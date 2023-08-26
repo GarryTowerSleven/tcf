@@ -7,7 +7,7 @@ local Roles =
 {	
 
 	// kitteh omega overloard 1337 rawr
-	["STEAM_0:0:1384695"] = "Developer",	// kity
+	["STEAM_0:0:1384695"] = "Lead Developer",	// kity
 	
 	// god of boxes, boXy // a demigod for now
 	//["STEAM_0:0:38865393"] = "Lead Developer",	// boXy
