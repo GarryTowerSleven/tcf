@@ -234,7 +234,7 @@ hook.Add("Think", "DiscoBall", function()
     if !mp then return end
     local b = 0
     local fft = mp2.fft
-    if #fft <= 0 then return end
+    if !fft or #fft <= 0 then return end
     station = mp
     local url = tostring(mp)
     url = string.Split(url, "[")
