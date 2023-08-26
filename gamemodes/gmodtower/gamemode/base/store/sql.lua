@@ -6,8 +6,11 @@ end )
 function GTowerStore:SQLInsert( NewItem )
 
 	if type( NewItem.price ) == "number" then
-		NewItem.prices = NewItem.prices or {}
-		table.insert( NewItem.prices, NewItem.price )
+		NewItem.prices = { NewItem.price }
+	end
+
+	if NewItem.name then
+		NewItem.Name = NewItem.name
 	end
 
 	if !NewItem or !NewItem.unique_Name or !NewItem.Name or !NewItem.prices then

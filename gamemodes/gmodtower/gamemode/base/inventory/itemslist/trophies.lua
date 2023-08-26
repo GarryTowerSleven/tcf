@@ -209,7 +209,7 @@ RegisterItem("trophy_starfox",{
 	Name = "Trophy: Starfox",
 	Description = "",
 	Model = "models/gmod_tower/trophy_starfox.mdl",
-	UniqueInventory = true,
+	UniqueInventory = false,
 	DrawModel = true,
 	Tradable = true,
 	InvCategory = "trophy",

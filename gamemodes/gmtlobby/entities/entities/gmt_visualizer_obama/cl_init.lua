@@ -26,11 +26,8 @@ function ENT:Draw()
 	self.FTSpeed = self.FTSpeed or 0
 	self.FTSpeed = Lerp(FrameTime() * (2 + (self.Bass > 4 and 4 or 0)), self.FTSpeed, self.Bass + (self.Bass > 4 and 8 or 0))
 	self.FT = self.FT + FrameTime() * self.FTSpeed * Lerp(math.min(self.Bass, 1) / 4, 0, 1)
-	local pos = self.Pos or self:GetPos()
-	self.Pos = self.Pos or self:GetPos()
-	self.Ang = self.Ang or self:GetAngles()
-	self:SetRenderOrigin(self.Pos + Vector(0, 0, self.Bass * 4) + self:GetRight() * math.sin(self.FT * 2) * self.Bass * -1 + Vector(0, 0, math.abs(math.sin(self.FT * 2)) * -4 * self.Bass)) // + (self.Bass > 2 && self.Bass * 4 || 0)))
-	self:SetRenderAngles(self.Ang + Angle(self.Bass * 2, math.sin(self.FT * 2) * self.Bass * 4, math.sin(self.FT * 2) * self.Bass * -4))
+	self:SetRenderOrigin(self:GetNetworkOrigin() + Vector(0, 0, self.Bass * 4) + self:GetRight() * math.sin(self.FT * 2) * self.Bass * -1 + Vector(0, 0, math.abs(math.sin(self.FT * 2)) * -4 * self.Bass)) // + (self.Bass > 2 && self.Bass * 4 || 0)))
+	self:SetRenderAngles(self:GetNetworkAngles() + Angle(self.Bass * 2, math.sin(self.FT * 2) * self.Bass * 4, math.sin(self.FT * 2) * self.Bass * -4))
 	self:ManipulateBoneScale(0, Vector(1, 1 + self.Bass * 0.01, 1 + self.Bass * 0.04))
 	self:SetModelScale(1 + self.Bass * 0.01 + self.FTSpeed * 0.01)
 	self:DrawModel()
@@ -52,8 +49,7 @@ function ENT:Think()
 		self.Bass = 0
 		return
 	end
-	local fft = {}
-	Stream:FFT(fft, 2)
+	local fft = self:GetFFTFromStream()
 
 	if #fft <= 0 then return end
 	local b = 0

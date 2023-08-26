@@ -66,6 +66,16 @@ function ENT:Think()
 			self.chair:Remove()
 		end
 		self.SlotsPlaying = nil
+	elseif !self:IsInUse() then
+		if !self.LastPlay or self.LastPlay < CurTime() then
+			if #Location.GetPlayersInLocation(self:Location()) > 3 then
+				// self:PullLever()
+				self:PickResults(true)
+				self:EmitSound( Casino.SlotWinSound, 60, 100 )
+			end
+
+			self.LastPlay = CurTime() + math.Rand(60, 140)
+		end
 	end
 
 	// Player Idling Check
@@ -333,9 +343,9 @@ function ENT:PullLever()
 end
 
 
-function ENT:PickResults()
+function ENT:PickResults(fake)
 
-	self.SlotsSpinning = true
+	self.SlotsSpinning = !fake
 
 	local rf = RecipientFilter()
 	//rf:AddPlayer( self:GetPlayer() )
@@ -344,11 +354,13 @@ function ENT:PickResults()
 	local random = { getRand(), getRand(), getRand() }
 
 	if random[1] == 2 and random[2] == 2 and random[3] == 2 then
-		if self:GetJackpot() < 5000 && math.random(4) != 1 then
+		if self:GetJackpot() < 5000 && math.random(5) != 1 then
 			random[3] = math.random(6)
-		elseif self:GetJackpot() < 10000 && math.random(3) != 1 then
+		elseif self:GetJackpot() < 10000 && math.random(4) != 1 then
 			random[3] = math.random(6)
-		elseif self:GetJackpot() < 25000 && math.random(2) != 1 then
+		elseif self:GetJackpot() < 25000 && math.random(3) != 1 then
+			random[3] = math.random(6)
+		elseif self:GetJackpot() < 50000 && math.random(2) != 1 then
 			random[3] = math.random(6)
 		end
 	end
@@ -360,6 +372,8 @@ function ENT:PickResults()
 		umsg.Short( random[3] )
 	umsg.End()
 
+	if fake then return end
+	
 	self:EmitSound( Casino.SlotPullSound, 60, math.random(98, 102) )
 
 	timer.Simple( Casino.SlotSpinTime[3], function()

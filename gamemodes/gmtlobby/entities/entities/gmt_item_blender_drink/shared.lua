@@ -95,12 +95,15 @@ function ENT:Think()
 
 	if self.Player:GetNWBool( "InLimbo" ) then 
 		if ( self.EffectEnd ) then
-			if ( self.Drink.Name != "Deathwish" || self.Drink.Name != "One Too Many" ) then -- annoying..
+			if ( self.Drink.Name == "Deathwish" ) then
+				PostEvent( self.Player, "pspawn" )
+			else
 				self.EffectEnd ( self.Player )
-				
-				GAMEMODE:SetPlayerSpeed( self.Player, 100, 100 )
-				self.Player:SetModel("models/player/group01/male_01.mdl")
+				self.Player:UnDrunk()
 			end
+				
+			GAMEMODE:SetPlayerSpeed( self.Player, 100, 100 )
+			self.Player:SetModel("models/player/group01/male_01.mdl")
 		end
 		self.Player = nil
 		self:Remove()
@@ -108,8 +111,11 @@ function ENT:Think()
 
 	if !self.Player:Alive() then -- prevent effects from persisting/cropping up after death
 		if ( self.EffectEnd ) then
-			if ( self.Drink.Name != "Deathwish" || self.Drink.Name != "One Too Many" ) then -- annoying..
+			if ( self.Drink.Name == "Deathwish" ) then
+				PostEvent( self.Player, "pspawn" )
+			else
 				self.EffectEnd ( self.Player )
+				self.Player:UnDrunk()
 			end
 		end
 		self.Player = nil

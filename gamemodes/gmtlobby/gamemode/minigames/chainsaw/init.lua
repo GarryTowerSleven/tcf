@@ -40,6 +40,7 @@ function GiveWeapon( ply )
 		ply:Give( WeaponName )
 		ply:SelectWeapon( WeaponName )
 		ply.CanPickupWeapons = false
+		ply.HasChainsaw = true
 	end
 
 	ply:GodDisable()
@@ -50,7 +51,7 @@ function CheckGiveWeapon( ply, loc )
 
 	if loc == MinigameLocation  then
 		GiveWeapon( ply )
-	else
+	elseif ply.HasChainsaw then
 		RemoveWeapon( ply )
 	end
 
@@ -65,6 +66,7 @@ end
 function RemoveWeapon( ply )
 	if ply:HasWeapon(WeaponName) then
 		ply:StripWeapons()
+		ply.HasChainsaw = false
 	end
 
 	ply:ResetGod()

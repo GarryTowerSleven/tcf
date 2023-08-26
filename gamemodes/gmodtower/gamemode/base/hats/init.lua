@@ -1,329 +1,217 @@
+AddCSLuaFile('cl_admin.lua')
+AddCSLuaFile('list.lua')
+AddCSLuaFile('shared.lua')
 
 include('shared.lua')
-AddCSLuaFile('list.lua')
-AddCSLuaFile('cl_init.lua')
-AddCSLuaFile('shared.lua')
-AddCSLuaFile('cl_admin.lua')
-//AddCSLuaFile('sh_translation.lua')
-include('hat.lua')
+include('sv_admin.lua')
+include('sql.lua')
 
-include("db.lua")
-
-local DEBUG = false
+module("Hats", package.seeall )
 
 hook.Add("GTowerStoreLoad", "AddHats", function()
-	for _, v in pairs( GTowerHats.Hats ) do
+	for _, v in pairs( List ) do
 
 		if v.unique_Name then
 
-			if !v.storeid then
-				v.storeid = GTowerHats.StoreId
-			end
+            v.storeid = v.storeid || StoreId
 			v.upgradable = true
-			v.ClientSide = true
-
+            
 			local NewItemId = GTowerStore:SQLInsert( v )
-
+            
 			v.id = NewItemId
 
 		end
 
 	end
-
 end )
 
-function GTowerHats:Sendclient( ply )
+function CreateWearable( ply, data, slot )
 
-	if GTowerStore.SendItemsOfStore then
-		GTowerStore:SendItemsOfStore( ply, GTowerHats.StoreId )
-	end
-
-end
-
-concommand.Add("gmt_requesthatstoreupdate", function(ply)
-	if GTowerStore.SendItemsOfStore then
-		GTowerStore:SendItemsOfStore( ply, GTowerHats.StoreId )
-		GTowerStore:SendItemsOfStore( ply, 19 ) -- Halloween hats
-	end
-end)
-
-function GTowerHats:OpenStore( ply )
-	ply:ConCommand("gmt_requesthatstoreupdate")
-	timer.Simple(0.25, function()
-		GTowerStore:OpenStore( ply, self.StoreId )
-	end)
-end
-
-
-// Hat 2 Client
-/*
-util.AddNetworkString( "clientHatRequest" )
-net.Receive( "clientHatRequest", function( len, ply )
-	local requests net.ReadTable()
-	//local requests = net.ReadData()
-	//requests = util.Decompress(requests)
-	//requests = util.JSONToTable(requests)
-
-	PrintTable(requests)
-end )
-*/
-
-local function getHatFromTable( hat, model )
-	if GlobalHatOffsets[model] && GlobalHatOffsets[model][hat] then
-		return GlobalHatOffsets[model][hat]
-	end
-
-	return nil
-end
-util.AddNetworkString("hat_req")
-util.AddNetworkString("hat_snd")
-
-net.Receive("hat_req", function(len, ply)
-    local hat = net.ReadString()
-    local model = net.ReadString()
-    local hatdata = getHatFromTable(hat, model)
-
-    if ( net.ReadBool() && (ply:IsStaff() or ply:GetSetting( "GTAllowEditHat" )) ) then
-        SQL.getDB():Query("SELECT * FROM gm_hats WHERE hat='" .. hat .. "' AND plymodel='" .. model .. "'", function(res)
-            if res[1].status != true then
-                MsgC(color_red, "[Hats] MySQL error while obtaining hats: " .. tostring(res[1].error) .. "\n")
-
-                return
-            end
-			if #res[1].data == 0 then
-				SQL.getDB():Query( "INSERT INTO `gm_hats`(id,hat,plymodel,vx,vy,vz,ap,ay,ar,scale) VALUES ("..GTowerHats:GetHatByName( hat )..",'"..hat.."','"..model.."',0,-2.5,6,13,0,0,1)")
-				
-				hatdata = {GTowerHats:GetHatByName( hat ), 0, 2.5, 6, 13, 0, 0, 1}
-				// hatsOffetsCount = hatsOffetsCount + 1
-
-				// MsgC(color_green, "[Hats] Hats Table created with a total of " .. hatsOffetsCount .. " entries!\n")
-				local pos = Vector(tonumber(hatdata[2]), tonumber(hatdata[3]), tonumber(hatdata[4]))
-				local ang = Angle(tonumber(hatdata[5]), tonumber(hatdata[6]), tonumber(hatdata[7]))
-				local scale = tonumber(hatdata[8])
-				net.Start("hat_snd")
-				net.WriteString(hat)
-				net.WriteString(model)
-				net.WriteVector(pos)
-				net.WriteAngle(ang)
-				net.WriteFloat(scale)
-				net.Send(ply)
-			else
-				for k, v in pairs(res[1].data) do
-					hatdata = {v.id, v.vx, v.vy, v.vz, v.ap, v.ay, v.ar, v.scale}
-					// hatsOffetsCount = hatsOffetsCount + 1
-				end
-
-				// MsgC(color_green, "[Hats] Hats Table created with a total of " .. hatsOffetsCount .. " entries!\n")
-				local pos = Vector(tonumber(hatdata[2]), tonumber(hatdata[3]), tonumber(hatdata[4]))
-				local ang = Angle(tonumber(hatdata[5]), tonumber(hatdata[6]), tonumber(hatdata[7]))
-				local scale = tonumber(hatdata[8])
-				net.Start("hat_snd")
-				net.WriteString(hat)
-				net.WriteString(model)
-				net.WriteVector(pos)
-				net.WriteAngle(ang)
-				net.WriteFloat(scale)
-				net.Send(ply)
-			end
-        end)
-    else
-        if !hatdata then return end
-        local pos = Vector(tonumber(hatdata[2]), tonumber(hatdata[3]), tonumber(hatdata[4]))
-        local ang = Angle(tonumber(hatdata[5]), tonumber(hatdata[6]), tonumber(hatdata[7]))
-        local scale = tonumber(hatdata[8])
-        net.Start("hat_snd")
-        net.WriteString(hat)
-        net.WriteString(model)
-        net.WriteVector(pos)
-        net.WriteAngle(ang)
-        net.WriteFloat(scale)
-        net.Send(ply)
+    if IsValid( ply.WearableEntities[ slot ] ) then
+        ply.WearableEntities[ slot ]:Remove()
     end
-end)
 
-local function HatUpdateResult(res, stats, err)
-	if stats != 1 then
-		ErrorNoHalt( err )
-	end
+    local ent = ents.Create( "gmt_hat" )
+    ent:SetOwner( ply )
+
+    ent:SetModel( data.model )
+    ent:SetSkin( data.ModelSkinId or 0 )
+
+    ent:Spawn()
+
+    ent._PlayerModel = nil
+    ent._HatID = nil
+
+    ply.WearableEntities[ slot ] = ent
+
+    if DEBUG then
+        print( "Hats.CreateWearable", ent )
+    end
+
+    return ent
+
 end
 
-concommand.Add("gmt_admsethatpos", function( ply, cmd, args )
+function UpdateWearable( ply, hatid, slot )
 
-	if !ply:IsStaff() then
-		return
-	end
+    if DEBUG then
+        print( "Hats.UpdateWearable", ply, hatid, slot )
+    end
 
-	local HatName = tonumber(args[1])
-	local ModelName = args[2]
-	local XPos = tonumber( args[5] )
-	local YPos = tonumber( args[4] )
-	local ZPos = tonumber( args[3] )
-	local PAng = tonumber( args[6] )
-	local YAng = tonumber( args[7] )
-	local RAng = tonumber( args[8] )
-	local Scale = tonumber( args[9] )
+    local item = GetItem( hatid )
+    if not item then return end
 
-	local Pos = Vector( XPos, YPos, ZPos )
-	local Ang = Angle( PAng, YAng, RAng )
-	local ModelList = GTowerHats:GetModelPlayerList()
+    if DEBUG then
+        print( "Hats.UpdateWearable", "GetItem", "Valid" )
+    end
 
-	//print(ModelName, HatName, !GTowerHats:GetHatByID( HatName ), !ModelList[ ModelName ])
-	if !GTowerHats:GetHatByID( HatName ) || !ModelList[ ModelName ] then
-		return
-	end
+    local ent = ply.WearableEntities[ slot ]
 
-	HatName = GTowerHats:GetHatByID( HatName ).unique_Name
+    local playermodel = ply:GetModel()
 
-	if DEBUG then
-		Msg( "HAT ADMIN UPDATE - ", HatName, " - ", ModelName, ":\n" )
-	end
+    local override = hook.Call( "OverrideHatEntity", GAMEMODE, ply )
+    if override then
+        playermodel = override:GetModel()
+    end    
 
-	 /*SQL.getDB():Query( "REPLACE INTO `gm_hats`(hat,model,vx,vy,vz,ap,ay,ar,scale) VALUES ('"..HatName.."','"..ModelName.."',"
-		..XPos..","..YPos..","..ZPos..","..PAng..","..YAng..","..RAng..","..Scale..")",
-		HatUpdateResult )*/
+    local oldid = ent and ent._HatID or 0
 
-		SQL.getDB():Query("SELECT * FROM gm_hats WHERE hat='"..HatName.."' AND plymodel='"..ModelName.."'", function(res)
-			//PrintTable(res)
-			if #res[1].data == 0 then
-				SQL.getDB():Query( "INSERT INTO `gm_hats`(hat,plymodel,vx,vy,vz,ap,ay,ar,scale) VALUES ('"..HatName.."','"..ModelName.."',"
-		 		..XPos..","..YPos..","..ZPos..","..PAng..","..YAng..","..RAng..","..Scale..")",
-		 		HatUpdateResult )
-			else
-				SQL.getDB():Query(
-				"UPDATE gm_hats SET hat='"..HatName.."',plymodel='"..ModelName.."',vx="..XPos..",vy="..YPos..",vz="..ZPos..",ap="..PAng..",ay="..YAng..",ar="..RAng..",scale="..Scale.." WHERE hat='"..HatName.."' AND plymodel='"..ModelName.."'",HatUpdateResult)
-			end
+    if not IsValid( ent ) or ent._PlayerModel != playermodel or oldid != hatid then
 
-		end)
+        if IsLobby and (oldid != hatid) and ply:IsPlayer() then
+            ply:MsgT( "HatUpdated", item.name )
+        end
+       
+        ent = CreateWearable( ply, item, slot )
 
-	local rp = RecipientFilter()
+        ent._PlayerModel = playermodel
+        ent._HatID = hatid
 
-	for _, v in pairs( player.GetAll() ) do
-		if v != ply then
-			rp:AddPlayer( v )
-			if DEBUG then
-				Msg("Adding " .. tostring( v ) .. " to the sending list\n")
-			end
-		end
-	end
+        if DEBUG then
+            print( "Hats.UpdateWearable", "Valid", ent, playermodel )
+        end
 
-	if DEBUG then Msg("\n") end
+        local data = Get( item.unique_Name, Hats.FindPlayerModelByName( playermodel ) )
 
-	umsg.Start( "HatAdm", rp )
-		umsg.String( HatName )
-		umsg.String( ModelName )
-		umsg.Float( XPos )
-		umsg.Float( YPos )
-		umsg.Float( ZPos )
-		umsg.Float( PAng )
-		umsg.Float( YAng )
-		umsg.Float( RAng )
-		umsg.Float( Scale )
-	umsg.End()
+        // print( "" )
+        // print( "Hats.GetData", playermodel, item.model )
+        // print( "Hats.GetData", "HatName=", item.unique_Name )
+        // print( "Hats.GetData", "FindPlayerModelByName=", Hats.FindPlayerModelByName( PlayerModel ) )
+        // print( "Hats.GetData", "DefaultValue=", data == DefaultValue )
+        // print( "" )
 
-end )
+        ent:SetHatData( data )
 
-local function BuildHatsResult(modelhats)
+    end
 
-	local buffer = {"HatTranslations = {"}
-	local t = 0
-	for model, hatdata in pairs(modelhats) do
-		print("\nWRITING HATS FOR MODEL "..tostring(t+1)..": "..tostring(model))
-		t=t+1
-		table.insert(buffer, string.format("[\"%s\"]={", model))
-		for hat, tbl in pairs(hatdata) do
-		--Msg(hat, tbl[1], tbl[2], tbl[3], tbl[4], tbl[5], tbl[6], tbl[7])
-			// Dank hat fix
-			if tbl[1]=="" or tbl[1]=="" or tbl[1]=="" or tbl[1]=="" or tbl[1]=="" or tbl[1]=="" or tbl[1]=="" then
-				MsgC( Color( 255, 0, 0 ),"FOUND A CORRUPTED HAT, MODEL: "..(tostring(model) or "[UNKNOWN MODEL]")..", HAT: "..(tostring(hat) or "[UNKNOWN HAT]")..". SKIPPING...")
-				continue
-			end
-			print("	WRITING HAT: "..tostring(hat))
-			table.insert(buffer, string.format("[\"%s\"]={%g,%g,%g,%g,%g,%g,%g},",
-								hat, tbl[1], tbl[2], tbl[3], tbl[4], tbl[5], tbl[6], tbl[7]))
-		end
-		table.insert(buffer, "},")
-	end
-
-	table.insert(buffer, "}")
-
-	file.Write("sh_translation.txt", table.concat(buffer, ""))
-
-	print("Wrote " .. table.Count(modelhats) .. " hat entries.")
 end
 
-concommand.Add("gmt_writehattranslations", function(ply, cmd, args)
-	if ply != NULL && !ply:IsStaff() then return end
+function RemoveWearable( ply, slot, notify )
 
-	local QueryCount = 0
-	local EndTable = {}
+    if DEBUG then
+        print( "Hats.RemoveWearable", ply, slot, notify )
+    end
 
-	local function AddToResults( res )
+    local ent = ply.WearableEntities[ slot ] or nil
 
-		if res[1].status != true then
-			ErrorNoHalt("Error getting hats" .. tostring(res[1].error))
-			QueryCount = -1 //Do not let this finish
-			return
-		end
+    if IsValid( ent ) then
+        if DEBUG then
+            print( "Hats.RemoveWearable", "valid" )
+        end
 
-		for k, v in pairs(res[1].data) do
-			if !EndTable[v.model] then
-				EndTable[v.model] = {}
-			end
+        if IsLobby and notify and ply:IsPlayer() then
+            ply:MsgT( slot == SLOT_HEAD and "HatNone" or "HatFaceNone" )
+        end
 
-			if !EndTable[v.model][v.hat] then
-				EndTable[v.model][v.hat] = {v.vx, v.vy, v.vz, v.ap, v.ay, v.ar, v.scale}
-			end
-		end
+        ent:Remove()
+    end
 
-		QueryCount = QueryCount - 1
+end
 
-		if QueryCount == 0 then
-			BuildHatsResult( EndTable )
-		end
+function UpdateWearables( ply )
 
-	end
+    if DEBUG then
+        print( "Hats.UpdateWearables", ply )
+    end
+    
+	local slot1, slot2 = GetWearables( ply )
 
-	 SQL.getDB():Query("SELECT COUNT(*) FROM gm_hats", function( res )
+    if not ply.WearableEntities then
+        ply.WearableEntities = {}
+    end
 
-		if res[1].status != true then
-			ErrorNoHalt("Error getting hats" .. tostring(res[1].error))
-			return
-		end
-
-		local Count = #res[1].data
-
-		for i=0, Count, 18000 do
-
-			 SQL.getDB():Query("SELECT * FROM gm_hats LIMIT ".. i ..",18000", AddToResults)
-			QueryCount = QueryCount + 1
-
-		end
-
-
-	end )
-
-
-
-end)
-
-GTowerHats.BodyGroups = {
-    ["dinosaur"] = {
-        ["hat_common"] = { 0, 1 },
-		["face_common"] = { 0, 1 },
-		["legoheadhat"] = { 0, 0 },
-		["batmask"] = { 0, 0 },
-		["bombermanhat"] = { 0, 0},
-    }
-}
-
-function GTowerHats:GetBodyGroups(plymodel, hat, slot)
-    if GTowerHats.BodyGroups[plymodel] then
-        if GTowerHats.BodyGroups[plymodel][hat] then
-              return GTowerHats.BodyGroups[plymodel][hat]
-        elseif slot == SLOT_HEAD && GTowerHats.BodyGroups[plymodel]["hat_common"] then
-              return GTowerHats.BodyGroups[plymodel]["hat_common"]
-		elseif slot == SLOT_FACE && GTowerHats.BodyGroups[plymodel]["face_common"] then
-			  return GTowerHats.BodyGroups[plymodel]["face_common"]	
+    if ( slot1 == 0 ) then
+        RemoveWearable( ply, SLOT_HEAD, true )
+    else
+        local item = GetItem( slot1 )
+        
+        if item and item.slot == SLOT_HEAD then
+            UpdateWearable( ply, slot1, SLOT_HEAD )
         end
     end
+    
+    if ( slot2 == 0 ) then
+        RemoveWearable( ply, SLOT_FACE, true )
+    else
+        local item = GetItem( slot2 )
+
+        if item and item.slot == SLOT_FACE then
+            UpdateWearable( ply, slot2, SLOT_FACE )
+        end
+    end
+
+end
+
+hook.Add( "PlayerSetModelPost", "UpdateHats", UpdateWearables )
+
+function SetHat( ply, hatid, slot, force )
+
+    // print( "Hats.SetHat", ply, hatid, slot )
+
+    hatid = tonumber( hatid ) or 0
+    slot = math.Clamp( tonumber( slot ), 1, 2 ) or SLOT_HEAD
+
+    local item = GetItem( hatid )
+    if not item then return end
+
+    if hatid > 0 and item.slot != slot then return end
+
+    if not force and hatid > 0 and hook.Run( "CanWearHat", ply, item.unique_Name ) != 1 then return end
+
+    SetWearable( ply, hatid, slot )
+    UpdateWearables( ply )
+
+end
+
+concommand.Add( "gmt_sethat", function( ply, _, args )
+
+    if not args[1] or not args[2] then return end
+
+    SetHat( ply, args[1], args[2] )
+    
+end )
+
+concommand.Add( "gmt_requesthatstoreupdate", function( ply )
+
+	if GTowerStore.SendItemsOfStore then
+
+		GTowerStore:SendItemsOfStore( ply, StoreId )
+		GTowerStore:SendItemsOfStore( ply, GTowerStore.HALLOWEEN )
+
+	end
+
+end )
+
+local meta = FindMetaTable( "Player" )
+if !meta then return end
+
+function meta:SetHat( name, slot, force )
+    local item = GetByName( name )
+    if not item then return end
+
+    SetHat( self, item, slot, force or false )
+end
+
+function meta:SetHatID( hatid, slot, force )
+    SetHat( self, hatid, slot, force or false )
 end

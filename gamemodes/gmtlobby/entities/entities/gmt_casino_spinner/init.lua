@@ -117,10 +117,10 @@ function ENT:Use( activator, caller )
 					end
 				end)
 			else
-				caller:Msg2('You cannot spin, you do not have enough GMC.')
+				caller:Msg2('[Spinner] You cannot spin, you do not have enough GMC.')
 			end
 		elseif caller.IsSpinning == true then
-			caller:Msg2( "You cannot spin, you are already spinning a wheel." )
+			caller:Msg2( "[Spinner] You cannot spin, you are already spinning a wheel." )
 		end
 	end
 end
@@ -128,20 +128,27 @@ end
 function ENT:SendItem(caller,entity_name)
 	if entity_name == "[No Entity Found]" then return end
 
-	local UniqueModel = GTowerItems:Get( simplehash(entity_name) ).Model
-	caller:InvGiveItem( simplehash(entity_name), slot )
+	local Item = GTowerItems:Get( simplehash(entity_name) )
+	local UniqueModel = Item.Model
 
-	local mdlbzr = ents.Create("gmt_model_bezier")
+	if Item.UniqueInventory == true && caller:HasItemById( Item.MysqlId ) then
+		caller:AddMoney(math.floor( Item.StorePrice / 2 ), true, true, true)
+		caller:Msg2("[Spinner] You already own this unique item, so you've won its sell value!")
+	else
+		caller:InvGiveItem( simplehash(entity_name), slot )
+		local mdlbzr = ents.Create("gmt_model_bezier")
 
-	if IsValid( mdlbzr ) then
-		mdlbzr:SetPos( self.Entity:GetPos() )
-		mdlbzr.GoalEntity = caller
-		mdlbzr.ModelString = UniqueModel
-		mdlbzr.RandPosAmount = 0
-		mdlbzr:Spawn()
-		mdlbzr:Activate()
-		mdlbzr:Begin()
+		if IsValid( mdlbzr ) then
+			mdlbzr:SetPos( self.Entity:GetPos() )
+			mdlbzr.GoalEntity = caller
+			mdlbzr.ModelString = UniqueModel
+			mdlbzr.RandPosAmount = 0
+			mdlbzr:Spawn()
+			mdlbzr:Activate()
+			mdlbzr:Begin()
+		end
 	end
+
 end
 
 function ENT:PayOut(ply,prize)
@@ -167,7 +174,8 @@ function ENT:PayOut(ply,prize)
 	if prize == 1 || prize == 5 then
 		self:EmitSound("GModTower/misc/sad.mp3", 70)
 		if prize == 5 then
-			ply:AddMoney(1)
+			ply:AddMoney(1, true, true, true)
+			ply:Msg2("[Spinner] You won: ... 1 GMC")
 		end
 	elseif prize == 2 || prize == 3 || prize == 4 || prize == 6 || prize == 7 || prize == 8 || prize == 10 then
 		local realprize = item[1]
@@ -197,7 +205,7 @@ function ENT:PayOut(ply,prize)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		self:EmitSound("GModTower/misc/win_gameshow.mp3", 70)
 		gmc_earn = self.GMCPayouts[prize]
-		ply:AddMoney(gmc_earn)
+		ply:AddMoney(gmc_earn, true, true, true)
 	end
 end
 

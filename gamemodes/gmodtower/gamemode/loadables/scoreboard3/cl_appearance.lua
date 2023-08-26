@@ -49,7 +49,7 @@ end
 local function IconSetHatModel( icon )
 
 	surface.PlaySound( "ui/buttonclickrelease.wav" ) 
-	RunConsoleCommand( "gmt_sethat", GTowerHats.Hats[ icon.HatID ].unique_Name, icon.HatSlot )
+	RunConsoleCommand( "gmt_sethat", icon.HatID, icon.HatSlot )
 
 end
 
@@ -252,7 +252,7 @@ function APPEARANCE:GenerateModelSelection()
 		icon.PaintOver = function( self, w, h )
 
 			//icon:DrawSelections()
-			--[[local name = string.upper( tostring( icon.ModelName ) )
+			/*local name = string.upper( tostring( icon.ModelName ) )
 
 			if string.find( name, "-" ) then
 				name = string.sub( name, 0, -3 )
@@ -260,18 +260,19 @@ function APPEARANCE:GenerateModelSelection()
 
 			name = string.gsub( name, "_", " " )
 
-			surface.SetFont( "GTowerToolTip" )
-			surface.SetTextPos( 1, 0 )]]
+			surface.SetFont( "InvTinyText" )
+			surface.SetTextPos( 1, 0 )*/
 
-			if ( icon.Model == LocalPlayer():GetTranslatedModel() ) || ( icon.HatID != 0 && GTowerHats:IsWearing( LocalPlayer(), GTowerHats.Hats[ icon.HatID ].unique_Name ) ) then
+			if ( icon.Model == LocalPlayer():GetTranslatedModel() ) || ( icon.HatID != 0 && Hats.IsWearingID( LocalPlayer(), icon.HatID ) ) then
 				
-				--[[surface.SetDrawColor( 255, 255, 255, 150 )
-				surface.DrawRect( 2, 2, w - 4, 16 )
-
-				surface.SetTextColor( 0, 0, 0, 255 )
-				surface.DrawText( name )]]
+				// surface.SetDrawColor( 255, 255, 255, 150 )
+				// surface.DrawRect( 2, 2, w - 4, 16 )
 
 				draw.RectBorder( 0, 0, w, h, 4, Color( 200, 200, 255 ) )
+				
+				// surface.SetTextColor( 0, 0, 0, 255 )
+				// surface.DrawText( name )
+
 				//surface.DrawRect( 0, 0, icon:GetSize() )
 				//surface.SetMaterial( matHover )
 				//icon:DrawTexturedRect()
@@ -316,18 +317,18 @@ function APPEARANCE:GenerateModelSelection()
 	// HATS
 
 	// Hat remove
-	AddSpawnIcon( GTowerHats.Hats[0].Name, GTowerHats.Hats[0].model, 0, function() RunConsoleCommand('gmt_sethat', '0', '1') end, HatCategoryListHead, 0, 1, "Remove head hat." )
-	AddSpawnIcon( GTowerHats.Hats[0].Name, GTowerHats.Hats[0].model, 0, function() RunConsoleCommand('gmt_sethat', '0', '2') end, HatCategoryListFace, 0, 2, "Remove face hat." )
+	AddSpawnIcon( Hats.List[0].name, Hats.List[0].model, 0, function() RunConsoleCommand('gmt_sethat', '0', '1') end, HatCategoryListHead, 0, 1, "Remove head hat." )
+	AddSpawnIcon( Hats.List[0].name, Hats.List[0].model, 0, function() RunConsoleCommand('gmt_sethat', '0', '2') end, HatCategoryListFace, 0, 2, "Remove face hat." )
 
 	-- Store original hat ids
-	for hatid, hat in pairs( GTowerHats.Hats ) do
+	for hatid, hat in pairs( Hats.List ) do
 		hat.hatid = hatid
 	end
 
 	-- Sort by ABC
-	local HatsSorted = table.Copy( GTowerHats.Hats )
+	local HatsSorted = table.Copy( Hats.List )
 	table.sort( HatsSorted, function( a, b )
-		return a.Name < b.Name
+		return a.name < b.name
 	end )
 
 	-- Add the icons
@@ -336,9 +337,9 @@ function APPEARANCE:GenerateModelSelection()
 		if hook.Call( "CanWearHat", GAMEMODE, LocalPlayer(), hat.unique_Name ) == 1 then
 
 			if hat.slot == 1 then
-				AddSpawnIcon( hat.Name, hat.model, hat.ModelSkin, IconSetHatModel, HatCategoryListHead, hat.hatid, hat.slot, hat.description )
+				AddSpawnIcon( hat.name, hat.model, hat.ModelSkin, IconSetHatModel, HatCategoryListHead, hat.hatid, hat.slot, hat.description )
 			else
-				AddSpawnIcon( hat.Name, hat.model, hat.ModelSkin, IconSetHatModel, HatCategoryListFace, hat.hatid, hat.slot, hat.description )
+				AddSpawnIcon( hat.name, hat.model, hat.ModelSkin, IconSetHatModel, HatCategoryListFace, hat.hatid, hat.slot, hat.description )
 			end
 
 		end

@@ -4,7 +4,7 @@ DEBUG = false
 LoadingItem = {}
 CanUpdate = false
 ValuesChanged = false
-CopyData = GTowerHats.DefaultValue
+CopyData = Hats.DefaultValue
 
 MainPanel = nil
 HatsNodes = nil
@@ -12,55 +12,51 @@ ModelNodes = nil
 ModelPanel = nil
 ValuesList = {}
 
-CurrentTranslations = GTowerHats.DefaultValue
+CurrentTranslations = Hats.DefaultValue
 
-usermessage.Hook("HatAdm", function( um )
+net.Receive( "HatAdm", function( len, ply )
 
-	local Id = um:ReadChar()
-	
-	if Id == 1 then
+	local HatID = net.ReadUInt( 8 )
+	local ModelName = net.ReadString()
+
+	local x = net.ReadFloat()
+	local y = net.ReadFloat()
+	local z = net.ReadFloat()
+
+	local ap = net.ReadFloat()
+	local ay = net.ReadFloat()
+	local ar = net.ReadFloat()
+
+	local sc = net.ReadFloat()
+
+	local at = net.ReadUInt( 8 )
+
+	if HatID == LoadingItem.Hat && ModelName == LoadingItem.Model then
+			
+		CanUpdate = false
 		
-		local HatId = um:ReadLong()
-		local ModelName = um:ReadString()
-		local x = um:ReadFloat()
-		local y = um:ReadFloat()
-		local z = um:ReadFloat() 
-		local ap = um:ReadFloat() 
-		local ay = um:ReadFloat() 
-		local ar = um:ReadFloat() 
-		local sc = um:ReadFloat()
-		local at = um:ReadChar()
+		CurrentTranslations = {
+			x,
+			y,
+			z,
+			ap,
+			ay,
+			ar,
+			sc,
+			at
+		}
 		
-		if HatId == LoadingItem.Hat && ModelName == LoadingItem.Model then
-			
-			CanUpdate = false
-			
-			CurrentTranslations = {
-				x,
-				y,
-				z,
-				ap,
-				ay,
-				ar,
-				sc,
-				at
-			}
-			
-			for k, v in pairs( CurrentTranslations ) do
-				if IsValid( ValuesList[k] ) then
-					ValuesList[ k ]:SetValue( v )
-				end
+		for k, v in pairs( CurrentTranslations ) do
+			if IsValid( ValuesList[k] ) then
+				ValuesList[ k ]:SetValue( v )
 			end
-			
-			CanUpdate = true
-			
 		end
+		
+		CanUpdate = true
 		
 	end
 
-	
 end )
-
 
 hook.Add("CanCloseMenu", "GTowerHatAdmin", function()
 	if IsValid( MainPanel ) then
@@ -75,9 +71,9 @@ hook.Add("GTowerAdminMenus", "AdminHatOffsets", function()
 	}
 end )
 
-hook.Add("ExtraMenuPlayer", "AdminHatOffsets", function(ply)
+/*hook.Add("ExtraMenuPlayer", "AdminHatOffsets", function(ply)
 
-	if GTowerHats:Admin( LocalPlayer() ) then
+	if Hats.Admin( LocalPlayer() ) then
 		return {
 	        ["Name"] = "Hat Offsets",
 			["function"] = Open
@@ -86,18 +82,23 @@ hook.Add("ExtraMenuPlayer", "AdminHatOffsets", function(ply)
 
 	return nil
 
-end )
+end )*/
 
 function RequestUpdate()
 
-	print("UPDATING")
-	if !IsValid( MainPanel ) then
+	if CanUpdate == false or !IsValid( MainPanel ) then
 		return
 	end
 	
-	// if GTowerHats:Admin( LocalPlayer() ) then
+	if Hats.Admin( LocalPlayer() ) then
 		ForceUpdate(GetCurrentItem(), GetCurrentTranslations())
-	// end
+		/*timer.Create("Hat" .. Item.Model .. "|" .. Item.Hat, 
+			0.1,
+			1, 
+			ForceUpdate, 
+			Item, 
+			CurrentTranslations )*/
+	end
 	
 end
 
@@ -106,13 +107,8 @@ function OnValuesChanged()
 end
 
 function ForceUpdate( Item, Translations )
-
-	print("UPDATING!!!!")
-	print(Item)
-	PrintTable(Translations)
-	PrintTable(Item)
 	
-	RunConsoleCommand("gmt_admsethatpos",
+	/*RunConsoleCommand("gmt_admsethatpos",
 		Item.Hat,
 		Item.Model,
 		Translations[1],
@@ -123,13 +119,30 @@ function ForceUpdate( Item, Translations )
 		Translations[6],
 		Translations[7],
 		Translations[8]
-	)
+	)*/
+
+	net.Start( "HatAdm" )
+		net.WriteUInt( Item.Hat, 8 )
+		net.WriteString( Item.Model )
+
+		net.WriteFloat( Translations[1] )
+		net.WriteFloat( Translations[2] )
+		net.WriteFloat( Translations[3] )
+
+		net.WriteFloat( Translations[4] )
+		net.WriteFloat( Translations[5] )
+		net.WriteFloat( Translations[6] )
+
+		net.WriteFloat( Translations[7] )
+
+		net.WriteUInt( Translations[8], 8 )
+	net.SendToServer()
 
 end
 
 function Open()
 
-	if !GTowerHats:Admin( LocalPlayer() ) then return end
+	if !Hats.Admin( LocalPlayer() ) then return end
 
 	Close()
 	//GTowerMainGui:ShowMenus()
@@ -173,7 +186,7 @@ function Open()
 
 	// Create dummy table to sort it	
 	local ModelsSorted = {}
-	for k, v in pairs( GTowerHats:GetModelPlayerList() ) do
+	for k, v in pairs( Hats.GetModelPlayerList() ) do
 		local sort = {}
 		sort.ModelName = k
 		sort.ModelPath = v
@@ -208,28 +221,27 @@ function Open()
 	
 	FirstNode = nil
 
-	local HatsSorted = table.Copy( GTowerHats.Hats )
+	local HatsSorted = table.Copy( Hats.List )
 	for k, v in pairs( HatsSorted ) do
 		v.UnsortedHatId = k
 	end
 
 	table.sort( HatsSorted, function( a, b )
-		return a.Name < b.Name
+		return a.name < b.name
 	end )
 
 	for k, v in pairs( HatsSorted ) do
 		if k != 0 then
-			local name = v.Name
+			local name = v.name
 			--if time.IsNew( v.dateadded or 0 ) then name = name .. " [NEW!]" end
-			name = "[" .. v.UnsortedHatId .. "] " .. name
-			if GTowerHats.FixScales[v.unique_Name] then name = name .. " [SCALE FIX!]" end
+			--if v.fixscale then name = name .. " [SCALE FIX!]" end
 
 			local node = HatsNodes:AddNode( name )
 			node.HatId = v.UnsortedHatId
 			
 			if !FirstNode then
 
-				if GTowerHats:IsWearing( LocalPlayer(), v.UnsortedHatId ) then
+				if Hats.IsWearingID( LocalPlayer(), v.UnsortedHatId ) then
 					FirstNode = node
 				end
 
@@ -247,7 +259,7 @@ function Open()
 	ModelPanel:SetPos( 225+10, 25 )
 	ModelPanel:SetSize( MainPanel:GetWide() - 150 - 225 - 10, MainPanel:GetTall() - 90 )
 	
-	if GTowerHats:Admin( LocalPlayer() ) then
+	if Hats.Admin( LocalPlayer() ) then
 
 		//=======================================
 		// == SLIDERS
@@ -308,7 +320,7 @@ function Open()
 			self.SelectedId = key
 		end
 		
-		for k, v in pairs( GTowerHats.AttachmentsList ) do
+		for k, v in pairs( Hats.AttachmentsList ) do
 			ComboBox:AddChoice( v.Name, nil, function()
 				ComboBox.SelectedId = k
 			end )
@@ -354,19 +366,10 @@ function Open()
 		Save:SetPos( Paste.x + Paste:GetWide() + 10, MainPanel:GetTall() - 60 )
 		Save.DoClick = RequestUpdate
 
-		local Save = vgui.Create("DButton", MainPanel )
-		Save:SetText("RELOAD")
-		Save:SetSize( 100, 50 )
-		Save:SetPos( Paste.x + Paste:GetWide() * 2 + 10, MainPanel:GetTall() - 60 )
-		Save.DoClick = function()
-			UpdateModelPanels()
-		end
-
-
 	end
 	
 	
-	CanUpdate = GTowerHats:Admin( LocalPlayer() )
+	CanUpdate = Hats.Admin( LocalPlayer() )
 	UpdateModelPanels()
 
 end
@@ -396,7 +399,7 @@ function GetPlayerModel()
 end
 
 function GetHatModel()
-	return GTowerHats.Hats[ GetHatId() ].model
+	return Hats.List[ GetHatId() ].model
 end
 
 function GetPlayerName()
@@ -411,7 +414,7 @@ function GetHatId()
 end
 
 function GetHatName()
-	return GTowerHats.Hats[ GetHatId() ].unique_name
+	return Hats.List[ GetHatId() ].unique_name
 end
 
 function GetCurrentItem()
@@ -435,10 +438,8 @@ function GetCurrentTranslations()
 end
 
 function UpdateModelPanels()
-
-	LoadingItem = GetCurrentItem()
 	
-	if ValuesChanged then RequestUpdate() end
+	--if ValuesChanged then RequestUpdate() end
 
 	timer.Simple(0.3, function()
 
@@ -450,10 +451,8 @@ function UpdateModelPanels()
 		
 		ModelPanel:SetModel( GetPlayerModel() )
 		ModelPanel:SetModelHat( GetHatModel() )
-
-        timer.Create("RequestHatInfo", 0.2, 1, function()
-            RunConsoleCommand( "gmt_gethat",  (GTowerHats.Hats[LoadingItem.Hat].unique_Name), string.lower(LoadingItem.Model) )
-        end)
+		
+		timer.Create("RequestHatInfo", 0.2, 1, RunConsoleCommand, "gmt_hat_gethat", LoadingItem.Model, LoadingItem.Hat )
 
 	end)
 
@@ -560,14 +559,11 @@ function PANEL:SetModel( strModelName )
 	self.Entity:SetNoDraw( true )
 
 	-- Hide model hats
-	if strModelName == "models/uch/pigmask.mdl" or strModelName == "models/uch/mghost.mdl" then
-		self.Entity:SetBodygroup( 2, 0 ) // UCH crap
+	local body = GTowerModels.GetHatBodygroup( strModelName )
+	if body then
+		self.Entity:SetBodygroup( body[1], body[2] )
 	else
-		self.Entity:SetBodygroup( 0, 1 ) // Hide Hat bone
-	end
-
-	if strModelName == "models/player/hatman.mdl" then
-		self.Entity:SetBodygroup(0,0)
+		self.Entity:SetBodygroup( 0, 1 )
 	end
 
 	self.Entity:SetPlaybackRate(0)
@@ -601,77 +597,64 @@ function PANEL:GetHeadPos()
 
 end
 
-function PANEL:Paint()
+function PANEL:Paint( w, h )
 
 	if ( !IsValid( self.Entity ) ) then return end
 	if ( !IsValid( self.EntityHat ) ) then return end
-
+	
 	local x, y = self:LocalToScreen( 0, 0 )
-	//local head = self.Entity:LookupBone("ValveBiped.Bip01_Head1")
-	//local pos, ang = self.Entity:GetBonePosition(head)
-	local eyes = self.Entity:LookupAttachment( GTowerHats.HatAttachment )
-	local EyeTbl = self.Entity:GetAttachment( eyes )
-	local pos, ang
-	if !EyeTbl then
-		pos, ang = Vector(0,0,0), Angle(0,0,0)
-	else
-		pos, ang = EyeTbl.Pos, EyeTbl.Ang
-	end
-
-	local PlyModel = string.lower( self.Entity:GetModel() )
-	local HatModel = self.EntityHat:GetModel()
-
-	local PlayerId = GTowerHats:FindPlayerModelByName( PlyModel )
-	local HatId = GTowerHats:FindByModel( HatModel ) or ""
-
-	local trans = GetCurrentTranslations() or GTowerHats:GetTranslation( HatId, PlayerId )
+	local pos, ang = self:GetHeadPos()
 
 	self:LayoutEntity( self.Entity )
-
+	
 	cam.Start3D( self.vCamPos, (self.vLookatPos-self.vCamPos):Angle(), self.fFOV, x, y, self:GetWide(), self:GetTall() )
 	cam.IgnoreZ( true )
-
+	
 	render.SuppressEngineLighting( true )
 	render.SetLightingOrigin( pos + ang:Forward() * 20 )
 	render.ResetModelLighting( self.colAmbientLight.r/255, self.colAmbientLight.g/255, self.colAmbientLight.b/255 )
 	render.SetColorModulation( self.colColor.r/255, self.colColor.g/255, self.colColor.b/255 )
 	render.SetBlend( self.colColor.a/255 )
-
+	
 	for i=0, 6 do
 		local col = self.DirectionalLight[ i ]
 		if ( col ) then
 			render.SetModelLighting( i, col.r/255, col.g/255, col.b/255 )
 		end
 	end
+	
+	local HatData = Hats.GetItemFromModel( self.EntityHat:GetModel() )
+	local Trans = GetCurrentTranslations()
+	local pos, ang, PlyScale = Hats.ApplyTranslation( self.Entity, Trans )
+	local Scale = Trans[7] * PlyScale
 
-	ang:RotateAroundAxis(ang:Right(), trans[4])
-	ang:RotateAroundAxis(ang:Up(), trans[5])
-	ang:RotateAroundAxis(ang:Right(), trans[6])
-
-	self.Entity:DrawModel()
-
-	self.EntityHat:SetPos( pos +
-		(ang:Up() * trans[1]) +
-		(ang:Forward() * trans[2]) +
-		(ang:Right() * trans[3])
-	)
-	self.EntityHat:SetAngles( ang )
-
-	local scal = trans[7]
-	if GTowerHats.FixScales[HatId] then
-		scal = math.sqrt(scal)
+	// Fix bad hats
+	if HatData.fixscale then
+		Scale = math.sqrt( Scale )
 	end
-
-	self.EntityHat:SetModelScale( scal )
-
+	
+	self.Entity:SetModelScale( PlyScale, 0 )
+	self.Entity:DrawModel()
+	
+	self.EntityHat:SetPos( pos )
+	self.EntityHat:SetAngles( ang )
+	self.EntityHat:SetModelScale( Scale, 0 )
+	
 	self.EntityHat:DrawModel()
-
+	
 	render.SuppressEngineLighting( false )
 	cam.IgnoreZ( false )
 	cam.End3D()
 
-	self.LastPaint = RealTime()
+	if not CanUpdate then
+		surface.SetDrawColor( 0, 0, 0, 150 )
+		surface.DrawRect( 0, 0, w, h )
 
+		draw.SimpleText( "LOADING / CANT UPDATE", "GTowerbig", w*.5, h*.5, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+	end
+	
+	self.LastPaint = RealTime()
+	
 end
 
 function PANEL:RunAnimation()

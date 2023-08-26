@@ -384,7 +384,7 @@ RegisterModel(
 RegisterModel(
 	"mdl_clopsy",
 	"Undead Combine",
-	"Blarhghghgh",
+	"Blarhghghgh...",
 	"models/player/clopsy.mdl",
 	"undeadcombine",
 	8000 )

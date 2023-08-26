@@ -1,6 +1,5 @@
----------------------------------
 ITEM.Name = "Mysterious Cat Sack"
-ITEM.Description = "An admin has passed this mysterious cat sack along to you.... what could be inside it?"
+ITEM.Description = "What could be inside this mysterious cat sack?"
 ITEM.Model = "models/gmod_tower/catbag.mdl"
 ITEM.ClassName = "mysterycatsack"
 ITEM.UniqueInventory = false
@@ -8,12 +7,15 @@ ITEM.DrawModel = true
 ITEM.CanUse = true
 ITEM.UseDesc = "Open"
 
-ITEM.StoreId = 8
+ITEM.StoreId = GTowerStore.MERCHANT
 ITEM.StorePrice = 100
 
-ITEM.Nyan = {	"GModTower/lobby/catsack/nyan1.wav",
-		"GModTower/lobby/catsack/nyan2.wav",
-		"GModTower/lobby/catsack/nyan3.wav" }
+ITEM.Nyan = {
+	"GModTower/lobby/catsack/nyan1.wav",
+	"GModTower/lobby/catsack/nyan2.wav",
+	"GModTower/lobby/catsack/nyan3.wav"
+}
+
 if SERVER then
 	function ITEM:OnUse()
 		if IsValid( self.Ply ) && self.Ply:IsPlayer() then

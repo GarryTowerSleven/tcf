@@ -13,8 +13,9 @@ local function SetDefaultSQLData(ply)
 
 	ply._TetrisHighScore = 0
 	ply._PendingMoney = 0
-	GTowerHats:SetHat( ply, 0, 1 )
-	GTowerHats:SetHat( ply, 0, 2 )
+
+	Hats.SetHat( ply, 0, Hats.SLOT_HEAD )
+	Hats.SetHat( ply, 0, Hats.SLOT_FACE )
 
 	ply._DefaultSet = true
 end

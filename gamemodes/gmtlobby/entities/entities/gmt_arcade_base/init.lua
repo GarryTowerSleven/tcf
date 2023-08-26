@@ -89,16 +89,9 @@ function ENT:Use( ply )
 	end
 
 	// ply:Msg2( T( "ArcadeDisable" ) )
-	
-	local PlyHat = GTowerHats:GetHat( ply )
 
-	if PlyHat != nil then
-
-		if self.Entity.GameIDs[ self.Entity:GetSkin() - 1 ] == "Fancy Pants" && GTowerHats.Hats[ PlyHat ] then
-			if GTowerHats.Hats[ PlyHat ].Name == "Top Hat" || GTowerHats.Hats[ PlyHat ].Name == "GMod Top Hat" then
-				ply:SetAchievement( ACHIEVEMENTS.FANCYPANTS, 1 )
-			end
-		end
-
+	if game == "the_fancy_pants_adventures" and ( Hats.IsWearing( ply, "gmodtophat" ) or Hats.IsWearing( ply, "hattophat" ) ) then
+		ply:SetAchievement( ACHIEVEMENTS.FANCYPANTS, 1 )
 	end
+	
 end

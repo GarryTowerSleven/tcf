@@ -50,28 +50,28 @@ ENT.Prizes = {
         2500, 5000, 7500, 10000, -1, Name = "ROYAL FLUSH"
     },
     [9] = {
-        200, 400, 600, 800, 1000, Name = "STRAIGHT FLUSH"
+        100, 200, 300, 400, 500, Name = "STRAIGHT FLUSH"
     },
     [8] = {
-        100, 200, 300, 400, 500, Name = "FOUR OF A KIND"
+        50, 100, 150, 200, 250, Name = "FOUR OF A KIND"
     },
     [7] = {
-        50, 100, 150, 200, 250, Name = "FULL HOUSE"
+        25, 50, 75, 100, 125, Name = "FULL HOUSE"
     },
     [6] = {
-        25, 50, 75, 100, 125, Name = "FLUSH"
+        20, 25, 50, 75, 100, Name = "FLUSH"
     },
     [5] = {
-        15, 30, 45, 60, 75, Name = "STRAIGHT"
+        10, 20, 30, 40, 50, Name = "STRAIGHT"
     },
     [4] = {
-        10, 20, 30, 40, 50, Name = "THREE OF A KIND"
+        5, 10, 15, 20, 25, Name = "THREE OF A KIND"
     },
     [3] = {
-        5, 10, 15, 20, 25, Name = "TWO PAIR"
+        2, 4, 6, 8, 10, Name = "TWO PAIR"
     },
     [2] = {
-        2, 4, 6, 8, 10, Name = "JACKS OR BETTER"
+        1, 2, 3, 4, 5, Name = "JACKS OR BETTER"
     },
 }
 

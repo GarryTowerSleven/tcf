@@ -283,10 +283,10 @@ function GTowerRooms:LoadRooms( um )
 		if ValidOwner then
 			Room.HasOwner = true
 
-			if GTowerHats.Hats then
+			if Hats.List then
 				Room.Hats[ 0 ] = true
 
-				for k, hat in ipairs( GTowerHats.Hats ) do
+				for k, hat in ipairs( Hats.List ) do
 					if hat.unique_Name then
 						Room.Hats[ k ] = um:ReadBool()
 					end

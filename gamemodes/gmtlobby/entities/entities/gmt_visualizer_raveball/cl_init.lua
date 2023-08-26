@@ -85,7 +85,7 @@ function ENT:Draw()
 
 	self.F = self.F or 0
 	self.S = self.S or 0
-	self.F = self.F + FrameTime() * 8 * (!self:IsStreaming() && 1 or self.FFTScale * 1.8 + (self.S * 0.1))
+	self.F = self.F + FrameTime() * Lerp(self.FFTScale, 8, 1) * (!self:IsStreaming() && 1 or self.FFTScale * 1.8 + (self.S * 0.1))
 
 	if !self:IsStreaming() or gmt_visualizer_effects:GetBool() == false /*or GTowerMainGui.MenuEnabled*/ then
 		render.DrawWireframeSphere(self:GetPos(), 8 + math.sin(CurTime()), 8, 8, color_white, true)
@@ -161,7 +161,7 @@ function ENT:Draw()
 		render.DrawLine(self:GetPos() + ang:Forward() * 0, basepos1, col, true)
 		col.a = self.FFTScale * 255
 		render.DrawWireframeBox( basepos1, (base - basepos1):Angle(), Vector(-1, -1, -1) * lscale, Vector(1, 1, 1) * lscale, col, true )
-		col.a = self.FFTScale * 100
+		col.a = self.FFTScale * 64
 		render.DrawBox( basepos1, (base - basepos1):Angle(), Vector(-1, -1, -1) * lscale, Vector(1, 1, 1) * lscale, col, true )
 		//lscale = 1.6 + math.pow(self.FFT[i], 2) * (8*i)//(math.abs(math.log(2048)/math.log(self.FFT[i])))// * (8 + i)
 		//render.DrawBox( basepos2, (base - basepos2):Angle(), Vector(-1, -1, -1) * lscale, Vector(1, 1, 1) * lscale, col, false )
@@ -425,7 +425,7 @@ function ENT:ParticleThink()
 
 	if gmt_visualizer_advanced:GetBool() == false then return end
 	
-	if self.FFTScale >= .1 then
+	/*if self.FFTScale >= .1 then
 
 		for i=0, 24 do
 
@@ -458,7 +458,7 @@ function ENT:ParticleThink()
 
 		end
 		
-	end
+	end*/
 
 end
 
@@ -496,48 +496,10 @@ function RenderScreenspaceEffects()
 			// Post Events
 			if gmt_visualizer_advanced:GetBool() == false then return end
 
-			local bass = FLStream.FFTScale
-
-			if /*bass < .15 ||*/ distance > 2048 then return end
-
-			local volume = FLStream.FFTBass * FLStream.FLVolMulti
-			local blur = math.Clamp( ( volume * -10 ) + 1, 0.3, 1 )
-			local invert = volume * -10 + 1
-			local darkness = -multi + 1.5
-			//local avg = math.Clamp( volume * 2  - 0.1, 0, 1 )
-			//local smooth = smooth + (( avr - smooth )*FrameTime()*10)	
-			lerp2 = lerp2 or 0
-			lerp2 = Lerp(FrameTime() * 0.1, lerp2, invert * (multi / 10))
-
-			//DrawSunbeams( math.Clamp( 1 * volume, .9, 1 ), math.Clamp( .8 * volume, .1, .8 ), math.Clamp( 3 * bass, 2.5, 3 ), toscrpos.x / w, toscrpos.y / h )
-			// DrawSunbeams( darkness, math.max( volume * 0.8, 0.1 ), math.max( volume * 0.5, 0.3 ), toscrpos.x / w, toscrpos.y / h )
-			DrawMotionBlur( blur, 1, 0 )
-
-			// This shit is too intense, yo
-			FLStream.i = FLStream.i or 0
-			FLStream.i = Lerp(FrameTime() * 2, FLStream.i, FLStream.FFTScale)
-			local c = FLStream.Color
-			local m = Lerp(FLStream.i, 0, 0.2) * multi
-
-			// DrawBloom( darkness, 2, math.max( invert * 40 + 2, 5 ), math.max( invert * 40 + 2, 5 ), 4, 8, (c.r / 255) * m, (c.g / 255) * m, (c.b / 255) * m )
-			local colormod = {
-				["$pp_colour_addr"] 		= 0,
-				["$pp_colour_addg"] 		= 0,
-				["$pp_colour_addb"] 		= 0,
-				["$pp_colour_brightness"] 	= Lerp( FLStream.i * multi * 2, 0, -0.3, 0 ),
-				["$pp_colour_contrast"] 	= Lerp( multi, 1, 1 ),
-				["$pp_colour_colour"] 		= Lerp( multi, 1, 1 ),
-				["$pp_colour_mulr"] 		= (c.r / 255) * m,
-				["$pp_colour_mulg"] 		= (c.g / 255) * m,
-				["$pp_colour_mulb"] 		= (c.b / 255) * m,
-			}
-			//DrawColorModify( colormod )
-			DrawBloom( -lerp2, multi * 0.01, math.max( lerp2 * 2 + 2, 5 ), math.max( lerp2 * 2 + 2, 5 ), 4, 8, c.r / 255, c.g / 255, c.b / 255 )
-
 		end
 
 	end
 
 end
 
-hook.Add( "RenderScreenspaceEffects", "FLPost", RenderScreenspaceEffects )
+hook.Remove( "RenderScreenspaceEffects", "FLPost", RenderScreenspaceEffects )

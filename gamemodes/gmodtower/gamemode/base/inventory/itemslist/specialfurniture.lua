@@ -71,7 +71,7 @@ RegisterItem( "comfybed", {
 	ClassName = "gmt_room_bed_comfy",
 	MoveSound = "furniture3",
 	DrawModel = true,
-	StorePrice = 1000,
+	StorePrice = 2000,
 	StoreId = GTowerStore.SUITE,
 } )
 
@@ -82,7 +82,7 @@ RegisterItem("pinkbed",{
 	ClassName = "gmt_room_bed_pink",
 	MoveSound = "furniture3",
 	DrawModel = true,
-	StorePrice = 800,
+	StorePrice = 1300,
 	StoreId = GTowerStore.SUITE,
 })
 
@@ -93,7 +93,7 @@ RegisterItem("heartbed",{
 	ClassName = "gmt_room_bed_heart",
 	MoveSound = "furniture3",
 	DrawModel = true,
-	StorePrice = 2100,
+	StorePrice = 2500,
 	StoreId = GTowerStore.SUITE,
 })
 
@@ -108,3 +108,15 @@ RegisterItem("hotelbed",{
 	NewItem = true,
 	StoreId = GTowerStore.SUITE,
 })
+
+RegisterItem( "cheapbed", {
+	Name = "Dingy Bed",
+	Description = "Find out back pain really can get worse, with this bed that's been loved through the ages.",
+	Model = "models/props/de_inferno/bed.mdl",
+	ClassName = "gmt_room_bed_dingy",
+	MoveSound = "furniture3",
+	DrawModel = true,
+	StorePrice = 500,
+	NewItem = true,
+	StoreId = GTowerStore.SUITE,
+} )

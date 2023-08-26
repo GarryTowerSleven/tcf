@@ -177,7 +177,7 @@ function CreateAdminControls()
 	end
 
 	CreateEventControls()
-	//CreateMiniGamesControls()
+	CreateMiniGamesControls()
 
 	ClientSettings.Players = vgui.Create( "DListView", ClientSettings.TabPlayers )
 	ClientSettings.Players:SetPos( 0, 0 )

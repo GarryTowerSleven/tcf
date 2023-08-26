@@ -330,7 +330,11 @@ function meta:Chat( text, type, hidden )
 		recipients = Location.GetPlayersInLocation( self:Location() or 0 )
 	end
 
-	if ( type == "Group" && self.HasGroup && self:HasGroup() ) then
+	if ( type == "Group" ) then
+		if ( not self.HasGroup or not self:HasGroup() ) then
+			return
+		end
+
 		recipients = self:GetGroup():GetPlayers() or {}
 	end
 	
@@ -348,16 +352,20 @@ function meta:Chat( text, type, hidden )
 		text = GTowerChat.DrunkSay( text, self:GetNet( "BAL" ) or 0 )
 	
 		// Hat Text
-		if ( #text > 5 ) then
-			if ( GTowerHats:IsWearing( self, "hatcatear" ) ) then
+		if ( #text >= 5 ) then
+			if ( Hats.IsWearing( self, "hatcatear" ) ) then
 				text = text .. " ~nyan"
 			end
 		
-			if ( GTowerHats:IsWearing( self, "CatEarsAlternative" ) ) then
+			if ( Hats.IsWearing( self, "CatEarsAlternative" ) ) then
 				text = text .. " ~meow"
 			end
-		
-			if ( GTowerHats:IsWearing( self, "toetohat" ) ) then
+				
+			if ( Hats.IsWearing( self, "CatBeanie" ) ) then
+				text = text .. " ~mrow"
+			end
+			
+			if ( Hats.IsWearing( self, "toetohat" ) ) then
 				text = text .. " ~etoeto"
 			end
 		end

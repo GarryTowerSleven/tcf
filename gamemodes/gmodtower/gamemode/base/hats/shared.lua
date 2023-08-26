@@ -1,114 +1,207 @@
+module("Hats", package.seeall )
 
-GTowerHats = GTowerHats or {}
-GTowerHats.Hats = {}
-GTowerHats.BodyGroups = {}
-GTowerHats.StoreId = 2
-GTowerHats.DEBUG = false
-GTowerHats.DefaultValue = { Vector(6, -2.5, 0), Angle(13, 0, 0), 1 }
-GTowerHats.HatAttachment = "eyes"
+List = {}
+StoreId = GTowerStore.HAT
+DEBUG = false
+DefaultValue = { 6, -2.5, 0, 13, 0, 0, 1, 1 }
 
-GTowerHats.PlayerList = nil
+PlayerList = nil
+Data = Data or {}
 
 SLOT_HEAD = 1
 SLOT_FACE = 2
 
-//include('sh_translation.lua')
+plynet.Register( "String", "ActiveWearables", { default = "0-0" } )
+
 include('list.lua')
 
-for k,v in pairs(GTowerHats.Hats) do
-	Model(v.model)
+for k,v in pairs(List) do
+	util.PrecacheModel(v.model) //Precache all models
 end
 
-function GTowerHats:Admin( ply )
-	return ply:IsAdmin() || ply:GetSetting("GTAllowEditHat") == true
+function Admin( ply )
+
+	if ply:IsAdmin() then
+		return true
+	end
+
+	if ply.GetSetting && ply:GetSetting("GTAllowEditHat") == true then
+		return true
+	end
+
+	return false
+
 end
 
-function GTowerHats:GetHatByName( Name )
-	for k, v in pairs( self.Hats ) do
-		if v.unique_Name == Name then
+function Get( HatName, ModelName )
+
+	HatName = string.lower( HatName )
+	ModelName = string.lower( ModelName )
+	
+	if Data[ ModelName ] then
+		return Data[ ModelName ][ HatName ] or DefaultValue
+	end
+	
+	return DefaultValue
+	
+end
+
+function GetData( PlayerModel, HatModel )
+
+	local HatName = Hats.GetNameFromModel( HatModel )
+	local Data = Hats.Get( HatName, Hats.FindPlayerModelByName( PlayerModel ) )
+
+	return Data
+
+end
+
+function GetWearables( ply )
+
+	local wearables = ply:GetNet("ActiveWearables")
+
+	if !wearables then
+		ply:SetNet("ActiveWearables", "0-0")
+		wearables = "0-0"
+	end
+	
+	local explode = string.Explode( "-", wearables )
+	return tonumber( explode[1] ), tonumber( explode[2] )
+
+end
+
+function GetWearablesModels( ply )
+
+	local slot1, slot2 = GetWearables( ply )
+	local wear1, wear2 = GetItem( slot1 ), GetItem( slot2 )
+
+	return wear1.model, wear2.model
+
+end
+
+function GetNoHat()
+	return "models/gmod_tower/no_hat.mdl"
+end
+
+function SetWearable( ply, hatId, slot )
+
+	if !slot then
+		return
+	end
+
+	if !ply.Wearables then
+		ply.Wearables = { 0, 0 }
+	end
+
+	ply.Wearables[slot] = hatId or 0
+
+	// String it up
+	local s = ""
+	for id, hat in pairs( ply.Wearables ) do
+
+		s = s .. hat
+
+		if id != #ply.Wearables then
+			s = s .. "-"
+		end
+
+	end
+
+	// Network it
+	ply:SetNet("ActiveWearables", s)
+
+end
+
+function GetItem( id )
+	return List[ id ]
+end
+
+function GetByName( name )
+	for k, v in pairs( List ) do
+		if v.unique_Name == name then
 			return k
-		end
+		end	
 	end
 
 	return nil
 end
 
-function GTowerHats:GetHatByID( Id )
-	for k, v in pairs( self.Hats ) do
-		if k == Id then
-			return v
-		end
-	end
-
-	return nil
-end
-
-function GTowerHats:FindByModel( mdl )
-	for k, v in pairs( self.Hats ) do
+function GetNameFromModel( mdl )
+	for k, v in pairs( List ) do
 		if v.model == mdl then
 			return v.unique_Name
-		end
+		end	
 	end
 end
 
-function GTowerHats:GetItemFromModel( mdl )
-	for k, v in pairs( GTowerHats.Hats ) do
+function GetItemFromModel( mdl )
+	for k, v in pairs( List ) do
 		if string.lower(v.model) == string.lower(mdl) then
 			return v
-		end
+		end	
 	end
 end
 
-function GTowerHats:IsWearing( ply, uniquename )
-	if !ply.CosmeticEquipment then return end
-	for k,v in pairs(ply.CosmeticEquipment) do
-		local hat = v:GetNWString( "HatName" )
-		if !hat then continue end
+function IsWearing( ply, uniquename )
 
-		if hat == uniquename then
-			return true
-		end
+	local slot1, slot2 = GetWearables( ply )
+	local wear1, wear2 = GetItem( slot1 ), GetItem( slot2 )
+
+	if wear1.unique_Name == uniquename || wear2.unique_Name == uniquename then
+		return true
 	end
+
+	return false
+
 end
 
-function GTowerHats:GetModelPlayerList()
+function IsWearingID( ply, hatid )
 
-	if self.PlayerList then
-		return self.PlayerList
+	local slot1, slot2 = GetWearables( ply )
+
+	if slot1 == hatid || slot2 == hatid then
+		return true
 	end
 
-	self.PlayerList = {}
+	return false
+
+end
+
+function GetModelPlayerList()
+	
+	if PlayerList then
+		return PlayerList
+	end
+	
+	PlayerList = {}
 	local RealPlayerList = player_manager.AllValidModels()
-
+	
 	for k, v in pairs( RealPlayerList ) do
 		if string.match(k, "female*") == "female" then
 			k = "female*"
 		elseif string.match(k, "male*") == "male" then
 			k = "male*"
-		elseif string.match(k, "redrabbit*") == "redrabbit" then
-			k = "redrabbit"
 		end
-
-		self.PlayerList[ k ] = v
+		
+		PlayerList[ k ] = v	
 	end
-
-	return self.PlayerList
+	
+	return PlayerList
 end
 
 
-function GTowerHats:FindPlayerModelByName( model )
+function FindPlayerModelByName( model )
 
 	if !model then return end
 	model = string.lower(model)
 
 	local PlayerId = ""
-
+	
 	for k, v in pairs( player_manager.AllValidModels() ) do
 		if model == string.lower(v) then
 			PlayerId = string.lower( k )
 		end
 	end
-
+		
 	if PlayerId == "" then
 		PlayerId = "alyx"
 	elseif string.match(PlayerId, "female*") == "female" then
@@ -157,16 +250,51 @@ function TranformationOrigin( ent, attachId )
 	
 end
 
+function ApplyTranslation( ent, Offsets, scale )
+
+	if !Offsets then
+		return Vector( 0, 0, 0 ), Angle( 0, 0, 0 )
+	end
+	
+	local origin = 1
+	if Offsets && Offsets[8] then
+		origin = Offsets[8]
+	end
+
+	local pos, ang = TranformationOrigin( ent, origin )
+	local scale = scale or ent:GetModelScale()
+	/*
+		local scaleFactor = 2
+		local invScaleFactor = 1 / scaleFactor
+		local scale = plyscale * invScaleFactor + 1 * invScaleFactor
+	*/
+	
+	ang:RotateAroundAxis( ang:Right(), Offsets[4] )
+	ang:RotateAroundAxis( ang:Up(), Offsets[5] )
+	ang:RotateAroundAxis( ang:Right(), Offsets[6] )
+	
+	local HatOffsets = ang:Up() * Offsets[1] + ang:Forward() * Offsets[2] + ang:Right() * Offsets[3]
+
+	if not scale then scale = 1 end
+	
+	HatOffsets.x = HatOffsets.x * scale
+	HatOffsets.y = HatOffsets.y * scale
+	HatOffsets.z = HatOffsets.z * scale
+
+	pos = pos + HatOffsets
+	
+	return pos, ang, scale
+
+end
+
 hook.Add( "CanWearHat", "CheckStoreAllow", function( ply, uniquename )
 
 	local id = GTowerStore:GetItemByName( uniquename )
-	if uniquename == "ReallyHatTopHat" then
-		return ply:IsAdmin() && 1 or 0
-	end
+
 	if SERVER && ply.GetLevel then
 		return id && ply:GetLevel( id )
 	else
 		return id && GTowerStore:GetClientLevel( ply, id )
 	end
-
-end)
+	
+end )

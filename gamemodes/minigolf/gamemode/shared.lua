@@ -203,7 +203,7 @@ hook.Add( "ShouldCollide", "ShouldCollideMinigolf", function( ent1, ent2 )
 	return true
 end )
 
-/*hook.Add( "OverrideHatEntity", "OverrideHatMinigolf", function( ply )
+hook.Add( "OverrideHatEntity", "OverrideHatMinigolf", function( ply )
 	local ball = ply:GetGolfBall()
 
 	if IsValid( ball ) then
@@ -211,4 +211,4 @@ end )
 	end
 
 	return ply
-end )*/
+end )

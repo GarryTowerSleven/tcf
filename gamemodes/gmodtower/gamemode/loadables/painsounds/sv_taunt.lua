@@ -1,16 +1,22 @@
 local m = FindMetaTable("Player")
 
 function m:Taunt()
-    if !self.LastKillTime or (self.LastKillTime + 8) < CurTime() then return end
+    if !self:Alive() or !self.LastKillTime or (self.LastKillTime + 5) < CurTime() then return end
     self.LastKillTime = nil
     return voicelines.Emit(self, "Taunts,Kill")
 end
 
-hook.Add("EntityTakeDamage", "a", function(e, dmg)
-    if dmg:GetDamage() >= e:Health() then
+hook.Add("EntityTakeDamage", "LetsAllowATaunt", function(e, dmg)
+    if e:IsPlayer() && dmg:GetDamage() >= e:Health() && e != dmg:GetAttacker() then
         dmg:GetAttacker().LastKillTime = CurTime()
     end
 end)
+
+hook.Add( "PlayerDeath", "DeathTauntRemoval", function( victim )
+    if victim.LastKillTime then // HIGH PERSON CODING
+        victim.LastKillTime = nil
+    end
+end )
 
 util.AddNetworkString("Taunt")
 net.Receive("Taunt", function(_, ply)

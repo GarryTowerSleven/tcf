@@ -283,19 +283,6 @@ hook.Add( "PlayerFullyJoined", "JoinedMessage", function(ply)
 		else
 			ply:MsgI("gmtsmall", "LobbyWelcome",ply:Name() )
 		end
-	
-		/*if ply.CosmeticEquipment then
-	
-			for k,v in pairs( ply.CosmeticEquipment ) do
-				if v:GetNWString("HatName") then
-					local hat = GTowerHats:GetHatByName(v:GetNWString("HatName"))
-					if hat then
-						hat = GTowerHats.Hats[hat].Name or "Unknown"
-						ply:MsgI("hat", "HatUpdated", hat)
-					end
-				end
-			end
-		end*/
 
 		// Friend has joined the lobby
 		for _, v in ipairs( player.GetAll() ) do

@@ -26,7 +26,9 @@ function ENT:Draw()
     local size = self.NextScale || .1
     size = size * 4
     render.SetMaterial(self.Sprite)
-    render.DrawSprite(self:GetPos(), 15 + (size * 100), 15 + (size * 100), colorutil.Rainbow(50 + self.NextScale * 0.1 || self.NextScale))
+    self.Sprite:SetFloat("$alpha", self.NextScale)
+    render.DrawSprite(self:GetPos(), 64 + (size * 32), 64 + (size * 32), colorutil.Rainbow(50 + self.NextScale * 0.1 || self.NextScale))
+    self.Sprite:SetFloat("$alpha", 1)
 end
 
 function ENT:InLimit(loc)
@@ -101,7 +103,7 @@ function ENT:UpdateStreamVals(Stream)
     end
 
     local Avg = Sum / Total
-    self.NextScale = Lerp(FrameTime() * 8, self.NextScale, Avg * 18)
+    self.NextScale = Lerp(FrameTime() * 8, self.NextScale, Avg * 18/2)
     self.NextScaleS = self.NextScaleS || 0
     self.NextScaleS = Lerp(FrameTime(), self.NextScaleS, self.NextScale)
     //self.NextScale = 0.5 + math.Clamp( ( Avg / Max ) * 0.8, 0, 0.8 )
@@ -203,7 +205,7 @@ hook.Add("Think", "DiscoBall", function()
     local mp2
     DISCO = false // Location.GetSuiteID(LocalPlayer():Location()) != 0
 
-	if mp and GetConVar("gmt_visualizer_advanced"):GetBool() then
+	if mp then
 		for _, b in ipairs(ents.FindByClass(("gmt_visualizer_disco"))) do
 			if b:Location() == LocalPlayer():Location() then
 				DISCO = b
@@ -231,8 +233,7 @@ hook.Add("Think", "DiscoBall", function()
     mp = mp2.Channel
     if !mp then return end
     local b = 0
-    local fft = {}
-    mp:FFT(fft, FFT_2048)
+    local fft = mp2.fft
     if #fft <= 0 then return end
     station = mp
     local url = tostring(mp)
@@ -603,6 +604,7 @@ hook.Add("UpdateAnimation", "DiscoBall", function(ply)
         end
 
         ply.DanceCycle = ply.DanceCycle or 0
+		lerp = lerp or 0.1
         ply.DanceCycle = math.fmod(ply.DanceCycle + FrameTime() * (mp and 0.001 + lerp or 0.1), 1)
 
         ply:AddVCDSequenceToGestureSlot(ply.DanceSeq or GESTURE_SLOT_CUSTOM, CUSTOMTAUNT && ply.Dance || ply:LookupSequence("taunt_dance_base"), ply.DanceCycle || mp && c || ply:GetCycle(), true)

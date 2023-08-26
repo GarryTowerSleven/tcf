@@ -1,5 +1,5 @@
 ---------------------------------
-ITEMS = {}
+ITEMS = ITEMS or {}
 
 GTowerItems = (GTowerItems or {})
 GTowerItems.Items = (GTowerItems.Items or {})

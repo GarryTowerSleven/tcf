@@ -136,8 +136,15 @@ concommand.Add("videopoker_draw", function(ply, cmd, args)
 
         self:SetCredits(self:GetCredits() - self:GetBet())
         self:SetProfit(self:GetProfit() - self:GetBet())
-		SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. self:GetBet() .. " WHERE type='videopoker'")
-        self:SetJackpot(self:GetJackpot() + self:GetBet())
+		if ( self:GetJackpot() < 50000 ) then
+			if ( ( self:GetJackpot() + self:GetBet() ) < 50000 ) then
+				SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. self:GetBet() .. " WHERE type='videopoker'")
+				self:SetJackpot(self:GetJackpot() + self:GetBet())
+			else
+				SQL.getDB():Query("UPDATE gm_casino SET jackpot=50000 WHERE type='videopoker'")
+				self:SetJackpot(50000)
+			end
+		end
         self:SetState(3)
         self.deck = Cards.Deck()
         self.deck:Shuffle()
@@ -327,6 +334,7 @@ function ENT:Use(ply)
         ply:SetNWVector("SeatEntry", ply.EntryPoint)
         ply:SetNWVector("SeatEntryAng", ply.EntryAngles)
         ply:EnterVehicle(self.chair)
+        ply:SetEyeAngles(self:GetAngles() + Angle(0, 90, 0))
         ply.VideoPoker = self
         --self:SendPlaying( ply )
         self:SetPlayer(ply)
@@ -350,7 +358,19 @@ hook.Add("PlayerLeaveVehicle", "VideoPokerLeave", function(ply)
     ply.EntryAngles = nil
 
     if ply.VideoPoker:GetState() > 1 then
-        ply:AddMoney(ply.VideoPoker:GetCredits() * 2, true, false)
+        ply:AddMoney(ply.VideoPoker:GetCredits() * 2, true, true)
+		local bzr = ents.Create("gmt_money_bezier")
+
+		if IsValid(bzr) then
+			print(bzr)
+			bzr:SetPos(ply.VideoPoker:GetPos())
+			bzr.GoalEntity = ply
+			bzr.GMC = ply.VideoPoker:GetCredits() * 2
+			bzr.RandPosAmount = 1
+			bzr:Spawn()
+			bzr:Activate()
+			bzr:Begin()
+		end
     end
 
     if ply.VideoPoker:GetClass() == "gmt_casino_videopoker" then
@@ -380,6 +400,7 @@ hook.Add("PlayerLeaveVehicle", "VideoPokerLeave", function(ply)
         ply._PendingMoney = 0
         ply.VideoPoker:SetProfit(0)
         ply.VideoPoker:SetBeginCredits(0)
+        ply.VideoPoker:SetHandInternal(0)
     end
 
     ply.VideoPoker = nil

@@ -43,7 +43,7 @@ function meta:SetMoney( amount )
 	return self:SetNet( "Money", math.Clamp( tonumber( amount ), 0, 2147483647 ) )
 end
 
-function meta:AddMoney( amount, nosend, nobezier )
+function meta:AddMoney( amount, nosend, nobezier, onlybezier )
 	function math.Fit2( val, valMin, valMax, outMin, outMax )
 		return ( val - valMax ) * ( outMax - outMin ) / ( valMin - valMax ) + outMin
 	end
@@ -52,7 +52,8 @@ function meta:AddMoney( amount, nosend, nobezier )
 
     self:SetMoney( self:Money() + amount )
 
-	if nosend != true then
+	if !nosend then
+
 		if amount > 0 then
 			self:MsgI( "money", "MoneyEarned", string.FormatNumber( amount ) )
 
@@ -80,6 +81,20 @@ function meta:AddMoney( amount, nosend, nobezier )
       self:EmitSound( "gmodtower/misc/gmc_lose.wav", 50, math.ceil( pitch ) )
 		end
 	end
+	
+	if onlybezier then
+		local ent = ents.Create("gmt_money_bezier")
+
+		if IsValid( ent ) then
+		ent:SetPos( self:GetPos() + Vector( 0, 0, -10 ) )
+		ent.GoalEntity = self
+		ent.GMC = amount
+		ent.RandPosAmount = 50
+		ent:Spawn()
+		ent:Activate()
+		ent:Begin()
+		end
+	end
 
 end
 
@@ -104,21 +119,17 @@ function meta:ApplyData( data )
 		self:SetMoney( data.money )
 	end
 
-	/*if ( data.plysize ) then
-		GTowerModels.Set( self, tonumber( (data.plysize or 1) ) )
-		self.OldPlayerSize = ( data.plysize or 1 )
-	end*/
-
-	timer.Simple( 0.0, function()
+	timer.Simple( 0, function()
 		if ( data.hat ) then
-			GTowerHats.SetHat( GTowerHats, self, data.hat, 1 )
+			Hats.SetWearable( self, data.hat, Hats.SLOT_HEAD )
 		end
 		
 		if ( data.faceHat ) then
-			GTowerHats.SetHat( GTowerHats, self, data.faceHat, 2 )
+			Hats.SetWearable( self, data.faceHat, Hats.SLOT_FACE )
 		end
-	end )
 
+		Hats.UpdateWearables( self )
+	end )
 
 	if ( data.tetrisscore != "" ) then
 		self._TetrisHighScore = data.tetrisscore

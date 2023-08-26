@@ -11,6 +11,17 @@ RegisterItem("ingredient_apple",{
 	StoreId = GTowerStore.FOOD,
 	StorePrice = 35,
 	DrawName = true,
+	CanUse = true,
+
+	OnUse = function(self)
+		if IsValid( self.Ply ) && self.Ply:IsPlayer() then
+			self.Ply:SetHealth( math.min( self.Ply:Health() + 15, self.Ply:GetMaxHealth() ) )
+			self.Ply:EmitSound( "ambient/levels/canals/toxic_slime_gurgle" .. math.random(7, 8) .. ".wav", 75, math.random(90, 110) )
+			return nil
+		end
+
+		return self
+	end
 })
 
 RegisterItem("ingredient_straw",{
@@ -39,20 +50,55 @@ RegisterItem("ingredient_orange",{
 
 RegisterItem("ingredient_glass",{
 	Base = "ingredient_apple",
-	Name = "Glass",
-	Model = "models/props_junk/garbage_glassbottle001a.mdl",
+	Name = "Ethanol",
+	Model = "models/props_junk/glassjug01.mdl",
+	StorePrice = 20,
+	
+	OnUse = function(self)
+		if IsValid( self.Ply ) && self.Ply:IsPlayer() then
+			self.Ply:Drink(15)
+			self.Ply:ViewPunch(Angle(2, math.random(-1, 1), 0))
+			self.Ply:EmitSound("ambient/levels/canals/toxic_slime_gurgle7.wav", 75, math.random(90, 110))
+			return nil
+		end
+
+		return self
+	end
 })
 
 RegisterItem("ingredient_plastic",{
 	Base = "ingredient_apple",
 	Name = "Plastic",
 	Model = "models/props_junk/garbage_plasticbottle002a.mdl",
+	StorePrice = 25,
+	
+	OnUse = function(self)
+		if IsValid( self.Ply ) && self.Ply:IsPlayer() then
+			self.Ply:TakeDamage(50, self.Ply, self.Ply)
+			self.Ply:ViewPunch(Angle(8, math.random(-4, 4), 0))
+			self.Ply:EmitSound("ambient/levels/canals/toxic_slime_gurgle7.wav", 75, math.random(90, 110))
+			return nil
+		end
+
+		return self
+	end
 })
 
 RegisterItem("ingredient_bone",{
 	Base = "ingredient_apple",
 	Name = "Bone",
 	Model = "models/gibs/hgibs.mdl",
+	StorePrice = 50,
+	
+	OnUse = function(self)
+		if IsValid( self.Ply ) && self.Ply:IsPlayer() then
+			self.Ply:Ignite(3, 0)
+			self.Ply:EmitSound("ambient/levels/canals/toxic_slime_gurgle" .. math.random(7, 8) .. ".wav", 75, math.random(90, 110))
+			return nil
+		end
+
+		return self
+	end
 })
 
 // TODO!!

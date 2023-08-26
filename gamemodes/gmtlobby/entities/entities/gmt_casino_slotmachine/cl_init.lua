@@ -150,14 +150,19 @@ local gpb = {}
 
 
 function ENT:GetPitch(spinner)
+	self.gpt = self.gpt or {0, 0, 0}
+	self.gpb = self.gpb or {0, 0, 0}
+
+	local gpt = self.gpt
+	local gpb = self.gpb
+
 	if !gpb[spinner] or gpt[spinner] and gpt[spinner] > CurTime() then
-		gpb[spinner] = 1
+		self.gpb[spinner] = 1
 	else
-		gpb[spinner] = math.max(gpb[spinner] - FrameTime() * 0.1, 0)
+		self.gpb[spinner] = math.max(gpb[spinner] - FrameTime() * 2, 0)
 	end
 
-	
-	return self.IconPitches[self.SelectedIcons[spinner]] - math.sin(math.ease.InSine(gpb[spinner]) * 4) * 24
+	return math.NormalizeAngle(self.IconPitches[self.SelectedIcons[spinner]] + math.sin(math.ease.InSine(self.gpb[spinner]) * 4) * 24)
 end
 
 
@@ -182,27 +187,29 @@ function ENT:Spin()
 	// Hacky, but pose parameters don't go over a certain angle D:
 	if self.SpinRotation >= 180 then self.SpinRotation = -179 end
 
+	self.gpt = self.gpt or {0, 0, 0}
+	self.gpb = self.gpb or {0, 0, 0}
 	self.Speed = self.Speed or 0
 	local speed = self.Speed or 0
 	self.SpinRotation = self.SpinRotation + speed
 
 	if self:IsSpinning(1) then
 		self:SendAnim( self.SpinRotation )
-		gpt[1] = CurTime() + 0.01
+		self.gpt[1] = CurTime() + 0.01
 	else
 		self:SendAnim( self:GetPitch(1) )
 	end
 
 	if self:IsSpinning(2) then
 		self:SendAnim( nil, self.SpinRotation )
-		gpt[2] = CurTime() + 0.01
+		self.gpt[2] = CurTime() + 0.01
 	else
 		self:SendAnim( nil, self:GetPitch(2) )
 	end
 
 	if self:IsSpinning(3) then
 		self:SendAnim( nil, nil, self.SpinRotation )
-		gpt[3] = CurTime() + 0.01
+		self.gpt[3] = CurTime() + 0.01
 		self.Speed = self.Speed + FrameTime() * 32
 	else
 		self:SendAnim( nil, nil, self:GetPitch(3) )
@@ -290,7 +297,7 @@ end )
 ---------------------------------------------------------*/
 concommand.Add( "slotm_setbet", function( ply, cmd, args )
 
-	if vrmod.IsPlayerInVR(ply) then
+	if vr and vr.InVR() then
 		local amount = math.fmod(Casino.SlotsLocalBet * 2, 1000) or tonumber( strTextOut ) or Casino.SlotsLocalBet
 		Casino.SlotsLocalBet = math.Clamp( math.Round(amount), Casino.SlotsMinBet, Casino.SlotsMaxBet )
 		Casino.SlotsSettingBet = false
@@ -477,7 +484,7 @@ function ENT:DrawControls()
 	local pos, ang = attachment.Pos, attachment.Ang
 	local scale = 0.1
 
-	if vrmod and vrmod.IsPlayerInVR(LocalPlayer()) then
+	if vr and vr.InVR() then
 		if Casino.SlotsLocalPlaying && vrmod.GetRightHandPos(LocalPlayer()):Distance(self:GetAttachment(1).Pos) < 24 then
 			if Casino.SlotsLocalPlaying.Controls != nil then
 				for _, btn in ipairs( Casino.SlotsLocalPlaying.Controls ) do
@@ -582,7 +589,7 @@ function ENT:MouseRayInteresct( pos, ang )
 
 	local pos, ang = EyePos(), GetMouseAimVector()
 
-	if vrmod.IsPlayerInVR(LocalPlayer()) then
+	if vr and vr.InVR() then
 		pos, ang = vrmod.GetRightHandPos(LocalPlayer()), vrmod.GetRightHandAng(LocalPlayer()):Forward()
 	end
 

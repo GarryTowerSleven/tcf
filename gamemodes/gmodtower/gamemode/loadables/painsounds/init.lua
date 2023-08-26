@@ -141,6 +141,7 @@ local dsps = {
 	["models/player/aphaztech.mdl"] = DSP_GASMASK,
 	["models/player/sunabouzu.mdl"] = DSP_GASMASK,
 	["models/player/spacesuit.mdl"] = DSP_GASMASK,
+	["models/player/clopsy.mdl"] = DSP_GASMASK,
     ["models/player/robot.mdl"] = DSP_ROBOT
 }
 

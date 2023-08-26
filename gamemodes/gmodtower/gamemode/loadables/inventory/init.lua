@@ -115,7 +115,7 @@ function GTowerItems.CreateMysteryItem(ply)
 
 	local p = math.Rand(0, 1)
 
-	if p <= 0.001 then
+	if p <= 0.0005 then
 		SQLLog( "game", ply:Nick() .. " found a blockles machine from a cat sack." )
 
 		ply:AddAchievement( ACHIEVEMENTS.LUCKYCAT, 1 )

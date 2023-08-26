@@ -177,3 +177,21 @@ net.Receive("MinigameMusic",function()
 		LocalPlayer().BMusic:FadeOut(1)
 	end
 end)
+
+hook.Add("PrePlayerDraw", "ThisIsHowFreelancersTalk", function(ply)
+	local vol = ply:VoiceVolume() * 4
+	local head = ply:LookupBone("ValveBiped.Bip01_Head1")
+
+	if head then
+		if vol < 0.04 then
+			vol = vol * 4
+		end
+
+		local halo = string.find(ply:GetModel(), "spartan")
+		ply.HeadBob = ply.HeadBob or 0
+		ply.HeadBob = ply.HeadBob + FrameTime() * vol * 8
+		ply.HeadLerp = ply.HeadLerp or 0
+		ply.HeadLerp = math.Approach(ply.HeadLerp, vol, FrameTime() * (halo and 0.4 or 1))
+		ply:ManipulateBoneAngles(head, Angle(0, !halo and ply.HeadLerp * 8 or math.sin(ply.HeadBob) * ply.HeadLerp * (halo and 32 or 8) or 0, 0))
+	end
+end)

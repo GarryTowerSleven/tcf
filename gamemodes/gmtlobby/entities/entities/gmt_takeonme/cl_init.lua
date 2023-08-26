@@ -38,11 +38,9 @@ function ENT:Draw()
 		if IsValid( owner:GetBallRaceBall() ) then
 			pos = owner:GetBallRaceBall():GetPos()
 		end
-
-		if size >= 1 then
-			render.SetMaterial( self.SpriteMat )
-			render.DrawSprite( pos, 64, 64, Color(plycol.x * 255, plycol.y * 255, plycol.z * 255)  )
-		end
+		
+		render.SetMaterial( self.SpriteMat )
+		render.DrawSprite( pos, 64 * size, 64 * size, Color(plycol.x * 255, plycol.y * 255, plycol.z * 255)  )
 
 	end
 
@@ -73,7 +71,6 @@ function ENT:Think()
 	local plycol = owner:GetPlayerColor()
 
 	local size = owner:GetNet( "ModelSize" ) or 1
-	if size < 1 then return end
 
 	if !self.Emitter then
 		self.Emitter = ParticleEmitter( self:GetPos() )
@@ -92,8 +89,7 @@ function ENT:Think()
 		else
 			pos, ang = owner:GetPos(), owner:GetAngles()
 		end
-		pos = pos - Vector( 0, 0, 16 )
-
+		
 		if IsValid( owner:GetBallRaceBall() ) then
 
 			if IsValid( owner:GetBallRaceBall().PlayerModel ) then
@@ -101,18 +97,22 @@ function ENT:Think()
 			end
 
 			pos = owner:GetBallRaceBall():GetPos()
+			size = 1
 
 		end
+		pos = pos - Vector( 0, 0, 16 * size )
+
+
 
 		for i=0, 10 do
-			local particle = self.Emitter:Add( "sprites/powerup_effects", pos + ( VectorRand() * ( self:BoundingRadius() * 0.35 ) ) )
+			local particle = self.Emitter:Add( "sprites/powerup_effects", pos + ( VectorRand() * ( self:BoundingRadius() * 0.35 * size ) ) )
 
 			if particle then
 				particle:SetVelocity( vel )
 				particle:SetDieTime( math.Rand( .75, 2 ) )
 				particle:SetStartAlpha( 100 )
 				particle:SetEndAlpha( 0 )
-				particle:SetStartSize( math.random( 8, 16 ) )
+				particle:SetStartSize( math.random( 8 * size, 16 * size ) )
 				particle:SetEndSize( 0 )
 				particle:SetRoll( math.Rand( 0, 360 ) )
 				particle:SetRollDelta( math.Rand( -5.5, 5.5 ) )

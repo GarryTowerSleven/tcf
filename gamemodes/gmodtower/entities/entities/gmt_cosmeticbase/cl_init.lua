@@ -37,20 +37,11 @@ function ENT:Think()
 		self:AddToEquipment()
 	end
 
-	if self:GetModel() != self.LastModel || ply:GetModel() != self.LastPlayerModel || ply:GetModelScale() != self.LastScale then
-		self.LastModel = self:GetModel()
-		self.LastPlayerModel = ply:GetModel()
-		self.LastScale = ply:GetModelScale()
-
-		self:UpdatedModel(ply)
-	end
-
 	self:NextThink(CurTime() + 0.1)
+
 end
 
-function ENT:UpdatedModel()
-end
-
+local pos, ang, scale = nil, nil, nil
 function ENT:Draw()
 
 	local ply = self:GetOwner()
@@ -74,34 +65,12 @@ function ENT:Draw()
 	end
 end
 
-hook.Add("PostPlayerDraw", "hatfix", function(ply, flags)
-	if engine.ActiveGamemode() == "minigolf" then return end
-
-    if !ply.Hats || (ply.LastHat && ply.LastHat < SysTime()) then
-        ply.Hats = {}
-
-        for _, hat in ipairs(ents.FindByClass("gmt_hat")) do
-            if hat:GetOwner() == ply then
-				hat:SetNoDraw(true)
-                table.insert(ply.Hats, hat)
-            end
-        end
-
-        ply.LastHat = SysTime() + 0.4
-    end
-
-    for _, h in ipairs(ply.Hats) do
-		if ( not h.Draw ) then continue end
-
-        h:Draw()
-    end
-end)
-
 function ENT:DrawTranslucent()
 	self:Draw()
 end
 
 function ENT:Position( ply )
+
 	local override = hook.Call( "OverrideHatEntity", GAMEMODE, ply )
 	if override then
 		ply = override
@@ -112,6 +81,7 @@ function ENT:Position( ply )
 	end
 
 	return self:PositionItem( ply )
+
 end
 
 function ENT:ShouldDraw( ply, dist )
@@ -119,8 +89,6 @@ function ENT:ShouldDraw( ply, dist )
 	if !IsValid( ply ) then return false end
 
 	if IsLobby then
-
-		if ( ply:GetNWBool( "InLimbo" ) ) then return false end
 
 		// Hide for distance
 		local dist = LocalPlayer():EyePos():Distance( self:GetPos() )
@@ -139,22 +107,16 @@ function ENT:ShouldDraw( ply, dist )
 
 	if ply == LocalPlayer() then
 
-		if GAMEMODE.DrawHatsAlways || ( GAMEMODE.ShouldDrawLocalPlayer && GAMEMODE:ShouldDrawLocalPlayer( ply ) ) then
+		if GAMEMODE.DrawHatsAlways || (GAMEMODE.ShouldDrawLocalPlayer && GAMEMODE:ShouldDrawLocalPlayer( ply )) || hook.Call( "ShouldDrawLocalPlayer", GAMEMODE, ply ) then
 			return true
 		end
 
-		if ThirdPerson && !ThirdPerson.ShouldDraw && ply.PoolTube == nil then
+		if ThirdPerson && !ThirdPerson.ShouldDraw then
 			return false
 		end
 
-		if ply.ThirdPerson || ply.ViewingSelf || ply.PoolTube != nil then
+		if ply.ThirdPerson || ply.ViewingSelf then
 			return true
-		end
-
-		if engine.ActiveGamemode() == "virus" then
-			if ply:ShouldDrawLocalPlayer() then
-				return true
-			end
 		end
 
 		return false
@@ -165,7 +127,8 @@ function ENT:ShouldDraw( ply, dist )
 
 end
 
-function ENT:PositionItem()
+-- ENT.PositionItem is replaced in child entities
+function ENT:PositionItem( ent )
 	return false
 end
 
@@ -176,18 +139,25 @@ function PlayerMeta:ManualEquipmentDraw()
  	if !self.CosmeticEquipment then return end
 
 	for k,v in pairs(self.CosmeticEquipment) do
-		if v.DrawTranslucent then // really crappy computers can't handle drawing
-			v:DrawTranslucent()
+		if IsValid( v ) then
+			if v.DrawTranslucent then // really crappy computers can't handle drawing
+				v:DrawTranslucent()
+			end
+			local scale = 1
+			if v.getHatScale then
+				scale = v:getHatScale()
+			end
+			v:SetModelScale( scale, 0 )
 		end
 	end
 end
 
 function PlayerMeta:ResetEquipmentScale()
-	if !self.CosmeticEquipment then return end
+ 	if !self.CosmeticEquipment then return end
 
-   for k,v in pairs(self.CosmeticEquipment) do
-	   if IsValid( v ) then
-		   v:SetModelScale( self:GetModelScale(), 0 )
-	   end
-   end
+	for k,v in pairs(self.CosmeticEquipment) do
+		if IsValid( v ) then
+			v:SetModelScale( self:GetModelScale(), 0 )
+		end
+	end
 end

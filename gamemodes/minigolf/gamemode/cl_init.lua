@@ -39,33 +39,42 @@ function GM:ChatBubbleOverride(ply)
     return false
 end
 
-hook.Add("PositionHatOverride", "OverrideHatBall", function(ent, data, pos, ang, scale)
-    if ent:GetClass() == "golfball" then
-        if ent.CurAngle then
-            ang = ent.CurAngle
-        else
-            ang = Angle(0, 0, 0)
-        end
+hook.Add( "PositionHatOverride", "OverrideHatBall", function( ent, data, pos, ang, scale )
 
-        if ent:GetVelocity():Length() > 10 then
-            local vec = ent:GetVelocity():Angle()
-            ang = vec
-            ent.CurAngle = ang
-        end
+	if ent:GetClass() == "golfball" then
 
-        /*if Swing.power > 0 && ent:GetOwner() == LocalPlayer() then
+		if ent.CurAngle then
+			ang = ent.CurAngle
+		else
+			ang = Angle( 0, 0, 0 )
+		end
+
+		if ent:GetVelocity():Length() > 10 then
+
+			local vec = ent:GetVelocity():Angle()
+			ang = vec
+			ent.CurAngle = ang
+
+		end
+
+		/*if Swing.power > 0 && ent:GetOwner() == LocalPlayer() then
+		
 			local normal = RenderSettings.aimplane
 			local dir = RenderSettings.direction
 			local vec = normal:Angle() + Angle( 90, 0, 0 )
 			vec:RotateAroundAxis( normal, dir )
 			//ang = vec
-		end*/
-        local z = data && data[1] || 0
-        pos = ent:GetPos() + Vector(0, 0, z)
 
-        return pos, ang, scale
-    end
-end)
+		end*/
+
+		local z = data[1]
+		pos = ent:GetPos() + Vector( 0, 0, z )
+
+		return pos, ang, scale
+
+	end
+
+end )
 
 hook.Add( "HUDPaint", "ToyTownEffect", function()
 	if !ConVarDrawBlur:GetBool() then return end

@@ -23,6 +23,7 @@ ENT.Ingredients 	= {}
 ENT.Drink			= nil // drink to be produced
 ENT.Bartender		= nil // who mixed the drink?
 ENT.IsBlending		= false
+ENT.ShouldSpin		= false
 
 // INGREDIENT IDS
 local APPLE			= 1
@@ -41,7 +42,7 @@ local IngredientsModels = {
 	[WATERMELON]	= Model("models/props_junk/watermelon01_chunk01b.mdl"),
 	[BANANA]		= Model("models/props/cs_italy/bananna.mdl"),
 	[ORANGE]		= Model("models/props/cs_italy/orange.mdl"),
-	[GLASS]			= Model("models/props_junk/garbage_glassbottle001a.mdl"),
+	[GLASS]			= Model("models/props_junk/glassjug01.mdl"),
 	[PLASTIC]		= Model("models/props_junk/garbage_plasticbottle002a.mdl"),
 	[BONE]			= Model("models/gibs/hgibs.mdl"),
 }
@@ -96,7 +97,7 @@ if SERVER then
 			Time = 3,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
-				ply:SetHealth( 100 )
+				ply:SetHealth( ply:GetMaxHealth() )
 				ply:Freeze( false )
 				ply:UnDrunk()
 			end,
@@ -110,6 +111,7 @@ if SERVER then
 			Time = 60,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
+				ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
 				PostEvent( ply, "pcolored_on" )
 			end,
 			End = function( ply )
@@ -126,6 +128,7 @@ if SERVER then
 			Time = 60,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
+				ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
 				PostEvent( ply, "psleepy_on" )
 			end,
 			End = function( ply )
@@ -142,6 +145,7 @@ if SERVER then
 			Time = 30,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
+				ply:SetHealth( math.min( ply:Health() + 45, ply:GetMaxHealth() ) )
 				PostEvent( ply, "psleepy_on" )
 			end,
 			End = function( ply )
@@ -158,7 +162,7 @@ if SERVER then
 			Time = 3,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
-				ply:SetHealth( 100 )
+				ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
 				ply:Freeze( false )
 			end,
 		},
@@ -171,7 +175,7 @@ if SERVER then
 			Time = 3,
 			Start = function( ply )
 				if !IsValid( ply ) or !ply:CanDrink( 25 ) then return end
-				PostEvent( ply, "pdamage" )
+				ply:ViewPunch(Angle(2, math.random(-1, 1), 0))
 				ply:Drink( 25 )
 			end,
 		},
@@ -184,7 +188,7 @@ if SERVER then
 			Time = 3,
 			Start = function( ply )
 				if !IsValid( ply ) or !ply:CanDrink( 20 ) then return end
-				PostEvent( ply, "pdamage" )
+				ply:ViewPunch(Angle(2, math.random(-1, 1), 0))
 				ply:Drink( 20 )
 			end,
 		},
@@ -215,6 +219,7 @@ if SERVER then
 			Time = 300,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
+				ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
 				GAMEMODE:SetPlayerSpeed( ply, 360, 640 )
 				PostEvent( ply, "pspeed_on" )
 			end,
@@ -233,10 +238,12 @@ if SERVER then
 			Time = 30,
 			Start = function( ply )
 				if !IsValid( ply ) or !ply:CanDrink( 20 ) then return end
+				ply:ViewPunch(Angle(2, math.random(-1, 1), 0))
 				ply:Drink( 20 )
 			end,
 			End = function( ply )
 				if !IsValid( ply ) or !ply:CanDrink( 30 ) then return end
+				ply:ViewPunch(Angle(4, math.random(-2, 2), 0))
 				ply:Drink( 30 )
 			end
 		},
@@ -269,6 +276,8 @@ if SERVER then
 			Time = 300,
 			Start = function( ply )
 				if !IsValid( ply ) then return end
+				ply:Ignite(.25, 0)
+				ply:SetHealth( ply:Health() + 1 )
 				ply:SetModel( "models/player/skeleton.mdl" )
 				ply:SetNWBool("ForceModel", true)
 				PostEvent( ply, "pbone_on" )
@@ -320,7 +329,7 @@ if SERVER then
 	function ENT:StartBlend()
 
 		//Msg("STARTING BLENDER\n")
-
+		self.ShouldSpin = true
 		self.IsBlending = true
 		self.BlendTime = CurTime() + self.BlendDelay
 
@@ -336,7 +345,7 @@ if SERVER then
 	end
 	
 	function ENT:EndBlend()
-
+	
 		self.BlendTime = nil
 		self:StartSpitDrink()
 	
@@ -538,17 +547,24 @@ else //CLIENT
 			self:SetSequence( self:LookupSequence( "idle" ) )
 		end
 		
+		if ( self.ShouldSpin ) then
+			self.IngredientSpin = ( self.IngredientSpin or 0 ) - 5
+			if self.IngredientSpin == -180 then
+				self.IngredientSpin = 180
+			end
+		end
+		
 		//Make the fruit shake with the blender	
 		if IsValid( self.Model1 ) && IsValid( self.Model2 ) then
 			local attID = self:LookupAttachment( AttachFruit )
 			local attPos = self:GetAttachment( attID )
 			
 			self.Model1:SetPos( attPos.Pos )
-			self.Model1:SetAngles( attPos.Ang - Angle( 0, 180, 90) ) //Offset from the blender angles
+			self.Model1:SetAngles( attPos.Ang - Angle( 0, self.IngredientSpin, 90) ) //Offset from the blender angles
 			
 			local normal = attPos.Ang:Right()
 			self.Model2:SetPos( attPos.Pos - (normal * 5 ) ) //Move the second prop upwards from the origin
-			self.Model2:SetAngles( attPos.Ang - Angle( 0, 180, 90) )
+			self.Model2:SetAngles( attPos.Ang - Angle( 0, self.IngredientSpin, 90) )
 		end
 
 		if ( self.DrawSprite ) then
@@ -578,6 +594,7 @@ else //CLIENT
 
 		local bool = um:ReadBool()
 		blender.IsBlending = bool
+		blender.ShouldSpin = bool
 		
 		if ( bool ) then
 
@@ -611,7 +628,7 @@ else //CLIENT
 		
 		local sequence = blender:LookupSequence( "spit" )
 		blender:ResetSequence( sequence )
-
+		blender.ShouldSpin = false
 		blender.DrawSprite = true
 		blender.Color = Color( 255, 255, 0 )
 		

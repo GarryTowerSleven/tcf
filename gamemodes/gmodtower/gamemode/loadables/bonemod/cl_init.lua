@@ -427,3 +427,7 @@ function BoneMod:ModFancyPants( ply )
 	self:ScaleBone( ply, "Head1",  1.25 )
 
 end
+
+hook.Add( "Location", "BonemodRefresh", function(ply)
+	BoneMod:ApplyBoneMod( ply.BoneMod, ply )
+end )
