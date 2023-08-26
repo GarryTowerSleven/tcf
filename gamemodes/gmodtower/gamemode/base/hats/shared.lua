@@ -146,7 +146,7 @@ function IsWearing( ply, uniquename )
 	local slot1, slot2 = GetWearables( ply )
 	local wear1, wear2 = GetItem( slot1 ), GetItem( slot2 )
 
-	if wear1.unique_Name == uniquename || wear2.unique_Name == uniquename then
+	if (wear1 and wear1.unique_Name == uniquename) || (wear2 and wear2.unique_Name == uniquename) then
 		return true
 	end
 
