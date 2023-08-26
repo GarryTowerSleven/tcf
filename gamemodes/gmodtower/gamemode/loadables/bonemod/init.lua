@@ -13,7 +13,6 @@ function SetBoneMod( ply, id )
 end
 
 hook.Add("PlayerFullyJoined", "RecheckBoneMod", function( ply )
-	print("FullyJoined")
 	if BoneMod && ply.BoneModID != nil then
 		SetBoneMod( ply, ply.BoneModID )
 	end
