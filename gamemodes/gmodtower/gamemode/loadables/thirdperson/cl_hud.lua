@@ -11,12 +11,36 @@ function PANEL:Init()
 	self:SetSize( 80, 32 )
 	
 	self.Button = vgui.Create( "DButton", self )
-	self.Button:SetText( "THIRD PERSON" )
+	self.Button:SetText( "" )
 	self.Button:SetFont( "GTowerHUDMainSmall" )
 	self.Button:SetConsoleCommand( "gmt_thirdperson" )
 
+	self.Button:SetTextColor(Color(255, 255, 255))
 	self:SetAlpha( 200 )
 	
+	self.Button.Paint = function(self, w, h)
+		local boxcolor = Color(40, 110, 160) -- Color(50, 120, 170)
+		local color = Color(70, 140, 190)
+		local alpha = 0
+
+		if self:IsMouseOver() and self:IsMouseInputEnabled() then
+			alpha = 1
+
+			if input.IsMouseDown(MOUSE_LEFT) then
+				alpha = -1
+				if !self.Sound then
+					self.Sound = true
+				end
+			elseif self.Sound then
+				self.Sound = nil
+				surface.PlaySound("ui/buttonclickrelease.wav")
+			end
+		end
+
+		local l = alpha / 1
+		draw.RoundedBoxEx(6, 0, 0, w, h, Color(Lerp(l, boxcolor.r, color.r), Lerp(l, boxcolor.g, color.g), Lerp(l, boxcolor.b, color.b)), false, false, true, true)
+		draw.SimpleText((LocalPlayer().ThirdPerson and "FIRST PERSON") or "THIRD PERSON", "GTowerHUDMainSmall", w / 2, h / 2, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+	end
 end
 
 function PANEL:ChangingThink()
