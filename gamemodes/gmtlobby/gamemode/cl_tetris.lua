@@ -140,8 +140,12 @@ end )
 net.Receive("UpdateTetrisBoard",function()
 	local tbl = net.ReadTable()
   
-	if !tbl then ScoreTable = {"No scores available!"} return end
-	ScoreTable = tbl
+	if !tbl then return end
+
+	-- Inserting the scores by key so the 11th entry (your own) remains at the bottom.
+	for i = 1, #tbl do
+		ScoreTable[i] = tbl[i]
+	end
 end)
   
 net.Receive("UpdatePersonalTetrisScore", function()
