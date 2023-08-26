@@ -228,7 +228,7 @@ function APPEARANCE:GenerateModelSelection()
 		//icon:SetIconSize( 64 )
 		icon.HatID = hatid
 		icon.HatSlot = hatSlot
-		icon.Model = model
+		icon.Model = string.lower(model)
 		icon.ModelName = name
 		icon.BetterName = bettername or name
 		icon.Description = description or ""
