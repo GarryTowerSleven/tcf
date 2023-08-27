@@ -110,13 +110,12 @@ function PANEL:SetModelWearables( ply )
 	if !ClientsideModel then return end
 	
 	local wear1, wear2 = Hats.GetItem( slot1 ), Hats.GetItem( slot2 )
-	if not wear1 and not wear2 then return end 
 	
-	if wear1.model != Hats.GetNoHat() then
+	if wear1 && wear1.model != Hats.GetNoHat() then
 		self.EntityWear1 = ClientsideModel( wear1.model, RENDER_GROUP_OPAQUE_ENTITY )
 	end
 
-	if wear2.model != Hats.GetNoHat() then
+	if wear2 && wear2.model != Hats.GetNoHat() then
 		self.EntityWear2 = ClientsideModel( wear2.model, RENDER_GROUP_OPAQUE_ENTITY )
 	end
 
