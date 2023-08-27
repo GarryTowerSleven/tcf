@@ -123,7 +123,7 @@ function PANEL:SetModelWearables( ply )
 
 	if IsValid( self.EntityWear1 ) then
 		self.EntityWear1:SetNoDraw( true )
-		self.EntityWear2:SetLegacyTransform( true )
+		self.EntityWear1:SetLegacyTransform( true )
 		table.insert( req, wear1.unique_Name )
 	end
 	if IsValid( self.EntityWear2 ) then
