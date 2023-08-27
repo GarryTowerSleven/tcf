@@ -65,6 +65,29 @@ function ENT:Draw()
 	end
 end
 
+hook.Add("PostPlayerDraw", "hatfix", function(ply, flags)
+	if engine.ActiveGamemode() == "minigolf" then return end
+
+    if !ply.Hats || (ply.LastHat && ply.LastHat < SysTime()) then
+        ply.Hats = {}
+
+        for _, hat in ipairs(ents.FindByClass("gmt_hat")) do
+            if hat:GetOwner() == ply then
+				hat:SetNoDraw(true)
+                table.insert(ply.Hats, hat)
+            end
+        end
+
+        ply.LastHat = SysTime() + 0.4
+    end
+
+    for _, h in ipairs(ply.Hats) do
+		if ( not h.Draw ) then continue end
+
+        h:Draw()
+    end
+end)
+
 function ENT:DrawTranslucent()
 	self:Draw()
 end
