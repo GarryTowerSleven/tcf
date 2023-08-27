@@ -34,6 +34,10 @@ function meta:SetGhost()
 	
 	self:SetCollisionGroup( COLLISION_GROUP_NONE )
 
+	if SERVER then
+		Hats.UpdateWearables( self )
+	end
+
 end
 
 function meta:UnGhost()

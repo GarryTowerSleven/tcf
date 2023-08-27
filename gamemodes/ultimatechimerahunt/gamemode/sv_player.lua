@@ -174,6 +174,8 @@ function GM:PlayerDisconnected( ply )
 
 end
 
+function GM:PlayerSetModel( ply ) end
+
 hook.Add( "PlayerThink", "UC_PiggyNoise", function( ply )
 
 	if ply:IsPig() then

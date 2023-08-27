@@ -33,10 +33,6 @@ function meta:SetupModel()
 			self:SetBodygroup( 1, 0 )
 		end
 
-		if SERVER then
-			Hats.UpdateWearables( self )
-		end
-
 		return
 	end
 
