@@ -1,5 +1,4 @@
-# GMod Tower: Deluxe
-Dang, that looks deluxe!
+# GMod Tower: The Community First
 
 ## Installation
 Clone into your server's addons folder.
@@ -10,7 +9,7 @@ Clone into your server's addons folder.
 ### Binary Module Requirements
 [FredyH/MySQLOO](https://github.com/FredyH/MySQLOO)
 
-[TeddiO/gFwens](https://github.com/TeddiO/gFwens) for Steam group VIPs.
+[TeddiO/gFwens](https://github.com/TeddiO/gFwens) for Steam groups.
 
 Place your OS' specific binaries into `garrysmod/lua/bin`.
 
