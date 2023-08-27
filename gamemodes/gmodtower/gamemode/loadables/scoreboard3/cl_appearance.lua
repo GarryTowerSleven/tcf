@@ -259,6 +259,8 @@ function APPEARANCE:GenerateModelSelection()
 			surface.SetFont( "InvTinyText" )
 			surface.SetTextPos( 1, 0 )*/
 
+			draw.RectBorder( 0, 0, w, h, 1, Scoreboard.Customization.ColorDark )
+
 			if ( icon.Model == LocalPlayer():GetTranslatedModel() ) || ( icon.HatID != 0 && Hats.IsWearingID( LocalPlayer(), icon.HatID ) ) then
 				
 				// surface.SetDrawColor( 255, 255, 255, 150 )
