@@ -71,7 +71,8 @@ hook.Add( "PlayerThink", "AFKPlayerThink", function( ply )
 	if ( TestingMode and TestingMode:GetBool() ) then return end
 	if ( not IsValid( ply ) or ply:IsBot() ) then return end
 
-	if IsLobby then // only check eye trace in lobby, people get teleported around A Lot in gamemodes
+	// Too abusable by macroers... Sorry
+	/*if IsLobby then // only check eye trace in lobby, people get teleported around A Lot in gamemodes
 		// check eye trace, could be a better place for this
 		local eyetrace = ply:EyeAngles()
 
@@ -79,7 +80,7 @@ hook.Add( "PlayerThink", "AFKPlayerThink", function( ply )
 			ply:ResetAFKTimer()
 			ply._LastEyeTrace = eyetrace
 		end
-	end
+	end*/
 
 	local curtime = CurTime()
 
@@ -116,11 +117,22 @@ AFKButtons = {
 
 hook.Add( "PlayerButtonDown", "AFKKeyPress", function( ply, button )
 	if ( AFKButtons[ button ] ) then return end
-
+	if ply._lastButton == button then
+		if ply._AFKWarned then
+			ply:Msg2("Please press a different button to cancel being AFK.")
+		end
+	return end
+	ply._lastButton = button
 	ply:ResetAFKTimer()
 end )
 
-hook.Add( "GTowerChat", "AFKChat", function( ply )
+hook.Add( "GTowerChat", "AFKChat", function( ply, text )
+	if ply._lastChat == text then 
+		if ply._AFKWarned then
+			ply:Msg2("Please say something different to cancel being AFK.")
+		end
+	return end
+	ply._lastChat = text
 	ply:ResetAFKTimer()
 end )
 
