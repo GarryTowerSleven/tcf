@@ -29,7 +29,6 @@ CREATE TABLE IF NOT EXISTS `gm_hats` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- Dumping data for table gmt.gm_hats: ~350 rows (approximately)
-DELETE FROM `gm_hats`;
 INSERT INTO `gm_hats` (`id`, `hat`, `plymodel`, `vx`, `vy`, `vz`, `ap`, `ay`, `ar`, `scale`) VALUES
 	(24, 'androssmaskhat', 'wesker', '0', '-2.5', '6', '13', '0', '0', '1'),
 	(33, 'gmodtophat', 'wesker', '0', '-2.5', '6', '13', '0', '0', '1'),
