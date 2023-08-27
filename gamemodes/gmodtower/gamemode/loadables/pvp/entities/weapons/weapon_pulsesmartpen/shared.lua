@@ -18,7 +18,7 @@ SWEP.WorldModel			 = "models/weapons/w_psmartpen.mdl"
 SWEP.ViewModelFlip		 = false
 SWEP.HoldType			 = "melee"
 
-SWEP.Primary.Damage	= {40, 60}
+SWEP.Primary.Damage	= {40, 50}
 
 SWEP.AutoReload			= false
 SWEP.SoundSwing			= "weapons/iceaxe/iceaxe_swing1.wav"
