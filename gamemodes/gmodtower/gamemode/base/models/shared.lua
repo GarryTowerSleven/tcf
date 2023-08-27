@@ -124,6 +124,8 @@ AddPlayerModel( "denton", "models/player/jcplayer.mdl" )
 AddPlayerModel( "james", "models/player/sh/james_sunderland.mdl" )
 AddPlayerModel( "oldgordon", "models/player/tcf/hl1_gordon.mdl" )
 AddPlayerModel( "gasmask", "models/player/tcf/gasmask_citizen.mdl" )
+AddPlayerModel( "redrabbit", "models/player/redrabbit2.mdl" )
+AddPlayerModel( "renamon", "models/player/renamon.mdl" )
 --AddPlayerModel( "ornstein", "models/nikout/darksouls2/characters/olddragonslayer.mdl" )
 
 // Remove bad playermodels
@@ -154,8 +156,8 @@ ScaledModels = {
 	["models/player/martymcfly.mdl"] = 0.85,
 	["models/player/hhp227/kilik.mdl"] = 1.05,
 
-	["models/player/redrabbit2.mdl"] = 0.55,
-	["models/player/redrabbit3.mdl"] = 0.55,
+	["models/player/redrabbit2.mdl"] = 0.65,
+	["models/player/redrabbit3.mdl"] = 0.65,
 	["models/player/digi.mdl"] = 0.75,
 }
 

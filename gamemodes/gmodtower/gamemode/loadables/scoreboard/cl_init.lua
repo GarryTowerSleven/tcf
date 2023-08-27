@@ -1,27 +1,13 @@
----------------------------------
 module("Scoreboard", package.seeall )
 
-function SinBetween( min, max, time )
+Rounded = CreateClientConVar( "gmt_scoreboard_rounded", "0", true, false, nil, 0, 1 )
 
-    local diff = max - min
-    local remain = max - diff
+MaxWidth = ScrW() * 0.99
+MinWidth = 640
 
-    return ( ( ( math.sin( time ) + 1 ) / 2 ) * diff ) + remain
+function ActionBoxLabel( panel, icon, label, valuefunc, clickfunc, fixedWidth )
 
-end
-
-function CosBetween( min, max, time )
-
-    local diff = max - min
-    local remain = max - diff
-
-    return ( ( ( math.cos( time ) + 1 ) / 2 ) * diff ) + remain
-
-end
-
-function ActionBoxLabel( panel, icon, label, valuefunc, clickfunc )
-
-	local item = panel:CreateItem()
+	local item = panel:CreateItem( valuefunc )
 	local ply = panel:GetPlayer()
 
 	if icon then
@@ -30,6 +16,9 @@ function ActionBoxLabel( panel, icon, label, valuefunc, clickfunc )
 
 	item:SetText( label )
 	item:SetValue( valuefunc )
+	if item.SetFixedWidth then
+		item:SetFixedWidth( fixedWidth )
+	end
 
 	if clickfunc then
 
@@ -51,9 +40,9 @@ function ActionBoxLabel( panel, icon, label, valuefunc, clickfunc )
 
 end
 
-function GenTexture( textName, texture )
+function GenTexture( textname, texture )
 
-	return CreateMaterial( textName, "UnlitGeneric",
+	return CreateMaterial( textname, "UnlitGeneric",
 	{
 		["$basetexture"] = Scoreboard.Customization.MatDirectory .. texture,
 		["$ignorez"] = 1,
@@ -67,8 +56,9 @@ end
 function ParentMouseWheeled( self, dlta )
 
 	// Insane...
-	if self && self:GetParent() && self:GetParent():GetParent() then
-		self:GetParent():GetParent():OnMouseWheeled( dlta )
+	local parent = self:GetParent()
+	if self && parent && parent:GetParent() then
+		parent:GetParent():OnMouseWheeled( dlta )
 	end
 
 end
@@ -91,6 +81,7 @@ include( "cl_payouts.lua" )
 SCOREBOARD = {}
 SCOREBOARD.TitleWidth = Scoreboard.Customization.HeaderWidth
 SCOREBOARD.TitleHeight = Scoreboard.Customization.HeaderHeight
+SCOREBOARD.RightBorderSize = 0 //16
 
 function SCOREBOARD:Init()
 	
@@ -107,8 +98,8 @@ function SCOREBOARD:Init()
 
 	self.MapName = vgui.Create( "ScoreboardMap" )
 	self.MapName:SetZPos( 1 )
-	
-	if not game.GetGamemode == "deathrun" then
+
+	if not IsLobby then
 		self.ReturnButton = vgui.Create( "DButton" )
 		self.ReturnButton:SetText("RETURN TO LOBBY")
 		self.ReturnButton:SetFont( "GTowerHUDMainSmall" )
@@ -124,8 +115,8 @@ function SCOREBOARD:Init()
 		end
 		self.ReturnButton.DoClick = function() 
 			Derma_Query( "Do you want to leave the gamemode and go back to the lobby?", "Back to Lobby",
-				"To Lobby #1", function() RunConsoleCommand("gmt_returntolobby") end,
-				"To Lobby #2", function() RunConsoleCommand("gmt_returntolobby", 2) end,
+				"To Lobby", function() RunConsoleCommand("gmt_returntolobby") end,
+				//"To Lobby #2", function() RunConsoleCommand("gmt_returntolobby", 2) end,
 				T("no"), nil
 			)
 		end
@@ -135,8 +126,8 @@ function SCOREBOARD:Init()
 	self.Resizer:SetZPos( 1 )
 	self.Resizer:SetSettingName( "scoreboard_size" )
 	self.Resizer:BothSides( true )
-	self.Resizer.DefaultValue = ScrW() * 0.88
-	self.Resizer:SetMinMax( 640, ScrW() * 0.9 )
+	self.Resizer.DefaultValue = MinWidth
+	self.Resizer:SetMinMax( MinWidth, MaxWidth )
 	self.Resizer:OnChange( 
 		function( value )
 			if type( Gui ) == "Panel" then
@@ -145,55 +136,42 @@ function SCOREBOARD:Init()
 		end
 	)
 	
+	if not IsLobby then
+		self.GMCAmount = vgui.Create( "ScoreboardGMC" )
+		self.GMCAmount:SetZPos( 1 )
+		self.GMCAmount:SetVisible()
+	end
+	
 	self:SetVisible( true )
 	self:SetMouseInputEnabled( true )
-	
-	self.RightBorderSize = 16
-	
-	// Force these tabs because the automated methoed was borked
 	
 	// Add players tab (ALWAYS THERE)
 	self.PlayerTab = vgui.Create( "ScoreboardPlayersTab" )
 	self:AddTab( self.PlayerTab )
-	
-	self.AwardsTab = vgui.Create( "ScoreboardAwardsTab" )
-	self:AddTab( self.AwardsTab )
-
-	self.SettingsTab = vgui.Create( "ScoreboardSettingsTab" )
-	self:AddTab( self.SettingsTab )
-	
-	self.AppTab = vgui.Create( "AppearancePlayersTab" )
-	self:AddTab( self.AppTab )
-	
-	self.NewsTab = vgui.Create( "NewsTab" )
-	self:AddTab( self.NewsTab )
-	
-	self.AboutTab = vgui.Create( "AboutTab" )
-	self:AddTab( self.AboutTab )
-	
 
 	/*
 		Look into the hook table for items to be added for the scoreboard
 		Hook should return a panel that is inherited from the ScoreboardTab base class.
 	*/
-	
-	--[[local items = hook.GetTable()["ScoreBoardItems"]
+	local items = hook.GetTable()["ScoreBoardItems"]
 
 	for _, itemFunc in pairs( items ) do
 
-		local success, tab = itemFunc 
+		local success, tab = SafeCall( itemFunc )
 
 		if success then
 
-			--if tab.HideForGamemode && !IsLobby then
-			--	tab:SetVisible( false )
-			--else
+			if tab.HideForGamemode && !IsLobby then
+				tab:SetVisible( false )
+			elseif tab.OnlyForGamemode && IsLobby then
+				tab:SetVisible( false )
+			else
 				self:AddTab( tab )
-			--end
+			end
 
 		end
 
-	end]]--
+	end
 	
 	//If there is anything on the scoreboard, set the selected one!
 	if #self.Tabs > 0 then
@@ -206,20 +184,29 @@ local gradient = surface.GetTextureID( "VGUI/gradient_up" )
 
 function SCOREBOARD:Paint( w, h )
 
-	self.RightBorderSize = 16
+	if ( Rounded:GetBool() /*&& self.RightBorderSize != 16*/ ) then
+		self.RightBorderSize = 16
+	else//if ( not Rounded:GetBool() && self.RightBorderSize == 16 ) then
+		self.RightBorderSize = 0
+	end
 
 	surface.SetDrawColor( 255, 255, 255, 255 )
+	
+	surface.SetMaterial( Scoreboard.Customization.HeaderMatFiller )
+
+	if ( Rounded:GetBool() ) then
+		surface.DrawTexturedRect( self.TitleWidth, 0, self:GetWide() - self.RightBorderSize - self.TitleWidth, self.TitleHeight )
+	else
+		surface.DrawTexturedRect( 0, 0, self:GetWide(), self.TitleHeight )
+	end
 	
 	surface.SetMaterial( Scoreboard.Customization.HeaderMatHeader )
 	surface.DrawTexturedRect( 0, 0, self.TitleWidth, self.TitleHeight )
 	
-	surface.SetMaterial( Scoreboard.Customization.HeaderMatFiller )
-	surface.DrawTexturedRect( self.TitleWidth, 0, self:GetWide() - self.RightBorderSize - self.TitleWidth, self.TitleHeight )
-	
 	surface.SetMaterial( Scoreboard.Customization.HeaderMatRightBorder )
 	surface.DrawTexturedRect( self:GetWide() - self.RightBorderSize, 0, self.RightBorderSize, self.TitleHeight )
 	
-	//Render the background
+	// Render the background
 	surface.SetDrawColor( Scoreboard.Customization.ColorBackground )
 	surface.DrawRect( 0, self.TitleHeight - 1, self:GetWide(), self:GetTall() - self.TitleHeight + 1 )
 
@@ -241,16 +228,21 @@ end
 
 function SCOREBOARD:UpdateWide()
 
-	self:SetWide( cookie.GetNumber( "scoreboard_size" ) or ScrW() * 0.88 )
+	local wide = cookie.GetNumber( "scoreboard_size" )
+	if not wide or wide > ScrW() then
+		wide = MinWidth
+	end
+
+	if wide > MaxWidth then wide = MaxWidth end
+
+	self:SetWide( wide )
 	self:InvalidateLayout()
 
 end
 
 function SCOREBOARD:PerformLayout()
 
-	self:SetWide( cookie.GetNumber( "scoreboard_size" ) or ScrW() * 0.88 )
-	
-	self.RightBorderSize = 16
+	self:UpdateWide()
 
 	local position = self:GetWide() - self.RightBorderSize
 
@@ -293,8 +285,8 @@ function SCOREBOARD:PerformLayout()
 	if IsValid( self.ActiveTab ) then
 		local body, panel = self.ActiveTab:GetBody()
 		//panel:InvalidateLayout( true )
-		body:SetPos( 0, self.TitleHeight + 1 )
-		body:SetWide( self:GetWide() - 4 )
+		body:SetPos( 0, self.TitleHeight )
+		body:SetWide( self:GetWide() )
 		body:CenterHorizontal()
 	end
 
@@ -304,11 +296,16 @@ function SCOREBOARD:PerformLayout()
 	if IsValid( self.MapName ) then
 		self.MapName:SetPos( ( ( x + w ) - self.MapName:GetWide() ), ( y + ( h + 2 ) ) )
 	end
-	
+
+	if IsValid( self.GMCAmount ) then
+		self.GMCAmount:CenterHorizontal()
+		self.GMCAmount.y = ( y + ( h + 2 ) )
+	end
+
 	if IsValid( self.ReturnButton ) then
 		self.ReturnButton:SetPos( x, ( y + ( h + 2 ) ) )
 	end
-	
+
 	if IsValid( self.Resizer ) then
 		self.Resizer:SetSize( w + 20, h )
 		self.Resizer:SetPos( x - 10, y )
@@ -327,11 +324,11 @@ function SCOREBOARD:Think()
 		
 		body:SetTall( math.min( panel:GetTall(), ScrH() * 0.65 ) )
 		
-		targetHeight = targetHeight + body:GetTall() + 6
+		targetHeight = targetHeight + body:GetTall() + 2
 	end
 
 	local diff = current - targetHeight
-	local increaseAmount = math.ceil( math.abs( diff * .1 ) )
+	local increaseAmount = math.ceil( math.abs( diff * .75 ) )
 
 	self:SetTall( math.Approach( current, targetHeight, increaseAmount ) )
 	//self:SetTall( math.Approach( current, targetHeight, math.max( math.abs( (current-targetHeight) * FrameTime() * 30 ) ), 1 ) )
@@ -355,11 +352,11 @@ end
 function SCOREBOARD:SetActiveTab( tab )
 	
 	if IsValid( self.ActiveTab ) then
-		self.ActiveTab:SetActive( false )
 		local oldBody = self.ActiveTab:GetBody()
-		
 		oldBody:SetParent( nil )
 		oldBody:SetVisible( false )
+		
+		self.ActiveTab:SetActive( false )
 	end
 	
 	local newBody = tab:GetBody()
@@ -377,70 +374,90 @@ end
 vgui.Register( "ScoreBoard", SCOREBOARD )
 
 
-
-local function MapNames()
-	local map = game.GetMap()
-	
-	if map == "gmt_virus_riposte01" then
-		return "Riposte"
-	elseif map == "gmt_virus_facility202" or map == "gmt_virus_facility201" or map == "gmt_virus_facility01" then
-		return "Facility"
-	elseif map == "gmt_virus_hospital203" or map == "gmt_virus_hospital204" then
-		return "HOSPITAL"
-	elseif map == "gmt_virus_metaldream05" then
-		return "Metal Dreams"
-	elseif map == "gmt_virus_sewage01" then
-		return "Sewage"
-	elseif map == "gmt_virus_dust03" then
-		return "Dust"
-	elseif map == "gmt_virus_derelict01" then
-		return "Derelict"
-	elseif map == "gmt_virus_aztec01" then
-		return "Aztec"
-	end
-	
-	return
-end
-
-MAP = {}
+local MAP = {}
 
 function MAP:Init() end
 
 local function GetNiceMapName( map )
 
-	return MapNames() --game.GetMap() or nil --Maps.GetName( map ) or nil
+	return string.upper( Maps.GetName( map ) ) or nil
 
 end
 
 function MAP:PerformLayout()
 
-	local txt = GetNiceMapName( MapNames() )
+	local txt = GetNiceMapName( game.GetMap() )
 
 	if !txt then self:SetVisible( false ) return end
 
 	surface.SetFont( "GTowerHUDMainSmall" )
 	local w, h = surface.GetTextSize( txt )
 
-	self:SetSize( w * 1.62, h )
+	self:SetSize( w * 1.32, h )
 
 end
 
-function MAP:Paint()
+function MAP:Paint( w, h )
 
-	local txt = GetNiceMapName( MapNames() )
+	local txt = GetNiceMapName( game.GetMap() )
 	if !txt then return end
-	
-	local w, h = self:GetSize()
-	draw.RoundedBox( 0, 0, 0, w, h, Color( 25, 25, 25, 100 ) )
 
-	draw.NiceText( string.upper( MapNames() ), "GTowerHUDMainSmall", w * .5, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 1, 250 )
+	surface.SetDrawColor( Color( 25, 25, 25, 100 ) )
+	surface.DrawRect( 0, 0, w, h )
+
+	/*if IsLobby then
+		txt = txt .. " #" .. tostring(LocalPlayer()._ServerID)
+	end*/
+
+	draw.NiceText( txt, "GTowerHUDMainSmall", w * .5, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 1, 250 )
 
 end
 
 vgui.Register( "ScoreboardMap", MAP, "Panel" )
 
 
-BLUR = {}
+local GMC = {}
+GMC.MoneyIcon = Material( "gmod_tower/scoreboard/icon_money.png", "unlitsmooth" )
+GMC.Padding = 8
+GMC.Amount = 0
+
+function GMC:Init()
+	self.Amount = Money()
+end
+
+function GMC:PerformLayout()
+
+	surface.SetFont( "GTowerHUDMain" )
+	local w, h = surface.GetTextSize( string.FormatNumber( self.Amount or 0 ) )
+
+	self:SetSize( w + self.Padding + 16 + 1, h )
+
+end
+
+function GMC:Think()
+	if ( self.Amount != Money() ) then
+		self.Amount = Money()
+		self:PerformLayout()
+	end
+end
+
+function GMC:Paint( w, h )
+
+	surface.SetDrawColor( Color( 25, 25, 25, 100 ) )
+	surface.DrawRect( 0, 0, w, h )
+
+	surface.SetMaterial( self.MoneyIcon )
+	surface.SetDrawColor( Color( 255, 255, 255, 255 ) )
+	surface.DrawTexturedRect( 2, 4, 16, 16 )
+
+	draw.NiceText( string.FormatNumber( Money() or 0 ), "GTowerHUDMain", 16 + (self.Padding/2), 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, 250 )
+
+end
+
+vgui.Register( "ScoreboardGMC", GMC, "Panel" )
+
+
+local BLUR = {}
 
 local matBlurScreen = Material( "pp/blurscreen" )
 local bBlurEnabled = CreateClientConVar( "gmt_scoreboard_blur", "0", true, false )
@@ -493,22 +510,26 @@ hook.Add( "ScoreboardShow", "ShowGMTScoreboard", function( disableMouse )
 
 	if Gui then
 
-		if !Gui.Background then
+		if !IsValid(Gui.Background) then
 			Gui.Background = vgui.Create( "Blur" )
 			Gui.Background:SetPos( 0, 0 ) 
 			Gui.Background:SetSize( ScrW(), ScrH() )
 			Gui.Background:SetZPos( -1 )
 		end
 
-		if Gui.Resizer then
+		if IsValid(Gui.Resizer) then
 			Gui.Resizer:SetVisible( true )
 		end
-		
+
+		if IsValid(Gui.GMCAmount) then
+			Gui.GMCAmount:SetVisible( true )
+		end
+
 		if IsValid(Gui.ReturnButton) then
 			Gui.ReturnButton:SetVisible( true )
 		end
-		
-		if Gui.MapName then
+
+		if IsValid(Gui.MapName) then
 			Gui.MapName:SetVisible( true )
 		end
 
@@ -541,26 +562,31 @@ hook.Add( "ScoreboardHide", "HideGMTScoreboard", function( disableMouse )
 	
 	if IsValid( Gui ) then
 
-		if Gui.Background then
+		if IsValid(Gui.Background) then
 			Gui.Background:SetVisible( false )
 			Gui.Background = nil
 		end
 
-		if Gui.Resizer then
+		if IsValid(Gui.Resizer) then
 			Gui.Resizer:SetVisible( false )
 		end
-		
-		if IsValid(Gui.ReturnButton) then
-			Gui.ReturnButton:SetVisible( false )
+
+		if IsValid(Gui.MapName) then
+			Gui.MapName:SetVisible( false )
 		end
 
-		if Gui.MapName then
-			Gui.MapName:SetVisible( false )
+		if IsValid(Gui.GMCAmount) then
+			Gui.GMCAmount:SetVisible( false )
+		end
+
+		if IsValid(Gui.ReturnButton) then
+			Gui.ReturnButton:SetVisible( false )
 		end
 
 	end
 
 	GTowerMenu:CloseAll()
+	if GTowerItems and GTowerItems.HideTooltip then GTowerItems:HideTooltip() end
 
 	return true
 
@@ -572,6 +598,7 @@ if IsValid( Gui ) then
 	if IsValid( Gui.Resizer ) then Gui.Resizer:Remove() end
 	if IsValid( Gui.MapName ) then Gui.MapName:Remove() end
 	if IsValid( Gui.ReturnButton ) then Gui.ReturnButton:Remove() end
+	if IsValid( Gui.GMCAmount ) then Gui.GMCAmount:Remove() end
 	Gui:Remove()
 
 end

@@ -1,63 +1,148 @@
 module("Location", package.seeall )
 
 DEBUG = false
-Locations = Locations or {}
+Locations = {}
 
---plynet.Register( "Int", "Location" )
+plynet.Register( "Int", "Location" )
 
-function LoadMapData( data )
+function GetLocations()
+	return Locations
+end
 
-	if SERVER then
-		MsgC( color_green, "[Locations] Loaded location data successfully from: maps/" .. game.GetMap() .. ".lua.\n" )
+function GetLocationByIndex( id )
+	return Locations[id]
+end
+
+function Add( id, tbl )
+
+	if type( id ) != "number" then
+		Msg("Adding location that is not a number")
+		return
 	end
 
-	Locations = data
+	if Locations[ id ] then
+		LogPrint("ATTENTION: Adding the same location twice for id: " .. id .. " OldName:" .. Locations[ id ].Name .. ", new name: " .. tbl.Name, color_red, "GTowerLocation")
+	end
 
-	-- Don't waste entity space
-	for _, loc in pairs( ents.FindByClass( "gmt_location" ) ) do
-		--loc:Remove()
+	// Msg( "Adding location... " .. id .. " - " .. tbl.Name, "\n" )
+
+	Locations[ id ] = {}
+	Locations[ id ].Name = tbl.Name
+	Locations[ id ].Min = tbl.Min or Vector(0,0,0)
+	Locations[ id ].Max = tbl.Max or Vector(0,0,0)
+	Locations[ id ].IsSuite = tbl.IsSuite or false
+	Locations[ id ].SuiteID = tbl.SuiteID or 0
+
+	Locations[ id ].Group = tbl.Group or nil
+	Locations[ id ].Priority = tbl.Priority or nil
+
+end
+
+function AddLegacy( id, name, group, min, max, issuite, suiteid, priority )
+	
+	if type( id ) != "number" then
+		Msg("Adding location that is not a number")
+		return
+	end
+	
+	if Locations[ id ] then
+		LogPrint("ATTENTION: Adding the same location twice for id: " .. id .. " OldName:" .. Locations[ id ].Name .. ", new name: " .. name, color_red, "GTowerLocation")
+	end
+
+	//Msg( "Adding location... " .. id .. " - " .. name, "\n" )
+	
+	Locations[ id ] = {}
+	Locations[ id ].Name = name
+	Locations[ id ].Min = min or Vector(0,0,0)
+	Locations[ id ].Max = max or Vector(0,0,0)
+	Locations[ id ].IsSuite = issuite
+	Locations[ id ].SuiteID = suiteid or 0
+
+	Locations[ id ].Group = group or nil
+	Locations[ id ].Priority = priority or 0
+	
+end
+
+function AddKeyValue( id, key, value )
+	
+	if not tonumber(id) then return end
+	
+	Locations[ id ] = Locations[ id ] or {}
+	Locations[ id ][ key ] = value
+	
+end
+
+function ResortVectors()
+
+	for id, loc in pairs( Locations ) do
+
+		if !loc.Min || !loc.Max then continue end
+		OrderVectors( loc.Min, loc.Max )
+
 	end
 
 end
 
 function IncludeMap()
 
-	local map = game.GetMap()
-	local mappath = "GModTower/gamemode/loadables/location/maps/" .. map .. ".lua"
-
-	if not file.Exists(mappath, "LUA") then
-		ErrorNoHalt("LOCATION: No map locations found for '" .. map .. "'\n")
-		return
-	end
-
-	include( "maps/" .. map .. ".lua" )
+	include("maps/" .. game.GetMap() .. ".lua")
 
 	if SERVER then
-		AddCSLuaFile( "maps/" .. map .. ".lua" )
+		AddCSLuaFile("maps/" .. game.GetMap() .. ".lua")
 	end
 
 end
 IncludeMap()
 
-/*function GetByName( name )
+function GetIDByName( name )
 
 	for id, loc in pairs( Locations ) do
 
 		-- Found a matching existing location
 		if loc.Name == name then
-			return loc
+			return id //loc
 		end
 
 	end
 
-end*/
+end
 
 function GetByName( name )
+	return Locations[ GetIDByName( name ) or 0 ] or nil
+end
+
+function GetName( id )
+	return Locations[ id ].Name
+end
+
+function GetSuiteLocations()
+	local tbl = {}
+
+	for id, loc in pairs( Locations ) do
+
+		if !loc.IsSuite then continue end
+		table.insert( tbl, id )
+
+	end
+
+	return tbl
+end
+
+function IsSuite( id )
+	local loc = Locations[ id ]
+	if loc then
+		return loc.IsSuite
+	else
+		return false
+	end
+end
+
+function GetBySuiteID( suiteid )
 
 	for id, loc in pairs( Locations ) do
 
 		-- Found a matching existing location
-		if loc.Name == name then
+		if loc.SuiteID == suiteid then
 			return id
 		end
 
@@ -65,29 +150,20 @@ function GetByName( name )
 
 end
 
-GetIDByName = GetByName
+GetByCondoID = GetBySuiteID
 
-function GetByCondoID( condoid )
-
-	for id, loc in pairs( Locations ) do
-
-		-- Found a matching existing location
-		if loc.CondoID == condoid then
-			return id
-		end
-
-	end
-
-end
-
-function GetCondoID( location )
+function GetSuiteID( location )
 
 	local loc = Get( location )
 	if loc then
-		return loc.CondoID
+		return loc.SuiteID
 	end
 
+	return 0
+
 end
+
+GetCondoID = GetSuiteID
 
 function Get( location )
 	return Locations[location]
@@ -98,7 +174,7 @@ function GetFriendlyName( location )
 	local location = Get( location )
 
 	if location then
-		return location.FriendlyName
+		return location.Name
 	end
 
 	return "Somewhere"
@@ -110,7 +186,7 @@ function GetGroup( location )
 	local location = Get( location )
 
 	if location then
-		return location.Group
+		return (location.Group != nil) and location.Group or ""
 	end
 
 	return ""
@@ -140,51 +216,63 @@ function IsGroup( location, name )
 end
 
 function IsTheater( id )
-	return Is( id, "theater1" ) or Is( id, "theater2" ) --IsGroup( id, "theater" )
-end
-
-function IsVoiceNotAllowed( id )
-	return IsTheater( id ) or Is( id, "nightclub" )
+	return id == 41 or id == 50 or id == 42
 end
 
 function IsCasino( id )
-	return Is( id, "casino" )
+	return id == 10
 end
 
 function IsArcade( id )
-	return IsGroup( id, "arcade" )
+	return IsGroup( id, "arcade" ) // id == 38
 end
 
-function IsNightclub( id )
-	return IsGroup( id, "nightclub" )
+function IsNarnia( id )
+	return id == 51
+end
+
+function IsBar( id )
+	return id == 39 or id == 54
+end
+
+function IsBarDropAllowed( id )
+	return IsBar( id ) or id == 21 // party suite
 end
 
 function IsCondo( id, condoid )
-	return Is( id, "condo" .. condoid )
-end
-
-function IsMonorail( id )
-	return Is( id, "monorail" )
+	return Is( id, "Suite #" .. condoid )
 end
 
 function IsEquippablesNotAllowed( id )
-	return /*IsArcade( id ) or*/ IsTheater( id ) or Is( id, "duelarena" ) or IsMonorail( id ) or IsGroup( id, "secret" )
+	return IsArcade( id ) or IsTheater( id ) or IsNarnia( id ) or id == 9 // hallway
 end
 
 function IsSuicideNotAllowed( id, ply )
-	return IsTheater( id ) or Is( id, "duelarena" ) or ( IsValid( ply ) and ply:GetRoom() and IsCondo( ply:Location(), ply:GetRoom().Id ) )
+	return IsTheater( id ) or ( IsValid( ply ) and ply:GetRoom() and IsCondo( ply:Location(), ply:GetRoom().Id ) )
 end
 
 function IsDrivablesNotAllowed( id ) -- ball race orb
-	return Is( id, "topofslides" ) or Is( id, "slides" ) or Is( id, "pool" ) or Is( id, "ferriswheel" ) or Is( id, "elevator" ) or IsNightclub( id )
+	return true
 end
 
 function IsWeaponsNotAllowed( id )
-	return IsEquippablesNotAllowed( id ) or IsCasino( id ) or IsNightclub( id )
+	return ( IsEquippablesNotAllowed( id ) or IsArcade( id ) or IsCasino( id ) ) && !IsNarnia( id )
 end
 
 function IsDropNotAllowed( id ) -- fireworks
-	return IsEquippablesNotAllowed( id ) or IsCasino( id ) or IsNightclub( id )
+	return IsEquippablesNotAllowed( id ) or IsArcade( id ) or IsCasino( id ) or id == 52
+end
+
+function IsEntsNotAllowed( id )
+	return IsArcade( id ) or IsTheater( id ) or IsNarnia( id ) or id == 52
+end
+
+function IsVoiceNotAllowed( id )
+	return IsTheater( id )
+end
+
+function IsNightclub()
+	return false
 end
 
 function Find( pos )
@@ -192,47 +280,11 @@ function Find( pos )
 	local currentLocation = 0
 	local highestPriority = -1
 
-	for id, loc in ipairs( Locations ) do
-
-		-- Go through regions of a location
-
-		for rid, region in ipairs( loc.Regions ) do
-
-			if region.planes then
-
-				--quick aabb reject
-				if InBox( pos, region.min, region.max ) then
-					local inside = true
-
-					--test against each plane
-					for i=1, #region.planes do
-						local plane = region.planes[i]
-						if pos:Dot(plane.normal) - plane.dist > 0 then
-							inside = false
-						end
-					end
-
-					-- Are we in it and is it highest priority?
-					if inside and loc.Priority > highestPriority then
-						highestPriority = loc.Priority
-						currentLocation = id
-					end
-
-				end
-
-			else
-				-- Are we in it and is it highest priority?
-				if InBox( pos, region.Min, region.Max ) and loc.Priority > highestPriority then
-					highestPriority = loc.Priority
-					currentLocation = id
-
-					--if DEBUG then MsgN( "assn[" .. id .. " -> " .. rid .. "]: " .. loc.Name ) end
-				end
-
-			end
-
+	for id, loc in pairs( Locations ) do
+		if InBox( pos, loc.Min, loc.Max ) and loc.Priority > highestPriority then
+			highestPriority = loc.Priority
+			currentLocation = id
 		end
-
 	end
 
 	return currentLocation
@@ -245,29 +297,14 @@ function InBox( pos, vec1, vec2 )
 		pos.z >= vec1.z && pos.z <= vec2.z
 end
 
-function GetEntitiesInLocation( location, checkGroup )
-	if isstring( location ) then
+function GetEntitiesInLocation( location )
 
-		location = GetByName( location )
-
-	end
-	local group = Locations[location] and Locations[location].Group
 	local entities = {}
 
 	for _, ent in pairs( ents.GetAll() ) do
-		if not IsValid(ent) then continue end 
-
-		-- Same location
-		if ent:Location() == location then
+		if IsValid(ent) and ent:Location() == location then
 			table.insert(entities,ent)
-			continue 
 		end 
-
-		-- Same location group
-		if checkGroup and GetGroup(ent:Location()) == group then
-			table.insert(entities, ent)
-			continue
-		end
 	end
 
 	return entities
@@ -292,29 +329,13 @@ function GetMediaPlayersInLocation( location )
 
 end
 
-function GetPlayersInLocation( location, checkGroup )
+function GetPlayersInLocation( location )
 
-	if isstring( location ) then
-
-		location = GetByName( location )
-
-	end
-	local group = Locations[location] and Locations[location].Group
 	local players = {}
 
 	for _, ply in pairs( player.GetAll() ) do
-		if not IsValid(ply) then continue end 
-
-		-- Same location
 		if ply:Location() == location then
 			table.insert(players, ply)
-			continue
-		end
-
-		-- Same location group
-		if checkGroup and GetGroup(ply:Location()) == group then
-			table.insert(players, ply)
-			continue
 		end
 	end
 
@@ -324,8 +345,7 @@ end
 
 function TeleportToCenter( ply, location )
 
-	-- TODO?
-	/*local loc = Locations[location]
+	local loc = Locations[location]
 
 	if loc then
 
@@ -336,6 +356,6 @@ function TeleportToCenter( ply, location )
 		local centerPos = a + (b-a)/2
 		ply:SetPos( centerPos )
 
-	end*/
+	end
 
 end

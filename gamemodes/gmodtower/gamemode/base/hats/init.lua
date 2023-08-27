@@ -25,6 +25,64 @@ hook.Add("GTowerStoreLoad", "AddHats", function()
 	end
 end )
 
+/*local function writedata( hat, data )
+    net.WriteString( hat )
+
+    net.WriteVector( Vector( data[1], data[2], data[3] ) )
+    net.WriteAngle( Angle( data[4], data[5], data[6] ) )
+    net.WriteFloat( data[7] or 1 )
+    net.WriteUInt( data[8] or 1, 8 )
+end
+
+function SendData( ply, modelname, hats )
+    if isstring( hats ) then
+        hats = { hats }
+    end
+
+    if table.IsEmpty( hats ) then return end
+    if table.Count( hats ) > 2 then return end
+
+    local data = {}
+
+    for _, hat in ipairs( hats ) do
+        local offsets = Get( hat, modelname )
+        if not offsets then continue end
+
+        data[ hat ] = offsets
+    end
+
+    if table.IsEmpty( data ) then return end
+
+    net.Start( "HatRequest" )
+        net.WriteString( modelname )
+        net.WriteUInt( table.Count( data ), 2 )
+
+        for k, v in pairs( data ) do
+            writedata( k, v )
+        end
+    net.Send( ply )
+end
+
+net.Receive( "HatRequest", function( len, ply )
+    if ply._HatDelay and ply._HatDelay > CurTime() then return end
+
+    local modelname = net.ReadString()
+    if not modelname or modelname == "" then return end
+
+    local num = net.ReadUInt( 2 )
+
+    local hats = {}
+
+    for i=1, num do
+        table.insert( hats, net.ReadString() or nil )
+    end
+
+    SendData( ply, modelname, hats )
+
+    ply._HatDelay = CurTime() + 1
+end )
+util.AddNetworkString( "HatRequest" )*/
+
 function CreateWearable( ply, data, slot )
 
     if IsValid( ply.WearableEntities[ slot ] ) then
@@ -91,7 +149,10 @@ function UpdateWearable( ply, hatid, slot )
             print( "Hats.UpdateWearable", "Valid", ent, playermodel )
         end
 
-        local data = Get( item.unique_Name, Hats.FindPlayerModelByName( playermodel ) )
+        local modelname = Hats.FindPlayerModelByName( playermodel )
+        local data = Get( item.unique_Name, modelname )
+
+        data[9] = hatid
 
         // print( "" )
         // print( "Hats.GetData", playermodel, item.model )
@@ -101,6 +162,8 @@ function UpdateWearable( ply, hatid, slot )
         // print( "" )
 
         ent:SetHatData( data )
+
+        //SendData( ply, modelname, item.unique_Name )
 
     end
 

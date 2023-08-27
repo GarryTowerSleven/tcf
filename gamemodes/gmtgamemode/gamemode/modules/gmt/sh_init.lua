@@ -11,7 +11,7 @@ function SetupGMTGamemode( name, folder, settings )
 		local defaultLoadables = {
 			"clientsettings",
 			"achievement",
-			"scoreboard3",
+			"scoreboard",
 			"afk",
 			"question",
 			"minecraftskins",

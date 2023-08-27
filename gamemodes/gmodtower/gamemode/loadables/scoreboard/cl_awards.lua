@@ -1,4 +1,4 @@
----------------------------------
+
 module( "Scoreboard.Awards", package.seeall )
 
 // TAB
@@ -8,7 +8,7 @@ hook.Add( "ScoreBoardItems", "AwardsTab", function()
 end )
 
 TAB = {}
-TAB.Order = 2
+TAB.Order = 3
 
 function TAB:GetText()
 	return "AWARDS"
@@ -28,7 +28,7 @@ vgui.Register( "ScoreboardAwardsTab", TAB, "ScoreboardTab" )
 
 // AWARDS
 
-MATERIALS = 
+MATERIALS =
 {
 	Award = Scoreboard.GenTexture( "ScoreboardAward", "bg_award" ),
 	AwardAchieved = Scoreboard.GenTexture( "ScoreboardAwardAchieved", "bg_award_achieved" ),
@@ -47,34 +47,38 @@ AWARDS = {}
 
 AWARDS.LineHeight = 64
 AWARDS.GroupNames = {
-	[1] = "General",
-	//[20] = "Holiday",
-	[2] = "Milestones",
-	[3] = "Suite",
-	[4] = "Arcade",
-	[5] = "Minigames",
-	[6] = "Ball Race",
-	[7] = "PVP Battle",
-	[8] = "Virus",
-	[9] = "UCH",
-	//[10] = "Zombie Massacre",
-	[11] = "Monotone",
-	//[12] = "Minigolf",
+	[1] = { 1, "General" },
+	[2] = { 2, "Milestones" },
+	[20] = { 3, "Holiday" },
+	[3] = { 4, "Suite" },
+	[4] = { 5, "Arcade" },
+	[21] = { 6, "Casino" },
+	[5] = { 7, "Minigames" },
+	[6] = { 8, "Ball Race" },
+	[7] = { 9, "PVP Battle" },
+	[8] = { 10, "Virus" },
+	[9] = { 11, "UCH" },
+	[10] = { 12, "Zombie Massacre" },
+	[11] = { 13, "Source Karts" },
+	[12] = { 14, "Minigolf" },
 }
 
 AWARDS.GamemodeNames = {
-	[1] = nil,
+	[1] = "gmtlobby",
 	[2] = nil,
 	[3] = nil,
 	[4] = nil,
 	[5] = nil,
 	[6] = "ballrace",
 	[7] = "pvpbattle",
-	//[8] = "virus",
-	//[9] = "ultimatechimerahunt",
-	//[10] = "zombiemassacre",
-	[11] = "monotone",
-	//[12] = "minigolf",
+	[8] = "virus",
+	[9] = "ultimatechimerahunt",
+	[10] = "zombiemassacre",
+	[11] = "sourcekarts",
+	[12] = "minigolf",
+	[13] = "gourmetrace",
+	[20] = "gmodtowerhalloween",
+	[21] = nil,
 }
 
 AWARDS.NextUpdate = 0
@@ -87,34 +91,35 @@ function AWARDS:Init()
 
 	self.Groups = {}
 
-	for id, Name in pairs( self.GroupNames ) do
+	for id, groupinfo in pairs( self.GroupNames ) do
 
 		local tab = vgui.Create( "ScoreboardTabInner", self )
 		local group = vgui.Create( "ScoreboardAwardCategoryTab", tab )
 
+		order = groupinfo[1]
+		name = groupinfo[2]
+
 		tab:SetBody( group )
-		tab:SetText( Name )
-		
-		if self.GamemodeNames[id] && gamemode.Get( self.GamemodeNames[id] ) then
+		tab:SetText( name )
+
+		if self.GamemodeNames[id] && engine.ActiveGamemode() == self.GamemodeNames[id] then
 			tab:SetOrder( 0 )
 			firstTab = tab
 		else
 
-			if id == 20 then // Override for holiday tab
-				tab:SetOrder( 1 )
-			else
-				tab:SetOrder( id )
-			end
+			tab:SetOrder( order )
 
-			if id == 1 then
+			if order == 0 then
 				firstTab = tab
 			end
+
 		end
 
 		self:AddTab( tab )
 		self.Groups[ id ] = group
 
 	end
+
     for k, v in pairs( GTowerAchievements.Achievements ) do
         if v.Group then
             self.Groups[ v.Group ]:AddAchievement( v )
@@ -131,6 +136,14 @@ function AWARDS:Init()
 	RequestUpdate()
 	self.NextUpdate = CurTime() + 1.0
 
+		self.Progress = vgui.Create( "ScoreboardAwardProgressBar", self )
+
+	self.ProgressText = Label("", self)
+
+	self.ProgressText:SetFont("SCAwardCategory")
+
+	self.ProgressText:SetTextColor( colorutil.Brighten(Scoreboard.Customization.ColorAwardsBarAchievedProgress, .5) )
+
 end
 
 function AWARDS:AddTab( tab )
@@ -145,38 +158,38 @@ end
 	if ( self.ActiveTab.VBar ) then
 		return self.ActiveTab.VBar:OnMouseWheeled( dlta )
 	end
-	
+
 end*/
 
 function AWARDS:SetActiveTab( tab )
-	
+
 	if IsValid( self.ActiveTab ) then
 
 		self.ActiveTab:SetActive( false )
 		local oldBody = self.ActiveTab:GetBody()
-		
+
 		oldBody:SetParent( nil )
 		oldBody:SetVisible( false )
 
 	end
-	
+
 	local newBody = tab:GetBody()
-	
+
 	self.ActiveTab = tab
 	self.ActiveTab:SetActive( true )
-	
+
 	newBody:SetParent( self )
 	newBody:SetVisible( true )
 	newBody:OnOpenTab()
 
 	RequestUpdate()
-	
+
 	self:InvalidateLayout()
 
 end
 
 function AWARDS:PerformLayout()
-	
+
 	local position = 5
 	local width = 0
 
@@ -191,7 +204,7 @@ function AWARDS:PerformLayout()
 
 	// Get widest tab
 	for _, tab in pairs( self.Tabs ) do
-		width = 140
+		width = math.max( width, tab:GetWide() )
 	end
 	
 	// Set their positions and size
@@ -199,23 +212,36 @@ function AWARDS:PerformLayout()
 		tab:SetTall( 24 )
 		tab:InvalidateLayout( true )
 		
-		tab:SetPos( self:GetWide() - tab:GetWide() - 10, position )
-		tab:AlignLeft( self:GetWide() - width )
+		tab:SetPos( 0, position )
+		--tab:AlignLeft( self:GetWide() - width )
 		tab:SetWide( width )
 
 		position = position + tab:GetTall()
 	end
 
-	self.TabHeight = position + 4
+	// Count number of achievements unlocked
+	completed = GTowerAchievements:NumUnlocked()
+
+	self.Progress:SetValue( completed / #GTowerAchievements.Achievements )
+	self.Progress:SetSize( self:GetWide(), 18 )
+	self.Progress:CenterHorizontal()
+	self.Progress:AlignBottom()
+
+	self.ProgressText:SetText( completed .. " / " .. #GTowerAchievements.Achievements .. "   AWARDS UNLOCKED" )
+	self.ProgressText:SizeToContents()
+	self.ProgressText:AlignBottom()
+	self.ProgressText:CenterHorizontal()
+
+	self.TabHeight = position + 4 + self.Progress:GetTall()
 	self.TabWidth = width
 
 	// Layout active tab
 	if IsValid( self.ActiveTab ) then
 		local body = self.ActiveTab:GetBody()
 		body:InvalidateLayout( true )
-		body:SetPos( 0, 4 )
+		body:SetPos( self.TabWidth, 4 )
 		body:SetWide( self:GetWide() - width )
-		body:AlignLeft()
+		body:AlignRight()
 	end
 
 	RequestUpdate()
@@ -280,10 +306,10 @@ function AWARDSCATEGORY:Init()
 	self:SetLabelFont( Scoreboard.Customization.CollapsablesFont, false )
 	self:SetTabCurve( 4 )
 
-	self:SetColors( 
-		Scoreboard.Customization.ColorDark, 
-		Scoreboard.Customization.ColorBackground, 
-		Scoreboard.Customization.ColorBackground, 
+	self:SetColors(
+		Scoreboard.Customization.ColorDark,
+		Scoreboard.Customization.ColorBackground,
+		Scoreboard.Customization.ColorBackground,
 		Scoreboard.Customization.ColorBackground
 	)
 
@@ -305,10 +331,10 @@ function AWARDSCATEGORY:SetAsGamemode()
 	self:SetExpanded( true )
 	self:SetMouseInputEnabled( false )
 
-	self:SetColors( 
-		Scoreboard.Customization.ColorBackground, 
-		Scoreboard.Customization.ColorBackground, 
-		Scoreboard.Customization.ColorBackground, 
+	self:SetColors(
+		Scoreboard.Customization.ColorBackground,
+		Scoreboard.Customization.ColorBackground,
+		Scoreboard.Customization.ColorBackground,
 		Scoreboard.Customization.ColorBackground
 	)
 
@@ -325,7 +351,7 @@ end
 
 function AWARDSCATEGORY:PerformLayout()
 
-	local width = self:GetWide() / 2 - 1 
+	local width = self:GetWide() / 2 - 1
 
 	self.Contents:SetColWide( width )
 
@@ -388,7 +414,7 @@ end
 
 function AWARDSCATEGORYTAB:PerformLayout()
 
-	local width = self:GetWide() / 2 - 1 
+	local width = self:GetWide() / 2 - 1
 
 	self.Contents:SetColWide( width )
 
@@ -402,7 +428,7 @@ function AWARDSCATEGORYTAB:PerformLayout()
 	if self.Contents then
 
 		self.Contents:SetPos( Padding, 0 )
-		self.Contents:SetWide( self:GetWide() - Padding * 2 )	
+		self.Contents:SetWide( self:GetWide() - Padding * 2 )
 		self.Contents:InvalidateLayout( true )
 
 		self:SetTall( self.Contents:GetTall() + Padding * 2 + 4 )
@@ -447,6 +473,22 @@ function AWARD:Init()
 
 	self:SetTall( self.Height )
 
+self.GMC = Label("500", self)
+self.GMC:SetFont("SCAwardGMC")
+self.GMC:SetTextColor( Scoreboard.Customization.ColorAwardsDescription )
+
+//self.Item = Label("ITEM", self)
+//self.Item:SetFont("SCAwardGMCSmall")
+//self.Item:SetTextColor( Scoreboard.Customization.ColorAwardsDescription )
+
+//self.Pays = Label("PAYS", self)
+//self.Pays:SetFont("SCAwardGMCSmall")
+//self.Pays:SetTextColor( Scoreboard.Customization.ColorAwardsDescription )
+
+self.GMCIcon = vgui.Create( "DImage", self )
+self.GMCIcon:SetMaterial( "gmod_tower/scoreboard/icon_money.png" )
+self.GMCIcon:SetSize( 10, 10 )
+
 end
 
 function AWARD:SetAchievement( achievement )
@@ -470,7 +512,7 @@ end
 function AWARD:PerformLayout()
 	local maxValue = self.Achievement.Value
 	local value = self.Achievement.PlyVal or 0
-	
+
 	if self.Achievement.GetMaxValue then
 		maxValue = self.Achievement.GetMaxValue()
 	end
@@ -480,16 +522,16 @@ function AWARD:PerformLayout()
 
 	self.CollapseText:SetWide( self:GetWide() - 12 )
 	self.CollapseText:CenterHorizontal()
-	self.CollapseText.y = 2	
-	
+	self.CollapseText.y = 2
+
 	//Check if we should draw the progress bar
 	if maxValue != 1 then
-		
+
 		self.Progress:SetValue( value / maxValue )
 		self.CollapseText:SetProgressText( string.FormatNumber( value ) .. " / " .. string.FormatNumber( maxValue ) )
 
 		self.CollapseText:SetTall( self:GetTall() - 16 )
-		
+
 		self.Progress:SetSize( self.CollapseText:GetWide(), 10 )
 		self.Progress:CenterHorizontal()
 		self.Progress:AlignBottom( 6 )
@@ -503,7 +545,33 @@ function AWARD:PerformLayout()
 		self.CollapseText:CenterVertical()
 
 	end
+	//if self.Achievement.GMC then
 
+		self.GMC:SetText( string.FormatNumber( self.Achievement.GMC or 500 ) )
+
+		self.GMC:SizeToContents()
+		//self.Item:SizeToContents()
+		//self.Pays:SizeToContents()
+
+		local add = 0
+		if self.Achievement.GiveItem then add = 16 end //+ self.Item:GetWide() end
+
+		//self.Pays:AlignRight( self.GMC:GetWide() + 8 + add )
+		//self.Pays.y = 3
+
+		self.GMCIcon:AlignRight( self.GMC:GetWide() + 8 + add )
+		self.GMC:AlignRight( add + 4 )
+		//self.Item:AlignRight( add + 4 )
+
+		self.GMC.y = 3
+		self.GMCIcon.y = 6
+
+	//end
+
+	//self.Item:SetVisible( self.Achievement.GiveItem )
+	//self.GMC:SetVisible(self.Achievement.GMC)
+	//self.GMCIcon:SetVisible(self.Achievement.GMC)
+	//self.Pays:SetVisible(self.Achievement.GMC)
 	self:InvalidateLayout()
 
 end
@@ -521,7 +589,7 @@ function AWARD:Paint( w, h )
 	surface.SetDrawColor( 255, 255, 255, 255 )
 
 	if self.IsAchieved then
-		surface.SetDrawColor( Scoreboard.Customization.ColorAwardsAchievedIcon )
+		surface.SetDrawColor( 255, 255, 255, 50 )
 
 		surface.SetMaterial( MATERIALS.AwardAchieved )
 		surface.DrawTexturedRect( 0, 0, 512, self:GetTall() )
@@ -640,7 +708,7 @@ function AWARDCOLLAPSE:Think()
 
 	self.TitleShadow.x = self.Title.x + 2
 	self.TitleShadow.y = self.Title.y + 2
-	
+
 end
 
 function AWARDCOLLAPSE:PerformLayout()
@@ -739,7 +807,7 @@ function PROGRESSBAR:Paint( w, h )
 
 	if self.ProgressApproach != w then
 		surface.SetDrawColor( Scoreboard.Customization.ColorAwardsBarNotAchieved )
-		surface.DrawRect( self.ProgressApproach, 0, w - self.ProgressApproach, h )	
+		surface.DrawRect( self.ProgressApproach, 0, w - self.ProgressApproach, h )
 	end
 
 	if self.ProgressApproach != 0 then
@@ -749,4 +817,4 @@ function PROGRESSBAR:Paint( w, h )
 
 end
 
-vgui.Register( "ScoreboardAwardProgressBar", PROGRESSBAR ) 
+vgui.Register( "ScoreboardAwardProgressBar", PROGRESSBAR )

@@ -11,9 +11,9 @@ end
 
 hook.Add("SQLStartColumns", "SQLRoomData", function()
 	SQLColumn.Init( {
-		["column"] = "condodata",
-		["selectquery"] = "HEX(condodata) as condodata",
-		["selectresult"] = "condodata",
+		["column"] = "roomdata",
+		["selectquery"] = "HEX(roomdata) as roomdata",
+		["selectresult"] = "roomdata",
 		["update"] = UpdateData,
 		["defaultvalue"] = function( ply )
 			ply._RoomSaveData = nil

@@ -65,6 +65,16 @@ function ENT:Draw()
 	end
 end
 
+hook.Add( "PostPlayerDraw", "DrawHats", function(ply, flags)
+	if engine.ActiveGamemode() == "minigolf" then return end
+	if not ply.CosmeticEquipment then return end
+
+    for _, v in pairs(ply.CosmeticEquipment) do
+		if ( not v.Draw ) then continue end
+        v:Draw()
+    end
+end )
+
 function ENT:DrawTranslucent()
 	self:Draw()
 end
@@ -89,6 +99,8 @@ function ENT:ShouldDraw( ply, dist )
 	if !IsValid( ply ) then return false end
 
 	if IsLobby then
+
+		if ( ply:GetNWBool( "InLimbo" ) ) then return false end
 
 		// Hide for distance
 		local dist = LocalPlayer():EyePos():Distance( self:GetPos() )

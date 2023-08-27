@@ -133,7 +133,7 @@ function PANEL:CreateModel( force )
 	if (iSeq > 0) then self.Entity:ResetSequence( iSeq ) end
 
 	// Set scale
-	self.Entity.Scale = scale or 1
+	self.Entity.Scale = scale or GTowerModels.GetScale( strModelName ) or 1
 
 	self:OnModelCreated()
 	

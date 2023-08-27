@@ -1,14 +1,13 @@
----------------------------------
 module( "Scoreboard.Appearance", package.seeall )
 
 // TAB
-surface.CreateFont( "GTowerHUDMainTiny", { font = "Oswald", size = 16, weight = 400 } )
+
 hook.Add( "ScoreBoardItems", "AppearanceTab", function()
 	return vgui.Create( "AppearancePlayersTab" )
 end )
 
 TAB = {}
-TAB.Order = 4
+TAB.Order = 2
 TAB.HideForGamemode = true
 
 function TAB:GetText()
@@ -31,25 +30,26 @@ vgui.Register( "AppearancePlayersTab", TAB, "ScoreboardTab" )
 
 local function IconSetModel( icon )
 
-	surface.PlaySound( "ui/buttonclickrelease.wav" )
+	surface.PlaySound( "ui/buttonclickrelease.wav" ) 
 
-	if IsLobby then
-		--Msg2( T("PlayerModelUpdated") )
-		Msg2("Model is going to be updated once you respawn")
+	if IsLobby && !IsValid( LocalPlayer():GetVehicle() ) then
+		Msg2( T("PlayerModelUpdated") )
 	else
-		--Msg2( T("PlayerModelUpdatedLater") )
-		Msg2("Model is going to be updated once you respawn")
+		Msg2( T("PlayerModelUpdatedLater") )
 	end
 
 	RunConsoleCommand( "gmt_playermodel", icon.ModelName )
-	RunConsoleCommand( "gmt_updateplayermodel" )
+
+	if !IsValid( LocalPlayer():GetVehicle() ) then
+		RunConsoleCommand( "gmt_updateplayermodel" )
+	end
 
 end
 
 local function IconSetHatModel( icon )
 
-	surface.PlaySound( "ui/buttonclickrelease.wav" )
-	RunConsoleCommand( "gmt_sethat", icon.HatID )
+	surface.PlaySound( "ui/buttonclickrelease.wav" ) 
+	RunConsoleCommand( "gmt_sethat", icon.HatID, icon.HatSlot )
 
 end
 
@@ -61,14 +61,14 @@ local ViewAngles = Vector(0, 0, CameraZPos)
 
 APPEARANCE = {}
 
-function APPEARANCE:NewCategory( Name, cookie )
-
+function APPEARANCE:NewCategory( name, cookie )
+	
 	local Category = vgui.Create( "ScoreboardSettingsCategory", self )
-	Category:SetLabel( Name )
+	Category:SetLabel( name )
 	Category.OnMouseWheeled = function( Category, dlta )
 		Scoreboard.ParentMouseWheeled( self, dlta )
 	end
-
+	
 	local Canvas = vgui.Create( "ScoreboardSettingsList", Category )
 	Canvas:SetAutoSize( true )
 	Canvas:EnableHorizontal( true )
@@ -79,14 +79,16 @@ function APPEARANCE:NewCategory( Name, cookie )
 	Canvas.OnMouseWheeled = function( Canvas, dlta )
 		Scoreboard.ParentMouseWheeled( self, dlta )
 	end
-
+	
 	Category:SetContents( Canvas )
 	Category.Category = Canvas
 	Category:SetCookieName( cookie )
-
+	
 	return Category, Canvas
-
+	
 end
+
+local gradient = surface.GetTextureID( "VGUI/gradient_up" )
 
 function APPEARANCE:Init()
 
@@ -97,23 +99,34 @@ function APPEARANCE:Init()
 	self.ModelPanel:SetAnimated( true )
 	self.ModelPanel:SetZPos( 2 )
 
-	local gradient = surface.GetTextureID( "VGUI/gradient_up" )
-	self.ModelPanel.BackgroundDraw = function()
+	self.ModelPanel.PrePaint = function( panel, w, h )
+		surface.SetDrawColor( 0, 0, 0, 150 )
+		surface.DrawRect( 0, 0, w, h )
+
 		surface.SetDrawColor( 0, 0, 0, 200 )
 		surface.SetTexture( gradient )
-		surface.DrawTexturedRect( 0, 0, self.ModelPanel:GetSize() )
+		surface.DrawTexturedRect( 0, 0, w, h )
+	end
+
+	self.ModelPanel.PaintOver = function( panel, w, h )
+		surface.SetDrawColor( 0, 0, 0, 150 )
+		surface.DrawOutlinedRect( 0, 0, w, h, 2 )
 	end
 
 	// Player models
-	local ModelSelection, CategoryList = self:NewCategory( "Player Models", "GTSetModelListOpen" )
-	self.Groups["ModelSelection"] = ModelSelection
+	local ModelSelection = self:NewCategory( "Default Player Models", "GTSetModelListOpen" )
+	self.Groups[1] = ModelSelection
+
+	// GMT player models
+	local ModelSelection = self:NewCategory( "Player Models", "GTSetModelGMTListOpen" )
+	self.Groups[2] = ModelSelection
 
 	// Hats
-	//local HatModelSelectionHead, HatCategoryListHead = self:NewCategory( "Hats - Head", "GTSetHatModelListHeadOpen" )
-	//self.Groups["HatModelSelectionHead"] = HatModelSelectionHead
+	local HatModelSelection = self:NewCategory( "Hats - Head", "GTSetHatModelListHeadOpen" )
+	self.Groups[3] = HatModelSelection
 
-	local HatModelSelectionFace, HatCategoryListFace = self:NewCategory( "Hats", "GTSetHatModelListFaceOpen" )
-	self.Groups["HatModelSelectionFace"] = HatModelSelectionFace
+	local HatModelSelection = self:NewCategory( "Hats - Face", "GTSetHatModelListFaceOpen" )
+	self.Groups[4] = HatModelSelection
 
 	// Update everything
 	self:GenerateModelSelection()
@@ -126,9 +139,9 @@ function APPEARANCE:Init()
 end
 
 function APPEARANCE:UpdateModelPanel()
-
+	
 	if !IsValid( self.ModelPanel ) then return end
-
+		
 	self.ModelPanel:SetSize( ModelSizeX, ModelSizeY )
 	self.ModelPanel:SetPos( 0, 0 )
 
@@ -136,40 +149,44 @@ function APPEARANCE:UpdateModelPanel()
 	self.ModelPanel:SetCamPos( Vector(40,0,CameraZPos) )
 
 	// Get proper model
-	--local modelName = LocalPlayer():GetTranslatedModel()
-	local modelName = LocalPlayer():GetModel()
+	local modelname = LocalPlayer():GetTranslatedModel()
 
-	util.PrecacheModel( modelName )
+	util.PrecacheModel( modelname )
 
 	// Set the model
-	self.ModelPanel:SetModel( modelName, LocalPlayer():GetSkin() )
+	self.ModelPanel:SetModel( modelname, LocalPlayer():GetSkin() )
 
 	// Set the hats
-	--self.ModelPanel:SetModelWearables( LocalPlayer() )
+	self.ModelPanel:SetModelWearables( LocalPlayer() )
 
 	// Set color and materials
-	--self.ModelPanel.Entity:SetPlayerProperties( LocalPlayer() )
-
+	self.ModelPanel.Entity:SetPlayerProperties( LocalPlayer() )
+	
 end
 
 local matHover = Material( "vgui/spawnmenu/hover" )
 
 function APPEARANCE:GenerateModelSelection()
 
-	//if !IsLobby then return end
+	if !IsLobby then return end
+	RunConsoleCommand( "gmt_requesthatstoreupdate" )
 
 	local UsedModels = {}
 	local UsedHats = {}
-	local CategoryList = self.Groups["ModelSelection"].Category
-	//local HatCategoryListHead = self.Groups["HatModelSelectionHead"].Category
-	local HatCategoryListFace = self.Groups["HatModelSelectionFace"].Category
-
+	local CategoryList = self.Groups[1].Category
+	local CategoryGMTList = self.Groups[2].Category
+	local HatCategoryListHead = self.Groups[3].Category
+	local HatCategoryListFace = self.Groups[4].Category
+	
 	CategoryList:Clear( true )
-	//HatCategoryListHead:Clear( true )
+	CategoryGMTList:Clear( true )
+	HatCategoryListHead:Clear( true )
 	HatCategoryListFace:Clear( true )
 
-	local function AddSpawnIcon( Name, model, skin, onclick, category, hatid, hatSlot, iconsize )
+	local function AddSpawnIcon( name, model, skin, onclick, category, hatid, hatSlot, description, bettername )
 
+		if !hatid && table.HasValue( UsedModels, model ) then return end
+	
 		if hatid != 0 then
 
 			if table.HasValue( UsedHats, hatid ) then
@@ -186,14 +203,40 @@ function APPEARANCE:GenerateModelSelection()
 
 		end
 
-		local icon = vgui.Create( "SpawnIcon", self )
-		icon:SetModel( model, skin )
+		local dvgui = "DImageButton"
+
+		-- Custom icon support
+		local path = "materials/gmod_tower/icons/" .. string.StripExtension( model )
+		if name == "Cap Reversed" then path = path .. "_backwards" end
+		if skin and skin > 0 then path = path .. "_skin" .. skin end -- Skin support
+		path = path .. ".png"
+
+		local icon = vgui.Create( dvgui, self )
+
+		-- Old model icon
+		if dvgui == "SpawnIcon" then
+			icon:SetModel( model, skin )
+		end
+
+		-- New custom icons
+		if dvgui == "DImageButton" then
+			icon:SetSize( 64, 64 )
+
+			icon:SetImage( path )
+		end
+
 		icon:SetTooltip( false )
-		icon:SetSize( 48, 48 )
+		if category == CategoryList then
+			icon:SetSize( 48, 48 )
+		end
+
+		//icon:SetIconSize( 64 )
 		icon.HatID = hatid
 		icon.HatSlot = hatSlot
-		icon.Model = model
-		icon.ModelName = Name
+		icon.Model = string.lower(model)
+		icon.ModelName = name
+		icon.BetterName = bettername or name
+		icon.Description = description or ""
 
 		icon.DoRightClick = function() end
 		icon.OpenMenu = function() end
@@ -203,46 +246,60 @@ function APPEARANCE:GenerateModelSelection()
 			return x >= 0 and y >= 0 and x <= icon:GetWide() and y <= icon:GetTall()
 		end
 
-		/*icon.Think = function()
+		icon.OnCursorEntered = function()
+			if GTowerItems then GTowerItems:ShowTooltip( icon.BetterName, icon.Description, self ) end
+		end
 
-			WasLeftClickHeld = IsLeftClickHeld
-			IsLeftClickHeld = input.IsMouseDown( MOUSE_LEFT )
+		icon.OnCursorExited = function()
+			if GTowerItems then GTowerItems:HideTooltip() end
+		end
 
-			if icon:IsMouseOver() && IsLeftClickHeld && !WasLeftClickHeld then
-				icon:DoClick()
-			end
-
-		end*/
-
-		icon.PaintOver = function( w, h )
+		icon.PaintOver = function( self, w, h )
 
 			//icon:DrawSelections()
-			local Name = string.upper( tostring( icon.ModelName ) )
-			local w, h = icon:GetWide(), icon:GetTall()
+			/*local name = string.upper( tostring( icon.ModelName ) )
 
-			if string.find( Name, "-" ) then
-				Name = string.sub( Name, 0, -3 )
+			if string.find( name, "-" ) then
+				name = string.sub( name, 0, -3 )
 			end
 
-			Name = string.gsub( Name, "_", " " )
+			name = string.gsub( name, "_", " " )
 
-			surface.SetFont( "GTowerHUDMainTiny" )
-			surface.SetTextPos( 1, 0 )
+			surface.SetFont( "InvTinyText" )
+			surface.SetTextPos( 1, 0 )*/
+
+			draw.RectBorder( 0, 0, w, h, 1, Scoreboard.Customization.ColorDark )
+
+			if ( icon.Model == LocalPlayer():GetTranslatedModel() ) || ( icon.HatID != 0 && Hats.IsWearingID( LocalPlayer(), icon.HatID ) ) then
+				
+				// surface.SetDrawColor( 255, 255, 255, 150 )
+				// surface.DrawRect( 2, 2, w - 4, 16 )
+
+				draw.RectBorder( 0, 0, w, h, 4, Color( 200, 200, 255 ) )
+				
+				// surface.SetTextColor( 0, 0, 0, 255 )
+				// surface.DrawText( name )
+
+				//surface.DrawRect( 0, 0, icon:GetSize() )
+				//surface.SetMaterial( matHover )
+				//icon:DrawTexturedRect()
+				return
+			end
 
 			if !icon:IsMouseOver() then return end
 
-			surface.SetDrawColor( 0, 0, 0, 150 )
+			--[[surface.SetDrawColor( 0, 0, 0, 150 )
 			surface.DrawRect( 2, 2, w - 4, 16 )
 
 			surface.SetTextColor( 255, 255, 255, 255 )
-			surface.DrawText( Name )
+			surface.DrawText( name )]]
 
-			--icon:DrawBorder( 2 )
+			draw.RectBorder( 0, 0, w, h, 4, Scoreboard.Customization.ColorDark )
 			//surface.SetMaterial( matHover )
 			//icon:DrawTexturedRect()
 
 		end
-
+		
 		icon.DoClick = onclick
 
 		if IsValid( category ) then
@@ -252,36 +309,47 @@ function APPEARANCE:GenerateModelSelection()
 		icon:InvalidateLayout( true )
 
 		table.insert( UsedModels, model )
-
+		
 	end
 
 	// PLAYER MODELS
 
-	for Name, model in pairs( player_manager.AllValidModels() ) do
-		if hook.Call( "AllowModel", GAMEMODE, LocalPlayer(), Name ) then
-			AddSpawnIcon( Name, model, skin, IconSetModel, CategoryList, 0, 0, 48 )
-		end
+	for name, model in pairs( player_manager.AllValidModels() ) do
+		if GTowerModels.AdminModels[name] || GTowerModels.Models[name] then continue end
+		AddSpawnIcon( name, model, skin, IconSetModel, CategoryList, 0, 0, "A standard player model." )
 	end
-	hook.Call( "ClientExtraModels", GAMEMODE, AddSpawnIcon, IconSetModel, CategoryList, 0, 0, 28 )
+
+	hook.Call( "ClientExtraModels", GAMEMODE, AddSpawnIcon, IconSetModel, CategoryGMTList )
 
 	// HATS
 
 	// Hat remove
-	//AddSpawnIcon( GTowerHats.Hats[0].Name, GTowerHats.Hats[0].model, 0, IconSetHatModel, HatCategoryListHead, 0, 1 )
-	//AddSpawnIcon( GTowerHats.Hats[0].Name, GTowerHats.Hats[0].model, 0, IconSetHatModel, HatCategoryListFace, 0, 2 )
+	AddSpawnIcon( Hats.List[0].name, Hats.List[0].model, 0, function() RunConsoleCommand('gmt_sethat', '0', '1') end, HatCategoryListHead, 0, 1, "Remove head hat." )
+	AddSpawnIcon( Hats.List[0].name, Hats.List[0].model, 0, function() RunConsoleCommand('gmt_sethat', '0', '2') end, HatCategoryListFace, 0, 2, "Remove face hat." )
 
-	for hatid, hat in pairs( GTowerHats.Hats ) do
+	-- Store original hat ids
+	for hatid, hat in pairs( Hats.List ) do
+		hat.hatid = hatid
+	end
 
-		//if hook.Call( "CanWearHat", GAMEMODE, LocalPlayer(), hat.unique_Name ) == 1 then
+	-- Sort by ABC
+	local HatsSorted = table.Copy( Hats.List )
+	table.sort( HatsSorted, function( a, b )
+		return a.name < b.name
+	end )
+
+	-- Add the icons
+	for id, hat in pairs( HatsSorted ) do
+
+		if hook.Call( "CanWearHat", GAMEMODE, LocalPlayer(), hat.unique_Name ) == 1 then
 
 			if hat.slot == 1 then
-				//print(hat.Name)
-				//AddSpawnIcon( hat.Name, hat.model, hat.ModelSkinId, IconSetHatModel, HatCategoryListHead, hatid, hat.slot )
+				AddSpawnIcon( hat.name, hat.model, hat.ModelSkinId, IconSetHatModel, HatCategoryListHead, hat.hatid, hat.slot, hat.description )
 			else
-				AddSpawnIcon( hat.Name, hat.model, hat.ModelSkinId, IconSetHatModel, HatCategoryListFace, hatid, hat.slot )
+				AddSpawnIcon( hat.name, hat.model, hat.ModelSkinId, IconSetHatModel, HatCategoryListFace, hat.hatid, hat.slot, hat.description )
 			end
 
-		//end
+		end
 
 	end
 
@@ -298,25 +366,65 @@ function APPEARANCE:GenerateColorSelection()
 
 	local PlayerColor = vgui.Create( "DColorMixer", self )
 	PlayerColor:SetAlphaBar( false )
-	PlayerColor:SetPalette( true )
-	PlayerColor:SetSize( ModelSizeX - 10, 150 )
+	PlayerColor:SetPalette( false )
+	PlayerColor:SetWangs( false )
+	PlayerColor:SetSize( ModelSizeX - 10, 80 )
 	PlayerColor.NextConVarCheck = SysTime()
 	PlayerColor:SetVector( Vector( GetConVarString( "cl_playercolor" ) ) )
 	PlayerColor.ValueChanged = function()
 		RunConsoleCommand( "cl_playercolor", tostring( PlayerColor:GetVector() ) )
 		RunConsoleCommand( "gmt_updateplayercolor" )
-		LocalPlayer():SetPlayerColor(PlayerColor:GetVector())
 	end
 
 	local function UpdateFromConvars()
 		PlayerColor:SetVector( Vector( GetConVarString( "cl_playercolor" ) ) )
 	end
 
-	PlayerColor.OnActivePanelChanged = function() timer.Simple( 0.1, UpdateFromConvars() ) end
+	PlayerColor.OnActivePanelChanged = function() timer.Simple( 0.1, UpdateFromConvars ) end
 	ColorCategoryList:AddItem( PlayerColor )
+
+	// Glow Color
+	if LocalPlayer().IsVIP && LocalPlayer():IsVIP() then
+
+		local GlowColorSelection, GlowColorCategoryList = self:NewCategory( "Glow Color" )
+		GlowColorSelection:SetCookieName( "GTSetGlowColorListOpen" )
+		self.GlowColorSelection = GlowColorSelection
+
+		local GlowColor = vgui.Create( "DColorMixer", self )
+		GlowColor:SetAlphaBar( false )
+		GlowColor:SetPalette( false )
+		GlowColor:SetWangs( false )
+		GlowColor:SetSize( ModelSizeX - 10, 80 )
+		GlowColor.NextConVarCheck = SysTime()
+		GlowColor:SetVector( Vector( GetConVarString( "cl_playerglowcolor" ) ) )
+		GlowColor.ValueChanged = function()
+			RunConsoleCommand( "cl_playerglowcolor", tostring( GlowColor:GetVector() ) )
+			LocalPlayer()._NextGlow = CurTime() + 1
+		end
+
+		local function UpdateFromConvars()
+			GlowColor:SetVector( Vector( GetConVarString( "cl_playerglowcolor" ) ) )
+		end
+
+		GlowColor.OnActivePanelChanged = function() timer.Simple( 0.1, UpdateFromConvars ) end
+		GlowColorCategoryList:AddItem( GlowColor )
+
+	end
 
 end
 
+hook.Add( "PlayerThink", "SyncPlayerGlow", function( ply )
+
+	if LocalPlayer().IsVIP && LocalPlayer():IsVIP() then
+
+		if ply._NextGlow && ply._NextGlow < CurTime() then
+			RunConsoleCommand( "gmt_updateglowcolor" )
+			ply._NextGlow = nil
+		end
+
+	end
+
+end )
 
 function APPEARANCE:OnOpen()
 
@@ -343,47 +451,44 @@ end
 
 function APPEARANCE:PerformLayout()
 
-	local colorPanel = 150
-	local minY = 2 + ModelSizeY + ( colorPanel + 30 ) // padding + model panel + color panel
 	local curY = 2
-
-	for id, category in pairs( self.Groups ) do
+	
+	for id, category in ipairs( self.Groups ) do
 
 		category:SetWide( self:GetWide() - 6 - ModelSizeX )
 		category:SetPos( ModelSizeX + 3, curY )
-
+		
 		curY = curY + category:GetTall() + 2
 
 	end
 
+	local minY = 2 + ModelSizeY // padding + model panel
+
 	if self.ColorSelection then
-		self.ColorSelection:SetSize( ModelSizeX, colorPanel )
+		self.ColorSelection:SetWide( ModelSizeX )
 		self.ColorSelection:SetPos( 0, ModelSizeY )
+		minY = minY + self.ColorSelection:GetTall()
 	end
 
 	if self.GlowColorSelection then
-		self.GlowColorSelection:SetSize( ModelSizeX, colorPanel )
-		self.GlowColorSelection:SetPos( 0, ModelSizeY + ( colorPanel + 30 ) )
-		minY = minY + ( colorPanel + 30 )
+		self.GlowColorSelection:SetWide( ModelSizeX )
+		self.GlowColorSelection:SetPos( 0, ModelSizeY + self.ColorSelection:GetTall() )
+		minY = minY + self.GlowColorSelection:GetTall()
 	end
 
 	if curY < minY then
 		curY = minY
 	end
-
+	
 	//self.ItemParent:SetTargetTall( SumHeight, self )
 	self:SetTall( curY )
 
 end
 
-
-local gradient = surface.GetTextureID( "VGUI/gradient_up" )
 function APPEARANCE:Paint( w, h )
 
 	surface.SetDrawColor( Scoreboard.Customization.ColorNormal )
 	surface.DrawRect( 0, 0, self:GetWide(), self:GetTall() )
-
-	//self:DrawModelHat( self.ModelPanel.Entity )
 
 end
 
@@ -400,10 +505,10 @@ function SETTINGSCATEGORY:Init()
 	self:SetLabelFont( Scoreboard.Customization.CollapsablesFont, false )
 	self:SetTabCurve( 0 )
 
-	self:SetColors(
-		Scoreboard.Customization.ColorDark,
-		Scoreboard.Customization.ColorBackground,
-		Scoreboard.Customization.ColorBright,
+	self:SetColors( 
+		Scoreboard.Customization.ColorDark, 
+		Scoreboard.Customization.ColorBackground, 
+		Scoreboard.Customization.ColorBright, 
 		Scoreboard.Customization.ColorBright
 	)
 
@@ -413,8 +518,6 @@ function SETTINGSCATEGORY:Init()
 end
 
 vgui.Register( "ScoreboardSettingsCategory", SETTINGSCATEGORY, "DCollapsibleCategory2" )
-
-
 
 
 SETTINGSLIST = {}
@@ -454,7 +557,7 @@ end
 	end
 
 	if x == 2 then
-	--	y = y - itemSize
+	--	y = y - itemSize 
 	end
 
 	self:SetTall( y )

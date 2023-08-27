@@ -863,6 +863,22 @@ RegisterModel(
 	"gasmask",
 	4000 )
 	
+RegisterModel(
+	"mdl_redrabbit",
+	"Red Rabbit",
+	"Huh.. Time sure has passed, but there's still time for hopping!",
+	"models/player/redrabbit2.mdl",
+	"redrabbit",
+	7500 )
+	
+RegisterModel(
+	"mdl_renamon",
+	"Renamon",
+	"Rena Power!",
+	"models/player/renamon.mdl",
+	"renamon",
+	22500 )
+	
 --[[ Has buggy arms
 RegisterModel(
 	"mdl_hunk",

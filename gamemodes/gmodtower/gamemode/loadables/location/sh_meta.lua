@@ -7,7 +7,7 @@ if DEBUG then
 end
 	
 if EntityMeta then
-	
+
 	function EntityMeta:Location( force )
 
 		if !IsValid( self ) then return 1 end
@@ -33,7 +33,7 @@ if EntityMeta then
 	
 	function EntityMeta:LocationGroup()
 		return Location.GetGroup( self:Location() )
-	end	
+	end
 	
 end
 
@@ -51,6 +51,6 @@ if Player then
 			return self._Location
 		end
 
-		return self:GetNWInt("Location")
+		return self:GetNet( "Location" )
 	end
 end

@@ -7,35 +7,8 @@ local QueryPanel = nil
 
 include("shared.lua")
 include("room_maps.lua")
-//include("upgrades.lua")
-
-NoPartyMsg = CreateClientConVar( "gmt_ignore_party", "0", true, false )
-
-CondoSkyBox 	= CreateClientConVar( "gmt_condoskybox" , "1", true, true )
-CondoDoorbell 	= CreateClientConVar( "gmt_condodoorbell" , "1", true, true )
-CondoBackground = CreateClientConVar( "gmt_condobg" , "1", true, true )
-CondoBlinds 	= CreateClientConVar( "gmt_condoblinds" , "1", true, true )
-
-cvars.AddChangeCallback( "gmt_condodoorbell", function(cmd, old, new)
-	RunConsoleCommand( "gmt_setdoorbell", new )
-end )
-
-net.Receive("gmt_partymessage", function()
-	if NoPartyMsg:GetBool() then return end
-	if Dueling.IsDueling( LocalPlayer() ) then return end
-
-	local invString = net.ReadString()
-	local roomid = net.ReadString()
-
-	local Question = Msg2( invString, 30 )
-	Question:SetupQuestion(
-	function() RunConsoleCommand( "gmt_joinparty", roomid ) end,
-	function() end,
-	function() end,
-	nil,
-	{120, 160, 120},
-	{160, 120, 120})
-end)
+include("cl_closet.lua")
+include("cl_party.lua")
 
 usermessage.Hook("GRoom", function(um)
 
@@ -48,7 +21,7 @@ usermessage.Hook("GRoom", function(um)
 	elseif id == 2 then
 		GTowerRooms:ShowRentWindow( um )
 	elseif id == 3 then
-		local menu = {
+		/*local menu = {
 			{
 				title = "Information",
 				icon = "about",
@@ -56,7 +29,7 @@ usermessage.Hook("GRoom", function(um)
 			},
 		}
 
-		SelectionMenuManager.Create( "towercondos", menu, "Sorry, no condos available." )
+		SelectionMenuManager.Create( "towercondos", menu, "Sorry, no condos available." )*/
 	elseif id == 4 then
 		GTowerRooms:ShowNewRoom( um )
 	elseif id == 5 then
@@ -90,7 +63,7 @@ usermessage.Hook("GRoom", function(um)
 	elseif id == 15 then
 		GTowerMessages:AddNewItem( T("RoomAdminRemoved"), nil, nil, "condo" )
 	else
-		MsgC( color_red ,"[Room] Recieved Room of unknown ID: " .. tostring(id) .. "\n")
+		MsgC( co_color2 ,"[Room] Recieved Room of unknown ID: " .. tostring(id) .. "\n")
 	end
 
 end )
@@ -140,50 +113,48 @@ end
 function GTowerRooms:ShowNewRoom( um )
 	local RoomId = um:ReadChar()
 
-	/*GtowerNPCChat:StartChat( {
+	GTowerNPCChat:StartChat( {
 		Text = T("RoomGet", RoomId )
-	})*/
+	})
 
-	GTowerMessages:AddNewItem( T( "RoomGetSmall", RoomId ), nil, nil, "condo" )
+	Msg2( T( "RoomGetSmall", RoomId ) )
 end
 
 
-local function TrunkSlot( num )
-
-	local plural = num > 1
-	local title = "Buy " .. num .. " Vault Slot"
-	if plural then plural = "s" else plural = "" end
-
+function GTowerRooms:ChatTrunkUpgradeSlot( num )
 	local cost = num * GTowerItems.BankSlotWorth
 
+	if ( not Afford( cost ) ) then
+		return {
+			Response = num .. " Slot " .. "(" .. string.FormatNumber( cost ) .. " GMC)",
+			Func = EmptyFunction,
+			Text = "Sorry, you don't have enough GMC to buy this upgrade."
+		}
+	end
+
 	return {
-		title = title .. plural,
-		desc = "",
-		icon = "safe",
-		func = function()
-			SelectionMenuManager.CreateConfirmation( "Purchase " .. num .. " vault slot" .. plural .. " for " .. string.FormatNumber(cost) .. " GMC",
-				function()
-					RunConsoleCommand( "gmt_buybankslots", num )
-					SelectionMenuManager.Remove()
-				end
-			)
-		end,
-		cost = cost,
-		ogPrice = cost,
+			Response = num .. " Slot " .. "(" .. string.FormatNumber( cost ) .. " GMC)",
+			Func = function() RunConsoleCommand( "gmt_buybankslots", num ) end,
+			Text = "Thanks. I've put in an order for " .. num .. " extra slot(s) for your trunk."
 	}
 end
 
-function GTowerRooms:TrunkUpgrade()
-
-	local menu = {
-		TrunkSlot( 1 ),
-		TrunkSlot( 2 ),
-		TrunkSlot( 5 ),
-		TrunkSlot( 10 ),
+function GTowerRooms:ChatTrunkUpgrade()
+	return {
+		Response = "Buy Trunk Slots",
+		Text = "You need more space for your trunk? Sure thing!\n"..
+				"The current rate of trunk slots is " .. string.FormatNumber( 1 * GTowerItems.BankSlotWorth ) .. " GMC per extra slot.\n"..
+				"How many slots do you want to buy?",
+		Responses = {
+			{
+				Response = T("cancel"),
+				Text = "Alright. Let me know if I can help with anything else."
+			},
+			self:ChatTrunkUpgradeSlot( 1 ),
+			self:ChatTrunkUpgradeSlot( 2 ),
+			self:ChatTrunkUpgradeSlot( 10 ),
+		}
 	}
-
-	SelectionMenuManager.SetMenu( menu, true )
-
 end
 
 function GTowerRooms:ShowRentWindow( um )
@@ -191,110 +162,85 @@ function GTowerRooms:ShowRentWindow( um )
 
 	if Answer == -2 then
 
-		GtowerNPCChat:StartChat({
+		GTowerNPCChat:StartChat({
 			Entity = GTowerRooms.NPCClassname,
 			Text = T("I am sorry, the server is having some issues with the enties at the moment. \n Come back later."),
 		})
 
 	elseif Answer == -1 then
-		/* GtowerNPCChat:StartChat({
+		GTowerNPCChat:StartChat({
 			Entity = GTowerRooms.NPCClassname,
-			Text = T("RoomReturn", LocalPlayer():GetName() ),
+			Text = "Hello " .. LocalPlayer():GetName() .. ", \nWhat can I do for you?",
 			Responses = {
 				{
-					Response = T("yes"),
+					Response = T("checkout"),
 					Text = T("RoomReturnYes"),
 					Func = function() RunConsoleCommand("gmt_dieroom") end
 				},
 				{
-					Response = T("no"),
+					Response = T("cleanup"),
+					Text = T("RoomCleanUp"),
+					Responses ={
+						{
+							Response = T("no"),
+						},
+						{
+							Response = T("yes"),
+							Text = T("RoomCleanUpConfirm"),
+							Responses = {
+								{
+									Response = T("no"),
+								},
+								{
+									Response = T("yes"),
+									Func = function() RunConsoleCommand("gmt_resetroom") end,
+									Text = T("RoomCleanedUp")
+								}
+							}
+						},
+						
+					},
+				},
+				self:ChatTrunkUpgrade(),
+				{
+					Response = T("cancel"),
 					Text = T("RoomReturnNo")
 				},
 			}
-		}) */
-
-		local menu = {
-			{
-				title = T("checkout"),
-				large = true,
-				icon = "condo",
-				func = function()
-					RunConsoleCommand("gmt_dieroom")
-					GTowerMessages:AddNewItem( T("RoomReturnYes"), nil, nil, "condo" )
-					SelectionMenuManager.Remove()
-				end,
-			},
-			{
-				title = "Clean Up",
-				icon = "broom",
-				func = function()
-					SelectionMenuManager.CreateConfirmation( T("RoomCleanUp"), function() RunConsoleCommand("gmt_resetroom") SelectionMenuManager.Remove() end )
-				end,
-			},
-			{
-				title = "Buy Vault Slots",
-				icon = "safe",
-				func = function()
-					self:TrunkUpgrade()
-				end,
-			},
-			{
-				title = "Information",
-				icon = "about",
-				func = function() MsgN( "wow!" ) end,
-			},
-		}
-
-		SelectionMenuManager.Create( "towercondos", menu )
-
+		})
 	elseif Answer == 0 then
 
-		local menu = {
-			{
-				title = "Buy Vault Slots",
-				icon = "safe",
-				func = function()
-					self:TrunkUpgrade()
-				end,
-			},
-			{
-				title = "Information",
-				icon = "about",
-				func = function() MsgN( "wow!" ) end,
-			},
-		}
-
-		SelectionMenuManager.Create( "towercondos", menu, "Sorry, no condos available." )
+		GTowerNPCChat:StartChat({
+			Entity = GTowerRooms.NPCClassname,
+			Text = T("RoomNotAvalible", LocalPlayer():GetName() ),
+			Responses = {
+				self:ChatTrunkUpgrade(),
+				{
+					Response = T("cancel"),
+					Text = T("RoomDeny"),
+				},
+			}
+		})
 
 	else
 
-		local menu = {
-			{
-				title = "CHECK IN",
-				large = true,
-				icon = "condo",
-				func = function()
-					RunConsoleCommand("gmt_acceptroom")
-					SelectionMenuManager.Remove()
-				end,
-			},
-			{
-				title = "Buy Vault Slots",
-				icon = "safe",
-				func = function()
-					self:TrunkUpgrade()
-				end,
-			},
-			{
-				title = "Information",
-				icon = "about",
-				func = function() MsgN( "wow!" ) end,
-			},
-		}
-
-		local condos = 12
-
-		SelectionMenuManager.Create( "towercondos", menu, Answer .. "/" .. condos .. " condos available." )
+		GTowerNPCChat:StartChat({
+			Entity = GTowerRooms.NPCClassname,
+			Text = T( "RoomRoomsAvalible", LocalPlayer():GetName(), Answer ),
+			Responses = {
+				{
+					Response = T("yes"),
+					//Text = GetTranslation("RoomGet"),
+					Text = T("RoomWait"),
+					Func = function() RunConsoleCommand("gmt_acceptroom") end
+				},
+				self:ChatTrunkUpgrade(),
+				{
+					Response = T("no"),
+					Text = T("RoomDeny")
+				},
+			}
+		})
 
 	end
 end
@@ -337,7 +283,7 @@ function GTowerRooms:LoadRooms( um )
 		if ValidOwner then
 			Room.HasOwner = true
 
-			/*if Hats.List then
+			if Hats.List then
 				Room.Hats[ 0 ] = true
 
 				for k, hat in ipairs( Hats.List ) do
@@ -345,7 +291,7 @@ function GTowerRooms:LoadRooms( um )
 						Room.Hats[ k ] = um:ReadBool()
 					end
 				end
-			end*/
+			end
 
 		else
 
@@ -375,17 +321,17 @@ end
 
 function GTowerRooms:FindRefEnts()
 
-	local MapData = self.RoomMapData[ game.GetMap() ]
+	local MapData = GTowerRooms.RoomMapData[ game.GetMap() ]
 
 	if !MapData then
-		MsgC( color_red, "[Room] Map data not found.\n")
+		MsgC( co_color2, "[Room] Map data not found.\n")
 		return
 	end
 
 	for _, v in pairs( ents.FindByClass( MapData.refobj ) ) do
 		local EntIndex = v:EntIndex()
 
-		for _, Room in pairs( self.Rooms ) do
+		for _, Room in pairs( GTowerRooms.Rooms ) do
 			if Room.EntId == EntIndex then
 				Room.RefEnt = v
 				Room.StartPos = v:LocalToWorld( MapData.min )
@@ -430,11 +376,86 @@ function GTowerRooms:AdminRoomDebug()
 	end
 end
 
-CondoNames = {}
+hook.Add( "OpenSideMenu", "OpenSuiteControls", function()
 
-net.Receive('gmt_senddoortexts',function()
-	CondoNames = net.ReadTable()
-end)
+	local ply = LocalPlayer()
+	local RoomId = ply:GetNet( "RoomID" )
+	
+	if RoomId && Location.GetByCondoID(RoomId) == LocalPlayer():Location() then
+		
+		local Form = vgui.Create("DForm")
+		Form:SetName( "Suite Controls: #" .. RoomId )
+
+		Form:AddItem( vgui.Create("SuiteEntCount", Form) )
+
+		local Manage = Form:Button(T("RoomManagePlayers"))
+		Manage.DoClick = function()
+			Derma_PlayerSuiteRequest( 
+				"Suite Guest Management",
+				"Select the players you want to kick from your suite",
+				function( players ) // Kick
+
+					for _, ply2 in pairs( players ) do
+						if IsValid( ply2 ) then
+							RunConsoleCommand( "gmt_roomkick", ply2:EntIndex() )
+						end
+					end
+
+				end, // Ban
+				function( players )
+
+					for _, ply2 in pairs( players ) do
+						if IsValid( ply2 ) then
+							RunConsoleCommand( "gmt_roomban", ply2:EntIndex() )
+						end
+					end
+
+				end,
+				nil,
+				function()
+					RunConsoleCommand( "gmt_roomclearbans" )
+				end,
+				"KICK",
+				"BAN",
+				"CANCEL"
+			)
+		end
+
+		local Kick = Form:Button(T("RoomKickPlayers"))
+		Kick.DoClick = function() RunConsoleCommand("gmt_roomkick") end
+
+		local SuiteName = Form:Button( "Set Suite Name" )
+		SuiteName.DoClick = function()
+			local curText = LocalPlayer():GetInfo( "gmt_suitename" ) or ""
+			Derma_StringRequest(
+				"Set Suite Name",
+				"Setting a name on your suite offers a good way to express yourself.\nThe Name will appear above your door.\nSet to blank to remove.\nAbusive names will get you banned.",
+				curText,
+				function ( text ) RunConsoleCommand( "gmt_suitename", text ) end
+			)
+		end
+
+		if LocalPlayer():GetNWBool("GRoomParty") then
+
+			local SuiteParty = Form:Button( "End Party" )
+			SuiteParty.DoClick = function()
+				RunConsoleCommand( "gmt_roompartyend" )
+			end
+
+		else
+
+			local SuiteParty = Form:Button( "Start Party" )
+			SuiteParty.DoClick = function()
+				RunConsoleCommand( "gmt_roomparty" )
+			end
+
+		end
+		
+		return Form
+		
+	end
+
+end )
 
 hook.Add("FindStream", "StreamInSuite", function( ent )
 
@@ -460,18 +481,49 @@ end )
 local PANEL = {}
 
 function PANEL:PerformLayout()
-
 	local RoomId = LocalPlayer():GetNet( "RoomID" )
-
 	if ( RoomId && RoomId != 0 ) then
-
 		local Count = LocalPlayer():GetNet( "RoomEntityCount" )
 
-		self:SetText( "Suite count: " .. tostring(Count) .. "/" .. tostring(LocalPlayer():GetSetting("GTSuiteEntityLimit")) )
+		self:SetText( "Suite count: " .. tostring(Count) .. "/" .. tostring(LocalPlayer():GetNet("RoomMaxEntityCount")) )
 		self:SizeToContents()
-
 	end
-
 end
 
 vgui.Register("SuiteEntCount", PANEL, "DLabel")
+
+hook.Add( "PlayerBindPress", "SuiteDoorAccess", function( ply, bind, pressed )
+
+	if bind == "+use" && pressed then
+		
+		if !ply._LastDoorUse || CurTime() > ply._LastDoorUse then
+
+			// Don't do this if they're on a panel
+			if !ply.IsOnPanel then
+
+				// Find a suite door
+				for _, ent in pairs( ents.FindByClass( "func_door_rotating" ) ) do
+
+					if ent:GetPos():Distance( ply:GetShootPos() ) < 100 then
+						RunConsoleCommand( "gmt_useroomdoor", ent:EntIndex() )
+					end
+
+				end
+
+			end
+
+			ply._LastDoorUse = CurTime() + .5
+		end
+
+	end
+
+end )
+
+// suite names
+CreateClientConVar( "gmt_suitename", "", true, true )
+
+cvars.AddChangeCallback( "gmt_suitename", function( cmd, old, new )
+	net.Start( "SendSuiteName" )
+		net.WriteString( new )
+	net.SendToServer()
+end )

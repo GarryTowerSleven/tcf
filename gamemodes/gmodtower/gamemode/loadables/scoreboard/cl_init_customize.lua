@@ -1,4 +1,3 @@
----------------------------------
 module( "Scoreboard.Customization", package.seeall )
 
 MatDirectory = "gmod_tower/scoreboard/"
@@ -13,24 +12,22 @@ ColorNormal = Color( 34, 100, 156, 255 )
 ColorBright = Color( 57, 131, 181, 255 )
 ColorDark = Color( 17, 50, 78, 255 )
 
-local ratio = 0.75
-local ratioBright = 3
+ColorBackground = colorutil.Brighten( ColorNormal, 0.75 )
 
-ColorBackground = Color( ColorNormal.r * ratio, ColorNormal.g * ratio, ColorNormal.b * ratio, 255 )
-
-ColorTabActive = Color( 0, 0, 64, 64 )
+ColorTabActive = colorutil.Brighten( ColorDark, .75, 200 )
 ColorTabDivider = ColorBright
-ColorTabInnerActive = Color( ColorDark.r * ratio, ColorDark.g * ratio, ColorDark.b * ratio, 200 )
-ColorTabHighlight = Color( ColorBright.r * ratioBright, ColorBright.g * ratioBright, ColorBright.b * ratioBright, 255 )
+ColorTabInnerActive = ColorTabActive
+ColorTabHighlight = colorutil.Brighten( ColorBright, 3 )
 
+ColorAwardsBarAchievedProgress = Color( 54, 54, 54, 255 )
 ColorAwardsDescription = Color( 162, 203, 233, 255 )
 ColorAwardsBarAchieved = Color( 178, 215, 243, 150 )
-ColorAwardsBarNotAchieved = Color( 3 * 2, 67 * 2, 114 * 2, 150 )
+ColorAwardsBarNotAchieved = colorutil.Brighten( Color( 3, 67, 114 ), 2, 150 )
 ColorAwardsAchievedIcon = Color( 32, 255, 4, 150 )
 
 
 // HEADER
-HeaderTitle = "GMod Tower"
+HeaderTitle = "GMTower"
 HeaderTitleFont = "SCTitle"
 HeaderTitleColor = color_white
 HeaderTitleLeft = 188
@@ -51,18 +48,12 @@ PlayersSort = function( a, b )
 	return string.lower( a:Name() ) < string.lower( b:Name() )
 end
 
-// Subtitle (under Name)
+// Subtitle (under name)
 PlayerSubtitleText = function( ply )
-	if IsLobby then
-		local text = Location.GetFriendlyName( ply:Location() ) or "Unknown"
-		return text
-	else
-		return nil
-	end
-
+	return ""
 end
 
-// Subtitle right (under Name)
+// Subtitle right (under name)
 PlayerSubtitleRightText = function( ply )
 	if ply.IsLoading then
 		return "LOADING"
@@ -72,19 +63,9 @@ end
 
 // Background
 PlayerBackgroundMaterial = function( ply )
-	if IsLobby then
-	if ply:Location() then
-		local location = ply:Location()
 
-		for material, ids in pairs( Scoreboard.PlayerList.LOCATIONVALS ) do
-			if table.HasValue( ids, location ) then
-				return material
-			end
-		end
-	end
-	else
-		return nil
-	end
+	return nil
+
 end
 
 // Notification (above avatar)
@@ -104,12 +85,12 @@ end
 
 // Info Value
 PlayerInfoValueVisible = function( ply )
-	return LocalPlayer() == ply
+	return false --LocalPlayer() == ply
 end
 
 PlayerInfoValueIcon = MatDirectory .. "icon_money.png"
 PlayerInfoValueGet = function( ply )
-	return string.FormatNumber( Money() or 0 )
+	return nil --string.FormatNumber( Money() or 0 )
 end
 
 // Action Box
@@ -118,21 +99,32 @@ PlayerActionBoxAlwaysShow = false
 
 
 // FONTS
-surface.CreateFont( "SCTitle", { font = "TodaySHOP-BoldItalic", size = 64, weight = 400 } )
+surface.CreateFont( "SCTitle", { font = "TodaySHOP-BoldItalic", size = 42, weight = 400 } )
 surface.CreateFont( "SCTNavigation", { font = "Oswald", size = 24, weight = 400 } )
 
 surface.CreateFont( "SCPlyName", { font = "Oswald", size = 32, weight = 400 } )
 surface.CreateFont( "SCPlyGroupName", { font = "Oswald", size = 20, weight = 400 } )
 surface.CreateFont( "SCPlyGroupLocName", { font = "Oswald", size = 16, weight = 400 } )
-surface.CreateFont( "SCPlyValue", { font = "Oswald", size = 24, weight = 400 } )
-surface.CreateFont( "SCPlyLabel", { font = "Oswald", size = 18, weight = 400 } )
-surface.CreateFont( "SCPlyLoc", { font = "Oswald", size = 18, weight = 400 } )
+surface.CreateFont( "SCPlyLoc", { font = "Tahoma", size = 16, weight = 400 } )
+surface.CreateFont( "SCPlyValue", { font = "Tahoma", size = 16, weight = 400 } )
+surface.CreateFont( "SCPlyLabel", { font = "Tahoma", size = 14, weight = 300 } )
+
+surface.CreateFont( "SCPlyScoreTitle", { font = "Oswald", size = 16, weight = 00 } )
+surface.CreateFont( "SCPlyScore", { font = "Oswald", size = 34, weight = 400 } )
+
 surface.CreateFont( "SCMapName", { font = "TodaySHOP-Bold", size = 24, weight = 500 } )
 
 surface.CreateFont( "SCAwardCategory", { font = "Oswald", size = 18, weight = 400 } )
 surface.CreateFont( "SCAwardTitle", { font = "Oswald", size = 26, weight = 400 } )
 surface.CreateFont( "SCAwardDescription", { font = "Arial", size = 14, weight = 400 } )
 surface.CreateFont( "SCAwardProgress", { font = "Oswald", size = 12, weight = 400 } )
+surface.CreateFont( "SCAwardGMC", { font = "Oswald", size = 16, weight = 400 } )
+surface.CreateFont( "SCAwardGMCSmall", { font = "Oswald", size = 12, weight = 400 } )
+
+surface.CreateFont( "SCPayoutTitle", { font = "Oswald", size = 26, weight = 400 } )
+surface.CreateFont( "SCPayoutDescription", { font = "Arial", size = 14, weight = 400 } )
+surface.CreateFont( "SCPayoutGMC", { font = "Oswald", size = 18, weight = 400 } )
+surface.CreateFont( "SCPayoutGMCSmall", { font = "Oswald", size = 14, weight = 400 } )
 
 /*surface.CreateFont( "SCAwardDescription", { font = "Oswald Light", size = 28, weight = 400 } )
 surface.CreateFont( "SCAwardProgress", { font = "Oswald Light", size = 24, weight = 400 } )*/

@@ -17,6 +17,8 @@ function ENT:Teleport(ply)
 		local playerOffset = ply:GetPos() - Vector(self.Origin)
 		targetPosition = Vector(self.TargetEntity.Origin) + playerOffset
 
+		if playerOffset:Length() > 256 then return end
+
 		if self.Offets[self.TargetName] then
 			targetPosition = targetPosition + self.Offets[self.TargetName]
 		end
