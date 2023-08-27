@@ -10,8 +10,23 @@ function ENT:Initialize()
 		self.Data = {
 			Pos.x, Pos.y, Pos.z,
 			Ang.x, Ang.y, Ang.z,
-			self.dt.HatScale
+			self.dt.HatScale,
+			0,
 		}
+
+		if self.dt.HatID and self.dt.HatID != 0 and IsValid( self:GetOwner() ) then
+			local item = Hats.GetItem( self.dt.HatID )
+			if not item then return end
+
+			local name = string.lower( item.unique_Name )
+			local model = string.lower( Hats.FindPlayerModelByName( self:GetOwner():GetModel() ) )
+
+			if not Hats.Data[ model ] then
+				Hats.Data[ model ] = {}
+			end
+
+			Hats.Data[ model ][ name ] = self.Data
+		end
 
 	end
 

@@ -25,7 +25,7 @@ hook.Add("GTowerStoreLoad", "AddHats", function()
 	end
 end )
 
-local function writedata( hat, data )
+/*local function writedata( hat, data )
     net.WriteString( hat )
 
     net.WriteVector( Vector( data[1], data[2], data[3] ) )
@@ -81,7 +81,7 @@ net.Receive( "HatRequest", function( len, ply )
 
     ply._HatDelay = CurTime() + 1
 end )
-util.AddNetworkString( "HatRequest" )
+util.AddNetworkString( "HatRequest" )*/
 
 function CreateWearable( ply, data, slot )
 
@@ -151,6 +151,8 @@ function UpdateWearable( ply, hatid, slot )
 
         local modelname = Hats.FindPlayerModelByName( playermodel )
         local data = Get( item.unique_Name, modelname )
+
+        data[9] = hatid
 
         // print( "" )
         // print( "Hats.GetData", playermodel, item.model )

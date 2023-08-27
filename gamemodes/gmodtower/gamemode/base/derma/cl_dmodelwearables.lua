@@ -132,7 +132,7 @@ function PANEL:SetModelWearables( ply )
 		table.insert( req, wear2.unique_Name )
 	end
 
-	Hats.RequestData( Hats.FindPlayerModelByName( self.Entity:GetModel() ), req )
+	// Hats.RequestData( Hats.FindPlayerModelByName( self.Entity:GetModel() ), req )
 	
 end
 

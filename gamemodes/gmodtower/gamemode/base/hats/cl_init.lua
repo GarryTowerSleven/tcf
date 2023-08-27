@@ -29,7 +29,7 @@ hook.Add("GTowerStoreLoad", "AddHats", function()
 	end
 end )
 
-function RequestData( modelname, hats )
+/*function RequestData( modelname, hats )
 	if CurTime() < RequestDelay then return end
 
 	if isstring( hats ) then
@@ -96,4 +96,4 @@ function ReceiveData()
 	hook.Run( "HatsReceived", model, table.GetKeys( offsets ) )
 end
 
-net.Receive( "HatRequest", ReceiveData )
+net.Receive( "HatRequest", ReceiveData )*/
