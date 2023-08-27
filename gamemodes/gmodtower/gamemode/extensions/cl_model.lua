@@ -72,6 +72,55 @@ function meta:SetPlayerProperties( ply )
 
 end
 
+hook.Add("PostPlayerDraw", "ties", function(ply)
+	if ply:GetModel() ~= "models/player/macdguy.mdl" then
+		if ply.TiePhysics then
+			for i = 0, ply:GetBoneCount() - 1 do
+				ply:ManipulateBoneAngles(i, angle_zero)
+			end
+
+			ply.TiePhysics = nil
+		end
+	
+		return
+	end
+
+	ply.TiePhysics = math.Clamp(ply.TiePhysics, -32, 32) or 0
+    ply.TiePhysics2 = ply.TiePhysics2 or 0
+
+    ply.TiePhysics3 = ply.TiePhysics3 or 0
+    ply.TiePhysics4 = ply.TiePhysics4 or 0
+
+    local ang = ply:EyeAngles().y
+    if ply.TiePhysics2 ~= ang then
+        ply.TiePhysics = ply.TiePhysics + math.NormalizeAngle(ply.TiePhysics2 - ang) / 4
+        ply.TiePhysics2 = ang
+    end
+
+    if ply.TiePhysics4 ~= ply:EyeAngles().p then
+        ply.TiePhysics3 = ply.TiePhysics3 + math.NormalizeAngle(ply.TiePhysics4 - ply:EyeAngles().p) / 4
+        ply.TiePhysics4 = ply:EyeAngles().p
+    end
+
+    local d = ply:GetVelocity():Dot(ply:GetRight())
+    ply.TiePhysics = ply.TiePhysics + d * 0.004
+    local d = ply:GetVelocity():Dot(ply:GetForward())
+    ply.TiePhysics3 = ply.TiePhysics3 + d * -0.2
+
+
+    local m = (math.abs(ply.TiePhysics) / 32) * 32
+    ply.TiePhysics = (ply.TiePhysics < 0 and ply.TiePhysics + FrameTime() * m or ply.TiePhysics > 0 and ply.TiePhysics - FrameTime() * m or 0)
+
+    local m = (math.abs(ply.TiePhysics3) / 32) * 64
+    ply.TiePhysics3 = (ply.TiePhysics3 < 0 and ply.TiePhysics3 + FrameTime() * m or ply.TiePhysics3 > 0 and ply.TiePhysics3 - FrameTime() * m or 0)
+
+    for i = 0, ply:GetBoneCount() - 1 do
+        if string.find(ply:GetBoneName(i), "Tie") then
+			ply:ManipulateBoneAngles(i, Angle(ply.TiePhysics, Lerp(ply:EyeAngles().p / -90, Lerp(ply:EyeAngles().p / 90, 6 + math.sin(CurTime() * 2) * 2, 12), -0) + math.Clamp(ply.TiePhysics3, -1, 1) * 2, -ply.TiePhysics))
+		end
+	end
+end)
+
 local limit = 4
 local glow = Material("cable/redlaser")
 local glow2 = Material("sprites/glow04_noz")
