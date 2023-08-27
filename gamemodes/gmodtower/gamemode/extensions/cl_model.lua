@@ -85,7 +85,7 @@ hook.Add("PostPlayerDraw", "ties", function(ply)
 		return
 	end
 
-	ply.TiePhysics = math.Clamp(ply.TiePhysics, -32, 32) or 0
+	ply.TiePhysics = ply.TiePhysics and math.Clamp(ply.TiePhysics, -32, 32) or 0
 	ply.TiePhysics2 = ply.TiePhysics2 or 0
 
 	ply.TiePhysics3 = ply.TiePhysics3 or 0
