@@ -1,4 +1,3 @@
----------------------------------
 module( "Scoreboard.Settings", package.seeall )
 
 // TAB
@@ -8,7 +7,7 @@ hook.Add( "ScoreBoardItems", "Settings", function()
 end )
 
 TAB = {}
-TAB.Order = 3
+TAB.Order = 4
 
 function TAB:GetText()
 	return "SETTINGS"
@@ -21,7 +20,7 @@ end
 end*/
 
 function TAB:CreateBody()
-	return vgui.Create("ScoreBoardSettings", self )
+	return vgui.Create("ScoreboardSettings", self )
 end
 
 vgui.Register( "ScoreboardSettingsTab", TAB, "ScoreboardTab" )
@@ -29,58 +28,326 @@ vgui.Register( "ScoreboardSettingsTab", TAB, "ScoreboardTab" )
 // SETTINGS
 
 SETTINGS = {}
+SETTINGS.TabNames = {
+	--"Gamemode", -- Automatically adds when needed.
+	"General",
+	"Graphics",
+	"Voice/Media",
+	"Chat",
+	"Scoreboard",
+	"HUD",
+	"Notifications",
+	--"Friends/Blocked", -- WIP
+	"Advanced",
+	--"Admin", -- Automatically adds when needed.
+	--"Debug", -- Automatically adds when needed.
+	--"Spawnlist", -- Automatically adds when needed.
+	--"VIP", -- Automatically adds when needed.
+}
+SETTINGS.LobbyOnlyTabs = {
+	"General",
+	"Graphics",
+	"HUD",
+	"Notifications",
+	"Advanced",
+	"VIP",
+}
+SETTINGS.GamemodesWithSettings = {
+	"ballrace",
+	"virus",
+	"zombiemassacre",
+	"minigolf",
+	"pvpbattle",
+	"ultimatechimerahunt",
+	"sourcekarts"
+}
+SETTINGS.Tabs = {}
 
-function SETTINGS:NewCategory( Name, id )
+function SETTINGS:Init()
 
-	local Category = vgui.Create( "ScoreboardSettingsCategory", self)
-	Category:SetLabel( Name )
-	Category:SetPos( 0, 10 )
-	Category.OnMouseWheeled = function( Category, dlta )
-		Scoreboard.ParentMouseWheeled( self, dlta )
+	self.ActiveTab = nil
+	local firstTab = nil
+
+	// Add gamemode settings
+	if table.HasValue( self.GamemodesWithSettings, engine.ActiveGamemode() ) then
+		table.insert( self.TabNames, 1, "Gamemode" )
 	end
 
-	local Canvas = vgui.Create( "ScoreboardSettingsList", Category )
-	Canvas:SetAutoSize( true )
-	Canvas:EnableVerticalScrollbar( true )
-	Canvas:EnableHorizontal( false )
-	Canvas:SetSpacing( 4 )
-	Canvas:SetPadding( 4 )
-	Canvas:EnableVerticalScrollbar()
-	Canvas.OnMouseWheeled = function( Canvas, dlta )
-		Scoreboard.ParentMouseWheeled( self, dlta )
+	// Add VIP settings
+	if LocalPlayer().IsVIP and LocalPlayer():IsVIP() then
+		table.insert( self.TabNames, "VIP" )
 	end
 
-	Category:SetContents( Canvas )
+	// Add admin settings
+	if LocalPlayer():IsStaff() then
+		table.insert( self.TabNames, "Admin" )
+		table.insert( self.TabNames, "Debug" )
+	end
 
-	self.Groups[id] = Category
+	if LocalPlayer():IsAdmin() then
+		table.insert( self.TabNames, "Spawnlist" )
+	end
 
-	return Canvas
+	// Create the tabs
+	for id, name in pairs( self.TabNames ) do
+
+		// Skip tabs that are lobby only
+		if !IsLobby and table.HasValue( self.LobbyOnlyTabs, name ) then continue end
+
+		local tab = self:CreateTab( id, name )
+
+		if id == 1 then
+			firstTab = tab
+		end
+	end
+
+	// Set the first tab
+	if firstTab then
+		self:SetActiveTab( firstTab )
+	end
 
 end
 
-function SETTINGS:NewSetting( control, parent, text, convar, tip )
+function SETTINGS:CreateTab( id, name )
+
+	local tab = vgui.Create( "ScoreboardTabInner", self )
+	local group = vgui.Create( "ScoreboardSettingsCategoryTab", tab )
+
+	tab:SetBody( group )
+	tab:SetText( name )
+
+	tab:SetOrder( id )
+	tab.Name = name
+	tab.Owner = self
+
+	self:AddTab( tab )
+	return tab
+
+end
+
+function SETTINGS:AddTab( tab )
+
+	table.insert( self.Tabs, tab )
+	tab:SetParent( self )
+
+end
+
+function SETTINGS:SetActiveTab( tab )
+	
+	if IsValid( self.ActiveTab ) then
+
+		self.ActiveTab:SetActive( false )
+		local oldBody = self.ActiveTab:GetBody()
+		
+		oldBody:SetParent( nil )
+		oldBody:SetVisible( false )
+
+	end
+	
+	local newBody = tab:GetBody()
+	
+	self.ActiveTab = tab
+	self.ActiveTab:SetActive( true )
+	
+	newBody:SetParent( self )
+	newBody:SetVisible( true )
+	newBody:OnOpenTab( tab )
+	
+	self:InvalidateLayout()
+
+end
+
+function SETTINGS:PerformLayout()
+	
+	local position = 5
+	local width = 145
+
+	// Sort their order
+	table.sort( self.Tabs, function( a, b )
+		if a.Order == b.Order then
+			return a:GetText() > b:GetText()
+		end
+
+		return a.Order < b.Order
+	end )
+
+	// Get widest tab
+	for _, tab in pairs( self.Tabs ) do
+		width = math.max( width, tab:GetWide() )
+	end
+	
+	// Set their positions and size
+	for _, tab in pairs( self.Tabs ) do
+		tab:SetTall( 24 )
+		tab:InvalidateLayout( true )
+		
+		tab:SetPos( 0, position )
+		--tab:AlignLeft( self:GetWide() - width )
+		tab:SetWide( width )
+
+		position = position + tab:GetTall()
+	end
+
+	self.TabHeight = position + 4
+	self.TabWidth = width
+
+	// Layout active tab
+	if IsValid( self.ActiveTab ) then
+		local body = self.ActiveTab:GetBody()
+		body:InvalidateLayout( true )
+		body:SetPos( self.TabWidth, 4 )
+		body:SetWide( self:GetWide() - width )
+		body:AlignRight()
+	end
+
+end
+
+function SETTINGS:Paint( w, h )
+
+	//surface.SetDrawColor( Scoreboard.Customization.ColorDark )
+	//surface.DrawRect( 0, 0, self:GetWide(), 24 )
+
+	local color = Scoreboard.Customization.ColorDark
+	surface.SetDrawColor( color )
+	surface.DrawRect( 0, 0, self:GetWide(), self:GetTall() )
+
+	surface.SetDrawColor( color.r - 5, color.g - 5, color.b - 5 )
+	surface.DrawRect( self.TabWidth, 4, 4, self:GetTall() )
+
+end
+
+function SETTINGS:Think()
+
+	local current = self:GetTall()
+	local targetHeight = 24
+
+	// Resize for tab
+	if IsValid( self.ActiveTab ) then
+
+		local body = self.ActiveTab:GetBody()
+		targetHeight = targetHeight + body:GetTall() - 4
+
+		targetHeight = math.max( targetHeight, self.TabHeight )
+
+	end
+
+	self:SetTall( math.Approach( current, targetHeight, math.max( math.abs( (current-targetHeight) * FrameTime() * 15 ) ), 1 ) )
+	self:Center()
+
+end
+
+
+function SETTINGS:OnMousePressed()
+    GTowerMenu:CloseAll()
+end
+
+function SETTINGS:Removing()
+end
+
+vgui.Register("ScoreboardSettings", SETTINGS )
+
+
+local SETTINGSCATEGORYTAB = {}
+
+function SETTINGSCATEGORYTAB:Init()
+
+	local grid = vgui.Create( "DGrid", self)
+	grid:SetCols( 1 )
+	grid:SetRowHeight( 20 )
+
+	self:SetContents( grid )
+
+end
+
+function SETTINGSCATEGORYTAB:SetContents( contents )
+
+	self.Contents = contents
+	self.Contents:SetParent( self )
+	self:InvalidateLayout()
+
+end
+
+function SETTINGSCATEGORYTAB:PerformLayout()
+
+	local Padding = 12
+	local width = self:GetWide() - Padding * 2 
+
+	if self.CurrentTab ~= "Spawnlist" then
+		self.Contents:SetColWide( width )
+	end
+
+	for _, panel in pairs( self.Contents.Items ) do
+		panel:SetWide( self.Contents:GetColWide() - 2 )
+		panel:InvalidateLayout()
+	end
+
+	if self.Contents then
+
+		self.Contents:SetPos( Padding, 0 )
+		self.Contents:SetWide( width )	
+		self.Contents:InvalidateLayout( true )
+
+		self:SetTall( self.Contents:GetTall() + ( Padding * 2 ) + 8 )
+
+	end
+
+end
+
+function SETTINGSCATEGORYTAB:Think()
+
+	if self.Togglables then
+
+		for convar, item in pairs( self.Togglables ) do
+
+			if !item then continue end
+
+			if convar && GetConVar( convar ):GetBool() then
+				item:SetAlpha( 255 )
+				item:SetMouseInputEnabled( true )
+			else
+				item:SetAlpha( 5 )
+				item:SetMouseInputEnabled( false )
+			end
+		end
+
+	end
+
+end
+
+function SETTINGSCATEGORYTAB:OnOpenTab( tab )
+	self:CreateContents( tab )
+	self.CurrentTab = tab.Name
+end
+
+function SETTINGSCATEGORYTAB:Paint( w, h )
+	--surface.SetDrawColor( Scoreboard.Customization.ColorDark )
+	--surface.DrawRect( 0, 0, self:GetWide(), self:GetTall() - 6 )
+end
+
+function SETTINGSCATEGORYTAB:NewSetting( control, parent, text, convar, tip )
 
 	local Control = vgui.Create( control, parent )
-	Control:SetConVar( convar )
-	--if tip then Control:SetTooltip( T( tip ) ) end
-	Control:SetText( text )
+	if convar then Control:SetConVar( convar ) end
+
+	if tip then Control:SetTooltip( T( tip ) ) end
+	if text then Control:SetText( text ) end
 	Control:SetWidth( 300 )
 
-	/*if Control.SetTextColor then
-		Control:SetTextColor( 255, 255, 255 )
-	end*/
-
 	return Control
-
+	
 end
 
-function SETTINGS:CheckBox( canvas, title, convar, toggle, tip )
+function SETTINGSCATEGORYTAB:CheckBox( title, convar, toggle, tip )
+
+	local canvas = self.Contents
 
 	local newBox = self:NewSetting( "DCheckBoxLabel", canvas, title, convar, tip )
+	newBox:SetTextColor( Color( 255, 255, 255 ) )
+	--newBox:SetIndent( 12 )
 
 	if toggle then
 		self.Togglables[toggle] = newBox
-		newBox._RealTall = 16
+		--newBox:SetIndent( 20 )
 	end
 
 	canvas:AddItem( newBox )
@@ -89,33 +356,88 @@ function SETTINGS:CheckBox( canvas, title, convar, toggle, tip )
 	return newBox
 end
 
-function SETTINGS:Header( canvas, title )
+function SETTINGSCATEGORYTAB:Button( title, tip, click )
+
+	local canvas = self.Contents
+
+	local newBox = self:NewSetting( "DButton", canvas, title, nil, tip )
+	newBox:SetTextColor( Color( 255, 255, 255 ) )
+	--newBox:SetIndent( 12 )
+
+	newBox.DoClick = click
+
+	canvas:AddItem( newBox )
+	newBox.Canvas = canvas
+
+	return newBox
+
+end
+
+function SETTINGSCATEGORYTAB:SpawnButton( title, mdl, click )
+
+	local canvas = self.Contents
+
+	local newBox = self:NewSetting( "SpawnIcon", canvas, nil, nil, mdl )
+	newBox:SetTextColor( Color( 255, 255, 255 ) )
+	--newBox:SetIndent( 12 )
+
+	newBox.DoClick = click
+	newBox:SetModel( mdl )
+
+	canvas:AddItem( newBox )
+	newBox.Canvas = canvas
+
+	return newBox
+
+end
+
+function SETTINGSCATEGORYTAB:Header( title )
+
+	local canvas = self.Contents
 
 	local header = vgui.Create( "DLabel", canvas )
 	header:SetText( title )
+	header:SetTextColor( Color( 255, 255, 255 ) )
 	header:SetWidth( 300 )
-	header:SetTall( 32 )
+	header:SetTall( 24 )
 	header:SetFont( "GTowerHUDMain" )
-
-	header.Paint = function()
-		surface.SetDrawColor( 7, 30, 58, 30 )
-		surface.DrawRect( 0, 0, header:GetSize() )
-	end
 
 	canvas:AddItem( header )
 	header.Canvas = canvas
+
+	self:Divider( true )
 
 	return header
 
 end
 
-function SETTINGS:Slider( canvas, title, convar, min, max, decimal, toggle, tip )
+function SETTINGSCATEGORYTAB:Divider( drawline )
+
+	local canvas = self.Contents
+
+	local divider = vgui.Create( "DPanel", canvas )
+	divider:SetWidth( 300 )
+	divider:SetTall( 10 )
+
+	divider:SetDrawBackground(false)
+	
+	if drawline then
+		divider.Paint = function()
+			local color = Scoreboard.Customization.ColorDark or Color( 85, 85, 85, 80 )
+			surface.SetDrawColor( colorutil.Brighten( color, 1.5 ) )
+			surface.DrawRect( 0, divider:GetTall() - 5, divider:GetWide(), 1 )
+		end
+	end
+
+	canvas:AddItem( divider )
+
+end
+
+function SETTINGSCATEGORYTAB:Slider( title, convar, min, max, decimal, toggle, tip )
+
+	local canvas = self.Contents
 
 	local sliderType = "DNumSlider2"
-
-	if decimal == 1 then
-		sliderType = "DNumSlider"
-	end
 
 	local newSlider = self:NewSetting( sliderType, canvas, title, convar, tip )
 	newSlider:SetMinMax( min, max )
@@ -123,7 +445,6 @@ function SETTINGS:Slider( canvas, title, convar, min, max, decimal, toggle, tip 
 
 	if toggle then
 		self.Togglables[toggle] = newSlider
-		newSlider._RealTall = 32
 	end
 
 	canvas:AddItem( newSlider )
@@ -133,323 +454,401 @@ function SETTINGS:Slider( canvas, title, convar, min, max, decimal, toggle, tip 
 
 end
 
-function SETTINGS:Init()
+function SETTINGSCATEGORYTAB:DropDown( title, convar, options, toggle, tip )
 
-	self:Create()
+	local canvas = self.Contents
 
+	local newBox = self:NewSetting( "DComboBox", canvas, title, convar, tip )
+
+	if toggle then
+		self.Togglables[toggle] = newBox
+	end
+
+	newBox:SetText( title )
+	newBox:SetTextColor( Color( 255, 255, 255 ) )
+	//newBox:SetWidth( 300 )
+
+	newBox:SetSortItems( false )
+
+	for k, v in pairs(options) do
+		newBox:AddChoice( v[1], v[2] )
+	end
+
+	newBox.OnSelect = function( self, index, value )
+		local cvar = GetConVar(convar)
+		cvar:SetInt( newBox:GetOptionData(index) )
+	end
+
+	canvas:AddItem( newBox )
+	newBox.Canvas = canvas
+
+	function newBox:Paint( w, h )
+		draw.RoundedBox( 4, 0, 0, w, h, Color( 0, 0, 0, 50 ) )
+		draw.RoundedBox( 4, 1, 1, w - 2, h - 2, colorutil.Brighten( Scoreboard.Customization.ColorBackground, 1.01 ) )
+	end
+
+	return newBox
 end
 
-function SETTINGS:Create()
+function SETTINGSCATEGORYTAB:CreateContents( tab )
 
-	self.Groups = {}
+	if tab.Created then return end
+	tab.Created = true
+
+	local tabname = tab.Name
+	local settings = tab.Owner
+
 	self.Togglables = {}
 
-	/*=========
-	General Settings
-	============*/
+	self.Contents:SetCols( 1 )
+	self.Contents:SetRowHeight( 20 )
 
-	local MainCanvas = self:NewCategory( "General Settings", 1 )
+	if tabname == "General" then
+		if IsLobby then
+			self:Header( "Volume" )
+			--self:Slider( "Music Volume", Volume.VarAudio, 0, 100 )
+			self:Slider( "Media Volume", "gmt_volume_video", 0, 100 )
+			self:Slider( "Instrument Volume", "gmt_volume_instrument", 0, 100 )
+			self:CheckBox( "Enable Background Music", "gmt_bgmusic_enable" )
+			self:Slider( "Background Music Volume", "gmt_bgmusic_volume", 0, 100, 0, "gmt_bgmusic_enable" )
 
-	self:Header( MainCanvas, "Scoreboard" )
-	self:Slider( MainCanvas, "Player Card Height", "gmt_score_height", 32, 64, 0, nil, "SetScoreHeight" )
-	self:CheckBox( MainCanvas, "Enable Respect Icons", "gmt_respecticons", nil, "SetRespectIcons" )
-	self:CheckBox( MainCanvas, "Enable Range Voice", "gmt_rangevoice", nil, "SetRangeVoice" )
-	self:CheckBox( MainCanvas, "Enable Blur", "gmt_scoreboard_blur", nil, "SetScoreboardBlur" )
-	self:Slider( MainCanvas, "Blur Amount", "gmt_scoreboard_blur_amount", 1, 10, 0, "gmt_scoreboard_blur", "SetScoreboardBlurAmt" )
+			self:Divider()
 
-	self:Header( MainCanvas, "Chat" )
-	self:CheckBox( MainCanvas, "Enable Sounds", "gmt_chat_sound", nil, "SetChatSounds" )
-
-	if IsLobby then
-		self:CheckBox( MainCanvas, "Enable Locations", "gmt_chat_loc", nil, "SetChatLocation" )
-	end
-
-	self:CheckBox( MainCanvas, "Enable Timestamps", "gmt_chat_timestamp" )
-	self:CheckBox( MainCanvas, "Enable Timestamp 24 Hour Mode", "gmt_chat_timestamp24", "gmt_chat_timestamp" )
-	self:CheckBox( MainCanvas, "Enable Outline", "gmt_chat_outline" )
-	self:Slider( MainCanvas, "Outline Boldness", "gmt_chat_outlineamt", 0, 100, 1, "gmt_chat_outline" )
-	//self:CheckBox( MainCanvas, "Enable Location Voice Chat", "gmt_allowvoice" )
-
-
-
-	/*=========
-	Lobby Settings
-	============*/
-
-	if IsLobby then
-
-		local LobbyCanvas = self:NewCategory( "Lobby Settings", 2 )
-
-		self:Header( LobbyCanvas, "General" )
-		self:CheckBox( LobbyCanvas, "Enable Missing Content Notice", "gmt_notice" )
-		self:CheckBox( LobbyCanvas, "Enable Player Use Menu", "gmt_playermenu" )
-		////self:Slider( LobbyCanvas, "Volume", Volume.Var, 1, 100 )
-
-
-		self:Header( LobbyCanvas, "Requests" )
-		self:CheckBox( LobbyCanvas, "Ignore Trade Requests", "gmt_ignore_trade" )
-		self:CheckBox( LobbyCanvas, "Ignore Group Requests", "gmt_ignore_group" )
-		self:CheckBox( LobbyCanvas, "Ignore Gamemode Requests", "gmt_ignore_gamemode" )
-		self:CheckBox( LobbyCanvas, "Ignore Party Requests", "gmt_ignore_party" )
-		self:CheckBox( LobbyCanvas, "Ignore Duel Requests", "gmt_ignore_duel" )
-
-
-		self:Header( LobbyCanvas, "Performance" )
-		self:CheckBox( LobbyCanvas, "Enable VIP Glow", "gmt_vipglow" )
-		self:CheckBox( LobbyCanvas, "Enable Group Glow", "gmt_groupglow" )
-		self:CheckBox( LobbyCanvas, "Enable Player Particle Effects", "gmt_enableparticles" )
-		self:CheckBox( LobbyCanvas, "Enable Rave Ball Effects", "gmt_visualizer_effects" )
-		self:CheckBox( LobbyCanvas, "Enable Dynamic Firework Lights", "gmt_fireworkdlight" )
-		self:CheckBox( LobbyCanvas, "Enable Blood", "gmt_allowblood" )
-		self:CheckBox( LobbyCanvas, "Enable Jetpack Smoke", "gmt_jetpacksmoke" )
-		//self:CheckBox( LobbyCanvas, "Disable Fog", "gmt_removefog" )
-		//self:CheckBox( LobbyCanvas, "Rave Ball: Shake", "gmt_visualizer_shake" )
-
-
-		self:Header( LobbyCanvas, "Customization" )
-		self:CheckBox( LobbyCanvas, "Enable Compact Store Mode", "gmt_compactstores" )
-		self:CheckBox( LobbyCanvas, "Enable Custom Minecraft Skins", "gmt_minecraftskins" )
-		self:CheckBox( LobbyCanvas, "Use Old Teleporter Font", "gmt_oldtele" )
-		self:CheckBox( LobbyCanvas, "Enable Crosshair", "gmt_hud_crosshair" )
-		self:CheckBox( LobbyCanvas, "Crosshair Always Visible", "gmt_hud_crosshair_always", "gmt_hud_crosshair" )
-		//self:CheckBox( LobbyCanvas, "Enable Action Crosshair", "gmt_hud_crosshair_action", "gmt_hud_crosshair" )
-		self:CheckBox( LobbyCanvas, "Enable HUD", "gmt_hud" )
-		self:CheckBox( LobbyCanvas, "Enable HUD Location", "gmt_hud_location", "gmt_hud" )
-		self:CheckBox( LobbyCanvas, "Enable Event Timer", "gmt_draweventtimer" )
-		self:CheckBox( LobbyCanvas, "Enable Floating Chat", "gmt_drawfloatingchat" )
-		//self:CheckBox( LobbyCanvas, "Enable Gamemode Notice", "gmt_gmnotice" )
-		//self:CheckBox( LobbyCanvas, "Enable News Ticker", "gmt_newsticker" )
-		self:CheckBox( LobbyCanvas, "Enable View Bob", "gmt_viewbob" )
-		self:CheckBox( LobbyCanvas, "Draw First Person Legs", "gmt_drawlegs" )
-		self:CheckBox( LobbyCanvas, "Draw Players While Playing Blockles", "gmt_tetris_drawplayers" )
-		//self:CheckBox( LobbyCanvas, "Allow Sound Spam", "gmt_allowSoundSpam" )
-
-		self:CheckBox( LobbyCanvas, "Enable Ambient Music", "gmt_ambiance_enable" )
-		self:Slider( LobbyCanvas, "Ambient Music Volume", "gmt_ambiance_volume", 1, 100, 0, "gmt_ambiance_enable" )
-
-		////self:Slider( LobbyCanvas, "Suite Snap Grid Size", "gmt_invsnapsize", 2, 16 )
-		self:Slider( LobbyCanvas, "Third Person Camera Distance", "gmt_setthirdpersondist", 35, 150 )
-
-		//self:CheckBox( LobbyCanvas, "Enable Soundscapes", "gmt_soundscapes_enable" )
-		//self:Slider( LobbyCanvas, "Soundscape Volume", "gmt_soundscapes_volume", 0, 100, 0, "gmt_soundscapes_emable" )
-
-		self.Groups["LobbyCategory"] = LobbyCategory
-
-	end
-
-	/*=========
-	Virus Settings
-	============*/
-
-	if gamemode.Get( "virus" ) then
-
-		local VirusCanvas = self:NewCategory( "Virus Settings", 2 )
-
-		self:CheckBox( VirusCanvas, "Display HUD", "gmt_virus_hud" )
-		self:CheckBox( VirusCanvas, "Display Damage Notes", "gmt_virus_damagenotes" )
-
-	end
-
-	/*=========
-	Zombie Massacre Settings
-	============*/
-
-	if gamemode.Get( "zombiemassacre" ) then
-
-		local ZMCanvas = self:NewCategory( "Zombie Massacre Settings", 2 )
-
-		self:CheckBox( ZMCanvas, "Display HUD", "gmt_zm_hud" )
-		self:CheckBox( ZMCanvas, "Display Blur", "gmt_zm_blur" )
-		self:CheckBox( ZMCanvas, "Display Damage Notes", "gmt_zm_notes" )
-
-		self:Slider( ZMCanvas, "Camera Speed", "gmt_zm_cameraspeed", 1, 5 )
-
-		local ZMDLights = self:Slider( ZMCanvas, "Amount of Dynamic Lights", "gmt_zm_dlights", 0, 2 )
-		ZMDLights.Descriptions = { "None", "Some", "All" }
-
-	end
-
-	/*=========
-	Minigolf Settings
-	============*/
-
-	if gamemode.Get( "minigolf" ) then
-
-		local MiniCanvas = self:NewCategory( "Minigolf Settings", 2 )
-
-		self:CheckBox( MiniCanvas, "Display HUD", "gmt_minigolf_hud", nil, "SetDisplayHUD" )
-		self:CheckBox( MiniCanvas, "Display Blur", "gmt_minigolf_blur", nil, "SetDisplayBlur" )
-		self:Slider( MiniCanvas, "Garden Grass Draw Dist", "cl_detaildist", 0, 1000, 0, nil, "SetMiniGrassDist" )
-
-	end
-
-end
-
-function SETTINGS:CreateAdmin()
-
-	if !LocalPlayer():IsAdmin() then return end
-
-	self.AdminCreated = true
-
-	local AdminCanvas = self:NewCategory( "Admin Settings", #self.Groups + 1 )
-	self:CheckBox( AdminCanvas, "Show Usermessages (console)", "gmt_admin_showumsg" )
-	//self:CheckBox( AdminCanvas, "Show Profiler", "gmt_admin_profiler" )
-	self:CheckBox( AdminCanvas, "Show Entity Information", "gmt_admin_showents" )
-	self:CheckBox( AdminCanvas, "Show Net Info", "gmt_admin_shownetinfo" )
-	self:CheckBox( AdminCanvas, "Show Extended Net Info", "gmt_admin_shownetinfo2", "gmt_admin_shownetinfo" )
-	self:CheckBox( AdminCanvas, "Show Player Info", "gmt_admin_showplayinfo" )
-	self:CheckBox( AdminCanvas, "Show Players", "gmt_admin_esp" )
-	self:CheckBox( AdminCanvas, "Show Renderboxes", "gmt_admin_showrenders" )
-
-	if Location then
-		self:CheckBox( AdminCanvas, "Show Locations", "gmt_admin_locations" )
-	end
-
-	self:CheckBox( AdminCanvas, "Show Player Ghosts", "gmt_admin_playerghosts" )
-	self:Slider( AdminCanvas, "Player Ghost Amount", "gmt_admin_playerghosts_amount", 15, 300, 1 )
-
-end
-
-function SETTINGS:OnMousePressed()
-    GTowerMenu:CloseAll()
-end
-
-function SETTINGS:Removing()
-end
-
-function SETTINGS:AnimateTall( item, newTall )
-
-	if item:GetTall() != newTall then
-
-		item:SetTall( math.Approach( item:GetTall(), newTall, 1 ) )
-		item.Canvas:InvalidateLayout()
-		self:InvalidateLayout()
-
-		item._IsAnimating = true
-
-	else
-
-		item._IsAnimating = false
-
-	end
-
-end
-
-function SETTINGS:Think()
-
-	if IsLobby then
-
-		/*=========
-		VIP Settings
-		============*/
-		if LocalPlayer().IsVIP && LocalPlayer():IsVIP() && !self.VIPCreated then
-			self:CreateVIP()
+			self:Header( "General" )
+			self:CheckBox( "Enable View Bob", "gmt_viewbob" )
+			//self:CheckBox( "Enable Playermodel Hands", "gmt_playermodel_hands" )
+			self:CheckBox( "Draw First Person Legs", "gmt_drawlegs" )
+			self:CheckBox( "Draw Players While Playing Blockles", "gmt_tetris_drawplayers" )
+			--self:Slider( "Condo Snap Grid Size (hold C while dragging)", "gmt_invsnapsize", 2, 16 )
 		end
 
 	end
 
-	/*=========
-	Admin Settings
-	============*/
-	--[[if LocalPlayer():IsAdmin() && !self.AdminCreated then
-		self:CreateAdmin()
+	if tabname == "Scoreboard" then
+		self:Header( "General" )
+		self:CheckBox( "Rounded Corners", "gmt_scoreboard_rounded" )
+		self:CheckBox( "Enable Blur", "gmt_scoreboard_blur", nil, "SetScoreboardBlur" )
+		self:Slider( "Blur Amount", "gmt_scoreboard_blur_amount", 1, 10, 0, "gmt_scoreboard_blur", "SetScoreboardBlurAmt" )
+
+		self:Divider()
+
+		self:Header( "Playerlist" )
+		self:CheckBox( "Show Tabs", "gmt_scoreboard_player_tabs" )
+		self:CheckBox( "Enable Grid (2 Players Per Line)", "gmt_scoreboard_player_grid" )
+		if ( IsLobby ) then
+			self:CheckBox( "Player Card Backgrounds", "gmt_scoreboard_player_backgrounds" )
+		end
+		self:Slider( "Player Card Height", "gmt_scoreboard_player_height", 32, 42, 0, nil, "SetScoreHeight" )
+		self:CheckBox( "Enable Respect Icons", "gmt_scoreboard_player_respecticons" )
 	end
 
-	if self.Togglables then
+	if tabname == "Chat" then
+		self:Header( "Chat" )
+		self:CheckBox( "Enable Sounds", "gmt_chat_sound", nil, "SetChatSounds" )
 
-		for convar, item in pairs( self.Togglables ) do
+		if IsLobby then
+			self:CheckBox( "Enable Locations", "gmt_chat_loc", nil, "SetChatLocation" )
+		end
 
-			if !item then continue end
+		self:CheckBox( "Enable Name Coloring", "gmt_chat_color" )
+		self:CheckBox( "Enable Timestamps", "gmt_chat_timestamp" )
+		self:CheckBox( "Enable Timestamp 24 Hour Mode", "gmt_chat_timestamp24", "gmt_chat_timestamp" )
+		self:CheckBox( "Enable Floating Chat", "gmt_drawfloatingchat" )
+		self:CheckBox( "Enable Outline", "gmt_chat_outline" )
+		self:Slider( "Outline Boldness", "gmt_chat_outlineamt", 0, 100, 0, "gmt_chat_outline" )
+	end
 
-			if convar && GetConVar( convar ):GetBool() then
+	if tabname == "Voice/Media" then
+		self:Header( "Voice/Media" )
+		--self:CheckBox( "Enable Public Voice Chat", "gmt_allowvoice" )
+		self:CheckBox( "Enable Voice Chat", "gmt_voice_enable" )
 
-				item:SetAlpha( 255 )
-				item:SetMouseInputEnabled( true )
-				item._TallTo = item._RealTall
+		if IsLobby then
+			self:CheckBox( "Mute Mediaplayer When GMod Is Unfocused", "mediaplayer_mute_unfocused" )
+		end
+	end
 
-				if item._TallTo then
+	if tabname == "Notifications" then
+		self:Header( "Notifications" )
+		if IsLobby then
+			self:CheckBox( "Enable Missing Content Notice", "gmt_notice" )
+			--self:CheckBox( "Enable Missing Workshop Notice", "gmt_notice_workshop" )
+			self:CheckBox( "Enable Auto Reconnect", "gmt_notice_reconnect" )
 
-					self:AnimateTall( item, item._TallTo )
+			self:Divider()
 
-					if !item._IsAnimating then
-						item._TallTo = nil
-					end
+			self:Header( "Requests" )
+			self:CheckBox( "Ignore Trade Requests", "gmt_ignore_trade" )
+			self:CheckBox( "Ignore Group Requests", "gmt_ignore_group" )
+			self:CheckBox( "Ignore Gamemode Requests", "gmt_ignore_gamemode" )
+			self:CheckBox( "Ignore Party Requests", "gmt_ignore_party" )
+			self:CheckBox( "Ignore Duel Requests", "gmt_ignore_duel" )
 
+			self:Divider()
+
+			self:Header( "Friends" )
+			self:CheckBox( "Notify When a Friend Joins", "gmt_notify_friendjoin" )
+		end
+	end
+
+	if tabname == "Graphics" then
+		self:Header( "Graphics/Performance" )
+		
+		if IsLobby then
+
+			self:CheckBox( "Enable Budget Glow (Outline)", "gmt_halo_budget" )
+			self:CheckBox( "Enable VIP Player Glow (expensive)", "gmt_vipglow" )
+			self:CheckBox( "Enable Group Player Glow (expensive)", "gmt_groupglow" )
+			self:CheckBox( "Enable Player Particle Effects", "gmt_enableparticles" )
+
+			self:Divider()
+
+			self:Header( "Items" )
+			self:CheckBox( "Enable Rave and Disco Ball Effects", "gmt_visualizer_effects" )
+			self:CheckBox( "Enable Advanced Rave and Disco Ball Effects (expensive)", "gmt_visualizer_advanced", "gmt_visualizer_effects" )
+			self:CheckBox( "Enable Dynamic Firework Lights", "gmt_fireworkdlight" )
+			self:CheckBox( "Enable Jetpack Smoke", "gmt_jetpacksmoke" )
+
+			self:Divider()
+
+			self:Header( "Misc" )
+			self:CheckBox( "Enable Custom Minecraft Skins", "gmt_minecraftskins" )
+			self:CheckBox( "Enable Blood Effects", "gmt_allowblood" )
+		end
+	end
+
+	if tabname == "HUD" then
+		self:Header( "General" )
+		if IsLobby then
+			self:CheckBox( "Enable HUD", "gmt_hud" )
+			self:CheckBox( "Enable HUD Ammo", "gmt_hud_ammo", "gmt_hud" )
+			self:CheckBox( "Enable HUD Location", "gmt_hud_location", "gmt_hud" )
+			self:CheckBox( "Enable Event Timer", "gmt_draweventtimer", "gmt_hud" )
+			self:CheckBox( "Enable Third Person Button", "gmt_thirdpersonbutton" )
+			self:Divider()
+			self:Header( "Crosshair" )
+			self:CheckBox( "Enable Crosshair", "gmt_hud_crosshair" )
+			self:CheckBox( "Enable 3D Crosshair", "gmt_hud_crosshair_3d", "gmt_hud_crosshair" )
+			self:CheckBox( "Crosshair Always Visible", "gmt_hud_crosshair_always", "gmt_hud_crosshair" )
+			self:CheckBox( "Enable Use Prompts", "gmt_hud_crosshair_action", "gmt_hud_crosshair" ) -- graying out is broken when multiple options use the same prerequisite?	
+			//self:CheckBox( LobbyCanvas, "Enable Gamemode Notice", "gmt_gmnotice" )
+			//self:CheckBox( LobbyCanvas, "Enable News Ticker", "gmt_newsticker" )
+			//self:CheckBox( LobbyCanvas, "Allow Sound Spam", "gmt_allowSoundSpam" )
+			self:Divider()
+			self:Header( "Store" )
+			self:CheckBox( "Enable Compact Store GUI", "gmt_compactstores" )
+			self:Divider()
+			self:Header( "Misc." )
+			self:CheckBox( "Enable Classic Name Display", "gmt_targetid_classic" ) 
+			self:CheckBox( "Enable Player Context Menu", "gmt_playermenu" )
+		end
+	end
+
+	if tabname == "Advanced" then
+		self:Header( "Advanced" )
+		
+		self:CheckBox( "Enable 3D2D Filtering", "gmt_3d2d_filtering" )
+		self:Divider()
+		if IsLobby then
+			self:Slider( "Camera Distance", "gmt_setthirdpersondist", 35, 150 )
+		end
+	end
+	
+	if tabname == "Gamemode" then
+
+		/*=========
+		Ball Race Settings
+		============*/
+		if engine.ActiveGamemode() == "ballrace" then
+
+			self:Header( "Ball Race" )
+			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
+			self:Divider()
+			self:Slider( "Ball Fading", "gmt_ballrace_fade", 0, 2048 )
+			self:Slider( "Camera Tilt", "gmt_ballrace_tilt", 0, 8 )
+			self:CheckBox( "Show Milliseconds on the Timer", "gmt_ballrace_ms" )
+
+		end
+
+		/*=========
+		Virus Settings
+		============*/
+		if engine.ActiveGamemode() == "virus" then
+
+			self:Header( "Virus" )
+			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
+			self:Divider()
+			self:CheckBox( "Display HUD", "gmt_virus_hud" )
+			self:CheckBox( "Display Damage Notes", "gmt_virus_damagenotes" )
+			self:CheckBox( "Enable Hit Sounds", "gmt_virus_hitsounds" )
+
+		end
+		
+		/*=========
+		Zombie Massacre Settings
+		============*/
+		if engine.ActiveGamemode() == "zombiemassacre" then
+
+			self:Header( "Zombie Massacre" )
+			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
+			self:Divider()
+			self:CheckBox( "Display HUD", "gmt_zm_hud" )
+			self:CheckBox( "Display Blur", "gmt_zm_blur" )
+			self:CheckBox( "Display Damage Notes", "gmt_zm_notes" )
+
+			self:Slider( "Camera Speed", "gmt_zm_cameraspeed", 1, 5 )
+			
+			local ZMDLights = self:Slider( "Amount of Dynamic Lights", "gmt_zm_dlights", 0, 2 )
+			ZMDLights.Descriptions = { "None", "Some", "All" }
+
+		end
+		
+		/*=========
+		Minigolf Settings
+		============*/
+		if engine.ActiveGamemode() == "minigolf" then
+
+			self:Header( "Minigolf" )
+			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
+			self:Divider()
+			self:CheckBox( "Display HUD", "gmt_minigolf_hud", nil, "SetDisplayHUD" )
+			self:CheckBox( "Display Blur", "gmt_minigolf_blur", nil, "SetDisplayBlur" )
+			self:CheckBox( "Display Putter", "gmt_minigolf_putter" )
+			self:Slider( "Garden Grass Draw Dist", "cl_detaildist", 0, 1000, 0, nil, "SetMiniGrassDist" )
+
+		end
+
+		/*=========
+		PVP Battle Settings
+		============*/
+		if engine.ActiveGamemode() == "pvpbattle" then
+
+			self:Header( "PVP Battle" )
+			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
+			self:Divider()
+			self:CheckBox( "Display Damage Notes", "gmt_pvp_damagenotes" )
+			self:CheckBox( "Enable Hit Sounds", "gmt_pvp_hitsounds" )
+			self:CheckBox( "Enable Old Ammo Display", "gmt_pvp_oldammo", nil, "SetOldAmmoDisplay" )
+
+		end
+		
+		/*=========
+		UCH Settings
+		============*/
+		if engine.ActiveGamemode() == "ultimatechimerahunt" then
+
+			self:Header( "Ultimate Chimera Hunt" )
+			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
+
+		end
+		
+		/*=========
+		Source Karts Settings
+		============*/
+		if engine.ActiveGamemode() == "sourcekarts" then
+
+			self:Header( "Source Karts" )
+			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
+			self:Divider()
+			self:Slider( "Horn Selection", "sk_hornnum", 1, 23 )
+
+		end
+
+	end
+
+	if tabname == "VIP" then
+		self:Header( "VIP" )
+		self:CheckBox( "Enable Glow For Yourself", "gmt_vip_enableglow" )
+		self:Divider()
+		self:Slider( "Jetpack Power", "gmt_vip_jetpackpower", 1, 2, 1 )
+		//self:CheckBox( VIPCanvas, "Draw Jetpack For Other Players", "gmt_jetpackvipdraw" )
+	end
+
+	if tabname == "Admin" then
+		self:Header( "Admin" )
+
+		--self:CheckBox( "Show Player Sprays", "gmt_admin_sprays" )
+		self:Slider( "Admin Log", "gmt_admin_log", 0, 5, 0 )
+		self:Divider()
+		self:CheckBox( "Show Player Positions", "gmt_admin_esp" )
+		self:Divider()
+		self:CheckBox( "Show Player Ghosts *EXTREMELY LAGGY*", "gmt_admin_playerghosts" )
+		self:Slider( "Player Ghost Amount", "gmt_admin_playerghosts_amount", 15, 300, 0, "gmt_admin_playerghosts" )
+		self:Divider()
+		
+		self:CheckBox( "Show Player Count", "gmt_admin_showplaycount" )
+		self:CheckBox( "Show Map List", "gmt_admin_showmaplist" )
+
+	end
+
+	if tabname == "Debug" then
+		self:Header( "Tools" )
+
+		self:CheckBox( "Developer Mode", "developer" )
+		self:CheckBox( "Show Entity Information", "gmt_admin_showents" )
+		//self:CheckBox( "Show Net Info", "gmt_admin_shownetinfo" )
+		//self:CheckBox( "Show Extended Net Info", "gmt_admin_shownetinfo2", "gmt_admin_shownetinfo" )
+		self:CheckBox( "Show Condo Information", "gmt_admin_showcondo" )
+		//self:CheckBox( "Show Usermessages (console)", "gmt_admin_showumsg" )
+		//self:CheckBox( "Show Usermessages (graph)", "gmt_admin_showumsggraph" )
+		//self:CheckBox( "Show Profiler", "gmt_admin_profiler" )
+
+		if Location then
+			self:CheckBox( "Show Locations", "gmt_admin_locations" )
+		end
+
+		self:CheckBox( "Show Entity Bar", "gmt_admin_entbar" )
+		self:CheckBox( "Always Show Entity Bar", "gmt_admin_entbar_always", "gmt_admin_entbar" )
+
+		self:Divider()
+
+		self:Header( "Performance" )
+		self:Slider( "Net Graph", "net_graph", 0, 3 )
+		self:Slider( "Fullbright", "mat_fullbright", 0, 2 )
+		self:Slider( "Wireframe", "mat_wireframe", 0, 2 )
+		self:CheckBox( "Show FPS", "cl_showfps" )
+		self:CheckBox( "Hide +showbudget", "gmt_admin_showbudget" )
+		self:CheckBox( "Draw Water", "mat_drawwater" )
+		self:CheckBox( "Draw World", "r_drawworld" )
+		self:CheckBox( "Draw Static Props", "r_drawstaticprops" )
+		self:CheckBox( "Draw Decals", "r_drawdecals" )
+		self:CheckBox( "Draw Skybox", "r_skybox" )
+		self:CheckBox( "GL Clear", "gl_clear" )
+
+		self:Divider()
+
+		self:Header( "Art Debug" )
+		self:CheckBox( "Show Collision Wireframes", "vcollide_wireframe" )
+		self:CheckBox( "Show Shadow Wireframes", "r_shadowwireframe" )
+		self:CheckBox( "Show Renderboxes", "gmt_admin_showrenders" )
+
+	end
+
+	if tabname == "Spawnlist" then
+
+		local path = "models/map_detail/*"
+		local Models = file.FindDir( path, "GAME" )
+
+		self.Contents:SetCols( 10 )
+		self.Contents:SetRowHeight( 64 )
+		self.Contents:SetColWide( 64 )
+
+		if Models then
+
+			for _, f in pairs( Models ) do
+				if string.GetExtensionFromFilename( f ) == "mdl" then
+					local fpath = "models/map_detail/" .. f
+					self:SpawnButton( string.StripExtension(f), fpath, function() RunConsoleCommand("gmt_create", fpath) end )
 				end
-
-			else
-
-				item:SetAlpha( 50 )
-				item:SetMouseInputEnabled( false )
-				item._TallTo = 0
-
-				if item._TallTo then
-
-					self:AnimateTall( item, item._TallTo )
-
-					if !item._IsAnimating then
-						item._TallTo = nil
-					end
-
-				end
-
 			end
 
 		end
 
-	end]]--
-
-end
-
-function SETTINGS:Paint( w, h )
-end
-
-function SETTINGS:PerformLayout()
-
-	local curY = 2
-
-	for id, category in ipairs( self.Groups ) do
-
-		category:SetWide( self:GetWide() - 6 )
-		category:SetPos( 3, curY )
-
-		curY = curY + category:GetTall() + 2
-
 	end
 
-	//self.ItemParent:SetTargetTall( SumHeight, self )
-	self:SetTall( curY )
-
 end
 
-vgui.Register( "ScoreBoardSettings", SETTINGS )
-
-/**
-	A single collapsable category that holds settings
-*/
-SETTINGSCATEGORY = {}
-
-function SETTINGSCATEGORY:Init()
-
-	self:SetLabel( "Unknown" )
-	self:SetLabelFont( Scoreboard.Customization.CollapsablesFont, false )
-	self:SetTabCurve( 0 )
-
-	self:SetColors(
-		Scoreboard.Customization.ColorDark,
-		Scoreboard.Customization.ColorBackground,
-		Scoreboard.Customization.ColorBright,
-		Scoreboard.Customization.ColorBright
-	)
-
-	self:SetPadding( 2 )
-	//self:EnableVerticalScrollbar( false )
-
-end
-
-vgui.Register( "ScoreboardSettingsCategory", SETTINGSCATEGORY, "DCollapsibleCategory2" )
-
-
+vgui.Register( "ScoreboardSettingsCategoryTab", SETTINGSCATEGORYTAB, "PanelList" )
 
 
 SETTINGSLIST = {}
@@ -457,8 +856,20 @@ SETTINGSLIST = {}
 function SETTINGSLIST:Paint( w, h )
 
 	surface.SetDrawColor( Scoreboard.Customization.ColorNormal )
-	surface.DrawRect( 0, 0, self:GetWide(), self:GetTall() )
+	surface.DrawRect( 0, 0, w, h )
 
 end
 
 vgui.Register( "ScoreboardSettingsList", SETTINGSLIST, "DPanelList2" )
+
+
+-- This is not really a good place for this, but this script as all the spawnlist logic, so...
+function GM:OnUndo( name )
+
+	notification.AddLegacy( "#Undone_"..name, NOTIFY_UNDO, 2 )
+	surface.PlaySound( "ambient/water/drip"..math.random(1, 4)..".wav" )
+
+	-- Find a better sound :X
+	surface.PlaySound( "buttons/button15.wav" )
+
+end

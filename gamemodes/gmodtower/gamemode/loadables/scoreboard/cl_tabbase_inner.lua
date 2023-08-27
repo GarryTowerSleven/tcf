@@ -1,4 +1,6 @@
 ---------------------------------
+
+-----------------------------------------------------
 module("Scoreboard", package.seeall )
 
 TABBASE = {}
@@ -15,6 +17,14 @@ function TABBASE:Init()
 		self.Label:SetMouseInputEnabled( false )
 		self.Label:SetTextColor( color_white )
 	end
+
+	if !IsValid( self.Label2 ) then
+		self.Label2 = Label( "Unknown" )
+		self.Label2:SetParent( self )
+		self.Label2:SetFont("SCTNavigation")
+		self.Label2:SetMouseInputEnabled( false )
+		self.Label2:SetTextColor( color_white )
+	end
 	
 	self:SetMouseInputEnabled( true )
 	
@@ -23,6 +33,10 @@ end
 
 function TABBASE:SetText( text )
 	self.Text = text
+end
+
+function TABBASE:SetRightText( text )
+	self.Text2 = text
 end
 
 function TABBASE:SetBody( body )
@@ -38,9 +52,14 @@ function TABBASE:InvalidateLayout()
 	
 	self.Label:SetText( self.Text )
 	self.Label:SizeToContents()
+
+	self.Label2:SetText( self.Text2 or "" )
+	self.Label2:SizeToContents()
+	self.Label2:AlignRight(4)
+	self.Label2:SetVisible( tobool(self.Text2) )
 	
 	self:SetWide( self.Label:GetWide() + 20 )
-	self.Label:Center()
+	self.Label:AlignLeft(8)
 
 end
 
@@ -109,18 +128,24 @@ function TABBASE:Paint( w, h )
 		return
 	end
 
-	// Hover
 	local color = Scoreboard.Customization.ColorTabHighlight
 	local alpha = 0
 	local textAlpha = 50
 
-	if self:IsMouseOver() then
+	// Hover
+	if self:IsMouseOver() and self:IsMouseInputEnabled() then
 		alpha = 20
 		textAlpha = 255
 	end
 
-	self.HoverAlpha = math.Approach( self.HoverAlpha, alpha, FrameTime() * 60 )
-	self.HoverTextAlpha = math.Approach( self.HoverTextAlpha, textAlpha, FrameTime() * 300 )
+	// Disabled
+	if not self:IsMouseInputEnabled() then
+		textAlpha = 5
+		alpha = 0
+	end
+
+	self.HoverAlpha = alpha //math.Approach( self.HoverAlpha, alpha, FrameTime() * 120 )
+	self.HoverTextAlpha = textAlpha //math.Approach( self.HoverTextAlpha, textAlpha, FrameTime() * 300 )
 
 	self.Label:SetTextColor( Color( color_white.r, color_white.g, color_white.b, self.HoverTextAlpha ) )
 

@@ -20,7 +20,7 @@ hook.Add("GTowerInvDrop", "BlockSuiteUsageDrop", function( ply, trace, Item, mov
 
 			//Check if the player has reached entity limit count
 			if moving != true then
-				local Maximun = ply:GetSetting("GTSuiteEntityLimit")
+				local Maximun = ply:GetNet("RoomMaxEntityCount")
 
 				if Room:ActualEntCount() >= Maximun then
 					umsg.Start("GRoom", ply)
@@ -33,14 +33,14 @@ hook.Add("GTowerInvDrop", "BlockSuiteUsageDrop", function( ply, trace, Item, mov
 
 			if !ply:Achived( ACHIEVEMENTS.SUITEOCD ) then
 
-				if !ply.AchiCondoOCDCount then
-					ply.AchiCondoOCDCount = ply:GetAchievement( ACHIEVEMENTS.SUITEOCD )
+				if !ply._AchiSuiteOCDCount then
+					ply._AchiSuiteOCDCount = {}
 				end
 
-				ply.AchiCondoOCDCount = ( ply.AchiCondoOCDCount || 0 ) + 1
+				ply._AchiSuiteOCDCount[ Item.MysqlId ] = (ply._AchiSuiteOCDCount[ Item.MysqlId ] or 0) + 1
 
-				if ply.AchiCondoOCDCount > ply:GetAchievement( ACHIEVEMENTS.SUITEOCD ) then
-					ply:SetAchievement( ACHIEVEMENTS.SUITEOCD, ply.AchiCondoOCDCount )
+				if ply._AchiSuiteOCDCount[ Item.MysqlId ] > ply:GetAchievement( ACHIEVEMENTS.SUITEOCD ) then
+					ply:SetAchievement( ACHIEVEMENTS.SUITEOCD, ply._AchiSuiteOCDCount[ Item.MysqlId ] )
 				end
 
 			end
@@ -61,7 +61,11 @@ hook.Add("PlayerTeleport", "CheckUncheckSuite", function( ply, goplace )
 
 end )
 
-local SuitePlaces = {1,2,3,4,5,6,7,8,9,10,11,12,13,28}
+local SuitePlaces = {}
+
+timer.Simple( 5, function()
+	SuitePlaces = Location.GetSuiteLocations()
+end )
 
 hook.Add("Location", "GetOffSuite", function( ply, loc )
 
@@ -77,7 +81,7 @@ hook.Add("Location", "GetOffSuite", function( ply, loc )
 		end
 
 		umsg.Start("GRoom", ply)
-		umsg.Char( 11 )
+			umsg.Char( 11 )
 		umsg.End()
 
 	end

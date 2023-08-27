@@ -1,4 +1,3 @@
----------------------------------
 module("GTowerRooms", package.seeall )
 
 TimeToLeaveRoom = 6 * 60
@@ -6,10 +5,7 @@ TalkingTo = {}
 
 util.AddNetworkString("gmt_lockcondo")
 util.AddNetworkString("gmt_closevault")
-util.AddNetworkString("gmt_partymessage")
-
-util.AddNetworkString("RequestRoomBans")
-util.AddNetworkString("NetworkScores")
+util.AddNetworkString("GRoomParty")
 
 net.Receive("gmt_closevault",function(len, ply)
 
@@ -27,49 +23,46 @@ end)
 
 net.Receive("gmt_lockcondo",function(len, ply)
 	
-	if ply:GetNWBool("Party") then
+	if ply:GetNWBool("GRoomParty") then
 		return
 	end
 
 	local room = net.ReadInt(16)
 	local lock = net.ReadBool()
 	//if lock then
-	//	MsgC( color_green, "[Room] Locking Condo #" .. tostring(room) .. "\n")
+	//	MsgC( co_color, "[Room] Locking Condo #" .. tostring(room) .. "\n")
 	//else
-	//	MsgC( color_green, "[Room] Unlocking Condo #" .. tostring(room) .. "\n")
+	//	MsgC( co_color, "[Room] Unlocking Condo #" .. tostring(room) .. "\n")
 	//end
 	
 	if !ply.GRoom then return end
 
 	if ply:GetNet( "RoomID" ) != room then return end
-	//MsgC( color_green, "[Room] Setting GRoomLock \n")
+	//MsgC( co_color, "[Room] Setting GRoomLock \n")
 	ply:SetNet( "RoomLock", lock )
 
 end)
 
-timer.Create( "CheckPlayerOnRoom", 1.0, 0, function()
+local _LastRoomCheck = 0
+hook.Add( "Think", "CheckPlayerOnRoom", function()
+	if ( _LastRoomCheck > CurTime() ) then return end
 
-	for k, Room in pairs( Rooms ) do
-
-		if Room:IsValid() then
-
-			if Room:OwnerInRoom() then
-				Room.LastActive = CurTime()
-
-			elseif CurTime() - Room.LastActive > TimeToLeaveRoom then
-
-				umsg.Start("GRoom", Room.Owner)
-			    umsg.Char( 5 )
-			    umsg.Char( TimeToLeaveRoom / 60 )
-			    umsg.End()
-
-				Room:Finish()
+	for _, room in ipairs( Rooms ) do
+		if ( room:IsValid() ) then
+			if ( room:OwnerInRoom() ) then
+				room.LastActive = CurTime()
+			elseif ( CurTime() - room.LastActive > TimeToLeaveRoom ) then
+				umsg.Start("GRoom", room.Owner)
+					umsg.Char( 5 )
+					umsg.Char( TimeToLeaveRoom / 60 )
+				umsg.End()
+	
+				room:Finish()
 			end
-
 		end
-
 	end
 
+	_LastRoomCheck = CurTime() + 1
 end )
 
 
@@ -148,20 +141,23 @@ function StartParty( ply, flags )
 
 	if !flags then return end
 
-	print( flags )
-
 	//ply:Msg2( tostring( ply:GetNet( "RoomLock" ) ) )
 	if ply:GetNet( "RoomLock" ) then
 		ply:Msg2( "Please unlock your condo before throwing a party.", "condo" )
 		return
 	end
 
-	if ply:GetNWBool("Party") then return end
+	if ply:GetNWBool("GRoomParty") then return end
 
 	if !ply.NextParty then ply.NextParty = 0 end
 
 	if CurTime() < ply.NextParty then
 		ply:Msg2( T( "RoomPartyFailedDelay", tostring( 3 ) ), "condo" )
+		return
+	end
+
+	if !ply:Afford( 250 ) then
+		ply:Msg2( T( "RoomPartyFailedMoney" ), "condo" )
 		return
 	end
 
@@ -174,26 +170,25 @@ function StartParty( ply, flags )
 	local flagString = ""
 
 	for k,v in pairs(flags) do
-		if !v then continue end
-		if k == #flags then
-			flagString = flagString .. "and " .. Settings[tonumber(v)]
-		elseif #flags > 1 then
-			flagString = flagString .. Settings[tonumber(v)] .. ", "
+		v = string.Trim( v )
+		if !v || v == "" || v == " " then continue end
+
+		local thing = string.lower( Settings[tonumber(v)] ) or "stuff"
+
+		if ( k == 1 ) then
+			flagString = thing
+		elseif ( #flags > 1 && k == #flags ) then
+			flagString = flagString .. ", and " .. thing
 		else
-			flagString = flagString .. Settings[tonumber(v)]
+			flagString = flagString .. ", " .. thing
 		end
 	end
 
-	invString = invString .. " " .. T( "RoomPartyActivityMessage", flagString ) .. " Join?"
+	invString = invString .. " " .. T( "RoomPartyActivityMessage", flagString )
 
 	local roomid = ply:GetNet( "RoomID" )
 
 	if roomid == 0 then return end
-
-	if !ply:Afford( 250 ) then
-		ply:Msg2( T( "RoomPartyFailedMoney" ), "condo" )
-		return
-	end
 
 	ply:AddMoney(-250)
 
@@ -201,90 +196,48 @@ function StartParty( ply, flags )
 	local TimeString = os.date( "%H:%M:%S - %d/%m/%Y" , Timestamp )
 	SQLLog( 'condo', ply:Name() .. " paid and started a Condo Party. (" .. TimeString .. ")" )
 
-	ply:SetNWBool("Party",true)
+	ply:SetNWBool( "GRoomParty", true )
 
 	ply.NextParty = CurTime() + (60*3)
 
 	timer.Simple( 60*2, function()
-		if IsValid(ply) && ply:GetNWBool("Party") then
-			ply:SetNWBool("Party",false)
+		if IsValid(ply) && ply:GetNWBool( "GRoomParty" ) then
+			ply:SetNWBool( "GRoomParty", false )
 			ply:Msg2( T( "RoomPartyEnded" ), "condo" )
 		end
 	end)
 
-	net.Start("gmt_partymessage")
+	net.Start("GRoomParty")
 		net.WriteString(invString)
-		net.WriteString(tostring(roomid))
+		net.WriteInt(roomid, 6)
 	net.Broadcast()
 
 end
 
-concommand.Add("gmt_roomparty", function( ply, cmd, args )
-	StartParty(ply,args[1])
+concommand.Add("gmt_startroomparty", function( ply, cmd, args )
+	StartParty( ply, args[1] )
 end)
 
-concommand.Add("gmt_roompartyend", function( ply, cmd, args )
-	ply:SetNWBool("Party",false)
+concommand.Add("gmt_endroomparty", function( ply, cmd, args )
+	ply:SetNWBool("GRoomParty",false)
 	ply:Msg2( T( "RoomPartyEnd" ) )
 end)
 
 concommand.Add("gmt_joinparty", function(ply, cmd, args)
 	if !args[1] then return end
-
 	if args[1] == 0 then return end
 
-	for k,v in pairs(ents.FindByClass('gmt_condo_door')) do
-		if v:GetCondoID() == tonumber(args[1]) then
-			ply.DesiredPosition = ( v:GetPos() + v:GetForward() * 60 )
-			ply:SetEyeAngles( -v:GetAngles() )
-		end
+	local room = Get( tonumber( args[1] ) or 0 )
+
+	if ( room ) then
+		local owner = room.Owner
+		if ( !owner or !owner:IsValid() ) then return end
+		if ( !owner:GetNWBool("GRoomParty") ) then return end
+
+		room:SendToDoor( ply )
 	end
 
 end)
-
-concommand.Add("gmt_roomkick", function( ply, cmd, args )
-
-	if ply._NextCommand && ply._NextCommand > CurTime() then
-		return
-	end
-	ply._NextCommand = CurTime() + 0.25
-
-	local Specific = false
-
-	if #args > 0 then
-		if IsValid(ents.GetByIndex(args[1])) then
-			Specific = true
-		end
-	end
-
-	if ply:GetNWBool("Party") then
-		ply:Msg2( T( "RoomPartyLock" ), "condo" )
-		return 
-	end
-
-	local Room = ply:GetRoom()
-
-	if Room then
-
-		local Players = Room:GetPlayers()
-
-		for _, ply in pairs( Players ) do
-
-			if Specific && ply == ents.GetByIndex(args[1]) && !ply:IsAdmin() then
-				Suite.RemovePlayer( ply )
-				Room.Owner:AddAchievement( ACHIEVEMENTS.SUITELEAVEMEALONE, 1 )
-				continue
-			end
-
-			if ply != Room.Owner && !Friends.IsFriend( Room.Owner, ply ) && !ply:IsAdmin() then
-				Suite.RemovePlayer( ply )
-				Room.Owner:AddAchievement( ACHIEVEMENTS.SUITELEAVEMEALONE, 1 )
-			end
-		end
-
-	end
-
-end )
 
 local ValidExplodeRockets = {}
 
@@ -316,27 +269,27 @@ local function MakeRocketDoDamage( ent )
 end
 
 concommand.Add( "gmt_buybankslots", function( ply, cmd, args )
-	local amount = args[1]
-	if !amount then return end
-	amount = tonumber(amount)
+	local amount = tonumber( args[1] ) or 0
 	if amount > 0 then
+		local cost = (amount * GTowerItems.BankSlotWorth)
 
-		if (ply:MaxBank() + amount) > GTowerItems.MaxBankCount then
-
-			if (GTowerItems.MaxBankCount - ply:MaxBank()) > 0 then
-				local newAmount = (GTowerItems.MaxBankCount - ply:MaxBank())
-				ply:SetMaxBank( ply:MaxBank() + amount )
-				ply:AddMoney( -(amount * GTowerItems.BankSlotWorth) )
-				ply:Msg2("You've paid for " .. newAmount .. " slots instead of " .. Amount .. " due to reaching the max amount of Vault slots.")
-			else
-				ply:Msg2("You've reached the max amount of Vault slots.")
-			end
-
-		else
-			ply:SetMaxBank( ply:MaxBank() + amount )
-			ply:AddMoney( -(amount * GTowerItems.BankSlotWorth) )
+		if ( not ply:Afford( cost ) ) then
+			return
 		end
 
+		if (ply:BankLimit() + amount) > GTowerItems.MaxBankCount then
+			if (GTowerItems.MaxBankCount - ply:BankLimit()) > 0 then
+				local newAmount = (GTowerItems.MaxBankCount - ply:BankLimit())
+				ply:SetMaxBank( ply:BankLimit() + amount )
+				ply:AddMoney( -cost )
+				ply:Msg2("You've paid for " .. newAmount .. " slots instead of " .. Amount .. " due to reaching the max amount of Trunk slots.")
+			else
+				ply:Msg2("You've reached the max amount of Trunk slots.")
+			end
+		else
+			ply:SetMaxBank( ply:BankLimit() + amount )
+			ply:AddMoney( -cost )
+		end
 	end
 end )
 
@@ -365,8 +318,8 @@ concommand.Add( "gmt_dieroom", function( ply, cmd, args )
 
 	if Room then
 		Room:Finish()
-		if IsValid(ply) && ply:GetNWBool("Party") then
-			ply:SetNWBool("Party", false)
+		if IsValid(ply) && ply:GetNWBool("GRoomParty") then
+			ply:SetNWBool("GRoomParty", false)
 			ply:Msg2( T( "RoomPartyEnded" ), "condo" )
 		end
 	end
@@ -425,6 +378,12 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 	//Select a random one
 	local PlyRoom = UnusedRooms[ math.random( 1, #UnusedRooms ) ]
 
+	if IsValid(PlyRoom.Owner) then
+		PlyRoom:Finish()
+
+		PlyRoom.Owner:MsgT( "RoomAFKAway" )
+	end
+
 	if !tmysql then
 		PlyRoom:Load( ply )
 
@@ -435,13 +394,13 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 		return
 	end
 
-	SQL.getDB():Query("SELECT HEX(condodata) as condodata FROM `gm_users` WHERE steamid='"..ply:SteamID().."'", function(res)
+	SQL.getDB():Query("SELECT HEX(roomdata) as roomdata FROM `gm_users` WHERE steamid='"..ply:SteamID().."'", function(res)
 
 			if !res or res == nil then return end
 			local row = res[1].data[1]
 			if row then
-					local condodata = row.condodata
-					Suite.SQLLoadData( ply, condodata )
+					local roomdata = row.roomdata
+					Suite.SQLLoadData( ply, roomdata )
 					PlyRoom:Load( ply )
 
 					umsg.Start("GRoom", ply)
@@ -450,19 +409,19 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 					umsg.End()
 
 					ply:SetNet( "RoomEntityCount", PlyRoom:ActualEntCount() )
+
 			end
 
 	end)
 
-	ply:SetNWBool( "RoomID", PlyRoom.Id )
+	ply:SetNWInt( "RoomID", PlyRoom.Id )
 
-	local door = GTowerRooms.GetCondoDoor( PlyRoom.Id )
-	if door then
-		local num = math.Clamp( ply:GetInfoNum( "gmt_condodoorbell", 1 ), 1, 50 )
-		door:SetNWInt("DoorBell", num)
+	local panel = GTowerRooms.GetPanel( PlyRoom.Id )
+	if panel then
+		panel:SetText( ply:GetInfo( "gmt_suitename" ) or "", ply)
 	end
 
-	AdminNotif.SendStaff( ply:NickID() .. " has checked into condo #" .. PlyRoom.Id .. ".", nil, nil, 3 )
+	AdminNotif.SendStaff( ply:NickID() .. " has checked into suite #" .. PlyRoom.Id .. ".", nil, nil, 3 )
 
 	//Congratilaions!
 end )
@@ -477,8 +436,8 @@ hook.Add("ClientSetting", "GTCheckSuite", function( ply, id, val )
 
 		if val == false && Room  then
 			Room:Finish()
-			if IsValid(ply) && ply:GetNWBool("Party") then
-				ply:SetNWBool("Party", false)
+			if IsValid(ply) && ply:GetNWBool("GRoomParty") then
+				ply:SetNWBool("GRoomParty", false)
 				ply:Msg2( T( "RoomPartyEnded" ), "condo" )
 			end
 		end
@@ -493,18 +452,18 @@ concommand.Add( "gmt_resetroom", function(ply)
 	if !room then return end
 
 	for _, v in pairs ( room:EntsInRoom() ) do
-
-		if GTowerItems:FindByEntity( v ) then
+		
+		if GTowerItems:FindByEntity( v ) && v:GetClass() != "gmt_trunk" then
 
 		local ItemId = GTowerItems:FindByEntity( v )
 		if !ItemId then
-			MsgC( color_red, ply:Name().." is resetting their condo, but the following entity failed to remove: "..tostring(v) )
+			MsgC( co_color2, ply:Name().." is resetting their condo, but the following entity failed to remove: "..tostring(v) )
 		end
 
 		local Item = GTowerItems:CreateById( ItemId, ply )
 		local Slot = GTowerItems:NewItemSlot( ply, "-2" ) //In the bank!
 
-		ply:SetMaxBank( ply:BankLimit() + 1 )
+		//ply:SetMaxBank( ply:BankLimit() + 1 ) Why would we let them increase their trunk space for free?
 
 		Slot:FindUnusedSlot( Item, true )
 
@@ -521,58 +480,87 @@ concommand.Add( "gmt_resetroom", function(ply)
 
 	end
 
-	ply:Msg2("Your items have been moved to your vault.")
+	ply:Msg2("Your items have been moved to your trunk.")
 
 end)
 
-net.Receive("RequestRoomBans", function( len, ply )
-	if ply.RoomBans then
-		net.Start( "NetworkScores" )
-			net.WriteEntity( ply )
-			net.WriteTable( ply.RoomBans )
-		net.Send( ply )
+concommand.Add("gmt_roomkick", function( ply, cmd, args )
+
+	if ply._NextCommand && ply._NextCommand > CurTime() then
+		return
 	end
+	
+	ply._NextCommand = CurTime() + 0.25
+
+	local target = nil 
+
+	if ( args[1] ) then
+		target = ents.GetByIndex( tonumber( args[1] ) ) or nil
+	end
+
+	if ply:GetNWBool("GRoomParty") then
+		ply:Msg2( T( "RoomPartyLock" ), "condo" )
+		return 
+	end
+
+	local Room = ply:GetRoom()
+
+	if Room then
+		local players = {}
+
+		if ( target ) then
+			if ( Room:PlayerInRoom( target ) ) then
+				players = { target }
+			end	
+		else
+			players = Room:GetPlayers()
+		end
+
+		for _, guest in pairs( players ) do
+			if ( ply == guest or guest:IsStaff() ) then return end
+
+			Suite.RemovePlayer( guest )
+			guest:Msg2( T("RoomKickedFrom", ply:Name() ) )
+
+			if ( target ) then
+				ply:Msg2( T( "RoomKickedPlayer", guest:GetName() ) )
+			end
+
+			Room.Owner:AddAchievement( ACHIEVEMENTS.SUITELEAVEMEALONE, 1 )
+		end
+
+	end
+
 end )
 
 concommand.Add("gmt_roomban", function( ply, cmd, args )
-	local index = args[1]
-	if !index then return end
-	local ent = ents.GetByIndex(index)
-	if !IsValid(ent) or !ent:IsPlayer() then return end
-
-	// Kick the guy
-	if !ent:IsAdmin() then
-		ply:ConCommand( "gmt_roomkick, "..index )
+	if ply._NextCommand && ply._NextCommand > CurTime() then
+		return
 	end
+	ply._NextCommand = CurTime() + 0.25
 
-	if !ply.RoomBans then ply.RoomBans = {} end
+	if ( !args or #args < 1 ) then return end
+	local target = ents.GetByIndex( tonumber( args[1] ) ) or nil
+	if ( !target or !IsValid( target ) ) then return end
 
-	if table.HasValue( ply.RoomBans, ent ) then return end
+	local Room = ply:GetRoom()
 
-	table.insert( ply.RoomBans, ent )
-
-	net.Start( "NetworkScores" )
-		net.WriteEntity( ply )
-		net.WriteTable( ply.RoomBans )
-	net.Send( ply )
+	if Room then
+		Room:BanPlayer( target )
+	end
 end )
 
-concommand.Add("gmt_roomunban", function( ply, cmd, args )
-	local index = args[1]
-	if !index then return end
-	local ent = ents.GetByIndex(index)
-	if !IsValid(ent) or !ent:IsPlayer() then return end
+concommand.Add("gmt_roomclearbans", function( ply, cmd, args )
+	if ply._NextCommand && ply._NextCommand > CurTime() then
+		return
+	end
+	ply._NextCommand = CurTime() + 0.25
 
-	if !ply.RoomBans then ply.RoomBans = {} end
+	local Room = ply:GetRoom()
 
-	if !table.HasValue( ply.RoomBans, ent ) then return end
-
-	table.remove( ply.RoomBans, table.KeyFromValue( ply.RoomBans, ent ) )
-
-	net.Start( "NetworkScores" )
-		net.WriteEntity( ply )
-		net.WriteTable( ply.RoomBans )
-	net.Send( ply )
+	if Room then
+		Room:UnBanAll()
+	end
 end )
 
 concommand.Add("gmt_roomdebugpos", function( ply, cmd, args )
@@ -587,38 +575,3 @@ concommand.Add("gmt_roomdebugpos", function( ply, cmd, args )
 	end
 
 end )
-
-concommand.Add( "gmt_condorocket", function( ply, cmd, args )
-	if !ply:IsAdmin() then return end
-
-	local id = args[1]
-
-	local ent = ents.GetByIndex(id)
-
-	if IsValid(ent) then
-
-		local missile = ents.Create("rpg_missile")
-		missile:SetOwner( ply )
-		missile:SetPos( ent:GetPos() + ent:GetForward() * 10 + Vector(0,0,-10)	)
-		missile:SetAngles( Angle(90,0,0) )
-		missile:SetVelocity( ent:GetForward() * 10 )
-		missile.EntityOwner = ply
-
-		missile:Spawn()
-
-		for k,v in pairs( ents.FindInSphere(ent:GetPos(),2000) ) do
-			if v:IsPlayer() && !missile.target then
-				missile:PointAtEntity(v)
-				missile.target = true
-			end
-		end
-
-		missile:DrawShadow( false )
-
-		missile.Damage = 100
-
-		table.insert( ValidExplodeRockets, missile )
-		hook.Add("EntityRemoved", "ExplodeRocket", MakeRocketDoDamage )
-	end
-
-end)

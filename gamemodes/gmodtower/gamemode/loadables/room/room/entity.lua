@@ -160,23 +160,19 @@ function EntsInRoom( self )
 end
 
 function GetPlayers( self )
+	local entities = EntsInRoom( self )
+	local players = {}
 
-	local List = {}
-
-	for _, ply in pairs( player.GetAll() ) do
-
-		if self:PlayerInRoom( ply ) then
-			table.insert( List, ply )
-		end
-
+	for _, v in ipairs( entities ) do
+		if ( v:IsValid() && v:IsPlayer() ) then
+			table.insert( players, v )
+		end 
 	end
 
-	return List
-
+	return players
 end
 
 function PlayerInRoom( self, ply )
-	--return ply:Location() == self.LocationId
 	return ply:Location() == self.LocationId
 end
 

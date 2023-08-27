@@ -1,38 +1,198 @@
----------------------------------
 GTowerRooms.RoomMapData = {
-	["gmt_lobby2_r3"] = {
-		["refobj"] = "gmt_roomloc",
-		["min"] = Vector(-1220, 1426, -250),
-		["max"] = Vector(1220, -1426, 516),
+	["gmt_devalpha001"] = {
+		["refobj"] = "gmt_room_tv",
+		["min"] = Vector(-62.9, -482.5, -31.0),
+		["max"] = Vector(644.0, 167.5, 126.0)
+		
 	},
-	["gmt_lobby2_r6"] = {
-		["refobj"] = "gmt_roomloc",
-		["min"] = Vector(-1220, 1426, -250),
-		["max"] = Vector(1220, -1426, 516),
+	["gmt_alpha"] = {
+		["refobj"] = "gmt_room_tv",
+		["min"] = Vector(-10.0000, -140.0000, -33.1250),
+		["max"] = Vector(314.0000, 705.0000, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
 	},
-	["gmt_lobby2_r6h"] = {
+	["gmt_build001"] = {
 		["refobj"] = "gmt_roomloc",
-		["min"] = Vector(-1220, 1426, -250),
-		["max"] = Vector(1220, -1426, 516),
+		["min"] = Vector(-10.0000, -140.0000, -33.1250),
+		["max"] = Vector(314.0000, 705.0000, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
 	},
-	["gmt_lobby2_r6c"] = {
+	["gmt_build002"] = {
 		["refobj"] = "gmt_roomloc",
-		["min"] = Vector(-1220, 1426, -250),
-		["max"] = Vector(1220, -1426, 516),
+		["min"] = Vector(-10.0000, -300.0000, -33.1250),
+		["max"] = Vector(314.0000, 705.0000, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
 	},
-	["gmt_lobby2_r7"] = {
+	["gmt_build0h1"] = {
 		["refobj"] = "gmt_roomloc",
-		["min"] = Vector(-1220, 1426, -250),
-		["max"] = Vector(1220, -1426, 516),
+		["min"] = Vector(-10.0000, -300.0000, -33.1250),
+		["max"] = Vector(314.0000, 705.0000, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
 	},
-	["gmt_lobby2_r7h"] = {
+	["gmt_build0c1"] = {
 		["refobj"] = "gmt_roomloc",
-		["min"] = Vector(-1220, 1426, -250),
-		["max"] = Vector(1220, -1426, 516),
+		["min"] = Vector(-10.0000, -300.0000, -33.1250),
+		["max"] = Vector(314.0000, 705.0000, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
 	},
-	["gmt_lobby2_r7c"] = {
+	["gmt_build002j"] = {
 		["refobj"] = "gmt_roomloc",
-		["min"] = Vector(-1220, 1426, -250),
-		["max"] = Vector(1220, -1426, 516),
+		["min"] = Vector(-10.0000, -300.0000, -33.1250),
+		["max"] = Vector(314.0000, 705.0000, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
+	},
+	["gmt_build002a"] = {
+		["refobj"] = "gmt_roomloc",
+		["min"] = Vector(-10.0000, -300.0000, -33.1250),
+		["max"] = Vector(314.0000, 705.0000, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
+	},
+	["gmt_build0h2"] = {
+		["refobj"] = "gmt_roomloc",
+		["min"] = Vector(-10.0000, -300.0000, -33.1250),
+		["max"] = Vector(314.0000, 705.0000, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
+	},
+	["gmt_build0c2"] = {
+		["refobj"] = "gmt_roomloc",
+		["min"] = Vector(-10.0000, -300.0000, -33.1250),
+		["max"] = Vector(314.0000, 705.0000, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
+	},
+	["gmt_build0c2a"] = {
+		["refobj"] = "gmt_roomloc",
+		["min"] = Vector(-10.0000, -300.0000, -33.1250),
+		["max"] = Vector(314.0000, 705.0000, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
+	},
+	["gmt_build0s2"] = {
+		["refobj"] = "gmt_roomloc",
+		["min"] = Vector(-32, -305, -33.1250),
+		["max"] = Vector(336, 715, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
+	},
+	["gmt_build0s2a"] = {
+		["refobj"] = "gmt_roomloc",
+		["min"] = Vector(-32, -600, -33.1250),
+		["max"] = Vector(336, 715, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
+	},
+	["gmt_build0j2"] = {
+		["refobj"] = "gmt_roomloc",
+		["min"] = Vector(-32, -600, -33.1250),
+		["max"] = Vector(336, 715, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
+	},
+	["gmt_build0h3"] = {
+		["refobj"] = "gmt_roomloc",
+		["min"] = Vector(-32, -600, -33.1250),
+		["max"] = Vector(336, 715, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
+	},
+	["gmt_build0c3"] = {
+		["refobj"] = "gmt_roomloc",
+		["min"] = Vector(-32, -600, -33.1250),
+		["max"] = Vector(336, 715, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
+	},
+	["gmt_build0c3a"] = {
+		["refobj"] = "gmt_roomloc",
+		["min"] = Vector(-32, -600, -33.1250),
+		["max"] = Vector(336, 715, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
+	},
+	["gmt_build003_main3"] = {
+		["refobj"] = "gmt_roomloc",
+		["min"] = Vector(-32, -600, -33.1250),
+		["max"] = Vector(336, 715, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
+	},
+	["gmt_build0s2b"] = {
+		["refobj"] = "gmt_roomloc",
+		["min"] = Vector(-32, -600, -33.1250),
+		["max"] = Vector(336, 715, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
+	},
+	["gmt_build0s3a"] = {
+		["refobj"] = "gmt_roomloc",
+		["min"] = Vector(-32, -600, -33.1250),
+		["max"] = Vector(336, 715, 246.8750),
+		["closethats"] = {
+			[1] = { Vector(246, 704, 248.5), Vector(220, 535, 204.5) },
+			[2] = { Vector(246, 704, 203.5), Vector(220, 535, 180.5) },
+			[3] = { Vector(246, 704, 179.5), Vector(220, 535, 156.5) }
+		}
 	},
 }

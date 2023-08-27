@@ -13,23 +13,22 @@ local GTowerRooms = GTowerRooms
 module("Suite")
 
 function RemovePlayer( ply )
-	if ply:InVehicle() then //Do not let player be teleported in a seat!
-		ply:ExitVehicle()
-	end
 
-	local ent
+	if !IsValid(ply) then return end
 
-	for k,v in pairs(ents.FindByClass("gmt_condo_door")) do
-		if v:GetCondoDoorType() == 1 && v:GetCondoID() == ply:Location() then
-			ent = v
-		end
+	//Reset him, and go back to spawn point
+	local teleporters = {}
+	
+	for k,v in pairs(ents.FindByClass("gmt_teleporter")) do
+		if v:Location() == Location.SUITETELEPORTERS then table.insert( teleporters, v ) end
 	end
+	
+	local tp = table.Random( teleporters )
+		
+	//ply.DesiredPosition = (tp:GetPos() + Vector(0,0,5) + (tp:GetForward()*25))
+	//ply:SetPos( tp:GetPos() + Vector(0,0,5) + (tp:GetForward()*25) )
 
-	if IsValid(ent) then
-		ply.DesiredPosition = ent:GetPos() + (ent:GetForward() * 25)
-	else
-		ply.DesiredPosition = Vector(7128.354980, 991.272339, -1255.968750)
-	end
+	ply:SafeTeleport( tp:GetPos() + Vector(0,0,5) + (tp:GetForward()*25) )
 
 	ply:ResetEquipmentAfterVehicle()
 
@@ -156,19 +155,7 @@ end
 
 function Finish( self )
 
-	for k,v in pairs( ents.FindByClass("gmt_condoplayer") ) do
-		if IsValid(v) && IsValid(v:GetMediaPlayer()) then
-			if v:GetNWInt("condoID") != self.Owner:GetNet( "RoomID" ) then continue end
-			ClearAllMusic(v)
-		end
-	end
-
-	AdminNotif.SendStaff( self.Owner:NickID() .. " has checked out of condo #" .. self.Owner:GetNet( "RoomID" ) .. ".", nil, "GRAY", 3 )
-
-	local door = GTowerRooms.GetCondoDoor( self.Owner:GetNet( "RoomID" ) )
-	if door then
-		door:SetNWInt("DoorBell", 1)
-	end
+	AdminNotif.SendStaff( self.Owner:NickID() .. " has checked out of suite #" .. self.Id .. ".", nil, "GRAY", 3 )
 
 	self.Owner._LastRoomExit = CurTime()
 
@@ -176,7 +163,12 @@ function Finish( self )
 		self.Owner.SQL:Update( false, true )
 	end
 
-	self.Owner:SetNWBool( "RoomID", 0 )
+	self.Owner:SetNWInt( "RoomID", 0 )
+
+	local panel = GTowerRooms:GetPanel( self.Id )
+	if panel then
+		panel:SetText( "" )
+	end
 
 	self:Cleanup()
 

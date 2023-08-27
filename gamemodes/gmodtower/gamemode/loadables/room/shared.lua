@@ -3,67 +3,9 @@ module("GTowerRooms", package.seeall )
 DEBUG = false
 StoreId = 1
 NPCClassName = "gmt_npc_roomlady"
-NPCMaxTalkDistance = 128
+NPCMaxTalkDistance = 1024
 
-DefaultSkybox = util.FindSkyboxEnt( "condo_normal" )
 PartyCost = 250
-
--- Doorbells
-local DoorbellPath = "GModTower/lobby/condo/doorbells/"
-local function NewDoorbell( name, wav )
-	local snd = nil
-	if wav then snd = clsound.Register( DoorbellPath .. wav .. ".wav" ) end
-	return { name = name, snd = snd }
-end
-Doorbells = {
-	NewDoorbell( "Standard", "standard1" ),
-	NewDoorbell( "Silent", nil ),
-
-	NewDoorbell( "Ding-Dong", "standard2" ),
-	NewDoorbell( "Ambient", "Ambient1" ),
-
-	NewDoorbell( "Happy", "happy1" ),
-	NewDoorbell( "Happy 2", "happy2" ),
-
-	NewDoorbell( "Spooky", "spooky1" ),
-	NewDoorbell( "Spooky 2", "spooky2" ),
-	NewDoorbell( "Spooky 3", "spooky3" ),
-
-	NewDoorbell( "Disco", "disco1" ),
-	NewDoorbell( "Disco 2", "disco2" ),
-	NewDoorbell( "Disco 3", "disco3" ),
-
-	NewDoorbell( "French", "french1" ),
-	NewDoorbell( "French 2", "french2" ),
-	NewDoorbell( "French 3", "french3" ),
-
-	NewDoorbell( "Jazzy", "jazzy1" ),
-	NewDoorbell( "Jazzy 2", "jazzy2" ),
-	NewDoorbell( "Jazzy 3", "jazzy3" ),
-
-	NewDoorbell( "Funky", "funky1" ),
-	NewDoorbell( "Funky 2", "funky2" ),
-	NewDoorbell( "Funky 3", "funky3" ),
-	NewDoorbell( "Funky 4", "funky4" ),
-
-	NewDoorbell( "Robot", "robot1" ),
-	NewDoorbell( "Robot 2", "robot2" ),
-
-	NewDoorbell( "Vocoder", "vocoder1" ),
-	NewDoorbell( "Vocoder 2", "vocoder2" ),
-
-	NewDoorbell( "Deluxe", "deluxe" ),
-}
-
--- Skyboxes
-local SkyboxPreviewPath = "gmod_tower/panelos/skys/"
-local function NewSkybox( name, cam, preview )
-	return { name = name, cam = cam, preview = Material( SkyboxPreviewPath .. preview .. ".png" ) }
-end
-Skyboxes = {
-	NewSkybox( "Default", DefaultSkybox, "default.png" ),
-	NewSkybox( "Beach", "condo_beach", "beach.png" ),
-}
 
 function CanManagePanel( room, ply )
 
@@ -100,7 +42,9 @@ function PosInBox( pos, min, max )
            pos.x < max.x and pos.y < max.y and pos.z < max.z
 end
 
-function RecvPlayerRoom(ply, name, old, new)
+function RecvPlayerRoom(ply, old, new)
+	if SERVER then return end
+
 	if new > 0 then
 		ReceiveOwner(ply, new)
 	end
@@ -116,9 +60,38 @@ function GetCondoDoor( condoid )
 	return nil
 end
 
+function SetupLocations()
+	local data = GTowerRooms.RoomMapData[ game.GetMap() ]
+	local objs = ents.FindByClass( data.refobj )
+
+	for _, v in ipairs( objs ) do
+		local id = v:GetNWInt( "RoomID", 0 )
+
+		if ( !id or id == 0 ) then return end
+
+		local min = v:LocalToWorld( data.min )
+		local max = v:LocalToWorld( data.max )
+		OrderVectors( max, min )
+
+		for k, v in ipairs( Location.Locations ) do
+			if ( v.IsSuite && v.SuiteID == id ) then
+				LogPrint( "Adding location for Suite #" .. id .. "...", color_green, "Rooms" )
+				
+				Location.Locations[ k ].Min = min
+				Location.Locations[ k ].Max = max
+			end
+		end
+	end
+
+	Location.ResortVectors()
+end
+
+// hook.Add( "InitPostEntity", "SetupLocations", SetupLocations )
+
 plynet.Register( "Bool", "RoomLock" )
-plynet.Register( "Int", "RoomEntityCount", {
-	default = 999,
+plynet.Register( "Int", "RoomEntityCount" )
+plynet.Register( "Int", "RoomMaxEntityCount", {
+	default = 200,
 } )
 plynet.Register( "Int", "RoomID", {
 	callback = RecvPlayerRoom,

@@ -1,4 +1,3 @@
----------------------------------
 module( "Scoreboard.News", package.seeall )
 
 // TAB
@@ -9,6 +8,7 @@ end )
 
 TAB = {}
 TAB.Order = 6
+TAB.RemoveInactive = true
 
 function TAB:GetText()
 	return "ABOUT"
@@ -24,18 +24,17 @@ vgui.Register( "AboutTab", TAB, "ScoreboardTab" )
 
 
 ABOUT = {}
-ABOUT.Website = "http://www.gmtower.org/index.php?p=gamemodes&app=1&gm="
-ABOUT.Gamemodes =
+ABOUT.Website = "https://gtower.net/index.html?p=gamemodes&app=1&gm="
+ABOUT.Gamemodes = 
 {
 	["gmtlobby"] = "lobby",
 	["ballrace"] = "ballrace",
 	["pvpbattle"] = "pvpbattle",
 	["virus"] = "virus",
-	["ultimatechimerahunt"] = "uch",
+	["gmtuch"] = "uch",
 	["zombiemassacre"] = "zombiemassacre",
 	["minigolf"] = "minigolf"
 }
-
 
 function ABOUT:Init()
 
@@ -44,13 +43,7 @@ function ABOUT:Init()
 	self.HTML:SetSize( self:GetWide(), ScrH() * 0.5 )
 
 	// Get gamemode page
-	local page = nil
-
-	for id, gmpage in pairs( self.Gamemodes ) do
-		if gamemode.Get( tostring( id ) ) then
-			page = gmpage
-		end
-	end
+	local page = self:GetPage()
 
 	// Display it
 	if page then
@@ -69,6 +62,14 @@ function ABOUT:Init()
 	//self:Center()
 	self:InvalidateLayout()
 
+end
+
+function ABOUT:GetPage()
+	for id, gmpage in pairs( self.Gamemodes ) do
+		if engine.ActiveGamemode() == tostring( id ) then
+			return gmpage
+		end
+	end
 end
 
 function ABOUT:Think()

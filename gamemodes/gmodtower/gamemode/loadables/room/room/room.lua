@@ -10,6 +10,7 @@ local ipairs = ipairs
 local SQLLog = SQLLog
 local tostring = tostring
 local math = math
+local ents = ents
 
 include("entity.lua")
 include("sql.lua")
@@ -37,11 +38,13 @@ function New( pos1, pos2, refent )
 		Middle = (pos1 + pos2) / 2,
 		LastActive = CurTime(),
 		ToAdd = {},
-		StartEnts = {}
+		StartEnts = {},
+		Bans = {},
 	}, { __index = modenv } )
 
 	o.Id = table.insert( _G.GTowerRooms.Rooms, o )
-	o.LocationId = o.Id
+	//o.LocationId = o.Id
+	o.LocationId = refent:Location()
 
 	refent:SetId( o.Id )
 	o:SaveDefault()
@@ -55,6 +58,12 @@ function IsValid( self )
 end
 
 function CanRent( self )
+	if self and self:IsValid() then
+		if self.Owner.AFK then
+			return true
+		end
+	end
+
 	return !self:IsValid()
 end
 
@@ -76,49 +85,101 @@ function CanManageDoor( self, ply )
 	return self.Owner && (self.Owner:GetNet( "RoomLock" ) == false || ply == self.Owner || ply:IsAdmin() )
 end
 
-function Location( self )
-	return self.Id
+function SendToDoor( self, ply )
+	for k,v in pairs( ents.FindByClass( 'func_suitepanel' ) ) do
+		if !table.HasValue(GTowerRooms.SuitePanelPos, v:GetPos()) then continue end
+		if v.RoomId == tonumber(self.Id) then
+			ply:SafeTeleport( v:GetPos() + v:GetRight() * -75 + v:GetForward() * 48, nil, v:GetAngles() + Angle( 0, -90, 0 ) )
+			ply:DropToFloor()
+		end
+	end
 end
 
-local function CheckPlayer( ply, room, group, owner )
+/*function Location( self )
+	return self.Id
+end*/
+
+function BanPlayer( self, ply )
+	if ( !ply or !ply:IsValid() ) then return end
+	self.Bans[ ply:SteamID() ] = true
+
+	local owner = self.Owner
+	if ( !owner or !owner:IsValid() ) then return end
+
+	ply:Msg2( T( "RoomBanFrom", owner:GetName() ) )
+	owner:Msg2( T( "RoomBanPlayer", ply:GetName() ) )
+end
+
+function UnBanPlayer( self, ply )
+	self.Bans[ ply:SteamID() ] = false
+end
+
+function UnBanAll( self )
+	self.Bans = {}
+
+	local owner = self.Owner
+	if ( !owner or !owner:IsValid() ) then return end
+
+	owner:Msg2( T("RoomClearedBans") )
+end
+
+function IsBanned( self, steamid )
+	return self.Bans[ ply:SteamID() ] or false
+end
+
+local function CheckPlayerLocked( ply, room, group, owner )
 
 	if room:CanManageDoor( ply ) then return end
 
 	if group && group:HasPlayer( ply ) then return end
 
-	if ply:GetSetting( "GTNoClip" ) || ply:IsAdmin() || Friends.IsFriend( owner, ply ) then return end
-
-	ply:Msg2( "You have been removed from a locked condo." )
-	if math.random( 1, 3 ) == 1 then
-		ply:Msg2( "If you purposely glitch into condos you will be banned!" )
-	end
+	if ply:GetSetting( "GTNoClip" ) || ply:IsStaff() || Friends.IsFriend( owner, ply ) then return end
 
 	room.RemovePlayer( ply )
 
 	local Name = ply:Name()
 	local steamid = ply:SteamID()
 
-
 	local ownerName = owner:Name()
 	local ownerSteam = owner:SteamID()
 
-	SQLLog( 'suiteglitch', tostring( Name ) .. " (" .. tostring( steamid ) .. ") has been removed from " .. tostring( ownerName ) .. " (" .. tostring( ownerSteam ) .. " )'s suite." )
-
+	ply:Msg2( T( "RoomRemovedFrom", ownerName ) )
 end
+
 hook.Add( "RoomThink", "GRoomThink", function( ply )
 
 	local room = ply:GetRoom()
-
 	if !room then return end
 
-	if !room.Owner:GetNet( "RoomLock" ) then return end // so far we're only thinking for locked rooms
+	local owner = room.Owner
+	if ( !owner or !owner:IsValid() ) then return end
 
 	local players = room:GetPlayers()
 	local group = ply:GetGroup()
 
 	for _, v in ipairs( players ) do
 
-		CheckPlayer( v, room, group, ply )
+		// Blocked
+		if ( Friends.IsBlocked( ply, v ) ) then
+			room.RemovePlayer( v )
+			v:MsgT( "RoomKickedFrom", ply:GetName() )
+		end
+
+		// Locked
+		if ( owner:GetNet( "RoomLock" ) ) then
+			CheckPlayerLocked( v, room, group, ply )
+		end
+
+		// Bans
+		if ( table.Count( room.Bans ) > 0 ) then
+			if ( v:IsStaff() ) then return end
+
+			if ( room.Bans[ v:SteamID() ] && room.Bans[ v:SteamID() ] == true ) then
+				room.RemovePlayer( v )
+				v:Msg2( T( "RoomBannedFrom", owner:GetName() ) )
+				owner:Msg2( T( "RoomBannedPlayer", v:GetName() ) )
+			end
+		end
 
 	end
 

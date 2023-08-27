@@ -1,8 +1,10 @@
----------------------------------
 module( "Scoreboard.PlayerList", package.seeall )
 
-DrawRespectIcons = CreateClientConVar( "gmt_respecticons", 1, true, false )
-HearRangeV = CreateClientConVar( "gmt_rangevoice", 0, true, true )
+DrawRespectIcons = CreateClientConVar( "gmt_scoreboard_player_respecticons", "1", true, false, nil, 0, 1 )
+DrawLobbyBackgrounds = CreateClientConVar( "gmt_scoreboard_player_backgrounds", "1", true, false, nil, 0, 1 )
+ScoreGridMode = CreateClientConVar( "gmt_scoreboard_player_grid", "0", true, false, nil, 0, 1 )
+ShowTabs = CreateClientConVar( "gmt_scoreboard_player_tabs", "1", true, false, nil, 0, 1 )
+
 /*function Label( strText, parent )
 
 	local lbl = vgui.Create( "Label", parent )
@@ -14,15 +16,6 @@ HearRangeV = CreateClientConVar( "gmt_rangevoice", 0, true, true )
 	return lbl
 
 end*/
-
-function SinBetween( min, max, time )
-
-    local diff = max - min
-    local remain = max - diff
-
-    return ( ( ( math.sin( time ) + 1 ) / 2 ) * diff ) + remain
-
-end
 
 // TAB
 
@@ -45,14 +38,25 @@ end
 
 vgui.Register( "ScoreboardPlayersTab", TAB, "ScoreboardTab" )
 
-// PLAYER LIST
-
 MATERIALS = {
-	Add = Scoreboard.GenTexture( "ScoreboardAdd", "icon_add" ),
-	//Money = Scoreboard.GenTexture( "ScoreboardMoney", "icon_money" ),
-	Trade = Scoreboard.GenTexture( "ScoreboardTrade", "icon_trade" ),
+	Group = Material("icon16/group_add.png"),
+	MakeGroupOwner = Scoreboard.GenTexture( "ScoreboardCrown", "icon_note_crown" ),
+	KickFromGroup = Material("icon16/group_delete.png"),
+	Trade = Material("icon16/arrow_refresh.png"),
+	Friend = Material("icon16/heart_add.png"),
+	Unfriend = Material("icon16/heart_delete.png"),
+	Block = Material("icon16/cancel.png"),
+	Unblock = Material("icon16/cancel.png"),
+	Mute = Material("icon16/sound_mute.png"),
+	Gag = Material("icon16/comments_delete.png"),
+	Goto = Material("icon16/arrow_up.png"),
+	Tele = Material("icon16/arrow_down.png"),
 	VIP = Scoreboard.GenTexture( "ScoreboardVIP", "icon_vip" ),
+	LeadDeveloper = Material("icon16/wrench_orange.png"),
+	Developer = Material("icon16/wrench.png"),
 	Admin = Scoreboard.GenTexture( "ScoreboardAdmin", "icon_admin" ),
+	Moderator = Material("icon16/shield.png"),
+	Contributor = Material("icon16/palette.png"),
 	Crown = Scoreboard.GenTexture( "ScoreboardCrown", "icon_note_crown" ),
 	Finish = Scoreboard.GenTexture( "ScoreboardFinish", "icon_note_finish" ),
 	Joystick = Scoreboard.GenTexture( "ScoreboardJoystick", "icon_note_joystick" ),
@@ -63,52 +67,260 @@ MATERIALS = {
 }
 
 LOCATIONS = {
-	Gamemode = Scoreboard.GenTexture( "GamemodeFloor", "lobby/gamemode" ),
-	Lobby = Scoreboard.GenTexture( "LobbyFloor", "lobby/lobby" ),
+	Gamemodes = Scoreboard.GenTexture( "GamemodesFloor", "lobby/gamemodes" ),
+	Lobby = Scoreboard.GenTexture( "LobbyFloor", "lobby/lobby_new" ),
+	Eplaza = Scoreboard.GenTexture( "EplazaFloor", "lobby/eplaza" ),
+	Arcade = Scoreboard.GenTexture( "ArcadeFloor", "lobby/arcade" ),
+	Casino = Scoreboard.GenTexture( "CasinoFloor", "lobby/casino" ),
+	Bar = Scoreboard.GenTexture( "BarFloor", "lobby/bar" ),
 	Narnia = Scoreboard.GenTexture( "NarniaFloor", "lobby/narnia" ),
+	Moon = Scoreboard.GenTexture( "MoonFloor", "lobby/moon" ),
+	Theater = Scoreboard.GenTexture( "TheaterFloor", "lobby/theater" ),
+	Lakeside = Scoreboard.GenTexture( "LakesideFloor", "lobby/lakeside" ),
+	Pool = Scoreboard.GenTexture( "PoolFloor", "lobby/pool" ),
 	Suite = Scoreboard.GenTexture( "SuiteFloor", "lobby/suite" ),
+	Train = Scoreboard.GenTexture( "TrainFloor", "lobby/train" ),
 }
-
-//Hard code this, I do not want to clean it for now
-LOCATIONVALS = {
-	[LOCATIONS.Gamemode] = {34, 35, 36, 37},
-	[LOCATIONS.Lobby] = {2, 3, 7, 8, 9, 10, 31, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 59},
-	[LOCATIONS.Suite] = {4, 5, 6, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 32, 33, 49},
-	[LOCATIONS.Narnia] = {51}
-}
-
 
 local gradient = surface.GetTextureID( "VGUI/gradient_up" )
-local cheight = CreateClientConVar( "gmt_score_height", 55, true, false )
+
+local cheight = CreateClientConVar( "gmt_scoreboard_player_height", 42, true, false, nil, 32, 42 )
 local function GetPlayerSize()
-	return math.Clamp( cheight:GetInt(), 32, 85 )
+	return math.Clamp( cheight:GetInt(), 32, 64 ) or 42
 end
 
 PLAYERS = {}
+PLAYERS.Tabs = {}
+PLAYERS.TabWidth = 125
+
+PLAYERS.TabNames = {
+	"All",
+	"Location",
+	"Group",
+	"VIPs",
+	"Admins",
+	"Loading",
+	"AFK",
+	"__________________", -- Yes this is a divider and a hack.
+	"Steam Friends",
+	"Friends",
+	"Blocked",
+}
+
+PLAYERS.LobbyOnlyTabs = {
+	"Location",
+	"Group",
+}
 PLAYERS.Padding = 8
 PLAYERS.Size = GetPlayerSize()
 PLAYERS.Height = PLAYERS.Size + PLAYERS.Padding
+PLAYERS.PlayersDisplayed = 10
+PLAYERS.StartHeight = 1
 
 function PLAYERS:Init()
-	self.Players = {}
-	--self.FakePlayers = {}
-	self.NextUpdate = 0.0
 
-	/*self.Slider = vgui.Create( "DNumSlider2", self )
-	self.Slider:SetMinMax( 32, 85 )
-	self.Slider:SetDecimals( 0 )
-	self.Slider:SetConVar( "gmt_score_height" )
-	self.Slider.NoText = true*/
+	self.Players = {}
+	self.NextUpdate = 0
+
+	self.PlayerList = vgui.Create("DPanelList2", self)
+	self.PlayerList:SetScrollBarColors( Scoreboard.Customization.ColorNormal, Scoreboard.Customization.ColorBackground )
+	self.PlayerList:EnableVerticalScrollbar()
+
+	self.PlayerList:EnableHorizontal( true ) // teehee
+
+	self.PlayerList:SetSpacing( 1 )
+	self.PlayerList.Paint = function( panel, w, h ) end
+
+	self.Title = vgui.Create( "DLabel", self )
+	self.Title:SetFont("SCPlyLoc")
+	self.Title:SetTextColor( Scoreboard.Customization.ColorFont )
+	self.Title:SetVisible( false )
+
+	self.Button = vgui.Create("DButton",self)
+	self.Button:SetWide( 100 )
+	self.Button:SetVisible( false )
+
+	self.ActiveTab = nil
+	local firstTab = nil
+
+	// Create the tabs
+	for id, name in pairs( self.TabNames ) do
+
+		// Skip tabs that are lobby only
+		if !IsLobby and table.HasValue( self.LobbyOnlyTabs, name ) then continue end
+
+		local tab = self:CreateTab( id, name )
+	end
+
+	// Set the first tab
+	timer.Simple(.1, function() self:SetActiveTab( self.Tabs[1] ) end )
+
+	/*self.SearchEntry = vgui.Create( "DTextEntry", self )
+	self.SearchEntry:SetPos( 2, self.SearchEntry )
+	self.SearchEntry:SetText("Search for player...")
+	self.SearchEntry:SetUpdateOnType( true )
+	self.SearchEntry:SetKeyBoardInputEnabled( true )
+	self.SearchEntry:SetMouseInputEnabled( true )
+	self.SearchEntry.m_bBackground = false
+	self.SearchEntry.m_colText = Scoreboard.Customization.ColorBright
+
+	self.StartHeight = self.SearchEntry:GetTall() + ( self.SearchEntry.y * 2 )*/
+
 end
 
-function PLAYERS:AddPlayer( ply )
+function PLAYERS:CreateTab( id, name )
 
-	local panel = vgui.Create("ScoreboardPlayer")
-	panel:SetParent( self )
-	panel:SetPlayer( ply )
-	panel:SetVisible( true )
+	local tab = vgui.Create( "ScoreboardTabInner", self )
 
-	self.Players[ ply ] = panel
+	tab:SetText( name )
+
+	tab:SetOrder( id )
+	tab.Name = name
+
+	self:AddTab( tab )
+	return tab
+
+end
+
+function PLAYERS:AddTab( tab )
+
+	table.insert( self.Tabs, tab )
+	tab:SetParent( self )
+
+end
+
+function PLAYERS:SetActiveTab( tab )
+
+	if IsValid( self.ActiveTab ) then
+		self.ActiveTab:SetText( self.ActiveTab.Name )
+		self.ActiveTab:SetActive( false )
+	end
+
+	self.ActiveTab = tab
+	self.ActiveTab:SetActive( true )
+
+	self.NextLayout = nil
+	self.NextUpdate = CurTime() + .25
+
+	self:PopulatePlayers( true )
+	--self:InvalidateLayout()
+
+end
+
+function PLAYERS:PerformLayout()
+	local position = 5
+
+	-- Set their positions and size
+	for _, tab in pairs( self.Tabs ) do
+
+		if ( ShowTabs:GetBool() && not tab:IsVisible() ) then
+			tab:SetVisible( true )
+		elseif ( not ShowTabs:GetBool() && tab:IsVisible() ) then
+			tab:SetVisible( false )
+		end
+
+		// Skip tabs that are lobby only
+		if !IsLobby and table.HasValue( self.LobbyOnlyTabs, tab.Name ) then continue end
+
+		tab:SetTall( 24 )
+		tab:InvalidateLayout( true )
+
+		tab:SetPos( 0, position )
+		tab:SetWide( self.TabWidth )
+
+		position = position + tab:GetTall()
+
+		-- Gather player number based on player filter tab
+		local num = #self:GetPlayerList(tab.Name, true)
+
+		-- Display player number
+		tab:SetRightText( num )
+
+		-- Disable or enable tab input
+		tab:SetMouseInputEnabled( num > 0 )
+		--tab.Disabled = ( num == 0 )
+
+		-- Default to the main tab if there's no players.
+		if self.ActiveTab == tab and num == 0 then
+			self:SetActiveTab( self.Tabs[1] )
+		end
+
+	end
+
+	self.TabHeight = position + 4
+
+	-- Handle title/button height
+	if self.Title:IsVisible() or self.Button:IsVisible() then
+		self.StartHeight = 24
+	else
+		self.StartHeight = 1
+	end
+
+	-- Player list
+	--self:SortPlayers()
+	local tabWidth = ShowTabs:GetBool() && self.TabWidth or 0
+	self.PlayerList:SetPos( tabWidth + 2, self.StartHeight + 1 )
+	self.PlayerList:SetWide( self:GetWide() - tabWidth - 4 )
+
+	self.Title:AlignLeft(self.PlayerList.x + 2)
+	self.Title:AlignTop(4)
+	self.Button:AlignLeft(self.PlayerList.x)
+	self.Button:AlignTop(1)
+
+	-- Calc height
+	local curY = self.StartHeight
+
+	for _, ply in pairs( self.Players ) do
+		ply.Panel:SetWide( ScoreGridMode:GetBool() && (self.PlayerList:GetWide() / 2) - 5 or self.PlayerList:GetWide() - 9 )
+		ply.Panel:InvalidateLayout( true )
+		curY = curY + self.Height + 1
+	end
+
+	self.PlayerList:SetTall( math.Clamp( curY, self.TabHeight, ( self.PlayersDisplayed * self.Height ) + ( self.Padding + self.StartHeight ) ) )
+	self:SetTall( self.PlayerList:GetTall() + 2 + self.StartHeight )
+
+end
+
+function PLAYERS:Paint( w, h )
+
+	//surface.SetDrawColor( Scoreboard.Customization.ColorDark )
+	//surface.DrawRect( 0, 0, self:GetWide(), 24 )
+
+	local color = Scoreboard.Customization.ColorDark
+	surface.SetDrawColor( color )
+	surface.DrawRect( 0, 0, w, h )
+
+	if ( not ShowTabs:GetBool() ) then return end
+
+	surface.SetDrawColor( color.r - 5, color.g - 5, color.b - 5 )
+	surface.DrawRect( self.TabWidth - 2, 4, 4, h )
+
+end
+
+function PLAYERS:SetButton( text, func )
+
+	if not text then
+		self.Button:SetVisible( false )
+		return
+	end
+
+	self.Button:SetText( text )
+	self.Button:SetWide( 100 )
+	self.Button.DoClick = func
+	self.Button:SetVisible( true )
+
+end
+
+function PLAYERS:SetTitle( title )
+
+	if not title then
+		self.Title:SetVisible( false )
+		return
+	end
+
+	self.Title:SetText( title )
+	self.Title:SizeToContents()
+	self.Title:SetVisible( true )
 
 end
 
@@ -124,6 +336,24 @@ function PLAYERS:OnOpen()
 
 end
 
+function PLAYERS:AddPlayer( ply )
+
+	local panel = vgui.Create("ScoreboardPlayer", self.PlayerList)
+	panel:SetPlayer( ply )
+	panel:SetVisible( true )
+
+	self.Players[ ply ] = panel
+	self.PlayerList:AddItem( panel )
+
+	self:SortPlayers()
+
+	timer.Simple(.1, function()
+		if IsValid( self ) then
+			self.NextLayout = true
+		end
+	end )
+end
+
 function PLAYERS:RemovePlayer( ply )
 
 	if IsValid( self.Players[ ply ] ) then
@@ -131,75 +361,183 @@ function PLAYERS:RemovePlayer( ply )
 		self.Players[ ply ] = nil
 	end
 
+	self:SortPlayers()
+
+	timer.Simple(.1, function()
+		if IsValid( self ) then
+			self.NextLayout = true
+		end
+	end)
 end
 
-function PLAYERS:PerformLayout()
+local function FilteredPlayerList( players )
 
-	/*if !self.NextLayout then self.NextLayout = CurTime() end
-	if self.NextLayout && self.NextLayout > CurTime() then return end
-
-	self.NextLayout = CurTime() + .25*/
-
-	if !self.Players then
-		self.Players = {}
+	for i=#players, 1, -1 do
+		if Friends.IsBlocked( LocalPlayer(), players[i] ) then
+			table.remove( players, i )
+		end
 	end
 
-	local PlayerSorted = {}
+	return players
 
-	for ply, panel in pairs( self.Players ) do
+end
 
-		if !IsValid( ply ) then
+function PLAYERS:GetPlayerList( tabname, count )
+
+	local players = {}
+
+	if not count then
+		self:SetButton( nil )
+		self:SetTitle( nil )
+	end
+
+	-- Handle tabs
+	if tabname == "All" then
+		if ( ShowTabs:GetBool() ) then 
+			players = FilteredPlayerList( player.GetAll() )
+		else -- if players dont have tabs showing, make sure we show blocked players
+			for _, ply in ipairs( player.GetAll() ) do 
+				table.insert( players, ply )
+			end
+		end
+	end
+
+	if tabname == "Location" then
+		if Location then
+			players = FilteredPlayerList( Location.GetPlayersInLocation( LocalPlayer():Location(), true ) )
+
+			-- Handle location title
+			if not count then
+
+				-- Get location name
+				local title = LocalPlayer():LocationName()
+
+				-- Get room owner
+				local RoomID = Location.GetCondoID( LocalPlayer():Location() )
+				if RoomID then
+					local Room = GTowerRooms:Get( RoomID )
+					if Room and IsValid( Room.Owner ) then
+						title = title .. " - Owner: " .. Room.Owner:GetName()
+					end
+				end
+
+				self:SetTitle( title )
+
+			end
+
+		end
+	end
+
+	if tabname == "Group" then
+		if GTowerGroup and GTowerGroup:GetGroup() then
+			players = GTowerGroup:GetGroup()
+
+			if not count then
+				self:SetButton( T("Group_leave"), function()
+					Derma_Query( T("Group_leavesure"), T("Group_leavesure"),
+	   					T("yes"), function() RunConsoleCommand("gmt_leavegroup") end,
+   						T("no"), nil
+  					)
+  				end )
+			end
+		end
+	end
+
+	if tabname == "VIPs" then
+		for _, ply in ipairs( FilteredPlayerList( player.GetAll() ) ) do
+			if ( ply.IsVIP and ply:IsVIP() ) and not ply:IsHidden() and not ( ply:IsAdmin() || ply:IsModerator() ) then
+				table.insert( players, ply )
+			end
+		end
+	end
+
+	if tabname == "AFK" then
+		for _, ply in ipairs( FilteredPlayerList( player.GetAll() ) ) do
+			if ply:GetNet("AFK") then
+				table.insert( players, ply )
+			end
+		end
+	end
+
+	if tabname == "Loading" then
+		for _, ply in pairs( FakeClient.fakeclients ) do
+			table.insert( players, ply )
+		end
+	end
+
+	if tabname == "Admins" then
+		for _, ply in ipairs( player.GetAll() ) do
+			if ( ply:IsAdmin() || ply:IsModerator() || ply:IsDeveloper() ) and not ply:IsHidden() and not ply:IsSecretAdmin() then
+				table.insert( players, ply )
+			end
+		end
+	end
+
+	if tabname == "Steam Friends" then
+		for _, ply in ipairs( FilteredPlayerList( player.GetAll() ) ) do
+			if ply:GetFriendStatus() == "friend" and not ply:IsHidden() then
+				table.insert( players, ply )
+			end
+		end
+	end
+
+	if tabname == "Friends" then
+		for _, ply in ipairs( player.GetAll() ) do
+			if Friends.IsFriend( LocalPlayer(), ply ) and not ply:IsHidden() then
+				table.insert( players, ply )
+			end
+		end
+
+		if not count then
+			self:SetTitle( T("Friends_FriendDesc") )
+		end
+	end
+
+	if tabname == "Blocked" then
+		for _, ply in ipairs( player.GetAll() ) do
+			if Friends.IsBlocked( LocalPlayer(), ply ) and not ply:IsHidden() then
+				table.insert( players, ply )
+			end
+		end
+
+		if not count then
+			self:SetTitle( T("Friends_BlockedDesc") )
+		end
+	end
+
+	return players
+
+end
+
+function PLAYERS:PopulatePlayers( clear )
+
+	local tabname = "All"
+	if self.ActiveTab then
+		tabname = self.ActiveTab.Name
+	end
+
+	local players = self:GetPlayerList( tabname )
+
+	if clear then
+
+		for ply, panel in pairs( self.Players ) do
 			self:RemovePlayer( ply )
-			continue
 		end
 
-		ply.Panel = panel
-		table.insert( PlayerSorted, ply )
-
-	end
-
-	table.sort( PlayerSorted, Scoreboard.Customization.PlayersSort )
-
-	local curX = 1
-	local curY = 1
-
-	for _, ply in pairs( PlayerSorted ) do
-
-		ply.Panel:InvalidateLayout( true )
-		ply.Panel:SetPos( curX, curY )
-		ply.Panel:SetWide( self:GetWide() / 2 - 2 )
-		ply.Panel:SetTall( self.Height )
-
-		if curX == 1 then
-			curX = math.floor( self:GetWide() / 2 ) + 1
-		else
-			curX = 1
-			curY = curY + self.Height + 2
+		for _, ply in pairs( players ) do
+			self:AddPlayer( ply )
 		end
 
+		--self:SortPlayers()
+
+		return
 	end
 
-	//Check the end case, do we need to be a little higher?
-	if curX > 1 then
-		curY = curY + self.Height
-	end
+	------------------------------------------------------
 
-	/*self.Slider:SizeToContents()
-	self.Slider:SetWide( self:GetWide() - ( self.Padding * 2 ) )
-	self.Slider:AlignLeft( self.Padding )
-	self.Slider:AlignBottom( 2 )
-
-	curY = curY + self.Slider:GetTall()*/
-
-	self:SetTall( curY )
-	self:GetParent():InvalidateLayout()
-
-end
-
-function PLAYERS:PopulatePlayers()
-
+	-- Remove players and update current
 	for ply, panel in pairs( self.Players ) do
-		if !IsValid( ply ) then
+		if !IsValid( ply ) || !table.HasValue( players, ply ) then
 			self:RemovePlayer( ply )
 		else
 			panel:SetTall( self.Height )
@@ -207,47 +545,49 @@ function PLAYERS:PopulatePlayers()
 		end
 	end
 
-	for _, ply in pairs( player.GetAll() ) do
-		if ply:GetNWBool("FullyConnected") && self.Players[ ply ] == nil then
+	-- Gather new players
+	for _, ply in pairs( players ) do
+		if self.Players[ ply ] == nil then
 			self:AddPlayer( ply )
 		end
 	end
 
+	-- Sort the players
+	if !IsLobby then self:SortPlayers() end
+
 end
 
-function PLAYERS:PopulateLoadingPlayers()
-
-	// Fake client support
-	--for _, ply in pairs( self.FakePlayers ) do
-	--	self:RemovePlayer( ply )
-	--end
-
-	// Get new ones
-	--FakeClient.RequestFakeClients()
-
-	--for _, ply in pairs( FakeClient.fakeclients ) do
-	--	self:AddPlayer( ply )
-	--	table.insert( self.FakePlayers, ply )
-	--end
-
+function PLAYERS:SortPlayers()
+	table.sort( self.PlayerList.Items, function( a, b )
+		local key = "Player"
+		if ( a[ key ] == nil ) then return false end
+		if ( b[ key ] == nil ) then return true end
+		return Scoreboard.Customization.PlayersSort( a[ key ], b[ key ] )
+	end )
 end
 
 function PLAYERS:Think()
 
 	if CurTime() < self.NextUpdate then return end
 
+	self:PopulatePlayers()
+	self.NextUpdate = CurTime() + .25
+
 	self.Size = GetPlayerSize()
 	self.Height = self.Size + self.Padding
 
-	self:PopulatePlayers()
-
+	-- Add loading players
 	if !self.NextLoadingUpdate || self.NextLoadingUpdate < CurTime() then
-		self:PopulateLoadingPlayers()
+		FakeClient.RequestFakeClients()
 		self.NextLoadingUpdate = CurTime() + 10
 	end
 
-	self:InvalidateLayout()
-	self.NextUpdate = CurTime() + 1
+	if self.NextLayout then
+		self:InvalidateLayout()
+		self.PlayerList:InvalidateLayout()
+
+		self.NextLayout = false
+	end
 
 end
 
@@ -267,6 +607,7 @@ function PLAYERAVATAR:Init()
 	self.SteamProfile:SetMouseInputEnabled( true )
 	self.SteamProfile.DoClick = function()
 		if self.Player then
+			if self.Player:IsHidden() then return end
 			self.Player:ShowProfile()
 		end
 	end
@@ -310,6 +651,16 @@ function PLAYERAVATAR:Init()
 
 	self:SetButtonPos( 0, self.Size - self.ButtonSize )*/
 
+end
+
+function PLAYERAVATAR:Think()
+	if self.Player.IsLoading then
+		self.Avatar:SetSteamID( util.SteamIDTo64(self.Player:SteamID64()), self.Size )
+	elseif self.Player:IsHidden() then
+		self.Avatar:SetPlayer( nil )
+	else
+		self.Avatar:SetPlayer( self.Player, self.Size )
+	end
 end
 
 /*PLAYERAVATAR.HideYPos = PLAYERAVATAR.Size + PLAYERAVATAR.ButtonSize
@@ -384,14 +735,15 @@ function PLAYERAVATAR:SetButtonPos( x, y )
 end*/
 
 function PLAYERAVATAR:SetPlayer( ply )
-
 	self.Player = ply
-	self.Avatar:SetPlayer( ply, self.Size )
 
+	if type(self.Player) == "table" then return end
+	self.Avatar:SetPlayer( ply, self.Size )
 end
 
 vgui.Register( "ScoreboardPlayerAvatar", PLAYERAVATAR )
 
+local g = Material("vgui/gradient-r")
 
 PLAYER = {}
 
@@ -428,7 +780,7 @@ end
 function PLAYER:SetupSubtitle()
 	if self.Subtitle then return end
 	self.Subtitle = vgui.Create( "DLabel", self )
-	self.Subtitle:SetFont("SCPlyLabel")
+	self.Subtitle:SetFont("SCPlyLoc")
 	self.Subtitle:SetTextColor( Scoreboard.Customization.ColorFont )
 end
 
@@ -463,8 +815,20 @@ function PLAYER:PerformLayout()
 	//self.Name:MoveRightOf( self.Avatar, 5 )
 	//self.Name:CenterVertical( 0.3 )
 
-	self.Info:CenterVertical()
-	self.Info:AlignRight()
+	// Draw the action box now...
+	local ActionVisible = ( self.Action:GetWide() > 0 ) && !self.Player.IsLoading && Scoreboard.Customization.PlayerActionBoxEnabled
+	self.Action:SetVisible( ActionVisible )
+
+	if ActionVisible then
+		self.Action:AlignRight()
+		self.Action:CenterVertical()
+
+		self.Info:MoveLeftOf( self.Action, 5 )
+	else
+		self.Info:AlignRight()
+	end
+
+	self.Info:AlignBottom()
 
 	if self.NotificationIcon then
 		self.NotificationIcon:MoveRightOf( self.Avatar, -8 )
@@ -473,7 +837,7 @@ function PLAYER:PerformLayout()
 
 	if self.Subtitle then
 		self.Subtitle:SizeToContents()
-		self.Subtitle:CenterVertical( 0.75 )
+		self.Subtitle:AlignBottom(2)
 
 		if self.NotificationIcon && self.NotificationIcon:GetMaterial() then
 			self.Subtitle:MoveRightOf( self.Avatar, 20 )
@@ -510,6 +874,7 @@ function PLAYER:Update()
 	if subtitle && subtitle != "" then
 		self:SetupSubtitle()
 		self.Subtitle:SetText( subtitle )
+		self.Subtitle:SizeToContents()
 	else
 		if self.Subtitle then
 			self.Subtitle:Remove()
@@ -534,55 +899,32 @@ function PLAYER:Update()
 
 	// Background
 	self.BackgroundMaterial = Scoreboard.Customization.PlayerBackgroundMaterial( self.Player )
-
 end
 
 function PLAYER:Paint( w, h )
 
-	local bgcolor = Scoreboard.Customization.ColorNormal
-
-	if !self.Player:GetNWBool("FullyConnected") /*self.Player.IsLoading*/ then
-		bgcolor = Scoreboard.Customization.ColorDark
-	end
-
-	surface.SetDrawColor( bgcolor )
-	surface.DrawRect( 0, 0, self:GetSize() )
-
-		self:DrawBackground()
-
 	if !IsValid( self.Player ) then return end
 
-	// Yourself!
-	if self.Player == LocalPlayer() then
-
-		local col = Scoreboard.Customization.ColorBright
-		local alpha = SinBetween( 0, 150, CurTime() * 2 )
-		--local alpha = 0.5 + math.sin(SysTime()) * 0.5
-		surface.SetDrawColor( Color( col.r, col.g, col.b, alpha ) )
-		surface.DrawRect( 0, 0, w, h )
-
-	end
-
+	// Draw the background
+	self:PaintBG( w, h )
 
 	// Border start
-	local borderSize = 1
 	surface.SetDrawColor( Scoreboard.Customization.ColorDark )
 
-	local DrawRespectBorder = self.Player:IsAdmin() || --[[( self.Player:IsVIP() ) || ]]
-							  ( self.Player.IsDeveloper && self.Player:IsDeveloper() ) || ( self.Player.IsGModDeveloper && self.Player:IsGModDeveloper() )
+	local borderSize = 1
+
+	local DrawRespectBorder = ( Friends and Friends.IsFriend( LocalPlayer(), self.Player ) ) or ( self.Player.IsStaff and self.Player:IsStaff() )
 
 	// Border effects
 	if DrawRespectBorder then
 
-		borderSize = 2
-
 		local color = self.Player:GetDisplayTextColor()
 		local colorDark = Color( color.r * .5, color.g * .5, color.b * .5, 255 )
 
-		surface.SetDrawColor( Color( SinBetween( colorDark.r, color.r, CurTime() * 4 ), SinBetween( colorDark.g, color.g, CurTime() * 4 ), SinBetween( colorDark.b, color.b, CurTime() * 4 ), 255 ) )
-		--surface.SetDrawColor( Color( 255, 255, 255, 255 ) )
+		surface.SetDrawColor( Color( SinBetween( colorDark.r, color.r, RealTime() * 4 ), SinBetween( colorDark.g, color.g, RealTime() * 4 ), SinBetween( colorDark.b, color.b, RealTime() * 4 ), 255 ) )
 
 		// Border
+		borderSize = 2
 		surface.DrawRect( self.Avatar.x - ( borderSize * 4 ), self.Avatar.y - 1, borderSize * 4, self.Avatar:GetTall() + 2 )
 
 		borderSize = 1
@@ -599,26 +941,18 @@ function PLAYER:Paint( w, h )
 	local NoteIconSize = Scoreboard.Customization.PlayerNotificationIconSize
 	if Scoreboard.Customization.PlayerAvatarJazz( self.Player ) then
 
-		//BG
-		local col = Scoreboard.Customization.ColorBright
-		local alpha = SinBetween( 0, 200, CurTime() * 5 )
-		surface.SetDrawColor( Color( col.r, col.g, col.b, alpha ) )
-		surface.DrawRect( 0, 0, self:GetSize() )
-
-		//Border
-		local shift = SinBetween( 50, 150, CurTime() * 5 )
-		jazzborderSize = SinBetween( 2, 6, CurTime() * 5 )
-
-		surface.SetDrawColor( Color( math.random( shift, 255 ), math.random( shift, 255 ), math.random( shift, 255 ), 255 ) )
-
-		//Notification Icon
+		// Notification Icon
 		if self.NotificationIcon then
-			local size = SinBetween( NoteIconSize, NoteIconSize * 1.35, CurTime() * 5 )
+			local size = SinBetween( NoteIconSize, NoteIconSize * 1.35, RealTime() * 5 )
 			self.NotificationIcon:SetSize( size, size )
 		end
 
 		// Border
-		surface.DrawRect( self.Avatar.x - jazzborderSize, self.Avatar.y - jazzborderSize, self.Avatar:GetWide() + ( jazzborderSize * 2 ) + 2, self.Avatar:GetTall() + ( jazzborderSize * 2 ) + 2 )
+		local shift = SinBetween( 50, 150, RealTime() * 5 )
+		borderSize = SinBetween( 2, 6, RealTime() * 5 )
+
+		surface.SetDrawColor( Color( math.random( shift, 255 ), math.random( shift, 255 ), math.random( shift, 255 ), 255 ) )
+		surface.DrawRect( self.Avatar.x - borderSize, self.Avatar.y - borderSize, self.Avatar:GetWide() + ( borderSize * 2 ) + 2, self.Avatar:GetTall() + ( borderSize * 2 ) + 2 )
 
 	else
 
@@ -634,7 +968,7 @@ function PLAYER:Paint( w, h )
 	// Name
 	local nameX = self.Avatar.x + self.Avatar:GetWide() + 5
 	local nameY = self.Avatar.y - 6 + ( self.PlayerNameOffset or 0 )
-	local name = self.Player:GetName()
+	local name = self.Player:Name() or "Loading..."
 
 	surface.SetFont( "SCPlyName" )
 
@@ -643,17 +977,73 @@ function PLAYER:Paint( w, h )
 	surface.SetTextPos( nameX, nameY )
 	surface.DrawText( name )
 
+	local tW, tH = surface.GetTextSize( name )
+
 	// Drop shadow
-	/*surface.SetTextColor( 0, 0, 0, 80 )
-	surface.SetTextPos( nameX + 2, nameY + 2 )
+	surface.SetTextColor( 0, 0, 0, 80 )
+	surface.SetTextPos( nameX + 1, nameY + 1 )
 	surface.DrawText( name )
 
-	local w, h = surface.GetTextSize( name )
+	/*if ( self.Player:IsVIP() or false ) then
+		surface.SetDrawColor( 255, 255, 255, 255 )
+		surface.SetMaterial( MATERIALS.VIP )
+		surface.DrawTexturedRect( nameX + tW + 5, nameY - 8 + (tH/2), 16, 16 )
+	end*/
 
 	// Underline
+	/*local w, h = surface.GetTextSize( name )
 	if DrawRespectBorder then
 		surface.DrawRect( nameX, nameY + h - 5, w, 2 )
 	end*/
+
+end
+
+function PLAYER:PaintBG( w, h )
+
+	if !IsValid( self.Player ) then return end
+
+	// Background color
+	local bgcolor = Scoreboard.Customization.ColorNormal
+	--if self.Player.IsLoading then bgcolor = Scoreboard.Customization.ColorDark end
+
+
+	surface.SetDrawColor( bgcolor )
+	surface.DrawRect( 0, 0, w, h )
+
+	// Background image
+	if Scoreboard.Customization.ShowBackgrounds then
+		if ( IsLobby && not DrawLobbyBackgrounds:GetBool() ) then return end
+		self:DrawBGImage()
+	end
+
+	// Highlight yourself!
+	if self.Player == LocalPlayer() then
+
+		local col = Scoreboard.Customization.ColorBright
+		local alpha = SinBetween( 0, 150, RealTime() * 2 )
+		surface.SetDrawColor( Color( col.r, col.g, col.b, alpha ) )
+		surface.SetTexture(gradient)
+		surface.DrawTexturedRect(0, 0, w, h)
+		// surface.DrawRect( 0, 0, w, h )
+
+	end
+
+	// Jazz on win
+	if Scoreboard.Customization.PlayerAvatarJazz( self.Player ) then
+
+		local col = Scoreboard.Customization.ColorBright
+		local alpha = SinBetween( 0, 200, RealTime() * 5 )
+		surface.SetDrawColor( Color( col.r, col.g, col.b, alpha ) )
+		surface.DrawRect( 0, 0, w, h )
+
+	end
+
+	// On hover
+	if self:CanClick() then
+		local col = Scoreboard.Customization.ColorBright
+		surface.SetDrawColor( Color( col.r, col.g, col.b, 100 ) )
+		surface.DrawRect( 0, 0, w, h )
+	end
 
 end
 
@@ -663,8 +1053,9 @@ function PLAYER:OnMousePressed( mc )
 		self.ActionBoxOn = !self.ActionBoxOn
 	end
 
-	//if !LocalPlayer():IsDeveloper() && !LocalPlayer():IsAdmin() then return end
-	//if mc == MOUSE_LEFT then return end
+	if !LocalPlayer():IsDeveloper() && !LocalPlayer():IsAdmin() && !LocalPlayer():IsModerator() then return end
+
+	if mc == MOUSE_LEFT then return end
 
 	if GTowerMenu:IsOpen() then
 		GTowerMenu:CloseAll()
@@ -675,8 +1066,10 @@ function PLAYER:OnMousePressed( mc )
 
 end
 
-function PLAYER:DrawBackground()
+function PLAYER:DrawBGImage()
+
 	if self.BackgroundMaterial then
+
 		surface.SetDrawColor( 255, 255, 255, 100 )
 		surface.SetMaterial( self.BackgroundMaterial )
 		surface.DrawTexturedRect( 0, 0, 512, math.max( self:GetTall(), 80 ) )
@@ -685,13 +1078,17 @@ function PLAYER:DrawBackground()
 
 end
 
+function PLAYER:CanClick()
+	return self:IsMouseInWindow() && self.Player != LocalPlayer() && !Scoreboard.Customization.PlayerActionBoxAlwaysShow && !self.Player.IsLoading && IsLobby
+end
+
 function PLAYER:Think()
 
 	if IsValid( self.Player ) then
 		self.Info:Update()
 		self:Update()
-		//self.Avatar:InvalidateLayout( true )
-		//self.Info:InvalidateLayout( true )
+		--self.Avatar:InvalidateLayout( true )
+		--self.Info:InvalidateLayout( true )
 	end
 
 	// Not enabled
@@ -702,7 +1099,7 @@ function PLAYER:Think()
 
 	if !IsValid( self.Action ) then return end
 
-	if self:IsMouseInWindow() && self.Player != LocalPlayer() && !Scoreboard.Customization.PlayerActionBoxAlwaysShow then
+	if self:CanClick() then
 		self:SetCursor( "hand" )
 	else
 		self:SetCursor( "default" )
@@ -719,17 +1116,6 @@ function PLAYER:Think()
 	local Step = math.max( math.abs( CurrentWidth - TargetWidth ) * FrameTime() * Speed, 1 )
 
 	self.Action:SetWide( math.Approach( CurrentWidth, TargetWidth, Step ) )
-
-	// Draw the action box now...
-	local ActionVisible = ( self.Action:GetWide() >= 1 ) && !self.Player.IsLoading
-	self.Action:SetVisible( ActionVisible )
-
-	if ActionVisible then
-		self.Action:AlignRight()
-		self.Action:CenterVertical()
-
-		self.Info:MoveLeftOf( self.Action )
-	end
 
 end
 
@@ -750,7 +1136,7 @@ PLAYERINFO.Padding = 4
 
 function PLAYERINFO:Init()
 
-	self:SetSize( 112, self:GetParent():GetTall() )
+	self:SetSize( 112, 24 )
 
 	self.Value = Label(0, self)
 	self.Value:SetFont( "SCPlyValue" )
@@ -786,13 +1172,14 @@ function PLAYERINFO:SetPlayer( ply )
 end
 
 function PLAYERINFO:Update()
+
 	if Scoreboard.Customization.PlayerInfoValueVisible( self.Player ) then
 		self.Value:SetText( Scoreboard.Customization.PlayerInfoValueGet( self.Player ) )
 		self.Value:SizeToContents()
 	end
 
 	// Handle respect icons
-	if DrawRespectIcons:GetBool() && self:RespectType() then
+	if DrawRespectIcons:GetBool() && self:HasRespect() then
 
 		if !IsValid( self.RespectIcon ) then
 			self.RespectIcon = vgui.Create( "LabelIcon", self )
@@ -818,7 +1205,7 @@ function PLAYERINFO:Update()
 
 		// Position
 		local widealign = self.Ping:GetWide()
-		if IsValid( self.RespectIcon ) && DrawRespectIcons:GetBool() && self:RespectType() then
+		if IsValid( self.RespectIcon ) && DrawRespectIcons:GetBool() && self:HasRespect() then
 			widealign = self.Ping:GetWide() + self.RespectIcon:GetWide()
 		end
 
@@ -842,46 +1229,71 @@ end
 
 function PLAYERINFO:PerformLayout()
 
-	local wide = 0
+	local wide = self.Padding
 
 	if Scoreboard.Customization.PlayerInfoValueVisible( self.Player ) then
 
 		self.Value:SetVisible( true )
 		self.Value:SizeToContents()
-		self.Value:CenterVertical( 0.25 )
-		self.Value:AlignRight( self.Padding )
+		self.Value:AlignBottom(2)
 
 		self.ValueIconPanel:SetVisible( true )
-		self.ValueIconPanel:AlignRight( self.Value:GetWide() + ( self.Padding * 2 ) )
-		self.ValueIconPanel:CenterVertical( 0.25 )
+		self.ValueIconPanel:AlignRight(self.Ping:GetWide()+self.Value:GetWide()+(self.Padding*3))
+		self.ValueIconPanel:AlignBottom(2)
 
-		wide = wide + self.Value:GetWide()
+		self.Value:MoveRightOf( self.ValueIconPanel, self.Padding )
+
+		wide = wide + self.Value:GetWide() + self.ValueIconPanel:GetWide() + ( self.Padding * 4 )
 
 	else
 		self.Value:SetVisible( false )
 		self.ValueIconPanel:SetVisible( false )
 	end
 
-	self.Ping:InvalidateLayout( true )
-	self.Ping:CenterVertical( 0.75 )
-	self.Ping:AlignRight( self.Padding )
+	--self.Ping:InvalidateLayout( true )
+	self.Ping:AlignBottom(4)
+	self.Ping:AlignRight(2)
 
 	if self.Ping:IsVisible() then
 		wide = wide + self.Ping:GetWide()
 	end
 
-
 	if IsValid( self.RespectIcon ) then
 
-		local value, iconMaterial = self:RespectType()
+		local text = self.Player:GetRespectName()
+		local title = self.Player:GetRespectName( true )
 
-		if value then
+		if text && title then
 
-			self.RespectIcon:SetMaterial( iconMaterial, 16, 16, 16, 16 )
-			self.RespectIcon:SetText( value )
-			self.RespectIcon:InvalidateLayout( true )
-			self.RespectIcon:CenterVertical( 0.75 )
-			self.RespectIcon:AlignRight( self.Ping:GetWide() + ( self.Padding * 2 ) )
+			if ( title == "VIP" ) then
+				self.RespectIcon:SetMaterial( MATERIALS.VIP, 15, 15, 14, 14 )
+			end
+
+			if ( title == "Lead Developer" ) then
+				self.RespectIcon:SetMaterial( MATERIALS.LeadDeveloper, 15, 15, 14, 14 )
+			end
+
+			if ( title == "Developer" ) then
+				self.RespectIcon:SetMaterial( MATERIALS.Developer, 15, 15, 14, 14 )
+			end
+
+			if ( title == "Admin" ) then
+				self.RespectIcon:SetMaterial( MATERIALS.Admin, 15, 15, 14, 14 )
+			end
+
+			if ( title == "Moderator" ) then
+				self.RespectIcon:SetMaterial( MATERIALS.Moderator, 15, 15, 14, 14 )
+			end
+			
+			if ( title == "Contributor" ) then
+				self.RespectIcon:SetMaterial( MATERIALS.Contributor, 15, 15, 14, 14 )
+			end
+
+			self.RespectIcon:SetText( text )
+			self.RespectIcon:SetMouseInputEnabled( false )
+			--self.RespectIcon:InvalidateLayout( true )
+			self.RespectIcon:AlignBottom( 2 )
+			self.RespectIcon:AlignRight( wide + 4 )
 
 			local wideto = wide + self.RespectIcon:GetWide() + ( self.Padding * 2 )
 			if wide < wideto then
@@ -895,7 +1307,7 @@ function PLAYERINFO:PerformLayout()
 
 		self.SubtitleRight:SizeToContents()
 		self.SubtitleRight:SetColor( Color( 255, 255, 255, 100 ) )
-		self.SubtitleRight:CenterVertical( 0.75 )
+		self.SubtitleRight:AlignBottom(2)
 
 		local wideto = wide + self.SubtitleRight:GetWide() + ( self.Padding * 2 ) + 2
 		if wide < wideto then
@@ -903,67 +1315,18 @@ function PLAYERINFO:PerformLayout()
 		end
 	end
 
-	self:SetSize( wide, self:GetParent():GetTall() )
+	self:SetWide( wide )
 
 end
 
-function PLAYERINFO:RespectType()
-
-	if self.Player:GetRespectName( true ) != nil then
-
-		return self.Player:GetRespectName( true ), MATERIALS.Admin
-
-	--elseif self.Player.IsGModDeveloper && self.Player:IsGModDeveloper() then
-
-		--return "GMOD DEV", MATERIALS.Admin
-
-	--elseif self.Player.IsDeveloper && self.Player:IsDeveloper() then
-
-		--return "DEV", MATERIALS.Admin
-
-	--elseif self.Player:IsVIP() then
-
-	--	return "DONOR", MATERIALS.VIP
-
-	end
-
+function PLAYERINFO:HasRespect()
+	if IsValid(self.Player) && self.Player:IsHidden() then return end
+	return self.Player:GetRespectName( true )
 end
 
 function PLAYERINFO:Paint( w, h )
 
-	local bgcolor = Scoreboard.Customization.ColorNormal
-
-	if !self.Player:GetNWBool("FullyConnected") /*self.Player.IsLoading*/ then
-		bgcolor = Scoreboard.Customization.ColorDark
-	end
-
-	surface.SetDrawColor( bgcolor )
-	surface.DrawRect( 0, 0, w, h )
-
-	// Yourself!
-	if self.Player == LocalPlayer() then
-
-		local col = Scoreboard.Customization.ColorBright
-		local alpha = SinBetween( 0, 150, CurTime() * 2 )
-		--local alpha = 0.5 + math.sin(SysTime()) * 0.5
-		surface.SetDrawColor( Color( col.r, col.g, col.b, alpha ) )
-		surface.DrawRect( 0, 0, w, h )
-
-	end
-
-	// Jazz effect (for winning the gamemode)
-	if Scoreboard.Customization.PlayerAvatarJazz( self.Player ) then
-
-		local col = Scoreboard.Customization.ColorBright
-		local alpha = SinBetween( 0, 200, CurTime() * 5 )
-		--local alpha = 0.5 + math.sin(SysTime()) * 0.5
-		surface.SetDrawColor( Color( col.r, col.g, col.b, alpha ) )
-		surface.DrawRect( 0, 0, w, h )
-
-	end
-
-	//surface.SetDrawColor( Color( 255, 0, 0 ) )
-	//surface.DrawRect( 0, 0, w, h )
+	PLAYER:PaintBG( w, h )
 
 end
 
@@ -979,9 +1342,13 @@ LABELICON.HPadding = 4
 function LABELICON:Init()
 
 	self.Title = Label("", self)
-	self.Title:SetFont("SCPlyLoc")
+	self.Title:SetFont("SCPlyLabel")
 	self.Title:SetTextColor( Scoreboard.Customization.ColorFont )
 	self.Title:SetZPos( 0 )
+	self.Title:SetMouseInputEnabled( false )
+	self.Title:SetCursor( "hand" )
+
+	self:SetMouseInputEnabled( false )
 
 	/*self.TitleShadow = Label("125", self )
 	self.TitleShadow:SetFont("SCPlyLoc")
@@ -1017,15 +1384,11 @@ end
 function LABELICON:UpdateText()
 
 	local title = self.Text
-
 	if !title then return end
-
-	if self.ValueFunc && IsValid( self:GetParent():GetPlayer() ) then
-		title = self.Text .. ":  " .. self.ValueFunc( self:GetParent():GetPlayer() )
-	end
 
 	self.Title:SetText( title )
 	self.Title:SizeToContents()
+	self.Title:CenterHorizontal()
 
 	//self.TitleShadow:SetText( title )
 	//self.TitleShadow:SizeToContents()
@@ -1053,7 +1416,7 @@ function LABELICON:Paint( w, h )
 			x = self.WPadding / 2
 		end
 
-		surface.DrawTexturedRect( x, self.HPadding / 2, self.MaterialWidth, self.MaterialHeight )
+		surface.DrawTexturedRect( x, (self.HPadding / 2) - 2, self.MaterialWidth, self.MaterialHeight )
 	end
 	//surface.SetDrawColor( 255, 0, 0, 150 )
 	//surface.DrawRect( 0, 0, self:GetSize() )
@@ -1111,10 +1474,13 @@ LABELPING = {}
 
 function LABELPING:Init()
 
+	local color = Scoreboard.Customization.ColorFont
+
 	self.Label = Label("125", self )
-	self.Label:SetFont("SCPlyLoc")
-	self.Label:SetTextColor( Scoreboard.Customization.ColorFont )
+	self.Label:SetFont("SCPlyLabel")
+	self.Label:SetTextColor( Color( color.r, color.g, color.b, 150 ) )
 	self.Label:SetZPos( 0 )
+	self.Label:SetSize( 24, 12 )
 	self.Label:SetMouseInputEnabled( false )
 
 	self.Mute = vgui.Create( "DImageButton", self )
@@ -1136,8 +1502,6 @@ end
 function LABELPING:SetPing( ping )
 
 	self.Label:SetText( ping )
-	self.Label:SizeToContents()
-	//self.LabelShadow:SetText( ping )
 
 end
 
@@ -1148,8 +1512,11 @@ end
 function LABELPING:PerformLayout()
 
 	self.Mute:AlignRight()
-	self.PingBars:AlignLeft( 4 )
-	self.Label:AlignLeft( self.PingBars:GetWide() + 4 )
+
+	self.PingBars:MoveLeftOf( self.Mute, self.Label:GetWide() + 2 )
+
+	self.Label:MoveRightOf( self.PingBars, 1 )
+	self.Label:AlignBottom()
 
 	self:SetSize( self.Mute:GetWide() + 24 + self.PingBars:GetWide() + 2, 16 )
 
@@ -1161,6 +1528,13 @@ end
 function LABELPING:Think()
 
 	if !IsValid( self.Player ) then return end
+
+	if self.Player.IsLoading then
+		self:SetPing("")
+		self.PingBars:SetVisible( false )
+		self.Mute:SetVisible( false )
+		return
+	end
 
 	self:SetPing( self.Player:Ping() )
 	self.PingBars:SetPing( self.Player:Ping() )
@@ -1178,6 +1552,22 @@ function LABELPING:Think()
 		end
 	end
 
+	//local muted = LocalPlayer():HasMuted( self.Player )
+	local muted = false
+
+	/*if self.Muted == nil || self.Muted != self.Player:IsMuted() then
+
+		self.Muted = self.Player:IsMuted()
+		if self.Muted then
+			self.Mute:SetColor( Color( 255, 50, 50 ) )
+			self.Mute:SetImage( Scoreboard.Customization.MatDirectory .. "icon_micmute.png" )
+		else
+			self.Mute:SetColor( Color( 255, 255, 255 ) )
+			self.Mute:SetImage( Scoreboard.Customization.MatDirectory .. "icon_mic.png" )
+		end
+
+		self.Mute.DoClick = function() self.Player:SetMuted( !self.Muted ) end*/
+
 	if self.Muted == nil || self.Muted != self.Player:IsMuted() then
 
 		self.Muted = self.Player:IsMuted()
@@ -1189,7 +1579,14 @@ function LABELPING:Think()
 			self.Mute:SetImage( Scoreboard.Customization.MatDirectory .. "icon_mic.png" )
 		end
 
-		self.Mute.DoClick = function() self.Player:SetMuted( !self.Muted ) end
+		self.Mute.DoClick = function()
+			self.Player:SetMuted( !self.Muted )
+			if !self.Muted then
+				Msg2("You have muted "..self.Player:GetName()..".")
+			else
+				Msg2("You have unmuted "..self.Player:GetName()..".")
+			end
+		end
 
 	end
 
@@ -1226,7 +1623,7 @@ function PINGBARS:Paint( w, h )
 
 	// Lit/Main
 	x = 0
-	surface.SetDrawColor( 255, 255, 255, 255 )
+	surface.SetDrawColor( 255, 255, 255, 150 )
 
 	for i=1, #self.Heights do
 
@@ -1258,12 +1655,20 @@ function ACTIONBOX:Init()
 
 end
 
-function ACTIONBOX:CreateItem()
+function ACTIONBOX:CreateItem( score )
 
-	local item = vgui.Create( "LabelIcon", self )
+	local item = nil
 
-	item:SetMouseInputEnabled( true )
-	item:SetCursor( "hand" )
+	if score then
+		item = vgui.Create( "LabelScore", self )
+		item.IsGrid = false
+	else
+		item = vgui.Create( "LabelIcon", self )
+		item:SetMouseInputEnabled( true )
+		item:SetCursor( "hand" )
+		item.IsGrid = true
+	end
+
 	item.GetPlayer = function()
 		return self:GetPlayer()
 	end
@@ -1293,19 +1698,18 @@ end
 
 function ACTIONBOX:PerformLayout()
 
-	local ply = self:GetPlayer()
-
 	if #self.Items == 0 then
 		self:SetSize( 0, 0 )
 		return
 	end
 
-	local size = GetPlayerSize()
-	self:SetTall( size )
+	self:SetTall( GetPlayerSize() )
 
-	local top = true
+	local width = 0
+	local offset = 0
 	local curX = 0
-	local maxWidth = 0
+	local top = true
+
 	local ply = self:GetPlayer()
 
 	for _, panel in pairs( self.Items ) do
@@ -1316,56 +1720,125 @@ function ACTIONBOX:PerformLayout()
 
 		if panel:IsVisible() then
 
+			if curX == 0 then
+				curX = offset
+			end
+
 			panel:InvalidateLayout( true )
 			panel:AlignLeft( curX )
 
-			maxWidth = math.max( maxWidth, panel:GetWide() )
+			// Grid
+			if panel.IsGrid then
 
-			if top == true then
-				panel:CenterVertical( 0.28 )
+				if top == true then
+					panel:CenterVertical( 0.28 )
+				else
+					panel:CenterVertical( 0.72 )
+					curX = curX + panel:GetWide()
+				end
+
+				top = !top
+
+			// Linear
 			else
-				panel:CenterVertical( 0.72 )
-				curX = curX + maxWidth
-				maxWidth = 0
+
+				curX = curX + panel:GetWide()
+
 			end
 
-			top = !top
 
 		end
 
 	end
 
-	self.TargetWidth = curX + maxWidth
+	width = curX
+	self.TargetWidth = width
+	self:SetVisible( width > 0 )
 
 	if Scoreboard.Customization.PlayerActionBoxRightPadding then
 		self:AlignRight( Scoreboard.Customization.PlayerActionBoxRightPadding )
 	end
 
-	if Scoreboard.Customization.PlayerActionBoxWidth then
+	/*if Scoreboard.Customization.PlayerActionBoxWidth then
 		self.TargetWidth = Scoreboard.Customization.PlayerActionBoxWidth
-	end
+	end*/
 
 
 end
 
 vgui.Register("ScoreboardActionBox", ACTIONBOX )
 
-/*ACTIONBOXLABEL = {}
 
-function ACTIONBOXLABEL:Init()
+
+local LABELSCORE = {}
+function LABELSCORE:Init()
+
+	local color = colorutil.Brighten( Scoreboard.Customization.ColorBright, 1.15 )
+
+	self.Title = Label("", self)
+	self.Title:SetFont("SCPlyScoreTitle")
+	self.Title:SetTextColor( color )
+	self.Title:SetZPos( 0 )
+
+	self.Value = Label("", self)
+	self.Value:SetFont("SCPlyScore")
+	self.Value:SetTextColor( Scoreboard.Customization.ColorFont )
+	self.Value:SetZPos( 0 )
+	self.Value:SetVisible( false )
 
 end
 
-function ACTIONBOXLABEL:GetPlayer()
-	return self:GetParent().Player
-end
+function LABELSCORE:SetText( title )
 
-function ACTIONBOXLABEL:Paint( w, h )
-
-end
-
-function ACTIONBOXLABEL:PerformLayout()
+	self.Title:SetText( title )
+	self:UpdateText()
 
 end
 
-vgui.Register("ScoreboardActionBoxLabel", ACTIONBOXLABEL )*/
+function LABELSCORE:UpdateText()
+
+	if self.ValueFunc && IsValid( self:GetParent():GetPlayer() ) then
+
+		local value = self.ValueFunc( self:GetParent():GetPlayer() )
+		if value then
+			self.Value:SetText( value )
+			self.Value:SetVisible( true )
+			self:SetVisible( true )
+		else
+			self.Value:SetVisible( false )
+			self:SetVisible( false )
+		end
+
+	end
+
+end
+
+function LABELSCORE:SetValue( func )
+	self.ValueFunc = func
+end
+
+function LABELSCORE:SetFixedWidth( width )
+	self.FixedWidth = width
+end
+
+function LABELSCORE:Paint( w, h )
+
+end
+
+function LABELSCORE:PerformLayout()
+
+	self:UpdateText()
+
+	self.Value:AlignTop( 8 )
+	self.Title:SizeToContents()
+	self.Value:SizeToContents()
+
+	local width = self.FixedWidth or math.max( self.Title:GetWide() + 10, self.Value:GetWide() + 10 )
+	self:SetSize( width, GetPlayerSize() )
+
+	self.Title:CenterHorizontal()
+	self.Value:CenterHorizontal()
+
+end
+
+vgui.Register( "LabelScore", LABELSCORE )

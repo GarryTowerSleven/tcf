@@ -45,21 +45,18 @@ end
 
 Loadables.Load( {
 
-	-- Old/Lobby 1
-	--------------------------------------------------------
-	--"theater",			-- Theater (Lobby 1)
-	"soundbrowser",			-- Sound browser (Lobby 1)
+	-- Lobby
+	---------------------------------------------------------
+	"soundbrowser",			-- Sound browser
 	--"bassemitstream",		-- Emit stream (radios)
-	--"ragdollcontroller",	-- Player ragdolling (Lobby 1)
-	--"icon",				-- Scoreboard icons, no longer used
+	--"ragdollcontroller",	-- Player ragdolling
 	"npc_chat",				-- Chatting NPCs (suite and PVP Battle)
 	"animation",			-- Force animation system
-	--"ambiance",			-- Ambient music (Lobby 1)
+	--"ambiance",			-- Old Ambient music
 	--"enchant",			-- Player enchantments
-	"trivia",				-- Trivia board
+	"trivia",				-- Trivia
 	--"funmeter",			-- Fun Meter (experimental minigame)
 	--"spawner",			-- Special spawner (presents and candy)
-	--"fakeself" 			-- Creates a fake third person model for WHEN GARRY BREAKS IT!
 
 	-- WIP/Unfinished
 	---------------------------------------------------------
@@ -84,7 +81,7 @@ Loadables.Load( {
 	"hacker",				-- Hacker logging
 	"npc",					-- Store NPCs
 	"room",					-- Suite/condo system
-	"scoreboard3",			-- Scoreboard
+	"scoreboard",			-- Scoreboard
 	"store",				-- Stores
 	"multiserver",			-- Multiserver
 	"location",				-- Location system
@@ -102,9 +99,10 @@ Loadables.Load( {
 	"contentmanager",		-- Alerts players when they're missing a required game or addon
 	"fakeclientmodel",		-- Less-specific version of fakeself for drastic clientmodel modifications
 	"ping",					-- Pings the clients to detect for server crashes
-	"soundscape",			-- Soundscape system (Lobby 2)
-	"theater2", 			-- Theater built with the media player (Lobby 2)
+	"soundscape",			-- Soundscape system
+	"theater", 				-- Theater built with the media player
 	"mapdata",				-- Map specific fixes and additions
+	"painsounds",			-- Player Voicelines
 
 	-- Items Depend On These
 	---------------------------------------------------------
@@ -112,7 +110,7 @@ Loadables.Load( {
 	"bonemod",				-- Bone modifications
 	"pet",					-- Pets
 	"cards",				-- Poker module
-	"minecraftskins",	-- Minecraft Steve model skins
+	"minecraftskins",		-- Minecraft Steve model skins
 	"auction",				-- Auction tables
 
 	-- Debugging/Tools
@@ -123,8 +121,6 @@ Loadables.Load( {
 	-- UI/Misc
 	---------------------------------------------------------
 	"question",				-- Global voting
-	-- "radialmenu",		-- Zak's radial menu system
-	-- "kickstarter",		-- Kickstarter feed
 	-- "multicore",			-- Possible Performance Booster
 
 	-- Weapons
@@ -132,21 +128,13 @@ Loadables.Load( {
 	--"weaponmanager",		-- Manages minigame weapons and such
 	"pvp",					-- PVP weapons
 	"virus",				-- Virus weapons
-	"painsounds",
-	--"models",
-	--"miku"
+
+	-- EXPERIMENTAL
+	---------------------------------------------------------
+	-- "models",			-- Outfits
+	-- "miku",				-- Ghost of Miku
 
 } )
-
-// Lobby 2 loadables
-if ( not IsLobbyOne ) then
-	Loadables.Load( {
-		"lobby2",		-- Lobby 2 specific entities
-		"nightclub",	-- Nightclub
-		"elevator",		-- Elevators
-		"condopanel",	-- CondOS
-	} )
-end
 
 function CanPlayerUse( arg1, arg2 )
 
