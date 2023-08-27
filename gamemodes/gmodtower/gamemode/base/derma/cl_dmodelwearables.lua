@@ -17,7 +17,7 @@ function PANEL:Init()
 	
 	self:SetCamPos( Vector( 0, 0, 0 ) )
 	self:SetLookAt( Vector( 0, 0, 40 ) )
-	self:SetFOV( 70 )
+	self:SetFOV( 15 )
 	
 	self:SetText( "" )
 	self:SetAnimSpeed( 0.5 )
@@ -68,24 +68,34 @@ function PANEL:SetModel( strModelName, skin )
 	if !IsValid(self.Entity) then return end
 
 	self.Entity:SetNoDraw( true )
-	self.Entity.Scale = GTowerModels.GetScale( strModelName ) or 1
+	self.Entity:SetIK( false )
+	self.Entity:SetModelScale( GTowerModels.GetScale( strModelName ) or 1 )
 	self.Entity:SetSkin( skin or 1 )
+
+	self.Entity:SetPos( Vector( -185, 0, 0 ) )
 
 	local pos, ang = self:GetHeadPos()
 	self.HeadPos = pos
 	
-	// Try to find a nice sequence to play
+	-- Try to find a nice sequence to play
 	local iSeq = self.Entity:LookupSequence( "walk_all" )
-	if iSeq <= 0 then iSeq = self.Entity:LookupSequence( "WalkUnarmed_all" ) end
-	if iSeq <= 0 then iSeq = self.Entity:LookupSequence( "walk_all_moderate" ) end
-	if iSeq <= 0 then iSeq = self.Entity:LookupSequence( "idle" ) end
-	if iSeq <= 0 then iSeq = self.Entity:LookupSequence( "idle1" ) end
-	
-	if iSeq > 0 then self.Entity:ResetSequence( iSeq ) end	
+	if ( iSeq <= 0 ) then iSeq = self.Entity:LookupSequence( "WalkUnarmed_all" ) end
+	if ( iSeq <= 0 ) then iSeq = self.Entity:LookupSequence( "walk_all_moderate" ) end
+
+	if ( iSeq > 0 ) then self.Entity:ResetSequence( iSeq ) end
 	
 end
 
+PANEL._lastmodel = nil
+PANEL._lasthats = { 0, 0 }
 function PANEL:SetModelWearables( ply )
+
+	local slot1, slot2 = Hats.GetWearables( ply )
+	if (self._lastmodel or nil) == self.Entity:GetModel() and (self._lasthats[1] or 0) == slot1 and (self._lasthats[2] or 0) == slot2 then return end
+
+	self._lasthats[1] = slot1
+	self._lasthats[2] = slot2
+	self._lastmodel = self.Entity:GetModel()
 
 	if IsValid( self.EntityWear1 ) then
 		self.EntityWear1:Remove()
@@ -99,18 +109,30 @@ function PANEL:SetModelWearables( ply )
 
 	if !ClientsideModel then return end
 	
-	local wear1, wear2 = Hats.GetWearablesModels( ply )
+	local wear1, wear2 = Hats.GetItem( slot1 ), Hats.GetItem( slot2 )
 
-	if wear1 != Hats.GetNoHat() then
-		self.EntityWear1 = ClientsideModel( wear1, RENDER_GROUP_OPAQUE_ENTITY )
+	if wear1.model != Hats.GetNoHat() then
+		self.EntityWear1 = ClientsideModel( wear1.model, RENDER_GROUP_OPAQUE_ENTITY )
 	end
 
-	if wear2 != Hats.GetNoHat() then
-		self.EntityWear2 = ClientsideModel( wear2, RENDER_GROUP_OPAQUE_ENTITY )
+	if wear2.model != Hats.GetNoHat() then
+		self.EntityWear2 = ClientsideModel( wear2.model, RENDER_GROUP_OPAQUE_ENTITY )
 	end
 
-	if IsValid( self.EntityWear1 ) then self.EntityWear1:SetNoDraw( true ) end
-	if IsValid( self.EntityWear2 ) then self.EntityWear2:SetNoDraw( true ) end
+	local req = {}
+
+	if IsValid( self.EntityWear1 ) then
+		self.EntityWear1:SetNoDraw( true )
+		self.EntityWear2:SetLegacyTransform( true )
+		table.insert( req, wear1.unique_Name )
+	end
+	if IsValid( self.EntityWear2 ) then
+		self.EntityWear2:SetNoDraw( true )
+		self.EntityWear2:SetLegacyTransform( true )
+		table.insert( req, wear2.unique_Name )
+	end
+
+	Hats.RequestData( Hats.FindPlayerModelByName( self.Entity:GetModel() ), req )
 	
 end
 
@@ -134,8 +156,8 @@ function PANEL:GetTranslations( ent, wear )
 
 	local data = Hats.GetData( ent:GetModel(), wear:GetModel() )
 
-	local Pos, Ang = Hats.ApplyTranslation( ent, data, nil, 2 )
-	local Scale = data[7]
+	local Pos, Ang, PlyScale = Hats.ApplyTranslation( ent, data )
+	local Scale = data[7] * PlyScale
 
 	return Pos, Ang, Scale
 
@@ -152,12 +174,52 @@ function PANEL:DrawWearable( wear )
 
 end
 
-function PANEL:Paint( w, h )
+function PANEL:PrePaint( ent )
+end
 
-	if !IsValid( self.Entity ) then return end
+function PANEL:DrawModels( w, h )
+	local curparent = self
+	local leftx, topy = self:LocalToScreen( 0, 0 )
+	local rightx, bottomy = self:LocalToScreen( self:GetWide(), self:GetTall() )
+	while ( curparent:GetParent() != nil ) do
+		curparent = curparent:GetParent()
+
+		local x1, y1 = curparent:LocalToScreen( 0, 0 )
+		local x2, y2 = curparent:LocalToScreen( curparent:GetWide(), curparent:GetTall() )
+
+		leftx = math.max( leftx, x1 )
+		topy = math.max( topy, y1 )
+		rightx = math.min( rightx, x2 )
+		bottomy = math.min( bottomy, y2 )
+		previous = curparent
+	end
+
+	-- Causes issues with stencils, but only for some people?
+	-- render.ClearDepth()
+
+	render.SetScissorRect( leftx, topy, rightx, bottomy, true )
 	
+	self.Entity:DrawModel()
+
+	// Draw Wearables
+	if IsValid( self.EntityWear1 ) then
+		self:DrawWearable( self.EntityWear1 )
+	end
+	if IsValid( self.EntityWear2 ) then
+		self:DrawWearable( self.EntityWear2 )
+	end
+
+	render.SetScissorRect( 0, 0, 0, 0, false )
+end
+
+function PANEL:Paint( w, h )
+	
+	if !IsValid( self.Entity ) then return end
+
 	local x, y = self:LocalToScreen( 0, 0 )
 	local pos, ang = self:GetHeadPos()
+
+	self:PrePaint( w, h )
 
 	self:LayoutEntity( self.Entity )
 	
@@ -176,21 +238,11 @@ function PANEL:Paint( w, h )
 				render.SetModelLighting( i, col.r/255, col.g/255, col.b/255 )
 			end
 		end
-
-		// Draw Model
-		self.Entity:SetModelScale( self.Entity.Scale, 0 )
-		self.Entity:DrawModel()
-
-		// Draw Wearables
-		/*if IsValid( self.EntityWear1 ) then
-			self:DrawWearable( self.EntityWear1 )
-		end
-		if IsValid( self.EntityWear2 ) then
-			self:DrawWearable( self.EntityWear2 )
-		end*/
+		
+		// draw models
+		self:DrawModels( w, h )
 	
 	render.SuppressEngineLighting( false )
-	//cam.IgnoreZ( false )
 	cam.End3D()
 	
 	self.LastPaint = RealTime()

@@ -35,6 +35,8 @@ end
 
 function Get( HatName, ModelName )
 
+	if not HatName or not ModelName then return end
+
 	HatName = string.lower( HatName )
 	ModelName = string.lower( ModelName )
 	
@@ -48,8 +50,8 @@ end
 
 function GetData( PlayerModel, HatModel )
 
-	local HatName = Hats.GetNameFromModel( HatModel )
-	local Data = Hats.Get( HatName, Hats.FindPlayerModelByName( PlayerModel ) )
+	local HatName = GetNameFromModel( HatModel )
+	local Data = Get( HatName, FindPlayerModelByName( PlayerModel ) )
 
 	return Data
 
@@ -117,7 +119,7 @@ end
 
 function GetByName( name )
 	for k, v in pairs( List ) do
-		if v.unique_Name == name then
+		if string.lower(v.unique_Name or "") == string.lower(name) then
 			return k
 		end	
 	end

@@ -88,6 +88,8 @@ function APPEARANCE:NewCategory( name, cookie )
 	
 end
 
+local gradient = surface.GetTextureID( "VGUI/gradient_up" )
+
 function APPEARANCE:Init()
 
 	self.Groups = {}
@@ -97,11 +99,18 @@ function APPEARANCE:Init()
 	self.ModelPanel:SetAnimated( true )
 	self.ModelPanel:SetZPos( 2 )
 
-	local gradient = surface.GetTextureID( "VGUI/gradient_up" )
-	self.ModelPanel.BackgroundDraw = function()
+	self.ModelPanel.PrePaint = function( panel, w, h )
+		surface.SetDrawColor( 0, 0, 0, 150 )
+		surface.DrawRect( 0, 0, w, h )
+
 		surface.SetDrawColor( 0, 0, 0, 200 )
 		surface.SetTexture( gradient )
-		surface.DrawTexturedRect( 0, 0, self.ModelPanel:GetSize() )
+		surface.DrawTexturedRect( 0, 0, w, h )
+	end
+
+	self.ModelPanel.PaintOver = function( panel, w, h )
+		surface.SetDrawColor( 0, 0, 0, 150 )
+		surface.DrawOutlinedRect( 0, 0, w, h, 2 )
 	end
 
 	// Player models
@@ -148,7 +157,7 @@ function APPEARANCE:UpdateModelPanel()
 	self.ModelPanel:SetModel( modelname, LocalPlayer():GetSkin() )
 
 	// Set the hats
-	// self.ModelPanel:SetModelWearables( LocalPlayer() )
+	self.ModelPanel:SetModelWearables( LocalPlayer() )
 
 	// Set color and materials
 	self.ModelPanel.Entity:SetPlayerProperties( LocalPlayer() )
@@ -335,9 +344,9 @@ function APPEARANCE:GenerateModelSelection()
 		if hook.Call( "CanWearHat", GAMEMODE, LocalPlayer(), hat.unique_Name ) == 1 then
 
 			if hat.slot == 1 then
-				AddSpawnIcon( hat.name, hat.model, hat.ModelSkin, IconSetHatModel, HatCategoryListHead, hat.hatid, hat.slot, hat.description )
+				AddSpawnIcon( hat.name, hat.model, hat.ModelSkinId, IconSetHatModel, HatCategoryListHead, hat.hatid, hat.slot, hat.description )
 			else
-				AddSpawnIcon( hat.name, hat.model, hat.ModelSkin, IconSetHatModel, HatCategoryListFace, hat.hatid, hat.slot, hat.description )
+				AddSpawnIcon( hat.name, hat.model, hat.ModelSkinId, IconSetHatModel, HatCategoryListFace, hat.hatid, hat.slot, hat.description )
 			end
 
 		end
@@ -458,13 +467,13 @@ function APPEARANCE:PerformLayout()
 	if self.ColorSelection then
 		self.ColorSelection:SetWide( ModelSizeX )
 		self.ColorSelection:SetPos( 0, ModelSizeY )
-		minY = minY + self.ColorSelection:GetTall() + 30
+		minY = minY + self.ColorSelection:GetTall()
 	end
 
 	if self.GlowColorSelection then
 		self.GlowColorSelection:SetWide( ModelSizeX )
 		self.GlowColorSelection:SetPos( 0, ModelSizeY + self.ColorSelection:GetTall() )
-		minY = minY + self.GlowColorSelection:GetTall() + 30
+		minY = minY + self.GlowColorSelection:GetTall()
 	end
 
 	if curY < minY then
@@ -476,14 +485,10 @@ function APPEARANCE:PerformLayout()
 
 end
 
-
-local gradient = surface.GetTextureID( "VGUI/gradient_up" )
 function APPEARANCE:Paint( w, h )
 
 	surface.SetDrawColor( Scoreboard.Customization.ColorNormal )
 	surface.DrawRect( 0, 0, self:GetWide(), self:GetTall() )
-
-	//self:DrawModelHat( self.ModelPanel.Entity )
 
 end
 
@@ -513,8 +518,6 @@ function SETTINGSCATEGORY:Init()
 end
 
 vgui.Register( "ScoreboardSettingsCategory", SETTINGSCATEGORY, "DCollapsibleCategory2" )
-
-
 
 
 SETTINGSLIST = {}
