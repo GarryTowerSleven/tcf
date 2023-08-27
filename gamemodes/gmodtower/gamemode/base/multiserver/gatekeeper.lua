@@ -5,12 +5,6 @@ local ServerName = "GMod Tower"
 gateKeep.Bans = {} --Used to hold all the bans server-side, rather than query every time.
 
 gateKeep.HardCodedBans = {
-	{"STEAM_0:1:90573021", "Matt"},
-	{"STEAM_0:1:21016813", "0x0539"},
-	{"STEAM_0:0:44370505", "Konta"},
-	{"STEAM_0:1:47544900", "Dr.Rabbit"},
-	{"STEAM_0:0:37654169", "Pixel"},
-	{"STEAM_0:0:533524776", "Pixel"}, -- alt
 }
 
 gateKeep.MaxSlots = 0
