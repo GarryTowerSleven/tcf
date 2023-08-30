@@ -97,7 +97,7 @@ end
 function ENT:DoorFire(owner, ply, str, ti)
 	local door = self:GetDoor()
 	
-	if ( ply:IsAdmin() || owner == ply || !owner:GetNet( "RoomLock" ) ) then
+	if ( !owner:GetNet( "RoomLock" ) || owner == ply || ply:IsAdmin() ) then
 		door:Fire(str, "", ti)
 	end
 end
