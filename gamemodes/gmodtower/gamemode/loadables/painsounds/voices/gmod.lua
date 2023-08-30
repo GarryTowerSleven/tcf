@@ -60,6 +60,12 @@ local barney = {
         "vo/npc/barney/ba_laugh03.wav",
         "vo/npc/barney/ba_laugh04.wav",
         "vo/npc/barney/ba_yell.wav"
+    },
+    Laughs = {
+        "vo/npc/barney/ba_laugh01.wav",
+        "vo/npc/barney/ba_laugh02.wav",
+        "vo/npc/barney/ba_laugh03.wav",
+        "vo/npc/barney/ba_laugh04.wav"
     }
 }
 
@@ -89,6 +95,9 @@ local breen = { // a bit silly
         "vo/citadel/br_mock06.wav",
         "vo/citadel/br_mock13.wav",
         "vo/citadel/br_mock09.wav"
+    },
+    Laughs = {
+        "vo/citadel/br_laugh01.wav"
     }
 }
 
@@ -120,6 +129,12 @@ local monk = {
         "vo/ravenholm/monk_kill08.wav",
         "vo/ravenholm/monk_kill10.wav",
         "vo/ravenholm/monk_kill07.wav",
+    },
+    Laughs = {
+        "vo/ravenholm/madlaugh01.wav",
+        "vo/ravenholm/madlaugh02.wav",
+        "vo/ravenholm/madlaugh03.wav",
+        "vo/ravenholm/madlaugh04.wav"
     }
 }
 
@@ -223,6 +238,9 @@ local combine = {
     },
     Taunts = {
         "S:METROPOLICE_KILL_PLAYER4"
+    },
+    Laughs = {
+        "npc/metropolice/vo/chuckle.wav"
     }
 }
 
@@ -240,6 +258,9 @@ local combine2 = {
     },
     Taunts = {
         "S:COMBINE_PLAYERHIT2"
+    },
+    Laughs = {
+        "npc/metropolice/vo/chuckle.wav"
     }
 }
 
