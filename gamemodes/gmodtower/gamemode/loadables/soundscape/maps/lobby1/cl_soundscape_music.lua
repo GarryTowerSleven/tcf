@@ -398,7 +398,7 @@ soundscape.Register("music_bar", {
 	type = "playlooping",
 		volume = 1,
 		-- All sounds are in a table format of {soundpath, soundlength}
-		sound = { Sound( "gmodtower/music/bar.mp3" ), 238 },
+		sound = { Sound( "gmodtower/music/bar.mp3" ), 147 },
 	},
 })
 

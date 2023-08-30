@@ -71,7 +71,10 @@ soundLengths["sound/uch/music/waiting/waiting_music16.mp3"] = 32.275351
 soundLengths["sound/gmodtower/minigolf/music/waiting1.mp3"] = 32.014127
 soundLengths["sound/uch/music/waiting/waiting_music14.mp3"] = 32.458209
 soundLengths["sound/uch/music/waiting/waiting_music12.mp3"] = 63.320998
-
+soundLengths["sound/gmodtower/music/casino1.mp3"] = 280.503000
+soundLengths["sound/gmodtower/music/casino2.mp3"] = 250.723000
+soundLengths["sound/gmodtower/music/casino3.mp3"] = 307.644000
+soundLengths["sound/gmodtower/music/bar.mp3"] = 147.184000
 
 soundscape = soundscape or {}
 soundscape.SoundLengths = soundLengths
