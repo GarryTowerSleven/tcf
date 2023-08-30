@@ -196,6 +196,13 @@ for _, emote in pairs(Commands) do
 					ply.DanceSND:PlayEx( 80, 100 )
 				
 				end
+			elseif ply:GetModel() == "models/player/miku.mdl" && emoteName == "dance" then
+				if !Location.IsTheater( ply.Location ) then
+			
+					ply.DanceSND = CreateSound( ply, "gmodtower/lobby/mikuclock/mikuclock_song0" .. math.random(9) .. ".mp3" )
+					ply.DanceSND:PlayEx( 80, 100 )
+				
+				end
 			end
 
 			timer.Simple(Duration, function()
