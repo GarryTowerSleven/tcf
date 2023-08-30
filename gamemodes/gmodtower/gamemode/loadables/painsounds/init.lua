@@ -154,6 +154,7 @@ function voicelines.Emit(ent, snd)
 
     snd = getSounds(ent, ent:GetModel(), snd)
     local vol, pitch = 75, 100 + (models[ent:GetModel()] or 0)
+    ent.LastTry = nil
 
     if istable(snd) then
 
