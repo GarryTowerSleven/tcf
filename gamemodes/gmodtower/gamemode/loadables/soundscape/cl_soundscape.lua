@@ -368,20 +368,10 @@ end
 hook.Add("Think", "GMTSoundscapeThink", function()
 	if not Enabled then return end
 
-	local mp = Location.GetMediaPlayersInLocation(LocalPlayer():Location())
-	mp = mp[1] and mp[1]._Media
-
 	-- Think on every active soundscape
 	for k, v in pairs(Soundscapes) do
 
 		v:Think()
-
-		local vol = mp and 0 or nil
-
-		if vol and v:GetVolume() ~= vol || !vol and v:GetVolume() == 0 then
-			local channel = v.Channel
-			v:SetVolume(mp and 0 or GetSettings(channel).Volume, mp and 0.1 or GetSettings(channel).FadeTime )
-		end
 
 		-- If they're stopped, remove them from the active soundscapes
 		if v:IsFadingOut() and v.EndFadeTime < RealTime() and not v.ShouldKeepIdle then
