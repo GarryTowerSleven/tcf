@@ -56,9 +56,17 @@ function meta:SetAchievement( id, value, add )
 		umsg.End()
 
 		local sfx = EffectData()
-			sfx:SetOrigin( self:GetPos() )
-		util.Effect( "confetti", sfx, true, true )
+			sfx:SetOrigin( util.GetCenterPos( self ) )
+		util.Effect( "confetti_achievement", sfx, true, true )
 
+		for i = 0, 15 do
+			i = i + 1
+			local eff = EffectData()
+				eff:SetOrigin( self:GetPos() + self:GetUp() * 80 + ( VectorRand():GetNormal() * 30 )  )
+				eff:SetScale(2.5)
+			util.Effect( "firework_achievement", eff )
+		end
+		
 		self:EmitSound( "gmodtower/music/award.wav", 100, 100 )
 		self:AddMoney( ( Achievement.GMC or 500 ) )
 
