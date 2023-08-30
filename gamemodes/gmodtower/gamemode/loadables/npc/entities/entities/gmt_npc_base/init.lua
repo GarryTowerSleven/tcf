@@ -27,18 +27,22 @@ end
 function ENT:SaleThink()
     if self:IsOnSale() then
         if ( not self.SaleEffect ) then
-            self:CreateSaleSign()
+            // self:CreateSaleSign()
+            self:PlaySequence( "lineidle02" )
+            self.SaleEffect = true
+            self.bAnimating = false
         end
     else
         if ( self.SaleEffect ) then
             self.SaleEffect = nil
+            self.bAnimating = false
         end
     end
 end
 
 function ENT:Think()
     if ( not self.bAnimating ) then
-        self:PlaySequence( self.Sequence or "idle_subtle" )
+        self:PlaySequence( self:IsOnSale() && "lineidle01" || self.Sequence or "idle_subtle" )
     end
 
     self:SaleThink()
