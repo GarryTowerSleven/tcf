@@ -245,6 +245,17 @@ RegisterItem("breenglobe",{
 	StorePrice = 5,
 })
 
+RegisterItem("usdollar",{
+	Name = "Dollar",
+	Description = "Ever wonder what the currency exchange rate of GMC is? Well, it probably isn't this.",
+	Model = "models/props/cs_assault/Dollar.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.SOUVENIR,
+	StorePrice = 50,
+	NewItem = true
+})
+
 RegisterItem("statueofbreen",{
 	Name = "Statue Of Breen",
 	Description = "When the singularity collapses, I will be far away from here. In another universe, as a matter of fact. You, on the other hand, will be destroyed in every way it is possible to be destroyed.. and even in some which are essentially impossible.",
@@ -438,7 +449,7 @@ RegisterItem("deckchair",{
 
 RegisterItem("deskchair",{
 	Name = "Suite Desk Chair",
-	Description = "Sit in this fancy desk chair.",
+	Description = "Feel like a hard working employee from the comfort of your suite.",
 	Model = "models/props/cs_office/chair_office.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
@@ -548,7 +559,7 @@ RegisterItem("furnituretable002a",{
 
 RegisterItem("furniture_couch02a",{
 	Name = "Armchair",
-	Description = "Sit in this chair and enjoy the fire.",
+	Description = "Sit in this comfy armchair and embrace the feeling of everyone else being beneath you.",
 	Model = "models/props/de_inferno/furniture_couch02a.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
