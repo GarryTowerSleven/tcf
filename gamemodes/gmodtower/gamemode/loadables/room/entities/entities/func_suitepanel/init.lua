@@ -94,7 +94,7 @@ function ENT:Id()
 end
 
 
-function ENT:DoorFire(str, ti, owner, ply)
+function ENT:DoorFire(owner, ply, str, ti)
 	local door = self:GetDoor()
 	
 	if ( ply:IsAdmin() || owner == ply || !owner:GetNet( "RoomLock" ) ) then
@@ -162,12 +162,12 @@ function ENT:UsePanel( ply, cur_x, cur_y )
     if ( cur_x < 80 && cur_x > -70 && cur_y > -30 && cur_y < 160 ) then // Button 1: Open
 
         self.Entity:EmitSound( self.soundGranted )
-		self:DoorFire("Open", _, owner, ply)
+		self:DoorFire(owner, ply, "Open")
 
     elseif ( cur_x > 80 && cur_x < 240 && cur_y > -30 && cur_y < 160 ) then // Button 2: Close
 
         self.Entity:EmitSound( self.soundGranted )
-		self:DoorFire("Close", _, owner, ply)
+		self:DoorFire(owner, ply, "Close")
 
 	elseif ( cur_x < -70 && cur_x > -240 && cur_y > -30 && cur_y < 60 ) then // Button 3: Lock
 
