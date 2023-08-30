@@ -428,10 +428,6 @@ end)*/
 
 function GM:EntityTakeDamage( ent, dmginfo  )
 
-	if ent:IsNPC() then
-		dmginfo:ScaleDamage( 0.0 )
-	end
-
 	if ent:IsPlayer() && ent.IsGodMode then //why this? because we want to be able to override it if needed
 		dmginfo:ScaleDamage( 0.0 )
 	end
