@@ -46,10 +46,9 @@ local function EndPlayerTransformation( ply, owner )
 	if IsValid( ply ) then //Make sure it is valid, otherwise, if the player disconnects, it is going to give errors
 
 		ply:StopSound("player/heartbeat1.wav")
-		ply:EmitSound("vo/npc/Barney/ba_laugh02.wav", 120)
-
+		voicelines.Emit(ply, "Laughs")
 		ply:SetColor(Color(255, 255, 255))
-		ply:SetModel("models/player/smith.mdl")
+		ply:SetModel(owner and owner:GetModel() or "models/player/smith.mdl")
 		ply:Freeze(false)
 
 	end
@@ -96,9 +95,6 @@ function SWEP:PrimaryAttack()
 			end
 
 			self.Owner:Freeze(true)
-
-			ply:EmitSound("vo/npc/Barney/ba_pain08.wav", 120)
-			self.Owner:EmitSound("vo/gman_misc/gman_04.wav", 120)
 
 			local vm = self:GetOwner():GetViewModel()
 			vm:SendViewModelMatchingSequence( vm:LookupSequence( "fists_uppercut" ) )
