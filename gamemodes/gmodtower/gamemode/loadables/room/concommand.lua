@@ -414,6 +414,12 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 
 	end)
 
+	if !ply:Achived( ACHIEVEMENTS.SUITEDESIGNER ) then
+		if ply:GetNet( "RoomEntityCount" ) >= 200 then
+			ply:SetAchievement( ACHIEVEMENTS.SUITEDESIGNER, 1 )
+		end
+	end
+	
 	ply:SetNWInt( "RoomID", PlyRoom.Id )
 
 	local panel = GTowerRooms.GetPanel( PlyRoom.Id )

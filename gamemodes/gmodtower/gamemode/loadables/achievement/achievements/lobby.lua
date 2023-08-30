@@ -353,6 +353,14 @@ GTowerAchievements:Add( ACHIEVEMENTS.TRIVIAREALLY, {
 	GMC = 500
 })
 
+GTowerAchievements:Add( ACHIEVEMENTS.SUITEDESIGNER, {
+	Name = "Design Star",
+	Description = "Have 200 or more items in your suite.", 
+	Value = 1,
+	GMC = 1000,
+	Group = 3
+})
+
 // LOGIC OF ACHIEVEMENTS---------------------
 if CLIENT then return end
 
