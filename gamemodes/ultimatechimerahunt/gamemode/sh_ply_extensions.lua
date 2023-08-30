@@ -88,6 +88,10 @@ function meta:ResetVars()
 	/* Set Rank */
 	self:SetNet( "Rank", self:GetNet( "NextRank" ) )
 
+	if self:IsPig() && self:GetNet( "Rank" ) == RANK_CAPTAIN && ( Hats.IsWearing( ply, "hatfedorahat" ) or Hats.IsWearing( ply, "FedoraAlternative" ) ) then
+		self:SetAchievement( ACHIEVEMENTS.UCHBROTHER, 1 )
+	end
+	
 	if self:IsPig() && self:GetNet( "Rank" ) == RANK_COLONEL then
 		self:SetAchievement( ACHIEVEMENTS.UCHCAPE, 1 )
 	end

@@ -268,6 +268,9 @@ ACHIEVEMENTS.TRIVIAREALLY = 214
 
 ACHIEVEMENTS.SUITEDESIGNER = 215
 
+ACHIEVEMENTS.UCHSCARED = 216
+ACHIEVEMENTS.UCHBROTHER = 217
+
 hook.Add("Initialize", "LoadAchivments", function()
 	hook.Call("LoadAchievements")
 

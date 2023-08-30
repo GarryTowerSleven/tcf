@@ -135,3 +135,20 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHEARTHBOUND, {
 	Group = 9
 	}
 )
+
+GTowerAchievements:Add( ACHIEVEMENTS.UCHSCARED, {
+	Name = "nO ScaRED.",
+	Description = "Scare Mr. Saturn 15 times as the Chimera.",
+	Value = 15,
+	Group = 9
+	}
+)
+
+GTowerAchievements:Add( ACHIEVEMENTS.UCHBROTHER, {
+	Name = "The Blue Brother",
+	Description = "Reach the Captain rank as a pigmask while wearing a black fedora.",
+	Value = 1,
+	GMC = 250,
+	Group = 9
+	}
+)

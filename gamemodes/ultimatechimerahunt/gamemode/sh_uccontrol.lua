@@ -244,6 +244,7 @@ function GM:UCThink()
 			local dist = uc:GetPos():Distance( sat:GetPos() )
 
 			if dist <= roardistance && !sat.IsScared then
+				uc:AddAchievement( ACHIEVEMENTS.UCHSCARED, 1 )
 				sat:Scare()
 			end
 
