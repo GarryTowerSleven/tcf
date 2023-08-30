@@ -116,7 +116,7 @@ hook.Add("PostPlayerDraw", "ties", function(ply)
 
 	for i = 0, ply:GetBoneCount() - 1 do
 		if string.find(ply:GetBoneName(i), "Tie") then
-			ply:ManipulateBoneAngles(i, Angle(ply.TiePhysics, Lerp(ply:EyeAngles().p / -90, Lerp(ply:EyeAngles().p / 90, 6 + math.sin(CurTime() * 2) * 2, 12), -0) + math.Clamp(ply.TiePhysics3, -1, 1) * 2, -ply.TiePhysics))
+			ply:ManipulateBoneAngles(i, Angle(ply.TiePhysics, Lerp(0 or ply:EyeAngles().p / -90, Lerp(ply:EyeAngles().p / 90, 2.5 + math.sin(CurTime() * 2) * 1, 3), -0), -ply.TiePhysics))
 		end
 	end
 end)
