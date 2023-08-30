@@ -272,7 +272,7 @@ function initHud()
 
 	function GTowerHUD.DrawHealth()
 
-		if !LocalPlayer():Alive() || !Dueling.IsDueling(LocalPlayer()) && LocalPlayer():Health() == LocalPlayer():GetMaxHealth() then return end
+		if !Dueling.IsDueling(LocalPlayer()) && ( LocalPlayer():Health() == LocalPlayer():GetMaxHealth() || LocalPlayer():Health() <= 0 ) then return end
 
 		// Lobby 1 Health
 		local health = LocalPlayer():Health()
