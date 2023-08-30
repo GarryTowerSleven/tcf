@@ -194,7 +194,7 @@ end
 
 hook.Add( "PreDrawHalos", "UCAngryHalo", function()
 
-	if math.ceil( GAMEMODE:GetTimeLeft() ) <= 30 && GAMEMODE:IsLastPigmasks() && LocalPlayer():GetNet( "IsChimera" ) then
+	if math.ceil( GAMEMODE:GetTimeLeft() ) <= 30 && LocalPlayer():GetNet( "IsChimera" ) && GAMEMODE:IsLastPigmasks() then
 		for k, ply in pairs( player.GetAll() ) do
 			if ply:IsPig() then
 				halo.Add( { ply }, Color( 255, 80, 80, 50 ), 2, 2, 3 , true, true )
