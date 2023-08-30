@@ -4,7 +4,7 @@ include("shared.lua")
 function ENT:Draw()
 	self.Entity:DrawModel()
 end
---[[
+
 surface.CreateFont( "SleepText", {
 	font = "KoorkinW04-BoldItalic",
 	extended = false,
@@ -50,4 +50,4 @@ net.Receive( "BedMessage", function( len, ply )
 
 	if message == null || message == "" then return end
 	LocalPlayer().SleepMessage = message
-end )--]]
+end )
