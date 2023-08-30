@@ -9,7 +9,7 @@ ENT.Offets = {
 }
 
 function ENT:Teleport(ply)
-	if !ply:IsPlayer() || !IsValid( self.TargetEntity ) then return end
+	if self.Disabled || !ply:IsPlayer() || !IsValid( self.TargetEntity ) then return end
 
 	local targetPosition = self.TargetEntity:GetPos()
 
@@ -34,6 +34,21 @@ function ENT:EndTouch(ply)
 	self:Teleport(ply)
 end
 
+function ENT:AcceptInput(input, ent, ent2, data)
+	if ( input == "Enable" ) then
+		self.Disabled = false
+
+		local mins, maxs = self:WorldSpaceAABB()
+		for _, ply in ipairs(ents.FindInBox(mins, maxs)) do
+			self:Teleport(ply)
+		end
+	end
+
+	if ( input == "Disable" ) then
+		self.Disabled = true
+	end
+end
+
 function ENT:KeyValue( key, value )
 	if ( key == "target" ) then
 		self.Target = value
@@ -41,6 +56,10 @@ function ENT:KeyValue( key, value )
 
 	if ( key == "origin" ) then
 		self.Origin = value
+	end
+
+	if ( key == "StartDisabled" ) then
+		self.Disabled = value == "1"
 	end
 end
 
