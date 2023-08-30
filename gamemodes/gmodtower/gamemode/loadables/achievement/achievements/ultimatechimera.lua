@@ -146,7 +146,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHSCARED, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.UCHBROTHER, {
 	Name = "The Blue Brother",
-	Description = "Reach the Captain rank as a pigmask while wearing a black fedora.",
+	Description = "Reach the Captain rank as a Pigmask while wearing a black fedora.",
 	Value = 1,
 	GMC = 250,
 	Group = 9
