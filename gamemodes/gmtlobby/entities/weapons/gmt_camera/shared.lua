@@ -1,20 +1,8 @@
-if SERVER then
-	AddCSLuaFile( "shared.lua" )
 
-	function SWEP:Deploy()
-		self:GetOwner():DrawViewModel( false )
-	end
+AddCSLuaFile()
 
-	function SWEP:DoRotateThink() end
-else
-	SWEP.DrawAmmo			= false
-	SWEP.DrawCrosshair		= false
-end
-
-SWEP.PrintName		= "Camera"	
-SWEP.Base			= "weapon_base"
-SWEP.ViewModel		= "models/weapons/v_pistol.mdl"
-SWEP.WorldModel		= "models/MaxOfS2D/camera.mdl"
+SWEP.ViewModel = Model( "models/weapons/c_arms_animations.mdl" )
+SWEP.WorldModel = Model( "models/MaxOfS2D/camera.mdl" )
 
 SWEP.Primary.ClipSize		= -1
 SWEP.Primary.DefaultClip	= -1
@@ -26,379 +14,226 @@ SWEP.Secondary.DefaultClip	= -1
 SWEP.Secondary.Automatic	= true
 SWEP.Secondary.Ammo			= "none"
 
-SWEP.ShootSound				= "NPC_CScanner.TakePhoto"
 
-SWEP.CameraZoom				= 80
-SWEP.Roll					= 0
+SWEP.PrintName	= "#GMOD_Camera"
 
+SWEP.Slot		= 5
+SWEP.SlotPos	= 1
+
+SWEP.DrawAmmo		= false
+SWEP.DrawCrosshair	= false
+SWEP.Spawnable		= true
+
+SWEP.ShootSound = Sound( "NPC_CScanner.TakePhoto" )
+
+if ( SERVER ) then
+
+	SWEP.AutoSwitchTo		= false
+	SWEP.AutoSwitchFrom		= false
+
+	--
+	-- A concommand to quickly switch to the camera
+	--
+	concommand.Add( "gmod_camera", function( player, command, arguments )
+
+		player:SelectWeapon( "gmod_camera" )
+
+	end )
+
+end
+
+--
+-- Network/Data Tables
+--
+function SWEP:SetupDataTables()
+
+	self:NetworkVar( "Float", 0, "Zoom" )
+	self:NetworkVar( "Float", 1, "Roll" )
+
+	if ( SERVER ) then
+		self:SetZoom( 70 )
+		self:SetRoll( 0 )
+	end
+
+end
+
+--
+-- Initialize Stuff
+--
 function SWEP:Initialize()
-	self:SetWeaponHoldType( "camera" )
+
+	self:SetHoldType( "camera" )
+
 end
 
-function SWEP:Precache()
-	util.PrecacheSound( self.ShootSound )
-end
-
+--
+-- Reload resets the FOV and Roll
+--
 function SWEP:Reload()
 
-	self:GetOwner():SetFOV( 80, 0 )
-	self.CameraZoom = 80
-	self.Roll = 0
+	local owner = self:GetOwner()
+
+	if ( !owner:KeyDown( IN_ATTACK2 ) ) then self:SetZoom( owner:IsBot() && 75 || owner:GetInfoNum( "fov_desired", 75 ) ) end
+	self:SetRoll( 0 )
 
 end
 
-function SWEP:DoShootEffect()
-
-	self:EmitSound( self.ShootSound	)
-	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
-	self:GetOwner():SetAnimation( PLAYER_ATTACK1 )
-	
-	local vPos = self:GetOwner():GetShootPos()
-	local vForward = self:GetOwner():GetAimVector()
-
-	local trace = {}
-		trace.start = vPos
-		trace.endpos = vPos + vForward * 256
-		trace.filter = self:GetOwner()
-
-	tr = util.TraceLine( trace )
-
-	local effectdata = EffectData()
-		effectdata:SetOrigin( tr.HitPos )
-	util.Effect( "camera_flash", effectdata, true )
-	
-end
-
+--
+-- PrimaryAttack - make a screenshot
+--
 function SWEP:PrimaryAttack()
 
 	self:DoShootEffect()
 
-	if !CLIENT || !IsFirstTimePredicted() then return end
-	
+	-- If we're multiplayer this can be done totally clientside
+	if ( !game.SinglePlayer() && SERVER ) then return end
+	if ( CLIENT && !IsFirstTimePredicted() ) then return end
+
 	self:GetOwner():ConCommand( "jpeg" )
-	
-end
-
-function SWEP:SecondaryAttack() end
-
-function SWEP:Think()
-
-	if !CLIENT then return end
-
-	local cmd = self:GetOwner():GetCurrentCommand()
-	
-	self.LastThink = self.LastThink or 0
-	local fDelta = (CurTime() - self.LastThink)
-	self.LastThink = CurTime()
-
-	self:DoZoomThink( cmd, fDelta )
-	self:DoRotateThink( cmd, fDelta )
 
 end
 
-function SWEP:DoZoomThink( cmd, fDelta )
-
-	// Right held down
-	if ( !self:GetOwner():KeyDown( IN_ATTACK2 ) ) then return end
-	
-	self.CameraZoom = math.Clamp( self.CameraZoom + cmd:GetMouseY() * 3 * fDelta, 5, 120 )
-	
-	self:GetOwner():SetFOV( self.CameraZoom, 0 )
-
+--
+-- SecondaryAttack - Nothing. See Tick for zooming.
+--
+function SWEP:SecondaryAttack()
 end
 
 function SWEP:CanSecondaryAttack()
 	return true
 end
+--
+-- Mouse 2 action
+--
+function SWEP:Tick()
 
-if SERVER then return end
+	local owner = self:GetOwner()
+
+	if ( CLIENT && owner != LocalPlayer() ) then return end -- If someone is spectating a player holding this weapon, bail
+
+	local cmd = owner:GetCurrentCommand()
+
+	if ( !cmd:KeyDown( IN_ATTACK2 ) ) then return end -- Not holding Mouse 2, bail
+
+	self:SetZoom( math.Clamp( self:GetZoom() + cmd:GetMouseY() * FrameTime() * 6.6, 0.1, 175 ) ) -- Handles zooming
+	self:SetRoll( self:GetRoll() + cmd:GetMouseX() * FrameTime() * 1.65 ) -- Handles rotation
+
+end
+
+--
+-- Override players Field Of View
+--
+function SWEP:TranslateFOV( current_fov )
+
+	return self:GetZoom()
+
+end
+
+--
+-- Deploy - Allow lastinv
+--
+function SWEP:Deploy()
+
+	return true
+
+end
+
+--
+-- Set FOV to players desired FOV
+--
+function SWEP:Equip()
+
+	local owner = self:GetOwner()
+
+	if ( self:GetZoom() == 70 && owner:IsPlayer() && !owner:IsBot() ) then
+		self:SetZoom( owner:GetInfoNum( "fov_desired", 75 ) )
+	end
+
+end
+
+function SWEP:ShouldDropOnDie() return false end
+
+--
+-- The effect when a weapon is fired successfully
+--
+function SWEP:DoShootEffect()
+
+	local owner = self:GetOwner()
+
+	self:EmitSound( self.ShootSound )
+	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
+	owner:SetAnimation( PLAYER_ATTACK1 )
+
+	if ( SERVER && !game.SinglePlayer() ) then
+
+		--
+		-- Note that the flash effect is only
+		-- shown to other players!
+		--
+
+		local vPos = owner:GetShootPos()
+		local vForward = owner:GetAimVector()
+
+		local trace = {}
+		trace.start = vPos
+		trace.endpos = vPos + vForward * 256
+		trace.filter = owner
+
+		local tr = util.TraceLine( trace )
+
+		local effectdata = EffectData()
+		effectdata:SetOrigin( tr.HitPos )
+		util.Effect( "camera_flash", effectdata, true )
+
+	end
+
+end
+
+if ( SERVER ) then return end -- Only clientside lua after this line
+
+SWEP.WepSelectIcon = surface.GetTextureID( "vgui/gmod_camera" )
+
+-- Don't draw the weapon info on the weapon selection thing
+function SWEP:DrawHUD() end
+function SWEP:PrintWeaponInfo( x, y, alpha ) end
+
+function SWEP:HUDShouldDraw( name )
+
+	-- So we can change weapons
+	if ( name == "CHudWeaponSelection" ) then return true end
+	if ( name == "CHudChat" ) then return true end
+
+	return false
+
+end
 
 function SWEP:FreezeMovement()
 
-	if ( self.m_fFreezeMovement ) then
-	
-		if ( self.m_fFreezeMovement > RealTime() ) then return true end
-	
-		self.m_fFreezeMovement = nil
-	
+	local owner = self:GetOwner()
+
+	-- Don't aim if we're holding the right mouse button
+	if ( owner:KeyDown( IN_ATTACK2 ) || owner:KeyReleased( IN_ATTACK2 ) ) then
+		return true
 	end
 
-	// Don't aim if we're holding the right mouse button
-	if ( self:GetOwner():KeyDown( IN_ATTACK2 ) || self:GetOwner():KeyReleased( IN_ATTACK2 ) ) then return true end
 	return false
-	
+
 end
 
 function SWEP:CalcView( ply, origin, angles, fov )
 
-	if ( self.Roll != 0 ) then
-		angles.Roll = self.Roll
+	if ( self:GetRoll() != 0 ) then
+		angles.Roll = self:GetRoll()
 	end
 
-	if (!self.TrackEntity || !self.TrackEntity:IsValid()) then return origin, angles, fov end
-	
-	local AimPos = self.TrackEntity:GetPos()
-	
-	self.LastAngles = self.LastAngles or angles
-	
-	if ( self.TrackOffset ) then
-	
-		// local Distance = AimPos:Distance( self:GetOwner():GetShootPos() )
-	
-		AimPos = AimPos + Vector(0,0,1) * self.TrackOffset.y * 256
-		AimPos = AimPos + self.LastAngles:Right() * self.TrackOffset.x * 256
-	
-	end
-	
-	local AimNormal = AimPos - self:GetOwner():GetShootPos()
-	AimNormal = AimNormal:GetNormal()
-	
-	angles = AimNormal:Angle() //LerpAngle( 0.1, self.LastAngles, AimNormal:Angle() )
-
-	// Setting the eye angles here makes it so the player is actually aiming in this direction
-	// Rather than just making their screen render in this direction.
-	self:GetOwner():SetEyeAngles( Angle( angles.Pitch, angles.Yaw, 0 ) )
-	
-	self.LastAngles = angles
-	
-	if ( self.Roll != 0 ) then
-		angles.Roll = self.Roll
-	end
-	
 	return origin, angles, fov
-	
-end
-
-function SWEP:DoRotateThink( cmd, fDelta )
-
-	// Think isn't frame rate independant on the client.
-	// It gets called more per frame in single player than multiplayer
-	// So we will have to make it frame rate independant ourselves
-
-	// Right held down
-	if ( self:GetOwner():KeyDown( IN_ATTACK2 ) ) then
-
-		self.Roll = self.Roll + cmd:GetMouseX() * 0.5 * fDelta
-		
-	end
-	
-	// Right released
-	if ( self:GetOwner():KeyReleased( IN_ATTACK2 ) ) then
-
-		// This stops the camera suddenly jumping when you release zoom
-		self.m_fFreezeMovement = RealTime() + 0.1
-		
-	end
-
-	// We are tracking an entity. Trace mouse movement for offsetting.
-	if ( self.TrackEntity && self.TrackEntity != NULL && !self:GetOwner():KeyDown( IN_ATTACK2 ) ) then
-	
-		self.TrackOffset = self.TrackOffset or Vector(0,0,0)
-		
-		local cmd = self:GetOwner():GetCurrentCommand()
-		self.TrackOffset.x = math.Clamp( self.TrackOffset.x + cmd:GetMouseX() * 0.005 * fDelta, -0.5, 0.5 )
-		self.TrackOffset.y = math.Clamp( self.TrackOffset.y - cmd:GetMouseY() * 0.005 * fDelta, -0.5, 0.5 )
-	
-	end
-
-	// If we're pressing use scan for an entity to track.
-	if ( self:GetOwner():KeyDown( IN_USE ) && !self.TrackEntity ) then
-	
-		self.TrackEntity = self:GetOwner():GetEyeTrace().Entity
-		if ( self.TrackEntity && !self.TrackEntity:IsValid() ) then
-		
-			self.TrackEntity = nil
-			self.LastAngles = nil
-			self.TrackOffset = nil
-		
-		end
-	
-	end
-	
-	// Released use. Stop tracking.
-	if ( self:GetOwner():KeyReleased( IN_USE ) ) then
-	
-		self.TrackEntity = nil
-		self.LastAngles = nil
-		self.TrackOffset = nil
-	
-	end
-	
-	// Reload isn't called on the client, so fire it off here.
-	if ( self:GetOwner():KeyPressed( IN_RELOAD ) ) then
-	
-		self:Reload()
-	
-	end
-
-end
-
-function SWEP:TranslateFOV( current_fov )
-	
-	return self.CameraZoom
 
 end
 
 function SWEP:AdjustMouseSensitivity()
 
-	if ( self:GetOwner():KeyDown( IN_ATTACK2 )  ) then return 1 end
+	if ( self:GetOwner():KeyDown( IN_ATTACK2 ) ) then return 1 end
 
-	return 1 * ( self.CameraZoom / 80 )
-	
+	return self:GetZoom() / 80
+
 end
-
-/*local ring = surface.GetTextureID("effects/select_ring")
-function SWEP:DrawHUD()
-
-	if !self:GetOwner():IsAdmin() then return end
-	//local function TakePicture()
-	//	render.CapturePixels()
-	//end
-
-	// Draw
-	local function DrawScreenPixels( spacing, scale, offsetX, offsetY )
-
-		render.CapturePixels()
-
-		local spacing = spacing or 30
-		local scale = scale or .3
-		local size = spacing * scale
-
-		for x=0, ScrW(), spacing do
-			for y=0, ScrH(), spacing do
-
-				local r, g, b = render.ReadPixel( x, y )
-				
-				surface.SetDrawColor( r, g, b, 255 )
-				surface.DrawRect( offsetX + x*scale, offsetY + y*scale, size, size )
-
-			end
-		end
-
-	end
-
-	//DrawScreenPixels( 10, .5, ScrW() / 2 * .5, ScrH() / 2 * .5 )
-
-	local DEBUG = false
-
-	// Determines if they're properly in the frame
-	local function IsInFrame( size, max, min )
-
-		local x1, x2, y1, y2 = max.x, min.x, min.y, max.y
-	
-		local frame = size or ScreenScale( 50 )
-		local frameWidth = ( ScrW() - ( frame * 2 ) )
-		local frameHeight = ( ScrH() - ( frame * 2 ) )
-
-		if DEBUG then
-			surface.SetDrawColor( 255, 255, 255, 25 )
-			//surface.DrawRect( frame, frame, ( ScrW() - ( frame * 2 ) ), ( ScrH() - ( frame * 2 ) ) )
-		end
-
-		local function inBounds( min, max, offset, size )
-			return ( min > offset && max > offset && min < ( size + offset ) && max < ( size + offset ) )
-		end
-
-		return inBounds( min.x, max.x, frame, frameWidth ) && inBounds( min.y, max.y, frame, frameHeight )
-
-	end
-
-	// Returns if we can actually see them in the shot!
-	local function InShot( ent, max, min )
-
-		// Framing
-		if !IsInFrame( ScreenScale( 50 ), max, min ) then
-			return false
-		end
-
-		// Dist
-		if LocalPlayer():GetPos():Distance( ent:GetPos() ) > 1024 then
-			return false
-		end
-
-		// Trace
-		local tr = util.TraceLine( { 
-			start = LocalPlayer():EyePos(), 
-			endpos = util.GetCenterPos( ent ), 
-			filter = LocalPlayer()
-		} )
-
-		if tr.HitWorld then
-			return false
-		end
-
-		return true
-
-	end
-
-	// Draws a camera ranking
-	local function ShowCameraRank( text, x, y, ent, color )
-
-		color = color or Color( 255, 255, 255 )
-
-		local dist = LocalPlayer():GetPos():Distance( ent:GetPos() )
-		local ringSize = 100 - ( dist * .1 )
-		surface.SetDrawColor( color )
-		surface.SetTexture( ring )
-		surface.DrawTexturedRect( x - ( ringSize / 2 ), y - ( ringSize / 2 ), ringSize, ringSize )
-
-		draw.SimpleText( text, "GTowerHUDMainLarge", x + ( ringSize / 2 ) + 5, y - 20, color )
-
-	end
-
-	local function GetScrRender( ent )
-
-		local min, max = ent:GetRenderBounds()
-		local pos = ent:GetPos()
-		min = pos + min
-		max = pos + max
-
-		local center = util.GetCenterPos( ent )
-		if !center then return end
-		local centerScr = center:ToScreen()
-
-		local minScr = min:ToScreen()
-		local maxScr = max:ToScreen()
-
-		if DEBUG then
-			surface.SetFont( "DebugFixed" )
-			surface.DrawRect( minScr.x, maxScr.y, maxScr.x - minScr.x, minScr.y - maxScr.y )
-
-			local function drawXY( x, y, name )
-				surface.SetTextPos( x, y )
-				surface.DrawText( name .. " X: " .. x .. " Y: " .. y )
-			end
-
-			drawXY( maxScr.x, maxScr.y, "max" )
-			drawXY( minScr.x, minScr.y, "min" )
-		end
-
-		return minScr, maxScr, centerScr
-
-	end
-
-	for _, ply in pairs( ents.FindByClass( "player" ) ) do
-
-		if ply == LocalPlayer() then continue end
-
-		// Get screen render positions...
-		local minScr, maxScr, centerScr = GetScrRender( ply )
-
-		if !minScr || !maxScr || !centerScr then continue end
-
-		// They're in the shot!
-		if InShot( ply, maxScr, minScr ) then
-
-			if IsInFrame( ScreenScale( 120 ), maxScr, minScr ) then
-				ShowCameraRank( "EXCELLENT FRAMING", centerScr.x, centerScr.y, ply, Color( 5, 215, 5, 255 ) )
-			elseif IsInFrame( ScreenScale( 80 ), maxScr, minScr ) then
-				ShowCameraRank( "NICE FRAMING", centerScr.x, centerScr.y, ply, Color( 250, 90, 220, 255 ) )
-			else
-				ShowCameraRank( "OKAY FRAMING", centerScr.x, centerScr.y, ply, Color( 110, 110, 110, 255) )
-			end
-
-		end
-
-	end
-
-end*/
