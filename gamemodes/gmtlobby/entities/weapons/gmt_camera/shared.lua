@@ -164,29 +164,6 @@ function SWEP:DoShootEffect()
 	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
 	owner:SetAnimation( PLAYER_ATTACK1 )
 
-	if ( SERVER && !game.SinglePlayer() ) then
-
-		--
-		-- Note that the flash effect is only
-		-- shown to other players!
-		--
-
-		local vPos = owner:GetShootPos()
-		local vForward = owner:GetAimVector()
-
-		local trace = {}
-		trace.start = vPos
-		trace.endpos = vPos + vForward * 256
-		trace.filter = owner
-
-		local tr = util.TraceLine( trace )
-
-		local effectdata = EffectData()
-		effectdata:SetOrigin( tr.HitPos )
-		util.Effect( "camera_flash", effectdata, true )
-
-	end
-
 end
 
 if ( SERVER ) then return end -- Only clientside lua after this line
