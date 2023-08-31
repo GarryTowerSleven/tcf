@@ -38,7 +38,7 @@ function meta:SetGhost()
 		Hats.UpdateWearables( self )
 	end
 	
-	self.Spec = {}
+	self.Spec = 0
 	
 end
 

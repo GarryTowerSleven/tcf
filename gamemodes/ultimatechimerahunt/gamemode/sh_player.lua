@@ -8,7 +8,7 @@ function GM:KeyPress( ply, key )
 
 	if SERVER then
 	
-		if ply:IsGhost() then // spectatingish.. this could probably be better??
+		if ply:IsGhost() then // spectatingish.. this could probably be better??.. and was made better!
 		
 			if key == IN_ATTACK then
 				
@@ -20,23 +20,16 @@ function GM:KeyPress( ply, key )
 						table.insert(filteredplayers, ply)
 					end
 				end
-
-				for _, ply2 in ipairs(filteredplayers) do
 				
-					if #filteredplayers == #ply.Spec then table.Empty(ply.Spec) end // restart the cycle
-					
-					if !table.HasValue(ply.Spec, ply2) then // have we already speced this player on this cycle?
-						table.insert(ply.Spec, ply2) // make sure we dont spec them again
-						PrintTable(ply.Spec)
-						specpos = ply2:GetPos()
-						ply:SetPos(specpos) // lets go!
-						return
-					end
-					
-				end
+				if #filteredplayers == ply.Spec then ply.Spec = 0 end // restart the cycle
+				
+				ply.Spec = ply.Spec + 1 // increase who we're going to by 1
+				
+				specPly = filteredplayers[ply.Spec] // set the current spec ply
+				specpos = specPly:GetPos()
+				ply:SetPos(specpos) // lets go!
 				
 			end
-			
 		end
 
 		if key == IN_ATTACK2 && ply:CanTaunt() then
