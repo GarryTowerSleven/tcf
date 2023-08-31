@@ -44,7 +44,7 @@ function ENT:HealingThink()
 		self.Think = EmptyFunction
 	end
 end
-
+--[[
 local SleepMessages = {
 	"I dreamt of a dinosaur eating pizza...",
 	"I dreamt I was a butterfly...",
@@ -96,6 +96,8 @@ local SleepMessages = {
 	"I didn't dream at all... it was very painful...",
 	"I had a horrible nightmare...",
 	"What a horrible night for a curse...",
+	"I dreamed of tower unite 5...",
+	"I dreamt of sans undertale...",
 	"Every night I sleep it brings me closer to...",
 	"My back aches...",
 	"I dreamed I was 30...",
@@ -109,7 +111,7 @@ local SleepMessages = {
 	"I dreamed of the stars and the universe...",
 	"Am I dead...?",
 	"I broke my leg...",
-}
+}]]
 
 function ENT:WakePlayer( ply )
 	PostEvent( ply, "sleepoff" )
@@ -118,12 +120,12 @@ function ENT:WakePlayer( ply )
 	
 	self.HealingPlayers[ ply ] = nil
 	
-	if IsValid( ply ) then
+	--[[if IsValid( ply ) then
 		net.Start( "BedMessage" )
 			net.WriteString( "" )
 			net.WriteBool( false )
 		net.Send( ply )
-	end
+	end]]
 end
 
 function ENT:Use( ply )
@@ -136,13 +138,13 @@ function ENT:Use( ply )
 	ply:UnDrunk()
 	self.HealingPlayers[ ply ] = CurTime() + 4.0
 	self.Think = self.HealingThink
-
+--[[
 	if IsValid( ply ) then
 		net.Start( "BedMessage" )
 			net.WriteString( SleepMessages[math.random(1,#SleepMessages)] )
 			net.WriteBool( true )
 		net.Send( ply )
-	end
+	end]]
 end
 
 function ENT:OnRemove()
@@ -151,4 +153,4 @@ function ENT:OnRemove()
 	end
 end
 
-util.AddNetworkString( "BedMessage" )
+--util.AddNetworkString( "BedMessage" )
