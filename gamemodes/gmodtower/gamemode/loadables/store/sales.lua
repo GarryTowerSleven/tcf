@@ -1,4 +1,3 @@
----------------------------------
 GTowerStore.Discount = {}
 
 function GTowerStore:UpdateStatus(id, sale)
@@ -45,19 +44,6 @@ function GTowerStore:BeginSale(id, sale)
 	if sale == 0 then
 		Error("Can't begin a sale with 0 discount, did you mean to EndSale?")
 	end
-
-	for k,v in pairs( ents.FindByClass("gmt_salesignpos") ) do
-		if v.StoreID == id then
-		
-			if IsValid(v.Sign) then v.Sign:Remove() end
-		
-			/*v.Sign = ents.Create("gmt_salesign")
-			v.Sign:SetPos( v:GetPos() )
-			v.Sign:SetAngles( v:GetAngles() )
-			v.Sign:Spawn()
-			v.Sign:SetStoreID( id )*/
-		end
-	end
 	
 	self:UpdateStatus(id, sale)
 end
@@ -65,13 +51,6 @@ end
 // need to tell clients it ended, if they have the store window open
 function GTowerStore:EndSale(id)
 	self:UpdateStatus(id, nil)
-	
-	for k,v in pairs( ents.FindByClass("gmt_salesignpos") ) do
-		if v.StoreID == id then
-			if IsValid(v.Sign) then v.Sign:Remove() end
-		end
-	end
-	
 end
 
 concommand.Add("gmt_storesetdiscount", function(ply, cmd, args)
