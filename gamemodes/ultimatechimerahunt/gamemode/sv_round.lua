@@ -179,11 +179,18 @@ end
 
 local cid = 0
 
+CreateClientConVar("gmt_uch_optout", 0, true, true)
+
 function GM:RandomChimera()
 
 	Msg( "Finding Chimera...", "\n" )
 
 	local plys = player.GetAll()
+	for _, ply in ipairs(plys) do
+		if ply:GetInfoNum("gmt_uch_optout", 0) != 0 then
+			table.remove(plys, ply)
+		end
+	end
 
 	if #plys == 0 then
 		self:EndServer()
