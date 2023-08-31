@@ -739,6 +739,8 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 			self:Header( "Ultimate Chimera Hunt" )
 			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
+			self:Divider()
+			self:CheckBox( "Enable Pigmask Glow (expensive)", "gmt_uch_glow" )
 
 		end
 		

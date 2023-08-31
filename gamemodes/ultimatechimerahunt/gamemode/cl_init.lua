@@ -22,6 +22,8 @@ local expmat = surface.GetTextureID( "UCH/logo/UClogo6" )
 local waverot = 0
 local wavetime = CurTime() + 6
 
+local glowconvar = CreateClientConVar("gmt_uch_glow", "1", true)
+
 hook.Add( "Think", "LogoThink", function()
 
 	local t = wavetime - CurTime()
@@ -194,7 +196,7 @@ end
 
 hook.Add( "PreDrawHalos", "UCAngryHalo", function()
 
-	if math.ceil( GAMEMODE:GetTimeLeft() ) <= 30 && LocalPlayer():GetNet( "IsChimera" ) && ( GAMEMODE:IsLastPigmasks() || !LocalPlayer():Alive() ) then
+	if glowconvar:GetBool() && math.ceil( GAMEMODE:GetTimeLeft() ) <= 30 && LocalPlayer():GetNet( "IsChimera" ) && ( GAMEMODE:IsLastPigmasks() || !LocalPlayer():Alive() ) then
 		for k, ply in pairs( player.GetAll() ) do
 			if ply:IsPig() then
 				halo.Add( { ply }, Color( 255, 135, 200, 50 ), 2, 2, 3 , true, true )
