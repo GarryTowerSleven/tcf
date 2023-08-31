@@ -613,23 +613,31 @@ hook.Add("UpdateAnimation", "DiscoBall", function(ply)
         ply:SetLayerWeight(other, 1 - (ply.DanceCycle / 0.1))
         ply:SetLayerWeight(ply.DanceSeq, (ply.DanceCycle / 0.1))
 
+		ply.DanceEnding = true
+
         return ACT_GMOD_TAUNT_DANCE, -1
-    else
+    elseif ply.DanceEnding == true then
+
         if ply == LocalPlayer() then
+
 			if IsValid(DanceLight) then
 				DanceLight:Remove()
 			end
 
 			ang = ply:EyeAngles()
-				
+
 			DEAD = true
 			lerpv = nil
+
         end
 
 		ply.RenderAngle = ply:EyeAngles()
 
         ply:AnimResetGestureSlot(GESTURE_SLOT_ATTACK_AND_RELOAD)
         ply:AnimResetGestureSlot(GESTURE_SLOT_CUSTOM)
+
+		ply.DanceEnding = false
+
     end
 end)
 
