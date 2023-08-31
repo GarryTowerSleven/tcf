@@ -192,7 +192,7 @@ function ENT:DrawTranslucent()
 
 				if ActiveHit then
 					surface.SetTextColor( 255,255,255,255 )
-					bgColor = Color(0,180,255,100)		
+					bgColor = Color(50,180,255,100)		
 				else
 					surface.SetTextColor( 255,255,255,150 )
 				end
