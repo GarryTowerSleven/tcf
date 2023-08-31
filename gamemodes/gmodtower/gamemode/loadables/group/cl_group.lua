@@ -85,7 +85,7 @@ hook.Add( "PreDrawHalos", "GroupHalos", function()
 
 	local group = GTowerGroup.GroupMembers
 
-	if group && haloGroup:GetBool() then
+	if group && haloGroup:GetBool() && !Dueling.IsDueling( LocalPlayer() ) && !LocalPlayer():GetNWBool( "InLimbo" ) then
 		halo.Add( group, Color( 255, 242, 40 ), 3, 3, 1, true, true )
 	end
 
