@@ -152,6 +152,8 @@ function ENT:GetTraceItem( forceplayer )
 	return nil
 end
 
+local g = Material("vgui/gradient-r")
+
 function ENT:DrawTranslucent()
 
 	if IsValid(LocalPlayer()) then
@@ -190,7 +192,7 @@ function ENT:DrawTranslucent()
 
 				if ActiveHit then
 					surface.SetTextColor( 255,255,255,255 )
-					bgColor = Color(150,255,150,100)		
+					bgColor = Color(0,180,255,100)		
 				else
 					surface.SetTextColor( 255,255,255,150 )
 				end
@@ -202,7 +204,10 @@ function ENT:DrawTranslucent()
 
 			self.LastItem = self.ChoosingItem
 
-			draw.RoundedBox( 2, self.StartPosX + 2, v.YPos + 2, self.BoxNameW, self.BoxNameH, bgColor )
+			//draw.RoundedBox( 2, self.StartPosX + 2, v.YPos + 2, self.BoxNameW, self.BoxNameH, bgColor )
+			surface.SetDrawColor(bgColor)
+			surface.SetMaterial(g)
+			surface.DrawTexturedRect( self.StartPosX + 2, v.YPos + 2, self.BoxNameW, self.BoxNameH )
 			
 			if locationMaterials[v.name] then
 				surface.SetMaterial( locationMaterials[v.name] )

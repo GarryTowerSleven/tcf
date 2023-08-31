@@ -48,9 +48,17 @@ local function SetTeleportPlayer( ply, source, target )
 	ang.p = 0 //Make sure the player does not ger rotated
 	ang.r = 0
 	
+	source:EmitSound("ambient/levels/citadel/weapon_disintegrate2.wav", 60, 100)
+
 	ply:SetPos( target:LocalToWorld( pos ) )
-	ply:SetEyeAngles( ang )
-	
+	local diff = ply:EyeAngles() - source:GetAngles()
+	ply:SetEyeAngles( ang + diff )
+
+	ply:ScreenFade(SCREENFADE.IN, Color(255, 255, 255, 25), 0.1, 0)
+	timer.Simple(0.05, function()
+		target:EmitSound("ambient/levels/citadel/weapon_disintegrate2.wav", 60, 100)
+	end)
+
 	//MAC, I WANT THIS BACK - I love people getting confused
 	//ply:SetEyeAngles( target:LocalToWorldAngles( ang ) )
 end
