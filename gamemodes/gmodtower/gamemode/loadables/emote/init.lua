@@ -109,6 +109,12 @@ ChatCommands.Register("/me", 1, function(ply, msg)
 	)
 end)
 
+hook.Add("PlayerThink", "Taunting", function(ply)
+	if ply:GetNWBool("Emoting") && !ply:IsOnGround() then
+		StopAllEmotes(ply)
+	end
+end)
+
 for _, emote in pairs(Commands) do
 	local emoteName = emote[1]
 	local Action 	= emote[2]

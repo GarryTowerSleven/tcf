@@ -322,7 +322,7 @@ local sens = 20
 
 hook.Add("StartCommand", "ply", function(ply, cmd)
     if LocalPlayer():GetNWBool("Dancing") || RHYTHM then
-        if cmd:GetForwardMove() != 0 then
+        if cmd:GetForwardMove() != 0 || !ply:IsOnGround() then
             RunConsoleCommand("syncdance", 0)
         end
 
