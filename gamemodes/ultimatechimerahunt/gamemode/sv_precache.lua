@@ -24,27 +24,27 @@ function GM:CacheStuff()
 
 
 	/* Music */
-	for k, v in pairs( file.Find( "sound/UCH/music/*", "GAME" ) ) do
+	for k, v in pairs( file.Find( "sound/UCH/newmusic/*", "GAME" ) ) do
 		util.PrecacheSound( v )
 	end
 
-	for k, v in pairs( file.Find( "sound/UCH/music/endround/*", "GAME" ) ) do
+	for k, v in pairs( file.Find( "sound/UCH/newmusic/endround/*", "GAME" ) ) do
 		util.PrecacheSound( v )
 	end
 
-	for k, v in pairs( file.Find( "sound/UCH/music/ghost/*", "GAME" ) ) do
+	for k, v in pairs( file.Find( "sound/UCH/newmusic/ghost/*", "GAME" ) ) do
 		util.PrecacheSound( v )
 	end
 
-	for k, v in pairs( file.Find( "sound/UCH/music/round/*", "GAME" ) ) do
+	for k, v in pairs( file.Find( "sound/UCH/newmusic/round/*", "GAME" ) ) do
 		util.PrecacheSound( v )
 	end
 
-	for k, v in pairs( file.Find( "sound/UCH/music/spawn/*", "GAME" ) ) do
+	for k, v in pairs( file.Find( "sound/UCH/newmusic/spawn/*", "GAME" ) ) do
 		util.PrecacheSound( v )
 	end
 
-	for k, v in pairs( file.Find( "sound/UCH/music/waiting/*", "GAME" ) ) do
+	for k, v in pairs( file.Find( "sound/UCH/newmusic/waiting/*", "GAME" ) ) do
 		util.PrecacheSound( v )
 	end
 
