@@ -81,6 +81,7 @@ function meta:FindThingsToBite()
 
 	local tbl = {}
 	
+	self:LagCompensation(true)
 	local pos = self:GetShootPos()
 	local fwd = self:GetForward()
 
@@ -110,6 +111,7 @@ function meta:FindThingsToBite()
 		end
 
 	end
+	self:LagCompensation(false)
 
 	return tbl
 	
@@ -662,6 +664,7 @@ if SERVER then
 
 	function meta:FindEnts( tbl, dis, num )
 	
+		self:LagCompensation(true)
 		local pos = self:GetPos()
 		local forward = self:GetForward() * num
 	
@@ -673,6 +676,8 @@ if SERVER then
 			end
 
 		end
+		
+		self:LagCompensation(false)
 
 		return entitiesInFront
 
@@ -695,7 +700,9 @@ if SERVER then
 	
 		pos = pos + ( fwd * -6 )
 	
+		self:LagCompensation(true)
 		local tr = self:GetEyeTrace()
+		self:LagCompensation(false)
 		if !IsValid( tr.Entity ) then
 			return false
 		end
