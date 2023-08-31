@@ -2,7 +2,7 @@
 hook.Add( "Move", "EmoteMove", function( ply, mv ) 
 	
 	if IsEmoting(ply) then
-		return
+		return true
 	end
 	
 end)
