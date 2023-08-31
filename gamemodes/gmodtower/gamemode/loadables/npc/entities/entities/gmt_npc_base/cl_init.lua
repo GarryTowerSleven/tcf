@@ -52,96 +52,73 @@ function ENT:Draw()
 end
 
 
-local new = Material( "gmod_tower/icons/new_large.png" )
-local newsize = 256/2.5
-local Mat = Material("gmod_tower/lobby/sale")
+local new_mat = Material( "gmod_tower/icons/new_large.png" )
+local new_size = 256/2.5
+
+local sale_mat = Material("gmod_tower/lobby/sale")
 
 function ENT:DrawTranslucent()
 
-	if IsLobbyOne then
+	local title = self:GetTitle()
+	local offset = Vector( 0, 0, 90 )
 
-		local title = self:GetTitle()
-		local offset = Vector( 0, 0, 90 )
+	if !title then title = "" end
+	
+	-- Offset PVP and Ballrace stores
+	if ( self:GetStoreId() == 3 || self:GetStoreId() == 5 ) then
+		offset = Vector( 0, 0, 110 )
+	elseif self:GetStoreId() == 21 then
+		offset = Vector( 0, 0, 100 )
+	elseif self:IsOnSale() then
+		//offset = Vector( 0, 0, 110 )
+	end
+	
+	local ang = EyeAngles()
+	local pos = self:GetPos() + offset + ang:Up() * ( math.sin( CurTime() ) * 4 ) + Vector( 0, 0, -5 )
 
-		if !title then title = "" end
+	ang:RotateAroundAxis( ang:Forward(), 90 )
+	ang:RotateAroundAxis( ang:Right(), 90 )
+
+	cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.1 )
+
+		draw.DrawText( title, "GTowerNPC", 2, 2, Color( 0, 0, 0, 225 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		draw.DrawText( title, "GTowerNPC", 0, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		
-		-- Offset PVP and Ballrace stores
-		if ( self:GetStoreId() == 3 || self:GetStoreId() == 5 ) then
-			offset = Vector( 0, 0, 110 )
-		elseif self:GetStoreId() == 21 then
-			offset = Vector( 0, 0, 100 )
-		elseif self:IsOnSale() then
-			offset = Vector( 0, 0, 108 )
+		if self:HasNewItems() then
+			surface.SetMaterial( new_mat )
+			surface.SetDrawColor( 255, 255, 255 )
+			surface.DrawTexturedRect( -new_size/2, -new_size/2 - 6, new_size, new_size )
 		end
+
+		//if self:IsOnSale() then
+		//	draw.DrawText( "50% OFF", "GTowerNPC", 2, 76, Color( 0, 0, 0, 225 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		//	draw.DrawText( "50% OFF", "GTowerNPC", 0, 74, colorutil.Rainbow(50) or Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		//end
+
+		//local scale = math.EaseInOut( math.abs( math.sin( UnPredictedCurTime() * 2 ) ), .25, .25 ) + .5
 		
-		local ang = LocalPlayer():EyeAngles()
-		local pos = self:GetPos() + offset + ang:Up() * ( math.sin( CurTime() ) * 4 ) + Vector( 0, 0, -5 )
+		//surface.SetMaterial( sale_mat )
+		//surface.SetDrawColor( color_white )
+		//surface.DrawTexturedRect( 0 - ((sale_w * scale) / 2), -90 - ((sale_h * scale) / 2), sale_w * scale, sale_h * scale )
 
-		ang:RotateAroundAxis( ang:Forward(), 90 )
-		ang:RotateAroundAxis( ang:Right(), 90 )
+	cam.End3D2D()
 
-		cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.1 )
-		if self:IsOnSale() then
-		draw.DrawText( "50% OFF", "GTowerNPC", 2, -62, Color( 0, 0, 0, 225 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-		draw.DrawText( "50% OFF", "GTowerNPC", 0, -64, colorutil.Rainbow(24) or Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-		end
+	if self:IsOnSale() then
 
-			draw.DrawText( title, "GTowerNPC", 2, 2, Color( 0, 0, 0, 225 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-			draw.DrawText( title, "GTowerNPC", 0, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		render.SetMaterial( sale_mat )
 
-			if self:HasNewItems() then
-				surface.SetMaterial( new )
-				surface.SetDrawColor( 255, 255, 255 )
-				surface.DrawTexturedRect( -newsize/2, -newsize/2 - 6, newsize, newsize )
-			end
-
-		cam.End3D2D()
-
-		if !self:IsOnSale() then return end
-
-		render.SetMaterial( Mat )
-
-		local g = 0.8 + math.sin(CurTime()) * 0.2
-		Mat:SetVector("$color", Vector(g, g, g))
-		local sin = math.abs(math.sin(CurTime()*2))
+		local sin = math.abs( math.sin( UnPredictedCurTime() * 2 ) )
 		local eyevec = EyeVector()*-1
 		eyevec.z = 0
-	
-		render.DrawQuadEasy(	self:GetPos() + offset - self:GetUp() * (24 - math.sin(CurTime() * 4) * 2) + eyevec:Angle():Right() * math.sin(CurTime() * 2) * 4,
-					eyevec,
-					(64/2) + sin*4,
-					(32/2) + sin*4,
-					color_white,
-					180 + ( 4 * math.sin(CurTime() * 2) )
-					)
 
-	else
-
-		if self:IsDormant() then return end
-
-		local offset = Vector( 0, 0, 90 )
-		
-		-- Offset PVP and Ballrace stores
-		if ( self:GetStoreId() == 3 or self:GetStoreId() == 5 ) then
-			offset = Vector( 0, 0, 110 )
-		elseif self:GetStoreId() == 21 then
-			offset = Vector( 0, 0, 100 )
-		end
-		
-		local ang = LocalPlayer():EyeAngles()
-		local pos = self:GetPos() + offset + ang:Up() * ( math.sin( RealTime() ) * 4 ) + Vector( 0, 0, -5 )
-
-		ang:RotateAroundAxis( ang:Forward(), 90 )
-		ang:RotateAroundAxis( ang:Right(), 90 )
-
-
-		cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.1 )
-			if self:GetNew() then
-				surface.SetMaterial( new )
-				surface.SetDrawColor( 255, 255, 255 )
-				surface.DrawTexturedRect( -newsize/2, -newsize/2 - 6, newsize, newsize )
-			end
-		cam.End3D2D()
+		render.DrawQuadEasy(
+			self:GetPos() + offset + self:GetUp() * (7 - math.sin(UnPredictedCurTime() * 4) * 2) + eyevec:Angle():Right() * math.sin(UnPredictedCurTime() * 2) * 4,
+			eyevec,
+			(64/2) + sin*4,
+			(32/2) + sin*4,
+			color_white,
+			180 + ( 4 * math.sin(UnPredictedCurTime() * 2) )
+		)
 
 	end
 	
