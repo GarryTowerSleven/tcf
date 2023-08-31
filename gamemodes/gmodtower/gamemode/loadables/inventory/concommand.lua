@@ -191,6 +191,10 @@ concommand.Add( "gm_invmove", function( ply, command, args )
 			return
 		end
 
+		if IsValid(Trace.Entity) && string.find(Trace.Entity:GetClass(), "door") then
+			return
+		end
+
 		local OldPos = Ent:GetPos()
 		local OldAng = Ent:GetAngles()
 
