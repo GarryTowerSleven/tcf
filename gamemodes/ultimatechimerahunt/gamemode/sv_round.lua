@@ -186,17 +186,23 @@ function GM:RandomChimera()
 	Msg( "Finding Chimera...", "\n" )
 
 	local plys = player.GetAll()
+	local PlayerCount = #plys
+	
 	for _, ply in ipairs(plys) do
 		if ply:GetInfoNum("gmt_uch_optout", 0) != 0 then
 			table.remove(plys, ply)
 		end
 	end
 
-	if #plys == 0 then
+	if PlayerCount == 0 then
 		self:EndServer()
 		return
 	end
 
+	if plys == 0 && PlayerCount >= 1 then
+		plys = player.GetAll()
+	end
+	
 	if cid == 0 || cid > #plys then
 		cid = 1
 	end
@@ -204,9 +210,8 @@ function GM:RandomChimera()
 	math.randomseed( RealTime() * 5555 )
 
 	local ucPlayer
-	local PlayerCount = #plys
-
-		ucPlayer = plys[ cid ]
+	
+	ucPlayer = plys[ cid ]
 
 	globalnet.SetNet("UC", ucPlayer)
 	self:SetChimera( ucPlayer )
