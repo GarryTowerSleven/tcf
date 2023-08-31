@@ -596,7 +596,7 @@ hook.Add("UpdateAnimation", "DiscoBall", function(ply)
             // ply:SetCycle(c || 0.4 + math.sin(CurTime() * 2) * 0.1)
         end
 
-        if !ply.DanceSeq or !ply.Dance or ply.DanceCycle and ply.DanceCycle > 0.9 then // !ply.DanceTime or ply.DanceTime < CurTime() then
+        if !ply.DanceSeq or !ply.Dance or ply.DanceCycle and ply.DanceCycle > (ply:GetNWInt("dance", ACT_GMOD_TAUNT_DANCE) == ACT_GMOD_TAUNT_MUSCLE and 0.4 or 0.9) then // !ply.DanceTime or ply.DanceTime < CurTime() then
             ply.Dance = ply:SelectWeightedSequenceSeeded(ply:GetNWInt("dance", ACT_GMOD_TAUNT_DANCE), math.random(99999999))
             ply.DanceSeq = ply.DanceSeq == GESTURE_SLOT_ATTACK_AND_RELOAD and GESTURE_SLOT_CUSTOM or GESTURE_SLOT_ATTACK_AND_RELOAD
             ply.DanceTime = CurTime() + ply:SequenceDuration(ply.Dance) - 0.4
@@ -628,7 +628,7 @@ hook.Add("UpdateAnimation", "DiscoBall", function(ply)
 
 		ply.RenderAngle = ply:EyeAngles()
 
-
+        ply:AnimResetGestureSlot(GESTURE_SLOT_ATTACK_AND_RELOAD)
         ply:AnimResetGestureSlot(GESTURE_SLOT_CUSTOM)
     end
 end)
