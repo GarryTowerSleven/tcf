@@ -112,7 +112,7 @@ hook.Add( "PostDrawTranslucentRenderables", "DrawTetrisBoard", function()
 	local plyVec, plyAng = WorldToLocal( LocalPlayer():GetPos(), LocalPlayer():GetAngles(), boardPosition, Angle(0,0,0) )
 	
 	local targetBoardAngle = Angle(0, plyVec:Angle().y + 90, 90)
-	if not lastBoardAngle then lastBoardAngle = ang end
+	if not lastBoardAngle then lastBoardAngle = plyAng end
 	
 	lastBoardAngle = LerpAngle( RealFrameTime() * 2, lastBoardAngle, targetBoardAngle )
 
