@@ -11,7 +11,6 @@ AddCSLuaFile("cl_playermenu.lua")
 AddCSLuaFile("cl_hud.lua")
 AddCSLuaFile("cl_post_events.lua")
 AddCSLuaFile("cl_scoreboard.lua")
-AddCSLuaFile("cl_webboard.lua")
 AddCSLuaFile("cl_hudchat.lua")
 AddCSLuaFile("milestones/uch_animations.lua")
 
