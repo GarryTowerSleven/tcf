@@ -391,16 +391,6 @@ end)
 
 util.AddNetworkString("AdminWarn")
 
-// we probably should remove this before release
-concommand.Add("gmt_quitplayer", function( ply, cmd, args )
-	if args[1] && tonumber(args[1]) && ply:IsAdmin() then
-		if ents.GetByIndex(args[1]) && ents.GetByIndex(args[1]):IsPlayer() then
-			AdminNotif.SendAdmins( ply:Nick() .. " has FORCEQUIT " .. ents.GetByIndex(args[1]):NickID(), 20, "RED", 1 )
-			ents.GetByIndex(args[1]):SendLua( "LocalPlayer():ConCommand('gamemenucommand quit')" )
-		end
-	end
-end )
-
 concommand.Add("gmt_sendtolobby", function( ply, cmd, args )
 	if !ply:IsStaff() then return end
 
