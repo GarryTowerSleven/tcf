@@ -1,29 +1,5 @@
 module( "Scoreboard.Customization", package.seeall )
 
-if ( not IsLobbyOne ) then
-	ColorNormal = Color( 55, 55, 111, 255 )
-	ColorBright = Color( 125, 125, 175, 255 )
-	ColorDark = Color( 25, 25, 61, 255 )
-
-	ColorBackground = colorutil.Brighten( ColorNormal, 0.75 )
-
-	ColorTabActive = colorutil.Brighten( ColorDark, .75, 200 )
-	ColorTabDivider = ColorBright
-	ColorTabInnerActive = ColorTabActive
-	ColorTabHighlight = colorutil.Brighten( ColorBright, 3 )
-
-	ColorAwardsDescription = Color( 162, 203, 233, 255 )
-	ColorAwardsBarAchieved = Color( 125, 125, 175, 150 )
-	ColorAwardsBarNotAchieved = Color( 55, 55, 111, 255 )
-	ColorAwardsAchievedIcon = Color( 225, 225, 225, 150 )
-
-	HeaderTitle = "GMT: Deluxe"
-
-	HeaderMatHeader = Scoreboard.GenTexture( "ScoreboardDeluxeLogo", "main_header_deluxe" )
-	HeaderMatFiller = Scoreboard.GenTexture( "ScoreboardDeluxeFiller", "main_filler_deluxe" )
-	HeaderMatRightBorder = Scoreboard.GenTexture( "ScoreboardDeluxeRightBorder", "main_rightborder_deluxe" )
-end
-
 // PLAYER
 PlayersSort = function( a, b )
 	return a:Name() and b:Name() and string.lower( a:Name() ) < string.lower( b:Name() )
@@ -131,7 +107,6 @@ end
 // Background
 PlayerBackgroundMaterial = function( ply )
 
-	if ( not IsLobbyOne ) then return end
 	if ( not Location or not ply.Location ) then return end
 
 	return LocationBackgrounds[ ply:Location() ] or Scoreboard.PlayerList.LOCATIONS.Lobby
