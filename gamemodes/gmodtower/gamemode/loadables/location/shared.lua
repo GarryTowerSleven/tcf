@@ -34,7 +34,7 @@ function Add( id, tbl )
 	Locations[ id ].SuiteID = tbl.SuiteID or 0
 
 	Locations[ id ].Group = tbl.Group or nil
-	Locations[ id ].Priority = tbl.Priority or nil
+	Locations[ id ].Priority = tbl.Priority or 0
 
 end
 
