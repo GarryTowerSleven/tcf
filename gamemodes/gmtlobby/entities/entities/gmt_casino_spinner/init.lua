@@ -101,7 +101,7 @@ function ENT:Use( activator, caller )
 					self:SetUser(NULL)
 					if IsValid( caller ) then
 						caller.IsSpinning = false
-						self:PayOut(caller,6)
+						self:PayOut(caller,prize)
 					end
 				end)
 			else
