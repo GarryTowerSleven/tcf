@@ -61,7 +61,9 @@ concommand.Add("videopoker_credit", function(ply, cmd, args)
         self:SetCredits(self:GetBeginCredits())
 
         if self:GetBeginCredits() > 0 then
-            if not ply:Afford(self:GetBeginCredits() * 2) then
+            local price = self:GetBeginCredits() * 2
+
+            if not ply:Afford(price) then
                 self:SetCredits(0)
                 ply:MsgT("VideoPokerNoAfford")
 
@@ -72,19 +74,7 @@ concommand.Add("videopoker_credit", function(ply, cmd, args)
                 self:SetBet(1)
             end
 
-            ply:AddMoney(-(self:GetBeginCredits() * 2), false, true)
-            local bzr = ents.Create("gmt_money_bezier")
-
-            if IsValid(bzr) then
-                bzr:SetPos(ply:GetPos())
-                bzr.GoalEntity = self
-                bzr.GMC = self:GetBeginCredits() * 2
-                bzr.RandPosAmount = 1
-                bzr.Offset = (self:GetForward() * 4) + (self:GetRight() * -12) + (self:GetUp() * 15)
-                bzr:Spawn()
-                bzr:Activate()
-                bzr:Begin()
-            end
+            ply:TakeMoney( price, false, self )
 
             self:SetState(2)
             playVideoPokerSound(DINGSND, ply)
@@ -351,19 +341,9 @@ hook.Add("PlayerLeaveVehicle", "VideoPokerLeave", function(ply)
     ply.EntryAngles = nil
 
     if ply.VideoPoker:GetState() > 1 then
-        ply:AddMoney(ply.VideoPoker:GetCredits() * 2, true, true)
-		local bzr = ents.Create("gmt_money_bezier")
+        
+        ply:GiveMoney( ply.VideoPoker:GetCredits() * 2, false, ply.VideoPoker )
 
-		if IsValid(bzr) then
-			print(bzr)
-			bzr:SetPos(ply.VideoPoker:GetPos())
-			bzr.GoalEntity = ply
-			bzr.GMC = ply.VideoPoker:GetCredits() * 2
-			bzr.RandPosAmount = 1
-			bzr:Spawn()
-			bzr:Activate()
-			bzr:Begin()
-		end
     end
 
     if ply.VideoPoker:GetClass() == "gmt_casino_videopoker" then

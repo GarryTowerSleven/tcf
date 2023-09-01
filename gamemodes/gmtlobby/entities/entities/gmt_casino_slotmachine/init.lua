@@ -272,25 +272,13 @@ concommand.Add( "slotm_spin", function( ply, cmd, args )
 			ply:MsgI( "slots", "SlotsNoAfford" )
 		else
 			if IsValid(ent) && !ent.SlotsSpinning && !ent.Jackpot then
-				ply:AddMoney(-bet)
+
+				ply:TakeMoney( bet, false, ent )
 				ply:AddAchievement( ACHIEVEMENTS.SOREFINGER, 1 )
 				ent.LastSpin = CurTime()
 				ent.BetAmount = bet
 				ent:PullLever()
 				ent:PickResults()
-
-				local bzr = ents.Create("gmt_money_bezier")
-
-				if IsValid( bzr ) then
-					bzr:SetPos( ply:GetPos() - Vector(0,0,10) )
-					bzr.GoalEntity = ent
-					bzr.GMC = bet
-					bzr.RandPosAmount = 5
-					bzr.Offset = ent:GetRight() * -8 + ent:GetUp() * 28 - ent:GetForward() * 8
-					bzr:Spawn()
-					bzr:Activate()
-					bzr:Begin()
-				end
 
 			end
 		end
@@ -450,56 +438,26 @@ function ENT:CalcWinnings( random )
 end
 
 function ENT:BroadcastJackpot(ply, amount)
-	for _, v in ipairs(player.GetAll()) do
-		if v != ply then
-			v:MsgI( "slots", "SlotsJackpotAll", string.upper(ply:Name()), string.FormatNumber(amount) )
-		end
-	end
+
+	GTowerChat.AddChat( T( "SlotsJackpotAll", string.upper( ply:Name() ), string.FormatNumber( amount ) ), Color( 255, 200, 0 ), "Server" )
+
 end
 
 function ENT:SendWinnings( ply, amount, bJackpot )
 
 	if bJackpot then
-		self:BroadcastJackpot(ply, amount)
+
+		self:BroadcastJackpot( ply, amount )
 		ply:MsgI( "slots", "SlotsJackpot" )
-		ply:AddMoney(amount, true, true)
+		ply:GiveMoney( amount, false, self )
 		ply:AddAchievement( ACHIEVEMENTS.MONEYWASTER, 1 )
 		self:EmitSound( Casino.SlotJackpotSound, 100, 100 )
 		self.Jackpot = CurTime() + 25
 
-		timer.Create("JackpotFun",0.25,50,function()
-
-			local bzr = ents.Create("gmt_money_bezier")
-
-			if IsValid( bzr ) then
-				bzr:SetPos( self:GetPos() )
-				bzr.GoalEntity = ply
-				bzr.GMC = 50
-				bzr.RandPosAmount = 5
-				bzr:Spawn()
-				bzr:Activate()
-				bzr:Begin()
-			end
-
-		end)
-
 	else
 		self:EmitSound( Casino.SlotWinSound, 75, 100 )
 		ply:MsgI( "slots", "SlotsWin", string.FormatNumber(amount) )
-		ply:AddMoney(amount, true, true)
-
-		local bzr = ents.Create("gmt_money_bezier")
-
-		if IsValid( bzr ) then
-			bzr:SetPos( self:GetPos() )
-			bzr.GoalEntity = ply
-			bzr.GMC = amount
-			bzr.RandPosAmount = 10
-			bzr:Spawn()
-			bzr:Activate()
-			bzr:Begin()
-		end
-
+		ply:GiveMoney( amount, false, self )
 	end
 
 	if self.light then

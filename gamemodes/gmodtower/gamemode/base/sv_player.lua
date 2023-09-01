@@ -1,20 +1,72 @@
 local meta = FindMetaTable( "Player" )
-if !meta then
-	return
+if !meta then return end
+
+/*
+    Money
+*/
+
+function meta:Money()
+    return self:GetNet( "Money" ) or 0
 end
 
-function meta:CanSpray()
-    return self.GetSetting and not self:GetSetting( "GTAllowSpray" )
+function meta:SetMoney( amount )
+	return self:SetNet( "Money", math.Clamp( tonumber( amount ), 0, 2147483647 ) )
 end
 
-function meta:ResetSpeeds()
-    local player_class = player_manager.GetPlayerClass( self ) or "player_gmt"
-    local base = baseclass.Get( player_class )
+function meta:AddMoney( amount, nonotify, beziersource )
 
-    self:SetWalkSpeed( base.WalkSpeed or 200 )
-    self:SetRunSpeed( base.RunSpeed or 320 )
-    self:SetSlowWalkSpeed( base.SlowWalkSpeed or 100 )
+	if amount == 0 then return end
+
+	if amount < 0 then
+		self:TakeMoney( amount, nonotify )
+		return
+	end
+
+	self:SetMoney( self:Money() + amount )
+
+	if not nonotify then
+		local pitch = Lerp( math.Clamp( amount, 0, 500 ) / 500, 90, 160 )
+
+		self:MsgT( "MoneyEarned", string.FormatNumber( amount ) )
+		self:EmitSound( "gmodtower/misc/gmc_earn.wav", 50, pitch )
+
+		CreateMoneyBezier( beziersource or self, self, amount, true )
+	end
+
 end
+
+function meta:TakeMoney( amount, nonotify, beziertarget )
+
+	if amount == 0 then return end
+
+	amount = math.abs( amount )
+
+	self:SetMoney( self:Money() - amount )
+
+	if not nonotify then
+		local pitch = Lerp( math.Clamp( amount, 0, 500 ) / 500, 100, 75 )
+
+		self:MsgT( "MoneySpent", string.FormatNumber( amount ) )
+		self:EmitSound( "gmodtower/misc/gmc_lose.wav", 50, pitch )
+
+		if beziertarget then
+			CreateMoneyBezier( util.GetCenterPos( self ), beziertarget, amount, true, 20 )
+		end
+	end
+
+end
+
+function meta:GiveMoney( amount, nosend, beziersource )
+	self:AddMoney( amount, nosend, beziersource )
+end
+
+function meta:Afford( price )
+    return self:Money() >= price
+end
+
+/*
+    Driving / Whatever
+*/
 
 function meta:SetDriving( ent )
     self:SetNet( "DrivingObject", ent )
@@ -77,4 +129,21 @@ function meta:SafeTeleport( pos, ang, eyeangles )
     self:SetPos( pos )
     self:SetAngles( ang or self:GetAngles() )
     self:SetEyeAngles( eyeangles or self:EyeAngles() )
+end
+
+/*
+    Misc
+*/
+
+function meta:CanSpray()
+    return self.GetSetting and not self:GetSetting( "GTAllowSpray" )
+end
+
+function meta:ResetSpeeds()
+    local player_class = player_manager.GetPlayerClass( self ) or "player_gmt"
+    local base = baseclass.Get( player_class )
+
+    self:SetWalkSpeed( base.WalkSpeed or 200 )
+    self:SetRunSpeed( base.RunSpeed or 320 )
+    self:SetSlowWalkSpeed( base.SlowWalkSpeed or 100 )
 end
