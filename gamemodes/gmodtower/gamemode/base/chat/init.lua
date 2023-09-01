@@ -108,16 +108,6 @@ hook.Add( "PlayerSay", "GTChatHook", function( ply, text, teamchat )
 		return ""
 	end
 
-	if ply:IsAdmin() then
-		if ( string.sub( string.lower(text), 1, 2 ) == "!l" ) then
-			me = ply
-			local Lua = string.sub( text, 4 )
-
-			GMTRunLua( ply, Lua )
-			return ""
-		end
-	end
-
 	ply:Chat( text, teamchat and "Group" or "Server" )
 
 	return ""

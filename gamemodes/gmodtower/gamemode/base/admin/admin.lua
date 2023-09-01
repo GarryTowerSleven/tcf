@@ -323,104 +323,58 @@ function GetAdminRP()
 
 end
 
-// Increasing security, maybe someday it will be safe to bring these back
+concommand.AdminAdd( "gmt_runlua", function( ply, _, _, argStr )
 
-/*concommand.Add("gmt_runlua", function( ply, cmd, args )
+	local lua = argStr
 
-	if ply:IsAdmin() then
+	RunString( "function GMTRunLua() end" ) // clear out the last function, incase the new code is invalid
+	RunString( "function GMTRunLua() local me = Entity(" .. ply:EntIndex() .. ") " .. lua .. " end" )
 
-		local Lua = table.concat( args, " ")
+	AdminNotif.SendStaff( Format( "%s has ran lua. See console for details.", ply:Nick() ), nil, "YELLOW", 1 )
+	AdminLog.PrintStaff( "[RunLua] Running: " .. tostring( lua ), "YELLOW" )
 
-		AdminNotif.SendStaff( ply:Nick() .. " has ran lua. See console for details.", nil, "YELLOW", 1 )
-		AdminLog.PrintStaff( tostring(Lua), "YELLOW" )
+	status, err = pcall( GMTRunLua )
 
-		//LogPrint( ply:Nick() .. " has ran LUA", Color(255,255,0) )
-		LogPrint( tostring(Lua), Color(255,255,0) )
-
-		RunString("function GmtRunLua() " .. Lua .. " end ")
-
-		local B, retrn = SafeCall( GmtRunLua )
-
-		--ply:Msg2( tostring(retrn) )
-
+	if !status then
+		AdminNotif.SendStaff( "Failed to run lua! See console for details!", nil, "RED", 1 )
+		AdminLog.PrintStaff( "[RunLua] Error: " .. tostring( err ), "RED", 1 )
 	end
-
-end )*/
-
-function GMTRunLua( ply, lua )
-	if ( not lua ) then return end
-
-	AdminNotif.SendStaff( ply:Nick() .. " has ran lua. See console for details.", nil, "YELLOW", 1 )
-	AdminLog.PrintStaff( lua, "YELLOW" )
-
-	local err = RunString( lua, "GMTRunLua", false )
-
-	if ( err ) then
-		LogPrint( err, color_red )
-		AdminLog.PrintStaff( err, "RED" )
-	end
-end
-
-concommand.AdminAdd( "gmt_runlua", function( ply, cmd, args )
-	if ( table.IsEmpty( args ) or args[1] == "" ) then return end
-
-	local lua = tostring( args[1] )
 	
-	if ( #lua >= 243 ) then
-		AdminLog.Print( ply, "String is too long! Max chars is 243.", "RED" )
+end )
+
+concommand.AdminAdd("gmt_sendlua", function( ply, _, _, argStr )
+
+	local lua = argStr
+	local run_lua = "function GMTRunLua() " .. lua .. " end GMTRunLua()"
+
+	if string.len( run_lua ) >= 254 then 
+		AdminLog.Print( ply, "[SendLua] String too long! Not Sending.", "RED" )
+
 		return
 	end
 
-	GMTRunLua( ply, lua )
+	AdminNotif.SendStaff( ply:Nick() .. " has sent lua to all players. See console for details.", nil, "YELLOW", 1 )
+	AdminLog.PrintStaff( "[SendLua] Broadcasting: " .. tostring( lua ), "YELLOW" )
+
+	BroadcastLua( run_lua )
+
 end )
 
+concommand.AdminAdd( "gmt_rcon", function( ply, _, args )
+	
+	if #args == 0 then
+		AdminLog.Print( ply, "[RCON] No commands specified.", "RED" )
 
-/*concommand.Add("gmt_svrunlua", function( ply, cmd, args )
-
-	if ply:IsAdmin() then
-
-		local Lua = table.concat( args, " ")
-
-		RunString("function GmtRunLua() " .. Lua .. " end ")
-
-		local B, retrn = SafeCall( GmtRunLua )
-
-		if type( retrn ) == "table" then
-			retrn = table.ToNiceString( retrn )
-		end
-
-		ply:Msg2( tostring(retrn) )
-
+		return
 	end
+	
+	local cmd = table.remove( args, 1 )
 
-end )*/
+	AdminNotif.SendStaff( ply:Nick() .. " has ran RCON. See console for details.", nil, "YELLOW", 1 )
+	AdminLog.PrintStaff( "[RCON] Command: " .. tostring( cmd ) .. " " .. table.concat( args, "" ), "YELLOW" )
 
-concommand.Add("gmt_sendlua", function( ply, cmd, args )
-	if ply:IsAdmin() then
-
-		AdminNotif.SendStaff( ply:Nick() .. " has sent lua to all players. See console for details.", nil, "YELLOW", 1 )
-		AdminLog.PrintStaff( tostring(Lua), "YELLOW" )
-
-		LogPrint( ply:Nick() .. " has sent lua to all players.", Color(255,255,0) )
-		LogPrint( tostring(Lua), Color(255,255,0) )
-
-		BroadcastLua( table.concat( args, " ")  )
-	end
-end )
-
-concommand.Add("gmt_cvar", function( ply, cmd, args )
-	if ply:IsAdmin() then
-
-		local Cvar = args[1]
-
-		if args[2] then
-			RunConsoleCommand(Cvar , args[2] )
-		else
-			ply:Msg2( Cvar .. " = " .. GetConVarString( Cvar ) )
-		end
-
-	end
-
+	RunConsoleCommand( cmd, unpack( args ) )
+	
 end )
 
 concommand.Add( "gmt_warn", function( ply, cmd, args )
