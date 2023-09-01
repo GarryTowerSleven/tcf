@@ -233,15 +233,6 @@ hook.Add( "PlayerSpray", "PlayerDisableSprays", function ( ply )
 	return not ply:CanSpray()
 end )
 
-net.Receive( "ClientFullyConnected", function( len, ply )
-	if !IsValid(ply) || ply:GetNWBool("FullyConnected") then return end
-
-	ply:SetNWBool("FullyConnected", true)
-	hook.Call("PlayerFullyJoined",GAMEMODE,ply)
-end )
-
-util.AddNetworkString( "ClientFullyConnected" )
-
 hook.Add("PlayerSpawn", "Machinima", function(ply)
 	if ply:GetSetting(30) and !IsLobby then
 		MACHINIMA = true

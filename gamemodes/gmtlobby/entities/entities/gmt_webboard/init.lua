@@ -12,7 +12,7 @@ function ENT:Initialize()
 	//self.NextUse = 0
 end
 
-hook.Add( "PlayerFullyJoined", "webreload", function( ply )
+hook.Add( "PlayerSpawnClient", "webreload", function( ply )
 	ply:ConCommand( "gmt_clearwebboard" )
 end )
 

@@ -26,7 +26,7 @@ function MinecraftSkinUpdate( ply, new )
 	net.Broadcast()
 end
 
-hook.Add( "PlayerFullyJoined", "JoinMCSkin", function(ply)
+hook.Add( "PlayerSpawnClient", "JoinMCSkin", function(ply)
 	if ply:GetModel() == "models/player/mcsteve.mdl" && ply:GetInfo("cl_minecraftskin") != "" then
 		ply:SetNet( "MCSkinName", ply:GetInfo("cl_minecraftskin"))
 	end

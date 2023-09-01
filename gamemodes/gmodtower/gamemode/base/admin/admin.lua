@@ -274,7 +274,7 @@ hook.Add("PlayerInitialSpawn", "GTowerCheckAdmin", function(ply)
 
 end )
 
-hook.Add( "PlayerFullyJoined", "JoinedMessage", function(ply)
+hook.Add( "PlayerSpawnClient", "JoinedMessage", function(ply)
 	if IsLobby then
 		ply:Joined()
 

@@ -12,7 +12,7 @@ function SetBoneMod( ply, id )
 	net.Broadcast()
 end
 
-hook.Add("PlayerFullyJoined", "RecheckBoneMod", function( ply )
+hook.Add("PlayerSpawnClient", "RecheckBoneMod", function( ply )
 	if BoneMod && ply.BoneModID != nil then
 		SetBoneMod( ply, ply.BoneModID )
 	end

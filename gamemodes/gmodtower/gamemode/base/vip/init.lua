@@ -61,7 +61,7 @@ concommand.Add( "gmt_updateglowcolor", function( ply, cmd, args )
     end
 end)
 
-hook.Add( "PlayerFullyJoined", "JoinSetGlow", function( ply )
+hook.Add( "PlayerSpawnClient", "JoinSetGlow", function( ply )
 	if !ply:IsValid() || ply:IsBot() || !ply:IsVIP() then return end
 
 	ply:ConCommand( "gmt_updateglow" )
