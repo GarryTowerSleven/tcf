@@ -28,7 +28,7 @@ if Maps.IsMap( "gmt_ballracer_tranquil" ) then
 	GM.DefaultLevelTime = GM.DefaultLevelTime + 10
 end
 
-if game.GetMap() == "gmt_ballracer_facile" then
+if game.GetMap() == "gmt_ballracer_facile02" then
 	GM.DefaultLevelTime = GM.DefaultLevelTime + 10
 	GM.Lives = 3
 end

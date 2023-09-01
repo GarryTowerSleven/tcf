@@ -125,7 +125,7 @@ Maps.Register( "gmt_ballracer_tranquil01", {
 	Priority = 14,
 } )
 
-Maps.Register( "gmt_ballracer_facile", {
+Maps.Register( "gmt_ballracer_facile02", {
 	Name = "Facile",
 	Desc = "A simplisic, but extremely difficult world. Avoid repellers in space, or go full hyperspeed while magnetized.",
 	Author = "Bumpy",

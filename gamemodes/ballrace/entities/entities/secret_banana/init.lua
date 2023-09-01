@@ -42,7 +42,7 @@ function ENT:Touch(ent)
 
 	local ply = ent:GetOwner()
 
-	if game.GetMap() == "gmt_ballracer_facile" then
+	if game.GetMap() == "gmt_ballracer_facile02" then
 		ply:AddAchievement( ACHIEVEMENTS.BRSECRETFACILE, 1 )
 	elseif game.GetMap() == "gmt_ballracer_grassworld01" then
 		ply:AddAchievement( ACHIEVEMENTS.BRSECRETGRASSWORLD, 1 )
