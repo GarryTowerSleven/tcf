@@ -108,7 +108,7 @@ function ENT:Arrived()
     local i = self.ModelCount - self.FinishCount
     local ratio = i / self.ModelCount
 
-    self.GoalEntity:EmitSound( self.Sound, self.SoundVolume, Lerp( ratio, 75, 150 ), 1, CHAN_STATIC )
+    self.GoalEntity:EmitSound( self.Sound, self.SoundVolume, 140 - ( self.FinishCount / self.ModelCount ) * (40 + self.ModelCount*0.20), 1, CHAN_STATIC )
 
     self.SoundDelay = CurTime() + .025
 

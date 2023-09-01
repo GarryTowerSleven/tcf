@@ -5,7 +5,7 @@ ENT.ModelString = Model( "models/gmt_money/one.mdl" )
 ENT.ModelCount = 1
 
 ENT.Sound = Sound( "gmodtower/misc/money.wav" )
-ENT.SoundVolume = 75
+ENT.SoundVolume = 80
 
 ENT.GoalEntity = NULL
 ENT.GoalOffset = vector_origin

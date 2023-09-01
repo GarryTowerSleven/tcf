@@ -44,10 +44,10 @@ function meta:TakeMoney( amount, nonotify, beziertarget )
 	self:SetMoney( self:Money() - amount )
 
 	if not nonotify then
-		local pitch = Lerp( math.Clamp( amount, 0, 500 ) / 500, 100, 75 )
+		local pitch = Lerp( math.Clamp( amount, 0, 500 ) / 500, 160, 90 )
 
 		self:MsgT( "MoneySpent", string.FormatNumber( amount ) )
-		self:EmitSound( "gmodtower/misc/gmc_lose.wav", 50, pitch )
+		self:EmitSound( "gmodtower/misc/gmc_lose.wav", 50, math.ceil( pitch ) )
 
 		if beziertarget then
 			CreateMoneyBezier( util.GetCenterPos( self ), beziertarget, amount, true, 20 )
