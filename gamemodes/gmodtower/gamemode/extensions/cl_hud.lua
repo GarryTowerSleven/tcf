@@ -1,7 +1,16 @@
 surface.CreateFont( "TargetIDText", { font = "Impact", size = 32, weight = 500, antialias = true } )
 surface.CreateFont( "TargetIDTextSmall", { font = "Impact", size = 20, weight = 500, antialias = true } )
 
-local Lobby1ID = CreateClientConVar( "gmt_targetid_classic", 0, true )
+local static = CreateClientConVar( "gmt_targetid_static", 0, true, false, false, 0, 1 )
+local classic = CreateClientConVar( "gmt_targetid_classic", 0, true, false, false, 0, 1 )
+
+local function ShouldDrawClassic()
+	return classic:GetBool() or LocalPlayer():GetNWBool( "InLimbo" )
+end
+
+local function ShouldDrawStatic()
+	return ShouldDrawClassic() or static:GetBool()
+end
 
 HudToHide = {}
 function GM:HUDShouldDraw( name )
@@ -39,12 +48,10 @@ function GM:HUDDrawPlayerName( ply, fade, remain, x, y )
 
 	if not IsValid( ply ) then return end
 
+	local classic_draw = ShouldDrawClassic()
+
 	local text = "ERROR"
-	local font = "TargetIDText"
-	old = LocalPlayer():GetNWBool( "InLimbo" ) || Lobby1ID:GetBool()
-	if old then
-		font = "TargetID"
-	end
+	local font = classic_draw and "TargetID" or "TargetIDText"
 	local opacity = 1
 
 	-- Fade based on distance
@@ -65,15 +72,14 @@ function GM:HUDDrawPlayerName( ply, fade, remain, x, y )
 	text = ply:Name()
 
 	-- Get position
-	local pos = util.GetCenterPos( ply )
-	pos = pos:ToScreen()
-	
-	if old && x != nil then
-		pos.x = x
-		pos.y = y + 30
-		opacity = 1
+	local pos = { x = 0, y = 0 }
+
+	if x and y then
+		pos = { x = x, y = y }
+	else 
+		pos = util.GetCenterPos( ply ):ToScreen()
 	end
-	
+
 	-- Append AFK
 	if ply:GetNet("AFK") then
 		text = "*AFK* " .. text
@@ -91,16 +97,19 @@ function GM:HUDDrawPlayerName( ply, fade, remain, x, y )
 	-- Draw name
 	draw.SimpleText( text, font, pos.x, pos.y, realcolor, TEXT_ALIGN_CENTER )
 
+	if classic_draw then return end
+
 	-- Lobby HUD
-	if IsLobby && !old then
+	if IsLobby then
+
 		-- Show Rank
-		local respect = ply:GetRespectName()
+		local respect = "Developer" //ply:GetRespectName()
 		if respect then
 			draw.SimpleText( respect, "TargetIDTextSmall", pos.x, pos.y + 28, realcolor, TEXT_ALIGN_CENTER )
 		end
 
 		-- Room number
-		local roomid = ply:GetNet( "RoomID" )
+		local roomid = 10 //ply:GetNet("RoomID")
 		if roomid && roomid > 0 then
 			local room = tostring( roomid ) or ""
 			if room != "" then
@@ -137,72 +146,60 @@ function GM:HUDDrawTargetID()
 	-- Hide while the camera is out
 	if LocalPlayer():IsCameraOut() then return end
 
-	-- Draw all player names when Q is held
-	//if GTowerMainGui.MenuEnabled then
-    if GTowerMainGui.MenuEnabled && !old then
-		if IsLobby then
-			for _, ent in pairs( ents.GetAll() ) do
-				local ply = GetValidPlayer( ent )
-				if ply == LocalPlayer() or not ply then continue end
-				self:HUDDrawPlayerName( ply, true )
+	local draw_static = ShouldDrawStatic()
+	local draw_classic = ShouldDrawClassic()
+
+	if not draw_static then
+		
+		-- Draw all player names when Q is held
+		if GTowerMainGui.MenuEnabled then
+			if IsLobby then
+				for _, ent in pairs( ents.GetAll() ) do
+					local ply = GetValidPlayer( ent )
+					if ply == LocalPlayer() or not ply then continue end
+					self:HUDDrawPlayerName( ply, true )
+				end
 			end
 		end
-	end
 
-	-- Draw recently rolled over players
-	if DrawnPlayerNames && !old then
-		for id, plyname in pairs( DrawnPlayerNames ) do
+		-- Draw recently rolled over players
+		if DrawnPlayerNames then
+			for id, plyname in pairs( DrawnPlayerNames ) do
 
-			-- Auto remove name
-			if plyname.duration and plyname.duration >= 1 then
-				table.remove( DrawnPlayerNames, id )
-				continue
+				-- Auto remove name
+				if plyname.duration and plyname.duration >= 1 then
+					table.remove( DrawnPlayerNames, id )
+					continue
+				end
+
+				-- Draw the name
+				if plyname.time then 
+					plyname.duration = math.min( RealTime() - plyname.time, DrawPlayerNamesFor ) / DrawPlayerNamesFor
+				end
+
+				self:HUDDrawPlayerName( plyname.ply, false, plyname.duration )
+
 			end
-
-			-- Draw the name
-			if plyname.time then 
-				plyname.duration = math.min( RealTime() - plyname.time, DrawPlayerNamesFor ) / DrawPlayerNamesFor
-			end
-
-			self:HUDDrawPlayerName( plyname.ply, false, plyname.duration )
-
 		end
+
 	end
 
 	-- Add new player to draw name tag of
-	local tr = util.GetPlayerTrace( LocalPlayer(), GetMouseAimVector() )
-	if old then
-	aimed = false
-		if GTowerMainGui.ContextMenuEnabled or PlayerMenu.IsVisible() or LocalPlayer():GetNet("Chatting") then // there has to be a better way to do this
-			tr = util.GetPlayerTrace( LocalPlayer(), LocalPlayer():GetAimVector() )
-			aimed = true
-		end
-	end
+	local tr = util.GetPlayerTrace( LocalPlayer(), draw_static and LocalPlayer():GetAimVector() or GetMouseAimVector() )
 	local trace = util.TraceLine( tr )
 	if (!trace.Hit) then return end
 	if (!trace.HitNonWorld) then return end
 
 	local ply = GetValidPlayer( trace.Entity )
 	if ply and ply != LocalPlayer() then
+
+		if draw_static then
+			self:HUDDrawPlayerName( ply, false, nil, ScrW() / 2, ScrH() / 2 + ( draw_classic and 15 or 30) )
+
+			return
+		end
+
 		AddNewPlayerToDraw( ply )
 	end
 
-	if old then
-		if aimed then
-			x = ScrW() / 2
-			y = ScrH() / 2
-		else
-			-- Get mouse position
-			local MouseX, MouseY = gui.MousePos()
-			if ( MouseX == 0 && MouseY == 0 ) then
-				MouseX = ScrW() / 2
-				MouseY = ScrH() / 2
-			end
-			
-			x = MouseX
-			y = MouseY			
-		end
-		
-		self:HUDDrawPlayerName( ply, false, 0, x, y )
-	end
 end
