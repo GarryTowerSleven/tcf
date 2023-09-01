@@ -112,6 +112,7 @@ end
 function meta:SetMinecraftSkin( uri )
 
 	if !AllowSkins:GetBool() then return end
+	if !IsValid(self) then return end
 	if self:GetModel() != mcmdl then return end
 
 	if #uri > 0 then
