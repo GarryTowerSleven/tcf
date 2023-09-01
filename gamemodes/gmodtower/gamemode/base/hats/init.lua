@@ -90,6 +90,7 @@ function CreateWearable( ply, data, slot )
     end
 
     local ent = ents.Create( "gmt_hat" )
+    ent:SetParent( ply )
     ent:SetOwner( ply )
 
     ent:SetModel( data.model )
@@ -139,7 +140,7 @@ function UpdateWearable( ply, hatid, slot )
         if IsLobby and (oldid != hatid) and ply:IsPlayer() then
             ply:MsgT( "HatUpdated", item.name )
         end
-       
+
         ent = CreateWearable( ply, item, slot )
 
         ent._PlayerModel = playermodel

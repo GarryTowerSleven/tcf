@@ -106,6 +106,8 @@ function meta:ExitDriving()
 
 	self:SetNet( "DrivingObject", nil )
 	ent:Remove()
+
+    self:ReParentCosmetics()
 end
 
 function meta:StopEmoting()
@@ -142,6 +144,9 @@ function meta:ExitAll()
 
     // Last Restort, casino machines
     self:ExitVehicle()
+
+    // fix cosmetics
+    self:ReParentCosmetics()
 end
 
 function meta:SafeTeleport( pos, ang, eyeangles )

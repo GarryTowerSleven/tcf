@@ -15,19 +15,18 @@ function ENT:Initialize()
 
 end
 
-function ENT:ReParent()
-	self:SetParent(NULL)
-	self:SetParent(self:GetOwner())
-end
+local meta = FindMetaTable("Player")
+function meta:ReParentCosmetics()
+	if not IsValid(self) or not self.CosmeticEquipment then return end
 
-local PlayerMeta = FindMetaTable("Player")
+	for _, v in pairs( self.CosmeticEquipment ) do
+		
+		if not IsValid( v ) then continue end
 
-function PlayerMeta:ResetEquipmentAfterVehicle()
-	if !IsValid(self) || !self.CosmeticEquipment then return end
+		v:SetParent( NULL )
 
-	for k,v in pairs(self.CosmeticEquipment) do
-		if v.Reparent then
-			v:ReParent()
-		end
+		v:SetPos( self:GetPos() )
+		v:SetParent( self )
+
 	end
 end

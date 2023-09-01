@@ -30,7 +30,7 @@ function RemovePlayer( ply )
 
 	ply:SafeTeleport( tp:GetPos() + Vector(0,0,5) + (tp:GetForward()*25) )
 
-	ply:ResetEquipmentAfterVehicle()
+	ply:ReParentCosmetics()
 
 end
 

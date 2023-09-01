@@ -229,6 +229,12 @@ function GM:PlayerSetModel( ply )
 	ply:SetSkin(modelskin)
 end
 
+hook.Add( "PlayerSpawn", "FixHats", function( ply )
+
+	ply:ReParentCosmetics()
+
+end )
+
 hook.Add( "PlayerSpray", "PlayerDisableSprays", function ( ply )
 	return not ply:CanSpray()
 end )
