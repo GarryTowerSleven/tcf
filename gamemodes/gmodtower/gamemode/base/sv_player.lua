@@ -65,6 +65,34 @@ function meta:Afford( price )
 end
 
 /*
+    Join/Leave Messages
+*/
+
+
+hook.Add( "PlayerSpawnClient", "JoinMessages", function( ply )
+
+    if not IsLobby then return end
+
+    ply:Joined()
+
+    if ply._NewPlayer then
+        ply:MsgI( "gmtsmall", "LobbyWelcomeNew" )
+    else
+        ply:MsgI( "gmtsmall", "LobbyWelcome", ply:GetName() )
+    end
+
+end )
+
+hook.Add( "PlayerDisconnected", "LeaveMessages", function( ply )
+
+    if not IsLobby then return end
+    if ply.HideRedir then return end
+
+    ply:Left()
+
+end )
+
+/*
     Driving / Whatever
 */
 

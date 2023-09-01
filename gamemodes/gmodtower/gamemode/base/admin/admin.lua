@@ -1,7 +1,6 @@
----------------------------------
-util.AddNetworkString("JoinFriendCheck")
 GTowerAdmins = {
-	//"STEAM_0:0:71992617", -- Haina, praise be
+	// "STEAM_0:0:71992617", -- Haina, praise be
+
 	"STEAM_0:0:1384695", -- Kity
 	"STEAM_0:0:38865393", -- boXy
 	"STEAM_0:1:39916544", -- Anoma
@@ -273,55 +272,6 @@ hook.Add("PlayerInitialSpawn", "GTowerCheckAdmin", function(ply)
 	end
 
 end )
-
-hook.Add( "PlayerSpawnClient", "JoinedMessage", function(ply)
-	if IsLobby then
-		ply:Joined()
-
-		if ply:GetNWBool("IsNewPlayer") then
-			ply:MsgI("gmtsmall", "LobbyWelcomeNew" )
-		else
-			ply:MsgI("gmtsmall", "LobbyWelcome",ply:Name() )
-		end
-
-		// Friend has joined the lobby
-		for _, v in ipairs( player.GetAll() ) do
-			if ( Friends.IsFriend( v, ply ) ) then
-				v:MsgT( "Friends_Joined", ply:GetName() )
-			end
-		end
-	end
-end)
-
-hook.Add("PlayerDisconnected","LeaveMessage",function(ply)
-	/*if ply.HasResetData then
-		local SanitizedName = string.SafeChatName(ply:Name())
-		GAMEMODE:ColorNotifyAll( SanitizedName.." has reset their data and left the tower.", Color(100, 100, 100, 255) )
-		return
-	end*/
-
-	if IsLobby then
-		if ply.HideRedir then return end
-		ply:Left()
-		if Dueling.IsDueling( ply ) then
-			local Timestamp = os.time()
-			local TimeString = os.date( "%H:%M:%S - %d/%m/%Y" , Timestamp )
-			SQLLog( 'duel', ply:Nick() .. " has left the game during a duel. (" .. TimeString .. ")" )
-		end
-	end
-end)
-
-function GetAdminRP()
-
-	local rp = RecipientFilter()
-
-	for _, ply in ipairs( player.GetAll() ) do
-		if ply:IsAdmin() then rp:AddPlayer( ply ) end
-	end
-
-	return rp
-
-end
 
 concommand.AdminAdd( "gmt_runlua", function( ply, _, _, argStr )
 

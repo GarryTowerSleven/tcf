@@ -10,7 +10,7 @@ end
 
 function meta:ApplyData( data )
 	if ( data.achivement == nil or data.achivement == "" ) then
-		self:SetNWBool( "IsNewPlayer", true )
+		self._NewPlayer = true
 	end
 
 	if ( data.money ) then
