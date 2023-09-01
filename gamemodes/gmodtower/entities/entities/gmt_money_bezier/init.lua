@@ -8,7 +8,7 @@ function ENT:Network()
     net.Start( self.NetString )
         net.WriteEntity( self )
         net.WriteEntity( self.GoalEntity )
-        net.WriteUInt( math.Clamp( self.ModelCount, 1, 255 ), 8 )
+        net.WriteUInt( math.Clamp( self.ModelCount, 1, 150 ), 8 )
 
         net.WriteVector( self.GoalOffset )
         net.WriteFloat( self.RandomPos )
@@ -31,7 +31,7 @@ function CreateMoneyBezier( startpos, target, amount, begin, randompos, offset )
         ent:SetPos( startpos )
         ent.GoalEntity = target
     
-        ent.ModelCount = amount
+        ent.ModelCount = math.ceil( amount / 6 )
 
         ent.RandomPos = randompos or ent.RandomPos
         ent.GoalOffset = offset or ent.GoalOffset
