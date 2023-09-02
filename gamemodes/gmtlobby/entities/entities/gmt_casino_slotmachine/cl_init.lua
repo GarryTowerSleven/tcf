@@ -121,7 +121,18 @@ function ENT:IsSpinning(spinner)
 end
 
 function ENT:GetPitch(spinner)
-	return self.IconPitches[self.SelectedIcons[spinner]]
+
+	self.gpt = self.gpt or {0, 0, 0}
+	self.gpb = self.gpb or {0, 0, 0}
+
+	if !self.gpb[spinner] or self.gpt[spinner] and self.gpt[spinner] > CurTime() then
+		self.gpb[spinner] = 1
+	else
+		self.gpb[spinner] = math.max(self.gpb[spinner] - FrameTime() * 2, 0)
+	end
+
+	return math.NormalizeAngle(self.IconPitches[self.SelectedIcons[spinner]] + math.sin(math.ease.InSine(self.gpb[spinner]) * 4) * 24)
+
 end
 
 
@@ -143,24 +154,39 @@ end
 
 function ENT:Spin()
 
+	// Hacky, but pose parameters don't go over a certain angle D:
+	if self.SpinRotation >= 180 then self.SpinRotation = -179 end
+
+	self.gpt = self.gpt or {0, 0, 0}
+	self.gpb = self.gpb or {0, 0, 0}
+
+	self.Speed = self.Speed or 0
+
+	self.SpinRotation = self.SpinRotation + self.Speed
+
 	self.SpinRotation = math.NormalizeAngle(self.SpinRotation + self.SpinSpeed)
 	
 	if self:IsSpinning(1) then
 		self:SendAnim( self.SpinRotation )
+		self.gpt[1] = CurTime() + 0.01
 	else
 		self:SendAnim( self:GetPitch(1) )
 	end
 	
 	if self:IsSpinning(2) then
 		self:SendAnim( nil, self.SpinRotation )
+		self.gpt[2] = CurTime() + 0.01
 	else
 		self:SendAnim( nil, self:GetPitch(2) )
 	end
 	
 	if self:IsSpinning(3) then
 		self:SendAnim( nil, nil, self.SpinRotation )
+		self.gpt[3] = CurTime() + 0.01
+		self.Speed = self.Speed + FrameTime() * 32
 	else
 		self:SendAnim( nil, nil, self:GetPitch(3) )
+		self.Speed = 0.1
 	end
 		
 end
@@ -280,16 +306,18 @@ function ENT:DrawTranslucent()
 
 end
 
+local ScaleScreen = 4
+
 surface.CreateFont( "SlotText", {
 		font = "Tahoma",
-		size = 22,
+		size = 22 * ScaleScreen,
 		weight = 300,
 		antialias = true,
 } )
 
 surface.CreateFont( "SlotTextSmall", {
 		font = "Tahoma",
-		size = 18,
+		size = 18 * ScaleScreen,
 		weight = 300,
 		antialias = true,
 } )
@@ -308,18 +336,18 @@ function ENT:DrawDisplay()
 	ang:RotateAroundAxis( ang:Up(), 90 )
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 
-	cam.Start3D2D( pos, ang, scale )	
+	cam.Start3D2D( pos, ang, scale / ScaleScreen )	
 	
-		draw.SimpleText( "Jackpot: " .. string.FormatNumber( self:GetJackpot() ), "SlotText", 5, 10, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+		draw.SimpleText( "Jackpot: " .. string.FormatNumber( self:GetJackpot() ), "SlotText", 5 * ScaleScreen, 10 * ScaleScreen, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 		
 		if self:GetLastPlayerName() != "" then
-			draw.SimpleText( "Locked To: " .. self:GetLastPlayerName(), "SlotTextSmall", 5, 10 + 20, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
-			draw.SimpleText( "Lock Time: " .. math.ceil(self:GetLastPlayerTime() - CurTime()) .. " sec", "SlotTextSmall", 5, 10 + 20 + 15, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+			draw.SimpleText( "Locked To: " .. self:GetLastPlayerName(), "SlotTextSmall", 5 * ScaleScreen, (10 + 20) * ScaleScreen, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+			draw.SimpleText( "Lock Time: " .. math.ceil(self:GetLastPlayerTime() - CurTime()) .. " sec", "SlotTextSmall", 5 * ScaleScreen, (10 + 20 + 15) * ScaleScreen, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 		end
 
-		//if Casino.SlotsLocalPlaying == self then
-			draw.SimpleText( "Bet Amount: " .. Casino.SlotsLocalBet, "SlotText", 190, 188, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM )
-		//end
+		if Casino.SlotsLocalPlaying == self then
+			draw.SimpleText( "Bet Amount: " .. Casino.SlotsLocalBet, "SlotText", 190 * ScaleScreen, 188 * ScaleScreen, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM )
+		end
 		
 	cam.End3D2D()
 
@@ -370,13 +398,13 @@ ENT.Controls = {
 
 }
 
-surface.CreateFont( "Buttons", { font = "coolvetica", size = 22, weight = 200 } )
+surface.CreateFont( "SlotsButtons", { font = "coolvetica", size = 22 * ScaleScreen, weight = 200 } )
 local ButtonTexture = surface.GetTextureID( "models/gmod_tower/casino/button" )
 function ENT:DrawControls()
 
 	local attachment = self:GetAttachment( self:LookupAttachment("controls") )
 	local pos, ang = attachment.Pos, attachment.Ang
-	local scale = 0.1
+	local scale = 0.1 / ScaleScreen
 
 	if vr and vr.InVR() then
 		if Casino.SlotsLocalPlaying && vrmod.GetRightHandPos(LocalPlayer()):Distance(self:GetAttachment(1).Pos) < 24 then
@@ -410,8 +438,8 @@ function ENT:DrawControls()
 		
 		// Draw buttons
 		for _, btn in ipairs( self.Controls ) do
-			local x, col, text = btn.x, btn.col, btn.text
-			local y, w, h = 2, 48, 30
+			local x, col, text = btn.x * ScaleScreen, btn.col, btn.text
+			local y, w, h = 5 * ScaleScreen, 48 * ScaleScreen, 30 * ScaleScreen
 		
 			if not self.SlotsSpinning and IsMouseOver(x - (w/2), y - (h/2), w, h) then
 				btn.selected = true
@@ -424,21 +452,27 @@ function ENT:DrawControls()
 			surface.SetDrawColor( 255, 255, 255, 255 * alpha )
 			surface.SetTexture( ButtonTexture )
 			surface.DrawTexturedRect( x - (w/2), y - (h/2), w, h )
+
+			local c2 = Color( btn.col.r / 2, btn.col.g / 2, btn.col.b / 2, (btn.selected and 200 or 100) * alpha )
+
+			draw.GradientBox( x - (w/2), y - (h/2), w, h, c2, DOWN )
 		
 			draw.RoundedBox( 0, x - (w/2), y - (h/2), w, h, btn.col ) // Color button texture
 		
-			draw.SimpleText(text, "Buttons", x, y + 1, btn.bcol, 1, 1)
+			draw.SimpleText( text, "SlotsButtons", x, y + (1*ScaleScreen), btn.bcol, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		end
 
 		// Draw small cursor
 		local mx, my = self:GetCursorPos( pos, ang, scale )
-		if IsMouseOver( -190/2, -35/2, 190, 35 ) then
+		if IsMouseOver( (-190*ScaleScreen)/2, (-35*ScaleScreen)/2, 190*ScaleScreen, 35*ScaleScreen ) then
 			self:DrawCursor( mx, my )
 			vgui.GetWorldPanel():SetCursor( "blank" )
 			/*surface.SetDrawColor(255, 0, 0, 255)
 			surface.DrawRect( mx - 2, my - 2, 4, 4 )*/
+			LocalPlayer().HideCrosshair = true
 		else
 			vgui.GetWorldPanel():SetCursor( "default" )
+			LocalPlayer().HideCrosshair = false
 		end
 		
 	cam.End3D2D()
@@ -493,18 +527,18 @@ end
 
 function ENT:DrawCursor( cur_x, cur_y )
 
-	local cursorSize = 32
+	local cursorSize = 32*ScaleScreen
 
 	surface.SetTexture( self.SlotsSpinning and CursorLock2D or Cursor2D )
 
 	if input.IsMouseDown( MOUSE_LEFT ) then
-		cursorSize = 28
+		cursorSize = 28*ScaleScreen
 		surface.SetDrawColor( 255, 150, 150, 255 )
 	else
 		surface.SetDrawColor( 255, 255, 255, 255 )
 	end
 
 	local offset = cursorSize / 2
-	surface.DrawTexturedRect( cur_x - offset + 5, cur_y - offset + 7, cursorSize, cursorSize )
+	surface.DrawTexturedRect( cur_x - offset + (5*ScaleScreen), cur_y - offset + (7*ScaleScreen), cursorSize, cursorSize )
 
 end
