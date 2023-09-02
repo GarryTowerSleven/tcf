@@ -8,15 +8,14 @@ function EFFECT:Init( data )
 	// Table to hold particles
 	self.Particles = {}
 		
-	self.PlaybackSpeed 	= math.Rand( 2, 5 )
-	self.Width 			= math.Rand( 12, 24 )
+	self.PlaybackSpeed 	= math.Rand( 2, 3 )
+	self.Width 			= math.Rand( 12, 24 ) / 2
 	self.ParCount		= 8
 		
 	local Dir = data:GetNormal() * 1.15
 	local Speed = math.Rand( 100, 1000 )
 	local SquirtDelay = math.Rand( 3, 5 )  //quick just like voided
 		
-	Dir.z = math.max( Dir.z, Dir.z * -1 )
 	if (Dir.z > 0.5) then
 		Dir.z = Dir.z - 0.3
 	end
@@ -144,20 +143,21 @@ function EFFECT:Render()
 	local LastPos = nil
 	local pCount = 0
 
+	render.StartBeam(table.Count(self.Particles))
 	for k, p in pairs( self.Particles ) do
 		local Sin = math.sin( (pCount / (self.ParCount-2)) * math.pi )
 
 		if LastPos then
-			render.DrawBeam( LastPos,
+			render.AddBeam( 
 			p.Pos,
 			self.Width * Sin,
-			1,
-			0,
+			k,
 			Color( self.Color.r, self.Color.g, self.Color.b, 255 ) )
 		end
 
 		pCount = pCount + 1
 		LastPos = p.Pos
 	end
+	render.EndBeam()
 
 end
