@@ -61,12 +61,6 @@ function ENT:Use( ply )
 	self.Player = ply
 	
 	if ( !self.Drink ) then return end
-	if ( self.Drink && !self.Item ) then
-		if ply:InvGiveItem(simplehash("shake_" .. self.Drink.Name)) then
-			self:Remove()
-		end
-		return
-	end
 
 	if self.Drink.Flavor != nil then
 		ply:ChatPrint( self.Drink.Flavor )
