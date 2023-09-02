@@ -140,6 +140,11 @@ function GM:EntityTakeDamage( ent, dmg )
 			dmg:ScaleDamage( 0 )
 		end
 
+		local inflictor = dmg:GetInflictor()
+		if IsValid(inflictor) && inflictor:GetClass() == "mr_saturn" then
+			return true
+		end
+
 	end
 	
 end
