@@ -66,20 +66,34 @@ hook.Add( "GetMediaPlayer", "GMTMediaPlayerCheck", function()
 
 end )
 
-/*MediaPlayer.ShowSidebar = EmptyFunction
-MediaPlayer.HideSidebar = EmptyFunction
+//MediaPlayer.ShowSidebar = EmptyFunction
+//MediaPlayer.HideSidebar = EmptyFunction
 
 // Classic Sidebar
 hook.Add( "OpenSideMenu", "OpenTheaterControls", function()
 
 	local mp = hook.Run( "GetMediaPlayer" )
+
+	-- First check if we're looking at a media player
+	if not mp then
+		local ent = LocalPlayer():GetEyeTrace().Entity
+		if IsValid(ent) then
+			mp = MediaPlayer.GetByObject( ent )
+		end
+	end
+
+	-- Else, maybe the gamemode handles this some other way (location system, etc.)
+	if not mp then
+		mp = hook.Run( "GetMediaPlayer" )
+	end
+
 	if ( not IsValid( mp ) ) then return end
 	
-	-- local ent = mp.Entity
-	-- if ( not IsValid( ent ) ) then return end
+	local ent = mp.Entity
+	if ( not IsValid( ent ) ) then return end
 
 	local Form = vgui.Create( "DForm" )
-	Form:SetName( "Theater" )
+	Form:SetName( "Media" )
 
 	local VolumeSlider = vgui.Create( "DNumSlider2", Form )
 	VolumeSlider:SetText( "Volume" )
@@ -94,31 +108,22 @@ hook.Add( "OpenSideMenu", "OpenTheaterControls", function()
 		MediaPlayer.OpenRequestMenu( mp )
 	end
 
-	local mpRemove = Form:Button( "Vote Remove (0/0)" )
+	local mpRemove = Form:Button( "Vote Remove" )
 	mpRemove.DoClick = function()
 		MediaPlayer.Voteskip( mp )
-	end
-
-	local mpRefresh = Form:Button( "Refresh Theater" )
-	mpRefresh.DoClick = function()
-		//MediaPlayer.Voteskip( mp )
-	end
-
-	local mpHidePlayers = Form:Button( "Hide Players" )
-	mpHidePlayers.DoClick = function()
-		//MediaPlayer.Voteskip( mp )
 	end
 
 	local mpVideos = Form:Button( "Videos" )
 	mpVideos.DoClick = function()
 		//MediaPlayer.Voteskip( mp )
+		MediaPlayer.ShowSidebar()
 	end
 
 	return Form
 
-end )*/
+end )
 
-hook.Add( "GTowerShowMenus", "GMTShowMPSidebar", MediaPlayer.ShowSidebar )
+// hook.Add( "GTowerShowMenus", "GMTShowMPSidebar", MediaPlayer.ShowSidebar )
 hook.Add( "GTowerHideMenus", "GMTHideMPSidebar", MediaPlayer.HideSidebar )
 
 
