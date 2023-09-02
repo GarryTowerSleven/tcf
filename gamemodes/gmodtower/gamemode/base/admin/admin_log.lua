@@ -86,7 +86,7 @@ function AdminLog.PrintAdmins( text, color, verbose ) // send to only admins
 end
 
 local adminCompliments = { "sexy", "handsome", "beautiful", "gorgeous", "stud" }
-hook.Add( "PlayerFullyJoined", "AdminVerboseWelcome", function( ply )
+hook.Add( "PlayerSpawnClient", "AdminVerboseWelcome", function( ply )
 	if !IsLobby then return end
     if !IsValid(ply) || !ply:IsStaff() then return end
 	local str
@@ -98,7 +98,7 @@ hook.Add( "PlayerFullyJoined", "AdminVerboseWelcome", function( ply )
     AdminNotif.Send( ply, str, nil, "RAINBOW", 5 )
 end)
 
-hook.Add( "PlayerFullyJoined", "AdminLogConnected", function( ply )
+hook.Add( "PlayerSpawnClient", "AdminLogConnected", function( ply )
     if !IsValid(ply) then return end
     AdminNotif.SendStaff( ply:NickID() .. " is now in-game.", nil, ply:GetDisplayTextColor(), 3 )
 end)

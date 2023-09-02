@@ -32,17 +32,6 @@ local function MenuWarn(ply)
     end, nil, "Send Warning", "Cancel")
 end
 
-local function ForceQuitPrompt(ply)
-    Derma_Query( 
-        "Are you sure you want to forcequit " .. ply:Nick() .. "?",
-        "Force Quit",
-        "Yes",
-        function() RunConsoleCommand( "gmt_quitplayer", ply:EntIndex() ) end,
-        "Cancel",
-        EmptyFunction
-    )
-end
-
 local function SendToLobby(ply)
     Derma_Query(
         "Are you sure you want to send "..ply:Nick().." back to lobby?",
@@ -552,14 +541,6 @@ hook.Add("ExtraMenuPlayer", "AddAdminFunctions", function(ply)
                         ClientSettings:OpenAdmin(ply)
                     end,
                     ["order"] = 7
-                },
-                {
-                    ["Name"] = "Force Quit",
-                    ["function"] = function()
-                        //RunConsoleCommand( "gmt_quitplayer", ply:EntIndex() )
-                        ForceQuitPrompt( ply )
-                    end,
-                    ["order"] = 8
                 },
                 {
                     ["Name"] = "Send/Remove To/From Hallway",

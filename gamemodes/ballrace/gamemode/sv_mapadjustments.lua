@@ -1,6 +1,6 @@
 GM.MapAdjustments = {}
 
-GM.MapAdjustments["gmt_ballracer_facile"] = function()
+GM.MapAdjustments["gmt_ballracer_facile02"] = function()
 	for k,v in pairs(ents.FindByClass("repeller")) do
 		if v.Radius == 500 then
 			v.Radius = 412

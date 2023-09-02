@@ -7,6 +7,30 @@ function GM:KeyPress( ply, key )
 	end
 
 	if SERVER then
+	
+		if ply:IsGhost() then // spectatingish.. this could probably be better??.. and was made better!
+		
+			if key == IN_ATTACK then
+				
+				local players = player.GetAll()
+				local filteredplayers = {}
+				
+				for _, ply in ipairs(players) do // get a list of everyone who isnt a ghost
+					if !ply:IsGhost() then
+						table.insert(filteredplayers, ply)
+					end
+				end
+				
+				if #filteredplayers == ply.Spec then ply.Spec = 0 end // restart the cycle
+				
+				ply.Spec = ply.Spec + 1 // increase who we're going to by 1
+				
+				specPly = filteredplayers[ply.Spec] // set the current spec ply
+				specpos = specPly:GetPos()
+				ply:SetPos(specpos) // lets go!
+				
+			end
+		end
 
 		if key == IN_ATTACK2 && ply:CanTaunt() then
 

@@ -22,22 +22,30 @@ end
 
 
 // 1 second tick player think, this should be pretty efficient
-timer.Create( "GTowerPlayerThink", 1.0, 0, function()
+local ThinkTime = 0
 
-	if SERVER then
+hook.Add("Think", "GTowerPlayerThink", function()
 
-		for _, v in ipairs( player.GetAll() ) do
+	if ThinkTime < CurTime() then
 
-			if IsValid( v ) then
-				hook.Call("PlayerThink", GAMEMODE, v)
+		if SERVER then
+
+			for _, v in ipairs( player.GetAll() ) do
+
+				if IsValid( v ) then
+					hook.Call("PlayerThink", GAMEMODE, v)
+				end
+
 			end
 
+		else
+			if IsValid( LocalPlayer() ) then
+				hook.Call( "PlayerThink", GAMEMODE, LocalPlayer() )
+			end
 		end
 
-	else
-		if IsValid( LocalPlayer() ) then
-			hook.Call( "PlayerThink", GAMEMODE, LocalPlayer() )
-		end
+		ThinkTime = CurTime() + 1
+
 	end
 	
 end)

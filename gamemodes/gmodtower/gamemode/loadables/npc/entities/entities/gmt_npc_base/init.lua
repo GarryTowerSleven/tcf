@@ -41,7 +41,7 @@ function ENT:Think()
         self:PlaySequence( self.Sequence or "idle_subtle" )
     end
 
-    self:SaleThink()
+    //self:SaleThink()
     self:AdditionalThink()
 end
 

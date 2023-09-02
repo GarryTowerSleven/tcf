@@ -33,7 +33,7 @@ function GM:PlayerInitialSpawn(ply)
 		ply:ChatPrint("You are the first to join, waiting for additional players!")
 	end
 
-	hook.Add( "PlayerFullyJoined", "WaitingMessage", function(ply)
+	hook.Add( "PlayerSpawnClient", "WaitingMessage", function( ply )
 		if self:GetState() == STATE_WAITING then
 			self:RoundMessage( MSGSHOW_WAITING, ply, GAMEMODE:GetTime() - CurTime() - 1 )
 		end

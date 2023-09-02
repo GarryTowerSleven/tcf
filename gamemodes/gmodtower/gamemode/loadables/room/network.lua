@@ -33,8 +33,8 @@ local function SendRoomData( buffer, rp )
 			if ValidOwner then
 				if Hats then
 					for _, hat in ipairs( Hats.List ) do
-						if hat.unique_Name then
-							umsg.Bool( hook.Run( "CanWearHat", Room.Owner, hat.unique_Name ) == 1 )
+						if hat.unique_name then
+							umsg.Bool( hook.Run( "CanWearHat", Room.Owner, hat.unique_name ) == 1 )
 						end
 					end
 				end

@@ -6,6 +6,8 @@ local IsValid = IsValid
 local MediaPlayer = MediaPlayer
 local FullscreenCvar = MediaPlayer.Cvars and MediaPlayer.Cvars.Fullscreen
 
+MEDIAPLAYER.Enable3DAudio = false
+	
 function MEDIAPLAYER:Init(...)
 	BaseClass.Init(self, ...)
 

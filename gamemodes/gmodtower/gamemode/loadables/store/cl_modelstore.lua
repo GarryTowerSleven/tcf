@@ -3,6 +3,7 @@ module("GTowerStore", package.seeall )
 
 local ModelSize = 475
 local CameraZPos = 30
+local CameraFar = 50
 local ModelPanelSize = 700
 
 local gradient = "VGUI/gradient_up"
@@ -66,7 +67,7 @@ function UpdateModelPanel()
 		//StoreGUI.ModelPanel:SetPos( 150/2-StoreGUI.ModelPanel:GetWide()/2, StoreGUI:GetTall() / 2 - StoreGUI.ModelPanel:GetTall() / 2 + 14 )
 		StoreGUI.ModelPanel:Center()
 		StoreGUI.ModelPanel:SetLookAt( Vector(0,0,CameraZPos) )
-		StoreGUI.ModelPanel:SetCamPos( Vector(100,0,CameraZPos) )
+		StoreGUI.ModelPanel:SetCamPos( Vector(CameraFar,0,CameraZPos) )
 
 	end
 

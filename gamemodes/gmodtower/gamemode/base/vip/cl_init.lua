@@ -21,7 +21,7 @@ hook.Add( "PlayerThink", "VIPHaloCheck", function( ply )
 
 	for _, ply2 in pairs( Location.GetPlayersInLocation( ply:Location() ) ) do
 
-		if !ply2:IsPlayer() || !ply2:IsVIP() || !ply2:IsGlowEnabled() || ply2:GetNWBool( "InLimbo" ) then continue end
+		if !ply2:IsPlayer() || !ply2:IsVIP() || !ply2:IsGlowEnabled() || Dueling.IsDueling( ply2 ) || ply2:GetNWBool( "InLimbo" ) then continue end
 		if ply2:IsTransparent() or ply2:IsNoDrawAll() then continue end // TODO
 
 		if IsValid( ply2 ) and ply2:Alive() and ply2:GetColor().a == 255 and ply2:GetGlowColor() then

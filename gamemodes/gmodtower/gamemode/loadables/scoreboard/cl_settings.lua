@@ -639,7 +639,8 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:CheckBox( "Enable Compact Store GUI", "gmt_compactstores" )
 			self:Divider()
 			self:Header( "Misc." )
-			self:CheckBox( "Enable Classic Name Display", "gmt_targetid_classic" ) 
+			self:CheckBox( "Enable Static Name Display", "gmt_targetid_static" )
+			self:CheckBox( "Enable Classic Name Display (Static)", "gmt_targetid_classic" )
 			self:CheckBox( "Enable Player Context Menu", "gmt_playermenu" )
 		end
 	end
@@ -739,6 +740,9 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 
 			self:Header( "Ultimate Chimera Hunt" )
 			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
+			self:Divider()
+			self:CheckBox( "Opt-out of Chimera", "gmt_uch_optout" )
+			self:CheckBox( "Enable Pigmask Glow (expensive)", "gmt_uch_glow" )
 
 		end
 		

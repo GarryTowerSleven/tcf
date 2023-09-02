@@ -132,7 +132,7 @@ function GTowerRooms.PrepareCloset( room )
 			ent:SetPos( EntPos )
 			ent:SetAngles( GTowerRooms.BaseAngle + Angle( 0, hat.rotation or 0, 0 ) )
 			
-			ent.UniqueName = 	hat.unique_Name
+			ent.UniqueName = 	hat.unique_name
 			ent.HatId = id
 			ent.MaxRad = 		ent:OBBMaxs():Length()
 			ent.ExtraRot = hat.rotation or 0

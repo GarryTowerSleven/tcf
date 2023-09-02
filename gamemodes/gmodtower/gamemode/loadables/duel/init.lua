@@ -447,6 +447,10 @@ hook.Add( "PlayerDisconnected", "DisconnectDeathCheck", function(ply)
 	if !Dueling.IsDueling( ply ) then return end
     EndDuel( ply, true )
 
+	local Timestamp = os.time()
+	local TimeString = os.date( "%H:%M:%S - %d/%m/%Y" , Timestamp )
+	SQLLog( 'duel', ply:Nick() .. " has left the game during a duel. (" .. TimeString .. ")" )
+
 end )
 
 net.Receive( "SuddenDeath",  function( _, ply )

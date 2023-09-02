@@ -90,17 +90,20 @@ function ENT:SendItem(caller,entity_name)
 	local UniqueModel = GTowerItems:Get( simplehash(entity_name) ).Model
 	caller:InvGiveItem( simplehash(entity_name), slot )
 
-	local mdlbzr = ents.Create("gmt_model_bezier")
+	CreateModelBezier( {
+		pos = util.GetCenterPos( self ),
+		goal_entity = caller,
 
-	if IsValid( mdlbzr ) then
-		mdlbzr:SetPos( self.Entity:GetPos() )
-		mdlbzr.GoalEntity = caller
-		mdlbzr.ModelString = UniqueModel
-		mdlbzr.RandPosAmount = 0
-		mdlbzr:Spawn()
-		mdlbzr:Activate()
-		mdlbzr:Begin()
-	end
+		model = UniqueModel,
+		count = 1,
+				
+		approach = 0.5,
+		duration = 2.0,
+		random_position = 0,
+		spin = 0,
+
+		begin = true,
+	} )
 end
 
 function ENT:PayOut(ply,prize)

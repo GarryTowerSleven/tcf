@@ -109,6 +109,12 @@ ChatCommands.Register("/me", 1, function(ply, msg)
 	)
 end)
 
+hook.Add("PlayerThink", "Taunting", function(ply)
+	if ply:GetNWBool("Emoting") && !ply:IsOnGround() then
+		StopAllEmotes(ply)
+	end
+end)
+
 for _, emote in pairs(Commands) do
 	local emoteName = emote[1]
 	local Action 	= emote[2]
@@ -190,10 +196,17 @@ for _, emote in pairs(Commands) do
 
 			if ply:GetModel() == "models/player/hatman.mdl" && emoteName == "dance" then
 			
-				if !Location.IsTheater( ply.Location ) && !Location.IsNightclub( ply.Location ) && !ply:Location().CondoID then
+				if !Location.IsTheater( Location.Find(ply:GetPos()) ) && !Location.IsGroup( Location.Find(ply:GetPos()), "suite" ) && !Location.IsGroup( Location.Find(ply:GetPos()), "partysuite" ) then
 			
 					ply.DanceSND = CreateSound( ply, "misc/halloween/hwn_dance_loop.wav" )
-					ply.DanceSND:PlayEx( 80, 100 )
+					ply.DanceSND:PlayEx( .5, 100 )
+				
+				end
+			elseif ply:GetModel() == "models/player/miku.mdl" && emoteName == "dance" then
+				if !Location.IsTheater( Location.Find(ply:GetPos()) ) && !Location.IsGroup( Location.Find(ply:GetPos()), "suite" ) && !Location.IsGroup( Location.Find(ply:GetPos()), "partysuite" ) then
+			
+					ply.DanceSND = CreateSound( ply, "gmodtower/lobby/mikuclock/mikuclock_song0" .. math.random(9) .. ".mp3" )
+					ply.DanceSND:PlayEx( .5, 100 )
 				
 				end
 			end

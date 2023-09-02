@@ -11,7 +11,6 @@ AddCSLuaFile("cl_playermenu.lua")
 AddCSLuaFile("cl_hud.lua")
 AddCSLuaFile("cl_post_events.lua")
 AddCSLuaFile("cl_scoreboard.lua")
-AddCSLuaFile("cl_webboard.lua")
 AddCSLuaFile("cl_hudchat.lua")
 AddCSLuaFile("milestones/uch_animations.lua")
 
@@ -427,10 +426,6 @@ end )
 end)*/
 
 function GM:EntityTakeDamage( ent, dmginfo  )
-
-	if ent:IsNPC() then
-		dmginfo:ScaleDamage( 0.0 )
-	end
 
 	if ent:IsPlayer() && ent.IsGodMode then //why this? because we want to be able to override it if needed
 		dmginfo:ScaleDamage( 0.0 )

@@ -1,7 +1,7 @@
 include('shared.lua')
 
 function ENT:Initialize()
-	if ( IsLobbyOne ) then return end
+	if true then return end
 
 	-- Store the soundscape we started in, it'll be our little home
 	-- Unfortunately, we can't insert the soundscape here as ent:OnRemove() is called more than it should
@@ -18,7 +18,7 @@ function ENT:Initialize()
 end
 
 function ENT:Think()
-	if ( IsLobbyOne ) then return end
+	if true then return end
 	
 	-- This doesn't need to poll very often
 	if self.NextThinkTime and self.NextThinkTime > RealTime() then return end 
@@ -35,7 +35,7 @@ end
 
 
 function ENT:OnRemove()
-	if ( IsLobbyOne ) then return end
+	if true then return end
 	if not self.HumSoundscape then return end
 
 	-- Remove our hum from the soundscape system
@@ -44,8 +44,6 @@ end
 
 function ENT:Draw()
 	self:DrawModel()
-
-	if ( not IsLobbyOne ) then return end
 	self:DrawTranslucent()
 end
 

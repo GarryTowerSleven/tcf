@@ -546,45 +546,13 @@ function TRADE:SubmmitTrade()
 	end
 
 	//Give the money
-	self.Player1.ply:AddMoney( self.Player2.money, true )
-	self.Player1.ply:AddMoney( -self.Player1.money, true )
+	self.Player1.ply:GiveMoney( self.Player2.money, false, self.Player2.ply )
+	self.Player1.ply:TakeMoney( self.Player1.money, false, self.Player2.ply )
 
-	self.Player2.ply:AddMoney( self.Player1.money, true )
-	self.Player2.ply:AddMoney( -self.Player2.money, true )
+	self.Player2.ply:GiveMoney( self.Player1.money, false, self.Player1.ply )
+	self.Player2.ply:TakeMoney( self.Player2.money, false, self.Player1.ply )
 
 	self:EndTrade()
-
-	if self.Player1.money > 0 then
-
-	local bzr = ents.Create("gmt_money_bezier")
-
-	if IsValid( bzr ) then
-		bzr:SetPos( self.Player1.ply:GetPos() )
-		bzr.GoalEntity = self.Player2.ply
-		bzr.GMC = self.Player1.money
-		bzr.RandPosAmount = 50
-		bzr:Spawn()
-		bzr:Activate()
-		bzr:Begin()
-	end
-
-	end
-
-	if self.Player2.money > 0 then
-
-	local bzr = ents.Create("gmt_money_bezier")
-
-	if IsValid( bzr ) then
-		bzr:SetPos( self.Player2.ply:GetPos() )
-		bzr.GoalEntity = self.Player1.ply
-		bzr.GMC = self.Player2.money
-		bzr.RandPosAmount = 50
-		bzr:Spawn()
-		bzr:Activate()
-		bzr:Begin()
-	end
-
-	end
 
 	SafeCall( GTowerTrade.LogTrade,
 		self.Player1.ply,

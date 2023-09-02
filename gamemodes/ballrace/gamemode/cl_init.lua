@@ -91,7 +91,7 @@ local waitCams = {
 		fov = 70
 	},
 
-	["gmt_ballracer_facile"] = {
+	["gmt_ballracer_facile02"] = {
 		origin = Vector( 6849.89, 4036.21, -1319.66 ),
 		angles = Angle( 2.44, -112.38, 0 ),
 		fov = 70

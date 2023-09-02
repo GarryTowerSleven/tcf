@@ -11,11 +11,9 @@ function ENT:Draw()
 	local ang = self:GetAngles()
 	ang:RotateAroundAxis(ang:Forward(), 90)
 
-	--if scale == 0.055 then
-		cam.Start3D2D(pos, ang, scale)
+	cam.Start3D2D(pos, ang, scale)
 
-			draw.DrawText(os.date("%I:%M %p"), "clock", -140, -68, Color(200, 235, 255, 200))
+		draw.DrawText(os.date("%I:%M %p"), "clock", -140, -68, Color(200, 235, 255, 200))
 
-		cam.End3D2D()
-	--end
+	cam.End3D2D()
 end

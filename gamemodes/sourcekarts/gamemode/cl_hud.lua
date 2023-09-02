@@ -1837,11 +1837,13 @@ function GM:DrawHUDMessages()
 
 end
 
-
+local last = 0
 
 function GM:InsertHUDMessage( text, color )
 
+	if last > CurTime() then return end
 
+	last = CurTime() + 0.1
 
 	local message = {
 

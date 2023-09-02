@@ -17,7 +17,8 @@ function ENT:Initialize()
 	self:SetUseType( SIMPLE_USE )
 end
 
-function ENT:Think()
+function ENT:Think()
+
 
 	if !IsValid(self) then return end
 
@@ -91,7 +92,7 @@ net.Receive("ReceiveBid",function()
 
 		if bid > Table:GetNWInt("bid") then
 			ply:Msg2("[AUCTION] You bet " .. bid .. " GMC.")
-			ply:AddMoney(-bid,true)
+			ply:TakeMoney( bid, false, Table )
 			local BetTotal = ply:GetNWInt("BetTotal",0)
 			ply:SetNWInt( "BetTotal", bid + BetTotal )
 		else
@@ -102,18 +103,6 @@ net.Receive("ReceiveBid",function()
 		Table:SetNWEntity("ply",ply)
 		Table:SetNWString("plyname",ply:Name())
 		Table:SetNWInt("bid",bid)
-
-		local bzr = ents.Create("gmt_money_bezier")
-
-		if IsValid( bzr ) then
-			bzr:SetPos( Table:GetPos() + Vector(0,0,50) )
-			bzr.GoalEntity = Table
-			bzr.GMC = bid
-			bzr.RandPosAmount = 25
-			bzr:Spawn()
-			bzr:Activate()
-			bzr:Begin()
-		end
 
 	end
 end)

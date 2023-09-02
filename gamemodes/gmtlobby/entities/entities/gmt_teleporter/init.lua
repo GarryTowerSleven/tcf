@@ -21,7 +21,6 @@ function ENT:Initialize()
 	self.Entity:SetSolid(SOLID_VPHYSICS)
 	self:DrawShadow(true)
 
-
 	local phys = self.Entity:GetPhysicsObject()
 	if (phys:IsValid()) then
 		phys:EnableMotion(false)

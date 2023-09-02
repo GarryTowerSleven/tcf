@@ -200,13 +200,13 @@ function GM:EntityTakeDamage( target, dmginfo )
 	end
 
 	if target:IsNPC() && target:Health() < amount then
-		umsg.Start( "HUDNotes" )
+		umsg.Start( "HUDNotes", ply )
 			umsg.Char(4)
 			umsg.Short( 0 )
 			umsg.Short(target:EntIndex())
 		umsg.End()
 	elseif target:IsNPC() && ( !self.LastDamageNote || self.LastDamageNote < CurTime() ) then
-		umsg.Start( "HUDNotes" )
+		umsg.Start( "HUDNotes", ply )
 			umsg.Char(1)
 			umsg.Short( math.Round( dmginfo:GetDamage() ) )
 			umsg.Short(target:EntIndex())

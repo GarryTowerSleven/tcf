@@ -99,41 +99,41 @@ MUSIC_MRSATURN = 8
 /* MUSIC */
 
 GM.Music = {
-	[MUSIC_WAITING] = { "UCH/music/waiting/waiting_music", 13 },
-	[MUSIC_ROUND] = { "UCH/music/round/round_music", 9 },
+	[MUSIC_WAITING] = { "UCH/newmusic/waiting/waiting_music", 13 },
+	[MUSIC_ROUND] = { "UCH/newmusic/round/round_music", 9 },
 	[MUSIC_ENDROUND] = {
 
 		Chimera =  {
-			win 	= Sound( "UCH/music/endround/chimera_win.mp3" ),
-			lose 	= Sound( "UCH/music/endround/chimera_lose.mp3" ),
+			win 	= Sound( "UCH/newmusic/endround/chimera_win.mp3" ),
+			lose 	= Sound( "UCH/newmusic/endround/chimera_lose.mp3" ),
 		},
 
 		Pigmask = {
-			win 	= Sound( "UCH/music/endround/pigs_win.mp3" ),
-			lose 	= Sound( "UCH/music/endround/pigs_lose.mp3" ),
+			win 	= Sound( "UCH/newmusic/endround/pigs_win.mp3" ),
+			lose 	= Sound( "UCH/newmusic/endround/pigs_lose.mp3" ),
 		},
 
-		Tie	= Sound( "UCH/music/endround/gameend.mp3" ),
-		Salsa = Sound( "UCH/music/endround/salsa.mp3" ),
+		Tie	= Sound( "UCH/newmusic/endround/gameend.mp3" ),
+		Salsa = Sound( "UCH/newmusic/endround/salsa.mp3" ),
 
 	},
 	[MUSIC_SPAWN] = {
 
-		Chimera = Sound( "UCH/music/spawn/chimera_spawn.wav" ),
+		Chimera = Sound( "UCH/newmusic/spawn/chimera_spawn.wav" ),
 
 		Pigmask = {
 
-			ensign 	= Sound( "UCH/music/spawn/ensign_spawn.wav" ),
-			captain = Sound( "UCH/music/spawn/captain_spawn.wav" ),
-			major 	= Sound( "UCH/music/spawn/major_spawn.wav" ),
-			colonel = Sound( "UCH/music/spawn/colonel_spawn.wav" ),
+			ensign 	= Sound( "UCH/newmusic/spawn/ensign_spawn.wav" ),
+			captain = Sound( "UCH/newmusic/spawn/captain_spawn.wav" ),
+			major 	= Sound( "UCH/newmusic/spawn/major_spawn.wav" ),
+			colonel = Sound( "UCH/newmusic/spawn/colonel_spawn.wav" ),
 
 		},
 
 	},
-	[MUSIC_GHOST] = { "UCH/music/ghost/ghost_music", 8 },
-	[MUSIC_FGHOST] = { "UCH/music/ghost/fancy/fancyghost_music", 5 },
-	[MUSIC_30SEC] = Sound( "UCH/music/round/round_30secsleft.mp3" ),
+	[MUSIC_GHOST] = { "UCH/newmusic/ghost/ghost_music", 8 },
+	[MUSIC_FGHOST] = { "UCH/newmusic/ghost/fancy/fancyghost_music", 5 },
+	[MUSIC_30SEC] = Sound( "UCH/newmusic/round/round_30secsleft.mp3" ),
 	[MUSIC_MRSATURN] = Sound( "UCH/saturn/saturn_win.wav" ),
 }
 

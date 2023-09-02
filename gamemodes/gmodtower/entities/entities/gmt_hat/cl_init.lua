@@ -18,7 +18,7 @@ function ENT:Initialize()
 			local item = Hats.GetItem( self.dt.HatID )
 			if not item then return end
 
-			local name = string.lower( item.unique_Name )
+			local name = string.lower( item.unique_name )
 			local model = string.lower( Hats.FindPlayerModelByName( self:GetOwner():GetModel() ) )
 
 			if not Hats.Data[ model ] then

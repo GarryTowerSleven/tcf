@@ -16,10 +16,6 @@ function ENT:Initialize()
 		phys:EnableMotion( false )
 	end
 
-	if ( not IsLobbyOne ) then
-		self:SetMaterial( "models/map_detail/deluxe_vendingmachine", true )
-	end
-
 end
 
 function ENT:SetSale( sale )

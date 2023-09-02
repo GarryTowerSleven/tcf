@@ -21,6 +21,7 @@ SetupGMTGamemode( "Zombie Massacre", "zombiemassacre", {
 	DisableDucking = true,
 	DisableJumping = true,
 	DisableRunning = true,
+	EnableWeaponSelect = false
 } )
 
 hook.Add("PostPlayerDraw", "CSSWeaponFix", function(v)

@@ -231,7 +231,7 @@ end
 
 function GetPreviewIcon( map )
 
-	if map == "gmt_ballracer_nightball" or map == "gmt_gr_ruins" /*or map == "gmt_ballracer_miracle"*/ or map == "gmt_gr_nile" or map == "gmt_ballracer_metalworld" or map == "gmt_ballracer_neonlights01" or map == "gmt_ballracer_facile" /*or map == "gmt_ballracer_summit"*/ or map == "gmt_ballracer_tranquil" or map == "gmt_ballracer_spaceworld" or map == "gmt_minigolf_desert" or map == "gmt_sk_stadium" or map == "gmt_sk_rave" or map == "gmt_pvp_aether" or map == "gmt_pvp_mars" or map == "gmt_pvp_aether" or map == "gmt_pvp_neo" then
+	if map == "gmt_ballracer_nightball" or map == "gmt_gr_ruins" /*or map == "gmt_ballracer_miracle"*/ or map == "gmt_gr_nile" or map == "gmt_ballracer_metalworld" or map == "gmt_ballracer_neonlights01" /*or map == "gmt_ballracer_summit"*/ or map == "gmt_ballracer_tranquil" or map == "gmt_ballracer_spaceworld" or map == "gmt_sk_rave" or map == "gmt_pvp_aether" or map == "gmt_pvp_mars" or map == "gmt_pvp_aether" or map == "gmt_pvp_neo" then
         return "gmod_tower/maps/preview/" .. map
 	elseif map == "gmt_sk_island01_fix" then
 		return "gmod_tower/maps/preview/" .. string.sub( "gmt_sk_island01", 0, -3 )

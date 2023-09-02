@@ -1,4 +1,3 @@
----------------------------------
 include("shared.lua")
 
 ENT.LightMat = Material("sprites/pickup_light")
@@ -29,7 +28,15 @@ function ENT:Think()
     local SinTime = math.sin(CurTime() + self.TimeOffset)
     
     self:SetPos( self.OriginPos + Vector(0,0, 50 +  SinTime * 5 ) ) 
-    self:SetAngles( self:GetAngles() + Angle( 0, 0.5 ,0 ) )
+    //self:SetAngles( self:GetAngles() + Angle( 0, 0.5 ,0 ) )
+
+    local rot = self:GetAngles()
+    rot.r = rot.r + 90 * FrameTime()
+    rot.p = rot.p + 90 * FrameTime()
+    rot.y = rot.y + 90 * FrameTime()
+
+    self:SetAngles(rot) 
+    self:SetRenderAngles(rot)
     
     if CurTime() > self.NextParticle then
         local emitter = self.Emitter
@@ -44,7 +51,7 @@ function ENT:Think()
         if particle then
             particle:SetVelocity( vel )
             particle:SetDieTime( math.Rand( 1, 3 ) )
-            particle:SetStartAlpha( 100 )
+            particle:SetStartAlpha( 50 )
             particle:SetEndAlpha( 0 )
             particle:SetStartSize( 12 )
             particle:SetEndSize( 0 )

@@ -1,7 +1,6 @@
----------------------------------
-util.AddNetworkString("JoinFriendCheck")
 GTowerAdmins = {
-	//"STEAM_0:0:71992617", -- Haina, praise be
+	// "STEAM_0:0:71992617", -- Haina, praise be
+
 	"STEAM_0:0:1384695", -- Kity
 	"STEAM_0:0:38865393", -- boXy
 	"STEAM_0:1:39916544", -- Anoma
@@ -274,153 +273,58 @@ hook.Add("PlayerInitialSpawn", "GTowerCheckAdmin", function(ply)
 
 end )
 
-hook.Add( "PlayerFullyJoined", "JoinedMessage", function(ply)
-	if IsLobby then
-		ply:Joined()
+concommand.AdminAdd( "gmt_runlua", function( ply, _, _, argStr )
 
-		if ply:GetNWBool("IsNewPlayer") then
-			ply:MsgI("gmtsmall", "LobbyWelcomeNew" )
-		else
-			ply:MsgI("gmtsmall", "LobbyWelcome",ply:Name() )
-		end
+	local lua = argStr
 
-		// Friend has joined the lobby
-		for _, v in ipairs( player.GetAll() ) do
-			if ( Friends.IsFriend( v, ply ) ) then
-				v:MsgT( "Friends_Joined", ply:GetName() )
-			end
-		end
+	RunString( "function GMTRunLua() end" ) // clear out the last function, incase the new code is invalid
+	RunString( "function GMTRunLua() local me = Entity(" .. ply:EntIndex() .. ") " .. lua .. " end" )
+
+	AdminNotif.SendStaff( Format( "%s has ran lua. See console for details.", ply:Nick() ), nil, "YELLOW", 1 )
+	AdminLog.PrintStaff( "[RunLua] Running: " .. tostring( lua ), "YELLOW" )
+
+	status, err = pcall( GMTRunLua )
+
+	if !status then
+		AdminNotif.SendStaff( "Failed to run lua! See console for details!", nil, "RED", 1 )
+		AdminLog.PrintStaff( "[RunLua] Error: " .. tostring( err ), "RED", 1 )
 	end
-end)
-
-hook.Add("PlayerDisconnected","LeaveMessage",function(ply)
-	/*if ply.HasResetData then
-		local SanitizedName = string.SafeChatName(ply:Name())
-		GAMEMODE:ColorNotifyAll( SanitizedName.." has reset their data and left the tower.", Color(100, 100, 100, 255) )
-		return
-	end*/
-
-	if IsLobby then
-		if ply.HideRedir then return end
-		ply:Left()
-		if Dueling.IsDueling( ply ) then
-			local Timestamp = os.time()
-			local TimeString = os.date( "%H:%M:%S - %d/%m/%Y" , Timestamp )
-			SQLLog( 'duel', ply:Nick() .. " has left the game during a duel. (" .. TimeString .. ")" )
-		end
-	end
-end)
-
-function GetAdminRP()
-
-	local rp = RecipientFilter()
-
-	for _, ply in ipairs( player.GetAll() ) do
-		if ply:IsAdmin() then rp:AddPlayer( ply ) end
-	end
-
-	return rp
-
-end
-
-// Increasing security, maybe someday it will be safe to bring these back
-
-/*concommand.Add("gmt_runlua", function( ply, cmd, args )
-
-	if ply:IsAdmin() then
-
-		local Lua = table.concat( args, " ")
-
-		AdminNotif.SendStaff( ply:Nick() .. " has ran lua. See console for details.", nil, "YELLOW", 1 )
-		AdminLog.PrintStaff( tostring(Lua), "YELLOW" )
-
-		//LogPrint( ply:Nick() .. " has ran LUA", Color(255,255,0) )
-		LogPrint( tostring(Lua), Color(255,255,0) )
-
-		RunString("function GmtRunLua() " .. Lua .. " end ")
-
-		local B, retrn = SafeCall( GmtRunLua )
-
-		--ply:Msg2( tostring(retrn) )
-
-	end
-
-end )*/
-
-function GMTRunLua( ply, lua )
-	if ( not lua ) then return end
-
-	AdminNotif.SendStaff( ply:Nick() .. " has ran lua. See console for details.", nil, "YELLOW", 1 )
-	AdminLog.PrintStaff( lua, "YELLOW" )
-
-	local err = RunString( lua, "GMTRunLua", false )
-
-	if ( err ) then
-		LogPrint( err, color_red )
-		AdminLog.PrintStaff( err, "RED" )
-	end
-end
-
-concommand.AdminAdd( "gmt_runlua", function( ply, cmd, args )
-	if ( table.IsEmpty( args ) or args[1] == "" ) then return end
-
-	local lua = tostring( args[1] )
 	
-	if ( #lua >= 243 ) then
-		AdminLog.Print( ply, "String is too long! Max chars is 243.", "RED" )
+end )
+
+concommand.AdminAdd("gmt_sendlua", function( ply, _, _, argStr )
+
+	local lua = argStr
+	local run_lua = "function GMTRunLua() " .. lua .. " end GMTRunLua()"
+
+	if string.len( run_lua ) >= 254 then 
+		AdminLog.Print( ply, "[SendLua] String too long! Not Sending.", "RED" )
+
 		return
 	end
 
-	GMTRunLua( ply, lua )
+	AdminNotif.SendStaff( ply:Nick() .. " has sent lua to all players. See console for details.", nil, "YELLOW", 1 )
+	AdminLog.PrintStaff( "[SendLua] Broadcasting: " .. tostring( lua ), "YELLOW" )
+
+	BroadcastLua( run_lua )
+
 end )
 
+concommand.AdminAdd( "gmt_rcon", function( ply, _, args )
+	
+	if #args == 0 then
+		AdminLog.Print( ply, "[RCON] No commands specified.", "RED" )
 
-/*concommand.Add("gmt_svrunlua", function( ply, cmd, args )
-
-	if ply:IsAdmin() then
-
-		local Lua = table.concat( args, " ")
-
-		RunString("function GmtRunLua() " .. Lua .. " end ")
-
-		local B, retrn = SafeCall( GmtRunLua )
-
-		if type( retrn ) == "table" then
-			retrn = table.ToNiceString( retrn )
-		end
-
-		ply:Msg2( tostring(retrn) )
-
+		return
 	end
+	
+	local cmd = table.remove( args, 1 )
 
-end )*/
+	AdminNotif.SendStaff( ply:Nick() .. " has ran RCON. See console for details.", nil, "YELLOW", 1 )
+	AdminLog.PrintStaff( "[RCON] Command: " .. tostring( cmd ) .. " " .. table.concat( args, "" ), "YELLOW" )
 
-concommand.Add("gmt_sendlua", function( ply, cmd, args )
-	if ply:IsAdmin() then
-
-		AdminNotif.SendStaff( ply:Nick() .. " has sent lua to all players. See console for details.", nil, "YELLOW", 1 )
-		AdminLog.PrintStaff( tostring(Lua), "YELLOW" )
-
-		LogPrint( ply:Nick() .. " has sent lua to all players.", Color(255,255,0) )
-		LogPrint( tostring(Lua), Color(255,255,0) )
-
-		BroadcastLua( table.concat( args, " ")  )
-	end
-end )
-
-concommand.Add("gmt_cvar", function( ply, cmd, args )
-	if ply:IsAdmin() then
-
-		local Cvar = args[1]
-
-		if args[2] then
-			RunConsoleCommand(Cvar , args[2] )
-		else
-			ply:Msg2( Cvar .. " = " .. GetConVarString( Cvar ) )
-		end
-
-	end
-
+	RunConsoleCommand( cmd, unpack( args ) )
+	
 end )
 
 concommand.Add( "gmt_warn", function( ply, cmd, args )
@@ -436,16 +340,6 @@ concommand.Add( "gmt_warn", function( ply, cmd, args )
 end)
 
 util.AddNetworkString("AdminWarn")
-
-// we probably should remove this before release
-concommand.Add("gmt_quitplayer", function( ply, cmd, args )
-	if args[1] && tonumber(args[1]) && ply:IsAdmin() then
-		if ents.GetByIndex(args[1]) && ents.GetByIndex(args[1]):IsPlayer() then
-			AdminNotif.SendAdmins( ply:Nick() .. " has FORCEQUIT " .. ents.GetByIndex(args[1]):NickID(), 20, "RED", 1 )
-			ents.GetByIndex(args[1]):SendLua( "LocalPlayer():ConCommand('gamemenucommand quit')" )
-		end
-	end
-end )
 
 concommand.Add("gmt_sendtolobby", function( ply, cmd, args )
 	if !ply:IsStaff() then return end

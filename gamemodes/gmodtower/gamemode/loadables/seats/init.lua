@@ -180,6 +180,8 @@ local function PlayerLeaveVehicle( vehicle, ply )
 		vehicle:Remove()
 	end
 
+	ply:ReParentCosmetics()
+
 	return false
 end
 

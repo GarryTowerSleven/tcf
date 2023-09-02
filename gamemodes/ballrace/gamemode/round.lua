@@ -258,7 +258,7 @@ function GM:StartRound()
 
 	local banana = ents.Create( "secret_banana" )
 
-	if game.GetMap() == "gmt_ballracer_facile" then
+	if game.GetMap() == "gmt_ballracer_facile02" then
 		banana:SetPos( Vector( 6529.704102, -2639.191895, 976.031250 ) )
 		banana:Spawn()
 	elseif game.GetMap() == "gmt_ballracer_grassworld01" then

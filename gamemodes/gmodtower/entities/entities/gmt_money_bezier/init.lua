@@ -1,32 +1,52 @@
-include("shared.lua")
-AddCSLuaFile("shared.lua")
-AddCSLuaFile("cl_init.lua")
+AddCSLuaFile( "cl_init.lua" )
+AddCSLuaFile( "shared.lua" )
 
-util.AddNetworkString("gmt_bezier_start")
+include( "shared.lua" )
 
-ENT.Offset = Vector(0,0,0)
+function ENT:Network()
 
-function ENT:Initialize()
-    self:DrawShadow(false)
+    net.Start( self.NetString )
+        net.WriteEntity( self )
+        net.WriteEntity( self.GoalEntity )
+        net.WriteUInt( math.Clamp( self.ModelCount, 1, 150 ), 8 )
 
-    timer.Simple(10,function()
-      if IsValid(self) then self:Remove() end
-    end)
-
+        net.WriteVector( self.GoalOffset )
+        net.WriteFloat( self.RandomPos )
+    net.Broadcast()
+    
 end
 
-function ENT:Begin()
-  timer.Simple(0.25,function()
+function CreateMoneyBezier( startpos, target, amount, begin, randompos, offset )
 
-  net.Start( "gmt_bezier_start" )
-    net.WriteEntity(self.Entity)
-    net.WriteEntity(self.GoalEntity)
-    net.WriteVector(self.Offset)
-    net.WriteShort(math.Clamp( (self.GMC / 4), 1, 150 ))
-    net.WriteFloat(self.RandPosAmount)
-    net.WriteFloat(0.5)
-    net.WriteFloat(2.5)
-  net.Broadcast()
+    if not startpos or not IsValid( target or NULL ) or not amount then return end
 
-  end)
+    local ent = ents.Create( "gmt_money_bezier" )
+
+    if IsValid( ent ) then
+
+        if IsEntity( startpos ) and IsValid( startpos ) then
+            startpos = startpos:GetPos()
+        end
+
+        ent:SetPos( startpos )
+        ent.GoalEntity = target
+    
+        ent.ModelCount = math.ceil( amount / 6 )
+
+        ent.RandomPos = randompos or ent.RandomPos
+        ent.GoalOffset = offset or ent.GoalOffset
+        
+        ent:Spawn()
+        ent:Activate()
+
+        if begin or false then
+            ent:Begin()
+        end
+
+        return ent
+            
+    end
+
+    return NULL
+
 end

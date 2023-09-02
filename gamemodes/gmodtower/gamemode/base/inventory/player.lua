@@ -298,6 +298,10 @@ function meta:DropItem( slot, aim, rotation, shoot )
 		return
 	end
 
+	if IsValid(Trace.Entity) && string.find(Trace.Entity:GetClass(), "door") then
+		return
+	end
+
 	if Item.CanEntCreate == false then
 		return
 	end

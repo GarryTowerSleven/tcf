@@ -1,72 +1,57 @@
----------------------------------
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
+
 include("shared.lua")
 
 function ENT:Initialize()
-	
-	//self.Entity:PhysicsInit(SOLID_VPHYSICS)
-    //self.Entity:SetMoveType(MOVETYPE_NONE) // Make its movetype MOVETYPE_NONE, so it sits still.
-    //self.Entity:SetSolid(SOLID_VPHYSICS)
     
-    --self:UpdateModel()
+    self:PhysicsInitSphere( 30 )
+    self:SetMoveType( MOVETYPE_NONE )
+    self:SetSolid( SOLID_VPHYSICS )
+    self:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
+    self:SetTrigger( true )
     
-    self.Entity:PhysicsInitSphere( 30 )
-    self.Entity:SetMoveType( MOVETYPE_NONE )
-    self.Entity:SetSolid( SOLID_VPHYSICS )
-    self.Entity:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
-    self.Entity:SetTrigger( true )
-    
-    local phys = self.Entity:GetPhysicsObject()
+    local phys = self:GetPhysicsObject()
 	if (phys:IsValid()) then
 		phys:EnableMotion(false)
 	end
     
     self.MoneyAlreadyTouch = false
+
 end
 
 function ENT:Touch( ply )
+
     if not IsValid(ply) or not ply:IsPlayer() then return end
-    if self.MoneyAlreadyTouch == true then return end
-    self.MoneyAlreadyTouch = true
 	
     ply:EmitSound( self.PickupSound )
-    self:Fire("kill")
-    
-    
-    --ply:AddMoney( self:GetMoneyValue() )
 	ply:AddMoney( self.MoneyValue )
+
+    self:Remove()
+
 end
-
-/*function ENT:GetMoneyValue()
-	return 0
-end*/
-
-/*function ENT:UpdateModel()
-	self.Entity:SetModel( self.Model )
-end*/
 
 concommand.Add("gmt_devmoney", function(ply, cmd, args)
 
-    if !ply:IsAdmin() then return end
+    if not ply:IsStaff() then return end
 	
-	local EntNames = {
+	local modelvalues = {
 		{"one", 1},
 		{"ten", 10},
 		{"twentyfive", 25},
 		{"fifty", 50}
 	}
 	
-	local selection = math.Clamp(tonumber(args[1] or 4), 1, 4)
+	local num = math.Clamp(tonumber(args[1] or 4), 1, 4)
 	
-	local EndName = Model("models/gmt_money/" .. EntNames[ selection ][ 1 ] .. ".mdl")
+	local modelname = Model("models/gmt_money/" .. modelvalues[ num ][ 1 ] .. ".mdl")
+
+    AdminNotif.SendStaff( Format( "%s has spawned money. (%s GMC)", ply:Nick(), tostring( modelvalues[ num ][ 2 ] ) ), nil, "GREEN" )
 	
-	Msg("Admin " .. ply:GetName() .. " spawning gmt_money_" .. EntNames[ selection ][ 1 ] .. "\n")
-	
-    local prop = ents.Create( "gmt_money_base" )
-	prop:SetModel( EndName )
-	prop.MoneyValue = EntNames[ selection ][ 2 ]
-    prop:SetPos( ply:GetEyeTrace().HitPos + Vector(0, 0, 10) )
-    prop:Spawn()
+    local ent = ents.Create( "gmt_money_base" )
+	ent:SetModel( modelname )
+	ent.MoneyValue = modelvalues[ num ][ 2 ]
+    ent:SetPos( ply:GetEyeTrace().HitPos + Vector(0, 0, 10) )
+    ent:Spawn()
 
 end)

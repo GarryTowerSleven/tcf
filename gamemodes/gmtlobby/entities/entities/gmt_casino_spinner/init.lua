@@ -87,23 +87,11 @@ function ENT:Use( activator, caller )
 		if self:GetState() == 0 && caller.IsSpinning != true  then
 			if caller:Afford( self.Cost ) then
 				caller.IsSpinning = true
-				caller:AddMoney(-self.Cost)
+				caller:TakeMoney( self.Cost, false, self )
 				caller:AddAchievement( ACHIEVEMENTS.BORNTOSPIN, 1 )
 
 				self:SetSpinTime(self.SpinDuration)
 				self:SetState(4)
-
-				local ent = ents.Create("gmt_money_bezier")
-
-				if IsValid( ent ) then
-				  ent:SetPos( caller:GetPos() + Vector( 0, 0, -10 ) )
-				  ent.GoalEntity = self
-				  ent.GMC = 100
-				  ent.RandPosAmount = 50
-				  ent:Spawn()
-				  ent:Activate()
-				  ent:Begin()
-				end			
 
 				self:SetTarget( tonumber(self:SpinRoll()) - 1 )
 				self:SetUser(caller)
@@ -125,10 +113,11 @@ function ENT:Use( activator, caller )
 	end
 end
 
-function ENT:SendItem(caller,entity_name)
+function ENT:SendItem( caller, entity_name )
 	if entity_name == "[No Entity Found]" then return end
 
 	local Item = GTowerItems:Get( simplehash(entity_name) )
+
 	local UniqueModel = Item.Model
 
 	if Item.UniqueInventory == true && caller:HasItemById( Item.MysqlId ) then
@@ -136,17 +125,21 @@ function ENT:SendItem(caller,entity_name)
 		caller:Msg2("[Spinner] You already own this unique item, so you've won its sell value!")
 	else
 		caller:InvGiveItem( simplehash(entity_name), slot )
-		local mdlbzr = ents.Create("gmt_model_bezier")
 
-		if IsValid( mdlbzr ) then
-			mdlbzr:SetPos( self.Entity:GetPos() )
-			mdlbzr.GoalEntity = caller
-			mdlbzr.ModelString = UniqueModel
-			mdlbzr.RandPosAmount = 0
-			mdlbzr:Spawn()
-			mdlbzr:Activate()
-			mdlbzr:Begin()
-		end
+		CreateModelBezier( {
+			pos = util.GetCenterPos( self ),
+			goal_entity = caller,
+	
+			model = UniqueModel,
+			count = 1,
+					
+			approach = 0.5,
+			duration = 2.0,
+			random_position = 0,
+			spin = 0,
+	
+			begin = true,
+		} )
 	end
 
 end
@@ -205,7 +198,7 @@ function ENT:PayOut(ply,prize)
 		timer.Simple( 0.5, function() BasicWin(self) end)
 		self:EmitSound("GModTower/misc/win_gameshow.mp3", 70)
 		gmc_earn = self.GMCPayouts[prize]
-		ply:AddMoney(gmc_earn, true, true, true)
+		ply:GiveMoney( gmc_earn, false, self )
 	end
 end
 

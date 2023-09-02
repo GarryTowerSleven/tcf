@@ -139,8 +139,6 @@ concommand.Add("gmt_storebuy", function( ply, cmd, args )
 			end
 		end
 
-		ply:AddMoney( -MoneyNeeded )
-
 		local NpcEnt = nil
 
 		local StoreTbl = GTowerStore.Stores[ Item.storeid ]
@@ -159,19 +157,8 @@ concommand.Add("gmt_storebuy", function( ply, cmd, args )
 
 		end
 
-		local ent = ents.Create("gmt_money_bezier")
-
-		if IsValid( ent ) and IsValid( NpcEnt ) then
-			ent:SetPos( ply:GetPos() )
-			ent.GoalEntity = NpcEnt
-			ent.GMC = MoneyNeeded
-			ent.RandPosAmount = 10
-			ent:Spawn()
-			ent:Activate()
-			ent:Begin()
-		end
-
-		ply:Msg2( T("StorePurchased", Item.Name)  )
+		ply:MsgT( "StorePurchased", Item.Name )
+		ply:TakeMoney( MoneyNeeded, false, NpcEnt )
 
 		ply:SetMaxLevel( ItemId, GoLevel )
 		ply:SetLevel( ItemId, GoLevel )

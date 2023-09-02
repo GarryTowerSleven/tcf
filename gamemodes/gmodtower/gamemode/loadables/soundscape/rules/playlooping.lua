@@ -67,7 +67,9 @@ function RULE:Think(volume, dsp)
 	if IsValid(self.LoopingSound) then
 		-- Mute the stream if they aren't focused
 		local isFocused = system.HasFocus() and 1 or 0
-		local volume = math.sqrt(self.CurrentVolume * volume) * isFocused
+		local mp = Location.GetMediaPlayersInLocation(LocalPlayer():Location())
+		mp = mp[1] and mp[1]._Media and 0 or 1
+		local volume = math.sqrt(self.CurrentVolume * volume) * isFocused * mp
 		self.LoopingSound:SetVolume( math.Clamp(volume, 0, 1 ))
 	end
 end

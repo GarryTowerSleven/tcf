@@ -10,13 +10,9 @@ EFFECT.LightMat = Material("sprites/pickup_light")
 
 function EFFECT:Init( data )
 
-	local origin = data:GetEntity()
+	local origin = data:GetOrigin()
 	
-	if !IsValid( origin ) then
-		return
-	end
-	
-	local count = math.Clamp( ( data:GetRadius() * 2 ), 10, 500 )
+	local count = math.Clamp( ( data:GetRadius() * 2 ), 10, 250 )
 
 	local emitter = ParticleEmitter( origin )
 
@@ -27,8 +23,8 @@ function EFFECT:Init( data )
 			local particle = emitter:Add( "sprites/pickup_light", pos )
 				particle:SetVelocity( vel )
 				particle:SetDieTime( math.Rand( 1, 3 ) )
-				particle:SetStartAlpha( 250 )
-				particle:SetEndAlpha( 210 )
+				particle:SetStartAlpha( 100)
+				particle:SetEndAlpha( 0 )
 				particle:SetStartSize( 12 )
 				particle:SetEndSize( 0 )
 				particle:SetRoll( math.Rand( 0, 360 ) )

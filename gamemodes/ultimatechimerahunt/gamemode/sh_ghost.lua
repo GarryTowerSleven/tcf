@@ -37,7 +37,9 @@ function meta:SetGhost()
 	if SERVER then
 		Hats.UpdateWearables( self )
 	end
-
+	
+	self.Spec = 0
+	
 end
 
 function meta:UnGhost()

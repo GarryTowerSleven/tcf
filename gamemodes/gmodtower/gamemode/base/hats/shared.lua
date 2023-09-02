@@ -119,7 +119,7 @@ end
 
 function GetByName( name )
 	for k, v in pairs( List ) do
-		if string.lower(v.unique_Name or "") == string.lower(name) then
+		if string.lower(v.unique_name or "") == string.lower(name) then
 			return k
 		end	
 	end
@@ -130,7 +130,7 @@ end
 function GetNameFromModel( mdl )
 	for k, v in pairs( List ) do
 		if v.model == mdl then
-			return v.unique_Name
+			return v.unique_name
 		end	
 	end
 end
@@ -148,7 +148,7 @@ function IsWearing( ply, uniquename )
 	local slot1, slot2 = GetWearables( ply )
 	local wear1, wear2 = GetItem( slot1 ), GetItem( slot2 )
 
-	if (wear1 and wear1.unique_Name == uniquename) || (wear2 and wear2.unique_Name == uniquename) then
+	if (wear1 and wear1.unique_name == uniquename) || (wear2 and wear2.unique_name == uniquename) then
 		return true
 	end
 

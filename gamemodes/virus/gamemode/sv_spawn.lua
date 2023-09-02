@@ -4,7 +4,6 @@ function GM:LateJoin( ply )
 		if ply2 == ply and !cmd:IsForced() then
 			ply:SetTeam( TEAM_INFECTED )
 			ply:SetNet( "IsVirus", true )
-			ply:SetModel( "models/player/virusi.mdl" )
 			ply:Spawn()
 			hook.Remove("SetupMove", ply:SteamID64())
 		end
@@ -15,6 +14,10 @@ function GM:PlayerInitialSpawn( ply )
 
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
 
+	if SERVER then
+		Hats.UpdateWearables( ply )
+	end
+	
 	if self:GetState() <= 1 then
 		if #player.GetAll() >= 1 && !ply:IsBot() && self:GetState() ~= STATE_WAITING then
 			self:SetState( STATE_WAITING )
@@ -77,6 +80,9 @@ function GM:VirusSpawn( ply )
 		ply:Spawn()
 	end
 	
+	if SERVER then
+		Hats.UpdateWearables( ply )
+	end
 	PostEvent( ply, "infection_on" )
 
 	timer.Simple( 2, function()
@@ -227,6 +233,10 @@ function GM:PlayerSpawn( ply )
 
 	ply:SetBloodColor(BLOOD_COLOR_RED)
 
+	if SERVER then
+		Hats.UpdateWearables( ply )
+	end
+	
 	if ( ply:GetNet( "IsVirus" ) ) then
 		self:VirusSpawn( ply )
 	else

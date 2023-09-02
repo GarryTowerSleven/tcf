@@ -136,17 +136,18 @@ function PlayNewSong( songdata, filename )
 	-- Stop existing songs
 	StopAllSongs( true )
 
+	timer.Simple( .1, function()
+		songdata.Sound = CreateSound( LocalPlayer(), filename or songdata.File )
+		songdata.Sound:PlayEx( GetClientVolume() * songdata.Volume, songdata.Pitch )
+
+		songdata.StartedPlaying = RealTime()
+	end )
+
 	function StartSong()
 		songdata.Sound = CreateSound( LocalPlayer(), filename or songdata.File )
 		songdata.Sound:PlayEx( GetClientVolume() * songdata.Volume, songdata.Pitch )
 
 		songdata.StartedPlaying = RealTime()
-	end
-
-	if !IsValid(LocalPlayer()) then
-		hook.Add( "LocalFullyJoined", "StartMusic", StartSong )
-	else
-		timer.Simple( .1, StartSong )
 	end
 
 	-- Add to manager

@@ -8,7 +8,7 @@ RequestDelay = 0
 hook.Add("GTowerStoreLoad", "AddHats", function()
 	for _, v in pairs( List ) do
 		
-		if v.unique_Name then
+		if v.unique_name then
 		
 			local NewItem = {}
 			
@@ -17,7 +17,7 @@ hook.Add("GTowerStoreLoad", "AddHats", function()
 			NewItem.Name = v.name
 			NewItem.description = v.description
 			NewItem.prices = { v.price }
-			NewItem.unique_Name = v.unique_Name
+			NewItem.unique_name = v.unique_name
 			NewItem.model = v.model
 			NewItem.drawmodel = true
 			NewItem.ModelSkin = v.ModelSkin

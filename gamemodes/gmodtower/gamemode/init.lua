@@ -209,7 +209,7 @@ function GM:PlayerSetModel( ply )
 	// bot hats
 	if ply:IsBot() then
 		local randHat, key = table.Random( GTowerHats.Hats )
-		ply:ReplaceHat( randHat.unique_Name, randHat.model, key, randHat.slot )
+		ply:ReplaceHat( randHat.unique_name, randHat.model, key, randHat.slot )
 	end
 
 	ply:SetupHands()*/
@@ -227,20 +227,22 @@ function GM:PlayerSetModel( ply )
 	
 	ply:SetModel(model)
 	ply:SetSkin(modelskin)
+
+	GTowerModels.Set( ply )
+
+	hook.Call( "PlayerSetModelPost", GAMEMODE, ply, model, modelskin )
+
 end
+
+hook.Add( "PlayerSpawn", "FixHats", function( ply )
+
+	ply:ReParentCosmetics()
+
+end )
 
 hook.Add( "PlayerSpray", "PlayerDisableSprays", function ( ply )
 	return not ply:CanSpray()
 end )
-
-net.Receive( "ClientFullyConnected", function( len, ply )
-	if !IsValid(ply) || ply:GetNWBool("FullyConnected") then return end
-
-	ply:SetNWBool("FullyConnected", true)
-	hook.Call("PlayerFullyJoined",GAMEMODE,ply)
-end )
-
-util.AddNetworkString( "ClientFullyConnected" )
 
 hook.Add("PlayerSpawn", "Machinima", function(ply)
 	if ply:GetSetting(30) and !IsLobby then

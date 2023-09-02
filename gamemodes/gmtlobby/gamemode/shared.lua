@@ -13,15 +13,11 @@ team.SetUp(1, "Tower Fans", team.GetColor(TEAM_UNASSIGNED), true)
 
 include("player_class/player_lobby.lua")
 
-IsLobbyOne = string.StartsWith( game.GetMap(), "gmt_build" )
-
 function IsHalloweenMap( map )
 	local map = map or game.GetMap()
 
-	if ( string.StartsWith( map, "gmt_build" ) ) then
+	if IsLobby then
 		return map[11] == "h"
-	elseif ( IsLobby ) then
-		return string.EndsWith( map, "h")
 	end
 
 	return false
@@ -30,10 +26,8 @@ end
 function IsChristmasMap( map )
 	local map = map or game.GetMap()
 
-	if ( string.StartsWith( map, "gmt_build" ) ) then
+	if IsLobby then
 		return map[11] == "c"
-	elseif ( IsLobby ) then
-		return string.EndsWith( map, "c")
 	end
 
 	return false

@@ -18,6 +18,12 @@ hook.Add("GTowerInvDrop", "BlockSuiteUsageDrop", function( ply, trace, Item, mov
 	if Room then
 		if Room.Owner == ply then
 
+			if !ply:Achived( ACHIEVEMENTS.SUITEDESIGNER ) then
+				if ply:GetNet( "RoomEntityCount" ) >= 200 then
+					ply:SetAchievement( ACHIEVEMENTS.SUITEDESIGNER, 1 )
+				end
+			end
+			
 			//Check if the player has reached entity limit count
 			if moving != true then
 				local Maximun = ply:GetNet("RoomMaxEntityCount")

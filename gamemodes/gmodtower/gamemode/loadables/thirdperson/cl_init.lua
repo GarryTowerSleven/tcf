@@ -457,7 +457,7 @@ function meta:CanViewSelf()
 	local wep = self:GetActiveWeapon()
 	if IsValid( wep ) then
 		if ( wep.CanSecondaryAttack && wep:CanSecondaryAttack() ) ||
-			wep:GetClass() == "weapon_crossbow" || wep:GetClass() == "weapon_physgun" then
+			wep:GetClass() == "weapon_crossbow" || wep:GetClass() == "weapon_physgun" || wep:GetClass() == "gmt_camera" then
 			return false
 		end
 	end

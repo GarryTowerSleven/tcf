@@ -795,7 +795,9 @@ function ENT:Draw()
 
 		if ply.CosmeticEquipment then
 			for k,v in pairs( ply.CosmeticEquipment ) do
-				v:SetModelScale( GTowerModels.GetScale( self:GetModel() ) or 1 )
+				if IsValid(v) then
+					v:SetModelScale( GTowerModels.GetScale( self:GetModel() ) or 1 )
+				end
 			end
 		end
 		hook.Call( "DrawKart", GAMEMODE, self, self.ClientModel, ply )

@@ -400,7 +400,7 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 			local row = res[1].data[1]
 			if row then
 					local roomdata = row.roomdata
-					Suite.SQLLoadData( ply, roomdata )
+					Suite.SQLLoadData( ply, roomdata or "" )
 					PlyRoom:Load( ply )
 
 					umsg.Start("GRoom", ply)
@@ -414,6 +414,12 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 
 	end)
 
+	if !ply:Achived( ACHIEVEMENTS.SUITEDESIGNER ) then
+		if ply:GetNet( "RoomEntityCount" ) >= 200 then
+			ply:SetAchievement( ACHIEVEMENTS.SUITEDESIGNER, 1 )
+		end
+	end
+	
 	ply:SetNWInt( "RoomID", PlyRoom.Id )
 
 	local panel = GTowerRooms.GetPanel( PlyRoom.Id )

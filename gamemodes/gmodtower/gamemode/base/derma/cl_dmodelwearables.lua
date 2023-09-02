@@ -69,6 +69,7 @@ function PANEL:SetModel( strModelName, skin )
 
 	self.Entity:SetNoDraw( true )
 	self.Entity:SetIK( false )
+	
 	self.Entity:SetModelScale( GTowerModels.GetScale( strModelName ) or 1 )
 	self.Entity:SetSkin( skin or 1 )
 
@@ -124,12 +125,12 @@ function PANEL:SetModelWearables( ply )
 	if IsValid( self.EntityWear1 ) then
 		self.EntityWear1:SetNoDraw( true )
 		self.EntityWear1:SetLegacyTransform( true )
-		table.insert( req, wear1.unique_Name )
+		table.insert( req, wear1.unique_name )
 	end
 	if IsValid( self.EntityWear2 ) then
 		self.EntityWear2:SetNoDraw( true )
 		self.EntityWear2:SetLegacyTransform( true )
-		table.insert( req, wear2.unique_Name )
+		table.insert( req, wear2.unique_name )
 	end
 
 	// Hats.RequestData( Hats.FindPlayerModelByName( self.Entity:GetModel() ), req )
@@ -158,6 +159,12 @@ function PANEL:GetTranslations( ent, wear )
 
 	local Pos, Ang, PlyScale = Hats.ApplyTranslation( ent, data )
 	local Scale = data[7] * PlyScale
+
+	local hat = Hats.GetItemFromModel( wear:GetModel() )
+	if hat and hat.fixscale == true then
+		Scale = math.sqrt( Scale )
+	end
+
 
 	return Pos, Ang, Scale
 

@@ -23,7 +23,7 @@ hook.Add("GTowerStoreLoad", "AddPVPBattleWeapons", function()
 			local NewItemId = GTowerStore:SQLInsert( {
 				Name = v.PrintName,
 				description = v.Description,
-				unique_Name = UniqueName,
+				unique_name = UniqueName,
 				price = v.StorePrice,
 				model = v.WorldModel,
 				ClientSide = true,

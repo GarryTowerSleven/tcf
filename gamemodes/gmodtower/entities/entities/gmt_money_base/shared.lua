@@ -1,9 +1,8 @@
----------------------------------
 ENT.Type = "anim"
 ENT.Base = "base_anim"
 
 ENT.PrintName = "MONEY"
-ENT.Author = "GMod Tower Team"
+ENT.Author = "PixelTail Games"
 ENT.Contact = "http://www.gmodtower.org"
 
 ENT.Model = Model("models/gmt_money/one.mdl")
