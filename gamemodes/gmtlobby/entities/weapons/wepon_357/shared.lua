@@ -119,8 +119,10 @@ function SWEP:Holster()
 	if IsValid(ply) then
 		local vm = ply:GetViewModel()
 
-		for i = 0, vm:GetBoneCount() - 1 do
-			vm:ManipulateBoneScale(i, vector_origin)
+		if IsValid(vm) then
+			for i = 0, vm:GetBoneCount() - 1 do
+				vm:ManipulateBoneScale(i, vector_origin)
+			end
 		end
 	end
 end
