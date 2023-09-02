@@ -83,213 +83,245 @@ PrecacheParticleSystem( "juice_blue" )
 PrecacheParticleSystem( "juice_green" )
 PrecacheParticleSystem( "juice_orange" )
 
+
+
+local DrinkCombos = {
+	{ 
+		Name = "Morning Fruit Shake", 
+		Flavor = "Mmmm.. So refreshing!",
+		Ingredient1 = APPLE, 
+		Ingredient2 = STRAWBERRY,
+		Color = Color( 159, 209, 31 ),
+		Time = 3,
+		Start = function( ply )
+			if !IsValid( ply ) then return end
+			ply:SetHealth( ply:GetMaxHealth() )
+			ply:Freeze( false )
+			ply:UnDrunk()
+		end,
+	},
+	{
+		Name = "Mid-Afternoon Fruit Shake",
+		Flavor = "Huh.. things look.. fruity?",
+		Ingredient1 = WATERMELON,
+		Ingredient2 = STRAWBERRY,
+		Color = Color( 209, 73, 31 ),
+		Time = 60,
+		Start = function( ply )
+			if !IsValid( ply ) then return end
+			ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
+			PostEvent( ply, "pcolored_on" )
+		end,
+		End = function( ply )
+			if !IsValid( ply ) then return end
+			PostEvent( ply, "pcolored_off" )
+		end
+	},
+	{ 
+		Name = "Midnight Fruit Shake", 
+		Flavor = "Wow, this stuff sure can make you sleepy...",
+		Ingredient1 = APPLE,
+		Ingredient2 = WATERMELON,
+		Color = Color( 205, 55, 15 ),
+		Time = 60,
+		Start = function( ply )
+			if !IsValid( ply ) then return end
+			ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
+			PostEvent( ply, "psleepy_on" )
+		end,
+		End = function( ply )
+			if !IsValid( ply ) then return end
+			PostEvent( ply, "psleepy_off" )
+		end			
+	},
+	{ 
+		Name = "Midnight Tang Fruit Shake",
+		Flavor = "Wow, this stuff sure can make you sleepy.. but it also tastes pretty good!",
+		Ingredient1 = ORANGE,
+		Ingredient2 = WATERMELON,
+		Color = Color( 235, 115, 60 ),
+		Time = 30,
+		Start = function( ply )
+			if !IsValid( ply ) then return end
+			ply:SetHealth( math.min( ply:Health() + 45, ply:GetMaxHealth() ) )
+			PostEvent( ply, "psleepy_on" )
+		end,
+		End = function( ply )
+			if !IsValid( ply ) then return end
+			PostEvent( ply, "psleepy_off" )
+		end
+	},
+	{ 
+		Name = "Extra Pulpy Orange Juice",
+		Flavor = "I can feel my tooth enamel corroding.",
+		Ingredient1 = ORANGE,
+		Ingredient2 = ORANGE,
+		Color = Color( 245, 175, 65 ),
+		Time = 3,
+		Start = function( ply )
+			if !IsValid( ply ) then return end
+			ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
+			ply:Freeze( false )
+		end,
+	},
+	{ 
+		Name = "Man's Orange Juice",
+		Flavor = "Ough!.. What a way to start the evening.",
+		Ingredient1 = GLASS,
+		Ingredient2 = ORANGE,
+		Color = Color( 122, 78, 20 ),
+		Time = 3,
+		Start = function( ply )
+			if !IsValid( ply ) or !ply:CanDrink( 25 ) then return end
+			ply:ViewPunch(Angle(2, math.random(-1, 1), 0))
+			ply:Drink( 25 )
+		end,
+	},
+	{ 
+		Name = "Dangerously Hard Cider",
+		Flavor = "Does this still keep the doctor away?",
+		Ingredient1 = GLASS,
+		Ingredient2 = APPLE,
+		Color = Color( 85, 35, 35 ),
+		Time = 3,
+		Start = function( ply )
+			if !IsValid( ply ) or !ply:CanDrink( 20 ) then return end
+			ply:ViewPunch(Angle(2, math.random(-1, 1), 0))
+			ply:Drink( 20 )
+		end,
+	},
+	{ 
+		Name = "Deathwish",
+		Flavor = "Oh no...",
+		Ingredient1 = PLASTIC,
+		Ingredient2 = GLASS,
+		Color = Color( 30, 30, 30 ),
+		Time = 3,
+		Start = function( ply )
+			if !IsValid( ply ) then return end
+			PostEvent( ply, "pdeath" )
+			ply:SetDSP( 35, true )
+		end,
+		End = function( ply )
+			if !IsValid( ply ) then return end
+			ply:Kill()  
+			PostEvent( ply, "pspawn" )
+		end,
+	},
+	{ 
+		Name = "Strawberry Banana Shake Boost",
+		Flavor = "Did everything just start to slow down?",
+		Ingredient1 = STRAWBERRY,
+		Ingredient2 = BANANA,
+		Color = Color( 230, 140, 160 ),
+		Time = 300,
+		Start = function( ply )
+			if !IsValid( ply ) then return end
+			ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
+			GAMEMODE:SetPlayerSpeed( ply, 360, 640 )
+			PostEvent( ply, "pspeed_on" )
+		end,
+		End = function( ply )
+			if !IsValid( ply ) then return end
+			ply:ResetSpeeds()
+			PostEvent( ply, "pspeed_off" )
+		end,
+	},
+	{
+		Name = "One Too Many",
+		Flavor = "That is one strong drink.. *hic*",
+		Ingredient1 = GLASS,
+		Ingredient2 = GLASS,
+		Color = Color( 98, 56, 38 ),
+		Time = 30,
+		Start = function( ply )
+			if !IsValid( ply ) or !ply:CanDrink( 20 ) then return end
+			ply:ViewPunch(Angle(2, math.random(-1, 1), 0))
+			ply:Drink( 20 )
+		end,
+		End = function( ply )
+			if !IsValid( ply ) or !ply:CanDrink( 30 ) then return end
+			ply:ViewPunch(Angle(4, math.random(-2, 2), 0))
+			ply:Drink( 30 )
+		end
+	},
+	{
+		Name = "Slow Down",
+		Flavor = "This tastes.. Alright?.. Wait a second...",
+		Ingredient1 = PLASTIC,
+		Ingredient2 = WATERMELON,
+		Color = Color( 155, 155, 155 ),
+		Time = 45,
+		Start = function( ply )
+			if !IsValid( ply ) then return end
+			PostEvent( ply, "ptime_on" )
+			GAMEMODE:SetPlayerSpeed( ply, 50, 50 )
+			ply:SetDSP( 31 )
+		end,
+		End = function( ply )
+			if !IsValid( ply ) then return end
+			PostEvent( ply, "ptime_off" )
+			ply:ResetSpeeds()
+			ply:SetDSP( 0 )
+		end			
+	},
+	{
+		Name = "Bone Meal",
+		Flavor = "This might be too much calcium for today.",
+		Ingredient1 = BONE,
+		Ingredient2 = BONE,
+		Color = Color( 255, 255, 255 ),
+		Time = 300,
+		Start = function( ply )
+			if !IsValid( ply ) then return end
+			ply:Ignite(.25, 0)
+			ply:SetHealth( ply:Health() + 1 )
+			ply:SetModel( "models/player/skeleton.mdl" )
+			ply:SetNWBool("ForceModel", true)
+			PostEvent( ply, "pbone_on" )
+		end,
+		End = function( ply )
+			if !IsValid( ply ) then return end
+			PostEvent( ply, "pbone_off" )
+			ply:SetNWBool("ForceModel", false)
+			ply:ConCommand( "gmt_updateplayermodel" )
+		end			
+	},
+}
+
+for _, s in ipairs(DrinkCombos) do
+	GTowerItems.RegisterItem("shake_" .. s.Name,{
+		Name = s.Name,
+		Description = "A delicious smoothie.",
+		Model = "models/sunabouzu/juice_cup.mdl",
+		DrawModel = true,
+		InvCategory = "food",
+		StorePrice = 0,
+		DrawName = true,
+		ModelColor = s.Color or Color( 159, 209, 31, 255 ),
+		CanUse = true,
+
+		OnUse = function(self)
+			if IsValid( self.Ply ) && self.Ply:IsPlayer() then
+				local ent = ents.Create( "gmt_item_blender_drink" )
+
+				ent:SetPos(self.Ply:GetPos())
+				ent:Spawn()
+
+				ent:SetDrink( s or self.Drink )
+				ent:Use(self.Ply)
+				ent.Item = true
+				return nil
+			end
+
+			return self
+		end
+	})
+end
+
 if SERVER then
 	
 	AddCSLuaFile( "shared.lua" )
-
-	local DrinkCombos = {
-		{ 
-			Name = "Morning Fruit Shake", 
-			Flavor = "Mmmm.. So refreshing!",
-			Ingredient1 = APPLE, 
-			Ingredient2 = STRAWBERRY,
-			Color = Color( 159, 209, 31 ),
-			Time = 3,
-			Start = function( ply )
-				if !IsValid( ply ) then return end
-				ply:SetHealth( ply:GetMaxHealth() )
-				ply:Freeze( false )
-				ply:UnDrunk()
-			end,
-		},
-		{
-			Name = "Mid-Afternoon Fruit Shake",
-			Flavor = "Huh.. things look.. fruity?",
-			Ingredient1 = WATERMELON,
-			Ingredient2 = STRAWBERRY,
-			Color = Color( 209, 73, 31 ),
-			Time = 60,
-			Start = function( ply )
-				if !IsValid( ply ) then return end
-				ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
-				PostEvent( ply, "pcolored_on" )
-			end,
-			End = function( ply )
-				if !IsValid( ply ) then return end
-				PostEvent( ply, "pcolored_off" )
-			end
-		},
-		{ 
-			Name = "Midnight Fruit Shake", 
-			Flavor = "Wow, this stuff sure can make you sleepy...",
-			Ingredient1 = APPLE,
-			Ingredient2 = WATERMELON,
-			Color = Color( 205, 55, 15 ),
-			Time = 60,
-			Start = function( ply )
-				if !IsValid( ply ) then return end
-				ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
-				PostEvent( ply, "psleepy_on" )
-			end,
-			End = function( ply )
-				if !IsValid( ply ) then return end
-				PostEvent( ply, "psleepy_off" )
-			end			
-		},
-		{ 
-			Name = "Midnight Tang Fruit Shake",
-			Flavor = "Wow, this stuff sure can make you sleepy.. but it also tastes pretty good!",
-			Ingredient1 = ORANGE,
-			Ingredient2 = WATERMELON,
-			Color = Color( 235, 115, 60 ),
-			Time = 30,
-			Start = function( ply )
-				if !IsValid( ply ) then return end
-				ply:SetHealth( math.min( ply:Health() + 45, ply:GetMaxHealth() ) )
-				PostEvent( ply, "psleepy_on" )
-			end,
-			End = function( ply )
-				if !IsValid( ply ) then return end
-				PostEvent( ply, "psleepy_off" )
-			end
-		},
-		{ 
-			Name = "Extra Pulpy Orange Juice",
-			Flavor = "I can feel my tooth enamel corroding.",
-			Ingredient1 = ORANGE,
-			Ingredient2 = ORANGE,
-			Color = Color( 245, 175, 65 ),
-			Time = 3,
-			Start = function( ply )
-				if !IsValid( ply ) then return end
-				ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
-				ply:Freeze( false )
-			end,
-		},
-		{ 
-			Name = "Man's Orange Juice",
-			Flavor = "Ough!.. What a way to start the evening.",
-			Ingredient1 = GLASS,
-			Ingredient2 = ORANGE,
-			Color = Color( 122, 78, 20 ),
-			Time = 3,
-			Start = function( ply )
-				if !IsValid( ply ) or !ply:CanDrink( 25 ) then return end
-				ply:ViewPunch(Angle(2, math.random(-1, 1), 0))
-				ply:Drink( 25 )
-			end,
-		},
-		{ 
-			Name = "Dangerously Hard Cider",
-			Flavor = "Does this still keep the doctor away?",
-			Ingredient1 = GLASS,
-			Ingredient2 = APPLE,
-			Color = Color( 85, 35, 35 ),
-			Time = 3,
-			Start = function( ply )
-				if !IsValid( ply ) or !ply:CanDrink( 20 ) then return end
-				ply:ViewPunch(Angle(2, math.random(-1, 1), 0))
-				ply:Drink( 20 )
-			end,
-		},
-		{ 
-			Name = "Deathwish",
-			Flavor = "Oh no...",
-			Ingredient1 = PLASTIC,
-			Ingredient2 = GLASS,
-			Color = Color( 30, 30, 30 ),
-			Time = 3,
-			Start = function( ply )
-				if !IsValid( ply ) then return end
-				PostEvent( ply, "pdeath" )
-				ply:SetDSP( 35, true )
-			end,
-			End = function( ply )
-				if !IsValid( ply ) then return end
-				ply:Kill()  
-				PostEvent( ply, "pspawn" )
-			end,
-		},
-		{ 
-			Name = "Strawberry Banana Shake Boost",
-			Flavor = "Did everything just start to slow down?",
-			Ingredient1 = STRAWBERRY,
-			Ingredient2 = BANANA,
-			Color = Color( 230, 140, 160 ),
-			Time = 300,
-			Start = function( ply )
-				if !IsValid( ply ) then return end
-				ply:SetHealth( math.min( ply:Health() + 30, ply:GetMaxHealth() ) )
-				GAMEMODE:SetPlayerSpeed( ply, 360, 640 )
-				PostEvent( ply, "pspeed_on" )
-			end,
-			End = function( ply )
-				if !IsValid( ply ) then return end
-				ply:ResetSpeeds()
-				PostEvent( ply, "pspeed_off" )
-			end,
-		},
-		{
-			Name = "One Too Many",
-			Flavor = "That is one strong drink.. *hic*",
-			Ingredient1 = GLASS,
-			Ingredient2 = GLASS,
-			Color = Color( 98, 56, 38 ),
-			Time = 30,
-			Start = function( ply )
-				if !IsValid( ply ) or !ply:CanDrink( 20 ) then return end
-				ply:ViewPunch(Angle(2, math.random(-1, 1), 0))
-				ply:Drink( 20 )
-			end,
-			End = function( ply )
-				if !IsValid( ply ) or !ply:CanDrink( 30 ) then return end
-				ply:ViewPunch(Angle(4, math.random(-2, 2), 0))
-				ply:Drink( 30 )
-			end
-		},
-		{
-			Name = "Slow Down",
-			Flavor = "This tastes.. Alright?.. Wait a second...",
-			Ingredient1 = PLASTIC,
-			Ingredient2 = WATERMELON,
-			Color = Color( 155, 155, 155 ),
-			Time = 45,
-			Start = function( ply )
-				if !IsValid( ply ) then return end
-				PostEvent( ply, "ptime_on" )
-				GAMEMODE:SetPlayerSpeed( ply, 50, 50 )
-				ply:SetDSP( 31 )
-			end,
-			End = function( ply )
-				if !IsValid( ply ) then return end
-				PostEvent( ply, "ptime_off" )
-				ply:ResetSpeeds()
-				ply:SetDSP( 0 )
-			end			
-		},
-		{
-			Name = "Bone Meal",
-			Flavor = "This might be too much calcium for today.",
-			Ingredient1 = BONE,
-			Ingredient2 = BONE,
-			Color = Color( 255, 255, 255 ),
-			Time = 300,
-			Start = function( ply )
-				if !IsValid( ply ) then return end
-				ply:Ignite(.25, 0)
-				ply:SetHealth( ply:Health() + 1 )
-				ply:SetModel( "models/player/skeleton.mdl" )
-				ply:SetNWBool("ForceModel", true)
-				PostEvent( ply, "pbone_on" )
-			end,
-			End = function( ply )
-				if !IsValid( ply ) then return end
-				PostEvent( ply, "pbone_off" )
-				ply:SetNWBool("ForceModel", false)
-				ply:ConCommand( "gmt_updateplayermodel" )
-			end			
-		},
-	}
 	
 	function ENT:Initialize()
 
