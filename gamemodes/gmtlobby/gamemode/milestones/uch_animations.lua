@@ -33,6 +33,8 @@ function SetupPlayer( ply, id )
 
 		ply:SetModel( pigmodel )
 
+		GTowerModels.Set(ply)
+		
 		ply.UCHType = TYPE_PIG
 
 
@@ -65,11 +67,13 @@ function SetupPlayer( ply, id )
 
 		ply:SetModel( ghostmodel )
 
+		GTowerModels.Set(ply)
+		
 		ply.UCHType = TYPE_GHOST
 
 
 
-		if ply:GetNWBool("VIP") then
+		if ply:GetNet("VIP") then
 
 			ply:SetBodygroup( 1, 1 )
 
@@ -174,6 +178,7 @@ function ClearPlayer( ply )
 	if ply._OldModel then
 
 		ply:SetModel( ply._OldModel )
+		GTowerModels.Set(ply)
 
 	end
 
