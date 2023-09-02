@@ -28,22 +28,7 @@ function MEDIAPLAYER:OnNetReadMedia( media )
 end
 
 function MEDIAPLAYER:GetOrientation()
-
-	if IsLobbyOne then
-
-		return BaseClass.GetOrientation( self )
-
-	else
-
-		local w, h, pos, ang = self.Entity:GetMediaPlayerPosition()
-
-		-- Override width and height with the networked theater screen info
-		w, h = self.screenwidth, self.screenheight
-
-		return w, h, pos, ang
-
-	end
-
+	return BaseClass.GetOrientation( self )
 end
 
 function MEDIAPLAYER:HasVoteskipped()
