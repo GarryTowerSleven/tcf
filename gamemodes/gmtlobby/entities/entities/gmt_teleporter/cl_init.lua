@@ -82,7 +82,7 @@ function ENT:ProcessNames()
 	end
 	
 	local LocalSize = ( MaxNameHeight + ExtraSpace + HeightSpace ) * self.CamScale
-	addz = LocalPlayer():GetViewOffset().z + 4
+	addz = math.min(LocalPlayer():GetViewOffset().z + 4, 67)
 	for k, v in pairs( self.ItemList ) do
 		
 		v.YPos = CurY
@@ -166,7 +166,7 @@ function ENT:DrawTranslucent()
 	local Vec = self:LocalToWorld( Vector(-10, -10, 67 ) )
 	local Vec2 = self:LocalToWorld( Vector(-9, 10, 67 ) )
 	local ang = self:GetAngles()
-	Vec.z = self:GetPos().z + LocalPlayer():GetViewOffset().z + 4
+	Vec.z = self:GetPos().z + math.min(LocalPlayer():GetViewOffset().z + 4, 67)
 	Vec2.z = Vec.z
 	
 	ang:RotateAroundAxis( ang:Right(), -90 )

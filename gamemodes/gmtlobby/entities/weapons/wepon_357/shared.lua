@@ -121,7 +121,7 @@ function SWEP:Holster()
 
 		if IsValid(vm) then
 			for i = 0, vm:GetBoneCount() - 1 do
-				vm:ManipulateBoneScale(i, vector_origin)
+				vm:ManipulateBoneScale(i, Vector(1, 1, 1))
 			end
 		end
 	end

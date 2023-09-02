@@ -310,8 +310,8 @@ for _, s in ipairs(DrinkCombos) do
 				ent:Spawn()
 
 				ent:SetDrink( s or self.Drink )
-				ent:Use(self.Ply)
 				ent.Item = true
+				ent:Use(self.Ply)
 				return nil
 			end
 
