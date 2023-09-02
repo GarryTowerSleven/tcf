@@ -120,3 +120,12 @@ RegisterItem("shake_midafternoonfruit",{
 	Name = "Mid-Afternoon Fruit Shake",
 	ModelColor = Color( 209, 73, 31, 255 ),
 })*/
+
+RegisterItem("ingredient_water",{
+	Base = "ingredient_apple",
+	Name = "Water",
+	Description = "Don't drink the water! They put something in it - to make you forget!",
+	Model = "models/props/cs_office/Water_bottle.mdl",
+	StoreId = GTowerStore.VENDING,
+	StorePrice = 1,
+})
