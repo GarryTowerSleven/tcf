@@ -24,17 +24,81 @@ function CreateSeatAtPos(pos, angle)
 
 	ent:Spawn()
 	ent:Activate()
+	ent:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
 
 	local phys = ent:GetPhysicsObject()
 	if IsValid(phys) then
 		phys:EnableMotion(false)
 	end
-
-	ent:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
 	
 	ent.IsSeat = true
 
 	return ent
+end
+
+function ForceEnterGivenSeat( seat, ply, hitpos )
+	if !IsValid( seat ) || !IsValid( ply ) then return end
+
+	local model = seat:GetModel()
+
+	local offsets = ChairOffsets[string.lower(model)]
+	if !offsets then return end
+
+	local usetable = seat.UseTable or {}
+	local pos = -1
+
+	if hitpos then
+		
+		if #offsets > 1 then
+			local localpos = seat:WorldToLocal(hitpos)
+			local bestpos, bestdist = -1
+	
+			for k, v in pairs(offsets) do
+				local dist = localpos:Distance(v.Pos)
+				if !usetable[k] && (bestpos == -1 || dist < bestdist) then
+					bestpos, bestdist = k, dist
+				end
+			end
+	
+			if bestpos == -1 then return end
+			pos = bestpos
+		elseif !usetable[1] then
+			pos = 1
+		else
+			return
+		end
+
+	else
+		pos = 1
+	end
+
+	usetable[pos] = true
+	seat.UseTable = usetable
+
+	local ang = seat:GetAngles()
+	if NotRight[model] then
+		ang:RotateAroundAxis(seat:GetUp(), NotRight[model])
+	else
+		ang:RotateAroundAxis(seat:GetUp(), -90)
+	end
+
+	local s = CreateSeatAtPos(seat:LocalToWorld(offsets[pos].Pos), ang)
+	s:SetParent(seat)
+	s:SetOwner(ply)
+
+	s.SeatData = {
+		Ent = seat,
+		Pos = pos,
+		EntryPoint = ply:GetPos(),
+		EntryAngles = ply:EyeAngles() // ply:GetAngles()
+	}
+
+	ply:EnterVehicle(s)
+	ply:SetDriving(s)
+
+	// s:EmitSound( ChairSitSounds[model] or DefaultSitSound, 100, 100 )
+
+	return s
 end
 
 hook.Add("KeyRelease", "EnterSeat", function(ply, key)
@@ -45,69 +109,19 @@ hook.Add("KeyRelease", "EnterSeat", function(ply, key)
 
 	if !IsValid(trace.Entity) then return end
 
-	local seat = trace.Entity
-	local model = seat:GetModel()
-
-	local offsets = ChairOffsets[model]
-	if !offsets then return end
-
-	local usetable = seat.UseTable or {}
-	local pos = -1
-
-	if #offsets > 1 then
-		local localpos = seat:WorldToLocal(trace.HitPos)
-		local bestpos, bestdist = -1
-
-		for k,v in pairs(offsets) do
-			local dist = localpos:Distance(v.Pos)
-			if !usetable[k] && (bestpos == -1 || dist < bestdist) then
-				bestpos, bestdist = k, dist
-			end
-		end
-
-		if bestpos == -1 then return end
-		pos = bestpos
-	elseif !usetable[1] then
-		pos = 1
-	else
+	if trace.Entity.OnSeatUse and isfunction( trace.Entity.OnSeatUse ) then
+		trace.Entity.OnSeatUse( ply )
 		return
 	end
 
-	usetable[pos] = true
-	seat.UseTable = usetable
-
-	local ang = seat:GetAngles()
-	if offsets[pos].Ang then
-		ang:RotateAroundAxis(seat:GetForward(), offsets[pos].Ang.p)
-		ang:RotateAroundAxis(seat:GetUp(), offsets[pos].Ang.y)
-		ang:RotateAroundAxis(seat:GetRight(), offsets[pos].Ang.r)
-	else
-		ang:RotateAroundAxis(seat:GetUp(), -90)
-	end
-
-	local s = CreateSeatAtPos(trace.Entity:LocalToWorld(offsets[pos].Pos), ang)
-	s:SetParent(trace.Entity)
-	s:SetOwner(ply)
-
-	s.SeatData = {
-		Ent = seat,
-		Pos = pos,
-		EntryPoint = ply:GetPos(),
-		EntryAngles = ply:GetAngles()
-	}
-
-	ply:EnterVehicle(s)
-	ply:SetDriving( s )
-
-	// s:EmitSound( ChairSitSounds[model] or DefaultSitSound, 100, 100 )
+	ForceEnterGivenSeat( trace.Entity, ply, trace.HitPos )
 end)
 
 hook.Add("CanPlayerEnterVehicle", "EnterSeat", function(ply, vehicle)
 	if not vehicle.IsSeat then return end
-	if vehicle:GetClass() != "prop_vehicle_prisoner_pod" then return end
 
 	if vehicle.Removing then return false end
-	return (vehicle:GetOwner() == ply)
+	return vehicle:GetOwner() == ply
 end)
 
 local airdist = Vector(0,0,48)
@@ -134,13 +148,10 @@ function TryPlayerExit(ply, ent)
 			trydist = trydist + 8
 		end
 	end
-
-	print("player", ply, "couldn't get out")
 end
 
 local function PlayerLeaveVehicle( vehicle, ply )
 	if not vehicle.IsSeat then return end
-	if vehicle:GetClass() != "prop_vehicle_prisoner_pod" then return end
 	if vehicle.Removing == true then return end
 
 	local seat = vehicle.SeatData
@@ -149,11 +160,16 @@ local function PlayerLeaveVehicle( vehicle, ply )
 		return true
 	end
 
+	if vehicle.OnSeatLeave and isfunction( vehicle.OnSeatLeave ) then
+		if not vehicle.OnSeatLeave( ply ) then return false end
+	end
+
 	if seat.Ent && seat.Ent.UseTable then
 		seat.Ent.UseTable[seat.Pos] = false
 	end
 
 	if IsValid(ply) and ply:InVehicle() and (CurTime() - (ply.ExitTime or 0)) > 0.001 then
+
 		ply.ExitTime = CurTime()
 		ply:ExitVehicle()
 

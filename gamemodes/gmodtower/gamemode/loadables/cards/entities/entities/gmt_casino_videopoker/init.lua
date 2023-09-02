@@ -236,24 +236,12 @@ local function HandleRollercoasterAnimation(vehicle, player)
 end
 
 function ENT:SetupChair()
-    -- Chair Model
     self.chairMdl = ents.Create("prop_dynamic")
-    self.chairMdl:SetModel("models/gmod_tower/aigik/casino_stool.mdl")
-    --self.chairMdl:SetModel(self.ChairModel)
-    --self.chairMdl:SetParent(self)
+    self.chairMdl:SetModel( "models/gmod_tower/aigik/casino_stool.mdl" )
+
     self.chairMdl:SetPos(self:GetPos() + (self:GetForward() * 35))
     self.chairMdl:SetAngles(self:GetAngles() + Angle(0, 180, 0))
-    --[[if self:GetAngles().y == 270 then
-		self.chairMdl:SetPos( self:GetPos() + Vector(0,-35,-2) )
-	else
-		self.chairMdl:SetPos( self:GetPos() + Vector(0,35,-2) )
-	end
 
-	if self:GetAngles().y == 270 then
-		self.chairMdl:SetAngles( Angle(0, 90, 0) )
-	else
-		self.chairMdl:SetAngles( Angle(0, -90, 0) )
-	end]]
     self.chairMdl:DrawShadow(false)
     self.chairMdl:PhysicsInit(SOLID_VPHYSICS)
     self.chairMdl:SetMoveType(MOVETYPE_NONE)
@@ -261,40 +249,72 @@ function ENT:SetupChair()
     self.chairMdl:Spawn()
     self.chairMdl:Activate()
     self.chairMdl:SetParent(self)
-    local phys = self.chairMdl:GetPhysicsObject()
 
+    local phys = self.chairMdl:GetPhysicsObject()
     if IsValid(phys) then
         phys:EnableMotion(false)
         phys:Sleep()
     end
 
     self.chairMdl:SetKeyValue("minhealthdmg", "999999")
+
+    self.chairMdl.OnSeatUse = function( ply )
+		self:Use( ply )
+	end
 end
 
-function ENT:SetupVehicle()
-    -- Chair Vehicle
-    self.chair = ents.Create("prop_vehicle_prisoner_pod")
-    self.chair:SetModel("models/nova/airboat_seat.mdl")
-    self.chair:SetKeyValue("vehiclescript", "scripts/vehicles/prisoner_pod.txt")
-    self.chair:SetParent(self.chairMdl)
-    self.chair:SetPos(self.chairMdl:GetPos() + Vector(0, 0, 30))
-    self.chair:SetAngles(Angle(0, self:GetAngles().y + 90, 0))
-    self.chair:SetNotSolid(true)
-    self.chair:SetNoDraw(true)
-    self.chair:DrawShadow(false)
-    self.chair.HandleAnimation = HandleRollercoasterAnimation
-    self.chair.bSlots = true
-    self.chair:Spawn()
-    self.chair:Activate()
-    local phys = self.chair:GetPhysicsObject()
+function ENT:SetupVehicle( ply )
 
-    if IsValid(phys) then
-        phys:EnableMotion(false)
-    end
+	self.chair = seats.ForceEnterGivenSeat( self.chairMdl, ply )
 
-    if phys:IsValid() then
-        phys:EnableMotion(false)
-    end
+	self.chair.OnSeatLeave = function( leaver )
+
+        if not IsValid( leaver.VideoPoker ) then return end
+
+        if not ply.VideoPoker:GetPlayer() == self then return end
+
+        if self:GetState() > 1 then
+        
+            ply:GiveMoney( self:GetCredits() * 2, false, self )
+    
+        end
+    
+        if self:GetClass() == "gmt_casino_videopoker" then
+            if self:GetProfit() > 0 and self:GetState() > 1 then
+                ply:MsgT("VideoPokerProfit", "earned", string.FormatNumber(math.abs(self:GetProfit() * 2)))
+            elseif self:GetProfit() < 0 then
+                ply:MsgT("VideoPokerProfit", "lost", string.FormatNumber(math.abs(self:GetProfit() * 2)))
+            end
+    
+            if timer.Exists("VideoPokerFuckoff" .. ply:EntIndex()) then
+                timer.Destroy("VideoPokerFuckoff" .. ply:EntIndex())
+            end
+    
+            self:SetLastPlayer(ply:Name())
+            self:SetLastPlayerValue(math.Clamp(self:GetCredits() - self:GetBeginCredits(), 0, 100000) * 2)
+    
+            if self:GetMostGMCSpentValue() < (self:GetBeginCredits() * 2) then
+                self:SetMostGMCSpent(ply:Name())
+                self:SetMostGMCSpentValue(self:GetBeginCredits() * 2)
+            end
+    
+            self:SetPlayer(nil)
+            self:SetState(0)
+            self:SetBet(0)
+            self:SetScore(0)
+            self:SetCredits(0)
+            ply._PendingMoney = 0
+            self:SetProfit(0)
+            self:SetBeginCredits(0)
+            self:SetHandInternal(0)
+        end
+    
+        ply.VideoPoker = nil
+		
+		return true
+
+	end
+
 end
 
 function ENT:IsInUse()
@@ -309,14 +329,10 @@ function ENT:Use(ply)
     if not IsValid(ply) or not ply:IsPlayer() then return end
 
     if not self:IsInUse() then
-        self:SetupVehicle()
+        self:SetupVehicle( ply )
+
         if not IsValid(self.chair) then return end -- just making sure...
-        ply.SeatEnt = self.chair
-        ply.EntryPoint = ply:GetPos()
-        ply.EntryAngles = ply:EyeAngles()
-        ply:SetNWVector("SeatEntry", ply.EntryPoint)
-        ply:SetNWVector("SeatEntryAng", ply.EntryAngles)
-        ply:EnterVehicle(self.chair)
+
         ply:SetEyeAngles(self:GetAngles() + Angle(0, 90, 0))
         ply.VideoPoker = self
         --self:SendPlaying( ply )
@@ -334,68 +350,8 @@ function ENT:Use(ply)
     end
 end
 
-hook.Add("PlayerLeaveVehicle", "VideoPokerLeave", function(ply)
-    if not IsValid(ply.VideoPoker) then return end
-    ply.SeatEnt = nil
-    ply.EntryPoint = nil
-    ply.EntryAngles = nil
-
-    if ply.VideoPoker:GetState() > 1 then
-        
-        ply:GiveMoney( ply.VideoPoker:GetCredits() * 2, false, ply.VideoPoker )
-
-    end
-
-    if ply.VideoPoker:GetClass() == "gmt_casino_videopoker" then
-        if ply.VideoPoker:GetProfit() > 0 and ply.VideoPoker:GetState() > 1 then
-            ply:MsgT("VideoPokerProfit", "earned", string.FormatNumber(math.abs(ply.VideoPoker:GetProfit() * 2)))
-        elseif ply.VideoPoker:GetProfit() < 0 then
-            ply:MsgT("VideoPokerProfit", "lost", string.FormatNumber(math.abs(ply.VideoPoker:GetProfit() * 2)))
-        end
-
-        if timer.Exists("VideoPokerFuckoff" .. ply:EntIndex()) then
-            timer.Destroy("VideoPokerFuckoff" .. ply:EntIndex())
-        end
-
-        ply.VideoPoker:SetLastPlayer(ply:Name())
-        ply.VideoPoker:SetLastPlayerValue(math.Clamp(ply.VideoPoker:GetCredits() - ply.VideoPoker:GetBeginCredits(), 0, 100000) * 2)
-
-        if ply.VideoPoker:GetMostGMCSpentValue() < (ply.VideoPoker:GetBeginCredits() * 2) then
-            ply.VideoPoker:SetMostGMCSpent(ply:Name())
-            ply.VideoPoker:SetMostGMCSpentValue(ply.VideoPoker:GetBeginCredits() * 2)
-        end
-
-        ply.VideoPoker:SetPlayer(nil)
-        ply.VideoPoker:SetState(0)
-        ply.VideoPoker:SetBet(0)
-        ply.VideoPoker:SetScore(0)
-        ply.VideoPoker:SetCredits(0)
-        ply._PendingMoney = 0
-        ply.VideoPoker:SetProfit(0)
-        ply.VideoPoker:SetBeginCredits(0)
-        ply.VideoPoker:SetHandInternal(0)
-    end
-
-    ply.VideoPoker = nil
-    umsg.Start("slotsPlaying", ply)
-    umsg.End()
-end)
-
-hook.Add("CanPlayerEnterVehicle", "PreventEntry", function(ply, vehicle) return true end)
-
---[[if ( ply:GetBilliardTable() ) then
-		//GAMEMODE:PlayerMessage( ply, "Warning!", "You cannot play slots while you are in a billiards game.\nYou must quit your billiards game!" )
-		return false
-	end]]
-function ENT:GetPlayer()
-    local ply = player.GetByID(self.SlotsPlaying)
-    if IsValid(ply) and ply:IsPlayer() and self:IsInUse() then return ply end
-end
-
 function ENT:BroadcastJackpot(ply, winnings)
-	for _, v in ipairs(player.GetAll()) do
-		if v != ply then
-			v:MsgI( "videopoker", "VideoPokerJackpotAll", string.upper(ply:Name()), string.FormatNumber(winnings) )
-		end
-	end
+
+    GTowerChat.AddChat( T( "VideoPokerJackpotAll", string.upper( ply:Name() ), string.FormatNumber( winnings ) ), Color( 255, 200, 0 ), "Server" )
+
 end
