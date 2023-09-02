@@ -371,7 +371,7 @@ function AnimateGhost( ply, velocity )
 
 
 
-		if ply:GetNWBool("VIP") then
+		if ply:GetNet("VIP") then
 
 			seq = "walk2"
 
@@ -387,7 +387,7 @@ function AnimateGhost( ply, velocity )
 
 
 
-		if ply:GetNWBool("VIP") then
+		if ply:GetNet("VIP") then
 
 			seq = "idle2"
 
@@ -415,7 +415,7 @@ function AnimateGhost( ply, velocity )
 
 
 
-	if ply:GetNWBool("VIP") && CurTime() >= ply.LastSippyCup then
+	if ply:GetNet("VIP") && CurTime() >= ply.LastSippyCup then
 
 
 
