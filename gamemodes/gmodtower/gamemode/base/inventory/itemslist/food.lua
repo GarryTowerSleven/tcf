@@ -127,5 +127,5 @@ RegisterItem("ingredient_water",{
 	Description = "Don't drink the water! They put something in it - to make you forget!",
 	Model = "models/props/cs_office/Water_bottle.mdl",
 	StoreId = GTowerStore.VENDING,
-	StorePrice = 1,
+	StorePrice = 5,
 })
