@@ -18,6 +18,11 @@ function ENT:Initialize()
 end
 
 function ENT:Use(ply)
+	if ply:InvGiveItem(ITEMS.alcohol_bottle) then
+		self:Remove()
+		return
+	end
+
 	if CLIENT || self.Drank then return end
 
 	self.Drank = true
