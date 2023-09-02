@@ -12,8 +12,8 @@ SWEP.ViewModel				= "models/weapons/c_357.mdl"
 SWEP.WorldModel				= "models/weapons/w_357.mdl"
 SWEP.UseHands				= true
 
-SWEP.Primary.ClipSize		= -1
-SWEP.Primary.DefaultClip	= -1
+SWEP.Primary.ClipSize		= 1
+SWEP.Primary.DefaultClip	= 0
 SWEP.Primary.Automatic		= false
 SWEP.Primary.Ammo			= "none"
 
@@ -39,6 +39,11 @@ function SWEP:Initialize()
 
 	self:SetWeaponHoldType( self.HoldType )
 
+end
+
+function SWEP:SetupDataTables()
+	self:NetworkVar("Int", 0, "Shots")
+	self:SetShots(math.random(6))
 end
 
 function SWEP:Reload()
@@ -73,9 +78,20 @@ local taunt = {
 	"Life is meaningless...",
 	"Here's to my love!",
 }
+local shot = 0
 
 function SWEP:PrimaryAttack()
+
+	// if self:Clip1() == 0 then return end
+	self:SetShots(self:GetShots() - 1)
+	shot = 1
+
 	if self.Suicide > 0 then return end
+
+	if self:GetShots() > 0 then
+		self:EmitSound("weapons/clipempty_rifle.wav")	
+		return
+	end
 
 	self.Suicide = CurTime()
 	self.State = 1
@@ -95,6 +111,22 @@ function SWEP:Shoot()
 
 	if CLIENT then self:EmitSound( self.SoundShoot, 5, 100 ) end
 
+end
+
+function SWEP:Holster()
+	local ply = self:GetOwner()
+
+	if IsValid(ply) then
+		local vm = ply:GetViewModel()
+
+		for i = 0, vm:GetBoneCount() - 1 do
+			vm:ManipulateBoneScale(i, vector_origin)
+		end
+	end
+end
+
+function SWEP:OnRemove()
+	self:Holster()
 end
 
 function SWEP:KillPlayer()
@@ -132,6 +164,21 @@ end
 
 local IRONSIGHT_TIME = 0.5
 function SWEP:GetViewModelPosition( pos, ang )
+	local vm = self:GetOwner():GetViewModel()
+	if self.Shots ~= self:GetShots() then
+	for i = 0, vm:GetBoneCount() - 1 do
+		local name = vm:GetBoneName(i)
+		if string.find(name, "Bullet") and !string.find(name, "Bullet" .. self:GetShots()) then
+			vm:ManipulateBoneScale(i, Vector(0, 0, 0))
+		else
+			vm:ManipulateBoneScale(i, Vector(1, 1, 1))
+		end
+	end
+	self.Shots = self:GetShots()
+end
+
+	pos = pos - ang:Forward() * shot * 1
+	shot = math.max(shot - FrameTime(), 0)
 	if self.Suicide == 0 then return pos, ang end
 
 	local fIronTime = self.Suicide
