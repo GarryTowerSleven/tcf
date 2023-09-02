@@ -22,6 +22,7 @@ local expmat = surface.GetTextureID( "UCH/logo/UClogo6" )
 local waverot = 0
 local wavetime = CurTime() + 6
 
+CreateClientConVar("gmt_uch_optout", "0", true)
 local glowconvar = CreateClientConVar("gmt_uch_glow", "1", true)
 
 hook.Add( "Think", "LogoThink", function()
