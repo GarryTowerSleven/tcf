@@ -227,6 +227,11 @@ function GM:PlayerSetModel( ply )
 	
 	ply:SetModel(model)
 	ply:SetSkin(modelskin)
+
+	Set( ply )
+
+	hook.Call( "PlayerSetModelPost", GAMEMODE, ply, model, modelskin )
+
 end
 
 hook.Add( "PlayerSpawn", "FixHats", function( ply )
