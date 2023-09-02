@@ -39,9 +39,9 @@ function ENT:Use(ply)
 end
 
 function ENT:OnRemove()
-	print("TEST")
 	if self.Song then self.Song:Stop() end
 end
+
 function ENT:Think()
 	if !self.Playing then return end
 	
