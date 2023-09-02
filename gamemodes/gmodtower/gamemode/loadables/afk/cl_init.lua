@@ -126,7 +126,7 @@ function DrawStatus( ply )
 	local att = ply:LookupAttachment("eyes")
 
 	if att > 0 then
-		pos = ply:GetAttachment(1).Pos - Vector(0, 0, 69)
+		pos = ply:GetAttachment(att).Pos - Vector(0, 0, 69)
 	end
 
 	local override = hook.Call( "AFKDrawOverride", GAMEMODE, ply )
