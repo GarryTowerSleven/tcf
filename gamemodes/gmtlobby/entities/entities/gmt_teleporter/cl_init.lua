@@ -187,12 +187,14 @@ function ENT:DrawTranslucent()
 		for k, v in pairs( self.ItemList ) do
 			
 			local bgColor = Color(130,140,145,200)
+			local alpha = 100
 			
 			if self.ChoosingItem == k then
 
 				if ActiveHit then
 					surface.SetTextColor( 255,255,255,255 )
-					bgColor = Color(50,180,255,100)		
+					bgColor = Color(90,164,206,100)	
+					alpha = 20
 				else
 					surface.SetTextColor( 255,255,255,150 )
 				end
@@ -204,14 +206,11 @@ function ENT:DrawTranslucent()
 
 			self.LastItem = self.ChoosingItem
 
-			//draw.RoundedBox( 2, self.StartPosX + 2, v.YPos + 2, self.BoxNameW, self.BoxNameH, bgColor )
-			surface.SetDrawColor(bgColor)
-			surface.SetMaterial(g)
-			surface.DrawTexturedRect( self.StartPosX + 2, v.YPos + 2, self.BoxNameW, self.BoxNameH )
-			
+			draw.RoundedBox( 2, self.StartPosX + 2, v.YPos + 2, self.BoxNameW, self.BoxNameH, bgColor )
+
 			if locationMaterials[v.name] then
 				surface.SetMaterial( locationMaterials[v.name] )
-				surface.SetDrawColor( Color(255, 255, 255, 100) )
+				surface.SetDrawColor( Color(255, 255, 255, alpha) )
 				surface.DrawTexturedRect( self.StartPosX + 2, v.YPos + 2, self.BoxNameW, self.BoxNameH )
 			end
 
