@@ -179,8 +179,6 @@ end
 
 local cid = 0
 
-CreateClientConVar("gmt_uch_optout", 0, true, true)
-
 function GM:RandomChimera()
 
 	Msg( "Finding Chimera...", "\n" )
