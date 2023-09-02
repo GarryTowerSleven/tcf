@@ -300,6 +300,7 @@ for _, s in ipairs(DrinkCombos) do
 		DrawName = true,
 		ModelColor = s.Color or Color( 159, 209, 31, 255 ),
 		CanUse = true,
+		AllowAnywhereDrop = true,
 
 		OnUse = function(self)
 			if IsValid( self.Ply ) && self.Ply:IsPlayer() then
