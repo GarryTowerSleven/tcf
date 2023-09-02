@@ -215,6 +215,7 @@ function PANEL:Paint( w, h )
 
 		self.Entity:SetModelScale( self.Entity.Scale, 0 )
 		self.Entity:SetColor( self.ModelColor )
+		render.SetColorModulation(self.ModelColor.r / 255, self.ModelColor.g / 255, self.ModelColor.b / 255)
 		self.Entity:DrawModel()
 		
 		render.SuppressEngineLighting( false )
