@@ -192,7 +192,7 @@ function SWEP:PrimaryAttack()
 
 		local viewAng = self.Owner:EyeAngles()
 
-		local bullet = ents.Create( table.Random({"firework_rocket", "firework_multi"}) )
+		local bullet = ents.Create( "firework_rocket" )
 
 			bullet:SetAngles( Angle( viewAng.p + 90, viewAng.y, viewAng.r ) )
 
