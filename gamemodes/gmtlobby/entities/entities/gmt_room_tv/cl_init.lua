@@ -118,7 +118,7 @@ function ENT:Draw()
 
 end
 
-hook.Add( "OpenSideMenu", "OpenTVVolume", function()
+hook.Remove( "OpenSideMenu", "OpenTVVolume", function()
 
 	local TVOnInLocation = false
 	for _, tv in pairs( ents.FindByClass( "gmt_room_tv*" ) ) do
