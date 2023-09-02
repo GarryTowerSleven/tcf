@@ -223,3 +223,23 @@ function PolysToTriangles( verts )
 
 	return out
 end
+
+/*
+	https://github.com/Facepunch/garrysmod/blob/master/garrysmod/lua/includes/extensions/math.lua#L254-L276
+	i guess not all clients will have this
+*/
+function CubicBezier( frac, p0, p1, p2, p3 )
+	local frac2 = frac * frac
+	local inv = 1 - frac
+	local inv2 = inv * inv
+
+	return inv2 * inv * p0 + 3 * inv2 * frac * p1 + 3 * inv * frac2 * p2 + frac2 * frac * p3
+end
+
+function QuadraticBezier( frac, p0, p1, p2 )
+	local frac2 = frac * frac
+	local inv = 1 - frac
+	local inv2 = inv * inv
+
+	return inv2 * p0 + 2 * inv * frac * p1 + frac2 * p2
+end
