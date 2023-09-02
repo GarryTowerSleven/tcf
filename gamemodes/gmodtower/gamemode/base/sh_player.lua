@@ -28,6 +28,7 @@ local Roles =
 	// Contributor
 	["STEAM_0:1:53166133"] = "Contributor",	// Orlok
 	["STEAM_0:0:193442077"] = "Contributor", // Nyantendo
+	["STEAM_0:0:41914866"] = "Contributor", // Sunni
 	
 	// Pixeltail Games
 	["STEAM_0:1:6044247"] = "PixelTail",	// MacDGuy
