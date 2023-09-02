@@ -18,8 +18,9 @@ function ENT:Initialize()
 	end
 end
 
+util.AddNetworkString("ObamaSmashed")
 
-    util.AddNetworkString("ObamaSmashed")
+
 function ENT:OnTakeDamage(dmg)
     if self.DMG then return end
     self.DMG = true
@@ -31,8 +32,8 @@ function ENT:OnTakeDamage(dmg)
     net.WriteVector(Vector(0, 0, (dmg:GetAttacker():GetEyeTrace().HitPos.z - self:GetPos().z) - 8))
 	net.WriteAngle(dmg:GetAttacker():EyeAngles())
     net.Broadcast()
-    timer.Simple(0, function()
 
-    self:Remove()
+    timer.Simple(0, function()
+    	self:Remove()
     end)
 end
