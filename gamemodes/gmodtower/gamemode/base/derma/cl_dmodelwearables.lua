@@ -69,6 +69,7 @@ function PANEL:SetModel( strModelName, skin )
 
 	self.Entity:SetNoDraw( true )
 	self.Entity:SetIK( false )
+	
 	self.Entity:SetModelScale( GTowerModels.GetScale( strModelName ) or 1 )
 	self.Entity:SetSkin( skin or 1 )
 
@@ -158,6 +159,12 @@ function PANEL:GetTranslations( ent, wear )
 
 	local Pos, Ang, PlyScale = Hats.ApplyTranslation( ent, data )
 	local Scale = data[7] * PlyScale
+
+	local hat = Hats.GetItemFromModel( wear:GetModel() )
+	if hat and hat.fixscale == true then
+		Scale = math.sqrt( Scale )
+	end
+
 
 	return Pos, Ang, Scale
 
