@@ -36,6 +36,7 @@ function createObama2(pos, ang, z, z2, vel)
     obama:GetPhysicsObject():SetAngleVelocity(Vector(math.random(-100, 100), z2 == 1 and -400 or 100, 0))
 
     timer.Simple(3, function()
+		if !IsValid(obama) then return end
         obama:Remove()
     end)
 end
