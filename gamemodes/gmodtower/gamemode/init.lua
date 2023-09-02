@@ -209,7 +209,7 @@ function GM:PlayerSetModel( ply )
 	// bot hats
 	if ply:IsBot() then
 		local randHat, key = table.Random( GTowerHats.Hats )
-		ply:ReplaceHat( randHat.unique_Name, randHat.model, key, randHat.slot )
+		ply:ReplaceHat( randHat.unique_name, randHat.model, key, randHat.slot )
 	end
 
 	ply:SetupHands()*/
@@ -228,7 +228,7 @@ function GM:PlayerSetModel( ply )
 	ply:SetModel(model)
 	ply:SetSkin(modelskin)
 
-	Set( ply )
+	GTowerModels.Set( ply )
 
 	hook.Call( "PlayerSetModelPost", GAMEMODE, ply, model, modelskin )
 
