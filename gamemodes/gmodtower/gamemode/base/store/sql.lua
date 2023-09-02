@@ -13,7 +13,7 @@ function GTowerStore:SQLInsert( NewItem )
 		NewItem.Name = NewItem.name
 	end
 
-	if !NewItem or !NewItem.unique_Name or !NewItem.Name or !NewItem.prices then
+	if !NewItem or !NewItem.unique_name or !NewItem.Name or !NewItem.prices then
 		return nil
 	end	
 	
@@ -29,7 +29,7 @@ function GTowerStore:SQLInsert( NewItem )
 		["storeid"] = tonumber( NewItem.storeid ),
 		["ClientSide"] = NewItem.ClientSide,
 		["Name"] = NewItem.Name,
-		["unique_Name"] = NewItem.unique_Name,
+		["unique_name"] = NewItem.unique_name,
 		["description"] = NewItem.description or "",
 		["prices"] = NewItem.prices,
 		["upgradable"] = NewItem.upgradable or false,
@@ -43,10 +43,10 @@ function GTowerStore:SQLInsert( NewItem )
 		Item.description = string.sub( Item.description, 1, 256 ) 
 	end
 	
-	local Id =  simplehash(Item.unique_Name) //self:GetItemByName( Item.unique_Name )
+	local Id =  simplehash(Item.unique_name) //self:GetItemByName( Item.unique_name )
 	
 	if GTowerStore.Items[ Id ] then
-		SQLLog('error', "FOUND DUPLICATE ITEM ID!\n" .. Item.unique_Name .. " - " .. GTowerStore.Items[ Id ].unique_Name )
+		SQLLog('error', "FOUND DUPLICATE ITEM ID!\n" .. Item.unique_name .. " - " .. GTowerStore.Items[ Id ].unique_name )
 	end
 	
 	GTowerStore.Items[ Id ] = Item

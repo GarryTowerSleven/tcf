@@ -287,7 +287,7 @@ function GTowerRooms:LoadRooms( um )
 				Room.Hats[ 0 ] = true
 
 				for k, hat in ipairs( Hats.List ) do
-					if hat.unique_Name then
+					if hat.unique_name then
 						Room.Hats[ k ] = um:ReadBool()
 					end
 				end

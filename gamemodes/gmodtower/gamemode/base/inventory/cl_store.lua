@@ -27,7 +27,7 @@ function GTowerItems:CreateStoreItemEnd( item )
 		storeid = item.StoreId,
 		upgradable = false,
 		ClientSide = true,
-		unique_Name = "Inv_" .. item.UniqueName,
+		unique_name = "Inv_" .. item.UniqueName,
 		InvSqlId = item.MysqlId,
 		Name  = item.Name,
 		description = item.Description,

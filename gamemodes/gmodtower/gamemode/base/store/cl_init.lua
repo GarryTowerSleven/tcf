@@ -17,7 +17,7 @@ function GTowerStore:SQLInsert( NewItem )
 		NewItem.prices = { NewItem.price }
 	end
 	
-	local id = simplehash( NewItem.unique_Name )
+	local id = simplehash( NewItem.unique_name )
 
 	self.Items[ id ] = NewItem
 	NewItem.maxlevel = 0
@@ -35,7 +35,7 @@ function GTowerStore:Get( id )
 	if type( id ) == "string" then
 		
 		for k, v in pairs( self.Items ) do
-			if v.unique_Name == id then
+			if v.unique_name == id then
 				return v
 			end			
 		end

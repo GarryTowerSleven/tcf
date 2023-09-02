@@ -11,7 +11,7 @@ module("Hats", package.seeall )
 hook.Add("GTowerStoreLoad", "AddHats", function()
 	for _, v in pairs( List ) do
 
-		if v.unique_Name then
+		if v.unique_name then
 
             v.storeid = v.storeid || StoreId
 			v.upgradable = true
@@ -151,20 +151,20 @@ function UpdateWearable( ply, hatid, slot )
         end
 
         local modelname = Hats.FindPlayerModelByName( playermodel )
-        local data = Get( item.unique_Name, modelname )
+        local data = Get( item.unique_name, modelname )
 
         data[9] = hatid
 
         // print( "" )
         // print( "Hats.GetData", playermodel, item.model )
-        // print( "Hats.GetData", "HatName=", item.unique_Name )
+        // print( "Hats.GetData", "HatName=", item.unique_name )
         // print( "Hats.GetData", "FindPlayerModelByName=", Hats.FindPlayerModelByName( PlayerModel ) )
         // print( "Hats.GetData", "DefaultValue=", data == DefaultValue )
         // print( "" )
 
         ent:SetHatData( data )
 
-        //SendData( ply, modelname, item.unique_Name )
+        //SendData( ply, modelname, item.unique_name )
 
     end
 
@@ -240,7 +240,7 @@ function SetHat( ply, hatid, slot, force )
 
     if hatid > 0 and item.slot != slot then return end
 
-    if not force and hatid > 0 and hook.Run( "CanWearHat", ply, item.unique_Name ) != 1 then return end
+    if not force and hatid > 0 and hook.Run( "CanWearHat", ply, item.unique_name ) != 1 then return end
 
     SetWearable( ply, hatid, slot )
     UpdateWearables( ply )

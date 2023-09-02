@@ -7,7 +7,7 @@ function Send( ply, modelname, hatid )
     local item = Hats.GetItem( tonumber( hatid ) )
     if not item then return end
 
-    local data = Hats.Get( item.unique_Name, modelname )
+    local data = Hats.Get( item.unique_name, modelname )
     if not data then
         data = Hats.DefaultValue
     end
@@ -62,7 +62,7 @@ function Update( len, ply )
 	local at = net.ReadUInt( 8 )
 
     local item = Hats.GetItem( HatID )
-    if not item or not item.unique_Name then return end
+    if not item or not item.unique_name then return end
 
     ply:Msg2( "Sending request to server..." )
     LogPrint( Format( "Request recevied from %s, updating...", ply:Nick() ), nil, "HatsAdmin" )
@@ -79,7 +79,7 @@ function Update( len, ply )
         local q2 = db:prepare("INSERT INTO gm_hats (id, plymodel, hat, vx, vy, vz, ap, ay, ar, scale) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);")
         q2:setNumber( 1, HatID )
         q2:setString( 2, ModelName )
-        q2:setString( 3, string.lower( item.unique_Name ) )
+        q2:setString( 3, string.lower( item.unique_name ) )
 
         q2:setString( 4, tostring( x ) )
         q2:setString( 5, tostring( y ) )
@@ -92,14 +92,14 @@ function Update( len, ply )
         q2:setString( 10, tostring( sc ) )
 
         function q2:onSuccess()
-            ply:Msg2( Format( "Successfully updated hat \"%s\" for model \"%s\".", item.unique_Name, ModelName ) )
-            LogPrint( Format( "Successfully updated hat \"%s\" for model \"%s\".", item.unique_Name, ModelName ), nil, "HatsAdmin" )
+            ply:Msg2( Format( "Successfully updated hat \"%s\" for model \"%s\".", item.unique_name, ModelName ) )
+            LogPrint( Format( "Successfully updated hat \"%s\" for model \"%s\".", item.unique_name, ModelName ), nil, "HatsAdmin" )
         
             if not Hats.Data[ ModelName ] then
                 Hats.Data[ ModelName ] = {}
             end
 
-            Hats.Data[ ModelName ][ string.lower( item.unique_Name ) ] = {
+            Hats.Data[ ModelName ][ string.lower( item.unique_name ) ] = {
                 x, y, z,
                 ap, ay, ar,
                 sc,
@@ -109,7 +109,7 @@ function Update( len, ply )
 
         function q2:onError(err)
             ply:Msg2( "Failed to update hat! Check server console." )
-            LogPrint( Format( "Failed to update hat \"%s\" for model \"%s\": %s", item.unique_Name, ModelName, err ), color_red, "HatsAdmin" )
+            LogPrint( Format( "Failed to update hat \"%s\" for model \"%s\": %s", item.unique_name, ModelName, err ), color_red, "HatsAdmin" )
         end
 
         q2:start()
@@ -118,7 +118,7 @@ function Update( len, ply )
 
     function q:onError(err)
         ply:Msg2( "Failed to delete hat! Check server console." )
-        LogPrint( Format( "Failed to delete hat \"%s\" for model \"%s\": %s", item.unique_Name, ModelName, err ), color_red, "HatsAdmin" )
+        LogPrint( Format( "Failed to delete hat \"%s\" for model \"%s\": %s", item.unique_name, ModelName, err ), color_red, "HatsAdmin" )
     end
 
     q:start()

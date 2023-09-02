@@ -400,7 +400,7 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 			local row = res[1].data[1]
 			if row then
 					local roomdata = row.roomdata
-					Suite.SQLLoadData( ply, roomdata )
+					Suite.SQLLoadData( ply, roomdata or "" )
 					PlyRoom:Load( ply )
 
 					umsg.Start("GRoom", ply)

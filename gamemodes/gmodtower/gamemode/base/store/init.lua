@@ -29,9 +29,9 @@ function GTowerStore:GetItemByName( Name )
 
 	for k, v in pairs( self.Items ) do
 
-		print( k, Name, v.unique_Name )
+		print( k, Name, v.unique_name )
 		
-		if v.unique_Name == Name then
+		if v.unique_name == Name then
 			return k
 		end
 	

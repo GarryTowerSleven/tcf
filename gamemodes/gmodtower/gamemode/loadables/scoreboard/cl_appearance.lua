@@ -341,7 +341,7 @@ function APPEARANCE:GenerateModelSelection()
 	-- Add the icons
 	for id, hat in pairs( HatsSorted ) do
 
-		if hook.Call( "CanWearHat", GAMEMODE, LocalPlayer(), hat.unique_Name ) == 1 then
+		if hook.Call( "CanWearHat", GAMEMODE, LocalPlayer(), hat.unique_name ) == 1 then
 
 			if hat.slot == 1 then
 				AddSpawnIcon( hat.name, hat.model, hat.ModelSkinId, IconSetHatModel, HatCategoryListHead, hat.hatid, hat.slot, hat.description )
