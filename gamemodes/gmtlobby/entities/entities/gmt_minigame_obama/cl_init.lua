@@ -5,6 +5,22 @@ end
 
 function createObama2(pos, ang, z, z2, vel)
     z = z or 24
+
+	local ent = {}
+
+	for _, e in ipairs(ents.FindByClass("gmt_minigame_obama")) do
+		if e:EntIndex() != -1 then continue end
+		table.insert(ent, e)
+	end
+
+	if #ent >= 9 then
+		if IsValid(ent[10]) then
+			ent[10]:Remove()
+		end
+
+		ent[9]:Remove()
+	end
+
     local obama = ents.CreateClientside("gmt_minigame_obama")
     obama:SetPos(pos)
 		obama:SetModel("models/gmod_tower/obamacutout.mdl")
@@ -24,14 +40,14 @@ function createObama2(pos, ang, z, z2, vel)
     end)
 end
 
-    net.Receive("ObamaSmashed", function()
+net.Receive("ObamaSmashed", function()
     local pos, ang = net.ReadVector(), net.ReadAngle()
     local z = net.ReadVector().z
-		local vel = net.ReadAngle():Forward() * 128
-    print(z)
+	local vel = net.ReadAngle():Forward() * 128
+
     createObama2(pos, ang, z, 1, vel)
     createObama2(pos, ang, z, -1, vel)
-    end)
+end)
 
 
 function ENT:Draw()
