@@ -82,7 +82,7 @@ function ENT:ProcessNames()
 	end
 	
 	local LocalSize = ( MaxNameHeight + ExtraSpace + HeightSpace ) * self.CamScale
-	
+	addz = LocalPlayer():GetViewOffset().z + 4
 	for k, v in pairs( self.ItemList ) do
 		
 		v.YPos = CurY
@@ -90,8 +90,8 @@ function ENT:ProcessNames()
 		v.XTextPos = StartPosX + TotalWidth * 0.5 - v.TextWide * 0.5
 		v.YTextPos = v.YPos + (MaxNameHeight + ExtraSpace) * 0.5 - MaxNameHeight * 0.5
 		
-		v.StartYTrace = 67 - (k-1) * LocalSize
-		v.EndYTrace   = 67 - k * LocalSize
+		v.StartYTrace = addz - (k-1) * LocalSize
+		v.EndYTrace   = addz - k * LocalSize
 		
 		CurY = CurY + MaxNameHeight + ExtraSpace + HeightSpace
 	end
@@ -166,10 +166,15 @@ function ENT:DrawTranslucent()
 	local Vec = self:LocalToWorld( Vector(-10, -10, 67 ) )
 	local Vec2 = self:LocalToWorld( Vector(-9, 10, 67 ) )
 	local ang = self:GetAngles()
+	Vec.z = self:GetPos().z + LocalPlayer():GetViewOffset().z + 4
+	Vec2.z = Vec.z
 	
 	ang:RotateAroundAxis( ang:Right(), -90 )
 	ang:RotateAroundAxis( ang:Forward(), -45 )
 	ang:RotateAroundAxis( ang:Up(), 90 )
+
+	self.ItemList = {}
+	self:ProcessNames()
 	
 	
 	local HitItem = self:GetTraceItem()
