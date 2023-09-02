@@ -48,7 +48,7 @@ function ENT:Think()
 	
 end
 
-hook.Add( "GTowerShowMenus", "GMTShowMPSidebar2", function()
+hook.Remove( "GTowerShowMenus", "GMTShowMPSidebar2", function()
 	local ent = LocalPlayer():GetEyeTrace().Entity
 	if !IsValid(ent) then return end
 	if ent:GetClass() ~= "func_suitepanel" then return end
