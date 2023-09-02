@@ -120,7 +120,7 @@ function SWEP:Holster()
 		local vm = ply:GetViewModel()
 
 		if IsValid(vm) then
-			for i = 0, vm:GetBoneCount() - 1 do
+			for i = 0, 128 do
 				vm:ManipulateBoneScale(i, Vector(1, 1, 1))
 			end
 		end
