@@ -44,7 +44,7 @@ local function GMTInitMediaPlayer( MediaPlayer )
 		"www",
 
 		"af",
-		-- "shc",
+		"shc",
 		-- "sc"
 	}) do
 		GMTServices[serviceId] = true
