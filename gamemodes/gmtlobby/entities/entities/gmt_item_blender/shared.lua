@@ -522,7 +522,7 @@ if SERVER then
 				phys:ApplyForceCenter( Vector( math.random( -40, 40 ), math.random( -40, 40 ), 140 ) )
 			end
 			
-			self.Bartender:Msg2( "Nice! You blended a ''" .. self.Drink.Name .. "''!" )
+			self.Bartender:Msg2( "Nice! You blended a \"" .. self.Drink.Name .. "\"!" )
 			
 			self.Bartender:AddAchievement( ACHIEVEMENTS.SUITEBARTENDER, 1 )
 			
