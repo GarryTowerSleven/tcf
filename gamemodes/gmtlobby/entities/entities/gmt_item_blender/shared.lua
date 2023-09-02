@@ -92,6 +92,7 @@ local DrinkCombos = {
 		Ingredient1 = APPLE, 
 		Ingredient2 = STRAWBERRY,
 		Color = Color( 159, 209, 31 ),
+		Price = 125,
 		Time = 3,
 		Start = function( ply )
 			if !IsValid( ply ) then return end
@@ -106,6 +107,7 @@ local DrinkCombos = {
 		Ingredient1 = WATERMELON,
 		Ingredient2 = STRAWBERRY,
 		Color = Color( 209, 73, 31 ),
+		Price = 100,
 		Time = 60,
 		Start = function( ply )
 			if !IsValid( ply ) then return end
@@ -123,6 +125,7 @@ local DrinkCombos = {
 		Ingredient1 = APPLE,
 		Ingredient2 = WATERMELON,
 		Color = Color( 205, 55, 15 ),
+		Price = 100,
 		Time = 60,
 		Start = function( ply )
 			if !IsValid( ply ) then return end
@@ -140,6 +143,7 @@ local DrinkCombos = {
 		Ingredient1 = ORANGE,
 		Ingredient2 = WATERMELON,
 		Color = Color( 235, 115, 60 ),
+		Price = 100,
 		Time = 30,
 		Start = function( ply )
 			if !IsValid( ply ) then return end
@@ -157,6 +161,7 @@ local DrinkCombos = {
 		Ingredient1 = ORANGE,
 		Ingredient2 = ORANGE,
 		Color = Color( 245, 175, 65 ),
+		Price = 75,
 		Time = 3,
 		Start = function( ply )
 			if !IsValid( ply ) then return end
@@ -170,6 +175,7 @@ local DrinkCombos = {
 		Ingredient1 = GLASS,
 		Ingredient2 = ORANGE,
 		Color = Color( 122, 78, 20 ),
+		Price = 75,
 		Time = 3,
 		Start = function( ply )
 			if !IsValid( ply ) or !ply:CanDrink( 25 ) then return end
@@ -183,6 +189,7 @@ local DrinkCombos = {
 		Ingredient1 = GLASS,
 		Ingredient2 = APPLE,
 		Color = Color( 85, 35, 35 ),
+		Price = 75,
 		Time = 3,
 		Start = function( ply )
 			if !IsValid( ply ) or !ply:CanDrink( 20 ) then return end
@@ -196,6 +203,7 @@ local DrinkCombos = {
 		Ingredient1 = PLASTIC,
 		Ingredient2 = GLASS,
 		Color = Color( 30, 30, 30 ),
+		Price = 50,
 		Time = 3,
 		Start = function( ply )
 			if !IsValid( ply ) then return end
@@ -214,6 +222,7 @@ local DrinkCombos = {
 		Ingredient1 = STRAWBERRY,
 		Ingredient2 = BANANA,
 		Color = Color( 230, 140, 160 ),
+		Price = 150,
 		Time = 300,
 		Start = function( ply )
 			if !IsValid( ply ) then return end
@@ -233,6 +242,7 @@ local DrinkCombos = {
 		Ingredient1 = GLASS,
 		Ingredient2 = GLASS,
 		Color = Color( 98, 56, 38 ),
+		Price = 100,
 		Time = 30,
 		Start = function( ply )
 			if !IsValid( ply ) or !ply:CanDrink( 20 ) then return end
@@ -251,6 +261,7 @@ local DrinkCombos = {
 		Ingredient1 = PLASTIC,
 		Ingredient2 = WATERMELON,
 		Color = Color( 155, 155, 155 ),
+		Price = 100,
 		Time = 45,
 		Start = function( ply )
 			if !IsValid( ply ) then return end
@@ -271,6 +282,7 @@ local DrinkCombos = {
 		Ingredient1 = BONE,
 		Ingredient2 = BONE,
 		Color = Color( 255, 255, 255 ),
+		Price = 250,
 		Time = 300,
 		Start = function( ply )
 			if !IsValid( ply ) then return end
@@ -290,6 +302,7 @@ local DrinkCombos = {
 }
 
 for _, s in ipairs(DrinkCombos) do
+	
 	GTowerItems.RegisterItem("shake_" .. s.Name,{
 		Name = s.Name,
 		Description = "A delicious smoothie.",
@@ -297,7 +310,7 @@ for _, s in ipairs(DrinkCombos) do
 		DrawModel = true,
 		InvCategory = "food",
 		StoreId = GTowerStore.FOOD,
-		StorePrice = 100,
+		StorePrice = s.Price,
 		DrawName = true,
 		ModelColor = s.Color or Color( 159, 209, 31, 255 ),
 		CanUse = true,
