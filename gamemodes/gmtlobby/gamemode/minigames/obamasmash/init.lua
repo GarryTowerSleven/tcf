@@ -307,13 +307,13 @@ local function SmashObama( ent, dmg )
 
 		local vPoint = ent:GetPos()
 		local effectdata = EffectData()
-		effectdata:SetOrigin( vPoint+Vector(0,0,55) )
+		effectdata:SetOrigin( ply:GetEyeTrace().HitPos+Vector(0,0,0) )
 		effectdata:SetMagnitude( MoneyPerKill )
 		util.Effect( "gmt_money", effectdata )
 
 		dmg:GetAttacker():AddMoney( MoneyPerKill )
 
-		ent:Remove()
+		ent:OnTakeDamage(dmg)
 	end
 
 end
