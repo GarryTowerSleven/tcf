@@ -79,7 +79,7 @@ function ENT:DrawTranslucent()
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 	ang:RotateAroundAxis( ang:Right(), 90 )
 
-	cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.1 )
+	cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.06 )
 
 		draw.DrawText( title, "GTowerNPC", 2, 2, Color( 0, 0, 0, 225 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		draw.DrawText( title, "GTowerNPC", 0, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
