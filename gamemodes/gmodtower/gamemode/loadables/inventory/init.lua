@@ -34,6 +34,11 @@ hook.Add("EntityTakeDamage", "InventoryCheckBreak", function( ent, dmginfo  )
 
 		if Item.AllowEntBreak  == false then
 			dmginfo:ScaleDamage( 0.0 )
+		else
+			if Item.MysqlId == ITEMS.empty_bottle && IsPlayer( attacker ) then
+				attacker:SetAchievement( ACHIEVEMENTS.DOMESTICABUSE, 1 )
+				attacker:AddAchievement( ACHIEVEMENTS.TRASHCOMPACTOR, 1 )
+			end
 		end
 	end
 
