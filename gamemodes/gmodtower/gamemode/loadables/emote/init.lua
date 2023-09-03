@@ -114,7 +114,7 @@ hook.Add("PlayerThink", "Taunting", function(ply)
 		StopAllEmotes(ply)
 	end
 
-	if ply:GetNWBool("dancing") then
+	if ply:GetNWBool("dancing") && ply:GetModel() == "models/player/miku.mdl" then
 		if !ply.DanceSND or !ply.DanceSNDTime or ply.DanceSNDTime < CurTime() then
 			if ply.DanceSND then
 				ply.DanceSND:FadeOut(1)
