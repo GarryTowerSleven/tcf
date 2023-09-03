@@ -169,17 +169,21 @@ end
 local IRONSIGHT_TIME = 0.5
 function SWEP:GetViewModelPosition( pos, ang )
 	local vm = self:GetOwner():GetViewModel()
-	if self.Shots ~= self:GetShots() then
-	for i = 0, vm:GetBoneCount() - 1 do
-		local name = vm:GetBoneName(i)
-		if string.find(name, "Bullet") and !string.find(name, "Bullet" .. self:GetShots()) then
-			vm:ManipulateBoneScale(i, Vector(0, 0, 0))
+	if self.Shots ~= self:GetShots() || (!self.VMTime or self.VMTime > CurTime()) then
+		if !self.VMTime then
+			self.VMTime = CurTime() + 0.4
 		else
-			vm:ManipulateBoneScale(i, Vector(1, 1, 1))
+			for i = 0, vm:GetBoneCount() - 1 do
+				local name = vm:GetBoneName(i)
+				if string.find(name, "Bullet") and !string.find(name, "Bullet" .. self:GetShots()) then
+					vm:ManipulateBoneScale(i, Vector(0, 0, 0))
+				else
+					vm:ManipulateBoneScale(i, Vector(1, 1, 1))
+				end
+			end
+			self.Shots = self:GetShots()
 		end
 	end
-	self.Shots = self:GetShots()
-end
 
 	pos = pos - ang:Forward() * shot * 1
 	shot = math.max(shot - FrameTime(), 0)
