@@ -39,7 +39,7 @@ function meta:TakeMoney( amount, nonotify, beziertarget )
 
 	if amount == 0 then return end
 
-    if self:Money() < 0 then return end
+    if self:Money() <= 0 then return end
 
 	amount = math.abs( amount )
 
