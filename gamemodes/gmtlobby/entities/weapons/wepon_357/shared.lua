@@ -125,6 +125,8 @@ function SWEP:Holster()
 			end
 		end
 	end
+
+	return true
 end
 
 function SWEP:OnRemove()
