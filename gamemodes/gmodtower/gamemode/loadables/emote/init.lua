@@ -113,6 +113,34 @@ hook.Add("PlayerThink", "Taunting", function(ply)
 	if ply:GetNWBool("Emoting") && !ply:IsOnGround() then
 		StopAllEmotes(ply)
 	end
+
+	if ply:GetNWBool("dancing") then
+		if !ply.DanceSND or !ply.DanceSNDTime or ply.DanceSNDTime < CurTime() then
+			if ply.DanceSND then
+				ply.DanceSND:FadeOut(1)
+			end
+			
+			local mp = Location.GetMediaPlayersInLocation(ply:Location())
+			mp = mp[1] and mp[1]._Media
+
+			if !mp && !Location.IsTheater( Location.Find(ply:GetPos()) ) && !Location.IsGroup( Location.Find(ply:GetPos()), "suite" ) && !Location.IsGroup( Location.Find(ply:GetPos()), "partysuite" ) then
+				local rand = math.random(18)
+				if rand < 9 then
+					rand = "0" .. rand
+				end
+				local snd = "gmodtower/lobby/mikuclock/mikuclock_song" .. rand .. ".mp3"
+				ply.DanceSND = CreateSound( ply, snd )
+				ply.DanceSND:PlayEx( .5, 100 )
+				ply.DanceSNDTime = CurTime() + SoundDuration(snd) - 1
+			end
+		end
+	elseif ply.DanceSNDTime and ply.DanceSNDTime > CurTime() then
+		if ply.DanceSND then
+			ply.DanceSND:FadeOut(1)
+		end
+
+		ply.DanceSNDTime = 0
+	end
 end)
 
 for _, emote in pairs(Commands) do
