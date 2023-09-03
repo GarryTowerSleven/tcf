@@ -200,6 +200,7 @@ net.Receive( "casino.slots.play", function( len, ply )
 		Casino.SlotsLocalPlaying = ent
 	else
 		Casino.SlotsLocalPlaying = nil
+		LocalPlayer().HideCrosshair = false
 	end
 
 end )
