@@ -1,4 +1,3 @@
----------------------------------
 local ITEMSLOT = {}
 ITEMSLOT.PlaceId = 1
 
@@ -31,6 +30,5 @@ end
 function ITEMSLOT:Limit()
 	return self.Ply:MaxItems()
 end
-
 
 GTowerItems.AddItemSlot( ITEMSLOT )

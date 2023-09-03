@@ -1,7 +1,5 @@
----------------------------------
 local ITEMSLOT = {}
 ITEMSLOT.PlaceId = 2
-
 
 function ITEMSLOT:FindUnusedSlot( Item )
 

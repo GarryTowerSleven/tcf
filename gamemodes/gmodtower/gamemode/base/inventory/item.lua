@@ -1,5 +1,9 @@
----------------------------------
 local ItemSlotList = {}
+
+ITEMSLOT_INVENTORY = 1
+ITEMSLOT_BANK = 2
+ITEMSLOT_ADMIN = 3
+ITEMSLOT_WEARABLES = 4
 
 function GTowerItems.AddItemSlot( tbl )
 
@@ -10,7 +14,6 @@ function GTowerItems.AddItemSlot( tbl )
 	}
 	
 end
-
 
 function GTowerItems:NewItemSlot( ply, str )
 

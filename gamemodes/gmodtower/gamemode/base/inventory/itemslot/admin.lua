@@ -1,4 +1,3 @@
----------------------------------
 local ITEMSLOT = {}
 ITEMSLOT.PlaceId = 3
 

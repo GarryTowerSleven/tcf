@@ -24,27 +24,36 @@ concommand.Add( "gm_invspawn", function( ply, command, args )
 end )
 
 concommand.Add( "gmt_invtobank", function( ply, command, args )
+	
 	if #args != 1 then
 		if GTowerHackers then
 			GTowerHackers:NewAttemp( ply, 1, command, args )
 		end
 		return
 	end
+
 	local ItemSlot = GTowerItems:NewItemSlot( ply, args[1] )
+
+	if ItemSlot.PlaceId != ITEMSLOT_INVENTORY then return end
+
 	local Item = ItemSlot:Get()
 	local Slot = GTowerItems:NewItemSlot( ply, "-2" ) //In the bank!
+
 	if !Item then return end
+
 	Slot:FindUnusedSlot( Item, true )
 	if !Slot:IsValid() then
 		ply:Msg2('Sorry, your trunk is full!')
 		return
 	end
+
 	Slot:Set( Item )
 	Slot:ItemChanged()
 	ItemSlot:Remove()
 	ItemSlot:ItemChanged()
-	ply:Msg2( T("InventorySendVaultSuccess", Item.Name), "safe" )
+	ply:MsgI( "safe", "InventorySendVaultSuccess", Item.Name )
 	hook.Call("InvRemove", GAMEMODE, ItemSlot )
+
 end )
 
 concommand.Add( "gm_invswap", function( ply, command, args )
