@@ -1,4 +1,3 @@
-
 // util.AddNetworkString('gmt_models')
 
 hook.Add("PlayerSQLApplied", "RecheckPlayerModel", function( ply )

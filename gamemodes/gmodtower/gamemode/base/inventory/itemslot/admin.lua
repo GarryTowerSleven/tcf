@@ -1,5 +1,5 @@
 local ITEMSLOT = {}
-ITEMSLOT.PlaceId = 3
+ITEMSLOT.PlaceId = ITEMSLOT_ADMIN
 
 function ITEMSLOT:Name()
 	return tostring( self.Slot ) .. "-".. self.PlaceId

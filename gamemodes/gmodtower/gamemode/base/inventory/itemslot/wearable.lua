@@ -1,5 +1,5 @@
 local ITEMSLOT = {}
-ITEMSLOT.PlaceId = 4
+ITEMSLOT.PlaceId = ITEMSLOT_WEARABLES
 
 function ITEMSLOT:FindUnusedSlot( Item, grabbing )
 
