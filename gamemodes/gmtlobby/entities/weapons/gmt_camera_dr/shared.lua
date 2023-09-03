@@ -166,7 +166,7 @@ hook.Add("PostRender", "test", function()
 			local ss = string.Split(ply:GetModel(), "/")
 			local name = ply.Nick and ply:Nick() or string.StripExtension(ss[#ss])
 			local type = valid[ply:GetModel()] or valid[ply:GetClass()] or 0
-			if ply:GetNWBool("Dancing") or string.find(ply:GetSequence(), "taunt") then
+			if ply:GetNWBool("dancing") or string.find(ply:GetSequence(), "taunt") then
 				type = 1
 			elseif ply.GetActiveWeapon and IsValid(ply:GetActiveWeapon()) && ply:GetActiveWeapon():GetHoldType() ~= "normal" then
 				type = 2
