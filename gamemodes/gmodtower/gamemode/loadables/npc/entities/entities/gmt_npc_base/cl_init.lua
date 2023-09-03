@@ -15,6 +15,20 @@ function ENT:BlinkThink()
 	local ragdoll = self.Ragdoll or nil 
 	if ( not ragdoll ) then return end
 
+	self.blink = self.blink or 0
+	self.blinktime = self.blinktime or 0
+
+	if self.blinktime < CurTime() then
+		self.blink = 1
+		self.blinktime = CurTime() + math.Rand(4, 8)
+	end
+
+	self.blink = math.max(self.blink - FrameTime() * 8, 0)
+	self.ET = self.ET or self:EyePos()
+	self.ET = LerpVector(FrameTime() * 4, self.ET, LocalPlayer():EyePos())
+	self:SetPoseParameter("head_yaw", math.NormalizeAngle((self.ET - self:EyePos()):Angle().y - self:GetAngles().y) / 2)
+	ragdoll:SetEyeTarget(self.ET)
+	ragdoll:SetFlexWeight(ragdoll:GetFlexIDByName("blink"), self.blink)
 	// TODO
 end
 
