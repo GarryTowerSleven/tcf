@@ -20,7 +20,6 @@ if SERVER then return end
 local glow = Material("sprites/glow04_noz")
 
 function ENT:Draw()
-	if Location.GetSuiteID(self:Location()) ~= 0 then return end
 	self:DrawModel()
 
 	local mp = self:GetMediaPlayer()
