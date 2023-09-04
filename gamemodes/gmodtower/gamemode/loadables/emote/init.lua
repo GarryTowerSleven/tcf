@@ -130,7 +130,9 @@ hook.Add("PlayerThink", "Taunting", function(ply)
 				end
 				local snd = "gmodtower/lobby/mikuclock/mikuclock_song" .. rand .. ".mp3"
 				ply.DanceSND = CreateSound( ply, snd )
-				ply.DanceSND:PlayEx( .5, 100 )
+				ply.DanceSND:SetSoundLevel(65)
+				ply.DanceSND:PlayEx( .75, 100 )
+
 				ply.DanceSNDTime = CurTime() + SoundDuration(snd) - 1
 			end
 		end
@@ -222,20 +224,25 @@ for _, emote in pairs(Commands) do
 				net.WriteString(Action)
 			net.Send(ply)
 
-			if ply:GetModel() == "models/player/hatman.mdl" && emoteName == "dance" then
-			
-				if !Location.IsTheater( Location.Find(ply:GetPos()) ) && !Location.IsGroup( Location.Find(ply:GetPos()), "suite" ) && !Location.IsGroup( Location.Find(ply:GetPos()), "partysuite" ) then
-			
-					ply.DanceSND = CreateSound( ply, "misc/halloween/hwn_dance_loop.wav" )
-					ply.DanceSND:PlayEx( .5, 100 )
+			local mp = Location.GetMediaPlayer(ply:Location())
+
+			if !IsValid(mp) || !mp:GetMediaPlayer() || !mp:GetMediaPlayer()._Media then
+				if ply:GetModel() == "models/player/hatman.mdl" && emoteName == "dance" then
 				
-				end
-			elseif ply:GetModel() == "models/player/miku.mdl" && emoteName == "dance" then
-				if !Location.IsTheater( Location.Find(ply:GetPos()) ) && !Location.IsGroup( Location.Find(ply:GetPos()), "suite" ) && !Location.IsGroup( Location.Find(ply:GetPos()), "partysuite" ) then
-			
-					ply.DanceSND = CreateSound( ply, "gmodtower/lobby/mikuclock/mikuclock_song0" .. math.random(9) .. ".mp3" )
-					ply.DanceSND:PlayEx( .5, 100 )
+					if !Location.IsTheater( Location.Find(ply:GetPos()) ) && !Location.IsGroup( Location.Find(ply:GetPos()), "suite" ) && !Location.IsGroup( Location.Find(ply:GetPos()), "partysuite" ) then
 				
+						ply.DanceSND = CreateSound( ply, "misc/halloween/hwn_dance_loop.wav" )
+						ply.DanceSND:PlayEx( .5, 100 )
+					
+					end
+				elseif ply:GetModel() == "models/player/miku.mdl" && emoteName == "dance" then
+					if !Location.IsTheater( Location.Find(ply:GetPos()) ) && !Location.IsGroup( Location.Find(ply:GetPos()), "suite" ) && !Location.IsGroup( Location.Find(ply:GetPos()), "partysuite" ) then
+				
+						ply.DanceSND = CreateSound( ply, "gmodtower/lobby/mikuclock/mikuclock_song0" .. math.random(9) .. ".mp3" )
+						ply.DanceSND:SetSoundLevel(65)
+						ply.DanceSND:PlayEx( .75, 100 )
+
+					end
 				end
 			end
 
