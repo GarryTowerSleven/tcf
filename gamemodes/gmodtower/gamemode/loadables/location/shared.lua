@@ -359,3 +359,32 @@ function TeleportToCenter( ply, location )
 	end
 
 end
+
+local Medias = {}
+
+function GetMediaPlayer( location )
+	if Medias[location] then
+		return Medias[location]
+	end
+
+	for _, e in ipairs(ents.FindByClass("gmt_mediaplayer")) do
+		if e:Location() == location then
+			Medias[location] = e
+			return e
+		end
+	end
+end
+
+function SpawnMediaPlayer( location )
+	if Medias[location] then
+		return GetMediaPlayer( location )
+	end
+
+	if CLIENT then return end
+
+	local ent = ents.Create("gmt_mediaplayer")
+	TeleportToCenter( ent, location )
+	ent:Spawn()
+
+	Medias[location] = ent
+end

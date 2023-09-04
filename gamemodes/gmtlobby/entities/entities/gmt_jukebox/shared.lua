@@ -3,7 +3,7 @@ AddCSLuaFile()
 ENT.PrintName = "Jukebox"
 
 ENT.Type = "anim"
-ENT.Base = "mediaplayer_base"
+ENT.Base = "gmt_mediaplayer_relay"
 
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 
@@ -15,28 +15,6 @@ ENT.PlayerConfig = {
 	width = 0,
 	height = 0
 }
-
-function ENT:Initialize()
-
-	self:SetModel( self.Model )
-
-	self:PhysicsInit( SOLID_VPHYSICS )
-	self:SetMoveType( MOVETYPE_NONE )
-	self:SetCollisionGroup( 0 )
-	self:DrawShadow( false )
-	
-	local phys = self:GetPhysicsObject()
-	
-	if IsValid( phys ) then
-		phys:EnableMotion( false )
-	end
-
-	if SERVER then
-		-- Install media player to entity
-		self:InstallMediaPlayer( "jukebox" )
-	end
-
-end
 
 if SERVER then return end
 local glow = Material("sprites/glow04_noz")

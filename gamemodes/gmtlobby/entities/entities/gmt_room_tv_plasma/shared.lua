@@ -8,5 +8,3 @@ ENT.Spawnable		= false
 ENT.AdminSpawnable	= false
 
 ENT.Model		= Model( "models/props/cs_office/TV_plasma.mdl")
-
-ENT.MediaPlayerType = "suitetv"

@@ -76,7 +76,7 @@ hook.Add( "OpenSideMenu", "OpenTheaterControls", function()
 
 	-- First check if we're looking at a media player
 	if not mp then
-		local ent = LocalPlayer():GetEyeTrace().Entity
+		local ent = Location.GetMediaPlayer(LocalPlayer():Location())
 		if IsValid(ent) then
 			mp = MediaPlayer.GetByObject( ent )
 		end
@@ -85,16 +85,6 @@ hook.Add( "OpenSideMenu", "OpenTheaterControls", function()
 	-- Else, maybe the gamemode handles this some other way (location system, etc.)
 	if not mp then
 		mp = hook.Run( "GetMediaPlayer" )
-	end
-
-	if not mp then
-		if Location.IsSuite(LocalPlayer():Location()) then
-			for _, jukebox in ipairs(ents.FindByClass("gmt_jukebox")) do
-				if jukebox:Location() == LocalPlayer():Location() then
-					mp = MediaPlayer.GetByObject( jukebox )
-				end
-			end
-		end
 	end
 
 	if ( not IsValid( mp ) ) then return end

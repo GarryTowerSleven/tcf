@@ -8,5 +8,3 @@ ENT.Spawnable		= false
 ENT.AdminSpawnable	= false
 
 ENT.Model		= Model( "models/props/CS_militia/television_console01.mdl")
-
-ENT.MediaPlayerType = "suitetv"

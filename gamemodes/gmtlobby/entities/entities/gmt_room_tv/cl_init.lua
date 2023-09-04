@@ -3,8 +3,6 @@ include('shared.lua')
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 local DEBUG = false
 
-local BaseClass = baseclass.Get( "mediaplayer_base" )
-
 ENT.PlayerConfig = {
 	angle = Angle(-90, 90, 0),
 	offset = Vector(1.1, 25.535, 35.06),
@@ -15,7 +13,12 @@ ENT.PlayerConfig = {
 ENT.DrawTextScale = 1/18
 
 function ENT:Initialize()
-	BaseClass.Initialize(self)
+	if self.Base == "gmt_mediaplayer_relay" then
+		self.BaseClass.Initialize(self)
+	else
+		self.BaseClass.BaseClass.Initialize(self)
+	end
+
 	self.IsTV = true
 end
 
