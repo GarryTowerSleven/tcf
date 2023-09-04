@@ -41,6 +41,48 @@ function ENT:Think()
 
 end
 
+// Torochan
+local mat = Material("models/gmod_tower/hats/toro_mask")
+local mat2 = CreateMaterial("Torochan2", "UnlitGeneric", {
+	["$basetexture"] = "models/gmod_tower/hats/toro_mask",
+	["$ignorez"] = 1
+})
+
+// FIXME: This should be called when needed. I know, I love sourcemod's arrays.
+local RTs = {}
+
+for i = 1, game.MaxPlayers() do
+	RTs[i] = GetRenderTarget("Torochan" .. i, mat:Width(), mat:Height())
+end
+
+local emotions = {
+	["happy"] = {0, 0},
+	["happy_talk"] = {1, 0},
+	["talking"] = {2, 0},
+	["talking_talk"] = {3, 0},
+	["shout"] = {0, 1},
+	["shout_talk"] = {1, 1},
+	["pain"] = {2, 1},
+	["pain_talk"] = {3, 1},
+	["pensive"] = {0, 2},
+	["pensive_talk"] = {1, 2},
+	["excited"] = {3, 2},
+	["excited_talk"] = {2, 2},
+	["sad"] = {0, 3},
+	["sad_talk"] = {1, 3},
+	["bored"] = {2, 3},
+	["bored_talk"] = {3, 3}
+}
+
+local emotions2 = {
+	[EMOTION_HAPPY] = "happy",
+	[EMOTION_ANGRY] = "shout",
+	[EMOTION_BORED] = "bored",
+	[EMOTION_SLEEPY] = "pensive",
+	[EMOTION_WASTED] = "excited",
+	[EMOTION_SAD] = "sad"
+}
+
 local pos, ang, scale = nil, nil, nil
 function ENT:Draw()
 
@@ -49,6 +91,37 @@ function ENT:Draw()
 
 	pos, ang, scale = self:Position( ply )
 	if !pos then return end
+
+	if self:GetModel() == "models/gmod_tower/hats/toro_mask.mdl" then
+		local emotion = ply:GetEmotion()
+		local rt = RTs[ply:EntIndex()]:GetName()
+
+		if self.LastEmotion != emotion then
+
+			hook.Add("PreRender", self, function()
+				hook.Remove("PreRender", self)
+				cam.Start2D()
+				render.PushRenderTarget(rt)
+				render.Clear(255, 255, 255, 255)
+				surface.SetMaterial(mat2)
+				surface.SetDrawColor(color_white)
+				local emotion = "happy"
+				local emotion2 = ply:GetEmotion()
+				emotion = emotions2[emotion2] or "happy"
+				emotion = emotions[emotion]
+				local x, y = emotion[1], emotion[2]
+				x = (x * mat:Width() / 4) / mat:Width()
+				y = (y * mat:Width() / 4) / mat:Width()
+				surface.DrawTexturedRectUV(0, 0, mat2:Width() * 1.9, mat2:Height(), x, y, 1 + x, 1 + y)
+				render.PopRenderTarget()
+				cam.End2D()
+			end)
+			
+			self.LastEmotion = emotion
+		end
+
+		mat:SetTexture("$basetexture", rt)
+	end
 
 	self:SetPos( pos )
 	self:SetAngles( ang )
