@@ -87,6 +87,8 @@ function ENT:Draw()
 
 	local mp = self:GetMediaPlayer()
 
+	if !mp then return end
+
 	hook.Remove("PostDrawOpaqueRenderables", mp)
 
 	if !self.On then return end
