@@ -86,7 +86,12 @@ function ENT:Draw()
 	if LocalPlayer():Location() ~= self:Location() then return end
 
 	local mp = self:GetMediaPlayer()
-	if mp then return end
+
+	hook.Remove("PostDrawOpaqueRenderables", mp)
+
+	if !self.On then return end
+
+	mp:Draw()
 
 	local thumbnail = self:GetThumbnail()
 	if thumbnail == "" then return end
