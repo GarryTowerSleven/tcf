@@ -301,7 +301,7 @@ local DrinkCombos = {
 	},
 }
 
-for _, s in ipairs(DrinkCombos) do
+/*for _, s in ipairs(DrinkCombos) do
 	
 	GTowerItems.RegisterItem("shake_" .. s.Name,{
 		Name = s.Name,
@@ -332,7 +332,7 @@ for _, s in ipairs(DrinkCombos) do
 			return self
 		end
 	})
-end
+end*/
 
 if SERVER then
 	
