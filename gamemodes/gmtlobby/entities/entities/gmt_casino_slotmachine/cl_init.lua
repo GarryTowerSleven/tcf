@@ -99,20 +99,6 @@ function ENT:Think()
 
 end
 
-local function SetPlayersAlpha( col )
-	for _, ply in pairs( player.GetAll() ) do
-		ply:SetColorAll( Color( 255, 255, 255, col ) )
-	end
-end
-
-hook.Add( "PlayerThink", "FadePlayersCasino", function()
-	if Casino.SlotsLocalPlaying then
-		SetPlayersAlpha( 35 )
-	else
-		SetPlayersAlpha( 255 )
-	end
-end )
-
 /*---------------------------------------------------------
 	Slot Machine Related Functions
 ---------------------------------------------------------*/
@@ -190,7 +176,6 @@ function ENT:Spin()
 	end
 		
 end
-
 
 net.Receive( "casino.slots.play", function( len, ply )
 

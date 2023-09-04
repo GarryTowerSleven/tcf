@@ -97,9 +97,6 @@ end
 /*---------------------------------------------------------
 	Chair Related Functions
 ---------------------------------------------------------*/
-local function HandleRollercoasterAnimation( vehicle, player )
-	return player:SelectWeightedSequence( ACT_GMOD_SIT_ROLLERCOASTER )
-end
 
 function ENT:SetupChair()
 
@@ -147,6 +144,8 @@ end
 function ENT:SetupVehicle( ply )
 
 	self.chair = seats.ForceEnterGivenSeat( self.chairMdl, ply )
+	
+	if not IsValid( self.chair ) then return end
 
 	self.chair.OnSeatLeave = function( leaver )
 
