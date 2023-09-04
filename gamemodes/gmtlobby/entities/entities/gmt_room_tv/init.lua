@@ -2,6 +2,10 @@ AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
 include( "shared.lua" )
 
+util.AddNetworkString("TV")
+
 function ENT:Use(ply)
-    ply:SendLua([[local ent = ents.GetByIndex(]] .. self:EntIndex() .. [[) ent.On = !ent.On]])
+    net.Start("TV")
+    net.WriteEntity(self)
+    net.Send(ply)
 end
