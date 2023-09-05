@@ -93,35 +93,45 @@ function ENT:Draw()
 	pos, ang, scale = self:Position( ply )
 	if !pos then return end
 
-	if self:GetModel() == "models/gmod_tower/hats/toro_mask.mdl" then
-		local emotion = ply:GetEmotion()
-		local rt = RTs[ply:EntIndex()]
+	if Emotion then
+		if self:GetModel() == "models/gmod_tower/hats/toro_mask.mdl" then
+			local emotion = ply:GetEmotion()
+			local rt = RTs[ply:EntIndex()]
 
-		if self.LastEmotion != emotion then
+			if self.LastEmotion != emotion then
 
-			hook.Add("PreRender", self, function()
-				hook.Remove("PreRender", self)
-				cam.Start2D()
-				render.PushRenderTarget(rt)
-				render.Clear(255, 255, 255, 255)
-				surface.SetMaterial(mat2)
-				surface.SetDrawColor(color_white)
-				local emotion = "happy"
-				local emotion2 = ply:GetEmotion()
-				emotion = emotions2[emotion2] or "happy"
-				emotion = emotions[emotion]
-				local x, y = emotion[1], emotion[2]
-				x = (x * mat:Width() / 4) / mat:Width()
-				y = (y * mat:Width() / 4) / mat:Width()
-				surface.DrawTexturedRectUV(0, 0, mat2:Width() * 1.9, mat2:Height(), x, y, 1 + x, 1 + y)
-				render.PopRenderTarget()
-				cam.End2D()
-			end)
-			
-			self.LastEmotion = emotion
+				hook.Add("PreRender", self, function()
+					hook.Remove("PreRender", self)
+					cam.Start2D()
+					render.PushRenderTarget(rt)
+					render.Clear(255, 255, 255, 255)
+					surface.SetMaterial(mat2)
+					surface.SetDrawColor(color_white)
+					local emotion = "happy"
+					local emotion2 = ply:GetEmotion()
+					emotion = emotions2[emotion2] or "happy"
+					emotion = emotions[emotion]
+					local x, y = emotion[1], emotion[2]
+					x = (x * mat:Width() / 4) / mat:Width()
+					y = (y * mat:Width() / 4) / mat:Width()
+					surface.DrawTexturedRectUV(0, 0, mat2:Width() * 1.9, mat2:Height(), x, y, 1 + x, 1 + y)
+					render.PopRenderTarget()
+					cam.End2D()
+				end)
+				
+				self.LastEmotion = emotion
+			end
+
+			mat:SetTexture("$basetexture", rt:GetName())
+		elseif self:GetModel() == "models/gmod_tower/catears.mdl" then
+			local emotion = ply:GetEmotion()
+			local p = emotion == EMOTION_SLEEPY && -50 || emotion == EMOTION_SAD && -40 || emotion == EMOTION_PAIN && -20 || 0
+			self.Pitch = self.Pitch or 0
+			self.Pitch = math.Approach(self.Pitch, p, FrameTime() * 64)
+			p = self.Pitch
+			pos = pos + ang:Forward() * p * 0.025
+			ang:RotateAroundAxis(ang:Right(), p)
 		end
-
-		mat:SetTexture("$basetexture", rt:GetName())
 	end
 
 	self:SetPos( pos )
