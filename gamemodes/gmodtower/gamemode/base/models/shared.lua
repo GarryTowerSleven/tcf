@@ -208,7 +208,7 @@ function SetHull( ply, scale )
 
 	ply:SetModelScale( scale, 0 )
 
-	if CLIENT then
+	if CLIENT and ply.ResetEquipmentScale then
 		ply:ResetEquipmentScale()
 	end
 end
