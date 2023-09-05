@@ -8,11 +8,26 @@ ENT.PlayerConfig = {
 }
 
 function ENT:GetFirstMediaPlayerInLocation()
-	local mp = Location.GetMediaPlayer(self:Location())
-	if !IsValid(mp) then return end
-	mp = MediaPlayer.GetByObject(mp)
-	self.MediaPlayer = mp
-	return mp
+
+	// print("!!!!!!!!!")
+	// pritn(self.MediaPlayer)
+	-- Return already valid media player
+	if IsValid(self.MediaPlayer) then return self.MediaPlayer end
+
+	-- Find new one
+	local mp
+
+	for _, m in ipairs(Location.GetMediaPlayersInLocation( self:Location() )) do
+	// print(m, m.Entity, m.Entity:GetClass(), !mp)
+	if m.Entity and m.Entity:GetClass() == "gmt_jukebox" or !mp then
+		mp = m
+	end
+end
+	if mp then
+		self.MediaPlayer = mp
+		return self.MediaPlayer
+	end
+
 end
 
 function ENT:CanUse( ply )

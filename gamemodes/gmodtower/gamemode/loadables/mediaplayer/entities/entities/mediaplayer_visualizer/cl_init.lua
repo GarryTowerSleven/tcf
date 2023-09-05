@@ -14,6 +14,12 @@ function ENT:Think()
 
 end
 
+function ENT:GetFirstMediaPlayerInLocation()
+	local mp = Location.GetMediaPlayer(self:Location())
+	if !IsValid(mp) then return end
+	return MediaPlayer.GetByObject(mp)
+end
+
 function ENT:GetStream()
 
 	-- Return already valid stream
