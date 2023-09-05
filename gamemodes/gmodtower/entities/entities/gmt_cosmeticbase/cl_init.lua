@@ -93,7 +93,7 @@ function ENT:Draw()
 	pos, ang, scale = self:Position( ply )
 	if !pos then return end
 
-	if Emotion then
+	if Emotions then
 		if self:GetModel() == "models/gmod_tower/hats/toro_mask.mdl" then
 			local emotion = ply:GetEmotion()
 			local rt = RTs[ply:EntIndex()]
