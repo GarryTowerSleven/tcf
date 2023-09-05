@@ -40,7 +40,7 @@ end)
 
 hook.Add("EntityTakeDamage", "Emotion", function(ply, dmg)
 	if ply:IsPlayer() then
-		ply:SetEmotion( EMOTION_PAIN, 2 )
+		ply:SetEmotion( EMOTION_PAIN, 0.4 )
 	end
 end)
 
