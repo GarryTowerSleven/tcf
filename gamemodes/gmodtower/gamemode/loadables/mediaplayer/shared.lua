@@ -4,8 +4,9 @@
 do
 	local path = "players/"
 	local players = {
+		"suitetv",
+		"jukebox",
 		-- "club"
-		"mediaplayer"
 	}
 
 	for _, player in ipairs(players) do

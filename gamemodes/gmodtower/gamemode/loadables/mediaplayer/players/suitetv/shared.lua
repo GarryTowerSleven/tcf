@@ -1,9 +1,9 @@
+-- local BaseClass = baseclass.Get( "mp_entity" )
+
 --[[---------------------------------------------------------
-	Jukebox Media Player
+	Suite Media Player
 -----------------------------------------------------------]]
 
 local MEDIAPLAYER = MEDIAPLAYER
-MEDIAPLAYER.Name = "mediaplayer"
+MEDIAPLAYER.Name = "suitetv"
 MEDIAPLAYER.Base = "entity"
-
-MEDIAPLAYER.ServiceWhitelist = { 'yt', 'af' }
