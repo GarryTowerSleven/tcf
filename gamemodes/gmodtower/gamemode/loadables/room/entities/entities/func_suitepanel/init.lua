@@ -50,7 +50,7 @@ function ENT:LookingRoomThink()
 
 	else
 		if !IsValid(self.JB) then
-			self.JB = ents.Create("gmt_mediaplayer")
+			self.JB = ents.Create("gmt_jukebox")
 			self.JB:SetPos(self:GetPos() + self:GetForward() * 32)
 			self.JB:Spawn()
 			self.JB:SetSolid(SOLID_NONE)

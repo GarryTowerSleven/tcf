@@ -215,7 +215,7 @@ hook.Add("Think", "DiscoBall", function()
 
     for _, m in ipairs(Location.GetMediaPlayersInLocation(LocalPlayer():Location())) do
         // print(m, m.Entity, m.Entity:GetClass(), !mp)
-        if m.Entity && m.Entity:GetClass() == "gmt_mediaplayer" || !mp then
+        if m.Entity && m.Entity:GetClass() == "gmt_jukebox" || !mp then
             mp2 = m
         end
     end

@@ -48,6 +48,20 @@ function ENT:Think()
 	
 end
 
+hook.Remove( "GTowerShowMenus", "GMTShowMPSidebar2", function()
+	local ent = LocalPlayer():GetEyeTrace().Entity
+	if !IsValid(ent) then return end
+	if ent:GetClass() ~= "func_suitepanel" then return end
+
+	for _, jukebox in ipairs(ents.FindByClass("gmt_jukebox")) do
+		if jukebox:GetPos():Distance(ent:GetPos()) < 200 then
+			jukebox = MediaPlayer.GetByObject(jukebox)
+			if !IsValid(jukebox) then return end
+			MediaPlayer.ShowSidebar(jukebox)
+		end
+	end
+end)
+
 
 -- Now here's the fun part...
 
