@@ -16,16 +16,13 @@ ENT.PlayerConfig = {
 
 function ENT:Initialize()
 
-	if CLIENT then return end
-
 	self:SetModel( self.Model )
 
 	self:PhysicsInit( SOLID_VPHYSICS )
 	self:SetMoveType( MOVETYPE_NONE )
 	self:SetCollisionGroup( 0 )
 	self:DrawShadow( false )
-	self:SetUseType(SIMPLE_USE)
-
+	
 	local phys = self:GetPhysicsObject()
 	
 	if IsValid( phys ) then
