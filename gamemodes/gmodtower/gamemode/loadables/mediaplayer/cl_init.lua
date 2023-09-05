@@ -87,16 +87,6 @@ hook.Add( "OpenSideMenu", "OpenTheaterControls", function()
 		mp = hook.Run( "GetMediaPlayer" )
 	end
 
-	if not mp then
-		if Location.IsSuite(LocalPlayer():Location()) then
-			for _, jukebox in ipairs(ents.FindByClass("gmt_jukebox")) do
-				if jukebox:Location() == LocalPlayer():Location() then
-					mp = MediaPlayer.GetByObject( jukebox )
-				end
-			end
-		end
-	end
-
 	if ( not IsValid( mp ) ) then return end
 	
 	local ent = mp.Entity
@@ -126,7 +116,7 @@ hook.Add( "OpenSideMenu", "OpenTheaterControls", function()
 	local mpVideos = Form:Button( "Videos" )
 	mpVideos.DoClick = function()
 		//MediaPlayer.Voteskip( mp )
-		MediaPlayer.ShowSidebar( mp )
+		MediaPlayer.ShowSidebar()
 	end
 
 	return Form
