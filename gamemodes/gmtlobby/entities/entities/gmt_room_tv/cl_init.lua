@@ -79,12 +79,6 @@ local StaticMat = Material( "theater/STATIC" )
 -- local NoiseMat = Material("dev/dev_tvmonitor1a")
 -- local ScanlineTexture = surface.GetTextureID("dev/dev_scanline")
 
-net.Receive("TV", function()
-	local ent = net.ReadEntity()
-	ent.On = !ent.On
-	ent:EmitSound( ent.On and ent.SoundOn or ent.SoundOff )
-end)
-
 function ENT:Draw()
 
 	self:DrawModel()
@@ -97,11 +91,11 @@ function ENT:Draw()
 
 	hook.Remove("PostDrawOpaqueRenderables", mp)
 
-	if self.On then mp:Draw() return end
+	if !self.On then return end
 
-	
+	mp:Draw()
 
-	local thumbnail = mp._Media and mp._Media:Thumbnail() or ""
+	local thumbnail = self:GetThumbnail()
 	if thumbnail == "" then return end
 
 	local mat
