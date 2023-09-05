@@ -80,7 +80,8 @@ local emotions2 = {
 	[EMOTION_BORED] = "bored",
 	[EMOTION_SLEEPY] = "pensive",
 	[EMOTION_WASTED] = "excited",
-	[EMOTION_SAD] = "sad"
+	[EMOTION_SAD] = "sad",
+	[EMOTION_PAIN] = "pain"
 }
 
 local pos, ang, scale = nil, nil, nil
@@ -94,7 +95,7 @@ function ENT:Draw()
 
 	if self:GetModel() == "models/gmod_tower/hats/toro_mask.mdl" then
 		local emotion = ply:GetEmotion()
-		local rt = RTs[ply:EntIndex()]:GetName()
+		local rt = RTs[ply:EntIndex()]
 
 		if self.LastEmotion != emotion then
 
@@ -120,7 +121,7 @@ function ENT:Draw()
 			self.LastEmotion = emotion
 		end
 
-		mat:SetTexture("$basetexture", rt)
+		mat:SetTexture("$basetexture", rt:GetName())
 	end
 
 	self:SetPos( pos )
