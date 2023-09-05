@@ -164,8 +164,17 @@ function ENT:PayOut(ply,prize)
 
 	--ply:ChatPrint('Won ' .. item[1] .. ', Entity Name is: ' .. entity_name .. '.')
 
+	if Emotions then
+		ply:SetEmotion(EMOTION_EXCITED, 2)
+	end
+
 	if prize == 1 || prize == 5 then
 		self:EmitSound("GModTower/misc/sad.mp3", 70)
+
+		if Emotions then
+			ply:SetEmotion(EMOTION_SAD, 2)
+		end
+
 		if prize == 5 then
 			ply:AddMoney(1, true, true, true)
 			ply:Msg2("[Spinner] You won: ... 1 GMC")

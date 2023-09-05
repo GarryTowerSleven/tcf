@@ -81,7 +81,8 @@ local emotions2 = {
 	[EMOTION_SLEEPY] = "pensive",
 	[EMOTION_WASTED] = "excited",
 	[EMOTION_SAD] = "sad",
-	[EMOTION_PAIN] = "pain"
+	[EMOTION_PAIN] = "pain",
+	[EMOTION_EXCITED] = "excited"
 }
 
 local pos, ang, scale = nil, nil, nil

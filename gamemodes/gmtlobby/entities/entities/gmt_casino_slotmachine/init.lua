@@ -354,6 +354,10 @@ function ENT:CalcWinnings( random )
 	local ply = self:GetPlayer()
 	local winnings = 0
 
+	if Emotions then
+		ply:SetEmotion(EMOTION_SAD, 2)
+	end
+
 	// Jackpot
 	if table.concat(random) == "222" then
 		local winnings = math.Round( self:GetJackpot() + self.BetAmount )
@@ -401,6 +405,10 @@ function ENT:BroadcastJackpot(ply, amount)
 end
 
 function ENT:SendWinnings( ply, amount, bJackpot )
+
+	if Emotions then
+		ply:SetEmotion(EMOTION_EXCITED, 2)
+	end
 
 	if bJackpot then
 
