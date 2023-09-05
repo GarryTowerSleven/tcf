@@ -20,7 +20,7 @@ hook.Add("PlayerSpawn", "Emotions", function(ply)
 end)
 
 hook.Add("PlayerThink", "Emotions", function(ply)
-	local default = ply.AFK and EMOTION_SLEEPY || ply:GetNet( "BAL" ) > 0 && EMOTION_WASTED || ply.LastKeyPress and ply.LastKeyPress + 30 < CurTime() && EMOTION_BORED || EMOTION_HAPPY
+	local default = ply.AFK and EMOTION_SLEEPY || ( ply:GetNet( "BAL" ) || 0 ) > 0 && EMOTION_WASTED || ply.LastKeyPress and ply.LastKeyPress + 30 < CurTime() && EMOTION_BORED || EMOTION_HAPPY
 
 	if ply.LastDefault != default || ply.LastEmotion < CurTime() then
 		ply:SetEmotion( default, nil, true )
