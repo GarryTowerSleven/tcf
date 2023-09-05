@@ -42,7 +42,7 @@ function ENT:Think()
 end
 
 // Torochan
-local mat = Material("models/gmod_tower/hats/toro_mask")
+/*local mat = Material("models/gmod_tower/hats/toro_mask")
 local mat2 = CreateMaterial("Torochan2", "UnlitGeneric", {
 	["$basetexture"] = "models/gmod_tower/hats/toro_mask",
 	["$ignorez"] = 1
@@ -83,7 +83,7 @@ local emotions2 = {
 	[EMOTION_SAD] = "sad",
 	[EMOTION_PAIN] = "pain",
 	[EMOTION_EXCITED] = "excited"
-}
+}*/
 
 local pos, ang, scale = nil, nil, nil
 function ENT:Draw()
@@ -94,7 +94,7 @@ function ENT:Draw()
 	pos, ang, scale = self:Position( ply )
 	if !pos then return end
 
-	if Emotions then
+	/*if Emotions then
 		if self:GetModel() == "models/gmod_tower/hats/toro_mask.mdl" then
 			local emotion = ply:GetEmotion()
 			local rt = RTs[ply:EntIndex()]
@@ -133,7 +133,7 @@ function ENT:Draw()
 			pos = pos + ang:Forward() * p * 0.025
 			ang:RotateAroundAxis(ang:Right(), p)
 		end
-	end
+	end*/
 
 	self:SetPos( pos )
 	self:SetAngles( ang )
