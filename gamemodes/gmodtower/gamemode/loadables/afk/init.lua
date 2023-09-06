@@ -137,7 +137,7 @@ hook.Add( "GTowerChat", "AFKChat", function( ply, text )
 		if ply._lastChat == text then 
 			if ply._AFKWarned or ply.AFK then
 				ply._LastChatWarn = ply._LastChatWarn + 3 or CurTime()
-				if ply._LastChatWarn =< CurTime() then
+				if ply._LastChatWarn <= CurTime() then
 					ply:Msg2("Please say something different to cancel being AFK.")
 				end
 			end
