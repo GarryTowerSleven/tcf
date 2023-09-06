@@ -125,11 +125,13 @@ function PANEL:SetModelWearables( ply )
 	if IsValid( self.EntityWear1 ) then
 		self.EntityWear1:SetNoDraw( true )
 		self.EntityWear1:SetLegacyTransform( true )
+		self.EntityWear1:SetSkin( wear1.ModelSkinId )
 		table.insert( req, wear1.unique_name )
 	end
 	if IsValid( self.EntityWear2 ) then
 		self.EntityWear2:SetNoDraw( true )
 		self.EntityWear2:SetLegacyTransform( true )
+		self.EntityWear2:SetSkin( wear2.ModelSkinId )
 		table.insert( req, wear2.unique_name )
 	end
 
