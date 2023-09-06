@@ -176,7 +176,7 @@ local function DrawPoints( pingloc )
 
   end
 
-	surface.SetDrawColor( 255,255,100,255 )
+	surface.SetDrawColor( 100,255,100,255 )
 	surface.DrawTexturedRect(
 		-4,
 		-4,
