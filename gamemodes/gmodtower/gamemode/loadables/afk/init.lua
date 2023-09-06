@@ -121,7 +121,7 @@ hook.Add( "PlayerButtonDown", "AFKKeyPress", function( ply, button )
 		if ply._lastButton == button then
 			if ply._AFKWarned or ply.AFK then
 				ply._LastButtonWarn = ply._LastButtonWarn + 3 or CurTime()
-				if ply._LastButtonWarn =< CurTime() then
+				if ply._LastButtonWarn <= CurTime() then
 					ply:Msg2("Please press a different button to cancel being AFK.")
 				end
 			end
