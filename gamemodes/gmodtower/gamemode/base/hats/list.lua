@@ -130,7 +130,8 @@ List = {
 			price = 150,   
 			model = "models/gmod_tower/hats/toro_mask.mdl",
 			closetrow = 3,
-			slot = SLOT_FACE
+			slot = SLOT_FACE,
+			fixscale = true
 	},
 	[9] = {
 			name = "Midna's Mask",
