@@ -24,10 +24,11 @@ function ENT:BlinkThink()
 	end
 
 	self.blink = math.max(self.blink - FrameTime() * 8, 0)
-	self.ET = self.ET or self:EyePos()
+	//Scary. Will return eventually
+	/*self.ET = self.ET or self:EyePos()
 	self.ET = LerpVector(FrameTime() * 4, self.ET, LocalPlayer():EyePos())
 	self:SetPoseParameter("head_yaw", math.NormalizeAngle((self.ET - self:EyePos()):Angle().y - self:GetAngles().y) / 1.4)
-	ragdoll:SetEyeTarget(self.ET)
+	ragdoll:SetEyeTarget(self.ET)*/
 	ragdoll:SetFlexWeight(ragdoll:GetFlexIDByName("blink") or 0, self.blink)
 	// TODO
 end
