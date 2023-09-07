@@ -9,6 +9,8 @@ SWEP.ViewModel			= "models/weapons/v_alyxgun.mdl"
 SWEP.WorldModel 		= "models/weapons/w_pvp_ragingb.mdl"
 SWEP.ViewModelFlip = false
 
+SWEP.SwayScale = 0
+SWEP.BobScale = 0
 SWEP.Primary.ClipSize		= -1
 SWEP.Primary.DefaultClip	= -1
 SWEP.Primary.Ammo			= "none"
@@ -55,10 +57,15 @@ local function GetBatteryPercent()
 	return 1
 end
 
+function GetEntities()
+	local tab = ents.FindByClass(entityToTrack)
+	return table.Add(tab, ents.FindByClass("ghost*"))
+end
+
 local storedLocations = {}
 local function DrawPoints( pingloc )
 
-	for k,v in pairs(ents.FindByClass(entityToTrack)) do
+	for k,v in pairs(GetEntities()) do
 
 		local yaw = ( -LocalPlayer():GetAngles().y - 90 ) * (math.pi / 180)
 		local vpos = ( LocalPlayer():GetPos() - v:GetPos() ) / 6.0
@@ -71,7 +78,7 @@ local function DrawPoints( pingloc )
 			alpha = 0
 		else
 			if !storedLocations[k] and dist < 200 then
-				surface.PlaySound("garrysmod/content_downloaded.wav")
+				LocalPlayer():EmitSound(sweep, 60, 125, 0.4)
 				end
 
 			vpos = storedLocations[k] or vpos
@@ -169,7 +176,7 @@ local function DrawPoints( pingloc )
 
   end
 
-	surface.SetDrawColor( 255,255,100,255 )
+	surface.SetDrawColor( 100,255,100,255 )
 	surface.DrawTexturedRect(
 		-4,
 		-4,
@@ -230,7 +237,7 @@ local function DrawScreen( w, h )
 		end
 		if sm > 0 then sweeped = false end
 
-		for k,v in pairs(ents.FindByClass(entityToTrack)) do
+		for k,v in pairs(GetEntities()) do
 			v.Visible = math.random(24) == 1
 			v:Draw()
 			v.Visible = false
@@ -251,6 +258,7 @@ local function DrawScreen( w, h )
 		-- Refract shader
 		render.UpdateRefractTexture()
 		surface.SetDrawColor(255,255,255,255)
+		refractTex:SetFloat("$refractamount", 0.01 + math.sin(CurTime() * 2) * 0.01)
 		surface.SetMaterial(refractTex)
 		surface.DrawTexturedRect(-w/2, -h/2,w,h)
 

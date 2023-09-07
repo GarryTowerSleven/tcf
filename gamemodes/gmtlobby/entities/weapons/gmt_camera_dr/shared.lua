@@ -78,6 +78,12 @@ end
 
 local ring
 
+hook.Add("DisableHUD", "test", function()
+	if PHOTO then
+		return true
+	end
+end)
+
 hook.Add("PostRender", "test", function()
 	if PHOTO then
 		local x2, y2, w2, h2 = getXYWH()
@@ -351,7 +357,7 @@ function SWEP:Think()
 	local cmd = self:GetOwner():GetCurrentCommand()
 	
 	self.LastThink = self.LastThink or 0
-	local fDelta = (CurTime() - self.LastThink)
+	local fDelta = FrameTime() // (CurTime() - self.LastThink)
 	self.LastThink = CurTime()
 
 	self:DoZoomThink( cmd, fDelta )
@@ -531,7 +537,7 @@ function SWEP:DrawHUD()
 	draw.RoundedBox(0, x2, y2 + h2 - 4, w2, 4, color_white)
 
 	if self:GetNextPrimaryFire() > CurTime() then
-		draw.SimpleText("RECHARGING", "DermaLarge", ScrW() / 2, ScrH() / 1.4, Color(255, 0, 0), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		draw.SimpleText("RECHARGING", "DermaLarge", ScrW() / 2, ScrH() / 1.4, Color(255, 0, 0, 255 + math.sin(CurTime() * 8) * 100), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 	end
 
 	if true or !self:GetOwner():IsAdmin() then return end
