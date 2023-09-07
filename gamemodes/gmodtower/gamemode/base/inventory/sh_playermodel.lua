@@ -76,7 +76,7 @@ else
 				Size = 1.0
 			end
 			
-			GTowerModels.SetTemp( self.Ply , Size  ) 	
+			GTowerModels.Set( self.Ply , Size  ) 	
 		end
 		
 		return true

@@ -10,7 +10,7 @@ function meta:Money()
 end
 
 function meta:SetMoney( amount )
-	return self:SetNet( "Money", math.Clamp( tonumber( amount ), 0, 2147483647 ) )
+	return self:SetNet( "Money", math.Clamp( tonumber( amount ), -2147483648, 2147483647 ) )
 end
 
 function meta:AddMoney( amount, nonotify, beziersource )
@@ -39,9 +39,11 @@ function meta:TakeMoney( amount, nonotify, beziertarget )
 
 	if amount == 0 then return end
 
+    if self:Money() <= 0 then return end
+
 	amount = math.abs( amount )
 
-	self:SetMoney( self:Money() - amount )
+	self:SetMoney( math.max(self:Money() - amount, 0) )
 
 	if not nonotify then
 		local pitch = Lerp( math.Clamp( amount, 0, 500 ) / 500, 160, 90 )

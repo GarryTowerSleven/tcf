@@ -97,7 +97,7 @@ end
 function SWEP:DrawWorldModel()
 
 
-
+	self:SetColor(self.Color)
 	self:DrawModel()
 
 
@@ -208,7 +208,7 @@ function SWEP:PrimaryAttack()
 
 		bullet:Activate()
 
-		bullet:DoFirework()
+		bullet:DoFirework(true)
 
 
 
@@ -323,3 +323,15 @@ function SWEP:GetRandomColor()
 
 
 end
+
+function SWEP:PreDrawViewModel(vm)
+	local c = self.Color
+	render.SetColorModulation(c.r / 255, c.g / 255, c.b / 255)
+end
+
+function SWEP:PostDrawViewModel(vm)
+	render.SetColorModulation(1, 1, 1)
+
+
+end
+

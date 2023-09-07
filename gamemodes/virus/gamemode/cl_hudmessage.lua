@@ -65,7 +65,7 @@ function PANEL:SetText( text, font, color )
 	
 	self:SetSize( w + 10, h + 10 )	
 	self:SetPos( ScrW(), ScrH() / 2 - self:GetTall() / 2 )
-	self:SetZPos( 10000 ) // OMFG DRAW ON TOP FFFFFF
+	self:SetZPos( 50 ) // OMFG DRAW ON TOP FFFFFF
 	
 end
 
@@ -137,15 +137,7 @@ local function ClientHudMsg( len, ply )
 	local ent = net.ReadEntity()
 	local ent2 = net.ReadEntity()
 	
-	local clrR = net.ReadInt(16)
-	local clrG = net.ReadInt(16)
-	local clrA = net.ReadInt(16)
-	local clrB = net.ReadInt(16)
-
-	local color = COLOR
-	if ( clrA != 0 ) then
-		color = Color( clrR, clrG, clrB, clrA )
-	end
+	local color = net.ReadColor( false )
 	
 	local message = HudMessages[ index or 1 ]
 	

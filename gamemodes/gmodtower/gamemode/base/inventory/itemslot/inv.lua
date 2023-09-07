@@ -1,6 +1,5 @@
----------------------------------
 local ITEMSLOT = {}
-ITEMSLOT.PlaceId = 1
+ITEMSLOT.PlaceId = ITEMSLOT_INVENTORY
 
 function ITEMSLOT:FindUnusedSlot( Item, grabbing )
 
@@ -31,6 +30,5 @@ end
 function ITEMSLOT:Limit()
 	return self.Ply:MaxItems()
 end
-
 
 GTowerItems.AddItemSlot( ITEMSLOT )

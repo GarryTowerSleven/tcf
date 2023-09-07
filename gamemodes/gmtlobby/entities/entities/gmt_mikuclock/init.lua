@@ -28,12 +28,10 @@ function ENT:Use(ply)
 	self.Playing = true
 
 	local song = self:PickSong()
-	self.Song = CreateSound( self, song )
-	self.Song:PlayEx( .45, 100 )
-	timer.Simple(10, function()
+	self:EmitSound( song, 65, 100, .5)
+	timer.Simple(SoundDuration(song), function()
 		if IsValid(self) then 
 			self.Playing = false
-			if self.Song then self.Song:FadeOut(1) end
 		end
 	end)
 end

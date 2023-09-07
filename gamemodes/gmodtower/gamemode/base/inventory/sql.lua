@@ -1,5 +1,5 @@
----------------------------------
 hook.Add("SQLStartColumns", "SQLLoadInventory", function()
+	
 	SQLColumn.Init( {
 		["column"] = "MaxItems",
 		["update"] = function( ply )
@@ -73,6 +73,7 @@ hook.Add("SQLStartColumns", "SQLLoadInventory", function()
 			end
 		end
 	} )*/
+
 end )
 
 concommand.Add("gmt_invuploaddatabase", function( ply )

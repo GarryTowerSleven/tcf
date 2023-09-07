@@ -128,9 +128,10 @@ List = {
 			description = "The Sony Cat everyone in Japan loves - in mask form.",
 			unique_name = "hattoromask",
 			price = 150,   
-			model = "models/gmod_tower/toromask.mdl",
+			model = "models/gmod_tower/hats/toro_mask.mdl",
 			closetrow = 3,
-			slot = SLOT_FACE
+			slot = SLOT_FACE,
+			fixscale = true
 	},
 	[9] = {
 			name = "Midna's Mask",

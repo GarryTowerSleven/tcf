@@ -1,4 +1,3 @@
----------------------------------
 local meta = FindMetaTable( "Player" )
 //local GtowerPlayerItems = {}
 //local GTowerBankItems  = {}

@@ -1,4 +1,3 @@
----------------------------------
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
 include('shared.lua')
@@ -28,17 +27,12 @@ function ENT:Initialize()
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetUseType(SIMPLE_USE)
 	self:DrawShadow( false )
+	// self:SetAngles( Angle( 0, 90, 0) )
 
-	if !IsLobby then
-		self:SetAngles(Angle(0,90,0))
-	end
+	self:SetupChair()
+	self:SetupLight()
 
-	timer.Simple(1,function()
-		self:SetupChair()
-		self:SetupLight()
-	end)
-
-	local phys = self.Entity:GetPhysicsObject()
+	local phys = self:GetPhysicsObject()
 	if (phys:IsValid()) then
 		phys:EnableMotion(false)
 		phys:Sleep()
@@ -59,30 +53,35 @@ end
 function ENT:Think()
 
 	// Player In Chair Check
-	if !self.SlotsPlaying && self:IsInUse() then		// Game not in play, player in chair
+	if !self.SlotsPlaying && self:IsInUse() then
+
 		self:SendPlaying()
-	elseif self.SlotsPlaying && !self:IsInUse() then	// Game in play, nobody in chair
-		if IsValid(self.chair) then
+
+	elseif self.SlotsPlaying && !self:IsInUse() then
+
+		if IsValid( self.chair ) then
 			self.chair:Remove()
 		end
+
 		self.SlotsPlaying = nil
-	elseif !self:IsInUse() then
+		
+	/*elseif !self:IsInUse() then
 		if !self.LastPlay or self.LastPlay < CurTime() then
 			if #Location.GetPlayersInLocation(self:Location()) > 3 then
 				// self:PullLever()
 				self:PickResults(true)
-				self:EmitSound( Casino.SlotWinSound, 60, 100 )
+				self:EmitSoundInLocation( Casino.SlotWinSound, 60, 100 )
 			end
 
 			self.LastPlay = CurTime() + math.Rand(60, 140)
-		end
+		end*/
 	end
 
 	// Player Idling Check
 	if ( self.LastSpin + (60*3) < CurTime() ) && self:IsInUse() then
 		local ply = self:GetPlayer()
 		ply:ExitVehicle()
-		//GAMEMODE:PlayerMessage( ply, "Slots", "You have been ejected due to idling!" )
+		// GAMEMODE:PlayerMessage( ply, "Slots", "You have been ejected due to idling!" )
 	end
 
 	if ( self.Jackpot && self.Jackpot < CurTime() ) then
@@ -98,17 +97,12 @@ end
 /*---------------------------------------------------------
 	Chair Related Functions
 ---------------------------------------------------------*/
-local function HandleRollercoasterAnimation( vehicle, player )
-	return player:SelectWeightedSequence( ACT_GMOD_SIT_ROLLERCOASTER )
-end
 
 function ENT:SetupChair()
 
 	// Chair Model
 	self.chairMdl = ents.Create("prop_physics_multiplayer")
-	self.chairMdl:SetModel("models/gmod_tower/aigik/casino_stool.mdl")
-	//self.chairMdl:SetModel(self.ChairModel)
-	--self.chairMdl:SetParent(self)
+	self.chairMdl:SetModel(self.ChairModel)
 
 	if self:GetAngles().y == 270 then
 		self.chairMdl:SetPos( self:GetPos() + Vector(0,-35,0) )
@@ -122,53 +116,51 @@ function ENT:SetupChair()
 		self.chairMdl:SetAngles( Angle(0, -90, 0) )
 	end
 
+	// self.chairMdl:SetPos( self:GetPos() + Vector(0,35,-2) )
+	// self.chairMdl:SetAngles( Angle(0, math.random(-180,180), 0) )
 	self.chairMdl:DrawShadow( false )
-
+	
 	self.chairMdl:PhysicsInit(SOLID_VPHYSICS)
 	self.chairMdl:SetMoveType(MOVETYPE_NONE)
 	self.chairMdl:SetSolid(SOLID_VPHYSICS)
-
+	
 	self.chairMdl:Spawn()
 	self.chairMdl:Activate()
-	self.chairMdl:SetParent(self)
-
+	
 	local phys = self.chairMdl:GetPhysicsObject()
 	if IsValid(phys) then
 		phys:EnableMotion(false)
 		phys:Sleep()
 	end
-
+	
 	self.chairMdl:SetKeyValue( "minhealthdmg", "999999" )
+
+	self.chairMdl.OnSeatUse = function( ply )
+		self:Use( ply )
+	end
 
 end
 
-function ENT:SetupVehicle()
-	// Chair Vehicle
-	self.chair = ents.Create("prop_vehicle_prisoner_pod")
-	self.chair:SetModel("models/nova/airboat_seat.mdl")
-	self.chair:SetKeyValue("vehiclescript","scripts/vehicles/prisoner_pod.txt")
-	self.chair:SetParent(self.chairMdl)
-	self.chair:SetPos( self.chairMdl:GetPos() + Vector(0,0,30) )
+function ENT:SetupVehicle( ply )
 
-	self.chair:SetAngles( Angle(0,self:GetAngles().y+90,0) )
+	self.chair = seats.ForceEnterGivenSeat( self.chairMdl, ply )
+	
+	if not IsValid( self.chair ) then return end
 
-	self.chair:SetNotSolid(true)
-	self.chair:SetNoDraw(true)
-	self.chair:DrawShadow( false )
+	self.chair.OnSeatLeave = function( leaver )
 
-	self.chair.HandleAnimation = HandleRollercoasterAnimation
-	self.chair.bSlots = true
+		if self.SlotsSpinning then
+			return false
+		end
 
-	self.chair:Spawn()
-	self.chair:Activate()
+		leaver.SlotMachine = nil
 
-	local phys = self.chair:GetPhysicsObject()
-	if IsValid(phys) then
-		phys:EnableMotion(false)
-	end
+		net.Start( "casino.slots.play" )
+			net.WriteEntity( NULL )
+		net.Send( leaver )
+		
+		return true
 
-	if (phys:IsValid()) then
-		phys:EnableMotion(false)
 	end
 
 end
@@ -187,6 +179,7 @@ function ENT:SetupLight()
 
 	self.light:Spawn()
 	self.light:Activate()
+
 	self.light:SetParent(self)
 
 end
@@ -212,78 +205,48 @@ function ENT:Use( ply )
 
 	if !self:IsInUse() then
 
-		self:SetupVehicle()
+		self:SetupVehicle( ply )
 
 		if !IsValid(self.chair) then return end -- just making sure...
 
-		ply.SeatEnt = self.chair
-		ply.EntryPoint = ply:GetPos()
-		ply.EntryAngles = ply:EyeAngles()
 		ply.LastBetTime = CurTime()
-
-		ply:SetNWVector("SeatEntry",ply.EntryPoint)
-		ply:SetNWVector("SeatEntryAng",ply.EntryAngles)
-
-		ply:EnterVehicle( self.chair )
 		self:SendPlaying( ply )
+
 	else
 		return
 	end
 
 end
 
-hook.Add( "PlayerLeaveVehicle", "ResetCollisionVehicle", function( ply )
-
-	ply.SeatEnt = nil
-	ply.EntryPoint = nil
-	ply.EntryAngles = nil
-	ply.SlotMachine = nil
-
-	umsg.Start("slotsPlaying", ply)
-	umsg.End()
-
-	ply:SetCollisionGroup( COLLISION_GROUP_PLAYER )
-end )
-
-hook.Add( "CanPlayerEnterVehicle", "PreventEntry", function( ply, vehicle )
-
-	/*if ( ply:GetBilliardTable() ) then
-		//GAMEMODE:PlayerMessage( ply, "Warning!", "You cannot play slots while you are in a billiards game.\nYou must quit your billiards game!" )
-		return false
-	end*/
-
-	return true
-
-end )
-
 /*---------------------------------------------------------
 	Console Commands
 ---------------------------------------------------------*/
 concommand.Add( "slotm_spin", function( ply, cmd, args )
+	if ply.LastBetTime >= CurTime() then return end
+
 	local bet = tonumber(args[1]) or 10
+	bet = math.Clamp( bet, 10, 1000 )
 
-	if ply.LastBetTime <= CurTime() then
-		if bet < 10 then bet = 10 end
-		if bet > 1000 then bet = 1000 end
-		
-		local ent = ply.SlotMachine
+	local ent = ply.SlotMachine
 
-		if !ply:Afford( bet ) && IsValid(ent) && !ent.SlotsSpinning && !ent.Jackpot then
+	if IsValid(ent) && !ent.SlotsSpinning && !ent.Jackpot then
+
+		if not ply:Afford( bet ) then
 			ply:MsgI( "slots", "SlotsNoAfford" )
 		else
-			if IsValid(ent) && !ent.SlotsSpinning && !ent.Jackpot then
+			ply:TakeMoney( bet, false, ent )
 
-				ply:TakeMoney( bet, false, ent )
-				ply:AddAchievement( ACHIEVEMENTS.SOREFINGER, 1 )
-				ent.LastSpin = CurTime()
-				ent.BetAmount = bet
-				ent:PullLever()
-				ent:PickResults()
+			ent.LastSpin = CurTime()
+			ent.BetAmount = bet
+			ent:PullLever()
+			ent:PickResults()
 
-			end
+			ply:AddAchievement( ACHIEVEMENTS.SOREFINGER, 1 )
 		end
-		ply.LastBetTime = CurTime() + 1
+
 	end
+
+	ply.LastBetTime = CurTime() + 1
 end )
 
 /*---------------------------------------------------------
@@ -297,7 +260,6 @@ function ENT:GetPlayer()
 		return ply
 	end
 
-
 end
 
 function ENT:SendPlaying( ply )
@@ -310,15 +272,11 @@ function ENT:SendPlaying( ply )
 	--local ply = self:GetPlayer()
 	ply.SlotMachine = self
 
-	local rf = RecipientFilter()
-	rf:AddPlayer( ply )
-
-	umsg.Start("slotsPlaying", rf)
-		umsg.Short( self:EntIndex() )
-	umsg.End()
+	net.Start( "casino.slots.play" )
+		net.WriteEntity( self )
+	net.Send( ply )
 
 end
-
 
 function ENT:PullLever()
 
@@ -329,7 +287,6 @@ function ENT:PullLever()
 	self:ResetSequence(seq)
 
 end
-
 
 function ENT:PickResults(fake)
 
@@ -353,16 +310,16 @@ function ENT:PickResults(fake)
 		end
 	end
 
-	umsg.Start("slotsResult", rf)
-		umsg.Short( self:EntIndex() )
-		umsg.Short( random[1] )
-		umsg.Short( random[2] )
-		umsg.Short( random[3] )
-	umsg.End()
+	net.Start( "casino.slots.result" )
+		net.WriteEntity( self )
+		net.WriteUInt( random[1], 3 )
+		net.WriteUInt( random[2], 3 )
+		net.WriteUInt( random[3], 3 )
+	net.SendPVS( self:GetPos() )
 
 	if fake then return end
 	
-	self:EmitSound( Casino.SlotPullSound, 60, math.random(98, 102) )
+	self:EmitSoundInLocation( Casino.SlotPullSound, 60, math.random(98, 102) )
 
 	timer.Simple( Casino.SlotSpinTime[3], function()
 		self:CalcWinnings( random )
@@ -396,6 +353,10 @@ function ENT:CalcWinnings( random )
 
 	local ply = self:GetPlayer()
 	local winnings = 0
+
+	if Emotions then
+		ply:SetEmotion(EMOTION_SAD, 2)
+	end
 
 	// Jackpot
 	if table.concat(random) == "222" then
@@ -445,17 +406,21 @@ end
 
 function ENT:SendWinnings( ply, amount, bJackpot )
 
+	if Emotions then
+		ply:SetEmotion(EMOTION_EXCITED, 2)
+	end
+
 	if bJackpot then
 
 		self:BroadcastJackpot( ply, amount )
 		ply:MsgI( "slots", "SlotsJackpot" )
 		ply:GiveMoney( amount, false, self )
 		ply:AddAchievement( ACHIEVEMENTS.MONEYWASTER, 1 )
-		self:EmitSound( Casino.SlotJackpotSound, 100, 100 )
+		self:EmitSoundInLocation( Casino.SlotJackpotSound, 100, 100 )
 		self.Jackpot = CurTime() + 25
 
 	else
-		self:EmitSound( Casino.SlotWinSound, 75, 100 )
+		self:EmitSoundInLocation( Casino.SlotWinSound, 75, 100 )
 		ply:MsgI( "slots", "SlotsWin", string.FormatNumber(amount) )
 		ply:GiveMoney( amount, false, self )
 	end
@@ -464,8 +429,17 @@ function ENT:SendWinnings( ply, amount, bJackpot )
 		self.light:CreateLight( bJackpot )
 	end
 
+	net.Start( "casino.slots.win" )
+		net.WriteEntity( self )
+		net.WriteBool( bJackpot )
+	net.SendPVS( self:GetPos() )
+
 	--GAMEMODE:Payout( ply, amount )
 
 	//ParticleEffect( "coins", self:GetPos(), self:GetForward(), self )
 
 end
+
+util.AddNetworkString( "casino.slots.play" )
+util.AddNetworkString( "casino.slots.result" )
+util.AddNetworkString( "casino.slots.win" )

@@ -97,6 +97,7 @@ Loadables.Load( {
 	"theater", 				-- Theater built with the media player
 	"mapdata",				-- Map specific fixes and additions
 	"painsounds",			-- Player Voicelines
+	//"emotion",			-- I'm hurting, Gordon!
 
 	-- Items Depend On These
 	---------------------------------------------------------

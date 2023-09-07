@@ -4,8 +4,9 @@ ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 local FONT = "GTowerSkyLarge"
 local SMALLFONT = "GTowerSkySmall"
-surface.CreateFont( FONT, { font = "Oswald", size = 144, weight = 400 } )
-surface.CreateFont( SMALLFONT, { font = "Oswald", size = 64, weight = 400 } )
+local s = 1.8
+surface.CreateFont( FONT, { font = "Oswald", size = 144*s, weight = 400 } )
+surface.CreateFont( SMALLFONT, { font = "Oswald", size = 64*s, weight = 400 } )
 
 
 
@@ -94,7 +95,7 @@ function ENT:DrawTranslucent()
 	end
 	
 	// Start the fun
-	cam.Start3D2D( pos, ang, 0.5 )
+	cam.Start3D2D( pos, ang, 0.5/s )
 		
 		surface.SetFont( FONT )
 		surface.SetTextColor( self.TColor.r, self.TColor.g, self.TColor.b, self.TColor.a )

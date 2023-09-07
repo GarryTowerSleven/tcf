@@ -6,7 +6,7 @@ if !meta then
 end
 
 function meta:IsVIP()
-	return self:GetNet( "VIP" )
+	return self:IsStaff() || self:GetNet( "VIP" )
 end
 
 function meta:IsGlowEnabled()

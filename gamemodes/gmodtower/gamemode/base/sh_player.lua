@@ -30,6 +30,7 @@ local Roles =
 	["STEAM_0:0:193442077"] = "Contributor", // Nyantendo
 	["STEAM_0:0:41914866"] = "Contributor", // Sunni
 	["STEAM_0:1:95941298"] = "Contributor", // Pipedream
+	["STEAM_0:0:90689651"] = "Contributor", // Sonop / hELLO
 	
 	// Pixeltail Games
 	["STEAM_0:1:6044247"] = "PixelTail",	// MacDGuy

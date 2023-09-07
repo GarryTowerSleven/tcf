@@ -1,6 +1,5 @@
----------------------------------
 local ITEMSLOT = {}
-ITEMSLOT.PlaceId = 4
+ITEMSLOT.PlaceId = ITEMSLOT_WEARABLES
 
 function ITEMSLOT:FindUnusedSlot( Item, grabbing )
 
@@ -21,7 +20,6 @@ function ITEMSLOT:FindUnusedSlot( Item, grabbing )
 end
 
 function ITEMSLOT:Allow( Item, grabbing )
-
 
 	return self.BaseClass.Allow( self, Item, grabbing )
 

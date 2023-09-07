@@ -212,6 +212,15 @@ ChairOffsets = {
 		{ Pos = Vector(-16.8, -0.9, 16.2), Ang = Angle(0, -180, 0) },
 		{ Pos = Vector(16.8, -0.9, 16.2), Ang = Angle(0, -180, 0) },
 	},
+	["models/gmod_tower/aigik/casino_stool.mdl"] = {
+		{ Pos = Vector(0, 0, 30), Ang = Angle(0, 90, 0) },
+	},
+}
+
+NotRight = {	
+	["models/props/de_tides/patio_chair2.mdl"]	= 180,
+	["models/props/cs_militia/couch.mdl"]		= 0,
+	["models/gmod_tower/stealth box/box.mdl"]	= 180,
 }
 
 DefaultSitSound = Sound("sunabouzu/chair_sit.wav")

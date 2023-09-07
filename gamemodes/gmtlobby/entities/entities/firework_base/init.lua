@@ -71,6 +71,12 @@ function ENT:LoadRoom( owner )
 	self.PlayerOwner = owner
 end
 
+function ENT:PhysicsCollide()
+	if self.Gun then
+		self:Remove()
+	end
+end
+
 function ENT:Think()
 
 	if self.State == 1 then
@@ -139,7 +145,7 @@ function ENT:StartIgnite()
 
 end
 
-function ENT:DoFirework()
+function ENT:DoFirework(gun)
 
 	if !IsValid( self ) then return end
 
@@ -147,6 +153,7 @@ function ENT:DoFirework()
 
 	self:UpdateSkin()
 
+	self.Gun = gun
 	self.State = 2
 
 	if self.Duration then
@@ -165,7 +172,7 @@ function ENT:DoFirework()
 
  	if self.SoundLiftOff then
 
-		self:EmitSound( self.SoundLiftOff, 100, math.random( 85, 125 ), 0.5 )
+		self:EmitSound( self.SoundLiftOff, gun and 70 or 100, math.random( 85, 125 ), 0.5 )
 
 	end
 
@@ -228,7 +235,7 @@ function ENT:OnRemove()
  	if self.SoundExplosion then
 
 		//WorldSound( self.SoundExplosion, self:GetPos(), 160, math.random( 85, 125 ) )
-		self:EmitSound( self.SoundExplosion, 100, math.random( 85, 125 ) )
+		self:EmitSound( self.SoundExplosion, self.Gun and 70 or 100, math.random( 85, 125 ) )
 
 	end
 
@@ -246,7 +253,9 @@ function ENT:OnRemove()
 			eff:SetStart( Vector( self.Color.r, self.Color.g, self.Color.b ) ) //woo hacks
 		util.Effect( self.EndEffect, eff )
 
+		if !self.Gun then
 		util.ScreenShake( self:GetPos(), 2, 2.5, 1, 1024 )
+		end
 
 	end
 

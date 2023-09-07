@@ -120,7 +120,10 @@ hook.Add( "PlayerButtonDown", "AFKKeyPress", function( ply, button )
 	if IsLobby then
 		if ply._lastButton == button then
 			if ply._AFKWarned or ply.AFK then
-				ply:Msg2("Please press a different button to cancel being AFK.")
+				ply._LastButtonWarn = ply._LastButtonWarn + 3 or CurTime()
+				if ply._LastButtonWarn <= CurTime() then
+					ply:Msg2("Please press a different button to cancel being AFK.")
+				end
 			end
 		return end
 		ply._lastButton = button
@@ -133,7 +136,10 @@ hook.Add( "GTowerChat", "AFKChat", function( ply, text )
 	if IsLobby then
 		if ply._lastChat == text then 
 			if ply._AFKWarned or ply.AFK then
-				ply:Msg2("Please say something different to cancel being AFK.")
+				ply._LastChatWarn = ply._LastChatWarn + 3 or CurTime()
+				if ply._LastChatWarn <= CurTime() then
+					ply:Msg2("Please say something different to cancel being AFK.")
+				end
 			end
 		return end
 		ply._lastChat = text

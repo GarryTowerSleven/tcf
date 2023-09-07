@@ -113,6 +113,36 @@ hook.Add("PlayerThink", "Taunting", function(ply)
 	if ply:GetNWBool("Emoting") && !ply:IsOnGround() then
 		StopAllEmotes(ply)
 	end
+
+	if ply:GetNWBool("dancing") && ply:GetModel() == "models/player/miku.mdl" then
+		if !ply.DanceSND or !ply.DanceSNDTime or ply.DanceSNDTime < CurTime() then
+			if ply.DanceSND then
+				ply.DanceSND:FadeOut(1)
+			end
+
+			if not Location.HasMediaplayerPlaying( ply:Location() ) then
+
+				local rand = math.random(18)
+				if rand < 9 then
+					rand = "0" .. rand
+				end
+				local snd = "gmodtower/lobby/mikuclock/mikuclock_song" .. rand .. ".mp3"
+				ply.DanceSND = CreateSound( ply, snd )
+				ply.DanceSND:SetSoundLevel(65)
+				ply.DanceSND:PlayEx( .75, 100 )
+
+				ply.DanceSNDTime = CurTime() + SoundDuration(snd) - 1
+				
+			end
+		end
+	elseif ply.DanceSNDTime and ply.DanceSNDTime > CurTime() then
+		if ply.DanceSND then
+			ply.DanceSND:FadeOut(1)
+		end
+
+		ply.DanceSNDTime = 0
+	end
+	
 end)
 
 for _, emote in pairs(Commands) do
@@ -194,20 +224,23 @@ for _, emote in pairs(Commands) do
 				net.WriteString(Action)
 			net.Send(ply)
 
-			if ply:GetModel() == "models/player/hatman.mdl" && emoteName == "dance" then
-			
-				if !Location.IsTheater( Location.Find(ply:GetPos()) ) && !Location.IsGroup( Location.Find(ply:GetPos()), "suite" ) && !Location.IsGroup( Location.Find(ply:GetPos()), "partysuite" ) then
-			
-					ply.DanceSND = CreateSound( ply, "misc/halloween/hwn_dance_loop.wav" )
-					ply.DanceSND:PlayEx( .5, 100 )
+			if Location and not Location.HasMediaplayerPlaying( ply:Location() ) then
+				if ply:GetModel() == "models/player/hatman.mdl" && emoteName == "dance" then
 				
-				end
-			elseif ply:GetModel() == "models/player/miku.mdl" && emoteName == "dance" then
-				if !Location.IsTheater( Location.Find(ply:GetPos()) ) && !Location.IsGroup( Location.Find(ply:GetPos()), "suite" ) && !Location.IsGroup( Location.Find(ply:GetPos()), "partysuite" ) then
-			
-					ply.DanceSND = CreateSound( ply, "gmodtower/lobby/mikuclock/mikuclock_song0" .. math.random(9) .. ".mp3" )
-					ply.DanceSND:PlayEx( .5, 100 )
+					if !Location.IsTheater( Location.Find(ply:GetPos()) ) && !Location.IsGroup( Location.Find(ply:GetPos()), "suite" ) && !Location.IsGroup( Location.Find(ply:GetPos()), "partysuite" ) then
 				
+						ply.DanceSND = CreateSound( ply, "misc/halloween/hwn_dance_loop.wav" )
+						ply.DanceSND:PlayEx( .5, 100 )
+					
+					end
+				elseif ply:GetModel() == "models/player/miku.mdl" && emoteName == "dance" then
+					if !Location.IsTheater( Location.Find(ply:GetPos()) ) && !Location.IsGroup( Location.Find(ply:GetPos()), "suite" ) && !Location.IsGroup( Location.Find(ply:GetPos()), "partysuite" ) then
+				
+						ply.DanceSND = CreateSound( ply, "gmodtower/lobby/mikuclock/mikuclock_song0" .. math.random(9) .. ".mp3" )
+						ply.DanceSND:SetSoundLevel(65)
+						ply.DanceSND:PlayEx( .75, 100 )
+
+					end
 				end
 			end
 

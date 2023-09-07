@@ -15,6 +15,21 @@ function ENT:BlinkThink()
 	local ragdoll = self.Ragdoll or nil 
 	if ( not ragdoll ) then return end
 
+	self.blink = self.blink or 0
+	self.blinktime = self.blinktime or 0
+
+	if self.blinktime < CurTime() then
+		self.blink = 1
+		self.blinktime = CurTime() + math.Rand(4, 8)
+	end
+
+	self.blink = math.max(self.blink - FrameTime() * 8, 0)
+	//Scary. Will return eventually
+	/*self.ET = self.ET or self:EyePos()
+	self.ET = LerpVector(FrameTime() * 4, self.ET, LocalPlayer():EyePos())
+	self:SetPoseParameter("head_yaw", math.NormalizeAngle((self.ET - self:EyePos()):Angle().y - self:GetAngles().y) / 1.4)
+	ragdoll:SetEyeTarget(self.ET)*/
+	ragdoll:SetFlexWeight(ragdoll:GetFlexIDByName("blink") or 0, self.blink)
 	// TODO
 end
 
@@ -79,7 +94,7 @@ function ENT:DrawTranslucent()
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 	ang:RotateAroundAxis( ang:Right(), 90 )
 
-	cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.1 )
+	cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.05 )
 
 		draw.DrawText( title, "GTowerNPC", 2, 2, Color( 0, 0, 0, 225 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		draw.DrawText( title, "GTowerNPC", 0, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )

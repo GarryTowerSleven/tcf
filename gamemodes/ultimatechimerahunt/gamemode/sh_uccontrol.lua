@@ -81,7 +81,6 @@ function meta:FindThingsToBite()
 
 	local tbl = {}
 	
-	self:LagCompensation(true)
 	local pos = self:GetShootPos()
 	local fwd = self:GetForward()
 
@@ -111,7 +110,6 @@ function meta:FindThingsToBite()
 		end
 
 	end
-	self:LagCompensation(false)
 
 	return tbl
 	

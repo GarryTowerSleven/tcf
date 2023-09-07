@@ -1,6 +1,6 @@
 
 local LifeLength = 1.2
-local FONT = "GTowerSkyMsgSmall"
+local FONT = "GTowerSkyMsg"
 
 /*---------------------------------------------------------
    Init( data table )
@@ -39,7 +39,8 @@ function EFFECT:Render( )
 		ang:RotateAroundAxis( ang:Right(), 180 )
 	end
 	
-	cam.Start3D2D( pos, ang, 0.45 )
+	ang.y = EyeAngles().y - 90
+	cam.Start3D2D( pos - Vector(0, 0, self.EndLife - CurTime()), ang, 0.1 )
 		surface.SetFont( FONT )
 		surface.SetTextColor( 0, 255, 0, math.max( (self.EndLife-CurTime()) * 255, 0 ) )
 		

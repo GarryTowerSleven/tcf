@@ -1,4 +1,3 @@
----------------------------------
 module( "GTowerItems", package.seeall )
 
 AddCSLuaFile( "itemslist/trophies.lua" )
@@ -1762,6 +1761,3 @@ RegisterItem("cow",{
 	StoreId = GTowerStore.BASICAL,
 	StorePrice = 1250,
 })
-
-
-//-----------------------------

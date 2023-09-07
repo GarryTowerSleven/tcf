@@ -46,20 +46,10 @@ function GM:HudMessage( ply, index, time, ent, ent2, color )
 		net.WriteInt( index, 8 )
 		net.WriteInt( time, 8 )
 
-		if ( IsValid( ent ) ) then
-			net.WriteEntity( ent )
-		end
+		net.WriteEntity( ent )
+		net.WriteEntity( ent2 )
 
-		if ( IsValid( ent2 ) ) then
-			net.WriteEntity( ent2 )
-		end
-
-		if color != nil then
-			net.WriteInt( color.r, 16 )
-			net.WriteInt( color.g, 16 )
-			net.WriteInt( color.b, 16 )
-			net.WriteInt( color.a, 16 )
-		end
+		net.WriteColor( color or color_white, false )
 
 	if ply == nil then
 		net.Broadcast()

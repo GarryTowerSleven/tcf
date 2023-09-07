@@ -20,7 +20,7 @@ hook.Add("GTowerStoreLoad", "AddHats", function()
 			NewItem.unique_name = v.unique_name
 			NewItem.model = v.model
 			NewItem.drawmodel = true
-			NewItem.ModelSkin = v.ModelSkin
+			NewItem.ModelSkin = v.ModelSkinId || v.ModelSkin
 			
 			GTowerStore:SQLInsert( NewItem )
 			

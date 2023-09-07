@@ -51,6 +51,7 @@ end
 
 function SWEP:DrawWorldModel()
 
+	self:SetColor(self.Color)
 	self:DrawModel()
 
 	local attach = self:LookupAttachment("muzzle")
@@ -80,6 +81,18 @@ end
 	render.DrawSprite( attach, 10, 10, Color( self.Color.r, self.Color.g, self.Color.b, 255 ) )
 
 end*/
+
+function SWEP:PreDrawViewModel(vm)
+	local c = self.Color
+	render.SetColorModulation(c.r / 255, c.g / 255, c.b / 255)
+end
+
+function SWEP:PostDrawViewModel(vm)
+	render.SetColorModulation(1, 1, 1)
+
+
+end
+
 
 function SWEP:Precache()
 	//GtowerPrecacheSound(self.PartySound)
@@ -172,23 +185,7 @@ end
 
 function SWEP:GetRandomColor()
 
-	local rand = math.random( 0, 6 )
-	local color = Color( math.random( 125, 255 ), math.random( 125, 255 ), math.random( 125, 255 ) )
-	if rand == 1 then
-		color = Color( math.random( 125, 255 ), math.random( 30, 80 ), math.random( 30, 80 ) )
-	elseif rand == 2 then
-		color = Color( math.random( 30, 80 ), math.random( 125, 255 ), math.random( 30, 80 ) )
-	elseif rand == 3 then
-		color = Color( math.random( 30, 80 ), math.random( 30, 80 ), math.random( 125, 255 ) )
-	elseif rand == 4 then
-		color = Color( math.random( 30, 80 ), math.random( 125, 255 ), math.random( 125, 255 ) )
-	elseif rand == 5 then
-		color = Color( math.random( 125, 255 ), math.random( 30, 80 ), math.random( 125, 255 ) )
-	elseif rand == 6 then
-		color = Color( math.random( 125, 255 ), math.random( 125, 255 ), math.random( 30, 80 ) )
-	end
-
-	return color
+	return colorutil.Rainbow(128)
 
 end
 

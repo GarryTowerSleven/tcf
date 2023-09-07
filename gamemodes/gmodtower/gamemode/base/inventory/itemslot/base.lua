@@ -1,4 +1,3 @@
----------------------------------
 local SLOTBASE = {}
 GTowerItems.SlotBaseMetaTable = {
 	__index = SLOTBASE,
@@ -121,21 +120,21 @@ function SLOTBASE:_SendNetwork()
 
 	umsg.Start("Inv", self.Ply )
 
-	umsg.Char( 1 )
-	umsg.Char( self.PlaceId )
-	umsg.Char( self.Slot - 128 )
+		umsg.Char( 1 )
+		umsg.Char( self.PlaceId )
+		umsg.Char( self.Slot - 128 )
 
-	if !Item then
-		umsg.Bool( false )
-	else
-		umsg.Bool( true )
-		umsg.Short( Item.MysqlId - 32768 )
+		if !Item then
+			umsg.Bool( false )
+		else
+			umsg.Bool( true )
+			umsg.Short( Item.MysqlId - 32768 )
 
-		if type( Item.CustomNW ) == "function" then
-			Item:CustomNW()
+			if type( Item.CustomNW ) == "function" then
+				Item:CustomNW()
+			end
+
 		end
-
-	end
 
 	umsg.End()
 
@@ -150,8 +149,6 @@ function SLOTBASE:ItemChanged()
 		NetworkQueue.Add( self.Ply, ReceiveItem, self )
 	end
 end
-
-
 
 function SLOTBASE:Get()
 	if !IsValid(self) then return end

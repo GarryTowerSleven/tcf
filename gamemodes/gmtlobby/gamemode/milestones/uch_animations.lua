@@ -33,6 +33,8 @@ function SetupPlayer( ply, id )
 
 		ply:SetModel( pigmodel )
 
+		GTowerModels.Set(ply)
+		
 		ply.UCHType = TYPE_PIG
 
 
@@ -65,11 +67,13 @@ function SetupPlayer( ply, id )
 
 		ply:SetModel( ghostmodel )
 
+		GTowerModels.Set(ply)
+		
 		ply.UCHType = TYPE_GHOST
 
 
 
-		if ply:GetNWBool("VIP") then
+		if ply:GetNet("VIP") then
 
 			ply:SetBodygroup( 1, 1 )
 
@@ -174,6 +178,7 @@ function ClearPlayer( ply )
 	if ply._OldModel then
 
 		ply:SetModel( ply._OldModel )
+		GTowerModels.Set(ply)
 
 	end
 
@@ -366,7 +371,7 @@ function AnimateGhost( ply, velocity )
 
 
 
-		if ply:GetNWBool("VIP") then
+		if ply:GetNet("VIP") then
 
 			seq = "walk2"
 
@@ -382,7 +387,7 @@ function AnimateGhost( ply, velocity )
 
 
 
-		if ply:GetNWBool("VIP") then
+		if ply:GetNet("VIP") then
 
 			seq = "idle2"
 
@@ -410,7 +415,7 @@ function AnimateGhost( ply, velocity )
 
 
 
-	if ply:GetNWBool("VIP") && CurTime() >= ply.LastSippyCup then
+	if ply:GetNet("VIP") && CurTime() >= ply.LastSippyCup then
 
 
 

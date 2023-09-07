@@ -9,6 +9,14 @@ local RedBox	= Color( 175, 50, 50, 50 )
 
 ENT.RenderGroup = RENDERGROUP_BOTH
 
+local s = 8
+surface.CreateFont("Radio", {
+	size = 18 * s,
+	shadow = false,
+	weight = 0,
+	font = "Verdana"
+})
+
 function ENT:DrawTranslucent()
 
 	local EntPos = self:GetPos() + ( self:GetForward() * self.OffsetForward ) + self:GetUp() * ( self.OffsetUp + 1 )
@@ -30,7 +38,7 @@ function ENT:DrawTranslucent()
 	ang:RotateAroundAxis(ang:Right(), 	-90 )
 	ang:RotateAroundAxis(ang:Up(), 		90 )
 
-	cam.Start3D2D( EntPos , ang, 0.1)
+	cam.Start3D2D( EntPos , ang, 0.1 / s)
 		
 		pcall( function()
 			local Stream = self:GetStream()
@@ -72,15 +80,18 @@ function ENT:DrawTranslucent()
 
 			end
 			
-			surface.SetFont( "ChatFont" )
+			surface.SetFont( "Radio" )
 
 			local w,h = surface.GetTextSize( Title ) 
 			Color.a = Alpha
 
 			surface.SetDrawColor( Color )
-			draw.RoundedBox(4, -100 , -145, w + 16, h + 8, Color )
+			draw.RoundedBox(4, -100 * s , -145 * s, w + 16 * s, h + 8 * s, Color )
+			surface.SetTextColor( 0, 0, 0, Alpha2 ) 
+			surface.SetTextPos( (-100 + 8 + 1) * s, (-145 + 4 + 1) * s ) 	
+			surface.DrawText( Title )
 			surface.SetTextColor( 255, 255, 255, Alpha2 ) 
-			surface.SetTextPos( -100 + 8, -145 + 4 ) 	
+			surface.SetTextPos( (-100 + 8) * s, (-145 + 4) * s ) 	
 			surface.DrawText( Title )
 		end )
 		
@@ -99,6 +110,8 @@ local ox, oy	= -100, -65
 
 function ENT:DrawSpectrumAnalyzer(Alpha, Alpha2)
 
+
+	local ox, oy = ox * s, oy * s
 	local fft = self:GetFFTFromStream()
 	local b0 = 0
 
@@ -119,15 +132,16 @@ function ENT:DrawSpectrumAnalyzer(Alpha, Alpha2)
 		end
 		y = (math.sqrt(sum/math.log10(sc))*1.7*SPECHEIGHT)-4
 		y = math.Clamp(y, 0, SPECHEIGHT)
-		surface.DrawRect(ox + x*8, oy - y - 1, 7, y + 1)
+		surface.DrawRect(ox + (x*8)*s, oy - (y - 1)*s, 7*s, (y + 1)*s)
 	end
 
 end
 
 function ENT:DrawDuration(Media, Alpha, Alpha2)
 
+	local ox, oy = ox * s, oy * s
 	surface.SetDrawColor( 50, 50, 50, Alpha )
-	surface.DrawRect( ox, oy + 1, 8*(BANDS-1), 18 )
+	surface.DrawRect( ox, oy + s, 8*(BANDS-1)*s, 18*s )
 
 	surface.SetDrawColor( 255, 0, 0, Alpha )
 
@@ -138,12 +152,17 @@ function ENT:DrawDuration(Media, Alpha, Alpha2)
 	local lval = 1 - TimeLeft / duration
 	local sTime = string.FormatSeconds(math.Clamp(math.Round(curTime), 0, duration))
 
-	surface.DrawRect( ox + 2, oy + 3, Lerp(lval, 0, 8*(BANDS-1) - 4), 14 )
+	surface.DrawRect( ox + (2*s), oy + (3*s), Lerp(lval, 0, 8*(BANDS-1) - 4)*s, 14*s )
 
-	surface.SetFont( "ChatFont" )
+	surface.SetFont( "Radio" )
 	local w,h = surface.GetTextSize( sTime ) 
 
-	surface.SetTextPos( ox + (8*(BANDS-1))/2 - w/2, oy + 2 )
+	surface.SetTextPos( (ox + (((8*(BANDS-1))/2)*s - w/2))+1*s, (oy + (0*s))+1*s )
+	surface.SetTextColor( 0, 0, 0, Alpha2 )
+	
+	surface.DrawText( sTime )
+
+	surface.SetTextPos( (ox + (((8*(BANDS-1))/2)*s - w/2)), (oy + (0*s)) )
 	surface.SetTextColor( 255, 255, 255, Alpha2 )
 	
 	surface.DrawText( sTime )
