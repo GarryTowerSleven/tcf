@@ -224,9 +224,7 @@ for _, emote in pairs(Commands) do
 				net.WriteString(Action)
 			net.Send(ply)
 
-			local mp = Location.GetMediaPlayer(ply:Location())
-
-			if !IsValid(mp) || !mp:GetMediaPlayer() || !mp:GetMediaPlayer()._Media then
+			if Location and not Location.HasMediaplayerPlaying( ply:Location() ) then
 				if ply:GetModel() == "models/player/hatman.mdl" && emoteName == "dance" then
 				
 					if !Location.IsTheater( Location.Find(ply:GetPos()) ) && !Location.IsGroup( Location.Find(ply:GetPos()), "suite" ) && !Location.IsGroup( Location.Find(ply:GetPos()), "partysuite" ) then

@@ -329,6 +329,22 @@ function GetMediaPlayersInLocation( location )
 
 end
 
+function HasMediaplayerPlaying( location )
+
+	local mps = GetMediaPlayersInLocation( location )
+
+	for _, mp in ipairs( mps ) do
+
+		if mp:IsPlaying() then
+			return true, mp
+		end
+
+	end
+
+	return false, nil
+
+end
+
 function GetPlayersInLocation( location )
 
 	local players = {}
