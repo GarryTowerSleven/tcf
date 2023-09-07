@@ -119,11 +119,9 @@ hook.Add("PlayerThink", "Taunting", function(ply)
 			if ply.DanceSND then
 				ply.DanceSND:FadeOut(1)
 			end
-			
-			local mp = Location.GetMediaPlayersInLocation(ply:Location())
-			mp = mp[1] and mp[1]._Media
 
-			if !mp && !Location.IsTheater( Location.Find(ply:GetPos()) ) && !Location.IsGroup( Location.Find(ply:GetPos()), "suite" ) && !Location.IsGroup( Location.Find(ply:GetPos()), "partysuite" ) then
+			if not Location.HasMediaplayerPlaying( ply:Location() ) then
+
 				local rand = math.random(18)
 				if rand < 9 then
 					rand = "0" .. rand
@@ -134,6 +132,7 @@ hook.Add("PlayerThink", "Taunting", function(ply)
 				ply.DanceSND:PlayEx( .75, 100 )
 
 				ply.DanceSNDTime = CurTime() + SoundDuration(snd) - 1
+				
 			end
 		end
 	elseif ply.DanceSNDTime and ply.DanceSNDTime > CurTime() then
@@ -143,6 +142,7 @@ hook.Add("PlayerThink", "Taunting", function(ply)
 
 		ply.DanceSNDTime = 0
 	end
+	
 end)
 
 for _, emote in pairs(Commands) do
