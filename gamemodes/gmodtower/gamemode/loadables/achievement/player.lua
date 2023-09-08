@@ -84,7 +84,7 @@ function meta:GetAchievement( id, raw )
 
 	if !self._Achievements then
 		ErrorNoHalt("Attention: Getting achievement: " .. id .. " before the player was loaded.\n")
-		ErrorNoHalt( debug.traceback() )
+		// ErrorNoHalt( debug.traceback() )
 		return 0
 	end
 
