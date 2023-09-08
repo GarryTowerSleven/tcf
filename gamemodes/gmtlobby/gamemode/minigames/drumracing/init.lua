@@ -138,7 +138,6 @@ function Start( flags )
 	hook.Add("PlayerSelectSpawn", "ChainSawPlayerSpawn", PlayerInitialSpawn )
 	hook.Add("PlayerInitialSpawn", "ChainsawSendNW", PlayerConnected )
 	hook.Add("PlayerSpawn", "ChainsawPlayerSpawn", PlayerSpawn )
-	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissalowResize )
 	
 	for _, v in pairs( player.GetAll() ) do
 		SafeCall( CheckGiveWeapon, v, v:Location() )
@@ -166,7 +165,6 @@ function End()
 	hook.Remove("PlayerSelectSpawn", "ChainSawPlayerSpawn" )
 	hook.Remove("PlayerInitialSpawn", "ChainsawSendNW" )
 	hook.Remove("PlayerSpawn", "ChainsawPlayerSpawn" )
-	hook.Remove("PlayerResize", "DoNotAllowResize")
 	
 	for _, v in pairs( player.GetAll() ) do
 		SafeCall( RemoveWeapon, v )

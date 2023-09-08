@@ -165,7 +165,6 @@ function Start( flags )
 	LastSpawn = CurTime()
 	hook.Add("Think", "BalloonPopSpawning", BalloonControl )
 	hook.Add("Location", "BalloonPopLocation", CheckGiveWeapon )
-	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissalowResize )
 
 	hook.Add("PlayerDeath", "Ninjaspeak", function( victim )
 		if ( victim.HasCrossbow == true ) then
@@ -197,7 +196,6 @@ function End()
 	BalloonPopStop()
 
 	hook.Remove("Location", "BalloonPopLocation" )
-	hook.Remove("PlayerResize", "DoNotAllowResize" )
 	hook.Remove("PlayerDeath", "Ninjaspeak" )
 	hook.Remove("PlayerDisconnected", "Ninjaleave" )
 
