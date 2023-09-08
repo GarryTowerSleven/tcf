@@ -12,7 +12,7 @@ if IsLobby then
 timer.Create("gmt_autorestart",10,0,function()
 	if GMT_IS_PREPARING_TO_RESTART then return end
 	local CurSysTime = os.date( '%H:%M' , os.time() )
-	if CurSysTime == "07:00" || ADMIN_RESTART then
+	if CurSysTime == "06:00" || ADMIN_RESTART then
 
 		GMT_CHANGE_MAP = game.GetMap()
 		RESTART_TIME = 60
