@@ -123,7 +123,7 @@ hook.Add("PlayerThink", "Taunting", function(ply)
 			if not Location.HasMediaplayerPlaying( ply:Location() ) then
 
 				local rand = math.random(18)
-				if rand < 9 then
+				if rand < 10 then
 					rand = "0" .. rand
 				end
 				local snd = "gmodtower/lobby/mikuclock/mikuclock_song" .. rand .. ".mp3"
