@@ -110,6 +110,8 @@ function PANEL:SetModelWearables( ply )
 
 	if !ClientsideModel then return end
 	
+	if LocalPlayer():GetNWBool( "InLimbo" ) then return end
+	
 	local wear1, wear2 = Hats.GetItem( slot1 ), Hats.GetItem( slot2 )
 	
 	if wear1 && wear1.model != Hats.GetNoHat() then

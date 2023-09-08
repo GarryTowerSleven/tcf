@@ -474,7 +474,7 @@ Add( 13, {
     Name = "Suite #3",
     Group = "suite",
     Min = Vector(4400,-12975,4085),
-    Max = Vector(4770,-11649,4374),
+    Max = Vector(4782,-11649,4374),
     IsSuite = true,
     SuiteID = 3,
     Priority = 0,
@@ -518,7 +518,7 @@ Add( 17, {
 Add( 18, {
     Name = "Suite #8",
     Group = "suite",
-    Min = Vector(4325,-8704,4085),
+    Min = Vector(4305,-8704,4085),
     Max = Vector(4675,-7385,4374),
     IsSuite = true,
     SuiteID = 8,

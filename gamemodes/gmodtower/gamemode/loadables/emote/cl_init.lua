@@ -24,3 +24,8 @@ hook.Add( "ForceViewSelf", "ForceViewSelfEmotes", function( ply )
 
 end ) 
 
+hook.Add( "ShouldDrawLocalPlayer", "StupidDancingFix", function()
+
+	return LocalPlayer():GetNWBool("dancing")
+
+end )
