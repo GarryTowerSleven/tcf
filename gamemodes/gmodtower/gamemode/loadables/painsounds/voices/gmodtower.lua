@@ -288,7 +288,7 @@ voicelines.Add("models/player/normal.mdl", {
     Death = {"S:HEV_DEAD0", "S:HEV_DEAD1"}
 })
 
-voicelines.Add("models/player/gordon.mdl", {
+voicelines.Add("models/player/hl2ac_gordon.mdl", {
     Pain = {
         Small = {"S:HEV_DMG4"},
         Medium = {"S:HEV_DMG5"},
@@ -316,7 +316,7 @@ voicelines.Add("models/player/tcf/gasmask_citizen.mdl", playerSounds["models/pla
 voicelines.Add("models/player/aphaztech.mdl", playerSounds["models/player/group01/male_07.mdl"])
 voicelines.Add("models/player/spacesuit.mdl", playerSounds["models/player/group01/male_07.mdl"])
 voicelines.Add("models/player/sunabouzu.mdl", playerSounds["models/player/breen.mdl"])
-voicelines.Add("models/player/tcf/hl1_gordon.mdl", playerSounds["models/player/gordon.mdl"])
+voicelines.Add("models/player/tcf/hl1_gordon.mdl", playerSounds["models/player/hl2ac_gordon.mdl"])
 voicelines.Add("models/player/clopsy.mdl", playerSounds["models/player/zombie_classic.mdl"])
 voicelines.Add("models/player/virusi.mdl", playerSounds["models/player/zombie_classic.mdl"])
 

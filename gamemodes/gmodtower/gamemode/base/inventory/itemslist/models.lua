@@ -345,7 +345,7 @@ RegisterModel(
 	"mdl_gordon",
 	"Gordon Freeman",
 	"Gordon Freeman, in the flesh - or, rather, in the hazard suit.",
-	"models/player/gordon.mdl",
+	"models/player/hl2ac_gordon.mdl",
 	"gordon",
 	5000 )
 
