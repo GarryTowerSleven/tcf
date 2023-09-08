@@ -167,7 +167,7 @@ if SERVER then
 	//Called when an equipable entity should be created
 	//Should return the entity created
 	function CreateEquipEntity( self )
-		print("PETPET2")
+		//print("PETPET2") wat
 	end
 
 	function IsEquiped( self )
