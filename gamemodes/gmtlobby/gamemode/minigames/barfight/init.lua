@@ -40,7 +40,6 @@ function GiveWeapon( ply )
 		ply:Give( WeaponName )
 		ply:SelectWeapon( WeaponName )
 		ply.CanPickupWeapons = false
-		GTowerModels.SetTemp( ply, 1 )
 	end
 
 	ply:GodDisable()
@@ -75,7 +74,6 @@ end
 function RemoveWeapon( ply )
 	if ply:HasWeapon(WeaponName) then
 		ply:StripWeapons()
-		GTowerModels.Set( ply )
 	end
 
 	ply:ResetGod()
@@ -161,6 +159,7 @@ function Start( flags )
 	hook.Add("PlayerSelectSpawn", "BarFightPlayerSpawn", PlayerInitialSpawn )
 	hook.Add("PlayerInitialSpawn", "BarFightSendNW", PlayerConnected )
 	hook.Add("PlayerSpawn", "BarFightPlayerSpawn", PlayerSpawn )
+	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissalowResize )
 	hook.Add("PlayerThink", "BarFightCheckRemoveBall", CheckRemoveBall )
 
 	for _, v in pairs( player.GetAll() ) do
@@ -191,6 +190,7 @@ function End()
 	hook.Remove("PlayerSelectSpawn", "BarFightPlayerSpawn" )
 	hook.Remove("PlayerInitialSpawn", "BarFightSendNW" )
 	hook.Remove("PlayerSpawn", "BarFightPlayerSpawn" )
+	hook.Remove("PlayerResize", "DoNotAllowResize")
 	hook.Remove("PlayerThink", "BarFightCheckRemoveBall" )
 
 	for _, v in pairs( player.GetAll() ) do

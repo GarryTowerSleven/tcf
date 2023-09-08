@@ -359,6 +359,7 @@ function Start( flags )
 
 	hook.Add("Location", "ObamaSmashLocation", CheckGiveWeapon )
 	hook.Add("EntityTakeDamage", "SmashObama", SmashObama )
+	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissallowResize )
 
 	hook.Add("PlayerDeath", "Piratespeak", function( victim )
 		if ( victim.HasCrowbar == true ) then
@@ -392,6 +393,7 @@ function End()
 
 	hook.Remove("Location", "ObamaSmashLocation" )
 	hook.Remove("EntityTakeDamage", "SmashObama" )
+	hook.Remove("PlayerResize", "DoNotAllowResize")
 	hook.Remove("PlayerDeath", "Piratespeak")
 	hook.Remove("PlayerDisconnected", "Pirateleave")
 	

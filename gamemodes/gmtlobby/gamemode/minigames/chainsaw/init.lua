@@ -41,7 +41,6 @@ function GiveWeapon( ply )
 		ply:SelectWeapon( WeaponName )
 		ply.CanPickupWeapons = false
 		ply.HasChainsaw = true
-		GTowerModels.SetTemp( ply, 1 )
 	end
 
 	ply:GodDisable()
@@ -68,7 +67,6 @@ function RemoveWeapon( ply )
 	if ply:HasWeapon(WeaponName) then
 		ply:StripWeapons()
 		ply.HasChainsaw = false
-		GTowerModels.Set( ply )
 	end
 
 	ply:ResetGod()
@@ -154,6 +152,7 @@ function Start( flags )
 	hook.Add("PlayerSelectSpawn", "ChainSawPlayerSpawn", PlayerInitialSpawn )
 	hook.Add("PlayerInitialSpawn", "ChainsawSendNW", PlayerConnected )
 	hook.Add("PlayerSpawn", "ChainsawPlayerSpawn", PlayerSpawn )
+	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissalowResize )
 	hook.Add("PlayerThink", "ChainsawCheckRemoveBall", CheckRemoveBall )
 
 	for _, v in pairs( player.GetAll() ) do
@@ -184,6 +183,7 @@ function End()
 	hook.Remove("PlayerSelectSpawn", "ChainSawPlayerSpawn" )
 	hook.Remove("PlayerInitialSpawn", "ChainsawSendNW" )
 	hook.Remove("PlayerSpawn", "ChainsawPlayerSpawn" )
+	hook.Remove("PlayerResize", "DoNotAllowResize")
 	hook.Remove("PlayerThink", "ChainsawCheckRemoveBall" )
 
 	for _, v in pairs( player.GetAll() ) do

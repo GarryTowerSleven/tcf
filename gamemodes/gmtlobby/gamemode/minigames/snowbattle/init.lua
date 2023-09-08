@@ -40,7 +40,6 @@ function GiveWeapon( ply )
 		ply:Give( WeaponName )
 		ply:SelectWeapon( WeaponName )
 		ply.CanPickupWeapons = false
-		GTowerModels.SetTemp( ply, 1 )
 	end
 
 	ply:GodDisable()
@@ -70,7 +69,6 @@ end
 function RemoveWeapon( ply )
 	if ply:HasWeapon(WeaponName) then
 		ply:StripWeapons()
-		GTowerModels.Set( ply )
 	end
 
 	ply:ResetGod()
@@ -156,6 +154,7 @@ function Start( flags )
 	hook.Add("PlayerSelectSpawn", "SnowBattlePlayerSpawn", PlayerInitialSpawn )
 	hook.Add("PlayerInitialSpawn", "SnowBattleSendNW", PlayerConnected )
 	hook.Add("PlayerSpawn", "SnowBattlePlayerSpawn", PlayerSpawn )
+	hook.Add("PlayerResize", "DoNotAllowResize", PlayerDissalowResize )
 	hook.Add("PlayerThink", "SnowBattleCheckRemoveBall", CheckRemoveBall )
 
 	for _, v in pairs( player.GetAll() ) do
@@ -186,6 +185,7 @@ function End()
 	hook.Remove("PlayerSelectSpawn", "SnowBattlePlayerSpawn" )
 	hook.Remove("PlayerInitialSpawn", "SnowBattleSendNW" )
 	hook.Remove("PlayerSpawn", "SnowBattlePlayerSpawn" )
+	hook.Remove("PlayerResize", "DoNotAllowResize")
 	hook.Remove("PlayerThink", "SnowBattleCheckRemoveBall" )
 
 	for _, v in pairs( player.GetAll() ) do
