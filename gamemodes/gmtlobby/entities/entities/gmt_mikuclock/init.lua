@@ -28,7 +28,9 @@ function ENT:Use(ply)
 	self.Playing = true
 
 	local song = self:PickSong()
-	self:EmitSound( song, 65, 100, .5)
+	self.Song = CreateSound( self, song )
+	self.Song:SetSoundLevel(65)
+	self.Song:PlayEx( .5, 100 )
 	timer.Simple(SoundDuration(song), function()
 		if IsValid(self) then 
 			self.Playing = false
