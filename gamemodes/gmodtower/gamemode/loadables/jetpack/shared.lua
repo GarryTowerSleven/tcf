@@ -120,7 +120,7 @@ local function JetpackMove( ply, mv, state, firstPredicted )
 
 	local fuelRemaining = CalculateAccumulatedFuelRemaining( ply, state )
 	
-	if not ply:KeyDown( IN_JUMP ) or ply:OnGround() or fuelRemaining <= 0 then
+	if not ply:KeyDown( IN_JUMP ) or ply:OnGround() or ply.m_bInSwim or fuelRemaining <= 0 then
 		if state._InJetpackFlight then
 			JetpackEnd( ply )
 			state._InJetpackFlight = false
