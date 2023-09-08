@@ -280,6 +280,11 @@ voicelines.Add("models/player/nuggets.mdl", {
 })
 
 voicelines.Add("models/player/normal.mdl", {
+    Pain = {
+        Small = {"S:HEV_DMG4"},
+        Medium = {"S:HEV_DMG5"},
+        Large = {"S:HEV_HLTH3"}
+    },
     Death = {"S:HEV_DEAD0", "S:HEV_DEAD1"}
 })
 
@@ -293,9 +298,11 @@ voicelines.Add("models/player/gordon.mdl", {
 })
 
 voicelines.Add("models/player/sam.mdl", {
-    /*Pain = {
-		//TODO?
-    },*/
+    Pain = {
+        Small = "physics/metal/metal_box_impact_soft{1-3}.wav",
+        Medium = "physics/metal/metal_box_impact_hard{1-3}.wav",
+        Large = "physics/metal/metal_barrel_impact_hard{1-3}.wav"
+    },
     Death = {
         "gmodtower/player/lprime/death{1-4}.ogg"
     },
