@@ -298,9 +298,11 @@ voicelines.Add("models/player/gordon.mdl", {
 })
 
 voicelines.Add("models/player/sam.mdl", {
-    /*Pain = {
-		//TODO?
-    },*/
+    Pain = {
+        Small = "physics/metal/metal_box_impact_soft{1-3}.wav",
+        Medium = "physics/metal/metal_box_impact_hard{1-3}.wav",
+        Large = "physics/metal/metal_barrel_impact_hard{1-3}.wav"
+    },
     Death = {
         "gmodtower/player/lprime/death{1-4}.ogg"
     },
