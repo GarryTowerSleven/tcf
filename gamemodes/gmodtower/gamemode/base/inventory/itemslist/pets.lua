@@ -653,7 +653,7 @@ GTowerItems.RegisterItem( "ParticleSystemVIP", {
 } )
 GTowerItems.RegisterItem( "ParticleSystemBanana", {
 	Name = "Particle: Bananas",
-	Description = "Express your love for bananas with this cool particle effect!",
+	Description = "Express your love for bananas with this fruit themed effect.",
 	//Model = "models/gmod_tower/particleball.mdl",
 	Model = "models/weapons/w_pvp_ire.mdl",
 	DrawModel = false,
@@ -735,10 +735,51 @@ GTowerItems.RegisterItem( "ParticleSystemNotes", {
 
 GTowerItems.RegisterItem( "ParticleSystemOrbs", {
 	Name = "Particle: Orbs",
-	Description = "Soothing orbs that sparkle around you.",
+	Description = "Soothing orbs that float around you.",
 	//Model = "models/gmod_tower/particleball.mdl",
 	Model = "models/weapons/w_pvp_ire.mdl",
 	DrawModel = false,
+	Equippable = true,
+	UniqueEquippable = true,
+	EquipType = "Particle",
+	CanEntCreate = false,
+	DrawName = true,
+
+	NewItem = true,
+
+	StoreId = GTowerStore.VIP,
+	StorePrice = 20000,
+
+	Tradable = false,
+	UniqueInventory = true,
+
+	PreviewURL = "particles/orbs.webp",
+
+	EquippableEntity = true,
+	RemoveOnDeath = true,
+	OverrideOnlyEquippable = true,
+	RemoveOnNoEntsLoc = true,
+	CreateEquipEntity = function( self )
+
+		local particle = ents.Create( "gmt_wearable_particle_orbs" )
+
+		if IsValid( particle ) then
+			particle:SetOwner( self.Ply )
+			particle:SetParent( self.Ply )
+			particle:Spawn()
+		end
+
+		return particle
+
+	end
+} )
+
+GTowerItems.RegisterItem( "ParticleSystemSparkle", {
+	Name = "Particle: Sparkle",
+	Description = "Colorful sparkles that show beauty in simplicity.",
+	//Model = "models/gmod_tower/particleball.mdl",
+	Model = "models/weapons/w_pvp_ire.mdl",
+	DrawModel = true,
 	Equippable = true,
 	UniqueEquippable = true,
 	EquipType = "Particle",
@@ -753,7 +794,7 @@ GTowerItems.RegisterItem( "ParticleSystemOrbs", {
 	Tradable = false,
 	UniqueInventory = true,
 
-	PreviewURL = "particles/orbs.webp",
+	PreviewURL = "particles/sparkle.webp",
 
 	EquippableEntity = true,
 	RemoveOnDeath = true,
@@ -761,7 +802,7 @@ GTowerItems.RegisterItem( "ParticleSystemOrbs", {
 	RemoveOnNoEntsLoc = true,
 	CreateEquipEntity = function( self )
 
-		local particle = ents.Create( "gmt_wearable_particle_orbs" )
+		local particle = ents.Create( "gmt_wearable_particle_sparkle" )
 
 		if IsValid( particle ) then
 			particle:SetOwner( self.Ply )
