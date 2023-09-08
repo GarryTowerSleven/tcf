@@ -201,7 +201,7 @@ function ENT:DrawPanel( cur_x, cur_y, onscreen )
 	local Room = GTowerRooms:Get( self.RoomId )
 	if !(Room && Room.HasOwner) then return end
 
-	if !( ( self:OnRoomLock() and !self:LocalOwner() ) or !LocalPlayer():IsAdmin() ) then
+	if !( self:OnRoomLock() and !self:LocalOwner() ) then
 
 		-- Open Button
 		if onscreen && cur_x < 80 && cur_x > -70 && cur_y > -30 && cur_y < 160 then
@@ -230,7 +230,7 @@ function ENT:DrawPanel( cur_x, cur_y, onscreen )
 	end
 
 	-- Owner only
-	if self:LocalOwner() || LocalPlayer():IsAdmin() then
+	if self:LocalOwner() then
 	
 		-- Lock Button
 		if onscreen && cur_x < -70 && cur_x > -240 && cur_y > -30 && cur_y < 60 then
