@@ -221,6 +221,7 @@ NotRight = {
 	["models/props/de_tides/patio_chair2.mdl"]	= 180,
 	["models/props/cs_militia/couch.mdl"]		= 0,
 	["models/gmod_tower/stealth box/box.mdl"]	= 180,
+	["models/gmod_tower/theater_seat.mdl"]		= 180,
 }
 
 DefaultSitSound = Sound("sunabouzu/chair_sit.wav")
