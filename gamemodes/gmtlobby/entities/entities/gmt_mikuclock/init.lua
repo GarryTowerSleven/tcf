@@ -37,7 +37,7 @@ function ENT:Use(ply)
 end
 
 function ENT:OnRemove()
-	if song then self:StopSound( song ) end
+	if self.Song then self.Song:Stop() end
 end
 
 function ENT:Think()
