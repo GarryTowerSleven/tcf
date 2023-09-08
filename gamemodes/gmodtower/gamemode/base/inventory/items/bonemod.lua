@@ -53,7 +53,9 @@ if SERVER then
 
 	function ITEM:OnUnEquip()
 		if BoneMod then
-			BoneMod.SetBoneMod( self.Ply, BONEMOD_NORMAL )
+			BoneMod.SetBoneMod( self.Ply, BONEMOD_NORMAL )
+			
+			self.Ply.BoneModID = 0
 		end
 	end
 end
