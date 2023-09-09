@@ -4,19 +4,15 @@ if !meta then
 end
 
 local Roles =
-{	
-
+{
 	// kitteh omega overloard 1337 rawr
 	["STEAM_0:0:1384695"] = "Lead Developer",	// kity
-	
-	// god of boxes, boXy // a demigod for now
-	//["STEAM_0:0:38865393"] = "Lead Developer",	// boXy
 	
 	// Developers
 	["STEAM_0:1:39916544"] = "Developer",	// Anoma
 	["STEAM_0:1:124798129"] = "Developer", 	// Amgona
 	["STEAM_0:0:44458854"] = "Developer",	// Bumpy
-	["STEAM_0:0:35652170"] = "Developer",	// Lead
+	// ["STEAM_0:0:38865393"] = "Developer",	// boXy
 
 	// Moderators
 	["STEAM_0:1:57386100"] = "Moderator", 	// Squibbus
