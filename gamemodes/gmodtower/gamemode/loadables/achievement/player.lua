@@ -62,7 +62,7 @@ function meta:SetAchievement( id, value, add )
 		for i = 0, 15 do
 			i = i + 1
 			local eff = EffectData()
-				eff:SetOrigin( self:GetPos() + self:GetUp() * 80 + ( VectorRand():GetNormal() * 30 )  )
+				eff:SetOrigin(util.GetCenterPos( self ) + Vector(0,0,10) + ( VectorRand():GetNormal() * 30 )  )
 				eff:SetScale(2.5)
 			util.Effect( "firework_achievement", eff )
 		end
