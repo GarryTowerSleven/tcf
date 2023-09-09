@@ -319,10 +319,12 @@ concommand.Add( "gmt_useroomdoor", function( ply, cmd, args )
 	-- dist check
 	if door:GetPos():Distance( ply:GetPos() ) > 100 then return end
 
-	if door:GetSaveTable().m_toggle_state == 0 then
-		door:Fire( "Close" )
-	else
-		door:Fire( "Open" )
+	if !Room.Owner:GetNet( "RoomLock" ) || Room.Owner == ply || ply:IsAdmin() then
+		if door:GetSaveTable().m_toggle_state == 0 then
+			door:Fire( "Close" )
+		else
+			door:Fire( "Open" )
+		end
 	end
 
 	ply._LastDoorUse = CurTime() + .5
