@@ -121,24 +121,6 @@ function GTowerStore:SetPlyMaxLevel( ply, id, level )
 	
 end
 
-
-hook.Add("SQLStartColumns", "SQLStoreData", function()
-	SQLColumn.Init( {
-		["column"] = "levels",
-		["selectquery"] = "HEX(levels) as levels",
-		["selectresult"] = "levels",
-		["update"] = function( ply ) 
-			return GTowerStore:GetPlayerData( ply )
-		end,
-		["defaultvalue"] = function( ply )
-			GTowerStore:DefaultValue( ply )
-		end,
-		["onupdate"] = function( ply, val ) 
-			GTowerStore:UpdateInventoryData( ply, val )
-		end
-	} )
-end )
-
 function GTowerStore:DefaultValue( ply )
 	ply.GTowerLevels = {}
 	ply.GTowerMaxLevels = {}

@@ -150,15 +150,12 @@ hook.Add("AdminCommand", "RemoveOwnerRoom", function( args, admin, ply )
 
 end )
 
-hook.Add("GtowerDisconnectPost", "CleanUpSuite", function( ply )
-	local Room = ply:GetRoom()
+hook.Add( "DatabasePostPlayerDisconnect", "CleanUpSuite", function( ply )
+	
+	local room = ply:GetRoom()
 
-	if Room then
-		Room:Finish()
-		if IsValid(ply) && ply:GetNWBool("Party") then
-			ply:SetNWBool("Party", false)
-			ply:Msg2( T( "RoomPartyEnded" ), "condo" )
-		end
+	if room then
+		room:Finish()
 	end
 
 end )

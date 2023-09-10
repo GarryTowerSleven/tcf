@@ -11,32 +11,44 @@ function NetworkLocalScorePosition(ply, points)
 
   if !points || points <= 0 then return end
 
-  local query = "SELECT COUNT(*) FROM gm_users WHERE `tetrisscore` > " .. points
+  local query = "SELECT COUNT(*) FROM gm_users WHERE `tetrisscore` > " .. points .. ";"
 
-  SQL.getDB():Query(query, function(res)
-    net.Start("UpdatePersonalTetrisScore")
-      net.WriteInt(points, 32)
-      net.WriteInt(res[1].data[1]["COUNT(*)"] + 1, 32)
-    net.Send(ply)
-  end)
+  Database.Query( query, function( res, status, err )
+  
+    if status != QUERY_SUCCESS then
+      return
+    end
+
+    if not res[1]["COUNT(*)"] then return end
+
+    net.Start( "UpdatePersonalTetrisScore" )
+      net.WriteInt( points, 32 )
+      net.WriteInt( res[1]["COUNT(*)"] + 1, 32 )
+    net.Send( ply )
+
+  end )
+
 end
 
 function UpdateTetrisBoard( force, ply )
-  if !tmysql then return end
+
+  if not Database.IsConnected() then return end
 
   if (force && LatestScores && IsValid(ply)) then
     SendTetrisBoard(LatestScores, true, ply)
     return
   end
 
-  local Query = "SELECT `steamid`,`name`,`tetrisscore` FROM gm_users WHERE tetrisscore > 0 ORDER BY cast(tetrisscore as int) DESC LIMIT "..MaxPlayers
-  SQL.getDB():Query( Query, function(res)
-    if !res or res == nil then return end
-    local data = res[1].data
+  local Query = "SELECT `steamid`, `name`, `tetrisscore` FROM `gm_users` WHERE `tetrisscore` > 0 ORDER BY cast(tetrisscore as int) DESC LIMIT " .. MaxPlayers
+  Database.Query( Query, function( res, status, err )
+
+    if status != QUERY_SUCCESS then
+      return
+    end
 
     local scores = {}
 
-    for k,v in pairs(data) do
+    for k,v in ipairs(res) do
       table.insert(scores, k, {
         ["Name"] = v.name,
         ["Score"] = v.tetrisscore,
@@ -47,7 +59,7 @@ function UpdateTetrisBoard( force, ply )
 
     SendTetrisBoard( scores )
 
-  end)
+  end )
 
 end
 
@@ -72,14 +84,14 @@ concommand.Add("gmt_updatetetrisboard",function(ply)
   if ply:IsAdmin() then UpdateTetrisBoard() end
 end)
 
-hook.Add("InitPostEntity", "StartTetrisBoard", function()
+hook.Add("DatabaseConnected", "StartTetrisBoard", function()
   UpdateTetrisBoard()
   timer.Create("TetrisBoardUpdater", UpdateInterval, 0, function()
     UpdateTetrisBoard()
   end)
 end)
 
-hook.Add("PlayerSQLApplied", "PlyJoinShowScores", function(ply)
+hook.Add("PlayerSpawnClient", "PlyJoinShowScores", function(ply)
   UpdateTetrisBoard( true, ply )
   NetworkLocalScorePosition(ply)
 end)

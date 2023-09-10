@@ -96,7 +96,7 @@ hook.Add("RoomUnLoaded", "SendRoomInfo", function( RoomId )
 	end
 end )
 
-hook.Add("SQLConnect", "SendRoomData", function( ply )
+hook.Add("PostPlayerDataLoaded", "SendRoomData", function( ply )
 
 	NetworkPlySend[ ply ] = {}
 	

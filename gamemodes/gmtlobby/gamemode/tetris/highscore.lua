@@ -3,6 +3,7 @@ local tonumber = tonumber
 local player = player
 local math = math
 local pairs = pairs
+local Database = Database
 
 include("network.lua")
 include("chat.lua")
@@ -11,21 +12,6 @@ AddCSLuaFile("cl_init.lua")
 module("tetrishighscore")
 
 HighScore = {}
-
-_G.hook.Add("SQLStartColumns", "SQLTetrisHighScore", function()
-	_G.SQLColumn.Init( {
-		["column"] = "tetrisscore",
-		["update"] = function( ply )
-			return Get( ply )
-		end,
-		["defaultvalue"] = function( ply )
-			Set( ply, 0 )
-		end,
-		["onupdate"] = function( ply, val )
-			Set( ply, tonumber( val ) )
-		end
-	} )
-end )
 
 local function HigherPoints( Points )
 	if #HighScore < 10 then
@@ -57,7 +43,7 @@ _G.hook.Add("TetrisEnd", "SQLTetrisGetHighScore", function( ply, ent )
 	if tonumber(Points) > tonumber(PlyPoints) then
 		Set( ply, tonumber(Points) )
 
-		ply.SQL:Update( false, false )
+		Database.SavePlayer( ply, { "tetrisscore" } )
 	end
 
 	if HigherPoints( Points ) == true then
@@ -74,17 +60,17 @@ function Get( ply )
 	return ply._TetrisHighScore or 0
 end
 
-function RefreshHighScore(  res, status, error )
-	if res[1].status != true then
-		SQLLog('error', res[1].error )
+function RefreshHighScore( res, status, err )
+	if status != QUERY_SUCCESS then
+		return
 	end
 
 	//So much for this, nothing else to do.
 	HighScore = res
 
 	for _, v in pairs( HighScore ) do
-		v[1] = tonumber( v[1] )
-		v[3] = tonumber( v[3] )
+		v.id = tonumber( v.id )
+		v.tetrisscore = tonumber( v.tetrisscore )
 	end
 
 	for _, v in pairs( player.GetAll() ) do
@@ -94,7 +80,7 @@ function RefreshHighScore(  res, status, error )
 end
 
 function GetHighScore()
-	_G.SQL.getDB():Query("SELECT `id`,`name`,`tetrisscore` FROM gm_users WHERE tetrisscore > 0 ORDER BY tetrisscore DESC LIMIT 0,10", RefreshHighScore )
+	Database.Query( "SELECT `id`,`name`,`tetrisscore` FROM `gm_users` WHERE `tetrisscore` > 0 ORDER BY `tetrisscore` DESC LIMIT 0,10", RefreshHighScore )
 end
 
-_G.hook.Add("Initialize", "GetHighScores", GetHighScore )
+_G.hook.Add( "DatabaseConnected", "GetHighScores", GetHighScore )

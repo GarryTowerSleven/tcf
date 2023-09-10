@@ -99,7 +99,7 @@ hook.Add("InitPostEntity", "AddTempBot", function()
 	if game.SinglePlayer() then return end
 
 	// Needed for multiservers to initialize, don't remove m8.
-	RunConsoleCommand("bot")
+	/*RunConsoleCommand("bot")
 
 	timer.Simple( 1.0, function()
 		for _, v in pairs( player.GetAll() ) do
@@ -107,7 +107,7 @@ hook.Add("InitPostEntity", "AddTempBot", function()
 				v:Kick("A bot")
 			end
 		end
-	end )
+	end )*/
 
 	SQLLog('start', "Server start - ", game.GetMap() )
 

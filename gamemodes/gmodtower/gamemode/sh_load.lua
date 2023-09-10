@@ -275,7 +275,6 @@ function LoadModulesInOrder()
 		{ "base/translation", true }, // translation
 
 		{ "base/database", false }, // database
-		//{ "base/database_new", false }, // new database, DONT USE YET UNLESS YOU KNOW WHAT YOU ARE DOING !!!!
 
 		{ "base/gui", false }, // main tower GUI
 		{ "base/store", true }, // stores!

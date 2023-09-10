@@ -4,7 +4,7 @@ QUERY_SUCCESS = true
 
 module( "Database", package.seeall )
 
-DEBUG = true
+DEBUG = false
 Object = Object or nil
 
 function GetObject()
@@ -35,6 +35,10 @@ end
 function IsConnected()
 
     local driver = GetObject()
+
+    if not driver then
+        return false
+    end
 
     return driver:isconnected()
 
@@ -69,7 +73,7 @@ function Query( str, callback )
 
 end
 
-function Escape( str )
+function Escape( str, withquotes )
 
     if not IsConnected() then
         ErrorNoHaltWithStack( "Attempt to escape with a disconnected database!" )
@@ -78,6 +82,12 @@ function Escape( str )
 
     local driver = GetObject()
 
-    return driver:escape( str )
+    local escaped_string = driver:escape( str )
+
+    if withquotes then
+        escaped_string = "'" .. escaped_string .. "'" 
+    end
+
+    return escaped_string
 
 end

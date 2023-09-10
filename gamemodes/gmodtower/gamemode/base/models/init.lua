@@ -3,18 +3,6 @@ AddCSLuaFile( "shared.lua" )
 
 module("GTowerModels", package.seeall)
 
-/*hook.Add("SQLStartColumns", "SQLForcePlySize", function()
-	_G.SQLColumn.Init( {
-		["column"] = "plysize",
-		["update"] = function( ply ) 
-			return ply._ForcePlayerSize or 1.0
-		end,
-		["onupdate"] = function( ply, val )
-			Set( ply, tonumber( val ) )
-		end
-	} )
-end )*/
-
 function Get( ply )
 	return ply._PlyScaleTemp or ( ply._PlyScaleNormal or 1.0 )
 end

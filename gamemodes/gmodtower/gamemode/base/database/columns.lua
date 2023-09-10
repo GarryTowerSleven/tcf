@@ -20,7 +20,7 @@ end
 
 function Columns.CreateQuery( data )
 
-    local query_string = ""
+    local queries = {}
 
     for k, v in pairs( data ) do
 
@@ -28,10 +28,6 @@ function Columns.CreateQuery( data )
         if not col then
             ErrorNoHaltWithStack( Format( "Database column \"%s\" not found!", k ) )
             continue 
-        end
-        
-        if query_string != "" then
-            query_string = query_string .. ", "
         end
 
         local value = v
@@ -46,11 +42,11 @@ function Columns.CreateQuery( data )
             value = "'" .. value .. "'"
         end
 
-        query_string = query_string .. k .. " = " .. value
+        table.insert( queries, "`" .. k .. "` = " .. value )
 
     end
 
-    return query_string
+    return table.concat( queries, "," )
 
 end
 
@@ -86,11 +82,27 @@ function Columns.SelectQuery( columns )
 
 end
 
+function Columns.GetSaveColumns()
+
+    local cols = {}
+
+    for k, v in pairs( Columns.Registry ) do
+
+        if v.get and not v.unimportant then
+            table.insert( cols, k )
+        end
+        
+    end
+
+    return cols
+
+end
+
 function Columns.GetPlayer( ply, columns )
 
     if not IsValid( ply ) then return false end
 
-    columns = columns or table.GetKeys( Columns.Registry )
+    columns = columns or Columns.GetSaveColumns()
     
     local data = {}
 
@@ -105,6 +117,8 @@ function Columns.GetPlayer( ply, columns )
         if not col.get then continue end
 
         local val = col.get( ply )
+
+        if not val or val == nil then continue end
         
         data[ v ] = val
 

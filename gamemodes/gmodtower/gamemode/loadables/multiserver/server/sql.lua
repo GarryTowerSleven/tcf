@@ -1,12 +1,10 @@
----------------------------------
-function ServerMeta:LoadPlayerNames(res)
-	if res[1].status != true then
-		ErrorNoHalt(res[1].error)
+function ServerMeta:LoadPlayerNames( res, status, err )
+	if status != QUERY_SUCCESS then
 		return
 	end
 
 	self.CurrentPlayers = {}
-	for k, v in pairs(res[1].data) do
+	for k, v in pairs(res[1]) do
 		table.insert(self.CurrentPlayers, v.Name)
 	end
 end
@@ -49,10 +47,14 @@ function ServerMeta:LoadSQL( Data )
 	self.Msg = msg
 
 	if #CurrentPlayerIDs > 0 then
-		local query = "SELECT `Name` FROM `gm_users` WHERE `id` IN (" .. table.concat(CurrentPlayerIDs, ",") .. ") ORDER BY Name ASC"
-		 SQL.getDB():Query(query, function(res)
-			 self:LoadPlayerNames(res)
-		 end)
+		local query = "SELECT `Name` FROM `gm_users` WHERE `id` IN (" .. table.concat(CurrentPlayerIDs, ",") .. ") ORDER BY Name ASC;"
+		
+		Database.Query( query, function( res, status, err )
+
+			self:LoadPlayerNames( res, status, err )
+
+		end )
+
 	else
 		self.CurrentPlayers = {}
 	end
@@ -60,14 +62,8 @@ function ServerMeta:LoadSQL( Data )
 	self:Think()
 end
 
-local function SetMapResult( res )
-	if res[1].status != true then
-		Error( res[1].error )
-	end
-end
-
 function ServerMeta:SetMap( map, playershex )
-	 SQL.getDB():Query("REPLACE INTO gm_gomap VALUES (".. self.Id ..", '".. map .."', " .. playershex .. ")", function(res)
-		 SetMapResult(res)
-	 end)
+
+	Database.Query( "REPLACE INTO gm_gomap VALUES (" .. self.Id .. ", '" .. map .. "', " .. playershex .. ")" )
+
 end

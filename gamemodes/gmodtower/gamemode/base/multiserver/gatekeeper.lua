@@ -13,23 +13,21 @@ gateKeep.AuthorizedPlayers = {}
 
 function gateKeep:CreateBanList()
 
-	SQL.getDB():Query("CREATE TABLE IF NOT EXISTS gm_bans(steamid TINYTEXT, Name TINYTEXT NOT NULL, ip TINYTEXT, reason TINYTEXT NOT NULL, bannedOn BIGINT NOT NULL, time BIGINT NOT NULL)")
-
-	SQL.getDB():Query("SELECT * FROM gm_bans", function(res)
-
-		if res[1].status != true then
-			LogPrint( "Error getting bans: " .. res[1].error, color_green, "GateKeeper" )
+	Database.Query( "SELECT * FROM gm_bans", function( res, status, err )
+	
+		if status != QUERY_SUCCESS then
+			LogPrint( "Error getting bans: " .. err, color_green, "GateKeeper" )
 			return
 		end
 
-		if #res[1].data then
+		if res then
 			LogPrint( "Setting up Legacy Bans", color_green, "GateKeeper" )
 			gateKeep:LegacyBans()
 			LogPrint( "Retriving bans from MySQL", color_green, "GateKeeper" )
-			gateKeep:RetrieveBans(res[1].data)
+			gateKeep:RetrieveBans(res)
 		end
 
-	end)
+	end )
 
 end
 
@@ -76,14 +74,12 @@ function GetAuthorizedPlayers()
 
 end
 
-hook.Add("Initialize", "GMTGateKeepInit", function()
+hook.Add( "DatabaseConnected", "GMTGateKeepInit", function()
 
-	timer.Simple(0, function()
-		gateKeep:GrabGoList()
-		gateKeep:CreateBanList()
-	end)
+	gateKeep:GrabGoList()
+	gateKeep:CreateBanList()
 	
-end)
+end )
 
 function gateKeep:AddBan(steamID, Name, ip, reason, time)
 
@@ -129,20 +125,37 @@ function gateKeep:AddBan(steamID, Name, ip, reason, time)
 
 	--print( "Start SQL" )
 
-	SQL.getDB():Query("SELECT * FROM gm_bans WHERE steamid=" .. SQLStr(steamID), function(res)
-
-		if res[1].status != true then
-			print("Error removing a ban: " .. res[1].error)
+	Database.Query( "SELECT * FROM gm_bans WHERE steamid = '" .. Database.Escape( steamID ) .. "';", function( res, status, err )
+	
+		if status != QUERY_SUCCESS then
+			print( "Error removing a ban: " .. err )
 			return
 		end
 
-		if #res[1].data > 0 then
-			SQL.getDB():Query("UPDATE gm_bans SET Name=" .. SQLStr(Name) .. ", reason=" .. SQLStr(reason) .. ", ip=" .. SQLStr(ip) .. ", bannedOn=" .. info.bannedOn .. ", time=" .. time .. " WHERE steamid=" .. SQLStr(steamID))
+		if table.Count( res ) > 0 then
+			local data = {
+				name = Database.Escape( Name, true ),
+				ip = Database.Escape( ip, true ),
+				reason = Database.Escape( reason, true ),
+				bannedOn = info.bannedOn,
+				time = time,
+			}
+
+			Database.Query("UPDATE gm_bans SET " .. Database.CreateUpdateQuery( data ) .. " WHERE `steamid` = " .. Database.Escape( steamID ) .. ";" )
 		else
-			SQL.getDB():Query("INSERT INTO gm_bans (steamid, Name, ip, reason, bannedOn, time) VALUES (" .. SQLStr(steamID) .. ", " .. SQLStr(Name) .. ", " .. SQLStr(ip) .. ", " .. SQLStr(reason) .. ", " .. info.bannedOn .. ", " .. time .. ")")
+			local data = {
+				steamid = Database.Escape( steamID, true ),
+				name = Database.Escape( Name, true ),
+				ip = Database.Escape( ip, true ),
+				reason = Database.Escape( reason, true ),
+				bannedOn = info.bannedOn,
+				time = time,
+			}
+
+			Database.Query("INSERT INTO gm_bans " .. Database.CreateInsertQuery( data ) .. ";" )
 		end
 
-	end)
+	end )
 
 	if info.Player then --and info.Player.steamid == steamID then --If the player exists, then update the current ban
 
@@ -226,20 +239,20 @@ function gateKeep:RemoveBan(user) --Can be either a Name, steamID, or IP; contin
 		return
 	end
 
-	SQL.getDB():Query("SELECT * FROM gm_bans WHERE " .. typ .. "=" .. SQLStr(user), function(res)
-
-		if res[1].status != true then
-			print("Error removing a ban: " .. res[1].error)
+	Database.Query( "SELECT * FROM gm_bans WHERE `" .. typ .. "`=" .. Database.Escape( user, true ), function( res, status, err )
+	
+		if status != QUERY_SUCCESS then
+			print( "Error removing a ban: " .. err )
 			return
 		end
 
-		if #res[1].data > 0 then
-			SQL.getDB():Query("DELETE FROM gm_bans WHERE " .. typ .. "=" .. SQLStr(user))
+		if table.Count( res ) > 0 then
+			Database.Query( "DELETE FROM gm_bans WHERE `" .. typ .. "`=" .. Database.Escape( user, true ) )
 		else
-			ErrorNoHalt("Ban doesn't exist.\n")
+			ErrorNoHalt( "Ban doesn't exist.\n" )
 		end
 
-	end)
+	end )
 
 	for i, v in ipairs(gateKeep.Bans) do
 		if (typ == "steamid" and v.steamid == user) or (typ == "Name" and v.Name == user) then
@@ -382,21 +395,20 @@ end)
 function gateKeep:GrabStackList(ServerID)
 
 	local Query = "SELECT `id`,HEX(`lastplayers`) as `lastplayers`"
-	.. "FROM `gm_servers` WHERE id!=" .. ServerID .. " AND `lastupdate`>" .. (os.time() - GTowerServers.UpdateTolerance)
+	.. "FROM `gm_servers` WHERE `id`!=" .. ServerID .. " AND `lastupdate`>" .. (os.time() - GTowerServers.UpdateTolerance)
 
-	--Writes the new player's ips to a table.
-	SQL.getDB():Query( Query, function(res)
-
-		if res[1].status != true then
-			print("Error getting players coming back" .. res[1].error)
+	Database.Query( Query, function( res, status, err )
+	
+		if status != QUERY_SUCCESS then
+			print("Error getting players coming back" .. err)
 			return
 		end
 
 		gateKeep.AuthorizedPlayers = {}
 
-		if type(res[1].data) != "table" then return end
+		if type(res) != "table" then return end
 
-		for _, v in pairs(res[1].data) do
+		for _, v in pairs(res) do
 
 			for x, y in pairs(GTowerServers:PlayerListToIDs(v.lastplayers)) do
 
@@ -406,7 +418,8 @@ function gateKeep:GrabStackList(ServerID)
 
 		end
 
-	end)
+
+	end )
 
 end
 
@@ -463,7 +476,7 @@ function gateKeep:GrabGoList()
 
 	gateKeep.MaxSlots = GetMaxSlots()
 
-	if !tmysql then return end
+	if not Database.IsConnected() then return end
 
 	local ServerID = GTowerServers:GetServerId()
 	local Gamemode = GTowerServers:Self()
@@ -632,7 +645,7 @@ end)
 		gateKeep.NextPossibleClear = CurTime() + 900 --Can only be done every 15 minutes. This is to avoid taxing the server.
 		print(ply:GetName() .. "(" .. ply:SteamID() .. ") HAS JUST CLEARED THE BANS LIST.")
 
-		SQL.getDB():Query("TRUNCATE TABLE gm_bans")
+		Database.Query( "TRUNCATE TABLE gm_bans;" )
 		table.Empty(gateKeep.Bans)
 		gateKeep:CreateBanList()
 

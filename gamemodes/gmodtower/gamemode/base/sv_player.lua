@@ -77,11 +77,11 @@ hook.Add( "PlayerSpawnClient", "JoinMessages", function( ply )
 
     ply:Joined()
 
-    if ply._NewPlayer then
-        ply:MsgI( "gmtsmall", "LobbyWelcomeNew" )
-    else
-        ply:MsgI( "gmtsmall", "LobbyWelcome", ply:GetName() )
-    end
+    // if ply._NewPlayer then
+    //     ply:MsgI( "gmtsmall", "LobbyWelcomeNew" )
+    // else
+    //     ply:MsgI( "gmtsmall", "LobbyWelcome", ply:GetName() )
+    // end
 
 end )
 

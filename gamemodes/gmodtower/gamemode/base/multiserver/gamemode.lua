@@ -2,22 +2,18 @@
 local LastThink = 0
 local InQuery = false
 
-local function DeleteGoMapResult(res)
-	if res[1].status != true then Error( res[1].error ) end
-end
-
-local function GoMapResult(res)
+local function GoMapResult(res, status, err)
 	InQuery = false
 
-	if res[1].status != true then
-		Error( res[1].error )
-	end
-
-	if #res[1].data == 0 then
+	if status != QUERY_SUCCESS then
 		return
 	end
 
-	local Result = string.lower( res[1].data[1].authplayers )
+	if table.Count( res ) == 0 then
+		return
+	end
+
+	local Result = string.lower( res[1].authplayers )
 
 	--PrintTable(res[1].data[1])
 
@@ -34,13 +30,14 @@ local function GoMapResult(res)
 
 	//end
 
-	file.Write("authedusers" .. tostring(GTowerServers:GetServerId()) .. ".txt", res[1].data[1].gomap, "DATA")
-	 SQL.getDB():Query("DELETE FROM gm_gomap WHERE serverid=" .. GTowerServers:GetServerId(), function(res)
-		 DeleteGoMapResult(res)
-	 end)
+	file.Write("authedusers" .. tostring(GTowerServers:GetServerId()) .. ".txt", res[1].gomap, "DATA")
+
+	Database.Query( "DELETE FROM `gm_gomap` WHERE `serverid` = " .. GTowerServers:GetServerId() .. ";" )
+
 end
 
-hook.Add("InitPostEntity", "MultiServerBufferMap", function()
+hook.Add("DatabaseConnected", "MultiServerBufferMap", function()
+
 	hook.Add("Think", "BufferGoMap", function()
 		//Worse thing ever made in the whole tower
 
@@ -63,10 +60,10 @@ hook.Add("InitPostEntity", "MultiServerBufferMap", function()
 
 		InQuery = true
 
-		 SQL.getDB():Query( "SELECT authplayers, HEX(`gomap`) as `gomap` FROM gm_gomap WHERE serverid=" .. GTowerServers:GetServerId(), function(res)
-			 GoMapResult(res)
-		 end)
+		Database.Query( "SELECT authplayers, HEX(`gomap`) as `gomap` FROM `gm_gomap` WHERE `serverid` = " .. GTowerServers:GetServerId() .. ";", GoMapResult )
+
 	end )
+	
 end )
 
 function GTowerServers:GetRandomMap()

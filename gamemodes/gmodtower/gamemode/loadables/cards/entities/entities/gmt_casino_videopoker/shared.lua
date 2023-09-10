@@ -19,6 +19,10 @@ ENT.GMCPerCredit = 2
 
 function ENT:SetJackpot(amount)
     SetGlobalInt("VideoPokerJackpot", amount)
+
+    if SERVER then
+        self:UpdateToSQL()
+    end
 end
 
 function ENT:GetJackpot()

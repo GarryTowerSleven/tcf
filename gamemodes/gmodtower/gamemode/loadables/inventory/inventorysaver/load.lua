@@ -74,20 +74,21 @@ concommand.Add("gmt_invload", function( ply, cmd, args )
 		return
 	end
 	
-	local CleanSaveName =  SQL.getDB():Escape( SaveName )
+	local CleanSaveName =  Database.Escape( SaveName )
+
+	Database.Query( "SELECT HEX(`data`) as `data` FROM `gm_invsaves` WHERE `Name` = '" .. CleanSaveName .. "';", function( res, status, err )
 	
-	 SQL.getDB():Query( "SELECT HEX(`data`) FROM `gm_invsaves` WHERE `Name`='" .. CleanSaveName .. "'", function(result, status, error)
-		if status != 1 then     
-			SQLLog('error', "InvLoad error " .. tostring(error) )
+		if status != QUERY_SUCCESS then
+			SQLLog('error', "InvLoad error: " .. tostring(err) )
 			return
 		end
-		
-		if table.Count( result ) == 0 then
+
+		if table.Count( res ) == 0 then
 			ply:Msg2("No saves found")
 			return
 		end
 		
-		local Data = Hex( result[1][1] )
+		local Data = Hex( res[1].data )
 		local MinVec = Data:ReadVector()
 		local MaxVec = Data:ReadVector()
 		ply._InvLoadingData = {}
@@ -111,9 +112,9 @@ concommand.Add("gmt_invload", function( ply, cmd, args )
 			umsg.Vector( MinVec )
 			umsg.Vector( MaxVec )
 		umsg.End()
-		
-	end )
 
+
+	end )
 
 end )
 

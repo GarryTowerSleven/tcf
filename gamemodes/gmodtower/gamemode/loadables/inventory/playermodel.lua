@@ -1,15 +1,3 @@
-
-
-hook.Add("SQLConnect", "RecheckPlayerModel", function( ply )
-	
-	if ply._ReloadPlayerModel then
-		timer.Simple( 0, hook.Call, "PlayerSetModel", GAMEMODE, ply )
-		ply._ReloadPlayerModel = nil
-	end
-
-end )
-
-
 /*hook.Add("AllowModel", "InventoryCheck", function( ply, model, skin )
 	
 	if !ply.SQL then

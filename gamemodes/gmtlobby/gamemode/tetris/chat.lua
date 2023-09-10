@@ -1,14 +1,15 @@
 local hook = hook
 local CurTime = CurTime
-local tmysql = tmysql
 local IsValid = IsValid
 local tonumber = tonumber
 local Msg = Msg
 local umsg = umsg
 local SQLLog = SQLLog
 local ChatCommands = ChatCommands
-local SQL = SQL
 local pairs = pairs
+local Database = Database
+local QUERY_SUCCESS = QUERY_SUCCESS
+local print = print
 
 module("tetrishighscore")
 
@@ -17,18 +18,28 @@ if !ChatCommands then
 	return
 end
 
-ChatCommands.Register( "/tetris", 5, function( ply )
-	SQL.getDB():Query( "SELECT COUNT(*) FROM gm_users WHERE `tetrisscore`>" .. Get( ply ), function(res)
-		local Position = ( res[1].data[1]["COUNT(*)"] + 1 )
-		ply:ChatPrint( "Blockles: "..ply:Name().. " is #" .. Position.. " in blockles." )
-	end )
-	return ""
-end )
+local function rankcommand( ply )
 
-ChatCommands.Register( "/blockles", 5, function( ply )
-	SQL.getDB():Query( "SELECT COUNT(*) FROM gm_users WHERE `tetrisscore`>" .. Get( ply ), function(res)
-		local Position = ( res[1].data[1]["COUNT(*)"] + 1 )
-		ply:ChatPrint( "Blockles: "..ply:Name().. " is #" .. Position.. " in blockles." )
+	ply:ChatPrint( "Getting blockles rank..." )
+
+	Database.Query( "SELECT COUNT(*) FROM `gm_users` WHERE `tetrisscore` > " .. Get( ply ) .. ";", function( res, status, err )
+	
+		if status != QUERY_SUCCESS then
+			return
+		end
+
+		if IsValid( ply ) then
+			
+			local pos = ( res[1]["COUNT(*)"] + 1 ) or 0
+			ply:ChatPrint( "You are rank #" .. pos.. " in blockles." )
+
+		end
+
 	end )
+
 	return ""
-end )
+
+end
+
+ChatCommands.Register( "/tetris", 5, function( ply ) rankcommand( ply ) end )
+ChatCommands.Register( "/blockles", 5, function( ply ) rankcommand( ply ) end )

@@ -28,22 +28,6 @@ local function SetBallId( ply, BallId )
 
 end
 
-hook.Add("SQLStartColumns", "SQLGetBall", function()
-	GTowerSQL:NewColumn( {
-		["column"] = "ball",
-		["update"] = function( ply )
-			return tonumber( ply._PlyChoosenBall ) or 1
-		end,
-		["defaultvalue"] = function( ply, onstart )
-			SetBallId( ply, 1 )
-		end,
-		["onupdate"] = function( ply, val )
-			// can't call SetBallId yet, so let it be corrected later
-			ply._PlyChoosenBall = val
-		end
-	} )
-end )
-
 local function PlayerSendLevels( ply )
 
 	if !ply.SQL then

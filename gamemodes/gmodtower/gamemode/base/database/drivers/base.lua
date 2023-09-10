@@ -8,6 +8,9 @@ DRIVER.Config = {}
 function DRIVER:onerror( err, callback )
     ErrorNoHaltWithStack( "SQL Error! (", err, ")" )
 
+    AdminNotif.SendStaff( "AN SQL ERROR HAS OCCURED! SEE CONSOLE FOR DETAILS!", 20, "RED", 0 )
+    AdminLog.PrintStaff( "SQL ERROR: " .. tostring( err ), "RED", 0 )
+
     if callback then
         callback( nil, false, err )
     end

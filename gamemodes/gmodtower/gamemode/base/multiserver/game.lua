@@ -111,16 +111,17 @@ end
 
 //Returns on the callback the table of the main server table
 //If it fails, the calls the callback with nil
-local function GetMainServerCallbackResult(callback, res)
+local function GetMainServerCallbackResult(callback, res, status, err)
 
 	//Unable to execute query
-	if res[1].status != true then
-		Msg( res[1].status .. "\n")
+	if status != QUERY_SUCCESS then
+		Msg( err .. "\n")
 		callback( nil )
 		return
 	end
 
-	for _, v in pairs( res[1].data ) do
+	for _, v in pairs( res ) do
+		PrintTable( v )
 		//Make sure the server has send a signal in the last 5 minutes and that it is alive.
 		if tonumber( v.lastupdate ) > (os.time() - GTowerServers.UpdateTolerance) then
 			callback( v )
@@ -133,10 +134,9 @@ end
 
 function GTowerServers:GetMainServer( callback )
 
-	 /*SQL.getDB():Query( "SELECT `ip`,`port`,`password`,`lastupdate` FROM `gm_servers` WHERE `gamemode`='gmtlobby' AND `id`!=" .. self:GetServerId(), function(res)
-	GetMainServerCallbackResult(callback, res) end)*/
-
-	SQL.getDB():Query( "SELECT `ip`,`port`,`password`,`lastupdate` FROM `gm_servers` WHERE `gamemode`='gmtlobby' AND `id`!=" .. self:GetServerId(), GetMainServerCallbackResult, callback)
+	Database.Query( "SELECT `ip`,`port`,`password`,`lastupdate` FROM `gm_servers` WHERE `gamemode`='gmtlobby' AND `id`!='" .. self:GetServerId() .. "';", function( res, status, err )
+		GetMainServerCallbackResult( callback, res, status, err )
+	end )
 
 end
 
@@ -187,6 +187,8 @@ function GTowerServers:EmptyServer()
 	// no need to empty again, we've already processed it
 	if GTowerServers.EmptyingServer then return end
 
+	Database.SaveAll()
+
 	SQLLog( "server", "Empty server"  )
 	GTowerServers.EmptyingServer = true
 
@@ -220,13 +222,6 @@ local function EmptyNow()
 end
 
 hook.Add("MapChange", "EmptyServerForReal", EmptyNow)
-
-local function UpdatedDatabaseEmptyResult(res)
-	if res[1].status != true then
-		Msg( tostring(res[1].status) .. "\n")
-		return
-	end
-end
 
 hook.Add("GTowerServersDatabaseUpdated", "EmptyServer", function()
 	if !GTowerServers.EmptyingServer then return end

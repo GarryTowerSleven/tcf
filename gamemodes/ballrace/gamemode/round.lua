@@ -420,22 +420,36 @@ function GM:SaveBestTime(ply, lvl, time, update)
 		if lvl == 8 and string.StartWith( LateSpawn:GetName(), "lvlLT" ) then lvl = 82 end
 	end
 
-	if !tmysql and SQL.getDB() != false then
-		return
-	end
-
 	if update then
-		SQL.getDB():Query(
-		"UPDATE gm_ballrace SET time=".. time .." WHERE ply='"..ply:SteamID64().."' AND name='"..ply:Name().."' AND map='"..game.GetMap().."' AND lvl='"..lvl.."'", SQLLogResult)
-		ply:AddAchievement( ACHIEVEMENTS.BRTHATSARECORD, 1 )
-		ply:AddAchievement( ACHIEVEMENTS.BRHARDERBETTERFASTERSTRONGER, 1 )
+
+		local update_data = {
+			time = Database.Escape( time, true ),
+		}
+		
+		local where = {
+			ply = Database.Escape( ply:SteamID64(), true ),
+			map = Database.Escape( game.GetMap(), true ),
+			lvl = Database.Escape( lvl, true ),
+		}
+		
+		local query_string2 = "UPDATE `gm_ballrace` SET " .. Database.CreateUpdateQuery( update_data ) .. " WHERE " .. Database.CreateWhereQuery( where ) .. ";"
+		
+		Database.Query( query_string2 )
+		
 		return
 	end
 
-	SQL.getDB():Query("CREATE TABLE IF NOT EXISTS gm_ballrace(ply TINYTEXT, name TINYTEXT,map TINYTEXT, lvl TINYTEXT, time FLOAT NOT NULL)")
+	local insert_data = {
+		ply = Database.Escape( ply:SteamID64(), true ),
+		name = Database.Escape( ply:Nick(), true ),
+		map = Database.Escape( game.GetMap(), true ),
+		lvl = Database.Escape( lvl, true ),
+		time = Database.Escape( time, true ),
+	}
 
-	SQL.getDB():Query(
-	"INSERT INTO gm_ballrace(`ply`,`name`,`map`,`lvl`,`time`) VALUES ('".. ply:SteamID64() .."','".. ply:Name() .."','".. game.GetMap() .."','".. lvl .."',".. time ..")", SQLLogResult)
+	local query_string = "INSERT INTO `gm_ballrace` " .. Database.CreateInsertQuery( insert_data ) .. ";"
+
+	Database.Query( query_string )
 
 end
 
@@ -449,19 +463,27 @@ function GM:GetBestTime(ply, lvl)
 		if lvl == 8 and string.StartWith( LateSpawn:GetName(), "lvlLT" ) then lvl = 82 end
 	end
 
-	if !tmysql and SQL.getDB() != false then
-		return
-	end
+	local where = {
+		ply = Database.Escape( ply:SteamID64(), true ),
+		map = Database.Escape( game.GetMap(), true ),
+		lvl = Database.Escape( lvl, true ),
+	}
 
-	local res = SQL.getDB():Query("SELECT * FROM gm_ballrace WHERE ply='"..ply:SteamID64().."' AND map='"..game.GetMap().."' AND lvl='"..lvl.."'", function(res)
+	local query_string = "SELECT * FROM `gm_ballrace` WHERE " .. Database.CreateWhereQuery( where ) .. ";"
 
-		if !res then return end
-
-		local row = res[1].data[1]
-		if row then
-			ply.BestTime = tonumber(row.time)
+	Database.Query( query_string, function( data, status, err )
+		
+		if status != QUERY_SUCCESS then
+			return
 		end
-	end)
+
+		if not data[1] then return end
+
+		if IsValid( ply ) then
+			ply.BestTime = tonumber( data[1].time )
+		end
+
+	end )
 
 end
 
@@ -481,30 +503,30 @@ function GM:PlayerComplete(ply)
 
 	if ply:Frags() == 0 then ply:AddAchievement( ACHIEVEMENTS.BRLASTINLINE, 1 ) end
 
-	if tmysql and SQL.getDB() != false then
+	if Database.IsConnected() then
 
-	self:GetBestTime(ply, level)
+		self:GetBestTime(ply, level)
 
-	timer.Simple(1,function()
+		timer.Simple(1,function()
 
-		if ply.BestTime == nil then
-			self:SaveBestTime(ply, level, ply.RaceTime, false)
-			self:ColorNotifyPlayer( ply, "New best time!", Color(100, 100, 255, 255) )
-		else
-			if ply.BestTime <= ply.RaceTime then
-				self:ColorNotifyPlayer( ply, "Your best time is still "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
+			if ply.BestTime == nil then
+				self:SaveBestTime(ply, level, ply.RaceTime, false)
+				self:ColorNotifyPlayer( ply, "New best time!", Color(100, 100, 255, 255) )
+			else
+				if ply.BestTime <= ply.RaceTime then
+					self:ColorNotifyPlayer( ply, "Your best time is still "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
+				end
+
+				if ply.BestTime > ply.RaceTime then
+					self:SaveBestTime(ply, level, ply.RaceTime, true)
+					self:ColorNotifyPlayer( ply, "New best time "..math.Round(ply.RaceTime,2).."! Old time was "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
+				end
+
 			end
 
-			if ply.BestTime > ply.RaceTime then
-				self:SaveBestTime(ply, level, ply.RaceTime, true)
-				self:ColorNotifyPlayer( ply, "New best time "..math.Round(ply.RaceTime,2).."! Old time was "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
-			end
+			ply.BestTime = nil
 
-		end
-
-		ply.BestTime = nil
-
-	end)
+		end)
 
 	end
 

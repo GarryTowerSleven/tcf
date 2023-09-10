@@ -505,6 +505,7 @@ hook.Add( "StorePurchaseFinish", "PlayerModelAchievement", function( ply, item, 
 end )
 
 if IsLobby then 
+
 	// Human Blur
 	hook.Add( "OnPlayerHitGround", "HumanBlurCheck", function( ply )
 
@@ -534,4 +535,5 @@ if IsLobby then
 		end
 
 	end )
+
 end

@@ -9,7 +9,6 @@ AddCSLuaFile("cl_party.lua")
 module("GTowerRooms", package.seeall )
 
 include("shared.lua")
-include("sql.lua")
 include("room_maps.lua")
 include("concommand.lua")
 include("hook.lua")
@@ -107,6 +106,26 @@ function ClosestRoom( vec )
 	end
 
 	return GoRoom
+
+end
+
+function AssignRoom( ply, room )
+
+	if not room.Id then return end
+
+	room:Load( ply )
+
+	local panel = GTowerRooms.GetPanel( room.Id )
+	if panel then
+		panel:SetText( ply:GetInfo( "gmt_suitename" ) or "", ply )
+	end
+
+	umsg.Start("GRoom", ply)
+		umsg.Char( 4 )
+		umsg.Char( room.Id )
+	umsg.End()
+
+	AdminNotif.SendStaff( ply:NickID() .. " has checked into suite #" .. room.Id .. ".", nil, nil, 3 )
 
 end
 

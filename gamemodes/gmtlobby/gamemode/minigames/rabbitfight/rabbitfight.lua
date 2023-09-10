@@ -19,7 +19,7 @@ end )
 
 local function SetRabbit( ply )
 	ply:SetModel("models/player/redrabbit.mdl") 
-	ply:SetSkin((ply:SQLId()%4)+1)
+	ply:SetSkin((ply:DatabaseID()%4)+1)
 	GTowerModels:SetTemp(ply,0.55)
 end
 

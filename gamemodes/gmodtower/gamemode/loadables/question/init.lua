@@ -41,7 +41,7 @@ concommand.Add("gmt_startvote", function( ply, cmd, args )
 	CurrentQuestion = Question
 	CurrentAnswers = Answers
 	QuestionLog = {}
-	QuestionOwnerId = ply:SQLId()
+	QuestionOwnerId = ply:DatabaseID()
 
 	SendToClients()
 
@@ -135,7 +135,7 @@ concommand.Add("gmt_voteopt", function( ply, cmd, args )
 	if ply._QuestionVoted == false && #args > 0 then
 		ply._QuestionVoted = tonumber( args[1] ) or 1
 
-		QuestionLog[ ply:SQLId() ] = ply._QuestionVoted
+		QuestionLog[ ply:DatabaseID() ] = ply._QuestionVoted
 
 		SendCount()
 	end
@@ -155,6 +155,9 @@ function EndVote()
 end
 
 function WriteToDatabase()
+
+	if true then return end
+	if not Database.IsConnected() then return end
 
 	if CurrentQuestion == nil then
 		return
@@ -177,18 +180,18 @@ function WriteToDatabase()
 	for k, v in ipairs( TotalVotes ) do
 		TotalVotesHex:Write( v, 2 ) //1 byte per vote, in same order order
 	end
+	
+	local data = {
+		question = Database.Escape( CurrentQuestion, true ),
+		votecount = table.Count( QuestionLog ),
+		answers = AnswerHex:Get(),
+		answercount = TotalVotesHex:Get(),
+		answerdata = VoteHex:Get(),
+		owner = QuestionOwnerId or 0,
+	}
 
-	local Query = string.format( "INSERT INTO `gmt_questions`(`question`,`votecount`,`answers`,`answercount`,`answerdata`,`owner`) VALUES ('%s',%s,%s,%s,%s,%s)",
-		tmysql.escape( CurrentQuestion ),
-		table.Count( QuestionLog ),
-		AnswerHex:Get(),
-		TotalVotesHex:Get(),
-		VoteHex:Get(),
-		QuestionOwnerId or 0
-	)
-
-	tmysql.query( Query, GTowerSQL.ErrorCheckCallback, nil, Query )
+	Database.Query( "INSERT INTO `gm_questions` " .. Database.CreateInsertQuery( data ) .. ";" )
 
 end
 
-hook.Add("MapChange","InsertQuestionData", WriteToDatabase )
+hook.Add( "MapChange", "InsertQuestionData", WriteToDatabase )

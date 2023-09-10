@@ -1,4 +1,3 @@
----------------------------------
 timer.Create("GTowerMultiserver", 0.88, 0, function()
 
 	for _, v in pairs( GTowerServers.Servers ) do
@@ -9,7 +8,7 @@ timer.Create("GTowerMultiserver", 0.88, 0, function()
 
 end )
 
-hook.Add("SQLConnect", "GTowerServerSendData", function( ply ) 
+hook.Add("PostPlayerDataLoaded", "GTowerServerSendData", function( ply ) 
 	
 	local Count = 0.0
 	

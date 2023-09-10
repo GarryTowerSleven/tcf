@@ -11,7 +11,22 @@ AddCSLuaFile("cl_init.lua")
 GTowerChat = {}
 
 include("shared.lua")
-include("sqllog.lua")
+
+hook.Add( "PlayerSay", "LogChat", function( ply, text, team )
+	
+	if not IsValid( ply ) then return end
+	if not Database.IsConnected() then return end
+
+	local data = {
+		ply = ply:DatabaseID(),
+		// name = Database.Escape( ply:Nick(), true ),
+		message = Database.Escape( text, true ),
+		srvid = "'" .. GTowerServers:GetServerId() .. "'",
+	}
+
+	Database.Query( "INSERT INTO `gm_chat` " .. Database.CreateInsertQuery( data ) .. ";" )
+
+end )
 
 concommand.Add( "gmt_chat", function( ply, cmd, args )
 	local chatting = tobool( args[1] or false ) or false

@@ -83,7 +83,7 @@ function Cleanup( self )
         end
 
 		if type( v.RoomUnload ) == "function" then
-			SafeCall( v.RoomUnload, v, RoomId )
+			SafeCall( v.RoomUnload, v, self.Id )
 		end
     end
 
@@ -97,7 +97,7 @@ function Cleanup( self )
     self.Owner = nil
 	self.LastActive = CurTime()
 
-	hook.Call("RoomUnLoaded", GAMEMODE, self )
+	hook.Call( "RoomUnLoaded", GAMEMODE, self )
 
 end
 
@@ -143,8 +143,6 @@ function ClearAllMusic( mp )
 		if media then
 			mp:GetMediaPlayer():NextMedia()
 
-			print("SKIP")
-
 			timer.Simple(0.1,function()
 				ClearAllMusic(mp)
 			end)
@@ -157,13 +155,25 @@ function Finish( self )
 
 	AdminNotif.SendStaff( self.Owner:NickID() .. " has checked out of suite #" .. self.Id .. ".", nil, "GRAY", 3 )
 
-	self.Owner._LastRoomExit = CurTime()
+	local name = self.Owner:NickID()
 
-	if self.Owner.SQL then
-		self.Owner.SQL:Update( false, true )
+	// check that we arent already saving
+	if not self.Owner._IsSaving then
+		
+		Database.SavePlayer( self.Owner, { "roomdata" }, function( status, ply, err )
+		
+			if status != QUERY_SUCCESS then
+				return
+			end
+	
+		end )
+
 	end
 
-	self.Owner:SetNWInt( "RoomID", 0 )
+	self.Owner.GRoom = nil
+	self.Owner:SetNet( "RoomID", 0 )
+
+	self.Owner._LastRoomExit = CurTime()
 
 	local panel = GTowerRooms:GetPanel( self.Id )
 	if panel then

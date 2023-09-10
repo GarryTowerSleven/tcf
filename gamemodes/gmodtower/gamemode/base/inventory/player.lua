@@ -581,7 +581,6 @@ function meta:LoadInventoryData( data, slotid )
 
 end
 
-
 function meta:GetInventoryData( slotid )
 	if self._GtowerPlayerItems then
 		return GTowerItems:Encode( self._GtowerPlayerItems[ slotid ] )

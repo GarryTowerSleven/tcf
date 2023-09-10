@@ -157,7 +157,7 @@ function GM:GivePVPAmmo( ply )
 end
 
 // Apply Late SQL Weapons
-hook.Add( "PlayerSQLApplied", "LateWeapons", function(ply)
+hook.Add( "PostPlayerDataLoaded", "LateWeapons", function(ply)
 	ply:StripWeapons()
 	ply:RemoveAllAmmo()
 

@@ -295,51 +295,31 @@ end )
 
 concommand.Add( "gmt_dieroom", function( ply, cmd, args )
 
-	if !IsValid( TalkingTo[ ply ] ) then
-		if GTowerHackers then
-			GTowerHackers:NewAttemp( ply, 7, cmd, args )
-		end
-		return
-	end
+	if ply.NextDieRoom && CurTime() < ply.NextDieRoom then return end
 
-	if ply.NextDieRoom && CurTime() < ply.NextDieRoom then
-		return
-	end
 	ply.NextDieRoom = CurTime() + 5
 
-	if !TalkingTo[ ply ]:GetPos():WithinDistance( ply:GetPos(), NPCMaxTalkDistance ) then
-		if GTowerHackers then
-			GTowerHackers:NewAttemp( ply, 8, cmd, args )
-		end
-		return
-	end
+	if !IsValid( TalkingTo[ ply ] ) then return end
+
+	if !TalkingTo[ ply ]:GetPos():WithinDistance( ply:GetPos(), NPCMaxTalkDistance ) then return end
 
 	local Room = ply:GetRoom()
 
 	if Room then
-		Room:Finish()
-		if IsValid(ply) && ply:GetNWBool("GRoomParty") then
-			ply:SetNWBool("GRoomParty", false)
-			ply:Msg2( T( "RoomPartyEnded" ), "condo" )
-		end
-	end
 
+		Room:Finish()
+
+	end
 
 end )
 
 concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 
 	if !IsValid( TalkingTo[ ply ] ) then
-		if GTowerHackers then
-			GTowerHackers:NewAttemp( ply, 7, cmd, args )
-		end
 		return
 	end
 
 	if TalkingTo[ ply ]:GetPos():Distance( ply:GetPos() ) > NPCMaxTalkDistance then
-		if GTowerHackers then
-			GTowerHackers:NewAttemp( ply, 8, cmd, args )
-		end
 		return
 	end
 
@@ -350,9 +330,6 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 
 	//Already have a room?
 	if ply:GetRoom() then
-		if GTowerHackers then
-			GTowerHackers:NewAttemp( ply, 10, cmd, args )
-		end
 		return
 	end
 
@@ -372,9 +349,6 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 		return
 	end
 
-	//Make random numbers a little less predictable
-	math.randomseed( CurTime() )
-
 	//Select a random one
 	local PlyRoom = UnusedRooms[ math.random( 1, #UnusedRooms ) ]
 
@@ -384,52 +358,20 @@ concommand.Add( "gmt_acceptroom", function( ply, cmd, args )
 		PlyRoom.Owner:MsgT( "RoomAFKAway" )
 	end
 
-	if !tmysql then
-		PlyRoom:Load( ply )
-
-		umsg.Start("GRoom", ply)
-		umsg.Char( 4 )
-		umsg.Char( PlyRoom.Id )
-		umsg.End()
-		return
-	end
-
-	SQL.getDB():Query("SELECT HEX(roomdata) as roomdata FROM `gm_users` WHERE steamid='"..ply:SteamID().."'", function(res)
-
-			if !res or res == nil then return end
-			local row = res[1].data[1]
-			if row then
-					local roomdata = row.roomdata
-					Suite.SQLLoadData( ply, roomdata or "" )
-					PlyRoom:Load( ply )
-
-					umsg.Start("GRoom", ply)
-					umsg.Char( 4 )
-					umsg.Char( PlyRoom.Id )
-					umsg.End()
-
-					ply:SetNet( "RoomEntityCount", PlyRoom:ActualEntCount() )
-
-			end
-
-	end)
-
-	if !ply:Achived( ACHIEVEMENTS.SUITEDESIGNER ) then
-		if ply:GetNet( "RoomEntityCount" ) >= 200 then
-			ply:SetAchievement( ACHIEVEMENTS.SUITEDESIGNER, 1 )
-		end
-	end
+	Database.FetchPlayer( ply, { "roomdata" }, function( status, ply, data )
 	
-	ply:SetNWInt( "RoomID", PlyRoom.Id )
+		if status != QUERY_SUCCESS then
+			return
+		end
 
-	local panel = GTowerRooms.GetPanel( PlyRoom.Id )
-	if panel then
-		panel:SetText( ply:GetInfo( "gmt_suitename" ) or "", ply)
-	end
+		if not IsValid( ply ) then return end
 
-	AdminNotif.SendStaff( ply:NickID() .. " has checked into suite #" .. PlyRoom.Id .. ".", nil, nil, 3 )
+		Suite.SQLLoadData( ply, data.roomdata or "" )
 
-	//Congratilaions!
+		AssignRoom( ply, PlyRoom )
+
+	end )
+
 end )
 
 
@@ -569,7 +511,7 @@ concommand.Add("gmt_roomclearbans", function( ply, cmd, args )
 	end
 end )
 
-concommand.Add("gmt_roomdebugpos", function( ply, cmd, args )
+/*concommand.Add("gmt_roomdebugpos", function( ply, cmd, args )
 
 	local Room = ply:GetLocationRoom()
 
@@ -580,4 +522,4 @@ concommand.Add("gmt_roomdebugpos", function( ply, cmd, args )
 
 	end
 
-end )
+end )*/

@@ -1,22 +1,3 @@
-
-hook.Add("SQLStartColumns", "SQLLoadAchievements", function()
-	SQLColumn.Init( {
-		["column"] = "achivement",
-		["selectquery"] = "HEX(achivement) as achivement",
-		["selectresult"] = "achivement",
-		["update"] = function( ply )
-			return GTowerAchievements:GetData( ply )
-		end,
-		["defaultvalue"] = function( ply )
-			GTowerAchievements:Load( ply, 0x0 )
-		end,
-		["onupdate"] = function( ply, val )
-			GTowerAchievements:Load( ply, val )
-		end,
-		["UnimportantUpdate"] = true
-	} )
-end )
-
 function GTowerAchievements:GetData( ply )
 
 	if !ply._Achievements then

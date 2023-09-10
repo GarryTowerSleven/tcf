@@ -1,7 +1,7 @@
 
 module( "Database", package.seeall )
 
-BaseDir = "gmodtower/gamemode/base/database_new/"
+BaseDir = "gmodtower/gamemode/base/database/"
 DriverDir = BaseDir .. "drivers/"
 
 DriverRegistry = DriverRegistry or {}

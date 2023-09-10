@@ -1,38 +1,5 @@
 module("Hats", package.seeall )
 
-// TODO: this should be consolidated into one column, `wearables`
-hook.Add( "SQLStartColumns", "SQLHats", function()
-	SQLColumn.Init( {
-		["column"] = "hat",
-		["update"] = function( ply )
-            local slot1, _ = Hats.GetWearables( ply )
-
-			return slot1
-		end,
-		["defaultvalue"] = function( ply )
-            Hats.SetHat( ply, 0, Hats.SLOT_HEAD )
-		end,
-		["onupdate"] = function( ply, val )
-            Hats.SetHat( ply, val, Hats.SLOT_HEAD )
-		end
-	} )
-
-    SQLColumn.Init( {
-		["column"] = "faceHat",
-		["update"] = function( ply )
-            local _, slot2 = Hats.GetWearables( ply )
-
-			return slot2
-		end,
-		["defaultvalue"] = function( ply )
-            Hats.SetHat( ply, 0, Hats.SLOT_FACE )
-		end,
-		["onupdate"] = function( ply, val )
-            Hats.SetHat( ply, val, Hats.SLOT_FACE )
-		end
-	} )
-end )
-
 include("legacytranslations.lua")
 
 function LoadFromJSON()
@@ -75,16 +42,19 @@ function LoadFromJSON()
 end
 
 function LoadFromSQL()
+
     LogPrint( "Fetching hats from SQL...", nil, "Hats" )
 
-    local db = SQL.getDB()
+    Database.Query( "SELECT * FROM `gm_hats`;", function( res, status, err )
+    
+        if status != QUERY_SUCCESS then
+            LogPrint( "An SQL error occured while loading hats: " .. tostring(err), color_red, "Hats" )
 
-    local q = db:query( "SELECT * FROM gm_hats;" )
+            return
+        end
 
-    function q:onSuccess( data )
-
-        for _, v in ipairs( data ) do
-
+        for _, v in ipairs( res ) do
+            
             local playermodel = string.lower( v.plymodel )
             local hat = string.lower( v.hat )
             
@@ -100,20 +70,17 @@ function LoadFromSQL()
 
         end
 
-        LogPrint( Format( "Successfully loaded %s offsets into data.", table.Count( data ) ), nil, "Hats" )
-    end
+        LogPrint( Format( "Successfully loaded %s offsets into data.", table.Count( res ) ), nil, "Hats" )
 
-    function q:onError( err )
-        LogPrint( "An SQL error occured while loading hats: " .. tostring(err), color_red, "Hats" )
-    end
+    end )
 
-    q:start()
 end
 
 function SaveAll()
     LogPrint( "Preparing to save all offsets...", nil, "Hats" )
 
-    local db = SQL.getDB()
+    local db = Database.GetObject().Object
+    if not db then return end
 
     local q_clear = db:query( "TRUNCATE TABLE gm_hats;" )
 
@@ -163,4 +130,4 @@ function SaveAll()
     q_clear:start()
 end
 
-hook.Add( "Initialize", "LoadHatOffsets", LoadFromSQL )
+hook.Add( "DatabaseConnected", "LoadHatOffsets", LoadFromSQL )

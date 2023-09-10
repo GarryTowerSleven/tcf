@@ -38,17 +38,44 @@ function ENT:Initialize()
 		phys:Sleep()
 	end
 	
-	SQL.getDB():Query( "SELECT * FROM gm_casino WHERE type='slots'", function(res)
-		local data = res[1].data[1]
-		if #res[1].data == 0 then
-			SQL.getDB():Query( "INSERT INTO gm_casino (type,jackpot) VALUES ('slots', " .. self:GetRandomPotSize() .. ")" )
-		else
-			self:SetJackpot(data.jackpot)
-		end
-	end)
+end
+
+function ENT:FetchFromSQL()
+
+    if not Database.IsConnected() then return end
+
+    Database.Query( "SELECT * FROM `gm_casino` WHERE `type` = 'slots';", function( res, status, err )
+    
+        if status != QUERY_SUCCESS then
+            return
+        end
+
+        if table.Count( res ) == 0 then
+            Database.Query( "INSERT INTO gm_casino (type, jackpot) VALUES ('slots', 0);" )
+        else
+            self:SetJackpot( res[1].jackpot )
+        end
+
+    end )
 
 end
 
+function ENT:UpdateToSQL()
+
+    if not Database.IsConnected() then return end
+
+    Database.Query( "UPDATE `gm_casino` SET `jackpot` = " .. tonumber( self:GetJackpot() ) .. " WHERE `type` = 'slots';" )
+
+end
+
+hook.Add( "DatabaseConnected", "FetchSlots", function()
+
+    local ent = ents.FindByClass( "gmt_casino_slotmachine" )[1]
+    if IsValid( ent ) then
+        ent:FetchFromSQL()
+    end
+
+end )
 
 function ENT:Think()
 
@@ -364,7 +391,6 @@ function ENT:CalcWinnings( random )
 		self:SendWinnings( ply, winnings, true )
 
 		self:SetJackpot(self:GetRandomPotSize())
-		SQL.getDB():Query("UPDATE gm_casino SET jackpot=" .. self:GetJackpot() .. " WHERE type='slots'")
 
 		return
 	end
@@ -374,7 +400,6 @@ function ENT:CalcWinnings( random )
 		if table.concat(random) == table.concat(combo) then
 			local winnings = math.Round( self.BetAmount * tonumber(x) )
 			self:SendWinnings( ply, winnings )
-			SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. math.Round( self.BetAmount / 2 ).. " WHERE type='slots'")
 			self:SetJackpot( self:GetJackpot() + math.Round( self.BetAmount / 2 ) )
 			return
 		end
@@ -385,7 +410,6 @@ function ENT:CalcWinnings( random )
 		if random[3] == combo then
 			local winnings = math.Round( self.BetAmount * tonumber(x) )
 			self:SendWinnings( ply, winnings )
-			SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. math.Round( self.BetAmount / 2 ).. " WHERE type='slots'")
 			self:SetJackpot( self:GetJackpot() + math.Round( self.BetAmount / 2 ) )
 			return
 		end
@@ -393,7 +417,6 @@ function ENT:CalcWinnings( random )
 
 	// Player lost
 	ply:MsgI( "slots", "SlotsLose" )
-	SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. math.Round( self.BetAmount / 2 ).. " WHERE type='slots'")
 	self:SetJackpot( self:GetJackpot() + math.Round( self.BetAmount / 2 ) )
 
 end

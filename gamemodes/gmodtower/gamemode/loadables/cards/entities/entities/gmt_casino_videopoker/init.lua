@@ -2,6 +2,10 @@
 AddCSLuaFile("shared.lua")
 include("shared.lua")
 
+/*
+    TODO: all of this should be redone
+*/
+
 local BUTTONSND = Sound("gmodtower/casino/videopoker/button.wav")
 local BUZZSND = Sound("gmodtower/casino/videopoker/buzz.wav")
 local CLICKSND = Sound("gmodtower/casino/videopoker/click.wav")
@@ -125,8 +129,7 @@ concommand.Add("videopoker_draw", function(ply, cmd, args)
         end
 
         self:SetCredits(self:GetCredits() - self:GetBet())
-        self:SetProfit(self:GetProfit() - self:GetBet())
-		SQL.getDB():Query("UPDATE gm_casino SET jackpot=jackpot + " .. self:GetBet() .. " WHERE type='videopoker'")
+        self:SetProfit(self:GetProfit() - self:GetBet())        
         self:SetJackpot(self:GetJackpot() + self:GetBet())
         self:SetState(3)
         self.deck = Cards.Deck()
@@ -166,7 +169,6 @@ concommand.Add("videopoker_draw", function(ply, cmd, args)
 
             if winnings == -1 then
 				winnings = self:GetJackpot()
-				SQL.getDB():Query("UPDATE gm_casino SET jackpot=0 WHERE type='videopoker'")
 				ply:MsgI( "videopoker", "VideoPokerJackpot" )
 				self:BroadcastJackpot(ply, winnings)
 				self:SetJackpot(0)
@@ -200,8 +202,36 @@ concommand.Add("videopoker_hold", function(ply, cmd, args)
     end
 end)
 
---------------
+function ENT:FetchFromSQL()
+
+    if not Database.IsConnected() then return end
+
+    Database.Query( "SELECT * FROM `gm_casino` WHERE `type` = 'videopoker';", function( res, status, err )
+    
+        if status != QUERY_SUCCESS then
+            return
+        end
+
+        if table.Count( res ) == 0 then
+            Database.Query( "INSERT INTO gm_casino (type, jackpot) VALUES ('videopoker', 0);" )
+        else
+            self:SetJackpot( res[1].jackpot )
+        end
+
+    end )
+
+end
+
+function ENT:UpdateToSQL()
+
+    if not Database.IsConnected() then return end
+
+    Database.Query( "UPDATE `gm_casino` SET `jackpot` = " .. tonumber( self:GetJackpot() ) .. " WHERE `type` = 'videopoker';" )
+
+end
+
 function ENT:Initialize()
+    
     self:SetModel("models/sam/videopoker.mdl")
     self:PhysicsInit(SOLID_VPHYSICS)
     self:SetMoveType(MOVETYPE_NONE)
@@ -213,27 +243,23 @@ function ENT:Initialize()
         self:SetupChair()
     end)
 
-    local phys = self.Entity:GetPhysicsObject()
+    local phys = self:GetPhysicsObject()
 
     if phys:IsValid() then
         phys:EnableMotion(false)
         phys:Sleep()
     end
 	
-	SQL.getDB():Query( "SELECT * FROM gm_casino WHERE type='videopoker'", function(res)
-		local data = res[1].data[1]
-		if #res[1].data == 0 then
-			SQL.getDB():Query( "INSERT INTO gm_casino (type,jackpot) VALUES ('videopoker', 0)" )
-		else
-			self:SetJackpot(data.jackpot)
-		end
-	end)
-	
 end
 
-local function HandleRollercoasterAnimation(vehicle, player)
-    return player:SelectWeightedSequence(ACT_GMOD_SIT_ROLLERCOASTER)
-end
+hook.Add( "DatabaseConnected", "FetchVideoPoker", function()
+
+    local ent = ents.FindByClass( "gmt_casino_videopoker" )[1]
+    if IsValid( ent ) then
+        ent:FetchFromSQL()
+    end
+
+end )
 
 function ENT:SetupChair()
     self.chairMdl = ents.Create("prop_dynamic")

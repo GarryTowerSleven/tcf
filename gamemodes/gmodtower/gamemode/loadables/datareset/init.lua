@@ -33,19 +33,24 @@ end)
 
 hook.Add("PlayerInitialSpawn","CheckGMTCTime",function(ply)
 
-  if ( !IsValid(ply) || ply:IsBot() ) then return end
+	if ( !IsValid(ply) || ply:IsBot() ) then return end
 
-  timer.Simple(1,function()
-    local query = "SELECT `LastOnline` FROM `gm_users` WHERE id=" .. ply.SQL:SQLId()
-    SQL.getDB():Query( query, function( res )
-      if !res or res == nil then return end
-      local row = res[1].data[1]
-      if row then
-          local time = tonumber(row.LastOnline)
-          CheckPlayerData( ply, time )
-      end
-    end)
-  end)
+	timer.Simple( 1, function()
+		local query = "SELECT `LastOnline` FROM `gm_users` WHERE `id` = " .. ply:DatabaseID() .. ";"
+		Database.Query( query, function( res, status, err )
+
+			if status != QUERY_SUCCESS then
+				return
+			end
+
+			local row = res[1]
+			if row then
+				local time = tonumber(row.LastOnline)
+				CheckPlayerData( ply, time )
+			end
+
+		end )
+	end )
 end)
 
 util.AddNetworkString("SendDataReset")

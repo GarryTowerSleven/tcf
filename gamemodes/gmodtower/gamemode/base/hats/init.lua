@@ -227,10 +227,13 @@ function UpdateWearables( ply )
 end
 
 hook.Add( "PlayerSetModelPost", "UpdateHats", UpdateWearables )
+hook.Add( "PostPlayerDataLoaded", "UpdateHats", UpdateWearables )
 
-function SetHat( ply, hatid, slot, force )
+function SetHat( ply, hatid, slot, force, noupdate )
 
-    // print( "Hats.SetHat", ply, hatid, slot )
+    if DEBUG then
+        print( "Hats.SetHat", ply, hatid, slot )
+    end
 
     hatid = tonumber( hatid ) or 0
     slot = math.Clamp( tonumber( slot ), 1, 2 ) or SLOT_HEAD
@@ -243,6 +246,9 @@ function SetHat( ply, hatid, slot, force )
     if not force and hatid > 0 and hook.Run( "CanWearHat", ply, item.unique_name ) != 1 then return end
 
     SetWearable( ply, hatid, slot )
+
+    if noupdate == true then return end
+
     UpdateWearables( ply )
 
 end

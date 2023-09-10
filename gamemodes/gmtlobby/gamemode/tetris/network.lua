@@ -69,4 +69,4 @@ function SendNetworkPackets( ply )
 
 end
 
-hook.Add("SQLConnect", "SendTetrisHighScores", SendNetworkPackets )
+hook.Add("PostPlayerDataLoaded", "SendTetrisHighScores", SendNetworkPackets )

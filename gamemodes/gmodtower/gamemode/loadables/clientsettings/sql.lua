@@ -1,22 +1,4 @@
----------------------------------
 local DEBUG = false
-
-hook.Add("SQLStartColumns", "SQLClientSettings", function()
-	SQLColumn.Init( {
-		["column"] = "clisettings",
-		["selectquery"] = "HEX(clisettings) as clisettings",
-		["selectresult"] = "clisettings",
-		["update"] = function( ply ) 
-			return ClientSettings:GetSQLSave( ply )
-		end,
-		["defaultvalue"] = function( ply )
-			ClientSettings:ResetValues( ply )
-		end,
-		["onupdate"] = function( ply, val ) 
-			ClientSettings:LoadSQLSave( ply, val )
-		end
-	} )
-end )
 
 function ClientSettings:GetSQLSave( ply )
 	

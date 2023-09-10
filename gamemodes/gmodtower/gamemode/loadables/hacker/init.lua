@@ -20,8 +20,8 @@ local function fakeUnknownCommand(ply, cmd)
 end
 
 function GTowerHackers:Init()
-	if !tmysql then return end
-	SQL.getDB():Query("CREATE TABLE IF NOT EXISTS gm_hackers(steamid TINYTEXT, name TINYTEXT, hackid TINYINT, cmd TINYTEXT, args TINYTEXT, extra TINYTEXT)")
+	// if !tmysql then return end
+	// SQL.getDB():Query("CREATE TABLE IF NOT EXISTS gm_hackers(steamid TINYTEXT, name TINYTEXT, hackid TINYINT, cmd TINYTEXT, args TINYTEXT, extra TINYTEXT)")
 end
 
 timer.Simple( 1, function()
@@ -52,7 +52,7 @@ function GTowerHackers:NewAttemp( ply, id, cmd, args, extra )
 	AdminNotif.SendStaff( "[Hacker Attempt] " .. ply:NickID() .. " attempted to run \"" .. cmd .. "\"", nil, "RED" )
 	fakeUnknownCommand(ply, cmdRaw)
 
-	if !tmysql then return end
+	/*if !tmysql then return end
 
 	if type( argsRaw ) == "table" then
 		argsRaw = string.Implode( " ", argsRaw )
@@ -62,6 +62,6 @@ function GTowerHackers:NewAttemp( ply, id, cmd, args, extra )
 
 	local InsertString = "INSERT INTO `gm_hackers`(`steamid`,`name`,`hackid`,`cmd`,`args`,`extra`) VALUES ('"..SQL.getDB():Escape(ply:SteamID()).."','" .. SQL.getDB():Escape(ply:Nick()) .. "',"..id..",'".. SQL.getDB():Escape(cmdRaw).."','".. SQL.getDB():Escape(argsRaw).."', '".. SQL.getDB():Escape(extra).."');"
 
-	SQL.getDB():Query( InsertString, SQLLogResult )
+	SQL.getDB():Query( InsertString, SQLLogResult )*/
 	
 end

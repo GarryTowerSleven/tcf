@@ -81,7 +81,7 @@ timer.Create("UpdateClientSettings", 0.3, 0, function()
 
 end )
 
-hook.Add( "SQLConnect", "ClientSettingsRefresh", function( ply )
+hook.Add( "PostPlayerDataLoaded", "ClientSettingsRefresh", function( ply )
 	timer.Simple( 1.0, function() 
 		if !ClientSettings.NeedSend[ply] then
 			ClientSettings.NeedSend[ply] = {}

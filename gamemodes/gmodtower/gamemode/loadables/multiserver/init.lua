@@ -18,15 +18,15 @@ include("server/server.lua")
 
 GTowerServers.Servers = {}
 
-function GTowerServers:GetServersResponse(res)
+function GTowerServers:GetServersResponse( res, status, err )
 
-	if res[1].status != true then -- TODO
-		ErrorNoHalt("GetServers error " .. res[1].error)
+	if status != QUERY_SUCCESS then -- TODO
+		ErrorNoHalt( "GetServers error " .. err )
 		--Msg( status .. "\n")
 		return
 	end
 
-	for k, v in pairs( res[1].data ) do
+	for k, v in pairs( res ) do
 		local Id = tonumber( v.id )
 
 		if !Id then
@@ -48,7 +48,7 @@ end
 
 function GTowerServers:GetServers()
 
-	if !tmysql then
+	if not Database.IsConnected() then
 		return
 	end
 
@@ -58,12 +58,14 @@ function GTowerServers:GetServers()
 	end
 
 	local Query = "SELECT `id`,`ip`,`port`,`players`,HEX(`playerlist`) as `playerlist`,`msg`,`maxplayers`,`map`,`password`,`gamemode`,`status`,`lastupdate`,HEX(`lastplayers`) as `lastplayers`"
-	.. "FROM `gm_servers` WHERE id!=" .. self:GetServerId() .. " AND `lastupdate`>" .. (os.time() - self.UpdateTolerance)
+	.. "FROM `gm_servers` WHERE `id`!=" .. self:GetServerId() .. " AND `lastupdate`>" .. (os.time() - self.UpdateTolerance)
 
 
-	 SQL.getDB():Query( Query, function(res)
-		 GTowerServers:GetServersResponse(res)
-	 end)
+	Database.Query( Query, function( res, status, err )
+		
+		GTowerServers:GetServersResponse( res, status, err )
+
+	end )
 
 end
 

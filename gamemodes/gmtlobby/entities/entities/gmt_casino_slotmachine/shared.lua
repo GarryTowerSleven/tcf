@@ -58,16 +58,20 @@ globalnet.Register( "Int", "SlotsJackpot", {
     default = 500,
 } )
 
-function ENT:SaveJackpot( amount, update )
+/*function ENT:SaveJackpot( amount, update )
 	self:SetJackpot( amount )
 
 	if SERVER and update then
 		self:UpdateToSQL()
 	end
-end
+end*/
 
 function ENT:SetJackpot( amount )
 	globalnet.SetNet( "SlotsJackpot", amount )
+
+	if SERVER then
+		self:UpdateToSQL()
+	end
 end
 
 function ENT:GetJackpot()

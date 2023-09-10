@@ -278,8 +278,15 @@ hook.Add( "DatabaseColumns", "BasicColumns", function()
             set = function( ply, val )
                 Suite.SQLLoadData( ply, val )
             end,
-            // get = function( ply ) end,
+            get = function( ply )
+                local room = ply:GetRoom()
 
+                if room then
+                    return room:GetSQLSave()
+                end
+            end,
+
+            // unimportant = true,
             hex = true,
         } )
 

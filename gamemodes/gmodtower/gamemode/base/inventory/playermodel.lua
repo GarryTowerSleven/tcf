@@ -1,6 +1,6 @@
 // util.AddNetworkString('gmt_models')
 
-hook.Add("PlayerSQLApplied", "RecheckPlayerModel", function( ply )
+hook.Add("PostPlayerDataLoaded", "RecheckPlayerModel", function( ply )
 
 	timer.Simple( 0, hook.Call, "PlayerSetModel", GAMEMODE, ply )
 

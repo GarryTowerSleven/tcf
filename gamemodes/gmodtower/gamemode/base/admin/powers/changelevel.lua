@@ -95,11 +95,7 @@ end )
 local function FinalChangeHook(MapName)
 
 	// SAVE SHIT!
-	for _, ply in ipairs( player.GetAll() ) do
-		if ( ply.SQL ) then
-			ply.SQL:Update( false, true )
-		end
-	end
+	Database.SaveAll()
 
 	timer.Simple( 1, function()
 		hook.Call("LastChanceMapChange", GAMEMODE, MapName)

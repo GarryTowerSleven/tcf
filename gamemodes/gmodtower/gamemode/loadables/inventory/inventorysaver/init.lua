@@ -157,14 +157,8 @@ function Save( ply, Name, EntList )
 	ply:SetAngles( OldPlayerAngles )
 	Clean( ply )
 	
-	local CleanName =  SQL.getDB():Escape( Name )
-	
-	local Query = "REPLACE INTO `gm_invsaves`(`Name`,`data`,`owner`) VALUES('".. CleanName .."',".. Data:Get() ..",".. ply:SQLId() ..")"
-	
-	 SQL.getDB():Query( Query, function(result, status, error)
-		if status != 1 then     
-			SQLLog('error', "DatabaseUpdate error " .. tostring(error) )
-		end
-	end )
+	local CleanName =  Database.Escape( Name )
+		
+	Database.Query( "REPLACE INTO `gm_invsaves` (`Name`,`data`,`owner`) VALUES('".. CleanName .."',".. Data:Get() ..",".. ply:DatabaseID() ..")" )
 
 end

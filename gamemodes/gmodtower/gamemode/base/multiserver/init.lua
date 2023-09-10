@@ -70,7 +70,7 @@ local function GetPlayerSQLIdHex()
 
 	for _, ply in pairs( PlayerList ) do
 		if ply.SQL && ply.SQL.Connected == true then
-			Data:Write( ply:SQLId(), 8 )
+			Data:Write( ply:DatabaseID(), 8 )
 		end
 	end
 
@@ -78,12 +78,10 @@ local function GetPlayerSQLIdHex()
 
 end
 
-local function GTowerServerDatabaseResult(res)
+local function GTowerServerDatabaseResult( res, status, err )
 	UpdateInProgress = false
 
-	if res[1].status != true then
-		--ErrorNoHalt("DatabaseUpdate error " .. tostring(error)) -- We do have DB errors tmysql? What do
-		--Msg( status .. "\n")
+	if status != QUERY_SUCCESS then
 		return
 	end
 
@@ -93,54 +91,42 @@ end
 //The playerstack will be the list of players that will be allowed to join the main server
 function GTowerServers:UpdateDatabase( playerstack )
 
-	if !tmysql then
-		Msg("TMysql Module still not loaded\n")
+	if not Database.IsConnected() then
 		return
 	end
-
-	local serverAddress = string.Explode( ":", game.GetIPAddress() )
 
 	local ServerID = self:GetServerId()
-	local PlayerData, PlayerCount = GetPlayerSQLIdHex()
-	local MapName =  SQL.getDB():Escape( string.lower( game.GetMap() ) ) //I don't know why I am escaping this
-	local GameMode = self:Gamemode()
-	local PassWord =  SQL.getDB():Escape( GetConVarString("sv_password") )
-	local Port = serverAddress[2]
-
-	if !MapName then
-		return
-	end
-
+	
 	if ServerID == 0 then
 		Msg("No Server id found")
 		return
 	end
 
-	local Query = "UPDATE `gm_servers` SET "
-	.. "`port`=" .. Port
-	.. ",`players`=" .. PlayerCount
-	.. ",`maxplayers`=" .. game.MaxPlayers()
-	.. ",`map`='" .. MapName .. "'"
-	.. ",`gamemode`='" .. GameMode .. "'"
-	.. ",`password`='" .. PassWord .. "'"
-	.. ",`status`='" .. self:GetState() .. "'"
-	.. ",`playerlist`=" .. PlayerData .. ""
-	.. ",`lastupdate`=" .. os.time()
-	if playerstack then
-		Query = Query .. ",`lastplayers`=" .. playerstack .. ""
-	end
+	local serverAddress = string.Explode( ":", game.GetIPAddress() )
+	local PlayerData, PlayerCount = GetPlayerSQLIdHex()
+	local gamemsg = GTowerServers:GetMessage()
 
-	local GameMessage = GTowerServers:GetMessage()
-	if GameMessage then
-		Query = Query .. ",`msg`='" ..  SQL.getDB():Escape( GameMessage ) .. "'"
-	end
+	local data = {
+		port = serverAddress[2],
+		players = PlayerCount,
+		maxplayers = game.MaxPlayers(),
+		map = Database.Escape( string.lower( game.GetMap() ), true ),
+		gamemode = Database.Escape( self:Gamemode(), true ),
+		password = Database.Escape( GetConVarString( "sv_password" ) or "", true ),
+		status = Database.Escape( self:GetState(), true ),
+		playerlist = PlayerData,
+		lastupdate = os.time(),
 
-	Query = Query .. " WHERE id=" .. ServerID
+		msg = gamemsg and Database.Escape( gamemsg, true ) or nil,
+		lastplayers = playerstack and Database.Escape( playerstack, true ) or nil,
+	}
 
+	local query = "UPDATE `gm_servers` SET " .. Database.CreateUpdateQuery( data ) .. " WHERE `id` = " .. ServerID .. ";"
+	
 	UpdateInProgress = true
-	 SQL.getDB():Query( Query, function(res)
-		 GTowerServerDatabaseResult(res)
-	 end)
+
+	Database.Query( query, GTowerServerDatabaseResult )
+
 end
 
 function UpdateMultiServer()
@@ -165,8 +151,8 @@ hook.Add("CanChangeLevel", "UpdatingMultiServer", function()
 end )
 
 
-hook.Add("SQLConnect", "GTowerServersConnect", UpdateMultiServer )
-hook.Add("PlayerDisconnected", "GTowerServersDisConnect", UpdateMultiServer	)
+hook.Add( "DatabaseConnected", "GTowerServersConnect", UpdateMultiServer )
+hook.Add( "PlayerDisconnected", "GTowerServersDisConnect", UpdateMultiServer )
 timer.Create( "GTowerServersRepeat", GTowerServers.UpdateRate, 0, function()
 	UpdateMultiServer()
-end)
+end )

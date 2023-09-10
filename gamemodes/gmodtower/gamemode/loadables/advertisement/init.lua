@@ -1,4 +1,3 @@
----------------------------------
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 
@@ -7,48 +6,54 @@ include("shared.lua")
 
 module("adverts", package.seeall )
 
+function FetchFromSQL()
 
- SQL.getDB():Query("SELECT `id`,`Name`,`imageName` FROM gm_advertlist WHERE `enabled`=1", function( res, status, err )
+	if not Database.IsConnected() then return end
 
-	if status != 1 then
-		ErrorNoHalt( err )
-		return
-	end
+	Database.Query( "SELECT `id`, `Name`, `imageName` FROM `gm_advertlist WHERE` `enabled` = 1;", function( res, status, err )
 	
-	for _, v in pairs( res ) do
+		if status != QUERY_SUCCESS then
+			return
+		end
+
+		for _, v in pairs( res ) do
 	
-		local ImageName = v["imageName"]
-		local BaseName = string.sub( ImageName, 0, string.find( ImageName, "%." ) - 1 )
-		local Id = tonumber( v["id"] )
+			local ImageName = v.imageName
+			local BaseName = string.sub( ImageName, 0, string.find( ImageName, "%." ) - 1 )
+			local Id = tonumber( v.id )
+			
+			local FileLocation = "materials/" .. MaterialBaseFolder .. Id .. BaseName .. ".vtf"
+			
+			
+			if DEBUG then
+				print("Checking file: '../" .. FileLocation .. "'\n")
+			end
+			
+			//Check if the .vtf file exists and can be sent to the client
+			if file.Exists( "../" .. FileLocation ) then
 		
-		local FileLocation = "materials/" .. MaterialBaseFolder .. Id .. BaseName .. ".vtf"
+				AdvertData[ Id ] = {
+					Id = Id,
+					Name = v.Name,
+					ImageName = ImageName,		
+					BaseName = BaseName,
+				}
+				
+				resource.AddFile( FileLocation )
+				
+			end
 		
+		end
 		
 		if DEBUG then
-			print("Checking file: '../" .. FileLocation .. "'\n")
+			PrintTable( AdvertData )
 		end
-		
-		//Check if the .vtf file exists and can be sent to the client
-		if file.Exists( "../" .. FileLocation ) then
-	
-			AdvertData[ Id ] = {
-				Id = Id,
-				Name = v["Name"],
-				ImageName = ImageName,		
-				BaseName = BaseName,
-			}
-			
-			resource.AddFile( FileLocation )
-			
-		end
-	
-	end
-	
-	if DEBUG then
-		PrintTable( AdvertData )
-	end
-	
-end, 1 )
+
+	end )
+
+end
+
+hook.Add( "DatabaseConnected", "GetAdverts", FetchFromSQL )
 
 local function SendAdvertData( ply )
 

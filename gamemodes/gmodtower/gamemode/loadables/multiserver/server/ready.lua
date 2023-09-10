@@ -49,11 +49,19 @@ concommand.Add("gmt_makeloading", function(ply)
 
 	local gamemodes = { "ballrace", "pvpbattle", "ultimatechimerahunt", "minigolf", "sourcekarts", "gourmetrace", "virus", "zombiemassacre" }
 
-	SQL.getDB():Query( "TRUNCATE TABLE `gm_loading`;" )
-	for k,v in pairs(gamemodes) do
-		SQL.getDB():Query( "INSERT INTO `gm_loading`(`gamemode`, `steamids`) VALUES ('" .. v .. "','');" )
-	end
-end)
+	Database.Query( "TRUNCATE TABLE `gm_loading`;", function( res, status, err )
+	
+		if status != QUERY_SUCCESS then
+			return
+		end
+
+		for _, v in ipairs( gamemodes ) do
+			Database.Query( "INSERT INTO `gm_loading` (`gamemode`, `steamids`) VALUES ('" .. Database.Escape( v ) .. "','');" )
+		end
+
+	end )
+
+end )
 
 function ServerMeta:SendToLoading( movingPlayers )
 	local SteamIDS = ""
@@ -69,7 +77,7 @@ function ServerMeta:SendToLoading( movingPlayers )
 	local gmode = self:GetGamemode().Gamemode
 
 	if gmode then
-		SQL.getDB():Query( "UPDATE `gm_loading` SET `steamids` = '".. SteamIDS .."' WHERE gamemode = '".. self:GetGamemode().Gamemode .."';" )
+		Database.Query( "UPDATE `gm_loading` SET `steamids` = '".. Database.Escape( SteamIDS ) .."' WHERE gamemode = '".. Database.Escape( self:GetGamemode().Gamemode ) .."';" )
 	end
 end
 
