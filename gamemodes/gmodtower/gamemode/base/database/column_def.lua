@@ -42,7 +42,7 @@ hook.Add( "DatabaseColumns", "BasicColumns", function()
         end,
 
         set = function( ply, val )
-            ply._PlayTime = val
+            ply._PlayTime = tonumber( val ) or 0
         end,
         get = function( ply )
             return math.floor( ply._PlayTime + ply:TimeConnected() )

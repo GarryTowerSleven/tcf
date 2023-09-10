@@ -1,4 +1,3 @@
----------------------------------
 local DEBUG = false
 
 function GTowerStore:AddPlayerNetwork( ply )

@@ -206,6 +206,11 @@ local function LoadPlayerData( ply )
     
             // can never have enough isvalid checks
             if not IsValid( ply ) then return end
+
+            // could have something better for this, but whateva
+            if not tonumber( data.time ) then
+                ply._NewPlayer = true
+            end
     
             local success = Columns.ApplytoPlayer( ply, data )
             if success != true then
@@ -214,9 +219,7 @@ local function LoadPlayerData( ply )
             end
     
             ply._DataLoaded = true
-    
-            ply:MsgI( "gmtsmall", "LobbyWelcome", ply:GetName() )
-    
+        
             hook.Run( "PostPlayerDataLoaded", ply )
 
             if DEBUG then
@@ -237,10 +240,10 @@ local function SaveThink()
     if player.GetCount() < 1 then return end
     if LastSave + SaveFrequency >= CurTime() then return end
 
+    LastSave = CurTime()
+
     LogPrint( "Saving all players.", nil, "Database" )
     SaveAll()
-
-    LastSave = CurTime()
 
 end
 

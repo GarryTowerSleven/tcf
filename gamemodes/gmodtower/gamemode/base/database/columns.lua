@@ -156,7 +156,9 @@ function Columns.ApplytoPlayer( ply, data )
         end
 
         if col.set then
-            if v == "NULL" then continue end
+            if not v or v == "NULL" then continue end
+
+            print( ply, k, v )
 
             col.set( ply, v )
         end
