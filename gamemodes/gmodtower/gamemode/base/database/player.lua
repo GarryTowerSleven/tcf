@@ -126,13 +126,18 @@ function SavePlayer( ply, columns, callback )
 end
 
 hook.Add( "PlayerDisconnected", "DatabaseSave", function( ply )
+
     SavePlayer( ply )
+
     hook.Run( "DatabasePostPlayerDisconnect", ply )
+
 end )
 
 function SaveAll( columns )
 
     for _, ply in ipairs( player.GetHumans() ) do
+
+        if not ply:ProfileLoaded() then continue end
         
         SavePlayer( ply, columns )
 
