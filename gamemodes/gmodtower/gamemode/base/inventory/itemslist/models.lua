@@ -879,6 +879,14 @@ RegisterModel(
 	"renamon",
 	22500 )
 	
+RegisterModel(
+	"mdl_david",
+	"David Leatherhoff",
+	"I really need to take these pills.",
+	"models/player/dwecqihoodie.mdl",
+	"david",
+	14500 )
+	
 --[[ Has buggy arms
 RegisterModel(
 	"mdl_hunk",
