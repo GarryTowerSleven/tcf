@@ -564,6 +564,12 @@ function PLAYERS:SortPlayers()
 		if ( b[ key ] == nil ) then return true end
 		return Scoreboard.Customization.PlayersSort( a[ key ], b[ key ] )
 	end )
+	
+	timer.Simple(.1, function()
+		if IsValid( self ) then
+			self.NextLayout = true
+		end
+	end )
 end
 
 function PLAYERS:Think()
