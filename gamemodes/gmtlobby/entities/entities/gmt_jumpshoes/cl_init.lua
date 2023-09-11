@@ -16,9 +16,12 @@ end
 function ENT:Draw()
 
 	local owner = self:GetOwner()
+	
+	self:SetModel("models/props_junk/shoe001a.mdl")
+	
 	if IsValid( owner ) then
 
-		if ( owner == LocalPlayer() && !LocalPlayer().ThirdPerson ) then return end
+		if ( ( owner == LocalPlayer() && !LocalPlayer().ThirdPerson ) || owner:IsNoDrawAll() ) then return end
 
 		local size = owner:GetNet( "ModelSize" ) or 1
 

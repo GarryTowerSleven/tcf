@@ -121,6 +121,8 @@ function DrawStatus( ply )
 
 	if !ply:Alive() then return end
 	
+	if ply:IsNoDrawAll() then return end
+	
 	local pos = ply:GetPos()
 	local ang = EyeAngles()
 	local att = ply:LookupAttachment("eyes")
