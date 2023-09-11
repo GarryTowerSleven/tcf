@@ -173,11 +173,13 @@ function ENT:Think()
 			if self.CurrentPlayer == LocalPlayer() then
 				if !DrawPlayers:GetBool() then
 					for k,v in ipairs(Location.GetPlayersInLocation( LocalPlayer():Location() )) do
-						v:SetNoDraw(true)
+						v:SetNoDrawAll(true)
 					end
 				else
 					for k,v in ipairs(Location.GetPlayersInLocation( LocalPlayer():Location() )) do
-						v:SetNoDraw(false)
+						if v._WasLocalBlocked == false then
+							v:SetNoDrawAll(false)
+						end
 					end
 				end
 			end		

@@ -3,10 +3,27 @@ include( "sh_meta.lua" )
 
 module("Location", package.seeall )
 
+TheaterDrawPlayers = CreateClientConVar( "gmt_theater_drawplayers", 1, true, false )
+
 hook.Add( "Think", "GTowerLocationClient", function()
 
 	if LocalPlayer():IsBot() then return end
-
+	
+	if !TheaterDrawPlayers:GetBool() && LocalPlayer()._Location == Location.GetIDByName( "Theater" ) then
+		print("Lets hide people!")
+		for k,v in ipairs(player.GetAll()) do
+			if v != LocalPlayer() then
+				v:SetNoDrawAll(true)
+			end
+		end
+	else
+		for k,v in ipairs(player.GetAll()) do
+			if v._WasLocalBlocked == false then
+				v:SetNoDrawAll(false)
+			end
+		end
+	end
+	
 	local PlyPlace = Find( LocalPlayer():GetPos() + Vector(0,0,5) )
 
 	if LocalPlayer()._Location != PlyPlace then
