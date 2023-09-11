@@ -143,7 +143,7 @@ function GAMEMODE:GiveMoney()
 				end
 				
 				if ply.SaturnKilled == true then
-					payout.Give( ply, "ButtonPress" )
+					payout.Give( ply, "SaturnKill" )
 				end
 
 				payout.Give( ply, "Rank" .. ply:GetNet("Rank") )
