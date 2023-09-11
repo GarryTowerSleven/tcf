@@ -142,7 +142,7 @@ function GAMEMODE:GiveMoney()
 					payout.Give( ply, "ButtonPress" )
 				end
 				
-				if ply.SaturnKilled == true then
+				if ply:GetNet( "KilledWithSaturn" ) then
 					payout.Give( ply, "SaturnKill" )
 				end
 

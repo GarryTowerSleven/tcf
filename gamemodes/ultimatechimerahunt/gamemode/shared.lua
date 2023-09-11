@@ -34,6 +34,7 @@ plynet.Register( "Bool", "IsTaunting" )
 plynet.Register( "Bool", "IsStunned" )
 plynet.Register( "Bool", "IsPancake" )
 plynet.Register( "Bool", "PressedButton" )
+plynet.Register( "Bool", "KilledWithSaturn" )
 
 /* Chimera */
 plynet.Register( "Bool", "IsRoaring" )
