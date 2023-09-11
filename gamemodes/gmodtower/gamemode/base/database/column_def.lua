@@ -192,6 +192,9 @@ hook.Add( "DatabaseColumns", "BasicColumns", function()
     if PVPBattle then
 
         Database.Columns.Add( "pvpweapons", {
+            set = function( ply, val )
+                PVPBattle.Load( ply, val )
+            end,
             get = function( ply )
                 return PVPBattle.Serialize( ply:GetPVPLoadout() )
             end,
