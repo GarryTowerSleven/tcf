@@ -51,10 +51,11 @@ function ENT:DrawTranslucent()
 
 	local owner = self:GetOwner() //Either( IsValid( self:GetOwner():GetBallRaceBall() ), self:GetOwner():GetBallRaceBall().PlayerModel, self:GetOwner() )
 	
-	if ( !IsValid( owner ) || owner:IsPlayer() && !owner:Alive() ) then return end
-
+	self:SetModel("models/gmod_tower/fedorahat.mdl")
 	
-	if ( owner == LocalPlayer() && !LocalPlayer().ThirdPerson ) then return end
+	if ( !IsValid( owner ) || owner:IsPlayer() && !owner:Alive() ) then return end
+	
+	if ( ( owner == LocalPlayer() && !LocalPlayer().ThirdPerson ) || owner:IsNoDrawAll() ) then return end
 	
 	local title = self:GetText() or ""
 	local height = self:GetHeight() or 0
