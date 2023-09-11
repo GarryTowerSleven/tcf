@@ -197,12 +197,14 @@ if SERVER then
 				end
 
 				self.Ply:Msg2( T("InventoryEquipNotAllowed", self.Name, locName), "exclamation" )
+				self.Ply:SetNWBool( "DisplayFuel", false )
 				self._NoEntsLastLoc = true
 			end
 
 			return false
 
 		else
+			self.Ply:SetNWBool( "DisplayFuel", true )
 			self._NoEntsLastLoc = false -- Clear not ent location
 		end
 		return true

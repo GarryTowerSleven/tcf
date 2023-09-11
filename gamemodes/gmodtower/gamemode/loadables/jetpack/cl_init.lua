@@ -26,8 +26,7 @@ function JetpackFuelDraw( x, y, w, h )
 	local JetPack = GetJetpack()
 	local Amount = LocalPlayer():GetNet( "JetpackFuelRemaining" ) /*LocalPlayer()._DisplayFuelAmount*/ or 0
 
-	if JetPack && !JetPack.JetpackHideFuel && Amount < 1 then
-
+	if JetPack && !JetPack.JetpackHideFuel && LocalPlayer():GetNWBool("DisplayFuel") && Amount < 1 then
 		// Toggle on
 		jetX = math.Approach( jetX, x + w + 6, FrameTime() * 30 )
 		jetAlpha = math.Approach( jetAlpha, 255, FrameTime() * 1000 )
