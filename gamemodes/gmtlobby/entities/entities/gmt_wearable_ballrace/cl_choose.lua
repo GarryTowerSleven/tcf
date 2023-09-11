@@ -54,7 +54,7 @@ if SERVER then
 
 	local function PlayerSendLevels( ply )
 
-		if !ply.SQL then
+		if not ply:ProfileLoaded() then
 			return
 		end
 

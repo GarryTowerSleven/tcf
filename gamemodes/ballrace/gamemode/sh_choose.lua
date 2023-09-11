@@ -6,7 +6,7 @@ if SERVER then
 
 	local function SendBallId( ply )
 		if ply:GetNet( "BallID" ) < 1 then
-			ply._PlyChoosenBall = ply._SQLDATA.ball
+			ply._PlyChoosenBall = ply._PlyChoosenBall or 1 // ???
 		end
 
 		umsg.Start("GtBall", ply )
@@ -45,11 +45,11 @@ if SERVER then
 
 	local function PlayerSendLevels( ply )
 
-		/*if !ply.SQL then
+		if not ply:ProfileLoaded() then
 			return
-		end*/
+		end
 		
-		SetBallId(ply, ply._PlyChoosenBall or 1)
+		SetBallId( ply, ply._PlyChoosenBall or 1 )
 
 		local CanCube = ply:GetLevel("BallRacerCube") == 1
 		local CanIcosahedron = ply:GetLevel("BallRacerIcosahedron") == 1
@@ -63,7 +63,7 @@ if SERVER then
 			Msg( ply, " sql connect: ", CanCube, " ", CanIcosahedron )
 		end
 
-		umsg.Start("GtBall", ply )
+		umsg.Start( "GtBall", ply )
 			umsg.Char( 0 )
 			umsg.Bool( CanCube )
 			umsg.Bool( CanIcosahedron )
@@ -77,7 +77,7 @@ if SERVER then
 	end
 
 	hook.Add( "PostPlayerDataLoaded", "SendPlayerBallLevels", PlayerSendLevels )
-	hook.Add( "PlayerInitialSpawn", "SendPlayerBallLevels", PlayerSendLevels )
+	hook.Add( "PlayerSpawnClient", "SendPlayerBallLevels", PlayerSendLevels )
 
 	concommand.Add("gmt_setball", function( ply, cmd, args )
 
@@ -266,6 +266,14 @@ else // CLIENT
 			AllowSoccerBall = um:ReadBool()
 			AllowSpiked = um:ReadBool()
 			
+			print( AllowCube )
+			print( AllowIcosahedron )
+			print( AllowCatBall )
+			print( AllowBomb )
+			print( AllowGeo )
+			print( AllowSoccerBall )
+			print( AllowSpiked )
+
 		elseif Id == 1 then
 			
 			ChosenId = um:ReadChar()
