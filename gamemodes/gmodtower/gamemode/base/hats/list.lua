@@ -809,7 +809,6 @@ List = {
 		model = "models/captainbigbutt/skeyler/hats/heartband.mdl",
 		closetrow = 1,
 		slot = SLOT_HEAD,
-		storeid = GTowerStore.VIP,
 		dateadded = 1434767690
 	},
 	[78] = {
@@ -820,7 +819,6 @@ List = {
 		model = "models/captainbigbutt/skeyler/hats/starband.mdl",
 		closetrow = 1,
 		slot = SLOT_HEAD,
-		storeid = GTowerStore.VIP,
 		dateadded = 1434767690
 	},
 	[79] = {
@@ -831,7 +829,7 @@ List = {
 		model = "models/captainbigbutt/skeyler/hats/santa.mdl",
 		closetrow = 1,
 		slot = SLOT_HEAD,
-		storeid = GTowerStore.VIP,
+		storeid = GTowerStore.HOLIDAY,
 		dateadded = 1434767690
 	},
 	[80] = {

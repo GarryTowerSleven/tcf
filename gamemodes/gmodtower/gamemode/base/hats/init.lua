@@ -266,7 +266,10 @@ concommand.Add( "gmt_requesthatstoreupdate", function( ply )
 	if GTowerStore.SendItemsOfStore then
 
 		GTowerStore:SendItemsOfStore( ply, StoreId )
+		GTowerStore:SendItemsOfStore( ply, GTowerStore.VIP )
 		GTowerStore:SendItemsOfStore( ply, GTowerStore.HALLOWEEN )
+		GTowerStore:SendItemsOfStore( ply, GTowerStore.HOLIDAY )
+		GTowerStore:SendItemsOfStore( ply, GTowerStore.THANKSGIVING )
 
 	end
 
