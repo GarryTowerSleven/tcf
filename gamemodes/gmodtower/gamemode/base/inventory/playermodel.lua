@@ -43,7 +43,7 @@ end)*/
 
 hook.Add("PlayerSetModelPost", "InventoryCheckSkin", function( ply, model, skin )
 
-	if !ply.SQL then
+	if not ply:ProfileLoaded() then
 		return
 	end
 	

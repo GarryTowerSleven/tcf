@@ -36,7 +36,7 @@ local function DelayedCheck( ply )
 	end
 
 	//Player SQL has not yet been loaded
-	if !ply.SQL || !ply.SQL.Connected then
+	if not ply:ProfileLoaded() then
 		return
 	end
 

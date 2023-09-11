@@ -98,7 +98,7 @@ end
 
 local function PlayerCheckWeapons( ply )
 
-	if !ply.SQL || WeaponOverride( ply ) == true then
+	if not ply:ProfileLoaded() || WeaponOverride( ply ) == true then
 		return
 	end
 

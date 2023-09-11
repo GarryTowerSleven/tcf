@@ -134,6 +134,7 @@ function GTowerStore:UpdateInventoryData( ply, val )
 	local Data = Hex( val )
 	
 	while Data:CanRead() do
+
 		local ItemId = Data:SafeRead()
 		local MaxLevel = Data:SafeRead()
 		local Level = Data:SafeRead()
@@ -148,7 +149,7 @@ end
 
 function GTowerStore:GetPlayerData( ply )
 
-	if self.SQLCanSave == false || !ply.GTowerLevels then //Do not allow to save data with wrong IDs
+	if not ply.GTowerLevels then //Do not allow to save data with wrong IDs
 		return nil
 	end
 	

@@ -4,8 +4,8 @@ function ServerMeta:LoadPlayerNames( res, status, err )
 	end
 
 	self.CurrentPlayers = {}
-	for k, v in pairs(res[1]) do
-		table.insert(self.CurrentPlayers, v.Name)
+	for k, v in pairs(res) do
+		table.insert(self.CurrentPlayers, v.name)
 	end
 end
 
@@ -47,7 +47,7 @@ function ServerMeta:LoadSQL( Data )
 	self.Msg = msg
 
 	if #CurrentPlayerIDs > 0 then
-		local query = "SELECT `Name` FROM `gm_users` WHERE `id` IN (" .. table.concat(CurrentPlayerIDs, ",") .. ") ORDER BY Name ASC;"
+		local query = "SELECT `name` FROM `gm_users` WHERE `id` IN (" .. table.concat(CurrentPlayerIDs, ",") .. ") ORDER BY name ASC;"
 		
 		Database.Query( query, function( res, status, err )
 

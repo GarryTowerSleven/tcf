@@ -69,6 +69,8 @@ function GTowerServers:GetServers()
 
 end
 
+
+
 timer.Create("GTowerRequestData", GTowerServers.UpdateRate, 0, function()  GTowerServers:GetServers()
 end)
 

@@ -394,8 +394,7 @@ end)
 */
 function gateKeep:GrabStackList(ServerID)
 
-	local Query = "SELECT `id`,HEX(`lastplayers`) as `lastplayers`"
-	.. "FROM `gm_servers` WHERE `id`!=" .. ServerID .. " AND `lastupdate`>" .. (os.time() - GTowerServers.UpdateTolerance)
+	local Query = "SELECT `id`,HEX(`lastplayers`) FROM `gm_servers` WHERE `id` != " .. ServerID .. " AND `lastupdate` > " .. (os.time() - GTowerServers.UpdateTolerance)
 
 	Database.Query( Query, function( res, status, err )
 	

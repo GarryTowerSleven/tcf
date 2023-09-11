@@ -69,9 +69,7 @@ local function GetPlayerSQLIdHex()
 	local PlayerList = player.GetAll()
 
 	for _, ply in pairs( PlayerList ) do
-		if ply.SQL && ply.SQL.Connected == true then
-			Data:Write( ply:DatabaseID(), 8 )
-		end
+		Data:Write( ply:DatabaseID(), 8 )
 	end
 
 	return Data:Get(), #PlayerList
