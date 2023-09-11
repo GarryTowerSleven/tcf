@@ -202,6 +202,7 @@ function ENT:MakeBalloon( force, length, offset )
 
 	local balloon_count = math.Clamp( (2*(#player.GetAll()-1)), 1, 20 )
 
+	local i = 0
 	--for i=1,balloon_count do
 	if timer.Exists( "BalloonSpawn" ) then return end
 
@@ -235,7 +236,11 @@ function ENT:MakeBalloon( force, length, offset )
 		
 		constraint.Rope( ent1, ent2, bone1, bone2, pos1, pos2, length, 0, forcelimit, width, material, rigid )
 		
-		//self.Balloon = balloon
+		self.Balloon = balloon
+		i = i + 1
+		if i == balloon_count then
+			timer.Destroy( "BalloonSpawn" )
+		end
 	end )
 
 end
