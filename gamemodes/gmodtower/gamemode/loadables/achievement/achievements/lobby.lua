@@ -256,19 +256,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.PLAYERMODEL, {
 	Value = 1
 })*/
 
-GTowerAchievements:Add( ACHIEVEMENTS.SIDEBYSIDE, {
-	Name = "Fighting Side by Side",
-	Description = "Go into a duel while there already is a duel active.",
-	Value = 1,
-	GMC = 250
-})
-
-GTowerAchievements:Add( ACHIEVEMENTS.ITCHING, {
-	Name = "Itching For Fights",
-	Description = "Commence in more than 15 duels.",
-	Value = 15
-})
-
 /* the achievement has issues + the arcades aren't all there
 GTowerAchievements:Add( ACHIEVEMENTS.ARCADEJUNKIE, {
 	Name = "Arcade Junkie", 

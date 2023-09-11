@@ -58,3 +58,18 @@ GTowerAchievements:Add( ACHIEVEMENTS.BORNTOSPIN, {
     Value = 500,
     Group = 21
 } )
+
+GTowerAchievements:Add( ACHIEVEMENTS.SIDEBYSIDE, {
+	Name = "Fighting Side by Side",
+	Description = "Go into a duel while there already is a duel active.",
+	Value = 1,
+	GMC = 250,
+	Group = 21
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.ITCHING, {
+	Name = "Itching For Fights",
+	Description = "Commence in more than 15 duels.",
+	Value = 15,
+	Group = 21
+})
