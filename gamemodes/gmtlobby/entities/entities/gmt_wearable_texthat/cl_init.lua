@@ -38,6 +38,8 @@ function ENT:GetHeight(o)
 
 end
 
+function ENT:Draw()
+end
 function ENT:DrawTranslucent()
 
 	local owner = self:GetOwner() //Either( IsValid( self:GetOwner():GetBallRaceBall() ), self:GetOwner():GetBallRaceBall().PlayerModel, self:GetOwner() )
