@@ -521,7 +521,7 @@ L.AddWord( 1, "Friends_BlockedDesc", "Blocked players cannot voice or text chat 
 L.AddWord( 1, "Friends_Friend", "You are now friends with {1}" )
 L.AddWord( 1, "Friends_Unfriend", "You are no longer friends with {1}" )
 L.AddWord( 1, "Friends_Block", "You have blocked {1}" )
-L.AddWord( 1, "Friends_BlockAdmin", "You cannot block {1} as they are an admin/mod" )
+L.AddWord( 1, "Friends_BlockAdmin", "You cannot block {1} as they are an admin/mod." )
 L.AddWord( 1, "Friends_Unblock", "You have unblocked {1}" )
 L.AddWord( 1, "Friends_NoRelationship", "You have no relationship with {1}" )
 L.AddWord( 1, "Friends_Joined", "Your friend {1} has joined the tower!" )
