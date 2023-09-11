@@ -46,6 +46,7 @@ function GM:StartRound()
 	for _, v in ipairs( player.GetAll() ) do
 		v:SetNet( "IsChimera", false )
 		v:SetNet( "PressedButton", false )
+		v.SaturnKilled = false
 	end
 
 	globalnet.SetNet("UC", NULL)

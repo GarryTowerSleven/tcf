@@ -25,6 +25,13 @@ payout.Register( "ButtonPress", {
 	Diff = 1,
 } )
 
+payout.Register( "SaturnKill", {
+	Name = "The Savior (Saturn Kill)",
+	Desc = "You saved your team from being eaten!.. with a little help from Mr. Saturn.",
+	GMC = 75,
+	Diff = 1,
+} )
+
 payout.Register( "UCWinBonus", {
 	Name = "Ultimate Chimera",
 	Desc = "You truly are the ultimate chimera!",
@@ -132,6 +139,10 @@ function GAMEMODE:GiveMoney()
 				payout.Give( ply, "WinBonus" )
 
 				if ply:GetNet( "PressedButton" ) then
+					payout.Give( ply, "ButtonPress" )
+				end
+				
+				if ply.SaturnKilled == true then
 					payout.Give( ply, "ButtonPress" )
 				end
 

@@ -618,6 +618,7 @@ function ENT:HitChimera( uc, norm )
 			ply:EmitSound( "UCH/saturn/saturn_superwin.wav" )
 
 			ply:AddAchievement( ACHIEVEMENTS.UCHHOMERUN, 1 )
+			ply.SaturnKilled = true
 			uc.SaturnHit = nil
 
 		end
