@@ -177,7 +177,7 @@ function ENT:Think()
 					end
 				else
 					for k,v in ipairs(Location.GetPlayersInLocation( LocalPlayer():Location() )) do
-						if v._WasLocalBlocked == false then
+						if v._WasLocalBlocked != true then
 							v:SetNoDrawAll(false)
 						end
 					end

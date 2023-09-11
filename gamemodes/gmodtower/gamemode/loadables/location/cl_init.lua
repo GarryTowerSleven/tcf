@@ -10,7 +10,6 @@ hook.Add( "Think", "GTowerLocationClient", function()
 	if LocalPlayer():IsBot() then return end
 	
 	if !TheaterDrawPlayers:GetBool() && LocalPlayer()._Location == Location.GetIDByName( "Theater" ) then
-		print("Lets hide people!")
 		for k,v in ipairs(player.GetAll()) do
 			if v != LocalPlayer() then
 				v:SetNoDrawAll(true)
@@ -18,7 +17,7 @@ hook.Add( "Think", "GTowerLocationClient", function()
 		end
 	else
 		for k,v in ipairs(player.GetAll()) do
-			if v._WasLocalBlocked == false then
+			if v._WasLocalBlocked != true then
 				v:SetNoDrawAll(false)
 			end
 		end
