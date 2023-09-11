@@ -164,7 +164,7 @@ function PANEL:SetupMaps()
         panel.btnMap:SetTextInset(8, 0)
 
         if not canPlay then
-            panel.btnMap:SetTextColor(Color(255, 255, 255, 5))
+            panel.btnMap:SetTextColor(Color(255, 255, 255, 100))
             panel.btnMap.Disabled = true
             panel.btnMap:SetToolTip("Map disabled due to play amount.")
         end
@@ -330,7 +330,7 @@ function PANEL:UpdateVotes()
             local col_progress = Color(40, 121, 211, 84)
 
             if panel.btnMap.Disabled or panel.btnMap.DisableVote then
-                col = Color(150, 150, 150, 5)
+                col = Color(150, 150, 150, 50)
             elseif panel.btnMap.Depressed then
                 col = Color(0, 0, 0, 84)
             elseif panel.btnMap.Hovered then
