@@ -277,7 +277,6 @@ function meta:SetNoDrawAll( bool )
 
 	-- Wearables (hats, etc.)
 	if self.CosmeticEquipment then
-		PrintTable(self.CosmeticEquipment)
 		for k,v in pairs( self.CosmeticEquipment ) do
 			if IsValid( v ) then
 				v:SetNoDraw( bool )
