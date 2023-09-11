@@ -3,6 +3,7 @@ AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_init.lua")
 
 function ENT:Initialize()
+	self:SetModel(self.Model)
     self:DrawShadow(false)
     local owner = self:GetOwner()
     if IsValid(owner) then

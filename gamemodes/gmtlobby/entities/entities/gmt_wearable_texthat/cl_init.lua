@@ -38,20 +38,9 @@ function ENT:GetHeight(o)
 
 end
 
-function ENT:Draw()
-
-	local owner = self:GetOwner()
-	if ( IsValid( owner ) && owner:Alive() ) then return end
-
-	self:DrawModel()
-
-end
-
 function ENT:DrawTranslucent()
 
 	local owner = self:GetOwner() //Either( IsValid( self:GetOwner():GetBallRaceBall() ), self:GetOwner():GetBallRaceBall().PlayerModel, self:GetOwner() )
-	
-	self:SetModel("models/gmod_tower/fedorahat.mdl")
 	
 	if ( !IsValid( owner ) || owner:IsPlayer() && !owner:Alive() ) then return end
 	

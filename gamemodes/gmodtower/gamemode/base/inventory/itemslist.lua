@@ -48,6 +48,7 @@ RegisterItem( "gmt_texthat", {
 	StoreId = GTowerStore.MERCHANT,
 	StorePrice = 30000,
 
+	EquippableEntity = true,
 	RemoveOnDeath = true,
 	RemoveOnNoEntsLoc = true,
 
