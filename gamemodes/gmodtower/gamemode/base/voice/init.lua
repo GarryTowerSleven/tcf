@@ -1,5 +1,7 @@
 hook.Add("PlayerCanHearPlayersVoice", "GMTAdminAllTalk", function(listener, talker)
 
+	if talker:GetNWBool("GlobalMute") then return false end
+	
     if not IsLobby then return true end
 
 	if Location.Find(talker:GetPos()) == 7 && Location.Find(listener:GetPos()) != 7 then -- bind to devhq
