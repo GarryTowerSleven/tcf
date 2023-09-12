@@ -899,8 +899,8 @@ RegisterModel(
 	"mdl_reimu",
 	"Reimu Hakurei",
 	"(<= carefree)",
-	"models/raiden/raiden.mdl",
-	"raiden",
+	"models/player/reimupc.mdl",
+	"reimu",
 	15000 )
 	
 --[[ Has buggy arms
