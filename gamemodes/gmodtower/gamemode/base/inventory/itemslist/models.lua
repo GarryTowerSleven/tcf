@@ -887,6 +887,22 @@ RegisterModel(
 	"david",
 	14500 )
 	
+RegisterModel(
+	"mdl_raiden",
+	"Raiden",
+	"I feel like some kind of legendary mercenary.",
+	"models/raiden/raiden.mdl",
+	"raiden",
+	10000 )
+	
+RegisterModel(
+	"mdl_reimu",
+	"Reimu Hakurei",
+	"(<= carefree)",
+	"models/raiden/raiden.mdl",
+	"raiden",
+	15000 )
+	
 --[[ Has buggy arms
 RegisterModel(
 	"mdl_hunk",

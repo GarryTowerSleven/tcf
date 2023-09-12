@@ -127,6 +127,8 @@ AddPlayerModel( "gasmask", "models/player/tcf/gasmask_citizen.mdl" )
 AddPlayerModel( "redrabbit", "models/player/redrabbit2.mdl" )
 AddPlayerModel( "renamon", "models/player/renamon.mdl" )
 AddPlayerModel( "david", "models/player/dwecqihoodie.mdl" )
+AddPlayerModel( "raiden", "models/raiden/raiden.mdl" )
+AddPlayerModel( "reimu", "models/player/reimupc.mdl" )
 --AddPlayerModel( "ornstein", "models/nikout/darksouls2/characters/olddragonslayer.mdl" )
 
 // Remove bad playermodels
