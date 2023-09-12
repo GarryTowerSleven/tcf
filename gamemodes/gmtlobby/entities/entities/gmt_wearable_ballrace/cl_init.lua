@@ -212,7 +212,9 @@ function ENT:Think()
 	self.AngleAccum = self.AngleAccum + anglediff
 
 	if CurTime() > (self.LastBlip + (100/velocity) ) && (self.AngleAccum.p > 180 || self.AngleAccum.y > 180 || self.AngleAccum.r > 180) then
-		self.Entity:EmitSound(self.RollSound, 100, 150)
+		if !pl:IsNoDrawAll() then 
+			self.Entity:EmitSound(self.RollSound, 100, 150)
+		end
 		self.AngleAccum = Angle(0,0,0)
 		self.LastBlip = CurTime()
 	end
@@ -222,7 +224,10 @@ end
 function ENT:DrawTranslucent()
 
 	local ply = self:GetOwner()
+	
 	if !IsValid(ply) then return end
+	
+	if ply:IsNoDrawAll() then return end
 
 	if IsValid( self.PlayerModel ) then
 
