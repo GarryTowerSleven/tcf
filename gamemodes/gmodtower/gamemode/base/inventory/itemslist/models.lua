@@ -898,7 +898,7 @@ RegisterModel(
 RegisterModel(
 	"mdl_reimu",
 	"Reimu Hakurei",
-	"(<= carefree)",
+	"I'm a perfectly normal shrine maiden.",
 	"models/player/reimupc.mdl",
 	"reimu",
 	15000 )
