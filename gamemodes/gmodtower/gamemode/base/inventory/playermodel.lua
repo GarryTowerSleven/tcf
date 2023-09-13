@@ -4,6 +4,9 @@ hook.Add("PostPlayerDataLoaded", "RecheckPlayerModel", function( ply )
 
 	timer.Simple( 0, hook.Call, "PlayerSetModel", GAMEMODE, ply )
 
+	local list = ply:GetEquipedItems()
+
+	SpawnPlayerUCH(ply, list)
 end )
 
 
