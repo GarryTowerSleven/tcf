@@ -30,10 +30,12 @@ function ENT:Initialize()
 		self:SetTrigger( true )
 
 		timer.Simple( 1, function()
-			self.OriginalPos = self:GetPos()
-			self.OriginalLocation = self:Location()
+			if IsValid( self ) then
+				self.OriginalPos = self:GetPos()
+				self.OriginalLocation = self:Location()
 
-			self.ResetOnSleep = Location.IsGroup( self.OriginalLocation, "pool" )
+				self.ResetOnSleep = Location.IsGroup( self.OriginalLocation, "pool" )
+			end
 		end )
 	end
 
