@@ -75,7 +75,7 @@ ENT.Prizes = {
         3, 6, 9, 12, 15, Name = "TWO PAIR"
     },
     [2] = {
-        1, 2, 3, 4, 5, Name = "JACKS OR BETTER"
+        2, 4, 6, 8, 10, Name = "JACKS OR BETTER"
     },
 }
 
