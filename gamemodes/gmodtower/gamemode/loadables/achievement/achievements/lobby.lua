@@ -30,8 +30,8 @@ GTowerAchievements:Add( ACHIEVEMENTS.ZOMBIERP, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.JUMPINGJACK, {
 	Name = "Jumping Jack Rabbit", 
-	Description = "Jump 100,000 times.", 
-	Value = 100000,
+	Description = "Jump 50,000 times.", 
+	Value = 50000,
 	GiveItem = "trophy_jackrabbit",
 	GMC = 25000
 })
