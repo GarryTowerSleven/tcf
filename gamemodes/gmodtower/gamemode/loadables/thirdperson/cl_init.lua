@@ -375,7 +375,7 @@ end )
 
 hook.Add( "PlayerThink", "ThirdPersonViewSelfThink", function( ply )
 
-	if !ply:CanViewSelf() then
+	if ply.ViewingSelf != false && !ply:CanViewSelf() then
 		ply.ViewingSelf = false
 	end
 
