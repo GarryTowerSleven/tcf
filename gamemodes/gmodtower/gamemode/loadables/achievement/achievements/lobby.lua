@@ -384,7 +384,7 @@ hook.Add( "PlayerThink", "PlayerThinkAchievements", function( ply )
 	
 		// Theatergoer 
 		ply.TheatergoerThink = ply.TheatergoerThink or CurTime()
-		if ( ply.TheatergoerThink <= CurTime() && ply:Location() == Location.GetIDByName( "Theater" ) &&  ) then
+		if ( ply.TheatergoerThink <= CurTime() && ply:Location() == Location.GetIDByName( "Theater" ) ) then
 			ply:AddAchievement( ACHIEVEMENTS.THEATERGOER, 5 / 60 )
 			ply.TheatergoerThink = CurTime() + 5
 			print("HI")
