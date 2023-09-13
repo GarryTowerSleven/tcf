@@ -266,13 +266,13 @@ else // CLIENT
 			AllowSoccerBall = um:ReadBool()
 			AllowSpiked = um:ReadBool()
 			
-			print( AllowCube )
-			print( AllowIcosahedron )
-			print( AllowCatBall )
-			print( AllowBomb )
-			print( AllowGeo )
-			print( AllowSoccerBall )
-			print( AllowSpiked )
+			//print( AllowCube )
+			//print( AllowIcosahedron )
+			//print( AllowCatBall )
+			//print( AllowBomb )
+			//print( AllowGeo )
+			//print( AllowSoccerBall )
+			//print( AllowSpiked )
 
 		elseif Id == 1 then
 			
