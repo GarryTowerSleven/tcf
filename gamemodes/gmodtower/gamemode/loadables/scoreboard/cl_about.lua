@@ -31,7 +31,7 @@ ABOUT.Gamemodes =
 	["ballrace"] = "ballrace",
 	["pvpbattle"] = "pvpbattle",
 	["virus"] = "virus",
-	["gmtuch"] = "uch",
+	["ultimatechimerahunt"] = "uch",
 	["zombiemassacre"] = "zombiemassacre",
 	["minigolf"] = "minigolf"
 }
