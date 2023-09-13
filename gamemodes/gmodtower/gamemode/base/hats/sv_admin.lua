@@ -67,8 +67,9 @@ function Update( len, ply )
     ply:Msg2( "Sending request to server..." )
     LogPrint( Format( "Request recevied from %s, updating...", ply:Nick() ), nil, "HatsAdmin" )
 
-    local db = SQL.getDB()
-
+    local db = Database.GetObject().Object
+    if not db then return end
+    
     // this has to be like this until we refactor sql
     local q = db:prepare("DELETE FROM gm_hats WHERE id = ? AND plymodel = ?")
     q:setNumber( 1, HatID )
