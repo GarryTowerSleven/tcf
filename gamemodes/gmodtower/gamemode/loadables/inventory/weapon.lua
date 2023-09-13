@@ -2,6 +2,24 @@ local function WeaponOverride( ply )
 	return hook.Call("WeaponOverride", GAMEMODE, ply )
 end
 
+local function GetEquipedItems( ply )
+
+	local Items = {}
+
+	for i=1, GTowerItems.EquippableSlots do
+		local Slot = GTowerItems:NewItemSlot( ply, i )
+		local Item = Slot:Get()
+
+		if IsValid( Item ) then
+			table.insert( Items, Item )
+		end
+
+	end
+
+	return Items
+
+end
+
 hook.Add( "PlayerLoadout", "GiveWeaponsInv", function( ply )
 
 	if WeaponOverride( ply ) == true then
@@ -98,7 +116,7 @@ end
 
 local function PlayerCheckWeapons( ply )
 
-	if not ply:ProfileLoaded() || WeaponOverride( ply ) == true then
+	if not ply._DataLoaded|| WeaponOverride( ply ) == true then
 		return
 	end
 
