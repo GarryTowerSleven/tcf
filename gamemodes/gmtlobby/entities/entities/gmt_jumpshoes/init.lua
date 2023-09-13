@@ -93,16 +93,3 @@ hook.Add("PlayerDisconnected", "RemoveTakeon", function( ply )
 	end
 
 end )
-
-hook.Add("PlayerThink", "RemoveTakeonInTheater", function( ply )
-
-	if !IsValid( ply ) || !Location:IsTheater(( ply:Location() )) then return end
-
-	if IsValid( ply.Takeon ) then
-
-		ply.Takeon:Remove()
-		ply.Takeon = nil
-
-	end
-
-end )

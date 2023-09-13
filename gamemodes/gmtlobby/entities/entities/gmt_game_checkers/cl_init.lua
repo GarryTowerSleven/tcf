@@ -255,9 +255,9 @@ end
 
 local CheckersLocalPlaying = false
 
-hook.Add( "PlayerThink", "FadePlayersCheckers", function()
-	//LocalPlayer():HideLocalPlayers( CheckersLocalPlaying )
-end )
+/*hook.Add( "PlayerThink", "FadePlayersCheckers", function()
+	LocalPlayer():HideLocalPlayers( CheckersLocalPlaying )
+end )*/
 
 function ENT:OnRemove()
 	if self.Ply1 == LocalPlayer() || self.Ply2 == LocalPlayer() then
