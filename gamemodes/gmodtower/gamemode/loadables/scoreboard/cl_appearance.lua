@@ -415,13 +415,10 @@ end
 
 hook.Add( "PlayerThink", "SyncPlayerGlow", function( ply )
 
-	if LocalPlayer().IsVIP && LocalPlayer():IsVIP() then
-
-		if ply._NextGlow && ply._NextGlow < CurTime() then
-			RunConsoleCommand( "gmt_updateglowcolor" )
-			ply._NextGlow = nil
-		end
-
+	-- if LocalPlayer().IsVIP && LocalPlayer():IsVIP() then YOU LITERALLY CANT GET THIS VALUE WITHOUT BEING A VIP
+	if ply._NextGlow && ply._NextGlow < CurTime() then
+		RunConsoleCommand( "gmt_updateglowcolor" )
+		ply._NextGlow = nil
 	end
 
 end )
