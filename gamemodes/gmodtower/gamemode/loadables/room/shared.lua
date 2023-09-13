@@ -52,7 +52,7 @@ end
 
 function GetCondoDoor( condoid )
 	for k,v in pairs( ents.FindByClass("gmt_condo_door") ) do
-		if v:GetNWInt("CondoID", 0) == condoid then
+		if v:GetNet("CondoID", 0) == condoid then
 			return v
 		end
 	end
@@ -65,7 +65,7 @@ function SetupLocations()
 	local objs = ents.FindByClass( data.refobj )
 
 	for _, v in ipairs( objs ) do
-		local id = v:GetNWInt( "RoomID", 0 )
+		local id = v:GetNet( "RoomID", 0 )
 
 		if ( !id or id == 0 ) then return end
 

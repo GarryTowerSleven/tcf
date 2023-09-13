@@ -151,7 +151,7 @@ function ENT:OnRoomLock()
 end
 
 function ENT:LocalOwner()
-    return self.RoomId == LocalPlayer():GetNWInt("RoomID")
+    return self.RoomId == LocalPlayer():GetNet("RoomID")
 end
 
 function ENT:DrawLoading()
