@@ -66,6 +66,21 @@ if ChatCommands then
 	end )
 end
 
+timer.Create("CheckAfkKickerPlayerThink", 10.0, 0, function()
+
+	if IsLobby then
+		local MaxSlots = GetMaxSlots()
+		--local Count = #player.GetAll()) --gatekeeper.GetNumClients()
+		local Count = player.GetCount()
+		
+		if ( MaxSlots - Count <= 5 ) then
+			ShouldKick = true
+		else
+			ShouldKick = false
+		end
+	end
+
+end )
 
 hook.Add( "PlayerThink", "AFKPlayerThink", function( ply )
 	if ( TestingMode and TestingMode:GetBool() ) then return end
@@ -105,6 +120,10 @@ hook.Add( "PlayerThink", "AFKPlayerThink", function( ply )
 
 	if ( timeleft <= 0 ) then
 		Set( ply, true )
+	end
+	
+	if ply.AFK && ShouldKick then
+		ply:Kick("You have been kicked to free slots due to being AFK while the server is near max players")
 	end
 end )
 

@@ -120,8 +120,6 @@ hook.Add( "PlayerSpawn", "whee", function( ply )
 
 end )
 
-hook.Add( "AFKNotFull", "GamemodeNotFull", GamemodeNotFull )
-
 // no anti-tranquility on gamemodes
 hook.Add( "AntiTranqEnable", "GamemodeAntiTranq", function() return false end )
 
