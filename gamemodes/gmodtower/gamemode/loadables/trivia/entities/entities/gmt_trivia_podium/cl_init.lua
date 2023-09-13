@@ -446,6 +446,7 @@ function ENT:Initialize()
     // add to base
     if ( self:GetController() ) then
         table.insert( self:GetController().Podiums, self )
+        self:GetController():SortPodiums()
     end
 end
 

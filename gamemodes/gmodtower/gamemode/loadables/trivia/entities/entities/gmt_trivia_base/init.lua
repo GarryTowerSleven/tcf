@@ -43,6 +43,8 @@ function ENT:AddPodium( ent )
 
 	ent:SetID( table.Count( self:GetPodiums() ) + 1 )
 	table.insert( self.Podiums, ent )
+
+	self:SortPodiums()
 end
 
 function ENT:SpawnPodiums()

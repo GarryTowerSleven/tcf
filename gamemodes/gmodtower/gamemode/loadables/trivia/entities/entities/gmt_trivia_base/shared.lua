@@ -44,11 +44,15 @@ function ENT:SetupDataTables()
 end
 
 function ENT:GetPodiums()
+    return self.Podiums
+end
+
+function ENT:SortPodiums()
+
     table.sort( self.Podiums, function(a, b)
         return a:GetID() < b:GetID()
     end )
 
-    return self.Podiums
 end
 
 function ENT:GetActivePodiums()
