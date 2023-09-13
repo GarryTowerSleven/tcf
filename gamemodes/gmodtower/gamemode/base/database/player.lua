@@ -91,7 +91,7 @@ function SavePlayer( ply, columns, callback )
     local steamid = ply:SteamID()
     local name = ply:Nick() .. " [" .. steamid .. "]"
 
-    local query_string = "UPDATE `gm_users` SET " .. Columns.CreateQuery( data ) .. " WHERE id = '" .. id .. "';"
+    local query_string = "UPDATE gm_users SET " .. Columns.CreateQuery( data ) .. " WHERE id = " .. id .. ";"
 
     ply._IsSaving = true
 
