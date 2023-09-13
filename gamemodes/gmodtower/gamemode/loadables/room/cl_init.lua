@@ -7,7 +7,7 @@ local QueryPanel = nil
 
 include("shared.lua")
 include("room_maps.lua")
-include("cl_closet.lua")
+--include("cl_closet.lua")
 include("cl_party.lua")
 
 usermessage.Hook("GRoom", function(um)

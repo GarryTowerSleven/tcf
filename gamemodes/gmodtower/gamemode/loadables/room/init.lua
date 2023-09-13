@@ -2,7 +2,7 @@
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("room_maps.lua")
-AddCSLuaFile("cl_closet.lua")
+--AddCSLuaFile("cl_closet.lua")
 AddCSLuaFile("cl_party.lua")
 //AddCSLuaFile("upgrades.lua")
 
