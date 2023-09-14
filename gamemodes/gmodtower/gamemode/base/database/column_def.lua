@@ -158,7 +158,7 @@ hook.Add( "DatabaseColumns", "BasicColumns", function()
             end,
     
             set = function( ply, val )
-                ply:SetMaxBank( tonumber( val ), true )
+                ply:SetMaxBank( tonumber( val ) )
             end,
             get = function( ply )
                 return ply:BankLimit()
