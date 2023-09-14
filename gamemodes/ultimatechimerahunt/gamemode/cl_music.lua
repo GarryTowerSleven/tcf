@@ -60,14 +60,11 @@ function PlayMusic( idx, teamid )
 		if ply.EndRoundMusic then
 			ply.EndRoundMusic:Stop()
 		end
-		print("Mhm")
 		timer.Simple( 2 - ply.Ignore, function()
 			local song = GetRandomSong( MUSIC_ROUND )
-			print("Uh")
 			ply.Music = CreateSound( ply, song )
 			ply.Music:PlayEx( music.GetClientVolume(), 100 )
 			
-			print(song)
 			LoopMusic(true, SoundDuration(song))
 		end )
 
