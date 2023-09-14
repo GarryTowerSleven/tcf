@@ -6,6 +6,19 @@ local function GetRandomSong( idx )
 
 end
 
+local function LoopMusic( round, duration )
+	local ply = LocalPlayer()
+	timer.Create( "MusicLoop", duration, 0, function()
+		if !ply.Looped then return end
+		
+		if round then
+			PlayMusic(MUSIC_ROUND)
+		else
+			PlayMusic(MUSIC_GHOST)
+		end
+	end )
+end
+
 function PlayMusic( idx, teamid )
 
 	idx = idx or MUSIC_WAITING
@@ -37,27 +50,33 @@ function PlayMusic( idx, teamid )
 
 	if idx == MUSIC_ROUND then
 
+		ply.Ignore = ply.Looped and 1 or 0
+		ply.Looped = true
+		
 		if ply.WaitingMusic && ply.WaitingMusic:IsPlaying() then
 			ply.WaitingMusic:FadeOut( 1 )
-		end
-
-		if ply.Music && ply.Music:IsPlaying() then
-			ply.Music:FadeOut( 1 )
 		end
 
 		if ply.EndRoundMusic then
 			ply.EndRoundMusic:Stop()
 		end
-
-		timer.Simple( 2, function()
-			ply.Music = CreateSound( ply, GetRandomSong( MUSIC_ROUND ) )
+		print("Mhm")
+		timer.Simple( 2 - ply.Ignore, function()
+			local song = GetRandomSong( MUSIC_ROUND )
+			print("Uh")
+			ply.Music = CreateSound( ply, song )
 			ply.Music:PlayEx( music.GetClientVolume(), 100 )
+			
+			print(song)
+			LoopMusic(true, SoundDuration(song))
 		end )
 
 	end
 
 	if idx == MUSIC_ENDROUND then
 
+		ply.Looped = false
+		
 		if ply.SpawnMusic && ply.SpawnMusic:IsPlaying() then
 			ply.SpawnMusic:Stop()
 			ply.SpawnMusic = nil
@@ -65,6 +84,10 @@ function PlayMusic( idx, teamid )
 
 		if ply.Music && ply.Music:IsPlaying() then
 			ply.Music:FadeOut( 0.5 )
+		end
+		
+		if ply.GhostMusic && ply.GhostMusic:IsPlaying() then
+			ply.GhostMusic:FadeOut( 0.5 )
 		end
 
 		local song = GAMEMODE.Music[ MUSIC_ENDROUND ].Tie
@@ -154,6 +177,8 @@ function PlayMusic( idx, teamid )
 
 	if idx == MUSIC_GHOST then
 
+		ply.Looped = true
+		
 		if ply.Music then
 			ply.Music:FadeOut( 1 )
 		end
@@ -165,9 +190,9 @@ function PlayMusic( idx, teamid )
 				song = GetRandomSong( MUSIC_FGHOST )
 			end
 
-			ply.Music = CreateSound( ply, song )
-			ply.Music:PlayEx( music.GetClientVolume(), 100 )
-
+			ply.GhostMusic = CreateSound( ply, song )
+			ply.GhostMusic:PlayEx( music.GetClientVolume(), 100 )
+			LoopMusic(false, SoundDuration(song))
 		end )
 
 	end
@@ -176,6 +201,8 @@ function PlayMusic( idx, teamid )
 
 		if ply:IsGhost() then return end
 
+		ply.Looped = false
+		
 		if ply.Music then
 			ply.Music:Stop()
 		end
