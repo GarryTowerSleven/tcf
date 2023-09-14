@@ -28,7 +28,7 @@ PlayerSubtitleRightText = function( ply )
 
 	if ply then
 		-- Room number
-		local roomid = ply:GetNWInt("RoomID")
+		local roomid = ply:GetNet("RoomID")
 		if roomid and roomid > 0 then
 			local room = tostring( roomid ) or ""
 			if room != "" then
