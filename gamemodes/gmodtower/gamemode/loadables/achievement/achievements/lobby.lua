@@ -382,11 +382,15 @@ hook.Add( "PlayerThink", "PlayerThinkAchievements", function( ply )
 
 	if ply:AchievementLoaded() && ply:Alive() then
 	
-		// Theatergoer 
-		ply.TheatergoerThink = ply.TheatergoerThink or CurTime()
-		if ( ply.TheatergoerThink <= CurTime() && ply:Location() == Location.GetIDByName( "Theater" ) ) then
-			ply:AddAchievement( ACHIEVEMENTS.THEATERGOER, 5 / 60 )
-			ply.TheatergoerThink = CurTime() + 5
+		if IsLobby then
+		
+			// Theatergoer 
+			ply.TheatergoerThink = ply.TheatergoerThink or CurTime()
+			if ( ply.TheatergoerThink <= CurTime() && ply:Location() == Location.GetIDByName( "Theater" ) ) then
+				ply:AddAchievement( ACHIEVEMENTS.THEATERGOER, 5 / 60 )
+				ply.TheatergoerThink = CurTime() + 5
+			end
+		
 		end
 		
 		// Long Walk
