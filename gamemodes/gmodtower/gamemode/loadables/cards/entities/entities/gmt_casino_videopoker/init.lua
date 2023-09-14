@@ -378,6 +378,6 @@ end
 
 function ENT:BroadcastJackpot(ply, winnings)
 
-    GTowerChat.AddChat( T( "VideoPokerJackpotAll", string.upper( ply:Name() ), string.FormatNumber( winnings ) ), Color( 255, 200, 0 ), "Server" )
+    GTowerChat.AddChat( T( "VideoPokerJackpotAll", string.upper( ply:Name() ), string.FormatNumber( winnings * 2) ), Color( 255, 200, 0 ), "Server" )
 
 end
