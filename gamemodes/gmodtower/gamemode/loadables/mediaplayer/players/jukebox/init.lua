@@ -12,8 +12,8 @@ function MEDIAPLAYER:Init()
     self._Voteskips = {}
     self._VoteManager = MediaPlayer.VoteManager:New( self )
     self._VoteskipManager = MediaPlayer.VoteskipManager:New( self )
-
-	self._IsRoom = false // Temp, we should make a proper player for all of this
+	
+	self._IsRoom = false -- Help me
 	
     self:on( "mediaChanged", function( media )
         self._VoteskipManager:Clear()
@@ -24,12 +24,21 @@ function MEDIAPLAYER:Init()
 
         MediaPlayer.UpdateMediaVote( self )
     end )
+	
+	timer.Simple(5, function()
+		local roomid = Location.GetSuiteID( self:GetLocation() )
+		if ( roomid > 0 ) then
+			self._IsRoom = true // Temp, we should make a proper player for all of this
+		else
+			self._IsRoom = false // Temp, we should make a proper player for all of this
+		end
+	end )
 end
 
 function MEDIAPLAYER:Think()
 	BaseClass.Think( self )
-
-	if ( not self:GetOwner() ) then // Temp, we should make a proper player for all of this
+	//This doesn't even work!!! We need to set the owner so they can voteskip and tell them HEY THIS IS A SUITE JUKEBOX
+	/*if ( not self:GetOwner() ) then // Temp, we should make a proper player for all of this
 		local roomid = Location.GetSuiteID( self:GetLocation() )
 		if ( roomid > 0 ) then
 			local owner = GTowerRooms.GetOwner( roomid )
@@ -38,7 +47,7 @@ function MEDIAPLAYER:Think()
 			self:SetOwner( owner )
 			self._IsRoom = true // Temp, we should make a proper player for all of this
 		end
-	end
+	end*/
 end
 
 function MEDIAPLAYER:NetWriteUpdate( ply )
@@ -74,7 +83,7 @@ function MEDIAPLAYER:SortQueue()
 	table.sort( self._Queue, queueVoteSort )
 end
 
-MEDIAPLAYER._MaxDuration = 15*60 // 30 minutes
+MEDIAPLAYER._MaxDuration = 15*60 // 15 minutes
 
 function MEDIAPLAYER:ShouldQueueMedia( media )
     local owner = media:Owner() or NULL
