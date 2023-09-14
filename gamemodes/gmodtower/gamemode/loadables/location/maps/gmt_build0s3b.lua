@@ -627,8 +627,6 @@ Add( 28, {
 } )
 */
 
-ResortVectors()
-
 SUITETELEPORTERS = 33
 
 TeleportLocations = TeleportLocations or {

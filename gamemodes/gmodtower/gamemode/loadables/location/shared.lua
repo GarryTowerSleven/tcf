@@ -3,6 +3,12 @@ module("Location", package.seeall )
 DEBUG = false
 Locations = {}
 
+Cache = Cache or {
+	name_lookup = {},
+	suite_locations = {},
+	suite_lookup = {},
+}
+
 plynet.Register( "Int", "Location" )
 
 function GetLocations()
@@ -72,6 +78,26 @@ function AddKeyValue( id, key, value )
 	
 end
 
+function PopulateCache()
+
+	for id, loc in pairs( Locations ) do
+		
+		Cache.name_lookup[ loc.Name or "" ] = id
+
+		if loc.IsSuite then
+
+			if loc.SuiteID > 0 then
+				Cache.suite_lookup[ loc.SuiteID ] = id
+			end
+
+			table.insert( Cache.suite_locations, id )
+
+		end
+		
+	end
+
+end
+
 function ResortVectors()
 
 	for id, loc in pairs( Locations ) do
@@ -91,10 +117,17 @@ function IncludeMap()
 		AddCSLuaFile("maps/" .. game.GetMap() .. ".lua")
 	end
 
+	ResortVectors()
+	PopulateCache()
+
 end
 IncludeMap()
 
 function GetIDByName( name )
+
+	if Cache.name_lookup[ name ] then
+		return Cache.name_lookup[ name ]
+	end
 
 	for id, loc in pairs( Locations ) do
 
@@ -116,6 +149,11 @@ function GetName( id )
 end
 
 function GetSuiteLocations()
+
+	if Cache.suite_locations then
+		return Cache.suite_locations
+	end
+
 	local tbl = {}
 
 	for id, loc in pairs( Locations ) do
@@ -138,6 +176,10 @@ function IsSuite( id )
 end
 
 function GetBySuiteID( suiteid )
+
+	if Cache.suite_lookup[ suiteid ] then
+		return Cache.suite_lookup[ suiteid ]
+	end
 
 	for id, loc in pairs( Locations ) do
 
