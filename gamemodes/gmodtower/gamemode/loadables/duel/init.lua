@@ -421,6 +421,9 @@ local function EndDuel( victim, disconnected )
 
     local target = victim:GetNWEntity( "DuelOpponent", NULL )
 
+	victim.IsDueling = false
+	target.IsDueling = false 
+
 	if disconnected and !IsValid( victim ) and target:Location() == DuelLocation then
 		EndDuelClient( target, victim )
 
@@ -438,9 +441,6 @@ local function EndDuel( victim, disconnected )
 		RespawnDuelers( target )
 		RespawnDuelers( victim )
 	end)
-
-	Requester.IsDueling = false 
-	Arriver.IsDueling = false
 end
 
 hook.Add( "PostPlayerDeath", "DuelDeathCheck", function( ply )
