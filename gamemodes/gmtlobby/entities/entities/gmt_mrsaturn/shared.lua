@@ -10,11 +10,6 @@ function ENT:SetupDataTables()
 	self:NetworkVar( "String", 0 , "PetName" )
 end
 
-hook.Add("ShouldCollide","MrSaturnCollide",function(a,b)
-	if a:IsPlayer() and b:GetClass() == "gmt_mrsaturn" then return false end
-	if b:IsPlayer() and a:GetClass() == "gmt_mrsaturn" then return false end
-end)
-
 MrSaturnHatTable = {
 	[1] = { mdl = "models/player/items/engineer/engineer_cowboy_hat.mdl", pos = Vector( 0, -2, -5 ), ang = Angle( 0, 0, 0 ), body = true },
 	[2] = { mdl = "models/player/items/engineer/engineer_train_hat.mdl", pos = Vector( 0, -2, -4.6 ), ang = Angle( 0, 0, 0 ),body = true },
