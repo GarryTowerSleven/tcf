@@ -81,7 +81,7 @@ function SavePlayer( ply, columns, callback )
     end
 
     local data = Columns.GetPlayer( ply, columns )
-    if not data then
+    if table.IsEmpty(data) then
         callback( false, ply, "Failed to get player columns. (" .. table.concat( columns or {"all"}, "," ) .. ")" )
         return
     end
@@ -90,9 +90,7 @@ function SavePlayer( ply, columns, callback )
     local id = ply:DatabaseID()
     local steamid = ply:SteamID()
     local name = ply:Nick() .. " [" .. steamid .. "]"
-
-    local query_string = "UPDATE gm_users SET " .. Columns.CreateQuery( data ) .. " WHERE id = '" .. id .. "';"
-
+    local query_string = "UPDATE `gm_users` SET " .. Columns.CreateQuery( data ) .. " WHERE id ='" .. id .. "';"
     ply._IsSaving = true
 
     if DEBUG then
