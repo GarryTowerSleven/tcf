@@ -261,6 +261,7 @@ hook.Add("GTowerPhysgunPickup", "NoFuncForFun", function( ply, ent )
 end )
 
 function GM:ShouldCollide( ent1, ent2 )
-	if IsValid( ent1:GetNWEntity("DuelOpponent") ) && IsValid( ent2:GetNWEntity("DuelOpponent") ) then return true end
+	if ent1.IsDueling and ent2.IsDueling then return true end
+	
 	return true // !(ent1:IsPlayer() and ent2:IsPlayer())
 end
