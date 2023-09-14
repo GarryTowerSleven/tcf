@@ -20,11 +20,12 @@ local Roles =
 	["STEAM_0:1:85508734"] = "Moderator", 	// Breezy
 	["STEAM_0:0:115320789"] = "Moderator", 	// Zia
 	["STEAM_0:0:241528576"] = "Moderator", // Scienti[-]
-
+	["STEAM_0:0:442843471"] = "Moderator", // Pink
+	["STEAM_0:0:41914866"] = "Moderator", // Sunni
+	
 	// Contributor
 	["STEAM_0:1:53166133"] = "Contributor",	// Orlok
 	["STEAM_0:0:193442077"] = "Contributor", // Nyantendo
-	["STEAM_0:0:41914866"] = "Contributor", // Sunni
 	["STEAM_0:1:95941298"] = "Contributor", // Pipedream
 	["STEAM_0:0:90689651"] = "Contributor", // Sonop / hELLO
 	
