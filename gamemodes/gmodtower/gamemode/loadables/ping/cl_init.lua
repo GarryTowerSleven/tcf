@@ -2,7 +2,7 @@ module( "ping", package.seeall )
 
 local enableNotice = CreateClientConVar( "gmt_notice_reconnect", 1, true, false )
 
-ConnectionTimeout = 30
+ConnectionTimeout = 45
 LostConnection = false
 LastPing = RealTime() + ConnectionTimeout
 
