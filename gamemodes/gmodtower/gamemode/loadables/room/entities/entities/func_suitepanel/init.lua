@@ -36,27 +36,30 @@ function ENT:GetDoor()
 	return self.DoorEntity or nil
 end
 
+function ENT:SetupPlayer()
+
+	if IsValid( self.JB ) then return end
+
+	self.JB = ents.Create("gmt_jukebox")
+	self.JB:SetPos(self:GetPos() + self:GetForward() * 32)
+	self.JB:Spawn()
+	self.JB:SetSolid(SOLID_NONE)
+	self.JB:SetNoDraw( true )
+	
+	local id = self:Id()
+	local room = GTowerRooms.Get( id )
+
+	if room then
+		room.mediaplayer = self.JB
+	end
+
+end
+
 function ENT:LookingRoomThink()
 
 	if !GTowerRooms then
 		return
 	end
-
-	
-	if Location.GetSuiteID(self:Location()) == 0 then
-		if IsValid(self.JB) then
-			self.JB:Remove()
-		end
-
-	else
-		if !IsValid(self.JB) then
-			self.JB = ents.Create("gmt_jukebox")
-			self.JB:SetPos(self:GetPos() + self:GetForward() * 32)
-			self.JB:Spawn()
-			self.JB:SetSolid(SOLID_NONE)
-		end
-	end
-
 
 	local NewRoomId =  GTowerRooms.ClosestRoom( self:GetPos() )
 
@@ -67,6 +70,8 @@ function ENT:LookingRoomThink()
 
 		if GTowerRooms.DEBUG then Msg("Found room for: " .. tostring( self ) .. " to roomID: " .. tostring( self:Id() ) .. "\n") end
 	end
+
+	self:SetupPlayer()
 
 	self:NextThink( CurTime() + 1.0 )
 

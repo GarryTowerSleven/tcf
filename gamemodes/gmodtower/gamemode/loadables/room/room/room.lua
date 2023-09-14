@@ -40,6 +40,7 @@ function New( pos1, pos2, refent )
 		ToAdd = {},
 		StartEnts = {},
 		Bans = {},
+		mediaplayer = nil,
 	}, { __index = modenv } )
 
 	o.Id = table.insert( _G.GTowerRooms.Rooms, o )

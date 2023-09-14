@@ -160,13 +160,7 @@ function Finish( self )
 	// check that we arent already saving
 	if not self.Owner._IsSaving then
 		
-		Database.SavePlayer( self.Owner, { "roomdata" }, function( status, ply, err )
-		
-			if status != QUERY_SUCCESS then
-				return
-			end
-	
-		end )
+		Database.SavePlayer( self.Owner, { "roomdata" } )
 
 	end
 
@@ -176,8 +170,17 @@ function Finish( self )
 	self.Owner._LastRoomExit = CurTime()
 
 	local panel = GTowerRooms:GetPanel( self.Id )
+	
 	if panel then
+
 		panel:SetText( "" )
+
+	end
+
+	if IsValid( self.mediaplayer ) then
+
+		self.mediaplayer:Input( "ClearMedia" )
+
 	end
 
 	self:Cleanup()
