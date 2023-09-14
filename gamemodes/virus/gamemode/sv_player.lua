@@ -25,8 +25,6 @@ function GM:PlayerDisconnected(ply)
 			timer.Simple( 1, function() GAMEMODE:RandomInfect() end )
 		end
 	end
-	
-	timer.Simple( .1, function() self:CheckSurvivors() end )
 
 end
 
@@ -222,40 +220,33 @@ function GM:Infect( ply, infector )
 		net.WriteEntity( infector )
 	net.Broadcast()
 
-	self:CheckSurvivors()
-
 	music.Play( EVENT_PLAY, MUSIC_IGNITE, ply )
 end
 
-function GM:CheckSurvivors()
+function GM:SetLastSurvivor()
 
-	local NumSurvivors = #team.GetPlayers( TEAM_PLAYERS )
+	if ( self.HasLastSurvivor ) then return end
 
-	if ( NumSurvivors == 1 ) then
+	-- timer.Simple( .2, function() music.Play( EVENT_PLAY, MUSIC_LAST_ALIVE ) end ) -- jank, but i cant figure out how else to get the music to play properly and not end up overlapping
+	
+	music.Play( EVENT_PLAY, MUSIC_LAST_ALIVE )
 
-		if ( self.HasLastSurvivor ) then return end
+	local lastPlayer = team.GetPlayers( TEAM_PLAYERS )[ 1 ]
 
-		timer.Simple( .2, function() music.Play( EVENT_PLAY, MUSIC_LAST_ALIVE ) end ) -- jank, but i cant figure out how else to get the music to play properly and not end up overlapping
-		
+	PostEvent( lastPlayer, "adrenaline_off" ) // in case they used it
+	PostEvent( lastPlayer, "lastman_on" )
 
-		local lastPlayer = team.GetPlayers( TEAM_PLAYERS )[ 1 ]
+	for _,v in ipairs( team.GetPlayers( TEAM_INFECTED ) ) do
 
-		PostEvent( lastPlayer, "adrenaline_off" ) // in case they used it
-		PostEvent( lastPlayer, "lastman_on" )
-
-		for _,v in ipairs( team.GetPlayers( TEAM_INFECTED ) ) do
-
-			self:HudMessage( v, 3 /* last survivor is %s */, 5, lastPlayer )
-
-		end
-
-		self:HudMessage( lastPlayer, 2 /* you are the last survivor */, 5 )
-
-		self.LastSurvivor = lastPlayer
-
-		self.HasLastSurvivor = true
+		self:HudMessage( v, 3 /* last survivor is %s */, 5, lastPlayer )
 
 	end
+
+	self:HudMessage( lastPlayer, 2 /* you are the last survivor */, 5 )
+
+	self.LastSurvivor = lastPlayer
+
+	self.HasLastSurvivor = true
 
 end
 
@@ -362,7 +353,6 @@ hook.Add( "PlayerDeath", "ScorePointMessage", function( victim, inflictor, attac
 				victim:SetTeam( TEAM_INFECTED )
 				victim:SetNet( "IsVirus", true )
 				GAMEMODE:HudMessage( nil, 16 /* %s has been infected! */, 5, victim, nil, VirusColor )
-				GAMEMODE:CheckSurvivors()
 			end )
 		end
 	end

@@ -30,6 +30,8 @@ function GM:Think()
 		self:StartRound()
 	elseif self:GetState() == STATE_PLAYING && self:GetTimeLeft() <= 0 then
 		self:EndRound( false )
+	elseif self:GetState() == STATE_PLAYING && #team.GetPlayers( TEAM_PLAYERS ) == 1 then
+		self:SetLastSurvivor()
 	elseif self:GetState() == STATE_INTERMISSION && self:GetTimeLeft() <= 0 then
 		if self:GetRound() < 10 then
 			self:RoundReset()
