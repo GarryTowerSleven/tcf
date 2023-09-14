@@ -167,6 +167,9 @@ concommand.Add( "gmt_duelinvite", function( ply, cmd, args )
 end )
 
 function StartDueling( Weapon, Requester, Arriver, Amount )
+	Requester.IsDueling = true 
+	Arriver.IsDueling = true
+
 	Requester.FinishedDuel = false
 	Arriver.FinishedDuel = false
 
@@ -420,18 +423,24 @@ local function EndDuel( victim, disconnected )
 
 	if disconnected and !IsValid( victim ) and target:Location() == DuelLocation then
 		EndDuelClient( target, victim )
-		target.DuelRespawnDelay = 5 + CurTime()
+
+		timer.Simple( 5, function()
+			RespawnDuelers( target )
+		end)
+
 		target = nil
 		return
 	end
 
 	EndDuelClient( target, victim )
 
-	local respawnDelay = 5 + CurTime()
+	timer.Simple( 5, function()
+		RespawnDuelers( target )
+		RespawnDuelers( victim )
+	end)
 
-	target.DuelRespawnDelay = respawnDelay
-	victim.DuelRespawnDelay = respawnDelay
-
+	Requester.IsDueling = false 
+	Arriver.IsDueling = false
 end
 
 hook.Add( "PostPlayerDeath", "DuelDeathCheck", function( ply )
@@ -476,25 +485,6 @@ net.Receive( "SuddenDeath",  function( _, ply )
 
 	if Dueling.IsDueling( ply ) then
 		ply:SetCustomCollisionCheck( true )
-	end
-
-end )
-
-
-hook.Add( "Think", "DuelingWinnerRespawn", function()
-
-	local plys = Location.GetPlayersInLocation( DuelLocation )
-
-	if #plys > 0 then
-
-		for k,v in pairs( plys ) do
-			if IsValid( v ) then
-				if v.DuelRespawnDelay != nil && v.DuelRespawnDelay < CurTime() then
-					RespawnDuelers( v )
-				end
-			end
-		end
-		
 	end
 
 end )
