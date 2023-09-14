@@ -742,8 +742,9 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:Header( "Ultimate Chimera Hunt" )
 			self:Slider( "Gamemode Music Volume", "gmt_volume_music", 0, 100 )
 			self:Divider()
-			self:CheckBox( "Opt-out of Chimera", "gmt_uch_optout" )
-			self:CheckBox( "Enable Pigmask Glow (expensive)", "gmt_uch_glow" )
+			self:CheckBox( "Opt-out of being The Chimera", "gmt_uch_optout" )
+			self:CheckBox( "Enable Chimera Glow (expensive)", "gmt_uch_chimera_glow" )
+			self:CheckBox( "Enable Pigmask Glow (expensive)", "gmt_uch_pig_glow" )
 
 		end
 		
