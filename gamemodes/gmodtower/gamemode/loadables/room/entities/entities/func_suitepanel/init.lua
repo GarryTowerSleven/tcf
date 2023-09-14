@@ -39,12 +39,12 @@ end
 function ENT:SetupPlayer()
 
 	if IsValid( self.JB ) then return end
+	if Location.GetSuiteID( self:Location() ) <= 0 then return end
 
 	self.JB = ents.Create("gmt_jukebox")
 	self.JB:SetPos(self:GetPos() + self:GetForward() * 32)
 	self.JB:Spawn()
 	self.JB:SetSolid(SOLID_NONE)
-	self.JB:SetNoDraw( true )
 	
 	local id = self:Id()
 	local room = GTowerRooms.Get( id )
