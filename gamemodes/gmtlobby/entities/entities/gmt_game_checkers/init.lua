@@ -352,6 +352,11 @@ function ENT:PlyValid( ply )
 end
 
 function ENT:Think()
+
+    if ( !self:InGame() and ( self.Ply1 == NULL and self.Ply2 == NULL) ) then
+        return
+    end
+
     if ( not self:PlyValid( self.Ply1 ) ) then
         if ( self:InGame() ) then
             self:ClearGame()
