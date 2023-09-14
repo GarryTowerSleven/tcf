@@ -122,7 +122,7 @@ hook.Add( "PlayerThink", "AFKPlayerThink", function( ply )
 		Set( ply, true )
 	end
 	
-	if ply.AFK && ShouldKick then
+	if ply.AFK && ShouldKick && !ply:IsAdmin() then
 		ply:Kick("You have been kicked to free slots due to being AFK while the server is near max players")
 	end
 end )
