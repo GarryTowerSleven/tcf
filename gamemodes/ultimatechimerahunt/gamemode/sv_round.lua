@@ -1,4 +1,4 @@
-GM.WaitingTime = 30
+GM.WaitingTime = 45
 GM.IntermissionTime = 12
 GM.OverTimeAdd = 10
 
