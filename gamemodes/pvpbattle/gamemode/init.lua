@@ -351,11 +351,10 @@ function GM:DoPlayerDeath( ply, attacker, dmginfo )
 						attacker:AddAchievement( ACHIEVEMENTS.PVP12SHOTS, 1 )
 					elseif weapon == "weapon_ragingbull" then
 						attacker._TheKid = attacker._TheKid + 1
-						print(attacker._TheKid)
+						//print(attacker._TheKid)
 
-						if attacker._TheKid >= 10 then
+						if attacker._TheKid >= 5 then
 							attacker:SetAchievement( ACHIEVEMENTS.PVPTHEKID, 1 )
-							attacker._TheKid = 0
 						end
 					elseif weapon == "weapon_toyhammer" then
 						if attacker._LaserOn then

@@ -68,7 +68,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.PVPTRUEHACKER, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.PVPTHEKID, {
 	Name = "The Kid", 
-	Description = "Kill 10 players with the Raging Bull without dying in one round.", 
+	Description = "Kill 5 players with the Raging Bull without dying in one round.", 
 	Value = 1,
 	GMC = 1000,
 	Group = 7
