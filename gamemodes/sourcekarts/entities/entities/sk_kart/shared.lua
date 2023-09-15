@@ -96,7 +96,7 @@ ENT.Settings = {
 	FrictionRightFactor = { 200, 0, 500 },
 	PowerForward = { 250, 0, 800 },
 	PowerBackwards = { -100, -800, 0 },
-	TurnPower = { 130, 0, 150 },
+	TurnPower = { 100, 0, 150 },
 	TurnFricton = { 1, 0.01, 2 },
 
 	MaxVel = { 500, 1, 2000 },
@@ -262,7 +262,6 @@ function ENT:GetTraction( trace )
 	end
 
 	// Handle lava
-
 	if table.HasValue( LavaMaterials, hitTexture ) || matType == MAT_FLESH then
 		return 1.1, "lava", true
 	end

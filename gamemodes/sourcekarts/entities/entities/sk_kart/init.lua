@@ -549,7 +549,7 @@ function ENT:DriftPhysicsSimulate()
 
 end
 
-function ENT:GetEndAccel( )
+function ENT:GetEndAccel()
 
 	//self.CarPhysics.TargetAngular = Vector(0,0,0)
 	//self.CarPhysics.TargetVel = Vector(400,0,0)
@@ -684,7 +684,7 @@ function ENT:GetLinearForward()
 
 	Forward = self:UpdateHookedValue( "ExtraAccel", Forward )
 
-	local DownForce = self:GetSetting("UpwardForce") * -100
+	local DownForce = self:GetSetting("UpwardForce") * -80
 
 	if self:IsSpinning() then
 		DownForce = self:GetSetting("UpwardForce") * -150
@@ -756,6 +756,18 @@ function ENT:GetForwardAcceleration(Driver)
 
 	local traction, matType = self:GetTraction()
 
+	local isBraking = Driver:KeyDown(IN_DUCK)
+	if Driver:KeyDown(IN_BACK) or isBraking then
+		local speed = self:GetKartSpeed()
+		local brakeFactor = speed > 0 and (isBraking and 10 or 5) or 1
+
+		if speed < 0 && isBraking then
+			return 0
+		end
+
+		return self:GetSetting("PowerBackwards") * 100 * brakeFactor
+	end
+
 	if Driver:KeyDown(IN_FORWARD) then
 
 		local pwr = 100
@@ -766,33 +778,27 @@ function ENT:GetForwardAcceleration(Driver)
 
 		return self:GetSetting("PowerForward") * pwr //80 * self:GetKartSpeed()
 	end
-	if Driver:KeyDown(IN_BACK) then
-		return self:GetSetting("PowerBackwards") * 100 //-30 * self:GetKartSpeed()
-	end
+
 	return 0
+end
+
+function ENT:GetKartSpeed()
+	return self:GetVelocity():Dot( self:GetForward() )
 end
 
 function ENT:GetTurnYaw(Driver)
 
-	if !self.SmoothSteerL then self.SmoothSteerL = 0 end
-	if !self.SmoothSteerR then self.SmoothSteerR = 0 end
+	if !self.SmoothSteer then self.SmoothSteer = 0 end
+
+	local turnFactor = math.Clamp((self:GetKartSpeed() / 100), 0, 3 )
 
 	if Driver:KeyDown(IN_MOVELEFT) then
-		self.SmoothSteerR = 0
-		self.SmoothSteerL = Lerp( 10 * FrameTime() , self.SmoothSteerL , self:GetSetting("TurnPower") )
+		self.SmoothSteer = Lerp( turnFactor * FrameTime(), self.SmoothSteer, self:GetSetting("TurnPower") )
 	elseif Driver:KeyDown(IN_MOVERIGHT) then
-		self.SmoothSteerL = 0
-		self.SmoothSteerR = Lerp( 10 * FrameTime() , self.SmoothSteerR , self:GetSetting("TurnPower") )
+		self.SmoothSteer = Lerp( turnFactor * FrameTime(), self.SmoothSteer, -self:GetSetting("TurnPower") )
 	else
-		self.SmoothSteerL = 0
-		self.SmoothSteerR = 0
+		self.SmoothSteer = Lerp((turnFactor * 4) * FrameTime(), self.SmoothSteer , 0 )
 	end
 
-	if Driver:KeyDown(IN_MOVELEFT) then
-		return self.SmoothSteerL
-	end
-	if Driver:KeyDown(IN_MOVERIGHT) then
-		return -self.SmoothSteerR
-	end
-	return 0
+	return self.SmoothSteer
 end
