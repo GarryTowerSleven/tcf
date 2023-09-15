@@ -13,7 +13,7 @@ function meta:CanDrink( num )
 end
 
 function meta:Drink(balamt)
-	if !ply:Alive() then return end
+	if !self:Alive() then return end
 	
 	local balamt = balamt or 10
 
