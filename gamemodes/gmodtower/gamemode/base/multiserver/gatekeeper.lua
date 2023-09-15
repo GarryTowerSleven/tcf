@@ -141,7 +141,7 @@ function gateKeep:AddBan(steamID, Name, ip, reason, time)
 				time = time,
 			}
 
-			Database.Query("UPDATE gm_bans SET " .. Database.CreateUpdateQuery( data ) .. " WHERE `steamid` = " .. Database.Escape( steamID ) .. ";" )
+			Database.Query("UPDATE gm_bans SET " .. Database.CreateUpdateQuery( data ) .. " WHERE `steamid` = '" .. Database.Escape( steamID ) .. "';" )
 		else
 			local data = {
 				steamid = Database.Escape( steamID, true ),
