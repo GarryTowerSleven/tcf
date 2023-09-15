@@ -152,7 +152,7 @@ hook.Add( "DatabaseColumns", "BasicColumns", function()
             hex = true,
         } )
        
-        Database.Columns.Add( "BankLimit", {
+        Database.Columns.Add( "banklimit", {
             default = function( ply )
                 ply:SetMaxBank( GTowerItems.DefaultBankCount )
             end,
