@@ -96,6 +96,8 @@ hook.Add( "EntityTakeDamage", "DamageNotes",  function( target, dmginfo )
 			net.Send( dmginfo:GetAttacker() )
 		end
 
+		if target:IsPlayer() && !target:GetNet( "IsVirus" ) then return true end
+		
 	end
 
 end )
