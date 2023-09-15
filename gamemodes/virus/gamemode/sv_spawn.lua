@@ -68,8 +68,13 @@ function GM:VirusSpawn( ply )
 	ply:SetWalkSpeed( self.VirusSpeed )
 	ply:SetRunSpeed( self.VirusSpeed )
 	
-	ply:SetHealth( healthScale )
-	ply:SetNet( "MaxHealth" , healthScale )
+	if !ply.enraged then
+		ply:SetHealth( healthScale )
+		ply:SetNet( "MaxHealth" , healthScale )
+	else
+		ply:SetHealth( 125 )
+		ply:SetNet( "MaxHealth" , 125 )
+	end
 	
 	ply:StripWeapons()
 	ply:RemoveAllAmmo()

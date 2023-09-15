@@ -134,6 +134,9 @@ function GM:VirusThink( ply )
 				v:SetWalkSpeed( 500 )
 				v:SetRunSpeed( 500 )
 				
+				v:SetHealth( 125 )
+				v:SetNet( "MaxHealth" , 125 )
+				
 			elseif v.enraged == true then
 			
 				v:SetWalkSpeed( 500 )
