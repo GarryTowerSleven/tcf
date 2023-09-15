@@ -43,7 +43,7 @@ BalloonRate = 0
 function BalloonControl()
 	CompareSpawn = (CurTime() - LastSpawn)	
 	if Poppers >= 6 then
-		BalloonRate = math.Clamp( 0.525 - ( Poppers * 0.005 ), 0.25, 0.5 )
+		BalloonRate = math.Clamp( 0.55 - ( Poppers * 0.01 ), 0.1, 0.5 )
 	else
 		BalloonRate = 0.5
 	end
