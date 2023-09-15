@@ -13,6 +13,8 @@ function meta:CanDrink( num )
 end
 
 function meta:Drink(balamt)
+	if !ply:Alive then return end
+	
 	local balamt = balamt or 10
 
 	if self:GetNet( "BAL" ) + balamt > 100 && IsLobby then
