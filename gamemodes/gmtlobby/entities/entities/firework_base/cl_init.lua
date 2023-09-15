@@ -3,7 +3,7 @@ include( "shared.lua" )
 
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 ENT.SpriteMat = Material( "sprites/powerup_effects" )
-gmt_fireworkdlight = CreateClientConVar( "gmt_fireworkdlight", 0, true, false )
+gmt_fireworkdlight = CreateClientConVar( "gmt_fireworkdlight", 1, true, false )
 
 function ENT:Initialize()
 
