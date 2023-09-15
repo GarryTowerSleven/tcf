@@ -426,9 +426,13 @@ end )
 end)*/
 
 function GM:EntityTakeDamage( ent, dmginfo  )
-
-	if ent:IsPlayer() && ent.IsGodMode then //why this? because we want to be able to override it if needed
-		dmginfo:ScaleDamage( 0.0 )
+	local attacker = dmginfo:GetAttacker()
+	
+	if ent:IsPlayer() then 
+		if ( Friends.IsBlocked (ent, attacker) ) then return true end -- Blocked players shouldn't be able to hurt you... I guess this reveals you have them blocked, but what can you do
+		if ent.IsGodMode then //why this? because we want to be able to override it if needed -- Okay then why haven't we added a toggle yet Mr 2017 comment
+			return true
+		end
 	end
 
 end

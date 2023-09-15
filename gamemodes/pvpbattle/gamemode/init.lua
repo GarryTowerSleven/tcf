@@ -172,7 +172,6 @@ function GM:EntityTakeDamage( ent, dmginfo )
 	local attacker = dmginfo:GetAttacker()
 	local inflictor = dmginfo:GetInflictor()
 	local amount = dmginfo:GetDamage()
-	local attacker = dmginfo:GetAttacker()
 
 	if ent:IsPlayer() && dmginfo:IsFallDamage() then
 		dmginfo:ScaleDamage( 0 )
