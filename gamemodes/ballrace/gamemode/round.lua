@@ -520,6 +520,8 @@ function GM:PlayerComplete(ply)
 				if ply.BestTime > ply.RaceTime then
 					self:SaveBestTime(ply, level, ply.RaceTime, true)
 					self:ColorNotifyPlayer( ply, "New best time "..math.Round(ply.RaceTime,2).."! Old time was "..math.Round(ply.BestTime,2), Color(100, 100, 255, 255) )
+					ply:AddAchievement( ACHIEVEMENTS.BRVIRGIN, 1)
+					ply:AddAchievement( ACHIEVEMENTS.BRHARDERBETTERFASTERSTRONGER, 1)
 				end
 
 			end
