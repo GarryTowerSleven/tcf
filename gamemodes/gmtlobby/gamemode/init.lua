@@ -434,7 +434,7 @@ function GM:EntityTakeDamage( ent, dmginfo  )
 	local attacker = dmginfo:GetAttacker()
 	
 	if ent:IsPlayer() then 
-		if ( attacker:IsPlayer() && Friends.IsBlocked (ent, attacker) ) then return true end -- Blocked players shouldn't be able to hurt you... I guess this reveals you have them blocked, but what can you do
+		if ( attacker:IsPlayer() && Friends.IsBlocked (ent, attacker) && ent != attacker ) then return true end -- Blocked players shouldn't be able to hurt you... I guess this reveals you have them blocked, but what can you do
 		// Basically let's just prevent any damage to the player that isn't done by a player.. or any classnames we might want to damage the player, like fire.
 		if ( !attacker:IsPlayer() && godignore[attacker:GetClass()] != true ) then //why this? because we want to be able to override it if needed -- Okay then why haven't we added a toggle yet Mr 2017 comment -- The answer.. Because it is SHTUPID
 			return true
