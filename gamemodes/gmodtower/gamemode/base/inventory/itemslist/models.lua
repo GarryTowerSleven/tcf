@@ -866,7 +866,7 @@ RegisterModel(
 RegisterModel(
 	"mdl_redrabbit",
 	"Red Rabbit",
-	"Huh.. Time sure has passed, but there's still time for hopping!",
+	"Evil red bunny. Caution: Evil may be contagious!",
 	"models/player/redrabbit2.mdl",
 	"redrabbit",
 	7500 )
