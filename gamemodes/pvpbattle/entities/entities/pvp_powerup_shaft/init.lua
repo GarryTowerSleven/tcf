@@ -50,5 +50,9 @@ hook.Add( "EntityTakeDamage", "ShaftProtect", function( ply, dmginfo )
 	if ply:GetNet("PowerUp") == 0 then return end
 	if !ply.Shaft then return end
 
+	local attacker = dmginfo:GetAttacker()
+	
+	SendDeathNote( attacker, ply, 0, false )
+	
 	return true
 end )

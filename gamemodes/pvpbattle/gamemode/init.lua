@@ -199,6 +199,8 @@ function SendDeathNote( attacker, ent, amount, death )
 			net.WriteInt( 1, 3 )
 		elseif attacker.IsPulp then
 			net.WriteInt( 2, 3 )
+		elseif ent.Shaft then
+			net.WriteInt( 3, 3 )
 		else
 			net.WriteInt( 0, 3)
 		end

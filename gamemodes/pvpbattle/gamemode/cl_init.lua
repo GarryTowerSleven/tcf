@@ -301,6 +301,10 @@ net.Receive( "DamageNotes", function( len, ply )
 		note.Message = note.Amount .. "  x2!"
 		note.Font = "DamageNoteBig"
 	end
+	if type == 3 then
+		note.Message = "BLOCKED!"
+		note.Font = "DamageNoteBig"
+	end
 
 	table.insert( DamageNotes, note )
 
