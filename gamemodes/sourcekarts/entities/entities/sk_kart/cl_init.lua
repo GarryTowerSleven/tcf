@@ -884,7 +884,7 @@ function ENT:FrameThink( trace )
 		end
 
 		if MatType == "lava" then
-			fallz = math.Approach( fallz, 8, RealFrameTime() * 2 )
+			fallz = math.Approach( fallz, 24, RealFrameTime() * 16 )
 			lastLava = CurTime()
 		else
 			if CurTime() - lastLava > .1 then

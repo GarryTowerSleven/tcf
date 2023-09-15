@@ -201,6 +201,14 @@ function ENT:OnMaterialChange( mat )
 		end)
 	end
 
+	if mat == "lava" then
+		timer.Simple(.25,function()
+			if IsValid(self) and mat == "lava" then
+				self:GetOwner():SendLua([[RunConsoleCommand("sk_reset")]])
+			end
+		end)
+	end
+
 	if mat == "grass" || mat == "dirt" || mat == "sand" then
 		if self:GetIsDrifting() then
 			self:SetIsDrifting(false)

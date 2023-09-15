@@ -27,7 +27,7 @@ SandMaterials = { // Materials that slow down the kart
 }
 
 LavaMaterials = { // Materials that slow down and kill the kart
-
+	"GMOD_TOWER/KARTRACER/TRACK/LAVA",
 }
 
 BoostMaterials = { // Materials that speed up the kart
@@ -262,7 +262,7 @@ function ENT:GetTraction( trace )
 	end
 
 	// Handle lava
-	if table.HasValue( LavaMaterials, hitTexture ) || matType == MAT_FLESH then
+	if table.HasValue( LavaMaterials, hitTexture ) /*|| matType == MAT_FLESH*/ then
 		return 1.1, "lava", true
 	end
 
