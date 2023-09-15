@@ -175,9 +175,10 @@ end
 
 function ENT:GetDownTrace( origin, mask, box )
 	local origin = origin or self:GetPos()
-	local filtered = table.Add( ents.FindByClass( "sk_kart" ), ents.FindByClass( "sk_wheel" ) )
-
-	--filtered = table.Add( filtered, ents.FindByClass( "sk_item*" ) )
+	local filtered = {}
+	table.Add(filtered, ents.FindByClass("sk_kart"))
+	table.Add(filtered, ents.FindByClass("sk_wheel"))
+	table.Add(filtered, ents.FindByClass("player"))
 
 	if box then
 		return util.TraceHull( {

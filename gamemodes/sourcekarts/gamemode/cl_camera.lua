@@ -1,24 +1,14 @@
 -----------------------------------------------------
 camera = {
-
 	Pos = Vector(0,0,0),
-
 	Shake = 0,
-
 	Pitch = 0,
-
 	FinalPitch = 0,
-
 	Roll = 0,
-
 	Yaw = 0,
-
 	FOV = 0,
-
 	Dist = 0,
-
 	FinalDist = 0,
-
 }
 
 local function CalcViewPlaying( ply, origin, angles, fov )
@@ -88,18 +78,18 @@ local function CalcViewPlaying( ply, origin, angles, fov )
 		camera.FinalPitch = ApproachSupport2( camera.FinalPitch, easePitch, 150 )
 
 		// Turn with Q/E
-		/*local turnAmount = 20
+		local turnAmount = 20
 		if input.IsKeyDown( KEY_Q ) then
 			camera.Yaw = ApproachSupport2( camera.Yaw, turnAmount, 2 )
 		elseif input.IsKeyDown( KEY_E ) then
 			camera.Yaw = ApproachSupport2( camera.Yaw, -turnAmount, 2 )
 		else
 			camera.Yaw = ApproachSupport2( camera.Yaw, 0, 2 )
-		end*/
+		end
 
 		camera.Roll = ang.r //ApproachSupport2( camera.Roll, ang.r, 30 )
 		if kart.IsInAir then camera.Roll = 0 end
-
+		
 		// Ease
 		if !firstperson then
 			camera.Pos.x = ApproachSupport2( camera.Pos.x, Pos.x, 80 )
@@ -109,7 +99,6 @@ local function CalcViewPlaying( ply, origin, angles, fov )
 			camera.Pos = Pos
 		end
 
-		
 		local newAngles = Angle( camera.FinalPitch, ang.y + camera.Yaw, camera.Roll )
 
 		// Reverse angles

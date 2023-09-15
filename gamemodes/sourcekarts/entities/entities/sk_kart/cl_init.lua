@@ -873,9 +873,7 @@ function ENT:FrameThink( trace )
 
 		if self:HitWorld( trace ) || RaveMode then
 			local newz = trace.HitPos
-
 			origin = newz + angles:Up() * ( 1 - fallz )
-
 			self.IsInAir = false
 		else
 			origin = origin + angles:Up() * self.FrameLift
