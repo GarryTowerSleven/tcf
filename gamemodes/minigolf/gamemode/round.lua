@@ -76,6 +76,10 @@ function GM:Think()
 					self.EndSoundPlayed = true
 					GAMEMODE:GiveMoney()
 
+					for k,v in pairs(player.GetAll()) do
+						v:SetCamera( "Pocket", 2 )
+					end
+
 					timer.Simple( 2, function()
 						if !self:IsPracticing() then
 							umsg.Start( "ShowScores" )
