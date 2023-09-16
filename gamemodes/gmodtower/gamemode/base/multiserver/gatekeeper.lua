@@ -23,7 +23,7 @@ function gateKeep:CreateBanList()
 		if res then
 			LogPrint( "Setting up Legacy Bans", color_green, "GateKeeper" )
 			gateKeep:LegacyBans()
-			LogPrint( "Retriving bans from MySQL", color_green, "GateKeeper" )
+			LogPrint( "Retrieving bans from MySQL", color_green, "GateKeeper" )
 			gateKeep:RetrieveBans(res)
 		end
 
