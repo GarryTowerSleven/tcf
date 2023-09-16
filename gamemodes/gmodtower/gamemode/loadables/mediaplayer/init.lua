@@ -28,6 +28,8 @@ function MediaPlayer.AddSkip( mp, ply )
     local votes = mp._VoteskipManager:GetNumVotes( total )
     local required = mp._VoteskipManager:GetNumRequiredVotes( total )
     
+    if not IsValid( ply ) or not IsValid( mp ) then return end
+
     mp:NotifyListeners( T( "Theater_PlayerVoteSkipped", ply:Name(), votes, required ) )
 
     MediaPlayer.CheckSkip( mp, total )
