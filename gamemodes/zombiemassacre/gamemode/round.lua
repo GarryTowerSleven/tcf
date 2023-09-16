@@ -36,7 +36,7 @@ function GM:Think()
 		end
 
 		self:SetState( STATE_UPGRADING )
-		SetGlobalInt( "ZMDayTime", CurTime() + 15 )
+		self:SetTime( 15 )
 
 		for _, ply in ipairs( player.GetAll() ) do
 
@@ -99,7 +99,7 @@ function GM:Think()
 		music.Play( EVENT_PLAY, MUSIC_WARMUP )
 
 		self:SetState( STATE_WARMUP )
-		SetGlobalInt( "ZMDayTime", CurTime() + 8 )
+		self:SetTime( 8 )
 	elseif self:GetState() == STATE_WARMUP && self:GetTimeLeft() <= 0 then
 		if GetGlobalInt( "Round" ) != 6 then
 			music.Play( EVENT_PLAY, GetGlobalInt( "Round" ) )
@@ -207,7 +207,7 @@ function GM:Think()
 
 		self:EndDay()
 
-		SetGlobalInt("ZMDayTime",CurTime()+25)
+		self:SetTime(25)
 
 		timer.Simple(10,function()
 			self:EndServer()
@@ -245,7 +245,7 @@ function GM:Think()
 
 		self.LostRound = true
 
-		SetGlobalInt( "ZMDayTime", CurTime() + 10 )
+		self:SetTime( 10 )
 
 		self:SetState( STATE_INTERMISSION )
 
@@ -312,7 +312,7 @@ function GM:StartBossRound()
 end
 
 function GM:BeginGame()
-	SetGlobalInt( "ZMDayTime", CurTime() + self.DefaultDayTime )
+	self:SetTime( self.DefaultDayTime )
 	SetGlobalBool( "ZMDayOver", false )
 
 	self:StartDay()
@@ -333,7 +333,7 @@ function GM:StartDay()
 		self.DefaultDayTime+120
 	}
 
-	SetGlobalInt( "ZMDayTime", CurTime() + DayTimes[GetGlobalInt( "Round" )] )
+	self:SetTime( DayTimes[GetGlobalInt( "Round" )] )
 
 	SetGlobalBool( "ZMDayOver", false )
 
@@ -348,7 +348,7 @@ end
 
 function GM:EndDay()
 
-	SetGlobalInt( "ZMDayTime", CurTime() + 10 )
+	self:SetTime( 10 )
 	SetGlobalBool( "ZMDayOver", true )
 
 	for _, zom in ipairs( ents.FindByClass( "zm_npc_*" ) ) do

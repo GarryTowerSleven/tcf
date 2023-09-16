@@ -95,10 +95,6 @@ music.Register( MUSIC_LOSE, "music/music_lose" )
 music.Register( MUSIC_BOSS, "music/music_boss", { Num = 2 } )
 music.Register( MUSIC_DEATH, "music/music_death" )
 
-function GM:GetTimeLeft()
-	return (GetGlobalInt( "ZMDayTime" ) - CurTime())
-end
-
 function GM:IsPlaying()
 	return self:GetState() == STATE_PLAYING || self:GetState() == STATE_WARMUP || self:GetState() == STATE_UPGRADING
 end

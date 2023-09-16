@@ -105,7 +105,7 @@ hook.Add( "PlayerInitialSpawn", "ResetOnEmptyServer", function( ply )
 		hook.Remove("PlayerInitialSpawn", "ResetOnEmptyServer")
 
 		GAMEMODE:SetState( STATE_WAITING )
-		SetGlobalInt( "ZMDayTime", CurTime() + 45 )
+		GAMEMODE:SetTime( 45 )
 		SetGlobalInt( "Round", 1 )
 	end
 
