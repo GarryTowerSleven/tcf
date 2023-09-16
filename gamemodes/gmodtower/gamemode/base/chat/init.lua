@@ -64,6 +64,8 @@ local wordfilter = {
 	
 	{ "tranny", "transmission" },
 	{ "trannies", "transmissions" },
+	
+	{ "retard", "mupppet" },
 }
 
 function GTowerChat.FilterText( text )
