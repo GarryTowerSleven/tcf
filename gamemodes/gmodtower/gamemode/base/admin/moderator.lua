@@ -5,6 +5,7 @@ GTowerModerators = {
 	"STEAM_0:0:115320789", -- Zia
 	"STEAM_0:0:241528576", -- Scienti[-]
 	"STEAM_0:0:41914866", -- Sunni
+	"STEAM_0:1:53166133", -- Orlok
 }
 
 function IsModerator( steam )
