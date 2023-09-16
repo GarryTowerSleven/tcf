@@ -2,7 +2,8 @@ local Textures = {
 	"gmod_tower/balls/hud_message_completed",
 	"gmod_tower/balls/hud_message_failed",
 	"gmod_tower/balls/hud_message_endgame",
-	"gmod_tower/balls/hud_message_waiting"
+	"gmod_tower/balls/hud_message_waiting",
+	"gmod_tower/balls/hud_message_bonus",
 }
 
 local PanelGui = nil
@@ -75,10 +76,8 @@ function ShowHudMessage( id )
 end
 
 net.Receive( "BRS", function( len, pl )
-
 	local Id = net.ReadInt(4)
 	ShowHudMessage( Id )
-
 end )
 
 net.Receive( "br_chatannouce", function( len, pl )

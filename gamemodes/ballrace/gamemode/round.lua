@@ -176,10 +176,15 @@ function GM:UpdateStatus(disc)
 				for _, ply in pairs(player.GetAll()) do
 					ply:SetTeam(TEAM_COMPLETED)
 				end
-				self:RoundMessage( MSGSHOW_LEVELCOMPLETE )
+
+				local bonusComplete = self.BananasLeft == 0
+				self:RoundMessage( bonusComplete and MSGSHOW_BONUSCOMPLETE or MSGSHOW_LEVELCOMPLETE )
+
 				LateSpawn = BonusTeleport
 				ActiveTeleport = BonusTeleport
+
 				timer.Simple( 0.01, function() GAMEMODE:GiveMoney() end )
+
 				globalnet.SetNet( "Passed", true )
 			else
 				if tries < 2 then
@@ -187,6 +192,7 @@ function GM:UpdateStatus(disc)
 				else
 					self:RoundMessage( MSGSHOW_LEVELCOMPLETE )
 				end
+
 				self:ResetGame(true)
 			end
 
@@ -333,6 +339,13 @@ hook.Add( "Think", "RoundController", function()
 	end
 
 end )
+
+hook.Add( "BananaEaten", "BonusEndCheck", function()
+	if GAMEMODE:GetState() == STATE_PLAYINGBONUS and GAMEMODE.BananasLeft == 0 then
+		GAMEMODE:StopRound()
+		GAMEMODE:UpdateStatus(false)
+	end
+end)
 
 function GM:RestartLevel()
 
