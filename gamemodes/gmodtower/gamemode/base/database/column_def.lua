@@ -137,23 +137,23 @@ hook.Add( "DatabaseColumns", "BasicColumns", function()
             end,
         } )
 
-        if IsLobby then
-    
-            Database.Columns.Add( "bank", {
-                default = function( ply )
-                    ply:LoadInventoryData( 0x0, 2 )
-                end,
-        
-                set = function( ply, val )
-                    ply:LoadInventoryData( val, 2 )
-                end,
-                get = function( ply )
-                    return ply:GetInventoryData( 2 )
-                end,
-    
-                hex = true,
-            } )
-           
+		Database.Columns.Add( "bank", {
+			default = function( ply )
+				ply:LoadInventoryData( 0x0, 2 )
+			end,
+	
+			set = function( ply, val )
+				ply:LoadInventoryData( val, 2 )
+			end,
+			get = function( ply )
+				return ply:GetInventoryData( 2 )
+			end,
+
+			hex = true,
+		} )
+		
+		if IsLobby then
+		  
             Database.Columns.Add( "banklimit", {
                 default = function( ply )
                     ply:SetMaxBank( GTowerItems.DefaultBankCount )
