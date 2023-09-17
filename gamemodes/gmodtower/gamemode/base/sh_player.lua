@@ -22,6 +22,7 @@ local Roles =
 	["STEAM_0:0:241528576"] = "Moderator", // Scienti[-]
 	["STEAM_0:0:41914866"] = "Moderator", // Sunni
 	["STEAM_0:1:53166133"] = "Moderator",	// Orlok
+	["STEAM_0:1:72402171"] = "Moderator",	// Umbre
 	
 	// Contributor
 	["STEAM_0:0:193442077"] = "Contributor", // Nyantendo
