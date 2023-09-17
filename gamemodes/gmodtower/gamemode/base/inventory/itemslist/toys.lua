@@ -165,6 +165,15 @@ RegisterItem("plush_fox5a",{
 	ModelSkinId = 4,
 })
 
+RegisterItem("plush_blahaj",{
+	Base = "plush_fox",
+	Name = "Plushy: Shark",
+	Description = "A cute cuddly shark, found in an IKEA dumpster while we were looking for new suite furniture.",
+	Model = "models/gmod_tower/sonop/blahaj.mdl",
+	StorePrice = 2500,
+	NewItem = true,
+})
+
 RegisterItem("lightsabertoy",{
 	Name = "Lightsaber",
 	Description = "May the force be with you.",
