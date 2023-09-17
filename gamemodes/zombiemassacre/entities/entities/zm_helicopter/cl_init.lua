@@ -1,11 +1,17 @@
-include( "shared.lua" )
-ENT.CurAng = Angle( 0, 0, 0 )
+include( "shared.lua" )
 
-local function SinBetween( min, max, time )
+ENT.CurAng = Angle( 0, 0, 0 )
+
+
+local function SinBetween( min, max, time )
+
 	local diff = max - min
-	local remain = max - diff
-	return ( ( ( math.sin( time ) + 1 ) / 2 ) * diff ) + remain
-end
+	local remain = max - diff
+
+	return ( ( ( math.sin( time ) + 1 ) / 2 ) * diff ) + remain
+
+end
+
 
 function ENT:Think()
 	if !self.toprotor then
@@ -22,12 +28,14 @@ function ENT:Think()
 		self.backrotor:SetParent(self)
 	end
 
-	self.toprotor:SetAngles(self.toprotor:GetAngles()+Angle(0,CurTime()+25,0))
-	self.backrotor:SetAngles(self.backrotor:GetAngles()+Angle(CurTime()+25,0,0))
+	self.toprotor:SetAngles( Angle( 0, CurTime() * 2000, 0 ) )
+	self.backrotor:SetAngles( Angle( CurTime() * 2000, 0, 0 ) )
 end
 
-function ENT:Draw()
-	self:DrawModel()
+function ENT:Draw()
+
+	self:DrawModel()
+
 
 	local ang = self:GetAngles()
 	ang.p = SinBetween( -4, 4, CurTime() )
@@ -55,7 +63,8 @@ function ENT:Draw()
 
 		self.CurAng.y = math.Approach( self.CurAng.y, ang.y, FrameTime() * 50 )
 		self.CurAng.p = math.Approach( self.CurAng.p, ang.p, FrameTime() * 50 )
-		self.CurAng.r = math.Approach( self.CurAng.r, ang.r, FrameTime() * 50 )
+		self.CurAng.r = math.Approach( self.CurAng.r, ang.r, FrameTime() * 50 )
+
 
 		local pos = self:GetPos()
 
