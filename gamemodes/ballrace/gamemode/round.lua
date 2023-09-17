@@ -594,40 +594,36 @@ function GM:UpdateSpecs(ply, dead)
 end
 
 function GM:SpectateNext(ply)
+
+	if ply:Alive() && ply:Team() == TEAM_PLAYERS then
+		ply:SetBall(ply.Ball or nil)
+		return
+	end
+
 	local start = ply.Spectating
 
 	local newspec = start
 
 	local players = player.GetAll()
 
-	local k, v = next(players, start)
-	if not k then
-		k, v = next(players)
-	end
+	if !IsValid(start) or !start:Alive() || start:Team() ~= TEAM_PLAYERS then
+		newspec = nil
 
-	while k ~= start do
-		if v:Team() == TEAM_PLAYERS then
-			newspec = k
-			break
-		end
-
-		k, v = next(players, k)
-		if not k then
-			if start == nil then
-				break
+		for _, ply in ipairs(player.GetAll()) do
+			if ply:Alive() && ply:Team() == TEAM_PLAYERS then
+				newspec = ply
 			end
-			k, v = next(players)
 		end
 	end
 
 	ply.Spectating = newspec
+	//print(ply.Spectating)
 
 	local ent = nil
-	if players[newspec] then
-		ent = players[newspec].Ball
-	end
+	ent = ply.Spectating.Ball
 
 	ply:SetBall(ent)
+
 end
 
 function PlacementPostfix(num)
