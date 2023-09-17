@@ -167,8 +167,8 @@ RegisterItem("plush_fox5a",{
 
 RegisterItem("plush_blahaj",{
 	Base = "plush_fox",
-	Name = "Plushy: Shark",
-	Description = "A cute cuddly shark, found in an IKEA dumpster while we were looking for new suite furniture.",
+	Name = "Plushy: Blåhaj",
+	Description = "A cute cuddly shark. Found in an IKEA dumpster while we were looking for new suite furniture.",
 	Model = "models/gmod_tower/sonop/blahaj.mdl",
 	StorePrice = 2500,
 	NewItem = true,
