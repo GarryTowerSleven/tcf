@@ -1,6 +1,6 @@
 module("GTowerRooms", package.seeall )
 
-TimeToLeaveRoom = 6 * 60
+TimeToLeaveRoom = 5 * 60
 TalkingTo = {}
 
 util.AddNetworkString("gmt_lockcondo")
