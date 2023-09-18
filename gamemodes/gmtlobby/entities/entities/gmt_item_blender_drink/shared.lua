@@ -93,6 +93,22 @@ function ENT:Think()
 
 	if ( !self.Player || !IsValid( self.Player ) || !self.Drink ) then return end
 
+	if Dueling.IsDueling( self.Player ) then 
+		if ( self.EffectEnd ) then
+			if ( self.Drink.Name == "Deathwish" ) then
+				PostEvent( self.Player, "pspawn" )
+			else
+				self.EffectEnd ( self.Player )
+				self.Player:UnDrunk()
+			end
+				
+			GAMEMODE:SetPlayerSpeed( self.Player, 100, 100 )
+			self.Player:SetModel("models/player/normal.mdl")
+		end
+		self.Player = nil
+		self:Remove()
+	return end
+
 	if self.Player:GetNWBool( "InLimbo" ) then 
 		if ( self.EffectEnd ) then
 			if ( self.Drink.Name == "Deathwish" ) then

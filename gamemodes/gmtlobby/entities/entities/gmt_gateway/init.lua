@@ -15,10 +15,10 @@ function ENT:Initialize()
 end
 
 function SendToHallway( ply )
-	ply:SetNWBool( "InLimbo", true )
 	
 	ply:SafeTeleport( Vector(math.random(15945, 16155), math.random(-3935, -3485), -16330 ), nil, Angle(0, -90, 0) )
 	
+	RemoveSmoothieEffects( ply )
 	if UCHAnim && UCHAnim.IsGhost( ply ) or UCHAnim.IsPig ( ply ) then
 		UCHAnim.ClearPlayer( ply )
 	end
