@@ -73,39 +73,23 @@ GTowerItems.RegisterItem( "GolfBall", {
 } )
 
 GTowerItems.RegisterItem( "VirusRadar", {
-
 	Name = "Radar",
-
 	Description = "Equip this to activate the radar display.",
-
 	Model = "",
-
 	UniqueInventory = true,
-
 	DrawModel = false,
-
 	Equippable = true,
-
 	UniqueEquippable = true,
-
 	EquipType = "HUD",
-
 	CanEntCreate = false,
-
 	DrawName = true,
-
 	CanRemove = false,
-
 	NoBank = true,
-
 	Tradable = false,
-
 	OnEquip = function( self, locationchange )
 
 		--if ClientSettings and not locationchange then
-
 			self.Ply:SetNWBool("VirusRadar",true)
-
 		--end
 
 	end,
@@ -113,11 +97,8 @@ GTowerItems.RegisterItem( "VirusRadar", {
 	OnUnEquip = function( self )
 
 		--if ClientSettings then
-
 			self.Ply:SetNWBool("VirusRadar",false)
-
 		--end
-
 	end
 
 } )
@@ -160,45 +141,26 @@ GTowerItems.RegisterItem( "BallRaceBall", {
 } )
 
 GTowerItems.RegisterItem( "VirusAdrenaline", {
-
 	Name = "Adrenaline",
-
 	Description = "Stab this into your boss's wife to prevent her from dying of drug overdose.",
-
 	Model = "models/weapons/w_vir_adrenaline.mdl",
-
 	MoveSound = Sound( "GModTower/virus/weapons/Adrenaline/deploy.wav" ),
-
 	ClassName = "gmt_adrenaline",
-
 	UniqueInventory = true,
-
 	DrawModel = true,
-
 	Equippable = true,
-
 	CanEntCreate = false,
-
 	DrawName = true,
-
 	CanRemove = false,
-
 	EquipType = "Weapon",
-
 	Equippable = true,
-
 	WeaponSafe = true,
-
 	NoBank = true,
-
 	Tradable = false,
 
 	IsWeapon = function( self )
-
 		return true
-
 	end
-
 } )
 
 GTowerItems.RegisterItem( "KirbyHammer", {
@@ -260,15 +222,12 @@ GTowerItems.RegisterItem( "TakeOnBall", {
 		return TakeOn
 
 	end,
+
 	OnUse = function( self )
 
 		if IsValid( self.Ply ) && self.Ply:IsPlayer() && IsValid( self.Ply.TakeOn ) then
-
 			self.Ply.TakeOn:ToggleMaterial()
-
 		end
-
-
 
 		return self
 
@@ -288,9 +247,9 @@ GTowerItems.RegisterItem( "JumpShoes", {
 	DrawName = true,
 	Tradable = true,
 
-  StoreId = 22,
-  StorePrice = 10000,
-  NewItem = true,
+	StoreId = 22,
+	StorePrice = 10000,
+	NewItem = true,
 
 	EquippableEntity = true,
 	RemoveOnDeath = true,
@@ -351,41 +310,24 @@ GTowerItems.RegisterItem( "StealthBox", {
 } )
 
 GTowerItems.RegisterItem( "JumperShotty", {
-
 	Name = "Jumper Super Shotty",
-
 	Description = "Fly around the lobby with this shotgun full of highly propelled blanks! Don't ask us about the physics of this, we're not quite sure how it works ourselves.",
-
 	Model = "models/weapons/w_pvp_supershoty.mdl",
-
 	ClassName = "gmt_supershotty",
-
 	UniqueInventory = true,
-
 	DrawModel = true,
-
 	Equippable = true,
-
 	CanEntCreate = false,
-
 	DrawName = true,
-
 	CanRemove = false,
-
 	EquipType = "Weapon",
-
 	Equippable = true,
-
 	WeaponSafe = true,
-
 	NoBank = true,
-
 	Tradable = false,
 
 	IsWeapon = function( self )
-
 		return true
-
 	end
 
 } )
@@ -406,164 +348,65 @@ GTowerItems.RegisterItem( "Bumper", {
 } )
 
 GTowerItems.RegisterItem( "UCHGhost", {
-
 	Name = "Ghost",
-
 	Description = "You could have been the life of the party, if you weren't already dead.",
-
 	Model = "models/UCH/mghost.mdl",
-
 	MoveSound = Sound( "UCH/pigs/die.wav" ),
-
 	UniqueInventory = true,
-
 	DrawModel = true,
-
 	Equippable = true,
-
 	UniqueEquippable = true,
-
 	EquipType = "Model",
-
 	CanEntCreate = false,
-
 	DrawName = true,
-
 	CanRemove = false,
-
 	NoBank = true,
-
 	Tradable = false,
-
 	OnEquip = function( self )
-
 		if UCHAnim && SERVER then
-
 			UCHAnim.SetupPlayer( self.Ply, UCHAnim.TYPE_GHOST )
-
 		end
-
 	end,
 
 	OnUnEquip = function( self )
-
 		if UCHAnim && SERVER then
-
 			UCHAnim.ClearPlayer( self.Ply )
-
 		end
-
 	end
 
-} )
+})
 
 GTowerItems.RegisterItem( "UCHPig", {
-
 	Name = "Pigmask",
-
 	Description = "Suiciding does not cause a Bag of Pork Chops to drop.",
-
 	Model = "models/UCH/pigmask.mdl",
-
 	MoveSound = Sound( "UCH/pigs/snort1.wav" ),
-
 	UniqueInventory = true,
-
 	DrawModel = true,
-
 	Equippable = true,
-
 	UniqueEquippable = true,
-
 	EquipType = "Model",
-
 	CanEntCreate = false,
-
 	DrawName = true,
-
 	CanRemove = false,
-
 	NoBank = true,
-
 	Tradable = false,
-
 	StoreId = GTowerStore.PLAYERMODEL,
-
 	StorePrice = 0,
 
 	OnEquip = function( self )
-
 		if UCHAnim && SERVER then
-
 			UCHAnim.SetupPlayer( self.Ply, UCHAnim.TYPE_PIG )
-
 		end
-
 	end,
 
 	OnUnEquip = function( self )
-
 		if UCHAnim && SERVER then
-
 			UCHAnim.ClearPlayer( self.Ply )
-
 		end
-
 	end
 
-} )
---[[ Dupe?
-GTowerItems.RegisterItem( "UCHPig", {
-
-	Name = "Pigmask",
-
-	Description = "Suiciding does not cause a Bag of Pork Chops to drop.",
-
-	Model = "models/UCH/pigmask.mdl",
-
-	MoveSound = Sound( "UCH/pigs/snort1.wav" ),
-
-	UniqueInventory = true,
-
-	DrawModel = true,
-
-	Equippable = true,
-
-	UniqueEquippable = true,
-
-	EquipType = "Model",
-
-	CanEntCreate = false,
-
-	DrawName = true,
-
-	CanRemove = false,
-
-	NoBank = true,
-
-	Tradable = false,
-
-	OnEquip = function( self )
-
-		if UCHAnim && SERVER then
-
-			UCHAnim.SetupPlayer( self.Ply, UCHAnim.TYPE_PIG )
-
-		end
-
-	end,
-
-	OnUnEquip = function( self )
-
-		if UCHAnim && SERVER then
-
-			UCHAnim.ClearPlayer( self.Ply )
-
-		end
-
-	end
-
-} )--]]
+})
 
 GTowerItems.RegisterItem( "HalloweenSpider", {
 	Name = "Spider",
@@ -589,4 +432,49 @@ GTowerItems.RegisterItem( "HalloweenSpider", {
 			self.Ply:SetModel( self.Ply.BeforeSpider )
 		end
 	end
+} )
+
+GTowerItems.RegisterItem( "HelicopterPet", {
+
+	Name = "Helicopter Companion",
+	Description = "Introducing your pint-sized sky explorer, the Small Helicopter, always buzzing nearby, ready for aerial adventures.",
+	
+	Model = "models/bfv/bfvhuey.mdl",
+	
+	DrawModel = true,
+	Equippable = true,
+	
+	UniqueInventory = true,
+	UniqueEquippable = true, 
+	
+	EquipType = "Pet",
+	InvCategory = "pet",
+	
+	CanEntCreate = false,
+	DrawName = true,
+	CanRemove = false,
+	Tradable = false,
+	NoBank = true,
+	
+	EquippableEntity = true,
+	RemoveOnDeath = true,
+	RemoveOnNoEntsLoc = true,
+	
+	CreateEquipEntity = function( self )
+		
+		local pet = ents.Create( "gmt_pet_helicopter" )
+		
+		if IsValid( pet ) then
+		
+			self.Ply.Pet = pet
+
+			pet:SetOwner( self.Ply )
+			pet:Spawn()
+			
+		end
+		
+		return pet
+		
+	end,
+
 } )

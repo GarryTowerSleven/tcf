@@ -271,6 +271,8 @@ ACHIEVEMENTS.SUITEDESIGNER = 215
 ACHIEVEMENTS.UCHSCARED = 216
 ACHIEVEMENTS.UCHBROTHER = 217
 
+ACHIEVEMENTS.ZMMILESTONE1 = 218
+
 hook.Add("Initialize", "LoadAchivments", function()
 	hook.Call("LoadAchievements")
 

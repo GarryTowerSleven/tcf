@@ -126,3 +126,13 @@ GTowerAchievements:Add( ACHIEVEMENTS.MINIMILESTONE1, {
 	GiveItem = "GolfBall"
 	} 
 )
+
+GTowerAchievements:Add( ACHIEVEMENTS.ZMMILESTONE1, {
+	Name = "Zombie Massacre Milestone #1", 
+	Description = "Survive 90 days in Zombie Massacre and get the Helicopter Companion!", 
+	Value = 90,
+	Group = 2,
+	GMC = 2500,
+	GiveItem = "GolfBall"
+	} 
+)
