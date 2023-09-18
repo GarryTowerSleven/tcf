@@ -88,7 +88,7 @@ cvars.AddChangeCallback( "gmt_hud_scale", function( _, old, new )
 end )
 
 function IsEnabled()
-    return EnabledConvar:GetBool() or true
+    return EnabledConvar:GetBool()
 end
 
 function Scale()
