@@ -970,18 +970,6 @@ RegisterItem("table_shed",{
 	MoveSound = "furniture2"
 })
 
-RegisterItem("dinnertable",{
-	Name = "Dinner Table",
-	Description = "A extremely large table.. Lay out something nice and yummy on it, a body perhaps?",
-	Model = "models/props/cs_militia/table_shed.mdl",
-	UniqueInventory = false,
-	DrawModel = true,
-	StoreId = GTowerStore.SUITE,
-	StorePrice = 325,
-	MoveSound = "furniture2",
-	NewItem = true
-})
-
 RegisterItem("toothbrushset01",{
 	Name = "Toothbrush Set",
 	Description = "Keep your toothbrushes in one set.",
