@@ -297,17 +297,22 @@ function SETTINGSCATEGORYTAB:Think()
 
 	if self.Togglables then
 
-		for convar, item in pairs( self.Togglables ) do
+		for convar, items in pairs( self.Togglables ) do
 
-			if !item then continue end
+			if !items then continue end
 
-			if convar && GetConVar( convar ):GetBool() then
-				item:SetAlpha( 255 )
-				item:SetMouseInputEnabled( true )
-			else
-				item:SetAlpha( 5 )
-				item:SetMouseInputEnabled( false )
+			for _, item in ipairs( items ) do
+
+				if convar && GetConVar( convar ):GetBool() then
+					item:SetAlpha( 255 )
+					item:SetMouseInputEnabled( true )
+				else
+					item:SetAlpha( 5 )
+					item:SetMouseInputEnabled( false )
+				end
+
 			end
+
 		end
 
 	end
@@ -346,7 +351,11 @@ function SETTINGSCATEGORYTAB:CheckBox( title, convar, toggle, tip )
 	--newBox:SetIndent( 12 )
 
 	if toggle then
-		self.Togglables[toggle] = newBox
+		if not self.Togglables[toggle] then
+			self.Togglables[toggle] = {}
+		end
+
+		table.uinsert( self.Togglables[toggle], newBox )
 		--newBox:SetIndent( 20 )
 	end
 
@@ -444,7 +453,11 @@ function SETTINGSCATEGORYTAB:Slider( title, convar, min, max, decimal, toggle, t
 	newSlider:SetDecimals( decimal or 0 )
 
 	if toggle then
-		self.Togglables[toggle] = newSlider
+		if not self.Togglables[toggle] then
+			self.Togglables[toggle] = {}
+		end
+
+		table.uinsert( self.Togglables[toggle], newBox )
 	end
 
 	canvas:AddItem( newSlider )
@@ -462,7 +475,11 @@ function SETTINGSCATEGORYTAB:DropDown( title, convar, options, toggle, tip )
 	local newBox = self:NewSetting( "DComboBox", canvas, title, convar, tip )
 
 	if toggle then
-		self.Togglables[toggle] = newBox
+		if not self.Togglables[toggle] then
+			self.Togglables[toggle] = {}
+		end
+
+		table.uinsert( self.Togglables[toggle], newBox )
 	end
 
 	newBox:SetText( title )
