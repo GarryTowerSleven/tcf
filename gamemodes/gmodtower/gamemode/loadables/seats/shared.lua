@@ -222,6 +222,7 @@ NotRight = {
 	["models/props/cs_militia/couch.mdl"]		= 0,
 	["models/gmod_tower/stealth box/box.mdl"]	= 180,
 	["models/gmod_tower/theater_seat.mdl"]		= 180,
+	["models/gmod_tower/suite_booth.mdl"]		= 90,
 }
 
 DefaultSitSound = Sound("sunabouzu/chair_sit.wav")
