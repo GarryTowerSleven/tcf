@@ -232,6 +232,9 @@ function StartDueling( Weapon, Requester, Arriver, Amount )
 	Requester.DuelStartTime = CurTime()
 	Arriver.DuelStartTime = CurTime()
 
+	Requester:UnDrunk()
+	Arriver:UnDrunk()
+	
 	Requester:SetModel( "models/player/normal.mdl" )
 	Arriver:SetModel( "models/player/normal.mdl" )
 	
