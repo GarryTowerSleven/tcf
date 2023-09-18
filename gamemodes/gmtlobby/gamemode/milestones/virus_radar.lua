@@ -19,7 +19,7 @@ end
 function DrawRadar()
 
     if not GTowerHUD.ShouldDraw() then return end
-    if false then return end
+    if not LocalPlayer():GetNWBool( "VirusRadar" ) then return end
 
 	Radar.w = 256
 	Radar.h = 128
