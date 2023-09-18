@@ -159,7 +159,7 @@ function GM:EndRound( teamid )
 					uc:AddAchievement( ACHIEVEMENTS.UCHEARTHBOUND, 1 )
 				end
 
-				if !uc.Roared then
+				if uc:GetNet( "TimesRoared" ) == 0 then
 					uc:AddAchievement( ACHIEVEMENTS.UCHSILENTDEADLY, 1 )
 				end
 			end
@@ -228,7 +228,6 @@ function GM:SetChimera( ply )
 	ply:SetTeam( TEAM_CHIMERA )
 
 	ply.Jumped = false
-	ply.Roared = false
 end
 
 function GM:CheckGame( ply ) //this function checks if the game should end or not based on the players alive

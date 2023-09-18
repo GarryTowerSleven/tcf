@@ -613,8 +613,6 @@ if SERVER then
 		end )
 		
 		self.LastAction = CurTime() + ( dur * 1.05 )
-		
-		self.Roared = true
 	end
 
 	function meta:Bite()
