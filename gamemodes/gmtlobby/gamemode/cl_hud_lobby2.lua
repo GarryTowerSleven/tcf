@@ -122,7 +122,6 @@ local function PaintHealth( x, y, w, h, scale )
     surface.SetDrawColor( 255, 255, 255, 255 )
     draw.RectFillBorder( health_x, health_y, health_width, health_height, 1 * scale, ratio, Color( 125, 125, 125, 0 ), Color( 255, oppred, oppred ) )
 
-
 end
 
 local jetRatio = 1

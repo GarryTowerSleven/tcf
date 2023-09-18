@@ -15,6 +15,7 @@ ScaleConvar = CreateClientConVar( "gmt_hud_scale", "1", true, false, nil, 0, 4 )
 SafeZoneConvar = CreateClientConVar( "gmt_hud_safezone", "0 0", true, false, nil )
 
 AmmoConvar = CreateClientConVar( "gmt_hud_ammo", "1", true, false, nil, 0, 1 )
+EventConvar = CreateClientConVar( "gmt_hud_events", "1", true, false, nil, 0, 1 )
 
 CrosshairConvar         = CreateClientConVar( "gmt_hud_crosshair", "1", true, false, nil, 0, 1 )
 CrosshairAlwaysConvar   = CreateClientConVar( "gmt_hud_crosshair_always", "1", true, false, nil, 0, 1 )
@@ -200,6 +201,9 @@ function ShouldDrawCrosshair()
 end
 function ShouldDrawHealth()
     return IsOldLobby1() and true or Location.Is( LocalPlayer():Location(), "Narnia" )
+end
+function ShouldDrawEvents()
+    return EventConvar:GetBool() or false
 end
 function ShouldDrawChips()
     return false //Location.IsCasino( LocalPlayer():Location() )
@@ -451,14 +455,18 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
     draw.SimpleText( string.upper( GetLocation() ), "GTowerHUD_Location", main_x + (91 * scale), main_y + (94 * scale), color_white )
 
     // Events
-    local eventname = GetGlobalString( "NextEvent" ) or "Unknown" // globalnet.GetNet( "NextEvent" ) or "Unknown"
-	local endtime = GetGlobalInt( "NextEventTime" ) or 0 // globalnet.GetNet( "NextEventTime" )
-    local timeleft = endtime - CurTime()
-
-    local event_string = "NEXT EVENT (" .. string.upper( eventname ) .. ") IN " .. string.FormattedTime( timeleft, "%02i:%02i" )
-
-    draw.SimpleText( event_string, "GTowerHUD_Location", main_x + ((91 + 1) * scale), main_y + ((120 + 1) * scale), color_black )
-    draw.SimpleText( event_string, "GTowerHUD_Location", main_x + (91 * scale), main_y + (120 * scale), color_white )
+    if ShouldDrawEvents() then
+    
+        local eventname = GetGlobalString( "NextEvent" ) or "Unknown" // globalnet.GetNet( "NextEvent" ) or "Unknown"
+        local endtime = GetGlobalInt( "NextEventTime" ) or 0 // globalnet.GetNet( "NextEventTime" )
+        local timeleft = endtime - CurTime()
+    
+        local event_string = "NEXT EVENT (" .. string.upper( eventname ) .. ") IN " .. string.FormattedTime( timeleft, "%02i:%02i" )
+    
+        draw.SimpleText( event_string, "GTowerHUD_Location", main_x + ((91 + 1) * scale), main_y + ((120 + 1) * scale), color_black )
+        draw.SimpleText( event_string, "GTowerHUD_Location", main_x + (91 * scale), main_y + (120 * scale), color_white )    
+        
+    end
 
 end
 

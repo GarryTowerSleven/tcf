@@ -540,6 +540,8 @@ hook.Add( "ScoreboardShow", "ShowGMTScoreboard", function( disableMouse )
 		RestoreCursorPosition()
 	end
 
+	hook.Run( "GMTScoreboardShow" )
+
 	return true
 
 end )
@@ -587,6 +589,8 @@ hook.Add( "ScoreboardHide", "HideGMTScoreboard", function( disableMouse )
 
 	GTowerMenu:CloseAll()
 	if GTowerItems and GTowerItems.HideTooltip then GTowerItems:HideTooltip() end
+
+	hook.Run( "GMTScoreboardHide" )
 
 	return true
 

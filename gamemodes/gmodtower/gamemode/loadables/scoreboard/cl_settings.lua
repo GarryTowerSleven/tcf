@@ -454,6 +454,7 @@ function SETTINGSCATEGORYTAB:Slider( title, convar, min, max, decimal, toggle, t
 
 end
 
+local combo = nil
 function SETTINGSCATEGORYTAB:DropDown( title, convar, options, toggle, tip )
 
 	local canvas = self.Contents
@@ -487,8 +488,18 @@ function SETTINGSCATEGORYTAB:DropDown( title, convar, options, toggle, tip )
 		draw.RoundedBox( 4, 1, 1, w - 2, h - 2, colorutil.Brighten( Scoreboard.Customization.ColorBackground, 1.01 ) )
 	end
 
+	combo = newBox
+
 	return newBox
 end
+
+hook.Add( "GMTScoreboardHide", "HideCombo", function()
+
+	if IsValid( combo ) then
+		combo:CloseMenu()
+	end
+
+end )
 
 function SETTINGSCATEGORYTAB:CreateContents( tab )
 
@@ -622,14 +633,24 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		self:Header( "General" )
 		if IsLobby then
 			self:CheckBox( "Enable HUD", "gmt_hud" )
+			self:DropDown( "Hud Style", "gmt_hud_style", {
+				{"Lobby 1 (2009)", GTowerHUD.STYLE_2009},
+				{"Lobby 1 (2010)", GTowerHUD.STYLE_2010},
+				{"Lobby 1", GTowerHUD.STYLE_DEFAULT},
+				{"Lobby 1 (GMTC)", GTowerHUD.STYLE_GMTC},
+				
+				{"Lobby 2", GTowerHUD.STYLE_LOBBY2},
+				{"Lobby 2 (Deluxe)", GTowerHUD.STYLE_DELUXE},
+			}, "gmt_hud" )
+			self:Divider( false )
+			self:Slider( "HUD Scale", "gmt_hud_scale", .5, 4, 1, "gmt_hud" )
 			self:CheckBox( "Enable HUD Ammo", "gmt_hud_ammo", "gmt_hud" )
-			self:CheckBox( "Enable HUD Location", "gmt_hud_location", "gmt_hud" )
-			self:CheckBox( "Enable Event Timer", "gmt_draweventtimer", "gmt_hud" )
+			self:CheckBox( "Enable Event Timer", "gmt_hud_events", "gmt_hud" )
 			self:CheckBox( "Enable Third Person Button", "gmt_thirdpersonbutton" )
 			self:Divider()
 			self:Header( "Crosshair" )
 			self:CheckBox( "Enable Crosshair", "gmt_hud_crosshair" )
-			self:CheckBox( "Enable 3D Crosshair", "gmt_hud_crosshair_3d", "gmt_hud_crosshair" )
+			// self:CheckBox( "Enable 3D Crosshair", "gmt_hud_crosshair_3d", "gmt_hud_crosshair" )
 			self:CheckBox( "Crosshair Always Visible", "gmt_hud_crosshair_always", "gmt_hud_crosshair" )
 			self:CheckBox( "Enable Use Prompts", "gmt_hud_crosshair_action", "gmt_hud_crosshair" ) -- graying out is broken when multiple options use the same prerequisite?	
 			//self:CheckBox( LobbyCanvas, "Enable Gamemode Notice", "gmt_gmnotice" )
