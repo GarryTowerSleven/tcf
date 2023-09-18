@@ -133,6 +133,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.ZMMILESTONE1, {
 	Value = 90,
 	Group = 2,
 	GMC = 2500,
-	GiveItem = "GolfBall"
+	GiveItem = "HelicopterPet"
 	} 
 )
