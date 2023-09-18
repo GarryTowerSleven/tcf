@@ -150,6 +150,7 @@ function GM:Think()
 			v:SendLua([[RunConsoleCommand( "gmt_showscores", "1" )]])
 			v:AddAchievement( ACHIEVEMENTS.ZMDAWNOFTHEDEAD, 1 )
 			v:AddAchievement( ACHIEVEMENTS.ZM28DAYS, 1 )
+			v:AddAchievement( ACHIEVEMENTS.ZMMILESTONE1, 1 )
 		end
 
 		self.LostRound = false
