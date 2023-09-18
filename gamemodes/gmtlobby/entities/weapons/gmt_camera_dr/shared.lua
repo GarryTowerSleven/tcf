@@ -78,11 +78,13 @@ end
 
 local ring
 
-hook.Add("DisableHUD", "test", function()
+hook.Add( "GTowerHUDShouldDraw", "DRCam", function()
+
 	if PHOTO then
-		return true
+		return false
 	end
-end)
+
+end )
 
 hook.Add("PostRender", "test", function()
 	if PHOTO then

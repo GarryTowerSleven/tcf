@@ -1,5 +1,7 @@
 include("shared.lua")
 include("cl_hud.lua")
+include("cl_hud_old.lua")
+include("cl_hud_lobby2.lua")
 include("cl_hudchat.lua")
 include("cl_playermenu.lua")
 include("cl_post_events.lua")

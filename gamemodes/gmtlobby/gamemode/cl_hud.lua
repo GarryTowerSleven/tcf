@@ -5,631 +5,600 @@ table.uinsert( HudToHide, "CHudSecondaryAmmo" )
 table.uinsert( HudToHide, "CHudBattery" )
 table.uinsert( HudToHide, "CHudZoom" )
 
-GTowerHUD = GTowerHUD or {}
+module( "GTowerHUD", package.seeall )
 
-// draw the hud?
-GTowerHUD.Enabled = CreateClientConVar( "gmt_hud", 1, true, false )
-local HideBetaMessage = CreateClientConVar( "gmt_hidebetamsg", 0, true, false )
+EnabledConvar = CreateClientConVar( "gmt_hud", "1", true, false, nil, 0, 1 )
 
-GTowerHUD.Notice = {
-	Enabled = CreateClientConVar( "gmt_notice", 1, true, false ),
+StyleConvar = CreateClientConVar( "gmt_hud_style", "1", true, false, nil, 1, 6 )
+ScaleConvar = CreateClientConVar( "gmt_hud_scale", "1", true, false, nil, 0, 4 )
+
+SafeZoneConvar = CreateClientConVar( "gmt_hud_safezone", "0 0", true, false, nil )
+
+AmmoConvar = CreateClientConVar( "gmt_hud_ammo", "1", true, false, nil, 0, 1 )
+
+CrosshairConvar         = CreateClientConVar( "gmt_hud_crosshair", "1", true, false, nil, 0, 1 )
+CrosshairAlwaysConvar   = CreateClientConVar( "gmt_hud_crosshair_always", "1", true, false, nil, 0, 1 )
+CrosshairActionConvar   = CreateClientConVar( "gmt_hud_crosshair_action", "1", true, false, nil, 0, 1 )
+
+STYLE_DEFAULT = 1
+STYLE_LOBBY2 = 2
+
+STYLE_2009 = 3
+STYLE_2010 = 4
+
+STYLE_GMTC = 5
+STYLE_DELUXE = 6
+
+MaterialDir = "gmod_tower/lobby/hud/"
+MaterialParams = "noclamp smooth"
+Materials = {
+    mainhud             = Material( MaterialDir .. "mainhud.png", MaterialParams ),
+    mainhud_gmtc        = Material( MaterialDir .. "mainhud_gmtc.png", MaterialParams ),
+    mainhud_halloween   = Material( MaterialDir .. "mainhud_halloween.png", MaterialParams ),
+    mainhud_christmas   = Material( MaterialDir .. "mainhud_christmas.png", MaterialParams ),
+
+    mainhud_2009            = Material( MaterialDir .. "mainhud_2009.png", MaterialParams ),
+    mainhud_2010            = Material( MaterialDir .. "mainhud_2010.png", MaterialParams ),
+    mainhud_2010_halloween  = Material( MaterialDir .. "mainhud_2010_halloween.png", MaterialParams ),
+    mainhud_2010_christmas  = Material( MaterialDir .. "mainhud_2010_christmas.png", MaterialParams ),
+
+    healthbar           = Material( MaterialDir .. "healthbar.png", MaterialParams ),
+    healthbar_halloween = Material( MaterialDir .. "healthbar_halloween.png", MaterialParams ),
+    healthbar_christmas = Material( MaterialDir .. "healthbar_christmas.png", MaterialParams ),
+
+    ammo        = Material( MaterialDir .. "ammo.png", MaterialParams ),
+    ammo_bar    = Material( MaterialDir .. "ammobar.png", MaterialParams ),
+
+    crosshair   = Material( "sprites/powerup_effects" ),
+    crosshair2   = Material( MaterialDir .. "crosshair.png", MaterialParams ),
+
+    logo_128 = Material( MaterialDir .. "logo_128.png", MaterialParams ),
+    logo_256 = Material( MaterialDir .. "logo_256.png", MaterialParams ),
+    logo_512 = Material( MaterialDir .. "logo_512.png", MaterialParams ),
+
+    logo_flat   = Material( MaterialDir .. "logo_flat.png", MaterialParams ),
+    logo_deluxe = Material( MaterialDir .. "logo_flat_deluxe.png", MaterialParams ),
+
+    gradient        = Material( MaterialDir .. "bg_gradient.png", MaterialParams ),
+    gradient_deluxe = Material( MaterialDir .. "bg_gradient_deluxe.png", MaterialParams ),
 }
 
-timer.Simple(1, function()
-	initHud()
-end)
+function MakeFonts()
+
+    local scale = Scale()
+    
+    surface.CreateFont( "GTowerHUD_Money", { font = "Oswald", size = 38 * scale, weight = 400 } )
+    surface.CreateFont( "GTowerHUD_Location", { font = "Oswald", size = 18 * scale, weight = 400 } )
+    
+    surface.CreateFont( "GTowerHUD_Use", { font = "Oswald", size = 24 * scale, weight = 400 } )
+    surface.CreateFont( "GTowerHUD_UseKey", { font = "Oswald", size = 38 * scale, weight = 400 } )
+    surface.CreateFont( "GTowerHUD_Extra", { font = "Clear Sans", size = 18 * scale, weight = 800 } )
+
+    surface.CreateFont( "GTowerHUD_Ammo", { font = "Tahoma", size = 45 * scale, weight = 100 } )
+    surface.CreateFont( "GTowerHUD_AmmoSecondary", { font = "Tahoma", size = 20 * scale, weight = 1200 } )
+    
+    surface.CreateFont( "GTowerHUD_Old_Money", { font = "Tahoma", size = 20 * scale, weight = 800 } )
+    surface.CreateFont( "GTowerHUD_Old_Location", { font = "Tahoma", size = 28 * scale, weight = 400 } )
 
-function initHud()
-
-	// because native weapons don't have a way of giving us a max clip count
-	// we need to cache the highest values we see
-	GTowerHUD.MaxAmmo = {}
-
-	GTowerHUD.Info = {
-		Enabled = CreateClientConVar( "gmt_hud_info", 1, true, false ),
-		Texture = surface.GetTextureID( "gmod_tower/lobby/hud/mainhud" ),
-		TextureWidth = 256,
-		TextureHeight = 128,
-		X = 8,
-		Y = ScrH() - 140,
-		Height = 70,
-		Width = 250,
-		OffHeight = 48,
-		BGColor = Color( 255, 255, 255, 255 )
-	}
-
-	if IsChristmasMap() then
-		GTowerHUD.Info.Texture = surface.GetTextureID( "gmod_tower/lobby/hud/mainhud_christmas" )
-	end
-	
-	if IsHalloweenMap() then
-		GTowerHUD.Info.Texture = surface.GetTextureID( "gmod_tower/lobby/hud/mainhud_halloween" )
-	end
-
-	-- Crosshair
-	GTowerHUD.Crosshair = {
-		Enabled = CreateClientConVar( "gmt_hud_crosshair", 1, true, false ),
-		AlwaysOn = CreateClientConVar( "gmt_hud_crosshair_always", 1, true, false ),
-		Action = CreateClientConVar( "gmt_hud_crosshair_action", 1, true, false ),
-		ThreeD = CreateClientConVar( "gmt_hud_crosshair_3d", 1, true, false ),
-		Material = Material( "sprites/powerup_effects" ),
-		Size = 4,
-		MaxSize = 16,
-	}
-
-	-- Money
-	GTowerHUD.Money = {
-		LastAmount = 0,
-		Amount = 0, -- this is approached
-		Font = "GTowerHUDMainLarge",
-	}
-
-	-- Location
-	GTowerHUD.Location = {
-		Enabled = CreateClientConVar( "gmt_hud_location", 1, true, false ),
-		Font = "GTowerHUDMainSmall",
-	}
-
-	-- Ammo
-	GTowerHUD.Ammo = {
-		Enabled = CreateClientConVar( "gmt_hud_ammo", 1, true, false ),
-		Texture = surface.GetTextureID( "gmod_tower/lobby/hud/ammo" ),
-		Width = 256,
-		Height = 256,
-		MainFont =  "GTowerhuge",
-		SecondaryFont = "GTowerbigbold",
-	}
-
-	-- Ammo bar
-	GTowerHUD.AmmoBar = {
-		Texture = surface.GetTextureID( "gmod_tower/lobby/hud/ammobar" ),
-		Width = 130 - 4,
-		Height = 130 - 4,
-		CurrentRotation = 0, -- approached in think
-		TargetRotation = 0, -- updated in draw
-	}
-
-	-- Lobby 1 Health
-	GTowerHUD.Health = {
-		Texture = surface.GetTextureID( "gmod_tower/lobby/hud/bar" ),
-		Size = 0, -- this is changed in the think, because it's approached
-		Height = 12,
-		Font = "GTowerHUDMainSmall",
-		MaxSize = GTowerHUD.Info.Width - 43,
-		EnabledY = GTowerHUD.Info.Y + GTowerHUD.Info.Height - 8 - (12*2),
-		DisabledY = GTowerHUD.Info.Y + GTowerHUD.Info.Height + 6,
-		CurY = GTowerHUD.Info.Y + GTowerHUD.Info.Height + 6, -- approached in think
-	}
-
-	-- Location Change Notice
-	GTowerHUD.LocationChangeNotice = {
-		Enabled = CreateClientConVar( "gmt_location_notice", 1, true, false ),
-		Alpha = 0,
-	}
-
-	// this is required for client notifications
-	function GetAmmoYPos()
-
-		if IsValid( LocalPlayer():GetActiveWeapon() ) then
-			return ScrH() - 200
-		end
-
-	    return ScrH() - 70
-
-	end
-
-	function GTowerHUD.DrawCrosshair()
-
-		if !GTowerHUD.Crosshair.Enabled:GetBool() then return end
-
-		if LocalPlayer():ShouldDrawLocalPlayer() || !LocalPlayer():Alive() then return end
-
-		local wep = LocalPlayer():GetActiveWeapon()
-
-		if IsValid(wep) and (wep.DoDrawCrosshair and wep:DoDrawCrosshair() == true || wep:IsScripted() and !wep.DrawCrosshair || wep.DrawHUDCrosshair) then return end
-
-		local ent = GAMEMODE:PlayerUseTrace( LocalPlayer() )
-
-		if !IsValid(wep) and !GTowerHUD.Crosshair.AlwaysOn:GetBool() && !IsValid( ent ) && !CanPlayerUse( ent ) then return end
-
-		if LocalPlayer().HideCrosshair then
-			return
-		end
-
-		local w, h = ScrW() / 2, ScrH() / 2
-
-		if GTowerHUD.Crosshair.ThreeD:GetBool() && !IsValid( LocalPlayer():GetNet( "DrivingObject" ) ) then
-			local p = EyePos() + LocalPlayer():EyeAngles():Forward()
-			p = p:ToScreen()
-			w, h = math.Round(p.x), math.Round(p.y)
-		end
-		
-		local color = Color( 255, 255, 255 )
-		local x = 0
-
-		-- Draw Use message
-		if GTowerHUD.Crosshair.Action:GetBool() and IsValid( ent ) and CanPlayerUse( ent ) then
-			GTowerHUD.DrawUseMessage( ent, x, w, h )
-		end
-
-		surface.SetMaterial( GTowerHUD.Crosshair.Material )
-
-		local size = ScreenScale( 12 )
-		local radius = size / 2
-
-		surface.SetDrawColor( color.r, color.g, color.b, 150 )
-		surface.DrawTexturedRect( w - radius, h - radius, size, size )
-
-	end
-
-	// util func to cache unknown max clip values
-	function GTowerHUD.GetMaxAmmo( wepName, clip )
-
-		// if we haven't cached it, or it's larger
-		if !GTowerHUD.MaxAmmo[ wepName ] || clip > GTowerHUD.MaxAmmo[ wepName ] then
-			GTowerHUD.MaxAmmo[ wepName ] = clip
-			return clip
-		end
-
-		return GTowerHUD.MaxAmmo[ wepName ]
-	end
-
-
-	local mLastAmount = 0
-	local mAmount = 0
-	local gradientUp = surface.GetTextureID( "VGUI/gradient_up" )
-
-	function GTowerHUD.DrawInfo()
-
-		if !GTowerHUD.Info.Enabled:GetBool() then return end
-		if hook.Call( "DisableHUD", GAMEMODE, ply ) then return end
-
-		surface.SetTexture( GTowerHUD.Info.Texture )
-		surface.SetDrawColor( GTowerHUD.Info.BGColor )
-		surface.DrawTexturedRect( GTowerHUD.Info.X, GTowerHUD.Info.Y, GTowerHUD.Info.TextureWidth, GTowerHUD.Info.TextureHeight )
-
-		-- Ease money
-		if GTowerHUD.Money.LastAmount != Money() then
-			GTowerHUD.Money.LastAmount = Money()
-		end
-
-		if GTowerHUD.Money.Amount != Money() then
-			local diffMoney = GTowerHUD.Money.Amount - GTowerHUD.Money.LastAmount
-			local increaseAmount = math.ceil( math.abs( diffMoney * .1 ) )
-			GTowerHUD.Money.Amount = math.Approach( GTowerHUD.Money.Amount, Money(), increaseAmount )
-		end
-
-		-- GMC
-		surface.SetFont( GTowerHUD.Money.Font )
-
-		local money = string.FormatNumber( GTowerHUD.Money.Amount )
-
-		local mTextW, mTextH = surface.GetTextSize( money )
-
-		local mTextX = GTowerHUD.Info.X + 110
-		local mTextY = GTowerHUD.Info.Y + 75 - ( mTextH / 2 )
-		surface.SetTextColor( 255, 255, 255, 255 )
-		surface.SetTextPos( mTextX, mTextY )
-		surface.DrawText( money )
-		
-		-- Location
-		local location = Location.GetFriendlyName( LocalPlayer():Location() ) or "Unknown"
-
-		if GTowerHUD.Location.Enabled:GetBool() then
-			local location = string.upper( location )
-				
-			surface.SetFont( GTowerHUD.Location.Font )
-			local mTextW, mTextH = surface.GetTextSize( location )
-			local mTextX = GTowerHUD.Info.X + 91
-			local mTextY = GTowerHUD.Info.Y + 103 - ( mTextH / 2 )
-
-			draw.SimpleText( location, GTowerHUD.Location.Font, mTextX, mTextY, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
-		end
-	end
-
-	function GTowerHUD.DrawUseMessage( ent, x, w, h )
-
-		if ent:GetClass() != "gmt_multiserver" then return end
-
-		if not IsValid( ent ) then return end
-
-		local use, nokey = CanPlayerUse( ent )
-		if not use then return end
-
-		if use then
-			local message = string.upper( use )
-			if !nokey then
-				message = "USE TO " .. message
-			end
-			draw.SimpleText( message, GTowerHUD.Location.Font, w + 8, h - 8, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
-
-		end
-
-	end
-
-	function GTowerHUD.DrawNotice( title, message )
-
-		if !GTowerHUD.Notice.Enabled:GetBool() then return end
-	
-		-- Handle notice
-		local w, h = ScrW() / 2, ScrH() / 2
-		h = ( h * 2 ) - 150
-	
-		-- Draw gradient boxes
-		--draw.GradientBox( w - 512, h, 256, 110, 0, Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 230 ) )
-		--draw.GradientBox( w + 256, h, 256, 110, 0, Color( 0, 0, 0, 230 ), Color( 0, 0, 0, 0 ) )
-		surface.SetDrawColor( 0, 0, 0, 230 )
-		surface.DrawRect( w - 512, h, 1024, 130 )
-	
-		-- Draw title
-		draw.SimpleText( title, "GTowerHudCText", w, h + 20, Color( 255, 255, 255, 255 ), 1, 1 )
-	
-		-- Draw text
-		draw.DrawText( message or "", "GTowerHudCSubText", w, h + 30, Color( 255, 255, 255, 255 ), 1 )
-	
-	end
-
-	function GTowerHUD.DrawHealth()
-
-		if !Dueling.IsDueling(LocalPlayer()) && ( LocalPlayer():Health() == LocalPlayer():GetMaxHealth() || LocalPlayer():Health() <= 0 ) then return end
-
-		// Lobby 1 Health
-		local health = LocalPlayer():Health()
-		if health < 0 then health = 0 end
-			
-		local healthX = GTowerHUD.Info.X + 50
-		local healthY = GTowerHUD.Info.Y + 35
-
-		surface.SetDrawColor( 20, 103, 36, 255 )
-		surface.DrawRect( healthX, healthY - 2, GTowerHUD.Health.MaxSize - 1, GTowerHUD.Health.Height + 4 )
-
-		local ratio = 1 - ( GTowerHUD.Health.Size / GTowerHUD.Health.MaxSize )
-		local oppred = 200 - ratio * math.sin( CurTime() * ratio * 3 ) * 55 + ( 1 - ratio ) * 55
-
-		surface.SetTexture( GTowerHUD.Health.Texture )
-		surface.SetDrawColor( 255, oppred, oppred, 255 )
-		surface.DrawTexturedRect( healthX, healthY, GTowerHUD.Health.Size, GTowerHUD.Health.Height )
-
-		surface.SetFont( GTowerHUD.Health.Font )
-
-		local HealthSub = 255 - ( 1 - ( health / 100 ) ) * 100
-		local hTextW, hTextH = surface.GetTextSize( health )
-		local hTextX = healthX + ( GTowerHUD.Health.MaxSize / 2 ) - ( hTextW / 2 )
-		local hTextY = healthY + ( GTowerHUD.Health.Height / 2 ) - ( hTextH / 2 )
-
-		surface.SetTextColor( 255, HealthSub, HealthSub, 255 )
-		surface.SetTextPos( hTextX, hTextY )
-		surface.DrawText( health )
-
-	end
-
-	function GTowerHUD.DrawAmmo()
-
-		if !GTowerHUD.Ammo.Enabled:GetBool() then return end
-
-		local weapon = LocalPlayer():GetActiveWeapon()
-
-		if !IsValid( weapon ) then return end
-
-		local name = weapon:GetPrintName()
-		
-		//self.Ply.UsesLeft is FUCKED. HUG THIS.
-		if name == "Confetti!" || name == "Streamer!" || name == "Firework Rocket" || name == "Fists" then return end // FIX THIS EVENTUALLY??? I DONT KNOW
-		
-		local currentMag = weapon:Clip1()
-		local currentMax = 100 // default max
-		local currentAmmoType = weapon:GetPrimaryAmmoType()
-		local currentAmmoLeft = LocalPlayer():GetAmmoCount( currentAmmoType )
-
-		if weapon.Primary then
-			currentMax = weapon.Primary.ClipSize
-		else
-			currentMax = GTowerHUD.GetMaxAmmo( name, currentMag )
-		end
-
-		if !currentMag || currentMag == -1 then return end //there's no ammo
-		if currentMag <= 0 && currentAmmoLeft <= 0 then return end  //we're out of ammo - don't display this
-
-		local ammoX = ScrW() - 160
-		local ammoY = ScrH() - 160
-
-		local ammoBarX = ammoX + ( 130 / 2 ) + 8
-		local ammoBarY = ammoY + ( 130 / 2 ) + 6
-		local ammoBarRot = 180 - ( ( currentMag / ( currentMax or 1 ) ) * 180 )
-
-		GTowerHUD.AmmoBar.TargetRotation = ammoBarRot
-
-		surface.SetDrawColor( 255, 255, 255, 255 )
-
-		surface.SetTexture( GTowerHUD.AmmoBar.Texture )
-		surface.DrawTexturedRectRotated( ammoBarX, ammoBarY, GTowerHUD.AmmoBar.Width, GTowerHUD.AmmoBar.Height, GTowerHUD.AmmoBar.CurrentRotation )
-
-		surface.SetTexture( GTowerHUD.Ammo.Texture )
-		surface.DrawTexturedRect( ammoX, ammoY, GTowerHUD.Ammo.Width, GTowerHUD.Ammo.Height )
-
-		// draw ammo text
-		// draw how much current ammo we have
-		surface.SetFont( GTowerHUD.Ammo.MainFont )
-
-		local curMagW, curMagH = surface.GetTextSize( currentMag )
-		local curMagX, curMagY = ammoBarX - ( curMagW / 2 ), ammoBarY - ( curMagH / 2 )
-
-		surface.SetTextPos( curMagX + 3, curMagY + 3 )
-		surface.SetTextColor( 0, 0, 0, 40 )
-		surface.DrawText( currentMag )
-
-		surface.SetTextPos( curMagX, curMagY )
-		surface.SetTextColor( 255, 255, 255, 255 )
-		surface.DrawText( currentMag )
-
-		// draw how much the mag can contain/how much ammo is left
-		surface.SetFont( GTowerHUD.Ammo.SecondaryFont )
-
-		local fullMagW, fullMagH = surface.GetTextSize( currentAmmoLeft )
-		local fullMagX, fullMagY = ammoX + 91 + ( 62 / 2 ) - ( fullMagW / 2 ), ammoY + 87 + ( 62 / 2 ) - ( fullMagH / 2 )
-
-		surface.SetTextPos( fullMagX + 3, fullMagY + 3 )
-		surface.SetTextColor( 0, 0, 0, 40 )
-		surface.DrawText( currentAmmoLeft )
-
-		surface.SetTextPos( fullMagX, fullMagY )
-		surface.SetTextColor( 255, 255, 255, 255 )
-		surface.DrawText( currentAmmoLeft )
-
-	end
-
-	local MsgTime = CurTime()
-	local MsgState = true
-
-	function GTowerHUD.ShouldDraw()
-		if !IsValid( LocalPlayer() ) then return false end
-	
-		if not hook.Run( "GTowerHUDShouldDraw" ) then return false end
-	
-		if LocalPlayer():GetNWBool( "InLimbo" ) then return false end
-		
-		if !GTowerHUD.Enabled:GetBool() then return false end
-		
-
-		local weapon = LocalPlayer():GetActiveWeapon()
-		if IsValid( weapon ) && weapon:GetClass() == "gmt_camera" then return false end
-	
-		return true
-	end
-
-	function GTowerHUD.Paint()
-
-		if Location.Is( LocalPlayer():Location(), "secret_entrance" ) then
-			local dist = LocalPlayer():GetPos():Distance(Vector(2550, 5009, -780))
-			GTowerHUD.DrawStatic( math.Clamp(255 - (dist/3),0,200) )
-		end
-
-		if !GTowerHUD.ShouldDraw() then return end
-
-		jetpack.JetpackFuelDraw( GTowerHUD.Info.X, GTowerHUD.Info.Y + 48, GTowerHUD.Info.Width, GTowerHUD.Info.Height + 1 )
-		
-		GTowerHUD.DrawHealth()
-		GTowerHUD.DrawInfo()
-
-		hook.Call( "GTowerHUDPaint", GAMEMODE )
-
-		GTowerHUD.DrawAmmo()
-		--GTowerHUD.DrawNotice()
-		--GTowerHUD.DrawNews()
-		GTowerHUD.DrawCrosshair()
-
-		--[[if !( HideBetaMessage:GetBool() and LocalPlayer():IsAdmin()  ) then
-			draw.SimpleShadowText( "This game is still a work in progress, this beta may not represent the final quality of the product.", "GTowerHudCSubText", ScrW()/2, ScrH() - 50, Color( 255, 255, 255, 255 ), Color( 0, 0, 0, 230 ), 1, 1, 1 )
-			draw.SimpleShadowText( "Follow us at http://www.gmtower.org/", "GTowerHudCSubText", ScrW()/2, ScrH() - 25, Color( 255, 255, 255, 255 ), Color( 0, 0, 0, 230 ), 1, 1, 1 )
-		end]]
-
-		--[[if LocalPlayer():GetNWBool("MinigameOn") then
-			GTowerHUD.MinigameHUD()
-		end]]
-	end
-
-	local hud_icon_clock = Material( "gmod_tower/balls/hud_icon_clock" )
-	surface.CreateFont( "BallFont", { font = "Coolvetica", size = 48, weight = 200 } )
-
-	--[[function GTowerHUD.MinigameHUD()
-		local TimeLeft = (GetGlobalFloat("MinigameRoundTime") - CurTime())
-		local TimeString = string.FormattedTime( TimeLeft, "%02i:%02i" )
-
-		draw.DrawText("- MINIGAME -","GTowerSkyMsgSmall",24,0,Color( 255, 255, 255, 255 ),TEXT_ALIGN_LEFT)
-		draw.DrawText( TimeString, "VoteTitle", 4 + 80, 60, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
-
-		draw.DrawText("- SCORE -","GTowerSkyMsgSmall",16,ScrH()/2-52,Color( 255, 255, 255, 255 ),TEXT_ALIGN_LEFT)
-		draw.DrawText( LocalPlayer():GetNWInt("MinigameScore"), "VoteTitle", 16, ScrH()/2, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
-
-		surface.SetMaterial(GTowerIcons2.GetIcon("time"))
-		surface.SetDrawColor(255,255,255,255)
-		surface.DrawTexturedRect(0,52,80,80)
-	end]]
-
-	local hud_icon_clock = Material( "gmod_tower/balls/hud_icon_clock" )
-	surface.CreateFont( "BallFont", { font = "Coolvetica", size = 48, weight = 200 } )
-
-	function GTowerHUD.Think()
-
-	  if !LocalPlayer():Alive() then GTowerMainGui.HideMenus() end
-
-	  // Health
-	  if !IsValid( LocalPlayer() ) then return end
-
-		// to calculate health bar size approach value
-		local health = LocalPlayer():Health()
-		local healthValue = health * ( GTowerHUD.Health.MaxSize / 100 )
-		local healthSize = math.Clamp( healthValue, 0, GTowerHUD.Health.MaxSize )
-
-		if healthSize != GTowerHUD.Health.Size then
-			GTowerHUD.Health.Size = math.Approach(
-				GTowerHUD.Health.Size,
-				healthSize,
-				( math.abs( GTowerHUD.Health.Size - healthSize ) + 1 ) * 3 * FrameTime()
-			)
-		end
-
-		if GTowerHUD.AmmoBar.CurrentRotation != GTowerHUD.AmmoBar.TargetRotation then
-
-			GTowerHUD.AmmoBar.CurrentRotation = math.Approach(
-				GTowerHUD.AmmoBar.CurrentRotation,
-				GTowerHUD.AmmoBar.TargetRotation,
-				( math.abs( GTowerHUD.AmmoBar.CurrentRotation - GTowerHUD.AmmoBar.TargetRotation ) + 1 ) * 3 * FrameTime()
-			)
-
-		end
-
-	end
-
-
-	hook.Add( "Think", "GTowerHUDThink", GTowerHUD.Think )
-	hook.Add( "HUDPaint", "GTowerHUDPaint", GTowerHUD.Paint )
-
-	function GAMEMODE:GTowerHUDShouldDraw()
-		return true
-	end
-
-	-----------------------------------------------------
-
-	if SERVER then return end
-
-	local Radar = {}
-
-
-
-	Radar.AlphaScale = 0.6
-
-
-
-	Radar.PlayerColor = Color( 240, 240, 240, 255 )
-
-	Radar.FriendlyColor = Color( 255, 20, 20, 255 )
-
-	Radar.NPCColor = Color( 255, 200, 20, 255 )
-
-
-
-	Radar.Radius = 1250
-
-
-
-	//local RadarVirus = surface.GetTextureID( "gmod_tower/virus/hud_infected_radar" )
-
-	local RadarHuman = surface.GetTextureID( "gmod_tower/virus/hud_survivor_radar" )
-
-
-
-
-
-	local ColorAScale = function( col, scale )
-
-		return Color( col.r, col.g, col.b, col.a * math.pow( 1 - scale, 2 ) )
-
-	end
-
-
-
-	function DrawRadar()
-
-
-		--if hook.Call( "DisableRadar", GAMEMODE, LocalPlayer() ) then return end
-
-		--if LocalPlayer():GetSetting(29 --[["GTAllowVirusHUD"]]) != true then return end
-		
-		if !GTowerHUD.ShouldDraw() then return end
-		if !LocalPlayer():GetNWBool("VirusRadar") then return end
-
-		Radar.w = 256
-
-		Radar.h = 128
-
-		Radar.x = ScrW() - Radar.w - 32
-
-		Radar.y = 32
-
-
-
-		surface.SetTexture( RadarHuman )
-
-		surface.SetDrawColor( 255, 255, 255, 255 )
-
-		surface.DrawTexturedRect( Radar.x, Radar.y, 256, 128 )
-
-
-
-		for _, ply in pairs( player.GetAll() ) do
-
-			DrawBlip( ply, Radar.PlayerColor )
-
-		end
-
-
-
-		for _, npc in pairs( ents.FindByClass( "gmt_npc_*" ) ) do
-
-			DrawBlip( npc, Radar.NPCColor )
-
-		end
-
-
-
-		/*for _, npc in pairs( ents.GetAll() ) do
-
-			DrawBlip( npc, Radar.EnemyColor )
-
-		end*/
-
-
-
-	end
-
-
-
-	function DrawBlip( ent, color )
-
-
-
-		if !IsValid( ent ) || LocalPlayer() == ent then return end
-
-
-
-		local vdiff = ent:GetPos() - LocalPlayer():GetPos()
-
-		if vdiff:Length() > Radar.Radius then return end
-
-
-
-		local cx = Radar.x + Radar.w / 2
-
-		local cy = Radar.y + Radar.h / 2
-
-
-
-		local px = ( vdiff.x / Radar.Radius )
-
-		local py = ( vdiff.y / Radar.Radius )
-
-
-
-		local z = math.sqrt( px * px + py * py )
-
-		local phi = math.rad( math.deg( math.atan2( px, py ) ) - math.deg( math.atan2( LocalPlayer():GetAimVector().x, LocalPlayer():GetAimVector().y ) ) - 90 )
-
-		px = math.cos( phi ) * z
-
-		py = math.sin( phi ) * z
-
-
-
-		draw.RoundedBox( 4, ( cx + px * Radar.w / 2 - 4 ), cy + py * Radar.h / 2 - 4, 8, 8, ColorAScale( color, z ) )
-
-		//draw.RoundedBox( 4, ( cx + px * Radar.w / 2 - 4 ), cy + py * Radar.h / 2 - 4, 8, 8, ColorAScale( color, 1 - z ) )
-
-
-
-	end
-
-
-
-	hook.Add( "HUDPaint", "VirDrawRadar", DrawRadar )
 end
+
+cvars.AddChangeCallback( "gmt_hud_scale", function( _, old, new )
+    MakeFonts()
+end )
+
+function IsEnabled()
+    return EnabledConvar:GetBool() or true
+end
+
+function Scale()
+    return ScaleConvar:GetFloat() or 1
+end
+
+MakeFonts()
+
+function Style()
+    return StyleConvar:GetInt() or 1
+end
+
+function SafeZone()
+    local str = SafeZoneConvar:GetString()
+    local split = string.Explode( " ", str )
+
+    return tonumber( split[1] or 0 ), tonumber( split[2] or 0 )
+end
+
+function IsOldLobby1()
+    return Style() == STYLE_2009 or Style() == STYLE_2010
+end
+
+function IsLobby1()
+    return Style() == STYLE_DEFAULT or Style() == STYLE_GMTC
+end
+
+function IsLobby2()
+    return Style() == STYLE_LOBBY2 or Style() == STYLE_DELUXE
+end
+
+function ShouldDraw()
+    if not IsEnabled() then return false end
+
+    if hook.Run( "GTowerHUDShouldDraw" ) == false then return false end
+    
+    if IsValid( Weapon ) && Weapon:GetClass() == "gmt_camera" then return false end
+
+    return true
+end
+
+/* ---------- helpers --------- */
+
+MoneyAmount = 0
+MoneyApproached = 0
+MoneyLast = 0
+
+ChipsAmount = 0
+ChipsApproached = 0
+ChipsLast = 0
+
+Health = 100
+HealthMax = 100
+
+HealthRatio = 1
+HealthRatioApproach = 1
+
+Weapon = nil
+
+Ammo = 0
+AmmoMax = 0
+AmmoReserve = 0
+
+AmmoRatio = 1
+AmmoRatioApproach = 1
+
+function GetHealth()
+    return Health or 0
+end
+function GetMaxHealth()
+    return MaxHealth or 100
+end
+function GetHealthRatio( approached )
+    return approached and HealthRatioApproach or HealthRatio
+end
+
+function GetAmmo()
+    return Ammo or -1
+end
+function GetMaxAmmo()
+    return Ammo or -1
+end
+function GetAmmoRatio( approached )
+    return approached and AmmoRatioApproach or AmmoRatio
+end
+function GetAmmoReserve()
+    return AmmoReserve or 0
+end
+
+function GetLocation()
+    return Location.GetFriendlyName( LocalPlayer():Location() )
+end
+
+function GetMoney( approached )
+    return approached and MoneyApproached or MoneyAmount
+end
+
+function GetChips( approached )
+    return approached and ChipsApproached or ChipsAmount
+end
+
+function ShouldDrawAmmo()
+    return AmmoConvar:GetBool() and (IsValid( Weapon ) and ( Ammo >= 0 ))
+end
+function ShouldDrawCrosshair()
+    if IsValid(Weapon) and (Weapon.DoDrawCrosshair and Weapon:DoDrawCrosshair() == true || Weapon:IsScripted() and !Weapon.DrawCrosshair || Weapon.DrawHUDCrosshair) then return false end
+    if LocalPlayer().HideCrosshair then return false end
+
+    return CrosshairConvar:GetBool()
+end
+function ShouldDrawHealth()
+    return IsOldLobby1() and true or Location.Is( LocalPlayer():Location(), "Narnia" )
+end
+function ShouldDrawChips()
+    return false //Location.IsCasino( LocalPlayer():Location() )
+end
+
+/* ----------------------------- */
+
+function PaintHealth( x, y, w, h, scale, noborder )
+
+    if not ShouldDrawHealth() then return end
+    
+    local health = GetHealth()
+    local ratio = GetHealthRatio() or 1
+    local ratio_approached = GetHealthRatio( true ) or 1
+
+    local oppred = 200 - (1-ratio) * math.sin(UnPredictedCurTime() * (1-ratio) * 3) * 55 + (1 - (1-ratio)) * 55
+
+    local mat = Materials.healthbar
+
+    if IsOldLobby1() then
+        
+        if IsHalloweenMap() then
+            mat = Materials.healthbar_halloween
+        elseif IsChristmasMap() then
+            mat = Materials.healthbar_christmas
+        end    
+
+    end
+
+    if noborder then
+                
+        surface.SetDrawColor( 255, oppred, oppred, 255 )
+        surface.SetMaterial( mat )
+        surface.DrawTexturedRect( x, y, w * ratio_approached, h )
+
+        local text_sub = 255 - (100 * (1 - ratio))
+        local text_color = Color( 255, text_sub, text_sub, 255 )
+
+        draw.SimpleText( health, "GTowerHUD_Old_Location", x + ( w / 2 ), y + ( h / 2 ), text_color, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+
+        return
+
+    end
+
+    surface.SetDrawColor( 15, 100, 30, 255 )
+    surface.DrawRect( x, y, w, h )
+
+    surface.SetDrawColor( 255, oppred, oppred, 255 )
+    surface.SetMaterial( mat )
+    surface.DrawTexturedRect( x + ( 2 * scale ), y + ( 2 * scale ), (w - ( 4 * scale )) * ratio_approached, h - ( 4 * scale ) )
+
+    draw.SimpleText( health, "GTowerHUD_Location", x + ( w / 2 ), y + ( h / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+
+end
+
+function PaintAmmo( scale, sx, sy, scrw, scrh )
+
+    if not ShouldDrawAmmo() then return end
+
+    local ammo_width, ammo_height = 256, 256
+    local ammo_bar_width, ammo_bar_height = 126, 126
+
+    local ammo_margin_right = -96 * scale
+    local ammo_margin_bottom = -96 * scale
+
+    local ammo_x, ammo_y = scrw - ammo_margin_right - (ammo_height * scale), scrh - (ammo_height * scale) - ammo_margin_bottom
+
+    local ammo_main_x, ammo_main_y = ammo_x + ( 7 * scale ), ammo_y + ( 6 * scale )
+    local ammo_main_size = 132 * scale
+    
+    local ammo_second_x, ammo_second_y = ammo_x + ( 93 * scale ), ammo_y + ( 88 * scale )
+    local ammo_second_size = 61 * scale
+
+    local ammo = GetAmmo()
+    local reserve = GetAmmoReserve()
+    local ratio_approached = GetAmmoRatio( true )
+
+    // Bar
+    surface.SetDrawColor( color_white )
+    surface.SetMaterial( Materials.ammo_bar )
+    surface.DrawTexturedRectRotated(
+        ammo_main_x + (ammo_main_size / 2), ammo_main_y + (ammo_main_size / 2),
+        ammo_bar_width * scale,
+        ammo_bar_height * scale,
+        180 * (1 - ratio_approached) )
+
+    // Background
+    surface.SetMaterial( Materials.ammo )
+    surface.DrawTexturedRect( 
+        ammo_x, ammo_y,
+        ammo_width * scale,
+        ammo_height * scale )
+
+    // Primary Ammo
+    draw.SimpleText( ammo, "GTowerHUD_Ammo", ammo_main_x + ( ammo_main_size / 2 ), ammo_main_y + ( ammo_main_size / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+    
+    // Secondary Ammo
+    draw.SimpleText( reserve, "GTowerHUD_AmmoSecondary", ammo_second_x + ( ammo_second_size / 2 ) - ( 1 * scale ), ammo_second_y + ( ammo_second_size / 2 ) + ( 1 * scale ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+
+end
+
+/*local main_color = Color( 84, 167, 222, 255 )
+local function PaintInfo2( x, y, scale )
+
+    local rect_width, rect_height = 206 * scale, 70 * scale
+    local rect_x, rect_y = x + (50 * scale), y + (48 * scale)
+
+    surface.SetDrawColor( main_color )
+    surface.DrawRect( rect_x, rect_y, rect_width, rect_height )
+
+    // two of em
+    draw.GradientBox( rect_x, rect_y, rect_width, rect_height, Color( main_color.r - 57, main_color.g - 57, main_color.b - 57 ), DOWN )
+    draw.GradientBox( rect_x, rect_y, rect_width, rect_height, Color( main_color.r - 57, main_color.g - 57, main_color.b - 57 ), DOWN )
+
+    local inner_width, inner_height = rect_width - (40 * scale), rect_height - (12 * scale)
+    local inner_x, inner_y = rect_x + (34 * scale), rect_y + (6 * scale)
+
+    local hsv = ColorToHSV( main_color )
+    local col = HSVToColor( hsv, .95, .55 )
+    surface.SetDrawColor( col )
+    surface.DrawRect( inner_x, inner_y, inner_width, inner_height )
+
+    local location_width, location_height = inner_width, inner_height - ( 39 * scale )
+    local location_x, location_y = inner_x, inner_y + (39*scale)
+    
+    draw.GradientBox( inner_x, inner_y, inner_width, inner_height, Color( 0, 0, 0, 220 ), DOWN )
+
+    surface.SetDrawColor( 0, 0, 0, 100 )
+    surface.DrawRect( location_x, location_y, location_width, location_height )
+
+    surface.SetDrawColor( 0, 0, 0, 50 )
+    surface.DrawOutlinedRect( inner_x, inner_y, inner_width, inner_height, 1 * scale )
+    surface.DrawOutlinedRect( location_x, location_y, location_width, location_height, 1 * scale )
+
+    local logo_x, logo_y = x - (5 * scale), y + (32 * scale)
+    local logo_size = 90 * scale
+
+    local logo_mat = Materials.logo_128
+
+    if logo_size > 256 then
+        logo_mat = Materials.logo_512
+    elseif logo_size > 128 then
+        logo_mat = Materials.logo_256
+    end
+
+    surface.SetDrawColor( 255, 255 ,255, 255 )
+    surface.SetMaterial( logo_mat )
+    surface.DrawTexturedRect( logo_x, logo_y, logo_size, logo_size )
+
+end*/
+
+local chipsMat = Material( "gmod_tower/icons/chip.png" )
+local function PaintChips( x, y, scale )
+
+    if not ShouldDrawChips() then return end
+
+    local chips = "CHIPS: " .. string.FormatNumber( GetChips( true ) )
+
+    local icon_size = 32 * scale
+    local off = 10 * scale
+
+    surface.SetMaterial( chipsMat )
+    surface.SetDrawColor( 50, 50, 50 )
+    surface.DrawTexturedRect( x + (20*scale), y - (15*scale) + off, icon_size, icon_size )
+    surface.SetDrawColor( 100, 100, 100 )
+    surface.DrawTexturedRect( x, y - (20*scale) + off, icon_size, icon_size )
+    surface.SetDrawColor( 255, 255, 255 )
+    surface.DrawTexturedRect( x + (10*scale), y - (25*scale) + off, icon_size, icon_size )
+
+    draw.SimpleShadowText( chips, "GTowerHUD_Use", x + (45*scale), y - (13*scale) + off, Color( 255, 255, 255, 255 ), color_black, TEXT_ALIGN_LEFT )
+
+
+end
+
+local jetRatio = 1
+local jetLast = 0
+local jetlastActive = UnPredictedCurTime()
+
+local function PaintJetpack( x, y, w, h, scale )
+
+	local jetpack_amount = LocalPlayer():GetNet( "JetpackFuelRemaining" ) /*LocalPlayer()._DisplayFuelAmount*/ or 0
+
+    local border = 2 * scale
+
+    if jetpack_amount != jetLast then
+        jetLast = jetpack_amount
+        jetlastActive = UnPredictedCurTime()
+    end
+
+    if jetlastActive + .5 < UnPredictedCurTime() then
+        jetRatio = math.Approach( jetRatio, 0, RealFrameTime() * 5 )
+    else
+        jetRatio = math.Approach( jetRatio, 1, RealFrameTime() * 5 )
+    end
+
+    x = x - ( w * (1-jetRatio) )
+
+    surface.SetDrawColor( 255, 255, 255, 60 * jetRatio )
+    surface.DrawRect( x, y, w, h )
+
+    surface.SetDrawColor( 45, 85, 135, 255 * jetRatio )
+    surface.DrawOutlinedRect( x, y, w, h, border )
+    
+    surface.SetDrawColor( 255, 255, 255, 255 * jetRatio )
+    surface.DrawRect( x + border, y + border + ( (h - (border*2)) * ( 1 - jetpack_amount ) ), w - ( border * 2 ), (h - ( border * 2 )) * jetpack_amount )
+
+end
+
+local function PaintInfo( scale, sx, sy, scrw, scrh )
+
+    local main_width, main_height = 256, 128
+
+    local main_margin_left = 8 * scale
+    local main_margin_bottom = 12 * scale
+
+    local main_x, main_y = main_margin_left + sx, scrh - (main_height * scale) - main_margin_bottom
+
+    PaintChips( main_x + (72 * scale), main_y + (40 * scale), scale )
+
+    // Jetpack
+    local jetpack_x, jetpack_y = main_x + (256 * scale), main_y + (48 * scale)
+    local jetpack_width, jetpack_height = 10 * scale, 70 * scale
+
+    PaintJetpack( jetpack_x, jetpack_y, jetpack_width, jetpack_height, scale )
+
+    // Health
+    PaintHealth( main_x + (50 * scale), main_y + (33 * scale), 206 * scale, 16 * scale, scale )
+
+    local mat = Style() == STYLE_GMTC and Materials.mainhud_gmtc or Materials.mainhud
+
+    if IsHalloweenMap() then
+        mat = Materials.mainhud_halloween
+    elseif IsChristmasMap() then
+        mat = Materials.mainhud_christmas
+    end
+
+    // Background
+    surface.SetDrawColor( color_white )
+    surface.SetMaterial( mat )
+    surface.DrawTexturedRect( main_x, main_y, main_width * scale, main_height * scale )
+
+    // PaintInfo2( main_x, main_y, scale )
+
+    // Money
+    local money = string.FormatNumber( GetMoney( true ) )
+    draw.SimpleText( money, "GTowerHUD_Money", main_x + (110 * scale), main_y + (56 * scale), color_white )
+
+    // Location
+    draw.SimpleText( string.upper( GetLocation() ), "GTowerHUD_Location", main_x + (91 * scale), main_y + (94 * scale), color_white )
+
+    // Events
+    local eventname = GetGlobalString( "NextEvent" ) or "Unknown" // globalnet.GetNet( "NextEvent" ) or "Unknown"
+	local endtime = GetGlobalInt( "NextEventTime" ) or 0 // globalnet.GetNet( "NextEventTime" )
+    local timeleft = endtime - CurTime()
+
+    local event_string = "NEXT EVENT (" .. string.upper( eventname ) .. ") IN " .. string.FormattedTime( timeleft, "%02i:%02i" )
+
+    draw.SimpleText( event_string, "GTowerHUD_Location", main_x + ((91 + 1) * scale), main_y + ((120 + 1) * scale), color_black )
+    draw.SimpleText( event_string, "GTowerHUD_Location", main_x + (91 * scale), main_y + (120 * scale), color_white )
+
+end
+
+local function PaintCrosshair( ent )
+
+    if not ShouldDrawCrosshair() then return end
+    if not CrosshairAlwaysConvar:GetBool() and ( not IsValid( ent ) or not CanPlayerUse( ent ) ) then return end
+
+    local x, y = ScrW() / 2, ScrH() / 2
+	local color = color_white
+
+    local crosshair_size = ScreenScale( 12 )
+
+    surface.SetDrawColor( color )
+    surface.SetMaterial( Materials.crosshair )
+    surface.DrawTexturedRect( x - ( crosshair_size / 2 ), y - ( crosshair_size / 2 ), crosshair_size, crosshair_size )    
+
+end
+
+function PaintLobby1()
+
+    local scale = Scale()
+
+    local sx, sy = SafeZone()
+    local scrw, scrh = ScrW() - ( sx * 2 ), ScrH() - ( sy * 2 )
+
+    /* Main Info */
+    if IsOldLobby1() then
+        PaintOld( scale, sx, sy, scrw, scrh )
+    else
+        PaintInfo( scale, sx, sy, scrw, scrh )
+    end
+
+    /* Ammo */
+    PaintAmmo( scale, sx, sy, scrw, scrh )
+
+    /* Crosshair */
+    local ent = GAMEMODE:PlayerUseTrace( LocalPlayer() )
+
+    PaintCrosshair( ent )
+
+end
+
+function Paint()
+
+    if not ShouldDraw() then return end
+
+    if IsLobby2() then
+
+        PaintLobby2()
+
+    else
+
+        PaintLobby1()
+
+    end
+
+end
+
+hook.Add( "HUDPaint", "GMTLobbyHUD", Paint )
+
+function Think()
+
+    // Money Approach
+    local money = Money()
+
+    MoneyAmount = money
+
+    if MoneyLast != MoneyAmount then
+		MoneyLast = MoneyAmount
+	end
+
+    if MoneyAmount != MoneyApproached then
+		local diffMoney = MoneyApproached - MoneyLast
+        local increaseAmount = math.ceil( math.abs( diffMoney * .1 ) )
+		MoneyApproached = math.Approach( MoneyApproached, MoneyAmount, increaseAmount )
+    end
+
+    // Chips Approach
+    local chips = LocalPlayer():PokerChips()
+
+    ChipsAmount = chips
+
+    if ChipsLast != ChipsAmount then
+		ChipsLast = ChipsAmount
+	end
+
+    if ChipsAmount != ChipsApproached then
+		local diffChips = ChipsApproached - ChipsLast
+        local increaseAmount = math.ceil( math.abs( diffChips * .1 ) )
+		ChipsApproached = math.Approach( ChipsApproached, ChipsAmount, increaseAmount )
+    end
+
+    // Health Approach
+    local health = LocalPlayer():Health() or 0
+    local maxhealth = Dueling.IsDueling( LocalPlayer() ) and 300 or (LocalPlayer():GetMaxHealth() or 100)
+
+    Health = math.Clamp( health, 0, maxhealth )
+    HealthMax = maxhealth
+
+    local health_ratio = Health / maxhealth
+
+    HealthRatio = health_ratio
+
+    if HealthRatio != HealthRatioApproach then
+        HealthRatioApproach = math.Approach( HealthRatioApproach, HealthRatio, math.abs( HealthRatioApproach - HealthRatio ) * 3 * RealFrameTime() )
+    end
+
+    // Ammo Approach
+    local weapon = LocalPlayer():GetActiveWeapon()
+
+    if IsValid( weapon ) then
+
+        Weapon = weapon
+        
+        local cur = weapon:Clip1() or 0
+        local max = weapon:GetMaxClip1() or 100
+
+        Ammo = cur
+        AmmoMax = max
+
+        local ammo_ratio = Ammo / AmmoMax
+
+        AmmoRatio = ammo_ratio
+
+        if AmmoRatio != AmmoRatioApproach then
+            AmmoRatioApproach = math.Approach( AmmoRatioApproach, AmmoRatio, math.abs( AmmoRatioApproach - AmmoRatio ) * 5 * RealFrameTime() )
+        end
+
+        local ammo_type = weapon:GetPrimaryAmmoType()
+        local reserve = LocalPlayer():GetAmmoCount( ammo_type ) or 0
+
+        AmmoReserve = reserve
+
+    else
+        
+        Weapon = nil
+
+    end
+
+end
+
+hook.Add( "Think", "GMTLobbyHUD", Think )

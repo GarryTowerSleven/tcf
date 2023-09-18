@@ -32,3 +32,11 @@ hook.Add( "GTowerInventoryDisable", "LimboDisableInventory", function()
 		return true
 	end
 end )
+
+hook.Add( "GTowerHUDShouldDraw", "LimboHide", function()
+
+	if LocalPlayer():GetNWBool( "InLimbo", false ) then
+		return false
+	end
+
+end )

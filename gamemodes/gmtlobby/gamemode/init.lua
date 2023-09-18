@@ -9,6 +9,9 @@ AddCSLuaFile("shared.lua")
 AddCSLuaFile("cl_playermenu.lua")
 
 AddCSLuaFile("cl_hud.lua")
+AddCSLuaFile("cl_hud_old.lua")
+AddCSLuaFile("cl_hud_lobby2.lua")
+
 AddCSLuaFile("cl_post_events.lua")
 AddCSLuaFile("cl_scoreboard.lua")
 AddCSLuaFile("cl_hudchat.lua")
@@ -28,7 +31,6 @@ include("minigames/init.lua")
 
 AddCSLuaFile("event/cl_init.lua")
 include("event/init.lua")
-
 
 include( "animation.lua" ) // for gmt_force* commands
 //include( "interaction.lua" )
@@ -563,7 +565,6 @@ end )
 hook.Add("GTowerPhysgunPickup", "DisablePrivAdminPickup", function(pl, ent)
 	if IsValid( ent ) then
 		if ( ent:GetModel() == "models/gmod_tower/suite_bath.mdl" ) then return false end
-		--if ( ent:GetClass() == "player" && ent:IsPrivAdmin() ) then return false end
 	end
 end)
 
