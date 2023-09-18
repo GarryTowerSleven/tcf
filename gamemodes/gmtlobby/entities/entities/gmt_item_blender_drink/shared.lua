@@ -101,8 +101,6 @@ function ENT:Think()
 				self.EffectEnd ( self.Player )
 				self.Player:UnDrunk()
 			end
-				
-			GAMEMODE:SetPlayerSpeed( self.Player, 100, 100 )
 			self.Player:SetModel("models/player/normal.mdl")
 		end
 		self.Player = nil
