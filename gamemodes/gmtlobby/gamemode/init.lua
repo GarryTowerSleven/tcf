@@ -16,6 +16,7 @@ AddCSLuaFile("cl_post_events.lua")
 AddCSLuaFile("cl_scoreboard.lua")
 AddCSLuaFile("cl_hudchat.lua")
 AddCSLuaFile("milestones/uch_animations.lua")
+AddCSLuaFile("milestones/virus_radar.lua")
 
 AddCSLuaFile("cl_tetris.lua")
 

@@ -9,6 +9,7 @@ include("cl_scoreboard.lua")
 include("event/cl_init.lua")
 include("minigames/shared.lua")
 include("milestones/uch_animations.lua")
+include("milestones/virus_radar.lua")
 
 include("cl_tetris.lua")
 
