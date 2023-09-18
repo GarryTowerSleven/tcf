@@ -273,6 +273,8 @@ ACHIEVEMENTS.UCHBROTHER = 217
 
 ACHIEVEMENTS.ZMMILESTONE1 = 218
 
+ACHIEVEMENTS.UCHSILENTDEADLY = 219
+
 hook.Add("Initialize", "LoadAchivments", function()
 	hook.Call("LoadAchievements")
 

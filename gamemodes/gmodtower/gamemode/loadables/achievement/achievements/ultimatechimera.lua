@@ -152,3 +152,11 @@ GTowerAchievements:Add( ACHIEVEMENTS.UCHBROTHER, {
 	Group = 9
 	}
 )
+
+GTowerAchievements:Add( ACHIEVEMENTS.UCHSILENTDEADLY, {
+	Name = "Silent But Deadly", 
+	Description = "Win a round as the Chimera without roaring.", 
+	Value = 1,
+	Group = 9
+	}
+)

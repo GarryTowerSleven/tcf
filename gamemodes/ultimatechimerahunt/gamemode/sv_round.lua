@@ -126,13 +126,9 @@ function GM:EndRound( teamid )
 		v:AddAchievement( ACHIEVEMENTS.UCHMILESTONE2, 1 )
 
 		if endofgame then
-
 			self:SetMusic( v, MUSIC_ENDROUND, TEAM_SALSA )
-
 		else
-
 			self:SetMusic( v, MUSIC_ENDROUND, teamid )
-
 		end
 
 		if teamid == TEAM_PIGS then
@@ -161,6 +157,10 @@ function GM:EndRound( teamid )
 
 				if !uc.Jumped then
 					uc:AddAchievement( ACHIEVEMENTS.UCHEARTHBOUND, 1 )
+				end
+
+				if !uc.Roared then
+					uc:AddAchievement( ACHIEVEMENTS.UCHSILENTDEADLY, 1 )
 				end
 			end
 
@@ -226,8 +226,9 @@ function GM:SetChimera( ply )
 
 	ply:SetNet("IsChimera",true)
 	ply:SetTeam( TEAM_CHIMERA )
-	ply.Jumped = false
 
+	ply.Jumped = false
+	ply.Roared = false
 end
 
 function GM:CheckGame( ply ) //this function checks if the game should end or not based on the players alive
