@@ -30,7 +30,7 @@ Maps.Register( "gmt_pvp_oneslip01", {
 	DateModified = 1249150914,
 } )
 
-Maps.Register( "gmt_pvp_pit01", {
+Maps.Register( "gmt_pvp_pit02", {
 	Name = "The Pit",
 	Desc = "Take being gothic to a whole new level. This map is recommended for anyone who dresses exclusively in black.",
 	Author = "Dustpup",
