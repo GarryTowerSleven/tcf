@@ -12,7 +12,7 @@ function ENT:Initialize()
 	self:SetMoveType( MOVETYPE_VPHYSICS )
 	self:SetSolid( SOLID_VPHYSICS )
 
-	self:SetCustomCollisionCheck(true)
+	self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 
 	self:SetColor( Color(255, 255, 255, 255) )
 	construct.SetPhysProp( nil, self, 0, nil, { GravityToggle = true, Material = "ice" } )
