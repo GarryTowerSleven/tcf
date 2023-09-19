@@ -191,15 +191,16 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
 
     // Events
     if ShouldDrawEvents() then
-
+        
+        local event_x, event_y = info_x + (21 * scale), info_y + (68 * scale)
         local eventname = GetGlobalString( "NextEvent" ) or "Unknown" // globalnet.GetNet( "NextEvent" ) or "Unknown"
         local endtime = GetGlobalInt( "NextEventTime" ) or 0 // globalnet.GetNet( "NextEventTime" )
         local timeleft = endtime - CurTime()
 
         local event_string = "NEXT EVENT (" .. string.upper( eventname ) .. ") IN " .. string.FormattedTime( timeleft, "%02i:%02i" )
 
-        draw.SimpleText( event_string, "GTowerHUD_Location", info_x + ((21 + 1) * scale), info_y + ((68 + 1) * scale), color_black )
-        draw.SimpleText( event_string, "GTowerHUD_Location", info_x + (21 * scale), info_y + (68 * scale), color_white )
+        draw.SimpleText( event_string, "GTowerHUD_Location", event_x + 1, event_y + 1, color_black )
+        draw.SimpleText( event_string, "GTowerHUD_Location", event_x, event_y, color_white )
 
     end
 
@@ -213,7 +214,7 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
     if ShouldDrawChips() then
         local chips = string.FormatNumber( GetChips( true ) )
 
-        PaintExtraInfo( GTowerIcons2.GetIcon("chips"), chips, info_x, info_y + info_height + (2 * scale), scale, 16 )
+        PaintExtraInfo( GTowerIcons2.GetIcon("chips"), chips, info_x, info_y - info_height /2 + (12 * scale), scale, 16 )
     end
 
     if ShouldDrawHealth() then

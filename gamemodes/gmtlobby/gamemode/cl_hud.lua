@@ -207,7 +207,7 @@ function ShouldDrawEvents()
     return EventConvar:GetBool() or false
 end
 function ShouldDrawChips()
-    return false //Location.IsCasino( LocalPlayer():Location() )
+    return Location.IsCasino( LocalPlayer():Location() )
 end
 
 /* ----------------------------- */
@@ -464,8 +464,8 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
     
         local event_string = "NEXT EVENT (" .. string.upper( eventname ) .. ") IN " .. string.FormattedTime( timeleft, "%02i:%02i" )
     
-        draw.SimpleText( event_string, "GTowerHUD_Location", main_x + ((91 + 1) * scale), main_y + ((120 + 1) * scale), color_black )
-        draw.SimpleText( event_string, "GTowerHUD_Location", main_x + (91 * scale), main_y + (120 * scale), color_white )    
+        draw.SimpleText( event_string, "GTowerHUD_Location", main_x + ((25 + 1) * scale), main_y + ((120 + 1) * scale), color_black )
+        draw.SimpleText( event_string, "GTowerHUD_Location", main_x + (25 * scale), main_y + (120 * scale), color_white )    
         
     end
 

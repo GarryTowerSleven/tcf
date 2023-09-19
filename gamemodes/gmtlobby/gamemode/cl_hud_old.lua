@@ -23,7 +23,7 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
     local main_x, main_y = sx, scrh - (main_height * scale) + (3 * scale)
 
     local mat = Style() == STYLE_2009 and Materials.mainhud_2009 or Materials.mainhud_2010
-
+    
     if IsHalloweenMap() then
         mat = Materials.mainhud_2010_halloween
     elseif IsChristmasMap() then
@@ -38,15 +38,18 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
     
     // Events
     if ShouldDrawEvents() then
-
+        local event_x, event_y = main_x + (15 * scale), main_y + (110 * scale)
+        if Style() == STYLE_2009 then
+            event_x = event_x + (25 * scale)
+        end
         local eventname = GetGlobalString( "NextEvent" ) or "Unknown" // globalnet.GetNet( "NextEvent" ) or "Unknown"
         local endtime = GetGlobalInt( "NextEventTime" ) or 0 // globalnet.GetNet( "NextEventTime" )
         local timeleft = endtime - CurTime()
 
         local event_string = "NEXT EVENT (" .. string.upper( eventname ) .. ") IN " .. string.FormattedTime( timeleft, "%02i:%02i" )
 
-        draw.SimpleText( event_string, "GTowerHUD_Old_EventTimer", main_x + ((15 + 1) * scale), main_y + ((110 + 1) * scale), color_black )
-        draw.SimpleText( event_string, "GTowerHUD_Old_EventTimer", main_x + (15 * scale), main_y + (110 * scale), color_white )
+        draw.SimpleText( event_string, "GTowerHUD_Old_EventTimer", event_x + 1, event_y + 1, color_black )
+        draw.SimpleText( event_string, "GTowerHUD_Old_EventTimer", event_x, event_y, color_white )
 
     end
 
