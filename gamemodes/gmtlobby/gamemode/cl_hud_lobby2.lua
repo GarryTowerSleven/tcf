@@ -208,7 +208,7 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
     local suiteid = LocalPlayer():GetNet( "RoomID" ) or 0
 
     if suiteid > 0 then
-        PaintExtraInfo( GTowerIcons2.GetIcon("condo"), "Suite #" .. tostring( suiteid ), info_x, info_y + info_height + (2 * scale), scale )
+        PaintExtraInfo( GTowerIcons2.GetIcon("condo"), "Suite #" .. tostring( suiteid ), info_x, info_y - info_height /2 + (12 * scale), scale )
     end
 
     if ShouldDrawChips() then
