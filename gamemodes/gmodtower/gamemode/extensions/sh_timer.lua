@@ -20,37 +20,6 @@ timer.Simple = function( a,b,...)
 	OldTimerSimple(a,b,...)
 end
 
-
-// 1 second tick player think, this should be pretty efficient
-local ThinkTime = 0
-
-hook.Add("Think", "GTowerPlayerThink", function()
-
-	if ThinkTime < CurTime() then
-
-		if SERVER then
-
-			for _, v in ipairs( player.GetAll() ) do
-
-				if IsValid( v ) then
-					hook.Call("PlayerThink", GAMEMODE, v)
-				end
-
-			end
-
-		else
-			if IsValid( LocalPlayer() ) then
-				hook.Call( "PlayerThink", GAMEMODE, LocalPlayer() )
-			end
-		end
-
-		ThinkTime = CurTime() + 1
-
-	end
-	
-end)
-
-
 require( 'hook' )
 
 // Globals that we need.
