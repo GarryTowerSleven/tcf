@@ -13,13 +13,14 @@ local Roles =
 	["STEAM_0:1:124798129"] = "Developer", 	// Amgona
 	["STEAM_0:0:44458854"] = "Developer",	// Bumpy
 	// ["STEAM_0:0:38865393"] = "Developer",	// boXy
-
+	["STEAM_0:0:241528576"] = "Developer", // Scienti[-]
+	
 	// Moderators
 	["STEAM_0:1:57386100"] = "Moderator", 	// Squibbus
 	["STEAM_0:0:156132358"] = "Moderator", 	// Basical
 	["STEAM_0:1:85508734"] = "Moderator", 	// Breezy
 	["STEAM_0:0:115320789"] = "Moderator", 	// Zia
-	["STEAM_0:0:241528576"] = "Moderator", // Scienti[-]
+	
 	["STEAM_0:0:41914866"] = "Moderator", // Sunni
 	["STEAM_0:1:53166133"] = "Moderator",	// Orlok
 	["STEAM_0:1:72402171"] = "Moderator",	// Umbre
