@@ -1,4 +1,4 @@
-﻿	surface.CreateFont("VoteTitle", {
+﻿surface.CreateFont("VoteTitle", {
     font = "Bebas Neue",
     size = 68,
     weight = 200
