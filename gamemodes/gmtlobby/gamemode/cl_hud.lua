@@ -79,6 +79,7 @@ function MakeFonts()
     surface.CreateFont( "GTowerHUD_AmmoSecondary", { font = "Tahoma", size = 20 * scale, weight = 1200 } )
     
     surface.CreateFont( "GTowerHUD_Old_Money", { font = "Tahoma", size = 20 * scale, weight = 800 } )
+    surface.CreateFont( "GTowerHUD_Old_EventTimer", { font = "Tahoma", size = 15 * scale, weight = 800 } )
     surface.CreateFont( "GTowerHUD_Old_Location", { font = "Tahoma", size = 28 * scale, weight = 400 } )
 
 end

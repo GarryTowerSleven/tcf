@@ -35,6 +35,22 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
     surface.SetMaterial( mat )
     surface.DrawTexturedRect( main_x, main_y, main_width * scale, main_height * scale )   
     
+    
+    // Events
+    if ShouldDrawEvents() then
+
+        local eventname = GetGlobalString( "NextEvent" ) or "Unknown" // globalnet.GetNet( "NextEvent" ) or "Unknown"
+        local endtime = GetGlobalInt( "NextEventTime" ) or 0 // globalnet.GetNet( "NextEventTime" )
+        local timeleft = endtime - CurTime()
+
+        local event_string = "NEXT EVENT (" .. string.upper( eventname ) .. ") IN " .. string.FormattedTime( timeleft, "%02i:%02i" )
+
+        draw.SimpleText( event_string, "GTowerHUD_Old_EventTimer", main_x + ((15 + 1) * scale), main_y + ((110 + 1) * scale), color_black )
+        draw.SimpleText( event_string, "GTowerHUD_Old_EventTimer", main_x + (15 * scale), main_y + (110 * scale), color_white )
+
+    end
+
+
     // Health
     PaintHealth( main_x + (69 * scale), main_y + (81 * scale), 150 * scale, 20 * scale, scale, true )
 

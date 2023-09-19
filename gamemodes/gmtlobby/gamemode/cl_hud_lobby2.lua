@@ -189,6 +189,20 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
 
 	draw.SimpleShadowText( location, "GTowerHUD_Location", money_x, money_y + (24 * scale), color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
 
+    // Events
+    if ShouldDrawEvents() then
+
+        local eventname = GetGlobalString( "NextEvent" ) or "Unknown" // globalnet.GetNet( "NextEvent" ) or "Unknown"
+        local endtime = GetGlobalInt( "NextEventTime" ) or 0 // globalnet.GetNet( "NextEventTime" )
+        local timeleft = endtime - CurTime()
+
+        local event_string = "NEXT EVENT (" .. string.upper( eventname ) .. ") IN " .. string.FormattedTime( timeleft, "%02i:%02i" )
+
+        draw.SimpleText( event_string, "GTowerHUD_Location", info_x + ((21 + 1) * scale), info_y + ((68 + 1) * scale), color_black )
+        draw.SimpleText( event_string, "GTowerHUD_Location", info_x + (21 * scale), info_y + (68 * scale), color_white )
+
+    end
+
     // suite
     local suiteid = LocalPlayer():GetNet( "RoomID" ) or 0
 
