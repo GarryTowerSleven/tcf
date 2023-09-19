@@ -38,17 +38,18 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
     
     // Events
     if ShouldDrawEvents() then
-        local event_x, event_y = main_x + (15 * scale), main_y + (110 * scale)
+        local event_x, event_y = main_x + (15 * scale), main_y + (111 * scale)
+
         if Style() == STYLE_2009 then
             event_x = event_x + (25 * scale)
         end
-        local eventname = GetGlobalString( "NextEvent" ) or "Unknown" // globalnet.GetNet( "NextEvent" ) or "Unknown"
-        local endtime = GetGlobalInt( "NextEventTime" ) or 0 // globalnet.GetNet( "NextEventTime" )
-        local timeleft = endtime - CurTime()
 
-        local event_string = "NEXT EVENT (" .. string.upper( eventname ) .. ") IN " .. string.FormattedTime( timeleft, "%02i:%02i" )
+        local event_name, event_time = GetEventInfo()
+        local timeleft = event_time - CurTime()
 
-        draw.SimpleText( event_string, "GTowerHUD_Old_EventTimer", event_x + 1, event_y + 1, color_black )
+        local event_string = "Next Event (" .. event_name .. ") in " .. string.FormattedTime( timeleft, "%02i:%02i" )
+
+        draw.SimpleText( event_string, "GTowerHUD_Old_EventTimer", event_x + (1 * scale), event_y + (1 * scale), color_black )
         draw.SimpleText( event_string, "GTowerHUD_Old_EventTimer", event_x, event_y, color_white )
 
     end

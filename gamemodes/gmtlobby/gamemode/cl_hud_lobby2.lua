@@ -189,18 +189,19 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
 
 	draw.SimpleShadowText( location, "GTowerHUD_Location", money_x, money_y + (24 * scale), color_white, color_black, TEXT_ALIGN_LEFT, 1, 1 )
 
+    local extra_info_y = info_y + info_height + (2 * scale)
+
     // Events
     if ShouldDrawEvents() then
         
-        local event_x, event_y = info_x + (21 * scale), info_y + (68 * scale)
-        local eventname = GetGlobalString( "NextEvent" ) or "Unknown" // globalnet.GetNet( "NextEvent" ) or "Unknown"
-        local endtime = GetGlobalInt( "NextEventTime" ) or 0 // globalnet.GetNet( "NextEventTime" )
-        local timeleft = endtime - CurTime()
+        local event_name, event_time = GetEventInfo()
+        local timeleft = event_time - CurTime()
 
-        local event_string = "NEXT EVENT (" .. string.upper( eventname ) .. ") IN " .. string.FormattedTime( timeleft, "%02i:%02i" )
+        local event_string = "Next Event (" .. event_name .. ") in " .. string.FormattedTime( timeleft, "%02i:%02i" )
 
-        draw.SimpleText( event_string, "GTowerHUD_Location", event_x + 1, event_y + 1, color_black )
-        draw.SimpleText( event_string, "GTowerHUD_Location", event_x, event_y, color_white )
+        PaintExtraInfo( nil, event_string, info_x, info_y + info_height + (2 * scale), scale )
+
+        extra_info_y = info_y - (20 * scale) - (2 * scale)
 
     end
 
@@ -208,13 +209,13 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
     local suiteid = LocalPlayer():GetNet( "RoomID" ) or 0
 
     if suiteid > 0 then
-        PaintExtraInfo( GTowerIcons2.GetIcon("condo"), "Suite #" .. tostring( suiteid ), info_x, info_y - info_height /2 + (12 * scale), scale )
+        PaintExtraInfo( GTowerIcons2.GetIcon("condo"), "Suite #" .. tostring( suiteid ), info_x, extra_info_y, scale )
     end
 
     if ShouldDrawChips() then
         local chips = string.FormatNumber( GetChips( true ) )
 
-        PaintExtraInfo( GTowerIcons2.GetIcon("chips"), chips, info_x, info_y - info_height /2 + (12 * scale), scale, 16 )
+        PaintExtraInfo( GTowerIcons2.GetIcon("chips"), chips, info_x, extra_info_y, scale, 16 )
     end
 
     if ShouldDrawHealth() then

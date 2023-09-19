@@ -210,6 +210,13 @@ function ShouldDrawChips()
     return Location.IsCasino( LocalPlayer():Location() )
 end
 
+function GetEventInfo()
+    local name = GetGlobalString( "NextEvent" ) or "Unknown"
+    local time = GetGlobalInt( "NextEventTime" ) or 0
+
+    return name, time
+end
+
 /* ----------------------------- */
 
 function PaintHealth( x, y, w, h, scale, noborder )
@@ -457,15 +464,14 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
 
     // Events
     if ShouldDrawEvents() then
+
+        local event_name, event_time = GetEventInfo()
+        local timeleft = event_time - CurTime()
     
-        local eventname = GetGlobalString( "NextEvent" ) or "Unknown" // globalnet.GetNet( "NextEvent" ) or "Unknown"
-        local endtime = GetGlobalInt( "NextEventTime" ) or 0 // globalnet.GetNet( "NextEventTime" )
-        local timeleft = endtime - CurTime()
+        local event_string = "NEXT EVENT (" .. string.upper( event_name ) .. ") IN " .. string.FormattedTime( timeleft, "%02i:%02i" )
     
-        local event_string = "NEXT EVENT (" .. string.upper( eventname ) .. ") IN " .. string.FormattedTime( timeleft, "%02i:%02i" )
-    
-        draw.SimpleText( event_string, "GTowerHUD_Location", main_x + ((25 + 1) * scale), main_y + ((120 + 1) * scale), color_black )
-        draw.SimpleText( event_string, "GTowerHUD_Location", main_x + (25 * scale), main_y + (120 * scale), color_white )    
+        draw.SimpleText( event_string, "GTowerHUD_Location", main_x + ((45 + 1) * scale), main_y + ((120 + 1) * scale), color_black )
+        draw.SimpleText( event_string, "GTowerHUD_Location", main_x + (45 * scale), main_y + (120 * scale), color_white )    
         
     end
 
@@ -508,6 +514,30 @@ function PaintLobby1()
     local ent = GAMEMODE:PlayerUseTrace( LocalPlayer() )
 
     PaintCrosshair( ent )
+
+end
+
+function GTowerHUD.DrawNotice( title, message )
+
+    // TODO: hud hook and gradient ver
+
+    if !GTowerHUD.Notice.Enabled:GetBool() then return end
+
+    -- Handle notice
+    local w, h = ScrW() / 2, ScrH() / 2
+    h = ( h * 2 ) - 150
+
+    -- Draw gradient boxes
+    --draw.GradientBox( w - 512, h, 256, 110, 0, Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 230 ) )
+    --draw.GradientBox( w + 256, h, 256, 110, 0, Color( 0, 0, 0, 230 ), Color( 0, 0, 0, 0 ) )
+    surface.SetDrawColor( 0, 0, 0, 230 )
+    surface.DrawRect( w - 512, h, 1024, 130 )
+
+    -- Draw title
+    draw.SimpleText( title, "GTowerHudCText", w, h + 20, Color( 255, 255, 255, 255 ), 1, 1 )
+
+    -- Draw text
+    draw.DrawText( message or "", "GTowerHudCSubText", w, h + 30, Color( 255, 255, 255, 255 ), 1 )
 
 end
 
