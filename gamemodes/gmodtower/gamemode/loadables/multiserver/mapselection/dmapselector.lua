@@ -1,4 +1,4 @@
-﻿surface.CreateFont("VoteTitle", {
+﻿	surface.CreateFont("VoteTitle", {
     font = "Bebas Neue",
     size = 68,
     weight = 200
@@ -330,7 +330,7 @@ function PANEL:UpdateVotes()
             local col_progress = Color(40, 121, 211, 84)
 
             if panel.btnMap.Disabled or panel.btnMap.DisableVote then
-                col = Color(150, 150, 150, 50)
+                col = Color(25, 25, 25, 50)
             elseif panel.btnMap.Depressed then
                 col = Color(0, 0, 0, 84)
             elseif panel.btnMap.Hovered then
