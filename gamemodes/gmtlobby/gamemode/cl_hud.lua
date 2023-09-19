@@ -123,7 +123,7 @@ end
 function ShouldDraw()
     if not IsEnabled() then return false end
 
-    if hook.Run( "GTowerHUDShouldDraw" ) == false then return false end
+    if hook.Call( "GTowerHUDShouldDraw", GAMEMODE ) == false then return false end
     
     if IsValid( Weapon ) && Weapon:GetClass() == "gmt_camera" then return false end
 
