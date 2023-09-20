@@ -195,7 +195,7 @@ function ShouldDrawAmmo()
     return AmmoConvar:GetBool() and (IsValid( Weapon ) and ( Ammo >= 0 ))
 end
 function ShouldDrawCrosshair()
-	if IsValid(Weapon) and !Weapon.DrawCrosshair then return false end -- What
+	if IsValid(Weapon) and (Weapon.DoDrawCrosshair and Weapon:DoDrawCrosshair() == true || Weapon:IsScripted() and !Weapon.DrawCrosshair || Weapon.DrawHUDCrosshair) then return false end
 	if LocalPlayer().HideCrosshair then return false end
 	if LocalPlayer():ShouldDrawLocalPlayer() || !LocalPlayer():Alive() then return false end
 
