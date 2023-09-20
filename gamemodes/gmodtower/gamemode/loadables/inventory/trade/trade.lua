@@ -6,6 +6,10 @@ util.AddNetworkString("GTrade")
 
 function TRADE:Create( ply1, ply2 )
 
+	if TRADE_DISABLED then
+		return
+	end
+
 	local o = {}
 
 	setmetatable( o, self )
@@ -81,6 +85,10 @@ end
 
 function TRADE:PlayerStartAccept( ply )
 
+	if TRADE_DISABLED then
+		return
+	end
+
 	local Player, OherPlayer = self:GetPlayer( ply )
 
 	Player.accepted = true
@@ -124,6 +132,10 @@ end
 
 function TRADE:StartTrade()
 
+	if TRADE_DISABLED then
+		return
+	end
+
 	//for k, v in pairs( ActiveTrades ) do
 	//	if v != self && ( v:HasPlayer( self.Player1.ply ) || v:HasPlayer( self.Player2.ply ) ) then
 	//		v:Destroy()
@@ -154,6 +166,10 @@ function TRADE:StartTrade()
 end
 
 function TRADE:SendAccepted()
+
+	if TRADE_DISABLED then
+		return
+	end
 
 	if !self:ValidTrade() then
 		return false
@@ -187,6 +203,10 @@ end
 
 function TRADE:PlayerAccept( ply, state )
 
+	if TRADE_DISABLED then
+		return
+	end
+
 	if !self:ValidTrade() then
 		return false
 	end
@@ -209,6 +229,10 @@ function TRADE:PlayerAccept( ply, state )
 end
 
 function TRADE:PlayerFinish( ply, state )
+
+	if TRADE_DISABLED then
+		return
+	end
 
 	if !self:ValidTrade() then
 		return false
@@ -240,6 +264,10 @@ function TRADE:PlayerFinish( ply, state )
 end
 
 function TRADE:PlayerOffer( ply, money, items )
+
+	if TRADE_DISABLED then
+		return
+	end
 
 	if !self:ValidTrade() then
 		return false
@@ -366,6 +394,10 @@ end
 
 function TRADE:EndTrade()
 
+	if TRADE_DISABLED then
+		return
+	end
+
 	/*umsg.Start("GTrade", self:GetRP() )
 		umsg.Char( 1 )
 	umsg.End()*/
@@ -379,10 +411,18 @@ function TRADE:EndTrade()
 end
 
 function TRADE:Destroy()
+	if TRADE_DISABLED then
+		return
+	end
+
 	ActiveTrades[ self.Id ] = nil
 end
 
 function TRADE:SubmmitTrade()
+
+	if TRADE_DISABLED then
+		return
+	end
 
 	self.Player1.money = math.Clamp( self.Player1.money, 0, self.Player1.ply:Money() )
 	self.Player2.money = math.Clamp( self.Player2.money, 0, self.Player2.ply:Money() )
@@ -568,6 +608,10 @@ end
 
 function GTowerItems:FindActiveTrade( ply )
 
+	if TRADE_DISABLED then
+		return
+	end
+
 	for k, v in pairs( ActiveTrades ) do
 		if v.TradeStarted == true && v:HasPlayer( ply ) then
 			return v
@@ -578,6 +622,10 @@ end
 
 
 function GTowerItems:GetTrade( ply1, ply2 )
+
+	if TRADE_DISABLED then
+		return
+	end
 
 	for k, v in pairs( ActiveTrades ) do
 		if !v:IsValid() && v.TradeStarted == false then

@@ -1,8 +1,9 @@
----------------------------------
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("cl_gui.lua")
 AddCSLuaFile("cl_item.lua")
 AddCSLuaFile("shared.lua")
+
+TRADE_DISABLED = true
 
 include("shared.lua")
 include("trade.lua")
@@ -18,6 +19,10 @@ end
 
 
 function meta:InvTrade( ply )
+
+	if TRADE_DISABLED then
+		return
+	end
 	
 	local Trade = GTowerItems:GetTrade( self, ply )
 	
