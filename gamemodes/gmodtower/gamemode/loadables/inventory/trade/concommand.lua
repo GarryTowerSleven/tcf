@@ -1,6 +1,10 @@
----------------------------------
-
 concommand.Add("gmt_trade", function( ply, cmd, args )
+
+	if TRADE_DISABLED then
+		ply:Msg2( "Trading is currently disabled." )
+
+		return
+	end
 
 	if ply._NextTradeRequest && ply._NextTradeRequest > CurTime() then
 		return
@@ -22,6 +26,12 @@ end )
 
 concommand.Add("gmt_tradeitems", function( ply, cmd, args )
 
+	if TRADE_DISABLED then
+		ply:Msg2( "Trading is currently disabled." )
+
+		return
+	end
+
 	if #args == 0 then
 		return
 	end
@@ -39,6 +49,12 @@ concommand.Add("gmt_tradeitems", function( ply, cmd, args )
 end )
 
 concommand.Add("gmt_accepttrade", function( ply, cmd, args )
+
+	if TRADE_DISABLED then
+		ply:Msg2( "Trading is currently disabled." )
+
+		return
+	end
 	
 	local Trade = GTowerItems:FindActiveTrade( ply )
 	
@@ -51,6 +67,12 @@ concommand.Add("gmt_accepttrade", function( ply, cmd, args )
 end )
 
 concommand.Add("gmt_finishtrade", function( ply, cmd, args )
+
+	if TRADE_DISABLED then
+		ply:Msg2( "Trading is currently disabled." )
+
+		return
+	end
 	
 	local Trade = GTowerItems:FindActiveTrade( ply )
 	
@@ -63,6 +85,12 @@ concommand.Add("gmt_finishtrade", function( ply, cmd, args )
 end )
 
 concommand.Add("gmt_closetrade", function( ply, cmd, args )
+
+	if TRADE_DISABLED then
+		ply:Msg2( "Trading is currently disabled." )
+
+		return
+	end
 
 	local Trade = GTowerItems:FindActiveTrade( ply )
 	
