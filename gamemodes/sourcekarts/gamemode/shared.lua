@@ -192,6 +192,14 @@ function GM:ShouldCollide( ent1, ent2 )
 	return true
 end
 
+function GM:EntityEmitSound( data )
+	if data.Entity:GetClass() == "sk_wheel" then
+		return false
+	end
+
+	return true
+end
+
 // MUSIC
 MUSIC_WAITING = 1
 MUSIC_RACE1 = 2
