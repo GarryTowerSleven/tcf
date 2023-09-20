@@ -704,6 +704,7 @@ RegisterItem("bball",{
 	StoreId = GTowerStore.TOY,
 	StorePrice = 500,
 	ClassName = "gmt_beachball",
+	MaxSuite = 10,
 })
 
 RegisterItem("ppiece",{
