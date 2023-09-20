@@ -2261,7 +2261,7 @@ function ENT:DrawName( ply )
 
 	local localkart = LocalPlayer():GetKart()
 
-	if !IsValid( kart ) || !IsValid( localkart ) || ply == LocalPlayer() then return end
+	--if !IsValid( kart ) || !IsValid( localkart ) || ply == LocalPlayer() then return end
 
 
 
@@ -2299,7 +2299,7 @@ function ENT:DrawName( ply )
 
 
 
-	cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), .5 )
+	cam.Start3D2D( pos, ang, .5 )
 
 		draw.SimpleShadowText( ply:GetName(), "KartPlayerName", 0, 0, Color( 255, 255, 255, 255 * alpha ), Color( 0, 0, 0, 50 * alpha ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2 )
 
