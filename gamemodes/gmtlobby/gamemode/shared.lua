@@ -186,6 +186,7 @@ function CanPlayerUse( arg1, arg2 )
 
 	-- Doors
 	if string.match(class, "func_door*") then return "OPEN/CLOSE" end
+	if string.match(class, "prop_door*") then return "OPEN/CLOSE" end
 
 	-- Any props should be ignored
 	if class == "prop_physics" or class == "prop_dynamic" or class == "prop_dynamic_override" then
@@ -194,7 +195,7 @@ function CanPlayerUse( arg1, arg2 )
 
 	-- Just in case
 	if ent.OnUse then
-		return "USE"
+		return ent.OnUse
 	end
 
 	return nil

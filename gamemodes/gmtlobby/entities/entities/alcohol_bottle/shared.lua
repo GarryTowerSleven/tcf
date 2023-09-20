@@ -7,6 +7,8 @@ ENT.PrintName		= "Alcohol Bottle"
 
 ENT.Model		= Model("models/gmod_tower/boozebottle.mdl")
 
+ENT.OnUse		= "DRINK"
+
 function ENT:Initialize()
 	if CLIENT then return end
 

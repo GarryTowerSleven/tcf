@@ -195,10 +195,11 @@ function ShouldDrawAmmo()
     return AmmoConvar:GetBool() and (IsValid( Weapon ) and ( Ammo >= 0 ))
 end
 function ShouldDrawCrosshair()
-    if IsValid(Weapon) and (Weapon.DoDrawCrosshair and Weapon:DoDrawCrosshair() == true || Weapon:IsScripted() and !Weapon.DrawCrosshair || Weapon.DrawHUDCrosshair) then return false end
-    if LocalPlayer().HideCrosshair then return false end
+	if IsValid(Weapon) and !Weapon.DrawCrosshair then return false end -- What
+	if LocalPlayer().HideCrosshair then return false end
+	if LocalPlayer():ShouldDrawLocalPlayer() || !LocalPlayer():Alive() then return false end
 
-    return CrosshairConvar:GetBool()
+	return CrosshairConvar:GetBool()
 end
 function ShouldDrawHealth()
     return IsOldLobby1() and true or Location.Is( LocalPlayer():Location(), "Narnia" )
@@ -480,7 +481,7 @@ end
 local function PaintCrosshair( ent )
 
     if not ShouldDrawCrosshair() then return end
-    if not CrosshairAlwaysConvar:GetBool() and ( not IsValid( ent ) or not CanPlayerUse( ent ) ) then return end
+    if not CrosshairAlwaysConvar:GetBool() and ( not IsValid( ent ) or not CanPlayerUse( ent ) ) and not IsValid(Weapon) then return end
 
     local x, y = ScrW() / 2, ScrH() / 2
 	local color = color_white

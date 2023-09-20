@@ -17,7 +17,7 @@ SWEP.ViewModel		 = "models/weapons/v_pvp_supershoty.mdl"
 SWEP.WorldModel		 = "models/weapons/w_pvp_supershoty.mdl"
 SWEP.HoldType		 = "shotgun"
 
-SWEP.DrawCrosshair = false
+SWEP.DrawCrosshair = true
 
 SWEP.Primary.Delay	 = .8
 

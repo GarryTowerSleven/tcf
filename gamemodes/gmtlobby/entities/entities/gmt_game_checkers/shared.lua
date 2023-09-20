@@ -11,6 +11,8 @@ ENT.AdminSpawnable	= false
 //ENT.Model			= Model( "models/props_wasteland/kitchen_counter001b.mdl")
 ENT.Model			= Model( "models/gmod_tower/gametable.mdl")
 
+ENT.OnUse		= "USE"
+
 ENT.TblSize = 60 //Actually 64, but do not include the borders
 ENT.NegativeSize = ENT.TblSize / 2
 ENT.UpPos = 20.25

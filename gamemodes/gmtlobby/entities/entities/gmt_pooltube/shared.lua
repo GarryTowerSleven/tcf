@@ -10,6 +10,7 @@ ENT.AdminSpawnable		= true
 ENT.RenderGroup 		= RENDERGROUP_BOTH
 
 ENT.Model				= Model( "models/gmod_tower/pooltube.mdl")
+ENT.OnUse				= "SIT"
 ENT.Gravity 			= -350
 
 --ENT.Curve 				= STORED_CURVES["waterslide_a"]

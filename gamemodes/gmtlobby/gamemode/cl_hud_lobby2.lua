@@ -4,7 +4,7 @@ module( "GTowerHUD", package.seeall )
 local function PaintCrosshair( ent )
 
     if not ShouldDrawCrosshair() then return end
-    if not CrosshairAlwaysConvar:GetBool() and ( not IsValid( ent ) or not true ) then return end
+    if not CrosshairAlwaysConvar:GetBool() and ( not IsValid( ent ) or not CanPlayerUse( ent ) ) and not IsValid(Weapon) then return end
 
     local x, y = ScrW() / 2, ScrH() / 2
 	local color = color_white

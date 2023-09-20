@@ -12,5 +12,5 @@ ENT.AdminSpawnable	= true
 ENT.Model		= Model("models/gmod_tower/presentbag.mdl")
 
 function ENT:CanUse()
-  return true, "SHOP"
+  return true, "SHOP: HAPPY HOLIDAYS!"
 end
