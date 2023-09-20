@@ -19,8 +19,8 @@ include( "sh_movement.lua" )
 
 include( "sh_classmanager.lua" )
 
-include( "sh_player_meta.lua" )
 include( "shared.lua" )
+include( "sh_player_meta.lua" )
 
 //===============================================================
 ConVarDisplayHUD = CreateClientConVar( "gmt_zm_hud", 1, true )
