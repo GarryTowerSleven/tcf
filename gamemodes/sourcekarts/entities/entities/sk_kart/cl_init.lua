@@ -842,8 +842,8 @@ function ENT:Draw()
 	end
 end
 
-local fallz = 0
-local lastLava = 0
+ENT.FallZ = 0
+ENT.LastLava = 0
 
 function ENT:FrameThink( trace )
 	if !IsValid( self.ClientModel ) then
@@ -873,7 +873,7 @@ function ENT:FrameThink( trace )
 
 		if self:HitWorld( trace ) || RaveMode then
 			local newz = trace.HitPos
-			origin = newz + angles:Up() * ( 1 - fallz )
+			origin = newz + angles:Up() * ( 1 - self.FallZ )
 			self.IsInAir = false
 		else
 			origin = origin + angles:Up() * self.FrameLift
@@ -882,11 +882,11 @@ function ENT:FrameThink( trace )
 		end
 
 		if MatType == "lava" then
-			fallz = math.Approach( fallz, 24, RealFrameTime() * 16 )
-			lastLava = CurTime()
+			self.FallZ = math.Approach( self.FallZ, 24, RealFrameTime() * 16 )
+			self.LastLava = CurTime()
 		else
-			if CurTime() - lastLava > .1 then
-				fallz = math.Approach( fallz, 0, RealFrameTime() * 50 )
+			if CurTime() - self.LastLava > .1 then
+				self.FallZ = math.Approach( self.FallZ, 0, RealFrameTime() * 50 )
 			end
 		end
 
