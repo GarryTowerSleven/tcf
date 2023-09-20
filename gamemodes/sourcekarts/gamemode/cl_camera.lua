@@ -70,6 +70,7 @@ local function CalcViewPlaying( ply, origin, angles, fov )
 		else
 			camera.Pitch = ApproachSupport2( camera.Pitch, 0, 2 )
 		end
+		
 		Pos.z = Pos.z + ( camera.Pitch * 4 )
 
 		local easePitch = ang.p + camera.Pitch
@@ -79,12 +80,15 @@ local function CalcViewPlaying( ply, origin, angles, fov )
 
 		// Turn with Q/E
 		local turnAmount = 20
-		if input.IsKeyDown( KEY_Q ) then
-			camera.Yaw = ApproachSupport2( camera.Yaw, turnAmount, 2 )
-		elseif input.IsKeyDown( KEY_E ) then
-			camera.Yaw = ApproachSupport2( camera.Yaw, -turnAmount, 2 )
-		else
-			camera.Yaw = ApproachSupport2( camera.Yaw, 0, 2 )
+
+		if GAMEMODE:GetState() == STATE_BATTLE then
+			if input.IsKeyDown( KEY_Q ) then
+				camera.Yaw = ApproachSupport2( camera.Yaw, turnAmount, 2 )
+			elseif input.IsKeyDown( KEY_E ) then
+				camera.Yaw = ApproachSupport2( camera.Yaw, -turnAmount, 2 )
+			else
+				camera.Yaw = ApproachSupport2( camera.Yaw, 0, 2 )
+			end
 		end
 
 		camera.Roll = ang.r //ApproachSupport2( camera.Roll, ang.r, 30 )
