@@ -286,7 +286,7 @@ local function BanPlayer(ply, time)
 
     --local Steamid = ply:SteamID()
     Derma_StringRequest("Ban " .. Name, "Ban " .. Name, "", function(reason)
-        RunConsoleCommand( "gmt_ban", ply:EntIndex(), time * 60, reason )
+        RunConsoleCommand( "gmt_ban", ply:SteamID(), reason, time * 60 )
     end, nil, "Ban " .. Name, "Cancel")
 end
 
@@ -295,7 +295,7 @@ local function KickPlayer(ply)
 
     Derma_StringRequest("Kick " .. Name, "Kick " .. Name, "", function(reason)
         if IsValid(ply) then
-            RunConsoleCommand("gmt_kick", ply:EntIndex(), reason)
+            RunConsoleCommand("gmt_kick", ply:SteamID(), reason)
         end
     end, nil, "Kick " .. Name, "Cancel")
 end
@@ -317,7 +317,7 @@ hook.Add("ExtraMenuPlayer", "AddModFunctions", function(ply)
                 {
                     ["Name"] = "Kick Quick",
                     ["function"] = function()
-                        RunConsoleCommand("gmt_kick", ply:EntIndex(), "Your current action(s) are against our rules.")
+                        RunConsoleCommand("gmt_kick", ply:SteamID(), "Your current action(s) are against our rules.")
                     end,
                     ["order"] = 2
                 },
