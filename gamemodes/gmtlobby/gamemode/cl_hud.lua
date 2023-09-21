@@ -202,7 +202,7 @@ function ShouldDrawCrosshair()
 	return CrosshairConvar:GetBool()
 end
 function ShouldDrawHealth()
-    return IsOldLobby1() and true or LocalPlayer():Health() < 100 or Location.Is( LocalPlayer():Location(), "Narnia" )
+    return IsOldLobby1() and true or Location.Is( LocalPlayer():Location(), "Narnia" )
 end
 function ShouldDrawEvents()
     return EventConvar:GetBool() or false
@@ -518,7 +518,7 @@ function PaintLobby1()
 
 end
 
-/*function GTowerHUD.DrawNotice( title, message )
+function GTowerHUD.DrawNotice( title, message )
 
     // TODO: hud hook and gradient ver
 
@@ -540,7 +540,7 @@ end
     -- Draw text
     draw.DrawText( message or "", "GTowerHudCSubText", w, h + 30, Color( 255, 255, 255, 255 ), 1 )
 
-end*/
+end
 
 function Paint()
 
