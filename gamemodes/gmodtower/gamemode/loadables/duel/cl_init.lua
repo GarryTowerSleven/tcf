@@ -235,12 +235,12 @@ net.Receive( "StartDuel", function( len )
 	local req = net.ReadEntity()
 	local ply = net.ReadEntity()
 
-	if LocalPlayer() == req then
+	if IsValid( req ) and LocalPlayer() == req then
 		LocalPlayer().DuelOpponent = ply
 		StartDuelClient()
 	end
 
-	if LocalPlayer() == ply then
+	if IsValid( ply ) and LocalPlayer() == ply then
 		LocalPlayer().DuelOpponent = req
 		StartDuelClient()
 	end
