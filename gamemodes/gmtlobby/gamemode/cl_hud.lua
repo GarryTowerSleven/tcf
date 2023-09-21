@@ -202,7 +202,7 @@ function ShouldDrawCrosshair()
 	return CrosshairConvar:GetBool()
 end
 function ShouldDrawHealth()
-    return IsOldLobby1() and true or Location.Is( LocalPlayer():Location(), "Narnia" )
+    return IsOldLobby1() and true or LocalPlayer():Health() < 100 or Location.Is( LocalPlayer():Location(), "Narnia" )
 end
 function ShouldDrawEvents()
     return EventConvar:GetBool() or false
