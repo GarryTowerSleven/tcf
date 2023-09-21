@@ -139,7 +139,7 @@ end )
 
 concommand.StaffAdd( "gmt_ban", function( ply, _, args )
 
-    local target = player.GetByID( tonumber( args[1] ) )
+    local target = player.GetBySteamID( args[1] or 0 )
     if not IsValid( target ) then return end
 
     BanPlayer( target, ply, args[2] or nil, args[3] or nil )
@@ -157,7 +157,7 @@ end
 
 concommand.StaffAdd( "gmt_kick", function( ply, _, args )
 
-    local target = player.GetByID( tonumber( args[1] ) )
+    local target = player.GetBySteamID( args[1] or 0 )
     if not IsValid( target ) then return end
 
     KickPlayer( target, ply, args[2] or nil )

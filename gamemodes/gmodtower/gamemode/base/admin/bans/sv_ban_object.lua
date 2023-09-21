@@ -109,6 +109,11 @@ function BanObject:IsExpired()
         return false
     end
 
+    // disabled
+    if self:GetLength() == -1 then
+        return true
+    end
+
     return self:TimeLeft() == 0
 
 end
