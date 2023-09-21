@@ -210,6 +210,6 @@ end*/
 
 Register( "Int", "Money" )
 Register( "String", "Role" )
-Register( "String", "FakeName" )
+// Register( "String", "FakeName" )
 Register( "Bool", "SecretAdmin" )
 Register( "Entity", "DrivingObject" )
