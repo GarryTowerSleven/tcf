@@ -1622,7 +1622,7 @@ RegisterItem("leathersofa",{
 })
 
 RegisterItem("chairfabrichotel",{
-	Name = "Fabric Hotel Chair",
+	Name = "Fancy Hotel Armchair",
 	Description = "Sit by the fireplace and pick up a good long book in this delightfully comfortable chair.",
 	Model = "models/props_vtmb/hotelchair.mdl",
 	UniqueInventory = false,
@@ -1634,13 +1634,13 @@ RegisterItem("chairfabrichotel",{
 })
 
 RegisterItem("chairfancyhotel",{
-	Name = "Leather Hotel Chair",
+	Name = "Fancy Hotel Chair",
 	Description = "We stole this chair from a hotel just for you. Don't tell anybody.",
 	Model = "models/props_vtmb/chairfancyhotel.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
 	StoreId = GTowerStore.SUITE,
-	StorePrice = 1100,
+	StorePrice = 750,
 	MoveSound = "furniture",
 })
 
