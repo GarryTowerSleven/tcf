@@ -8,12 +8,12 @@ function meta:GetRole()
 end
 
 function meta:IsHidden()
-	if IsValid( self ) then
+	/*if IsValid( self ) then
 		local fakename = self:GetNet( "FakeName" )
 		if fakename then
 			return self:GetNet( "FakeName" ) != ""
 		end
-	end
+	end*/
 	return false
 end
 
