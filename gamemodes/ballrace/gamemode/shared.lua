@@ -36,7 +36,7 @@ end
 // === GAMEMODE NETVARS ===
 globalnet.Register( "Bool", "Passed" )
 
-plynet.Register( "String", "CompletedTime" )
+plynet.Register( "Float", "CompletedTime" )
 plynet.Register( "Int", "CompletedRank" )
 
 // === STATES ===
