@@ -26,7 +26,6 @@ ListModerator = {
 	["STEAM_0:0:156132358"] = true, -- Basical
 	["STEAM_0:1:85508734"] 	= true, -- Breezy
 	["STEAM_0:0:115320789"] = true, -- Zia
-	["STEAM_0:0:241528576"] = true, -- Scienti[-]
 	["STEAM_0:0:41914866"] 	= true, -- Sunni
 	["STEAM_0:1:53166133"] 	= true, -- Orlok
 	["STEAM_0:1:72402171"] 	= true, -- Umbre
