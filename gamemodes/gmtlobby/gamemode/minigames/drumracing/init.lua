@@ -55,8 +55,6 @@ function RemoveWeapon( ply )
 	if ply:HasWeapon("weapon_chainsaw") && !ply:IsAdmin() then
 		ply:StripWeapons()
 	end
-	
-	ply:ResetGod()
 end
 
 function playerDies( ply, inflictor, killer )

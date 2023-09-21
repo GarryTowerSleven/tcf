@@ -19,7 +19,7 @@ function GM:PlayerSwitchFlashlight( ply, on )
 
 end
 
-function GM:GTCanNoClip( ply )
+function GM:CanNoClip( ply )
 	return false
 end
 

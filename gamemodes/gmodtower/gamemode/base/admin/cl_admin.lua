@@ -16,7 +16,7 @@ end
 
 local function MenuSetMoney(ply)
     Derma_StringRequest("Set Money", "Set the money of: " .. ply:Name(), "", function(out)
-        RunConsoleCommand("gmt_act", "money", ply:EntIndex(), out)
+        RunConsoleCommand("gmt_act", "setmoney", ply:EntIndex(), out)
     end, nil, "Update", "Cancel")
 end
 
@@ -286,7 +286,7 @@ local function BanPlayer(ply, time)
 
     --local Steamid = ply:SteamID()
     Derma_StringRequest("Ban " .. Name, "Ban " .. Name, "", function(reason)
-        RunConsoleCommand( "gmt_ban", ply:EntIndex(), time, reason )
+        RunConsoleCommand( "gmt_ban", ply:EntIndex(), time * 60, reason )
     end, nil, "Ban " .. Name, "Cancel")
 end
 
@@ -388,7 +388,7 @@ hook.Add("ExtraMenuPlayer", "AddModFunctions", function(ply)
                     ["Name"] = "Mute/Unmute",
                     ["canclose"] = true,
                     ["function"] = function(ply)
-                        RunConsoleCommand("gmt_act", "mute", ply)
+                        RunConsoleCommand("gmt_mute", ply)
                     end,
                     ["checkenabled"] = function() return (false) end,
                     ["order"] = 6
@@ -397,7 +397,7 @@ hook.Add("ExtraMenuPlayer", "AddModFunctions", function(ply)
                     ["Name"] = "Gag/Ungag",
                     ["canclose"] = true,
                     ["function"] = function(ply)
-                        RunConsoleCommand("gmt_act", "gag", ply)
+                        RunConsoleCommand("gmt_gag", ply)
                     end,
                     ["checkenabled"] = function() return (false) end,
                     ["order"] = 7
@@ -432,6 +432,20 @@ hook.Add("ExtraMenuPlayer", "AddModFunctions", function(ply)
                     end,
                     ["order"] = 9
                 },
+                {
+                    ["Name"] = "Send To Lobby",
+                    ["function"] = function()
+                        SendToLobby( ply )
+                    end,
+                    ["order"] = 10
+                },
+                {
+                    ["Name"] = "Spray Ban",
+                    ["function"] = function()
+                        RunConsoleCommand( "gmt_sprayban", ply:EntIndex() )
+                    end,
+                    ["order"] = 11
+                },
             }
         }
 
@@ -446,13 +460,6 @@ hook.Add("ExtraMenuPlayer", "AddAdminFunctions", function(ply)
             ["order"] = 0,
             ["extra"] = ply:EntIndex(),
             ["sub"] = {
-                {
-                    ["Name"] = "Send To Lobby",
-                    ["function"] = function()
-                        SendToLobby( ply )
-                    end,
-                    ["order"] = 1
-                },
                 {
                     ["Name"] = "Slay",
                     ["function"] = function(ply)

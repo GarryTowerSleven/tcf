@@ -1,3 +1,47 @@
+/*
+    Roles
+*/
+
+PlayerRoles = {
+
+    // Lead Dev
+    ["STEAM_0:0:1384695"]   = "Lead Developer",	// kity
+	
+	// Developers
+	["STEAM_0:1:39916544"]  = "Developer",	// Anoma
+	["STEAM_0:1:124798129"] = "Developer", 	// Amgona
+	["STEAM_0:0:44458854"]  = "Developer",	// Bumpy
+    ["STEAM_0:0:241528576"] = "Developer",  // Scienti[-]
+	
+	// Contributor
+	["STEAM_0:0:193442077"] = "Contributor", // Nyantendo
+	["STEAM_0:1:95941298"]  = "Contributor", // Pipedream
+	["STEAM_0:0:90689651"]  = "Contributor", // Sonop / hELLO
+	["STEAM_0:1:97372299"]  = "Contributor", // NotGaylien
+	
+	// Pixeltail Games
+	["STEAM_0:1:6044247"]   = "PixelTail",	// MacDGuy
+	["STEAM_0:0:32497992"]  = "PixelTail",	// Caboose700
+	["STEAM_0:1:11414156"]  = "PixelTail",	// Lifeless
+	["STEAM_0:1:21111851"]  = "PixelTail",	// Will
+	["STEAM_0:0:6807675"]   = "PixelTail",	// Johanage
+	["STEAM_0:0:72861849"]  = "PixelTail",	// Madmijk
+
+}
+
+function GetPlayerRole( steamid )
+    return PlayerRoles[ steamid ] or nil
+end
+
+hook.Add( "PlayerNetInitalized", "ApplyRoles", function( ply )
+
+    local role = GetPlayerRole( ply:SteamID() )
+    if not role then return end
+
+    ply:SetNet( "Role", role )
+
+end )
+
 local meta = FindMetaTable( "Player" )
 if !meta then return end
 

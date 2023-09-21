@@ -8,6 +8,18 @@ concommand.Add = function( cmd, func, ... )
 
 end
 
+concommand.StaffAdd = function( cmd, func, ... )
+	
+	concommandAdd( cmd, function( ply, ...)
+		
+		if ply:IsStaff() then
+			SafeCall( func, ply, ... )
+		end
+		
+	end, ... )
+
+end
+
 concommand.AdminAdd = function( cmd, func, ... )
 	
 	concommandAdd( cmd, function( ply, ...)

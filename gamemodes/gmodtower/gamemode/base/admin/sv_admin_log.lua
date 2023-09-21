@@ -1,5 +1,7 @@
 // Admin Notifications //
 
+// this needs a redo D:
+
 AdminNotif = {}
 AdminLog = {}
 
@@ -85,7 +87,7 @@ function AdminLog.PrintAdmins( text, color, verbose ) // send to only admins
 	end
 end
 
-local adminCompliments = { "sexy", "handsome", "beautiful", "gorgeous", "stud" }
+/*local adminCompliments = { "sexy", "handsome", "beautiful", "gorgeous", "stud" }
 hook.Add( "PlayerSpawnClient", "AdminVerboseWelcome", function( ply )
 	if !IsLobby then return end
     if !IsValid(ply) || !ply:IsStaff() then return end
@@ -96,7 +98,7 @@ hook.Add( "PlayerSpawnClient", "AdminVerboseWelcome", function( ply )
 		str = "Welcome back, " .. table.Random(adminCompliments) .. "."
 	end
     AdminNotif.Send( ply, str, nil, "RAINBOW", 5 )
-end)
+end)*/
 
 hook.Add( "PlayerSpawnClient", "AdminLogConnected", function( ply )
     if !IsValid(ply) then return end

@@ -32,10 +32,6 @@ function GM:PlayerSwitchFlashlight( ply )
 	return false
 end
 
-function GM:PlayerSpray( ply )
-	return true
-end
-
 //Flag Setup
 function FlagSetup()
 	timer.Simple( 2, function()
