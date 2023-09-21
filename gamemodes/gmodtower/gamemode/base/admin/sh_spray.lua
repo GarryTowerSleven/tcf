@@ -28,7 +28,7 @@ if SERVER then
 
 	hook.Add( "PlayerSpray", "SprayTracking", function( ply )
 
-		if ( not ply:CanSpray() ) then return end
+		if not ply:CanSpray() then return true end
 
 		CheckSprays()
 
@@ -46,7 +46,6 @@ if SERVER then
 			net.WriteString( steamid )
 			net.WriteTable( PlayerSprays[steamid] )
 		net.Broadcast()
-		--net.Send( Admins.GetAll() )
 
 	end )
 
@@ -60,7 +59,6 @@ if SERVER then
 				net.WriteString( steamid )
 				net.WriteTable( spray )
 			net.Broadcast()
-			--net.Send( Admins.GetAll() )
 
 		end
 
@@ -70,16 +68,13 @@ if SERVER then
 		SyncSprays()
 	end )
 
-	concommand.Add( "gmt_clearsprays", function( ply )
+	concommand.StaffAdd( "gmt_clearsprays", function( ply )
 
-		if ply:IsAdmin() then
-			PlayerSprays = {}
-			net.Start( "SprayInfoClear" )
-			net.Broadcast()
-			--net.Send( Admins.GetAll() )
+		PlayerSprays = {}
+		net.Start( "SprayInfoClear" )
+		net.Broadcast()
 
-			ply:Msg2("Cleared spray information.")
-		end
+		ply:Msg2("Cleared spray information.")
 
 	end )
 

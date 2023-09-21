@@ -75,8 +75,6 @@ function RemoveWeapon( ply )
 	if ply:HasWeapon(WeaponName) then
 		ply:StripWeapons()
 	end
-
-	ply:ResetGod()
 end
 
 function playerDies( ply, inflictor, killer )

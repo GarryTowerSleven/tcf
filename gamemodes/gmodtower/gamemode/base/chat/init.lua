@@ -323,6 +323,11 @@ function meta:Chat( text, type, hidden )
 	if ( not IsValid( self ) ) then return end
 	if ( not text or string.Trim( text or "" ) == "" ) then return end
 
+	if self._Gagged then
+		self:ChatPrint( T( "ChatGagged" ) )
+		return
+	end
+
 	if ( not IsLobby ) then
 		type = "Server"
 	end

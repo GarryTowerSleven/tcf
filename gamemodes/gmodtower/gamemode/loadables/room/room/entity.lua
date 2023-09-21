@@ -154,9 +154,22 @@ function EntCreateThink( self )
 
 end
 
-
 function EntsInRoom( self )
 	return ents.FindInBox( self.StartPos, self.EndPos )
+end
+
+function GetItemCount( self, itemId )
+	local count = 0
+
+	for _, ent in pairs( self:EntsInRoom( self ) ) do
+		local InvItem = GTowerItems:FindByEntity( ent )
+		
+		if InvItem == itemId then
+			count = count + 1
+		end
+	end
+
+	return count
 end
 
 function GetPlayers( self )

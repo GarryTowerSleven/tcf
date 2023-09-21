@@ -88,45 +88,6 @@ function string.Uppercase( str )
 	return string.lower(str):gsub("^%l", string.upper)
 end
 
-function string.NiceTime( seconds )
-
-	if ( seconds == nil ) then return "a few seconds" end
-
-	if ( seconds < 60 ) then
-		local sec = math.floor( seconds )
-		if sec > 1 then
-			return sec .. " seconds"
-		else
-			return sec .. " second"
-		end
-	end
-
-	if ( seconds < 60 * 60 ) then
-		local min = math.floor( seconds / 60 )
-		if min > 1 then
-			return min .. " minutes"
-		else
-			return min .. " minute"
-		end
-	end
-
-	if ( seconds < 60 * 60 * 24 ) then
-		local hour = math.floor( seconds / (60 * 60) )
-		if hour > 1 then
-			return hour .. " hours"
-		else
-			return hour .. " hour"
-		end
-	end
-
-	if ( seconds < 60 * 60 * 24 ) then
-		return math.floor( seconds / (60 * 60 * 24) ) .. " days";
-	end
-
-	return "ages"
-
-end
-
 function string.NiceTimeShort( seconds, format )
 
 	seconds = tonumber( seconds )
@@ -154,50 +115,6 @@ function string.NiceTimeShort( seconds, format )
 	if format then str = str .. "</color>" end
 
 	return str
-
-end
-
-function string.NiceTimeLong( minutes )
-
-	if ( minutes < 1 ) then return "less than a minute" end
-
-	if ( minutes < 60 ) then
-		local min = math.floor( minutes )
-		if min > 1 then
-			return min .. " minutes"
-		else
-			return min .. " minute"
-		end
-	end
-
-	if ( minutes < 1440 ) then
-		local hr = math.floor( minutes / 60 )
-		if hr > 1 then
-			return hr .. " hours"
-		else
-			return hr .. " hour"
-		end
-	end
-
-	if ( minutes < 10080 ) then
-		local days = math.floor( minutes / 1440 )
-		if days > 1 then
-			return days .. " days"
-		else
-			return days .. " day"
-		end
-	end
-
-	if ( minutes < 525600 ) then
-		local weeks = math.floor( minutes / 10080 )
-		if weeks > 1 then
-			return weeks .. " weeks"
-		else
-			return weeks .. " week"
-		end
-	end
-
-	return "over a year"
 
 end
 

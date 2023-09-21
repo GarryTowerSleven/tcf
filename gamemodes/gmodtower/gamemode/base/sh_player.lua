@@ -3,134 +3,97 @@ if !meta then
 	return
 end
 
-local Roles =
-{
-	// kitteh omega overloard 1337 rawr
-	["STEAM_0:0:1384695"] = "Lead Developer",	// kity
-	
-	// Developers
-	["STEAM_0:1:39916544"] = "Developer",	// Anoma
-	["STEAM_0:1:124798129"] = "Developer", 	// Amgona
-	["STEAM_0:0:44458854"] = "Developer",	// Bumpy
-	// ["STEAM_0:0:38865393"] = "Developer",	// boXy
-	["STEAM_0:0:241528576"] = "Developer", // Scienti[-]
-	
-	// Moderators
-	["STEAM_0:1:57386100"] = "Moderator", 	// Squibbus
-	["STEAM_0:0:156132358"] = "Moderator", 	// Basical
-	["STEAM_0:1:85508734"] = "Moderator", 	// Breezy
-	["STEAM_0:0:115320789"] = "Moderator", 	// Zia
-	
-	["STEAM_0:0:41914866"] = "Moderator", // Sunni
-	["STEAM_0:1:53166133"] = "Moderator",	// Orlok
-	["STEAM_0:1:72402171"] = "Moderator",	// Umbre
-	
-	// Contributor
-	["STEAM_0:0:193442077"] = "Contributor", // Nyantendo
-	["STEAM_0:1:95941298"] = "Contributor", // Pipedream
-	["STEAM_0:0:90689651"] = "Contributor", // Sonop / hELLO
-	
-	// Pixeltail Games
-	["STEAM_0:1:6044247"] = "PixelTail",	// MacDGuy
-	["STEAM_0:0:32497992"] = "PixelTail",	// Caboose700
-	["STEAM_0:1:11414156"] = "PixelTail",	// Lifeless
-	["STEAM_0:1:21111851"] = "PixelTail",	// Will
-	["STEAM_0:0:6807675"] = "PixelTail",	// Johanage
-	["STEAM_0:0:72861849"] = "PixelTail",	// Madmijk
-}
-
-local function GetTitle( steamid )
-	return Roles[steamid]
+function meta:GetRole()
+	return self:GetNet( "Role" )
 end
 
 function meta:IsHidden()
-	/*if IsValid( self ) then
-		local fakename = self:GetNWString( "FakeName" )
+	if IsValid( self ) then
+		local fakename = self:GetNet( "FakeName" )
 		if fakename then
-			return self:GetNWString( "FakeName" ) != ""
+			return self:GetNet( "FakeName" ) != ""
 		end
-	end*/
+	end
 	return false
 end
 
 function meta:IsOwner()
-	return ( GetTitle( self:SteamID() ) == "Owner" )
+	return self:GetRole() == "Owner"
 end
 
-function meta:IsPrivAdmin()
-	return self:IsUserGroup("privadmin") && self:IsAdmin()
+function meta:IsLeadDeveloper()
+	return self:GetRole() == "Lead Developer"
 end
 
 function meta:IsSecretAdmin()
-	return self:GetNWBool("SecretAdmin")
+	return self:GetNet( "SecretAdmin" )
 end
 
 function meta:IsDeveloper()
-	return GetTitle( self:SteamID() ) == "Developer"
+	return self:GetRole() == "Developer"
 end
 
 function meta:IsModerator()
-	return self:GetUserGroup() == "moderator"
+	return self:IsUserGroup( "moderator" )
 end
 
 function meta:IsStaff()
-	return self:IsModerator() || self:IsAdmin()
+	return self:IsAdmin() or self:IsModerator()
 end
 
 function meta:IsContributor()
-	return GetTitle( self:SteamID() ) == "Contributor"
+	return self:GetRole() == "Contributor"
 end
 
-local color_lead = Color(248, 18, 128, 255)
-local color_admin = Color(125, 177, 30, 255)
-local color_mod = Color(255, 150, 75, 255)
-local color_developer = Color(255, 100, 100, 255) // cool green 125, 177, 30
-local color_vip = Color(185, 100, 255, 255)
-local color_pink = Color(255, 166, 241, 255)
-local color_contributor = Color(122, 178, 255, 255 )
-local color_pixeltail = Color( 216, 31, 42, 255 )
-
-local function returnFull(c)
-	return Color( c.r, c.g, c.b, 255 )
+function meta:IsPixelTail()
+	return self:GetRole() == "PixelTail"
 end
+
+local color_lead		= Color( 248,  18, 128 )
+local color_developer	= Color( 255, 100, 100 )
+local color_mod			= Color( 255, 150,  75 )
+local color_admin		= Color( 125, 177,  30 )
+local color_contributor	= Color( 122, 178, 255 )
+local color_pixeltail	= Color( 216,  31,  42 )
+local color_default		= team.GetColor( TEAM_UNASSIGNED )
 
 function meta:GetDisplayTextColor()
 
-	local default_color = team.GetColor( self:Team() )
+	if self:IsHidden() then
+		return color_default
+	end
 
-	if self:IsHidden() then return returnFull(default_color) end
-
-	if GetTitle( self:SteamID() ) == "Lead Developer" then
-		return returnFull(color_lead)
+	if self:IsLeadDeveloper() then
+		return color_lead
 	end
 
 	if self:IsDeveloper() then
-		return returnFull(color_developer) //color_developer
+		return color_developer
 	end
 
 	if self:IsModerator() then
-		return returnFull(color_mod)
+		return color_mod
 	end
 
-	if self:IsAdmin() && !self:GetNWBool("SecretAdmin") then
-		return returnFull(color_admin)
+	if self:IsAdmin() && not self:IsSecretAdmin() then
+		return color_admin
 	end
 
 	if self:IsContributor() then
-		return returnFull(color_contributor)
+		return color_contributor
 	end
 
-	// So long, gay bowser
-	/*if self:IsVIP() then
-		return returnFull(color_vip)
-	end*/
+	if self:IsPixelTail() then
+		return color_pixeltail
+	end
 
-	return returnFull(default_color)
+	return color_default
+
 end
 
 function meta:GetRespectName( nofriend )
 
-	if not IsValid( self ) or self:IsHidden() then return end
+	if not IsValid( self ) then return end
 
 	local title
 	
@@ -138,21 +101,27 @@ function meta:GetRespectName( nofriend )
 		title = "VIP"
 	end
 
+	if self:IsModerator() then
+		title = "Moderator"
+	end
+
 	if self:IsAdmin() then
 		title = "Admin"
 	end
 
-	if ( GetTitle( self:SteamID() ) ) then
-		title = GetTitle( self:SteamID() )
+	if ( self:GetRole() and self:GetRole() != "" ) then
+		title = self:GetRole()
 	end
 
-	if self:IsSecretAdmin() then
+	if self:IsSecretAdmin() or self:IsHidden() then
 		title = "VIP"
 	end
 
 	-- Show friend status
 	if Friends and not nofriend then
+
 		local relationship = Friends.GetRelationshipName( LocalPlayer(), self )
+
 		if relationship then
 			if title then
 				title = title .. " and " .. relationship
@@ -160,6 +129,7 @@ function meta:GetRespectName( nofriend )
 				title = relationship
 			end
 		end
+
 	end
 
 	return title
@@ -170,7 +140,7 @@ function meta:Name()
 	if !IsValid( self ) then return "" end
 	if self:IsBot() then return self:Nick() end
 	if self:IsHidden() then
-		return self:GetNWString( "FakeName" )
+		return self:GetNet( "FakeName" )
 	end
 
 	return self:Nick()

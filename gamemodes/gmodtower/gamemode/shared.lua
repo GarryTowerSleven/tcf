@@ -1,7 +1,13 @@
 GM.Name     = "GMod Tower"
-GM.Author   = "Deluxe Team & PixelTail Games"
+GM.Author   = "PixelTail Games & TCF Team"
 GM.Website  = "https://gtower.net/"
 GM.WebsiteUrl  = GM.Website .. "apps/"
+
+ServerName 		= "GMod Tower: The Community First"
+ServerNameShort = "TCF"
+
+Website 	= GM.Website
+WebsiteApps = Website .. "apps/"
 
 color_green = Color( 50, 255, 50 )
 color_red = Color( 255, 50, 50 )

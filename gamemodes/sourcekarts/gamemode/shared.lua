@@ -192,6 +192,14 @@ function GM:ShouldCollide( ent1, ent2 )
 	return true
 end
 
+function GM:EntityEmitSound( data )
+	if data.Entity:GetClass() == "sk_wheel" then
+		return false
+	end
+
+	return true
+end
+
 // MUSIC
 MUSIC_WAITING = 1
 MUSIC_RACE1 = 2
@@ -229,7 +237,7 @@ elseif game.GetMap() == "gmt_sk_lifelessraceway01" then
 
 	music.Register( MUSIC_BATTLE1, "music/raceway_battle1", { Length = timetoint( 1, 8 ), Loops = true } )
 	music.Register( MUSIC_BATTLE2, "music/raceway_battle2", { Length = timetoint( 0, 52 ), Loops = true } )
-elseif game.GetMap() == "gmt_sk_rave" then
+elseif game.GetMap() == "gmt_sk_rave02" then
 	music.Register( MUSIC_RACE1, "music/rave_race1", { Length = timetoint( 3, 1 ), Loops = true } )
 	music.Register( MUSIC_RACE2, "music/rave_race2", { Length = timetoint( 2, 26 ), Loops = true } )
 	music.Register( MUSIC_RACE3, "music/rave_rave3", { Length = timetoint( 2, 54 ), Loops = true } )

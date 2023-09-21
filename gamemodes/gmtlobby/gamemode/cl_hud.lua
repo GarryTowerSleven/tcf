@@ -518,7 +518,7 @@ function PaintLobby1()
 
 end
 
-function GTowerHUD.DrawNotice( title, message )
+/*function GTowerHUD.DrawNotice( title, message )
 
     // TODO: hud hook and gradient ver
 
@@ -540,7 +540,7 @@ function GTowerHUD.DrawNotice( title, message )
     -- Draw text
     draw.DrawText( message or "", "GTowerHudCSubText", w, h + 30, Color( 255, 255, 255, 255 ), 1 )
 
-end
+end*/
 
 function Paint()
 

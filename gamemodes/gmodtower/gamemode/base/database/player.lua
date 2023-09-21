@@ -93,10 +93,6 @@ function SavePlayer( ply, columns, callback )
     local query_string = "UPDATE `gm_users` SET " .. Columns.CreateQuery( data ) .. " WHERE id ='" .. id .. "';"
     ply._IsSaving = true
 
-    if DEBUG then
-        print( query_string )
-    end
-
     Query( query_string, function( res, status, err )
 
         if IsValid( ply ) then

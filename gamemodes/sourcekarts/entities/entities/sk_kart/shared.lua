@@ -268,19 +268,19 @@ function ENT:GetTraction( trace )
 	end
 
 	// Handle boost
-	if table.HasValue( BoostMaterials, hitTexture ) || matType == MAT_COMPUTER || string.StartWith( hitTexture, "maps/gmt_sk_rave/gmod_tower/kartracer/rave/sk_boost_pink" ) then
+	if table.HasValue( BoostMaterials, hitTexture ) || matType == MAT_COMPUTER || string.find( hitTexture, "boost_pink" ) then
 		return .4, "boost", false
 	end
 
-
 	// Handle surface
-	if table.HasValue( StickMaterials, hitTexture ) or string.StartWith( hitTexture, "maps/gmt_sk_rave/gmod_tower/kartracer/rave/glitter" ) or string.StartWith( hitTexture, "maps/gmt_sk_rave/gmod_tower/kartracer/rave/sk_boost_blue" ) then
+	if table.HasValue( StickMaterials, hitTexture ) or string.find( hitTexture, "glitter" ) or string.find( hitTexture, "boost_blue" ) then
 		return .15, "surface", false
 	end
 
 	if hitTexture == "**displacement**" then
 
-		if game.GetMap() == "gmt_sk_rave" then
+		// Rave uses displacements as road.
+		if RaveMode then
 			return .15, "surface", false
 		end
 
