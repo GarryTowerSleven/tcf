@@ -174,8 +174,9 @@ function ENT:Think()
 				if !DrawPlayers:GetBool() then
 					for k,v in ipairs(Location.GetPlayersInLocation( LocalPlayer():Location() )) do
 						if not v._TetrisHidden then
-						v:SetNoDrawAll(true)
-						v._TetrisHidden = true
+							v:SetNoDrawAll(true)
+							v._TetrisHidden = true
+						end
 					end
 				else
 					for k,v in ipairs(Location.GetPlayersInLocation( LocalPlayer():Location() )) do
