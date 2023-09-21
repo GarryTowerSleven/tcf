@@ -223,6 +223,11 @@ NotRight = {
 	["models/gmod_tower/stealth box/box.mdl"]	= 180,
 	["models/gmod_tower/theater_seat.mdl"]		= 180,
 	["models/gmod_tower/suite_booth.mdl"]		= 90,
+	["models/props_vtmb/sofa.mdl"]				= 0,
+	["models/props_vtmb/armchair.mdl"]			= 0,
+	["models/props_vtmb/hotelchair.mdl"]			= 180,
+	["models/haxxer/me2_props/illusive_chair.mdl"]	= 90,
+	["models/haxxer/me2_props/reclining_chair.mdl"]	= 0,
 }
 
 DefaultSitSound = Sound("sunabouzu/chair_sit.wav")
