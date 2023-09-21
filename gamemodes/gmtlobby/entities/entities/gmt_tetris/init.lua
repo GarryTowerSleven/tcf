@@ -172,8 +172,7 @@ function ENT:EndGame()
 		self.Ply.InTetris = false
 
 		self.Ply:SetMoveType( self.OldMoveType )
-		self.Ply:ResetGod()
-
+		
 		self:RemovelayerHook()
 
 		hook.Call("TetrisEnd", GAMEMODE, self.Ply, self )

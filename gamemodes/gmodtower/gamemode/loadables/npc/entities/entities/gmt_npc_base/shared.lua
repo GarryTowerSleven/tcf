@@ -93,7 +93,7 @@ end
 
 function ENT:CanUse( ply )
 	local title = self:GetTitle()
-	if title then
+	if title && title != "Suite Lady" then
 		return true, "SHOP: " .. string.upper(title)
 	else
 		return true, "TALK"

@@ -245,6 +245,15 @@ L.AddWord( 1, "AdminSetMoney",	"An admin ({1}) has set your money to {2}.")
 L.AddWord( 1, "AdminGiveMoney",	"{1} has {2} {3} GMC.")
 //L.AddWord( 1, "AdminNot",	"You are not an admin!")
 
+L.AddWord( 1, "PlayerMute",			"You have muted {1}.")
+L.AddWord( 1, "PlayerUnmute",		"You have unmuted {1}.")
+L.AddWord( 1, "PlayerMuteAlert",	"You have muted by an admin.")
+L.AddWord( 1, "PlayerUnmuteAlert",	"You have been unmuted.")
+
+L.AddWord( 1, "PlayerGag",			"You have gagged {1}.")
+L.AddWord( 1, "PlayerUngag",		"You have ungagged {1}.")
+L.AddWord( 1, "PlayerGagAlert",		"You have been gagged by an admin.")
+L.AddWord( 1, "PlayerUngagAlert",	"You have been ungagged.")
 
 // === MINIGAMES ===
 L.AddWord( 1, "MiniPlaneGameStart",	"Planes have gone wild in {1}!")

@@ -7,6 +7,7 @@ ENT.LoadRoom	= true
 
 ENT.Model		= Model( "models/gmod_tower/catbag.mdl")
 
+ENT.OnUse		= "OPEN"
 ENT.Nyan = {
 	clsound.Register( "GModTower/lobby/catsack/nyan1.wav" ),
 	clsound.Register( "GModTower/lobby/catsack/nyan2.wav" ),

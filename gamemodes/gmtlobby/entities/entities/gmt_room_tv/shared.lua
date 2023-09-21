@@ -4,6 +4,8 @@ ENT.Type		= "anim"
 ENT.PrintName	= "Television"
 ENT.Model		= Model( "models/gmod_tower/suitetv.mdl" )
 
+ENT.OnUse		= "TURN ON/OFF"
+
 ENT.SoundOn = clsound.Register( "GModTower/lobby/misc/tv_on.wav" )
 ENT.SoundOff = clsound.Register( "GModTower/lobby/misc/tv_off.wav" )
 

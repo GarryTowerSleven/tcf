@@ -115,7 +115,6 @@ function ENT:EndGame()
 		self.Ply.InGalaga = false
 
 		self.Ply:SetMoveType( self.OldMoveType )
-		self.Ply:ResetGod()
 
 		self:RemovelayerHook()
 

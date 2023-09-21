@@ -79,6 +79,7 @@ function MakeFonts()
     surface.CreateFont( "GTowerHUD_AmmoSecondary", { font = "Tahoma", size = 20 * scale, weight = 1200 } )
     
     surface.CreateFont( "GTowerHUD_Old_Money", { font = "Tahoma", size = 20 * scale, weight = 800 } )
+    surface.CreateFont( "GTowerHUD_Old_EventTimer", { font = "Tahoma", size = 15 * scale, weight = 800 } )
     surface.CreateFont( "GTowerHUD_Old_Location", { font = "Tahoma", size = 28 * scale, weight = 400 } )
 
 end
@@ -194,10 +195,11 @@ function ShouldDrawAmmo()
     return AmmoConvar:GetBool() and (IsValid( Weapon ) and ( Ammo >= 0 ))
 end
 function ShouldDrawCrosshair()
-    if IsValid(Weapon) and (Weapon.DoDrawCrosshair and Weapon:DoDrawCrosshair() == true || Weapon:IsScripted() and !Weapon.DrawCrosshair || Weapon.DrawHUDCrosshair) then return false end
-    if LocalPlayer().HideCrosshair then return false end
+	if IsValid(Weapon) and (Weapon.DoDrawCrosshair and Weapon:DoDrawCrosshair() == true || Weapon:IsScripted() and !Weapon.DrawCrosshair || Weapon.DrawHUDCrosshair) then return false end
+	if LocalPlayer().HideCrosshair then return false end
+	if LocalPlayer():ShouldDrawLocalPlayer() || !LocalPlayer():Alive() then return false end
 
-    return CrosshairConvar:GetBool()
+	return CrosshairConvar:GetBool()
 end
 function ShouldDrawHealth()
     return IsOldLobby1() and true or Location.Is( LocalPlayer():Location(), "Narnia" )
@@ -206,7 +208,14 @@ function ShouldDrawEvents()
     return EventConvar:GetBool() or false
 end
 function ShouldDrawChips()
-    return false //Location.IsCasino( LocalPlayer():Location() )
+    return Location.IsCasino( LocalPlayer():Location() )
+end
+
+function GetEventInfo()
+    local name = GetGlobalString( "NextEvent" ) or "Unknown"
+    local time = GetGlobalInt( "NextEventTime" ) or 0
+
+    return name, time
 end
 
 /* ----------------------------- */
@@ -456,15 +465,14 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
 
     // Events
     if ShouldDrawEvents() then
+
+        local event_name, event_time = GetEventInfo()
+        local timeleft = event_time - CurTime()
     
-        local eventname = GetGlobalString( "NextEvent" ) or "Unknown" // globalnet.GetNet( "NextEvent" ) or "Unknown"
-        local endtime = GetGlobalInt( "NextEventTime" ) or 0 // globalnet.GetNet( "NextEventTime" )
-        local timeleft = endtime - CurTime()
+        local event_string = "NEXT EVENT (" .. string.upper( event_name ) .. ") IN " .. string.FormattedTime( timeleft, "%02i:%02i" )
     
-        local event_string = "NEXT EVENT (" .. string.upper( eventname ) .. ") IN " .. string.FormattedTime( timeleft, "%02i:%02i" )
-    
-        draw.SimpleText( event_string, "GTowerHUD_Location", main_x + ((91 + 1) * scale), main_y + ((120 + 1) * scale), color_black )
-        draw.SimpleText( event_string, "GTowerHUD_Location", main_x + (91 * scale), main_y + (120 * scale), color_white )    
+        draw.SimpleText( event_string, "GTowerHUD_Location", main_x + ((45 + 1) * scale), main_y + ((120 + 1) * scale), color_black )
+        draw.SimpleText( event_string, "GTowerHUD_Location", main_x + (45 * scale), main_y + (120 * scale), color_white )    
         
     end
 
@@ -473,7 +481,7 @@ end
 local function PaintCrosshair( ent )
 
     if not ShouldDrawCrosshair() then return end
-    if not CrosshairAlwaysConvar:GetBool() and ( not IsValid( ent ) or not CanPlayerUse( ent ) ) then return end
+    if not CrosshairAlwaysConvar:GetBool() and ( not IsValid( ent ) or not CanPlayerUse( ent ) ) and not IsValid(Weapon) then return end
 
     local x, y = ScrW() / 2, ScrH() / 2
 	local color = color_white
@@ -507,6 +515,30 @@ function PaintLobby1()
     local ent = GAMEMODE:PlayerUseTrace( LocalPlayer() )
 
     PaintCrosshair( ent )
+
+end
+
+function GTowerHUD.DrawNotice( title, message )
+
+    // TODO: hud hook and gradient ver
+
+    if !GTowerHUD.Notice.Enabled:GetBool() then return end
+
+    -- Handle notice
+    local w, h = ScrW() / 2, ScrH() / 2
+    h = ( h * 2 ) - 150
+
+    -- Draw gradient boxes
+    --draw.GradientBox( w - 512, h, 256, 110, 0, Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 230 ) )
+    --draw.GradientBox( w + 256, h, 256, 110, 0, Color( 0, 0, 0, 230 ), Color( 0, 0, 0, 0 ) )
+    surface.SetDrawColor( 0, 0, 0, 230 )
+    surface.DrawRect( w - 512, h, 1024, 130 )
+
+    -- Draw title
+    draw.SimpleText( title, "GTowerHudCText", w, h + 20, Color( 255, 255, 255, 255 ), 1, 1 )
+
+    -- Draw text
+    draw.DrawText( message or "", "GTowerHudCSubText", w, h + 30, Color( 255, 255, 255, 255 ), 1 )
 
 end
 

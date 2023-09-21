@@ -189,7 +189,7 @@ function ENT:OnMaterialChange( mat )
 
 	local delay = 2
 
-	if game.GetMap() == "gmt_sk_rave" then delay = 1 end
+	if RaveMode then delay = 1 end
 
 	if mat == "boost" then
 		self:SetIsBoosting( true )
@@ -699,17 +699,14 @@ function ENT:GetLinearForward()
 		Forward = 0
 	end
 
-	if RaveMode then
-		Forward = Forward / 1.15
-		DownForce = DownForce * 1.25
-	end
-
-	return Vector(
-			Forward,
-			Right,
-			DownForce
-		)
-		* self.CarPhysics.DeltaTime
+	local finalDirection = Vector(
+		Forward,
+		Right,
+		DownForce
+	)
+	* self.CarPhysics.DeltaTime
+	
+	return finalDirection
 end
 
 function ENT:GetUpRight() //phys, DeltaTime, Driver, up )
@@ -720,7 +717,7 @@ function ENT:GetUpRight() //phys, DeltaTime, Driver, up )
 	local AngleFriction =  self.CarPhysics.Phys:GetAngleVelocity() * -0.1
 
 	local KeepUprightX, KeepUprightY = 0, 0
-	local Yaw = self:GetTurnYaw( self:GetDriver() ) * 2
+	local Yaw = 0--self:GetTurnYaw( self:GetDriver() ) * 2
 
 	if self.CarPhysics.Up.z < 0.9 then
 		local Cross = Angles:Up():Cross(Vector(0,0,1))
@@ -739,7 +736,7 @@ function ENT:FixUpRight()
 	//Car is too tilted to one way or another
 	if( self.CarPhysics.Up.z < 0.88)  then
 		//print("Z too low upright")
-		return true
+		--return true
 	end
 
 	//Player is too far from the floor

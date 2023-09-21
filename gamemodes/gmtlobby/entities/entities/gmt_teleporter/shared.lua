@@ -11,6 +11,8 @@ ENT.AdminSpawnable	= true
 ENT.Model		= "models/gmod_tower/teleporter.mdl"
 ENT.TeleportOffset = Vector( 4.8, 0.1, 3.1 )
 
+ENT.OnUse 			= "TELEPORT"
+
 util.PrecacheModel( ENT.Model )
 
 /*

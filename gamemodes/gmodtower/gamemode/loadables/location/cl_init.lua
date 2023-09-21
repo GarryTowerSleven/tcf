@@ -11,14 +11,16 @@ hook.Add( "Think", "GTowerLocationClient", function()
 	
 	if !TheaterDrawPlayers:GetBool() && LocalPlayer()._Location == Location.GetIDByName( "Theater" ) then
 		for k,v in ipairs(player.GetAll()) do
-			if v != LocalPlayer() then
+			if v != LocalPlayer() and not v._TheaterHidden then
 				v:SetNoDrawAll(true)
+				v._TheaterHidden = true
 			end
 		end
 	else
 		for k,v in ipairs(player.GetAll()) do
-			if v._WasLocalBlocked != true then
+			if v._TheaterHidden then
 				v:SetNoDrawAll(false)
+				v._TheaterHidden = false
 			end
 		end
 	end

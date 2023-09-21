@@ -124,8 +124,6 @@ end
 
 local color_white = Color(255, 255, 255, 255)
 local color_console = Color(200, 200, 200, 255)
-local color_admin = Color(255, 100, 100, 255)
-local color_privadmin = Color(185, 100, 255, 255)
 local color_nostalgia = Color(255, 255, 100, 255)
 
 function GM:ChatText(pID, pName, Text, InternalType, Type)

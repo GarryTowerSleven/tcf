@@ -1,4 +1,34 @@
-if SERVER then
+local ThinkTime = 0
+
+hook.Add( "Think", "GTowerPlayerThink", function()
+
+    // if SERVER and UseNewThink:GetBool() then return end
+
+	if ThinkTime < CurTime() then
+
+		if SERVER then
+
+			for _, v in ipairs( player.GetAll() ) do
+
+				if IsValid( v ) then
+					hook.Call("PlayerThink", GAMEMODE, v)
+				end
+
+			end
+
+		else
+			if IsValid( LocalPlayer() ) then
+				hook.Call( "PlayerThink", GAMEMODE, LocalPlayer() )
+			end
+		end
+
+		ThinkTime = CurTime() + 1
+
+	end
+	
+end )
+
+/*if SERVER then
 
     UseNewThink = CreateConVar( "gmt_use_new_think", "0", FCVAR_ARCHIVE, nil, 0, 1 )
 
@@ -48,34 +78,4 @@ if SERVER then
 
     end )
     
-end
-
-local ThinkTime = 0
-
-hook.Add( "Think", "GTowerPlayerThink", function()
-
-    if SERVER and UseNewThink:GetBool() then return end
-
-	if ThinkTime < CurTime() then
-
-		if SERVER then
-
-			for _, v in ipairs( player.GetAll() ) do
-
-				if IsValid( v ) then
-					hook.Call("PlayerThink", GAMEMODE, v)
-				end
-
-			end
-
-		else
-			if IsValid( LocalPlayer() ) then
-				hook.Call( "PlayerThink", GAMEMODE, LocalPlayer() )
-			end
-		end
-
-		ThinkTime = CurTime() + 1
-
-	end
-	
-end )
+end*/

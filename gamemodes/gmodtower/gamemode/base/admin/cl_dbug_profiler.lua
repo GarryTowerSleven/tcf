@@ -1,5 +1,3 @@
-if true then return end
-
 CreateClientConVar( "gmt_admin_profiler", 0, true, false )
 
 if ( SERVER ) then AddCSLuaFile(); end

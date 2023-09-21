@@ -289,7 +289,7 @@ function LoadModulesInOrder()
 		{ "base/models", false }, // player models
 		{ "base/multiserver", true }, // bread and butta
 		{ "base/fakeclient", true }, // fake clients
-		{ "base/admin", false }, // admin shit
+		{ "base/admin", true }, // admin shit
 		{ "base/vip", false }, // vip!
 		{ "base/friends", true }, // friends
 		//{ "base/globalserver", true }, // global server

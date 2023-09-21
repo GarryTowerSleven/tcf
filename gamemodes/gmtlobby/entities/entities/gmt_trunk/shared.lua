@@ -11,4 +11,5 @@ ENT.AdminSpawnable	= false
 
 ENT.Model		= "models/gmod_tower/suitetrunk.mdl"
 
+ENT.OnUse		= "OPEN TRUNK"
 util.PrecacheModel( ENT.Model )

@@ -336,6 +336,11 @@ function meta:DropItem( slot, aim, rotation, shoot )
 		return
 	end
 
+	if Item.MaxSuite and !self:IsAdmin() and (self.GRoom and self.GRoom:GetItemCount(Item.MysqlId) >= Item.MaxSuite - 1) then
+		self:Msg2( "You cannot place down more than " .. Item.MaxSuite .. " " .. Item.Name .. "s in your suite." )
+		return
+	end
+
 	//Return false so it does nothng
 	local DropEnt = Item:OnDrop()
 	local VarType = type( DropEnt )

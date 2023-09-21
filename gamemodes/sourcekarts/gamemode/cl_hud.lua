@@ -682,7 +682,7 @@ function GM:DrawHUDMapName()
 
 		mapData["gmt_sk_lifelessraceway01"] = { "Lifeless Raceway", "Lifeless" }
 		mapData["gmt_sk_island02"] = { "Drift Island", "Matt" }
-		mapData["gmt_sk_rave"] = { "Rave", "Madmijk" }
+		mapData["gmt_sk_rave02"] = { "Rave", "Madmijk" }
 
 		mapData.Name = mapData[game.GetMap()][1]
 		mapData.Author = mapData[game.GetMap()][2]

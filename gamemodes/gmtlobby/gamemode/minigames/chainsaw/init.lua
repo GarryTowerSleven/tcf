@@ -68,8 +68,6 @@ function RemoveWeapon( ply )
 		ply:StripWeapons()
 		ply.HasChainsaw = false
 	end
-
-	ply:ResetGod()
 end
 
 function playerDies( ply, inflictor, killer )

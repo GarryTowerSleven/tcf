@@ -43,13 +43,9 @@ end
 
 function LoadFromSQL()
 
-    LogPrint( "Fetching hats from SQL...", nil, "Hats" )
-
     Database.Query( "SELECT * FROM `gm_hats`;", function( res, status, err )
     
         if status != QUERY_SUCCESS then
-            LogPrint( "An SQL error occured while loading hats: " .. tostring(err), color_red, "Hats" )
-
             return
         end
 
@@ -70,7 +66,7 @@ function LoadFromSQL()
 
         end
 
-        LogPrint( Format( "Successfully loaded %s offsets into data.", table.Count( res ) ), nil, "Hats" )
+        LogPrint( Format( "Loaded %s hat offsets from SQL.", string.FormatNumber( table.Count( res ) ) ), nil, "Hats" )
 
     end )
 

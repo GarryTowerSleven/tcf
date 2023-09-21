@@ -61,7 +61,7 @@ if ( _LUAREFRESH && GTowerChat ) then
 end
 _LUAREFRESH = true
 
-MultiUsers = {}
+MultiUsers = MultiUsers or {}
 
 local aumsg = umsg.Start
 local bumsg = umsg.End
@@ -131,25 +131,45 @@ function IsTester()
 	return false
 end
 
-function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
-	if ( IsLobby ) then return true end
+hook.Add( "CheckPassword", "GatekeeperCheck", function( steamID64, ipAddress, svPassword, clPassword, name )
 
-	local steam64 = steam
-	local steam = util.SteamIDFrom64( steam )
+	local steamid = util.SteamIDFrom64( steamID64 )
 
-	local PortRemove = string.find(IP,"%:")
-
-	if PortRemove != nil then IP = string.sub( IP, 1, PortRemove - 1 ) end
-
-	if IsAdmin(steam) or IsTester(steam64) or IsModerator(steam) or MultiUsers[IP] then
+	if Admins.IsStaff( steamid ) then
 		return true
-	else
-		MsgC( color_red, string.SafeChatName(name) .. " <" .. steam .. "> (" .. IP .. ") tried to join the server.\n" )
-		return false, "You must join from the lobby server, IP: join.gtower.net"
 	end
 
-	return true
-end
+	if not IsLobby then
+		local ip = string.Split( ipAddress, ":" )[1] or ipAddress
+
+		print( ip, name, string.Split( ipAddress, ":" )[1], ipAddress )
+	
+		if MultiUsers[ ip ] != true then
+			return false, "You must join from the lobby server, IP: join.gtower.net"
+		end
+	end
+
+end )
+
+// function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
+// 	if ( IsLobby ) then return true end
+// 
+// 	local steam64 = steam
+// 	local steam = util.SteamIDFrom64( steam )
+// 
+// 	local PortRemove = string.find(IP,"%:")
+// 
+// 	if PortRemove != nil then IP = string.sub( IP, 1, PortRemove - 1 ) end
+// 
+// 	if Admins.IsAdmin(steam) or Admins.IsModerator(steam) or IsTester(steam64) or MultiUsers[IP] then
+// 		return true
+// 	else
+// 		MsgC( color_red, string.SafeChatName(name) .. " <" .. steam .. "> (" .. IP .. ") tried to join the server.\n" )
+// 		return false, "You must join from the lobby server, IP: join.gtower.net"
+// 	end
+// 
+// 	return true
+// end
 
 function GetMaxSlots()
 
@@ -240,18 +260,8 @@ hook.Add( "PlayerSpawn", "FixHats", function( ply )
 
 end )
 
-hook.Add( "PlayerSpray", "PlayerDisableSprays", function ( ply )
-	return not ply:CanSpray()
-end )
-
 hook.Add("PlayerSpawn", "Machinima", function(ply)
 	if ply:GetSetting(30) and !IsLobby then
 		MACHINIMA = true
-	end
-end)
-
-hook.Add("PlayerNoClip", "Machinima", function(ply)
-	if MACHINIMA then
-		return true
 	end
 end)

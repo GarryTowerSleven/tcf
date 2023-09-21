@@ -23,7 +23,7 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
     local main_x, main_y = sx, scrh - (main_height * scale) + (3 * scale)
 
     local mat = Style() == STYLE_2009 and Materials.mainhud_2009 or Materials.mainhud_2010
-
+    
     if IsHalloweenMap() then
         mat = Materials.mainhud_2010_halloween
     elseif IsChristmasMap() then
@@ -35,6 +35,26 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
     surface.SetMaterial( mat )
     surface.DrawTexturedRect( main_x, main_y, main_width * scale, main_height * scale )   
     
+    
+    // Events
+    if ShouldDrawEvents() then
+        local event_x, event_y = main_x + (15 * scale), main_y + (111 * scale)
+
+        if Style() == STYLE_2009 then
+            event_x = event_x + (25 * scale)
+        end
+
+        local event_name, event_time = GetEventInfo()
+        local timeleft = event_time - CurTime()
+
+        local event_string = "Next Event (" .. event_name .. ") in " .. string.FormattedTime( timeleft, "%02i:%02i" )
+
+        draw.SimpleText( event_string, "GTowerHUD_Old_EventTimer", event_x + (1 * scale), event_y + (1 * scale), color_black )
+        draw.SimpleText( event_string, "GTowerHUD_Old_EventTimer", event_x, event_y, color_white )
+
+    end
+
+
     // Health
     PaintHealth( main_x + (69 * scale), main_y + (81 * scale), 150 * scale, 20 * scale, scale, true )
 

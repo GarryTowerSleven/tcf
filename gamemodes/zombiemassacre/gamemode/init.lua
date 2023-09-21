@@ -13,8 +13,8 @@ AddCSLuaFile( "cl_util.lua" )
 AddCSLuaFile( "postprocess/init.lua" )
 AddCSLuaFile( "sh_classmanager.lua" )
 AddCSLuaFile( "sh_movement.lua" )
-AddCSLuaFile( "sh_player_meta.lua" )
 AddCSLuaFile( "shared.lua" )
+AddCSLuaFile( "sh_player_meta.lua" )
 
 include( "dropmanager/init.lua" )
 

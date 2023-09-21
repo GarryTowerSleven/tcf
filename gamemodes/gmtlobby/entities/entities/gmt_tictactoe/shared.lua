@@ -13,6 +13,8 @@ ENT.WinSound = Sound("gmodtower/misc/win.wav")
 
 ENT.Model		= "models/gmod_tower/gametable.mdl"
 
+ENT.OnUse		= "USE"
+
 util.PrecacheModel( ENT.Model )
 
 ENT.TblSize = 60 //Actually 64, but do not include the borders

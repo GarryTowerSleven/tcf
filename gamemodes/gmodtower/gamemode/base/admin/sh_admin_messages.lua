@@ -1,3 +1,5 @@
+// this also need a redo DDD:
+
 function LogPrint(text, color, mark, markcolor)
     if !color then
         color = Color( 255,255,255)

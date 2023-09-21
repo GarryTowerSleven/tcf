@@ -8,6 +8,8 @@ ENT.Spawnable   = false
 
 ENT.Model = Model( "models/gmod_tower/answerboard.mdl" )
 
+ENT.OnUse		= "USE"
+
 ENT.Controller = nil
 
 ENT.MaxDist = 512

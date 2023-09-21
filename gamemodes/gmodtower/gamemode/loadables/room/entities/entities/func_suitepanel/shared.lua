@@ -12,6 +12,7 @@ ENT.Base 				= "base_anim"
 
 ENT.Model				= Model( "models/func_touchpanel/terminal04.mdl" )
 
+ENT.OnUse				= "USE"
 -- Sounds
 ENT.soundGranted 		= Sound( "buttons/button17.wav" )
 ENT.soundDenied 		= Sound( "buttons/button18.wav" )

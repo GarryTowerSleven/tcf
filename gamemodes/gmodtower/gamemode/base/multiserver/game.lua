@@ -121,7 +121,6 @@ local function GetMainServerCallbackResult(callback, res, status, err)
 	end
 
 	for _, v in pairs( res ) do
-		PrintTable( v )
 		//Make sure the server has send a signal in the last 5 minutes and that it is alive.
 		if tonumber( v.lastupdate ) > (os.time() - GTowerServers.UpdateTolerance) then
 			callback( v )

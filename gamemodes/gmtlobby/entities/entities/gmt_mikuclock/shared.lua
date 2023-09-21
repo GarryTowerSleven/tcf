@@ -4,6 +4,8 @@ ENT.Base 	= "base_anim"
 
 ENT.Model	= Model("models/gmod_tower/mikuclock.mdl")
 
+ENT.OnUse	= "MIKU!"
+
 ENT.Songs = {"GModTower/lobby/mikuclock/mikuclock_song|.mp3", 18} --Second value is the amount of songs, starting from 01.
 
 function ENT:Precache()
