@@ -115,7 +115,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.ZMCOMBO, {
 
 GTowerAchievements:Add( ACHIEVEMENTS.ZMNESGUITAR, {
 	Name = "Retro Rocker", 
-	Description = "Bash in the heads of 50 zombies with the Famicom Guitar", 
+	Description = "Bash in the heads of 50 zombies with the NES Guitar", 
 	Value = 50,
 	Group = 10
 } )
