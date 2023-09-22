@@ -116,7 +116,6 @@ local function BalloonPopped( ent, dmg )
 		end
 	end
 end
-hook.Add( "EntityTakeDamage", "BalloonPop", BalloonPopped )
 
 function GiveWeapon( ply )
 
