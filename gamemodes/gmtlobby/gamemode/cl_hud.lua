@@ -208,7 +208,7 @@ function ShouldDrawEvents()
     return EventConvar:GetBool() or false
 end
 function ShouldDrawChips()
-    return Location.IsCasino( LocalPlayer():Location() )
+    return false // Location.IsCasino( LocalPlayer():Location() )
 end
 
 function GetEventInfo()
