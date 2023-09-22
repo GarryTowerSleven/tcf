@@ -33,7 +33,7 @@ local rules = {
 	"Impersonating developers",
 	"Excessive Trolling",
 	"Speed hacking, Aimbotting and similar tools",
-	"Scripting binds, macros",
+	"Scripting binds, macros and autoclickers",
 	"Adding sexually explicit video or audio to mediaplayers",
 	"Sexually explicit sprays",
 }
