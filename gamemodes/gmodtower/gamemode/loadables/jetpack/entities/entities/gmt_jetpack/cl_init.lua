@@ -14,14 +14,26 @@ local ModelDrawFlame = {
 	["models/gmod_tower/fairywings.mdl"] = false,
 }
 
+local ModelAngle = {
+	["models/gmod_tower/backpack.mdl"] = 5,
+}
+
 local ModelRotate = {
 	["models/gmod_tower/jetpack.mdl"] = 0,
 	["models/gmod_tower/fairywings.mdl"] = -90,
 }
 
+/*
 local ModelOffsets = {
 	["models/gmod_tower/jetpack.mdl"] = Vector( 0, 0, 0 ),
 	["models/gmod_tower/fairywings.mdl"] = Vector( 0, 4, 0 )
+}
+*/
+
+local ModelForward = {
+	["models/gmod_tower/jetpack.mdl"] = 1,
+	["models/gmod_tower/fairywings.mdl"] = 3,
+	["models/gmod_tower/backpack.mdl"] = -5,
 }
 
 local ModelScale = {
@@ -56,12 +68,12 @@ function ENT:GetJetpackAttchment( ply )
 
 	if Torso then
 		local pos, ang = ply:GetBonePosition( Torso )
-		local scale = ( ply:GetModelScale() or 1 ) * ( ModelScale[self:GetModel()] or .5 )
+		local scale = ( ply:GetModelScale() or 1 ) * ( ModelScale[self:GetModel()] or .5 ) * 1.5
 	
 		ang:RotateAroundAxis( ang:Up(), 90 )
 		ang:RotateAroundAxis( ang:Forward(), 90 )
 	
-		return pos, ang, math.sqrt( scale )
+		return pos, ang, scale 
 	end
 
 end
@@ -79,9 +91,14 @@ function ENT:PositionItem(ply)
 	offsets.y = offsets.y * scale
 	offsets.z = offsets.z * scale*/
 
+	ang:RotateAroundAxis( ang:Right(), ModelAngle[ self:GetModel() ] or 0 )
 	ang:RotateAroundAxis( ang:Up(), ModelRotate[ self:GetModel() ] or 0 )
 
-	//pos = pos + offsets
+	local MoveForward = ModelForward[ self:GetModel() ] or 1
+	
+	MoveForward = MoveForward * ply:GetModelScale()
+	
+	pos = pos + ply:GetForward() * MoveForward
 
 	return pos, ang, scale
 
@@ -115,7 +132,7 @@ function ENT:DrawFireAttchment( att, ply, seed )
 		return
 	end	
 	
-	local Up = Vector(0,0,1)
+	local Up = Vector(0,0,0)
 	local vOffset = AttchmentTbl.Pos + Up
 	local vNormal = ply:GetVelocity():GetNormal() * -1
 	local scroll = seed + (CurTime() * -10)
@@ -194,6 +211,7 @@ function ENT:DrawSmoke( pos, scale, normal )
 	
 	self.Emitter:SetPos(self:GetPos())
 	
+	local scale = self:GetOwner():GetModelScale()
 	local sprite = self:GetOwner():GetNet("JetpackTexture")
 	local color = self:GetOwner():GetPlayerColor() * 255
 	if CLIENT and self:GetOwner() == LocalPlayer() then
@@ -215,7 +233,7 @@ function ENT:DrawSmoke( pos, scale, normal )
 					particle:SetStartAlpha( math.Rand( 80, 120 ) ) 
 					particle:SetEndAlpha( 0 ) 
 					particle:SetStartSize( math.random( 5, 10 ) * scale ) 
-					particle:SetEndSize( math.random( 11, 13 ) )
+					particle:SetEndSize( math.random( 11, 13 ) * scale )
 					particle:SetColor( color.r, color.g, color.b )
 				end
 			else
@@ -227,7 +245,7 @@ function ENT:DrawSmoke( pos, scale, normal )
 					particle:SetStartAlpha( math.Rand( 80, 120 ) ) 
 					particle:SetEndAlpha( 0 ) 
 					particle:SetStartSize( math.random( 5, 10 ) * scale ) 
-					particle:SetEndSize( math.random( 20, 35 ) ) 
+					particle:SetEndSize( math.random( 20, 35 ) * scale ) 
 
 					local dark = math.Rand( 0, 150 )
 					particle:SetColor( dark, dark, dark ) 
