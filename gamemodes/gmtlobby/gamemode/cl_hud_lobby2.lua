@@ -197,7 +197,7 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
         local event_name, event_time = GetEventInfo()
         local timeleft = event_time - CurTime()
 
-        local event_string = "Next Event (" .. event_name .. ") in " .. string.FormattedTime( timeleft, "%02i:%02i" )
+        local event_string = "Next Event (" .. string.upper(event_name) .. ") in " .. string.FormattedTime( timeleft, "%02i:%02i" )
 
         PaintExtraInfo( nil, event_string, info_x, info_y + info_height + (2 * scale), scale )
 
