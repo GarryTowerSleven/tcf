@@ -5,7 +5,7 @@ CLASS.Name = "Survivor"
 CLASS.PlayerModel = ""
 
 CLASS.SpecialItemName = "Blade Trap"
-CLASS.SpecialItemDesc = "Having played too much Half-Life 2 before the outbreak, the Survivor constructed his own blade trap, with a twist: it sucks zombies in if they get too close."
+CLASS.SpecialItemDesc = "Having played too much Half-Life 2 before the outbreak, the Survivor constructed his own blade trap."
 CLASS.SpecialItem = "zm_item_special_blade"
 CLASS.SpecialItemDelay = 60
 
