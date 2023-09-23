@@ -4,7 +4,7 @@ if !meta then
 end
 
 function meta:GetRole()
-	return self:GetNet( "Role" )
+	return self:GetNWString( "Role" )
 end
 
 function meta:IsHidden()
