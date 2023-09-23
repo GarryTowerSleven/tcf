@@ -38,7 +38,7 @@ hook.Add( "PlayerNetInitalized", "ApplyRoles", function( ply )
     local role = GetPlayerRole( ply:SteamID() )
     if not role then return end
 
-    ply:SetNet( "Role", role )
+    ply:SetNWString( "Role", role )
 
 end )
 
