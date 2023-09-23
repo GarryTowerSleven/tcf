@@ -317,12 +317,12 @@ function pman.ovrly:AddLayer( Name, tbl )
 	if ( !tbl ) then return end
 
     tbl.mat = Material( tbl.material )
-	tbl.mat:SetMaterialFloat("$envmap",	0)
-	tbl.mat:SetMaterialFloat("$envmaptint",	0)
-	tbl.mat:SetMaterialInt("$ignorez", 1)
-	tbl.mat:SetMaterialFloat("$refractamount", tbl.refract)
-	tbl.mat:SetMaterialFloat("$alpha", tbl.alpha)
-	tbl.mat:SetMaterialFloat("$bluramount", tbl.blur)
+	tbl.mat:SetFloat("$envmap",	0)
+	tbl.mat:SetFloat("$envmaptint",	0)
+	tbl.mat:SetInt("$ignorez", 1)
+	tbl.mat:SetFloat("$refractamount", tbl.refract)
+	tbl.mat:SetFloat("$alpha", tbl.alpha)
+	tbl.mat:SetFloat("$bluramount", tbl.blur)
 
     self.layers[Name] = tbl
 	self:UpdateLayers()
