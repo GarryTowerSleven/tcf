@@ -131,16 +131,12 @@ function ENT:GetIsDrifting()
 	return self:GetNWBool("Drifting")
 end
 function ENT:IsVisible()
-	// Draw players that are near the leader only when looking at RT
-	--[[if DrawRT then
-		local leader = GAMEMODE:GetLeader()
 
-		if IsValid( leader ) then
-			local dist = self:GetPos():Distance( leader:GetPos() )
+	if DrawRT then
+		local leader = GAMEMODE.CurrentLeader
 
-			if dist < 1024 then
-				return true
-			end
+		if IsValid( leader ) and leader == self:GetOwner() then
+			return true
 		end
 	end
 
@@ -148,7 +144,7 @@ function ENT:IsVisible()
 
 	if dist > 4096 then
 		return false
-	end]]
+	end
 
 	return true
 end
@@ -2261,7 +2257,7 @@ function ENT:DrawName( ply )
 
 	local localkart = LocalPlayer():GetKart()
 
-	--if !IsValid( kart ) || !IsValid( localkart ) || ply == LocalPlayer() then return end
+	if !IsValid( kart ) || !IsValid( localkart ) || ply == LocalPlayer() then return end
 
 
 
