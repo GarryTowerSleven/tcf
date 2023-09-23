@@ -433,9 +433,9 @@ function pman.ovrly:FadeIn( Name, tbl, delay )
 	if ( !Name || Name == "" ) then return end
 	
 	tbl.mat = Material( tbl.material )
-	tbl.mat:SetMaterialFloat( "$envmap", 0 )
-	tbl.mat:SetMaterialFloat( "$envmaptint", 0 )
-	tbl.mat:SetMaterialInt( "$ignorez",	1 )
+	tbl.mat:SetFloat( "$envmap", 0 )
+	tbl.mat:SetFloat( "$envmaptint", 0 )
+	tbl.mat:SetInt( "$ignorez",	1 )
 	
 	local fade = {}
 	fade.layer = tbl
