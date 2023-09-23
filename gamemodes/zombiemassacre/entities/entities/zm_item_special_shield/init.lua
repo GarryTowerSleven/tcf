@@ -14,17 +14,10 @@ function ENT:Initialize()
 	self.ShieldSound:Play()
 
 	self.KillCount = 0
+	self.PrevKillCount = 0
 end
 
 function ENT:Think()
-	/*local eff = EffectData()
-	eff:SetEntity( self )
-	eff:SetOrigin( self:GetPos() )
-	eff:SetNormal( self:GetUp() )
-	util.Effect( "shield_block", eff )
-	self:NextThink( CurTime() )
-	return true*/
-
 	for _, target in ipairs( ents.FindInSphere(self:GetPos(), 30) ) do
 		if !string.StartWith( target:GetClass(), "zm_npc_" ) then continue end
 
@@ -34,6 +27,16 @@ function ENT:Think()
 		target:TakeDamage( 100, self:GetOwner(), self )
 
 		self.KillCount = self.KillCount + 1
+	end
+
+	if self.KillCount != self.PrevKillCount then
+		local eff = EffectData()
+		eff:SetEntity( self )
+		eff:SetOrigin( self:GetPos() )
+		eff:SetNormal( self:GetUp() )
+		util.Effect( "shield_block", eff )
+		
+		self.PrevKillCount = self.KillCount
 	end
 
 	if self.KillCount > 14 then

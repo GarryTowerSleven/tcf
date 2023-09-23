@@ -11,7 +11,7 @@ CLASS.SpecialItemDelay = 60
 
 CLASS.PowerName = "Transplant"
 CLASS.PowerDesc = "Why should the zombies have all the health? Take some from them and give it back to your teammates."
-CLASS.PowerItem = "zm_item_power_transplant"
+CLASS.PowerItem = "zm_item_special_transplant"
 CLASS.PowerLength = 20
 CLASS.PowerGotSound = "GModTower/zom/powerups/powerup_generic.wav"
 

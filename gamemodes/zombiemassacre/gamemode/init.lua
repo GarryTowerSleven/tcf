@@ -139,10 +139,11 @@ hook.Add( "PlayerSpawn", "Weapon_Give", function( ply )
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
 
 	ply:SetCollisionGroup( COLLISION_GROUP_WEAPON )
-
-	ply:ConCommand( 'zm_comboclear' )
+	ply:ConCommand( "zm_comboclear" )
 
 	ply:SetPos( ply:GetPos() + Vector(0,0,35) )
+
+	ply:SetNWBool( "ComboActive", false )
 
 end )
 
