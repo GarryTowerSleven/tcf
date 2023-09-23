@@ -53,6 +53,8 @@ function GM:DoPlayerDeath( victim )
 	grave:SetAngles(victim:GetAngles())
 	grave:Spawn()
 	grave:SetOwner(victim)
+	
+	music.Play( EVENT_PLAY, MUSIC_DEATH, victim )
 end
 
 hook.Add("EntityTakeDamage", "WeaponAchiCheck", function( target, dmginfo )
