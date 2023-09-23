@@ -253,9 +253,17 @@ function SWEP:PrimaryAttack()
 
 	self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
 
+	local ply = self:GetOwner()
 
+	if SERVER and IsValid(ply) and ply.LagCompensation then
+		ply:LagCompensation( true )
+	end
 
 	self:ShootBullet(self.Primary.Damage, self.Primary.NumShots, self.Primary.Cone, self.Primary.Ammo)
+	
+	if SERVER and IsValid(ply) and ply.LagCompensation then
+		ply:LagCompensation( false )
+	end
 
 	self:ShootEffects(self.Primary.Sound, self.Primary.Recoil, self.Primary.Effect, ACT_VM_PRIMARYATTACK)
 
@@ -285,9 +293,17 @@ function SWEP:SecondaryAttack()
 
 	self.Weapon:SetNextPrimaryFire( CurTime() + self.Secondary.Delay )
 
+	local ply = self:GetOwner()
 	
+	if SERVER and IsValid(ply) and ply.LagCompensation then
+		ply:LagCompensation( true )
+	end
 
 	self:ShootBullet(self.Secondary.Damage, self.Secondary.NumShots, self.Secondary.Cone, self.Primary.Ammo, self.Secondary.Effect)
+
+	if SERVER and IsValid(ply) and ply.LagCompensation then
+		ply:LagCompensation( false )
+	end
 
 	self:ShootEffects(self.Secondary.Sound, self.Secondary.Recoil, self.Primary.Effect, ACT_VM_SECONDARYATTACK)
 
