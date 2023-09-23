@@ -762,9 +762,9 @@ local function pmanRender()
 	        	if ( x.layer.mat ) then
 	        	    local layer = x.layer
 	        	    local mat = layer.mat
-	        		mat:SetMaterialFloat("$refractamount", layer.refract * x.value )
-					mat:SetMaterialFloat("$alpha", layer.alpha * x.value )
-					mat:SetMaterialFloat("$bluramount", layer.blur * x.value )
+	        		mat:SetFloat("$refractamount", layer.refract * x.value )
+					mat:SetFloat("$alpha", layer.alpha * x.value )
+					mat:SetFloat("$bluramount", layer.blur * x.value )
 					render.UpdateScreenEffectTexture()
 					render.SetMaterial( mat )
 					render.DrawScreenQuad()
