@@ -216,8 +216,11 @@ function GM:EntityTakeDamage( target, dmginfo )
 		self.LastDamageNote = CurTime() + .15 //let's not have so many damage notes going on.
 	end
 
-	if ply:GetNWInt( "Combo" ) > 4 then
+	if ply:GetNWInt( "Combo" ) > 4 and !ply:GetNWBool( "IsPowerCombo" ) then
 		ply:SetNWBool( "IsPowerCombo", true )
+		
+		local CLASS = classmanager.Get( string.lower(ply:GetNWString( "ClassName" )) )
+		ply:EmitSound( CLASS.PowerGotSound, 80 )
 	end
 
 end
