@@ -217,7 +217,7 @@ function GM:DrawHUDScores()
 end
 
 function GM:DrawHUDCombo()
-	if LocalPlayer():GetNWInt( "Combo" ) < 1 && !LocalPlayer():GetNWInt( "IsPowerCombo" ) then return end
+	if ( LocalPlayer():GetNWInt( "Combo" ) < 1 and !LocalPlayer():GetNWInt( "IsPowerCombo" ) ) or LocalPlayer():GetNWBool( "ComboActive" ) then return end
 
 	local mX, mY = gui.MousePos()
 	local textX = 30
