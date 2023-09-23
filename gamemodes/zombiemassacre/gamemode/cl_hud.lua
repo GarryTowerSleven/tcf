@@ -167,7 +167,7 @@ function GM:DrawHUDStatus()
 	end
 
 	if status then
-		draw.SimpleTextOutlined( status, "ZomStatus", ScrW() / 2, ScrH() * .25, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color( 50, 0, 0, 255 ) )
+		draw.SimpleTextOutlined( status, "ZomStatus", ScrW() / 2, ScrH() * .25, Color( 255, 0, 0, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, Color( 50, 0, 0, 255 ) )
 	end
 end
 
