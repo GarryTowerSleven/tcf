@@ -39,6 +39,7 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
     if ply == NULL or ply:IsAdmin() then
 
         if Active then
+			GMT_IS_RESTARTING = false
             StopChangeLevel( ply )
             return
         end
@@ -59,7 +60,11 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 
         local map = isNum and game.GetMap() or (args[1] or game.GetMap())
         local time = isNum and tonumber( args[1] ) or tonumber( args[2] ) or 30
-    
+
+		if IsLobby and GMT_IS_RESTARTING then
+			if not Database.IsConnected() then return end
+			Database.Query( "UPDATE `gm_casino` SET `jackpot` = 0;" )
+		end
         ChangeLevel( map, time, ply )    
         
     end

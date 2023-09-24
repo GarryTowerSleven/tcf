@@ -62,7 +62,7 @@ end
 
 function ENT:UpdateToSQL()
 
-    if not Database.IsConnected() then return end
+    if not Database.IsConnected() or GMT_IS_RESTARTING then return end
 
     Database.Query( "UPDATE `gm_casino` SET `jackpot` = " .. tonumber( self:GetJackpot() ) .. " WHERE `type` = 'slots';" )
 
