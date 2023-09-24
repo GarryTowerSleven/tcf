@@ -34,6 +34,8 @@ hook.Add( "EntityTakeDamage", "GiveThisAName", function( target, dmginfo )
 			dmginfo:ScaleDamage( 0.0 )
 		end
 	end
+	
+end )
 
 local SnowSpawnPoints = {
 	{Vector(-4850.8125,-8231.9375,409.15625), Angle(0,187.40008544922,0)},
