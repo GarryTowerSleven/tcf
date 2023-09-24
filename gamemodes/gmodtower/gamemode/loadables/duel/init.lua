@@ -24,17 +24,16 @@ hook.Add( "CanPlayerSuicide", "DuelSuicide", function( ply )
 
 end )
 
-hook.Add( "EntityTakeDamage", "EntityDamageExample", function( target, dmginfo )
+hook.Add( "EntityTakeDamage", "GiveThisAName", function( target, dmginfo )
 
-	if ( target:IsPlayer() and dmginfo:GetAttacker():IsPlayer() and Dueling.IsDueling( target ) and Dueling.IsDueling( dmginfo:GetAttacker() ) ) then
-		if target:GetNWEntity( "DuelOpponent" ) != dmginfo:GetAttacker() then
+	local attacker = dmginfo:GetAttacker()
+	if ( target:IsPlayer() and attacker:IsPlayer() and Dueling.IsDueling( target ) and Dueling.IsDueling( attacker ) ) then
+		if target:GetNWEntity( "DuelOpponent" ) == attacker then
+			attacker:SendLua([[surface.PlaySound("GModTower/lobby/duel/duel_hit.wav")]])
+		else
 			dmginfo:ScaleDamage( 0.0 )
-		elseif target:GetNWEntity( "DuelOpponent" ) == dmginfo:GetAttacker() then
-			dmginfo:GetAttacker():SendLua([[surface.PlaySound("GModTower/lobby/duel/duel_hit.wav")]])
 		end
 	end
-
-end )
 
 local SnowSpawnPoints = {
 	{Vector(-4850.8125,-8231.9375,409.15625), Angle(0,187.40008544922,0)},
