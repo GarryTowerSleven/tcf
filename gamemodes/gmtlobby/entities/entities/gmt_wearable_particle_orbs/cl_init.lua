@@ -29,7 +29,10 @@ function ENT:DrawParticles()
 		//local flare = Vector( 0, math.random( -10, 10 ), 0 )
 		//local flare = Vector( 0, 0, math.random( -25, 25 ) )
 		//local flare = Vector( CosBetween( -16, 16, CurTime() * 16 ), SinBetween( -16, 16, CurTime() * 16 ), 0 )
-		local flare = Vector( math.random( -15, 15 ) * modelsize, math.random( -15, 15 ) * modelsize, 0 )
+		//local flare = Vector( math.random( -15, 15 ) * modelsize, math.random( -15, 15 ) * modelsize, 0 )
+		local flaresizemin = -16 * modelsize
+		local flaresizemax = 16 * modelsize
+		local flare = Vector( CosBetween( flaresizemin, flaresizemax, CurTime() * 16 ), SinBetween( flaresizemin, flaresizemax, CurTime() * 16 ), 0 )
 		
 		local particle = self.Emitter:Add( self.Particles.material, pos + flare )
 		if particle then
