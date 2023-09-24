@@ -13,7 +13,9 @@ function ENT:DrawParticles()
 
 	local owner = self:GetOwner()
 
-	local pos = util.GetCenterPos( owner ) + Vector( 0, 0, -5 )
+	local modelsize = owner:GetNet( "ModelSize" ) or 1
+	
+	local pos = util.GetCenterPos( owner ) + Vector( 0, 0, -5 * modelsize )
 
 	local angle = Angle( 0, SinBetween( -240, -120, CurTime() * 2 ), 0 )
 
@@ -26,8 +28,9 @@ function ENT:DrawParticles()
 
 		//local flare = Vector( 0, math.random( -10, 10 ), 0 )
 		//local flare = Vector( 0, 0, math.random( -25, 25 ) )
-		local flare = Vector( CosBetween( -16, 16, CurTime() * 16 ), SinBetween( -16, 16, CurTime() * 16 ), 0 )
-
+		//local flare = Vector( CosBetween( -16, 16, CurTime() * 16 ), SinBetween( -16, 16, CurTime() * 16 ), 0 )
+		local flare = Vector( math.random( -15, 15 ) * modelsize, math.random( -15, 15 ) * modelsize, 0 )
+		
 		local particle = self.Emitter:Add( self.Particles.material, pos + flare )
 		if particle then
 
@@ -39,7 +42,7 @@ function ENT:DrawParticles()
 
 			particle:SetStartAlpha( 25 )
 			particle:SetEndAlpha( 255 )
-			particle:SetStartSize( 8 )
+			particle:SetStartSize( 8 * modelsize )
 			particle:SetEndSize( 0 )
 
 			particle:SetColor( math.random(1,255), math.random(1,255), math.random(1,255) )
@@ -49,9 +52,9 @@ function ENT:DrawParticles()
 			self.EPos = self:GetPos() + Vector( 0, 0, 40 )
 
 			--local inward = (self.EPos - coord):GetNormal() * 40 + Vector(0,0,60 + self.EmitOffset/15)
-			particle:SetGravity( Vector(math.random(-5,25),math.random(-5,25),25) )
+			particle:SetGravity( Vector(math.random(-5,25),math.random(-5,25),25) * modelsize )
 
-			particle:SetVelocity(  Vector(math.random(-5,25),math.random(-5,25),25) )
+			particle:SetVelocity(  Vector(math.random(-5,25),math.random(-5,25),25) * modelsize )
 
 			particle:SetAngleVelocity( Angle( math.Rand( -12, 12 ), math.Rand( -12, 12 ), math.Rand( -12, 12 ) ) )
 
