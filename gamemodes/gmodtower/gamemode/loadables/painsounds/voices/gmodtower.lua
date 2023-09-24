@@ -276,7 +276,8 @@ voicelines.Add("models/player/nuggets.mdl", {
     },
     Death = {
 		"physics/cardboard/cardboard_box_break{1-3}.wav"
-    }
+    },
+	Taunts = "gmodtower/lobby/catsack/nyan{1-3}.wav"
 })
 
 voicelines.Add("models/player/normal.mdl", {
