@@ -14,31 +14,21 @@ local ModelDrawFlame = {
 	["models/gmod_tower/fairywings.mdl"] = false,
 }
 
-local ModelAngle = {
-	["models/gmod_tower/backpack.mdl"] = 5,
-}
-
 local ModelRotate = {
 	["models/gmod_tower/jetpack.mdl"] = 0,
 	["models/gmod_tower/fairywings.mdl"] = -90,
 }
 
-/*
 local ModelOffsets = {
-	["models/gmod_tower/jetpack.mdl"] = Vector( 0, 0, 0 ),
-	["models/gmod_tower/fairywings.mdl"] = Vector( 0, 4, 0 )
-}
-*/
-
-local ModelForward = {
-	["models/gmod_tower/jetpack.mdl"] = 1,
-	["models/gmod_tower/fairywings.mdl"] = 3,
-	["models/gmod_tower/backpack.mdl"] = -5,
+	// ["models/gmod_tower/jetpack.mdl"] = Vector( 0, 0, 0 ),
+	["models/gmod_tower/fairywings.mdl"] = Vector( 0, 4, 0 ),
+	["models/gmod_tower/backpack.mdl"] = Vector( 4, -4, 0 ),
 }
 
 local ModelScale = {
 	["models/gmod_tower/jetpack.mdl"] = .5,
-	["models/gmod_tower/fairywings.mdl"] = .75
+	["models/gmod_tower/fairywings.mdl"] = .75,
+	["models/gmod_tower/backpack.mdl"] = .6
 }
 
 function ENT:InitOffset()
@@ -63,17 +53,16 @@ function ENT:GetJetpackAttchment( ply )
 		return pos, ang, scale
 	end
 
-
 	local Torso = ply:LookupBone( "ValveBiped.Bip01_Spine2" )
 
 	if Torso then
 		local pos, ang = ply:GetBonePosition( Torso )
-		local scale = ( ply:GetModelScale() or 1 ) * ( ModelScale[self:GetModel()] or .5 ) * 1.5
+		local scale = ( ply:GetModelScale() or 1 ) * ( ModelScale[self:GetModel()] or .5 )
 	
 		ang:RotateAroundAxis( ang:Up(), 90 )
 		ang:RotateAroundAxis( ang:Forward(), 90 )
 	
-		return pos, ang, scale 
+		return pos, ang, scale * 1.5
 	end
 
 end
@@ -83,22 +72,26 @@ function ENT:PositionItem(ply)
 	local pos, ang, scale = self:GetJetpackAttchment( ply )
 	if !pos || !ang then return end
 
-	/*local Offsets = ModelOffsets[ self:GetModel() ]
+	// if ( ModelForward[ self:GetModel() ] ) then
+	// 	pos = pos + self:GetForward() * ModelForward[ self:GetModel() ]
+	// end
 
-	local offsets = ang:Up() * Offsets[1] + ang:Forward() * Offsets[2] + ang:Right() * Offsets[3]
-	
-	offsets.x = offsets.x * scale
-	offsets.y = offsets.y * scale
-	offsets.z = offsets.z * scale*/
+	local Offsets = ModelOffsets[ self:GetModel() ]
 
-	ang:RotateAroundAxis( ang:Right(), ModelAngle[ self:GetModel() ] or 0 )
+	if Offsets then
+		
+		local offsets = ang:Up() * Offsets[1] + ang:Forward() * Offsets[2] + ang:Right() * Offsets[3]
+		
+		offsets.x = offsets.x * scale
+		offsets.y = offsets.y * scale
+		offsets.z = offsets.z * scale
+
+		pos = pos + offsets
+
+	end
+
 	ang:RotateAroundAxis( ang:Up(), ModelRotate[ self:GetModel() ] or 0 )
 
-	local MoveForward = ModelForward[ self:GetModel() ] or 1
-	
-	MoveForward = MoveForward * ply:GetModelScale()
-	
-	pos = pos + ply:GetForward() * MoveForward
 
 	return pos, ang, scale
 
