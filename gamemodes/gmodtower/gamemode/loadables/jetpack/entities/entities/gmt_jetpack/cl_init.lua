@@ -21,7 +21,7 @@ local ModelRotate = {
 
 local ModelOffsets = {
 	// ["models/gmod_tower/jetpack.mdl"] = Vector( 0, 0, 0 ),
-	["models/gmod_tower/fairywings.mdl"] = Vector( 0, 4, 0 ),
+	["models/gmod_tower/fairywings.mdl"] = Vector( 0, 3, 0 ),
 	["models/gmod_tower/backpack.mdl"] = Vector( 4, -4, 0 ),
 }
 
