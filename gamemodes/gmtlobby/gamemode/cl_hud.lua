@@ -483,14 +483,41 @@ local function PaintCrosshair( ent )
     if not ShouldDrawCrosshair() then return end
     if not CrosshairAlwaysConvar:GetBool() and ( not IsValid( ent ) or not CanPlayerUse( ent ) ) and not IsValid(Weapon) then return end
 
+    local w, h = ScrW() / 2, ScrH() / 2
+
     local x, y = ScrW() / 2, ScrH() / 2
 	local color = color_white
+
+    -- Draw Use message
+	if CrosshairActionConvar:GetBool() and IsValid( ent ) and CanPlayerUse( ent ) then
+		GTowerHUD.DrawUseMessage( ent, x, w, h )
+	end
 
     local crosshair_size = ScreenScale( 12 )
 
     surface.SetDrawColor( color )
     surface.SetMaterial( Materials.crosshair )
     surface.DrawTexturedRect( x - ( crosshair_size / 2 ), y - ( crosshair_size / 2 ), crosshair_size, crosshair_size )    
+
+end
+
+function GTowerHUD.DrawUseMessage( ent, x, w, h )
+
+    if ent:GetClass() != "gmt_multiserver" then return end
+
+    if not IsValid( ent ) then return end
+
+    local use, nokey = CanPlayerUse( ent )
+    if not use then return end
+
+    if use then
+        local message = string.upper( use )
+        if !nokey then
+            message = "USE TO " .. message
+        end
+        draw.SimpleText( message, "GTowerHUD_Location", w + 8, h - 8, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT )
+
+    end
 
 end
 
