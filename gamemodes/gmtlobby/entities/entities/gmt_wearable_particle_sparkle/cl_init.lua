@@ -36,7 +36,7 @@ function ENT:DrawParticles()
 
 			particle:SetAirResistance( 150 )
 			
-			particle:SetGravity( Vector(math.random(-15,15),math.random(-15,15),math.random(-15,15)) )
+			particle:SetGravity( Vector(math.random(-15,15),math.random(-15,15),math.random(-15,15)) * size)
 			
 			particle:SetRoll( math.Rand( 0, 360 ) )
 			particle:SetRollDelta( math.Rand( -3, 3 ) )
