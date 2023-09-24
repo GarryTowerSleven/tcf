@@ -39,7 +39,6 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
     if ply == NULL or ply:IsAdmin() then
 
         if Active then
-			GMT_IS_RESTARTING = false
             StopChangeLevel( ply )
             return
         end
@@ -118,6 +117,9 @@ function StopChangeLevel( caller )
     Changing = false
     Force = false
 
+	GMT_IS_RESTARTING = false
+	GMT_IS_PREPARING_TO_RESTART = false
+	
     ChangeMap = nil
     ChangeTime = nil
     ChangeTimeStart = nil
