@@ -13,9 +13,11 @@ function ENT:DrawParticles()
 
 	local owner = self:GetOwner()
 
-	local pos = util.GetCenterPos( owner ) + Vector( 0, 0, -5 )
+	local modelsize = owner:GetNet( "ModelSize" ) or 1
+	
+	local pos = util.GetCenterPos( owner ) + Vector( 0, 0, -5 * modelsize )
 
-	local grav = Vector( 0, 0, math.random( 50, 60 ) )
+	local grav = Vector( 0, 0, math.random( 50, 60 ) * modelsize )
 
 	local offset = Vector( 0, 0, 0 )
 
@@ -35,9 +37,9 @@ function ENT:DrawParticles()
 
 		particle:SetEndAlpha( 0 )
 
-		particle:SetStartSize( 4 )
+		particle:SetStartSize( 4 * modelsize )
 
-		particle:SetEndSize( 1.5 )
+		particle:SetEndSize( 1.5 * modelsize )
 
 		particle:SetRoll( math.random(0.5, 10) )
 
@@ -51,9 +53,7 @@ function ENT:DrawParticles()
 
 		particle:SetGravity( grav )
 
-		grav = grav + Vector(0, 0, math.random(-10, -5))
-
-		offset = offset + Vector( math.random(-15, 15), math.random(.5, 5), math.random(-1.5, 6))
+		offset = offset + Vector( math.random(-15, 15) * modelsize, math.random(.5, 5) * modelsize, math.random(-1.5, 6) * modelsize )
 
 	end
 
