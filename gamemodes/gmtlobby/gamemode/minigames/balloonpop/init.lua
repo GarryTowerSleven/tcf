@@ -103,10 +103,10 @@ local function BalloonPopped( ent, dmg )
 
 		if IsValid(ply) then
 			local distance = ent:GetPos().z - ply:GetPos().z
-			if distance < 250 then distance = 250 end
-			dmg:GetAttacker():AddMoney( math.Round(distance / 250) )
-			magni = math.Round(distance / 250)
-			TotalMoney = TotalMoney + math.Round(distance / 250)
+			if distance < 300 then distance = 300 end
+			dmg:GetAttacker():AddMoney( math.Round(distance / 300) )
+			magni = math.Round(distance / 300)
+			TotalMoney = TotalMoney + math.Round(distance / 300)
 
 			local vPoint = ent:GetPos()
 			local effectdata = EffectData()
@@ -116,6 +116,7 @@ local function BalloonPopped( ent, dmg )
 		end
 	end
 end
+hook.Add( "EntityTakeDamage", "BalloonPop", BalloonPopped )
 
 function GiveWeapon( ply )
 
