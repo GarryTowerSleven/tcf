@@ -13,9 +13,11 @@ function ENT:DrawParticles()
 
 	local owner = self:GetOwner()
 
-	local pos = util.GetCenterPos( owner ) + ( VectorRand():GetNormal() * 20 ) + Vector( 0, 0, -5 )
+	local modelsize = owner:GetNet( "ModelSize" ) or 1
+	
+	local pos = util.GetCenterPos( owner ) + ( VectorRand():GetNormal() * 20 * modelsize) + Vector( 0, 0, -5 * modelsize )
 
-	local size = math.random( 0.5, 2 ) 
+	local size = math.random( 0.5, 2 ) * modelsize
 	
 	for i=1, self.Particles.amount do
 
