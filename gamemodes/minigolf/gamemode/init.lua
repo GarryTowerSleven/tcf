@@ -246,7 +246,7 @@ hook.Add( "CanPlayerSuicide", "BlockSuicide", BlockSuicide )
 
 hook.Add( "PlayerDisconnected", "PlayerPopulationCheck", function( ply )
 	timer.Simple(0.2, function()
-		if (GAMEMODE:GetState() != STATE_NOPLAY && #player.GetAll() == 0) then
+		if (GAMEMODE:GetState() != STATE_NOPLAY && GAMEMODE:GetState() != STATE_WAITING && #player.GetAll() == 0) then
 			GAMEMODE:EndServer()
 			return
 		end
