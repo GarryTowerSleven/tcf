@@ -503,9 +503,9 @@ end
 
 function GTowerHUD.DrawUseMessage( ent, x, w, h )
 
-    if ent:GetClass() != "gmt_multiserver" then return end
+	if not IsValid( ent ) then return end
 
-    if not IsValid( ent ) then return end
+    if ent:GetClass() != "gmt_multiserver" then return end
 
     local use, nokey = CanPlayerUse( ent )
     if not use then return end
