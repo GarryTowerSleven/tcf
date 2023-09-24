@@ -45,11 +45,11 @@ function ENT:Draw()
 			pos = owner:GetBallRaceBall():GetPos()
 		end
 
-		if size >= 1 then
-			render.SetMaterial( self.SpriteMat )
-			render.DrawSprite( posR, 50, 50, Color(245, 125, 65, 255) )
-			render.DrawSprite( posL, 50, 50, Color(245, 125, 65, 255) )
-		end
+		local spritesize = 50 * size
+
+		render.SetMaterial( self.SpriteMat )
+		render.DrawSprite( posR, spritesize, spritesize, Color(245, 125, 65, 255) )
+		render.DrawSprite( posL, spritesize, spritesize, Color(245, 125, 65, 255) )
 
 	end
 
