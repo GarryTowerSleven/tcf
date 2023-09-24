@@ -34,8 +34,8 @@ ENT.CurColorID = 1
 function ENT:DrawParticles()
 
 	local owner = self:GetOwner()
-
-	local pos = self:ParticlePosition( owner ) + Vector( 0, 0, -32 )
+	local modelsize = owner:GetNet( "ModelSize" ) or 1
+	local pos = self:ParticlePosition( owner ) + Vector( 0, 0, -32 * modelsize )
 
 	//local angle = Angle( SinBetween( -240, -190, CurTime() * 2 ), 0, 0 )
 	local angle = Angle( 0, SinBetween( -240, -120, CurTime() * 2 ), 0 )
@@ -51,26 +51,28 @@ function ENT:DrawParticles()
 
 		//local flare = Vector( 0, math.random( -10, 10 ), 0 )
 		//local flare = Vector( 0, 0, math.random( -25, 25 ) )
-		local flare = Vector( CosBetween( -16, 16, CurTime() * 16 ), SinBetween( -16, 16, CurTime() * 16 ), 0 )
+		local flaresizemin = -16 * modelsize
+		local flaresizemax = 16 * modelsize
+		local flare = Vector( CosBetween( flaresizemin, flaresizemax, CurTime() * 16 ), SinBetween( flaresizemin, flaresizemax, CurTime() * 16 ), 0 )
 
 		local particle = self.Emitter:Add( self.Particles.material, pos + flare )
 		if particle then
 
 			//particle:SetVelocity( ( angle:Forward() * 50 ) )
-			particle:SetVelocity( ( angle:Up() * 50 ) )
+			particle:SetVelocity( ( angle:Up() * 50 * modelsize ) )
 			//particle:SetDieTime( math.Rand( 2, 6 ) )
-			particle:SetDieTime( math.Rand( .75, 2 ) )
+			particle:SetDieTime( math.Rand( .75, 1.5 ) )
 			particle:SetStartAlpha( 255 )
 			particle:SetEndAlpha( 0 )
 
-			particle:SetStartSize( math.random( 2, 16 ) )
+			particle:SetStartSize( math.random( 2, 16 ) * modelsize )
 			particle:SetEndSize( 0 )
 
 			particle:SetStartLength( 0 )
 			particle:SetEndLength( 60 )
 
 			//particle:SetGravity( ( angle:Forward() * 50 * -1 ) /*- ( flare / 3 )*/ )
-			particle:SetGravity( ( angle:Up() * 25 * -1 ) - ( flare / 3 ) )
+			particle:SetGravity( ( angle:Up() * 25 * -1 ) - ( flare / 3 ) * modelsize )
 
 			particle:SetColor( color.r, color.g, color.b, 255 )
 
@@ -101,10 +103,11 @@ function ENT:DrawParticles()
 end
 
 function ENT:ParticlePosition( owner, bound )
-
-	local pos = owner:GetPos() + Vector(0,0,50)
+	local modelsize = owner:GetNet( "ModelSize" ) or 1
+	local pos = owner:GetPos() + Vector(0,0,50 * modelsize)
+	
 	if bound then
-		pos = pos + ( VectorRand() * ( self:BoundingRadius() * ( bound or .35 ) ) )
+		pos = pos + ( VectorRand() * ( self:BoundingRadius() * ( bound or .35 ) * modelsize ) )
 	end
 
 	return pos
