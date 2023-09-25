@@ -71,9 +71,9 @@ function NEWS:Init()
 
 	self:AddURLTab( 1, "Latest News", website .. "?p=home" )
 
-	self:AddURLTab( 2, "Changelog", website .. "?p=changelog" )
+	//self:AddURLTab( 2, "Changelog", website .. "?p=changelog" )
 
-	self:AddURLTab( 3, "Stats", website .. "?p=stats" )
+	//self:AddURLTab( 3, "Stats", website .. "?p=stats" )
 
 	self:AddURLTab( 4, "GMT Staff", website .. "?p=staff" )
 	
