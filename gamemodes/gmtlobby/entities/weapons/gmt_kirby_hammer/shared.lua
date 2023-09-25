@@ -110,11 +110,23 @@ end
 
 if SERVER then
 
-function SWEP:Think()
-	if !self.Owner:Alive() then return end
-	self:NextThink(CurTime() + 6)
-end
+	function SWEP:Think()
+		if !self.Owner:Alive() then return end
+		self:NextThink(CurTime() + 6)
+	end
 
+else
+	net.Receive("JumpPuff",function()
+		local ent = net.ReadEntity()
+
+		if !IsValid(ent) then return end
+
+		local vPoint = ent:GetPos()
+		local effectdata = EffectData()
+		effectdata:SetOrigin( vPoint )
+		
+		util.Effect( "jump_puff", effectdata)
+	end)
 end
 
 hook.Add( "KeyPress", "keypress_jump_super_l", function( ply, key )
@@ -134,15 +146,6 @@ end )
 hook.Add( "OnPlayerHitGround", "ResetDoubleJump", function( ply )
 	ply.FirstDoubleJump = true
 end )
-
-net.Receive("JumpPuff",function()
-	local ent = net.ReadEntity()
-	if !IsValid(ent) then return end
-	local vPoint = ent:GetPos()
-	local effectdata = EffectData()
-	effectdata:SetOrigin( vPoint )
-	util.Effect( "jump_puff", effectdata)
-end)
 
 local meta = FindMetaTable( "Player" )
 
