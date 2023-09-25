@@ -3,11 +3,11 @@ module("GTowerRooms", package.seeall )
 TimeToLeaveRoom = 5 * 60
 TalkingTo = {}
 
+-- util.AddNetworkString("gmt_closevault")
 util.AddNetworkString("gmt_lockcondo")
-util.AddNetworkString("gmt_closevault")
 util.AddNetworkString("GRoomParty")
 
-net.Receive("gmt_closevault",function(len, ply)
+/*net.Receive("gmt_closevault",function(len, ply)
 
 	if Location.GetCondoID( Location.Find( ply:GetPos() ) ) then
 
@@ -19,7 +19,7 @@ net.Receive("gmt_closevault",function(len, ply)
 
 	end
 
-end)
+end)*/
 
 net.Receive("gmt_lockcondo",function(len, ply)
 	

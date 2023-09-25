@@ -107,8 +107,8 @@ function GTowerItems:CloseBank()
 
 	surface.PlaySound('gmodtower/lobby/misc/trunk_close.wav')
 
-	net.Start("gmt_closevault")
-	net.SendToServer()
+	-- net.Start("gmt_closevault")
+	-- net.SendToServer()
 
 	GTowerMainGui.HideMenus()
 end
