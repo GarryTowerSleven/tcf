@@ -49,19 +49,19 @@ function ENT:Initialize()
 
 end
 
-net.Receive("cauldron_fx",function()
-	local self = net.ReadEntity()
-	if !IsValid(self) then return end
-	ParticleEffect( "cauldron_embers", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
-	ParticleEffect( "cauldron_embers_2", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
-	ParticleEffect( "cauldron_bubbles_explode", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
-	ParticleEffect( "cauldron_rays", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
-	ParticleEffect( "cauldron_flash", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
-	ParticleEffect( "cauldron_pop", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
-	ParticleEffect( "cauldron_smoke_explode", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
-	ParticleEffect( "cauldron_rumble", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
-	ParticleEffect( "cauldron_drips", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
-end)
+-- net.Receive("cauldron_fx",function()
+-- 	local self = net.ReadEntity()
+-- 	if !IsValid(self) then return end
+-- 	ParticleEffect( "cauldron_embers", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
+-- 	ParticleEffect( "cauldron_embers_2", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
+-- 	ParticleEffect( "cauldron_bubbles_explode", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
+-- 	ParticleEffect( "cauldron_rays", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
+-- 	ParticleEffect( "cauldron_flash", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
+-- 	ParticleEffect( "cauldron_pop", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
+-- 	ParticleEffect( "cauldron_smoke_explode", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
+-- 	ParticleEffect( "cauldron_rumble", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
+-- 	ParticleEffect( "cauldron_drips", self:GetPos() + self:GetUp() * 110, Angle( 0, 0, 0 ) )
+-- end)
 
 if CLIENT then return end
 
@@ -83,13 +83,13 @@ function ENT:Bubbles()
 	end
 end
 
-util.AddNetworkString("cauldron_fx")
+-- util.AddNetworkString("cauldron_fx")
 
 function ENT:DoEffects()
 
-	net.Start("cauldron_fx")
-		net.WriteEntity(self)
-	net.Broadcast()
+	-- net.Start("cauldron_fx")
+	-- 	net.WriteEntity(self)
+	-- net.Broadcast()
 
 end
 
