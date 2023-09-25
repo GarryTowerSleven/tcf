@@ -372,12 +372,11 @@ function ENT:DrawFacts( w, h )
 	// Show timer
 	local timeleft = self.ShowTimeRemaining
 	local timeformat = string.NiceTime( timeleft )
+	
+	if not w or not h then return end
 
-	self2 = self
 	if timeleft > 4 then
-
 		draw.SimpleText( "NEXT SHOW WILL START IN " .. string.upper(timeformat), "FactsStart", w/2, h - 12, Color( 150, 150, 150, 50 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-
 	else
 
 		local countdown = math.floor(timeleft)
