@@ -115,13 +115,6 @@ end)
 hook.Add( "HUDPaint", "AdminNotifs", NotifPaint )
 hook.Add( "Think", "AdminNotifsThink", NotifThink )
 
-concommand.Add( "notif_test", function()
-    Msg( "This is a rainbow notification!", 5 )
-    Msg( "This one is gonna last a while.", 15, Color(255,255,255) )
-    Msg( "Hey, this one's pink.", 10, Color(255,0,255) )
-    Msg( "This is an admin message.", 10, Color(255,0,255), true )
-end )
-
 net.Receive("ConsolePrint", function()
     local text = net.ReadString()
     local color = net.ReadColor()
