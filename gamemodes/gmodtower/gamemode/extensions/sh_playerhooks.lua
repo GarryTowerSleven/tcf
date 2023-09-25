@@ -5,7 +5,8 @@ if SERVER then
 	util.AddNetworkString(netStringName)
 
 	local function ClientCreated( ply )
-
+		if ply._ClientCreated then return end
+		ply._ClientCreated = true
 		-- Call the hook on the server to inform a client is initialized
 		hook.Call( "PlayerSpawnClient", GAMEMODE, ply )
 
@@ -37,6 +38,8 @@ if CLIENT then
 	end )
 
 	local function ClientCreated( ply )
+		if ply._ClientCreated then return end
+		ply._ClientCreated = true
 		hook.Call( "PlayerSpawnClient", GAMEMODE, ply )
 	end
 
