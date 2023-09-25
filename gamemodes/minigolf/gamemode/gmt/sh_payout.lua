@@ -7,23 +7,23 @@ payout.Register( "ThanksForPlaying", {
 payout.Register( "HoleInOne", {
 	Name = "Hole In One!",
 	Desc = "A perfect putt.",
-	GMC = 200,
+	GMC = 150,
 } )
 
 payout.Register( "OverBogey", {
 	Name = "Over Double Bogey",
 	Desc = "You do know the goal is to get\nthe lowest score, right?",
-	GMC = 20,
+	GMC = 10,
 } )
 
 local MoneyScores = {
-	[-4] = { 150, "Way to soar!" },
-	[-3] = { 120, "Really well done!" },
-	[-2] = { 110, "Fly like an eagle." },
-	[-1] = { 100, "Early bird gets the worm." },
-	[0] = { 80, "Just average." },
-	[1] = { 40, "Not bad. Try lowering your putt amounts." },
-	[2] = { 30, "You can do better." },
+	[-4] = { 140, "Way to soar!" },
+	[-3] = { 130, "Really well done!" },
+	[-2] = { 120, "Fly like an eagle." },
+	[-1] = { 110, "Early bird gets the worm." },
+	[0] = { 100, "Just average." },
+	[1] = { 50, "Not bad. Try lowering your putt amounts." },
+	[2] = { 25, "You can do better." },
 }
 
 for k, score in pairs( MoneyScores ) do
