@@ -87,6 +87,8 @@ net.Receive( "GMTUse", function( len, ply )
 
 	if ( not Item ) then return end
 
+	if ( not ply:GetPos():WithinDistance( ent:GetPos(), 1024 ) ) then return end
+
 	net.Start("GMTUseEffect")
 		net.WriteEntity(ent)
 		net.WriteEntity(ply)
