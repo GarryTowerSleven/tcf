@@ -13,6 +13,6 @@ MaxDuelDist = 2048
 DuelStartDelay = 6
 
 function IsDueling( ply )
-	if ply:IsBot() then return false end
+	if not IsValid(ply) or ply:IsBot() then return false end
 	return IsValid( ply:GetNWEntity( "DuelOpponent" ) )
 end
