@@ -1,5 +1,5 @@
 util.AddNetworkString("UpdateShowDelay")
-util.AddNetworkString("ResetStage")
+util.AddNetworkString("StartShow")
 
 include("shared.lua")
 AddCSLuaFile("shared.lua")
@@ -13,61 +13,46 @@ AddCSLuaFile("cl_events.lua")
 AddCSLuaFile("cl_lasers.lua")
 
 function ENT:Initialize()
-	if (SERVER) then
-		self:SetModel("models/gmod_tower/stage.mdl")
-		self:SetSolid( SOLID_VPHYSICS )
-		self:SetMoveType( MOVETYPE_NONE )
-		self:PhysicsInit( SOLID_VPHYSICS )
+	self:SetModel( "models/gmod_tower/stage.mdl" )
+	self:SetSolid( SOLID_VPHYSICS )
+	self:SetMoveType( MOVETYPE_NONE )
+	self:PhysicsInit( SOLID_VPHYSICS )
+
+  	local phys = self:GetPhysicsObject()
+	if IsValid(phys) then
+		phys:EnableMotion(false)
 	end
-  local phys = self:GetPhysicsObject()
-  if IsValid(phys) then
-    phys:EnableMotion(false)
-  end
 end
 
-concommand.Add("showsecret",function(ply)
-	if ply:SteamID() == "STEAM_0:0:44458854" then
-		for k,v in pairs(player.GetAll()) do v:SendLua([[for k,v in pairs(ents.GetAll()) do if v:GetClass() == "stage" then v:StartEasteregg() end end]]) end
-	end
-end)
-
-concommand.Add("showtime",function( ply, cmd, args, str )
-
-if ply:IsAdmin() then
-
-if string.len( str ) == 0 then
-  WaitTime = 1
-	net.Start("UpdateShowDelay")
-	net.WriteFloat(0.1)
+function ENT:Start()
+	net.Start("StartShow")
+		net.WriteEntity(self)
 	net.Broadcast()
-	for k,v in pairs(player.GetAll()) do v:SendLua([[for k,v in pairs(ents.GetAll()) do if v:GetClass() == "stage" then v:Start() end end]]) end
-else
-  WaitTime = tonumber(str) * 60
-  net.Start("UpdateShowDelay")
-  net.WriteFloat(tonumber(str))
-  net.Broadcast()
 end
 
-for k,v in pairs(player.GetAll()) do
-  if WaitTime == 0 or WaitTime == 60 then
-    --Placed nothing here so it wouldn't spam 2 messages.
-  else
-		v:SendLua([[GTowerChat.Chat:AddText("4th of July Show Starting In ]]..string.NiceTime( WaitTime )..[[!", Color( 255, 50, 50, 255 ))]])
-  end
+function ENT:ShowTime(delay)
+	if delay > 0 then
+
+		net.Start("UpdateShowDelay")
+			net.WriteEntity(self)
+			net.WriteFloat(delay)
+		net.Broadcast()
+
+		return
+	end
+
+	if !self.Started then
+		self.Started = true
+		self:Start()
+	end
 end
 
+concommand.Add("showtime", function( ply, cmd, args, str )
+	if !ply:IsAdmin() then return end
 
-end
+	local delay = tonumber(args[1]) or 0
+
+	for k,v in pairs( ents.FindByClass("stage") ) do
+		v:ShowTime(delay)
+	end
 end)
--- net.Receive("ResetStage",function()
---   for _,stage in pairs(ents.GetAll()) do if stage:GetClass() == "stage" then
---     local newstage = ents.Create( "stage" )
---     newstage:SetPos( stage:GetPos() )
---     newstage:SetAngles( stage:GetAngles() )
---     newstage:Spawn()
---     net.Start("UpdateShowDelay")
---     net.WriteFloat(3600)
---     net.Broadcast()
---     stage:Remove()
---   end end
--- end)
