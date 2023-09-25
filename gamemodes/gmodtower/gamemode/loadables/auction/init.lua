@@ -5,7 +5,7 @@ util.AddNetworkString("ToggleClAuction")
 
 local AuctionDuration = (60 * 5)
 
-concommand.Add("gmt_startauction",function(ply)
+/*concommand.Add("gmt_startauction",function(ply)
   if ply:IsAdmin() then StartAuction(ply) end
 
   net.Start("ToggleClAuction")
@@ -13,7 +13,7 @@ concommand.Add("gmt_startauction",function(ply)
     net.WriteInt( AuctionDuration, 32 )
   net.Broadcast()
 
-end)
+end)*/
 
 local TablePos = {
   Vector(671.59375, -801.65625, 0.25),
