@@ -7,11 +7,11 @@ util.AddNetworkString("minecraft_skin_updated")
 util.AddNetworkString("minecraft_skin_update")
 
 net.Receive("minecraft_skin_updated", function(len, ply)
-
 	local skin = net.ReadString()
-	MinecraftSkinUpdate( ply, skin )
 
 	if ply:GetModel() == "models/player/mcsteve.mdl" then
+		MinecraftSkinUpdate( ply, skin )
+
 		ply:Msg2( T( "MCSkinChange" ) )
 		ply:SetNet( "MCSkinName", skin )
 	end
