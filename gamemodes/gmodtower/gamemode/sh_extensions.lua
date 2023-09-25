@@ -50,7 +50,12 @@ function ReloadExtensions()
 end
 
 if SERVER then
-	concommand.AdminAdd("gmt_reloadexts", function( ply )
+	concommand.Add("gmt_reloadexts", function( ply )
+
+		if !ply:IsAdmin() then
+			return
+		end
+
 		if game.SinglePlayer() || !game.IsDedicated() then
 			ply:SendLua("ReloadExtensions()")
 		end

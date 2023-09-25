@@ -31,8 +31,10 @@ function ENT:Touch( ply )
 
 end
 
-concommand.StaffAdd("gmt_devmoney", function(ply, cmd, args)
-    	
+concommand.Add("gmt_devmoney", function(ply, cmd, args)
+
+    if not ply:IsStaff() then return end
+	
 	local modelvalues = {
 		{"one", 1},
 		{"ten", 10},

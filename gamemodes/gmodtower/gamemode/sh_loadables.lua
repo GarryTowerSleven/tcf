@@ -64,6 +64,7 @@ function Load( name )
 	
 end
 
-concommand.AdminAdd( "gmt_reloadloadable", function( ply, cmd, args )
+concommand.Add( "gmt_reloadloadable", function( ply, cmd, args )
+	if !ply:IsAdmin() then return end
 	Loadables.Load( tostring( args[1] ) )
 end )

@@ -36,53 +36,57 @@ end
 
 concommand.Add( "gmt_changelevel", function( ply, command, args )
 	
-    if ply != NULL or !ply:IsAdmin() then return end
+    if ply == NULL or ply:IsAdmin() then
 
-    if Active then
-        StopChangeLevel( ply )
-        return
-    end
-
-    local canChange = CanChangeLevel()
-
-    if not canChange then
-        if IsValid( ply ) then
-            ply:MsgT( "FailedMapChange" )
+        if Active then
+            StopChangeLevel( ply )
+            return
         end
 
-        LogPrint( T( "FailedMapChange" ), color_red, "MapChange" )
+        local canChange = CanChangeLevel()
+
+        if not canChange then
+            if IsValid( ply ) then
+                ply:MsgT( "FailedMapChange" )
+            end
+
+            LogPrint( T( "FailedMapChange" ), color_red, "MapChange" )
+            
+            return
+        end
+
+        local isNum = tonumber( args[1] ) != nil
+
+        local map = isNum and game.GetMap() or (args[1] or game.GetMap())
+        local time = isNum and tonumber( args[1] ) or tonumber( args[2] ) or 30
+
+		if IsLobby and GMT_IS_RESTARTING then
+			if not Database.IsConnected() then return end
+			Database.Query( "UPDATE `gm_casino` SET `jackpot` = 0;" )
+		end
+        ChangeLevel( map, time, ply )    
         
-        return
     end
-
-    local isNum = tonumber( args[1] ) != nil
-
-    local map = isNum and game.GetMap() or (args[1] or game.GetMap())
-    local time = isNum and tonumber( args[1] ) or tonumber( args[2] ) or 30
-
-    if IsLobby and GMT_IS_RESTARTING then
-        if not Database.IsConnected() then return end
-        Database.Query( "UPDATE `gm_casino` SET `jackpot` = 0;" )
-    end
-
-    ChangeLevel( map, time, ply )    
+	
 end )
 
 concommand.Add( "gmt_forcelevel", function( ply, command, args )
 	
-    if ply != NULL or !ply:IsAdmin() then return end
+    if ply == NULL or ply:IsAdmin() then
 
-    if Active then
-        StopChangeLevel( ply )
-        return
-    end
+        if Active then
+            StopChangeLevel( ply )
+            return
+        end
 
-    local map = args[1] or game.GetMap()
-    local time = 0
-
-    ChangeLevel( map, time, ply )
+        local map = args[1] or game.GetMap()
+        local time = 0
     
-    Force = true
+        ChangeLevel( map, time, ply )
+        Force = true
+        
+    end
+	
 end )
 
 function TimeLeft()
