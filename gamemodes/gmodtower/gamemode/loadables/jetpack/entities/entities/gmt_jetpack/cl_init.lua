@@ -20,13 +20,15 @@ local ModelRotate = {
 }
 
 local ModelOffsets = {
-	["models/gmod_tower/jetpack.mdl"] = Vector( 0, 0, 0 ),
-	["models/gmod_tower/fairywings.mdl"] = Vector( 0, 4, 0 )
+	// ["models/gmod_tower/jetpack.mdl"] = Vector( 0, 0, 0 ),
+	["models/gmod_tower/fairywings.mdl"] = Vector( 0, 3, 0 ),
+	["models/gmod_tower/backpack.mdl"] = Vector( 4, -4, 0 ),
 }
 
 local ModelScale = {
 	["models/gmod_tower/jetpack.mdl"] = .5,
-	["models/gmod_tower/fairywings.mdl"] = .75
+	["models/gmod_tower/fairywings.mdl"] = .75,
+	["models/gmod_tower/backpack.mdl"] = .6
 }
 
 function ENT:InitOffset()
@@ -51,7 +53,6 @@ function ENT:GetJetpackAttchment( ply )
 		return pos, ang, scale
 	end
 
-
 	local Torso = ply:LookupBone( "ValveBiped.Bip01_Spine2" )
 
 	if Torso then
@@ -61,7 +62,7 @@ function ENT:GetJetpackAttchment( ply )
 		ang:RotateAroundAxis( ang:Up(), 90 )
 		ang:RotateAroundAxis( ang:Forward(), 90 )
 	
-		return pos, ang, math.sqrt( scale )
+		return pos, ang, scale * 1.5
 	end
 
 end
@@ -71,17 +72,26 @@ function ENT:PositionItem(ply)
 	local pos, ang, scale = self:GetJetpackAttchment( ply )
 	if !pos || !ang then return end
 
-	/*local Offsets = ModelOffsets[ self:GetModel() ]
+	// if ( ModelForward[ self:GetModel() ] ) then
+	// 	pos = pos + self:GetForward() * ModelForward[ self:GetModel() ]
+	// end
 
-	local offsets = ang:Up() * Offsets[1] + ang:Forward() * Offsets[2] + ang:Right() * Offsets[3]
-	
-	offsets.x = offsets.x * scale
-	offsets.y = offsets.y * scale
-	offsets.z = offsets.z * scale*/
+	local Offsets = ModelOffsets[ self:GetModel() ]
+
+	if Offsets then
+		
+		local offsets = ang:Up() * Offsets[1] + ang:Forward() * Offsets[2] + ang:Right() * Offsets[3]
+		
+		offsets.x = offsets.x * scale
+		offsets.y = offsets.y * scale
+		offsets.z = offsets.z * scale
+
+		pos = pos + offsets
+
+	end
 
 	ang:RotateAroundAxis( ang:Up(), ModelRotate[ self:GetModel() ] or 0 )
 
-	//pos = pos + offsets
 
 	return pos, ang, scale
 
@@ -115,7 +125,7 @@ function ENT:DrawFireAttchment( att, ply, seed )
 		return
 	end	
 	
-	local Up = Vector(0,0,1)
+	local Up = Vector(0,0,0)
 	local vOffset = AttchmentTbl.Pos + Up
 	local vNormal = ply:GetVelocity():GetNormal() * -1
 	local scroll = seed + (CurTime() * -10)
@@ -194,6 +204,7 @@ function ENT:DrawSmoke( pos, scale, normal )
 	
 	self.Emitter:SetPos(self:GetPos())
 	
+	local scale = self:GetOwner():GetModelScale()
 	local sprite = self:GetOwner():GetNet("JetpackTexture")
 	local color = self:GetOwner():GetPlayerColor() * 255
 	if CLIENT and self:GetOwner() == LocalPlayer() then
@@ -215,7 +226,7 @@ function ENT:DrawSmoke( pos, scale, normal )
 					particle:SetStartAlpha( math.Rand( 80, 120 ) ) 
 					particle:SetEndAlpha( 0 ) 
 					particle:SetStartSize( math.random( 5, 10 ) * scale ) 
-					particle:SetEndSize( math.random( 11, 13 ) )
+					particle:SetEndSize( math.random( 11, 13 ) * scale )
 					particle:SetColor( color.r, color.g, color.b )
 				end
 			else
@@ -227,7 +238,7 @@ function ENT:DrawSmoke( pos, scale, normal )
 					particle:SetStartAlpha( math.Rand( 80, 120 ) ) 
 					particle:SetEndAlpha( 0 ) 
 					particle:SetStartSize( math.random( 5, 10 ) * scale ) 
-					particle:SetEndSize( math.random( 20, 35 ) ) 
+					particle:SetEndSize( math.random( 20, 35 ) * scale ) 
 
 					local dark = math.Rand( 0, 150 )
 					particle:SetColor( dark, dark, dark ) 

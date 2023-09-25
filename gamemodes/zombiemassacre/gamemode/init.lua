@@ -53,6 +53,8 @@ function GM:DoPlayerDeath( victim )
 	grave:SetAngles(victim:GetAngles())
 	grave:Spawn()
 	grave:SetOwner(victim)
+	
+	music.Play( EVENT_PLAY, MUSIC_DEATH, victim )
 end
 
 hook.Add("EntityTakeDamage", "WeaponAchiCheck", function( target, dmginfo )
@@ -139,10 +141,11 @@ hook.Add( "PlayerSpawn", "Weapon_Give", function( ply )
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
 
 	ply:SetCollisionGroup( COLLISION_GROUP_WEAPON )
-
-	ply:ConCommand( 'zm_comboclear' )
+	ply:ConCommand( "zm_comboclear" )
 
 	ply:SetPos( ply:GetPos() + Vector(0,0,35) )
+
+	ply:SetNWBool( "ComboActive", false )
 
 end )
 
@@ -215,8 +218,11 @@ function GM:EntityTakeDamage( target, dmginfo )
 		self.LastDamageNote = CurTime() + .15 //let's not have so many damage notes going on.
 	end
 
-	if ply:GetNWInt( "Combo" ) > 4 then
+	if ply:GetNWInt( "Combo" ) > 4 and !ply:GetNWBool( "IsPowerCombo" ) then
 		ply:SetNWBool( "IsPowerCombo", true )
+		
+		local CLASS = classmanager.Get( string.lower(ply:GetNWString( "ClassName" )) )
+		ply:EmitSound( CLASS.PowerGotSound, 80 )
 	end
 
 end

@@ -317,12 +317,12 @@ function pman.ovrly:AddLayer( Name, tbl )
 	if ( !tbl ) then return end
 
     tbl.mat = Material( tbl.material )
-	tbl.mat:SetMaterialFloat("$envmap",	0)
-	tbl.mat:SetMaterialFloat("$envmaptint",	0)
-	tbl.mat:SetMaterialInt("$ignorez", 1)
-	tbl.mat:SetMaterialFloat("$refractamount", tbl.refract)
-	tbl.mat:SetMaterialFloat("$alpha", tbl.alpha)
-	tbl.mat:SetMaterialFloat("$bluramount", tbl.blur)
+	tbl.mat:SetFloat("$envmap",	0)
+	tbl.mat:SetFloat("$envmaptint",	0)
+	tbl.mat:SetInt("$ignorez", 1)
+	tbl.mat:SetFloat("$refractamount", tbl.refract)
+	tbl.mat:SetFloat("$alpha", tbl.alpha)
+	tbl.mat:SetFloat("$bluramount", tbl.blur)
 
     self.layers[Name] = tbl
 	self:UpdateLayers()
@@ -433,9 +433,9 @@ function pman.ovrly:FadeIn( Name, tbl, delay )
 	if ( !Name || Name == "" ) then return end
 	
 	tbl.mat = Material( tbl.material )
-	tbl.mat:SetMaterialFloat( "$envmap", 0 )
-	tbl.mat:SetMaterialFloat( "$envmaptint", 0 )
-	tbl.mat:SetMaterialInt( "$ignorez",	1 )
+	tbl.mat:SetFloat( "$envmap", 0 )
+	tbl.mat:SetFloat( "$envmaptint", 0 )
+	tbl.mat:SetInt( "$ignorez",	1 )
 	
 	local fade = {}
 	fade.layer = tbl
@@ -762,9 +762,9 @@ local function pmanRender()
 	        	if ( x.layer.mat ) then
 	        	    local layer = x.layer
 	        	    local mat = layer.mat
-	        		mat:SetMaterialFloat("$refractamount", layer.refract * x.value )
-					mat:SetMaterialFloat("$alpha", layer.alpha * x.value )
-					mat:SetMaterialFloat("$bluramount", layer.blur * x.value )
+	        		mat:SetFloat("$refractamount", layer.refract * x.value )
+					mat:SetFloat("$alpha", layer.alpha * x.value )
+					mat:SetFloat("$bluramount", layer.blur * x.value )
 					render.UpdateScreenEffectTexture()
 					render.SetMaterial( mat )
 					render.DrawScreenQuad()

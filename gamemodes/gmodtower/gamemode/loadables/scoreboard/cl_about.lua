@@ -24,7 +24,8 @@ vgui.Register( "AboutTab", TAB, "ScoreboardTab" )
 
 
 ABOUT = {}
-ABOUT.Website = "https://gtower.net/index.html?p=gamemodes&app=1&gm="
+//ABOUT.Website = "https://gtower.net/index.php?p=gamemodes&app=1&gm="
+ABOUT.Website = "https://gtower.net/index.php?p=gamemodes"
 ABOUT.Gamemodes = 
 {
 	["gmtlobby"] = "lobby",

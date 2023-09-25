@@ -29,6 +29,7 @@ ListModerator = {
 	["STEAM_0:0:41914866"] 	= true, -- Sunni
 	["STEAM_0:1:53166133"] 	= true, -- Orlok
 	["STEAM_0:1:72402171"] 	= true, -- Umbre
+	["STEAM_0:1:97372299"]	= true, -- NotGaylien
 
 }
 

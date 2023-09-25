@@ -48,7 +48,7 @@ function ENT:Use(ply)
 	local riff = self:PickRiff()
 
 	self:EmitSound(riff, 80)
-	timer.Simple(30,function()
+	timer.Simple(SoundDuration(riff),function()
 		if IsValid(self) then self:EndRiff() end
 	end)
 
@@ -82,7 +82,7 @@ end
 function ENT:EmitNotes()
 
 	local edata = EffectData()
-	edata:SetOrigin(self:GetPos() + Vector(0, 0, 50) + Vector(math.random(25,-25),math.random(25,-25),0) )
+	edata:SetOrigin(self:GetPos() + Vector( 0, 0, 40 ) + self:GetForward() * 60 + self:GetRight() * math.random( -50, 25 ) )
 	edata:SetEntity(self)
 
 	util.Effect("musicnotes", edata, true, true)

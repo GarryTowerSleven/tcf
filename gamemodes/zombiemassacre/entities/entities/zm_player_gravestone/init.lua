@@ -35,13 +35,16 @@ end*/
 
 function ENT:Think()
     for k,v in pairs( ents.FindInSphere(self:GetPos(),64) ) do
-			if v:IsPlayer() && v != self:GetOwner() then
-				self:GetOwner():Spawn()
-				self:GetOwner():SetPos( self:GetPos() )
-				v:AddAchievement( ACHIEVEMENTS.ZMGRAVESAVE, 1 )
-				self:Remove()
-			end
+		if v:IsPlayer() && v != self:GetOwner() then
+			self:GetOwner():Spawn()
+			self:GetOwner():SetPos( self:GetPos() )
+			music.Play( EVENT_PLAY, GetGlobalInt( "Round" ), self:GetOwner() )
+
+			v:AddAchievement( ACHIEVEMENTS.ZMGRAVESAVE, 1 )
+
+			self:Remove()
 		end
+	end
 end
 
 function ENT:OnRemove()

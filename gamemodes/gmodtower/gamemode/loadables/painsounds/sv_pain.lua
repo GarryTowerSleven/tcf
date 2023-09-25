@@ -5,6 +5,7 @@ hook.Add("EntityTakeDamage", "PainSounds", function(e, dmg)
 			local d = dmg:GetDamage()
 			if d >= e:Health() then return end
 			local t = d > 40 and "Large" or d > 20 and "Medium" or "Small"
+			if IsLobby and Dueling.IsDueling( e ) then return end
 			voicelines.Emit(e, "Pain," .. t)
 			e.LastPainTime = CurTime() + 1
 		end

@@ -8,6 +8,8 @@ ENT.PrintName	= "VIP Wine"
 ENT.Model		= Model("models/gmod_tower/winebasket.mdl")
 ENT.Sound		= clsound.Register("physics/glass/glass_impact_hard3.wav")
 
+ENT.OnUse		= "DRINK"
+
 function ENT:Initialize()
 	if CLIENT then return end
 

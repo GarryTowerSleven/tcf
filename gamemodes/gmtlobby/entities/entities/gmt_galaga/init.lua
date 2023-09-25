@@ -74,7 +74,6 @@ function ENT:SetPly( ply )
 
 	self.Ply:SetVelocity( Vector(0,0,0) )
 	self.Ply:SetMoveType( MOVETYPE_NONE )
-	self.Ply:GodEnable()
 	self.Ply:SetPos( self:GetPos() + self:GetForward() * 128 )
 
 	self.NextMove = SysTime() + 0.9

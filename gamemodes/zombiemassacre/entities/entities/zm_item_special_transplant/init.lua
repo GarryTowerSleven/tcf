@@ -1,17 +1,12 @@
-AddCSLuaFile("cl_init.lua")
-AddCSLuaFile("shared.lua")
+AddCSLuaFile("cl_init.lua")
+
+AddCSLuaFile("shared.lua")
+
+
 include("shared.lua")
 
 function ENT:Initialize()
 	self:SetModel(self.Model)
-	timer.Simple( self.RemoveDelay, function()
-
-		self:EmitSound("gmodtower/zom/weapons/explode"..math.random(3,5)..".wav",80)
-
-		self.Transplant:SetNWBool( "IsPowerCombo", false )
-		self.Transplant:SetNWInt( "Combo", 0 )
-		self:Remove()
-	end )
 end
 
 function ENT:Think()

@@ -9,36 +9,44 @@ function ENT:Initialize()
 	self:SetMaterial("models/wireframe")
 	self:SetColor(Color(255,102,0,255))
 	self:SetParent(self:GetOwner())
-	self.sheildsound = CreateSound( self, self.Sound )
-	self.sheildsound:Play()
+
+	self.ShieldSound = CreateSound( self, self.Sound )
+	self.ShieldSound:Play()
+
 	self.KillCount = 0
-	timer.Simple( self.RemoveDelay, function() self.sheildsound:Stop() self:GetOwner():SetNWInt( "Combo", 0 ) self:GetOwner():SetNWBool( "IsPowerCombo", false ) self:GetOwner():ResetSpeeds() self:Remove() end )
+	self.PrevKillCount = 0
 end
 
 function ENT:Think()
-	/*local eff = EffectData()
-	eff:SetEntity( self )
-	eff:SetOrigin( self:GetPos() )
-	eff:SetNormal( self:GetUp() )
-	util.Effect( "shield_block", eff )
-	self:NextThink( CurTime() )
-	return true*/
+	for _, target in ipairs( ents.FindInSphere(self:GetPos(), 30) ) do
+		if !string.StartWith( target:GetClass(), "zm_npc_" ) then continue end
 
-	for k,v in ipairs(ents.FindInSphere(self:GetPos(),30)) do
-		if string.StartWith( v:GetClass(), "zm_npc_" ) then
-			self:EmitSound(self.HitSound)
-			local target = v
-			target:SetVelocity( target:GetAngles():Forward() * 1000000 )
-			target:TakeDamage( 100, self:GetOwner(), self )
-			--v:Fire("kill")
+		self:EmitSound(self.HitSound)
 
-			self.KillCount = self.KillCount + 1
-			if self.KillCount > 14 then
-				self:GetOwner():AddAchievement( ACHIEVEMENTS.ZMOUTOFMYWAY, 1 )
-			end
-		end
+		target:SetVelocity( target:GetAngles():Forward() * 1000000 )
+		target:TakeDamage( 100, self:GetOwner(), self )
+
+		self.KillCount = self.KillCount + 1
+	end
+
+	if self.KillCount != self.PrevKillCount then
+		local eff = EffectData()
+		eff:SetEntity( self )
+		eff:SetOrigin( self:GetPos() )
+		eff:SetNormal( self:GetUp() )
+		util.Effect( "shield_block", eff )
+		
+		self.PrevKillCount = self.KillCount
+	end
+
+	if self.KillCount > 14 then
+		self:GetOwner():AddAchievement( ACHIEVEMENTS.ZMOUTOFMYWAY, 1 )
 	end
 
 	self:NextThink( CurTime() )
 	return true
+end
+
+function ENT:OnRemove()
+	self.ShieldSound:Stop()
 end

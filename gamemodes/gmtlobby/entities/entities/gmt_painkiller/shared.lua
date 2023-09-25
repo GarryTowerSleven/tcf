@@ -8,6 +8,7 @@ ENT.PrintName	= "Painkilers"
 ENT.Model		= Model("models/props_lab/jar01a.mdl")
 ENT.Sound		= clsound.Register("HL1/fvox/medical_repaired.wav")
 
+ENT.OnUse		= "HEAL"
 function ENT:Initialize()
 	if CLIENT then return end
 

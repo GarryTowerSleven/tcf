@@ -16,11 +16,26 @@ function meta:GetTranslatedModel()
 end
 
 function meta:PowerStart()
-	if self:GetNWBool( "IsPowerCombo" ) then
+	if self:GetNWBool( "IsPowerCombo" ) and not self:GetNWBool( "ComboActive" ) then
 		self:AddAchievement( ACHIEVEMENTS.ZMCOMBO, 1 )
-		local CLASS = classmanager.Get(string.lower(self:GetNWString( "ClassName" )))
-		CLASS:PowerStart(self)
+		self:SetNWBool( "ComboActive", true )
+
+		local CLASS = classmanager.Get( string.lower(self:GetNWString( "ClassName" )) )
+		CLASS:PowerStart( self )
+
+		timer.Simple( CLASS.PowerLength, function()
+			if IsValid(self) then
+				CLASS:PowerEnd( self )
+				self:PowerEnd()
+			end
+		end)
 	end
+end
+
+function meta:PowerEnd()
+	self:SetNWBool( "ComboActive", false )
+	self:SetNWBool( "IsPowerCombo", false )
+	self:SetNWInt( "Combo", 0 )
 end
 
 function meta:UseItem()
@@ -72,7 +87,7 @@ function meta:SpeedUp()
 end
 
 function meta:ResetSpeeds()
-	self:SetLaggedMovementValue( 1 )
+	self:SetLaggedMovementValue(1)
 end
 
 function meta:StripAllInventory()

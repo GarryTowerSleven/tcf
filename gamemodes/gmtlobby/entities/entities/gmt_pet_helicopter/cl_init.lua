@@ -225,7 +225,7 @@ end
 net.Receive("PetHeliShoot", function()
 	local heli = net.ReadEntity()
 
-	if IsValid( heli ) then
+	if IsValid( heli ) and heli.Shoot then
 		heli:Shoot()
 	end
 end)

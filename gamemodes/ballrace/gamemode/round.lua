@@ -606,7 +606,25 @@ function GM:SpectateNext(ply)
 
 	local players = player.GetAll()
 
-	if !IsValid(start) or !start:Alive() || start:Team() ~= TEAM_PLAYERS then
+	local k, v = next(players, start)
+	if !k then k, v = next(players) end
+
+	while k != start do
+		if v:Team() == TEAM_PLAYERS then
+			newspec = k
+			break
+		end
+
+		k, v = next(players, k)
+		if !k then
+			if start == nil then break end
+			k, v = next(players)
+		end
+
+		if v == ply then start = k break end -- THIS SHOULD PREVENT IT FROM CRASHING
+	end
+
+	/*if !IsValid(start) or !start:Alive() || start:Team() ~= TEAM_PLAYERS then
 		newspec = nil
 
 		for _, ply in ipairs(player.GetAll()) do
@@ -614,13 +632,14 @@ function GM:SpectateNext(ply)
 				newspec = ply
 			end
 		end
-	end
+	end*/
 
 	ply.Spectating = newspec
 	//print(ply.Spectating)
 
 	local ent = nil
-	ent = ply.Spectating.Ball
+	if players[newspec] then ent = players[newspec].Ball end
+	--ent = ply.Spectating.Ball
 
 	ply:SetBall(ent)
 
