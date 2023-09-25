@@ -199,7 +199,7 @@ concommand.Add("gmt_forceupdate", function( ply, cmd, args )
 
 end )
 
-concommand.Add("gmt_dumpsqldata", function( ply, cmd, args )
+concommand.AdminAdd("gmt_dumpsqldata", function( ply, cmd, args )
 
 	file.Write( "SQLDUMP_" .. ply:SQLId() .. ".txt", table.ToNiceString( ply.SQL ) )
 
