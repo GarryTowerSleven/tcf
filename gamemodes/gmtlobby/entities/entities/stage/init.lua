@@ -59,15 +59,15 @@ end
 
 end
 end)
-net.Receive("ResetStage",function()
-  for _,stage in pairs(ents.GetAll()) do if stage:GetClass() == "stage" then
-    local newstage = ents.Create( "stage" )
-    newstage:SetPos( stage:GetPos() )
-    newstage:SetAngles( stage:GetAngles() )
-    newstage:Spawn()
-    net.Start("UpdateShowDelay")
-    net.WriteFloat(3600)
-    net.Broadcast()
-    stage:Remove()
-  end end
-end)
+-- net.Receive("ResetStage",function()
+--   for _,stage in pairs(ents.GetAll()) do if stage:GetClass() == "stage" then
+--     local newstage = ents.Create( "stage" )
+--     newstage:SetPos( stage:GetPos() )
+--     newstage:SetAngles( stage:GetAngles() )
+--     newstage:Spawn()
+--     net.Start("UpdateShowDelay")
+--     net.WriteFloat(3600)
+--     net.Broadcast()
+--     stage:Remove()
+--   end end
+-- end)
