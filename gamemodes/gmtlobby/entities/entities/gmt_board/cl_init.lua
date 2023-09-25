@@ -29,12 +29,12 @@ local donationFeatures = {
 
 local rules = {
 	"Chat Spamming",
-	"Racism, sexism, homophobia or other discrimination",
+	"Racism, sexism, homophobia or discrimination",
 	"Impersonating developers",
 	"Excessive Trolling",
 	"Speed hacking, Aimbotting and similar tools",
 	"Scripting binds, macros and autoclickers",
-	"Adding sexually explicit video or audio to mediaplayers",
+	"Queueing sexually explicit media",
 	"Sexually explicit sprays",
 }
 
