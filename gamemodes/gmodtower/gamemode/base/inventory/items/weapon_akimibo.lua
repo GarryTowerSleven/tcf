@@ -1,6 +1,6 @@
 ---------------------------------
 ITEM.Name = "Akimibo"
-ITEM.ClassName = "weapon_akimibo"
+ITEM.ClassName = "weapon_akimbo"
 ITEM.Description = "Akimibo"
 ITEM.Model = "models/weapons/w_pvp_ire.mdl"
 ITEM.UniqueInventory = true
