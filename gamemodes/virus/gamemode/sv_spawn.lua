@@ -2,9 +2,12 @@ function GM:LateJoin( ply )
 	ply:KillSilent() -- Murder Rubat
 	hook.Add("SetupMove", ply:SteamID64(), function(ply2, mv, cmd)
 		if ply2 == ply and !cmd:IsForced() then
-			ply:SetTeam( TEAM_INFECTED )
-			ply:SetNet( "IsVirus", true )
-			ply:Spawn()
+			if self:GetState() == STATE_PLAYING then
+				print("Lets log this to make sure this is what's doing it.")
+				ply:SetTeam( TEAM_INFECTED )
+				ply:SetNet( "IsVirus", true )
+				ply:Spawn()
+			end
 			hook.Remove("SetupMove", ply:SteamID64())
 		end
 	end )
