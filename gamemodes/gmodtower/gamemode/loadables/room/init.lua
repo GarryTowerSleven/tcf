@@ -320,7 +320,7 @@ end
 concommand.Add( "gmt_useroomdoor", function( ply, cmd, args )
 	if !args[1] || !tonumber(args[1]) || !IsValid(ply) || !Location.IsSuite( ply:Location() ) then return end
 
-	// delay
+	-- delay
 	if ply._LastDoorUse && ply._LastDoorUse > CurTime() then return end
 
 	-- make sure door is valid
@@ -357,6 +357,7 @@ net.Receive( "SendSuiteName", function( len, ply )
 
 	if Panel then
 		local name = net.ReadString()
+		if name.len > 42 then return end
 
 		Panel:SetText( tostring(name) or "oboy", ply )
 	end
