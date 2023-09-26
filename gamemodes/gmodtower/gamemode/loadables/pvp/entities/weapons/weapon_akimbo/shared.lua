@@ -17,7 +17,7 @@ SWEP.HoldType		= "pistol"
 
 SWEP.Primary.Delay	 		= 0.3
 
-SWEP.Primary.Damage	 		= {18, 24}
+SWEP.Primary.Damage	 		= {12, 18}
 
 SWEP.Primary.Cone	 		= 0.04
 

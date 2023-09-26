@@ -15,7 +15,7 @@ SWEP.HoldType			 = "pistol"
 
 SWEP.Primary.Automatic	 = true
 SWEP.Primary.Delay	 = 0.1
-SWEP.Primary.Damage	 = {12, 18}
+SWEP.Primary.Damage	 = {16, 20}
 SWEP.Primary.Cone	 = 0.015
 SWEP.Primary.ClipSize	 = 18
 SWEP.Primary.DefaultClip = 18
