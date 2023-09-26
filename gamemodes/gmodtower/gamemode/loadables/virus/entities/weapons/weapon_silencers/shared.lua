@@ -55,7 +55,7 @@ end
 function SWEP:GetTracerOrigin()
 	local vm = self.Owner:GetViewModel()
 	
-	if !IsValid(vm) then return end
+	if vm then return end
 	
 	local attach = vm:LookupAttachment(self.TracerOrigin)
 	if attach then
