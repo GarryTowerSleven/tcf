@@ -158,7 +158,7 @@ function ENT:SelectSequence( ply )
 	local MoveYaw = math.NormalizeAngle( velangle.y - self.BodyAngle )
 
 	self.PlayerModel:SetAngles( Angle( 0, self.BodyAngle, 0 ) )
-	self.PlayerModel:SetPos( self:GetPos() - model_offset )
+	self.PlayerModel:SetPos( self:GetPos() - model_offset * self:GetModelScale() )
 
 	self.PlayerModel:SetPoseParameter( "breathing", 0.4 )
 
@@ -229,19 +229,24 @@ function ENT:DrawTranslucent()
 	
 	if ply:IsNoDrawAll() then return end
 
+	local modelScale = ply:GetModelScale() or 1
+
 	if IsValid( self.PlayerModel ) then
 
 		local scale = GTowerModels.GetScale( self.PlayerModel:GetModel() )
-		if string.StartWith(self.PlayerModel:GetModel(), "models/player/redrabbit") then scale = 0.7 end
-		self.PlayerModel:SetModelScale( scale * .775, 0 )
 
+		if string.StartWith(self.PlayerModel:GetModel(), "models/player/redrabbit") then scale = 0.7 end
+		self.PlayerModel:SetModelScale( scale * .775 * modelScale, 0 )
 		self.PlayerModel:DrawModel()
+
+
+
 		ply:ManualEquipmentDraw()
 		ply:ManualBubbleDraw()
 
 	end
 
-	self.Entity:SetModelScale( 0.875, 0 )
+	self.Entity:SetModelScale( 0.875 * modelScale, 0 )
 	self.Entity:DrawModel()
 
 		// Draw names

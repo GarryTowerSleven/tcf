@@ -5,6 +5,8 @@ AddCSLuaFile( "cl_choose.lua" )
 include("cl_choose.lua")
 include("shared.lua")
 
+ENT.Scale = 1
+
 function ENT:SphereInit( r )
 
 	self:PhysicsInitSphere( r )
@@ -115,6 +117,13 @@ function ENT:Think()
 
 			self.ResetPlayer = CurTime() + self.CheckResetTime
 		end
+
+		if owner:GetModelScale() != self.Scale then
+			self.Scale = owner:GetModelScale()
+			self:SetModelScale( self.Scale )
+			self.Entity:SetModelScale( self.Scale )
+			self:SphereInit( self.radius * self.Scale )
+		end
 	end
 
 	if !IsValid( owner:GetBallRaceBall() ) then
@@ -170,7 +179,7 @@ function ENT:PhysicsSimulate( phys, deltatime )
 
 			local length =  self:GetPos().z - trace.HitPos.z
 
-			if ( length < 39.5 ) then
+			if ( length < 39.5 * self.Scale ) then
 				local ballVel = phys:GetVelocity()
 				ballVel:Add( Vector( 0, 0, 250 ) )
 				phys:SetVelocity( ballVel )
