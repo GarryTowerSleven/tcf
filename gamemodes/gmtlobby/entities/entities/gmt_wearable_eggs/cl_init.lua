@@ -59,6 +59,8 @@ function ENT:Think()
 	local ply = self:GetOwner()
 	if !IsValid( ply ) then return end
 
+	local scale = ply:GetModelScale() or 1
+
 	for i, egg in pairs( self.Eggs ) do
 
 		if ply:InVehicle() then
@@ -67,18 +69,19 @@ function ENT:Think()
 			egg:SetNoDraw( false )
 			local pos = ply:GetPos()
 			local ang = ply:EyeAngles()
-			local offset = ang:Forward() * ( i * -35 )
-			offset.z = 3
+			local offset = ang:Forward() * ( i * -35 * scale )
+			offset.z = 3 * scale
 
 			egg.GoalPos = pos + offset + Vector( 0, 0, math.sin( CurTime() * 1.2 ) * 2 )
 			egg.GoalAngle = Angle( 0, ang.y - 90, ang.r )
 
 			-- Do the splinin' here
-			egg.CurPos = LerpVector( FrameTime() * self.MoveSpeed/i, egg.CurPos, egg.GoalPos )
+			egg.CurPos = LerpVector( FrameTime() * self.MoveSpeed/i/scale, egg.CurPos, egg.GoalPos )
 			egg.CurAngle = LerpAngle( FrameTime() * self.AngleSpeed/i, egg.CurAngle, egg.GoalAngle )
 
 			egg:SetPos( egg.CurPos )
 			egg:SetAngles( egg.CurAngle )
+			egg:SetModelScale( scale )
 		end
 
 	end
