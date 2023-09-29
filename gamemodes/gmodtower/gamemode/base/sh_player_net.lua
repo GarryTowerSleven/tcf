@@ -1,6 +1,6 @@
 module( "plynet", package.seeall )
 
-DEBUG = true
+DEBUG = false
 
 Vars = Vars or {}
 
