@@ -20,7 +20,6 @@ PLAYER.SlowWalkSpeed		= 100
 function PLAYER:SetupDataTables()
 
     BaseClass.SetupDataTables( self )
-    plynet.Initialize( self.Player )
 
 end
 

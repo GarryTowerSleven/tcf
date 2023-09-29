@@ -38,7 +38,7 @@ hook.Add( "PlayerNetInitalized", "ApplyRoles", function( ply )
     local role = GetPlayerRole( ply:SteamID() )
     if not role then return end
 
-    ply:SetNWString( "Role", role )
+    ply:SetNet( "Role", role )
 
 end )
 
@@ -58,6 +58,8 @@ function meta:SetMoney( amount )
 end
 
 function meta:AddMoney( amount, nonotify, beziersource )
+
+    amount = math.Round( amount )
 
 	if amount == 0 then return end
 
@@ -80,6 +82,8 @@ function meta:AddMoney( amount, nonotify, beziersource )
 end
 
 function meta:TakeMoney( amount, nonotify, beziertarget )
+
+    amount = math.Round( amount )
 
 	if amount == 0 then return end
 

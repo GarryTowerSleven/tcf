@@ -114,7 +114,7 @@ concommand.StaffAdd( "gmt_cleardecals", function( ply )
 
 end )
 
-/*concommand.StaffAdd( "gmt_fakename", function( ply, _, _, str )
+concommand.StaffAdd( "gmt_fakename", function( ply, _, _, str )
 
     str = string.Trim( str )
 
@@ -124,7 +124,7 @@ end )
 
     ply:SetNet( "FakeName", str or "" )
 
-end )*/
+end )
 
 /*concommand.StaffAdd( "gmt_cloak", function( ply )
 

@@ -4,16 +4,16 @@ if !meta then
 end
 
 function meta:GetRole()
-	return self:GetNWString( "Role" )
+	return self:GetNet( "Role" )
 end
 
 function meta:IsHidden()
-	/*if IsValid( self ) then
-		local fakename = self:GetNet( "FakeName" )
+	if IsValid( self ) then
+		local fakename = self:GetNet( "FakeName", "" )
 		if fakename then
 			return self:GetNet( "FakeName" ) != ""
 		end
-	end*/
+	end
 	return false
 end
 

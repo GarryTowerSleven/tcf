@@ -742,67 +742,67 @@ hook.Add( "HUDPaint", "AdminShowNetInfo", function()
 
 	if IsValid( ent ) then
 
-		local info = ""
+        surface.SetDrawColor( 0, 0, 0, 250 )
+		surface.DrawRect( 0, 0, 350, ScrH() )
 
-		if ent.GetClass then
-			info = info .. tostring( ent:GetClass() ) .. " "
+		draw.SimpleText( Format( "Entity: %s", tostring( ent ) ), "ChatFont", 5, off, color_white )
+        off = off + 15
+
+        if ent.GetModel && ent:GetModel() then
+            draw.SimpleText( Format( "Model: %s", tostring( ent:GetModel() ) ), "ChatFont", 5, off, color_white )
+            off = off + 15
 		end
-		if ent.GetModel && ent:GetModel() then
-			info = info .. tostring( ent:GetModel() ) .. " "
-		end
+
 		if IsValid( ent:GetOwner() ) then
-			info = info .. tostring( ent:GetOwner() ) .. " "
+            draw.SimpleText( Format( "Owner: %s", tostring( ent:GetOwner() ) ), "ChatFont", 5, off, color_white )
+            off = off + 15
 		end
 
-		surface.SetFont( "ChatFont" )
-		local w, h = surface.GetTextSize( info )
+        if ent.GetNWVarTable then
+           
+            local nwvars = ent:GetNWVarTable() or {}
 
-		surface.SetDrawColor( 0, 0, 0, 250 )
-		surface.DrawRect( 0, 0, w + 5, ScrH() )
-
-		draw.SimpleText( info, "ChatFont", 5, 0, color_white )
-		// Location!
-		/*if Location then
-			draw.SimpleText( tostring( ent:Location() ) .. " " .. Location.GetName( ent:Location() ), "ChatFont", 5, off, color_white )
-			off = 30
-		end*/
-
-		// Network vars!
-
-        if ( ent:IsPlayer() ) then
-            off = off + 15
-            draw.SimpleText( "Player Network", "ChatFont", 5, off, Color( 100, 255, 100 ) )
-            off = off + 15
-            for k, v in ipairs( plynet.PlayerNetworkVars ) do
-                draw.SimpleText( Format( "%s %s (%s,%s): %s", k, v.name, v.nettype, v.id, tostring( ent:GetNet( v.name ) ) or "" ), "ChatFont", 5, off, color_white )
-                //draw.SimpleText( tostring( v.name ) .. ": " .. tostring( ent:GetNet( v.name ) ), "ChatFont", 5, off, color_white )
+            if table.Count( nwvars ) > 0 then
+                
                 off = off + 15
-            end
-        elseif ( ent.GetNetworkVars ) then
-            local nwtable = ent:GetNetworkVars()
-    
-            if nwtable then
-    
+                draw.SimpleText( Format( "Entity NWVars (%s)", tostring( ent ) ), "ChatFont", 5, off, Color( 100, 255, 100 ) )
                 off = off + 15
-                draw.SimpleText( "Network Vars", "ChatFont", 5, off, Color( 255, 100, 100 ) )
-                off = off + 15
-    
-                for name, value in pairs( nwtable ) do
-    
-                    draw.SimpleText( tostring( name ) .. ": " .. tostring( value ), "ChatFont", 5, off, color_white )
-                    /*if Location && item.name == "GLocation" then
-                        draw.SimpleText( tostring( item.name ) .. ": " .. tostring( ent[item.name] ) .. " | " .. Location.GetName( ent[item.name] ), "ChatFont", 5, off, color_white )
-                    else*/
-                    //end
-    
+        
+                for k, v in pairs( nwvars ) do
+        
+                    if ent:IsPlayer() and k == "Location" then
+                        v = tostring( v ) .. " | " .. Location.GetFriendlyName( v )
+                    end
+        
+                    draw.SimpleText( Format( "%s: %s", k, tostring( v ) or "" ), "ChatFont", 5, off, color_white )
                     off = off + 15
-    
+        
                 end
-    
+
             end
+            
         end
 
+        if ent.GetNetworkVars then
 
+            local dtvars = ent:GetNetworkVars() or {}
+
+            if table.Count( dtvars ) > 0 then
+                        
+                off = off + 15
+                draw.SimpleText( Format( "Entity DTVars (%s)", tostring( ent ) ), "ChatFont", 5, off, Color( 100, 255, 100 ) )
+                off = off + 15
+
+                for k, v in pairs( dtvars ) do
+
+                    draw.SimpleText( Format( "%s: %s", k, tostring( v ) or "" ), "ChatFont", 5, off, color_white )
+                    off = off + 15
+
+                end
+                
+            end
+            
+        end
 
 		// Other stuff!
 		if showNetInfo2:GetBool() then
@@ -840,8 +840,42 @@ hook.Add( "HUDPaint", "AdminShowNetInfo", function()
 
 	end
 
+    if globalnet then
+        
+        local globalent = globalnet.GetEntity()
+
+        if globalent.GetNWVarTable then
+           
+            local globalvars = globalent:GetNWVarTable() or {}
+
+            if table.Count( globalvars ) > 0 then
+                
+                off = off + 15
+                draw.SimpleText( Format( "World NWVars (%s)", tostring( globalent ) ), "ChatFont", 5, off, Color( 255, 100, 100 ) )
+                off = off + 15
+        
+                for k, v in pairs( globalvars ) do
+
+                    // if not globalnet.Vars[ k ] then continue end
+
+                    if string.find( string.lower( k ), "time" ) then
+                        v = tostring( math.Round( v, 2 ) ) .. " " .. tostring( math.Round( v - CurTime(), 2 ) )
+                    end
+        
+                    draw.SimpleText( Format( "%s: %s", k, tostring( v ) or "" ), "ChatFont", 5, off, color_white )
+                    off = off + 15
+        
+                end
+
+            end
+            
+        end
+
+
+    end
+
 	// World entity network vars!
-	off = off + 15
+	/*off = off + 15
 	draw.SimpleText( "Global Network", "ChatFont", 5, off, Color( 255, 100, 100 ) )
 	off = off + 15
 
@@ -864,7 +898,7 @@ hook.Add( "HUDPaint", "AdminShowNetInfo", function()
 
 		end
 
-	end
+	end*/
 
 end )
 

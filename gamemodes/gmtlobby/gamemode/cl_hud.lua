@@ -391,14 +391,18 @@ local jetRatio = 1
 local jetLast = 0
 local jetlastActive = UnPredictedCurTime()
 
+local jetDisplay = 0
+
 local function PaintJetpack( x, y, w, h, scale )
 
 	local jetpack_amount = LocalPlayer():GetNet( "JetpackFuelRemaining" ) /*LocalPlayer()._DisplayFuelAmount*/ or 0
 
+    jetDisplay = math.Approach( jetDisplay, jetpack_amount, RealFrameTime() * .75 )
+
     local border = 2 * scale
 
-    if jetpack_amount != jetLast then
-        jetLast = jetpack_amount
+    if jetDisplay != jetLast then
+        jetLast = jetDisplay
         jetlastActive = UnPredictedCurTime()
     end
 
@@ -417,7 +421,7 @@ local function PaintJetpack( x, y, w, h, scale )
     surface.DrawOutlinedRect( x, y, w, h, border )
     
     surface.SetDrawColor( 255, 255, 255, 255 * jetRatio )
-    surface.DrawRect( x + border, y + border + ( (h - (border*2)) * ( 1 - jetpack_amount ) ), w - ( border * 2 ), (h - ( border * 2 )) * jetpack_amount )
+    surface.DrawRect( x + border, y + border + ( (h - (border*2)) * ( 1 - jetDisplay ) ), w - ( border * 2 ), (h - ( border * 2 )) * jetDisplay )
 
 end
 

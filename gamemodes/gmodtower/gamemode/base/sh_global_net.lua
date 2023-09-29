@@ -1,149 +1,119 @@
 module( "globalnet", package.seeall )
 
 DEBUG = false
-_GlobalNetwork = _GlobalNetwork or nil
-_Backlog = {}
+
+Vars = Vars or {}
+
+local entmeta = FindMetaTable( "Entity" )
+
+NWFunctions = NWFunctions or {
+
+    ["string"]  = { set = entmeta.SetNWString, get = entmeta.GetNWString },
+    ["int"]     = { set = entmeta.SetNWInt,    get = entmeta.GetNWInt },
+    ["vector"]  = { set = entmeta.SetNWVector, get = entmeta.GetNWVector },
+    ["angle"]   = { set = entmeta.SetNWAngle,  get = entmeta.GetNWAngle },
+    ["float"]   = { set = entmeta.SetNWFloat,  get = entmeta.GetNWFloat },
+    ["bool"]    = { set = entmeta.SetNWBool,   get = entmeta.GetNWBool },
+    ["entity"]  = { set = entmeta.SetNWEntity, get = entmeta.GetNWEntity },
+
+}
+
+NetDefaults = {
+
+    ["string"]  = "",
+    ["int"]     = 0,
+    ["vector"]  = vector_origin,
+    ["angle"]   = angle_zero,
+    ["float"]   = 0.0,
+    ["bool"]    = false,
+    ["entity"]  = NULL,
+
+}
+
+function GetEntity()
+    return game.GetWorld()
+end
 
 function Register( nettype, name, nwtable )
 
-	if not nwtable then nwtable = {} end
+    nwtable = nwtable or {}
+    nwtable.nettype = string.lower( nettype )
+    
+    if not NWFunctions[ nwtable.nettype ] then
+        ErrorNoHaltWithStack( "Invalid NW type! (" .. tostring( nwtable.nettype ) .. ")" )
+        return
+    end
 
-	if not nettype then
-		ErrorNoHalt( "Error registering null global network var type! ", name, "\n" )
-		return
-	end
-
-	RegisterDTVar( nettype, name, nwtable.default, nwtable.callback )
-
-end
-
-_GlobalNetworkVars = {}
-TypesAndLimits = {
-	["String"] = 4,
-	["Bool"] = 32,
-	["Float"] = 32,
-	["Int"] = 32,
-	["Vector"] = 32,
-	["Angle"] = 32,
-	["Entity"] = 32,
-}
-
-function RegisterDTVar( nettype, name, default, callback )
-
-	-- Check if there's a conflicting name
-	if GetByName( name ) then
-		if DEBUG then ErrorNoHalt( "Error registering player dtvar! '", name, "' is already registered.", "\n" ) end
-		return
-	end
-
-	-- Check if the nettype is actually something we can use
-	if not TypesAndLimits[nettype] then
-		if DEBUG then ErrorNoHalt( "Error registering invalid player dtvar type! ", nettype, name, default, "\n" ) end
-		return
-	end
-
-	local typenum = #GetByType( nettype )
-
-	-- Prevent going over the limit
-	if typenum >= TypesAndLimits[nettype] then
-		if DEBUG then ErrorNoHalt( "Error registering player dtvar. ", nettype, " has reached the max variables!", "\n" ) end
-		return
-	end
-
-	-- Create container for the network var object
-	local var = {
-		nettype = nettype,
-		name = name,
-		default = default,
-		callback = callback,
-		id = typenum,
-		adminonly = false,
-	}
-
-	-- Add to the table of registrations
-	table.insert( _GlobalNetworkVars, var )
+    Vars[ name ] = nwtable
 
 end
 
-function GetByType( nettype )
+function Initialize( ent )
 
-	local tbl = {}
+    for k, v in pairs( Vars ) do
+        
+        if SERVER then
+            NWFunctions[ v.nettype ].set( ent, k, v.default or NetDefaults[ v.nettype ] )
+        end
 
-	for i, var in pairs( _GlobalNetworkVars ) do
+        if v.callback then
+            
+            ent:SetNWVarProxy( k, function( ent, name, old, new )
+                if old == new then return end
 
-		if var.nettype == nettype then
-			table.insert( tbl, var )
-		end
+                v.callback( ent, old, new, v )
+            end )
 
-	end
+        end
 
-	return tbl
+    end
 
-end
+    LogPrint( "Initialized on: " .. tostring( ent ), nil, "GlobalNet" )
 
-function GetByName( name )
-
-	for i, var in pairs( _GlobalNetworkVars ) do
-
-		if var.name == name then
-			return var
-		end
-
-	end
+    hook.Run( "GlobalNetInitalized", ent )
 
 end
 
-function InitializeOn( ent )
+hook.Add( "InitPostEntity", "SetupGlobalnet", function()
 
-	for i, var in pairs( _GlobalNetworkVars ) do
+    Initialize( GetEntity() )
 
-		-- Create the networkvar
-		if DEBUG then
-			LogPrint( "Init: " .. var.nettype .. " id: " .. var.id .. " name: " .. var.name, nil, "globalnet" )
-		end
-		ent:NetworkVar( var.nettype, var.id, var.name )
+end )
 
-		if ( var.callback ) then
-			ent:NetworkVarNotify( var.name, function( ent, name, old, new )
-				var.callback( ent, old, new, var )
-			end )
-		end
+function SetNet( key, value )
 
-		-- Set default
-		if var.default and SERVER then
-			ent.dt[ var.name ] = var.default
-		end
+    local ent = GetEntity()
 
-	end
+    if ent == NULL then
+        ErrorNoHaltWithStack( "Globalnet entity not initalized!" )
+        return
+    end
 
-end
+    local var = Vars[ key ]
+    if not var then
+        ErrorNoHaltWithStack( "Var not in registry! (" .. tostring( key ) .. ")" )
+        return
+    end
 
-function GetGlobalNetworking()
-
-	if IsValid( _GlobalNetwork ) then
-		return _GlobalNetwork
-	else
-		return ents.FindByClass("gmt_global_network")[1]
-	end
+    NWFunctions[ var.nettype ].set( ent, key, value )
 
 end
 
-function GetNet( name )
+function GetNet( key, fallback )
 
-	-- Cache global network
-	if not IsValid( _GlobalNetwork ) then
-		_GlobalNetwork = GetGlobalNetworking()
-	end
+    local ent = GetEntity()
 
-	local network = _GlobalNetwork
+    if ent == NULL then
+        ErrorNoHaltWithStack( "Globalnet entity not initalized!" )
+        return
+    end
+    
+    local var = Vars[ key ]
+    if not var then
+        ErrorNoHaltWithStack( "Var not in registry! (" .. tostring( key ) .. ")" )
+        return fallback
+    end
 
-	if IsValid( network ) and network.dt then
-		return network.dt[name]
-	else
-		if DEBUG then
-			LogPrint( string.format( "Entity not found! Can't get '%s'", name ), color_red, "globalnet" )
-			debug.Trace()
-		end
-	end
+    return NWFunctions[ var.nettype ].get( ent, key, fallback )
 
 end

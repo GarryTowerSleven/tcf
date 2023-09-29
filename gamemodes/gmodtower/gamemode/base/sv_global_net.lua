@@ -1,3 +1,5 @@
+if true then return end
+
 module( "globalnet", package.seeall )
 
 _Backlog = {}

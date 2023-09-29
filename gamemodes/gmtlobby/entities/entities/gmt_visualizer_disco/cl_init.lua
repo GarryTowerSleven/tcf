@@ -42,7 +42,7 @@ function ENT:OnRemove()
 end
 
 function ENT:Think()
-    if self:Location() != LocalPlayer():GetLocation() then return self:OnRemove() end
+    if self:Location() != LocalPlayer():Location() then return self:OnRemove() end
     local Stream = self:GetStream()
     if !Stream then return end
 
