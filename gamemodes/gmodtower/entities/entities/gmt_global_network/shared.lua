@@ -1,6 +1,6 @@
 ENT.Base		= "base_anim"
 ENT.Type		= "anim"
 
-function ENT:SetupDataTables()
+/*function ENT:SetupDataTables()
 	globalnet.InitializeOn( self )
-end
+end*/

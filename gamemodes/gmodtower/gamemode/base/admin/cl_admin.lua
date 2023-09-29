@@ -842,7 +842,7 @@ hook.Add( "HUDPaint", "AdminShowNetInfo", function()
 
     if globalnet then
         
-        local globalent = globalnet.GetEntity()
+        local globalent = globalnet.GetGlobalNetworking()
 
         if globalent.GetNWVarTable then
            

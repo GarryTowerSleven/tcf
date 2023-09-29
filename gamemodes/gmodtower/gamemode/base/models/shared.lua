@@ -4,6 +4,14 @@ end
 
 module( "GTowerModels", package.seeall )
 
+if IsLobby then
+	plynet.Register( "Float", "ModelSize", { default = 1.0, callback = function( ply )
+		if ( SERVER ) then return end
+		
+		ChangeHull( ply )
+	end } )
+end
+
 DEBUG = false
 DefaultModel = "models/player/normal.mdl"
 MaxScale = 4.0
@@ -321,11 +329,3 @@ end
 _G.hook.Add("Location","GTowerScaleHook", function( ply )
 	ChangeHull( ply )
 end )
-
-if IsLobby then
-	plynet.Register( "Float", "ModelSize", { default = 1.0, callback = function( ply )
-		if ( SERVER ) then return end
-		
-		ChangeHull( ply )
-	end } )
-end

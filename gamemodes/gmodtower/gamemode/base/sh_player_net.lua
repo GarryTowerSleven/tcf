@@ -1,6 +1,6 @@
 module( "plynet", package.seeall )
 
-DEBUG = false
+DEBUG = true
 
 Vars = Vars or {}
 
@@ -32,6 +32,10 @@ NetDefaults = {
 
 function Register( nettype, name, nwtable )
 
+    if DEBUG then
+        print( "[PlayerNet]", "REGISTERING: " .. tostring( name ) )
+    end
+
     nwtable = nwtable or {}
     nwtable.nettype = string.lower( nettype )
     
@@ -45,6 +49,8 @@ function Register( nettype, name, nwtable )
 end
 
 function Initialize( ply )
+
+    if ply._NetInit then return end
 
     for k, v in pairs( Vars ) do
         
@@ -73,7 +79,7 @@ function Initialize( ply )
 
 end
 
-hook.Add( "PlayerInitialSpawn", "SetupPlayerNet", Initialize )
+hook.Add( "PlayerSpawn", "SetupPlayerNet", Initialize )
 
 if CLIENT then
     

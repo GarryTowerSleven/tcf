@@ -24,7 +24,7 @@ function ENT:Draw()
 
 		local plycol = owner:GetPlayerColor()
 
-		local size = owner:GetNet( "ModelSize" ) or 1
+		local size = GTowerModels.Get( owner ) or 1
 
 		local pos, ang
 
@@ -70,7 +70,7 @@ function ENT:Think()
 
 	local plycol = owner:GetPlayerColor()
 
-	local size = owner:GetNet( "ModelSize" ) or 1
+	local size = GTowerModels.Get( owner ) or 1
 
 	if !self.Emitter then
 		self.Emitter = ParticleEmitter( self:GetPos() )

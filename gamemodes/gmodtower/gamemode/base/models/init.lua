@@ -8,6 +8,7 @@ function Get( ply )
 end
 
 function SendToClients( ply )
+	if not IsLobby then return end
 	ply:SetNet( "ModelSize", Get( ply ) or 1.0 )
 end
 

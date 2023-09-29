@@ -28,14 +28,21 @@ hook.Add( "GroupDataReturned", "GetGroupData", function( returnedData )
 	local ply = player.GetBySteamID64(returnedData.steamID64)
 	if !ply || !IsValid(ply) then return end
 
-	if ( returnedData.isMember ) then
-		ply:SetNet( "VIP", true )
-		ply:SetNet( "RoomMaxEntityCount", 400 )
+	if returnedData.isMember or false then
 		ply.IsVIP = true
-		return
+		ply:SetNet( "VIP", true )
+		
+		if IsLobby then
+			ply:SetNet( "RoomMaxEntityCount", 400 )
+		end
+	else
+		ply.IsVIP = false
+		ply:SetNet( "VIP", false )
+		
+		if IsLobby then
+			ply:SetNet( "RoomMaxEntityCount", 200 )
+		end
 	end
-	
-	ply:SetNet( "RoomMaxEntityCount", 200 )
 
 end )
 
@@ -43,12 +50,16 @@ end )
 local delay = .5
 local timeSince = 0
 concommand.Add( "gmt_updateglow", function( ply, cmd, args )
+	if not IsLobby then return end
+	
 	if !ply:IsVIP() then return end
 	if (ply:GetInfoNum( "gmt_vip_enableglow", 1 )) == 0 then ply:SetNet( "GlowEnabled", false ) return end
 
 	ply:SetNet( "GlowEnabled", true )
 end)
 concommand.Add( "gmt_updateglowcolor", function( ply, cmd, args )
+	if not IsLobby then return end
+
 	if CurTime() < timeSince then return end
 	if !ply:IsVIP() then return end
 	if (ply:GetInfoNum( "gmt_vip_enableglow", 1 )) == 0 then ply:SetNet( "GlowEnabled", false ) return end
@@ -62,6 +73,8 @@ concommand.Add( "gmt_updateglowcolor", function( ply, cmd, args )
 end)
 
 hook.Add( "PlayerSpawnClient", "JoinSetGlow", function( ply )
+	if not IsLobby then return end
+
 	if !ply:IsValid() || ply:IsBot() || !ply:IsVIP() then return end
 
 	ply:ConCommand( "gmt_updateglow" )

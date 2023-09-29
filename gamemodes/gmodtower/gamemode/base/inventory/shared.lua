@@ -1,4 +1,3 @@
----------------------------------
 ITEMS = ITEMS or {}
 
 GTowerItems = (GTowerItems or {})
@@ -48,6 +47,15 @@ GTowerItems.Sounds = {
 	//Equip = {},
 	//Use = {},
 }
+
+local function ReloadMaxItems()
+	if CLIENT then
+		timer.Simple( 0, function() GTowerItems:ReloadMaxItems() end)
+	end
+end
+
+plynet.Register( "Int", "MaxItems", { default = GTowerItems.DefaultInvCount, callback = ReloadMaxItems } )
+plynet.Register( "Int", "BankMax", { default = GTowerItems.DefaultBankCount, callback = ReloadMaxItems } )
 
 function GTowerItems:IsEquipSlot( id )
 	return id && id <= GTowerItems.EquippableSlots && id > 0

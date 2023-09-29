@@ -13,7 +13,7 @@ function ENT:DrawParticles()
 
 	local owner = self:GetOwner()
 
-	local modelsize = owner:GetNet( "ModelSize" ) or 1
+	local modelsize = GTowerModels.Get( owner ) or 1
 	
 	local pos = util.GetCenterPos( owner ) + Vector( 0, 0, -5 * modelsize )
 

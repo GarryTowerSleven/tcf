@@ -3,6 +3,8 @@ module( "globalnet", package.seeall )
 DEBUG = false
 
 Vars = Vars or {}
+_GlobalNetwork = _GlobalNetwork or NULL
+BacklogQueue = {}
 
 local entmeta = FindMetaTable( "Entity" )
 
@@ -30,8 +32,14 @@ NetDefaults = {
 
 }
 
-function GetEntity()
-    return game.GetWorld()
+function GetGlobalNetworking()
+
+	if IsValid( _GlobalNetwork ) then
+		return _GlobalNetwork
+	else
+		return ents.FindByClass("gmt_global_network")[1]
+	end
+
 end
 
 function Register( nettype, name, nwtable )
@@ -48,12 +56,19 @@ function Register( nettype, name, nwtable )
 
 end
 
-function Initialize( ent )
+function InitializeOn( ent )
 
     for k, v in pairs( Vars ) do
         
         if SERVER then
-            NWFunctions[ v.nettype ].set( ent, k, v.default or NetDefaults[ v.nettype ] )
+            local val = v.default or NetDefaults[ v.nettype ]
+
+            if BacklogQueue[ k ] then
+                val = BacklogQueue[ k ]
+                BacklogQueue[ k ] = nil
+            end
+
+            NWFunctions[ v.nettype ].set( ent, k, val )
         end
 
         if v.callback then
@@ -68,26 +83,15 @@ function Initialize( ent )
 
     end
 
+    _GlobalNetwork = ent
+
     LogPrint( "Initialized on: " .. tostring( ent ), nil, "GlobalNet" )
 
     hook.Run( "GlobalNetInitalized", ent )
 
 end
 
-hook.Add( "InitPostEntity", "SetupGlobalnet", function()
-
-    Initialize( GetEntity() )
-
-end )
-
 function SetNet( key, value )
-
-    local ent = GetEntity()
-
-    if ent == NULL then
-        ErrorNoHaltWithStack( "Globalnet entity not initalized!" )
-        return
-    end
 
     local var = Vars[ key ]
     if not var then
@@ -95,25 +99,45 @@ function SetNet( key, value )
         return
     end
 
-    NWFunctions[ var.nettype ].set( ent, key, value )
+
+    if not IsValid( _GlobalNetwork ) then
+		_GlobalNetwork = GetGlobalNetworking()
+	end
+
+	local network = _GlobalNetwork
+
+    if not IsValid( network ) then
+        -- ErrorNoHaltWithStack( "Globalnet entity not initalized!" )
+
+        BacklogQueue[ key ] = value
+
+        return
+    end
+
+    NWFunctions[ var.nettype ].set( network, key, value )
 
 end
 
 function GetNet( key, fallback )
 
-    local ent = GetEntity()
-
-    if ent == NULL then
-        ErrorNoHaltWithStack( "Globalnet entity not initalized!" )
-        return
-    end
-    
     local var = Vars[ key ]
     if not var then
         ErrorNoHaltWithStack( "Var not in registry! (" .. tostring( key ) .. ")" )
         return fallback
     end
 
-    return NWFunctions[ var.nettype ].get( ent, key, fallback )
+
+	if not IsValid( _GlobalNetwork ) then
+		_GlobalNetwork = GetGlobalNetworking()
+	end
+
+	local network = _GlobalNetwork
+
+    if not IsValid( network ) then
+        ErrorNoHaltWithStack( "Globalnet entity not initalized!" )
+        return
+    end
+
+    return NWFunctions[ var.nettype ].get( network, key, fallback )
 
 end

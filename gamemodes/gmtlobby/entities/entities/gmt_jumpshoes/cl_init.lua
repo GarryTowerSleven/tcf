@@ -23,7 +23,7 @@ function ENT:Draw()
 
 		if ( ( owner == LocalPlayer() && !LocalPlayer().ThirdPerson ) || owner:IsNoDrawAll() ) then return end
 
-		local size = owner:GetNet( "ModelSize" ) or 1
+		local size = GTowerModels.Get( owner ) or 1
 
 		local FootR = owner:LookupBone( "ValveBiped.Bip01_R_Foot" )
 		local FootL = owner:LookupBone( "ValveBiped.Bip01_L_Foot" )

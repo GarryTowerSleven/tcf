@@ -13,7 +13,7 @@ cvars.AddChangeCallback("cl_playercolor", function()
 end )
 
 function Get( ply )
-	return ply:GetNet( "ModelSize" )
+	return IsLobby and ply:GetNet( "ModelSize" ) or 1
 end
 
 hook.Add( "PlayerSpawn", "GTowerChangePlyScale", function( ply )
