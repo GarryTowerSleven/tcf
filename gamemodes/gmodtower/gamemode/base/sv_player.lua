@@ -15,6 +15,7 @@ PlayerRoles = {
 
 	["STEAM_0:0:90689651"]  = "Developer", // Sonop
 	["STEAM_0:1:97372299"]  = "Developer", // NotGaylien
+	["STEAM_0:0:115320789"]  = "Developer", // Zia
 
 	// Contributor
 	["STEAM_0:0:193442077"] = "Contributor", // Nyantendo
