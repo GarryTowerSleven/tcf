@@ -30,6 +30,8 @@ ListModerator = {
 	["STEAM_0:1:53166133"] 	= true, -- Orlok
 	["STEAM_0:1:72402171"] 	= true, -- Umbre
 	["STEAM_0:1:97372299"]	= true, -- NotGaylien
+	["STEAM_0:1:204358104"]	= true, -- Billie
+	["STEAM_0:0:69447790"]	= true, -- Oliver Ward
 
 }
 
