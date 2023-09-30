@@ -1,6 +1,6 @@
 GM.WaitingTime = 45
 GM.IntermissionTime = 12
-GM.OverTimeAdd = 10
+GM.OverTimeAdd = 5
 
 function GM:StartRound()
 
