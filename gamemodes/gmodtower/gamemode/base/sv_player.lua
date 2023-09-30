@@ -12,12 +12,13 @@ PlayerRoles = {
 	["STEAM_0:1:124798129"] = "Developer", 	// Amgona
 	["STEAM_0:0:44458854"]  = "Developer",	// Bumpy
     ["STEAM_0:0:241528576"] = "Developer",  // Scienti[-]
-	
+
+	["STEAM_0:0:90689651"]  = "Developer", // Sonop
+	["STEAM_0:1:97372299"]  = "Developer", // NotGaylien
+
 	// Contributor
 	["STEAM_0:0:193442077"] = "Contributor", // Nyantendo
 	["STEAM_0:1:95941298"]  = "Contributor", // Pipedream
-	["STEAM_0:0:90689651"]  = "Contributor", // Sonop / hELLO
-	["STEAM_0:1:97372299"]  = "Contributor", // NotGaylien
 	
 	// Pixeltail Games
 	["STEAM_0:1:6044247"]   = "PixelTail",	// MacDGuy
