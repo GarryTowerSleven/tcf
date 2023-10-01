@@ -685,7 +685,7 @@ if SERVER then
 		local uc = GAMEMODE:GetUC()
 		
 		if !GAMEMODE:IsPlaying() then return false end
-		if !IsValid( uc ) || !uc:Alive() || self:GetNet( "IsScared" ) || self:IsGhost() || self:GetNet( "IsStunned" ) || self:GetNet( "IsPancake" ) then
+		if !IsValid( uc ) || !uc:Alive() || self:GetNet( "IsScared" ) || self:IsGhost() || self:GetNet( "IsStunned" ) || self:GetNet( "IsPancake" ) || self:GetNet( "HasSaturn" ) then
 			return false
 		end
 
