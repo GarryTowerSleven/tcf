@@ -32,6 +32,7 @@ ListModerator = {
 	["STEAM_0:1:97372299"]	= true, -- NotGaylien
 	["STEAM_0:1:204358104"]	= true, -- Billie
 	["STEAM_0:0:69447790"]	= true, -- Oliver Ward
+	["STEAM_0:0:52342461"]	= true, -- Willy Bonka
 
 }
 
