@@ -28,7 +28,8 @@ timer.Create("gmt_autorestart",10,0,function()
 		end
 
 		timer.Simple(5*60,function()
-
+			//This is what schizophrenia looks like for robots
+			/*
 			local DuelGoingOn = false
 
 			for k,v in pairs( player.GetAll() ) do
@@ -53,9 +54,10 @@ timer.Create("gmt_autorestart",10,0,function()
 					end
 				end)
 
-			else
-				RunConsoleCommand("gmt_changelevel",GMT_CHANGE_MAP,RESTART_TIME)
-			end
+			else*/
+			RunConsoleCommand("gmt_changelevel",GMT_CHANGE_MAP,RESTART_TIME)
+			GMT_IS_RESTARTING = true
+			//end
 
 		end)
 
