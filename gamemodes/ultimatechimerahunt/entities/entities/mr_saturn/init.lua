@@ -617,14 +617,24 @@ function ENT:HitChimera( uc, norm )
 			uc.SaturnThrower = ply
 			//uc.SaturnHit = nil
 
-			uc:Kill()
-			ply:AddFrags( 1 )
-			ply:RankUp()
-			ply:EmitSound( "UCH/saturn/saturn_superwin.wav" )
-
-			ply:AddAchievement( ACHIEVEMENTS.UCHHOMERUN, 1 )
 			ply:SetNet( "KilledWithSaturn", true )
-			uc.SaturnHit = nil
+			
+			timer.Simple(0.1, function()
+			
+				if IsValid( uc ) then
+					uc:Kill()
+					uc.SaturnHit = nil
+				end
+				
+				if IsValid( ply ) then
+					ply:AddFrags( 1 )
+					ply:RankUp()
+					ply:EmitSound( "UCH/saturn/saturn_superwin.wav" )
+
+					ply:AddAchievement( ACHIEVEMENTS.UCHHOMERUN, 1 )
+				end	
+				
+			end
 
 		end
 	
