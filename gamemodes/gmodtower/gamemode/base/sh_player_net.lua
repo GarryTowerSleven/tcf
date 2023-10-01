@@ -50,6 +50,7 @@ end
 
 function Initialize( ply )
 
+    if not IsValid( ply ) then return end
     if ply._NetInit then return end
 
     for k, v in pairs( Vars ) do
@@ -108,6 +109,8 @@ end
 
 function meta:SetNet( key, value )
 
+    if not IsValid( self ) then return end
+
     local var = Vars[ key ]
     if not var then
         ErrorNoHaltWithStack( "Var not in registry! (" .. tostring( key ) .. ")" )
@@ -119,6 +122,8 @@ function meta:SetNet( key, value )
 end
 
 function meta:GetNet( key, fallback )
+
+    if not IsValid( self ) then return end
 
     local var = Vars[ key ]
     if not var then
