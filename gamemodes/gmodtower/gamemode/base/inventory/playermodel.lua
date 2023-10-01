@@ -4,9 +4,14 @@ hook.Add("PostPlayerDataLoaded", "RecheckPlayerModel", function( ply )
 
 	timer.Simple( 0, hook.Call, "PlayerSetModel", GAMEMODE, ply )
 
-	local list = ply:GetEquipedItems()
+	if IsLobby then
+	
+		local list = ply:GetEquipedItems()
+		
+		SpawnPlayerUCH(ply, list)
+		
+	end
 
-	SpawnPlayerUCH(ply, list)
 end )
 
 
