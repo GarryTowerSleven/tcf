@@ -49,7 +49,7 @@ GTowerItems.Sounds = {
 }
 
 local function ReloadMaxItems()
-	if CLIENT then
+	if CLIENT && IsLobby then
 		timer.Simple( 0, function() GTowerItems:ReloadMaxItems() end)
 	end
 end
