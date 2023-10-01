@@ -1,8 +1,6 @@
-SWEP.Base 					= "weapon_virusbase"
+AddCSLuaFile()
 
-if SERVER then
-	AddCSLuaFile( "shared.lua" )
-end
+SWEP.Base 					= "weapon_virusbase"
 
 //Basic Setup
 SWEP.PrintName				= "Dual Silencers"
@@ -34,9 +32,9 @@ SWEP.Secondary.Anim 		= ACT_VM_SECONDARYATTACK
 SWEP.TracerOrigin			= "1"
 
 //Sounds
-SWEP.Primary.Sound			= "GModTower/virus/weapons/DualSilencer/shoot.wav"
-SWEP.SoundDeploy	 		= "GModTower/virus/weapons/DualSilencer/deploy.wav"
-SWEP.SoundReload			= "GModTower/virus/weapons/DualSilencer/reload.wav"
+SWEP.Primary.Sound			= Sound( "gmodtower/virus/weapons/dualsilencer/shoot.wav" )
+SWEP.SoundDeploy	 		= Sound( "gmodtower/virus/weapons/dualsilencer/deploy.wav" )
+SWEP.SoundReload			= Sound( "gmodtower/virus/weapons/dualsilencer/reload.wav" )
 
 function SWEP:PrimaryAttack()
 	self.TracerOrigin = "2"
@@ -53,9 +51,10 @@ function SWEP:SecondaryAttack()
 end
 
 function SWEP:GetTracerOrigin()
-	local vm = self.Owner:GetViewModel()
+	if not IsValid( self:GetOwner() ) then return end
 	
-	if !vm then return end
+	local vm = self:GetOwner():GetViewModel()
+	if not IsValid( vm ) then return end
 	
 	local attach = vm:LookupAttachment(self.TracerOrigin)
 	if attach then
