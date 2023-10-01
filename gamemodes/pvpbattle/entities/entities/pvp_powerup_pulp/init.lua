@@ -76,16 +76,16 @@ end )
 hook.Add( "EntityTakeDamage", "PulpVibe_Damage", function( ply, dmginfo )
 	
 	local attacker = dmginfo:GetAttacker()
+	local amount = dmginfo:GetDamage()
 	
 	if !IsValid( attacker ) || attacker:GetNet("PowerUp") == 0 || !attacker.IsPulp || !amount || amount == 0 then return end
 
 	if IsValid( ply ) && ply:IsPlayer() then
 
-		dmginfo:ScaleDamage( amount * 2 )
+		dmginfo:ScaleDamage( 2 )
 
 	end
 
 	amount = amount * 2
-	return true
 
 end )
