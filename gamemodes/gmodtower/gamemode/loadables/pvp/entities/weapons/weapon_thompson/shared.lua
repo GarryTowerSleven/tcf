@@ -22,9 +22,9 @@ SWEP.Primary.Damage	 = {10, 20}
 
 SWEP.Primary.Cone	 = 0.025
 
-SWEP.Primary.ClipSize	 = 25
+SWEP.Primary.ClipSize	 = 30
 
-SWEP.Primary.DefaultClip = 25
+SWEP.Primary.DefaultClip = 30
 
 SWEP.Primary.Ammo	 = "AR2"
 SWEP.Primary.Sound	 = "GModTower/pvpbattle/Thompson/ThompsonFire.wav"
