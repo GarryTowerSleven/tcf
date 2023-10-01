@@ -21,7 +21,7 @@ SWEP.ViewModel			= Model( "models/weapons/v_pvp_chainsaw.mdl")
 SWEP.WorldModel 		= Model( "models/weapons/w_pvp_chainsaw.mdl")
 SWEP.ViewModelFlip		= true
 
-SWEP.Primary.Damage		= {80, 100}
+SWEP.Primary.Damage		= {80, 115}
 SWEP.Primary.Delay		= 1.1
 SWEP.Secondary.Delay	= 5
 SWEP.HoldType			= "slam"
