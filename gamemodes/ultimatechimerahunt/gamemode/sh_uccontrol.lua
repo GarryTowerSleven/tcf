@@ -395,11 +395,8 @@ end
 local swipedelay = .5
 
 function meta:CanDoTailSwipe()
-
-	if !self:CanDoAction() then return false
-	end
 	
-	if self:Alive() && !self:GetNet( "IsRoaring" ) && !self:GetNet( "IsBiting" ) && CurTime() >= ( ( self.SwipeTime || 0 ) + .15 ) && self:GetNet( "SwipeMeter" ) >= .25 then
+	if self:Alive() && !self:GetNet( "IsRoaring" ) && !self:GetNet( "IsStunned" ) && CurTime() >= ( ( self.SwipeTime || 0 ) + .15 ) && self:GetNet( "SwipeMeter" ) >= .25 then
 		return true
 	end
 
