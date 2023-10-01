@@ -4,7 +4,7 @@ AddCSLuaFile( "shared.lua" )
 include( "shared.lua" )
 
 ENT.BlastRange	= 300
-ENT.BlastDmg	= 80
+ENT.BlastDmg	= 256
 ENT.Bounce = 2.25
 
 function ENT:PhysicsCollide( data, phys )
