@@ -21,13 +21,13 @@ function GM:KeyPress( ply, key )
 					end
 				end
 				
-				if #filteredplayers == ply.Spec then ply.Spec = 0 end // restart the cycle
+				if #filteredplayers <= ply.Spec then ply.Spec = 0 end // restart the cycle
 				
 				ply.Spec = ply.Spec + 1 // increase who we're going to by 1
 				
 				specPly = filteredplayers[ply.Spec] // set the current spec ply
-				specpos = specPly:GetPos()
-				ply:SetPos(specpos) // lets go!
+				
+				ply:SetPos( specPly:GetPos() ) // lets go!
 				
 			end
 		end
