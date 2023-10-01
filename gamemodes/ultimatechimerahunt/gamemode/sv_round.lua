@@ -189,7 +189,7 @@ function GM:RandomChimera()
 	
 	for _, ply in ipairs(plys) do
 		if ply:GetInfoNum("gmt_uch_optout", 0) != 0 then
-			table.remove(plys, ply)
+			table.RemoveByValue(plys, ply)
 		end
 	end
 

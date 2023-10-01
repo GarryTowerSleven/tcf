@@ -22,7 +22,7 @@ local expmat = surface.GetTextureID( "UCH/logo/UClogo6" )
 local waverot = 0
 local wavetime = CurTime() + 6
 
-CreateClientConVar("gmt_uch_optout", "0", true)
+CreateClientConVar("gmt_uch_optout", "0", true, true)
 local pigglowconvar = CreateClientConVar("gmt_uch_pig_glow", "1", true)
 local chimeraglowconvar = CreateClientConVar("gmt_uch_chimera_glow", "1", true)
 
