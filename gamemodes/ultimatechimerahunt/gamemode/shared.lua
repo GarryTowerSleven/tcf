@@ -276,6 +276,10 @@ function GM:ShouldCollide( ent1, ent2 )
 		if (ent1:IsPlayer() && ent2:IsPlayer() && ent1:Team() == ent2:Team()) then
 			return false;
 		end
+		
+		if (ent1:IsPlayer() && !ent1:GetNet("IsChimera") && ent2:GetClass() == "mr_saturn") then
+			return false;
+		end
 	end
 	
 	return true;
