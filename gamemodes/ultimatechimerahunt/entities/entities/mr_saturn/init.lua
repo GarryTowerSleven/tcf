@@ -634,7 +634,7 @@ function ENT:HitChimera( uc, norm )
 					ply:AddAchievement( ACHIEVEMENTS.UCHHOMERUN, 1 )
 				end	
 				
-			end
+			end )
 
 		end
 	
