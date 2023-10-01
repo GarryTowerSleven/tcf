@@ -87,7 +87,7 @@ function GM:KeyPress( ply, key )
 
 					ply:EmitSound( "UCH/saturn/saturn_throw.wav", 80, 100 )
 					ply:SetNet( "HasSaturn", false )
-					ply.GrabTime = CurTime() + 0.1
+					ply.GrabTime = CurTime() + 0.5
 					
 					if IsValid( ply.HeldSaturn ) then
 						ply.HeldSaturn:Remove()
