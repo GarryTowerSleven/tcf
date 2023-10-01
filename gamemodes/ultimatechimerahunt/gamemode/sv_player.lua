@@ -118,9 +118,12 @@ end
 
 function GM:EntityTakeDamage( ent, dmg )
 	
-	local amount = dmg:GetDamage()
+	//local amount = dmg:GetDamage()
 	
-	if IsValid( ent ) && ent:IsPlayer() then
+	return true
+	
+	//Wtf is the purpose of this??
+	/* if IsValid( ent ) && ent:IsPlayer() then
 
 		if ent:GetNet("IsChimera") || ent:IsGhost() || ( ent:Health() - amount ) <= 0 then
 			
@@ -145,7 +148,7 @@ function GM:EntityTakeDamage( ent, dmg )
 			return true
 		end
 
-	end
+	end */ 
 	
 end
 
@@ -158,7 +161,7 @@ function GM:GetFallDamage( ply, vel )
 	end
 
 	if ply:GetNet("IsChimera") then
-		return 0
+		return false
 	end
 	
 end
