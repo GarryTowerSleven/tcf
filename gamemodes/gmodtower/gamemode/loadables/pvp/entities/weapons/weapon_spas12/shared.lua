@@ -17,7 +17,7 @@ SWEP.AutoReload		 = false
 
 SWEP.Primary.Delay	 = 0.3
 SWEP.Primary.Damage	 = {8, 12}
-SWEP.Primary.Cone	 = 0.035
+SWEP.Primary.Cone	 = 0.05
 SWEP.Primary.NumShots	 = 6
 SWEP.Primary.ClipSize	 = 6
 SWEP.Primary.DefaultClip = 12
