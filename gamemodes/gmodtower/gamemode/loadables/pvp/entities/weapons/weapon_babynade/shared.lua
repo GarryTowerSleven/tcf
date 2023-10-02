@@ -5,6 +5,10 @@ if SERVER then
 	AddCSLuaFile( "shared.lua" )
 end
 
+if CLIENT then
+	SWEP.DrawCrosshair	 = false
+end
+
 SWEP.PrintName 		 = "Babynade"
 SWEP.Slot		 = 5
 SWEP.SlotPos		 = 0
