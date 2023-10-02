@@ -57,7 +57,7 @@ function SWEP:GetTracerOrigin()
 	if not IsValid( vm ) then return end
 	
 	local attach = vm:LookupAttachment(self.TracerOrigin)
-	if IsValid( attach ) then
+	if attach > 0 then --It returns 0 if the attachment does not exist and -1 if the model is invalid.
 		return vm:GetAttachment( attach ).Pos
 	end
 end
