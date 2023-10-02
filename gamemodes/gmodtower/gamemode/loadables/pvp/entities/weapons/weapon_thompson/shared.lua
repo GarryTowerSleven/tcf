@@ -20,7 +20,7 @@ SWEP.Primary.Delay	 = 0.10
 
 SWEP.Primary.Damage	 = {10, 20}
 
-SWEP.Primary.Cone	 = 0.025
+SWEP.Primary.Cone	 = 0.035
 
 SWEP.Primary.ClipSize	 = 30
 
