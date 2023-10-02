@@ -19,7 +19,7 @@ SWEP.Primary.Delay	 = 0.6
 
 SWEP.Primary.Damage	 = {14, 16}
 
-SWEP.Primary.Cone	 = 0.075
+SWEP.Primary.Cone	 = 0.125
 
 SWEP.Primary.NumShots	 = 6
 
