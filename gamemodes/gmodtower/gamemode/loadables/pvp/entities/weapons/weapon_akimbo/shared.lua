@@ -55,7 +55,7 @@ function SWEP:GetTracerOrigin()
 	if not IsValid( vm ) then return end
 	
 	local attach = vm:LookupAttachment(self.TracerOrigin)
-	if IsValid( attach ) then
+	if attach > 0 then
 		return vm:GetAttachment( attach ).Pos
 	end
 end
