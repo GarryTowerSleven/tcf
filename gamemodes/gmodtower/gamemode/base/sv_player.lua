@@ -185,6 +185,12 @@ function meta:ExitAll()
 		self.GolfBall:Remove()
 	end
 
+	//pooltube
+	if self.PoolTube != nil then
+		print(self.PoolTube)
+		self.PoolTube:Exit( self )
+	end
+	
     // Exit Tetris
     if ( self.InTetris ) then
         for _, v in ipairs( ents.FindByClass( "gmt_tetris" ) ) do
@@ -205,15 +211,30 @@ function meta:SafeTeleport( pos, ang, eyeangles )
     if ( not pos ) then return end
 
     self:StopEmoting()
-    self:ExitAll()
+	//genuinely fucking insane someone rewrite these tomorrow
+	if self.PoolTube then
+		self:ExitAll()
+		timer.Simple(.1, function()
+			if IsValid( self ) then
+				local velocity = self:GetVelocity()
 
-	local velocity = self:GetVelocity()
+				self:SetVelocity( velocity:GetNegated() )
 
-	self:SetVelocity( velocity:GetNegated() )
+				self:SetPos( pos )
+				self:SetAngles( ang or self:GetAngles() )
+				self:SetEyeAngles( eyeangles or self:EyeAngles() )
+			end
+		end )
+	else
+		self:ExitAll()
+		local velocity = self:GetVelocity()
 
-    self:SetPos( pos )
-    self:SetAngles( ang or self:GetAngles() )
-    self:SetEyeAngles( eyeangles or self:EyeAngles() )
+		self:SetVelocity( velocity:GetNegated() )
+
+		self:SetPos( pos )
+		self:SetAngles( ang or self:GetAngles() )
+		self:SetEyeAngles( eyeangles or self:EyeAngles() )
+	end
 end
 
 /*
