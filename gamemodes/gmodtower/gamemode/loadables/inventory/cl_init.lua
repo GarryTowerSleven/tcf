@@ -14,12 +14,12 @@ include("trade/cl_init.lua")
 include("cl_playermodel.lua")
 include("inventorysaver/cl_init.lua")
 
-
 GTowerItems.MainInvPanel = nil
 GTowerItems.DropInvPanel = nil
 GTowerItems.InvItemSize = 52
 GTowerItems.ClientItems = GTowerItems.ClientItems or {}
 GTowerItems.InvDesc = nil
+GTowerItems.Snapping = CreateClientConVar( "gmt_itemsnapsize", "0", true )
 
 table.uinsert( HudToHide, "CHudWeaponSelection" )
 
@@ -39,6 +39,35 @@ function GTowerItems:MaxBank()
 	return LocalPlayer():GetNet("BankMax")
 end
 
+function GTowerItems:DrawGrid()
+	if !GTowerItems.Snapping:GetBool() then return end
+
+	local gridSize = GTowerItems.Snapping:GetInt() + 1
+
+	local ent = GTowerItems.EntGrab.Ent
+	local pos = GTowerItems.NewPos
+	local ang = Angle(0,0,0)
+
+	if IsValid(ent) then
+		ang = ent:GetAngles()
+	end
+	
+	local x = math.Round( pos.x / gridSize ) * gridSize
+	local y = math.Round( pos.y / gridSize ) * gridSize
+	local z = math.Round( pos.z / gridSize ) * gridSize
+
+	cam.Start3D2D( Vector( x, y, z ), ang, 1 )
+		for i = -gridSize, gridSize do
+			for j = -gridSize, gridSize do
+				// Reduce alpha the further away the dot is from the center.
+				local alpha = 1 - math.Clamp( math.sqrt( i * i + j * j ) / gridSize, 0, 1 )
+
+				surface.SetDrawColor( 255, 255, 255, alpha * 255 )
+				surface.DrawRect( i * gridSize, j * gridSize, 1, 1 )
+			end
+		end
+	cam.End3D2D()
+end
 
 hook.Add( "GTowerShowMenus","OpenInventory", function()
 	if !LocalPlayer():Alive() then return end
@@ -69,6 +98,21 @@ hook.Add( "InvGuiDrop", "GTowerMainDrop", function( panel )
 		end
 	end
 end )
+
+-- TODO: Not finished yet!
+--hook.Add( "PreDrawTranslucentRenderables", "GTowerItemGrid", GTowerItems.DrawGrid )
+
+function GTowerItems:IncreaseSnapping()
+	local newVal = GTowerItems.Snapping:GetInt() * 2
+    
+	if newVal == 0 then
+		newVal = 2
+	elseif newVal > 16 then
+		newVal = 0
+	end
+
+	GTowerItems.Snapping:SetInt( newVal )
+end
 
 function GTowerItems:OpenAll()
 	if ( hook.Run( "GTowerInventoryDisable" ) ) then return end

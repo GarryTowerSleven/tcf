@@ -376,6 +376,19 @@ function GTowerRooms:AdminRoomDebug()
 	end
 end
 
+local SnappingButton
+
+local function getSnappingString()
+	local value = GTowerItems.Snapping:GetInt()
+	return value == 0 and "Off" or value
+end
+
+local function updateSnappingButtonText()
+	if IsValid(SnappingButton) and SnappingButton != NULL then
+		SnappingButton:SetText( "[C] - Item Snapping (" .. getSnappingString() .. ")" )
+	end
+end
+
 hook.Add( "OpenSideMenu", "OpenSuiteControls", function()
 
 	local ply = LocalPlayer()
@@ -387,6 +400,12 @@ hook.Add( "OpenSideMenu", "OpenSuiteControls", function()
 		Form:SetName( "Suite Controls: #" .. RoomId )
 
 		Form:AddItem( vgui.Create("SuiteEntCount", Form) )
+
+		SnappingButton = Form:Button( "[C] - Item Snapping (" .. getSnappingString() .. ")" )
+		SnappingButton.DoClick = function()
+			GTowerItems.IncreaseSnapping()
+			updateSnappingButtonText()
+		end
 
 		local Manage = Form:Button(T("RoomManagePlayers"))
 		Manage.DoClick = function()
@@ -526,4 +545,8 @@ cvars.AddChangeCallback( "gmt_suitename", function( cmd, old, new )
 	net.Start( "SendSuiteName" )
 		net.WriteString( new )
 	net.SendToServer()
-end )
+end)
+
+cvars.AddChangeCallback( "gmt_itemsnapsize", function( cmd, old, new )
+	updateSnappingButtonText()
+end)

@@ -608,7 +608,9 @@ function PANEL:DraggingEntThink()
     end
 
     self:DragUpdateRotation()
-    local NewPos = Trace.HitPos - self.GhostHitNormal * min.z
+
+    GTowerItems.NewPos = Trace.HitPos - self.GhostHitNormal * min.z
+
     local itm = GhostEntity.Item
     local BaseAngle = GhostEntity:GetAngles()
 
@@ -616,14 +618,14 @@ function PANEL:DraggingEntThink()
         NewPos = itm.Manipulator(BaseAngle, NewPos, self.GhostHitNormal)
     end
 
-    if GTowerItems.EntGrab.Snapping then
-        local snap = math.Clamp(GTowerItems.SnapGridSize:GetInt(), 2, 16)
-        NewPos.x = math.Round(NewPos.x / snap) * snap
-        NewPos.y = math.Round(NewPos.y / snap) * snap
-        NewPos.z = math.Round(NewPos.z / snap) * snap
+    if GTowerItems.Snapping:GetBool() then
+        local snap = math.Clamp(GTowerItems.Snapping:GetInt(), 2, 16)
+        GTowerItems.NewPos.x = math.Round(GTowerItems.NewPos.x / snap) * snap
+        GTowerItems.NewPos.y = math.Round(GTowerItems.NewPos.y / snap) * snap
+        //NewPos.z = math.Round(NewPos.z / snap) * snap
     end
 
-    GhostEntity:SetPos(NewPos)
+    GhostEntity:SetPos(GTowerItems.NewPos)
 
     if not self:CheckTraceHull() then
         GhostEntity:SetColor(Color(255, 100, 100, 190))

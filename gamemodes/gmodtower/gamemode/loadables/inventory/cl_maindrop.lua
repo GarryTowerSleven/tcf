@@ -26,6 +26,15 @@ function PANEL:Think()
 		self:ChangingThink()
 	end
 
+    if input.IsKeyDown(KEY_C) then
+        if self.SnapChanged then return end
+        self.SnapChanged = true
+
+        GTowerItems.IncreaseSnapping()
+    else
+        self.SnapChanged = false
+    end
+
 end
 
 function PANEL:ChangingThink()
