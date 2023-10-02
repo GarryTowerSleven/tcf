@@ -361,7 +361,9 @@ function meta:Chat( text, type, hidden )
 		text = GTowerChat.FilterText( text )
 	
 		// Drunk
-		text = GTowerChat.DrunkSay( text, self:GetNet( "BAL" ) or 0 )
+		if Loadables.IsLoaded( "drunk" ) then
+			text = GTowerChat.DrunkSay( text, self:GetNet( "BAL" ) or 0 )
+		end
 	
 		// Hat Text
 		if ( #text >= 5 ) then

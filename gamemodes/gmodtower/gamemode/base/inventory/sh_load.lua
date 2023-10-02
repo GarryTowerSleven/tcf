@@ -61,9 +61,10 @@ local function CreateNewItem( Name, Item )
 	
 	//Preache the model if necessary
 	if Item.Model && Item.Model != "" then	
-		if table.HasValue( Loadables.LoadedModules, "inventory" ) then
+		if Loadables.IsLoaded( "inventory" ) then
 			util.PrecacheModel( Item.Model )
 		end
+
 		Item.ComparableModel = string.lower( Item.Model )
 	end
 	

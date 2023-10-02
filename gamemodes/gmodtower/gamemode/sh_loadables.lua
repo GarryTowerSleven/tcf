@@ -5,6 +5,10 @@ DEBUG = false
 
 LoadedModules = {}
 LoadablesFolder = string.sub( GM.Folder, 11 )  .. "/gamemode/loadables/"
+
+function IsLoaded( name )
+	return LoadedModules[ string.lower( name or "" ) ] == true
+end
 	
 function Load( name )
 
@@ -58,9 +62,7 @@ function Load( name )
 
 	end
 
-	if !table.HasValue( LoadedModules, name ) then
-		table.insert( LoadedModules, name )
-	end
+	LoadedModules[ string.lower( name ) ] = true
 	
 end
 
