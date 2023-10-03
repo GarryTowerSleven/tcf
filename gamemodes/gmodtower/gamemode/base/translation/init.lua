@@ -12,7 +12,17 @@ local function UMsgT( icon, target, trans, ... )
 		end
 
 		net.WriteString( icon or "" )
-	net.Send( target )
+	if not target then
+		net.Broadcast()
+	else
+		net.Send( target )
+	end
+
+end
+
+function MsgT( trans, ... )
+
+	UMsgT( nil, nil, trans, ... )
 
 end
 

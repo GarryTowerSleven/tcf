@@ -518,3 +518,11 @@ hook.Add( "PlayerDeathThink", "DuelingPreventRespawn", function( ply )
 	return true
 
 end )
+
+hook.Add( "PlayerShouldTakeDamage", "DuelDamage", function( ply, attacker )
+
+	if ply.IsDueling and attacker.IsDueling then
+		return ply:GetNWEntity( "DuelOpponent", NULL ) == attacker:GetNWEntity( "DuelOpponent", NULL )
+	end
+
+end )

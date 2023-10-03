@@ -212,8 +212,8 @@ function ShouldDrawChips()
 end
 
 function GetEventInfo()
-    local name = GetGlobalString( "NextEvent" ) or "Unknown"
-    local time = GetGlobalInt( "NextEventTime" ) or 0
+    local name = globalnet.GetNet( "NextEvent", "Unknown" )
+    local time = globalnet.GetNet( "NextEventTime", 0 )
 
     return name, time
 end

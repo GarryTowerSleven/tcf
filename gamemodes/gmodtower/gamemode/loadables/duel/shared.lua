@@ -16,3 +16,9 @@ function IsDueling( ply )
 	if not IsValid(ply) or ply:IsBot() then return false end
 	return IsValid( ply:GetNWEntity( "DuelOpponent" ) )
 end
+
+hook.Add( "ShouldCollide", "DuelCollide", function( a, b )
+	
+	if a.IsDueling and b.IsDueling then return true end
+
+end )

@@ -85,7 +85,7 @@ Loadables.Load( {
 	"commands",				-- Chat commands (required for emotes)
 	"afk",					-- AFK kicker
 	"drunk", 				-- Drunk system
-	--"events",				-- Random events (sales, minigames)
+	"events",				-- Random events (sales, minigames)
 	"emote",				-- Player emote system (ie. /dance)
 	"duel",					-- Player dueling
 	"legs",					-- First person legs
@@ -120,7 +120,7 @@ Loadables.Load( {
 
 	-- Weapons
 	---------------------------------------------------------
-	--"weaponmanager",		-- Manages minigame weapons and such
+	"weaponmanager",		-- Manages minigame weapons and such
 	"pvp",					-- PVP weapons
 	"virus",				-- Virus weapons
 
@@ -260,9 +260,3 @@ hook.Add("GTowerPhysgunPickup", "NoFuncForFun", function( ply, ent )
 		return false
 	end
 end )
-
-function GM:ShouldCollide( ent1, ent2 )
-	if ent1.IsDueling and ent2.IsDueling then return true end
-	
-	return true // !(ent1:IsPlayer() and ent2:IsPlayer())
-end

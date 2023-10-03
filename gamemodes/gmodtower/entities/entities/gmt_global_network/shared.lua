@@ -5,18 +5,16 @@ ENT.Type		= "anim"
 
 function ENT:Initialize()
 
-	if SERVER then
-
-		self:AddEFlags( EFL_FORCE_CHECK_TRANSMIT )
-
-	end
-
+	self:AddEFlags( EFL_FORCE_CHECK_TRANSMIT )
+	
 	globalnet.InitializeOn( self )
 
 end
 
 /*function ENT:SetupDataTables()
+
 	globalnet.InitializeOn( self )
+	
 end*/
 
 function ENT:UpdateTransmitState()

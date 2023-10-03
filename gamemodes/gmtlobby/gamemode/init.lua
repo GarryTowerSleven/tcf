@@ -20,18 +20,18 @@ AddCSLuaFile("milestones/virus_radar.lua")
 
 AddCSLuaFile("cl_tetris.lua")
 
-AddCSLuaFile("minigames/shared.lua")
-
 include("milestones/uch_animations.lua")
 include("shared.lua")
 include("sv_tetris.lua")
 include("tetris/highscore.lua")
 include("mapchange.lua")
 include("sv_hwevent.lua")
-include("minigames/init.lua")
 
-AddCSLuaFile("event/cl_init.lua")
-include("event/init.lua")
+// AddCSLuaFile( "minigames_new/cl_init.lua" )
+// include( "minigames_new/init.lua" )
+
+AddCSLuaFile( "events.lua" )
+include( "events.lua" )
 
 include( "animation.lua" ) // for gmt_force* commands
 //include( "interaction.lua" )
@@ -433,14 +433,17 @@ local godignore = { -- What classnames should we ignore?
 	["entityflame"] = true
 }
 
-function GM:EntityTakeDamage( ent, dmginfo  )
-	local attacker = dmginfo:GetAttacker()
-	
-	//why this? because we want to be able to override it if needed -- Okay then why haven't we added a toggle yet Mr 2017 comment -- The answer.. Because it is SHTUPID
-	if ent:IsPlayer() and !Dueling.IsDueling( ent ) then 
-		if ( attacker:IsPlayer() and Friends.IsBlocked (ent, attacker) and ent != attacker ) then return true end -- Blocked players shouldn't be able to hurt you... I guess this reveals you have them blocked, but what can you do
-		if ( !attacker:IsPlayer() and godignore[attacker:GetClass()] != true ) then return true end -- Basically let's just prevent any damage to the player that isn't done by a player.. or any classnames we might want to damage the player, like fire.
+function GM:PlayerShouldTakeDamage( ply, attacker )
+
+	if not attacker:IsPlayer() then
+		return godignore[ attacker:GetClass() ]
 	end
+
+	if Friends and ( Friends.IsBlocked( ply, attacker ) or Friends.IsBlocked( attacker, ply ) ) then
+		return false
+	end
+
+	return false // attacker:IsAdmin()
 
 end
 

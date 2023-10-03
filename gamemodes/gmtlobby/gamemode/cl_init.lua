@@ -6,10 +6,11 @@ include("cl_hudchat.lua")
 include("cl_playermenu.lua")
 include("cl_post_events.lua")
 include("cl_scoreboard.lua")
-include("event/cl_init.lua")
-include("minigames/shared.lua")
 include("milestones/uch_animations.lua")
 include("milestones/virus_radar.lua")
+
+// include( "minigames_new/cl_init.lua" )
+include( "events.lua" )
 
 include("cl_tetris.lua")
 
