@@ -184,7 +184,9 @@ function StartParty( ply, flags )
 		end
 	end
 
-	invString = invString .. " " .. T( "RoomPartyActivityMessage", flagString )
+	if flagString != "" then
+		invString = invString .. " " .. T( "RoomPartyActivityMessage", flagString )
+	end
 
 	local roomid = ply:GetNet( "RoomID" )
 
