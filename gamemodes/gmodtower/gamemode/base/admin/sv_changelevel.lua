@@ -43,16 +43,18 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
             return
         end
 
-        local canChange = CanChangeLevel()
+        if IsLobby then
+            local canChange = CanChangeLevel()
 
-        if not canChange then
-            if IsValid( ply ) then
-                ply:MsgT( "FailedMapChange" )
+            if not canChange then
+                if IsValid( ply ) then
+                    ply:MsgT( "FailedMapChange" )
+                end
+
+                LogPrint( T( "FailedMapChange" ), color_red, "MapChange" )
+                
+                return
             end
-
-            LogPrint( T( "FailedMapChange" ), color_red, "MapChange" )
-            
-            return
         end
 
         local isNum = tonumber( args[1] ) != nil
