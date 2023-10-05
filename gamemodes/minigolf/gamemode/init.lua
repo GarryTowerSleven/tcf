@@ -286,6 +286,16 @@ hook.Add( "PlayerSpawn", "PlayerSetup", function( ply )
 	ply:SetMoveType(MOVETYPE_NOCLIP)
 end)
 
+hook.Add( "PlayerThink", "MinigolfAFKPlayerThink", function( ply )
+	if GAMEMODE:IsPlaying() then
+		local CurrentAFKTime = ( ply._AFKTime - CurTime() )
+		
+		if ( IsValid( ply ) && ply:GetGolfBall().IsPocketed == true && CurrentAFKTime < 20 ) then
+			ply:ResetAFKTimer()
+		end
+	end
+end )
+
 //Network Strings
 util.AddNetworkString("MinigolfPutt");
 util.AddNetworkString("Payouts");
