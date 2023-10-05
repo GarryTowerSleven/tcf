@@ -48,7 +48,8 @@ function ENT:Initialize()
 
 	self:SetModel( self.Model )
 	self:DrawShadow( false )
-	self:SetCustomCollisionCheck( true )
+	--self:SetCustomCollisionCheck( true )
+	self:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
 
 	self.SettleDelay = CurTime() + 2
 

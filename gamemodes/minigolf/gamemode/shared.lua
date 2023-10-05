@@ -196,9 +196,9 @@ hook.Add( "ShouldCollide", "ShouldCollideMinigolf", function( ent1, ent2 )
 		return false
 	end
 
-	if ent1:GetClass() == "golfball" && ent2:GetClass() == "golfball" then
+	/*if ent1:GetClass() == "golfball" && ent2:GetClass() == "golfball" then
 		return false
-	end
+	end*/
 
 	return true
 end )
