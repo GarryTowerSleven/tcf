@@ -32,6 +32,74 @@ function GM:BeginGame()
 	globalnet.SetNet( "HasPractice", true )
 end
 
+function GM:SaveBestScore(ply, score, update)
+	if update then
+		local update_data = {
+			score = Database.Escape( score, true ),
+		}
+
+		local where = {
+			ply = Database.Escape( ply:SteamID64(), true ),
+			map = Database.Escape( game.GetMap(), true ),
+		}
+
+		local query_string2 = "UPDATE `gm_minigolf` SET " .. Database.CreateUpdateQuery( update_data ) .. " WHERE " .. Database.CreateWhereQuery( where ) .. ";"
+		Database.Query( query_string2 )
+		return
+	end
+
+	local insert_data = {
+		ply = Database.Escape( ply:SteamID64(), true ),
+		name = Database.Escape( ply:Nick(), true ),
+		map = Database.Escape( game.GetMap(), true ),
+		score = Database.Escape( score, true )
+	}
+
+	local query_string = "INSERT INTO `gm_minigolf` " .. Database.CreateInsertQuery( insert_data ) .. ";"
+	Database.Query( query_string )
+end
+
+function GM:GetBestScore(ply)
+	local where = {
+		ply = Database.Escape( ply:SteamID64(), true ),
+		map = Database.Escape( game.GetMap(), true ),
+	}
+	local query_string = "SELECT * FROM `gm_minigolf` WHERE " .. Database.CreateWhereQuery( where ) .. ";"
+
+	Database.Query( query_string, function( data, status, err )
+		if status != QUERY_SUCCESS then return end
+		if not data[1] then return end
+		
+		if IsValid(ply) then
+			ply.BestScore = tonumber( data[1].score )
+		end
+	end )
+end
+
+function GM:UpdateBestScore(ply)
+	if self.GetHole() < 18 then return end
+	ply.EndScore = ply:Frags() + ply:Swing()
+	if Database.IsConnected() then
+		self:GetBestScore(ply)
+		timer.Simple(1, function()
+			if ply.BestScore == nil then
+				self:SaveBestScore(ply, ply.EndScore, false)
+				self:ColorNotifyPlayer( ply, "New best score!", Color(100, 100, 255, 255) )
+			else
+				if ply.BestScore <= ply.EndScore then
+					self:ColorNotifyPlayer( ply, "Your best score is still "..ply.BestScore, Color(100, 100, 255, 255) )
+				end
+
+				if ply.BestScore > ply.EndScore then
+					self:SaveBestScore(ply, ply.EndScore, true)
+					self:ColorNotifyPlayer( ply, "New best score "..ply.EndScore.."! Old score was "..ply.BestScore, Color(100, 100, 255, 255) )
+				end
+			end
+			ply.BestScore = nil
+		end)
+	end
+end
+
 function GM:Think()
 	if self:IsPracticing() then
 		if self:GetTimeLeft() <= 0 then

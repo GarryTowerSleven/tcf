@@ -241,6 +241,9 @@ if SERVER then
 		end
 
 		GAMEMODE:SetScore( self, GAMEMODE:GetHole(), score )
+
+		// Update best score
+		GAMEMODE:UpdateBestScore( self )
 	end
 
 	function meta:Pocket()
@@ -260,6 +263,9 @@ if SERVER then
 
 			// Set Score
 			GAMEMODE:SetScore( self, GAMEMODE:GetHole(), self:Swing() )
+
+			// Update best score
+			GAMEMODE:UpdateBestScore( self )
 
 			self:MessageSwing( self:Swing() )
 			self:AnnounceSwing( self:Swing() )
