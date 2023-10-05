@@ -92,7 +92,7 @@ function GM:UpdateBestScore(ply)
 
 				if ply.BestScore > ply.EndScore then
 					self:SaveBestScore(ply, ply.EndScore, true)
-					self:ColorNotifyPlayer( ply, "New best score "..ply.EndScore.."! Old score was "..ply.BestScore, Color(100, 100, 255, 255) )
+					self:ColorNotifyPlayer( ply, "New best score: "..ply.EndScore.."! Your old score was "..ply.BestScore, Color(100, 100, 255, 255) )
 				end
 			end
 			ply.BestScore = nil
