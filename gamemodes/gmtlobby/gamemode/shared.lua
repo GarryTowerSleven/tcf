@@ -9,12 +9,10 @@ IsLobby = true
 
 DeriveGamemode( "gmodtower" )
 
-team.SetUp(1, "Tower Fans", team.GetColor(TEAM_UNASSIGNED), true)
-
 include("player_class/player_lobby.lua")
 
 function IsHalloweenMap( map )
-	local map = map or game.GetMap()
+	map = map or game.GetMap()
 
 	if IsLobby then
 		return map[11] == "h"
@@ -24,7 +22,7 @@ function IsHalloweenMap( map )
 end
 
 function IsChristmasMap( map )
-	local map = map or game.GetMap()
+	map = map or game.GetMap()
 
 	if IsLobby then
 		return map[11] == "c"
@@ -34,7 +32,7 @@ function IsChristmasMap( map )
 end
 
 function IsHolidayMap()
-	return ( IsHalloweenMap() || IsChristmasMap() )
+	return IsHalloweenMap() or IsChristmasMap()
 end
 
 Loadables.Load( {

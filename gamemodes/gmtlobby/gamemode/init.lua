@@ -30,8 +30,9 @@ include("sv_hwevent.lua")
 // AddCSLuaFile( "minigames_new/cl_init.lua" )
 // include( "minigames_new/init.lua" )
 
-AddCSLuaFile( "events.lua" )
-include( "events.lua" )
+AddCSLuaFile( "sh_events.lua" )
+include( "sv_events.lua" )
+include( "sh_events.lua" )
 
 include( "animation.lua" ) // for gmt_force* commands
 //include( "interaction.lua" )

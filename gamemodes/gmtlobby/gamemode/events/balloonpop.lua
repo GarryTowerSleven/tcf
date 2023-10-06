@@ -3,7 +3,7 @@ local EVENT = {}
 EVENT.MinLength = 60 * 5
 EVENT.MaxLength = 60 * 8
 
-EVENT.Entity = "gmt_balloon"
+EVENT.Entity = "gmt_minigame_balloon"
 EVENT.Weapon = "weapon_crossbow"
 
 EVENT.ActiveLocation = nil
@@ -12,12 +12,14 @@ EVENT.Locations = {
     [ Location.GetIDByName( "Lobby" ) ] = {
         pos = {
             min = Vector( 160, -2060, 300 ),
-            max = Vector( 1695, -888, 350 ),    
+            max = Vector( 1695, -888, 600 ),    
         },
         maxheight = 3020,
     },
 
 }
+
+EVENT.Translation = "MiniBalloonGameStart"
 
 EVENT.Participants = {}
 
@@ -28,8 +30,8 @@ EVENT.EntityDelay = .5
 
 EVENT.LastEntity = 0
 
-EVENT.MoneyOnPop = 150
-EVENT.DistFactor = 1024
+EVENT.MoneyOnPop = 75
+EVENT.DistFactor = 2200
 EVENT.TotalMoney = 0
 
 function EVENT:GiveWeapon( ply )
@@ -119,11 +121,7 @@ function EVENT:SpawnerThink()
 
     if table.Count( self.Entities ) < self.EntityLimit then
 
-        if poppers >= 6 then
-            self.EntityDelay = math.Clamp( 0.55 - ( poppers * 0.01 ), 0.1, 0.5 )
-        else
-            self.EntityDelay = 0.5
-        end
+        self.EntityDelay = math.Clamp( 1 - ( .1 * (poppers - 1) ), 0.5, 1 )
 
         if (self.LastEntity + self.EntityDelay) > CurTime() then return end
     
@@ -177,7 +175,7 @@ function EVENT:Start()
 
     self.ActiveLocation = loc
 
-    MsgT( "MiniBalloonGameStart", Location.GetFriendlyName( self.ActiveLocation ) )
+    MsgT( self.Translation, Location.GetFriendlyName( self.ActiveLocation ) )
 
     for _, v in ipairs( Location.GetPlayersInLocation( self.ActiveLocation ) ) do
         self:AddParticipant( v )
@@ -202,7 +200,7 @@ function EVENT:Start()
 
         money = math.Round( money )
 
-        ply:GiveMoney( money )
+        ply:GiveMoney( money, nil, nil, true )
 
         self.TotalMoney = self.TotalMoney + money
 

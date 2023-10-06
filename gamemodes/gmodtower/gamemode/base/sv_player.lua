@@ -59,7 +59,7 @@ function meta:SetMoney( amount )
 	return self:SetNet( "Money", math.Clamp( tonumber( amount ), -2147483648, 2147483647 ) )
 end
 
-function meta:AddMoney( amount, nonotify, beziersource )
+function meta:AddMoney( amount, nonotify, beziersource, nobezier )
 
     amount = math.Round( amount )
 
@@ -78,7 +78,9 @@ function meta:AddMoney( amount, nonotify, beziersource )
 		self:MsgT( "MoneyEarned", string.FormatNumber( amount ) )
 		self:EmitSound( "gmodtower/misc/gmc_earn.wav", 50, pitch )
 
-		CreateMoneyBezier( beziersource or self, self, amount, true )
+		if not nobezier then
+			CreateMoneyBezier( beziersource or self, self, amount, true )
+		end
 	end
 
 end
@@ -108,8 +110,8 @@ function meta:TakeMoney( amount, nonotify, beziertarget )
 
 end
 
-function meta:GiveMoney( amount, nosend, beziersource )
-	self:AddMoney( amount, nosend, beziersource )
+function meta:GiveMoney( amount, nosend, beziersource, nobezier )
+	self:AddMoney( amount, nosend, beziersource, nobezier )
 end
 
 function meta:Afford( price )

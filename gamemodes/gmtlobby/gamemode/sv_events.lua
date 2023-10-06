@@ -1,0 +1,14 @@
+EventPool = EventPool or { "StoreSale", "ChainsawBattle", "FistFight", "BalloonPop", "ObamaSmash" }
+
+if ( IsHalloweenMap() ) then
+	table.RemoveByValue( EventPool, "BalloonPop" )
+	table.uinsert( EventPool, "GhostPop" )
+end
+
+hook.Add( "EventsDelayTime", "MiniGames", function()
+	return math.random( 60 * 15, 60 * 25 )
+end )
+
+hook.Add( "EventsPool", "MiniGames", function()
+	return EventPool
+end )

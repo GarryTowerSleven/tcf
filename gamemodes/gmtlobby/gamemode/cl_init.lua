@@ -10,7 +10,7 @@ include("milestones/uch_animations.lua")
 include("milestones/virus_radar.lua")
 
 // include( "minigames_new/cl_init.lua" )
-include( "events.lua" )
+include( "sh_events.lua" )
 
 include("cl_tetris.lua")
 
