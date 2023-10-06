@@ -68,11 +68,22 @@ function DropManager.RandomDrop( pos )
 
 end
 
+local pointdrops = 0
+
 // forcefully drop a random item (points or weapon)
 function DropManager.Drop( pos )
 
 	local max = #DropManager.DropTypes
 	local rand = math.random( 1, max )
+
+	if rand == 1 then
+		pointdrops = pointdrops + 1
+	end
+
+	if pointdrops >= 3 then
+		pointdrops = 0
+		rand = 2
+	end
 
 	local drop = DropManager.DropTypes[ rand ]
 

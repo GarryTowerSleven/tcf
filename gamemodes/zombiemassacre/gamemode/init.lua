@@ -233,6 +233,13 @@ GM.RandoInfected = {
 	--"zm_npc_spider",
 }
 
+local TimeRates = {
+	[1] = .8,
+	[2] = .79,
+	[3] = .78,
+	[4] = .76
+}
+
 //This is a temp function for testing ONLY.
 function GM:SpawnZombies()
 
@@ -267,7 +274,15 @@ function GM:SpawnZombies()
 
 	RoundDev = round / 5
 
-	timer.Simple( math.Rand( ( 2 - RoundDev ) - ( player.GetCount() / 6 ), ( 3 - RoundDev ) - ( player.GetCount() / 5 ) ),function() self:SpawnZombies() end )
+	local rand1 = 6
+	local rand2 = 5
+
+	if round < 5 then
+		rand1 = rand1 * TimeRates[round]
+		rand2 = rand2 * TimeRates[round]
+	end
+
+	timer.Simple( math.Rand( ( 2 - RoundDev ) - ( GAMEMODE.DeadCount / rand1 ), ( 3 - RoundDev ) - ( GAMEMODE.DeadCount / rand2 ) ),function() self:SpawnZombies() end )
 
 end
 

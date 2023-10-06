@@ -1,6 +1,7 @@
 GM.DefaultDayTime = 120
 GM.MaxDaysPerGame = 7
 GM.GameStarted = false
+GM.DeadCount = 0
 
 function GM:Think()
 
@@ -220,11 +221,11 @@ function GM:Think()
 		return
 	end
 
-	local deads = 0
+	GAMEMODE.DeadCount = 0
 
-	for k,v in pairs(player.GetAll()) do if !v:Alive() then deads = deads + 1 end end
+	for k,v in pairs(player.GetAll()) do if !v:Alive() then GAMEMODE.DeadCount = GAMEMODE.DeadCount + 1 end end
 
-	if deads == player.GetCount() && self:GetState() == STATE_PLAYING then
+	if GAMEMODE.DeadCount == player.GetCount() && self:GetState() == STATE_PLAYING then
 		for _, ply in ipairs( player.GetAll() ) do
 			ply:Freeze( true )
 
