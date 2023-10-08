@@ -236,7 +236,7 @@ function PaintHealth( x, y, w, h, scale, noborder )
         
         if IsHalloween then
             mat = Materials.healthbar_halloween
-        elseif IsChrstmas then
+        elseif IsChristmas then
             mat = Materials.healthbar_christmas
         end    
 
