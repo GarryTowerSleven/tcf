@@ -219,6 +219,9 @@ L.AddWord( 1, "EventAdminDisabled", "{1} has disabled the event system.")
 L.AddWord( 1, "EventAdminEnabled", "{1} has enabled the event system.")
 L.AddWord( 1, "EventAdminManual", "{1} has forced the event system.")
 
+L.AddWord( 1, "SpawnerHalloweenStart", "Candy Buckets have appeared around the lobby! Go collect them and place them in the cauldron!" )
+L.AddWord( 1, "SpawnerHalloweenEnd", "The Candy Buckets have disappeared..." )
+
 L.AddWord( 1, "AuctionStarted", "Auction started! Place a bet like this: !bet 5000")
 L.AddWord( 1, "AuctionCurrentBet", "Current bet: {1} GMC by {2}")
 L.AddWord( 1, "AuctionStartedItem", "New lot: {1}. Starting price: {2}. Please check if you have free space in inventory before joining.")

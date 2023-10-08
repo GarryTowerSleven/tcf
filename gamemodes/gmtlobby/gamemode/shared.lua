@@ -1,5 +1,5 @@
 GM.Name 	= "GMod Tower"
-GM.Author	= "Deluxe Team & PixelTail Games"
+GM.Author	= "PixelTail Games & TCF Team"
 GM.AllowSpecialModels = true
 GM.AllowEquippables = true
 
@@ -59,7 +59,7 @@ Loadables.Load( {
 	--"enchant",			-- Player enchantments
 	"trivia",				-- Trivia
 	--"funmeter",			-- Fun Meter (experimental minigame)
-	--"spawner",			-- Special spawner (presents and candy)
+	"spawner",				-- Special spawner (presents and candy)
 
 	-- WIP/Unfinished
 	---------------------------------------------------------

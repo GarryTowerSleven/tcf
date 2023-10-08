@@ -142,7 +142,7 @@ end
  == INTERACTIONS
 ================================= */
 
-function meta:InvGiveItem( ItemId, slot )
+function meta:InvGiveItem( ItemId, slot, nobank )
 
 	local ItemSlot = GTowerItems:NewItemSlot( self, slot )
 
@@ -155,13 +155,17 @@ function meta:InvGiveItem( ItemId, slot )
 		ItemSlot:FindUnusedSlot( Item, true )
 
 		if !ItemSlot:IsValid() then //IT's FULL!
-			ItemSlot = GTowerItems:NewItemSlot( self, "-2" ) //In the bank!
-			ItemSlot:FindUnusedSlot( Item, true )
+			if not nobank then
+				ItemSlot = GTowerItems:NewItemSlot( self, "-2" ) //In the bank!
+				ItemSlot:FindUnusedSlot( Item, true )	
+			else 
+				return false
+			end
 		end
 	end
 
 	if !ItemSlot:Allow( Item, true ) then
-		return
+		return false
 	end
 
 	ItemSlot:Set( Item )

@@ -20,12 +20,6 @@ function ENT:Initialize()
 	PrecacheParticleSystem( "ghost_appearation" )
 	PrecacheParticleSystem( "ghost_glow" )
 
-	if ( CLIENT ) then
-		self:CreateParticleEffect( "ghost_glow", 0, { attachtype = PATTACH_ABSORIGIN_FOLLOW	 } )
-
-		return
-	end
-
 	self:SetModel( self.Model )
 
 	local min, max = self:GetModelRenderBounds()
@@ -61,5 +55,16 @@ function ENT:OnTakeDamage( dmginfo )
 	self:EmitSound( table.Random( self.DieSounds ), 95, math.random( 90, 120 ), .3, CHAN_AUTO )
 
 	self:Remove()
+
+end
+
+if SERVER then return end
+
+function ENT:Think()
+
+	if self._EffectInit then return end
+
+	ParticleEffectAttach( "ghost_glow", PATTACH_ABSORIGIN_FOLLOW, self, 0 )
+	self._EffectInit = true
 
 end
