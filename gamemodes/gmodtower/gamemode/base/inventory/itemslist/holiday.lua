@@ -234,3 +234,94 @@ RegisterItem("lantern_lamp",{
 	ClassName = "gmt_room_lamp_lantern",
 	DateAdded = 1416196221
 })
+
+/*
+	notgay pumpkins
+*/
+RegisterItem( "suite_pumpkin",{
+	Name = "Pumpkin",
+	Description = "A decorative pumpkin to bring the Halloween sprit right to your living room!",
+	Model = "models/gmod_tower/halloween/pumpkin_normal.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.HALLOWEEN,
+	StorePrice = 250,
+	DateAdded = 1696741039,
+	IsNew = true,
+} )
+
+RegisterItem( "suite_pumpkin_big",{
+	Name = "Pumpkin (Big)",
+	Description = "A decorative pumpkin to bring the Halloween sprit right to your living room!",
+	Model = "models/gmod_tower/halloween/pumpkin_normal_big.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.HALLOWEEN,
+	StorePrice = 500,
+	DateAdded = 1696741039,
+	IsNew = true,
+} )
+
+RegisterItem( "suite_pumpkin_squashed",{
+	Name = "Pumpkin: Squashed",
+	Description = "A decorative pumpkin to bring the Halloween sprit right to your living room!",
+	Model = "models/gmod_tower/halloween/pumpkin_squashed.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.HALLOWEEN,
+	StorePrice = 250,
+	DateAdded = 1696741039,
+	IsNew = true,
+} )
+
+RegisterItem( "suite_pumpkin_stout",{
+	Name = "Pumpkin: Stout",
+	Description = "A decorative pumpkin to bring the Halloween sprit right to your living room!",
+	Model = "models/gmod_tower/halloween/pumpkin_stout.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.HALLOWEEN,
+	StorePrice = 250,
+	DateAdded = 1696741039,
+	IsNew = true,
+} )
+
+RegisterItem( "suite_pumpkin_stout_big",{
+	Name = "Pumpkin: Stout (Big)",
+	Description = "A decorative pumpkin to bring the Halloween sprit right to your living room!",
+	Model = "models/gmod_tower/halloween/pumpkin_stout_big.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.HALLOWEEN,
+	StorePrice = 500,
+	DateAdded = 1696741039,
+	IsNew = true,
+} )
+
+RegisterItem( "suite_pumpkin_tall",{
+	Name = "Pumpkin: Tall",
+	Description = "A decorative pumpkin to bring the Halloween sprit right to your living room!",
+	Model = "models/gmod_tower/halloween/pumpkin_tall.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.HALLOWEEN,
+	StorePrice = 250,
+	DateAdded = 1696741039,
+	IsNew = true,
+} )
+
+RegisterItem( "suite_pumpkin_tall_big",{
+	Name = "Pumpkin: Tall (Big)",
+	Description = "A decorative pumpkin to bring the Halloween sprit right to your living room!",
+	Model = "models/gmod_tower/halloween/pumpkin_tall_big.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.HALLOWEEN,
+	StorePrice = 500,
+	DateAdded = 1696741039,
+	IsNew = true,
+} )
+
+RegisterItem( "suite_pumpkin_deformed",{
+	Name = "Pumpkin: Deformed",
+	Description = "A decorative pumpkin to bring the Halloween sprit right to your living room!",
+	Model = "models/gmod_tower/halloween/pumpkin_deformed.mdl",
+	DrawModel = true,
+	StoreId = GTowerStore.HALLOWEEN,
+	StorePrice = 250,
+	DateAdded = 1696741039,
+	IsNew = true,
+} )
