@@ -109,7 +109,7 @@ function EVENT:SpawnerThink()
                 continue
             end
 
-            if (v._CreationTime + v._LifeTime) < CurTime() then
+            if v._CreationTime and (v._CreationTime + v._LifeTime) < CurTime() then
                 v:Remove()
             elseif ( self.Locations[ self.ActiveLocation ] and self.Locations[ self.ActiveLocation ].maxheight and self.Locations[ self.ActiveLocation ].maxheight < v:GetPos().z ) then
                 v:Remove()

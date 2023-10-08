@@ -234,9 +234,9 @@ function PaintHealth( x, y, w, h, scale, noborder )
 
     if IsOldLobby1() then
         
-        if IsHalloweenMap() then
+        if IsHalloween then
             mat = Materials.healthbar_halloween
-        elseif IsChristmasMap() then
+        elseif IsChrstmas then
             mat = Materials.healthbar_christmas
         end    
 
@@ -447,9 +447,9 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
 
     local mat = Style() == STYLE_GMTC and Materials.mainhud_gmtc or Materials.mainhud
 
-    if IsHalloweenMap() then
+    if IsHalloween then
         mat = Materials.mainhud_halloween
-    elseif IsChristmasMap() then
+    elseif IsChristmas then
         mat = Materials.mainhud_christmas
     end
 
@@ -546,6 +546,8 @@ function PaintLobby1()
     local ent = GAMEMODE:PlayerUseTrace( LocalPlayer() )
 
     PaintCrosshair( ent )
+
+    hook.Call( "GTowerHUDPaint", GAMEMODE, sx, sy, scrw, scrh, scale )
 
 end
 

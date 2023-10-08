@@ -24,9 +24,9 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
 
     local mat = Style() == STYLE_2009 and Materials.mainhud_2009 or Materials.mainhud_2010
     
-    if IsHalloweenMap() then
+    if IsHalloween then
         mat = Materials.mainhud_2010_halloween
-    elseif IsChristmasMap() then
+    elseif IsChristmas then
         mat = Materials.mainhud_2010_christmas
     end
 

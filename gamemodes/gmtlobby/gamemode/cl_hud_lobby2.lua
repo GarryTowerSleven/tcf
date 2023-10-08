@@ -251,5 +251,7 @@ function PaintLobby2()
     
     PaintCrosshair( ent, scale )
     PaintUseMessage( ent, scale )
+
+    hook.Call( "GTowerHUDPaint", GAMEMODE, sx, sy, scrw, scrh, scale )
     
 end

@@ -1,6 +1,6 @@
 EventPool = EventPool or { "StoreSale", "ChainsawBattle", "FistFight", "BalloonPop", "ObamaSmash" }
 
-if ( IsHalloweenMap() ) then
+if ( IsHalloween ) then
 	table.RemoveByValue( EventPool, "BalloonPop" )
 	table.uinsert( EventPool, "GhostPop" )
 end

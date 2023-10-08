@@ -1,3 +1,4 @@
+if true then return end
 
 local BucketPos = {
 	Vector(4662.3037109375, -0.080654121935368, -901.96875),
@@ -118,7 +119,8 @@ end)
 
 hook.Add( "InitPostEntity", "InitializeHalloween", function()
 
-	if !IsHalloweenMap() then return end
+	if not IsHalloween then return end
+
 	// It's Halloween!
 	print("-==INITIALIZING HALLOWEEN EVENT==-")
 	timer.Create( "BucketSpawner", 60*30, 0, function()

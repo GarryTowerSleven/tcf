@@ -11,6 +11,11 @@ DeriveGamemode( "gmodtower" )
 
 include("player_class/player_lobby.lua")
 
+// temp
+if string.StartsWith( game.GetMap(), "gmt_build0h4" ) then
+	game.AddParticles( "particles/gmt_halloween.pcf" )
+end
+
 function IsHalloweenMap( map )
 	map = map or game.GetMap()
 
@@ -20,6 +25,8 @@ function IsHalloweenMap( map )
 
 	return false
 end
+
+IsHalloween = IsHalloweenMap()
 
 function IsChristmasMap( map )
 	map = map or game.GetMap()
@@ -31,9 +38,13 @@ function IsChristmasMap( map )
 	return false
 end
 
+IsChristmas = IsChristmasMap()
+
 function IsHolidayMap()
 	return IsHalloweenMap() or IsChristmasMap()
 end
+
+IsHoliday = IsHolidayMap()
 
 Loadables.Load( {
 
