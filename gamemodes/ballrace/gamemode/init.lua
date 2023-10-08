@@ -142,6 +142,16 @@ timer.Create( "AchiBallerRoll", 60.0, 0, function()
 
 end )
 
+hook.Add( "PlayerThink", "BallraceAFKPlayerThink", function( ply )
+    if GAMEMODE:IsPlaying() then
+        local CurrentAFKTime = ( ply._AFKTime - CurTime() )
+        
+        if ( IsValid( ply ) && ( ply:Team() == TEAM_COMPLETED || ply:Team() == TEAM_DEAD ) && CurrentAFKTime < 20 ) then
+            ply:ResetAFKTimer()
+        end
+    end
+end )
+
 util.AddNetworkString( "BRS" )
 util.AddNetworkString( "br_electrify" )
 util.AddNetworkString( "pick_ball" )
