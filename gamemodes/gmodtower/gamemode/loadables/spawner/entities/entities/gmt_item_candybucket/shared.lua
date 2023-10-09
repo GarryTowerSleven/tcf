@@ -29,11 +29,11 @@ function ENT:Touch( ply )
 
 	if !ply:IsPlayer() || self.Used then return end
 
-	if ply:GetNet( "Candy", 0 ) >= 1 then
+	if ply:GetNet( "Candy", 0 ) >= 3 then
 		if ply._NoticeDelay && ply._NoticeDelay > CurTime() then return end
 
 		ply._NoticeDelay = CurTime() + 10
-		ply:Msg2( "You can only carry a single candy bucket!" )
+		ply:Msg2( "You can only carry three candy buckets!" )
 		return
 	end
 
