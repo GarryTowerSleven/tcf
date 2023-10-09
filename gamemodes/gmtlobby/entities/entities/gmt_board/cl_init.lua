@@ -17,7 +17,7 @@ surface.CreateFont( "SelectMapFont", {
 })
 
 local donationFeatures = {
-	"A fancy VIP tag",
+	"A one time gift of 5,000 GMC",
 	"VIP only store and items in-game",
 	"VIP icon in-game",
 	"Suite entity limit raised to 400",
