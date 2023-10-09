@@ -64,7 +64,7 @@ concommand.Add( "gmt_changelevel", function( ply, command, args )
 
 		if IsLobby and GMT_IS_RESTARTING then
 			if not Database.IsConnected() then return end
-			Database.Query( "UPDATE `gm_casino` SET `jackpot` = 0;" )
+			Database.Query( "UPDATE `gm_casino` SET `jackpot` = " .. math.floor( tonumber( GetGlobalInt("VideoPokerJackpot") ) * 0.75 ) .. " WHERE `type` = 'videopoker';" ) // how's this
 		end
         ChangeLevel( map, time, ply )    
         
