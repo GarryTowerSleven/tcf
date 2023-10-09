@@ -48,7 +48,7 @@ function SQLSetup( ply, vip )
 			
 		end
 		
-		PrintTable( res )
+		//PrintTable( res )
 		
     end )
 	
