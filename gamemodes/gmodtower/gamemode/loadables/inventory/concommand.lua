@@ -226,6 +226,14 @@ concommand.Add( "gm_invmove", function( ply, command, args )
 				Pos = Item.Manipulator( Ang, Pos, Trace.HitNormal)
 			end
 
+			local snapSize = ply:GetInfoNum( "gmt_itemsnapsize", 0 )
+
+			if snapSize > 0 then
+				snapSize = math.Clamp(snapSize, 2, 16)
+				Pos.x = math.Round(Pos.x / snapSize) * snapSize
+				Pos.y = math.Round(Pos.y / snapSize) * snapSize
+			end
+
 			Ent:SetPos( Pos /*Trace.HitPos - Trace.HitNormal * min.z*/ )
 			Ent:SetAngles( Ang )
 			Ent.Pos = Pos

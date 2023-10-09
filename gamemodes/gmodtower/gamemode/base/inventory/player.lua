@@ -372,6 +372,14 @@ function meta:DropItem( slot, aim, rotation, shoot )
 			Pos = Item.Manipulator( Ang, Pos, Trace.HitNormal )
 		end
 
+		local snapSize = self:GetInfoNum( "gmt_itemsnapsize", 0 )
+
+		if snapSize > 0 then
+			snapSize = math.Clamp(snapSize, 2, 16)
+			Pos.x = math.Round(Pos.x / snapSize) * snapSize
+			Pos.y = math.Round(Pos.y / snapSize) * snapSize
+		end
+
 		DropEnt:SetPos( Pos /*Trace.HitPos - Trace.HitNormal * min.z*/ )
 		DropEnt:SetAngles( Ang )
 		DropEnt._GTInvSQLId = Item.MysqlId

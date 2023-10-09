@@ -19,7 +19,7 @@ GTowerItems.DropInvPanel = nil
 GTowerItems.InvItemSize = 52
 GTowerItems.ClientItems = GTowerItems.ClientItems or {}
 GTowerItems.InvDesc = nil
-GTowerItems.Snapping = CreateClientConVar( "gmt_itemsnapsize", "0", true )
+GTowerItems.Snapping = CreateClientConVar( "gmt_itemsnapsize", "0", true, true )
 
 table.uinsert( HudToHide, "CHudWeaponSelection" )
 
