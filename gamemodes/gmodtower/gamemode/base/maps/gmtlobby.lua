@@ -94,6 +94,14 @@ Maps.Register( "gmt_build0s3b", {
 	DateModified = 1399590414,
 } )
 
+Maps.Register( "gmt_build0h4", {
+	Name = "Haunted '23 Lobby",
+	Desc = "The Lobby has been given a brand new Halloween makeover, pumpkins and candles scattered everywhere, and much more. Don't get too scared exploring!",
+	Author = "PixelTail Games / TCF Team",
+	DateAdded = 1399590414,
+	DateModified = 1399590414,
+} )
+
 Maps.Register( "gmt_halloween2014", {
 	Name = "Halloween 2014",
 	Desc = "Enter the madness.",
