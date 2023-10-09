@@ -6,10 +6,29 @@ include("shared.lua")
 
 module("minievent", package.seeall )
 
+cvars.AddChangeCallback( "gmt_events_enabled", function( _, old, new )
+
+	if tobool( new ) == false then
+		
+		if timer.Exists( "MiniEventsCaller" ) then
+			timer.Remove( "MiniEventsCaller" )
+		end
+
+	else
+	
+		if not timer.Exists( "MiniEventsCaller" ) then
+			CreateNewTimer( 180 )
+		end
+
+	end
+
+end, "EventCallback" )
+
 MinDelay = 20
 MaxDelay = 30
 
 NextEvent = nil
+NextTime = nil
 
 local function RandomTime()
 	return math.Round( hook.Call( "EventsDelayTime", GAMEMODE ) or math.Rand( MinDelay, MaxDelay ) )
@@ -17,29 +36,21 @@ end
 
 function CreateNewTimer( ExtraTime )
 
-	local NextTime = ( ExtraTime or 0 ) + RandomTime()
+	if not IsEnabled() then return end
+
+	local time = ( ExtraTime or 0 ) + RandomTime()
+	NextTime = CurTime() + time
 	
 	if DEBUG then
-		print("Starting next event in: " .. NextTime .. " seconds.")
-	end	
-	
-	if timer.Exists( "MiniEventsCaller" ) then
-		timer.Remove( "MiniEventsCaller" )
+		print("Starting next event in: " .. time .. " seconds.")
 	end
-
-	timer.Create(
-		"MiniEventsCaller", //Unique name
-		NextTime, //The length of the object plus a random time
-		1, //Only happens once
-		NewTimer //Call itself to create a new event
-	)
 
 	NextEvent = RandomName()
 
 	globalnet.SetNet( "NextEvent", NextEvent or "Unknown" )
-	globalnet.SetNet( "NextEventTime", CurTime() + NextTime )
+	globalnet.SetNet( "NextEventTime", NextTime )
 
-	MsgT( "MiniNext", math.floor( NextTime / 60 ) )
+	MsgT( "MiniNext", math.floor( time / 60 ) )
 
 end
 
@@ -66,6 +77,18 @@ function Start( name, length )
 	return NewEvent
 
 end
+
+hook.Add( "Think", "MiniEventsCaller", function()
+	
+	if not IsEnabled() then return end
+
+	if NextTime and NextTime <= CurTime() then
+
+		NewTimer()
+
+	end
+
+end )
 
 hook.Add( "PlayerInitialSpawn", "MiniEventsStartTimer", function()
 	

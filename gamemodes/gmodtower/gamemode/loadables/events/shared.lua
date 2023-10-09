@@ -5,6 +5,12 @@ local IncludeList = {}
 
 module( "minievent", package.seeall )
 
+EnabledConvar = CreateConVar( "gmt_events_enabled", "1", { FCVAR_REPLICATED }, nil, 0, 1 )
+
+function IsEnabled()
+	return EnabledConvar:GetBool() == true
+end
+
 DEBUG = false
 
 List = {}

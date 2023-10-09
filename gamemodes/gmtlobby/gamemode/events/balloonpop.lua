@@ -196,13 +196,13 @@ function EVENT:Start()
         if not balloon._Event then return end
 
         local dist = math.Clamp( balloon:GetPos().z - ply:GetPos().z, 0, self.DistFactor )
-        local money = math.Clamp( self.MoneyOnPop * ( dist / self.DistFactor ), 10, self.MoneyOnPop )
+        local money = math.Clamp( self.MoneyOnPop * ( dist / self.DistFactor ), 10, self.MoneyOnPop ) / 10
 
         money = math.Round( money )
 
-        ply:GiveMoney( money/10, nil, nil, true )
+        ply:GiveMoney( money, nil, nil, true )
 
-        self.TotalMoney = self.TotalMoney + money/10
+        self.TotalMoney = self.TotalMoney + money
 
         ply:AddAchievement( ACHIEVEMENTS.MGPOPPER, 1 )
 

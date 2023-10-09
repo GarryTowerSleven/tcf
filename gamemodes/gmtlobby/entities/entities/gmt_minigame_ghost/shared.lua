@@ -24,7 +24,7 @@ function ENT:Initialize()
 
 	local min, max = self:GetModelRenderBounds()
 
-	self:PhysicsInitBox( min * 2, max * 2 )
+	self:PhysicsInitBox( min * 2.5, max * 2.5 )
 	self:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
 
 	self:SetModelScale( 1.5 )
