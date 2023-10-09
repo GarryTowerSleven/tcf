@@ -200,7 +200,8 @@ RegisterItem("toysmokemachine",{
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 3000,
 	ClassName = "gmt_smokemachine",
-	DateAdded = 1416196221
+	MaxSuite = 8,
+	DateAdded = 1416196221,
 })
 
 RegisterItem("cutoutcat",{
