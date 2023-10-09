@@ -21,7 +21,7 @@ function SQLSetup( ply, vip )
 		
 		if table.Count( res ) == 0 and vip then
 		
-			print("inserting player, this is a newbie!")
+			//print("inserting player, this is a newbie!")
 			Database.Query( "INSERT INTO `gm_vip` (steamid, current, rewarded) VALUES ('" .. ply:SteamID() .. "', 1, 0);" )
 			ply._NeedsRewarding = true
 			
@@ -30,19 +30,19 @@ function SQLSetup( ply, vip )
 			if vip then
 			
 				if res[1].current != 1 then
-					print("you should be current!")
+					//print("you should be current!")
 					Database.Query( "UPDATE `gm_vip` SET `current` = 1 WHERE `steamid` = '" .. ply:SteamID() .. "';" )
 				end
 				
 				if res[1].rewarded != 1 then
-					print("what! why don't you have a reward.")
+					//print("what! why don't you have a reward.")
 					ply._NeedsRewarding = true
 				end
 				
 			end
 			
 			if not vip and res[1].current != 0 then
-				print("removing vip")
+				//print("removing vip")
 				Database.Query( "UPDATE `gm_vip` SET `current` = 0 WHERE `steamid` = '" .. ply:SteamID() .. "';" )
 			end
 			
