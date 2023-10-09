@@ -53,7 +53,7 @@ EntityLimit = 10
 NextTime = NextTime or -1
 StartTime = StartTime or 0
 NextDelay = 60 * 30
-ActiveLength = 60 * 5
+ActiveLength = 60 * 3
 
 Positions = {
     Vector(303.9, 2454.8, 192.03),

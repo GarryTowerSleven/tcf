@@ -39,8 +39,8 @@ function ENT:Touch( ply )
 
 	self.Used = true
 
-	self:EmitSound( self.SoundOpen, 80, math.random(80,125) )
-	self:EmitSound( self.SoundCollect, 90, 100 )	
+	self:EmitSound( self.SoundOpen, 65, math.random(80,125), .5 )
+	self:EmitSound( self.SoundCollect, 65, 100, .5 )	
 
     ply:SetNet( "Candy", ply:GetNet( "Candy", 0 ) + 1 )
 	ply:AddAchievement( ACHIEVEMENTS.HALLOWEENCANDY, 1 )
