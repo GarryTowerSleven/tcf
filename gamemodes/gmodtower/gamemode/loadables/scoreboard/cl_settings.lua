@@ -550,7 +550,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:CheckBox( "Draw Players While Playing Blockles", "gmt_tetris_drawplayers" )
 			--self:Slider( "Condo Snap Grid Size (hold C while dragging)", "gmt_invsnapsize", 2, 16 )
 			self:Divider()
-			self:Slider( "Suite Snap Grid Size", "gmt_itemsnapsize", 0, 16 )
+			self:Slider( "Item Snap Grid Size", "gmt_itemsnapsize", 0, 16 )
 		end
 
 	end
