@@ -33,7 +33,7 @@ function SetupPlayer( ply, id )
 		ply:SetModel( ghostmodel )
 		ply.UCHType = TYPE_GHOST
 
-		if ply.IsVIP && ply:IsVIP() then
+		if ply:GetNet("VIP") then
 			ply:SetBodygroup( 1, 1 )
 		else
 			ply:SetBodygroup( 1, 0 )
@@ -186,7 +186,7 @@ function AnimateGhost( ply, velocity )
 	
 	if len2d > 0 then
 
-		if ply:IsVIP() then
+		if ply:GetNet("VIP") then
 			seq = "walk2"
 		else
 			seq = "walk"
@@ -194,7 +194,7 @@ function AnimateGhost( ply, velocity )
 
 	else
 
-		if ply:IsVIP() then
+		if ply:GetNet("VIP") then
 			seq = "idle2"
 		end
 
@@ -208,7 +208,7 @@ function AnimateGhost( ply, velocity )
 		ply:AnimRestartGesture( GESTURE_SLOT_GRENADE, ACT_GESTURE_RANGE_ATTACK2, true )
 	end
 
-	if ply:IsVIP() && CurTime() >= ply.LastSippyCup then
+	if ply:GetNet("VIP") && CurTime() >= ply.LastSippyCup then
 
 		ply.LastSippyCup = CurTime() + math.Rand( 20, 40 )
 		ply:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GESTURE_MELEE_ATTACK1, true )
