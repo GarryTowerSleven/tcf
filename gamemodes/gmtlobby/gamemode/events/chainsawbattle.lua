@@ -2,8 +2,8 @@ local EVENT = {}
 
 EVENT.BattleType = "Chainsaw Battle"
 
-EVENT.MinLength = 60 * 5
-EVENT.MaxLength = 60 * 8
+EVENT.MinLength = 60 * 2
+EVENT.MaxLength = 60 * 3
 
 EVENT.Weapon = "weapon_chainsaw"
 

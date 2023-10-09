@@ -1,7 +1,7 @@
 local EVENT = {}
 
-EVENT.MinLength = 60 * 5
-EVENT.MaxLength = 60 * 8
+EVENT.MinLength = 60 * 2
+EVENT.MaxLength = 60 * 3
 
 EVENT.Entity = "gmt_minigame_balloon"
 EVENT.Weapon = "weapon_crossbow"
