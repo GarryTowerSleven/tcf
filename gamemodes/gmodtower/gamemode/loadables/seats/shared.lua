@@ -179,6 +179,16 @@ ChairOffsets = {
 		{ Pos = Vector(3, 0, 0) },
 		{ Pos = Vector(3, -25, 0) },
 	},
+	["models/props/de_inferno/bench_concrete.mdl"] = {
+		{ Pos = Vector(3, 35, 13) },
+		{ Pos = Vector(3, 0, 13) },
+		{ Pos = Vector(3, -35, 13) },
+	},
+	["models/props/de_inferno/bench_wood.mdl"] = {
+		{ Pos = Vector(2, 35, 19) },
+		{ Pos = Vector(2, 0, 19) },
+		{ Pos = Vector(2, -35, 19) },
+	},
 	["models/map_detail/sofa_lobby.mdl"] = {
 		{ Pos = Vector(30, 0, 15), Ang = Angle(0, 180, 0) },
 		{ Pos = Vector(0, 0, 15), Ang = Angle(0, 180, 0) },
@@ -224,10 +234,15 @@ NotRight = {
 	["models/gmod_tower/theater_seat.mdl"]		= 180,
 	["models/gmod_tower/suite_booth.mdl"]		= 90,
 	["models/props_vtmb/sofa.mdl"]				= 0,
+	["models/props/de_inferno/bench_wood.mdl"]	= 90,
 	["models/props_vtmb/armchair.mdl"]			= 0,
 	["models/props_vtmb/hotelchair.mdl"]			= 180,
 	["models/haxxer/me2_props/illusive_chair.mdl"]	= 90,
 	["models/haxxer/me2_props/reclining_chair.mdl"]	= 0,
+}
+
+NotRight2 = {	
+	["models/props/de_inferno/bench_wood.mdl"]	= -10,
 }
 
 DefaultSitSound = Sound("sunabouzu/chair_sit.wav")

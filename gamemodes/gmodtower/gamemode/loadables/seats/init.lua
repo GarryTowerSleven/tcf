@@ -83,6 +83,10 @@ function ForceEnterGivenSeat( seat, ply, hitpos )
 		ang:RotateAroundAxis(seat:GetUp(), -90)
 	end
 
+	if NotRight2[model] then
+		ang:RotateAroundAxis(seat:GetRight(), NotRight2[model])
+	end
+	
 	local s = CreateSeatAtPos(seat:LocalToWorld(offsets[pos].Pos), ang)
 	s:SetParent(seat)
 	s:SetOwner(ply)
