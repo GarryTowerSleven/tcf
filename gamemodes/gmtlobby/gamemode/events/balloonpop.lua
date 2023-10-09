@@ -202,7 +202,7 @@ function EVENT:Start()
 
         ply:GiveMoney( money/10, nil, nil, true )
 
-        self.TotalMoney = self.TotalMoney + money
+        self.TotalMoney = self.TotalMoney + money/10
 
         ply:AddAchievement( ACHIEVEMENTS.MGPOPPER, 1 )
 
