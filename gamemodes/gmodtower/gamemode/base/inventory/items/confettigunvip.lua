@@ -11,7 +11,7 @@ ITEM.Equippable = true
 ITEM.WeaponSafe = true
 
 ITEM.StoreId = GTowerStore.VIP
-ITEM.StorePrice = 1000
+ITEM.StorePrice = 5000
 
 function ITEM:IsWeapon()
 	return true
