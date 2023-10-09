@@ -48,11 +48,11 @@ Active = Active or false
 
 Entities = Entities or {}
 SpawnEntity = IsHalloween and "gmt_item_candybucket" or "gmt_item_present"
-EntityLimit = 10
+EntityLimit = 25
 
 NextTime = NextTime or -1
 StartTime = StartTime or 0
-NextDelay = 60 * 30
+NextDelay = 60 * math.random( 15, 30 )
 ActiveLength = 60 * 3
 
 Positions = {
