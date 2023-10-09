@@ -30,8 +30,8 @@ EVENT.EntityDelay = .5
 
 EVENT.LastEntity = 0
 
-EVENT.MoneyOnPop = 75
-EVENT.DistFactor = 2200
+//EVENT.MoneyOnPop = 75
+//EVENT.DistFactor = 2200
 EVENT.TotalMoney = 0
 
 function EVENT:GiveWeapon( ply )
@@ -195,10 +195,13 @@ function EVENT:Start()
         if not IsValid( ply ) then return end
         if not balloon._Event then return end
 
-        local dist = math.Clamp( balloon:GetPos().z - ply:GetPos().z, 0, self.DistFactor )
-        local money = math.Clamp( self.MoneyOnPop * ( dist / self.DistFactor ), 10, self.MoneyOnPop ) / 10
-
-        money = math.Round( money )
+		/* Kity why did you turn into satan for a second
+		local dist = math.Clamp( balloon:GetPos().z - ply:GetPos().z, 0, self.DistFactor )
+		local money = math.Clamp( self.MoneyOnPop * ( dist / self.DistFactor ), 10, self.MoneyOnPop ) / 10
+		money = math.Round( money )
+		*/
+		local distance = math.max( ( balloon:GetPos().z - ply:GetPos().z ), 275 )
+		local money = math.min( math.Round(distance / 275), 10 )
 
         ply:GiveMoney( money, nil, nil, true )
 
