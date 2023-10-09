@@ -8,7 +8,7 @@ EVENT.Weapon = "weapon_crowbar"
 EVENT.Locations = {
 
     [ Location.GetIDByName( "Suites" ) ] = {
-        limit = 25,
+        limit = 50,
         pos = {
             min = Vector( 4911, -10543, 4100 ),
             max = Vector( 4184, -9816, 4100 ),    
@@ -24,7 +24,7 @@ EVENT.Locations = {
     },
 
     [ Location.GetIDByName( "Entertainment Plaza" ) ] = {
-        limit = 50,
+        limit = 75,
         pos = {
             min = Vector( 675, 200, 50 ),
             max = Vector( 1175, 1600, 50 ),    
@@ -32,7 +32,7 @@ EVENT.Locations = {
     },
 
     [ Location.GetIDByName( "Gamemode Ports" ) ] = {
-        limit = 25,
+        limit = 50,
         pos = {
             min = Vector( 10000, 10260, 6657 ),
             max = Vector( 11020, 10985, 6657 ),    
@@ -123,6 +123,8 @@ function EVENT:SpawnerThink()
     local data = self.Locations[ self.ActiveLocation ]
     local limit = data.limit or 25
 
+	limit = math.Round( limit * ( smashers * .1 ) )
+	
     if table.Count( self.Entities ) < limit then
 
         if smashers >= 6 then
