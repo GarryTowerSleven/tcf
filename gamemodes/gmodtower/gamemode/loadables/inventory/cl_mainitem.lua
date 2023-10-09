@@ -615,7 +615,7 @@ function PANEL:DraggingEntThink()
     local BaseAngle = GhostEntity:GetAngles()
 
     if itm.Manipulator then
-        NewPos = itm.Manipulator(BaseAngle, NewPos, self.GhostHitNormal)
+        GTowerItems.NewPos = itm.Manipulator(BaseAngle, GTowerItems.NewPos, self.GhostHitNormal)
     end
 
     if GTowerItems.Snapping:GetBool() then
