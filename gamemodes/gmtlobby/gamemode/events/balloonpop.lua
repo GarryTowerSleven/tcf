@@ -200,7 +200,7 @@ function EVENT:Start()
 
         money = math.Round( money )
 
-        ply:GiveMoney( money, nil, nil, true )
+        ply:GiveMoney( money/10, nil, nil, true )
 
         self.TotalMoney = self.TotalMoney + money
 
