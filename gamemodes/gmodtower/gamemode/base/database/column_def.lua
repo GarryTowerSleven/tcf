@@ -234,20 +234,35 @@ hook.Add( "DatabaseColumns", "BasicColumns", function()
         Casino
     */
     if Cards then
-
+		
+        Database.Columns.Add( "pendingmoney", {
+            default = function( ply )
+                ply._PendingMoney = 0
+            end,
+			
+            set = function( ply, val )
+                ply._PendingMoney = ( tonumber( val ) or 0 )
+            end,
+			
+            get = function( ply )
+                return tonumber( ply._PendingMoney ) or 0
+            end,
+        } )
+		
         Database.Columns.Add( "chips", {
             default = function( ply )
                 ply:SetPokerChips( 0 )
             end,
-    
+			
             set = function( ply, val )
                 ply:SetPokerChips( tonumber( val ) or 0 )
             end,
+			
             get = function( ply )
                 return math.Clamp( ply:PokerChips(), 0, 2147483647 )
             end,
         } )
-
+		
     end
 
     /*

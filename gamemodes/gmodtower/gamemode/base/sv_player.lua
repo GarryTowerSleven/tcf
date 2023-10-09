@@ -134,6 +134,12 @@ hook.Add( "PlayerSpawnClient", "JoinMessages", function( ply )
     else
         ply:MsgI( "gmtsmall", "LobbyWelcome", ply:GetName() )
     end
+	
+	if ply._PendingMoney > 0 then
+		ply:MsgI( "gmtsmall", "VideoPokerRefund", ply._PendingMoney )
+		ply:AddMoney( ply._PendingMoney, true )
+		ply._PendingMoney = 0
+	end
 
 end )
 

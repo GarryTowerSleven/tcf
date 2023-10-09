@@ -396,7 +396,7 @@ L.AddWord( 1, "VideoPokerEjectIdle",	"[Video Poker] You have been ejected due to
 L.AddWord( 1, "VideoPokerEjectTooLong",	"[Video Poker] You have been ejected for playing too long!")
 L.AddWord( 1, "VideoPokerProfit",	"[Video Poker] You {1} {2} GMC from your video poker session." )
 L.AddWord( 1, "VideoPokerSpend",	"[Video Poker] You lost {1} credit{2}" )
-L.AddWord( 1, "VideoPokerRefound",	"[Video Poker] You were given {1} GMC because the server crashed/restarted.")
+L.AddWord( 1, "VideoPokerRefund",	"[Video Poker] You were given {1} GMC due to leaving mid play session.")
 L.AddWord( 1, "VideoPokerIsZero",	"[Video Poker] You can't start with zero credits!" )
 L.AddWord( 1, "VideoPokerBankrupt",	"[Video Poker] You ran out of credits to spend!" )
 
