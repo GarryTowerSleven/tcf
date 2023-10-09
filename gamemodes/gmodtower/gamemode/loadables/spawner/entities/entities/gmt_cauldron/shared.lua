@@ -24,6 +24,18 @@ function ENT:Initialize()
 
 end
 
+function ENT:CanUse( ply )
+
+	local candy = ply:GetNet( "Candy", 0 )
+
+	if candy > 0 then
+		return true, "REDEEM ( " .. tostring( candy ) .. " BUCKETS LEFT )"
+	else
+		return false, "FIND MORE CANDY!"
+	end
+	
+end
+
 if CLIENT then return end
 
 function ENT:Use( ply )
@@ -72,26 +84,34 @@ function ENT:TakeCandy( ply )
 
 	local rnd = math.Rand(0, 1)
 
+	local pumpkins = {
+		ITEMS.suite_pumpkin,
+		ITEMS.suite_pumpkin_squashed,
+		ITEMS.suite_pumpkin_stout,
+		ITEMS.suite_pumpkin_tall,
+		ITEMS.suite_pumpkin_deformed
+	}
+	
 	if rnd <= .001 then
 		self:GiveItem( ply, ITEMS.piano)
-	elseif rnd <= .002 then
-		self:GiveItem( ply, ITEMS.jetpack2)
 	elseif rnd <= .01 then
 		self:GiveItem( ply, ITEMS.nesguitar)
-	elseif rnd <= .1 then
+	elseif rnd <= .05 then
 		self:GiveItem( ply, ITEMS.toytraincart)
-	elseif rnd <= .2 then
+	elseif rnd <= .1 then
 		self:GiveItem( ply, ITEMS.scarytoyhouse)
-	elseif rnd <= .25 then
+	elseif rnd <= .2 then
 		self:GiveItem( ply, ITEMS.gravestone)
-	elseif rnd <= .35 then
-		self:GiveItem( ply, ITEMS.mysterycatsack)
-	elseif rnd <= .3 then
+	elseif rnd <= .25 then
 		self:GiveItem( ply, ITEMS.cauldron)
-	elseif rnd <= .5 then
+	elseif rnd <= .3 then
+		self:GiveItem( ply, ITEMS.mysterycatsack)
+	elseif rnd <= .35 then
 		self:GiveItem( ply, ITEMS.toyspider)
+	elseif rnd <= .5 then
+		self:GiveItem( ply, table.Random(pumpkins) )
 	else
-		ply:AddMoney( math.random( 12, 35 ) )
+		ply:AddMoney( math.random( 10, 100 ) )
 	end
 
 	//ply:Msg2( "You can throw another candy into the cauldron in 2 minutes." )
@@ -150,16 +170,4 @@ function ENT:GiveItem( ply, item )
 		end
 	end
 
-end
-
-function ENT:CanUse( ply )
-
-	local candy = ply:GetNet( "Candy", 0 )
-
-	if candy > 0 then
-		return true, "Redeem ( " .. tostring( candy ) .. " Buckets Left )"
-	else
-		return false, "Find More Candy!"
-	end
-	
 end
