@@ -134,7 +134,7 @@ function ENT:Attack( enemy, hit )
 	if hit then
 		enemy:TakeDamage( self.Damage, self )
 
-		if enemy:IsPlayer() && self:GetClass() == "ghost_ghost" && IsHalloweenMap() then
+		if enemy:IsPlayer() && self:GetClass() == "ghost_ghost" && IsHalloween then
 			enemy:AddAchievement( ACHIEVEMENTS.HALLOWEENCREATURE, 1 )
 		end
 

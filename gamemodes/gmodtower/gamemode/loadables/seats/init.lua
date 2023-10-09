@@ -40,6 +40,7 @@ function ForceEnterGivenSeat( seat, ply, hitpos )
 	if !IsValid( seat ) || !IsValid( ply ) then return end
 
 	local model = seat:GetModel()
+	if not model then return end
 
 	local offsets = ChairOffsets[string.lower(model)]
 	if !offsets then return end

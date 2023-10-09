@@ -1,3 +1,5 @@
+local static = IsHalloween
+
 surface.CreateFont( "TetrisLeaderTitle", {
 	font = "Oswald",
 	size = 130,
@@ -109,14 +111,26 @@ hook.Add( "PostDrawTranslucentRenderables", "DrawTetrisBoard", function()
 		entryMargin = 68
 	end
 
-	local plyVec, plyAng = WorldToLocal( LocalPlayer():GetPos(), LocalPlayer():GetAngles(), boardPosition, Angle(0,0,0) )
-	
-	local targetBoardAngle = Angle(0, plyVec:Angle().y + 90, 90)
-	if not lastBoardAngle then lastBoardAngle = plyAng end
-	
-	lastBoardAngle = LerpAngle( RealFrameTime() * 2, lastBoardAngle, targetBoardAngle )
+	local targetBoardAngle = angle_zero
+	local pos = boardPosition
 
-	cam.Start3D2D( Vector( boardPosition.x, boardPosition.y, boardPosition.z + heightWobble ), lastBoardAngle, 0.25 )
+	if static then
+		
+		lastBoardAngle = Angle( 0, 90, 90 )
+		pos = pos + Vector( -765, 0, 0 )
+
+	else
+	
+		local plyVec, plyAng = WorldToLocal( LocalPlayer():GetPos(), LocalPlayer():GetAngles(), boardPosition, Angle(0,0,0) )
+	
+		targetBoardAngle = Angle(0, plyVec:Angle().y + 90, 90)
+		if not lastBoardAngle then lastBoardAngle = plyAng end
+	
+		lastBoardAngle = LerpAngle( RealFrameTime() * 2, lastBoardAngle, targetBoardAngle )
+
+	end
+
+	cam.Start3D2D( Vector( pos.x, pos.y, pos.z + heightWobble ), lastBoardAngle, 0.25 )
 		drawBackground()
 		drawLeaderBlocks()
 		drawTitle()
