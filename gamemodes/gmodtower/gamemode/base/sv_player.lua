@@ -137,7 +137,7 @@ hook.Add( "PlayerSpawnClient", "JoinMessages", function( ply )
 	
 	if ply._NeedsRewarding and Database.IsConnected() then
 		ply:MsgI( "gmtsmall", "VIPGiveReward" )
-		ply:AddMoney( 5000, true )
+		ply:AddMoney( 1000, true )
 		Database.Query( "UPDATE `gm_vip` SET `rewarded` = 1 WHERE `steamid` = '" .. ply:SteamID() .. "';" )
 	end
 	

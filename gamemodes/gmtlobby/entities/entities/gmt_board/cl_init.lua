@@ -17,7 +17,8 @@ surface.CreateFont( "SelectMapFont", {
 })
 
 local donationFeatures = {
-	"A one time gift of 5,000 GMC",
+	"A one time reward of 1,000 GMC",
+	"A colorable glow for use in the lobby",
 	"VIP only store and items in-game",
 	"VIP icon in-game",
 	"Suite entity limit raised to 400",
