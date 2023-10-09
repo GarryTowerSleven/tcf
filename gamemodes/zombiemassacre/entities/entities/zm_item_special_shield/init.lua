@@ -23,10 +23,16 @@ function ENT:Think()
 
 		self:EmitSound(self.HitSound)
 
-		target:SetVelocity( target:GetAngles():Forward() * 1000000 )
-		target:TakeDamage( 100, self:GetOwner(), self )
+		local dmg = 100
+
+		if string.StartWith( target:GetClass(), "zm_npc_boss_" ) then
+			dmg = 10
+		else
+			target:SetVelocity( target:GetAngles():Forward() * 1000000 )
+		end
 
 		self.KillCount = self.KillCount + 1
+		target:TakeDamage( dmg, self:GetOwner(), self )
 	end
 
 	if self.KillCount != self.PrevKillCount then
