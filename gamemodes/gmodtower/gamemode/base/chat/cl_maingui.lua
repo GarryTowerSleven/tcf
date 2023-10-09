@@ -129,37 +129,39 @@ function PANEL:Init()
 		self.inputpanel.AutoCompleted = nil
 	end
 
-	if GTowerChat.ChatGroups and IsLobby then
+	if GTowerChat.ChatGroups then
 
 		self.prefixpanel = vgui.Create( "DLabel", self )
 		self.prefixpanel:SetFont( "ChatVerdana16" )
-
-		self.SettingsButton = vgui.Create( "DImageButton", self )
-		self.SettingsButton:SetSize( 16, 16 )
-		self.SettingsButton:SetImage( "materials/gmod_tower/icons/chat_settings.png" )
-		self.SettingsButton.Think = function( self )
-			if self:IsMouseOver( self ) then
-				self:SetAlpha( 100 )
-			else
-				self:SetAlpha( 255 )
+		
+		if IsLobby then
+			self.SettingsButton = vgui.Create( "DImageButton", self )
+			self.SettingsButton:SetSize( 16, 16 )
+			self.SettingsButton:SetImage( "materials/gmod_tower/icons/chat_settings.png" )
+			self.SettingsButton.Think = function( self )
+				if self:IsMouseOver( self ) then
+					self:SetAlpha( 100 )
+				else
+					self:SetAlpha( 255 )
+				end
 			end
+			self.SettingsButton.DoClick = function()
+				if self.SettingsGUI and IsValid( self.SettingsGUI ) then
+					self.SettingsGUI:ToggleVisible()
+					self.SettingsGUI:SetPos( gui.MouseX() + 12, gui.MouseY() - 64 )
+				end
+
+				if self.EmoteGUI and IsValid( self.EmoteGUI ) then
+					self.EmoteGUI:Remove()
+					self.EmoteGUI = nil
+				end
+			end
+
+			self.SettingsGUI = vgui.Create("GTowerChatSettings")
+			self.SettingsGUI:SetOwner( self, self.textpanel )
+			self.SettingsGUI:SetVisible( false )
+			self.SettingsGUI:SetPos( gui.MouseX() + 6, gui.MouseY() - 48 )
 		end
-		self.SettingsButton.DoClick = function()
-			if self.SettingsGUI and IsValid( self.SettingsGUI ) then
-				self.SettingsGUI:ToggleVisible()
-				self.SettingsGUI:SetPos( gui.MouseX() + 12, gui.MouseY() - 64 )
-			end
-
-			if self.EmoteGUI and IsValid( self.EmoteGUI ) then
-				self.EmoteGUI:Remove()
-				self.EmoteGUI = nil
-			end
-		end
-
-		self.SettingsGUI = vgui.Create("GTowerChatSettings")
-		self.SettingsGUI:SetOwner( self, self.textpanel )
-		self.SettingsGUI:SetVisible( false )
-		self.SettingsGUI:SetPos( gui.MouseX() + 6, gui.MouseY() - 48 )
 
 	end
 
@@ -244,7 +246,7 @@ function PANEL:DragThink()
 	end
 
 	-- Drag update
-	if self.dragging and input.IsMouseDown(MOUSE_LEFT) then
+	if self.dragging and input.IsMouseDown(MOUSE_LEFT) and self.inputpanel:IsVisible() then
 		local newx, newy = gui.MouseX() + self.dragx, gui.MouseY() + self.dragy
 
 		newx = math.Clamp( newx, 0, ScrW() - self:GetWide() )
