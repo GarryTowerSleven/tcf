@@ -30,7 +30,7 @@ local function LoadFriends()
 	end
 
 	MsgN( "Loaded friends successfully." )
-	//SendFriendStatus()
+	SendFriendStatus()
 
 end
 
@@ -64,7 +64,7 @@ function SetFriend( ply, relationship )
 	ChangeRelationship( ply, List[ply:SteamID()] or 0, relationship )
 
 	-- Update server
-	//SendFriendStatus()
+	SendFriendStatus()
 
 	-- Save
 	SaveFriends()
@@ -112,14 +112,16 @@ function ChangeRelationship( ply, oldRelationship, newRelationship )
 
 end
 
-/*
 -- Sends friends relationships to the server
 function SendFriendStatus()
 
 	if not List then return end
 
 	net.Start("FriendStatus")
-		net.WriteTable( List )
+		for steamid, status in pairs(List) do
+			local strippedSteamId = string.gsub( steamid, "STEAM_", "" )
+			net.WriteString( strippedSteamId )
+		end
 	net.SendToServer()
 
 	LocalPlayer()._Friends = List
@@ -127,7 +129,7 @@ function SendFriendStatus()
 	if DEBUG then MsgN( "Update friends to server." ) end
 
 end
-*/
+
 hook.Add( "PlayerActionBoxPanel", "FriendActions", function( panel ) 
 
 	-- Friend
