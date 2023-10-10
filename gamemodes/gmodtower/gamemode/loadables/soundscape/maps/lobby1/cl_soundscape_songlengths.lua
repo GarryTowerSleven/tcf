@@ -75,6 +75,12 @@ soundLengths["sound/gmodtower/music/casino1.mp3"] = 280.503000
 soundLengths["sound/gmodtower/music/casino2.mp3"] = 250.723000
 soundLengths["sound/gmodtower/music/casino3.mp3"] = 307.644000
 soundLengths["sound/gmodtower/music/bar.mp3"] = 147.184000
+soundLengths["sound/gmodtower/music/halloween/haunted.mp3"] = 214.439000
+soundLengths["sound/gmodtower/music/halloween/lobby1.mp3"] = 188.787000
+soundLengths["sound/gmodtower/music/halloween/lobby2.mp3"] = 157.701000
+soundLengths["sound/gmodtower/music/halloween/roof.mp3"] = 64.836000
+soundLengths["sound/gmodtower/music/halloween/store.mp3"] = 63.347000
+soundLengths["sound/gmodtower/music/halloween/suite1.mp3"] = 163.474000
 
 soundscape = soundscape or {}
 soundscape.SoundLengths = soundLengths
