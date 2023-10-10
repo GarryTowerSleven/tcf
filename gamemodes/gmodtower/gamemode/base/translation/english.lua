@@ -339,7 +339,7 @@ L.AddWord( 1, "LobbyWelcome",	"Welcome back, {1}! Your profile has been loaded."
 L.AddWord( 1, "LobbyWelcomeNew",	"Welcome to GMod Tower!")
 L.AddWord( 1, "KickLobbyAFK",	"{1} was kicked from tower for being AFK.")
 //L.AddWord( 1, "VIPGiveItem",	"Thank you for donating! You have been given 5,000 GMC and a wine gift basket! (located in your trunk)")
-L.AddWord( 1, "VIPGiveReward",	"Thank you for joining our steam group! You have been given 5,000 GMC, and our eternal love. <3")
+L.AddWord( 1, "VIPGiveReward",	"Thank you for joining our steam group! You have been given 1,000 GMC, and our eternal love. <3")
 L.AddWord( 1, "BackpackShouldEquip",	"You should equip the backpack before trying to use it.")
 
 
