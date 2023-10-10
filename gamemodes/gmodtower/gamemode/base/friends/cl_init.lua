@@ -30,7 +30,7 @@ local function LoadFriends()
 	end
 
 	MsgN( "Loaded friends successfully." )
-	SendFriendStatus()
+	//SendFriendStatus()
 
 end
 
@@ -64,7 +64,7 @@ function SetFriend( ply, relationship )
 	ChangeRelationship( ply, List[ply:SteamID()] or 0, relationship )
 
 	-- Update server
-	SendFriendStatus()
+	//SendFriendStatus()
 
 	-- Save
 	SaveFriends()
@@ -112,6 +112,7 @@ function ChangeRelationship( ply, oldRelationship, newRelationship )
 
 end
 
+/*
 -- Sends friends relationships to the server
 function SendFriendStatus()
 
@@ -126,7 +127,7 @@ function SendFriendStatus()
 	if DEBUG then MsgN( "Update friends to server." ) end
 
 end
-
+*/
 hook.Add( "PlayerActionBoxPanel", "FriendActions", function( panel ) 
 
 	-- Friend

@@ -56,7 +56,7 @@ end
 hook.Add( "PlayerCanHearPlayersVoice", "BlockedVoices", function( listener, talker )
 	if ( Friends.IsBlocked( listener, talker ) ) then return false end
 end )
-
+/*
 net.Receive( "FriendStatus", function( len, ply )
 
 	local friends = net.ReadTable()
@@ -67,5 +67,5 @@ net.Receive( "FriendStatus", function( len, ply )
 	end
 
 end )
-
-util.AddNetworkString( "FriendStatus" )
+/*
+//util.AddNetworkString( "FriendStatus" )
