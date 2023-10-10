@@ -99,15 +99,17 @@ function ENT:TakeCandy( ply )
 	elseif rnd <= .05 then
 		self:GiveItem( ply, ITEMS.toytraincart)
 	elseif rnd <= .1 then
+		self:GiveItem( ply, ITEMS.gravestone)
+	elseif rnd <= .15 then
 		self:GiveItem( ply, ITEMS.scarytoyhouse)
 	elseif rnd <= .2 then
-		self:GiveItem( ply, ITEMS.gravestone)
+		self:GiveItem( ply, ITEMS.lantern_lamp)
 	elseif rnd <= .25 then
 		self:GiveItem( ply, ITEMS.cauldron)
 	elseif rnd <= .3 then
-		self:GiveItem( ply, ITEMS.mysterycatsack)
-	elseif rnd <= .35 then
 		self:GiveItem( ply, ITEMS.toyspider)
+	elseif rnd <= .35 then
+		self:GiveItem( ply, ITEMS.mysterycatsack)
 	elseif rnd <= .5 then
 		self:GiveItem( ply, table.Random(pumpkins) )
 	else
