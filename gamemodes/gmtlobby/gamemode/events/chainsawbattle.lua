@@ -167,6 +167,14 @@ function EVENT:Start()
 
     self.HookGroup:EnableHooks()
 	
+	if !IsValid( FlyingText ) then
+		FlyingText = ents.Create("gmt_skymsg")
+		FlyingText:KeyValue( "text", "Chainsaw Battle!" )
+		FlyingText:Spawn()
+	end
+
+	FlyingText:SetPos( Vector(938.531250, 1505.062500, 409.437500) )
+	
 end
 
 function EVENT:End()
@@ -192,6 +200,11 @@ function EVENT:End()
 
     end
 
+	if IsValid( FlyingText ) then
+		FlyingText:Remove()
+		FlyingText = nil
+	end
+	
 end
 
 minievent.Register( "ChainsawBattle", EVENT )
