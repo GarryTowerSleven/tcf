@@ -170,25 +170,31 @@ function ENT:Think()
 			self.CurrentPlayer = self:GetOwner()
 			self:StartMusic()
 		else
-			if self.CurrentPlayer == LocalPlayer() then
-				if !DrawPlayers:GetBool() then
-					for k,v in ipairs(Location.GetPlayersInLocation( LocalPlayer():Location() )) do
+			self:AdjustMusic( self.Points )
+		end
+		
+		if self.CurrentPlayer == LocalPlayer() then
+			if !DrawPlayers:GetBool() then
+				for _,v in ipairs( player.GetAll() ) do
+					if v != LocalPlayer() then
 						if not v._TetrisHidden then
 							v:SetNoDrawAll(true)
 							v._TetrisHidden = true
 						end
 					end
-				else
-					for k,v in ipairs(Location.GetPlayersInLocation( LocalPlayer():Location() )) do
+				end
+			else
+				for _,v in ipairs( player.GetAll() ) do
+					if v != LocalPlayer() then
 						if v._TetrisHidden then
 							v:SetNoDrawAll(false)
 							v._TetrisHidden = false
 						end
 					end
 				end
-			end		
-			self:AdjustMusic( self.Points )
+			end
 		end
+		
 	end
 
 	self:NextThink( UnPredictedCurTime() + 1.0 )
@@ -210,6 +216,14 @@ function ENT:StopMusic()
 	if self.Music && self.Music:IsPlaying() then
 		self.Music:FadeOut( 1 )
 		self.Music = nil
+		for _,v in ipairs( player.GetAll() ) do
+			if v != LocalPlayer() then
+				if v._TetrisHidden then
+					v:SetNoDrawAll(false)
+					v._TetrisHidden = false
+				end
+			end
+		end
 	end
 
 end
