@@ -87,6 +87,8 @@ function EVENT:PlayerSpawn( ply )
         ply:SetPos( spawn.pos )
         ply:SetEyeAngles( spawn.ang )
 
+		ply:SetVelocity( VectorRand() * 300 )
+		
         self:GiveWeapon( ply )
 
     end
