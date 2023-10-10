@@ -129,7 +129,7 @@ function ENT:DrawMain()
 			draw.SimpleText( "THANKS FOR JOINING!", "SelectMapFont", 0, 0, Color(255,255,255), TEXT_ALIGN_LEFT )
 			draw.SimpleText( "by the way...", "SelectMapFont", 0, 70, Color(255,255,255), TEXT_ALIGN_LEFT )
 
-			draw.SimpleText( "You can press E on this to open the group discord", "SmallHeaderFont", 30, 300, Color(255,255,255), TEXT_ALIGN_LEFT )
+			//draw.SimpleText( "You can press E on this to open the group discord", "SmallHeaderFont", 30, 300, Color(255,255,255), TEXT_ALIGN_LEFT )
 
 			draw.SimpleText( "You're awesome ♥ ", "SmallHeaderFont", 30, 180, Color(255,255,255), TEXT_ALIGN_LEFT )
 

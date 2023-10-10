@@ -24,10 +24,10 @@ end
 
 function ENT:Use(c , a)
 
-	if self.Entity:GetSkin() == 1 then
+	/*if self.Entity:GetSkin() == 1 then
 		net.Start("OpenDonation")
 		net.Send( c )
-	elseif self.Entity:GetSkin() == 5 then
+	else*/if self.Entity:GetSkin() == 5 then
 		net.Start("OpenDownload")
 		net.Send( c )
 	end
