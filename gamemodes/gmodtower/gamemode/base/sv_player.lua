@@ -125,7 +125,7 @@ end
 
 hook.Add( "PlayerSpawnClient", "JoinMessages", function( ply )
 
-    if not IsLobby then return end
+    if not IsLobby or ply:IsBot() then return end
 
     ply:Joined()
 
