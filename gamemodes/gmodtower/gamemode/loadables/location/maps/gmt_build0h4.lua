@@ -68,14 +68,14 @@ Add( 7, {
 } )
 Add( 87, {
     Name = "Hidden Cave",
-    Group = nil,
+    Group = "lobbyroof",
     Min = Vector( -680, -3460, 1364 ),
     Max = Vector( -141, -3080, 2748 ),
     Priority = 2,
 } )
 Add( 88, {
     Name = "Lobby Roof Tunnels",
-    Group = nil,
+    Group = "lobbyroof",
     Min = Vector( -148, -3600, 2549 ),
     Max = Vector( 1237, -2530, 3553 ),
     Priority = 1,
