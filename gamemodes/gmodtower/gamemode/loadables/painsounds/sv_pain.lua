@@ -1,5 +1,5 @@
-hook.Add("EntityTakeDamage", "PainSounds", function(e, dmg)
-    if e:IsPlayer() then
+hook.Add("PostEntityTakeDamage", "PainSounds", function(e, dmg, took)
+    if e:IsPlayer() && took then
 		e.LastPainTime = e.LastPainTime or CurTime()
 		if e.LastPainTime <= CurTime() then
 			local d = dmg:GetDamage()
