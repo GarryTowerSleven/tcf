@@ -146,7 +146,7 @@ function ENT:GiveItem( ply, item )
 	
 	if not succ then
 		ply:Msg2( "You got a " .. ItemID.Name .. ", but your inventory is full, you have been given the price of the item." )
-		ply:GiveMoney( ItemID.StorePrice / 2 or 100 )
+		ply:GiveMoney( ItemID.SellPrice() or 100 )
 	else
 		// Item gooo
 		CreateModelBezier( {
