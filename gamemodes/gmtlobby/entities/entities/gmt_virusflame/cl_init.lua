@@ -29,9 +29,11 @@ function ENT:Think()
 		Flame:SetPos( pos )
 		Flame2:SetPos( pos )
 	
+		if owner == LocalPlayer() then 
 		local nodraw = !owner:ShouldDrawLocalPlayer()
 		Flame:SetNoDraw(nodraw)
 		Flame2:SetNoDraw(nodraw)
+		end
 
 
 	end
