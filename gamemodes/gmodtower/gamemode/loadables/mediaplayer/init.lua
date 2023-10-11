@@ -114,6 +114,9 @@ net.Receive( "MEDIAPLAYER.VoteMedia", function( len, ply )
 
     local mp = MediaPlayer.GetById( id ) 
     local mediaid = net.ReadString()
+	
+	if !mp or !mediaid then return end // i hope this works
+	
     local vote = mp.net.ReadVote()
 
     MediaPlayer.DoVote( ply, mp, mediaid, vote )
