@@ -123,7 +123,7 @@ function EVENT:SpawnerThink()
     local data = self.Locations[ self.ActiveLocation ]
     local limit = data.limit or 25
 
-	limit = math.min( math.Round( limit * ( smashers * .1 ) ), 5 ) // extreme dynamic obama calculations
+	limit = math.max( math.Round( limit * ( smashers * .1 ) ), 5 ) // extreme dynamic obama calculations
 	
     if table.Count( self.Entities ) < limit then
 
