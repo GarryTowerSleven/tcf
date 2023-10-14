@@ -1,0 +1,1 @@
+ENT.Base = "base_nextbot"

@@ -24,11 +24,11 @@ function PostEvent( ply, Name, mul, time )
  	mul = mul or 1
  	time = time or 0
 
-  net.Start( "postevent" )
-    net.WriteString( Name )
-    net.WriteFloat( mul )
-    net.WriteFloat( time )
-  net.Send( ply )
+	net.Start( "postevent" )
+		net.WriteString( Name )
+		net.WriteFloat( mul )
+		net.WriteFloat( time )
+	net.Send( ply )
 
 	/*umsg.Start( "postevent", ply )
 		umsg.String( Name )
@@ -36,4 +36,10 @@ function PostEvent( ply, Name, mul, time )
 		umsg.Float( time )
 	umsg.End()*/
 
+end
+
+local meta = FindMetaTable( "Player" )
+
+function meta:PostEvent( name, mul, time )
+	PostEvent( self, name, mul, time )
 end
