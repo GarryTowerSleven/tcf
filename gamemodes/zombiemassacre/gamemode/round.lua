@@ -356,13 +356,25 @@ function GM:EndDay()
 	self:SetTime( 10 )
 	SetGlobalBool( "ZMDayOver", true )
 
-	for _, zom in ipairs( ents.FindByClass( "zm_npc_*" ) ) do
-		zom:Remove()
-	end
+	timer.Simple(2, function()
+		for _, zom in ipairs( ents.FindByClass( "zm_npc_*" ) ) do
+			local effectdata = EffectData()
+			effectdata:SetOrigin( zom:GetPos() )
+			util.Effect( "explosion", effectdata )
 
-	for _, equip in ipairs( ents.FindByClass( "zm_item_*" ) ) do
-		equip:Remove()
-	end
+			zom:EmitSound( "gmodtower/zom/weapons/explode4.wav", 100)
+
+			zom:Remove()
+		end
+
+		for _, equip in ipairs( ents.FindByClass( "zm_item_*" ) ) do
+			local effectdata = EffectData()
+			effectdata:SetOrigin( zom:GetPos() )
+			util.Effect( "explosion", effectdata )
+
+			equip:Remove()
+		end
+	end)
 
 	self:SetPlayersHidden( true )
 
