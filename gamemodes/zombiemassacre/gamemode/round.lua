@@ -48,7 +48,7 @@ function GM:Think()
 			ply:SetNWInt( "Lives", 2 )
 			ply:SetNWInt( "Points", 0 )
 			ply:StripAllInventory()
-
+			ply:SetNoDrawAll( false )
 		end
 	elseif self:GetState() == STATE_UPGRADING && self:GetTimeLeft() <= 0 then
 		for _, ply in ipairs( player.GetAll() ) do
@@ -360,12 +360,20 @@ function GM:EndDay()
 		zom:Remove()
 	end
 
-	/*for _, equip in ipairs( ents.FindByClass( "zm_item_*" ) ) do
+	for _, equip in ipairs( ents.FindByClass( "zm_item_*" ) ) do
 		equip:Remove()
-	end*/
+	end
+
+	self:SetPlayersHidden( true )
 
 	umsg.Start( "ZMShowScores" )
 		umsg.Bool( true )
 	umsg.End()
 
+end
+
+function GM:SetPlayersHidden(hide)
+	for _, ply in ipairs( player.GetAll() ) do
+		ply:SetNoDrawAll( hide )
+	end
 end
