@@ -10,9 +10,6 @@ concommand.AdminAdd( "gmt_create", function( ply, _, args )
 
 	local hitpos = ply:GetEyeTrace().HitPos
 
-	local loc = Location.Find( hitpos + Vector( 0, 0, 10 ) )
-	local loc_name = Location.GetFriendlyName( loc ) or "Somewhere"
-
 	if util.IsValidModel( arg ) then
 
 		local ent = ents.Create("prop_physics_multiplayer")
@@ -21,7 +18,7 @@ concommand.AdminAdd( "gmt_create", function( ply, _, args )
 		ent:SetModel( arg )
 		ent:Spawn()
 		
-		AdminNotif.SendStaff( Format( "%s has created a prop with model \"%s\" in: %s", ply:Nick(), arg, loc_name ), nil, "GREEN", 2 )
+		AdminNotif.SendStaff( Format( "%s has created a prop with model \"%s\"", ply:Nick(), arg ), nil, "GREEN", 2 )
 
 		return
 	end
@@ -32,7 +29,7 @@ concommand.AdminAdd( "gmt_create", function( ply, _, args )
 	ent:SetPos( hitpos )
 	ent:Spawn()
 
-	AdminNotif.SendStaff( Format( "%s has created a \"%s\" in: %s", ply:Nick(), ent:GetClass(), loc_name ), nil, "GREEN", 2 )
+	AdminNotif.SendStaff( Format( "%s has created a \"%s\"", ply:Nick(), ent:GetClass() ), nil, "GREEN", 2 )
 
 end )
 

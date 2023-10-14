@@ -69,7 +69,7 @@ RegisterAct( "rement", PERM_STAFF, function( ply, args )
 	if ent:IsPlayer() then return end
 	if ent:GetClass() == "func_brush" then return end
 
-	AdminNotif.SendStaff( Format( "%s has removed entity \"%s\" from: %s.", ply:Nick(), ent:GetClass(), ent:LocationName() ), nil, "RED", 2 )
+	AdminNotif.SendStaff( Format( "%s has removed entity \"%s\"", ply:Nick(), ent:GetClass() ), nil, "RED", 2 )
 
 	ent:Remove()
 
