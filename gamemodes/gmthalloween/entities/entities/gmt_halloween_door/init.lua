@@ -65,6 +65,12 @@ function ENT:TeleportPlayer( ply )
     ply:SetEyeAngles( self.TargetLocation:GetAngles() )
     ply:ScreenFade( SCREENFADE.IN, color_black, self.DoorTime, 0 )
 
+	if self.TargetLocation:GetName() == "madness_enter_destination" then
+		ply.ITM = self.TargetLocation
+	else
+		ply.ITM = nil
+	end
+
     ply:Freeze( false )
 
     // if ( IsValid( self.TargetDoor ) ) then

@@ -20,9 +20,12 @@ function GM:PlayerSpawn( ply )
 	ply:GiveEquipment()
 	ply:SetCustomCollisionCheck( true )
 
-	if ply.Connected == true then
+	if ply.Connected == true && ply.ITM == nil then
 		ply:SetPos( Vector( -9072.031250, 3808, 32 ) )
 		ply:SetEyeAngles( Angle( 0, -180, 0 ) )
+	else
+		ply:SetPos( ply.ITM:GetPos() )
+		ply:SetEyeAngles( ply.ITM:GetAngles() )
 	end
 
 end
