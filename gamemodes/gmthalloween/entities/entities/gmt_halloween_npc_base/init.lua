@@ -83,6 +83,8 @@ function ENT:OnKilled( dmginfo )
         net.Start( "HalloweenNPCKilled", true )
         net.Send( attacker )
 
+		attacker:AddAchievement( ACHIEVEMENTS.HALLOWEENGHOST, 1 )
+
     end
 
     // self:BecomeRagdoll( dmginfo )

@@ -6,6 +6,7 @@ AddCSLuaFile("cl_post_events.lua")
 AddCSLuaFile("shared.lua")
 
 include("shared.lua")
+include("sv_cart.lua")
 
 CreateConVar( "gmt_srvid", 85 )
 
@@ -16,6 +17,13 @@ function GM:PlayerSpawn( ply )
     // speed
     ply:SetSpeed( self.PlayerSpeed )
     ply:PostEvent( "death_off", 1, 0 )
+	ply:GiveEquipment()
+	ply:SetCustomCollisionCheck( true )
+
+	if ply.Connected == true then
+		ply:SetPos( Vector( -9072.031250, 3808, 32 ) )
+		ply:SetEyeAngles( Angle( 0, -180, 0 ) )
+	end
 
 end
 
@@ -78,6 +86,16 @@ hook.Add( "PlayerSwitchFlashlight", "BlockFlashLight", function( ply, enabled )
 	return false
 end )
 
+// teleports player to start point
+hook.Add( "PlayerSpawnClient", "PlayerTP", function( ply )
+
+	ply.Connected = true
+
+	ply:SetPos( Vector( -9072.031250, 3808, 32 ) )
+	ply:SetEyeAngles( Angle( 0, -180, 0 ) )
+
+end )
+
 // weapon switch commands
 concommand.Add( "toggleflashlight", function( ply )
 
@@ -96,11 +114,11 @@ local meta = FindMetaTable( "Player" )
 
 function meta:GiveEquipment()
 
-    ply:Give( "lighter" )
-	ply:Give( "tracker" )
-	ply:Give( "ectogun" )
+    self:Give( "lighter" )
+	self:Give( "tracker" )
+	self:Give( "ectogun" )
 
-    ply:ReplenishAmmo()
+    self:ReplenishAmmo()
 
 end
 

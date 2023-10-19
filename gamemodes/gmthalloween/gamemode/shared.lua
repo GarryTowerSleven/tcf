@@ -5,7 +5,7 @@ GM.Website  = "http://www.gmtower.org/"
 // === GMT SETUP ===
 DeriveGamemode( "gmtgamemode" )
 SetupGMTGamemode( "Halloween", "gmthalloween", {
-	Loadables = { "weaponfix", "seats" }, // Additional loadables
+	Loadables = { "weaponfix", "seats", "legs" }, // Additional loadables
 	AFKDelay = 600, // Seconds before they will be marked as AFK
 	DisableSmallModels = true,
 	DisableJumping = true,
@@ -53,4 +53,16 @@ end
 
 function GM:IsInRadius( ent1, ent2, radius )
 	return ent2:GetPos():Distance( ent1:GetPos() ) < radius
+end
+
+function GM:ShouldCollide( ent1, ent2 )
+
+	if ( ent1:IsValid() && ent2:IsValid() ) then
+		if ( ent1:IsPlayer() && ent2:IsPlayer() ) then
+			return false
+		end
+	end
+	
+	return true
+
 end

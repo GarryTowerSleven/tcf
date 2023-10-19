@@ -77,7 +77,7 @@ AWARDS.GamemodeNames = {
 	[11] = "sourcekarts",
 	[12] = "minigolf",
 	[13] = "gourmetrace",
-	[20] = "gmodtowerhalloween",
+	[20] = "gmthalloween",
 	[21] = nil,
 }
 
