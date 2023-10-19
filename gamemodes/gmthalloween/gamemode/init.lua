@@ -99,6 +99,10 @@ hook.Add( "PlayerSpawnClient", "PlayerTP", function( ply )
 
 end )
 
+hook.Add( "CanPlayerSuicide", "SuicideCheck", function( ply )
+	return !( IsValid( ply.ITM ) || IsValid( ply.Cart ) )
+end )
+
 // weapon switch commands
 concommand.Add( "toggleflashlight", function( ply )
 
