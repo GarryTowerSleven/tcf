@@ -125,7 +125,9 @@ function meta:GiveEquipment()
 	self:Give( "tracker" )
 	self:Give( "ectogun" )
 
-    self:ReplenishAmmo()
+	if !IsValid( self.ITM ) then
+		self:ReplenishAmmo()
+	end
 
 end
 
