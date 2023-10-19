@@ -27,6 +27,9 @@ GM.SpawnProtectDelay = 3
 GM.NoSpawnRadius = 80
 GM.SpawnRadius = 2048
 
+// Location
+plynet.Register( "Int", "PlayerLocation", { default = 1 } )
+
 function GM:IsValidSpawn( spawn )
 
 	// Check if something is blocking it

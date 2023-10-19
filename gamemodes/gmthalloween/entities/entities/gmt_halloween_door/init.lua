@@ -66,9 +66,14 @@ function ENT:TeleportPlayer( ply )
     ply:ScreenFade( SCREENFADE.IN, color_black, self.DoorTime, 0 )
 
 	if self.TargetLocation:GetName() == "madness_enter_destination" then
+		ply:GiveEquipment()
 		ply.ITM = self.TargetLocation
+		ply:SetNet( "PlayerLocation", 2 )
 	else
+		ply:StripWeapons()
+		ply:StripAmmo()
 		ply.ITM = nil
+		ply:SetNet( "PlayerLocation", 1 )
 	end
 
     ply:Freeze( false )

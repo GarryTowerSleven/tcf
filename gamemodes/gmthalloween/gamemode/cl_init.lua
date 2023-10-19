@@ -18,7 +18,7 @@ function GM:HUDPaint()
 	surface.SetTexture( hud_hp )
 	surface.DrawTexturedRect( 0, ScrH()-256, 256, 256 )]]
 
-	if not LocalPlayer():InVehicle() then
+	if LocalPlayer():GetNet( "PlayerLocation" ) > 1 then
 
 		if ( LocalPlayer():Health() > 0 ) then
 			local size = math.abs( 15 * math.sin( RealTime() * (10 - (4 * LocalPlayer():Health()/100 ) ) ) )
@@ -218,7 +218,7 @@ end
 
 hook.Add( "Think", "DevHQSpook", function()
 	
-	if LocalPlayer():InVehicle() then return end
+	if LocalPlayer():GetNet( "PlayerLocation" ) == 1 then return end
 
 	-- Handle light brightness
 	local LightColor = render.GetLightColor( LocalPlayer():GetPos() ) * 255
@@ -460,7 +460,7 @@ end )
 
 hook.Add( "HUDPaint", "DevHQSpook", function() 
 
-	if not LocalPlayer():InVehicle() then
+	if LocalPlayer():GetNet( "PlayerLocation" ) > 1 then
 
 		ChromaticAbberation()
 		DrawREC()
@@ -477,7 +477,7 @@ end )
 
 hook.Add( "HUDPaintBackground", "DevHQSpook", function() 
 
-	if not LocalPlayer():InVehicle() then
+	if LocalPlayer():GetNet( "PlayerLocation" ) > 1 then
 
 		surface.SetDrawColor(0,0,0,255)
 		surface.SetMaterial(VignetteMat)

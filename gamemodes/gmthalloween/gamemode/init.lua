@@ -17,7 +17,7 @@ function GM:PlayerSpawn( ply )
     // speed
     ply:SetSpeed( self.PlayerSpeed )
     ply:PostEvent( "death_off", 1, 0 )
-	ply:GiveEquipment()
+
 	ply:SetCustomCollisionCheck( true )
 
 	if ply.Connected == true && ply.ITM == nil then
@@ -26,6 +26,8 @@ function GM:PlayerSpawn( ply )
 	else
 		ply:SetPos( ply.ITM:GetPos() )
 		ply:SetEyeAngles( ply.ITM:GetAngles() )
+
+		ply:GiveEquipment()
 	end
 
 end
