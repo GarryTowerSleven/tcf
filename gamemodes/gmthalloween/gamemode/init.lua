@@ -129,6 +129,8 @@ function meta:GiveEquipment()
 
 	if !IsValid( self.ITM ) then
 		self:ReplenishAmmo()
+	else
+		self:StripAmmo()
 	end
 
 end

@@ -42,6 +42,8 @@ function GM:HUDPaintBackground()
 
 	self.BaseClass.HUDPaintBackground( self )
 
+	if LocalPlayer():GetNet( "PlayerLocation" ) == 1 then return end
+
 	surface.SetDrawColor(0,0,0,255)
 	surface.SetMaterial(VignetteMat)
 	surface.DrawTexturedRect(0,0,ScrW(),ScrH())
