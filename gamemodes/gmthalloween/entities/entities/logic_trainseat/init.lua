@@ -1,5 +1,3 @@
-AddCSLuaFile("cl_init.lua")
-
 ENT.Base = "base_point"
 ENT.Type = "point"
 

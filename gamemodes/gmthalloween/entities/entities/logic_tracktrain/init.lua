@@ -40,6 +40,8 @@ function ENT:SetupCarts()
 		
 	end
 
+	ents.FindByClass( "trigger_trainqueue" )[1]:RefreshQueue()
+
 end
 
 function ENT:GetCarts()
@@ -79,8 +81,6 @@ function ENT:AcceptInput( name, activator, caller, data )
 			cart.Depart = true
 			cart.IsFull = true
 			cart.QueueNum = nil
-		elseif string.StartsWith( cart.Stopped, "hr_trainstation" ) then
-			cart.QueueNum = cart.QueueNum - 1
 		end
 
 		ents.FindByClass( "trigger_trainqueue" )[1]:RefreshQueue()
@@ -91,26 +91,35 @@ function ENT:AcceptInput( name, activator, caller, data )
 
 		activator:Input( "Stop", self, self )
 
+		if cart.Station != nil then
+			if cart.Stopped == cart.Station then
+				cart.Station = nil
+			else
+				activator:Input( "StartForward", self, self )
+			end
+		end
+
 		if caller:GetName() == "hr_trainstationleave" then
 			ents.FindByClass( "trigger_trainqueue" )[1]:RefreshQueue()
 
 			local carts = #self:GetCartQueue()
 
-			timer.Create( tostring(cart).."CartRestore", 5, 6-carts, function()
-				activator:Input( "StartForward", self, self )
+			for k,v in pairs( cart.Players ) do
 
-				if cart.Depart == true then
-					for k,v in pairs( cart.Players ) do
-						if IsValid( v ) then
-							v:ConCommand( "gmt_leavetrain" )
-							v:AddAchievement( ACHIEVEMENTS.HALLOWEENRIDE, 1 )
-						end
-					end
-
-					cart.Depart = false
-					cart.QueueNum = carts + 1
+				if IsValid( v ) then
+					v:ConCommand( "gmt_leavetrain" )
+					v:AddAchievement( ACHIEVEMENTS.HALLOWEENRIDE, 1 )
 				end
-			end )
+
+			end
+
+			cart.Depart = false
+			cart.IsFull = false
+			cart.QueueNum = carts + 1
+
+			cart.Station = "hr_trainstation"..(cart.QueueNum)
+
+			activator:Input( "StartForward", self, self )
 		end
 
 	elseif name == "TeleportToPathTrack" then

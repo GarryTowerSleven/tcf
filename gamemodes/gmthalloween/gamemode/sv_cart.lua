@@ -43,7 +43,7 @@ function TrainLeave( ply, cart )
 
 	cart.Passengers = cart.Passengers - 1
 
-	if cart.Passengers == 2 || cart.Leave == true then 
+	if cart.Passengers == 2 || cart.Depart == true then 
 		cart.IsFull = true 
 	else
 		cart.IsFull = false
