@@ -2,8 +2,6 @@ ENT.Base = "base_point"
 ENT.Type = "point"
 
 ENT.Carts = {}
-ENT.CartsInStation = {}
-ENT.CartQueue = {}
 
 function ENT:Initialize()
 	self:SetupCarts()
@@ -37,6 +35,7 @@ function ENT:SetupCarts()
 
 	for k, v in ipairs( carts ) do
 
+		v.QueueNum = k
 		self.Carts[ k ] = v
 		
 	end
@@ -47,42 +46,8 @@ function ENT:GetCarts()
 	return self.Carts
 end
 
-function ENT:GetAvailableCart()
-
-	local carts = {}
-
-	for _, v in ipairs( ents.FindByClass( "func_tracktrain" ) ) do
-		if v.Stopped != nil && string.StartsWith( v.Stopped, "hr_trainstation" ) && v.Stopped != "hr_trainstationleave" && v.Depart != true then
-			table.insert( carts, v )
-		end
-	end
-
-	table.sort( carts, function( a, b )
-		return self:TrainNumber( a ) < self:TrainNumber( b )
-	end )
-
-	self.CartsInStation = carts
-
-	return self.CartsInStation, #self.CartsInStation
-
-end
-
-function ENT:RefreshCartQueue()
-
-	local carts, c2 = self:GetAvailableCart()
-	local newcarts = {}
-
-	for _,v in pairs( carts ) do
-		v.QueueNum = tonumber( v.Stopped[16] )
-		newcarts[v.QueueNum] = v
-	end
-
-	self.CartQueue = newcarts
-
-end
-
 function ENT:GetCartQueue()
-	return self.CartQueue
+	return ents.FindByClass( "trigger_trainqueue" )[1].Queue
 end
 
 function ENT:StartRide()
@@ -114,7 +79,11 @@ function ENT:AcceptInput( name, activator, caller, data )
 			cart.Depart = true
 			cart.IsFull = true
 			cart.QueueNum = nil
+		elseif string.StartsWith( cart.Stopped, "hr_trainstation" ) then
+			cart.QueueNum = cart.QueueNum - 1
 		end
+
+		ents.FindByClass( "trigger_trainqueue" )[1]:RefreshQueue()
 
 	elseif name == "Stop" then
 
@@ -123,9 +92,11 @@ function ENT:AcceptInput( name, activator, caller, data )
 		activator:Input( "Stop", self, self )
 
 		if caller:GetName() == "hr_trainstationleave" then
-			local c1, c2 = self:GetAvailableCart()
+			ents.FindByClass( "trigger_trainqueue" )[1]:RefreshQueue()
 
-			timer.Create( tostring(cart).."CartRestore", 5, 6-c2, function()
+			local carts = #self:GetCartQueue()
+
+			timer.Create( tostring(cart).."CartRestore", 5, 6-carts, function()
 				activator:Input( "StartForward", self, self )
 
 				if cart.Depart == true then
@@ -137,6 +108,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 					end
 
 					cart.Depart = false
+					cart.QueueNum = carts + 1
 				end
 			end )
 		end
@@ -146,8 +118,6 @@ function ENT:AcceptInput( name, activator, caller, data )
 		activator:Input( "TeleportToPathTrack", self, self, data )
 
 	end
-
-	self:RefreshCartQueue()
 
 end
 

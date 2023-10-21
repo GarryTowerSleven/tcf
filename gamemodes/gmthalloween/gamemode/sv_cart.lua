@@ -20,7 +20,7 @@ function EjectPassengers( ply )
 end
 
 hook.Add( "CanExitVehicle", "CartExitDisallow", function( veh, ply )
-	return ply.Cart && !ply.Cart.Depart
+	return !ply.Cart.Depart
 end )
 
 hook.Add( "PlayerLeaveVehicle", "CartLeaveException", function( ply, veh )
