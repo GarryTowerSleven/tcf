@@ -535,24 +535,18 @@ concommand.Add("gmt_giveammo", function(ply, cmd, args) --Temporary fix.
 	ply:GiveAmmo( 50, "slam", true )
 end)
 
-hook.Add("PlayerSpawn", "PISCollisions", function(ply)
+hook.Add( "PlayerSpawn", "PISCollisions", function(ply)
 	--ply:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
 	ply:CrosshairDisable()
-end)
+end )
 
 // Flashlight
-
 hook.Add( "PlayerSwitchFlashlight", "GMTFlashLight", function( ply, enabled )
 	if ( ply:IsStaff() ) then return true end
 	if ( Location.IsEquippablesNotAllowed( ply:Location() ) and enabled ) then return false end
 	if ply._FlashlightTime and ply._FlashlightTime > CurTime() then return false end
 	
-	if enabled then
-		ply._FlashlightEnabled = true
-	else
-		ply._FlashlightEnabled = false
-	end
-	
+	ply._FlashlightEnabled = enabled
 	ply._FlashlightTime = CurTime() + 1
 
 	return true
@@ -565,25 +559,29 @@ hook.Add( "Location", "LocationChangeFlashlight", function( ply, loc )
 	end
 end )
 
-hook.Add("GTowerPhysgunPickup", "DisablePrivAdminPickup", function(pl, ent)
+hook.Add( "GTowerPhysgunPickup", "DisablePrivAdminPickup", function( ply, ent )
 	if IsValid( ent ) then
 		if ( ent:GetModel() == "models/gmod_tower/suite_bath.mdl" ) then return false end
 	end
-end)
+end )
 
-hook.Add("PhysgunDrop", "ResetPISCollisions", function(pl, ent)
-	if IsValid( ent ) && ent:GetClass() == "player"  then
+hook.Add( "PhysgunDrop", "ResetPISCollisions", function( ply, ent )
+	if IsValid( ent ) and ent:IsPlayer() then
 		ent:SetCollisionGroup( COLLISION_GROUP_DEBRIS_TRIGGER )
 	end
-end)
+end )
 
 hook.Add( "Location", "KeepOut", function( ply, loc )
-
-	if Location.Is( loc, "???" ) && !ply:GetNWBool( "InLimbo" ) then
+	if Location.Is( loc, "???" ) and not ply:GetNWBool( "InLimbo" ) then
 		ply:SafeTeleport( Vector(1630, -3510, -190 ), nil, Angle(0, 180, 0) )
 	end
+end )
 
- end )
+hook.Add( "EntityTakeDamage", "NoBurnDamage", function( ent, dmginfo )
+	if ent:IsPlayer() and dmginfo:IsDamageType( DMG_BURN ) then
+		dmginfo:SetDamage(0)
+	end
+end )
 
 // unused
 /* 
