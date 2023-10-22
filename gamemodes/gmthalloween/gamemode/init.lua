@@ -62,11 +62,19 @@ end
 GM.HealthAdd = 1
 GM.HealthAddDelay = .1
 GM.HealthDamageDelay = 2
-hook.Add( "Think", "PlayerHealthRegen", function()
+hook.Add( "Think", "HalloweenThink", function()
 
     for _, ply in ipairs( player.GetAll() ) do
 
         if not ply:Alive() then continue end
+
+		if ply.RideCompleted then
+			if ply.RideCompleteTimer < CurTime() then
+				ply:AddAchievement( ACHIEVEMENTS.HALLOWEENRIDE, 1 )
+				ply.RideCompleted = false
+			end
+		end
+
         if not ply.HealthUpdate then ply.HealthUpdate = CurTime() end
 
         if ply.HealthUpdate < CurTime() then

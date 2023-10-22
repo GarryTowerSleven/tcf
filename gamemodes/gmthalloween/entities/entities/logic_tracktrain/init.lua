@@ -55,13 +55,6 @@ end
 function ENT:StartRide()
 
 	local carts = self:GetCarts()
-	local doors = ents.FindByClass("func_door_rotating")
-
-	for _, v in ipairs( doors ) do
-		if v:GetName() == "hr_doors1" then
-			v:Fire("Open")
-		end
-	end
 
 	for _, v in ipairs( carts ) do
 		self:Input( "StartForward", v, self )
@@ -108,6 +101,7 @@ function ENT:AcceptInput( name, activator, caller, data )
 
 				if IsValid( v ) then
 					v.RideCompleted = true
+					v.RideCompleteTimer = 0.5 + CurTime()
 					v:ConCommand( "gmt_leavetrain" )
 				end
 
@@ -144,7 +138,7 @@ function ENT:Think()
 
 	if IsValid( cart1 ) then
 		if cart1.StartTime == nil && cart1.Passengers > 0 then
-			cart1.StartTime = 30 + CurTime()
+			cart1.StartTime = 40 + CurTime()
 		elseif cart1.StartTime != nil && CurTime() > cart1.StartTime && cart1.Passengers > 0 then
 			self:StartRide()
 		elseif cart1.Passengers == 0 then
