@@ -9,6 +9,7 @@ end
 function meta:GetGolfBall()
 	for _, ent in pairs( ents.FindByClass( "golfball" ) ) do
 		if ent.GetOwner and ent:GetOwner() == self then
+			self.Ball = ent
 			return ent
 		end
 	end
