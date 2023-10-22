@@ -23,6 +23,7 @@ function ENT:RefreshQueue()
 	table.sort( nums, function(a,b) return a[1] < b[1] end )
 
 	for k,v in pairs( nums ) do
+		v[2].QueueNum = k
 		queue[k] = v[2]
 	end
 

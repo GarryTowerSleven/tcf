@@ -14,6 +14,11 @@ function EjectPassengers( ply )
 
 		TrainLeave( ply, ply.Cart )
 
+		if ply.RideCompleted then
+			ply:AddAchievement( ACHIEVEMENTS.HALLOWEENRIDE, 1 )
+			ply.RideCompleted = false
+		end
+
 		ply.Cart = nil
 	end
 
