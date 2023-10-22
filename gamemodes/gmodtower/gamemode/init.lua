@@ -126,11 +126,15 @@ hook.Add( "CheckPassword", "GatekeeperCheck", function( steamID64, ipAddress, sv
 
 	local steamid = util.SteamIDFrom64( steamID64 )
 
-	if Admins.IsStaff( steamid ) || CurrentGamemode == "gmthalloween" then
+	if CurrentGamemode == "gmthalloween" then
 		return true
 	end
 
-	if not IsLobby || CurrentGamemode != "gmthalloween" then
+	if Admins.IsStaff( steamid ) then
+		return true
+	end
+
+	if not IsLobby then
 		local ip = string.Split( ipAddress, ":" )[1] or ipAddress
 
 		print( ip, name, string.Split( ipAddress, ":" )[1], ipAddress )
