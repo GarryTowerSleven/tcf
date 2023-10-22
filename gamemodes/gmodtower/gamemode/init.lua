@@ -50,6 +50,8 @@ resource.AddWorkshop( 2957302833 ) -- TCF Minigolf
 resource.AddWorkshop( 2957302861 ) -- TCF PVP Battle
 */
 
+local CurrentGamemode = engine.ActiveGamemode()
+
 hook.Add( "PlayerSpawn", "SetGMTPlayerClass", function( ply )
 	if ( IsLobby ) then return end
     player_manager.SetPlayerClass( ply, "player_gmt" )
@@ -124,11 +126,11 @@ hook.Add( "CheckPassword", "GatekeeperCheck", function( steamID64, ipAddress, sv
 
 	local steamid = util.SteamIDFrom64( steamID64 )
 
-	if Admins.IsStaff( steamid ) then
+	if Admins.IsStaff( steamid ) || CurrentGamemode == "gmthalloween" then
 		return true
 	end
 
-	if not IsLobby then
+	if not IsLobby || CurrentGamemode != "gmthalloween" then
 		local ip = string.Split( ipAddress, ":" )[1] or ipAddress
 
 		print( ip, name, string.Split( ipAddress, ":" )[1], ipAddress )
