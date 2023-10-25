@@ -32,7 +32,9 @@ ENT.Opener = NULL
 
 function ENT:CacheDoors()
 
-	for k,v in pairs( ents.FindInSphere( self:GetPos(), 20 ) ) do
+	for k,v in pairs( ents.FindInSphere( self:GetPos(), 80 ) ) do
+		if v:GetClass() != "func_door" then continue end
+
 		doors[k] = v
 		v:SetSaveValue( "m_flWait", -1 )
 	end
@@ -73,12 +75,3 @@ function ENT:EndTouch( ply )
 	end
 
 end
-
-hook.Add( "PostGamemodeLoaded", "SelfSpawn", function()
-
-	timer.Simple( 5, function()
-		local ent = ents.Create( "gmt_halloween2023_connection" )
-		ent:Spawn()
-	end )
-
-end )
