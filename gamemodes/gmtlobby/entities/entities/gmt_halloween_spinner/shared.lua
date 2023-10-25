@@ -1,4 +1,3 @@
----------------------------------
 ENT.Type 			= "anim"
 
 ENT.Model			= Model(  "models/gmod_tower/casino/spinner_base.mdl" )
