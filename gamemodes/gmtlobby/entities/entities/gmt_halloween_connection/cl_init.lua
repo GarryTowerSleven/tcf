@@ -96,7 +96,7 @@ net.Receive("open_halloween", function()
 	Derma_Query(
 		"Are you ready to enter the madness?\n\nNote: This will take you to another server and out of Lobby.",
 		"Halloween 2023 Event",
-		"Yes", function() LocalPlayer():ConCommand('connect join.gtower.net:27024') end,
+		"Yes", function() LocalPlayer():ConCommand('connect join.gtower.net:27080') end,
 		"No", EmptyFunction
 	)
 
