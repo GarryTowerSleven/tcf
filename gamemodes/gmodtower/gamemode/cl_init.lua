@@ -1,3 +1,10 @@
+// FIX BECAUSE RUBATS A DUMBASS
+local _CreateClientConVar = _CreateClientConVar or CreateClientConVar
+
+function CreateClientConVar( name, default, save, userinfo, help, min, max )
+	return _CreateClientConVar( name, default, save, userinfo, tostring( help ), min, max )
+end
+
 include("shared.lua")
 include("sh_load.lua")
 include("sh_loadables.lua")
