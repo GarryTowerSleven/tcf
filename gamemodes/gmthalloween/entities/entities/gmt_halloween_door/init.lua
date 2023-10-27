@@ -4,70 +4,70 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 
 function ENT:Initialize()
-    
-    // oh my god
-    local min, max = self:LocalToWorld( self.BoundsMin ), self:LocalToWorld( self.BoundsMax )
-    self:SetCollisionBoundsWS( min, max )
-    
-    self:SetSolid( SOLID_BBOX )
 
-    
-    local phys = self:GetPhysicsObject()
+	// oh my god
+	local min, max = self:LocalToWorld( self.BoundsMin ), self:LocalToWorld( self.BoundsMax )
+	self:SetCollisionBoundsWS( min, max )
+
+	self:SetSolid( SOLID_BBOX )
+
+
+	local phys = self:GetPhysicsObject()
 
 	if phys:IsValid() then
 		phys:EnableMotion( false )
 	end
 
-    self:SetUseType( SIMPLE_USE )
+	self:SetUseType( SIMPLE_USE )
 
-    self:DrawShadow( false )
+	self:DrawShadow( false )
 
-    // kv
-    if not self._Target then self:Remove() return end
+	// kv
+	if not self._Target then self:Remove() return end
 
-    local target = ents.FindByName( self._Target )[1]
-    if not IsValid( target ) then print( self, "fart!" ) return end
+	local target = ents.FindByName( self._Target )[1]
+	if not IsValid( target ) then print( self, "fart!" ) return end
 
-    local door = ents.FindByName( self._TargetDoor )[1]
-    if not IsValid( door ) then print( self, "fart!" ) return end
+	local door = ents.FindByName( self._TargetDoor )[1]
+	if not IsValid( door ) then print( self, "fart!" ) return end
 
-    self.TargetLocation = target
-    self.TargetDoor = door
+	self.TargetLocation = target
+	self.TargetDoor = door
 
 end
 
 function ENT:Use( activator, caller, useType, value )
 
-    if ( not IsValid( self.TargetLocation ) ) then return end
-    if ( activator._LastDoorUse and activator._LastDoorUse + self.DelayTime > CurTime() ) then return end
-    
-    activator:ScreenFade( SCREENFADE.OUT, color_black, self.DoorTime, 0 )
+	if ( not IsValid( self.Entity.TargetLocation ) ) then return end
+	if ( activator._LastDoorUse and activator._LastDoorUse + self.DelayTime > CurTime() ) then return end
 
-    activator._LastDoorUse = CurTime()
+	activator:ScreenFade( SCREENFADE.OUT, color_black, self.DoorTime, 0 )
 
-    activator:Freeze( true )
+	activator._LastDoorUse = CurTime()
 
-    timer.Simple( self.DoorTime, function()
-        self:TeleportPlayer( activator )
-    end )
+	activator:Freeze( true )
 
-    // if ( IsValid( self.TargetDoor ) ) then
-    //     self.TargetDoor:Fire( "Open" )
-    // end
+	if ( IsValid( self.Entity.TargetDoor ) ) then
+		self.Entity.TargetDoor:Fire( "Open" )
+	end
+
+	timer.Simple( self.DoorTime, function()
+		self:TeleportPlayer( activator )
+	end )
 
 end
 
 function ENT:TeleportPlayer( ply )
 
-    if not IsValid( ply ) or not IsValid( self.TargetLocation ) then return end
+	if not IsValid( ply ) or not IsValid( self.Entity.TargetLocation ) then return end
 
-    ply:SetPos( self.TargetLocation:GetPos() )
-    ply:SetEyeAngles( self.TargetLocation:GetAngles() )
-    ply:ScreenFade( SCREENFADE.IN, color_black, self.DoorTime, 0 )
+	ply:SetPos( self.Entity.TargetLocation:GetPos() )
+	ply:SetEyeAngles( self.Entity.TargetLocation:GetAngles() )
+	ply:ScreenFade( SCREENFADE.IN, color_black, self.DoorTime, 0 )
 
-	if self.TargetLocation:GetName() == "madness_enter_destination" then
+	if self.Entity.TargetLocation:GetName() == "madness_enter_destination" then
 		ply:GiveEquipment()
-		ply.ITM = self.TargetLocation
+		ply.ITM = self.Entity.TargetLocation
 		ply:SetNet( "PlayerLocation", 2 )
 	else
 		ply:StripWeapons()
@@ -76,20 +76,20 @@ function ENT:TeleportPlayer( ply )
 		ply:SetNet( "PlayerLocation", 1 )
 	end
 
-    ply:Freeze( false )
+	ply:Freeze( false )
 
-    // if ( IsValid( self.TargetDoor ) ) then
-    //     self.TargetDoor:Fire( "Close" )
-    // end
+	if ( IsValid( self.Entity.TargetDoor ) ) then
+		self.Entity.TargetDoor:Fire( "Close" )
+	end
 
 end
 
 function ENT:KeyValue( key, value )
 
-    if ( key == "target" ) then
-        self._Target = value
-    elseif ( key == "door" ) then
-        self._TargetDoor = value
-    end
+	if ( key == "target" ) then
+		self._Target = value
+	elseif ( key == "door" ) then
+		self._TargetDoor = value
+	end
 
 end

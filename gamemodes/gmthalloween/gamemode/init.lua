@@ -59,6 +59,12 @@ function GM:PostPlayerDeath( ply )
 
 end
 
+function GM:IsSpawnpointSuitable( pl, spawnpointent, bMakeSuitable )
+
+	return true
+
+end
+
 GM.HealthAdd = 1
 GM.HealthAddDelay = .1
 GM.HealthDamageDelay = 2
@@ -149,7 +155,7 @@ function meta:ReplenishAmmo()
     self:SetAmmo( 100, "Battery" )
 
     // ecto-gun
-    self:SetAmmo( 24, "AR2" )
+    self:SetAmmo( 72, "AR2" )
 
     local wep = self:GetWeapon( "ectogun" )
     if IsValid( wep ) then
