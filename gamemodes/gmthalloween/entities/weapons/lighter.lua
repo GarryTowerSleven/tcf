@@ -18,8 +18,8 @@ SWEP.WorldModel = "models/weapons/w_lighter.mdl"
 SWEP.HoldType = "slam"
 SWEP.UseHands = false
 
-SWEP.Sounds_Draw = Sound("room209/lighter_draw.wav")
-SWEP.Sounds_Holster = Sound("room209/lighter_holster.wav")
+SWEP.Sounds_Draw = Sound( "room209/lighter_draw.wav" )
+SWEP.Sounds_Holster = Sound( "room209/lighter_holster.wav" )
 
 SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = -1
@@ -39,14 +39,14 @@ end
 
 function SWEP:Holster()	
 
-	self:EmitSound(self.Sounds_Holster, 100, 100)
+	self:EmitSound( self.Sounds_Holster, 100, 100 )
 	return true
 
 end
 
 function SWEP:Deploy()
 
-	self:EmitSound(self.Sounds_Draw, 100, 100)
+	self:EmitSound( self.Sounds_Draw, 100, 100 )
 	return true
 
 end
@@ -56,7 +56,7 @@ function SWEP:PrimaryAttack()
 	if !self:CanPrimaryAttack() then return end
 	
 	--self:ToggleLighter()
-	self:SetNextPrimaryFire(CurTime() + self:SequenceDuration())
+	self:SetNextPrimaryFire( CurTime() + self:SequenceDuration() )
 
 end
 
@@ -75,23 +75,23 @@ function SWEP:ToggleLighter()
 	if self:IsLit() then
 
 		// Put Lighter away
-		self:SendWeaponAnim(ACT_VM_HOLSTER)
+		self:SendWeaponAnim( ACT_VM_HOLSTER )
 		
-		timer.Simple(self:SequenceDuration(), function()
-			self:SetNWBool("Light", false)
-		end)
+		timer.Simple( self:SequenceDuration(), function()
+			self:SetNWBool( "Light", false )
+		end )
 			
 		self:Holster()
 
 	else			
 
 		// Take Lighter Out
-		self:SendWeaponAnim(ACT_VM_DRAW)
-		self:SetNWBool("Light", true)
+		self:SendWeaponAnim( ACT_VM_DRAW )
+		self:SetNWBool( "Light", true )
 	
-		timer.Simple(self:SequenceDuration(), function()
-			self:SendWeaponAnim(ACT_VM_IDLE)
-		end)
+		timer.Simple( self:SequenceDuration(), function()
+			self:SendWeaponAnim( ACT_VM_IDLE )
+		end )
 		
 		self:Deploy()
 
@@ -117,7 +117,7 @@ if CLIENT then
 			ViewModel:SetColor( Color( 255, 255, 255, 255 ) )
 		
 			local pos = self.Owner:EyePos()
-			local dlight = DynamicLight(self:EntIndex())
+			local dlight = DynamicLight( self:EntIndex() )
 			if dlight then
 				local r, g, b = self:GetLightColor()
 				dlight.Pos = pos
@@ -133,7 +133,7 @@ if CLIENT then
 		
 		end
 		
-		self:NextThink(CurTime() + .25)
+		self:NextThink( CurTime() + .25 )
 
 		return true
 
@@ -156,14 +156,15 @@ if CLIENT then
 		if self:IsLit() then
 
 			local pos = self:GetFlamePos( vm )
+			local offset = Vector( 3,-.4,0 )
 
 			-- Blue
 			render.SetMaterial( self.SpriteMat )
-			render.DrawSprite( pos + util.TranslateOffset( Vector(9,0,.25), vm ), 5, 5, Color( 128, 128, 255, math.SinBetween(50,150,CurTime()*5) ) )
+			render.DrawSprite( pos + util.TranslateOffset( offset, vm ), 5, 5, Color( 128, 128, 255, math.SinBetween( 50, 150, CurTime()*5 ) ) )
 
 			-- Flame
 			render.SetMaterial( Material( "particles/flamelet" .. math.random( 1 , 5 ) ) )
-			render.DrawSprite( pos + util.TranslateOffset( Vector(9,0,.25), vm ), math.CosBetween(.5,1,CurTime()*50), math.SinBetween(4,7,CurTime()*50), Color( 255, 255, 255, 255 ) )
+			render.DrawSprite( pos + util.TranslateOffset( offset, vm ), math.CosBetween( .5, 1, CurTime()*50 ), math.SinBetween( 4, 7, CurTime()*50 ), Color( 255, 255, 255, 255 ) )
 
 			--self:EmitFlames( pos, vm:GetUp() )
 
