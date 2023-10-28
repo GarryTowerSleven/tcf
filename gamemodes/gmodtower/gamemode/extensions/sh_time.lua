@@ -23,7 +23,7 @@ end
 
 function IsHalloween()
 	local date = os.date( "*t" )
-	return ( date.day >= 1 && date.month == 10 )-- or ( date.day >= 1 && date.day <= 20 && date.month == 11 )
+	return ( date.day >= 1 && date.month == 10 ) or ( date.day >= 1 && date.day <= 7 && date.month == 11 )
 end
 
 function IsIndepedenceDay()
