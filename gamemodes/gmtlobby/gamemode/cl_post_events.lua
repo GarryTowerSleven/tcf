@@ -268,14 +268,9 @@ AddPostEvent( "ppainkiller", usePainkillers )
 
 local function StartBW()
   local layer = postman.NewColorLayer()
-  layer.contrast = 0.5
+  layer.contrast = 0.8
   layer.color = 0
-  postman.FadeColorIn( "bw_on", layer, 0.2 )
-
-  local layer = postman.NewMotionBlurLayer()
-  layer.addalpha = 0.02
-  layer.drawalpha = 0.8
-  postman.FadeMotionBlurIn( "bw_blur", layer, 3 )
+  postman.FadeColorIn( "bw_on", layer, 2.2 )
 
   layer = postman.NewSharpenLayer()
   layer.contrast = .5
@@ -287,9 +282,6 @@ AddPostEvent( "bw_on", StartBW )
 local function EndBW()
   postman.ForceColorFade( "bw_on" )
   postman.FadeColorOut( "bw_on", 1 )
-
-  postman.ForceMotionBlurFade( "bw_blur" )
-  postman.FadeMotionBlurOut( "bw_blur", 1 )
 
   postman.ForceSharpenFade( "bw" )
   postman.FadeSharpenOut( "bw", 1 )

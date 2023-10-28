@@ -408,3 +408,18 @@ soundscape.Register("music_bar", {})
 
 -- Mute any music in narnia
 soundscape.Register("music_narnia", {})
+
+-- Halloween Dev HQ
+soundscape.Register("music_olddevhq", {
+	-- Tell the soundscape system that when this is usually removed and faded out, keep it alive
+	idle = false,
+
+	-- Select a random song to play every once in a while
+	{
+		type = "playlooping",
+		volume = 1,
+
+		// halloween
+		sound = { Sound( "gmodtower/lobby/halloween/devhq_ambience.mp3" ), 157 },
+	},
+})
