@@ -10,6 +10,16 @@ function ENT:Initialize()
 	self:SetSubMaterial( 2, self.Material )
 	self:SetUseType( SIMPLE_USE )
 	self:SetSolid( SOLID_VPHYSICS )
+
+	if IsHalloween then
+		local hwSpinner = ents.Create("gmt_halloween_spinner")
+		hwSpinner:SetPos( self:GetPos() + Vector(0, 0, 10) )
+		hwSpinner:SetAngles( self:GetAngles() )
+		hwSpinner:Spawn()
+		hwSpinner:Activate()
+
+		self:Remove()
+	end
 end
 
 function ENT:SpinRoll()
