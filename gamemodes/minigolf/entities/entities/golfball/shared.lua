@@ -6,6 +6,7 @@ ENT.Type 			= "anim"
 ENT.Base			= "base_anim"
 
 ENT.RenderGroup 	= RENDERGROUP_TRANSLUCENT
+
 ENT.Model 			= "models/sunabouzu/golf_ball.mdl"
 
 
@@ -52,6 +53,7 @@ function ENT:Initialize()
 
 	self.SettleDelay = CurTime() + 2
 
+	self:SetRenderMode( RENDERMODE_TRANSALPHA )
 end
 
 function ENT:Pocket()
@@ -587,9 +589,11 @@ function ENT:Draw()
 		owner:ManualEquipmentDraw()
 		owner:ManualBubbleDraw()
 
+		self.BallAlpha = math.Approach( self.BallAlpha or 255, owner:IsPocketed() and 25 or 255, FrameTime() * 255 )
+
 		// Setup color
 		self.Color = owner:GetBallColor() * 255
-		self:SetColor( Color( self.Color.r, self.Color.g, self.Color.b, 255 ) )
+		self:SetColor( Color( self.Color.r, self.Color.g, self.Color.b, self.BallAlpha ) )
 
 		// Draw name
 		self:DrawName( owner )
