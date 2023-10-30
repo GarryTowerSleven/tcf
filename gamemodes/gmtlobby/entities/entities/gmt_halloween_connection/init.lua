@@ -162,11 +162,11 @@ function ENT:StartEffects()
 
 	-- Sounds.
 	if self.CurrentEffect == 1 then
-		sound.Play( self.PanicSound, Vector("-410.277985 -1156.301758 180.372787") )
+		sound.Play( self.PanicSound, Vector("-410.277985 -1156.301758 180.372787"), 70 )
 	end
 
 	if self.CurrentEffect == #self.BloodSpots then
-		self:EmitSound( self.SawSound, 70, 100 )
+		self:EmitSound( self.SawSound, 65, 100 )
 
 		timer.Simple( 1, function()
 			if IsValid( self ) then
@@ -179,10 +179,10 @@ function ENT:StartEffects()
 		end)
 	end
 
-	sound.Play( table.Random( self.ImpactSounds ), pos )
+	sound.Play( table.Random( self.ImpactSounds ), pos, 70 )
 
 	if (self.CurrentEffect - 1) % 6 == 0 then
-		sound.Play( self.StingerSound, pos )
+		sound.Play( self.StingerSound, pos, 70 )
 	end
 
 	if self.CurrentEffect < #self.BloodSpots then
