@@ -88,6 +88,8 @@ function SETTINGS:Init()
 		table.insert( self.TabNames, "Spawnlist" )
 	end
 
+	local tabs = {}
+
 	// Create the tabs
 	for id, name in pairs( self.TabNames ) do
 
@@ -96,7 +98,9 @@ function SETTINGS:Init()
 
 		local tab = self:CreateTab( id, name )
 
-		if id == 1 then
+		table.insert( tabs, name )
+
+		if name == tabs[1] then
 			firstTab = tab
 		end
 	end

@@ -149,6 +149,16 @@ local function MapAdds()
 
     end
 
+    -- Halloween spinners
+    for _, v in pairs( ents.FindByClass( "gmt_casino_spinner" ) ) do
+		local hwSpinner = ents.Create("gmt_halloween_spinner")
+		hwSpinner:SetPos( v:GetPos() + Vector(0, 0, 10) )
+		hwSpinner:SetAngles( v:GetAngles() )
+		hwSpinner:Spawn()
+		hwSpinner:Activate()
+
+		v:Remove()
+    end
 end
 
 hook.Add( "InitPostEntity", "MapDataAdd", function()

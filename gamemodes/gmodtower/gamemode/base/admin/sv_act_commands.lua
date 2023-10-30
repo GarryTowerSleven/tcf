@@ -69,7 +69,7 @@ RegisterAct( "rement", PERM_STAFF, function( ply, args )
 	if ent:IsPlayer() then return end
 	if ent:GetClass() == "func_brush" then return end
 
-	AdminNotif.SendStaff( Format( "%s has removed entity \"%s\" from: %s.", ply:Nick(), ent:GetClass(), ent:LocationName() ), nil, "RED", 2 )
+	AdminNotif.SendStaff( Format( "%s has removed entity \"%s\"", ply:Nick(), ent:GetClass() ), nil, "RED", 2 )
 
 	ent:Remove()
 
@@ -154,11 +154,21 @@ end )
 
 RegisterTargetAct( "goto", PERM_STAFF, function( ply, target, args )
 
+	if IsValid( ply.Ball ) && IsValid( target.Ball ) then
+		ply = ply.Ball
+		target = target.Ball
+	end
+
 	ply:SetPos( target:GetPos() )
 
 end )
 
 RegisterTargetAct( "teleport", PERM_STAFF, function( ply, target, args )
+
+	if IsValid( ply.Ball ) && IsValid( target.Ball ) then
+		ply = ply.Ball
+		target = target.Ball
+	end
 
 	target:SetPos( ply:GetPos() )
 

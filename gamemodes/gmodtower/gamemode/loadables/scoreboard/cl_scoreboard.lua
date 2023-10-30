@@ -624,10 +624,15 @@ function PLAYERAVATAR:Init()
 		end
 	end
 
-	self.Avatar = vgui.Create( "AvatarImage", self )
+	self.Avatar = vgui.Create( "AnimatedAvatar", self )
 	self.Avatar:SetSize( self.Size, self.Size )
 	self.Avatar:SetMouseInputEnabled( false )
-
+	self.Avatar.OnFrameLoaded = function()
+		if self.Player then
+			self.Player.HasFrame = true
+		end
+	end
+	
 	/*self.SteamProfile = vgui.Create( "DImageButton", self )
 	self.SteamProfile:SetSize( self.ButtonSize, self.ButtonSize )
 	self.SteamProfile:SetZPos( 1 )
@@ -715,6 +720,7 @@ end*/
 
 function PLAYERAVATAR:PerformLayout()
 	local size = GetPlayerSize()
+
 	self.Avatar:SetSize( size, size )
 end
 
@@ -936,7 +942,7 @@ function PLAYER:Paint( w, h )
 		borderSize = 1
 		surface.DrawRect( self.Avatar.x - borderSize, self.Avatar.y - borderSize, self.Avatar:GetWide() + ( borderSize * 2 ), self.Avatar:GetTall() + ( borderSize * 2 ) )
 
-	else
+	elseif not self.Player.HasFrame then
 
 		// Normal border
 		surface.DrawRect( self.Avatar.x - borderSize, self.Avatar.y - borderSize, self.Avatar:GetWide() + ( borderSize * 2 ), self.Avatar:GetTall() + ( borderSize * 2 ) )

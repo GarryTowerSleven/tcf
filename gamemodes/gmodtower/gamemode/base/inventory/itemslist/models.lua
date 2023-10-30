@@ -815,6 +815,14 @@ RegisterModel(
 	15000, nil, nil, 1405502697 )
 
 RegisterModel(
+	"mdl_hatman",
+	"Horseless Headless Horsemann",
+	"Listen closely! What's that you hear? Is it the clip clop of haunted hoofs? Nope. It's the terrifying, completely foot-generated clomping of the Horseless Headless Horseman! He's come to steal your soul! And, if you have one, your horse!",
+	"models/player/hatman.mdl",
+	"hatman",
+	500, nil, 0, 1405502697 )
+
+RegisterModel(
 	"mdl_linktp",
 	"Link",
 	"Hyaaaa!",

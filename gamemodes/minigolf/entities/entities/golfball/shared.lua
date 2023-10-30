@@ -6,6 +6,7 @@ ENT.Type 			= "anim"
 ENT.Base			= "base_anim"
 
 ENT.RenderGroup 	= RENDERGROUP_TRANSLUCENT
+
 ENT.Model 			= "models/sunabouzu/golf_ball.mdl"
 
 
@@ -52,6 +53,7 @@ function ENT:Initialize()
 
 	self.SettleDelay = CurTime() + 2
 
+	self:SetRenderMode( RENDERMODE_TRANSALPHA )
 end
 
 function ENT:Pocket()
@@ -121,6 +123,51 @@ function ENT:StartLaunch()
 
 end
 
+function ENT:CheckStuck()
+	local velocity = self:GetVelocity():Length()
+
+	if velocity < 1000 then return end
+		
+	if !self._nextStuckCheck then
+		self._nextStuckCheck = CurTime() + 1
+	end
+
+	if !self._lastStuckPosition then
+		self._lastStuckPosition = self:GetPos()
+	end
+
+	if self._nextStuckCheck and CurTime() > self._nextStuckCheck then
+		self._nextStuckCheck = CurTime() + 1
+
+		-- While we're moving more than 1000 units per second, check if we actually moved within a second.
+		if self._lastStuckPosition:Distance( self:GetPos() ) <= 1 then
+			self:UnStuck()
+			return
+		end
+
+		self._lastStuckPosition = nil
+	end
+end
+
+function ENT:UnStuck()
+	self._lastStuckPosition = nil
+	self._nextStuckCheck = nil
+
+	local effectdata = EffectData()
+	effectdata:SetOrigin( self:GetPos() )
+	util.Effect( "confetti", effectdata )
+	
+	self:EmitSound( "garrysmod/balloon_pop_cute.wav", 80, 150 )
+	self:SetNoDraw( true )
+
+	timer.Simple( 0.5, function()
+		if IsValid( self ) then
+			self:RemoveOnOutOfBounds( "STUCK" )
+			self:SetNoDraw( false )
+		end
+	end )
+end
+
 function ENT:Think()
 
 	local owner = self:GetOwner()
@@ -164,6 +211,8 @@ function ENT:Think()
 	if IsValid( phys ) then
 		phys:Wake()
 	end
+
+	self:CheckStuck()
 
 	self:TraceDown()
 
@@ -540,9 +589,11 @@ function ENT:Draw()
 		owner:ManualEquipmentDraw()
 		owner:ManualBubbleDraw()
 
+		self.BallAlpha = math.Approach( self.BallAlpha or 255, owner:IsPocketed() and 25 or 255, FrameTime() * 255 )
+
 		// Setup color
 		self.Color = owner:GetBallColor() * 255
-		self:SetColor( Color( self.Color.r, self.Color.g, self.Color.b, 255 ) )
+		self:SetColor( Color( self.Color.r, self.Color.g, self.Color.b, self.BallAlpha ) )
 
 		// Draw name
 		self:DrawName( owner )

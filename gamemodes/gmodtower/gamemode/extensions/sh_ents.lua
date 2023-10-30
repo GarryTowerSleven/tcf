@@ -28,7 +28,7 @@ function ents.FindByBase( base )
 
 end
 
-function ents.FindInPVS( vec )
+/*function ents.FindInPVS( vec )
 
 	local tbl = {}
 	local entities = ents.GetAll()
@@ -43,4 +43,4 @@ function ents.FindInPVS( vec )
 
 	return tbl
 
-end
+end*/

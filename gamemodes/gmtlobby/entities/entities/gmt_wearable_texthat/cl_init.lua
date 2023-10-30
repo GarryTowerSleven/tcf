@@ -67,6 +67,10 @@ function ENT:DrawTranslucent()
 		pos = bone.Pos + Vector( 0, 0, 10 )
 	end
 	
+	if owner:GetModel() == "models/player/robot.mdl" then
+		pos = pos + bone.Ang:Forward() * 71 + bone.Ang:Up() * 6
+	end
+
 	pos = pos + Vector( 0, 0, height )
 
 	ang:RotateAroundAxis( ang:Forward(), 90 )

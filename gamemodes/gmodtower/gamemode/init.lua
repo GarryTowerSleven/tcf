@@ -50,6 +50,8 @@ resource.AddWorkshop( 2957302833 ) -- TCF Minigolf
 resource.AddWorkshop( 2957302861 ) -- TCF PVP Battle
 */
 
+local CurrentGamemode = engine.ActiveGamemode()
+
 hook.Add( "PlayerSpawn", "SetGMTPlayerClass", function( ply )
 	if ( IsLobby ) then return end
     player_manager.SetPlayerClass( ply, "player_gmt" )
@@ -73,7 +75,7 @@ umsg.Start = function(a, b)
 
 	if s == true then
 		bumsg()
-		SQLLog('error',"Umsg started without ending! (" .. startedumsg .. ") ORIGINAL TRACEBACK: " .. LastTraceBack .. "\n END ORIGINAL TRACEBACK.\n\n")
+		SQLLog("error", "Umsg started without ending! (" .. startedumsg .. ") ORIGINAL TRACEBACK: " .. LastTraceBack .. "\n END ORIGINAL TRACEBACK.\n\n")
 	end
 
 	startedumsg = a
@@ -90,7 +92,7 @@ umsg.End = function()
 	s = false
 end
 
-hook.Add("InitPostEntity", "AddTempBot", function()
+hook.Add( "InitPostEntity", "AddTempBot", function()
 
 	if GetConVarNumber("sv_voiceenable") != 1 then
 		RunConsoleCommand("sv_voiceenable","1")
@@ -98,18 +100,7 @@ hook.Add("InitPostEntity", "AddTempBot", function()
 
 	if game.SinglePlayer() then return end
 
-	// Needed for multiservers to initialize, don't remove m8.
-	/*RunConsoleCommand("bot")
-
-	timer.Simple( 1.0, function()
-		for _, v in pairs( player.GetAll() ) do
-			if v:IsBot() then
-				v:Kick("A bot")
-			end
-		end
-	end )*/
-
-	SQLLog('start', "Server start - ", game.GetMap() )
+	SQLLog("start", "Server start - ", game.GetMap() )
 
 end )
 
@@ -123,9 +114,9 @@ concommand.Add( "gmt_bot", function( ply, _, args )
 	end
 end )
 
-hook.Add("CanPlayerUnfreeze", "GMTOnPhysgunReload", function(ply, ent, physObj)
-		return ply:GetSetting( "GTAllowPhysGun" )
-end)
+hook.Add( "CanPlayerUnfreeze", "GMTOnPhysgunReload", function( ply, ent, physObj )
+	return ply:GetSetting( "GTAllowPhysGun" )
+end )
 
 function IsTester()
 	return false
@@ -135,11 +126,17 @@ hook.Add( "CheckPassword", "GatekeeperCheck", function( steamID64, ipAddress, sv
 
 	local steamid = util.SteamIDFrom64( steamID64 )
 
-	if Admins.IsStaff( steamid ) then
+	if ( Admins.IsStaff( steamid ) ) then
 		return true
 	end
 
-	if not IsLobby then
+	if svPassword != "" then
+		if clPassword == svPassword then
+			return true
+		end
+	end
+
+	if ( not IsLobby && CurrentGamemode != "gmthalloween" ) then
 		local ip = string.Split( ipAddress, ":" )[1] or ipAddress
 
 		print( ip, name, string.Split( ipAddress, ":" )[1], ipAddress )
@@ -151,89 +148,23 @@ hook.Add( "CheckPassword", "GatekeeperCheck", function( steamID64, ipAddress, sv
 
 end )
 
-// function GM:CheckPassword(steam, IP, sv_pass, cl_pass, name)
-// 	if ( IsLobby ) then return true end
-// 
-// 	local steam64 = steam
-// 	local steam = util.SteamIDFrom64( steam )
-// 
-// 	local PortRemove = string.find(IP,"%:")
-// 
-// 	if PortRemove != nil then IP = string.sub( IP, 1, PortRemove - 1 ) end
-// 
-// 	if Admins.IsAdmin(steam) or Admins.IsModerator(steam) or IsTester(steam64) or MultiUsers[IP] then
-// 		return true
-// 	else
-// 		MsgC( color_red, string.SafeChatName(name) .. " <" .. steam .. "> (" .. IP .. ") tried to join the server.\n" )
-// 		return false, "You must join from the lobby server, IP: join.gtower.net"
-// 	end
-// 
-// 	return true
-// end
-
 function GetMaxSlots()
 
 	local Slots = GetConVarNumber("sv_visiblemaxplayers")
 
-	if Slots <= 1 then //If MaxSlots is not set, just adjust it to the true maxplayers
-		return game.MaxPlayers() --MaxPlayers()
+	if Slots <= 1 then -- If MaxSlots is not set, just adjust it to the true maxplayers
+		return game.MaxPlayers() -- MaxPlayers()
 	end
 
 	return Slots
 
 end
 
-// use GetHostName()
 timer.Remove( "HostNameThink" )
-//Garrys function is no longer aprecicated
-//Handled in server/admin.lua
 hook.Remove( "PlayerInitialSpawn", "PlayerAuthSpawn")
 
 function GM:PlayerSetModel( ply )
 
-	/*local model, skin = GTowerModels.GetModelName( ply:IsBot() && "kleiner" || ply:GetInfo( "gmt_playermodel" ) )
-
-	if ply:IsBot() then
-		local _, randModel = table.Random( GTowerModels.Models)
-		model, skin = GTowerModels.GetModelName(randModel)
-	end
-
-	local allow = CanUseFuckingModel( ply, model, skin )
-
-	if ply:IsBot() then
-		allow = true
-	end
-
-	if allow == nil then
-		timer.Simple(2,function()
-			self:PlayerSetModel(ply)
-			return
-		end)
-	end
-
-	if !model || allow != true then
-		model, skin = "none", 0
-	end
-
-	local modelName = player_manager.TranslatePlayerModel( model )
-	util.PrecacheModel( modelName )
-	ply:SetModel( modelName )
-	ply:SetSkin( skin )
-
-	if ply:SteamID() == "STEAM_0:0:44458854" && modelName == "models/heroes/windranger/windranger.mdl" then
-		ply:SetBodygroup(1,3)
-		ply:SetBodygroup(2,6)
-		ply:SetBodygroup(4,5)
-	end
-
-	// bot hats
-	if ply:IsBot() then
-		local randHat, key = table.Random( GTowerHats.Hats )
-		ply:ReplaceHat( randHat.unique_name, randHat.model, key, randHat.slot )
-	end
-
-	ply:SetupHands()*/
-	
 	local modelinfo = string.Explode( "-", ply:GetInfo("gmt_playermodel") or "kleiner" )
 	local modelname = modelinfo[1]
 	local modelskin = tonumber( modelinfo[2] or 0 ) or 0
@@ -255,13 +186,11 @@ function GM:PlayerSetModel( ply )
 end
 
 hook.Add( "PlayerSpawn", "FixHats", function( ply )
-
 	ply:ReParentCosmetics()
-
 end )
 
-hook.Add("PlayerSpawn", "Machinima", function(ply)
-	if ply:GetSetting(30) and !IsLobby then
+hook.Add( "PlayerSpawn", "Machinima", function( ply )
+	if ply:GetSetting(30) and not IsLobby then
 		MACHINIMA = true
 	end
-end)
+end )

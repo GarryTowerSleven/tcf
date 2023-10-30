@@ -201,8 +201,8 @@ function SetupGMTGamemode( name, folder, settings )
 	local particles = folder .. gmtfolder .. "cl_particles.lua"
 	local partfolder = folder  .. gmtfolder .. "particles/"
 
-	AddCSLuaFile( payout )
-	AddCSLuaFile( scoreboard )
+	if file.Exists( payout, "LUA" ) then AddCSLuaFile( payout ) end
+	if file.Exists( scoreboard, "LUA" ) then AddCSLuaFile( scoreboard ) end
 
 	-- Camera
 	if file.Exists( camera, "LUA" ) then AddCSLuaFile( camera ) end
@@ -218,16 +218,16 @@ function SetupGMTGamemode( name, folder, settings )
 
 	timer.Simple( .1, function() -- Delay so we can load the gamemode first
 
-		include( payout )
+		if file.Exists( payout, "LUA" ) then include( payout ) end
 
 		if CLIENT then
-			include( scoreboard )
+			if file.Exists( scoreboard, "LUA" ) then include( scoreboard ) end
 
 			if file.Exists( camera, "LUA" ) then include( camera ) end
 			if file.Exists( pp, "LUA" ) then include( pp ) end
 			if file.Exists( particles, "LUA" ) then include( particles ) end
 		else
-			include( multi )
+			if file.Exists( multi, "LUA" ) then include( multi ) end
 		end
 
 	end )

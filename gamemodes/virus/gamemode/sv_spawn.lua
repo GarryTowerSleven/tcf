@@ -1,13 +1,17 @@
 function GM:LateJoin( ply )
+	if self:GetState() != STATE_PLAYING then return end
+
 	ply:KillSilent() -- Murder Rubat
+
 	hook.Add("SetupMove", ply:SteamID64(), function(ply2, mv, cmd)
 		if ply2 == ply and !cmd:IsForced() then
+
 			if self:GetState() == STATE_PLAYING then
-				print("Lets log this to make sure this is what's doing it.")
 				ply:SetTeam( TEAM_INFECTED )
 				ply:SetNet( "IsVirus", true )
 				ply:Spawn()
 			end
+
 			hook.Remove("SetupMove", ply:SteamID64())
 		end
 	end )
@@ -22,7 +26,7 @@ function GM:PlayerInitialSpawn( ply )
 	end
 	
 	if self:GetState() <= 1 then
-		if #player.GetAll() >= 1 && !ply:IsBot() && self:GetState() ~= STATE_WAITING then
+		if #player.GetAll() >= 1 && !ply:IsBot() && self:GetState() != STATE_WAITING then
 			self:SetState( STATE_WAITING )
 			self:SetTime( self.WaitingTime )
 		end
