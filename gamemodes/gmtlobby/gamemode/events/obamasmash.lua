@@ -180,19 +180,16 @@ function EVENT:Start()
         if not cutout._Event then return end
 
         if ply._smashLast + self.ComboTime > CurTime() then
-
             ply._smashCombo = (ply._smashCombo or 0) + 1
-
         else
-
             ply._smashCombo = 0
-
         end
 
         local money = math.Clamp( self.MoneyOnSmash + ply._smashCombo, self.MoneyOnSmash, self.ComboMax )
         money = math.Round( money )
 
         ply:GiveMoney( money )
+        ply:AddAchievement( ACHIEVEMENTS.MGVOTED, 1 )
 
         self.TotalMoney = self.TotalMoney + money
 
