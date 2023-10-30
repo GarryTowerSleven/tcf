@@ -950,7 +950,8 @@ RegisterItem("Sof5x50x50_panel_flat",{
 	Description = "SoftWood",
 	Model = "models/NightReaper/SoftWood/5x50x50_panel_flat.mdl",
 	DrawModel = true,
-	StoreId = 210,
+	StoreId = GTowerStore.BUILDING,
+	StorePrice = 210,
 	InvCategory = "build",
 	MoveSound = "wood"
 })
