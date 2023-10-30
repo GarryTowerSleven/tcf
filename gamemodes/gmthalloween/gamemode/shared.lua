@@ -10,6 +10,8 @@ SetupGMTGamemode( "Halloween", "gmthalloween", {
 	DisableSmallModels = true,
 	DisableJumping = true,
 	DisableDucking = true,
+	ChatBGColor = Color( 27, 27, 27, 180),
+	ChatScrollColor = Color( 59, 59, 59, 215),
 } )
 
 --[[function GM:PlayerFootstep( ply, vPos, iFoot, strSoundName, fVolume, pFilter )
