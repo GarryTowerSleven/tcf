@@ -66,6 +66,8 @@ function ENT:AcceptInput( name, activator, caller, data )
 
 	local cart = self:GetCarts()[self:TrainNumber( activator )]
 
+	if !IsValid( cart ) then return end
+
 	if name == "StartForward" then
 
 		activator:Input( "StartForward", self, self )
