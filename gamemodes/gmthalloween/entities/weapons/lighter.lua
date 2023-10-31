@@ -156,7 +156,7 @@ if CLIENT then
 		if self:IsLit() then
 
 			local pos = self:GetFlamePos( vm )
-			local offset = Vector( 3,-.4,0 )
+			local offset = Vector( 3, 2, 1.5 )
 
 			-- Blue
 			render.SetMaterial( self.SpriteMat )
