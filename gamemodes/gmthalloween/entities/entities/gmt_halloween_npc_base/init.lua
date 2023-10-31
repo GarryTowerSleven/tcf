@@ -84,7 +84,13 @@ function ENT:OnKilled( dmginfo )
         net.Send( attacker )
 
 		attacker:AddAchievement( ACHIEVEMENTS.HALLOWEENGHOST, 1 )
+        attacker:GiveMoney( 25 )
 
+        if math.random( 1, 3 ) == 1 then
+            local ammo = ents.Create( "gmt_halloween_drop" )
+            ammo:SetPos( self:GetPos() + Vector( 0, 0, 4 ) )
+            ammo:Spawn()
+        end
     end
 
     // self:BecomeRagdoll( dmginfo )

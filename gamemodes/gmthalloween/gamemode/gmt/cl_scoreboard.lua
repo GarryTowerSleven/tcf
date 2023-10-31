@@ -23,9 +23,10 @@ ColorAwardsAchievedIcon = Color( 255, 255, 255)
 HeaderTitle = "Halloween"
 
 -- Dark default texture
-HeaderMatHeader = Material( "tools/toolsblack" )
-HeaderMatFiller = Material( "tools/toolsblack" )
-
+local black = Material( "tools/toolsblack" )
+HeaderMatHeader = black
+HeaderMatFiller = black
+HeaderMatRightBorder = black
 
 // PLAYER
 // Subtitle (under name)
