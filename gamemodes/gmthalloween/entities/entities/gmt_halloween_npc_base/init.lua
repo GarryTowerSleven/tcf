@@ -84,7 +84,7 @@ function ENT:OnKilled( dmginfo )
         net.Send( attacker )
 
 		attacker:AddAchievement( ACHIEVEMENTS.HALLOWEENGHOST, 1 )
-
+        attacker:GiveMoney( 25 )
     end
 
     // self:BecomeRagdoll( dmginfo )
