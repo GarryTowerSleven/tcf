@@ -5,10 +5,6 @@ end )
 function EjectPassengers( ply )
 
 	if IsValid( ply.Cart ) && ply.Cart.Depart != true then
-		if ply:InVehicle() then
-			ply:ExitVehicle()
-		end
-
 		ply:SetPos( ply.Cart:GetPos() - Vector( 0, 160, 0 ) )
 		ply:SetEyeAngles( Angle( 0, -180, 0 ) )
 
