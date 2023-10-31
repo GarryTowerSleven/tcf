@@ -125,3 +125,11 @@ Maps.Register( "gmt_halloween2023", {
 	DateAdded = 1416200139,
 	DateModified = 1416200139,
 } )
+
+Maps.Register( "gmt_halloween2023_02", {
+	Name = "Halloween 2023",
+	Desc = "Enter the madness.",
+	Author = "PixelTail Games / TCF Team",
+	DateAdded = 1416200139,
+	DateModified = 1416200139,
+} )
