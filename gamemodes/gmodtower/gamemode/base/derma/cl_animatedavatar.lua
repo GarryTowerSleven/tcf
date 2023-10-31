@@ -12,14 +12,10 @@ function PANEL:OnSizeChanged(w, h)
     if IsValid(self.AvatarDHTML) then
         self.AvatarDHTML:SetSize(w, h)
     end
-
-    if IsValid(self.FrameDHTML) then
-        self.FrameDHTML:SetSize(w, h)
-    end
 end
 
-function PANEL:GetHTML(account, type)
-    local uri = "https://gtower.app/avatar/?id=" .. account .. "&type=" .. type
+function PANEL:GetHTML(account)
+    local uri = "https://gtower.app/avatar/?id=" .. account
 
     -- Prevent cache on random avatars.
     if account == 0 then
@@ -43,65 +39,53 @@ function PANEL:GetHTML(account, type)
             }
         </style>
         <body>
-            <img id="img" src="]] .. uri .. [[">
+            <img id="avatar" src="]] .. uri .. [[&type=avatar">
+            <img id="frame" src="]] .. uri .. [[&type=frame">
         </body>
         <script>
-            function checkImage()
+            function shrinkAvatar()
             {
-                const width = document.querySelector("img").naturalWidth;
-                (width > 1) ? gmod.avatarLoaded() : gmod.avatarError();
+                document.getElementById("avatar").style.scale = ]] .. (1 / self.FrameScale) .. [[;
+            }
+
+            function checkImageState(type)
+            {
+                const img = document.getElementById(type);
+
+                const width = img.naturalWidth;
+                const loaded = (width > 1);
+
+                loaded ? gmod.imageLoaded(type) : gmod.imageError(type);
+
+                if ( type === "frame" && loaded ) shrinkAvatar();
+                if ( !loaded ) img.remove();
             }
         </script>
     ]];
 end
 
 function PANEL:SetupAnimatedAvatar(accountID, size)
-    self.AvatarDHTML:SetHTML( self:GetHTML(accountID, "avatar") )
+    self.AvatarDHTML:SetHTML( self:GetHTML(accountID) )
     self.AvatarDHTML:SetPos(0, 0)
     self.AvatarDHTML:SetSize(size, size)
     self.AvatarDHTML:SetZPos(1)
 
     self.AvatarDHTML.OnDocumentReady = function()
-        self.AvatarDHTML:AddFunction( "gmod", "avatarLoaded", function( str )
-            self.AvatarImage:SetVisible(false)
+        self.AvatarDHTML:AddFunction( "gmod", "imageLoaded", function( avatarType )
+            if avatarType == "avatar" then
+                self.AvatarImage:SetVisible( false )
+            end
+
+            if avatarType == "frame" then
+                self:OnFrameLoaded()
+            end
         end)
     
-        self.AvatarDHTML:AddFunction( "gmod", "avatarError", function( str )
-            if IsValid(self.AvatarDHTML) then
-                self.AvatarDHTML:Remove()
-            end
+        self.AvatarDHTML:AddFunction( "gmod", "imageError", function( avatarType )
         end)
 
-        self.AvatarDHTML:Call([[checkImage();]])
-    end
-end
-
-function PANEL:SetupAnimatedFrame(accountID, size)
-    self.FrameDHTML:SetHTML( self:GetHTML(accountID, "frame") )
-    self.FrameDHTML:SetPos(0, 0)
-    self.FrameDHTML:SetSize(size, size)
-    self.FrameDHTML:SetZPos(2)
-
-    self.FrameDHTML.OnDocumentReady = function()
-        self.FrameDHTML:AddFunction( "gmod", "avatarLoaded", function()
-            -- Shrink avatar because of the frame.
-            -- TODO: The frame should be 1.22x larger than the avatar instead shrinking the avatar.
-            if IsValid(self.AvatarDHTML) then
-                self.AvatarDHTML:SetSize(size * (1 / self.FrameScale), size * (1 / self.FrameScale))
-                self.AvatarDHTML:SetPos(size * (1 - (1 / self.FrameScale)) / 2 + 1, size * (1 - (1 / self.FrameScale)) / 2 + 1)
-            end
-
-            -- Call scoreboard alterations.
-            self:OnFrameLoaded()
-        end)  
-    
-        self.FrameDHTML:AddFunction( "gmod", "avatarError", function()
-            if IsValid(self.FrameDHTML) then
-                self.FrameDHTML:Remove()
-            end
-        end)
-
-        self.FrameDHTML:Call([[checkImage();]])
+        self.AvatarDHTML:Call([[checkImageState("avatar");]])
+        self.AvatarDHTML:Call([[checkImageState("frame");]])
     end
 end
 
@@ -116,7 +100,6 @@ function PANEL:SetPlayer(ply, size)
     self.AvatarImage:SetPlayer(ply, size)
 
     self.AvatarDHTML = vgui.Create("DHTML", self)
-    self.FrameDHTML = vgui.Create("DHTML", self)
 
     local accountID = 0
 
@@ -125,7 +108,6 @@ function PANEL:SetPlayer(ply, size)
     end
 
     self:SetupAnimatedAvatar(accountID, size)
-    self:SetupAnimatedFrame(accountID, size)
 end
 
 vgui.Register("AnimatedAvatar", PANEL, "Panel")
