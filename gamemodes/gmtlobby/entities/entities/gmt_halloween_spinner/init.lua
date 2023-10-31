@@ -171,7 +171,7 @@ function ENT:PayOut( ply, prize )
 	elseif string.StartWith( self.SLOTS[prize][1], "10 Candy" ) then
 		gmc_earn = self.GMCPayouts[prize]
 		self:Win( ply, 3, self.SoundSet, nil, nil, nil, gmc_earn )
-		ply:SetNet( "Candy", self:GetNet( "Candy" ) + 10 )
+		ply:SetNet( "Candy", ply:GetNet( "Candy" ) + 10 )
 	end
 
 end
