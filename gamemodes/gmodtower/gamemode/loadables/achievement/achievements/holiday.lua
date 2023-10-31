@@ -19,13 +19,6 @@ GTowerAchievements:Add( ACHIEVEMENTS.HALLOWEENGHOST, {
 	Group = 20
 })
 
-GTowerAchievements:Add( ACHIEVEMENTS.HALLOWEENCREATURE, {
-	Name = "The Creature", 
-	Description = "Halloween: Meet the creature.", 
-	Value = 1,
-	Group = 20
-})
-
 --[[GTowerAchievements:Add( ACHIEVEMENTS.HALLOWEENSURVIVOR, {
 	Name = "Last Survivor", 
 	Description = "Halloween: Survive and discover the ride.", 

@@ -48,7 +48,7 @@ function GM:HUDPaintBackground()
 	surface.SetMaterial(VignetteMat)
 	surface.DrawTexturedRect(0,0,ScrW(),ScrH())
 
-	draw.SimpleText( math.Clamp( LocalPlayer():Health(), 0, 100 ), nil, 15, 150 )
+	--draw.SimpleText( math.Clamp( LocalPlayer():Health(), 0, 100 ), nil, 15, 150 )
 
 	if ( LocalPlayer():Health() < 25 and LocalPlayer():Alive() ) then
 		
@@ -464,7 +464,7 @@ hook.Add( "HUDPaint", "DevHQSpook", function()
 
 	if LocalPlayer():GetNet( "PlayerLocation" ) > 1 then
 
-		ChromaticAbberation()
+		--ChromaticAbberation()
 		DrawREC()
 		DrawCameraLines()
 		DrawKill()

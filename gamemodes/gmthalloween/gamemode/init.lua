@@ -116,7 +116,15 @@ hook.Add( "PlayerSpawnClient", "PlayerTP", function( ply )
 end )
 
 hook.Add( "CanPlayerSuicide", "SuicideCheck", function( ply )
-	return !( IsValid( ply.ITM ) || IsValid( ply.Cart ) )
+	return !IsValid( ply.Cart )
+end )
+
+hook.Add( "PlayerCanHearPlayersVoice", "ITMProximityChat", function(listener, talker)
+    if listener:GetPos():WithinDistance( talker:GetPos(), 1024 ) then
+        return true, true
+    end
+
+	return false
 end )
 
 // weapon switch commands
