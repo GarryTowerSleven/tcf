@@ -1,5 +1,5 @@
 concommand.Add( "gmt_leavetrain", function( ply )
-	EjectPassengers( ply )
+	ply:ExitVehicle()
 end )
 
 function EjectPassengers( ply )
