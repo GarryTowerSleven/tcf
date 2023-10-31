@@ -169,9 +169,11 @@ function ENT:PayOut( ply, prize )
 		gmc_earn = self.GMCPayouts[prize]
 		self:Win( ply, 3, self.SoundSet, nil, nil, nil, gmc_earn )
 	elseif string.StartWith( self.SLOTS[prize][1], "10 Candy" ) then
-		gmc_earn = self.GMCPayouts[prize]
-		self:Win( ply, 3, self.SoundSet, nil, nil, nil, gmc_earn )
 		ply:SetNet( "Candy", ply:GetNet( "Candy" ) + 10 )
+
+		gmc_earn = self.GMCPayouts[prize]
+
+		self:Win( ply, 3, self.SoundSet, nil, nil, nil, gmc_earn )
 	end
 
 end
@@ -209,7 +211,7 @@ function ENT:Win( ply, times, winSound, prize, prizeNum, prizeName, GMC )
 	if ( GMC != nil ) then
 		ply:AddMoney( GMC, true, true, true )
 		prizeName = "Lose "..math.abs( GMC ).." GMC"
-	else
+	elseif ( prize != nil ) then
 		local count = ( prizeNum or 1 )
 
 		for i=1, count do
