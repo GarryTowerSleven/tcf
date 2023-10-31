@@ -31,10 +31,10 @@ ENT.SLOTS = {
 	{"Absolutely Nothing", 5},
 	{"Lose 100 GMC", 9},
 	{"Random Pumpkin", 12, {
-		"hwpumpkin1",
-		"hwpumpkin2",
-		"hwpumpkin3",
-		"hwpumpkin4"
+		"suite_pumpkin",
+		"suite_pumpkin_big",
+		"suite_pumpkin_squashed",
+		"suite_pumpkin_stout"
 	} },
 	{"Flamin' Skulls", 15, "gmt_skulls"},
 	{"Spider Player Model", 16, "HalloweenSpider"},

@@ -105,6 +105,8 @@ function ENT:AcceptInput( name, activator, caller, data )
 					v.RideCompleted = true
 					v.RideCompleteTimer = 0.5 + CurTime()
 					v:ConCommand( "gmt_leavetrain" )
+
+					v:AddAchievement( ACHIEVEMENTS.HALLOWEENRIDE, 1 )
 				end
 
 			end

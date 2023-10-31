@@ -76,7 +76,6 @@ hook.Add( "Think", "HalloweenThink", function()
 
 		if ply.RideCompleted then
 			if ply.RideCompleteTimer < CurTime() then
-				ply:AddAchievement( ACHIEVEMENTS.HALLOWEENRIDE, 1 )
 				ply.RideCompleted = false
 			end
 		end
