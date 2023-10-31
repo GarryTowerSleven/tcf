@@ -464,7 +464,7 @@ hook.Add( "HUDPaint", "DevHQSpook", function()
 
 	if LocalPlayer():GetNet( "PlayerLocation" ) > 1 then
 
-		ChromaticAbberation()
+		--ChromaticAbberation()
 		DrawREC()
 		DrawCameraLines()
 		DrawKill()
