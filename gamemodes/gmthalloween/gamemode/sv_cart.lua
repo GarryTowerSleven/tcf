@@ -41,7 +41,7 @@ function TrainLeave( ply, cart )
 		table.RemoveByValue( cart.Players, ply )
 	end
 
-	cart.Passengers = cart.Passengers - 1
+	cart.Passengers = #cart.Players
 
 	if cart.Passengers == 2 || cart.Depart == true then 
 		cart.IsFull = true 
@@ -63,7 +63,7 @@ hook.Add( "TrainEnter","CheckTrainLogic", function( ply, ent )
 
 	table.insert( cart.Players, ply )
 
-	cart.Passengers = cart.Passengers + 1
+	cart.Passengers = #cart.Players
 
 	if cart.Passengers == 2 then 
 		cart.IsFull = true
