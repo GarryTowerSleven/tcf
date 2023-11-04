@@ -6,6 +6,7 @@ ITEM.ClassName = "gmt_trunk"
 ITEM.UniqueInventory = true
 ITEM.DrawModel = true
 ITEM.CanRemove = false
+ITEM.NoTrunk = true
 ITEM.Tradable = false
 ITEM.InvCategory = "1" // suite
 
