@@ -114,10 +114,13 @@ local function MapAdds()
 	AddEntity( "gmt_casino_videopoker", Vector(2258,860,192), Angle(0,0,0) )
 
 	-- spinners
-	AddEntity( "gmt_casino_spinner", Vector(2670,1260,260), Angle(0,-90,0) )
-	AddEntity( "gmt_casino_spinner", Vector(2470,1260,260), Angle(0,-90,0) )
-	AddEntity( "gmt_casino_spinner", Vector(2270,1260,260), Angle(0,-90,0) )
-	AddEntity( "gmt_casino_spinner", Vector(2070,1260,260), Angle(0,-90,0) )
+	AddEntity( "gmt_halloween_spinner", Vector(2670,1260,270), Angle(0,-90,0) )
+	AddEntity( "gmt_halloween_spinner", Vector(2470,1260,270), Angle(0,-90,0) )
+	AddEntity( "gmt_halloween_spinner", Vector(2270,1260,270), Angle(0,-90,0) )
+	AddEntity( "gmt_halloween_spinner", Vector(2070,1260,270), Angle(0,-90,0) )
+	AddEntity( "gmt_casino_spinner", Vector(2168,1265,260), Angle(0,-90,0) )
+	AddEntity( "gmt_casino_spinner", Vector(2371,1265,260), Angle(0,-90,0) )
+	AddEntity( "gmt_casino_spinner", Vector(2569,1265,260), Angle(0,-90,0) )
 
 	-- seats
 	AddSeat( "models/props/cs_office/sofa_chair.mdl", Vector(2015,1115,208), Angle(0,30,0), 0 )
@@ -149,16 +152,6 @@ local function MapAdds()
 
     end
 
-    -- Halloween spinners
-    for _, v in pairs( ents.FindByClass( "gmt_casino_spinner" ) ) do
-		local hwSpinner = ents.Create("gmt_halloween_spinner")
-		hwSpinner:SetPos( v:GetPos() + Vector(0, 0, 10) )
-		hwSpinner:SetAngles( v:GetAngles() )
-		hwSpinner:Spawn()
-		hwSpinner:Activate()
-
-		v:Remove()
-    end
 end
 
 hook.Add( "InitPostEntity", "MapDataAdd", function()
