@@ -16,7 +16,7 @@ GTowerItems.DefaultInvCount = 32
 GTowerItems.DefaultBankCount = 50
 
 GTowerItems.MaxInvCount = 127
-GTowerItems.MaxBankCount = 150
+GTowerItems.MaxBankCount = 250
 GTowerItems.BankSlotWorth = 1000
 
 /*
