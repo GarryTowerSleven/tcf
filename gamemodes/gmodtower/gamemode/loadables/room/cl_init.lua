@@ -126,14 +126,14 @@ function GTowerRooms:ChatTrunkUpgradeSlot( num )
 
 	if ( not Afford( cost ) ) then
 		return {
-			Response = num .. " Slot " .. "(" .. string.FormatNumber( cost ) .. " GMC)",
+			Response = num .. " Slot" .. ( num > 1 and "s" or "" ) .. " " .. "(" .. string.FormatNumber( cost ) .. " GMC)",
 			Func = EmptyFunction,
 			Text = "Sorry, you don't have enough GMC to buy this upgrade."
 		}
 	end
 
 	return {
-			Response = num .. " Slot " .. "(" .. string.FormatNumber( cost ) .. " GMC)",
+			Response = num .. " Slot" .. ( num > 1 and "s" or "" ) .. " " .. "(" .. string.FormatNumber( cost ) .. " GMC)",
 			Func = function() RunConsoleCommand( "gmt_buybankslots", num ) end,
 			Text = "Thanks. I've put in an order for " .. num .. " extra slot(s) for your trunk."
 	}

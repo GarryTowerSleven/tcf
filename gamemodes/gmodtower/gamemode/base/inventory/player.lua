@@ -15,7 +15,7 @@ function meta:MaxItems()
 		return GTowerItems.DefaultInvCount
 	end
 
-    return self:GetNet( "MaxItems" ) or GTowerItems.DefaultInvCount
+    return /*self:GetNet( "MaxItems" ) or*/ GTowerItems.DefaultInvCount
 end
 
 function meta:SetMaxItems( num )

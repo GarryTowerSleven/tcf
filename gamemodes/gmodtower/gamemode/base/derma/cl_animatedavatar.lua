@@ -64,7 +64,16 @@ function PANEL:GetHTML(account)
     ]];
 end
 
-function PANEL:SetupAnimatedAvatar(accountID, size)
+function PANEL:SetupAnimatedAvatar(ply, size)
+    if IsValid( self.AvatarDHTML ) then return end
+
+    local accountID = 0
+
+    if ply and not ply:IsBot() and not ply:IsHidden() then
+        accountID = ply:AccountID()
+    end
+
+    self.AvatarDHTML = vgui.Create("DHTML", self)
     self.AvatarDHTML:SetHTML( self:GetHTML(accountID) )
     self.AvatarDHTML:SetPos(0, 0)
     self.AvatarDHTML:SetSize(size, size)
@@ -99,15 +108,11 @@ function PANEL:SetPlayer(ply, size)
     self.AvatarImage:SetSize(size, size)
     self.AvatarImage:SetPlayer(ply, size)
 
-    self.AvatarDHTML = vgui.Create("DHTML", self)
+    self:SetupAnimatedAvatar(ply, size)
+end
 
-    local accountID = 0
-
-    if ply and not ply:IsBot() and not ply:IsHidden() then
-        accountID = ply:AccountID()
-    end
-
-    self:SetupAnimatedAvatar(accountID, size)
+function PANEL:ToggleVisible(a)
+    print("ToggleVisible")
 end
 
 vgui.Register("AnimatedAvatar", PANEL, "Panel")

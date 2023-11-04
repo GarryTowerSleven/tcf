@@ -230,7 +230,8 @@ for _, emote in pairs(Commands) do
 					if !Location.IsTheater( Location.Find(ply:GetPos()) ) && !Location.IsGroup( Location.Find(ply:GetPos()), "suite" ) && !Location.IsGroup( Location.Find(ply:GetPos()), "partysuite" ) then
 				
 						ply.DanceSND = CreateSound( ply, "misc/halloween/hwn_dance_loop.wav" )
-						ply.DanceSND:PlayEx( .5, 100 )
+						ply.DanceSND:SetSoundLevel(70)
+						ply.DanceSND:PlayEx( .6, 100 )
 					
 					end
 				elseif ply:GetModel() == "models/player/miku.mdl" && emoteName == "dance" then

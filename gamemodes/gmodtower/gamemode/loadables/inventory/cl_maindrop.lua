@@ -63,7 +63,7 @@ function PANEL:Paint( w, h )
 	surface.DrawTexturedRect( 0, 0, self.ButtonWidth, self:GetTall() - self.ButtonHeight )
 
 	surface.SetTexture( BackButton )
-	surface.DrawTexturedRect( 0, self:GetTall() - self.ButtonHeight, self.ButtonWidth, self.ButtonHeight )
+	surface.DrawTexturedRect( 0, self:GetTall() - self.ButtonHeight, self.ButtonWidth, self.ButtonHeight - 10 )
 
 end
 
