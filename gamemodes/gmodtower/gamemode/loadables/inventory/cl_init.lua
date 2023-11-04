@@ -28,7 +28,7 @@ function GTowerItems:MaxItems()
 		return GTowerItems.DefaultInvCount
 	end
 	
-	return LocalPlayer():GetNet("MaxItems")
+	return GTowerItems.DefaultInvCount --LocalPlayer():GetNet("MaxItems")
 end
 
 function GTowerItems:MaxBank()
