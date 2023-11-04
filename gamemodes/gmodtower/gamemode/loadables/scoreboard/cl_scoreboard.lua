@@ -111,14 +111,17 @@ PLAYERS.LobbyOnlyTabs = {
 	"Location",
 	"Group",
 }
+
 PLAYERS.Padding = 8
 PLAYERS.Size = GetPlayerSize()
 PLAYERS.Height = PLAYERS.Size + PLAYERS.Padding
 PLAYERS.PlayersDisplayed = 10
 PLAYERS.StartHeight = 1
 
-function PLAYERS:Init()
+PLAYERS.AnimatedAvatars = {}
 
+function PLAYERS:Init()
+	
 	self.Players = {}
 	self.NextUpdate = 0
 
@@ -195,6 +198,8 @@ function PLAYERS:SetActiveTab( tab )
 		self.ActiveTab:SetText( self.ActiveTab.Name )
 		self.ActiveTab:SetActive( false )
 	end
+
+	PLAYERS.AnimatedAvatars = {}
 
 	self.ActiveTab = tab
 	self.ActiveTab:SetActive( true )
@@ -633,6 +638,8 @@ function PLAYERAVATAR:Init()
 		end
 	end
 	
+	table.insert( PLAYERS.AnimatedAvatars, self.Avatar )
+
 	/*self.SteamProfile = vgui.Create( "DImageButton", self )
 	self.SteamProfile:SetSize( self.ButtonSize, self.ButtonSize )
 	self.SteamProfile:SetZPos( 1 )
@@ -1854,3 +1861,26 @@ function LABELSCORE:PerformLayout()
 end
 
 vgui.Register( "LabelScore", LABELSCORE )
+
+hook.Add( "GMTScoreboardShow", "RestoreAvatarDHTML", function()
+	timer.Remove( "DisableAvatarDHTML" )
+
+    for k, v in pairs( PLAYERS.AnimatedAvatars ) do
+		if IsValid( v ) and IsValid( v.Ply ) then
+			v:SetupAnimatedAvatar( v.Ply, v:GetSize() )
+		end
+	end
+end)
+
+hook.Add( "GMTScoreboardHide", "DisableAvatarDHTML", function()
+	timer.Remove( "DisableAvatarDHTML" )
+
+	timer.Create( "DisableAvatarDHTML", 2, 1, function()
+		for k, v in pairs( PLAYERS.AnimatedAvatars ) do
+			if IsValid( v ) then
+				v.AvatarDHTML:Remove()
+				v.AvatarImage:SetVisible( true )
+			end
+		end
+	end)
+end)
