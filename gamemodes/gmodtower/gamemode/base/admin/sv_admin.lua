@@ -33,6 +33,7 @@ ListModerator = {
 	["STEAM_0:0:52342461"]	= true, -- Willy Bonka
 	["STEAM_0:0:55259712"]	= true, -- Espy
 	["STEAM_0:0:241528576"]	= true, -- Scienti[-]
+	["STEAM_0:1:4313984"]	= true, -- Master
 
 }
 
