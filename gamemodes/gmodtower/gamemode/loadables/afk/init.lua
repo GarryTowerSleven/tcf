@@ -100,7 +100,8 @@ hook.Add( "PlayerThink", "AFKPlayerThink", function( ply )
 	local curtime = CurTime()
 
 	if ( not ply._AFKTime ) then
-		ply._AFKTime = CurTime() + Time
+		local _time = Location.IsTheater( ply:Location() ) and Time * 2 or Time
+		ply._AFKTime = CurTime() + _time
 	end
 
 	local timeleft = math.Clamp( ply._AFKTime - curtime, 0, ply._AFKTime )

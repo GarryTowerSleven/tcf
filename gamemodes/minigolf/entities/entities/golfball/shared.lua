@@ -126,7 +126,11 @@ end
 function ENT:CheckStuck()
 	local velocity = self:GetVelocity():Length()
 
-	if velocity < 1000 then return end
+	if velocity < 5 then
+		self._nextStuckCheck = nil
+		self._lastStuckPosition = nil
+		return
+	end
 		
 	if !self._nextStuckCheck then
 		self._nextStuckCheck = CurTime() + 1
