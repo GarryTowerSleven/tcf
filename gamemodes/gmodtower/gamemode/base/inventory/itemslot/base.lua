@@ -72,15 +72,6 @@ function SLOTBASE:Allow( Item, grabbing )
 
 			end
 
-			//Check if the player is already wearing that specific mysql id
-			for _, v in pairs( self.Ply:GetEquipedItems() ) do
-
-				if v.MysqlId == Item.MysqlId && tonumber( string.Explode( "-", Item.Slot )[1] ) > 12 then
-					return false
-				end
-
-			end
-
 		end
 
 		if Item.AllowSlot && Item:AllowSlot( self, grabbing ) == false then
