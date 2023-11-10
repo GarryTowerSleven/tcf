@@ -349,6 +349,8 @@ function meta:DropItem( slot, aim, rotation, shoot )
 	local DropEnt = Item:OnDrop()
 	local VarType = type( DropEnt )
 
+	DropEnt.Item = Item
+
 	if VarType == "Entity" || VarType == "Weapon"  then //Returned a entity to be set
 
 		//You have to spawn it first for special entites
@@ -369,6 +371,7 @@ function meta:DropItem( slot, aim, rotation, shoot )
 		local Pos = Trace.HitPos - Trace.HitNormal * min.z
 
 		if ( Item.Manipulator ) then
+			Item.OriginalPos = Pos
 			Pos = Item.Manipulator( Ang, Pos, Trace.HitNormal )
 		end
 

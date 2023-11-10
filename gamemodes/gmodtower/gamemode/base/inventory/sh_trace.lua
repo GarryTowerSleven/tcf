@@ -10,6 +10,10 @@ function GTowerItems:TraceHull( ent, filter )
 	mins, maxs = (mins - Pos) * 0.95, (maxs - Pos) * 0.95
 	OrderVectors(mins, maxs)
 
+	if ent.Item and ent.Item.IgnoreManipulatorHitbox and ent.Item.OriginalPos then
+		Pos = ent.Item.OriginalPos
+	end
+
 if DEBUG then
 	print(CLIENT, ent, mins, maxs, ent:GetModel())
 	if Pos != lastpos || ent:GetAngles() != lastang then
@@ -29,7 +33,6 @@ if DEBUG then
 end
 
 	if !filter then filter = ent end
-
 	local trace = util.TraceHull( {
 		mins = mins,
 		maxs = maxs,

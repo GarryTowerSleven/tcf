@@ -289,10 +289,16 @@ RegisterItem("cardboardzombie",{
 
 RegisterItem("scarecrow",{
 	Name = "Scarecrow",
-	Description = "That's a scary crow you got there!",
+	Description = "Scare the crows away!",
 	Model = "models/props_manor/gmt_scarycrowman.mdl",
 	DrawModel = true,
 	StorePrice = 100,
+	IgnoreManipulatorHitbox = true,
+	Manipulator = function( ang, pos, normal )
+		pos = pos + ( normal * -9.5 )
+		
+		return pos
+	end
 })
 
 RegisterItem("coffin",{

@@ -223,6 +223,7 @@ concommand.Add( "gm_invmove", function( ply, command, args )
 			local Pos = Trace.HitPos - Trace.HitNormal * min.z
 
 			if ( Item.Manipulator ) then
+				Item.OriginalPos = Pos
 				Pos = Item.Manipulator( Ang, Pos, Trace.HitNormal)
 			end
 
