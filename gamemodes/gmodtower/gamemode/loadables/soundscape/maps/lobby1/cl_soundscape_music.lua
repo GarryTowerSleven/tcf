@@ -410,7 +410,7 @@ soundscape.Register("music_bar", {})
 soundscape.Register("music_narnia", {})
 
 -- Halloween Dev HQ
-soundscape.Register("music_olddevhq", {
+/*soundscape.Register("music_olddevhq", {
 	-- Tell the soundscape system that when this is usually removed and faded out, keep it alive
 	idle = false,
 
@@ -420,6 +420,6 @@ soundscape.Register("music_olddevhq", {
 		volume = 1,
 
 		// halloween
-		// sound = { Sound( "gmodtower/lobby/halloween/devhq_ambience.mp3" ), 157 },
+		sound = { Sound( "gmodtower/lobby/halloween/devhq_ambience.mp3" ), 157 },
 	},
-})
+})*/
