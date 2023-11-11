@@ -72,9 +72,9 @@ function soundscape.GetMusicSoundscape(loc)
 	end
 
 	-- halloween
-	if location.Group == "eplaza" or location.Group == "pool" or location.Group == "lakeside" then
-		return "music_lobby"
-	end
+	-- if location.Group == "eplaza" or location.Group == "pool" or location.Group == "lakeside" then
+	-- 	return "music_lobby"
+	-- end
 
 	-- Just use default methods to find the soundscape
  	scape = Location.GetGroup(loc)
