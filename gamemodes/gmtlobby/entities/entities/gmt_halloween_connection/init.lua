@@ -205,6 +205,9 @@ concommand.Add("gmt_halloween_effects", function(ply, cmd, args)
 end)
 
 hook.Add("Location", "HalloweenOverlay", function( ply, loc )
+	// Only if gmt_halloween_connection entity exists
+	if !ents.FindByClass("gmt_halloween_connection")[1] then return end
+
 	if loc == 49 then
 		PostEvent( ply, "bw_on" )
 		ply._BWVision = true
