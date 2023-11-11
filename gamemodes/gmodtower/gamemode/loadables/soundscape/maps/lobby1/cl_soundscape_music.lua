@@ -210,13 +210,13 @@ soundscape.Register("music_lobby",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			// { "gmodtower/music/lobby1.mp3", 220 },
-			// { "gmodtower/music/lobby2.mp3", 294 },
-			// { "gmodtower/music/lobby3.mp3", 240 },
+			{ "gmodtower/music/lobby1.mp3", 220 },
+			{ "gmodtower/music/lobby2.mp3", 294 },
+			{ "gmodtower/music/lobby3.mp3", 240 },
 
 			// halloween
-			{ "gmodtower/music/halloween/lobby1.mp3", 189 },
-			{ "gmodtower/music/halloween/lobby2.mp3", 158 },
+			// { "gmodtower/music/halloween/lobby1.mp3", 189 },
+			// { "gmodtower/music/halloween/lobby2.mp3", 158 },
 		},
 	},
 })
@@ -233,16 +233,16 @@ soundscape.Register("music_lobbyroof",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			// { "gmodtower/music/lobbyroof.mp3", 94 },
-			// { "gmodtower/music/lobbyroof2.mp3", 196 },
+			{ "gmodtower/music/lobbyroof.mp3", 94 },
+			{ "gmodtower/music/lobbyroof2.mp3", 196 },
 
 			// halloween
-			{ "gmodtower/music/halloween/roof.mp3", 65 },
+			// { "gmodtower/music/halloween/roof.mp3", 65 },
 		},
 	},
 })
 
-/*soundscape.Register("music_eplaza",
+soundscape.Register("music_eplaza",
 {
 	-- Tell the soundscape system that when this is usually removed and faded out, keep it alive
 	idle = false,
@@ -257,7 +257,7 @@ soundscape.Register("music_lobbyroof",
 			{ "gmodtower/music/plaza.mp3", 221 },
 		},
 	},
-})*/
+})
 
 soundscape.Register("music_gamemodeports",
 {
@@ -289,10 +289,10 @@ soundscape.Register("music_suites",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			// { "gmodtower/music/suite1.mp3", 282 },
-			// { "gmodtower/music/suite2.mp3", 197 },
+			{ "gmodtower/music/suite1.mp3", 282 },
+			{ "gmodtower/music/suite2.mp3", 197 },
 
-			{ "gmodtower/music/halloween/suite1.mp3", 163 },
+			// { "gmodtower/music/halloween/suite1.mp3", 163 },
 		},
 	},
 })
@@ -343,7 +343,7 @@ soundscape.Register("music_lakeside",
 	},
 })
 
-/*soundscape.Register("music_pool",
+soundscape.Register("music_pool",
 {
 	-- Tell the soundscape system that when this is usually removed and faded out, keep it alive
 	idle = false,
@@ -359,7 +359,7 @@ soundscape.Register("music_lakeside",
 			{ "gmodtower/music/pool2.mp3", 210 },
 		},
 	},
-})*/
+})
 
 soundscape.Register("music_store",
 {
@@ -371,10 +371,10 @@ soundscape.Register("music_store",
 		type = "playlooping",
 		volume = 1,
 		-- All sounds are in a table format of {soundpath, soundlength}
-		//sound = { Sound( "gmodtower/music/store.mp3" ), 174 },
+		sound = { Sound( "gmodtower/music/store.mp3" ), 174 },
 
 		// halloween
-		sound = { Sound( "gmodtower/music/halloween/store.mp3" ), 63 },
+		// sound = { Sound( "gmodtower/music/halloween/store.mp3" ), 63 },
 	},
 })
 
@@ -420,6 +420,6 @@ soundscape.Register("music_olddevhq", {
 		volume = 1,
 
 		// halloween
-		sound = { Sound( "gmodtower/lobby/halloween/devhq_ambience.mp3" ), 157 },
+		// sound = { Sound( "gmodtower/lobby/halloween/devhq_ambience.mp3" ), 157 },
 	},
 })
