@@ -21,6 +21,8 @@ function DrawRadar()
     if not GTowerHUD.ShouldDraw() then return end
     if not LocalPlayer():GetNWBool( "VirusRadar" ) then return end
 
+	if Location.IsNarnia( LocalPlayer():Location() ) then return end
+
 	Radar.w = 256
 	Radar.h = 128
 	Radar.x = ScrW() - Radar.w - 32
