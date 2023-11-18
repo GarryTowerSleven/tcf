@@ -112,7 +112,16 @@ function ENT:SetPly( ply )
 
 	self.Ply:SetAbsVelocity( Vector(0,0,0) )
 	self.Ply:SetMoveType( MOVETYPE_NONE )
-	self.Ply:SetPos( self:GetPos() + self:GetForward() * 128 )
+
+	local maxDistance = 128
+
+	local trace = util.TraceLine({
+		start = self:GetPos(),
+		endpos = self:GetPos() + self:GetForward() * maxDistance,
+		mask = MASK_SOLID_BRUSHONLY
+	})
+
+	self.Ply:SetPos( self:GetPos() + self:GetForward() * math.min( maxDistance, trace.HitPos:Distance( self:GetPos() ) / 1.5 ) )
 
 	self.NextMove = SysTime() + 0.9
 	self.GameStart = SysTime()
@@ -137,16 +146,18 @@ function ENT:Use( ply )
 		return
 	end
 
-	self.LastPress = SysTime() + 0.5
-
-	if IsValid( self.Ply ) then //Another player already playing?
+	if IsValid( self.Ply ) or ply.InTetris == ply then
 		return
 	end
 
+	if ply._lastTetris and SysTime() < (ply._lastTetris + 1) then
+		return
+	end
+
+	self.LastPress = SysTime() + 0.5
+
 	self:SetPly( ply )
-
 	self:StartSound("gmodtower/arcade/tetris_gamestart.wav")
-
 
 end
 
@@ -173,6 +184,9 @@ function ENT:EndGame()
 		self.Ply:SetMoveType( self.OldMoveType )
 		
 		self:RemovelayerHook()
+
+		self.LastPress = SysTime() + 0.5
+		self.Ply._lastTetris = SysTime()
 
 		hook.Call("TetrisEnd", GAMEMODE, self.Ply, self )
 	end
