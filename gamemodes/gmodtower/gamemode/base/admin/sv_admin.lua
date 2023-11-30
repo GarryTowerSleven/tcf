@@ -9,6 +9,7 @@ List = {
 	["STEAM_0:1:124798129"]	= true, -- AmGona
 	["STEAM_0:1:39916544"]	= true, -- Anomaladox
 	["STEAM_0:0:44458854"]	= true, -- Bumpy
+	["STEAM_0:0:35652170"]  = true, -- Lead
 
 }
 
