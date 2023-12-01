@@ -94,7 +94,7 @@ function ENT:SetHat( num, skin )
 		return
 	end
 
-	skin = skin or 1
+	skin = skin or 99
 
 	if MrSaturnHatTable[num].body then
 		self:SetBodygroup( 1, 1 )

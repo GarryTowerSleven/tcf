@@ -101,9 +101,7 @@ end
 
 function ENT:SetCLHat( num, skin )
 
-	local snum = math.random( 0, 1 )
-	if skin then snum = skin end
-
+	skin = skin == 99 and false or skin
 	local rndhat = MrSaturnHatTable[num]
 	local hat = ClientsideModel( rndhat.mdl, RENDERGROUP_OPAQUE )
 	hat.pos = rndhat.pos
@@ -114,7 +112,7 @@ function ENT:SetCLHat( num, skin )
 	hat:SetCollisionGroup( COLLISION_GROUP_NONE )
 	hat.IsSaturnHat = true
 	hat:Spawn()
-	hat:SetSkin( snum )
+	hat:SetSkin( skin or math.random( hat:SkinCount() ) )
 	hat:SetNoDraw( true )
 
 	self.Hat = hat
