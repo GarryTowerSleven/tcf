@@ -205,15 +205,22 @@ function ENT:ThinkSmokeVolume()
 		local id = "PARTICLE" .. CurTime()
 
 		// FIXME: This should be in one think hook. It doesn't cause much performance drop, but...
-		hook.Add("Think", id, function()
+		hook.Add( "Think", id, function()
+
 			if !p then
+
 				hook.Remove("Think", id)
+
 				return
+
 			end
+
 			// print(p:GetLifeTime())
 			local val = p:GetLifeTime() / p:GetDieTime()
+
 			p:SetEndAlpha(255 * (1 - val))
-		end)
+
+		end )
 
 
 
