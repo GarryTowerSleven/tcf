@@ -142,7 +142,7 @@ function ENT:ThinkSmokeVolume()
 
 
 
-	self.NextVolParticle = CurTime() + 0.1
+	self.NextVolParticle = CurTime() + 0.3
 
 
 
@@ -154,11 +154,15 @@ function ENT:ThinkSmokeVolume()
 
 
 
-	local prpos = VectorRand() * self.FogVolumeSize
+	local ang = self:GetAngles()
+
+	ang:RotateAroundAxis(ang:Up(), -90 + math.random(-75, 75))
+
+	local prpos = ang:Forward() * math.random(32, 400) // + self:GetForward() * math.random(128, 200)
 
 	prpos.z = 32
 
-	local p = self.Emitter:Add( table.Random( self.SmokeMats ), self:GetPos() + self:GetForward() * self.FogVolumeForward + prpos )
+	local p = self.Emitter:Add( table.Random( self.SmokeMats ), self:GetPos() + prpos )
 
 
 
@@ -207,18 +211,48 @@ function ENT:ThinkSmokeVolume()
 		// FIXME: This should be in one think hook. It doesn't cause much performance drop, but...
 		hook.Add( "Think", id, function()
 
-			if !p then
+
+			if !p || p:GetLifeTime() / p:GetDieTime() >= 1 then
+
 
 				hook.Remove("Think", id)
 
 				return
 
+
 			end
 
-			// print(p:GetLifeTime())
 			local val = p:GetLifeTime() / p:GetDieTime()
 
 			p:SetEndAlpha(255 * (1 - val))
+
+			p.LastThink = p.LastThink or CurTime()
+
+
+			if p.LastThink < CurTime() then
+
+
+				local DISCO = IsValid(DISCO) and DISCO
+				local lc = DISCO and DISCO:GetColor() or color_white // render.GetLightColor(p:GetPos()):ToColor()
+				local m = DISCO and 0.66 or 1
+				m = m * (1 - val)
+
+				p:SetColor(lc.r * m, lc.g * m, lc.b * m)
+				p.LastThink = CurTime() + 0.1
+
+
+				if p and Location.Find(p:GetPos()) != LocalPlayer():Location() then
+
+
+					p:SetDieTime(0.01)
+					p:SetLifeTime(9999)
+	
+
+				end
+
+
+			end
+
 
 		end )
 
