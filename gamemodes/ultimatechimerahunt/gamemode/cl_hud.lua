@@ -116,6 +116,9 @@ function GM:DrawHUD()
 		self:DrawNiceText( pigs, "UCH_KillFont3", ScrW() - 150 + 40, ScrH() - 100, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, 200 )
 	end
 	
+	local color = ply:GetRankColor()
+	PAYOUT_COLOR = {Color(color.r * 0.65, color.g * 0.65, color.b * 0.65), color}
+
 	if ply:GetNet("IsChimera") then
 		
 		mat = ucmat

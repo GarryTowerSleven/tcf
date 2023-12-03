@@ -216,7 +216,7 @@ function DrawPayoutMain( x, y, width, height )
 		if build_dt == 1 then
 			--Expand effect when build complete
 			local dt = math.Clamp(post_dt*3,0,1)
-			local color = Scoreboard.Customization.ColorTabHighlight
+			local color = PAYOUT_COLOR && PAYOUT_COLOR[2] || Scoreboard.Customization.ColorTabHighlight
 			surface.SetDrawColor(color.r,color.g,color.b,255*(1-dt))
 			expand = expand + dt * .1
 		end
@@ -388,6 +388,12 @@ function DrawPayoutDisplay()
 
 	if Scoreboard then
 		PAYOUT_FRAME.BG_COLOR = Scoreboard.Customization.ColorTabInnerActive
+	end
+
+	// FIXME: Move into hook!!
+	if PAYOUT_COLOR then
+		PAYOUT_FRAME.BG_COLOR = PAYOUT_COLOR[1]
+		PAYOUT_FRAME.BG_COLOR.a = Scoreboard.Customization.ColorTabInnerActive.a
 	end
 
 	local frame_width = set.WIDTH
