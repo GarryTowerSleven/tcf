@@ -19,7 +19,7 @@ end
 
 function GM:PlayerInitialSpawn( ply )
 
-	hook.Call( "PlayerSetModel", GAMEMODE, ply )
+	self.BaseClass:PlayerSpawn(ply)
 
 	if SERVER then
 		Hats.UpdateWearables( ply )
@@ -218,7 +218,7 @@ end
 function GM:PlayerSpawn( ply )
 
 	if ( self:GetState() != STATE_PLAYING && !ply:GetNet( "IsVirus" ) ) then
-		hook.Call( "PlayerSetModel", GAMEMODE, ply )
+		self.BaseClass:PlayerSpawn(ply)
 	end
 	
 	ply:SetJumpPower( 0 )

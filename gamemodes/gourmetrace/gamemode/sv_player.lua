@@ -42,7 +42,7 @@ function GM:PlayerSpawn( ply )
 		ply:SetViewEntity( ply.ViewEnt )
 	end
 
-	hook.Call( "PlayerSetModel", GAMEMODE, ply )
+	self.BaseClass:PlayerSpawn(ply)
 	hook.Call( "PlayerLoadout", GAMEMODE, ply )
 
 end
