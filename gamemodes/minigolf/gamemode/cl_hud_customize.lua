@@ -30,8 +30,6 @@ local function ToggleCursor( bool )
 	end
 end
 
-CreateConVar( "cl_playercolor", "0.24 0.34 0.41", { FCVAR_ARCHIVE, FCVAR_USERINFO }, "The value is a Vector - so between 0-1 - not between 0-255" )
-
 function GM:DisplayCustomizer( enable, remove )
 	if RADIAL && ValidPanel( RADIAL ) then
 		ToggleCursor( false )

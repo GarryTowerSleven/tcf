@@ -5,7 +5,7 @@ if ( CLIENT ) then
 
 	CreateConVar( "cl_playercolor", "0.24 0.34 0.41", { FCVAR_ARCHIVE, FCVAR_USERINFO }, "The value is a Vector - so between 0-1 - not between 0-255" )
 	CreateConVar( "cl_playerbodygroups", "0", { FCVAR_ARCHIVE, FCVAR_USERINFO, FCVAR_DONTRECORD }, "The bodygroups to use, if the model has any" )
-	-- CreateConVar( "cl_weaponcolor", "0.30 1.80 2.10", { FCVAR_ARCHIVE, FCVAR_USERINFO, FCVAR_DONTRECORD }, "The value is a Vector - so between 0-1 - not between 0-255" )
+	CreateConVar( "cl_weaponcolor", "0.30 1.80 2.10", { FCVAR_ARCHIVE, FCVAR_USERINFO, FCVAR_DONTRECORD }, "The value is a Vector - so between 0-1 - not between 0-255" )
 
 end
 
@@ -24,5 +24,20 @@ function PLAYER:SetupDataTables()
 end
 
 function PLAYER:Loadout() end
+
+function PLAYER:Spawn()
+
+	BaseClass.Spawn( self )
+
+	local plyclr = self.Player:GetInfo( "cl_playercolor" )
+	self.Player:SetPlayerColor( Vector( plyclr ) )
+
+	local wepclr = Vector( self.Player:GetInfo( "cl_weaponcolor" ) )
+	if ( wepclr:Length() < 0.001 ) then
+		wepclr = Vector( 0.001, 0.001, 0.001 )
+	end
+	self.Player:SetWeaponColor( wepclr )
+
+end
 
 player_manager.RegisterClass( "player_gmt", PLAYER, "player_default" )
