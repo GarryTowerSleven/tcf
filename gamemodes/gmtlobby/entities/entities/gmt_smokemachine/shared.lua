@@ -234,7 +234,7 @@ function ENT:ThinkSmokeVolume()
 
 				local DISCO = IsValid(DISCO) and DISCO
 				local lc = DISCO and DISCO:GetColor() or color_white // render.GetLightColor(p:GetPos()):ToColor()
-				local m = DISCO and 0.66 or 1
+				local m = DISCO and 1.25 or 1
 				m = m * (1 - val)
 
 				p:SetColor(lc.r * m, lc.g * m, lc.b * m)
