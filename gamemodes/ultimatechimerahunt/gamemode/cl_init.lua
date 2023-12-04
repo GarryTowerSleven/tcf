@@ -414,3 +414,107 @@ hook.Add("PostDrawOpaqueRenderables", "Flashlight", function()
 	light:Update()
 
 end)
+
+local duck = 0
+local feetang = Angle(0, 0, 0)
+local sat_cache = false
+local sat_build = 0
+
+hook.Add("PostDrawEffects", "Arms", function()
+
+	local ply = LocalPlayer()
+
+	if ply:Team() != TEAM_PIGS && ply:Team() != TEAM_GHOST then
+
+		if IsValid( arms ) then
+
+			arms:Remove()
+
+		end
+
+		return
+
+	end
+
+	if !IsValid(arms) then
+
+		arms = ClientsideModel( ply:GetModel() )
+		arms:SetNoDraw( true )
+	
+		timer.Simple(0, function()
+			
+			if IsValid( arms ) then
+
+				for i = 0, arms:GetBoneCount() - 1 do
+
+					local name = arms:GetBoneName(i)
+
+					if string.find( name, "Head" ) || string.find( name, "Snout" ) then
+
+						arms:ManipulateBoneScale(i, vector_origin)
+
+					end
+
+				end
+
+			end
+
+		end)
+
+	end
+
+	local sat = ply:GetNet( "HasSaturn" )
+
+	duck = math.Approach( duck, ply:Crouching() && 1 || 0, FrameTime() * 8 )
+	sat_build = math.Approach( sat_build, sat and 1 or 0, FrameTime() * 8 )
+
+	if ply:ShouldDrawLocalPlayer() || !ply:Alive() then return end
+
+	cam.Start3D(nil, nil, nil)
+
+		cam.IgnoreZ(true)
+
+			local pos, ang = EyePos(), EyeAngles()
+			local ang2 = Angle(0, ang.y, 0)
+			local moving = ply:GetVelocity():Length2D() > 1
+
+			local diff = math.abs( math.NormalizeAngle( feetang.y - ang2.y ) )
+			if diff > ( 45 - sat_build * 45 ) || moving then
+				feetang.y = math.ApproachAngle( feetang.y, ang2.y, FrameTime() * ( 128 + ( diff - 45 ) * 16 + ( diff > 70 and 200 or 0 ) or moving and 512 ) )
+			end
+
+			local ang2 = feetang
+			local p = ply:GetPoseParameter( "move_yaw" )
+			local m1, m2 = ply:GetPoseParameterRange( 1 )
+
+			arms:SetSequence( ply:GetSequence() )
+			arms:SetCycle( ply:GetCycle() )
+			arms:SetPoseParameter( "move_yaw", math.Remap( p, 0, 1, m1, m2 ) + 20 * sat_build )
+
+			arms:SetPos( EyePos() - ply:GetCurrentViewOffset() - ang2:Forward() * ( 18 + duck * 8 ) + ang2:Up() * ( ( duck * ( 10 + 2 ) ) + ( ply:IsGhost() && 10 || 4 ) ) )// pos + ang:Forward() * 64 + ang:Up() * -12)
+			arms:SetAngles( ang2 - Angle( 0, sat_build * 20, 0 ) )
+
+			arms:SetModel( ply:GetModel() )
+			arms:SetSkin( ply:GetSkin() )
+			arms:SetBodygroup( 1, ply:GetBodygroup(1) )
+			arms:DrawModel()
+
+			if sat_cache != sat then
+
+				for i = 0, arms:GetBoneCount() - 1 do
+					local name = arms:GetBoneName(i)
+			
+					if string.find( name, "R_" ) || string.find( name, "Rarm" ) then
+						arms:ManipulateBoneScale( i, !sat and Vector( 1, 1, 1 ) || Vector( math.huge, math.huge, math.huge ))
+					end
+				end
+
+				sat_cache = sat
+
+			end
+
+		cam.IgnoreZ(false)
+
+	cam.End3D()
+
+end)
