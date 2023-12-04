@@ -789,6 +789,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 			self:CheckBox( "Opt-out of being The Chimera", "gmt_uch_optout" )
 			self:CheckBox( "Enable Chimera Glow (expensive)", "gmt_uch_chimera_glow" )
 			self:CheckBox( "Enable Pigmask Glow (expensive)", "gmt_uch_pig_glow" )
+			self:CheckBox( "Enable Viewbob", "gmt_uch_viewbob" )
 
 		end
 		

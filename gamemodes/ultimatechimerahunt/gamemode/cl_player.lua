@@ -149,6 +149,7 @@ local function ThirdPersonCamera( ply, pos, ang, fov, dis )
 end
 
 local zoom = 0
+local vb = CreateClientConVar("gmt_uch_viewbob", "1", true)
 
 function GM:CalcView( ply, pos, ang, fov )
 
@@ -251,7 +252,20 @@ function GM:CalcView( ply, pos, ang, fov )
 		
 	end
 
-	return { ply, pos, ang, fov }
+	local vb2 = vb:GetFloat()
+	if vb2 > 0 then
+		local vel = LocalPlayer():GetVelocity()
+		local vel2d = vel:Length2D()
+		local l = vel2d / LocalPlayer():GetWalkSpeed()
+		l = l * vb2
+
+		local roll = vel:Dot(ang:Right())
+		pos = pos + ang:Up() * math.sin(CurTime() * 16) * 0.8 * l
+		ang:RotateAroundAxis(ang:Forward(), roll * 0.01)
+		ang:RotateAroundAxis(ang:Up(), math.sin(CurTime() * 8) * 0.04 * l)
+		ang:RotateAroundAxis(ang:Right(), math.sin(CurTime() * 6) * 0.02 * l)
+		return { ply, origin = pos, angles = ang, fov }
+	end
 
 end
 
