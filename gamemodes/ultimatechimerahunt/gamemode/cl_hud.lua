@@ -84,13 +84,13 @@ local function DrawCrosshair()
 		
 	end
 
-	if ply:IsPig() && ply:GetNet("HasSaturn") then
+	/*if ply:IsPig() && ply:GetNet("HasSaturn") then
 
 		surface.SetTexture( saturn )
 		surface.SetDrawColor( Color( 255, 255, 255, 200 ) )
 		surface.DrawTexturedRectRotated( sw * .520, sh * .5, sh * .028, sh * .028, -12 )
 		
-	end
+	end*/
 	
 end
 
