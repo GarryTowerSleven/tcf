@@ -353,10 +353,14 @@ local flashlight = 0
 hook.Add("PostDrawOpaqueRenderables", "Flashlight", function()
 
 	for _, p in ipairs(player.GetAll()) do
+
 		if p:GetNet("Flashlight") then
+
 			local light = DynamicLight(p:EntIndex(), true)
+
 			if light then
-				local att = p:GetAttachment(2)
+
+				local att = p:GetAttachment( 2 )
 				light.pos = att && att.Pos || p:WorldSpaceCenter()
 				light.r = 255
 				light.g = 255
@@ -365,8 +369,11 @@ hook.Add("PostDrawOpaqueRenderables", "Flashlight", function()
 				light.decay = 1000
 				light.size = 256
 				light.dietime = CurTime() + 1
+
 			end
+
 		end
+
 	end
 
 	local ply = LocalPlayer()
