@@ -3,7 +3,7 @@ DEFINE_BASECLASS( "player_default" )
 
 if ( CLIENT ) then
 
-	CreateConVar( "gmt_playercolor", "0.24 0.34 0.41", { FCVAR_ARCHIVE, FCVAR_USERINFO }, "The value is a Vector - so between 0-1 - not between 0-255" )
+	CreateConVar( "gmt_playercolor", "-1 -1 -1", { FCVAR_ARCHIVE, FCVAR_USERINFO }, "The value is a Vector - so between 0-1 - not between 0-255" )
 	CreateConVar( "cl_playerbodygroups", "0", { FCVAR_ARCHIVE, FCVAR_USERINFO, FCVAR_DONTRECORD }, "The bodygroups to use, if the model has any" )
 	CreateConVar( "cl_weaponcolor", "0.30 1.80 2.10", { FCVAR_ARCHIVE, FCVAR_USERINFO, FCVAR_DONTRECORD }, "The value is a Vector - so between 0-1 - not between 0-255" )
 
@@ -30,6 +30,11 @@ function PLAYER:Spawn()
 	BaseClass.Spawn( self )
 
 	local plyclr = self.Player:GetInfo( "gmt_playercolor" )
+
+	if plyclr == "-1 -1 -1" then
+		plyclr = self.Player:GetInfo( "cl_playercolor" )
+	end
+
 	self.Player:SetPlayerColor( Vector( plyclr ) )
 
 	local wepclr = Vector( self.Player:GetInfo( "cl_weaponcolor" ) )

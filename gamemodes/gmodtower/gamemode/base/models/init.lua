@@ -205,6 +205,12 @@ concommand.Add("gmt_updateplayercolor", function(ply)
 		ply:SetPlayerColor( Vector(0.098039, 0.254902, 0.309804) )
 		return
 	end
+
+	local plyclr = ply:GetInfo( "gmt_playercolor" )
+
+	if plyclr == "-1 -1 -1" then
+		plyclr = ply:GetInfo( "cl_playercolor" )
+	end
 	
-	ply:SetPlayerColor( Vector(ply:GetInfo("gmt_playercolor")) )
+	ply:SetPlayerColor( Vector(plyclr) )
 end)
