@@ -49,6 +49,7 @@ plynet.Register( "Int", "TimesRoared" )
 plynet.Register( "Float", "Sprint" )
 plynet.Register( "Bool", "IsSprinting" )
 //plynet.Register( "Bool", "IsSwimming" )
+plynet.Register( "Bool", "Flashlight" )
 
 /* Animations */
 plynet.Register( "Float", "PlaybackRate", { default = 1 } )

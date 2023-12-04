@@ -3,6 +3,7 @@ function GM:PlayerDeath( ply, wep, killer )
 	self:DoKillNotice( ply )
 
 	ply:AddDeaths( 1 )
+	ply:SetNet( "Flashlight", false )
 
 	if ply:Team() == TEAM_PIGS then
 
@@ -17,9 +18,9 @@ function GM:PlayerDeath( ply, wep, killer )
 			ply:StopTaunting()
 		end
 
-		if ply:FlashlightIsOn() then
+		/*if ply:FlashlightIsOn() then
 			ply:Flashlight()
-		end
+		end*/
 		
 		if ply:GetNet("HasSaturn") then
 		
@@ -98,9 +99,14 @@ function GM:PlayerSwitchFlashlight( ply, SwitchOn )
 		umsg.Start( "SwitchLight" )
 			umsg.Entity( ply )
 		umsg.End()
+
+		local light = ply:GetNet( "Flashlight" )
+
+		ply:SetNet( "Flashlight", !light )
+		ply:EmitSound( "vo/taunts/engy/taunt_engineer_lounge_button_press.mp3", 70, light and 130 or 140, 1, CHAN_WEAPON )
 	end
 
-    return ply:Team() == TEAM_PIGS
+    return false // ply:Team() == TEAM_PIGS
 
 end
 

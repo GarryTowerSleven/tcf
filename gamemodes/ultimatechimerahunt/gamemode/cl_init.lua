@@ -347,3 +347,46 @@ hook.Add("PostDrawOpaqueRenderables", "UCAngry", function()
 	end
 
 end)
+
+local flashlight = 0
+
+hook.Add("PostDrawOpaqueRenderables", "Flashlight", function()
+
+	local ply = LocalPlayer()
+
+	local on = ply:GetNet( "Flashlight" )
+
+	flashlight = math.Approach( flashlight, on and 1 or 0, FrameTime() * ( on and 4 or 8 ) )
+
+	if flashlight == 0 then
+
+		if IsValid( light ) then
+
+			light:Remove()
+
+		end
+	
+		return
+
+	end
+
+	if !IsValid( light ) then
+
+		light = ProjectedTexture()
+		light:SetEnableShadows(true )
+		light:SetTexture( "effects/flashlight/soft" )
+		light:SetFarZ( 1024)
+		light:SetColor( Color(255, 255, 200) )
+	
+	end
+
+	local att = ply:GetAttachment(3)
+	att.Ang.p = 0
+
+	light:SetPos( ply:ShouldDrawLocalPlayer() && att.Pos + att.Ang:Forward() * 2 || ply:EyePos() - ply:GetForward() * 4 + ply:GetRight() * 4 - ply:GetUp() * 2 )
+	light:SetAngles( ply:ShouldDrawLocalPlayer() && att.Ang || ply:EyeAngles() )
+	light:SetFOV( 65 - 20 * ( 1 - flashlight ) + ( ply:ShouldDrawLocalPlayer() && 20 || 0 ) )
+	light:SetBrightness( flashlight * 2 )
+	light:Update()
+
+end)
