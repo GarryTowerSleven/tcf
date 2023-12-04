@@ -203,7 +203,7 @@ function GM:CalcView( ply, pos, ang, fov )
 		
 		view.fov = fov
 
-		view.drawviewer = zoom > 0.3
+		view.drawviewer = zoom >= 0.3
 
 		return view
 		
