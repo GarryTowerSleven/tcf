@@ -354,7 +354,7 @@ hook.Add("PostDrawOpaqueRenderables", "Flashlight", function()
 
 	local ply = LocalPlayer()
 
-	local on = ply:GetNet( "Flashlight" )
+	local on = ply:IsGhost() || ply:GetNet( "Flashlight" )
 
 	flashlight = math.Approach( flashlight, on and 1 or 0, FrameTime() * ( on and 4 or 8 ) )
 
@@ -380,13 +380,13 @@ hook.Add("PostDrawOpaqueRenderables", "Flashlight", function()
 	
 	end
 
-	local att = ply:GetAttachment(3)
+	local att = ply:GetAttachment(3) or ply:GetAttachment(1)
 	att.Ang.p = 0
 
-	light:SetPos( ply:ShouldDrawLocalPlayer() && att.Pos + att.Ang:Forward() * 2 || ply:EyePos() - ply:GetForward() * 4 + ply:GetRight() * 4 - ply:GetUp() * 2 )
-	light:SetAngles( ply:ShouldDrawLocalPlayer() && att.Ang || ply:EyeAngles() )
-	light:SetFOV( 65 - 20 * ( 1 - flashlight ) + ( ply:ShouldDrawLocalPlayer() && 20 || 0 ) )
-	light:SetBrightness( flashlight * 2 )
+	light:SetPos( ply:IsGhost() && ply:EyePos() || ply:ShouldDrawLocalPlayer() && att.Pos + att.Ang:Forward() * 2 || ply:EyePos() - ply:GetForward() * 4 + ply:GetRight() * 4 - ply:GetUp() * 2 )
+	light:SetAngles( ply:IsGhost() && EyeAngles() || ply:ShouldDrawLocalPlayer() && att.Ang || ply:EyeAngles() )
+	light:SetFOV( ply:IsGhost() && ply:GetFOV() || 65 - 20 * ( 1 - flashlight ) + ( ply:ShouldDrawLocalPlayer() && 20 || 0 ) )
+	light:SetBrightness( ply:IsGhost() && 0.4 || flashlight * 2 )
 	light:Update()
 
 end)
