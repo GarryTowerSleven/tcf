@@ -47,6 +47,7 @@ local lang
 local sprint = 0
 
 function GM:PostDrawTranslucentRenderables()
+
 	local ply = LocalPlayer()
 
 	if !ply:GetNet("HasSaturn") then return end
@@ -88,6 +89,7 @@ function GM:PostDrawTranslucentRenderables()
 
 	cam.IgnoreZ(false)
 	cam.End3D()
+
 end
 
 
