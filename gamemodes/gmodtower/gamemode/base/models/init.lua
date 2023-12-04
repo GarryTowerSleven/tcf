@@ -206,5 +206,5 @@ concommand.Add("gmt_updateplayercolor", function(ply)
 		return
 	end
 	
-	ply:SetPlayerColor( Vector(ply:GetInfo("cl_playercolor")) )
+	ply:SetPlayerColor( Vector(ply:GetInfo("gmt_playercolor")) )
 end)

@@ -370,14 +370,14 @@ function APPEARANCE:GenerateColorSelection()
 	PlayerColor:SetWangs( false )
 	PlayerColor:SetSize( ModelSizeX - 10, 80 )
 	PlayerColor.NextConVarCheck = SysTime()
-	PlayerColor:SetVector( Vector( GetConVarString( "cl_playercolor" ) ) )
+	PlayerColor:SetVector( Vector( GetConVarString( "gmt_playercolor" ) ) )
 	PlayerColor.ValueChanged = function()
-		RunConsoleCommand( "cl_playercolor", tostring( PlayerColor:GetVector() ) )
+		RunConsoleCommand( "gmt_playercolor", tostring( PlayerColor:GetVector() ) )
 		RunConsoleCommand( "gmt_updateplayercolor" )
 	end
 
 	local function UpdateFromConvars()
-		PlayerColor:SetVector( Vector( GetConVarString( "cl_playercolor" ) ) )
+		PlayerColor:SetVector( Vector( GetConVarString( "gmt_playercolor" ) ) )
 	end
 
 	PlayerColor.OnActivePanelChanged = function() timer.Simple( 0.1, UpdateFromConvars ) end

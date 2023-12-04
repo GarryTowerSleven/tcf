@@ -69,7 +69,7 @@ function GM:DisplayCustomizer( enable, remove )
 		local p = vgui.Create( "DImageButton" )
 
 		if color == "player" then
-			color = Vector(GetConVarString("cl_playercolor")):ToColor()
+			color = Vector(GetConVarString("gmt_playercolor")):ToColor()
 		end
 
 		p:SetSize( 48, 48 )

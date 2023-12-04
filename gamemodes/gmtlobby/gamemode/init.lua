@@ -49,7 +49,7 @@ function GM:PlayerSpawn( ply )
 
 	ply:SetTeam(1)
 
-	local col = ply:GetInfo( "cl_playercolor" )
+	local col = ply:GetInfo( "gmt_playercolor" )
 	ply:SetPlayerColor( Vector( col ) )
 	ply:SetCustomCollisionCheck(true)
 	ply:SetNoCollideWithTeammates(true)

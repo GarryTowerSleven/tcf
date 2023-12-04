@@ -208,7 +208,7 @@ function ENT:DrawSmoke( pos, scale, normal )
 	local sprite = self:GetOwner():GetNet("JetpackTexture")
 	local color = self:GetOwner():GetPlayerColor() * 255
 	if CLIENT and self:GetOwner() == LocalPlayer() then
-		color = Vector( self:GetOwner():GetInfo( "cl_playercolor" ) ) * 255
+		color = Vector( self:GetOwner():GetInfo( "gmt_playercolor" ) ) * 255
 	end
 	
 	for i=1, 2 do
