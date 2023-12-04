@@ -46,7 +46,7 @@ end
 local lang
 local sprint = 0
 
-function GM:PostRender()
+function GM:PreDrawEffects()
 
 	local ply = LocalPlayer()
 
