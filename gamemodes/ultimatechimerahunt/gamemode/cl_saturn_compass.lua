@@ -50,7 +50,7 @@ function GM:PostDrawTranslucentRenderables()
 
 	local ply = LocalPlayer()
 
-	if !ply:GetNet("HasSaturn") then return end
+	if !ply:GetNet("HasSaturn") || ply:ShouldDrawLocalPlayer() then return end
 
 	cam.Start3D(EyePos(), EyeAngles(), 54)
 	cam.IgnoreZ(true)
