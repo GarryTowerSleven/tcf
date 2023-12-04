@@ -11,7 +11,9 @@ function GM:DrawTargetID()
 	ply.TargetInfo = ply.TargetInfo or {}
 
 
-	if IsValid( tr.Entity ) && tr.Entity:IsPlayer() && !( tr.Entity:IsGhost() && !ply:IsGhost() ) then
+	if IsValid( tr.Entity ) && ( tr.Entity:GetClass() == "mr_saturn" || tr.Entity:IsPlayer() && !( tr.Entity:IsGhost() && !ply:IsGhost() ) ) then
+
+		local sat = tr.Entity:GetClass() == "mr_saturn"
 
 		if ply.TargetAlpha != 255 then
 
@@ -23,10 +25,10 @@ function GM:DrawTargetID()
 		if tr.Entity != ply.TargetInfo.ply || !ply.TargetInfo.ply then
 
 			ply.TargetInfo.ply = tr.Entity
-			ply.TargetInfo.name = tr.Entity:GetName()
-			ply.TargetInfo.rank = tr.Entity:GetRankName()
+			ply.TargetInfo.name = sat and "Mr. Saturn" or tr.Entity:GetName()
+			ply.TargetInfo.rank = sat and "" or tr.Entity:GetRankName()
 
-			local color = tr.Entity:GetRankColor()
+			local color = sat and Color(255, 238, 200) or tr.Entity:GetRankColor()
 			ply.TargetInfo.clr = Color( color.r, color.g, color.b, 255 )
 
 		end
@@ -53,13 +55,14 @@ function GM:DrawTargetID()
 	else
 
 		local ply = ply.TargetInfo.ply
-		rank = ply:GetRankName()
+		local sat = ply:GetClass() == "mr_saturn"
+		rank = sat and "" or ply:GetRankName()
 
-		local color = ply:GetRankColor()
+		local color = sat and Color(255, 238, 200) or ply:GetRankColor()
 		clr = Color( color.r, color.g, color.b, 255 )
-		name = ply:GetName()
+		name = sat and "Mr. Saturn" or ply:GetName()
 
-		if ply:IsGhost() then
+		if !sat and ply:IsGhost() then
 
 			if ply:GetNet( "IsFancy" ) then
 				rank = "Fancy Ghostie"
@@ -71,7 +74,7 @@ function GM:DrawTargetID()
 
 		end
 
-		if ply:GetNet( "IsChimera" ) then
+		if !sat and ply:GetNet( "IsChimera" ) then
 
 			rank = "The Ultimate Chimera"
 			clr = Color( 230, 30, 110, 255 )
