@@ -1,6 +1,6 @@
 function GM:ShouldDrawLocalPlayer()
 	
-	if ( LocalPlayer():GetNet( "IsChimera" ) && LocalPlayer():Alive() ) || LocalPlayer():GetNet( "IsTaunting" ) || LocalPlayer():GetNet( "IsScared" ) then
+	if ( LocalPlayer():GetNet( "IsChimera" ) && LocalPlayer():Alive() ) then
 		return true
 	end
 	
@@ -148,6 +148,8 @@ local function ThirdPersonCamera( ply, pos, ang, fov, dis )
 
 end
 
+local zoom = 0
+
 function GM:CalcView( ply, pos, ang, fov )
 
 	if ply:IsGhost() then
@@ -166,17 +168,28 @@ function GM:CalcView( ply, pos, ang, fov )
 	end
 	
 	local tang = ply.TauntAng
+	local scared = ply:GetNet("IsScared")
 
-	if ply:GetNet( "IsTaunting" ) || ply:GetNet( "IsRoaring" ) then
+	zoom = math.Approach(zoom, (scared || ply:GetNet( "IsTaunting" )) && 1 || 0, FrameTime() * 8)
+
+	local rawr = ply:GetNet( "IsRoaring" )
+
+	if rawr || zoom != 0 then
 		
-		TauntAngSafeGuard( ply )
-		tang = ply.TauntAng
+		if !scared then
+			TauntAngSafeGuard( ply )
+			tang = ply.TauntAng
+		else
+			ply.Scared = true
+		end
+
+		local scared = ply.Scared
 
 		local view = {}
 		
-		local dir = tang:Forward()
+		local dir = (scared and ang or tang):Forward()
 		
-		local tr = util.QuickTrace( pos, ( dir * -115 ), player.GetAll() )
+		local tr = util.QuickTrace( pos, ( dir * ((-115 * (rawr and 1 or zoom)) + (scared and 15 or 0)) ), player.GetAll() )
 
 		local trpos = tr.HitPos
 		
@@ -186,9 +199,11 @@ function GM:CalcView( ply, pos, ang, fov )
 		
 		view.origin = trpos
 		
-		view.angles = ( ply:GetShootPos() - trpos):Angle()
+		view.angles = scared and ang or ( ply:GetShootPos() - trpos):Angle()
 		
 		view.fov = fov
+
+		view.drawviewer = zoom > 0.3
 
 		return view
 		
@@ -206,10 +221,8 @@ function GM:CalcView( ply, pos, ang, fov )
 			ply.TauntAng = nil
 			
 		end
-		
-		if ply:GetNet( "IsScared" ) then
-			return ThirdPersonCamera( ply, ply:EyePos(), ang, fov, 100 )
-		end
+
+		ply.Scared = false
 		
 	end
 	
