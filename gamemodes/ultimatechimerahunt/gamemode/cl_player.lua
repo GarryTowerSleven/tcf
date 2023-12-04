@@ -170,7 +170,7 @@ function GM:CalcView( ply, pos, ang, fov )
 	local tang = ply.TauntAng
 	local scared = ply:GetNet("IsScared")
 
-	zoom = math.Approach(zoom, (scared || ply:GetNet( "IsTaunting" )) && 1 || 0, FrameTime() * 8)
+	zoom = math.Approach( zoom, ( scared || ply:GetNet( "IsTaunting" )) && 1 || 0, FrameTime() * 8 )
 
 	local rawr = ply:GetNet( "IsRoaring" )
 
@@ -187,9 +187,9 @@ function GM:CalcView( ply, pos, ang, fov )
 
 		local view = {}
 		
-		local dir = (scared and ang or tang):Forward()
+		local dir = ( scared and ang or tang ):Forward()
 		
-		local tr = util.QuickTrace( pos, ( dir * ((-115 * (rawr and 1 or zoom)) + (scared and 15 or 0)) ), player.GetAll() )
+		local tr = util.QuickTrace( pos, ( dir * ( ( -115 * ( rawr and 1 or zoom ) ) + ( scared and 15 or 0 ) ) ), player.GetAll() )
 
 		local trpos = tr.HitPos
 		
@@ -199,7 +199,7 @@ function GM:CalcView( ply, pos, ang, fov )
 		
 		view.origin = trpos
 		
-		view.angles = scared and ang or ( ply:GetShootPos() - trpos):Angle()
+		view.angles = scared and ang or ( ply:GetShootPos() - trpos ):Angle()
 		
 		view.fov = fov
 
