@@ -82,7 +82,9 @@ function ENT:Draw()
 				stream:FFT(fft, FFT_2048)
 	
 				for i = 1, 20 do
-					b = b + fft[i]
+					if fft[i] then
+						b = b + fft[i]
+					end
 				end
 	
 				b = b / 20
