@@ -42,26 +42,61 @@ if SERVER then return end
 local glow = Material("sprites/glow04_noz")
 
 function ENT:Draw()
-	if Location.GetSuiteID(self:Location()) ~= 0 then return end
+	if Location.GetSuiteID(self:Location()) ~= 0 then
+		self:SetRenderOrigin(self:GetNetworkOrigin())
+		self:SetRenderAngles(self:GetNetworkAngles())
+	
+		return
+	end
 	self:DrawModel()
 
-	local mp = self:GetMediaPlayer()
-	if ( not mp ) then return end
-	local media = mp:GetMedia()
-
 	local b = 0
+	local media
 
-	if media and media.fft then
-		for i = 1, 20 do
-			b = b + media.fft[i]
+	local mp = self:GetMediaPlayer()
+
+	if ( mp && mp:GetMedia() ) then
+		media = mp:GetMedia()
+
+		if media and media.fft then
+			for i = 1, 20 do
+				b = b + media.fft[i]
+			end
+
+			b = b / 20
+		end
+	else
+		local songs = {}
+
+		for _, song in pairs(soundscape.Soundscapes) do
+			table.insert(songs, song)
 		end
 
-		b = b / 20
+		local song = songs[#songs]
+
+		if ( song and song.Rules and song.Rules[1] ) then
+			local stream = song.Rules[1].LoopingSound
+	
+			if stream then
+				local fft = {}
+				stream:FFT(fft, FFT_2048)
+	
+				for i = 1, 20 do
+					b = b + fft[i]
+				end
+	
+				b = b / 20
+				b = b * 2
+			end
+		end
 	end
+
+
 	self.Lerp = self.Lerp or 0
 	self.Lerp = math.Approach(self.Lerp, b, FrameTime() * (0.1 + (b > 0.08 and 0.2 or 0)))
 	self.Sine = self.Sine or 0
 	self.Sine = self.Sine + FrameTime() * b * 32
+
 	
 	local offset 	= Vector( 0,0, math.sin( CurTime() * 4 ) * 2 )
 	local pos 		= self:GetPos() + self:GetUp() * (80 - (media and 4 - self.Lerp * 32 or 0)) + offset * (media and media.fft and 0 or 1)
@@ -103,7 +138,7 @@ function ENT:Draw()
 
 	if !media then return end
 
-	name = media._metadata.title or media.Name 
+	name = media._metadata.title or media.Name or "Poker Night at the Inventory 2"
 	
 	if string.len( name ) >= 32 then
 		name = string.sub(name, 1, 32) .. "..."
