@@ -7,6 +7,8 @@ function GM:PlayerDeath( ply, wep, killer )
 
 	if ply:Team() == TEAM_PIGS then
 
+		ply:SetTeam( TEAM_GHOST )
+
 		ply.IsDead = true // to set as ghost on next spawn
 		ply.DeadPos = ply:GetPos()
 
