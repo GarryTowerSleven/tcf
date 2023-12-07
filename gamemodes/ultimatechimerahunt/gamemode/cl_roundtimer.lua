@@ -154,13 +154,13 @@ function GM:DrawRoundTime()
 
 	local x, y = ScrW() / 2, 0
 	local round2 = 1 - round
-	x = ScrW() * 0.4
+	x = ScrW() * 0.5
 
 	local w, h = 200, 60
 
-	drawBox(x - 36 - 64, y - 24, 128 + 64, 72 + 8 + 18, colors, nil, nil, -5)
-	draw.SimpleTextOutlined( "TIME", "UCH_Box", x - 60, y - 2 + 36, color3, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, colors[2] )
-	self:DrawNiceText( tm, "UCH_Box2", x + 84, y + 6, Color( 255, 255, 255, 255 ), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 2, 200 )
+	drawBox(x - 36 - 64 - 128 - 64, y - 24, 128 + 64, 72 + 8 + 18, colors, nil, nil, -5)
+	draw.SimpleTextOutlined( "TIME", "UCH_Box", x - 60 - 128 - 64, y - 2 + 36, color3, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, colors[2] )
+	self:DrawNiceText( tm, "UCH_Box2", x + 84 - 128 - 64, y + 6, Color( 255, 255, 255, 255 ), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 2, 200 )
 
 	if round != 0 then
 
@@ -173,8 +173,6 @@ function GM:DrawRoundTime()
 		colors[2].a = 255
 
 	end
-
-	x = ScrW() * 0.5
 
 	drawBox(x - 36 + 128 + 8, y - 24, 128 + 64, 64 + 18, colors, nil, nil, 5)
 
