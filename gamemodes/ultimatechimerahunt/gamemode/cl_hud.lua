@@ -97,6 +97,7 @@ local xx, yy, ww, hh = .28, .2725, .375, .12
 
 local pigmat = Material( "UCH/hud/pighud_empty" )
 local hudmat_3d = Material("models/uch/pigmask/pigmaskhud")
+local hudmat_3d_flat = Material("models/uch/pigmask/pigmaskhud_flat")
 local ucmat = surface.GetTextureID( "UCH/hud/chimerahud_empty" )
 
 function GM:DrawHUD()
@@ -115,7 +116,7 @@ function GM:DrawHUD()
 
 			model = vgui.Create( "DModelPanel" )
 			model:SetModel(ply:GetModel())
-			model.Entity:SetMaterial( "models/uch/pigmask/pigmaskhud" )
+			model.Entity:SetMaterial( c && "models/uch/pigmask/pigmaskhud_flat" || "models/uch/pigmask/pigmaskhud" )
 			local h = ( sh * ( c and 0.12 || .14 ) )
 			model:SetSize( h, h )
 
@@ -173,7 +174,7 @@ function GM:DrawHUD()
 		surface.SetDrawColor( Color( 255, 255, 255, 255 ) )
 		surface.DrawTexturedRect( x, y, w, h )
 
-		hudmat_3d:SetVector( "$color2", (Vector(78, 20, 50) / 255) * 3.5 )
+		hudmat_3d_flat:SetVector( "$color2", (Vector(78, 20, 50) / 255) * 3.5 )
 		
 		model:SetPos( 0, spy - sph * 1.1 )
 		model:PaintManual()
