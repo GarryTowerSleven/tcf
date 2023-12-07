@@ -441,7 +441,7 @@ hook.Add("PostDrawEffects", "Arms", function()
 		arms = ClientsideModel( ply:GetModel() )
 		arms:SetNoDraw( true )
 	
-		timer.Simple(0, function()
+		timer.Simple(0.1, function()
 			
 			if IsValid( arms ) then
 
