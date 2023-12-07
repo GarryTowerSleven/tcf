@@ -70,16 +70,47 @@ end )
 MediaPlayer.HideSidebar = EmptyFunction
 
 // Classic Sidebar
-hook.Add( "OpenSideMenu", "OpenTheaterControls", function()
+hook.Remove( "OpenSideMenu", "OpenTheaterControls", function()
 
-	local mp = hook.Run( "GetMediaPlayer" )
+	local mp
+	local juke = true
+
+	for _, jukebox in ipairs(ents.FindByClass("gmt_jukebox*")) do
+		if jukebox:Location() == LocalPlayer():Location() then
+			mp = MediaPlayer.GetByObject(jukebox)
+			// if !IsValid(jukebox) then return end
+			// MediaPlayer.ShowSidebar(jukebox)
+		end
+	end
+
+	local ent = LocalPlayer():GetEyeTrace().Entity
+
+	if IsValid(ent) then
+		local mp2 = MediaPlayer.GetByObject( ent )
+
+		if mp2 then
+			mp = mp2
+			juke = false
+		end
+	end
+
+	if !mp then
+		mp = hook.Run( "GetMediaPlayer" )
+		juke = false
+	end
+
 	if ( not IsValid( mp ) ) then return end
 	
-	-- local ent = mp.Entity
-	-- if ( not IsValid( ent ) ) then return end
+	local ent = mp.Entity
+	if ( not IsValid( ent ) ) then return end
+
+	local playing = mp:GetMedia()
+
+	local media = juke and "Song" or "Video"
+	local admin = mp:IsPlayerPrivileged()
 
 	local Form = vgui.Create( "DForm" )
-	Form:SetName( "Theater" )
+	Form:SetName( juke and "Jukebox" || mp.Entity.PrintName || "Theater" )
 
 	local VolumeSlider = vgui.Create( "DNumSlider2", Form )
 	VolumeSlider:SetText( "Volume" )
@@ -89,14 +120,26 @@ hook.Add( "OpenSideMenu", "OpenTheaterControls", function()
 	VolumeSlider:SizeToContents()
 	Form:AddItem( VolumeSlider, nil )
 
-	local mpRequest = Form:Button( "Add New Video" )
+	local mpRequest = Form:Button( "Add New " .. media )
 	mpRequest.DoClick = function()
 		MediaPlayer.OpenRequestMenu( mp )
 	end
 
-	local mpRemove = Form:Button( "Vote Remove (0/0)" )
-	mpRemove.DoClick = function()
-		MediaPlayer.Voteskip( mp )
+	local mpVideos = Form:Button( media .. "s" )
+	mpVideos.DoClick = function()
+		//MediaPlayer.Voteskip( mp )
+		MediaPlayer.ShowSidebar( mp )
+	end
+
+	if playing && (admin || mp.CanVoteSkip || Location.IsGroup(LocalPlayer():Location() , "theater")) then
+		local mpRemove = Form:Button( admin && "Force Remove" || "Vote Skip" )
+		mpRemove.DoClick = function()
+			if admin then
+				MediaPlayer.Skip( mp )
+			else
+				MediaPlayer.Voteskip( mp )
+			end
+		end
 	end
 
 	local mpRefresh = Form:Button( "Refresh Theater" )
@@ -109,16 +152,45 @@ hook.Add( "OpenSideMenu", "OpenTheaterControls", function()
 		//MediaPlayer.Voteskip( mp )
 	end
 
-	local mpVideos = Form:Button( "Videos" )
-	mpVideos.DoClick = function()
-		//MediaPlayer.Voteskip( mp )
-	end
 
 	return Form
 
 end )*/
 
-hook.Add( "GTowerShowMenus", "GMTShowMPSidebar", MediaPlayer.ShowSidebar )
+hook.Add( "GTowerShowMenus", "GMTShowMPSidebar", function()
+
+	local mp
+	local juke = true
+
+	for _, jukebox in ipairs(ents.FindByClass("gmt_jukebox_suite")) do
+		if jukebox:Location() == LocalPlayer():Location() then
+			mp = MediaPlayer.GetByObject(jukebox)
+			// if !IsValid(jukebox) then return end
+			// MediaPlayer.ShowSidebar(jukebox)
+		end
+	end
+
+	local ent = LocalPlayer():GetEyeTrace().Entity
+
+	if IsValid(ent) then
+		local mp2 = MediaPlayer.GetByObject( ent )
+
+		if mp2 then
+			mp = mp2
+			juke = false
+		end
+	end
+
+	if !mp then
+		mp = hook.Run( "GetMediaPlayer" )
+		juke = false
+	end
+
+	if ( not IsValid( mp ) ) then return end
+
+	MediaPlayer.ShowSidebar( mp )
+
+end )
 hook.Add( "GTowerHideMenus", "GMTHideMPSidebar", MediaPlayer.HideSidebar )
 
 

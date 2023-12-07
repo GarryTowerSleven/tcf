@@ -7,6 +7,7 @@ do
 		"suitetv",
 		"jukebox",
 		-- "club"
+		"suitepanel"
 	}
 
 	for _, player in ipairs(players) do
@@ -62,3 +63,11 @@ hook.Add("InitMediaPlayer", "GMT.InitMediaPlayer", GMTInitMediaPlayer)
 hook.Add( "MediaPlayerIsPlayerPrivileged", "GMTMediaPrivileged", function( mp, ply )
 	return ply.IsStaff and ply:IsStaff() or false
 end )
+
+function MediaPlayer.GetVisualizer( loc )
+	for _, e in ipairs(Location.GetMediaPlayersInLocation(loc)) do
+		if string.StartsWith(e.Entity:GetClass(), "gmt_jukebox") then
+			return e
+		end
+	end
+end

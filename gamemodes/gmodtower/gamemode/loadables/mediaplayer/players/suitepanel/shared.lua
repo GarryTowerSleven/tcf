@@ -1,9 +1,9 @@
 --[[---------------------------------------------------------
-	Jukebox Media Player
+	Suite Panel Media Player
 -----------------------------------------------------------]]
 
 local MEDIAPLAYER = MEDIAPLAYER
-MEDIAPLAYER.Name = "jukebox"
+MEDIAPLAYER.Name = "suitepanel"
 MEDIAPLAYER.Base = "entity"
 
 MEDIAPLAYER.ServiceWhitelist = { 'yt', 'af' }
