@@ -43,9 +43,15 @@ end
 
 function ENT:Think()
     if self:Location() != LocalPlayer():Location() then return self:OnRemove() end
-    DISCO = self
+
+    if DISCO && (!IsValid(DISCO) || !DISCO:GetStream()) then
+        DISCO = nil
+    end
+
     local Stream = self:GetStream()
     if !Stream then return end
+
+    DISCO = self
 
     // Lasers
     if CurTime() > self.NextRandomLazers || self.NextScale > 0.4 && (!self.NextBass || self.NextBass < CurTime()) then
