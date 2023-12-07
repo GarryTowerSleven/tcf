@@ -83,6 +83,7 @@ function GM:PlayerSpawn( ply )
 		end
 	end)
 	
+	ply:SetMaterial()
 	ply:SetupModel()
 
 	if ply:GetNet("IsChimera") then

@@ -327,8 +327,6 @@ hook.Add("PostDrawOpaqueRenderables", "UCAngry", function()
 			local LEye = GetEyeAttach( uch, "L_eye" )
 			local REye = GetEyeAttach( uch, "R_eye" )
 
-			uch:SetMaterial("models/uch/uchimera/stgnewporkultimatechimera_body3")
-
 			if not LEye or not REye then return end
 
 			-- Flames

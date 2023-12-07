@@ -39,6 +39,14 @@ function GM:Think()
 		self.UCAngry = true
 
 		for _, v in ipairs( player.GetAll() ) do
+			
+			if v:GetNet("IsChimera") then
+				v:SetMaterial("models/uch/uchimera/stgnewporkultimatechimera_body3")
+			end
+
+		end
+
+		for _, v in ipairs( player.GetAll() ) do
 			self:HUDMessage( v, MSG_ANGRYUC, 12 )
 		end
 
