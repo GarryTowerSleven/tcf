@@ -12,13 +12,17 @@ if SERVER then
 		
 		//Msg( "Pancaking Pig: " .. tostring( self ), "\n" )
 
+		self:SetNet( "IsScared", true )
 		self:SetNet( "IsPancake", true )
+		self:SetSolid( SOLID_NONE )
+		self:Freeze( true )
 		self:Squeal()
 
 		timer.Simple( .5, function()
 
 			if IsValid( self ) then
 
+				self:SetMaterial("null")
 				self.Squished = true
 				self:Kill()
 
@@ -47,7 +51,7 @@ else
 
 		self.PancakeNum = math.Approach( self.PancakeNum, .2, ( FrameTime() * ( self.PancakeNum * spd ) ) )
 
-		SetModelScaleVector( Vector( 1, 1, self.PancakeNum ) )
+		SetModelScaleVector( self, Vector( 1, 1, self.PancakeNum ) )
 
 	end
 

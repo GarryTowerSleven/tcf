@@ -36,6 +36,7 @@ function GM:PlayerDeath( ply, wep, killer )
 			local effectdata = EffectData()
 				effectdata:SetOrigin( ply:GetPos() )
 				effectdata:SetStart( Vector( r, g, b ) )
+				effectdata:SetFlags( 1 )
 			util.Effect( "piggy_pop", effectdata )
 	
 			ply:SetNet("IsPancake",false)

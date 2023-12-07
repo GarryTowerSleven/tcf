@@ -85,6 +85,11 @@ function meta:ResetVars()
 	self:StopTaunting()
 	self:UnScare()
 	self:SetNet( "IsPancake", false )
+	self:SetMaterial()
+	self:Freeze( false )
+	self:SetSolid( SOLID_BBOX )
+	
+	BroadcastLua([[ents.GetByIndex(]] .. self:EntIndex() .. [[):DisableMatrix("RenderMultiply")]])
 	
 	/* Set Rank */
 	if self:IsPig() then
