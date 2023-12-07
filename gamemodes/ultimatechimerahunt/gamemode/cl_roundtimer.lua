@@ -132,28 +132,32 @@ function GM:DrawRoundTime()
 
 	local tw = surface.GetTextSize(string.Replace(tm, ":", "-"))
 
-	if rank == RANK_ENSIGN then
+	if !ply:IsGhost() then
 
-		local base = (Vector(200, 100, 150) / 255)
-		colors = {Color(200, 120, 160), Color(100, 64, 64)}
-		color3 = color_white
+		if rank == RANK_ENSIGN then
 
-	elseif rank == RANK_COLONEL then
+			local base = (Vector(200, 100, 150) / 255)
+			colors = {Color(200, 120, 160), Color(100, 64, 64)}
+			color3 = color_white
 
-		colors = {Color(220, 220, 220), Color(80, 80, 80)}
-		color3 = color_white
+		elseif rank == RANK_COLONEL then
 
-	elseif rank == RANK_MAJOR then
+			colors = {Color(220, 220, 220), Color(80, 80, 80)}
+			color3 = color_white
 
-		colors = {Color(71, 163, 71), Color(32, 82, 32)}
-		color3 = Color(71, 163, 71)
+		elseif rank == RANK_MAJOR then
 
-	end
-	
-	if ply:GetNet( "IsChimera" ) then
+			colors = {Color(71, 163, 71), Color(32, 82, 32)}
+			color3 = Color(71, 163, 71)
 
-		colors = {Color(230, 25, 111), Color(85, 15, 54)}
-		color3 = Color(255, 200, 0)
+		end
+		
+		if ply:GetNet( "IsChimera" ) then
+
+			colors = {Color(230, 25, 111), Color(85, 15, 54)}
+			color3 = Color(255, 200, 0)
+
+		end
 
 	end
 
