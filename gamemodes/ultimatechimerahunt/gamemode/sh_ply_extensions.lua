@@ -62,7 +62,7 @@ function meta:Squeal( ent )
 	if self:Team() != TEAM_PIGS then return end
 
 	local ent = ent or self
-	ent:EmitSound( "UCH/pigs/squeal" .. tostring( math.random( 1, 3 ) ) .. ".wav", 92, math.random( 90, 105 ) )
+	ent:EmitSound( "UCH/pigs/squeal" .. tostring( math.random( 2, 3 ) ) .. ".wav", 92, math.random( 90, 110 ) )
 
 end
 
@@ -186,7 +186,7 @@ if SERVER then
 
 		if CurTime() >= self.LastSnort then
 			
-			self:EmitSound( "UCH/pigs/snort" .. tostring( math.random( 1, 4 ) ) .. ".wav", 75, math.random( 90, 105 ) )
+			self:EmitSound( "UCH/pigs/snort" .. tostring( math.random( 1, 4 ) ) .. ".wav", 75, math.random( 90, 110 ) )
 
 			local num = math.Rand( 6, 9 )
 
