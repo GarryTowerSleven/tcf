@@ -309,8 +309,8 @@ local function EmitFlames( ent, pos, i )
 	particle:SetEndSize( 0 )
 	particle:SetColor( 255, 255, 255 )
 	particle:SetGravity( Vector( 0, 0, 50 ) - ent:GetRight() * 24 * ( i == 2 and 1 or -1 ) )
-	particle:SetRoll(math.random(360))
-	particle:SetAirResistance(180 / 2)
+	particle:SetRoll( math.random(360) )
+	particle:SetAirResistance( 180 / 2 )
 
 end
 
@@ -364,7 +364,7 @@ hook.Add("PreRender", "Flashlight", function()
 
 	for _, p in ipairs(player.GetAll()) do
 
-		if p:GetNet("Flashlight") then
+		if p != LocalPlayer() && p:GetNet("Flashlight") then
 
 			local light = DynamicLight(p:EntIndex(), true)
 
@@ -418,7 +418,7 @@ hook.Add("PreRender", "Flashlight", function()
 	att.Ang.p = 0
 
 	light:SetPos( ply:IsGhost() && ply:EyePos() || ply:ShouldDrawLocalPlayer() && att.Pos + att.Ang:Forward() * 2 || ply:EyePos() - ply:GetForward() * 4 + ply:GetRight() * 4 - ply:GetUp() * 2 )
-	light:SetAngles( ply:IsGhost() && EyeAngles() || ply:ShouldDrawLocalPlayer() && att.Ang || ply:EyeAngles() )
+	light:SetAngles( ply:IsGhost() && ply:EyeAngles() || ply:ShouldDrawLocalPlayer() && att.Ang || ply:EyeAngles() )
 	light:SetFOV( ply:IsGhost() && ply:GetFOV() || 65 - 20 * ( 1 - flashlight ) + ( ply:ShouldDrawLocalPlayer() && 20 || 0 ) )
 	light:SetBrightness( ply:IsGhost() && 0.4 || flashlight * 2 )
 	light:Update()
