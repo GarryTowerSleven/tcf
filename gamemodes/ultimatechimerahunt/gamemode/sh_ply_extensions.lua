@@ -5,7 +5,7 @@ if !meta then
 end
 
 function meta:IsGhost()
-	return self:Team() == TEAM_GHOST && self:Alive()
+	return self:Team() == TEAM_GHOST
 end
 
 function meta:SetupModel()

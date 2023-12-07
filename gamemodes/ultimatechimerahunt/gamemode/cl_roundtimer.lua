@@ -204,13 +204,23 @@ function GM:DrawRoundTime()
 	
 	// Current alive pigs
 	
-	local pigs = table.Add( team.GetPlayers( TEAM_PIGS ), team.GetPlayers(TEAM_GHOST) )
+	local dead = team.GetPlayers(TEAM_GHOST)
+	local pigs = team.GetPlayers( TEAM_PIGS )
+
+	for _, pig in ipairs( pigs ) do
+		if !pig:Alive() then
+			table.remove( pigs, _ )
+			table.insert( dead, pig )
+		end
+	end
+
+	pigs = table.Add( pigs, dead )
 	surface.SetTexture( ensignLogo )
 	surface.SetDrawColor( Color( 250, 255, 255 ) )
 
 	for i = 0, #pigs - 1 do
 		local ply = pigs[i + 1]
-		surface.SetTexture( ranks[ply:GetNet("Rank")][ply:Team() == TEAM_PIGS && 1 || 2] )
+		surface.SetTexture( ranks[ply:GetNet("Rank")][ply:Alive() && ply:Team() == TEAM_PIGS && 1 || 2] )
 		local pigs = #pigs
 		local size = 1 - ( pigs / ( pigs <= 6 and 6 or 12 ) )
 		size = pigs <= 6 and Lerp( size, 38, 64 ) or 30
