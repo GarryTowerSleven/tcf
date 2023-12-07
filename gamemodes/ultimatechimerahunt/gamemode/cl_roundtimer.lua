@@ -143,6 +143,11 @@ function GM:DrawRoundTime()
 		colors = {Color(220, 220, 220), Color(80, 80, 80)}
 		color3 = color_white
 
+	elseif rank == RANK_MAJOR then
+
+		colors = {Color(71, 163, 71), Color(32, 82, 32)}
+		color3 = Color(71, 163, 71)
+
 	end
 	
 	if ply:GetNet( "IsChimera" ) then
