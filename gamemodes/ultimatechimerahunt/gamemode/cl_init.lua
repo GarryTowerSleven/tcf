@@ -277,7 +277,7 @@ local function GetEyeAttach( ent, attachmentname )
 
 	if attach > 0 then
 		local attach = ent:GetAttachment(attach)
-		return attach.Pos
+		return attach
 	end
 
 end
@@ -290,7 +290,7 @@ local function EmitFlames( ent, pos )
 
 	local flare = Vector( CosBetween( -1, 1, RealTime() * 10 ), SinBetween( -2, 2, RealTime() * 10 ), 0 )
 
-	local particle = ent.Emitter:Add( "particles/flamelet" .. math.random( 1 , 5 ), pos + ( VectorRand() * 3 ) )
+	local particle = ent.Emitter:Add( "effects/fire_embers" .. math.random( 1 , 2 ), pos + ( VectorRand() * 3 ) )
 	particle:SetVelocity( Vector( 0, 0, 40 ) + flare )
 	particle:SetDieTime( math.Rand( .5, 1 ) )
 	particle:SetStartAlpha( math.random( 150, 255 ) )
@@ -300,46 +300,57 @@ local function EmitFlames( ent, pos )
 	particle:SetColor( 255, 255, 255 )
 	particle:SetGravity( Vector( 0, 0, 50 ) )
 
+	local particle = ent.Emitter:Add( "uch/fire", pos + ( VectorRand() * 3 ) )
+	particle:SetVelocity( Vector( 0, 0, 40 ) + flare )
+	particle:SetDieTime( math.Rand( .5, 1 ) )
+	particle:SetStartAlpha( math.random( 150, 255 ) )
+	particle:SetEndAlpha( 0 )
+	particle:SetStartSize( math.random( 1, 5 ) )
+	particle:SetEndSize( 0 )
+	particle:SetColor( 255, 255, 255 )
+	particle:SetGravity( Vector( 0, 0, 50 ) )
+	particle:SetRoll(math.random(360))
+
 end
 
-local SpriteMat = Material( "sprites/light_ignorez" )
+local SpriteMat = Material( "sprites/glow04_noz" )
+local GlowMat = Material( "sprites/light_ignorez" )
 hook.Add("PostDrawOpaqueRenderables", "UCAngry", function()
 
 	if GAMEMODE:IsLastPigmasks() then
+
 		local uch = GAMEMODE:GetUC()
+
 		if IsValid( uch ) && uch:Alive() then
 
 			local LEye = GetEyeAttach( uch, "L_eye" )
 			local REye = GetEyeAttach( uch, "R_eye" )
 
+			uch:SetMaterial("models/uch/uchimera/stgnewporkultimatechimera_body3")
+
 			if not LEye or not REye then return end
 
 			-- Flames
 			if not uch.NextParticle or RealTime() > uch.NextParticle then
-				EmitFlames( uch, LEye )
-				EmitFlames( uch, REye )
+				EmitFlames( uch, LEye.Pos )
+				EmitFlames( uch, REye.Pos )
 				uch.NextParticle = RealTime() + 0.05
 			end
 			
 			-- Glow
-			local eyeang = EyeAngles()
-			eyeang:RotateAroundAxis(eyeang:Right(), -90)
-			eyeang:RotateAroundAxis(eyeang:Up(), -90)
-			if util.PixelVisible( LEye, 8, util.GetPixelVisibleHandle() ) then
-				cam.Start3D2D(LEye, eyeang, 3)
-					surface.SetMaterial(SpriteMat)
-					surface.SetDrawColor(255, 0, 0)
-					local size = 12
-					surface.DrawTexturedRect(-size / 2, -size / 4, size, size / 2)
-				cam.End3D2D()
-			end
-			if util.PixelVisible( REye, 8, util.GetPixelVisibleHandle() ) then
-				cam.Start3D2D(REye, eyeang, 3)
-					surface.SetMaterial(SpriteMat)
-					surface.SetDrawColor(255, 0, 0)
-					local size = 12
-					surface.DrawTexturedRect(-size / 2, -size / 4, size, size / 2)
-				cam.End3D2D()
+			for i2 = 1, 2 do
+
+				local att = i2 == 2 and REye || LEye
+				local ang = att.Ang
+
+				render.SetMaterial( SpriteMat )
+
+				for i = -1, 2 do
+
+					local flip = i2 == 1 and -1 or 1
+					render.DrawSprite( att.Pos + ang:Right() * 2 * i + ang:Forward() * 3 - ang:Forward() * ( 1 - ( i / 2 ) ) * ( i2 == 1 && 0 || 4 ), 24, 20 - ( ( i / 2 ) ) * 24, Color( 255, 0, 0 ) )
+				end
+
 			end
 
 		end
