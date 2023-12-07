@@ -450,8 +450,8 @@ hook.Add("PostDrawEffects", "Arms", function()
 
 		arms = ClientsideModel( ply:GetModel() )
 		arms:SetNoDraw( true )
-	
-		timer.Simple(0.1, function()
+
+		arms:AddCallback( "BuildBonePositions", function()
 			
 			if IsValid( arms ) then
 
