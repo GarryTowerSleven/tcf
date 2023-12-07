@@ -50,7 +50,13 @@ function GM:PreDrawEffects()
 
 	local ply = LocalPlayer()
 
-	if !ply:GetNet("HasSaturn") || ply:ShouldDrawLocalPlayer() then return end
+	if !ply:GetNet("HasSaturn") || ply:ShouldDrawLocalPlayer() then
+
+		sprint = 1
+
+		return
+
+	end
 
 	cam.Start3D(EyePos(), EyeAngles(), 54)
 	cam.IgnoreZ(true)
