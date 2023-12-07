@@ -62,6 +62,7 @@ function GM:PlayerDeath( ply, wep, killer )
 	end
 
 	if ply:GetNet("IsChimera") then
+		ply:SetMaterial( "models/uch/uchimera/stgnewporkultimatechimera_body2" )
 		ply:CreateBirdProp()
 		ply:CreateRagdoll()
 	end

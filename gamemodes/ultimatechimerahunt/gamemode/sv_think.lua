@@ -41,7 +41,7 @@ function GM:Think()
 		for _, v in ipairs( player.GetAll() ) do
 			
 			if v:GetNet("IsChimera") then
-				v:SetMaterial("models/uch/uchimera/stgnewporkultimatechimera_body3")
+				v:SetMaterial( "models/uch/uchimera/stgnewporkultimatechimera_body3" )
 			end
 
 		end
