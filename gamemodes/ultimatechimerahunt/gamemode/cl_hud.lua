@@ -96,10 +96,9 @@ end
 
 local xx, yy, ww, hh = .28, .2725, .375, .12
 
-local pigmat = surface.GetTextureID( "UCH/hud/pighud" )
-local pigCmat = surface.GetTextureID( "UCH/hud/pighudc" )
-local pigEmat = surface.GetTextureID( "UCH/hud/pighude" )
-local ucmat = surface.GetTextureID( "UCH/hud/chimerahud" )
+local pigmat = Material( "UCH/hud/pighud_empty" )
+local hudmat_3d = Material("models/uch/pigmask/pigmaskhud")
+local ucmat = surface.GetTextureID( "UCH/hud/chimerahud_empty" )
 
 function GM:DrawHUD()
 	
@@ -119,7 +118,48 @@ function GM:DrawHUD()
 	local color = ply:GetRankColor()
 	PAYOUT_COLOR = {Color(color.r * 0.65, color.g * 0.65, color.b * 0.65), color}
 
-	if ply:GetNet("IsChimera") then
+	local c = ply:GetNet("IsChimera")
+
+	if !ply:IsGhost() && ( !IsValid( model ) || model.Entity:GetModel() == ply:GetModel() ) then
+
+		if !IsValid( model ) then
+
+			model = vgui.Create( "DModelPanel" )
+			model:SetModel(ply:GetModel())
+			model.Entity:SetMaterial( "models/uch/pigmask/pigmaskhud" )
+			local h = ( sh * ( c and 0.12 || .14 ) )
+			model:SetSize( h, h )
+
+			if c then
+				model.Entity:SetBodygroup(1, 1)
+			end
+
+			model.LayoutEntity = function( _, ent )
+				
+				ent:SetSequence( ply:GetSequence() )
+				ent:SetCycle( ply:GetCycle() )
+				ent:SetBodygroup( 2, ply:GetBodygroup( 2 ) )
+			
+			end
+
+			model:SetFOV( c && 95 || 80 )
+			model:SetCamPos( Vector( c && 64 || 32, c and -128 or -84, c && 32 || 32 ) )
+			model:SetLookAt( Vector( c and 10 or 0, 0, 64 ) )
+			model:SetPaintedManually( true )
+
+		end
+
+	else
+		
+		if IsValid( model ) then
+
+			model:Remove()
+
+		end
+
+	end
+
+	if c then
 		
 		mat = ucmat
 
@@ -144,6 +184,11 @@ function GM:DrawHUD()
 		surface.SetDrawColor( Color( 255, 255, 255, 255 ) )
 		surface.DrawTexturedRect( x, y, w, h )
 
+		hudmat_3d:SetVector( "$color2", (Vector(78, 20, 50) / 255) * 3.5 )
+		
+		model:SetPos( 0, spy - sph * 1.1 )
+		model:PaintManual()
+
 	else
 	
 		if ply:IsGhost() then return end
@@ -157,17 +202,25 @@ function GM:DrawHUD()
 		local spw, sph = ( w * .51), ( h * .275 )
 		self:DrawSprintBar( spx, spy, spw, sph )
 
-		if ply:GetNet("Rank") == RANK_COLONEL then
-			mat = pigCmat
-		end
+		local color = ply:GetRankColorSat()
+
+		color = color:ToVector()
+
 		if ply:GetNet("Rank") == RANK_ENSIGN then
-			mat = pigEmat
+			color = (Vector(255, 124, 160) / 255) * 1.4
+		elseif ply:GetNet("Rank") == RANK_COLONEL then
+			color = Vector(2, 2, 2)
 		end
 
-		local color = ply:GetRankColorSat()
-		surface.SetTexture( mat )
-		surface.SetDrawColor( Color( color.r, color.g, color.b ) )
+		surface.SetMaterial( pigmat )
+		pigmat:SetVector( "$color2", color )
+		hudmat_3d:SetVector( "$color2", color )
+		surface.SetDrawColor( color_white || Color( color.r, color.g, color.b ) )
 		surface.DrawTexturedRect( x, y, w, h )
+
+		model:SetPos( 0, y )
+		model:SetLookAt( Vector( ply:Crouching() && 8 || 0, 0, ply:Crouching() && 28 || 32 ) )
+		model:PaintManual()
 
 	end
 	
