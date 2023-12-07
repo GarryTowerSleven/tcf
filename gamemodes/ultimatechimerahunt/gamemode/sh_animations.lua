@@ -170,7 +170,7 @@ function AnimateGhost( ply, velocity )
 
 	if CLIENT then
 
-		if ply.IsMicOpen then
+		if ply:VoiceVolume() > 0 then
 			ply:AnimRestartGesture( GESTURE_SLOT_JUMP, ACT_GESTURE_RANGE_ATTACK1, true )
 		else
 			ply:AnimRestartGesture( GESTURE_SLOT_JUMP, ACT_GESTURE_MELEE_ATTACK2, true )
