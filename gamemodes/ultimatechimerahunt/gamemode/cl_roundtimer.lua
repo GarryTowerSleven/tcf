@@ -1,6 +1,9 @@
 local sw, sh = ScrW(), ScrH()
 local timerticks = {}
 	
+surface.CreateFont( "UCH_Box", { font = "AlphaFridgeMagnets ", size = ScreenScale( 12), weight = 500 } )
+surface.CreateFont( "UCH_Box2", { font = "AlphaFridgeMagnets ", size = ScreenScale( 16), weight = 500 } )
+
 local function UpdateRoundTimer( um )
 
 	local num = um:ReadLong()
@@ -38,16 +41,78 @@ local pmat = surface.GetTextureID( "UCH/hud/pighud_time" )
 local pemat = surface.GetTextureID( "UCH/hud/pighude_time" )
 local pCmat = surface.GetTextureID( "UCH/hud/pighudc_time" )
 local ucmat = surface.GetTextureID( "UCH/hud/chimerahud_time" )
-	
+local rect = Material("uch/hud/hud_box")
+local ensignLogo = surface.GetTextureID( "UCH/ranks/ensign" )
+local deadLogo = surface.GetTextureID( "UCH/ranks/ensign_dead" )
+
+local ranks = {
+	[RANK_ENSIGN] = {
+		surface.GetTextureID( "UCH/ranks/ensign" ),
+		surface.GetTextureID( "UCH/ranks/ensign_dead" )
+	},
+	[RANK_CAPTAIN] = {
+		surface.GetTextureID( "UCH/ranks/captain" ),
+		surface.GetTextureID( "UCH/ranks/captain_dead" )
+	},
+	[RANK_MAJOR] = {
+		surface.GetTextureID( "UCH/ranks/major" ),
+		surface.GetTextureID( "UCH/ranks/major_dead" )
+	},
+	[RANK_COLONEL] = {
+		surface.GetTextureID( "UCH/ranks/colonel" ),
+		surface.GetTextureID( "UCH/ranks/colonel_dead" )
+	},
+}
+
+local function drawBox(x, y, w, h, color, thick, round, rot)
+
+	if rot then
+		local matrix = Matrix()
+		matrix:Translate(Vector(x, y, 0))
+		matrix:Rotate(Angle(0, rot, 0))
+
+		cam.PushModelMatrix(matrix)
+
+		x = 0
+		y = 0
+	end
+
+	thick = thick or 3
+	round = round or 8
+	draw.RoundedBox(round, x, y, w, h, color[2])
+	draw.RoundedBox(round - 2, x + thick, y + thick, w - thick * 2, h - thick * 2, color[1])
+
+	if rot then
+		cam.PopModelMatrix()
+	end
+end
+
+local round = 1
+
 function GM:DrawRoundTime()
+
+	round = math.Approach(round, !LocalPlayer():KeyDown(IN_SCORE) && self:GetState() == STATE_PLAYING && CurTime() - globalnet.GetNet( "RoundStart" ) > 3 && 0 || 1, FrameTime() * 2)
+	local round = math.ease.InSine(round)
+
+	local color = LocalPlayer():GetRankColor()
+	local color3 = color
+	color = Color(color.r / 1.5, color.g / 1.5, color.b / 1.5)
+	local color2 = Color(color.r / 2, color.g / 2, color.b / 2)
+	local colors = {color, color2}
+
+	local ply = LocalPlayer()
+	local rank = ply:GetNet( "Rank" )
 
 	local tm = self:GetTimeLeft()
 
 	if tm then
+		local format = string.FormattedTime( tm )
+		local ms = ( tm - math.floor( tm ) ) * 100
+		
 		if tm >= 60 then
 			tm = string.FormattedTime( tm, "%2i:%02i" )
 		else
-			tm = math.Round( tm )
+			tm = tm <= 30 and math.floor( tm ) .. "." .. math.floor(ms) or math.Round( tm )
 		end
 	end
 
@@ -57,50 +122,101 @@ function GM:DrawRoundTime()
 
 	//tm = string.Trim( tm )
 
-	surface.SetFont( "UCH_KillFont3" )
+	surface.SetFont( "UCH_Box2" )
 	local txtw, txth = surface.GetTextSize( "Waiting" )
-
-	local x, y = sw * .5, -( sh * .05 )
-	local h = ( txth * 4.5 ) + -y
-	local w = h * 2
-
-	local mat = pmat
-	local color = LocalPlayer():GetRankColorSat()
-	local r, g, b = color.r, color.g, color.b
-
-	if LocalPlayer():GetNet( "Rank" ) == RANK_COLONEL && !LocalPlayer():IsGhost() then
-		mat = pCmat
-	end
-
-	if LocalPlayer():GetNet( "Rank" ) == RANK_ENSIGN then
-		mat = pemat
-		r, g, b = 255, 255, 255
-	end
-
-	if LocalPlayer():GetNet( "IsChimera" ) then
-		mat = ucmat
-		r, g, b = 255, 255, 255
-	end
-
-	if LocalPlayer():IsGhost() then
-		mat = pmat
-		r, g, b = 255, 255, 255
-	end
-
-	surface.SetTexture( mat )
-	surface.SetDrawColor( Color( r, g, b, 255 ) )
-	surface.DrawTexturedRect( x - ( w * .5 ), 0, w, h )
 	
-	local round = "-/" .. self.NumRounds
+	local rounds = "-/" .. self.NumRounds
 	if self:IsPlaying() || self:GetState() == STATE_INTERMISSION then
-		round = globalnet.GetNet( "Round" ) .. "/" .. self.NumRounds
+		rounds = globalnet.GetNet( "Round" ) .. "/" .. self.NumRounds
 	end
 
-	self:DrawNiceText( tm, "UCH_KillFont3", sw * .425, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 1, 250 )
-	self:DrawNiceText( round, "UCH_KillFont3", sw * .565, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 1, 250 )
+	local tw = surface.GetTextSize(string.Replace(tm, ":", "-"))
 
-	if #timerticks > 0 then
-		self:DrawTimerTicks()
+	if rank == RANK_ENSIGN then
+
+		local base = (Vector(200, 100, 150) / 255)
+		colors = {Color(200, 120, 160), Color(100, 64, 64)}
+		color3 = color_white
+
+	elseif rank == RANK_COLONEL then
+
+		colors = {Color(220, 220, 220), Color(80, 80, 80)}
+		color3 = color_white
+
+	end
+	
+	if ply:GetNet( "IsChimera" ) then
+
+		colors = {Color(230, 25, 111), Color(85, 15, 54)}
+		color3 = Color(255, 200, 0)
+
+	end
+
+	local x, y = ScrW() / 2, 0
+	local round2 = 1 - round
+	x = ScrW() * 0.4
+
+	local w, h = 200, 60
+
+	drawBox(x - 36 - 64, y - 24, 128 + 64, 72 + 8 + 18, colors, nil, nil, -5)
+	draw.SimpleTextOutlined( "TIME", "UCH_Box", x - 60, y - 2 + 36, color3, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, colors[2] )
+	self:DrawNiceText( tm, "UCH_Box2", x + 84, y + 6, Color( 255, 255, 255, 255 ), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 2, 200 )
+
+	if round != 0 then
+
+		colors[1].a = 255 * round
+		colors[2].a = 255 * round
+
+		drawBox(ScrW() / 2 - 64, -16, 128, 72 + 8, colors)
+
+		colors[1].a = 255
+		colors[2].a = 255
+
+	end
+
+	x = ScrW() * 0.5
+
+	drawBox(x - 36 + 128 + 8, y - 24, 128 + 64, 64 + 18, colors, nil, nil, 5)
+
+
+	if round != 0 then
+
+		draw.SimpleTextOutlined( "ROUND", "UCH_Box", ScrW() / 2, -4, Color(color3.r, color3.g, color3.b, 255 * round), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, Color(colors[2].r, colors[2].g, colors[2].b, 255 * round) )
+	
+	end
+
+	draw.SimpleTextOutlined( "PIGS", "UCH_Box", x + 128 + 64 + 58, y + 34, color3, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, colors[2] )
+
+
+
+	
+	self:DrawNiceText( rounds, "UCH_Box2", ScrW() / 2, 18, Color( 255, 255, 255, round * 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, round * 200 )
+
+	
+	local pigx, pigy = x + 24, y + 64 - 64
+	
+	// Current alive pigs
+	
+	local pigs = table.Add( team.GetPlayers( TEAM_PIGS ), team.GetPlayers(TEAM_GHOST) )
+	surface.SetTexture( ensignLogo )
+	surface.SetDrawColor( Color( 250, 255, 255 ) )
+
+	for i = 0, #pigs - 1 do
+		local ply = pigs[i + 1]
+		surface.SetTexture( ranks[ply:GetNet("Rank")][ply:Team() == TEAM_PIGS && 1 || 2] )
+		local pigs = #pigs
+		local size = 1 - ( pigs / ( pigs <= 6 and 6 or 12 ) )
+		size = pigs <= 6 and Lerp( size, 38, 64 ) or 30
+		local add = { pigs <= 6 and Lerp( size, 4, 10 ) or 0, pigs <= 6 and Lerp( size, 4, 6 ) or 0 }
+
+		if i > 5 then
+
+			add = { size * -4.5, size }
+
+		end
+
+	surface.DrawTexturedRectRotated( pigx - 16 + 110 + i * size * 0.75 - size * 0.05 + add[1] - 4, pigy + 14 + add[2] + math.fmod(i, 6) * 1 - 2 + size * 0.1, size, size, math.sin( CurTime() + i * 8 ) * 2 )
+
 	end
 
 end

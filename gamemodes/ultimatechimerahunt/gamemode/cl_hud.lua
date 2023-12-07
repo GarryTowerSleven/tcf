@@ -3,7 +3,6 @@ include( "cl_targetid.lua" )
 local sw, sh = ScrW(), ScrH()
 
 local xhairtex = surface.GetTextureID( "UCH/hud_pig_crosshair" )
-local ensignLogo = surface.GetTextureID( "UCH/ranks/ensign" )
 local glass = surface.GetTextureID( "UCH/ghost_glass" )
 local saturn = surface.GetTextureID( "UCH/hud_saturn" )
 
@@ -105,16 +104,6 @@ function GM:DrawHUD()
 	local ply = LocalPlayer()
 	local mat = pigmat
 
-	// Current alive pigs
-	if self:GetState() == STATE_PLAYING then
-		local pigs = #team.GetPlayers( TEAM_PIGS )
-		surface.SetTexture( ensignLogo )
-		surface.SetDrawColor( Color( 250, 255, 255 ) )
-		surface.DrawTexturedRectRotated( ScrW() - 150, ScrH() - 100, 64, 64, 0 )
-	
-		self:DrawNiceText( pigs, "UCH_KillFont3", ScrW() - 150 + 40, ScrH() - 100, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 2, 200 )
-	end
-	
 	local color = ply:GetRankColor()
 	PAYOUT_COLOR = {Color(color.r * 0.65, color.g * 0.65, color.b * 0.65), color}
 
@@ -189,9 +178,7 @@ function GM:DrawHUD()
 		model:SetPos( 0, spy - sph * 1.1 )
 		model:PaintManual()
 
-	else
-	
-		if ply:IsGhost() then return end
+	elseif !ply:IsGhost() then
 		
 		local h = ( sh * .14 )
 		local w = ( h * 4 )
@@ -223,6 +210,7 @@ function GM:DrawHUD()
 		model:PaintManual()
 
 	end
+	
 	
 end
 
