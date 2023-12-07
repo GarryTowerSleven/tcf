@@ -87,7 +87,9 @@ function meta:ResetVars()
 	self:SetNet( "IsPancake", false )
 	
 	/* Set Rank */
-	self:SetNet( "Rank", self:GetNet( "NextRank" ) )
+	if self:IsPig() then
+		self:SetNet( "Rank", self:GetNet( "NextRank" ) )
+	end
 
 	if self:IsPig() && self:GetNet( "Rank" ) == RANK_CAPTAIN && ( Hats.IsWearing( self, "hatfedorahat" ) or Hats.IsWearing( self, "FedoraAlternative" ) ) then
 		self:SetAchievement( ACHIEVEMENTS.UCHBROTHER, 1 )
