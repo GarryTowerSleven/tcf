@@ -41,12 +41,16 @@ function ENT:OnRemove()
     end
 end
 
-function ENT:Think()
-    if self:Location() != LocalPlayer():Location() then return self:OnRemove() end
+hook.Add( "Think", "Disco", function() 
 
     if DISCO && (!IsValid(DISCO) || !DISCO:GetStream()) then
         DISCO = nil
     end
+
+end )
+
+function ENT:Think()
+    if self:Location() != LocalPlayer():Location() then return self:OnRemove() end
 
     local Stream = self:GetStream()
     if !Stream then return end
