@@ -350,7 +350,7 @@ end)
 
 local flashlight = 0
 
-hook.Add("PostDrawOpaqueRenderables", "Flashlight", function()
+hook.Add("PreRender", "Flashlight", function()
 
 	for _, p in ipairs(player.GetAll()) do
 
@@ -380,7 +380,7 @@ hook.Add("PostDrawOpaqueRenderables", "Flashlight", function()
 
 	local on = ply:IsGhost() || ply:GetNet( "Flashlight" )
 
-	flashlight = math.Approach( flashlight, on and 1 or 0, FrameTime() * ( on and 4 or 8 ) )
+	flashlight = math.Approach( flashlight, on and 1 or 0, FrameTime() * 8 )
 
 	if flashlight == 0 then
 
