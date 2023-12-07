@@ -282,7 +282,7 @@ local function GetEyeAttach( ent, attachmentname )
 
 end
 
-local function EmitFlames( ent, pos )
+local function EmitFlames( ent, pos, i )
 	
 	if not ent.Emitter then
 		ent.Emitter = ParticleEmitter( pos )
@@ -291,7 +291,7 @@ local function EmitFlames( ent, pos )
 	local flare = Vector( CosBetween( -1, 1, RealTime() * 10 ), SinBetween( -2, 2, RealTime() * 10 ), 0 )
 
 	local particle = ent.Emitter:Add( "effects/fire_embers" .. math.random( 1 , 2 ), pos + ( VectorRand() * 3 ) )
-	particle:SetVelocity( Vector( 0, 0, 40 ) + flare )
+	particle:SetVelocity( Vector( 0, 0, 40 ) + flare + ent:GetRight() * 16 * ( i == 2 and 1 or -1 ) )
 	particle:SetDieTime( math.Rand( .5, 1 ) )
 	particle:SetStartAlpha( math.random( 150, 255 ) )
 	particle:SetEndAlpha( 0 )
@@ -301,15 +301,16 @@ local function EmitFlames( ent, pos )
 	particle:SetGravity( Vector( 0, 0, 50 ) )
 
 	local particle = ent.Emitter:Add( "uch/fire", pos + ( VectorRand() * 3 ) )
-	particle:SetVelocity( Vector( 0, 0, 40 ) + flare )
+	particle:SetVelocity( Vector( 0, 0, 40 ) + flare + ent:GetRight() * 16 * ( i == 2 and 1 or -1 ) )
 	particle:SetDieTime( math.Rand( .5, 1 ) )
 	particle:SetStartAlpha( math.random( 150, 255 ) )
 	particle:SetEndAlpha( 0 )
 	particle:SetStartSize( math.random( 1, 5 ) )
 	particle:SetEndSize( 0 )
 	particle:SetColor( 255, 255, 255 )
-	particle:SetGravity( Vector( 0, 0, 50 ) )
+	particle:SetGravity( Vector( 0, 0, 50 ) - ent:GetRight() * 24 * ( i == 2 and 1 or -1 ) )
 	particle:SetRoll(math.random(360))
+	particle:SetAirResistance(180 / 2)
 
 end
 
@@ -332,8 +333,8 @@ hook.Add("PostDrawOpaqueRenderables", "UCAngry", function()
 
 			-- Flames
 			if not uch.NextParticle or RealTime() > uch.NextParticle then
-				EmitFlames( uch, LEye.Pos )
-				EmitFlames( uch, REye.Pos )
+				EmitFlames( uch, LEye.Pos, 1 )
+				EmitFlames( uch, REye.Pos, 2 )
 				uch.NextParticle = RealTime() + 0.05
 			end
 			
