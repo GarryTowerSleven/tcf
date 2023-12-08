@@ -98,12 +98,17 @@ function GM:InputMouseApply( cmd, x, y, ang )
 
 end
 
+local lvec
+
 local function ThirdPersonCamera( ply, pos, ang, fov, dis )
 
 	local view = {}
-	
+
+	lvec = lvec or pos
+	lvec = LerpVector( FrameTime() * 16, lvec, pos )
+
 	local dir = ang:Forward()
-	local tr = util.QuickTrace( pos, ( dir * -dis ), player.GetAll())
+	local tr = util.QuickTrace( lvec, ( dir * -dis ), player.GetAll())
 	
 	local trpos = tr.HitPos
 	

@@ -108,7 +108,7 @@ function GM:DrawHUD()
 	local color = ply:GetRankColor()
 	PAYOUT_COLOR = {Color(color.r * 0.65, color.g * 0.65, color.b * 0.65), color}
 
-	local c = ply:GetNet("IsChimera")
+	local c = ply:Team() == TEAM_CHIMERA
 
 	if !ply:IsGhost() && ( !IsValid( model ) || model.Entity:GetModel() == ply:GetModel() ) then
 
