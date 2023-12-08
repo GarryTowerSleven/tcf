@@ -106,14 +106,9 @@ function GM:DrawRoundTime()
 	local tm = self:GetTimeLeft()
 
 	if tm then
-		local format = string.FormattedTime( tm )
-		local ms = ( tm - math.floor( tm ) ) * 100
-		
-		if tm >= 60 then
-			tm = string.FormattedTime( tm, "%2i:%02i" )
-		else
-			tm = tm <= 30 and math.floor( tm ) .. "." .. math.floor(ms) or math.Round( tm )
-		end
+
+		tm = string.FormattedTime( tm, "%2i:%02i" )
+
 	end
 
 	if !self:GetTimeLeft() || self:GetTimeLeft() < 0 then
