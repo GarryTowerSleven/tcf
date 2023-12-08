@@ -226,16 +226,6 @@ function GM:HUDPaint()
 	if self:GetState() == STATE_WAITING then
 		
 		txt = "Waiting for players..."
-		
-	elseif self:GetState() == STATE_INTERMISSION then
-		
-		txt = "Starting new round..."
-		
-		if ( globalnet.GetNet( "Round" ) + 1 ) > self.NumRounds then
-
-			txt = "Ending game!"
-
-		end
 
 	end
 
