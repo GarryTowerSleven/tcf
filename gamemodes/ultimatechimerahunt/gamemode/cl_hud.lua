@@ -100,15 +100,16 @@ local hudmat_3d = Material("models/uch/pigmask/pigmaskhud")
 local hudmat_3d_flat = Material("models/uch/uchimera/chimerahud")
 local ucmat = surface.GetTextureID( "UCH/hud/chimerahud_empty" )
 
-local fps = 16
+local fps = 12
 local fps_table = {
+	["run"] = 16,
 	pig = {
-		["run"] = 22,
+		["run"] = 20,
 		["walk"] = 20,
-		["taunt"] = 16,
-		["taunt2"] = 16,
+		["taunt"] = 18,
+		["taunt2"] = 18,
 		["crawl"] = 18,
-		["jump"] = 22
+		["jump"] = 20
 	}
 }
 
