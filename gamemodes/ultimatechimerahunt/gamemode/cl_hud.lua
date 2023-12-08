@@ -100,11 +100,19 @@ local hudmat_3d = Material("models/uch/pigmask/pigmaskhud")
 local hudmat_3d_flat = Material("models/uch/uchimera/chimerahud")
 local ucmat = surface.GetTextureID( "UCH/hud/chimerahud_empty" )
 
-local fps = 10
+local fps = 16
 local fps_table = {
-	["run"] = 12,
-	["taunt"] = 8
+	pig = {
+		["run"] = 22,
+		["walk"] = 20,
+		["taunt"] = 16,
+		["taunt2"] = 16,
+		["crawl"] = 18,
+		["jump"] = 22
+	}
 }
+
+local limit = CreateClientConVar( "gmt_uch_hud_fps", "1", true )
 
 local crouch = 0
 local crawl = 0
@@ -146,7 +154,7 @@ function GM:DrawHUD()
 				local cycle = ply:GetCycle()
 				local name = ply:GetSequenceName(ply:GetSequence())
 
-				local fps = fps_table[name] or fps
+				local fps = !c && fps_table["pig"][name] || fps_table[name] or fps
 				fps = 1 / fps
 
 				if name == "idle" || name == "crouchidle" then
@@ -161,7 +169,11 @@ function GM:DrawHUD()
 				end
 
 
-				cycle = _.Cycle
+				if limit:GetBool() then
+
+					cycle = _.Cycle
+
+				end
 
 				if ent:GetSequence() != ply:GetSequence() then
 					// ent:ResetSequence( 0 or ply:GetSequence() )
