@@ -203,11 +203,11 @@ end
 GM.LastUCThink = 0
 local UCsLastStompPlace = {}
 
-function GM:UCThink()
+function GM:UCThink(uc)
 	
-	if !IsValid( self:GetUC() ) then return end
+	// if !IsValid( self:GetUC() ) then return end
 
-	local uc = self:GetUC()
+	// local uc = self:GetUC()
 
 	if uc.StunnedTime then
 		uc:StunEffect()
@@ -281,7 +281,7 @@ function GM:UCThink()
 		UCsLastStompPlace[ uc:EntIndex() ] = uc:GetPos()
 
 		if uc.PlayStomp && CurTime() >= uc.LastStomp && uc:IsMoving() then
-			uc.LastStomp = CurTime() + .5
+			uc.LastStomp = CurTime() + (uc:GetNet("IsSprinting") && 0.325 || .5)
 			uc.PlayStomp = false
 			uc:Stomp()
 		end
@@ -337,7 +337,9 @@ end
 
 function meta:Stomp()
 
-	self:EmitSound( "UCH/chimera/step.wav", 82, math.random( 94, 105 ) )
+	self.Step = self.Step or 0
+	self.Step = math.fmod(self.Step + 1, 2)
+	self:EmitSound( "UCH/chimera/step" .. (self.Step == 0 and "" or 2) .. "_hd.wav", 82, math.random( 94, 105 ) * ( self:GetNet("IsSprinting") && 1.1 || 1 ) * ( self.Step == 1 && 1.05 || 1 ) )
 	util.ScreenShake( self:GetPos(), 5, 5, .5, ( roardistance * 1.85 ) )
 
 end
@@ -594,7 +596,7 @@ if SERVER then
 		
 		RestartAnimation( self )
 		
-		self:EmitSound( "UCH/chimera/roar.wav", 82, math.random( 94, 105 ) )
+		self:EmitSound( "UCH/chimera/roar_hd.wav", 82, math.random( 94, 105 ) )
 		util.ScreenShake( self:GetPos(), 5, 5, dur * .96, roardistance * 1.85 )
 		
 		timer.Simple( dur * .96, function()
@@ -627,7 +629,7 @@ if SERVER then
 		local dur = self:SequenceDuration()
 		RestartAnimation( self )
 	
-		self:EmitSound( "UCH/chimera/bite.wav", 80, math.random( 94, 105 ) )
+		self:EmitSound( "UCH/chimera/bite_hd.wav", 80, math.random( 94, 105 ) )
 	
 		timer.Simple( dur * .98, function()
 			self:SetNet( "IsBiting", false )
