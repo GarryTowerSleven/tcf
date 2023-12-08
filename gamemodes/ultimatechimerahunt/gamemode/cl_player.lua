@@ -105,7 +105,7 @@ local function ThirdPersonCamera( ply, pos, ang, fov, dis )
 	local view = {}
 
 	lvec = lvec or pos
-	lvec = LerpVector( FrameTime() * 16, lvec, pos )
+	lvec = LerpVector( FrameTime() * 24, lvec, pos )
 
 	local dir = ang:Forward()
 	local tr = util.QuickTrace( lvec, ( dir * -dis ), player.GetAll())
