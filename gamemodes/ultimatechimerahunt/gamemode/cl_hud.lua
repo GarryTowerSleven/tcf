@@ -100,6 +100,15 @@ local hudmat_3d = Material("models/uch/pigmask/pigmaskhud")
 local hudmat_3d_flat = Material("models/uch/uchimera/chimerahud")
 local ucmat = surface.GetTextureID( "UCH/hud/chimerahud_empty" )
 
+local fps = 10
+local fps_table = {
+	["run"] = 12,
+	["taunt"] = 8
+}
+
+local crouch = 0
+local crawl = 0
+
 function GM:DrawHUD()
 	
 	local ply = LocalPlayer()
@@ -119,17 +128,51 @@ function GM:DrawHUD()
 			model = vgui.Create( "DModelPanel" )
 			model:SetModel(ply:GetModel())
 			model.Entity:SetMaterial( c && "models/uch/uchimera/chimerahud" || "models/uch/pigmask/pigmaskhud" )
+
 			local h = ( sh * ( c and 0.12 || .14 ) )
 			model:SetSize( h, h )
 
 			if c then
+
 				model.Entity:SetBodygroup(1, 1)
+
 			end
+
+			model.Cycle = 0
+			model.FPS = 0
 
 			model.LayoutEntity = function( _, ent )
 				
-				ent:SetSequence( ply:GetSequence() )
-				ent:SetCycle( ply:GetCycle() )
+				local cycle = ply:GetCycle()
+				local name = ply:GetSequenceName(ply:GetSequence())
+
+				local fps = fps_table[name] or fps
+				fps = 1 / fps
+
+				if name == "idle" || name == "crouchidle" then
+
+					_.Cycle = 0.5
+
+				elseif _.FPS < SysTime() then
+
+					_.Cycle = cycle
+					_.FPS = SysTime() + fps
+
+				end
+
+
+				cycle = _.Cycle
+
+				if ent:GetSequence() != ply:GetSequence() then
+					// ent:ResetSequence( 0 or ply:GetSequence() )
+					ent:SetSequence(ply:GetSequence())
+				end
+				
+				//ent:AddVCDSequenceToGestureSlot(GESTURE_SLOT_CUSTOM, ply:GetSequence(), cycle, true)
+				ent:SetModel("models/error.mdl")
+				ent:SetModel(ply:GetModel())
+				ent:SetSequence(ply:GetSequence())
+				ent:SetCycle( cycle )
 				ent:SetBodygroup( 2, ply:GetBodygroup( 2 ) )
 			
 			end
@@ -208,8 +251,14 @@ function GM:DrawHUD()
 		surface.SetDrawColor( color_white || Color( color.r, color.g, color.b ) )
 		surface.DrawTexturedRect( x, y, w, h )
 
+		local name = ply:GetSequenceName(ply:GetSequence())
+		local crawl = name == "crawl" && 1 || 0
+		local crouch = name == "crouchidle" && 1 || crawl
+
 		model:SetPos( 0, y )
-		model:SetLookAt( Vector( ply:Crouching() && 8 || 0, 0, ply:Crouching() && 28 || 32 ) )
+		model:SetLookAt( Vector( 4 * crouch + 4 * crawl, 0, 32 - 0 * crouch - 8 * crawl ) )
+		model:SetCamPos( Vector( 32, -84, 32 + 8 * crawl ) )
+		model:SetFOV( 80 + 4 * crawl )
 		model:PaintManual()
 
 	end
