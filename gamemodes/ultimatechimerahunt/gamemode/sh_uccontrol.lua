@@ -31,6 +31,7 @@ function meta:Stun()
 	self.StunnedTime = CurTime() + stuntime
 	self:SetNet( "IsStunned", true )
 	self:SetNet( "Sprint", 0 )
+	self:StunEffect()
 
 	/*local eff = EffectData()
 		eff:SetEntity( self )
@@ -41,12 +42,24 @@ end
 function meta:StunEffect()
 
 	local effectdata = EffectData()
-		effectdata:SetStart(self:GetPos())
-		effectdata:SetOrigin(self:GetPos())
-		effectdata:SetScale(5)
-		effectdata:SetMagnitude(10)
+	local pos, ang = self:GetBonePosition(36)
+
+	if pos then
+
+		pos = pos + ang:Up() * 4 + ang:Right() * 4
+
+	else
+
+		pos = self:WorldSpaceCenter()
+
+	end
+
+		effectdata:SetOrigin(pos || self:WorldSpaceCenter())
+		effectdata:SetNormal(Angle(math.random(0, 30), math.random(-180, 180), 0):Forward())
+		effectdata:SetScale(stuntime)
+		effectdata:SetFlags(2)
 		effectdata:SetEntity(self)
-	util.Effect("TeslaHitBoxes", effectdata)
+	util.Effect("saturn_stars", effectdata)
 
 end
 
@@ -210,11 +223,20 @@ function GM:UCThink(uc)
 	// local uc = self:GetUC()
 
 	if uc.StunnedTime then
-		uc:StunEffect()
+		uc.LastStun = uc.LastStun or 0
+
+		if uc.LastStun < CurTime() then
+
+			uc:EmitSound("ambient/energy/spark" .. math.random(6) .. ".wav")
+			uc.LastStun = CurTime() + math.Rand(0.2, 0.8)
+
+		end
+
 		if uc.StunnedTime < CurTime() then
 			uc:SetNet( "IsStunned", false )
 			uc.StunnedTime = nil
 		end
+
 	end
 
 	if uc:GetNet( "IsRoaring" ) && CurTime() >= self.LastUCThink then

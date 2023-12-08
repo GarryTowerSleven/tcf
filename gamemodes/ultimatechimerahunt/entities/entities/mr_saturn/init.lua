@@ -142,6 +142,7 @@ function ENT:PhysicsCollide( data, phys )
 		local eff = EffectData()
 			eff:SetOrigin( data.HitPos )
 			eff:SetNormal( data.HitNormal )
+			eff:SetFlags( 0 )
 		util.Effect( "saturn_stars", eff )
 
 	end
