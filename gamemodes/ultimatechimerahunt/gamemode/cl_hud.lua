@@ -112,6 +112,8 @@ function GM:DrawHUD()
 
 	if !ply:IsGhost() && ( !IsValid( model ) || model.Entity:GetModel() == ply:GetModel() ) then
 
+		c = string.find( ply:GetModel(), "chimera" )
+
 		if !IsValid( model ) then
 
 			model = vgui.Create( "DModelPanel" )
