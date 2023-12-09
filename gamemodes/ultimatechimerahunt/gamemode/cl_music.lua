@@ -50,7 +50,9 @@ function PlayMusic( idx, teamid )
 
 	if idx == MUSIC_ROUND then
 
-		ply.Ignore = ply.Looped and 1 or 0
+		local add = ply:GetNet( "IsChimera" ) && 2 || 3.75
+
+		ply.Ignore = ply.Looped and add - 1 or 0
 		ply.Looped = true
 		
 		if ply.WaitingMusic && ply.WaitingMusic:IsPlaying() then
@@ -60,7 +62,7 @@ function PlayMusic( idx, teamid )
 		if ply.EndRoundMusic then
 			ply.EndRoundMusic:Stop()
 		end
-		timer.Simple( 2 - ply.Ignore, function()
+		timer.Simple( add - ply.Ignore, function()
 			local song = GetRandomSong( MUSIC_ROUND )
 			ply.Music = CreateSound( ply, song )
 			ply.Music:PlayEx( music.GetClientVolume(), 100 )
