@@ -56,9 +56,9 @@ function GM:StartRound()
 	for _, v in ipairs( player.GetAll() ) do
 
 		v:UnGhost()
-		self:SetMusic( v, MUSIC_ROUND )
 		v.IsDead = false
 		if !v:GetNet("IsChimera") then v:SetTeam( TEAM_PIGS ) end
+		self:SetMusic( v, MUSIC_ROUND, v:Team() )
 		//v:Freeze( false )
 
 		v:SetFrags( 0 )
