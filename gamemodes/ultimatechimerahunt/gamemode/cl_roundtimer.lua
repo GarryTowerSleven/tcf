@@ -160,75 +160,40 @@ function GM:DrawRoundTime()
 	local round2 = 1 - round
 	x = ScrW() * 0.5
 
+	local add = 64 + 24
+
 	local w, h = 200, 60
 
-	drawBox(x - 36 - 64 - 128 - 64, y - 24, 128 + 64, 72 + 8 + 18, colors, nil, nil, -5)
-	draw.SimpleTextOutlined( "TIME", "UCH_Box", x - 60 - 128 - 64, y - 2 + 36, color3, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, colors[2] )
-	self:DrawNiceText( tm, "UCH_Box2", x + 84 - 128 - 64, y + 6, Color( 255, 255, 255, 255 ), TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP, 2, 200 )
 
 	if round != 0 then
 
 		colors[1].a = 255 * round
 		colors[2].a = 255 * round
 
-		drawBox(ScrW() / 2 - 64, -16, 128, 72 + 8, colors)
+		drawBox(ScrW() / 2 - 64 + add * round, -16, 128, 72 + 8, colors)
 
 		colors[1].a = 255
 		colors[2].a = 255
 
-	end
-
-	drawBox(x - 36 + 128 + 8, y - 24, 128 + 64, 64 + 18, colors, nil, nil, 5)
-
-
-	if round != 0 then
-
-		draw.SimpleTextOutlined( "ROUND", "UCH_Box", ScrW() / 2, -4, Color(color3.r, color3.g, color3.b, 255 * round), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, Color(colors[2].r, colors[2].g, colors[2].b, 255 * round) )
+		draw.SimpleTextOutlined( "ROUND", "UCH_Box", ScrW() / 2 + add * round, -4, Color(color3.r, color3.g, color3.b, 255 * round), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, Color(colors[2].r, colors[2].g, colors[2].b, 255 * round) )
 	
-	end
-
-	draw.SimpleTextOutlined( "PIGS", "UCH_Box", x + 128 + 64 + 58, y + 34, color3, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, colors[2] )
-
-
-
-	
-	self:DrawNiceText( rounds, "UCH_Box2", ScrW() / 2, 18, Color( 255, 255, 255, round * 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, round * 200 )
-
-	
-	local pigx, pigy = x + 24, y + 64 - 64
-	
-	// Current alive pigs
-	
-	local dead = team.GetPlayers(TEAM_GHOST)
-	local pigs = team.GetPlayers( TEAM_PIGS )
-
-	for _, pig in ipairs( pigs ) do
-		if !pig:Alive() then
-			table.remove( pigs, _ )
-			table.insert( dead, pig )
-		end
-	end
-
-	pigs = table.Add( pigs, dead )
-	surface.SetTexture( ensignLogo )
-	surface.SetDrawColor( Color( 250, 255, 255 ) )
-
-	for i = 0, #pigs - 1 do
-		local ply = pigs[i + 1]
-		surface.SetTexture( ranks[ply:GetNet("Rank")][ply:Alive() && ply:Team() == TEAM_PIGS && 1 || 2] )
-		local pigs = #pigs
-		local size = 1 - ( pigs / ( pigs <= 6 and 6 or 12 ) )
-		size = pigs <= 6 and Lerp( size, 38, 64 ) or 30
-		local add = { pigs <= 6 and Lerp( size, 4, 10 ) or 0, pigs <= 6 and Lerp( size, 4, 6 ) or 0 }
-
-		if i > 5 then
-
-			add = { size * -4.5, size }
-
-		end
-
-	surface.DrawTexturedRectRotated( pigx - 16 + 110 + i * size * 0.75 - size * 0.05 + add[1] - 4, pigy + 14 + add[2] + math.fmod(i, 6) * 1 - 2 + size * 0.1, size, size, math.sin( CurTime() + i * 8 ) * 2 )
+	self:DrawNiceText( rounds, "UCH_Box2", ScrW() / 2 + add * round, 18, Color( 255, 255, 255, round * 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, round * 200 )
 
 	end
 
+	drawBox(ScrW() / 2 - 64 - add * round, -16, 128, 72 + 8, colors)
+	draw.SimpleTextOutlined( "TIME", "UCH_Box", ScrW() / 2 - add * round, -4, color3, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, colors[2] )
+	self:DrawNiceText( tm, "UCH_Box2", ScrW() / 2 - add * round - tw / 2, 18, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, 200 )
+
+	local x, y = ScrW() * 0.9, ScrH() * 0.875
+	local w, h = 128, 80
+	local pigs = #team.GetPlayers( TEAM_PIGS )
+	local tw = surface.GetTextSize( pigs )
+	drawBox( x, y, w, h, colors )
+	draw.SimpleTextOutlined( "PIGS", "UCH_Box", x + w / 2, y + 8, color3, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, colors[2] )
+	self:DrawNiceText( pigs, "UCH_Box2", x + w / 2 + tw / 2 + (string.len(pigs) > 1 && -8 or 0), y + h - 48, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, 200 )
+
+	surface.SetTexture(ranks[LocalPlayer():GetNet("Rank")][1])
+	surface.SetDrawColor(color_white)
+	surface.DrawTexturedRect(x + w / 2 - tw / 2 - 24, y + h - 48, 48, 48)
 end
