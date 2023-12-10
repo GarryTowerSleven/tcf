@@ -128,6 +128,43 @@ function meta:FindThingsToBite()
 	
 end
 
+hook.Add( "StartCommand", "UC_Chimera", function( ply, cmd )
+
+	if ply:GetNet( "IsChimera" ) && ply:Alive() then
+
+		local s = ply:GetNet( "Sprint" )
+
+		if cmd:KeyDown( IN_SPEED ) then
+
+			if s == 0 || ply.Holding then
+
+				cmd:RemoveKey( IN_SPEED )
+				ply:SetNet( "IsSprinting", false )
+				ply.Holding = true
+
+			elseif s > 0.2 then
+
+				ply:SetNet( "IsSprinting", true )
+
+			end
+
+		else
+
+			ply:SetNet( "IsSprinting", false )
+			ply.Holding = false
+
+		end
+
+		if s <= 0.02 && cmd:KeyDown( IN_JUMP ) && !ply:GetNet( "IsStunned" ) then
+
+			cmd:RemoveKey( IN_JUMP )
+
+		end
+
+	end
+
+end)
+
 function meta:WithinRoarDistance( uc )
 
 	local pos, ucpos = self:GetShootPos(), uc:GetShootPos()
@@ -381,8 +418,11 @@ function meta:CanDoubleJump()
 	local numjumps = 1 //how many jumps you're allowed before increasing the required z velocity
 
 	local num = -( 150 - ( add * numjumps ) + ( add * ( self:GetNet( "DoubleJumpNum" ) or 0 ) ) )
+	local penalty = math.Clamp( self:GetNet( "Sprint" ) - ( GAMEMODE.DJumpPenalty * ( 1 + ( self:GetNet( "DoubleJumpNum" ) * .66 ) ) ), 0, 1 )
 
-	if !self:IsOnGround() && ( ( self:GetVelocity().z < num ) || self:GetNet( "FirstDoubleJump" ) ) then
+	local sprint = self:GetNet( "Sprint" )
+
+	if sprint > 0.02 && sprint > penalty && !self:IsOnGround() && ( ( self:GetVelocity().z < num ) || self:GetNet( "FirstDoubleJump" ) ) then
 		return true
 	end
 	

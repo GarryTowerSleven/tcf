@@ -8,8 +8,8 @@ local sprint_minimum = .2
 
 function meta:CanRechargeSprint()
 
-	if self:GetNet( "IsChimera" ) && self:IsOnGround() && !self:GetNet( "IsRoaring" ) && !self:GetNet( "IsBiting" ) && !self:GetNet( "IsStunned" ) then
-		return true
+	if self:GetNet( "IsChimera" ) && ( !self:IsOnGround() || self:GetNet( "IsRoaring" ) || self:GetNet( "IsBiting" ) || self:GetNet( "IsStunned" ) ) then
+		return false
 	end
 
 	if self:GetNet( "IsStunned" ) then
@@ -20,7 +20,7 @@ function meta:CanRechargeSprint()
 		return false
 	end
 
-	if !self.SprintCooldown && ( self:Alive() && !self:GetNet( "IsChimera" ) ) then
+	if !self.SprintCooldown && ( self:Alive() ) then
 		return true
 	end
 
@@ -87,6 +87,7 @@ if SERVER then
 
 			if ply.SprintCooldown && ply.SprintCooldown < CurTime() then
 				ply.SprintCooldown = nil
+				ply:SetNet( "Sprint", 0.01 )
 			end
 
 			if ply:GetNet( "IsChimera" ) then
@@ -105,6 +106,14 @@ if SERVER then
 	end )
 
 	function meta:HandleSprinting()  //when they're actually sprinting
+
+		if self:GetNet( "Sprint" ) <= 0 then //you're all out man!
+
+			if !self.SprintCooldown then
+				self.SprintCooldown = CurTime() + 1
+			end
+
+		end
 
 		if self:GetNet( "IsSprinting" ) then
 
@@ -125,10 +134,6 @@ if SERVER then
 			if self:GetNet( "Sprint" ) <= 0 then //you're all out man!
 
 				self:SetNet( "IsSprinting", false )
-
-				if !self.SprintCooldown then
-					self.SprintCooldown = CurTime() + 1
-				end
 
 				self:SetupSpeeds()
 
