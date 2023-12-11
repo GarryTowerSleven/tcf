@@ -543,7 +543,16 @@ function lightwarp.SetupMaterial( mat )
 
 	local material = mats[mat]
 
-	material:SetTexture("$lightwarptexture", "models/uch/warp")
+	material:SetTexture( "$lightwarptexture", "models/uch/warp" )
+	material:SetTexture( "$bumpmap", "models/uch/flat2" )
+	material:SetFloat( "$phong", 1 )
+	material:SetFloat( "$phongexponent", 20 )
+	material:SetFloat( "$phongboost", .3 )
+	material:SetVector( "$phongfresnelranges", Vector( 0.3, 1, 8 ) )
+	material:SetFloat( "$rimlight", 1 )
+	material:SetFloat( "$rimlightexponent", 4 )
+	material:SetFloat( "$rimlightboost", 2 )
+	material:SetFloat( "$halflambert", 1 )
 
 end
 
