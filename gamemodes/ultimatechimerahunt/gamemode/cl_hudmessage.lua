@@ -95,7 +95,7 @@ function PANEL:Think()
 	elseif Life < self.MovingTime + self.StayTime + self.MovingTime then
 
 		local MovingLife = Life - self.MovingTime - self.StayTime
-		local PosX = Lerp( math.ease.InCubic( MovingLife / self.MovingTime ), CenterX, ScrW()) )
+		local PosX = Lerp( math.ease.InCubic( MovingLife / self.MovingTime ), CenterX, ScrW() )
 
 		self:SetPos( PosX, PosY )
 
