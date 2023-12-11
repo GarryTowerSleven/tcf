@@ -690,7 +690,7 @@ if SERVER then
 		RestartAnimation( self )
 		
 		self:EmitSound( "UCH/chimera/roar_hd.wav", 82, math.random( 94, 105 ) )
-		util.ScreenShake( self:GetPos(), 5, 5, dur * .96, roardistance * 1.85 )
+		util.ScreenShake( self:GetPos(), 5, 5, dur * .96, roardistance * 1.85, true )
 		
 		timer.Simple( dur * .96, function()
 

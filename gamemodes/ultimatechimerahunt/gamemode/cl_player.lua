@@ -158,6 +158,8 @@ local vb = CreateClientConVar("gmt_uch_viewbob", "1", true)
 
 function GM:CalcView( ply, pos, ang, fov )
 
+	local shake = pos - ply:EyePos()
+
 	if ply:IsGhost() then
 
 		local num = 3
@@ -203,7 +205,7 @@ function GM:CalcView( ply, pos, ang, fov )
 			trpos = ( trpos + ( dir * 20 ) )
 		end
 		
-		view.origin = trpos
+		view.origin = trpos + shake
 		
 		view.angles = scared and ang or ( ply:GetShootPos() - trpos ):Angle()
 		
