@@ -528,3 +528,45 @@ hook.Add("PostDrawEffects", "Arms", function()
 	cam.End3D()
 
 end)
+
+local mats = {}
+
+lightwarp = {}
+
+function lightwarp.SetupMaterial( mat )
+	
+	if !mats[mat] then
+
+		mats[mat] = Material( mat )
+
+	end
+
+	local material = mats[mat]
+
+	material:SetTexture("$lightwarptexture", "models/uch/warp")
+
+end
+
+function lightwarp.Set( arg )
+
+	local type = type( arg )
+
+	if type == "Entity" || type == "Player" then
+		
+		for _, mat in ipairs( arg:GetMaterials() ) do
+			
+			lightwarp.SetupMaterial( mat )
+
+		end
+
+	elseif type == "string" then
+
+		lightwarp.SetupMaterial( arg )
+		
+	else
+
+		ErrorNoHalt( "Attempted to call lightwarp.Set on invalid type! (" .. type .. ")")
+
+	end
+
+end
