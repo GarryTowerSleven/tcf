@@ -267,7 +267,7 @@ function GM:CalcView( ply, pos, ang, fov )
 		l = l * vb2
 
 		local roll = vel:Dot(ang:Right())
-		pos = pos + ang:Up() * math.sin(CurTime() * 16) * 0.8 * l
+		pos = pos + ang:Up() * math.sin(CurTime() * 16) * 0.2 * l
 		ang:RotateAroundAxis(ang:Forward(), roll * 0.01)
 		ang:RotateAroundAxis(ang:Up(), math.sin(CurTime() * 8) * 0.04 * l)
 		ang:RotateAroundAxis(ang:Right(), math.sin(CurTime() * 6) * 0.02 * l)
