@@ -193,7 +193,7 @@ function GM:DrawRoundTime()
 	draw.SimpleTextOutlined( "PIGS", "UCH_Box", x + w / 2, y + 8, color3, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, colors[2] )
 	self:DrawNiceText( pigs, "UCH_Box2", x + w / 2 + tw / 2 + (string.len(pigs) > 1 && -8 or pigs == 1 && 2 || 0), y + h - 48, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, 200 )
 
-	surface.SetTexture(ranks[LocalPlayer():GetNet("Rank")][1])
+	surface.SetTexture(ranks[ply:GetNet("IsChimera") && RANK_ENSIGN || ply:GetNet("Rank")][1])
 	surface.SetDrawColor(color_white)
 	surface.DrawTexturedRect(x + w / 2 - tw / 2 - 24, y + h - 48, 48, 48)
 end
