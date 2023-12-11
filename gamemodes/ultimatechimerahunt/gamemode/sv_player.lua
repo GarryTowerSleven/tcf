@@ -164,6 +164,8 @@ end
 
 function GM:PlayerDeathSound() return true end
 
+function GM:AllowPlayerPickup() return false end
+
 function GM:GetFallDamage( ply, vel )
 	
 	if ply:IsGhost() then
