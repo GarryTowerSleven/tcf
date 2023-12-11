@@ -38,7 +38,7 @@ hook.Add( "Think", "SaturnThink", function()
 			GAMEMODE:NewSaturn()
 			GAMEMODE.SpawnedSaturn = true
 
-		elseif GAMEMODE:GetTimeLeft() - CurTime() <= 30 then
+		elseif GAMEMODE:GetTimeLeft() <= 30 then
 
 			GAMEMODE:SpawnSaturn()
 			GAMEMODE.SpawnedSaturn = true
