@@ -280,13 +280,13 @@ function GM:UCThink(uc)
 		if uc.LastSeeTime < CurTime() then
 
 			uc:EmitSound("uch/chimera/roar_hd.wav", 70, 80, 0.75)
-			uc.LastSeeTime = CurTime() + math.random(10, 15)
+			uc.LastSeeTime = CurTime() + math.random(20, 30)
 
 		end
 		
 	else
 
-		uc.LastSeeTime = CurTime() + math.random(10, 15)
+		uc.LastSeeTime = CurTime() + math.random(20, 30)
 
 	end
 
