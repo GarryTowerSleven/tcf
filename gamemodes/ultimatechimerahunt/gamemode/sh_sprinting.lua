@@ -109,7 +109,7 @@ if SERVER then
 
 		if self:GetNet( "Sprint" ) <= 0 then //you're all out man!
 
-			if !self.SprintCooldown then
+			if !self.SprintCooldown || !self:IsOnGround() then
 				self.SprintCooldown = CurTime() + 1
 			end
 
