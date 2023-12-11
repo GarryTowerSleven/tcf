@@ -1877,7 +1877,7 @@ hook.Add( "GMTScoreboardHide", "DisableAvatarDHTML", function()
 
 	timer.Create( "DisableAvatarDHTML", 2, 1, function()
 		for k, v in pairs( PLAYERS.AnimatedAvatars ) do
-			if IsValid( v ) then
+			if IsValid( v ) && !v:IsBot() then
 				v.AvatarDHTML:Remove()
 				v.AvatarImage:SetVisible( true )
 			end
