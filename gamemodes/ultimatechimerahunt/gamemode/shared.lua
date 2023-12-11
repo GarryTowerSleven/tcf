@@ -102,7 +102,7 @@ MUSIC_MRSATURN = 8
 
 GM.Music = {
 	[MUSIC_WAITING] = { "UCH/newmusic/waiting/waiting_music", 13 },
-	[MUSIC_ROUND] = { "UCH/newmusic/round/round_music", 9 },
+	[MUSIC_ROUND] = { "UCH/newmusic/round/round_music", 10 },
 	[MUSIC_ENDROUND] = {
 
 		Chimera =  {
