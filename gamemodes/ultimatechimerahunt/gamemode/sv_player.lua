@@ -90,6 +90,8 @@ end
 
 function GM:PlayerSwitchFlashlight( ply, SwitchOn )
 
+	if !ply:Alive() then return end
+
 	if !ply:IsAdmin() then
 		if !ply.FlashLightTime then ply.FlashLightTime = 0 end
 		if ply.FlashLightTime > CurTime() then return false end
