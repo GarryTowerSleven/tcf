@@ -547,7 +547,7 @@ function lightwarp.SetupMaterial( mat )
 	material:SetTexture( "$bumpmap", "models/uch/flat2" )
 	material:SetFloat( "$phong", 1 )
 	material:SetFloat( "$phongexponent", 20 )
-	material:SetFloat( "$phongboost", .3 )
+	material:SetFloat( "$phongboost", 0.3 )
 	material:SetVector( "$phongfresnelranges", Vector( 0.3, 1, 8 ) )
 	material:SetFloat( "$rimlight", 1 )
 	material:SetFloat( "$rimlightexponent", 4 )
@@ -560,7 +560,7 @@ function lightwarp.Set( arg )
 
 	local type = type( arg )
 
-	if type == "Entity" || type == "Player" then
+	if type == "Entity" || type == "Player" || type == "CSEnt" then
 		
 		for _, mat in ipairs( arg:GetMaterials() ) do
 			
@@ -579,3 +579,30 @@ function lightwarp.Set( arg )
 	end
 
 end
+
+hook.Add( "Think", "Lightwarp", function()
+
+	for _, ply in ipairs( player.GetAll() ) do
+		
+		local model = ply:GetModel()
+
+		if ply.Model != model then
+			
+			lightwarp.Set( ply )
+			ply.Model = model
+
+		end
+
+	end
+
+	if !SETUPSATURN then
+		
+		local ent = ClientsideModel("models/uch/saturn.mdl")
+		lightwarp.Set(ent)
+		ent:Remove()
+
+		SETUPSATURN = true
+
+	end
+
+end )
