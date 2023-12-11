@@ -434,7 +434,7 @@ hook.Add("PostDrawEffects", "Arms", function()
 
 	local ply = LocalPlayer()
 
-	if ply:Team() != TEAM_PIGS && ply:Team() != TEAM_GHOST then
+	if ply:Team() != TEAM_PIGS then
 
 		if IsValid( arms ) then
 
