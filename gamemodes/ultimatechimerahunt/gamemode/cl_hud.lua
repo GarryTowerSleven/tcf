@@ -105,6 +105,7 @@ local fps_table = {
 	["run"] = 16,
 	pig = {
 		["run"] = 20,
+		["run_scared"] = 22,
 		["walk"] = 20,
 		["taunt"] = 18,
 		["taunt2"] = 18,
@@ -158,7 +159,7 @@ function GM:DrawHUD()
 				local fps = !c && fps_table["pig"][name] || fps_table[name] or fps
 				fps = 1 / fps
 
-				if name == "idle" || name == "crouchidle" then
+				if name == "idle" || name == "crouchidle" || name == "idle_scared" then
 
 					_.Cycle = 0.5
 
