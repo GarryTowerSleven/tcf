@@ -89,7 +89,7 @@ function meta:ResetVars()
 	self:Freeze( false )
 	self:SetSolid( SOLID_BBOX )
 	
-	BroadcastLua([[ents.GetByIndex(]] .. self:EntIndex() .. [[):DisableMatrix("RenderMultiply")]])
+	BroadcastLua([[local ent = ents.GetByIndex(]] .. self:EntIndex() .. [[) if IsValid(ent) then ent:DisableMatrix("RenderMultiply") end]])
 	
 	/* Set Rank */
 	if self:IsPig() then
