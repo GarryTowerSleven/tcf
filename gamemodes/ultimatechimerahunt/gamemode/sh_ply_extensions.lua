@@ -209,7 +209,7 @@ if SERVER then
 
 		local spd, cspd = 175, .3
 
-		if GAMEMODE:IsPlaying() && GAMEMODE:GetUC() == self then
+		if GAMEMODE:GetUC() == self then
 			spd, cspd = 112, 1
 		end
 
