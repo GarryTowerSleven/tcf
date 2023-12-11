@@ -16,13 +16,13 @@ function GM:DrawSaturn()
 
 			local dist = LocalPlayer():GetPos():Distance( v:GetPos() )
 
-			if dist <= 250 || dist >= 1024 then return end
+			if dist >= 1024 then continue end
 			local opacity = math.Clamp( 310.526 - ( 0.394737 * dist ), 0, 200 ) // woot mathematica
 
 			if pos.visible then
 
 				local x, y = pos.x, pos.y
-				local size = 64 //math.Clamp( dist / 64, 0, 64 )
+				local size = 64 - math.Clamp( dist / 64, 0, 64 )
 
 				cam.Start2D()
 
