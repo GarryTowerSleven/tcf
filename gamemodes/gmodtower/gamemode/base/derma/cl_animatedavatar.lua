@@ -108,6 +108,8 @@ function PANEL:SetPlayer(ply, size)
     self.AvatarImage:SetSize(size, size)
     self.AvatarImage:SetPlayer(ply, size)
 
+    if ply:IsBot() then return end
+
     self:SetupAnimatedAvatar(ply, size)
 end
 
