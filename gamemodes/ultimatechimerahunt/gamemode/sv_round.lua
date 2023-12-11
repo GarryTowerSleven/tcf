@@ -51,7 +51,8 @@ function GM:StartRound()
 
 	globalnet.SetNet("UC", NULL)
 	self:RandomChimera()
-	self:NewSaturn()
+	self.SpawnedSaturn = false
+	self.SaturnSpawn = nil
 
 	for _, v in ipairs( player.GetAll() ) do
 

@@ -28,6 +28,25 @@ end*/
 
 hook.Add( "Think", "SaturnThink", function()
 
+	local alive = #team.GetPlayers( TEAM_PIGS )
+	local amount = player.GetCount() - 1
+
+	if !GAMEMODE.SpawnedSaturn then
+
+		if amount <= 3 || alive <= amount / 2 then
+
+			GAMEMODE:NewSaturn()
+			GAMEMODE.SpawnedSaturn = true
+
+		elseif GAMEMODE:GetTimeLeft() - CurTime() <= 30 then
+
+			GAMEMODE:SaturnSpawn()
+			GAMEMODE.SpawnedSaturn = true
+
+		end
+
+	end
+
 	if GAMEMODE.SaturnSpawn then
 
 		if !GAMEMODE:IsPlaying() then
