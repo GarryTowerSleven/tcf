@@ -259,6 +259,37 @@ function GM:UCThink(uc)
 
 	// local uc = self:GetUC()
 
+	local visible = {}
+
+	for _, ply in ipairs( player.GetAll() ) do
+		
+		local pos = uc:WorldSpaceCenter()
+
+		if util.QuickTrace( pos, ply:WorldSpaceCenter() - pos, uc ).Entity == ply then
+
+			table.insert( visible, ply )
+			
+		end
+
+	end
+
+	uc.LastSeeTime = uc.LastSeeTime || 0
+
+	if #visible == 0 then
+
+		if uc.LastSeeTime < CurTime() then
+
+			uc:EmitSound("uch/chimera/roar_hd.wav", 70, 80, 0.75)
+			uc.LastSeeTime = CurTime() + math.random(10, 15)
+
+		end
+		
+	else
+
+		uc.LastSeeTime = CurTime() + math.random(10, 15)
+
+	end
+
 	if uc.StunnedTime then
 		uc.LastStun = uc.LastStun or 0
 
