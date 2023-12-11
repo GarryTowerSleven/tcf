@@ -229,6 +229,7 @@ function GM:SetChimera( ply )
 	ply:SetTeam( TEAM_CHIMERA )
 
 	ply.Jumped = false
+	ply.VisibleTime = CurTime() + 30
 end
 
 function GM:CheckGame( ply ) //this function checks if the game should end or not based on the players alive
