@@ -158,11 +158,12 @@ function GM:DrawRoundTime()
 
 	local x, y = ScrW() / 2, 0
 	local round2 = 1 - round
-	x = ScrW() * 0.5
 
 	local add = 64 + 24
+	add = 0
 
-	local w, h = 200, 60
+	local w, h = ScrW() * 0.075, ScrH() * 0.075
+	add = w * 0.66
 
 
 	if round != 0 then
@@ -170,30 +171,31 @@ function GM:DrawRoundTime()
 		colors[1].a = 255 * round
 		colors[2].a = 255 * round
 
-		drawBox(ScrW() / 2 - 64 + add * round, -16, 128, 72 + 8, colors)
+		drawBox(x - w / 2 + add * round, -h * 0.1, w, h, colors)
 
 		colors[1].a = 255
 		colors[2].a = 255
 
-		draw.SimpleTextOutlined( "ROUND", "UCH_Box", ScrW() / 2 + add * round, -4, Color(color3.r, color3.g, color3.b, 255 * round), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, Color(colors[2].r, colors[2].g, colors[2].b, 255 * round) )
+		draw.SimpleTextOutlined( "ROUND", "UCH_Box", x + add * round, -h * 0.05, Color(color3.r, color3.g, color3.b, 255 * round), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, Color(colors[2].r, colors[2].g, colors[2].b, 255 * round) )
 	
-	self:DrawNiceText( rounds, "UCH_Box2", ScrW() / 2 + add * round, 18, Color( 255, 255, 255, round * 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, round * 200 )
+	self:DrawNiceText( rounds, "UCH_Box2", x + add * round, h / 4, Color( 255, 255, 255, round * 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, round * 200 )
 
 	end
 
-	drawBox(ScrW() / 2 - 64 - add * round, -16, 128, 72 + 8, colors)
-	draw.SimpleTextOutlined( "TIME", "UCH_Box", ScrW() / 2 - add * round, -4, color3, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, colors[2] )
-	self:DrawNiceText( tm, "UCH_Box2", ScrW() / 2 - add * round - tw / 2, 18, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, 200 )
+	drawBox(x - w / 2 - add * round, -h * 0.1, w, h, colors)
+	draw.SimpleTextOutlined( "TIME", "UCH_Box", x - add * round, -h * 0.05, color3, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, colors[2] )
+	self:DrawNiceText( tm, "UCH_Box2", x - add * round - tw / 2, h / 4, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, 200 )
 
 	local x, y = ScrW() * 0.9, ScrH() * 0.875
-	local w, h = 128, 80
+	local w, h = w, h
 	local pigs = #team.GetPlayers( TEAM_PIGS )
 	local tw = surface.GetTextSize( pigs )
+	local size = ScrH() * 0.06
 	drawBox( x, y, w, h, colors )
-	draw.SimpleTextOutlined( "PIGS", "UCH_Box", x + w / 2, y + 8, color3, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, colors[2] )
-	self:DrawNiceText( pigs, "UCH_Box2", x + w / 2 + tw / 2 + (string.len(pigs) > 1 && -8 or pigs == 1 && 2 || 0), y + h - 48, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, 200 )
+	draw.SimpleTextOutlined( "PIGS", "UCH_Box", x + w / 2, y + h * 0.04, color3, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, colors[2] )
+	self:DrawNiceText( pigs, "UCH_Box2", x + w / 2 + tw / 2, y + h * 0.35, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, 200 )
 
 	surface.SetTexture(ranks[ply:GetNet("IsChimera") && RANK_ENSIGN || ply:GetNet("Rank")][1])
 	surface.SetDrawColor(color_white)
-	surface.DrawTexturedRect(x + w / 2 - tw / 2 - 24, y + h - 48, 48, 48)
+	surface.DrawTexturedRect(x + w / 2 - tw / 2 - size / 2 - w * 0.05, y + h * 0.275, size, size)
 end
