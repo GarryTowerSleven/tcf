@@ -279,6 +279,34 @@ function GM:DrawHUD()
 	
 end
 
+local teeth = Material("uch/teeth.png")
+local bite = 0
+
+function GM:DrawBite()
+
+	local w = 256
+
+	bite = math.Approach(bite, LocalPlayer():Alive() && LocalPlayer():IsFrozen() && 1 || 0, FrameTime() * 8)
+
+	if bite == 0 then return end
+
+	local amount = ScrW() / w
+
+	local y = Lerp(bite, -w, ScrH() * 0.5 * bite)
+	y = math.Round(y)
+	draw.RoundedBox(0, 0, y - ScrH() * 0.5, ScrW(), ScrH() * 0.5, color_black)
+	draw.RoundedBox(0, 0, ScrH() - y, ScrW(), ScrH() * 0.5, color_black)
+
+	surface.SetMaterial(teeth)
+	surface.SetDrawColor(color_black)
+
+	for i = 0, amount do
+		surface.DrawTexturedRectRotated(w * i + w / 2, y + w, w, w * 2, 180)
+		surface.DrawTexturedRectRotated(w * i, ScrH() - y - w, w, w * 2, 0)
+	end
+	
+end
+
 function GM:HUDPaint()
 	
 	local ply = LocalPlayer()
@@ -304,7 +332,8 @@ function GM:HUDPaint()
 	self:DrawTargetID()
 	self:DrawRoundTime()
 	self:DrawSaturn()
-	
+	self:DrawBite()
+
 end
 
 local HiddenHud = { "CHudHealth", "CHudBattery", "CHudAmmo", "CHudSecondaryAmmo", "CHudCrosshair", "CHudWeapon", "CHudChat" }
