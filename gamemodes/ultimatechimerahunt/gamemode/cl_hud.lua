@@ -208,6 +208,16 @@ function GM:DrawHUD()
 
 	end
 
+	local aspect = sw / sh
+
+	if string.StartsWith(aspect, "1.77") then
+		aspect = 0
+	elseif string.StartsWith(aspect, "1.66") then
+		aspect = 0.25
+	else
+		aspect = 1
+	end
+
 	if c then
 		
 		mat = ucmat
@@ -234,8 +244,8 @@ function GM:DrawHUD()
 		surface.DrawTexturedRect( x, y, w, h )
 
 		hudmat_3d_flat:SetVector( "$color2", (Vector(78, 20, 50) / 255) * 3.5 )
-		
-		model:SetPos( 0, spy - sph * 1.1 )
+
+		model:SetPos( sw * 0.015 * aspect, spy - sph * 1.1 )
 		model:PaintManual()
 
 	elseif !ply:IsGhost() then
@@ -269,7 +279,7 @@ function GM:DrawHUD()
 		local crawl = name == "crawl" && 1 || 0
 		local crouch = name == "crouchidle" && 1 || crawl
 
-		model:SetPos( 0, y )
+		model:SetPos( sw * 0.015 * aspect, y )
 		model:SetLookAt( Vector( 4 * crouch + 4 * crawl, 0, 32 - 0 * crouch - 8 * crawl ) )
 		model:SetCamPos( Vector( 32, -84, 32 + 8 * crawl ) )
 		model:SetFOV( 80 + 4 * crawl )
