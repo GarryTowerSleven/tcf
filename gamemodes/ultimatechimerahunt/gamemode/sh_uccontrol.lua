@@ -273,23 +273,6 @@ function GM:UCThink(uc)
 
 	end
 
-	uc.LastSeeTime = uc.LastSeeTime || 0
-
-	if #visible == 0 then
-
-		if uc.LastSeeTime < CurTime() then
-
-			uc:EmitSound("uch/chimera/roar_hd.wav", 70, 80, 0.75)
-			uc.LastSeeTime = CurTime() + math.random(20, 30)
-
-		end
-		
-	else
-
-		uc.LastSeeTime = CurTime() + math.random(20, 30)
-
-	end
-
 	if uc.StunnedTime then
 		uc.LastStun = uc.LastStun or 0
 
