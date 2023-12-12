@@ -54,7 +54,7 @@ function ENT:DrawTranslucent()
 	local attach = owner:LookupAttachment( "eyes" )
 	local bone = owner:GetAttachment( attach )
 	
-	local ang = LocalPlayer():EyeAngles()
+	local ang = EyeAngles()
 	local pos = nil
 	
 	if ( attach == 0 ) then
@@ -85,6 +85,12 @@ end
 function ENT:DrawText( text, font, x, y, alpha, xalign, yalign )
 
 	if !text then return end
+
+	if string.StartsWith( text, "*" ) && string.EndsWith( text, "*" ) then
+		text = string.sub( text, 2, string.len( text ) - 1 )
+		draw.WaveyText( text, font, x, y, color_white, xalign, yalign, 8 )
+		return
+	end
 
 	draw.DrawText( text, font, x + 1, y + 1, Color( 0, 0, 0, alpha ), xalign, yalign )
 	draw.DrawText( text, font, x, y, Color( 255, 255, 255, alpha ), xalign, yalign )
