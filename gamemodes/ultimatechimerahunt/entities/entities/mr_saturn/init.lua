@@ -215,8 +215,10 @@ end
 
 function ENT:Scare()
 
-	if #self.Balloons == 0 then
-		
+	if #self.Balloons == 0 && !self.IsScared then
+
+		self.IsScared = true
+
 		self:CreateBalloons()
 		self:EmitSound( "uch/saturn/saturn_hit.wav", 80, 130 )
 		self:GetPhysicsObject():AddVelocity( Vector( 0, 0, 256 ) )
@@ -226,6 +228,7 @@ function ENT:Scare()
 			if IsValid( self ) then
 
 				self:PopBalloons()
+				self.IsScared = false
 
 			end
 
