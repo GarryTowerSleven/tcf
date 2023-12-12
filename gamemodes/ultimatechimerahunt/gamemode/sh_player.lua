@@ -204,7 +204,6 @@ hook.Add( "UpdateAnimation", "PlayerTurn", function()
 
 			ply.TurnAng.y = math.ApproachAngle(ply.TurnAng.y, ang.y, FrameTime() * (8 + diff * 8))
 
-			ply:SetAngles( ply.TurnAng )
 			ply:SetRenderAngles( ply.TurnAng )
 
 		end
