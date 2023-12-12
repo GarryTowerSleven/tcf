@@ -36,6 +36,5 @@ function ENT:SetupSchedules()
 	self:AddSchedule( "Fish for dem birdies", {15, 30}, 75, self.EndFish, self.StartFish )
 	self:AddSchedule( "Take a break", {12, 24}, 25, self.EndSit, self.StartSit )
 	self:AddSchedule( "Stand still", {4, 8}, 12, self.EndIdle, self.StartIdle )
-	self:AddSchedule( "Fly", {4, 12}, 100, self.EndFly, self.StartFly )
 
 end
