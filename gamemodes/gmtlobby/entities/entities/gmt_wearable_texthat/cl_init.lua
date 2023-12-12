@@ -88,7 +88,8 @@ function ENT:DrawText( text, font, x, y, alpha, xalign, yalign )
 
 	if string.StartsWith( text, "*" ) && string.EndsWith( text, "*" ) then
 		text = string.sub( text, 2, string.len( text ) - 1 )
-		draw.WaveyText( text, font, x, y, color_white, xalign, yalign, 8 )
+		draw.WaveyText( text, font, x + 1, y + 1, Color( 0, 0, 0, alpha ), xalign, yalign, 8 )
+		draw.WaveyText( text, font, x, y, Color( 255, 255, 255, alpha ), xalign, yalign, 8 )
 		return
 	end
 
