@@ -39,6 +39,7 @@ AddPlayerModel( "infected", "models/player/virusi.mdl", nil, true ) -- for virus
 AddPlayerModel( "minigolf", "models/sunabouzu/golf_ball.mdl", nil, true ) -- minigolf!
 AddPlayerModel( "uchghost", "models/uch/mghost.mdl", nil, true ) -- uch
 AddPlayerModel( "uchpigmask", "models/uch/pigmask.mdl", nil, true ) -- uch
+AddPlayerModel( "uchchimera", "models/uch/uchimeragm.mdl", nil, true ) -- uch
 
 // Public Use
 // ============================

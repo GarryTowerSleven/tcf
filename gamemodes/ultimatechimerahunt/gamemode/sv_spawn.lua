@@ -86,6 +86,8 @@ function GM:PlayerSpawn( ply )
 	ply:SetMaterial()
 	ply:SetupModel()
 
+	Hats.UpdateWearables( ply )
+
 	if ply:GetNet("IsChimera") then
 
 		ply:SetTeam( 2 )

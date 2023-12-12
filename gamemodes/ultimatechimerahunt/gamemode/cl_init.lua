@@ -44,15 +44,21 @@ end )
 
 hook.Add( "ShouldHideHats", "ShouldHideHats", function( ply )
 
-	if ply:GetNet( "IsChimera" ) then
-		return true
-	end
-
 	if ply:Team() == TEAM_GHOST && LocalPlayer():Team() != TEAM_GHOST then
 		return true
 	end
 
 end )
+
+hook.Add( "PositionHatOverride", "Hats", function( ent, data, pos, ang, scale, hat )
+
+	if ent:GetNet( "IsChimera" ) then
+
+		hat:SetMaterial()
+
+	end
+
+end)
 
 function GM:DrawLogo( x, y, size )
 	

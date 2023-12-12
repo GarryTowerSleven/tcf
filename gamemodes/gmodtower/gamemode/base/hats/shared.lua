@@ -225,12 +225,23 @@ function TranformationOrigin( ent, attachId )
 	local AtachTbl = AttachmentsList[ attachId ] or AttachmentsList[1]
 	local Ghost = ( ent:GetModel() == "models/uch/mghost.mdl" )
 
-	if AtachTbl.IsBone || Ghost then 
+	if AtachTbl.IsBone || Ghost || ent:GetModel() == "models/uch/uchimeragm.mdl" then 
 
 		local bone = ent:LookupBone( AtachTbl.Key )
 
 		if !bone then
 			bone = ent:LookupBone( "head" )
+		end
+
+		if !bone then
+			bone = ent:LookupBone("StgNewporkUltimateChimera_ToriheadN")
+
+			if bone then
+				local pos, ang = ent:GetBonePosition( bone )
+				ang:RotateAroundAxis( ang:Up(), -90 )
+
+				return pos, ang
+			end
 		end
 
 		if !bone then

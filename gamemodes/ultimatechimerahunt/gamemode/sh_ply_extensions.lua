@@ -40,10 +40,6 @@ function meta:SetupModel()
 	self:SetModel2( "models/UCH/pigmask.mdl" )
 	self:SetRankModels()
 	self:SetBodygroup( 4, 1 )
-
-	if SERVER then
-		Hats.UpdateWearables( self )
-	end
 	
 end
 

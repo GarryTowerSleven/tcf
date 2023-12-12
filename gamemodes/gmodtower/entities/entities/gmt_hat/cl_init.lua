@@ -56,12 +56,10 @@ function ENT:PositionItem(ent)
 
 
 	// Override for fancy stuff
-	if engine.ActiveGamemode() == "minigolf" then
-		local newPos, newAng, newScale = hook.Call( "PositionHatOverride", GAMEMODE, ent, self.Data, Pos, Ang, Scale )
-		Pos = newPos or Pos
-		Ang = newAng or Ang
-		Scale = newScale or Scale
-	end
+	local newPos, newAng, newScale = hook.Call( "PositionHatOverride", GAMEMODE, ent, self.Data, Pos, Ang, Scale, self )
+	Pos = newPos or Pos
+	Ang = newAng or Ang
+	Scale = newScale or Scale
 
 	return Pos, Ang, Scale
 
