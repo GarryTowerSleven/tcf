@@ -141,6 +141,17 @@ function meta:MovementKeyDown()
 
 end
 
+function GM:StartCommand( ply, cmd )
+
+	if !ply:GetNet( "IsChimera" ) && ply:GetNet( "IsStunned" ) then
+
+		cmd:SetForwardMove( 0 )
+		cmd:SetSideMove( 0 )
+
+	end
+
+end
+
 if SERVER then
 
 	function meta:SendSound( snd )
@@ -246,10 +257,6 @@ if SERVER then
 
 		else
 			self:SetupSpeeds()
-		end
-		
-		if self:GetNet( "IsStunned" ) && !self:GetNet( "IsChimera" ) then
-			self:SetSpeed( 0 )
 		end
 
 	end
