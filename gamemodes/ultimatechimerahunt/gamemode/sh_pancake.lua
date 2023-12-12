@@ -15,7 +15,7 @@ if SERVER then
 		self:SetNet( "IsScared", true )
 		self:SetNet( "IsPancake", true )
 		self:SetSolid( SOLID_NONE )
-		self:Freeze( true )
+		self:SetNet( "IsStunned", true )
 		self:Squeal()
 
 		timer.Simple( .5, function()
