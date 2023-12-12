@@ -24,11 +24,28 @@ function ENT:BlinkThink()
 	end
 
 	self.blink = math.max(self.blink - FrameTime() * 8, 0)
-	//Scary. Will return eventually
-	/*self.ET = self.ET or self:EyePos()
-	self.ET = LerpVector(FrameTime() * 4, self.ET, LocalPlayer():EyePos())
+
+	local closest = nil
+	local dist = math.huge
+
+	for _, ply in ipairs( player.GetAll() ) do
+		
+		local dis = ply:GetPos():DistToSqr( self:GetPos() )
+
+		if dis < dist && dis <= ( 128 * 128 ) then
+
+			closest = ply
+			dist = dis
+
+		end
+
+	end
+
+	self.ET = self.ET or self:EyePos()
+	self.ET = LerpVector(FrameTime() * 4, self.ET, closest and closest:EyePos() or self:GetPos() + self:GetForward() * 64 + self:GetUp() * 64)
 	self:SetPoseParameter("head_yaw", math.NormalizeAngle((self.ET - self:EyePos()):Angle().y - self:GetAngles().y) / 1.4)
-	ragdoll:SetEyeTarget(self.ET)*/
+	ragdoll:SetEyeTarget(self.ET)
+
 	ragdoll:SetFlexWeight(ragdoll:GetFlexIDByName("blink") or 0, self.blink)
 	// TODO
 end
@@ -64,6 +81,26 @@ function ENT:AdditionalThink() end
 
 function ENT:Draw()
 	--self:DrawModel()
+
+	if self.Hat then
+
+		local model = self.Hat
+		local pos, ang = self.HatOffset.Pos, self.HatOffset.Ang
+
+		if !IsValid( self.HatModel ) then
+
+			self.HatModel = ClientsideModel( model )
+
+		else
+
+			local att = self:GetAttachment( 1 )
+			self.HatModel:SetPos( att.Pos + att.Ang:Forward() * pos.x + att.Ang:Right() * pos.y + att.Ang:Up() * pos.z )
+			self.HatModel:SetAngles( att.Ang + ang )
+			self.HatModel:SetModelScale( self.HatOffset.Scale )
+
+		end
+
+	end
 end
 
 
