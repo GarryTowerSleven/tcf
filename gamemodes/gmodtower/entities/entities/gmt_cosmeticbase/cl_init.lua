@@ -204,7 +204,7 @@ function ENT:ShouldDraw( ply, dist )
 
 	if ply == LocalPlayer() then
 
-		if GAMEMODE.DrawHatsAlways || (GAMEMODE.ShouldDrawLocalPlayer && GAMEMODE:ShouldDrawLocalPlayer( ply )) || hook.Call( "ShouldDrawLocalPlayer", GAMEMODE, ply ) then
+		if GAMEMODE.DrawHatsAlways || (GAMEMODE.ShouldDrawLocalPlayer && GAMEMODE:ShouldDrawLocalPlayer( ply )) || hook.Call( "ShouldDrawLocalPlayer", GAMEMODE, ply ) || ply:ShouldDrawLocalPlayer() then
 			return true
 		end
 
