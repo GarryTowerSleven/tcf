@@ -30,7 +30,7 @@ resource.AddWorkshop( 2948325260 ) -- TCF Lobby
 resource.AddWorkshop( 2952552769 ) -- TCF Ballrace
 resource.AddWorkshop( 2956124164 ) -- TCF Minigolf
 resource.AddWorkshop( 2956124349 ) -- TCF PVP Battle
-resource.AddWorkshop( 2952547939 ) -- TCF UCH
+resource.AddWorkshop( 3111819031 ) -- TCF UCH
 
 // BACKUP
 /* THIS IS NOT UP TO DATE
