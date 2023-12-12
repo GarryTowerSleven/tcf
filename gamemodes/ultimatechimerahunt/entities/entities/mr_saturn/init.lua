@@ -14,6 +14,7 @@ function ENT:Initialize()
 	self.LastJump = 0
 	self.LastRandom = 0
 	self.TargetPos = self:GetPos()
+	self.GroundTime = 0
 	self.Balloons = {}
 
 	self.Nav = ents.Create( "mr_saturn_navigator" )
@@ -45,6 +46,12 @@ function ENT:Think()
 				self.TargetPos = table.Random( navmesh.GetAllNavAreas() ):GetRandomPoint() // self:GetPos() + Vector(math.random(-200, 200), math.random(-200, 200), 0)
 				self.LastRandom = CurTime() + 8
 			end
+		end
+
+		if !onground then
+
+			self.GroundTime = CurTime() + 1
+
 		end
 
 		// Stuck
@@ -86,6 +93,8 @@ function ENT:Think()
 
 			self.MoveTo = #self.Segments > 2 && self.Segments[1] && self.Segments[1].pos || self.TargetPos
 
+			local tang = ( self.MoveTo - phys:GetPos() ):Angle()
+
 			phys:ApplyForceCenter( tang:Forward() * 184 * ( 1 - math.Clamp( phys:GetVelocity():Length2D() / 184, 0, 1 ) ) )
 
 		end
@@ -124,9 +133,11 @@ function ENT:PhysicsSimulate( phys, ft )
 	
 		phys:ComputeShadowControl( shadow )
 
+		return
+
 	end
 
-	if !self.MoveTo then return end
+	if !self.MoveTo || self.GroundTime > CurTime() then return end
 
 	local tang = ( self.MoveTo - phys:GetPos() ):Angle()
 
@@ -258,6 +269,37 @@ function ENT:PhysicsCollide( data, phys )
 		effect:SetFlags( 0 )
 		util.Effect( "saturn_stars", effect )
 
+		local ent = data.HitEntity
+		local ply = self:GetOwner()
+
+		if !self.Hit && IsValid( ply ) && IsValid( ent ) && ent:IsPlayer() && ent:GetNet( "IsChimera" ) && GAMEMODE:IsPlaying() then
+
+			self.Hit = true
+
+			if !ent.SaturnHit then
+
+				ent.SaturnHit = true
+				ent:Stun()
+				ply:AddAchievement( ACHIEVEMENTS.UCHBESTFRIEND, 1 )
+
+			else
+
+				ent.SaturnKill = true
+				ent.SaturnThrower = ply
+				ent.SaturnHit = false
+
+				ply:SetNet( "KilledWithSaturn", true )
+				ply:AddFrags( 1 )
+				ply:RankUp()
+				ply:EmitSound( "uch/saturn/saturn_superwin.wav" )
+				ply:AddAchievement( ACHIEVEMENTS.UCHHOMERUN, 1 )
+
+				ent:Kill()
+
+			end
+			
+		end
+
 	else
 
 		self:StartMotionController()
@@ -284,6 +326,26 @@ function ENT:Explode()
 
 		util.Effect( "piggy_pop", effect )
 	end
+
+end
+
+function ENT:Use( ply )
+
+	if #self.Balloons > 0 || !ply:IsPig() || ply:GetNet( "IsScared" ) || ply:GetNet( "IsTaunting" ) || ply:GetNet( "HasSaturn" ) || ply.GrabTime && ply.GrabTime > CurTime() then return end
+
+	self:EmitSound( "uch/saturn/saturn_pickup.wav", 80 )
+	self:Remove()
+
+	ply:SetNet( "HasSaturn", true )
+	ply.GrabTime = CurTime() + 0.5
+
+	local ent = ents.Create( "saturn_held" )
+	ent:SetPos( ply:GetPos() )
+	ent:SetParent( ply )
+	ent:SetOwner( ply )
+	ent:Spawn()
+
+	ply.HeldSaturn = ent
 
 end
 

@@ -76,6 +76,7 @@ function meta:ResetVars()
 	self:SetNet( "IsSprinting", false )
 	self:SetNet( "IsStunned", false )
 	self:SetNet( "Flashlight", false )
+	self.SaturnHit = false
 
 	/* Reset Pig Stuff */
 	self:StopTaunting()
