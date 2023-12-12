@@ -6,7 +6,7 @@ end
 
 local sprint_minimum = .2
 
-function meta:CanRechargeSprint()
+function meta:CanRechargeSprint( time )
 
 	if self:GetNet( "IsChimera" ) && ( !self:IsOnGround() || self:GetNet( "IsRoaring" ) || self:GetNet( "IsBiting" ) || self:GetNet( "IsStunned" ) ) then
 		return false
@@ -20,7 +20,7 @@ function meta:CanRechargeSprint()
 		return false
 	end
 
-	if !self.SprintCooldown && ( self:Alive() ) then
+	if time || !self.SprintCooldown && ( self:Alive() ) then
 		return true
 	end
 
@@ -109,7 +109,7 @@ if SERVER then
 
 		if self:GetNet( "Sprint" ) <= 0 then //you're all out man!
 
-			if !self.SprintCooldown || !self:IsOnGround() then
+			if !self:CanRechargeSprint( true ) then
 				self.SprintCooldown = CurTime() + 1
 			end
 
