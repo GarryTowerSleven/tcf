@@ -494,7 +494,7 @@ hook.Add("PostDrawEffects", "Arms", function()
 			local ang2 = Angle(0, ang.y, 0)
 			local moving = ply:GetVelocity():Length2D() > 1
 
-			local diff = math.abs( math.NormalizeAngle( feetang.y - ang2.y ) )
+			local diff = math.abs( math.NormalizeAngle( feetang.y - ang2.y ) ) + ( moving && 25 || 0 )
 			if diff > ( 45 - sat_build * 45 ) || moving then
 				feetang.y = math.ApproachAngle( feetang.y, ang2.y, FrameTime() * ( 128 + ( diff - 45 ) * 16 + ( diff > 70 and 200 or 0 ) or moving and 512 ) )
 			end
