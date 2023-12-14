@@ -71,7 +71,8 @@ function PANEL:GetHTML(account)
 end
 
 function PANEL:SetupAnimatedAvatar(ply, size)
-    if IsValid( self.AvatarDHTML ) then return end
+    print("!")
+    if IsValid( self.AvatarDHTML ) then print("No") return end
 
     local accountID = 0
 
