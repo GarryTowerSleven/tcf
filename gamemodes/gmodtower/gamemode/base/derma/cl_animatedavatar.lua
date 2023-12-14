@@ -35,7 +35,7 @@ function PANEL:GetHTML(account)
                 inset: 0;
                 width: 100%;
                 height: 100%;
-                object-fit: cover;
+                object-fit: cover;  
             }
         </style>
         <body>
@@ -45,7 +45,13 @@ function PANEL:GetHTML(account)
         <script>
             function shrinkAvatar()
             {
-                document.getElementById("avatar").style.scale = ]] .. (1 / self.FrameScale) .. [[;
+                const avatar = document.getElementById("avatar");
+                const percent = (100 / ]] .. self.FrameScale .. [[);
+                const move = (percent * 0.1);
+                avatar.style.width = percent + "%";
+                avatar.style.height = percent + "%";
+                avatar.style.top = move + "%";
+                avatar.style.left = move + "%";
             }
 
             function checkImageState(type)
