@@ -488,7 +488,7 @@ hook.Add("PostDrawEffects", "Arms", function()
 
 	cam.Start3D(nil, nil, nil)
 
-		cam.IgnoreZ(true)
+		cam.IgnoreZ(false)
 
 			local pos, ang = EyePos(), EyeAngles()
 			local ang2 = Angle(0, ang.y, 0)
