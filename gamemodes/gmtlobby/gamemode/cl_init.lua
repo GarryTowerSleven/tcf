@@ -74,7 +74,7 @@ hook.Add("CalcView", "GMTViewBob", function( ply, origin, angle, fov)
 
 end )
 
-hook.Add( "UpdateAnimation", "PlayerTurn", function(ply, vel
+hook.Add( "UpdateAnimation", "PlayerTurn", function( ply, vel )
 
 		local ang = ply:EyeAngles()
 
@@ -84,6 +84,7 @@ hook.Add( "UpdateAnimation", "PlayerTurn", function(ply, vel
 		local diff = math.NormalizeAngle( ply.TurnAng.y - ang.y )
 
 		ply:SetPoseParameter( "head_yaw", -diff )
+		ply:SetPoseParameter( "aim_yaw", -diff )
 
 		diff = math.abs( diff )
 
