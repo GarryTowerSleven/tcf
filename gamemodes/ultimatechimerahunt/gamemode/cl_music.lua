@@ -50,7 +50,7 @@ function PlayMusic( idx, teamid )
 
 	if idx == MUSIC_ROUND then
 
-		local add = teamid == TEAM_CHIMERA && 3 || 3.75
+		local add = teamid == TEAM_CHIMERA && 2.75 || 3.75
 
 		ply.Ignore = ply.Looped and add - 1 or 0
 		ply.Looped = true
