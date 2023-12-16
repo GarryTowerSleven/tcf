@@ -67,10 +67,10 @@ music.DefaultFolder = "gmodtower/balls"
 
 music.Register( MUSIC_BONUS, "music/bonus" )
 
-music.Register( MUSIC_LEVEL, "music/skyworld", { Length = 83, Loops = true }, "gmt_ballracer_skyworld" )
-music.Register( MUSIC_LEVEL, "music/grassworld", { Length = 126, Loops = true }, "gmt_ballracer_grassworld" )
+music.Register( MUSIC_LEVEL, "music/skyworld", { Loops = true }, "gmt_ballracer_skyworld" )
+music.Register( MUSIC_LEVEL, "music/grassworld", { Loops = true }, "gmt_ballracer_grassworld" )
 music.Register( MUSIC_LEVEL, "BallsMusicWMemories", { Length = 259, Loops = true }, "gmt_ballracer_memories" )
-music.Register( MUSIC_LEVEL, "music/paradise", { Length = 304, Loops = true }, "gmt_ballracer_paradise" )
+music.Register( MUSIC_LEVEL, "music/paradise", { Loops = true }, "gmt_ballracer_paradise" )
 music.Register( MUSIC_LEVEL, "BallsMusicWKhromidro", { Length = 322 * ( 1 / .75 ), Pitch = 75, Loops = true }, "gmt_ballracer_khromidro" )
 music.Register( MUSIC_LEVEL, "BallsMusicWSand", { Length = 71, Loops = true }, "gmt_ballracer_sandworld" )
 music.Register( MUSIC_LEVEL, "BallsMusicWIce", { Length = 225, Loops = true }, "gmt_ballracer_iceworld" )
