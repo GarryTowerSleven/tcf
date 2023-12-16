@@ -121,7 +121,7 @@ GM.Music = {
 	},
 	[MUSIC_SPAWN] = {
 
-		Chimera = Sound( "UCH/newmusic/spawn/chimera_spawn.wav" ),
+		Chimera = Sound( "UCH/newmusic/spawn/chimera_spawn.mp3" ),
 
 		Pigmask = {
 
