@@ -105,7 +105,7 @@ function ENT:DrawText( text, font, x, y, alpha, xalign, yalign )
 
 			if table.rainbow && table.rainbow < 0 then
 
-				text.color = HSVToColor(math.fmod(CurTime() * (math.abs( tonumber( table.rainbow ) ) || 1), 360), 1, 1)
+				text.color = HSVToColor( math.fmod( CurTime() * (math.abs( tonumber( table.rainbow ) ) || 1), 360 ), 1, 1 )
 				text.rainbow = false
 
 			else
