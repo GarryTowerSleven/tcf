@@ -67,7 +67,7 @@ function meta:SetAchievement( id, value, add )
 			util.Effect( "firework_achievement", eff )
 		end
 		
-		self:EmitSound( "gmodtower/music/award.wav", 100, 100 )
+		self:EmitSound( "gmodtower/music/award_hd.mp3", 100, 100 )
 		self:AddMoney( ( Achievement.GMC or 500 ) )
 
 		local SanitizedName = string.SafeChatName(self:Name())
