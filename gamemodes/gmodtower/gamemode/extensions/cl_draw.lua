@@ -653,7 +653,7 @@ end
           color is a table with r/g/b/a elements
    Usage: 
 -----------------------------------------------------------]]
-function WaveyText(text, font, x, y, colour, xalign, yalign, amplitude, wavelength, frequency)
+function WaveyText(text, font, x, y, colour, xalign, yalign, amplitude, wavelength, frequency, rainbow)
 
 	font 	= font 		or "DermaDefault"
 	x 		= x 		or 0
@@ -698,6 +698,12 @@ function WaveyText(text, font, x, y, colour, xalign, yalign, amplitude, waveleng
 	local charidx = 1
 
 	for char in text:gmatch(utf8pattern) do
+
+		if rainbow then
+
+			colour = HSVToColor( ( 330 + shiftamt * charidx - RealTime() * rainbow ) % 360, 1, 1 )
+			
+		end
 
 		-- y(x,t) = A * sin(wt - kx + phi)
 		local yoffset = amplitude * math.sin(angfreq * RealTime() - k*charidx)

@@ -82,15 +82,47 @@ function ENT:DrawTranslucent()
 
 end
 
+local json = {}
+
 function ENT:DrawText( text, font, x, y, alpha, xalign, yalign )
 
 	if !text then return end
 
-	if string.StartsWith( text, "*" ) && string.EndsWith( text, "*" ) then
-		text = string.sub( text, 2, string.len( text ) - 1 )
-		draw.WaveyText( text, font, x + 1, y + 1, Color( 0, 0, 0, alpha ), xalign, yalign, 8 )
-		draw.WaveyText( text, font, x, y, Color( 255, 255, 255, alpha ), xalign, yalign, 8 )
-		return
+	if string.StartsWith( text, "{" ) && string.EndsWith( text, "}" ) then
+
+		local table = json[text] || util.JSONToTable( text )
+
+		if table then
+
+			json[text] = table
+
+			local text = {
+				text = table.text || text,
+				color = table.color || color_white,
+				wavy = tonumber( table.wavy ) || false,
+				rainbow = false
+			}
+
+			if table.rainbow && table.rainbow < 0 then
+
+				text.color = HSVToColor(math.fmod(CurTime() * (math.abs( tonumber( table.rainbow ) ) || 1), 360), 1, 1)
+				text.rainbow = false
+
+			else
+
+				text.rainbow = tonumber( table.rainbow )
+
+			end
+
+			local func = text.wavy && draw.WaveyText || text.rainbow && draw.RainbowText || draw.DrawText
+
+			func( text.text, font, x + 1, y + 1, Color( 0, 0, 0, alpha ), xalign, yalign, text.wavy || text.rainbow, false, false, table.rainbow )
+			func( text.text, font, x, y, Color( text.color.r, text.color.g, text.color.b, alpha ), xalign, yalign, text.wavy || text.rainbow, false, false, table.rainbow )
+
+			return
+
+		end
+
 	end
 
 	draw.DrawText( text, font, x + 1, y + 1, Color( 0, 0, 0, alpha ), xalign, yalign )
