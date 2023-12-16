@@ -13,7 +13,7 @@ local function UpdateRoundTimer( um )
 
 	if CurTime() >= GAMEMODE.LastTimerAdd then
 		GAMEMODE.LastTimerAdd = CurTime() + .4
-		surface.PlaySound( "UCH/newmusic/roundtimer_add.wav" )
+		surface.PlaySound( "UCH/newmusic/roundtimer_add.mp3" )
 	end
 
 end
