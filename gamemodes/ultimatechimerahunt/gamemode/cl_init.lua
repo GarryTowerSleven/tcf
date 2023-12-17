@@ -52,7 +52,7 @@ end )
 
 hook.Add( "PositionHatOverride", "Hats", function( ent, data, pos, ang, scale, hat )
 
-	if IsValid( ent ) && ent:GetNet( "IsChimera" ) then
+	if IsValid( ent ) && ent.GetNet && ent:GetNet( "IsChimera" ) then
 
 		hat:SetMaterial()
 
