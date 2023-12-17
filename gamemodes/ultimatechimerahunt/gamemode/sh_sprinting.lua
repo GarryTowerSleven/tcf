@@ -129,6 +129,8 @@ if SERVER then
 				drain = drain - ( .005 * ( self:GetNet( "Rank" ) / 4 ) )
 			end
 
+			drain = FrameTime() * drain * 50
+
 			self:SetNet( "Sprint", math.Clamp( self:GetNet( "Sprint" ) - drain, 0, 1 ) )
 
 			if self:GetNet( "Sprint" ) <= 0 then //you're all out man!
@@ -159,6 +161,8 @@ if SERVER then
 					recharge = recharge + ( num * ( self:GetNet( "Rank" ) / 4 ) )
 
 				end
+
+				recharge = FrameTime() * recharge * 50
 
 				self:SetNet( "Sprint", math.Clamp( self:GetNet( "Sprint" ) + recharge, 0, 1 ) )
 
