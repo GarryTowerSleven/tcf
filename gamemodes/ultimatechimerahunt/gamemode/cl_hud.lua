@@ -186,7 +186,7 @@ function GM:DrawHUD()
 				ent:SetModel("models/error.mdl")
 				ent:SetModel(ply:GetModel())
 				ent:SetSequence(!ply:Alive() && 2 || ply:GetSequence())
-				ent:SetCycle( cycle )
+				ent:SetCycle( !ply:Alive() && 0.5 || cycle )
 				ent:SetBodygroup( 1, ply:Alive() && 1 || 0 )
 				ent:SetBodygroup( 2, ply:GetBodygroup( 2 ) )
 			
