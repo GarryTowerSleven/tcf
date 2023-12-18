@@ -90,7 +90,7 @@ function ENT:DrawText( text, font, x, y, alpha, xalign, yalign )
 
 	if string.StartsWith( text, "{" ) && string.EndsWith( text, "}" ) then
 
-		local table = json[text] || util.JSONToTable( text )
+		local table = json[text] || util.JSONToTable( string.Replace( text, "'", "\"" ) )
 
 		if table then
 
