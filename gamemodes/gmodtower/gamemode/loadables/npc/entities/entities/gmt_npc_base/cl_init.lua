@@ -112,7 +112,7 @@ local sale_mat = Material("gmod_tower/lobby/sale")
 function ENT:DrawTranslucent()
 
 	local title = self:GetTitle()
-	local offset = Vector( 0, 0, 90 )
+	local offset = Vector( 0, 0, 16 )
 
 	if !title then title = "" end
 	
@@ -124,18 +124,36 @@ function ENT:DrawTranslucent()
 	elseif self:IsOnSale() then
 		//offset = Vector( 0, 0, 110 )
 	end
+
+	local uid = self:EntIndex() * 24
+
+	local eye = self:LookupAttachment("eyes")
+	local pos
+
+	if eye and eye > 0 then
+		pos = self:GetAttachment(eye).Pos
+	end
 	
 	local ang = EyeAngles()
-	local pos = self:GetPos() + offset + ang:Up() * ( math.sin( CurTime() ) * 4 ) + Vector( 0, 0, -5 )
+	local pos = (pos || self:GetPos() + Vector(0, 0, 64)) + offset + ang:Up() * ( math.sin( CurTime() + uid ) ) + Vector( 0, 0, self.Offset || 0 )
 
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 	ang:RotateAroundAxis( ang:Right(), 90 )
 
-	cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.05 )
+	self.Description2 = self.Description2 || 0
+	self.Description2 = math.Approach( self.Description2, self.Description && LocalPlayer():GetUseEntity() == self && 1 || 0, FrameTime() * 4 )
+	local l = math.ease.InOutSine(self.Description2)
+
+	cam.Start3D2D( pos, Angle( math.sin(CurTime() * 2.35 + uid), ang.y, 90 ), 0.05 )
 
 		draw.DrawText( title, "GTowerNPC", 2, 2, Color( 0, 0, 0, 225 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-		draw.DrawText( title, "GTowerNPC", 0, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		draw.DrawText( title, "GTowerNPC", 0, 0, title == "VIP Store" && colorutil.Rainbow( 24 ) || Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		
+		if self.Description then
+			draw.DrawText( self.Description, "GTowerNPC2", 2, 140 + 2 + 8 * (1 - l), Color( 0, 0, 0, 225 * l ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.DrawText( self.Description, "GTowerNPC2", 0, 140 + 8 * (1 - l), Color( 255, 255, 255, 255 * l ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		end
+
 		if self:HasNewItems() then
 			surface.SetMaterial( new_mat )
 			surface.SetDrawColor( 255, 255, 255 )

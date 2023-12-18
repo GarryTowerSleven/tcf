@@ -24,6 +24,7 @@ surface.CreateFont( "GTowerHUDMainSmall2", { font = "Clear Sans", size = 18, wei
 surface.CreateFont( "GTowerHUDMainTiny", { font = mainFont2, size = 16, weight = 400 } )
 surface.CreateFont( "GTowerHUDMainTiny2", { font = "Clear Sans", size = 12, weight = 400 } )
 surface.CreateFont( "GTowerNPC", { font = mainFont2, size = 180, weight = 800 } )
+surface.CreateFont( "GTowerNPC2", { font = mainFont2, size = 180 / 4, weight = 0 } )
 
 surface.CreateFont( "GTowerHudCText", { font = "default", size = 35, weight = 700 } )
 surface.CreateFont( "GTowerHudCSubText", { font = "default", size = 18, weight = 700, } )

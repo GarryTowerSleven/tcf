@@ -7,3 +7,4 @@ ENT.Model		= Model( "models/gmod_tower/merchant.mdl")
 ENT.StoreId 	= GTowerStore.MERCHANT
 
 ENT.AnimMale 	= Model( "models/gmod_tower/merchant.mdl") -- Bonemerge fix
+ENT.Description = "Got a selection of good things on sale, stranger!"

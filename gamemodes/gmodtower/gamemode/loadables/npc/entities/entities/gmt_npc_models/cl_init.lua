@@ -1,5 +1,6 @@
 include('shared.lua')
 
+ENT.Offset = 1
 ENT.Hat = "models/lordvipes/servbothead/servbothead.mdl"
 ENT.HatOffset = {
 	Pos = Vector( -4.5, 0, 0 ),
