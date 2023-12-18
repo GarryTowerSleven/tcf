@@ -50,7 +50,7 @@ hook.Add( "PlayerThink", "VIPHaloCheck", function( ply )
 			end
 
 			local halodata = {
-				color = Color( color.r, color.g, color.b ),
+				color = Color( color.r, color.g, color.b, 128 ),
 				objects = objects
 			}
 			table.insert( VIPHalos, halodata )
@@ -71,7 +71,7 @@ hook.Add( "PreDrawHalos", "VIPHalos", function()
 
 	for id, halodata in pairs( VIPHalos ) do
 
-		halo.Add( halodata.objects, halodata.color, 10, 10, 1 )
+		halo.Add( halodata.objects, halodata.color, 2, 2, 1 )
 
 	end
 
