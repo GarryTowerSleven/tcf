@@ -16,7 +16,6 @@ hook.Add( "PlayerThink", "VIPHaloCheck", function( ply )
 
 	if !IsLobby then return end
 	if !haloVIP:GetBool() then return end
-	if vr and vr.InVR() then return end
 	if LastThink > CurTime() then return end
 
 	VIPHalos = {}

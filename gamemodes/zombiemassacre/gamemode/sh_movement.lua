@@ -1,7 +1,6 @@
 
 -----------------------------------------------------
 function GM:Move( ply, move )
-	if vr and vr.InVR(ply) then return end
 	if ply:KeyDown( IN_FORWARD ) && ply:KeyDown( IN_MOVELEFT ) then
 		move:SetMoveAngles( Angle( 315, 0, 0 ) )
 	elseif ply:KeyDown( IN_FORWARD ) && ply:KeyDown( IN_MOVERIGHT ) then

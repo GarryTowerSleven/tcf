@@ -151,20 +151,6 @@ local function SnapToEntityBelowCursor( radius, offset, maxsnapdist )
 end
 
 function GM:CreateMove( cmd )
-	if vr and vr.InVR() then
-		local wep = LocalPlayer():GetActiveWeapon()
-
-		g_VR.viewModelMuzzle = nil
-
-		if IsValid(wep) then
-			local att = wep:GetAttachment(1)
-			if att then
-				g_VR.viewModelMuzzle = att
-			end
-		end
-		
-		return end
-
 	-- Disable shooting during not playing or when scoreboard is open
 	if self:GetState() != STATE_PLAYING --[[or ( ValidPanel( Scoreboard.Gui ) and Scoreboard.Gui:IsVisible() )]] then
 		if cmd:KeyDown( IN_ATTACK ) then

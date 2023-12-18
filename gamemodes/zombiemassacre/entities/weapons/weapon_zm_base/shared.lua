@@ -127,10 +127,6 @@ function SWEP:ShootBullet( dmg, numbul, cone, trceff, offset )
 		attach = attach + offset
 	end
 
-	if attachvr and vr.InVR(self:GetOwner()) then
-		attach = self.Owner:GetShootPos()
-	end
-
 	local bullet =
 	{
 		Num 		= numbul,

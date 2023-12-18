@@ -256,13 +256,6 @@ end )
 ---------------------------------------------------------*/
 concommand.Add( "slotm_setbet", function( ply, cmd, args )
 
-	if vr and vr.InVR() then
-		local amount = math.fmod(Casino.SlotsLocalBet * 2, 1000) or tonumber( strTextOut ) or Casino.SlotsLocalBet
-		Casino.SlotsLocalBet = math.Clamp( math.Round(amount), Casino.SlotsMinBet, Casino.SlotsMaxBet )
-		Casino.SlotsSettingBet = false
-		return
-	end
-
 	if !Casino.SlotsSettingBet then
 		Casino.SlotsSettingBet = true
 		Derma_StringRequest( "Slot Machine", "Set the amount of money you would like to bet. (" .. Casino.SlotsMinBet .. " - " .. Casino.SlotsMaxBet .. ")", Casino.SlotsLocalBet,
@@ -391,19 +384,6 @@ function ENT:DrawControls()
 	local attachment = self:GetAttachment( self:LookupAttachment("controls") )
 	local pos, ang = attachment.Pos, attachment.Ang
 	local scale = 0.1 / ScaleScreen
-
-	if vr and vr.InVR() then
-		if Casino.SlotsLocalPlaying && vrmod.GetRightHandPos(LocalPlayer()):Distance(self:GetAttachment(1).Pos) < 24 then
-			if Casino.SlotsLocalPlaying.Controls != nil then
-				for _, btn in ipairs( Casino.SlotsLocalPlaying.Controls ) do
-					if btn.selected then
-						//Msg( "[" .. Casino.SlotsLocalPlaying:EntIndex() .. "] " .. LocalPlayer():Name() .. " has pressed the " .. btn.text .. " button.\n" )
-						RunConsoleCommand( btn.cmd, Casino.SlotsLocalBet )
-					end
-				end
-			end
-		end
-	end
 	
 	ang:RotateAroundAxis( ang:Up(), 90 )
 	ang:RotateAroundAxis( ang:Forward(), 90 )
@@ -493,10 +473,6 @@ function ENT:MouseRayInteresct( pos, ang )
 	local y = ( ang:Right() * ( self.Height ) )
 
 	local pos, ang = EyePos(), GetMouseAimVector()
-
-	if vr and vr.InVR() then
-		pos, ang = vrmod.GetRightHandPos(LocalPlayer()), vrmod.GetRightHandAng(LocalPlayer()):Forward()
-	end
 
 	return RayQuadIntersect( pos, ang, plane, x, y )
 end
