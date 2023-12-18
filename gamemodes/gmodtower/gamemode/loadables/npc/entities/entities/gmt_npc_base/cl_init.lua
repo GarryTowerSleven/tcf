@@ -5,6 +5,7 @@ local RealTime = RealTime
 
 ENT.RenderGroup = RENDERGROUP_BOTH
 ENT.AnimSpeed = 1
+ENT.Scale = 1
 
 ENT.NPCExpression = "happy"
 
@@ -52,6 +53,8 @@ end
 
 function ENT:Think()
 
+	if self.Vending then return end
+
 	if not self:IsDormant() then
 		if not (IsValid(self.Ragdoll) and IsValid(self.Ragdoll:GetParent())) then
 			self:SetupModel()
@@ -80,6 +83,15 @@ end
 function ENT:AdditionalThink() end
 
 function ENT:Draw()
+
+	if self.Vending then
+
+		self:DrawModel()
+
+		return
+
+	end
+
 	--self:DrawModel()
 
 	if self.Hat then
@@ -144,7 +156,7 @@ function ENT:DrawTranslucent()
 	self.Description2 = math.Approach( self.Description2, self.Description && LocalPlayer():GetUseEntity() == self && 1 || 0, FrameTime() * 4 )
 	local l = math.ease.InOutSine(self.Description2)
 
-	cam.Start3D2D( pos, Angle( math.sin(CurTime() * 2.35 + uid), ang.y, 90 ), 0.05 )
+	cam.Start3D2D( pos, Angle( math.sin(CurTime() * 2.35 + uid), ang.y, 90 ), 0.05 * self.Scale )
 
 		draw.DrawText( title, "GTowerNPC", 2, 2, Color( 0, 0, 0, 225 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		draw.DrawText( title, "GTowerNPC", 0, 0, title == "VIP Store" && colorutil.Rainbow( 24 ) || Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )

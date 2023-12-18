@@ -1,5 +1,9 @@
 include('shared.lua')
 
+ENT.Vending = true
+ENT.Offset = 28
+ENT.Scale = 1.5
+
 function ENT:Initialize()
 	if true then return end
 
@@ -42,32 +46,6 @@ function ENT:OnRemove()
 	soundscape.AppendRuleDefinition(self.HumSoundscape, nil, tostring(self))
 end
 
-function ENT:Draw()
-	self:DrawModel()
-	self:DrawTranslucent()
-end
-
-function ENT:DrawTranslucent()
-
-	local title = "Vending Machine"
-	local offset = Vector( 0, 0, 120 )
-
-	if self:IsOnSale() then
-		offset = Vector( 0, 0, 140 )
-	end
-	
-	local ang = LocalPlayer():EyeAngles()
-	local pos = self:GetPos() + offset + ang:Up() * ( math.sin( CurTime() ) * 4 )
-
-	ang:RotateAroundAxis( ang:Forward(), 90 )
-	ang:RotateAroundAxis( ang:Right(), 90 )
-
-	cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.08 )
-		draw.DrawText( title, "GTowerNPC", 2, 2, Color( 0, 0, 0, 225 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-		draw.DrawText( title, "GTowerNPC", 0, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-	cam.End3D2D()
-	
-end
 
 hook.Add("StoreFinishBuy", "PlayBuySound", function()
 	if GTowerStore.StoreId == GTowerStore.VENDING then
