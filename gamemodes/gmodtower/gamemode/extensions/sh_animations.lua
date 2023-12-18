@@ -192,8 +192,14 @@ function GM:CalcMainActivity( ply, velocity )
 
 end
 
-function GM:HandlePlayerLanding( ply, velocity, WasOnGround ) 
-	// Removes Max's DUMB ASS LANDING ANIMATION THAT LOOKS LIKE SHIT
+function GM:HandlePlayerLanding( ply, velocity, WasOnGround )
+
+	if ( ply:GetMoveType() == MOVETYPE_NOCLIP ) then return end
+
+	if ( ply:IsOnGround() && !WasOnGround ) then
+		ply:AnimRestartGesture( GESTURE_SLOT_JUMP, ACT_LAND, true )
+	end
+
 end
 
 function GM:HandlePlayerVaulting( ply, velocity, plyTable )
