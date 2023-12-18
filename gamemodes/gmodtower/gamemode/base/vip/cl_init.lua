@@ -6,6 +6,7 @@ CreateClientConVar( "gmt_vip_enableglow", 1, true, true )
 //local VIPColor = Color( 163, 73, 164 )
 local haloVIP = CreateClientConVar( "gmt_vipglow", 1, true, false )
 local VIPHalos = {}
+local LastThink = 0
 
 cvars.AddChangeCallback("gmt_vip_enableglow", function()
 	RunConsoleCommand("gmt_updateglow")
@@ -16,6 +17,7 @@ hook.Add( "PlayerThink", "VIPHaloCheck", function( ply )
 	if !IsLobby then return end
 	if !haloVIP:GetBool() then return end
 	if vr and vr.InVR() then return end
+	if LastThink > CurTime() then return end
 
 	VIPHalos = {}
 
@@ -28,10 +30,7 @@ hook.Add( "PlayerThink", "VIPHaloCheck", function( ply )
 
 			local color = ply2:GetGlowColor() * 255
 
-			-- Update instantly for client
-			if CLIENT and ply2 == LocalPlayer() then
-				color = Vector( ply:GetInfo( "cl_playerglowcolor" ) ) * 255
-			end
+			if color.r == 0 && color.g == 0 && color.b == 0 then continue end
 
 			local objects = {}
 
@@ -52,7 +51,7 @@ hook.Add( "PlayerThink", "VIPHaloCheck", function( ply )
 			end
 
 			local halodata = {
-				color = color,
+				color = Color( color.r, color.g, color.b ),
 				objects = objects
 			}
 			table.insert( VIPHalos, halodata )
@@ -60,6 +59,8 @@ hook.Add( "PlayerThink", "VIPHaloCheck", function( ply )
 		end
 
 	end
+
+	LastThink = CurTime() + 1
 
 end )
 
@@ -71,8 +72,7 @@ hook.Add( "PreDrawHalos", "VIPHalos", function()
 
 	for id, halodata in pairs( VIPHalos ) do
 
-		local color = halodata.color
-		halo.Add( halodata.objects, Color( color.r, color.g, color.b, 255 ), 10, 10, 1 )
+		halo.Add( halodata.objects, halodata.color, 10, 10, 1 )
 
 	end
 
