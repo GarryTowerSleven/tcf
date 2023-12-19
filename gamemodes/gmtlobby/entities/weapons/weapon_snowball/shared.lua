@@ -42,11 +42,11 @@ SWEP.AdminSpawnable			= true
 
 
 
-SWEP.ViewModel				= "models/weapons/c_bugbait.mdl"
+SWEP.ViewModel				= "models/weapons/v_snowball.mdl"
 
 SWEP.WorldModel				= "models/weapons/w_snowball.mdl"
 
-SWEP.ViewModelFlip			= false
+SWEP.ViewModelFlip			= true
 
 SWEP.HoldType				= "grenade"
 
@@ -62,7 +62,6 @@ SWEP.Primary.DefaultClip	= -1
 
 SWEP.Primary.Ammo			= "none"
 
-SWEP.UseHands = true
 
 
 function SWEP:Initialize()
@@ -76,6 +75,11 @@ function SWEP:Initialize()
 end
 
 
+function SWEP:SetupDataTables()
+
+	self:NetworkVar( "Float", 0, "IdleTime" )
+
+end
 
 function SWEP:PrimaryAttack()
 
@@ -100,6 +104,8 @@ function SWEP:PrimaryAttack()
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
 
 	self.Weapon:SendWeaponAnim(ACT_VM_THROW)
+
+	self:UpdateIdle()
 
 
 
@@ -145,6 +151,23 @@ function SWEP:PrimaryAttack()
 
 end
 
+function SWEP:UpdateIdle()
+
+	local vm = self:GetOwner():GetViewModel()
+	self:SetIdleTime( CurTime() + vm:SequenceDuration( vm:GetSequence() ) )
+
+end
+
+function SWEP:Think()
+	
+	if self:GetIdleTime() < CurTime() then
+
+		self:SendWeaponAnim( ACT_VM_IDLE )
+		self:UpdateIdle()
+
+	end
+
+end
 
 
 function SWEP:ShootSnow(force)
