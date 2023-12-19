@@ -37,6 +37,12 @@ function ENT:KeyValue(key, value)
         timer.Simple(0.1, function()
             if IsValid(self) && IsValid(self.Rope) then
                 local ent = ents.FindByName(value)[1]
+
+                if !IsValid(ent) then
+                    self.Rope:Remove()
+                    return
+                end
+
                 self.Rope:SetRopeStart(self:GetPos())
                 self.Rope:SetRopeEnd(ent:GetPos())
             end
