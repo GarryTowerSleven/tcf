@@ -43,9 +43,14 @@ hook.Add("PostDrawTranslucentRenderables", "Rope", function()
         else
             render.StartBeam(segs)
 
-            for _2, pos in ipairs(ropes[_]) do
+            for _, pos in ipairs(ropes[_]) do
                 render.AddBeam(pos[1], rope:GetRopeWidth(), pos[2], pos[3])
+            end
 
+            render.SetMaterial(mat)
+            render.EndBeam()
+
+            for _2, pos in ipairs(ropes[_]) do
                 local endpos = ropes[_][_2 + 1]
 
                 if endpos then
@@ -80,9 +85,6 @@ hook.Add("PostDrawTranslucentRenderables", "Rope", function()
                     end
                 end
             end
-
-            render.SetMaterial(mat)
-            render.EndBeam()
         end
     end
 end)
