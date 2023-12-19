@@ -42,6 +42,24 @@ hook.Add( "Think", "LogoThink", function()
 
 end )
 
+local LastRain = 0
+
+hook.Add( "Think", "Weather", function()
+
+	if game.GetMap() != "gmt_uch_downtown04" then return end
+
+	if LastRain < CurTime() then
+
+		local effect = EffectData()
+		effect:SetFlags( 1 )
+		util.Effect( "rain", effect )
+
+		LastRain = CurTime() + 0.04
+
+	end
+
+end)
+
 hook.Add( "ShouldHideHats", "ShouldHideHats", function( ply )
 
 	if ply:Team() == TEAM_GHOST && LocalPlayer():Team() != TEAM_GHOST then

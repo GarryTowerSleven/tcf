@@ -97,7 +97,7 @@ end
 
 hook.Add( "PostDrawTranslucentRenderables", "Rain", function()
 
-    render.SetBlend( 0.5 )
+    render.SetBlend( 0.25 )
     render.SetMaterial( raindrop2 )
 
     local ply = LocalPlayer()
@@ -108,7 +108,7 @@ hook.Add( "PostDrawTranslucentRenderables", "Rain", function()
         local start = LerpVector( t, rain2.End, rain2.Start )
         local endpos = LerpVector( t + 0.1, rain2.End, rain2.Start ) // start - Vector(0, 0, 64)
 
-        render.DrawBeam(start, endpos, Lerp(t, 4, 2), 0.9, 1, Color(75, 75, 75, Lerp(t, 75, 25)))
+        render.DrawBeam(start, endpos, Lerp(t, 4, 2), 0.9, 1, Color(255, 255, 255, 8))
 
         if rain2.Time < CurTime() then
 
