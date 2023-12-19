@@ -64,6 +64,79 @@ function GM:PlayerSpawn( ply )
 
 end
 
+local snowball = ITEMS.weapon_snowball1
+
+hook.Add( "Think", "PlayerSnow", function()
+
+	for _, ply in ipairs( player.GetAll() ) do
+		
+		if ply:KeyDown( IN_USE ) then
+			if !ply.GrabbingSnow then
+
+				local tr = util.QuickTrace( ply:EyePos(), ply:GetAimVector() * 96, ply )
+				
+				if tr.MatType == MAT_SNOW then
+					
+					local ItemID = GTowerItems:Get( snowball )
+
+					if !ItemID || !GTowerItems:NewItemSlot( ply ):Allow( ItemID, true ) then
+						
+						ply:Msg2( "You can't fit anymore items!" )
+
+					elseif ply:HasItemById( snowball, true ) then
+
+						ply:Msg2( "You already have snowball(s)!")
+
+					elseif ply:HasItemById( snowball ) then
+
+						ply:Msg2( "You already have snowball(s) in your trunk!")
+
+					else
+
+						ply.SnowTime = CurTime() + 1
+						ply:Msg2( "Grabbing snow..." )
+
+					end
+					// TODO: Network Bar
+
+				end
+
+				ply.GrabbingSnow = true
+
+			end
+
+		else
+
+			if ply.SnowTime then
+
+				// TODO: Network no bar
+				ply.SnowTime = nil
+
+			end
+
+			ply.GrabbingSnow = false
+
+		end
+
+		if ply.SnowTime && ply.SnowTime < CurTime() then
+
+			local ItemID = GTowerItems:Get( snowball )
+
+			if !ItemID || !GTowerItems:NewItemSlot( ply ):Allow( ItemID, true ) then
+				ply:Msg2( "You can't fit anymore items!" )
+				return
+			end
+
+			ply:InvGiveItem(snowball)
+			ply:Msg2( "You grabbed 3 snowballs!" )
+			ply.SnowTime = nil
+
+		end
+
+	end
+
+end )
+
 hook.Add( "PlayerSpawn", "UCHMilestoneFix", function(ply)
 	local list = ply:GetEquipedItems()
 	SpawnPlayerUCH( ply, list )

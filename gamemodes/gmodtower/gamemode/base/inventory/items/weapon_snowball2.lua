@@ -1,6 +1,6 @@
 ---------------------------------
-ITEM.MaxUses = 12
-ITEM.Name = "Snowball! ("..ITEM.MaxUses..")"
+ITEM.MaxUses = -1
+ITEM.Name = "Snowball!"
 ITEM.ClassName = "weapon_snowball"
 ITEM.Description = "Hit people with a ball of snow!"
 ITEM.Model = "models/weapons/w_snowball.mdl"

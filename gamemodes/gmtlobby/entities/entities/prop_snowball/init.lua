@@ -13,11 +13,14 @@ function ENT:Initialize()
 	self:DrawShadow(false)
 
 	local phys = self:GetPhysicsObject()
+
 	if IsValid(phys) then
+
 		phys:EnableGravity(true)
 		phys:EnableDrag(false)
 		phys:SetMass(1)
 		phys:SetBuoyancyRatio(0)
+
 	end
 
 	self.RemoveTime = CurTime() + 2
@@ -27,14 +30,10 @@ function ENT:PhysicsCollide(data, phys)
 	local hitEnt = data.HitEntity
 
 	if IsValid(hitEnt) && (hitEnt:IsPlayer() and hitEnt != hitEnt:GetOwner()) then
-		//Admins should inflict pain.
-		local killer = self:GetOwner()
-		if killer:IsAdmin() then
-			hitEnt:TakeDamage(math.random(15, 55), killer, self)
-		end
 
 		umsg.Start( "SnowHit", data.HitEntity )
 		umsg.End()
+
 	end
 
 	self:Remove()
@@ -47,9 +46,16 @@ function ENT:Think()
 	self:Remove()
 end
 
+game.AddDecal("Snow", "decals/snow01")
+
+util.AddNetworkString( "SnowDecal" )
+
 function ENT:Splat(hit)
 	--WorldSound("player/footsteps/snow" .. math.random(1, 6).. ".wav", hit.Pos, 100, 100)
 	self:EmitSound( "player/footsteps/snow"..math.random(1,6)..".wav", 100, 100, 1, CHAN_AUTO )
 
-	util.Decal("paintsplatblue", hit.Pos + hit.Normal, hit.Pos - hit.Normal)
+	net.Start( "SnowDecal" )
+	net.WriteVector( hit.Pos )
+	net.WriteVector( hit.Normal )
+	net.Broadcast()
 end
