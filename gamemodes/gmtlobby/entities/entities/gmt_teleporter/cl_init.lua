@@ -284,7 +284,7 @@ net.Receive( "Teleport", function()
 
 end )
 
-local grad = Material("vgui/gradient_up")
+local grad = Material( "vgui/gradient_up" )
 
 hook.Add("HUDPaintBackground", "Teleport", function()
 
