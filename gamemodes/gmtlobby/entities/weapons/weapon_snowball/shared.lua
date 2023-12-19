@@ -210,7 +210,8 @@ end
 
 function SWEP:Deploy()
 
-	self:SendWeaponAnim(ACT_VM_IDLE)
+	self:SendWeaponAnim( ACT_VM_DEPLOY )
+	self:UpdateIdle()
 
 
 
