@@ -24,6 +24,67 @@ hook.Add( "ShouldAutoScalePlayers", "AutoScalePlayers", function()
 	return true
 end )
 
+local LastRain = 0
+local Snow = {
+	Vector(706.14721679688, 421.42169189453, 1091.9674072266),
+	Vector(1170.7950439453, 855.70544433594, 1119.1126708984),
+	Vector(741.64282226563, 1395.2475585938, 1134.5695800781),
+	Vector(1121.4671630859, 1754.4324951172, 1051.3114013672),
+	Vector(942.35095214844, -236.72450256348, 1235.5153808594)
+}
+local SnowVisible = {
+	2, 3, 45, 10, 32, 31, 44, 
+}
+
+hook.Add( "Think", "Weather", function()
+
+	local type = IsChristmas && 2 || GetGlobalInt( "WeatherType", 0 )
+
+	if type != 0 && LastRain < CurTime() then
+
+		local effect = EffectData()
+
+		if type == 1 then // Rain
+
+		elseif type == 2 then // Snow
+			local loc = LocalPlayer():Location()
+
+			if table.HasValue(SnowVisible, loc) then
+				for _, p in ipairs(Snow) do
+					p.x = math.random(700, 1400)
+					effect:SetOrigin( p )
+					effect:SetFlags( 2 )
+					util.Effect( "rain", effect )
+				end
+
+				LastRain = CurTime() + 0.4
+			elseif Location.IsSuite(loc) then
+				local center = GTowerRooms:Get(Location.GetSuiteID(loc))
+				
+
+				for _, e in ipairs(ents.FindByClass("gmt_roomloc")) do
+					if e:Location() == loc then
+						local p = e:GetPos() + e:GetRight() * 428 + e:GetForward() * 128 + e:GetUp() * 256
+						debugoverlay.Text(p, "HERE")
+						effect:SetOrigin( p )
+						effect:SetFlags( 3 )
+						util.Effect( "rain", effect )
+					end
+				end
+
+				LastRain = CurTime() + 0.2
+			elseif loc >= 54 && loc <= 57 then
+					effect:SetOrigin( EyePos() + Vector(0, 0, 512) )
+					effect:SetFlags( 4 )
+					util.Effect( "rain", effect )
+
+				LastRain = CurTime() + 0.2
+			end
+		end
+	end
+
+end )
+
 // ball orb support
 hook.Add( "GShouldCalcView", "ShouldCalcVewBall", function( ply, pos, ang, fov )
 
