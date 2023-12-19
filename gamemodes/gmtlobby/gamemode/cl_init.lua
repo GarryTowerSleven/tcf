@@ -45,7 +45,10 @@ hook.Add( "Think", "Weather", function()
 		local effect = EffectData()
 
 		if type == 1 then // Rain
+			effect:SetFlags( 1 )
+			util.Effect( "rain", effect )
 
+			LastRain = CurTime() + 0.04
 		elseif type == 2 then // Snow
 			local loc = LocalPlayer():Location()
 
@@ -74,9 +77,9 @@ hook.Add( "Think", "Weather", function()
 
 				LastRain = CurTime() + 0.2
 			elseif loc >= 54 && loc <= 57 then
-					effect:SetOrigin( EyePos() + Vector(0, 0, 512) )
-					effect:SetFlags( 4 )
-					util.Effect( "rain", effect )
+				effect:SetOrigin( EyePos() + Vector(0, 0, 512) )
+				effect:SetFlags( 4 )
+				util.Effect( "rain", effect )
 
 				LastRain = CurTime() + 0.2
 			end
