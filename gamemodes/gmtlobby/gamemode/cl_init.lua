@@ -52,6 +52,8 @@ hook.Add( "Think", "Weather", function()
 		elseif type == 2 then // Snow
 			local loc = LocalPlayer():Location()
 
+			if !loc then return end
+
 			if table.HasValue(SnowVisible, loc) then
 				for _, p in ipairs(Snow) do
 					p.x = math.random(700, 1400)
