@@ -86,30 +86,45 @@ function ENT:Draw()
 
 	cam.End3D2D()
 
-	if self:DrawOverDoor() then
-
-		pos = pos + ( self:GetRight() * 0.9 )
-		
-		// Start the fun
-		cam.Start3D2D( pos, ang, .5 )
-
-			self:DrawRoomID()
-
-		cam.End3D2D()
-
-
-		pos = pos + ( self:GetRight() * -2 )
-	
-		// Start the fun
-		cam.Start3D2D( pos, ang, .25 )
-
-			self:DrawMessage()
-
-		cam.End3D2D()
-
-	end
+	self.RenderTime = CurTime() + 0.1
 	
 end
+
+hook.Add( "PostDrawTranslucentRenderables", "Door", function()
+
+	for _, e in ipairs( ents.FindByClass("func_suitepanel") ) do
+		
+		if e:DrawOverDoor() then
+
+			local pos = e:GetPos() + ( e:GetRight() * 0.1 )
+			local ang = e:GetAngles()
+			local rot = Vector( -180, 0, -90 )
+			ang:RotateAroundAxis( ang:Right(), rot.x )
+			ang:RotateAroundAxis( ang:Up(), rot.y )
+			ang:RotateAroundAxis( ang:Forward(), rot.z )
+			
+			// Start the fun
+			cam.Start3D2D( pos, ang, .5 )
+	
+				e:DrawRoomID()
+	
+			cam.End3D2D()
+	
+	
+			pos = pos + ( e:GetRight() * -2 )
+		
+			// Start the fun
+			cam.Start3D2D( pos, ang, .25 )
+	
+				e:DrawMessage()
+	
+			cam.End3D2D()
+	
+		end
+
+	end
+
+end )
 
 function ENT:DrawOverDoor()
 
@@ -260,6 +275,13 @@ surface.CreateFont( "SuiteNameFont", {
 	antialias = true
 })
 
+surface.CreateFont( "SuiteNameFont2", {
+	font      = "Bebas Neue",
+	size      = 40,
+	weight    = 700,
+	antialias = true
+})
+
 function ENT:DrawRoomID()
 
 	// Size/pos of door
@@ -282,9 +304,11 @@ function ENT:DrawRoomID()
 		color = colorutil.Smooth()
 	end
 
-	if IsValid( owner ) then
+	if true or IsValid( owner ) then
 		local dist = LocalPlayer():GetPos():Distance( self:GetPos() + self:GetForward() * 32 )
 		color.a = math.Clamp( math.Fit( dist, 100, 64, 10, 0 ), 0, 50 )
+		h = h * math.Clamp( dist / 256, 0, 1 )
+		y = -h - y
 	end
 
 	draw.SimpleText( tostring( self.RoomId ), "SuiteMessageFont", -100, 0, color, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
@@ -301,10 +325,26 @@ function ENT:DrawRoomID()
 
 end
 
-function ENT:DrawMessage()
+function ENT:DrawMessage( a )
 
 	local owner = GTowerRooms:RoomOwner( self.RoomId )
-	if IsValid( owner ) then
+	local iv = IsValid( owner )
+	local y = iv && -265 || -230
+	local txt = iv && owner:Nick() .. "'s" || "No one's Suite!"
+	local a = 255
+
+	if !iv then
+
+		local dist = LocalPlayer():GetPos():Distance( self:GetPos() + self:GetForward() * 32 )
+		a = math.Clamp( dist / 512, 0, 1 )
+		a = ( 1 - a ) * 255
+		
+	end
+
+	draw.SimpleText( txt, "SuiteNameFont2", -190+2, y+2, Color( 0, 0, 0, a ), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM )
+	draw.SimpleText( txt, "SuiteNameFont2", -190, y, Color( 255, 255, 255, a ), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM )
+
+	if iv then
 
 		if owner:GetNWString("RoomName") != "" then
 			draw.SimpleText( owner:GetNWString("RoomName"), "SuiteNameFont", -190+2, -250+2, Color( 0, 0, 0 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
@@ -312,9 +352,10 @@ function ENT:DrawMessage()
 		end
 
 		if owner:GetNWBool("GRoomParty") then
-			draw.SimpleText( "PARTY!", "SuiteMessageFont", -190, -325, colorutil.Smooth(), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.SimpleText( "PARTY!", "SuiteMessageFont", -190, -325 - 64, colorutil.Smooth(), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 			self:FireworksDraw()
 		end
+
 	end
 
 end
