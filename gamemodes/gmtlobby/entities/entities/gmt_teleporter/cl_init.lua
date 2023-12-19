@@ -274,3 +274,32 @@ end )
 	
 	return true
 end )*/
+
+
+local l = 1
+
+net.Receive( "Teleport", function()
+
+	l = 0
+
+end )
+
+local grad = Material("vgui/gradient_up")
+
+hook.Add("HUDPaintBackground", "Teleport", function()
+
+	if l == 1 then return end
+
+	l = math.min( l + FrameTime() * 2, 1 )
+
+	local l = math.ease.OutSine( l )
+
+	local w, h = ScrW(), ScrH()
+
+	surface.SetMaterial( grad )
+
+	surface.SetDrawColor( Color( 255, 255, 255, 64 * ( 1 - l ) ) )
+	surface.DrawTexturedRect( 0, h * 0.2, w, h * 0.8 )
+
+
+end )
