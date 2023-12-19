@@ -97,12 +97,27 @@ function ENT:DrawTranslucent()
 	// Start the fun
 	cam.Start3D2D( pos, ang, 0.5/s )
 		
-		surface.SetFont( FONT )
-		surface.SetTextColor( self.TColor.r, self.TColor.g, self.TColor.b, self.TColor.a )
-		surface.SetTextPos( self.NegativeX, self.PositiveY )
-		surface.DrawText( self.StrText )
-		
-		self:DrawExtra()
+		if self.StrText == "Party Suite" then
+
+			surface.SetFont( FONT )
+			local tw, th = surface.GetTextSize("Party ")
+			surface.SetTextColor( self.TColor.r, self.TColor.g, self.TColor.b, self.TColor.a )
+			surface.SetTextPos( tw + self.NegativeX, self.PositiveY )
+			surface.DrawText( "Suite" )
+			draw.WaveyText( "Party", FONT, self.NegativeX, self.NegativeY, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM, 4, 4, 1, 24 )
+			
+			self:DrawExtra()
+
+		else
+
+			surface.SetFont( FONT )
+			surface.SetTextColor( self.TColor.r, self.TColor.g, self.TColor.b, self.TColor.a )
+			surface.SetTextPos( self.NegativeX, self.PositiveY )
+			surface.DrawText( self.StrText )
+			
+			self:DrawExtra()
+
+		end
 		
 	cam.End3D2D()
 	
