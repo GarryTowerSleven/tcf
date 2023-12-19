@@ -33,7 +33,7 @@ local Snow = {
 	Vector(942.35095214844, -236.72450256348, 1235.5153808594)
 }
 local SnowVisible = {
-	2, 3, 45, 10, 32, 31, 44, 
+	2, 3, 45, 10, 32, 31, 44, 51
 }
 
 hook.Add( "Think", "Weather", function()
