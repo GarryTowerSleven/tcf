@@ -117,6 +117,12 @@ function ENT:DrawTranslucent()
 			
 			self:DrawExtra()
 
+			if self.StrText == "Casino" then
+
+				draw.SimpleText("Orlok's", "DermaLarge", self.NegativeX + 16, self.PositiveY + 16, color_white)
+
+			end
+
 		end
 		
 	cam.End3D2D()
