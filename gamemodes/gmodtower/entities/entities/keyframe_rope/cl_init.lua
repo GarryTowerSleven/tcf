@@ -33,9 +33,7 @@ hook.Add("PostDrawTranslucentRenderables", "Rope", function()
                 local l = i == 1 && 0 || i / segs
                 local lpos = LerpVector(l, rope:GetRopeStart(), rope:GetRopeEnd())
                 lpos = lpos - Vector( 0, 0, (i == 1 || i == segs) && 0 || 64 )
-
                 local lc = render.GetLightColor(lpos)
-
 
                 table.insert(ropes[_], {i == 1 && startpos || i == segs && endpos || math.BSplinePoint(l, spline, 1), l, lc})
             end
@@ -54,10 +52,10 @@ hook.Add("PostDrawTranslucentRenderables", "Rope", function()
                 local endpos = ropes[_][_2 + 1]
 
                 if endpos then
-                    local segs2 = (rope:GetRopeStart() - rope:GetRopeEnd()):Length() / 128
+                    local segs2 = (pos[1] - endpos[1]):Length() / 24
 
                     for i = 1, segs2 do
-                        local seed = i + _2 * 64 + rope:EntIndex() * 128
+                        local seed = i * 0.01 + _2 * 24 + rope:EntIndex() * 128 + i
 
                         render.SetMaterial(light)
         
@@ -74,7 +72,7 @@ hook.Add("PostDrawTranslucentRenderables", "Rope", function()
                         if dot <= 0 then continue end
                         // render.DrawSprite(pos, 24, 24, color_white)
 
-                        local rot = 180 * ( math.fmod(seed, 2) == 0 && 1 || 0 ) + util.SharedRandom(seed, -25, 25)
+                        local rot = 180 * ( math.fmod(math.floor(seed), 2) == 0 && 1 || 0 ) + util.SharedRandom(seed, -25, 25)
                         local ang = pos - EyePos()
                         ang = ang:Angle()
                         ang.p = 0
