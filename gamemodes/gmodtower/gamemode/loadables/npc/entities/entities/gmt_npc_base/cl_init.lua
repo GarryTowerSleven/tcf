@@ -94,6 +94,34 @@ function ENT:Draw()
 
 	--self:DrawModel()
 
+	if IsChristmas then
+
+		if self.Mat then
+
+			self.Mat:SetTexture( "$basetexture", self.Material )
+
+		else
+
+			if !self.Material then
+
+				for _, m in ipairs(self.Ragdoll:GetMaterials()) do
+					if string.find(m, "gmtsui1") && string.find(m, "sheet") then
+						local gender = string.find(m, "fe") && "female" || "male"
+						local rand = self:EntIndex() % 2 == 1
+
+						self.Mat = self.Mat || Material( m )
+						self.Material = "models/humans/gmt_employee_christmas_" .. gender .. ( rand && 2 || "" )
+
+						self.Mat:SetTexture( "$basetexture", self.Material )
+					end
+				end
+
+			end
+
+		end
+
+	end
+
 	if self.Hat then
 
 		local model = self.Hat
@@ -120,6 +148,8 @@ local new_mat = Material( "gmod_tower/icons/new_large.png" )
 local new_size = 256/2.5
 
 local sale_mat = Material("gmod_tower/lobby/sale")
+
+
 
 function ENT:DrawTranslucent()
 
