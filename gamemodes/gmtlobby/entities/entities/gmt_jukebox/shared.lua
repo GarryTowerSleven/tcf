@@ -19,6 +19,7 @@ ENT.PlayerConfig = {
 function ENT:Initialize()
 
 	self:SetModel( self.Model )
+	self:SetMaterial( "models/gmod_tower/jukebox_color" )
 
 	self:PhysicsInit( SOLID_VPHYSICS )
 	self:SetMoveType( MOVETYPE_NONE )
@@ -40,6 +41,12 @@ end
 
 if SERVER then return end
 local glow = Material("sprites/glow04_noz")
+
+function ENT:GetPlayerColor()
+
+	return self.Color || Vector( 0.2, 0.2, 0.2 )
+
+end
 
 function ENT:Draw()
 	if Location.GetSuiteID(self:Location()) ~= 0 then
@@ -118,11 +125,15 @@ function ENT:Draw()
 		end
 	end
 
+	self.Color = !media && color_white || HSVToColor( ColorToHSV( c ), math.min( 0.4 + ( self.Lerp * 8 ), 0.8 ), 1 )
+	self.Color = Vector( self.Color.r / 255, self.Color.g / 255, self.Color.b / 255 ) * 4 * ( 0.1 + self.Lerp * 20 )
+
 	self:ManipulateBoneScale(0, Vector(1, 1, 1 + self.Lerp * 0.5 + math.sin(self.Sine * 2) * 0.04))
 	self:SetRenderAngles()
 
 	self:SetRenderOrigin(self:GetNetworkOrigin() + Vector(0, 0, self.Lerp * 24) + self:GetForward() * self.Lerp * 8)
 	self:SetRenderAngles(self:GetNetworkAngles() + Angle(0, 0, math.sin(self.Sine or SysTime() * 2) * self.Lerp * 64))
+
 	ang:RotateAroundAxis( ang:Forward(), 90 + math.sin(self.Sine) * -8 * self.Lerp * 6 )
 	ang:RotateAroundAxis( ang:Up(), 0 )
 	ang:RotateAroundAxis( ang:Right(), -90 or self.Lerp * 24 )
