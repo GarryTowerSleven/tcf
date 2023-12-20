@@ -272,6 +272,9 @@ end
 
 concommand.Add( "gmt_buybankslots", function( ply, cmd, args )
 	local amount = tonumber( args[1] ) or 0
+
+	amount = math.floor( amount )
+
 	if amount > 0 then
 		local cost = (amount * GTowerItems.BankSlotWorth)
 
