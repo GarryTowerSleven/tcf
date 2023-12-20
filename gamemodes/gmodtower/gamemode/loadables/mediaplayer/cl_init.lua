@@ -67,10 +67,10 @@ hook.Add( "GetMediaPlayer", "GMTMediaPlayerCheck", function()
 end )
 
 /*MediaPlayer.ShowSidebar = EmptyFunction
-MediaPlayer.HideSidebar = EmptyFunction
+MediaPlayer.HideSidebar = EmptyFunction*/
 
 // Classic Sidebar
-hook.Remove( "OpenSideMenu", "OpenTheaterControls", function()
+hook.Add( "OpenSideMenu", "OpenTheaterControls", function()
 
 	local mp
 	local juke = true
@@ -142,22 +142,11 @@ hook.Remove( "OpenSideMenu", "OpenTheaterControls", function()
 		end
 	end
 
-	local mpRefresh = Form:Button( "Refresh Theater" )
-	mpRefresh.DoClick = function()
-		//MediaPlayer.Voteskip( mp )
-	end
-
-	local mpHidePlayers = Form:Button( "Hide Players" )
-	mpHidePlayers.DoClick = function()
-		//MediaPlayer.Voteskip( mp )
-	end
-
-
 	return Form
 
-end )*/
+end )
 
-hook.Add( "GTowerShowMenus", "GMTShowMPSidebar", function()
+hook.Remove( "GTowerShowMenus", "GMTShowMPSidebar", function()
 
 	local mp
 	local juke = true
