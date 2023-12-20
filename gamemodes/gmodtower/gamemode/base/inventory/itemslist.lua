@@ -133,7 +133,7 @@ RegisterItem( "gmt_texthat_custom", {
 	DrawName = true,
 	Tradable = true,
 
-	StoreId = GTowerStore.MERCHANT,
+	StoreId = GTowerStore.VIP,
 	StorePrice = 50000,
 
 	EquippableEntity = true,
