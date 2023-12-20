@@ -19,7 +19,7 @@ ITEM.EquippableEntity = true //Should an entity be created from CreateEquipEntit
 
 
 ITEM.StoreId = GTowerStore.MERCHANT
-ITEM.StorePrice = 15000
+ITEM.StorePrice = 8000
 
 if SERVER then
 
