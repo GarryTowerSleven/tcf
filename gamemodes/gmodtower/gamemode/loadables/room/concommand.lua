@@ -200,9 +200,9 @@ function StartParty( ply, flags )
 
 	ply:SetNWBool( "GRoomParty", true )
 
-	ply.NextParty = CurTime() + (60*3)
+	ply.NextParty = CurTime() + (60*5)
 
-	timer.Simple( 60*2, function()
+	timer.Simple( 60*5, function()
 		if IsValid(ply) && ply:GetNWBool( "GRoomParty" ) then
 			ply:SetNWBool( "GRoomParty", false )
 			ply:Msg2( T( "RoomPartyEnded" ), "condo" )
