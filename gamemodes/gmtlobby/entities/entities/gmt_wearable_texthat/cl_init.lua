@@ -124,6 +124,19 @@ function DrawTable(table, x, y, font, alpha, xalign, yalign, ent)
 
 	end
 
+	if string.lower( text.text ) == "trans rights" then
+
+		table.trans = {
+			0.8, {
+				Color(149, 218, 255),
+				Color(255, 160, 255),
+				Color(255, 255, 255),
+				Color(255, 160, 255)
+			}
+		}
+
+	end
+
 	if table.trans then
 
 		local id = util.TableToJSON( text )
