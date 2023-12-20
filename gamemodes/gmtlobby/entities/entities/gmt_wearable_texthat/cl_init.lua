@@ -114,6 +114,14 @@ function ENT:DrawText( text, font, x, y, alpha, xalign, yalign )
 
 			end
 
+			if !self:GetCustom() then
+
+				text.color = color_white
+				text.wavy = 0
+				text.rainbow = false
+				
+			end
+
 			local func = text.wavy && draw.WaveyText || text.rainbow && draw.RainbowText || draw.DrawText
 
 			func( text.text, font, x + 1, y + 1, Color( 0, 0, 0, alpha ), xalign, yalign, text.wavy || text.rainbow, false, false, table.rainbow )

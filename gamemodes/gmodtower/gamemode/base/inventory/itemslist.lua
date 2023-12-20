@@ -30,7 +30,7 @@ include( "itemslist/specialfurniture.lua" )
 
 RegisterItem( "gmt_texthat", {
 	Name = "Text Hat",
-	Description = "A customizable text hat. Wear your words.",
+	Description = "A text hat. Wear your words.",
 	Model = "models/gmod_tower/fedorahat.mdl",
 	UniqueInventory = true,
 	UniqueEquippable = true,
@@ -46,7 +46,7 @@ RegisterItem( "gmt_texthat", {
 	Tradable = true,
 
 	StoreId = GTowerStore.MERCHANT,
-	StorePrice = 30000,
+	StorePrice = 25000,
 
 	EquippableEntity = true,
 	RemoveOnDeath = true,
@@ -107,6 +107,95 @@ RegisterItem( "gmt_texthat", {
 			hatEnt:SetOwner( self.Ply )
 			hatEnt:SetParent( self.Ply )
 			hatEnt.Owner = self.Ply
+
+			hatEnt:Spawn()
+		end
+
+		return hatEnt
+
+	end
+} )
+
+RegisterItem( "gmt_texthat_custom", {
+	Name = "Text Hat (Custom)",
+	Description = "A customizable text hat. Wear your words, in style!",
+	Model = "models/gmod_tower/fedorahat.mdl",
+	UniqueInventory = true,
+	UniqueEquippable = true,
+
+	DrawModel = true,
+	Equippable = true,
+	EquipType = "TextHat",
+	ClassName = "gmt_wearable_texthat",
+
+	CanEntCreate = false,
+	CanRemove = true,
+	DrawName = true,
+	Tradable = true,
+
+	StoreId = GTowerStore.MERCHANT,
+	StorePrice = 50000,
+
+	EquippableEntity = true,
+	RemoveOnDeath = true,
+	RemoveOnNoEntsLoc = true,
+
+	ExtraMenuItems = function ( item, menu )
+
+		table.insert( menu, {
+			[ "Name" ] = "Set Height Offset",
+			[ "function" ] = function()
+
+				local curHeight = LocalPlayer():GetInfoNum( "gmt_hatheight", 0 ) or 0
+
+				Derma_SliderRequest(
+					"Hat Height",
+					"Please enter the height you wish the text to float above your head.",
+					curHeight,
+					-50, 50,
+					0,
+					function ( val ) RunConsoleCommand( "gmt_hatheight", val ) end
+				)
+
+			end
+		} )
+
+		table.insert( menu, {
+			[ "Name" ] = "Set Text",
+			[ "function" ] = function()
+
+				local curText = LocalPlayer():GetInfo( "gmt_hattext" ) or ""
+
+				Derma_StringRequest(
+					"Hat Text",
+					"Please enter the text you would like to float above your head.",
+					curText,
+					function ( text )
+						if string.find(text, "#") then
+							text = string.gsub(text, "#", "")
+						end
+						RunConsoleCommand( "gmt_hattext", text )
+					end
+				)
+
+			end
+		} )
+
+	end,
+
+	EquippableEntity = true,
+	OverrideOnlyEquippable = false,
+	CreateEquipEntity = function( self )
+
+		local hatEnt = ents.Create( "gmt_wearable_texthat" )
+
+		if IsValid( hatEnt ) then
+			hatEnt.IsActiveEquippable = true
+			hatEnt:SetPos( self.Ply:GetPos() )
+			hatEnt:SetOwner( self.Ply )
+			hatEnt:SetParent( self.Ply )
+			hatEnt.Owner = self.Ply
+			hatEnt:SetCustom( true )
 
 			hatEnt:Spawn()
 		end
