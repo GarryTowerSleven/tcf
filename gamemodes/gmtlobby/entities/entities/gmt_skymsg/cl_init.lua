@@ -81,6 +81,24 @@ function ENT:TextChanged( id )
 	
 end
 
+local orlok = "orlok"
+
+function getOrlok()
+	
+	steamworks.RequestPlayerInfo( "76561198066597995", function( name )
+
+		orlok = name
+	
+	end )
+
+end
+
+hook.Add( "InitPostEntity", "Orlok", function()
+
+	getOrlok()
+
+end )
+
 function ENT:DrawTranslucent()
 
 	// Aim the screen forward
@@ -119,7 +137,7 @@ function ENT:DrawTranslucent()
 
 			if self.StrText == "Casino" then
 
-				draw.SimpleText("Orlok's", "DermaLarge", self.NegativeX + 16, self.PositiveY + 16, color_white)
+				draw.SimpleText( orlok .. "'s", "DermaLarge", 0, self.PositiveY + 16, color_white, TEXT_ALIGN_CENTER)
 
 			end
 
