@@ -164,19 +164,7 @@ RegisterItem( "gmt_texthat_custom", {
 			[ "Name" ] = "Set Text",
 			[ "function" ] = function()
 
-				local curText = LocalPlayer():GetInfo( "gmt_hattext" ) or ""
-
-				Derma_StringRequest(
-					"Hat Text",
-					"Please enter the text you would like to float above your head.",
-					curText,
-					function ( text )
-						if string.find(text, "#") then
-							text = string.gsub(text, "#", "")
-						end
-						RunConsoleCommand( "gmt_hattext", text )
-					end
-				)
+				RunConsoleCommand( "gmt_hat_edit" )
 
 			end
 		} )
@@ -195,7 +183,7 @@ RegisterItem( "gmt_texthat_custom", {
 			hatEnt:SetOwner( self.Ply )
 			hatEnt:SetParent( self.Ply )
 			hatEnt.Owner = self.Ply
-			hatEnt:SetCustom( true )
+			hatEnt:SetNWBool( "Custom", true )
 
 			hatEnt:Spawn()
 		end

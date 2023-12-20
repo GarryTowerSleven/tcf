@@ -102,7 +102,7 @@ function DrawTable(table, x, y, font, alpha, xalign, yalign, ent)
 		rainbow = false
 	}
 
-	if ent and !ent:GetCustom() then
+	if ent and !ent:GetNWBool( "Custom" ) then
 
 		text = {
 			text = text.text,
@@ -198,7 +198,7 @@ function ENT:DrawText( text, font, x, y, alpha, xalign, yalign )
 
 			json[text] = table
 
-			DrawTable( table, x, y, font, alpha, xalign, yalign )
+			DrawTable( table, x, y, font, alpha, xalign, yalign, self )
 
 			return
 
@@ -241,7 +241,7 @@ concommand.Add( "gmt_hat_edit", function()
 
 	hat.PaintOver = function()
 
-		DrawTable( text, hat:GetWide() * 0.5, hat:GetTall() * 0.175, nil, nil, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		DrawTable( table.Copy( text ), hat:GetWide() * 0.5, hat:GetTall() * 0.175, nil, nil, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 
 	end
 
