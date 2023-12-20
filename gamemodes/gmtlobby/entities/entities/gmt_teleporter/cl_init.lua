@@ -290,7 +290,7 @@ hook.Add("HUDPaintBackground", "Teleport", function()
 
 	if l == 1 then return end
 
-	l = math.min( l + FrameTime() * 2, 1 )
+	l = math.min( l + FrameTime() * 1.5, 1 )
 
 	local l = math.ease.OutSine( l )
 
@@ -299,7 +299,9 @@ hook.Add("HUDPaintBackground", "Teleport", function()
 	surface.SetMaterial( grad )
 
 	surface.SetDrawColor( Color( 255, 255, 255, 64 * ( 1 - l ) ) )
-	surface.DrawTexturedRect( 0, h * 0.2, w, h * 0.8 )
+	surface.DrawTexturedRect( 0, h * 0.4 + ( h * 0.6 * l ), w, h * 0.6 )
 
+	DrawToyTown( 2 * ( 1 - l ), h )
+	DrawBloom( 0.1 + 0.9 * l, 22, 2, 2, 2, 0, 1, 1, 1 )
 
 end )

@@ -77,7 +77,7 @@ concommand.Add("gmt_cteleporter", function( ply, cmd, args )
 
 	Location.TeleportPlayer( ply, ent, target )
 
-	/* ent:EmitSound("ambient/machines/teleport4.wav", 65, 150)
+	ent:EmitSound("ambient/machines/teleport4.wav", 65, 100)
 
 	timer.Simple(0.1, function()
 	
@@ -85,13 +85,13 @@ concommand.Add("gmt_cteleporter", function( ply, cmd, args )
 		
 			if e:GetPos():Distance( ply:GetPos() ) < 24 then
 	
-				e:EmitSound("ambient/machines/teleport" .. table.Random({1, 4}) .. ".wav", 65, math.random(140, 160))
+				e:EmitSound("ambient/machines/teleport" .. table.Random({1, 4}) .. ".wav", 65, 100)
 	
 			end
 	
 		end
 	
-	end) */
+	end)
 
 	NextTeleportTime[ index ] = CurTime() + 1.0
 
