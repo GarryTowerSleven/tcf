@@ -404,7 +404,20 @@ soundscape.Register("music_casino", {
 })
 
 -- Mute any music in the bar
-soundscape.Register("music_bar", {})
+soundscape.Register("music_bar", {
+	-- Tell the soundscape system that when this is usually removed and faded out, keep it alive
+	idle = false,
+	
+	-- Select a random song to play every once in a while
+	{
+		type = "playlooping",
+		volume = 1,
+		-- All sounds are in a table format of {soundpath, soundlength}
+		sound = {
+			Sound( "gmodtower/music/bar.mp3" ), 147
+		},
+	},
+})
 
 -- Mute any music in narnia
 soundscape.Register("music_narnia", {})
