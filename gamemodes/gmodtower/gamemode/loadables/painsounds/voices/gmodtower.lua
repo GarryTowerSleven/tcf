@@ -1,3 +1,102 @@
+function GetL4D( name, merge )
+
+    f = "gmodtower/player/" .. name .. "/"
+
+    local Left4Dead = {
+        Pain = {
+            Small = f .. "HurtMinor*.wav",
+            Medium = f .. "HurtMajor*.wav",
+            Large = f .. "HurtCritical*.wav"
+        },
+        Death = f .. "DeathScream*.wav",
+        Swear = {
+            f .. "Swear*.wav",
+            f .. "reactionnegative*.wav"
+        },
+        Adrenaline = f .. "painrelief*.wav",
+        Sorry = f .. "sorry*.wav",
+        Thanks = f .. "thanks*.wav",
+        Laugh = f .. "laughter*.wav",
+        Dying = f .. "goingtodie*.wav",
+        Grenade = f .. "grenade*.wav",
+        Help = f .. "help*.wav",
+        Hurrah = f .. "hurrah*.wav",
+        Hurry = f .. "hurryup*.wav",
+        Down = f .. "incapacitatedinitial*.wav",
+        LeadOn = f .. "leadon*.wav",
+        Look = f .. "look0*.wav",
+        LookOut = f .. "lookout*.wav",
+        Alone = f .. "lostcall*.wav",
+        LetsGo = f .. "moveon*.wav",
+        NiceJob = f .. "nicejob*.wav",
+        NiceShot = f .. "niceshot*.wav",
+        Yes = f .. "Yes*.wav",
+        No = f .. "No*.wav",
+        ReactionNegative = f .. "reactionnegative*.wav",
+        Reloading = f .. "reloading*.wav",
+        ReviveOther = f .. "revivefriendb*.wav",
+        Thanks = f .. "thanks*.wav",
+        Wait = f .. "waithere*.wav",
+        YW = f .. "youarewelcome*.wav",
+        Give = f .. "alertgiveitem*.wav",
+        Clear = f .. "areaclear*.wav",
+        Ready = f .. "askready*.wav",
+        Backup = f .. "backup*.wav",
+        CoverMe = f .. "coverme*.wav",
+        Fall = f .. "fallshort*.wav",
+        FriendlyFire = f .. "friendlyfire*.wav",
+        Revived = f .. "gettingrevived*.wav",
+        Vocalizer = {
+            {
+                "Laugh",
+                "Help",
+                "Swear",
+                "No",
+                "Sorry",
+                "Yes",
+                "Hurrah",
+                "NiceJob"
+            }
+        }
+    }
+
+    local function func(voice)
+        for _, line in pairs( voice ) do
+            
+            if _ == "Vocalizer" then continue end
+
+            if istable( line ) then
+            
+                func( line )
+
+                return
+                
+            end
+
+            local lines = {}
+
+            for _, f in ipairs( file.Find( "sound/" .. line, "GAME" ) ) do
+
+                local spl = string.Split( line, "/" )
+                spl = table.concat( spl, "/", 1, #spl - 1 )
+                table.insert( lines, spl .. "/" .. f )
+
+            end
+
+            voice[_] = lines
+
+        end
+    end
+
+    func(Left4Dead)
+
+    return Left4Dead
+
+end
+
+voicelines.Add("models/player/survivor_teenangst.mdl", GetL4D("zoey"))
+voicelines.Add("models/player/survivor_mechanic.mdl", GetL4D("ellis"))
+
 voicelines.Add("models/player/re/chris.mdl", {
     Pain = {
         Small = {

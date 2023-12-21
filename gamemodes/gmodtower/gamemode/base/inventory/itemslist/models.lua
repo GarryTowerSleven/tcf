@@ -158,10 +158,18 @@ RegisterModel(
 RegisterModel( 
 	"mdl_zoey",
 	"Zoey",
-	"Did I ever tell you about the time my buddy Ellis stole a car from the mall and ran over some zombies?",
-	"models/player/zoey.mdl",
+	"Funny, sexy, brunette zombie killer wanted to lead three helpless men to safety... huh.",
+	"models/player/survivor_tennangst.mdl",
 	"zoey",
-	2000 )
+	15000 )
+
+RegisterModel( 
+	"mdl_ellis",
+	"Ellis",
+	"I ever tell you 'bout the time my buddy Keith played Garry's Mod Tower? Now see, it was no normal server...",
+	"models/player/survivor_mechanic.mdl",
+	"ellis",
+	15000 )
 	
 RegisterModel(
 	"mdl_azuisleet",
