@@ -126,7 +126,7 @@ function ENT:Draw()
 	end
 
 	self.Color = !media && color_white || HSVToColor( ColorToHSV( c ), math.min( 0.4 + ( self.Lerp * 8 ), 0.8 ), 1 )
-	self.Color = Vector( self.Color.r / 255, self.Color.g / 255, self.Color.b / 255 ) * 4 * ( 0.1 + self.Lerp * 20 )
+	self.Color = Vector( self.Color.r / 255, self.Color.g / 255, self.Color.b / 255 ) * 4 * ( 0.4 + self.Lerp * 10 )
 
 	self:ManipulateBoneScale(0, Vector(1, 1, 1 + self.Lerp * 0.5 + math.sin(self.Sine * 2) * 0.04))
 	self:SetRenderAngles()
