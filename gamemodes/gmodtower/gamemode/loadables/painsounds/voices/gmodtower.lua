@@ -69,7 +69,7 @@ function GetL4D( name, merge )
             
                 func( line )
 
-                return
+                continue
                 
             end
 
