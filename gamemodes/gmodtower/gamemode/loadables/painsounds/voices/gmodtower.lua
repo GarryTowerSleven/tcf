@@ -73,17 +73,21 @@ function GetL4D( name, merge )
                 
             end
 
-            local lines = {}
+            if !istable( voice[_] ) then
 
-            for _, f in ipairs( file.Find( "sound/" .. line, "GAME" ) ) do
-
-                local spl = string.Split( line, "/" )
-                spl = table.concat( spl, "/", 1, #spl - 1 )
-                table.insert( lines, spl .. "/" .. f )
+                voice[_] = {}
 
             end
 
-            voice[_] = lines
+            local lines = {}
+
+            for i, f in ipairs( file.Find( "sound/" .. line, "GAME" ) ) do
+
+                local spl = string.Split( line, "/" )
+                spl = table.concat( spl, "/", 1, #spl - 1 )
+                table.insert( voice[_], spl .. "/" .. f )
+
+            end
 
         end
     end
