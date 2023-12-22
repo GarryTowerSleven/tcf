@@ -17,19 +17,19 @@ function ENT:Draw()
 	self:SetModelScale( 1.4 or 1.4 + math.sin( CurTime() * 8 ) * 0.01 )
 
 	self:SetRenderOrigin( self:GetNetworkOrigin() + Vector( 0, 0, 8 + math.sin( CurTime() * 4 ) * 2 ) )
-	self:SetRenderAngles( Angle( math.sin( CurTime() * 4 ) * 8, self:GetAngles().y + FrameTime() * 32, math.sin( CurTime() * 8 ) * 8 ) )
+	self:SetRenderAngles( self:GetAngles() + Angle( 0, FrameTime() * 32, 0 ) )
 
 	self:SetModelScale( self:GetModelScale() + 0.01 )
 	render.CullMode(MATERIAL_CULLMODE_CW)
 	render.SetLightingMode( 1 )
 
-	local rgb = self.Color || colorutil.Rainbow( 64 )
+	local rgb = colorutil.Rainbow( 64 )
 
 	render.SetColorModulation( rgb.r / 255, rgb.g / 255, rgb.b / 255 )
 	self:SetMaterial("models/debug/debugwhite")
 	self:DrawModel()
 	self:SetMaterial()
-	render.SetColorModulation( 1 + rgb.r / 64, 1 + rgb.g / 64, 1 )
+	render.SetColorModulation( 1, 1, 1 )
 	render.SetLightingMode( 0 )
 	render.CullMode(MATERIAL_CULLMODE_CCW)
 
@@ -47,19 +47,17 @@ end
 
 function ENT:Think()
 
-	local s = math.Remap( math.sin( CurTime() * 8 ), -1, 1, 0, 1 )
-
-	self.Color = Color( Lerp( s, 0, 255 ), Lerp( s, 255, 0 ), 0 )
-
 	local light = DynamicLight( self:EntIndex() )
 
 	if light then
 
-		light.Pos = self:GetNetworkOrigin() + Vector( 0, 0, 24 )
-		light.Brightness = 2
+		light.Pos = self:GetNetworkOrigin()
+		light.Brightness = 4
 		light.DieTime = CurTime() + 0.01
 		light.Decay = 1
 		light.Size = 128
+
+		local s = math.Remap( math.sin( CurTime() * 8 ), -1, 1, 0, 1 )
 
 		light.r = Lerp( s, 0, 255 )
 		light.g = Lerp( s, 255, 0 )
@@ -75,15 +73,21 @@ local glow = Material( "sprites/glow04_noz" )
 
 function ENT:DrawTranslucent()
 
-	local s = math.Remap( math.sin( CurTime() * 8 ), -1, 1, 0, 1 )
-
 	render.SetMaterial( glow )
-	render.DrawSprite( self:GetRenderOrigin() + self:GetUp() * 18, 128, 128, Color( Lerp( s, 0, 255 ), Lerp( s, 255, 0 ), 0, 100 ) )
+	render.DrawSprite( self:GetRenderOrigin() + Vector( 0, 0, 4 ), 128, 128, colorutil.Rainbow( 64 ) )
 
 	local ang = EyeAngles()
 
 	ang:RotateAroundAxis( ang:Right(), 90 )
 	ang:RotateAroundAxis( ang:Up(), -90 )
+
+	cam.Start3D2D( self:GetNetworkOrigin() + Vector( 0, 0, 48 ), ang, 0.1 + math.sin( CurTime() ) * 0.01 )
+
+	draw.SimpleText( "Merry Christmas!", "ChristmasPresent", 0, -72 + math.sin( CurTime() * 4 ) * 8, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM )
+	draw.WaveyText( "Daily Present!", "ChristmasPresent2", 0, 0, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 8, nil, 1, 64 )
+	draw.SimpleText( "For: " .. ( LocalPlayer():Nick() ), "ChristmasPresent3", 0, 48, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 8 )
+
+	cam.End3D2D()
 
 	self.Emitter = self.Emitter || ParticleEmitter( self:GetPos() )
 
@@ -103,7 +107,7 @@ function ENT:DrawTranslucent()
 		part:SetVelocity( dir:Forward() * 24 )
 		part:SetGravity( Vector( 0, 0, 22 ) )
 
-		local c = self.Color || colorutil.Rainbow( 128 )
+		local c = colorutil.Rainbow( 128 )
 		part:SetColor( c.r, c.g, c.b )
 
 	end
