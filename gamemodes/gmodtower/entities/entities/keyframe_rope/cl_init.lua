@@ -1,7 +1,10 @@
 include("shared.lua")
 
 local mats = {}
-local light = Material("effects/christmas_bulb")
+local light = {
+    Material("effects/christmas_bulb"),
+    Material("effects/christmas_bulb_up")
+}
 local vis = {}
 local pos_cache = {}
 local ropes = {}
@@ -12,6 +15,7 @@ hook.Add("PostDrawTranslucentRenderables", "Rope", function()
         mats[mat] = mats[mat] || Material(mat)
         local mat = mats[mat]
         local segs = 8
+        local roof = rope:GetRopeStart():WithinAABox(Vector(429, 31, 1575), Vector(1678, 2249, 560))
 
         if !ropes[_] then
             ropes[_] = {}
@@ -39,6 +43,7 @@ hook.Add("PostDrawTranslucentRenderables", "Rope", function()
             end
 
         else
+            local t = SysTime()
             render.StartBeam(segs)
 
             for _, pos in ipairs(ropes[_]) do
@@ -52,34 +57,49 @@ hook.Add("PostDrawTranslucentRenderables", "Rope", function()
                 local endpos = ropes[_][_2 + 1]
 
                 if endpos then
-                    local segs2 = (pos[1] - endpos[1]):Length() / 24
+                    local segs2 = roof && 4 || (pos[1] - endpos[1]):Length() / 8
 
                     for i = 1, segs2 do
                         local seed = i * 0.01 + _2 * 24 + rope:EntIndex() * 128 + i
-
-                        render.SetMaterial(light)
         
                         if !pos_cache[seed] then
                             local l = i / segs2
                             pos_cache[seed] = LerpVector(l, pos[1], endpos[1])
                         end
 
-                        local s = rope:GetRopeWidth()
+                        local s = roof && 3 || rope:GetRopeWidth()
                         local pos = pos_cache[seed]
+                        local dist = pos:DistToSqr( EyePos() )
+
+                        if !roof && dist > 1098304 * 2 then continue end
+
                         local ang = pos - EyePos()
                         local dot = EyeVector():Dot(ang) / ang:Length()
 
                         if dot <= 0 then continue end
                         // render.DrawSprite(pos, 24, 24, color_white)
 
-                        local rot = 180 * ( math.fmod(math.floor(seed), 2) == 0 && 1 || 0 ) + util.SharedRandom(seed, -25, 25)
-                        local ang = pos - EyePos()
-                        ang = ang:Angle()
-                        ang.p = 0
-                        ang.r = 0
-                        ang:RotateAroundAxis(ang:Up(), 180)
+                        if !roof && dist < 400080 then
+                            local rot = 180 * ( math.fmod(math.floor(seed), 2) == 0 && 1 || 0 ) + util.SharedRandom(seed, -25, 25)
+                            local ang = pos - EyePos()
+                            ang = ang:Angle()
+                            ang.p = 0
+                            ang.r = 0
+                            ang:RotateAroundAxis(ang:Up(), 180)
+    
+                            local color = HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1)
+    
+                            // render.DrawSprite( pos, 4, 8, color )
+                            render.SetMaterial(light[2])
+                            render.DrawQuadEasy(pos, ang:Forward(), s * 2, s * 8, HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1), rot)
 
-                        render.DrawQuadEasy(pos, ang:Forward(), s * 2, s * 8, HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1), rot)
+                            continue
+                        end
+
+                        local color = HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1)
+                        render.SetMaterial(light[roof && 1 || i % 2 == 1 && 1 || 2])
+                        render.DrawSprite( pos, s * 2, s * 8, color )
+                        //render.DrawQuadEasy(pos, ang:Forward(), s * 2, s * 8, HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1), rot)
                     end
                 end
             end
