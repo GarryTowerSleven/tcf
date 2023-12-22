@@ -545,7 +545,7 @@ Add( 20, {
 Add( 21, {
     Name = "Party Suite",
     Group = "partysuite",
-    Min = Vector( 2225, -10400, 4080 ),
+    Min = Vector( 2000, -10400, 4080 ),
     Max = Vector( 3036, -9885, 4483 ),
     IsSuite = true,
     SuiteID = 0,

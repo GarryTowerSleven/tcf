@@ -288,3 +288,58 @@ hook.Add("PrePlayerDraw", "ThisIsHowFreelancersTalk", function(ply)
 		ply:ManipulateBoneAngles(head, Angle(0, !halo and ply.HeadLerp * 8 or math.sin(ply.HeadBob) * ply.HeadLerp * (halo and 32 or 8) or 0, 0))
 	end
 end)
+
+local locations = {
+	[21] = true,
+	[60] = true
+}
+
+local pos, ang = Vector( -11199, 12540, 800 ), Angle( 0, -90, 0 )
+local pos2 = Vector( 2166, -10221, 4152 )
+local mat, rt, rendering
+
+function GM:PostDraw2DSkyBox()
+
+	if !locations[LocalPlayer():Location()] then return end
+	if rendering then return end
+
+	cam.Start2D()
+
+	surface.SetMaterial( mat )
+	surface.DrawTexturedRect( 0, 0, ScrW() * 2, ScrH() * 2 )
+
+	cam.End2D()
+
+	return true
+end
+
+function GM:RenderScene(eyepos, eyeang)
+
+	if !locations[LocalPlayer():Location()] then return end
+	if rendering then return end
+
+	rendering = true
+
+	local w, h = ScrW(), ScrH()
+	rt = GetRenderTarget( "Sky_" .. w, w / 2, h / 2 )
+	mat = CreateMaterial( rt:GetName() .. w, "UnlitGeneric", {["$basetexture"] = rt:GetName(), ["$model"] = 1, ["$ignorez"] = 1})
+
+
+	render.PushRenderTarget(rt)
+
+	local p = (eyepos - pos2)
+
+	render.RenderView({
+		w = w / 2, h = h / 2, origin = pos - ang:Forward() * p.x + ang:Right() * p.y + ang:Up() * p.z, angles = ang + eyeang + Angle( 0, 180, 0 ), bloomtone = true
+	})
+
+	render.PopRenderTarget()
+
+	
+
+
+
+	rendering = false
+
+
+end
