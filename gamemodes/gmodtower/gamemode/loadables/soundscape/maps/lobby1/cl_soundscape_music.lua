@@ -50,7 +50,7 @@ function soundscape.GetMusicSoundscape(loc)
 
 	-- First, see if there's a soundscape defined for the current specific location
 	local scape = soundscape.IsDefined("music_" .. location.Name) and "music_" .. location.Name or nil 
-	scape = scape and string.lower(scape) or nil 
+	scape = scape and scape or nil 
 
 	-- if it's registered, return
 	if not isEmpty(scape) then return scape end
@@ -132,6 +132,7 @@ hook.Add( "GTowerOpenStore", "PlayStoreMusic", function()
 	//print( "open" )
 
 	if not Enabled:GetBool() then return end
+	if GTowerStore.StoreId == GTowerStore.MERCHANT then return end
 
 	soundscape.StopChannel("music")
 	soundscape.Play("music_store", "music")
@@ -377,6 +378,25 @@ soundscape.Register("music_store",
 		// sound = { Sound( "gmodtower/music/halloween/store.mp3" ), 63 },
 	},
 })
+
+soundscape.Register("music_Lakeside Cabin",
+{
+	-- Tell the soundscape system that when this is usually removed and faded out, keep it alive
+	idle = false,
+
+	-- Select a random song to play every once in a while
+	{
+		type = "playlooping",
+		volume = 0.25,
+		-- All sounds are in a table format of {soundpath, soundlength}
+		sound = { Sound( "gmodtower/music/merchant.mp3" ), 10 },
+
+		// halloween
+		// sound = { Sound( "gmodtower/music/halloween/store.mp3" ), 63 },
+	},
+})
+
+soundscape.Register("music_merchant", {} )
 
 -- Mute any music in the theater
 soundscape.Register("music_theater_inside", {} )
