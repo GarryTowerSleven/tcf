@@ -199,7 +199,7 @@ function GM:PlayerShouldTakeDamage( ply, attacker )
 		return false
 	end
 
-	return false // attacker:IsAdmin()
+	return IsValid( attacker ) && attacker:IsAdmin()
 
 end
 
