@@ -406,7 +406,7 @@ Add( 5, {
     Priority = 0,
 } )
 Add( 60, {
-    Name = "Party Suite Hallway",
+    Name = "Suite Floor",
     Group = "suites",
     Min = Vector(3036,-10370,4096),
     Max = Vector(4048,-9985,4334),
