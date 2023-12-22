@@ -56,7 +56,6 @@ local function MapAdds()
     AddEntity( "gmt_npc_duel", Vector(2448,184,192), Angle(0,90,0) )
     // AddEntity( "gmt_npc_casinochips", Vector(2713,375,192), Angle(0,180,0) )
     AddEntity( "gmt_npc_pet", Vector(1890,823,-14), Angle(0,-135,0) )
-    AddEntity( "gmt_npc_roomlady", Vector(4579.5625,-10144,4097), Angle(0,0,0) )
 	
     // lobby webboard (changelog)
     AddEntity( "gmt_webboard", Vector(1640.75,-963.8125,5.21875), Angle(0,-135,0) )
