@@ -107,28 +107,59 @@ function SWEP:CanSecondaryAttack()
 	return false
 end
 
-if CLIENT then
-	local x, y, wd, hg, alpha = math.Rand(-0.5, 0.5), math.Rand(-0.5, 0.3), math.Rand(10, 25), math.Rand(10, 25), 255
 
-	function SWEP:DrawHUD()
-		if alpha > 0 then	
-			alpha = alpha - math.random(0,1)
+if CLIENT then
+
+	local x, y, wd, hg, alpha = math.Rand(-0.5, 0.5), math.Rand(-0.5, 0.3), math.Rand(10, 25), math.Rand(10, 25), 0
+
+	local mat = CreateMaterial( "SnowImpactHUD", "UnlitGeneric", {
+		["$basetexture"] = "decals/snow01",
+		["$translucent"] = 1,
+		["$vertexalpha"] = 1
+	} )
+
+	hook.Add( "HUDPaintBackground", "SnowHit", function()
+
+		if alpha > 0 then
+
+			alpha = alpha - FrameTime() * 24
+
+		else
+
+			return
+
 		end
-	
-		local w, h = surface.GetTextureSize(surface.GetTextureID("effects/blood_core"))
-		surface.SetTexture(surface.GetTextureID("effects/blood_core"))
+
+		local w, h = 64, 64
+
+		surface.SetMaterial( mat )
+
 		surface.SetDrawColor(255, 255, 255, alpha)
+
 		surface.DrawTexturedRect(ScrW() * x, ScrH() * y, w * wd, h * hg)
-	end
+
+	end)
+
+
 
 	usermessage.Hook("SnowHit", function()
 
+
+
 			x = math.Rand(-0.5, 0.5)
+
 			y = math.Rand(-0.5, 0.3)
+
 			wd = math.Rand(10, 25)
-			hg = math.Rand(10, 25)
-			alpha = 255
+
+			hg = wd * math.Rand(0.8, 1.2)
+
+			alpha = 128
+
+
 
 		end)
-		
+
+
+
 end
