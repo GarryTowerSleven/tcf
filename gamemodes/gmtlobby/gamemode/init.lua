@@ -66,6 +66,12 @@ end
 
 local snowball = ITEMS.weapon_snowball1
 
+hook.Add( "LoadInventory", "Snowballs", function()
+
+	snowball = ITEMS.weapon_snowball1
+
+end )
+
 hook.Add( "Think", "PlayerSnow", function()
 
 	for _, ply in ipairs( player.GetAll() ) do
