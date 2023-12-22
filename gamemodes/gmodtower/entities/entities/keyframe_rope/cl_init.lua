@@ -5,9 +5,13 @@ local light = {
     Material("effects/christmas_bulb"),
     Material("effects/christmas_bulb_up")
 }
-local vis = {}
 local pos_cache = {}
 local ropes = {}
+
+hook.Add("InitPostEntity", "Rope", function()
+    table.Empty(ropes)
+    table.Empty(pos_cache)
+end)
 
 hook.Add("PostDrawTranslucentRenderables", "Rope", function()
     for _, rope in ipairs(ents.FindByClass("keyframe_rope")) do
