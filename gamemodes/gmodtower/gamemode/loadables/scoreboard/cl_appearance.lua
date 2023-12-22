@@ -165,6 +165,7 @@ function APPEARANCE:UpdateModelPanel()
 end
 
 local matHover = Material( "vgui/spawnmenu/hover" )
+local grad = Material( "vgui/gradient_up" )
 local found = {}
 
 function APPEARANCE:GenerateModelSelection()
@@ -263,6 +264,15 @@ function APPEARANCE:GenerateModelSelection()
 
 		icon.OnCursorExited = function()
 			if GTowerItems then GTowerItems:HideTooltip() end
+		end
+
+		icon.Paint = function( self, w, h )
+
+			draw.RoundedBox( 0, 0, 0, w, h, Color( 80, 140, 180 ) )
+			surface.SetMaterial( grad )
+			surface.SetDrawColor( 0, 0, 0, 100 )
+			surface.DrawTexturedRect( 0, 0, w, h )
+
 		end
 
 		icon.PaintOver = function( self, w, h )
