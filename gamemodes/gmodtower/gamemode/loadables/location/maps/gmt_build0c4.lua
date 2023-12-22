@@ -344,8 +344,8 @@ Add( 54, {
 Add( 55, {
     Name = "Lakeside Cabin",
     Group = "lakeside",
-    Min = Vector(-11025,9152,-129),
-    Max = Vector(-9800,10250,742),
+    Min = Vector( -10814.752929688, 9472.5859375, -81.03352355957 ),
+    Max = Vector( -10304.448242188, 9855.134765625, 155.35539245605 ),
     Priority = 0,
 } )
 Add( 56, {

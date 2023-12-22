@@ -125,6 +125,16 @@ local function MapAdds()
 
     -- trivia
     SetupTrivia()
+
+    -- christmas
+    local c = AddEntity( "gmt_christmas_tree", Vector( -10568, 9800, -63 ), Angle( 0, -45, 0 ) )
+    
+    if IsValid( c.Train ) then
+
+        c.Train:Remove()
+        
+    end
+
 end
 
 hook.Add( "InitPostEntity", "MapDataAdd", function()
