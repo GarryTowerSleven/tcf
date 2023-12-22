@@ -165,6 +165,7 @@ function APPEARANCE:UpdateModelPanel()
 end
 
 local matHover = Material( "vgui/spawnmenu/hover" )
+local found = {}
 
 function APPEARANCE:GenerateModelSelection()
 
@@ -211,8 +212,12 @@ function APPEARANCE:GenerateModelSelection()
 		if skin and skin > 0 then path = path .. "_skin" .. skin end -- Skin support
 		path = path .. ".png"
 
-		if !file.Find( path, "GAME" )[1] then
+		if !found[path] then
 
+			found[path] = file.Find( path, "GAME" )[1] && 1 || 0
+
+		elseif found[path] == 0 then
+			
 			dvgui = "SpawnIcon"
 
 		end
