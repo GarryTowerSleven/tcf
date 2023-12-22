@@ -159,7 +159,7 @@ RegisterModel(
 	"mdl_zoey",
 	"Zoey",
 	"Funny, sexy, brunette zombie killer wanted to lead three helpless men to safety... huh.",
-	"models/player/survivor_tennangst.mdl",
+	"models/player/survivor_teenangst.mdl",
 	"zoey",
 	15000 )
 

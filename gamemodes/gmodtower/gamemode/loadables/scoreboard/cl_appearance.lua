@@ -211,6 +211,12 @@ function APPEARANCE:GenerateModelSelection()
 		if skin and skin > 0 then path = path .. "_skin" .. skin end -- Skin support
 		path = path .. ".png"
 
+		if !file.Find( path, "GAME" )[1] then
+
+			dvgui = "SpawnIcon"
+
+		end
+
 		local icon = vgui.Create( dvgui, self )
 
 		-- Old model icon
