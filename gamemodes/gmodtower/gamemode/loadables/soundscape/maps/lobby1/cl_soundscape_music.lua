@@ -211,7 +211,7 @@ soundscape.Register("music_lobby",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/christmas/lobby1.mp3" },
+			{ "gmodtower/music/christmas/entertainment1.mp3" },
 			{ "gmodtower/music/christmas/lobby2.mp3" },
 
 			// halloween
@@ -266,6 +266,7 @@ soundscape.Register("music_gamemodeports",
 	-- Select a random song to play every once in a while
 	{
 		type = "playlist",
+		volume = 0.125,
 		time = {60 * 0.5, 60 * 2}, -- Play the next song 0.5 to 2 minutes after the song ends
 
 		-- Override the sound selector function with our own
