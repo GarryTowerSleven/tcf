@@ -59,7 +59,7 @@ hook.Add("PostDrawTranslucentRenderables", "Rope", function()
                 local endpos = ropes[_][_2 + 1]
 
                 if endpos then
-                    local segs2 = roof && 4 || (pos[1] - endpos[1]):Length() / 8
+                    local segs2 = (pos[1] - endpos[1]):Length() / ( roof && 24 || 8 )
 
                     for i = 1, segs2 do
                         local seed = rope:EntIndex() .. _2 .. i
