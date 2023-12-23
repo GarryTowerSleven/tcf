@@ -121,7 +121,7 @@ function ENT:SendItem( caller, entity_name )
 	local UniqueModel = Item.Model
 
 	if Item.UniqueInventory == true && caller:HasItemById( Item.MysqlId ) then
-		caller:AddMoney(math.floor( Item.StorePrice / 2 ), true, true, true)
+		caller:AddMoney(math.floor( Item.StorePrice / 2 ), true, true, true, "Spinner")
 		caller:Msg2("[Spinner] You already own this unique item, so you've won its sell value!")
 	else
 		caller:InvGiveItem( simplehash(entity_name), slot )
@@ -176,7 +176,7 @@ function ENT:PayOut(ply,prize)
 		end
 
 		if prize == 5 then
-			ply:AddMoney(1, true, true, true)
+			ply:AddMoney(1, true, true, true, "BadLuck")
 			ply:Msg2("[Spinner] You won: ... 1 GMC")
 		end
 	elseif prize == 2 || prize == 3 || prize == 4 || prize == 6 || prize == 7 || prize == 8 || prize == 10 then

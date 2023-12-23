@@ -118,7 +118,7 @@ end
 function HookOnDeath( pl, inf, attacker )
 
 	if IsValid( attacker ) && attacker:IsPlayer() && attacker != pl then
-		attacker:AddMoney( 5 )
+		attacker:AddMoney( 5, nil, nil, nil, "EventPVPNarnia" )
 	end
 
 end

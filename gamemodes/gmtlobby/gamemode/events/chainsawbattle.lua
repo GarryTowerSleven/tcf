@@ -69,7 +69,7 @@ function EVENT:PlayerDeath( victim, attacker )
 
     if attacker != victim and IsValid( attacker ) and attacker:IsPlayer() then
 
-        attacker:AddMoney( self.MoneyOnKill )
+        attacker:AddMoney( self.MoneyOnKill, nil, nil, nil, "EventChainsawBattle" )
         attacker:AddAchievement( ACHIEVEMENTS.MGGIBBIG, 1 )
 
         self.TotalMoney = self.TotalMoney + self.MoneyOnKill

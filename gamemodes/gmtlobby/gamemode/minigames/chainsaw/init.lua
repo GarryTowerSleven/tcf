@@ -78,7 +78,7 @@ function playerDies( ply, inflictor, killer )
 		//print( ply, inflictor, killer )
 
 		if killer != ply && IsValid( killer ) &&  killer:IsPlayer() then
-			killer:AddMoney( MoneyPerKill )
+			killer:AddMoney( MoneyPerKill, nil, nil, nil, "EventChainsawBattle" )
 			killer:AddAchievement(ACHIEVEMENTS.MGGIBBIG,1)
 			TotalMoney = TotalMoney + MoneyPerKill
 		end

@@ -104,7 +104,7 @@ end
 //We also want to spawn a ragdoll, so we call the function above.
 function ENT:Death( ply )
 	ply:AddFrags( self.Points )
-	ply:AddMoney( 25 )
+	ply:AddMoney( 25, nil, nil, nil, "ZM_NPC" )
 	ply:AddAchievement( ACHIEVEMENTS.HALLOWEENGHOST, 1 )
 	--ply:AddPoints( self.Points * 2 )
 	--ply:AddCombo()

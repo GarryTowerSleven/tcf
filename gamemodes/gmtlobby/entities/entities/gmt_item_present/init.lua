@@ -245,7 +245,7 @@ function ENT:GivePresent(ply)
 		local itemID = GTowerItems:Get(item)
 
 		if !item || !itemID || !GTowerItems:NewItemSlot(ply):Allow(itemID, true) then
-			ply:AddMoney(math.random(64, 256))
+			ply:AddMoney(math.random(64, 256), nil, nil, nil, "Present")
 			return
 		end
 

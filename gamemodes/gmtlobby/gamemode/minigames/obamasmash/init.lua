@@ -311,7 +311,7 @@ local function SmashObama( ent, dmg )
 		effectdata:SetMagnitude( MoneyPerKill )
 		util.Effect( "gmt_money", effectdata )
 
-		dmg:GetAttacker():AddMoney( MoneyPerKill )
+		dmg:GetAttacker():AddMoney( MoneyPerKill, nil, nil, nil, "EventObamaSmash" )
 
 		ent:Remove()
 	end

@@ -60,11 +60,13 @@ function meta:SetMoney( amount )
 	return self:SetNet( "Money", math.Clamp( tonumber( amount ), -2147483648, 2147483647 ) )
 end
 
-function meta:AddMoney( amount, nonotify, beziersource, nobezier )
+function meta:AddMoney( amount, nonotify, beziersource, nobezier, source )
 
     amount = math.Round( amount )
 
 	if amount == 0 then return end
+
+	SQLLog( "money", self, amount, source || "Unknown" )
 
 	if amount < 0 then
 		self:TakeMoney( amount, nonotify )
@@ -112,7 +114,7 @@ function meta:TakeMoney( amount, nonotify, beziertarget )
 end
 
 function meta:GiveMoney( amount, nosend, beziersource, nobezier )
-	self:AddMoney( amount, nosend, beziersource, nobezier )
+	self:AddMoney( amount, nosend, beziersource, nobezier, "GiveMoney" )
 end
 
 function meta:Afford( price )
@@ -138,13 +140,13 @@ hook.Add( "PlayerSpawnClient", "JoinMessages", function( ply )
 	
 	if ply._NeedsRewarding and Database.IsConnected() then
 		ply:MsgI( "gmtsmall", "VIPGiveReward" )
-		ply:AddMoney( 1000, true )
+		ply:AddMoney( 1000, true, nil, nil, "VIPGiveReward" )
 		Database.Query( "UPDATE `gm_vip` SET `rewarded` = 1 WHERE `steamid` = '" .. ply:SteamID() .. "';" )
 	end
 	
 	if ply._PendingMoney > 0 then
 		ply:MsgI( "gmtsmall", "VideoPokerRefund", ply._PendingMoney )
-		ply:AddMoney( ply._PendingMoney, true )
+		ply:AddMoney( ply._PendingMoney, true, nil, nil, "VideoPokerRefund" )
 		ply._PendingMoney = 0
 	end
 
