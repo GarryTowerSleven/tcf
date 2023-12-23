@@ -34,6 +34,12 @@ function ENT:PhysicsCollide(data, phys)
 		umsg.Start( "SnowHit", data.HitEntity )
 		umsg.End()
 
+		if self.Death then
+
+			hitEnt:TakeDamage( 25, self:GetOwner(), self )
+
+		end
+
 	end
 
 	self:Remove()

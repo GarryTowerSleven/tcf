@@ -99,7 +99,7 @@ function SWEP:PrimaryAttack()
 
 
 
-	self.Owner:ViewPunch(Angle(5, 0, 0))
+	self.Owner:ViewPunch(Angle(self.Death && 1 || 5, 0, 0))
 
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
 
@@ -191,6 +191,8 @@ function SWEP:ShootSnow(force)
 		ent:Spawn()
 
 		ent:Activate()
+
+		ent.Death = self.Death
 
 
 
