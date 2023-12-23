@@ -40,8 +40,10 @@ function ENT:BlinkThink()
 		for _, ply in ipairs( player.GetAll() ) do
 			
 			local dis = ply:GetPos():DistToSqr( self:GetPos() )
-	
-			if dis < dist && dis <= ( 128 * 128 ) then
+			local ang = self:GetAngles()
+			local len = ply:GetPos() - self:GetPos()
+
+			if dis < dist && dis <= ( 128 * 128 ) && ang:Forward():Dot(len) / len:Length() > -0.95 then
 	
 				closest = ply
 				dist = dis
