@@ -17,7 +17,7 @@ hook.Add("PostDrawTranslucentRenderables", "Rope", function()
         mats[mat] = mats[mat] || Material(mat)
         local mat = mats[mat]
         local segs = 8
-        local roof = rope:GetRopeStart():WithinAABox(Vector(429, 31, 1575), Vector(1678, 2249, 560))
+        local roof = rope:GetRopeStart():WithinAABox(Vector(100, 31, 1575), Vector(1678, 2249, 560))
 
         if !ropes[_] then
             ropes[_] = {}
