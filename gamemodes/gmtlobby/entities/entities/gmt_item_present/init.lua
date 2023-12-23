@@ -111,7 +111,7 @@ hook.Add( "LoadInventory", "Presents", function()
 		}
 	}
 
-end)
+end )
 
 table.SortByMember( items, 2, false )
 
@@ -250,7 +250,7 @@ function ENT:GivePresent(ply)
 		end
 
 		ply:InvGiveItem(item)
-		ply:Msg2("You've earned " .. itemID.Name)
+		ply:Msg2(table.Random({"Wow!", "Huh?!", "Wait..."}) .. " You " .. table.Random({"unwrapped", "opened", "unboxed"}) .. " a " .. itemID.Name .. "!")
 	end
 
 	math.randomseed(os.time())
