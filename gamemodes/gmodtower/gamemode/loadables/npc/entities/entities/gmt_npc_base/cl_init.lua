@@ -16,34 +16,49 @@ function ENT:BlinkThink()
 	local ragdoll = self.Ragdoll or nil 
 	if ( not ragdoll ) then return end
 
+	if EyePos():DistToSqr( self:GetPos() ) > 240000 then
+		self:SetPoseParameter( "head_yaw", 0 )
+
+		return
+	end
+
 	self.blink = self.blink or 0
 	self.blinktime = self.blinktime or 0
+	self.Closest = nil
+	self.ThinkTime = 0
 
 	if self.blinktime < CurTime() then
 		self.blink = 1
 		self.blinktime = CurTime() + math.Rand(4, 8)
 	end
 
-	self.blink = math.max(self.blink - FrameTime() * 8, 0)
+	if self.ThinkTime < CurTime() then
 
-	local closest = nil
-	local dist = math.huge
-
-	for _, ply in ipairs( player.GetAll() ) do
-		
-		local dis = ply:GetPos():DistToSqr( self:GetPos() )
-
-		if dis < dist && dis <= ( 128 * 128 ) then
-
-			closest = ply
-			dist = dis
-
+		local closest = nil
+		local dist = math.huge
+	
+		for _, ply in ipairs( player.GetAll() ) do
+			
+			local dis = ply:GetPos():DistToSqr( self:GetPos() )
+	
+			if dis < dist && dis <= ( 128 * 128 ) then
+	
+				closest = ply
+				dist = dis
+	
+			end
+	
 		end
+
+		self.Closest = closest
+		self.ThinkTime = CurTime() + 0.1
 
 	end
 
+	self.blink = math.max(self.blink - FrameTime() * 8, 0)
+
 	self.ET = self.ET or self:EyePos()
-	self.ET = LerpVector(FrameTime() * 4, self.ET, closest and closest:EyePos() or self:GetPos() + self:GetForward() * 64 + self:GetUp() * 64)
+	self.ET = LerpVector(FrameTime() * 4, self.ET, IsValid(self.Closest) and self.Closest:EyePos() or self:GetPos() + self:GetForward() * 64 + self:GetUp() * 64)
 	self:SetPoseParameter("head_yaw", math.NormalizeAngle((self.ET - self:EyePos()):Angle().y - self:GetAngles().y) / 1.4)
 	ragdoll:SetEyeTarget(self.ET)
 
