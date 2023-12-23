@@ -96,6 +96,8 @@ end
 
 function ENT:Think()
 
+	if LocalPlayer():Location() != self:Location() then return end
+
 	self.IsSmoking = CurTime() % 60 < 15
 
 
