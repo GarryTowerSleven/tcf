@@ -8,11 +8,6 @@ local light = {
 local pos_cache = {}
 local ropes = {}
 
-hook.Add("InitPostEntity", "Rope", function()
-    table.Empty(ropes)
-    table.Empty(pos_cache)
-end)
-
 hook.Add("PostDrawTranslucentRenderables", "Rope", function()
     for _, rope in ipairs(ents.FindByClass("keyframe_rope")) do
         local mat = rope:GetRopeMaterial()
@@ -64,7 +59,7 @@ hook.Add("PostDrawTranslucentRenderables", "Rope", function()
                     local segs2 = roof && 4 || (pos[1] - endpos[1]):Length() / 8
 
                     for i = 1, segs2 do
-                        local seed = i * 0.01 + _2 * 24 + rope:EntIndex() * 128 + i
+                        local seed = rope:EntIndex() .. _2 .. i
         
                         if !pos_cache[seed] then
                             local l = i / segs2

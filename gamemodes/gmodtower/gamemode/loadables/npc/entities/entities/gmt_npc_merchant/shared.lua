@@ -6,6 +6,6 @@ ENT.AdminSpawnable	= true
 ENT.Model		= Model( "models/gmod_tower/merchant.mdl")
 ENT.StoreId 	= GTowerStore.MERCHANT
 
-ENT.AnimMale 	= Model( "models/humans/group01/male_07.mdl") -- Bonemerge fix
+ENT.AnimMale 	= Model( "models/player/kleiner.mdl") -- Bonemerge fix
 ENT.Sequence    = "pose_standing_01"
 ENT.Description = "Got a selection of good things on sale, stranger!"
