@@ -249,6 +249,12 @@ function Think()
 
     table.uinsert( Entities, ent )
 
+    if IsChristmas then
+
+        sound.Play( "misc/jingle_bells/jingle_bells_nm_0" .. math.random( 5 ) .. ".wav", pos, 70 )
+
+    end
+
 end
 
 hook.Add( "Think", "HolidaySpawnerThink", Think )
