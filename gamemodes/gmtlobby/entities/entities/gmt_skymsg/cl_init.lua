@@ -137,7 +137,7 @@ function ENT:DrawTranslucent()
 
 			if self.StrText == "Casino" then
 
-				draw.SimpleText( orlok .. "'s", "DermaLarge", 0, self.PositiveY + 16, color_white, TEXT_ALIGN_CENTER)
+				draw.SimpleText( orlok .. "'s", "GTowerSkySmall2", 0, self.PositiveY + 8, color_white, TEXT_ALIGN_CENTER)
 
 			end
 
