@@ -195,7 +195,7 @@ RegisterItem("toysmokemachine",{
 	Name = "Fog Machine",
 	Description = "Fog up your place with this smoke machine.",
 	Model = "models/gmod_tower/halloween_fogmachine.mdl",
-	UniqueInventory = false,
+	UniqueInventory = true,
 	DrawModel = true,
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 3000,
