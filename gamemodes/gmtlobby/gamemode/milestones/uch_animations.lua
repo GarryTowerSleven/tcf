@@ -21,8 +21,6 @@ function SetupPlayer( ply, id )
 
 		local skin = ply:GetInfoNum( "gmt_uch_skin", 0 )
 
-		print(skin)
-
 		ply:SetBodygroup( 2, skin == 3 && 1 || 0 )
 		ply:SetBodygroup( 1, skin == 3 && 0 || skin )
 		ply:SetSkin( skin )
