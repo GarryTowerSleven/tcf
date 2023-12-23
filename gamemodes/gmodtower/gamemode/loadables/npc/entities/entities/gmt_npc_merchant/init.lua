@@ -18,6 +18,8 @@ end
 
 function ENT:Think()
 
+	self.BaseClass.Think( self )
+
 	self.VisiblePlayers = self.VisiblePlayers or {}
 	self.LastWelcome = self.LastWelcome or 0
 	self.LastGoodbye = self.LastGoodbye or 0

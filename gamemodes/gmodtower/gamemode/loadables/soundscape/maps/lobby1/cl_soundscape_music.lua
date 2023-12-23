@@ -211,9 +211,8 @@ soundscape.Register("music_lobby",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/lobby1.mp3", 220 },
-			{ "gmodtower/music/lobby2.mp3", 294 },
-			{ "gmodtower/music/lobby3.mp3", 240 },
+			{ "gmodtower/music/christmas/lobby1.mp3" },
+			{ "gmodtower/music/christmas/lobby2.mp3" },
 
 			// halloween
 			// { "gmodtower/music/halloween/lobby1.mp3", 189 },
@@ -234,8 +233,7 @@ soundscape.Register("music_lobbyroof",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/lobbyroof.mp3", 94 },
-			{ "gmodtower/music/lobbyroof2.mp3", 196 },
+			{ "gmodtower/music/christmas/roof1.mp3" }
 
 			// halloween
 			// { "gmodtower/music/halloween/roof.mp3", 65 },
@@ -255,7 +253,7 @@ soundscape.Register("music_eplaza",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/plaza.mp3", 221 },
+			{ "gmodtower/music/christmas/entertainment1.mp3" },
 		},
 	},
 })
@@ -272,8 +270,7 @@ soundscape.Register("music_gamemodeports",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/gamemodes1.mp3", 122 },
-			{ "gmodtower/music/gamemodes2.mp3", 108 },
+			{ "gmodtower/music/christmas/store2.mp3" },
 		},
 	},
 })
@@ -290,8 +287,8 @@ soundscape.Register("music_suites",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/suite1.mp3", 282 },
-			{ "gmodtower/music/suite2.mp3", 197 },
+			{ "gmodtower/music/christmas/suite1.mp3" },
+			{ "gmodtower/music/christmas/suite2.mp3" },
 
 			// { "gmodtower/music/halloween/suite1.mp3", 163 },
 		},
@@ -338,8 +335,7 @@ soundscape.Register("music_lakeside",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/lakeside.mp3", 140 },
-			{ "gmodtower/music/lakeside2.mp3", 215 },
+			{ "gmodtower/music/christmas/lake1.mp3" },
 		},
 	},
 })
@@ -372,7 +368,7 @@ soundscape.Register("music_store",
 		type = "playlooping",
 		volume = 1,
 		-- All sounds are in a table format of {soundpath, soundlength}
-		sound = { Sound( "gmodtower/music/store.mp3" ), 174 },
+		sound = { Sound( "gmodtower/music/christmas/store1.mp3" ) },
 
 		// halloween
 		// sound = { Sound( "gmodtower/music/halloween/store.mp3" ), 63 },
