@@ -321,7 +321,7 @@ function GM:RenderScene(eyepos, eyeang)
 	rendering = true
 
 	local w, h = ScrW(), ScrH()
-	rt = GetRenderTarget( "Sky_" .. w, w / 2, h / 2 )
+	rt = rt or GetRenderTarget( "Sky_" .. w, w, h )
 	mat = CreateMaterial( rt:GetName() .. w, "UnlitGeneric", {["$basetexture"] = rt:GetName(), ["$model"] = 1, ["$ignorez"] = 1})
 
 
