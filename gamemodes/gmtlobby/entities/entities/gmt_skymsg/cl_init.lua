@@ -7,7 +7,7 @@ local SMALLFONT = "GTowerSkySmall"
 local s = 1.8
 surface.CreateFont( FONT, { font = "Oswald", size = 144*s, weight = 400 } )
 surface.CreateFont( SMALLFONT, { font = "Oswald", size = 64*s, weight = 400 } )
-
+surface.CreateFont( SMALLFONT .. 2, { font = "Oswald", size = 32*s, weight = 400 } )
 
 
 function ENT:Initialize()
@@ -138,6 +138,36 @@ function ENT:DrawTranslucent()
 			if self.StrText == "Casino" then
 
 				draw.SimpleText( orlok .. "'s", "DermaLarge", 0, self.PositiveY + 16, color_white, TEXT_ALIGN_CENTER)
+
+			end
+
+			if string.StartsWith( self.StrText, "Suites " ) then
+
+				local count = string.Split( table.concat( string.Split( self.StrText, " " ), "", 2 ), "-" )
+
+				local rooms = {}
+
+				for i = count[1], count[2] do
+					
+					local room = GTowerRooms.Rooms[i]
+
+					if IsValid( room.Owner ) then
+						
+						table.insert( rooms, i .. ". " .. ( IsValid( room.Owner ) && room.Owner:Nick() || "No One!" ) )
+
+					end
+					
+				end
+
+				if #rooms == 0 then
+
+					draw.SimpleText( "No one!", "GTowerSkySmall2", 0, 0, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+
+				end
+
+				for _, str in ipairs(rooms) do
+					draw.SimpleText( str, "GTowerSkySmall2", 0, 48 * ( _ - 1 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+				end
 
 			end
 
