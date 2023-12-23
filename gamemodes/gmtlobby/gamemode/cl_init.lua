@@ -56,6 +56,8 @@ hook.Add( "Think", "Weather", function()
 
 			if table.HasValue(SnowVisible, loc) then
 				for _, p in ipairs(Snow) do
+					if p:DistToSqr( EyePos() ) > 3200000 then continue end
+
 					p.x = math.random(700, 1400)
 					effect:SetOrigin( p )
 					effect:SetFlags( 2 )
