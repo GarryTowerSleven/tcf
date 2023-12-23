@@ -79,6 +79,16 @@ function soundscape.GetMusicSoundscape(loc)
 	-- Just use default methods to find the soundscape
  	scape = Location.GetGroup(loc)
 
+	if IsChristmas then
+
+		if scape == "pool" then
+
+			scape = "lakeside"
+
+		end
+
+	end
+
 	-- Return what we've got
 	return (scape and soundscape.IsDefined("music_" .. scape) ) and string.lower("music_" .. scape) or nil
 end
