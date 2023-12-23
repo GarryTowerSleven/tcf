@@ -400,3 +400,13 @@ RegisterItem( "suite_pumpkin_deformed",{
 	DateAdded = 1696741039,
 	IsNew = true,
 } )
+
+// Have a great winter!
+RegisterItem( "coal", {
+	Name = "Lump of Coal",
+	Description = "Looks like someone's been naughty...",
+	Model = "models/props_junk/rock001a.mdl",
+	ModelColor = Color( 24, 24, 24 ),
+	StoreId = GTowerStore.HOLIDAY,
+	StorePrice = 250
+})
