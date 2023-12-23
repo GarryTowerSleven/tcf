@@ -8,6 +8,9 @@ local light = {
 local pos_cache = {}
 local ropes = {}
 
+function ENT:Draw()
+end
+
 hook.Add("PostDrawTranslucentRenderables", "Rope", function()
     for _, rope in ipairs(ents.FindByClass("keyframe_rope")) do
         local mat = rope:GetRopeMaterial()
