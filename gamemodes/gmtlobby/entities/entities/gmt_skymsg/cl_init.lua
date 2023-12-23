@@ -161,7 +161,7 @@ function ENT:DrawTranslucent()
 
 				if #rooms == 0 then
 
-					draw.SimpleText( "No one!", "GTowerSkySmall2", 0, 0, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+					draw.SimpleText( "No one has a suite!", "GTowerSkySmall2", 0, 0, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 
 				end
 
