@@ -85,18 +85,7 @@ function SWEP:PrimaryAttack()
 
 	if !self:CanPrimaryAttack() then return end
 
-
-
-	if self.Owner:IsAdmin() then
-
-		self.Weapon:SetNextPrimaryFire(CurTime() + 0.25)
-
-	else
-
-		self.Weapon:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
-
-	end
-
+	self.Weapon:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 
 
 	self.Owner:ViewPunch(Angle(self.Death && 1 || 5, 0, 0))
@@ -137,7 +126,7 @@ function SWEP:PrimaryAttack()
 
 		self.Owner:EmitSound("weapons/iceaxe/iceaxe_swing1.wav", 75, math.random( 110, 125 ))
 
-		self:ShootSnow(3000)
+		self:ShootSnow(800)
 
 
 

@@ -12,8 +12,6 @@ net.Receive( "SnowDecal", function()
 	local pos, normal = net.ReadVector(), net.ReadVector()
 	local tr = util.QuickTrace( pos, normal )
 
-	if !IsValid( tr.Entity ) then return end
-
-	util.DecalEx( mat, tr.Entity, tr.HitPos, -tr.HitNormal, color_white, 0.4, 0.4 )
+	util.DecalEx( mat, IsValid( tr.Entity ) && tr.Entity || game.GetWorld(), tr.HitPos, -tr.HitNormal, color_white, 0.4, 0.4 )
 
 end )
