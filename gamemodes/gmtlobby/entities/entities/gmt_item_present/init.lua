@@ -24,88 +24,94 @@ function ENT:TimedPickup(bool)
 
 end
 
-local items = {
-	// Common
-	{
-		{
-			ITEMS.alcohol_bottle,
-			ITEMS.ingredient_bone,
-			ITEMS.ingredient_orange,
-			ITEMS.ingredient_banana,
-			ITEMS.ingredient_apple,
-			ITEMS.ingredient_glass,
-			ITEMS.ingredient_straw,
-			ITEMS.ingredient_watermel
-		},
-		4,
-		true
-	},
+local items = {}
 
-	// Uncommon
-	{
-		{
-			ITEMS.snowman,
-			ITEMS.usdollar,
-			ITEMS.tv,
-			ITEMS.trampoline,
-			ITEMS.toyspider,
-			ITEMS.stocking,
-			ITEMS.sack_plushie,
-			ITEMS.plush_blahaj,
-			ITEMS.plush_fox,
-			ITEMS.plush_penguin,
-			ITEMS.obama_cutout,
-			ITEMS.mysterycatsack,
-			ITEMS.towertoy
-		},
-		15,
-		false,
-		30
-	},
+hook.Add( "LoadInventory", "Presents", function()
 
-	// Rare
-	{
+	items = {
+		// Common
 		{
-			ITEMS.autopiano,
-			ITEMS.tv,
-			ITEMS.wepon_357,
-			ITEMS.workingclock,
-			ITEMS.toytrain_small
+			{
+				ITEMS.alcohol_bottle,
+				ITEMS.ingredient_bone,
+				ITEMS.ingredient_orange,
+				ITEMS.ingredient_banana,
+				ITEMS.ingredient_apple,
+				ITEMS.ingredient_glass,
+				ITEMS.ingredient_straw,
+				ITEMS.ingredient_watermel
+			},
+			4,
+			true
 		},
-		50,
-		true
-	},
 
-	// Extraordinarily Rare
-	{
+		// Uncommon
 		{
-			ITEMS.nesguitar,
-			ITEMS.piano,
-			ITEMS.tv_large,
-			ITEMS.toytrain
+			{
+				ITEMS.snowman,
+				ITEMS.usdollar,
+				ITEMS.tv,
+				ITEMS.trampoline,
+				ITEMS.toyspider,
+				ITEMS.stocking,
+				ITEMS.sack_plushie,
+				ITEMS.plush_blahaj,
+				ITEMS.plush_fox,
+				ITEMS.plush_penguin,
+				ITEMS.obama_cutout,
+				ITEMS.mysterycatsack,
+				ITEMS.towertoy
+			},
+			15,
+			false,
+			30
 		},
-		100,
-		true
-	},
 
-	// What?!
-	{
+		// Rare
 		{
-			ITEMS.imac
+			{
+				ITEMS.autopiano,
+				ITEMS.tv,
+				ITEMS.wepon_357,
+				ITEMS.workingclock,
+				ITEMS.toytrain_small
+			},
+			50,
+			true
 		},
-		500,
-		true
-	},
 
-	// Obama Tier!!
-	{
+		// Extraordinarily Rare
 		{
-			ITEMS.obama_visualizer,
+			{
+				ITEMS.nesguitar,
+				ITEMS.piano,
+				ITEMS.tv_large,
+				ITEMS.toytrain
+			},
+			100,
+			true
 		},
-		10000,
-		true
+
+		// What?!
+		{
+			{
+				ITEMS.imac
+			},
+			500,
+			true
+		},
+
+		// Obama Tier!!
+		{
+			{
+				ITEMS.obama_visualizer,
+			},
+			10000,
+			true
+		}
 	}
-}
+
+end)
 
 table.SortByMember( items, 2, false )
 
