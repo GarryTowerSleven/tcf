@@ -154,9 +154,6 @@ if SERVER then
 				else
 
 					local num = .00075
-					if self:Crouching() then
-						num = .02
-					end
 
 					recharge = recharge + ( num * ( self:GetNet( "Rank" ) / 4 ) )
 
