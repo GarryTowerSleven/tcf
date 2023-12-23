@@ -73,7 +73,7 @@ hook.Add("PostDrawTranslucentRenderables", "Rope", function()
                         local pos = pos_cache[seed]
                         local dist = pos:DistToSqr( EyePos() )
 
-                        if !roof && dist > 1098304 * 2 then continue end
+                        if dist > 1098304 * ( roof && 4 || 2 ) then continue end
 
                         local ang = pos - EyePos()
                         local dot = EyeVector():Dot(ang) / ang:Length()
