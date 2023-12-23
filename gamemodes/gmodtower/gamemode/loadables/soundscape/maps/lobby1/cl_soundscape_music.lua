@@ -410,7 +410,7 @@ soundscape.Register("music_casino", {
 	{
 	type = "playlist",
 		time = {60 * 0.5, 60 * 2}, -- Play the next song 0.5 to 2 minutes after the song ends
-		volume = 0.015,
+		volume = 0.0175,
 		-- Override the sound selector function with our own
 		sounds = {
 			{ "gmodtower/music/christmas/casino1.mp3" },
