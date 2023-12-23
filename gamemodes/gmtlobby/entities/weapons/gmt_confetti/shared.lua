@@ -43,7 +43,7 @@ function SWEP:Deploy()
 	
 	if SERVER then
 		if self.InventoryItem && self.InventoryItem.WeaponDeployed then
-			self.InventoryItem:WeaponDeployed()
+			self.InventoryItem:WeaponDeployed( self )
 		else
 			self.Owner.UsesLeft = -1
 			self.Owner.MaxUses = -1
@@ -80,12 +80,15 @@ function SWEP:PrimaryAttack()
 
 	if !IsFirstTimePredicted() then return end
 
+	local snow = true or self.Snow
+
 	local sfx = EffectData()
 		sfx:SetOrigin( self.Owner:EyePos() )
+		sfx:SetFlags( snow && 2 || 1 )
 	util.Effect( "confetti", sfx )
 
 	if SERVER then
-		self.Owner:EmitSound( self.PartySound, 50, 100 )
+		self.Owner:EmitSound( snow && "misc/jingle_bells/jingle_bells_nm_0" .. math.random( 5 ) .. ".wav" || self.PartySound, 55, 100 )
 		
 		if self.InventoryItem && self.InventoryItem.WeaponFired then
 			self.InventoryItem:WeaponFired()
