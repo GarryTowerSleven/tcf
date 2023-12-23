@@ -23,7 +23,7 @@ concommand.Add( "gmt_bucket_print", function( ply )
 end )*/
 
 Enabled = IsHoliday
-EnabledConvar = CreateConVar( "gmt_spawner_enabled", "1", { FCVAR_NONE }, "0", "1" )
+EnabledConvar = CreateConVar( "gmt_spawner_enabled", "1" )
 
 cvars.AddChangeCallback( "gmt_spawner_enabled", function( _, old, new )
 
