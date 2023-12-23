@@ -211,7 +211,7 @@ soundscape.Register("music_lobby",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/christmas/entertainment1.mp3" },
+			{ "gmodtower/music/christmas/lobby1_fix.mp3" },
 			{ "gmodtower/music/christmas/lobby2.mp3" },
 
 			// halloween
