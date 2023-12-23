@@ -487,15 +487,17 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
 
         local x, y = main_x + main_width / 4.1, main_y + main_height / 2.75
         local w, h = main_width, main_height
+
+        render.SetScissorRect( x, y, x + w, y + h / 1.75, true )
+
+        for _, snowflake in ipairs(snow) do
     
-        for _, snow in ipairs(snow) do
+            draw.RoundedBox( 0, math.Round( snowflake.x ), math.Round( snowflake.y ), snowflake.w, snowflake.w, snowflake.color )
     
-            draw.RoundedBox( 0, snow.x, snow.y, snow.w, snow.w, snow.color )
+            snowflake.x = snowflake.x + snowflake.vel.x * FrameTime()
+            snowflake.y = snowflake.y + snowflake.vel.y * FrameTime()
     
-            snow.x = snow.x + snow.vel.x * FrameTime()
-            snow.y = snow.y + snow.vel.y * FrameTime()
-    
-            if snow.y > h || snow.x > w then
+            if snowflake.y > y + h || snowflake.x > w then
     
                 table.remove( snow, _ )
     
@@ -512,6 +514,8 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
             lastsnow = SysTime() + math.Rand( 0.1, 0.2 )
     
         end
+
+        render.SetScissorRect( 0, 0, 0, 0, false )
 
     end
 
