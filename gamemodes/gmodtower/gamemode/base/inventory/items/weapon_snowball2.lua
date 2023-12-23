@@ -1,5 +1,5 @@
 ---------------------------------
-ITEM.MaxUses = -1
+ITEM.MaxUses = 0
 ITEM.Name = "Snowball!"
 ITEM.ClassName = "weapon_snowball"
 ITEM.Description = "Hit people with a ball of snow!"
@@ -12,7 +12,7 @@ ITEM.Equippable = true
 ITEM.WeaponSafe = true
 
 ITEM.StoreId = 10
-ITEM.StorePrice = 275
+ITEM.StorePrice = 0
 
 function ITEM:OnCreate( data )
 	self.UsesLeft = tonumber( data ) or self.MaxUses
