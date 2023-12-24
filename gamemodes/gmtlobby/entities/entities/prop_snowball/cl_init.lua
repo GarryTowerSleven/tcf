@@ -7,7 +7,14 @@ end
 
 local mat = Material( "decals/snow01" )
 
+CreateMaterial( "snowdecal", "VertexLitGeneric", {
+	["$basetexture"] = "decals/snow01",
+	["$translucent"] = 1
+} )
+
 net.Receive( "SnowDecal", function()
+
+	mat:SetTexture( "$modelmaterial", "!snowdecal" )
 
 	local pos, normal = net.ReadVector(), net.ReadVector()
 	local tr = util.QuickTrace( pos, normal )
