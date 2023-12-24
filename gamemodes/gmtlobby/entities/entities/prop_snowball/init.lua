@@ -27,6 +27,11 @@ function ENT:Initialize()
 end
 
 function ENT:PhysicsCollide(data, phys)
+
+	if self.Hit then return end
+
+	self.Hit = true
+
 	local hitEnt = data.HitEntity
 
 	if IsValid(hitEnt) && (hitEnt:IsPlayer() and hitEnt != hitEnt:GetOwner()) then

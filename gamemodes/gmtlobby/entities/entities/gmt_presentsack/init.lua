@@ -25,7 +25,7 @@ end
 hook.Add( "StorePurchaseFinish", "PresentSack", function( ply, item )
 
 	if item.storeid != GTowerStore.HOLIDAY then return end
-	if !string.find( item.itemname, "Present" ) then return end
+	if !string.find( item.Name, "Present" ) then return end
 
 	local store = GTowerStore.Stores[item.storeid]
 
