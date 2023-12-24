@@ -21,3 +21,33 @@ end
 function ENT:SetSale( sale )
 	self:SetSale( sale )
 end
+
+hook.Add( "StorePurchaseFinish", "PresentSack", function( ply, item )
+
+	if item.storeid != GTowerStore.HOLIDAY then return end
+	if !string.find( item.itemname, "Present" ) then return end
+
+	local store = GTowerStore.Stores[item.storeid]
+
+	local ent, dis = nil, math.huge
+
+	for _, entity in ipairs( ents.FindByClass( store.NpcClass ) ) do
+		
+		local dist = entity:GetPos( ply ):DistToSqr( ply:GetPos() )
+
+		if dist < dis then
+
+			ent = entity
+			dis = dist
+
+		end
+
+	end
+
+	if IsValid( ent ) then
+
+		ply:AddAchievement( ACHIEVEMENTS.SANTASHELPER, 1 )
+
+	end
+
+end )

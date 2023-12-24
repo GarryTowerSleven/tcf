@@ -34,6 +34,12 @@ function ENT:PhysicsCollide(data, phys)
 		umsg.Start( "SnowHit", data.HitEntity )
 		umsg.End()
 
+		if IsValid( self:GetOwner() ) then
+
+			self:GetOwner():AddAchievement( ACHIEVEMENTS.FROSTBITE, 1 )
+
+		end
+
 		if self.Death then
 
 			hitEnt:TakeDamage( 25, self:GetOwner(), self )
