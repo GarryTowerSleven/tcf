@@ -90,8 +90,10 @@ function ENT:Draw()
 	
 end
 
-hook.Add( "PostDrawTranslucentRenderables", "Door", function()
+hook.Add( "PostDrawTranslucentRenderables", "Door", function(_, sky)
 
+	if sky then return end
+	
 	for _, e in ipairs( ents.FindByClass("func_suitepanel") ) do
 		
 		if e:DrawOverDoor() then
