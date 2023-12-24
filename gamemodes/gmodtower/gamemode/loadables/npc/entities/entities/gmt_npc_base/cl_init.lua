@@ -209,8 +209,10 @@ function ENT:DrawTranslucent()
 		draw.DrawText( title, "GTowerNPC", 0, 0, title == "VIP Store" && colorutil.Rainbow( 24 ) || Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		
 		if self.Description then
-			draw.DrawText( self.Description, "GTowerNPC2", 2, 140 + 2 + 8 * (1 - l), Color( 0, 0, 0, 225 * l ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-			draw.DrawText( self.Description, "GTowerNPC2", 0, 140 + 8 * (1 - l), Color( 255, 255, 255, 255 * l ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			local offset = ( string.find( title, "g" ) ) && 18 || 0
+
+			draw.DrawText( self.Description, "GTowerNPC2", 2, 140 + 2 + 8 * (1 - l) + offset, Color( 0, 0, 0, 225 * l ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.DrawText( self.Description, "GTowerNPC2", 0, 140 + 8 * (1 - l) + offset, Color( 255, 255, 255, 255 * l ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		end
 
 		if self:HasNewItems() then
