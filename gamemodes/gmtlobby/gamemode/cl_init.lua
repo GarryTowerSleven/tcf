@@ -291,6 +291,24 @@ hook.Add("PrePlayerDraw", "ThisIsHowFreelancersTalk", function(ply)
 	end
 end)
 
+function InitTree()
+
+	Material("models/props/de_inferno/tree_large"):SetTexture("$basetexture", "models/gmod_tower/tree_winter")
+
+end
+
+hook.Add( "PreRender", "Tree", function()
+
+
+	if !TreeWinter then
+
+		InitTree()
+		TreeWinter = true
+
+	end
+
+end )
+
 local locations = {
 	[21] = true,
 	[60] = true
