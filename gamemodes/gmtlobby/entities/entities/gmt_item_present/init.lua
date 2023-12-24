@@ -263,7 +263,7 @@ function ENT:GivePresent(ply)
 
 	end
 
-	ply:AddAchievement( ACHIEVEMENTS.NICELIST, 1 )
+	ply:AddAchievement( ACHIEVEMENTS.NICELIST	, 1 )
 
 	self:Remove()
 
