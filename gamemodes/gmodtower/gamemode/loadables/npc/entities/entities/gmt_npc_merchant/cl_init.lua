@@ -16,8 +16,6 @@ hook.Add( "Think", "MerchantLight", function()
 
 		if LocalPlayer():Location() != self:Location() then
 
-			print(self:Location(), LocalPlayer():Location())
-
 			if IsValid( self.Light ) then
 
 				self.Light:Remove()
