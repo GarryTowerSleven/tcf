@@ -22,7 +22,8 @@ EVENT.Locations = {
             { pos = Vector( 1105, 275, 165 ), ang = Angle( 20, 130, 0 ) },
             { pos = Vector( 750, 267, 165 ), ang = Angle( 20, 53, 0 ) },
 
-            { pos = Vector( 923, 900, 385 ), ang = Angle( 45, 90, 0 ) },
+            { pos = Vector( 925, 1200, 385 ), ang = Angle( 45, 90, 0 ) },
+			{ pos = Vector( 925, 600, 385 ), ang = Angle( 45, 90, 0 ) },
         },
     },
 
