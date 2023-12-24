@@ -11,7 +11,9 @@ local ropes = {}
 function ENT:Draw()
 end
 
-hook.Add("PostDrawTranslucentRenderables", "Rope", function()
+hook.Add("PostDrawTranslucentRenderables", "Rope", function(_, sky)
+    if sky then return end
+
     for _, rope in ipairs(ents.FindByClass("keyframe_rope")) do
         local mat = rope:GetRopeMaterial()
         mats[mat] = mats[mat] || Material(mat)
