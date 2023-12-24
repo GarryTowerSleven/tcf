@@ -45,7 +45,7 @@ if CLIENT then
 
 					LocalPlayer():GetInfo( "cl_minecraftskin" ) or "",
 
-					function(text) print("!!!!") print("HEY ITS ME") MinecraftSendUpdatedSkin( string.lower( text ) ) end
+					function(text) MinecraftSendUpdatedSkin( string.lower( text ) ) end
 
 				)
 
