@@ -7,9 +7,9 @@ local BaseClass = baseclass.Get( "mp_entity" )
 include "shared.lua"
 
 MEDIAPLAYER._IdlescreenData = {
-    url = "https://www.youtube.com/watch?v=7o2szZNvb_Y",
-    title = [[GMod Tower: TCF "Play Again!" Trailer]],
-    duration = (60*2)+15,
+    url = "https://www.youtube.com/watch?v=uYoi5B5KAk4",
+    title = [[IDLESCREEN | December]],
+    duration = (60*4)+45,
 }
 
 function MEDIAPLAYER:CreateIdlescreenMedia( url, title, duration )
