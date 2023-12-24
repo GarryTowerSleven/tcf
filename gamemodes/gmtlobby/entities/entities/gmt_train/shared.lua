@@ -50,10 +50,24 @@ function ENT:SetupDataTables()
 
 	self:NetworkVar("Int", 1, "TrainVelocity", { KeyName = "trainvelocity", Edit = { type = "Int", min = 1, max = 1000, order = 3 }})
 
-	self:NetworkVar("Int", 2, "TrainCount", { KeyName = "trainvelocity", Edit = { type = "Int", min = 1, max = 30, order = 4 }})
+	self:NetworkVar("Int", 2, "TrainCount", { KeyName = "cartcount", Edit = { type = "Int", min = 1, max = 30, order = 4 }})
 
 end
 
+local keys = {
+	["radius"] = "Radius",
+	["trainvelocity"] = "TrainVelocity",
+	["cartcount"] = "TrainCount"
+}
 
+function ENT:KeyValue( key, value )
+
+	if keys[key] then
+
+		self["Set" .. keys[key]]( self, value )
+
+	end
+
+end
 
 --ImplementNW() -- Implement transmit tools instead of DTVars
