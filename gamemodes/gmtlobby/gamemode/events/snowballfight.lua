@@ -11,18 +11,15 @@ EVENT.ActiveLocation = nil
 EVENT.ActiveSpawns = nil
 EVENT.Locations = {
 
-    [ Location.GetIDByName( "Entertainment Plaza" ) ] = {
+    [ Location.GetIDByName( "Lakeside" ) ] = {
         spawns = {
-            { pos = Vector( 1105, 1507, 165 ), ang = Angle( 20, -112.5, 0 ) },
-            { pos = Vector( 750, 1502, 165 ), ang = Angle( 20, -55.5, 0 ) },
+            { pos = Vector( -11706, 9599, 1 ), ang = Angle( 0, 45, 0 ) },
+            { pos = Vector( -10074, 9422, 3 ), ang = Angle( 0, 120, 0 ) },
 
-            { pos = Vector( 666, 894.5, 165 ), ang = Angle( 20, 0, 0 ) },
-            { pos = Vector( 1226, 894.5, 165 ), ang = Angle( 20, 180, 0 ) },
+            { pos = Vector( -12016, 10571, 16 ), ang = Angle( 0, 0, 0 ) },
+            { pos = Vector( -9862, 10626, 2 ), ang = Angle( 20, 180, 0 ) },
 
-            { pos = Vector( 1105, 275, 165 ), ang = Angle( 20, 130, 0 ) },
-            { pos = Vector( 750, 267, 165 ), ang = Angle( 20, 53, 0 ) },
-
-            { pos = Vector( 923, 900, 385 ), ang = Angle( 45, 90, 0 ) },
+            { pos = Vector( -10061, 11323, 1 ), ang = Angle( 20, -145, 0 ) },
         },
     },
 
