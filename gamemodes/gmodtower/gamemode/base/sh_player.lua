@@ -49,10 +49,10 @@ function meta:IsPixelTail()
 	return self:GetRole() == "PixelTail"
 end
 
-local color_lead		= Color( 248,  18, 128 )
+local color_lead		= Color( 125, 177,  30 )
 local color_developer	= Color( 255, 100, 100 )
 local color_mod			= Color( 255, 150,  75 )
-local color_admin		= Color( 125, 177,  30 )
+local color_admin		= Color( 248,  18, 128 )
 local color_contributor	= Color( 122, 178, 255 )
 local color_pixeltail	= Color( 216,  31,  42 )
 local color_default		= team.GetColor( TEAM_UNASSIGNED )

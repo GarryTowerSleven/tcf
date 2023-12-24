@@ -3,7 +3,7 @@ module( "Admins", package.seeall )
 
 List = {
 
-	["STEAM_0:0:1384695"]	= true, -- kity
+	//["STEAM_0:0:1384695"]	= true, -- kity
 
 	["STEAM_0:0:38865393"]	= true, -- boXy
 	["STEAM_0:1:124798129"]	= true, -- AmGona
@@ -15,7 +15,7 @@ List = {
 
 ListSecret = {
 
-	["STEAM_0:0:618033331"] = true, -- kity alt
+	//["STEAM_0:0:618033331"] = true, -- kity alt
 	["STEAM_0:0:614075224"] = true, -- tcf
 
 }

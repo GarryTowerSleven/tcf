@@ -5,7 +5,7 @@
 PlayerRoles = {
 
     // Lead Dev
-    ["STEAM_0:0:1384695"]   = "Lead Developer",	// kity
+    ["STEAM_0:0:38865393"]	= "Lead Developer", //  I WANT OUT
 	
 	// Developers
 	["STEAM_0:1:39916544"]  = "Developer",	// Anoma
@@ -17,6 +17,7 @@ PlayerRoles = {
 	["STEAM_0:0:90689651"]  = "Developer", // Sonop
 	["STEAM_0:1:97372299"]  = "Developer", // NotGaylien
 	["STEAM_0:0:115320789"]  = "Developer", // Zia
+	//["STEAM_0:0:1384695"]   = "Developer",	// kity
 
 	// Contributor
 	["STEAM_0:0:193442077"] = "Contributor", // Nyantendo
