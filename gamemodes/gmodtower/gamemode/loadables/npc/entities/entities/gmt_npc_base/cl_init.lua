@@ -193,26 +193,29 @@ function ENT:DrawTranslucent()
 		pos = self:GetAttachment(eye).Pos
 	end
 	
+	self.Description2 = self.Description2 || 0
+	self.Description2 = math.Approach( self.Description2, self.Description && LocalPlayer():GetUseEntity() == self && 1 || 0, FrameTime() * 4 )
+
+	local l = math.ease.InOutSine(self.Description2)
+
 	local ang = EyeAngles()
-	local pos = (pos || self:GetPos() + Vector(0, 0, 64)) + offset + ang:Up() * ( math.sin( CurTime() + uid ) ) + Vector( 0, 0, self.Offset || 0 )
+
+	local pos = (pos || self:GetPos() + Vector(0, 0, 72)) + offset + ang:Up() * ( math.sin( CurTime() + uid ) ) + Vector( 0, 0, self.Offset || 0 )
 
 	ang:RotateAroundAxis( ang:Forward(), 90 )
 	ang:RotateAroundAxis( ang:Right(), 90 )
 
-	self.Description2 = self.Description2 || 0
-	self.Description2 = math.Approach( self.Description2, self.Description && LocalPlayer():GetUseEntity() == self && 1 || 0, FrameTime() * 4 )
-	local l = math.ease.InOutSine(self.Description2)
-
 	cam.Start3D2D( pos, Angle( math.sin(CurTime() * 2.35 + uid), ang.y, 90 ), 0.05 * self.Scale )
+		local yAdjust = (l * 32)
 
-		draw.DrawText( title, "GTowerNPC", 2, 2, Color( 0, 0, 0, 225 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-		draw.DrawText( title, "GTowerNPC", 0, 0, title == "VIP Store" && colorutil.Rainbow( 24 ) || Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		draw.DrawText( title, "GTowerNPC", 2, 2 - yAdjust, Color( 0, 0, 0, 225 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		draw.DrawText( title, "GTowerNPC", 0, 0 - yAdjust, title == "VIP Store" && colorutil.Rainbow( 24 ) || Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		
 		if self.Description then
 			local offset = ( string.find( title, "g" ) ) && 18 || 0
 
-			draw.DrawText( self.Description, "GTowerNPC2", 2, 140 + 2 + 8 * (1 - l) + offset, Color( 0, 0, 0, 225 * l ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-			draw.DrawText( self.Description, "GTowerNPC2", 0, 140 + 8 * (1 - l) + offset, Color( 255, 255, 255, 255 * l ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.DrawText( self.Description, "GTowerNPC2", 2, 128 + 2 + 8 * (1 - l) + offset, Color( 0, 0, 0, 225 * l ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.DrawText( self.Description, "GTowerNPC2", 0, 128 + 8 * (1 - l) + offset, Color( 255, 255, 255, 255 * l ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		end
 
 		if self:HasNewItems() then
