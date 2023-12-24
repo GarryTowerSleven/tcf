@@ -15,6 +15,8 @@ function ENT:Initialize()
 
 	self:DrawShadow( true )
 
+	self.LastThink = 0
+
 	if IsValid(self:GetOwner()) then
 		self:SetParent(self:GetOwner())
 	end
@@ -43,6 +45,13 @@ function ENT:Think()
 	if !IsValid( owner ) then
 		if IsValid(self) then self:Remove() end
 		return
+	end
+
+	if self.LastThink < CurTime() then
+	
+		self:UpdatePetName()
+		self.LastThink = CurTime() + 0.1
+	
 	end
 
 	if ( SERVER ) then -- Only set this stuff on the server

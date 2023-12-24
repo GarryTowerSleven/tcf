@@ -16,6 +16,7 @@ function ENT:Initialize()
 	self:SetAngles(self:GetAngles() + Angle(90,0,0))
 	self:DrawShadow(false)
 
+	self.LastThink = 0
 
 	if IsValid( owner ) then
 		local BoneIndx = owner:LookupBone("ValveBiped.Bip01_Head1")
@@ -24,6 +25,24 @@ function ENT:Initialize()
 		local ang = owner:GetAngles()
 		self:SetPos(pos + owner:GetRight() * 35 + owner:GetForward() * 30 )
 		self:SetAngles(Angle(90,ang.y,ang.r))
+	end
+
+end
+
+function ENT:UpdatePetName()
+	local ply = self:GetOwner()
+	if IsValid( ply ) then
+		self:SetPetName( string.sub(ply:GetInfo("gmt_petname_rndr"),1,15) )
+	end
+end
+
+function ENT:Think()
+
+	if self.LastThink < CurTime() then
+
+		self:UpdatePetName()
+		self.LastThink = CurTime() + 0.1
+
 	end
 
 end

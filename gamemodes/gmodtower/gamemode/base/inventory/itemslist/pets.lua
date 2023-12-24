@@ -554,13 +554,33 @@ GTowerItems.RegisterItem( "ReinPet", {
 	RemoveOnDeath = true,
 	RemoveOnNoEntsLoc = true,
 
+	ExtraMenuItems = function ( item, menu )
+		
+		table.insert( menu, {
+			[ "Name" ] = "Give Name",
+			[ "function" ] = function()
+			
+				local curText = LocalPlayer():GetInfo( "gmt_petname_rndr" ) or ""
+				
+				Derma_StringRequest(
+					"Pet Name",
+					"Please enter the name of your cute pet!",
+					curText,
+					function ( text ) RunConsoleCommand( "gmt_petname_rndr", text ) end
+				)
+				
+			end
+		} )
+		
+	end,
+
 	CreateEquipEntity = function( self )
 
 		local pet = ents.Create( "gmt_pet_reindeer" )
 
 		if IsValid( pet ) then
 			pet:SetOwner( self.Ply )
-			pet:SetParent( self.Ply )
+			pet:SetParent( self.Ply, self.Ply:LookupAttachment( "eyes" ) )
 			pet:Spawn()
 		end
 
