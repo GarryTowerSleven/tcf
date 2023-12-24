@@ -80,7 +80,7 @@ function SWEP:PrimaryAttack()
 
 	if !IsFirstTimePredicted() then return end
 
-	local snow = true or self.Snow
+	local snow = self.Snow
 
 	local sfx = EffectData()
 		sfx:SetOrigin( self.Owner:EyePos() )
