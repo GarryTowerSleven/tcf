@@ -162,6 +162,8 @@ hook.Add( "UpdateAnimation", "PlayerTurn", function( ply, vel )
 			ply.TurnAng.y = math.ApproachAngle( ply.TurnAng.y, ang.y, FrameTime() * ( 8 + ( moving && 24 || diff - 45 ) * 24 ) )
 		end
 
+		if ply:GetNWBool("dancing") then return end
+
 		ply:SetRenderAngles( ply.TurnAng )
 
 end )
