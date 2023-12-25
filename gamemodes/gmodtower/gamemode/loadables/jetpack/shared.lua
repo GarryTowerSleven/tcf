@@ -105,7 +105,10 @@ end
 local function JetpackMove( ply, mv, state, firstPredicted )
 
 	if !IsValid(ply) then return end
-	if Location.IsEquippablesNotAllowed( ply:Location() ) then return end
+	if Location.IsEquippablesNotAllowed( ply:Location() ) then
+		JetpackEnd(ply)
+		return
+	end
 
 	if ply:GetMoveType() == MOVETYPE_NONE then
 		mv:SetVelocity(NoVector)
