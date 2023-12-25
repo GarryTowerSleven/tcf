@@ -1803,8 +1803,19 @@ RegisterItem("toiletchair",{
 	Model = "models/props_c17/furnituretoilet001a.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
-	StoreId = GTowerStore.SUITE,
+	StoreId = GTowerStore.BATHROOM,
 	StorePrice = 500,
+	UseSound = "use_toilet.wav",
+})
+
+RegisterItem("usedtoiletchair",{
+	Name = "Used Toilet",
+	Description = "Wait, what?",
+	Model = "models/de_militia/toilet.mdl",
+	UniqueInventory = false,
+	DrawModel = true,
+	StoreId = GTowerStore.BATHROOM,
+	StorePrice = 250,
 	UseSound = "use_toilet.wav",
 })
 

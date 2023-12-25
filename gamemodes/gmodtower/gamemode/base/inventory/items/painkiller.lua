@@ -8,7 +8,7 @@ ITEM.DrawModel = true
 ITEM.CanUse = true
 
 ITEM.StoreId = 8
-ITEM.StorePrice = 15
+ITEM.StorePrice = GTowerStore.BATHROOM
 
 if SERVER then
 	function ITEM:OnUse()
