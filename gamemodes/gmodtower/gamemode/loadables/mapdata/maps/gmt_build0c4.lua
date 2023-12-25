@@ -134,6 +134,10 @@ local function MapAdds()
         
     end
 
+    -- skibidi
+    ents.GetMapCreatedEntity( 3477 ):Remove()
+    AddEntity( "gmt_npc_bathroom", Vector( 2708, 3383, 16 ), angle_zero )
+
 end
 
 hook.Add( "InitPostEntity", "MapDataAdd", function()
