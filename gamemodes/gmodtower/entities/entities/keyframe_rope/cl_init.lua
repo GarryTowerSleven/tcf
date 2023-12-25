@@ -76,6 +76,8 @@ function ENT:DrawTranslucent()
         render.SetMaterial(mat)
         render.EndBeam()
 
+        local eyepos = EyePos()
+
         for _2, pos in ipairs(ropes[_]) do
             local endpos = ropes[_][_2 + 1]
 
@@ -92,15 +94,9 @@ function ENT:DrawTranslucent()
 
                     local s = roof && 3 || self:GetRopeWidth()
                     local pos = pos_cache[seed]
-                    local dist = pos:DistToSqr( EyePos() )
+                    local dist = pos:DistToSqr( eyepos )
 
                     if dist > 1098304 * ( roof && 4 || 2 ) then continue end
-
-                    local ang = pos - EyePos()
-                    local dot = EyeVector():Dot(ang) / ang:Length()
-
-                    if dot <= 0 then continue end
-                    // render.DrawSprite(pos, 24, 24, color_white)
 
                     if !roof && dist < 400080 then
                         if !rot_cache[seed] then
@@ -108,7 +104,7 @@ function ENT:DrawTranslucent()
                         end
 
                         local rot = rot_cache[seed]
-                        local ang = pos - EyePos()
+                        local ang = pos - eyepos
                         ang = ang:Angle()
                         ang.p = 0
                         ang.r = 0
