@@ -1811,7 +1811,7 @@ RegisterItem("toiletchair",{
 RegisterItem("usedtoiletchair",{
 	Name = "Used Toilet",
 	Description = "Wait, what?",
-	Model = "models/cs_militia/toilet.mdl",
+	Model = "models/props/cs_militia/toilet.mdl",
 	UniqueInventory = false,
 	DrawModel = true,
 	StoreId = GTowerStore.BATHROOM,
