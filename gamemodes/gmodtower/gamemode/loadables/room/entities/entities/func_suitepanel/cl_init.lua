@@ -86,47 +86,37 @@ function ENT:Draw()
 
 	cam.End3D2D()
 
-	self.RenderTime = CurTime() + 0.1
-	
-end
+	if self:DrawOverDoor() then
 
-hook.Add( "PostDrawTranslucentRenderables", "Door", function( _, sky )
-
-	if sky then return end
-
-	for _, e in ipairs( ents.FindByClass("func_suitepanel") ) do
+		local pos = self:GetPos() + ( self:GetRight() * 0.1 )
+		local ang = self:GetAngles()
+		local rot = Vector( -180, 0, -90 )
+		ang:RotateAroundAxis( ang:Right(), rot.x )
+		ang:RotateAroundAxis( ang:Up(), rot.y )
+		ang:RotateAroundAxis( ang:Forward(), rot.z )
 		
-		if e:DrawOverDoor() then
+		// Start the fun
+		cam.Start3D2D( pos, ang, .5 )
 
-			local pos = e:GetPos() + ( e:GetRight() * 0.1 )
-			local ang = e:GetAngles()
-			local rot = Vector( -180, 0, -90 )
-			ang:RotateAroundAxis( ang:Right(), rot.x )
-			ang:RotateAroundAxis( ang:Up(), rot.y )
-			ang:RotateAroundAxis( ang:Forward(), rot.z )
-			
-			// Start the fun
-			cam.Start3D2D( pos, ang, .5 )
+		self:DrawRoomID()
+
+		cam.End3D2D()
+
+
+		pos = pos + ( self:GetRight() * -2 )
 	
-				e:DrawRoomID()
-	
-			cam.End3D2D()
-	
-	
-			pos = pos + ( e:GetRight() * -2 )
-		
-			// Start the fun
-			cam.Start3D2D( pos, ang, .25 )
-	
-				e:DrawMessage()
-	
-			cam.End3D2D()
-	
-		end
+		// Start the fun
+		cam.Start3D2D( pos, ang, .25 )
+
+		self:DrawMessage()
+
+		cam.End3D2D()
 
 	end
 
-end )
+	self.RenderTime = CurTime() + 0.1
+	
+end
 
 function ENT:DrawOverDoor()
 
