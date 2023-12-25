@@ -24,7 +24,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.WALKTOOLONG, {
 GTowerAchievements:Add( ACHIEVEMENTS.ZOMBIERP, {
 	Name = "Zombie RP", 
 	Description = "Roleplay as a zombie.",
-	GMC = 100,	
+	GMC = 250,	
 	Value = 1
 })
 
@@ -346,6 +346,27 @@ GTowerAchievements:Add( ACHIEVEMENTS.SUITEDESIGNER, {
 	Value = 1,
 	GMC = 1000,
 	Group = 3
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.SECRETPHRASE, {
+	Name = "Secret Phrase", 
+	Description = "Send a message in chat with the current secret phrase.",
+	GMC = 500,	
+	Value = 1
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.CHATTERBOX, {
+	Name = "Chatterbox",
+	Description = "Send 10000 messages in chat.",
+	GMC = 1500,
+	Value = 10000
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.TONGUETWISTED, {
+	Name = "Life of the Party", 
+	Description = "Send 1000 messages while drunk.",
+	GMC = 1000,
+	Value = 1000
 })
 
 // LOGIC OF ACHIEVEMENTS---------------------

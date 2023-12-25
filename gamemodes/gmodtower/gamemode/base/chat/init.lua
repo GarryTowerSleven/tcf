@@ -190,16 +190,16 @@ local random_words = {
 	"troll","2012","tony stark","robert downey jr","multidimensional","quantum space", "frank sinatra", "helpmepleasegod",
 	"daytona","lumpin","ron paul","beesechurger","kony 2012","goon","wambam","donate","friday",
 	
-	"tim sweeney",
+	"tim sweeney","orlok","miku clock",
 }
 
 function GTowerChat.DrunkSay( text, bal )
 
 	local bal = bal or 20
 
-	if ( bal <= 5 ) then
+	/*if ( bal <= 5 ) then
 		return text
-	end
+	end*/
 
 	// blow up our chat into words.
 	local words = string.Explode( " ", text );
@@ -356,13 +356,24 @@ function meta:Chat( text, type, hidden )
 	// Give to console
 	LogPrint( Format( "%s (%s): %s", self:GetName(), type, text ), nil, "Chat" )
 
+	// Secret Phase.. I'll start the chain soon
+	// Let's change this every so often?
+	if text == "obama in the hills" then
+		self:SetAchievement( ACHIEVEMENTS.SECRETPHRASE, 1 )
+	end
+
 	if ( not self:GetSetting( "GTIgnoreChatFilters" ) ) then
 		// Swear Filter
 		text = GTowerChat.FilterText( text )
 	
 		// Drunk
 		if Loadables.IsLoaded( "drunk" ) then
-			text = GTowerChat.DrunkSay( text, self:GetNet( "BAL" ) or 0 )
+			local bal = self:GetNet( "BAL" ) or 0
+			if bal >= 6 then
+				text = GTowerChat.DrunkSay( text, bal )
+				//Someone get this guy a therapist
+				self:AddAchievement( ACHIEVEMENTS.TONGUETWISTED, 1 )
+			end
 		end
 	
 		// Hat Text
@@ -385,6 +396,8 @@ function meta:Chat( text, type, hidden )
 		end
 	end
 
+	//Add 1 to their chat message count
+	self:AddAchievement( ACHIEVEMENTS.CHATTERBOX, 1 )
 
 	net.Start( "ChatPly" )
 		net.WriteInt( typeid, GTowerChat.TypeBits )
