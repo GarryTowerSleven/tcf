@@ -31,7 +31,11 @@ function ENT:Think()
 		self:SetRenderMode( RENDERMODE_NORMAL )
 	end
 
-	self:SetMaterial( ply:GetMaterial() )
+	if engine.ActiveGamemode() != "ultimatechimerahunt" then
+		
+		self:SetMaterial( ply:GetMaterial() )
+
+	end
 
 	if self.PlayerEquipIndex == 0 then
 		self:AddToEquipment()
