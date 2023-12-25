@@ -66,7 +66,7 @@ if CLIENT then
 
 		if ConVarDLights:GetInt() < 1 then return end
 
-		local dlight = DynamicLight( ent:EntIndex() .. "camera" )
+		local dlight = DynamicLight( ent:EntIndex() )
 
 		if dlight then
 			dlight.Pos = ent:GetPos()
