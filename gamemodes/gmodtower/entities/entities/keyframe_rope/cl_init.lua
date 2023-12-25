@@ -8,13 +8,34 @@ local light = {
 local pos_cache = {}
 local ropes = {}
 
+function ENT:Think()
+
+    if self.Setup then return end
+
+    self.Setup = true
+
+    local startpos, endpos = self:GetRopeStart(), self:GetRopeEnd()
+
+    local min = startpos
+    local max = endpos - Vector( 0, 0, self:GetRopeLength() / 2 )
+
+    local highz = startpos.z < endpos.z && endpos.z || startpos.z
+
+    min.z = highz
+
+    self:SetRenderBoundsWS( min, max )
+
+end
+
 function ENT:Draw()
+    self.RenderTime = SysTime() + 0.1
 end
 
 hook.Add("PostDrawTranslucentRenderables", "Rope", function(_, sky)
     if sky then return end
 
     for _, rope in ipairs(ents.FindByClass("keyframe_rope")) do
+        if !rope.RenderTime || rope.RenderTime < SysTime() then continue end
         if rope:GetPos():DistToSqr(EyePos()) > ( 2048 * 2048 ) then continue end
 
         local mat = rope:GetRopeMaterial()
