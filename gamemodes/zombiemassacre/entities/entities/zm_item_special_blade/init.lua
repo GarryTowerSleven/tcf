@@ -12,16 +12,19 @@ function ENT:Initialize()
 	self.bladenoise:Play()
 
 	timer.Simple( self.RemoveDelay, function()
+		if IsValid( self ) then
 
-		local vPoint = self:GetPos()
-		local effectdata = EffectData()
-		effectdata:SetOrigin( vPoint )
-		util.Effect( "explosion", effectdata )
+			local vPoint = self:GetPos()
+			local effectdata = EffectData()
+			effectdata:SetOrigin( vPoint )
+			util.Effect( "explosion", effectdata )
 
-		self:EmitSound("gmodtower/zom/weapons/explode"..math.random(3,5)..".wav",80)
+			self:EmitSound("gmodtower/zom/weapons/explode"..math.random(3,5)..".wav",80)
 
-		self.bladenoise:Stop()
-		self:Remove()
+			self.bladenoise:Stop()
+			self:Remove()
+			
+		end
 	end )
 
 	self.Blade = ents.Create( "prop_dynamic" )
