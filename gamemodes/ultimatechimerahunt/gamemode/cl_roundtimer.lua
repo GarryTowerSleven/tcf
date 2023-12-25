@@ -27,7 +27,7 @@ function GM:DrawTimerTicks()
 		local fade = t - CurTime()
 		
 		local alpha = math.Clamp( fade, 0, 255 )
-		self:DrawNiceText( "+" .. tostring( num ), "UCH_TargetIDName", ( ( sw * .58 ) - ( fade * ( sw * .1 ) ) ), 0, Color( 255, 255, 255, alpha * 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 1, alpha * 150 )
+		self:DrawNiceText( "+" .. tostring( num ), "UCH_TargetIDName", ( ( sw * .5 ) - ( fade * ( sw * .1 ) ) ), 0, Color( 255, 255, 255, alpha * 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 1, alpha * 150 )
 
 		if CurTime() >= t then
 			table.remove( timerticks, k )
@@ -198,4 +198,6 @@ function GM:DrawRoundTime()
 	surface.SetTexture(ranks[ply:GetNet("IsChimera") && RANK_ENSIGN || ply:GetNet("Rank")][1])
 	surface.SetDrawColor(color_white)
 	surface.DrawTexturedRect(x + w / 2 - tw / 2 - size / 2 - w * 0.05, y + h * 0.275, size, size)
+
+	self:DrawTimerTicks()
 end
