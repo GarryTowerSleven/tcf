@@ -9,7 +9,6 @@ local pos_cache = {}
 local ropes = {}
 
 function ENT:Think()
-
     if self.Setup then return end
 
     self.Setup = true
@@ -17,7 +16,7 @@ function ENT:Think()
     local startpos, endpos = self:GetRopeStart(), self:GetRopeEnd()
 
     local min = startpos
-    local max = endpos - Vector( 0, 0, self:GetRopeLength() / 2 )
+    local max = endpos - Vector( 0, 0, self:GetRopeLength() / 1.75 )
 
     local highz = startpos.z < endpos.z && endpos.z || startpos.z
 
