@@ -7,6 +7,7 @@ do
 		"suitetv",
 		"jukebox",
 		-- "club"
+		"suitepanel"
 	}
 
 	for _, player in ipairs(players) do
@@ -60,5 +61,32 @@ end
 hook.Add("InitMediaPlayer", "GMT.InitMediaPlayer", GMTInitMediaPlayer)
 
 hook.Add( "MediaPlayerIsPlayerPrivileged", "GMTMediaPrivileged", function( mp, ply )
-	return ply.IsStaff and ply:IsStaff() or false
+
+	if ply:IsStaff() then
+
+		return true
+
+	end
+
+	// check if in suite
+	local roomid = Location.GetSuiteID( mp:GetLocation() )
+
+	if ( roomid < 1 ) then return false end
+
+	local room = CLIENT && GTowerRooms:Get( roomid ) || GTowerRooms.Get( roomid )
+
+	if room && room.Owner == ply then
+
+		return true
+
+	end
+
 end )
+
+function MediaPlayer.GetVisualizer( loc )
+	for _, e in ipairs(Location.GetMediaPlayersInLocation(loc)) do
+		if string.StartsWith(e.Entity:GetClass(), "gmt_jukebox") then
+			return e
+		end
+	end
+end

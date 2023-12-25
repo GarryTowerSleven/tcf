@@ -3,6 +3,8 @@ module( "UCHAnim", package.seeall )
 TYPE_PIG = 1
 TYPE_GHOST = 2
 
+CreateClientConVar( "gmt_uch_skin", "0", true, true )
+
 function SetupPlayer( ply, id )
 
 	if not ply:Alive() then return end
@@ -17,9 +19,11 @@ function SetupPlayer( ply, id )
 		ply:SetModel( pigmodel )
 		ply.UCHType = TYPE_PIG
 
-		ply:SetBodygroup( 2, 1 )
-		ply:SetBodygroup( 1, 0 )
-		ply:SetSkin( 3 )
+		local skin = ply:GetInfoNum( "gmt_uch_skin", 0 )
+
+		ply:SetBodygroup( 2, skin == 3 && 1 || 0 )
+		ply:SetBodygroup( 1, skin == 3 && 0 || skin )
+		ply:SetSkin( skin )
 
 	end
 
@@ -61,7 +65,7 @@ if SERVER then
 			if ply:GetModelScale() != 1 then
 				ply:SetBodygroup( 2, 0 )
 			else
-				ply:SetBodygroup( 2, 1 )
+				ply:SetBodygroup( 2, ply:GetSkin() == 3 && 1 || 0 )
 			end
 		end
 

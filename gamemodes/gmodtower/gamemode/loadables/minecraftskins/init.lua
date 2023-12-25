@@ -35,3 +35,7 @@ end )
 hook.Add( "Location", "SkinRefresh", function(ply)
 	MinecraftSkinUpdate(ply, ply:GetInfo("cl_minecraftskin"))
 end )
+
+hook.Add( "PlayerSpawn", "SkinRefresh", function(ply)
+	MinecraftSkinUpdate(ply, ply:GetInfo("cl_minecraftskin"))
+end )

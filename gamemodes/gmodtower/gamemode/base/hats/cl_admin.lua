@@ -593,6 +593,13 @@ function PANEL:GetHeadPos()
 		pos, ang = self.Entity:GetBonePosition(head)
 	end
 
+	if self.Entity:GetModel() == "models/uch/uchimeragm.mdl" then
+
+		self.Entity:SetBodygroup(1, 1)
+		pos, ang = self.Entity:GetBonePosition(36)
+
+	end
+
 	return pos, ang
 
 end

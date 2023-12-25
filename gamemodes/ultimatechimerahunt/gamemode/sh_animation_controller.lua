@@ -105,7 +105,7 @@ function GM:UpdateAnimation( ply, velocity, maxseqgroundspeed )
 		
 	else
 
-		ply:SetLocalAngles( Angle( 0, eye.y, 0 ) )
+		// ply:SetLocalAngles( Angle( 0, eye.y, 0 ) )
 
 		/*if CLIENT then
 			ply:SetRenderAngles( Angle( 0, eye.y, 0 ) )

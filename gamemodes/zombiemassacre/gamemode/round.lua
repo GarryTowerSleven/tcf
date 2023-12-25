@@ -369,7 +369,7 @@ function GM:EndDay()
 
 		for _, equip in ipairs( ents.FindByClass( "zm_item_*" ) ) do
 			local effectdata = EffectData()
-			effectdata:SetOrigin( zom:GetPos() )
+			effectdata:SetOrigin( equip:GetPos() )
 			util.Effect( "explosion", effectdata )
 
 			equip:Remove()

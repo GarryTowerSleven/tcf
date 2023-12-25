@@ -50,6 +50,20 @@ function SQLLog( source, ... )
 			local query = "INSERT INTO `gm_log_error` " .. Database.CreateInsertQuery( data ) .. ";"	
 			Database.Query( query, SQLLogResult )
 	
+		elseif source == 'money' then
+
+			local args = { ... }
+			local msg = args[1]:SteamID64() .. " got " .. args[2] .. "GMC from \"" .. args[3] .. "\" at " .. os.time() .. " and now has " .. args[1]:Money() .. "GMC"
+
+			local data = {
+				type = Database.Escape( tostring(source), true ),
+				message = Database.Escape( msg, true ),
+				srvid = "'" .. GTowerServers:GetServerId() .. "'",
+			}
+	
+			local query = "INSERT INTO `gm_log` " .. Database.CreateInsertQuery( data ) .. ";"	
+			Database.Query( query, SQLLogResult )
+
 		else
 	
 			local data = {

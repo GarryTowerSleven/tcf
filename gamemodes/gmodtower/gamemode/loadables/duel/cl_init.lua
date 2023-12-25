@@ -166,48 +166,6 @@ function DrawHealthBar( ply )
 	surface.DrawTexturedRect( x2, y2, w2, h2 )
 end
 
-function DrawHealth( ply )
-	if !ply:Alive() then return end
-
-	local pos = ply:GetPos()
-	local ang = LocalPlayer():EyeAngles()
-
-	ang:RotateAroundAxis( ang:Forward(), 90 )
-	ang:RotateAroundAxis( ang:Right(), -90 )
-
-	pos = pos + Vector( 0, 0, 60 )
-
-	local health = ply:Health()
-	local maxHealth = 300
-
-	local percHealth = math.Clamp( ( health / maxHealth ) * 100, 0, 100 )
-	local colorPerc = math.Clamp( ( health / maxHealth ) * 255, 0, 255 )
-
-	local colorScale = Color( 255 - ( colorPerc * ( health / maxHealth ) ), colorPerc, 0, 255 )
-
-	cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.25 )
-
-		draw.RoundedBox( 1,
-			49, -1,
-			26, 101,
-			Color( 50, 50, 50, 150 )
-		)
-
-		draw.RoundedBox( 1,
-			50, 100 - percHealth,
-			25, percHealth,
-			colorScale
-		)
-	cam.End3D2D()
-end
-
-hook.Add( "PostDrawOpaqueRenderables", "DuelHealthBar", function()
-	if LocalPlayer().DuelOpponent then
-		--DrawHealthBar( LocalPlayer().DuelOpponent )
-		DrawHealth( LocalPlayer().DuelOpponent )
-	end
-end )
-
 hook.Add( "HUDPaint", "HUDPaintDueling", function()
 	DrawHUDTimer()
 
@@ -223,6 +181,21 @@ hook.Add( "HUDPaint", "HUDPaintDueling", function()
 			draw.SimpleText( DuelWinText, "DuelExtraLarge", tx, ty, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 
 	end
+end )
+
+hook.Add( "PreDrawHalos", "DuelHalo", function()
+
+	if LocalPlayer().DuelOpponent then
+
+		local l = LocalPlayer().DuelOpponent:Health() / 300 // LocalPlayer().DuelOpponent:GetMaxHealth()
+		local c = Color( 255, 255, 255 )
+		c.r = 255 * ( 1 - l )
+		c.g = 255 * l
+		c.b = 0
+		halo.Add( {LocalPlayer().DuelOpponent}, c, 1, 1, 2, true, false )
+
+	end
+
 end )
 
 hook.Add( "Think", "DuelMusicThink", function()

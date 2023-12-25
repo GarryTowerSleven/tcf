@@ -368,16 +368,16 @@ local function ClearDuel( ply, disconnect )
 
 		if Amount > 0 then
 			if OpponentMoney <= Amount then
-				ply:AddMoney( OpponentMoney )
+				ply:AddMoney( OpponentMoney, nil, nil, nil, "DuelWin" )
 				if !ByDisconnect then
-					Opponent:AddMoney( -OpponentMoney )
+					Opponent:AddMoney( -OpponentMoney, nil, nil, nil, "DuelLose" )
 				end
 			else
-				ply:AddMoney( ply:GetNWInt( "DuelAmount" ) )
+				ply:AddMoney( ply:GetNWInt( "DuelAmount" ), nil, nil, nil, "DuelWin2" )
 			end
 
 			if !ByDisconnect then
-				Opponent:AddMoney( -Opponent:GetNWInt( "DuelAmount" ) )
+				Opponent:AddMoney( -Opponent:GetNWInt( "DuelAmount" ), nil, nil, nil, "DuelLose2" )
 			end
 		end
 	end

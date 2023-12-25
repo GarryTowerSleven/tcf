@@ -31,7 +31,11 @@ function ENT:Think()
 		self:SetRenderMode( RENDERMODE_NORMAL )
 	end
 
-	self:SetMaterial( ply:GetMaterial() )
+	if engine.ActiveGamemode() != "ultimatechimerahunt" then
+		
+		self:SetMaterial( ply:GetMaterial() )
+
+	end
 
 	if self.PlayerEquipIndex == 0 then
 		self:AddToEquipment()
@@ -204,7 +208,7 @@ function ENT:ShouldDraw( ply, dist )
 
 	if ply == LocalPlayer() then
 
-		if GAMEMODE.DrawHatsAlways || (GAMEMODE.ShouldDrawLocalPlayer && GAMEMODE:ShouldDrawLocalPlayer( ply )) || hook.Call( "ShouldDrawLocalPlayer", GAMEMODE, ply ) then
+		if GAMEMODE.DrawHatsAlways || (GAMEMODE.ShouldDrawLocalPlayer && GAMEMODE:ShouldDrawLocalPlayer( ply )) || hook.Call( "ShouldDrawLocalPlayer", GAMEMODE, ply ) || ply:ShouldDrawLocalPlayer() then
 			return true
 		end
 

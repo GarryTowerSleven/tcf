@@ -7,18 +7,6 @@ end)
 // no anti-tranquility on gamemodes
 hook.Add( "AntiTranqEnable", "GamemodeAntiTranq", function() return false end )
 
-function GM:PlayerSwitchFlashlight( ply, on ) 
-
-	if ply:Team() == TEAM_PIGS then
-		return
-	end
-	
-	if on == true then
-		return false
-	end
-
-end
-
 function GM:CanNoClip( ply )
 	return false
 end

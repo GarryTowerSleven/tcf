@@ -104,7 +104,7 @@ local function BalloonPopped( ent, dmg )
 		if IsValid(ply) then
 			local distance = ent:GetPos().z - ply:GetPos().z
 			if distance < 300 then distance = 300 end
-			dmg:GetAttacker():AddMoney( math.Round(distance / 300) )
+			dmg:GetAttacker():AddMoney( math.Round(distance / 300), nil, nil, nil, "EventBalloonPop" )
 			magni = math.Round(distance / 300)
 			TotalMoney = TotalMoney + math.Round(distance / 300)
 

@@ -28,6 +28,25 @@ end*/
 
 hook.Add( "Think", "SaturnThink", function()
 
+	local alive = #team.GetPlayers( TEAM_PIGS )
+	local amount = player.GetCount() - 1
+
+	if GAMEMODE:IsPlaying() && !GAMEMODE.SpawnedSaturn then
+
+		if amount <= 3 || alive <= amount / 2 then
+
+			GAMEMODE:NewSaturn()
+			GAMEMODE.SpawnedSaturn = true
+
+		elseif GAMEMODE:GetTimeLeft() <= 30 then
+
+			GAMEMODE:SpawnSaturn()
+			GAMEMODE.SpawnedSaturn = true
+
+		end
+
+	end
+
 	if GAMEMODE.SaturnSpawn then
 
 		if !GAMEMODE:IsPlaying() then
@@ -81,7 +100,10 @@ function GM:SpawnSaturn()  //actually spawn him
 	end
 
 	local radius = 50
-	local pos = spawn:GetPos() + Vector( math.random( -radius, radius ), math.random( -radius, radius ), 5 )
+
+	local area = table.Random(navmesh.GetAllNavAreas())
+
+	local pos = area and area:GetRandomPoint() || spawn:GetPos() + Vector( math.random( -radius, radius ), math.random( -radius, radius ), 5 )
 	
 	local saturn = ents.Create( "mr_saturn" )
 	if IsValid( saturn ) then

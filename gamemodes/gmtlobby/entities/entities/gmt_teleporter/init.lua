@@ -40,6 +40,7 @@ function ENT:Initialize()
 end
 
 local NextTeleportTime = {}
+util.AddNetworkString( "Teleport" )
 
 concommand.Add("gmt_cteleporter", function( ply, cmd, args )
 
@@ -69,7 +70,29 @@ concommand.Add("gmt_cteleporter", function( ply, cmd, args )
 		return
 	end
 
+	net.Start( "Teleport" )
+	net.WriteVector( ply:EyePos() )
+	net.WriteAngle( ply:EyeAngles() )
+	net.Send( ply )
+
 	Location.TeleportPlayer( ply, ent, target )
+
+	ent:EmitSound( "ambient/machines/teleport4.wav", 65, 100 )
+
+	timer.Simple(0.1, function()
+	
+		for _, e in ipairs( ents.FindByClass("gmt_teleporter") ) do
+		
+			if e:GetPos():Distance( ply:GetPos() ) < 24 then
+	
+				e:EmitSound( "ambient/machines/teleport" .. table.Random({1, 4}) .. ".wav", 65, 100 )
+	
+			end
+	
+		end
+	
+	end)
+
 	NextTeleportTime[ index ] = CurTime() + 1.0
 
 end )

@@ -165,6 +165,8 @@ function APPEARANCE:UpdateModelPanel()
 end
 
 local matHover = Material( "vgui/spawnmenu/hover" )
+local grad = Material( "vgui/gradient_up" )
+local found = {}
 
 function APPEARANCE:GenerateModelSelection()
 
@@ -211,6 +213,16 @@ function APPEARANCE:GenerateModelSelection()
 		if skin and skin > 0 then path = path .. "_skin" .. skin end -- Skin support
 		path = path .. ".png"
 
+		if !found[path] then
+
+			found[path] = file.Find( path, "GAME" )[1] && 1 || 0
+
+		elseif found[path] == 0 then
+			
+			dvgui = "SpawnIcon"
+
+		end
+
 		local icon = vgui.Create( dvgui, self )
 
 		-- Old model icon
@@ -252,6 +264,15 @@ function APPEARANCE:GenerateModelSelection()
 
 		icon.OnCursorExited = function()
 			if GTowerItems then GTowerItems:HideTooltip() end
+		end
+
+		icon.Paint = function( self, w, h )
+
+			draw.RoundedBox( 0, 0, 0, w, h, Color( 80, 140, 180 ) )
+			surface.SetMaterial( grad )
+			surface.SetDrawColor( 0, 0, 0, 100 )
+			surface.DrawTexturedRect( 0, 0, w, h )
+
 		end
 
 		icon.PaintOver = function( self, w, h )
@@ -370,14 +391,14 @@ function APPEARANCE:GenerateColorSelection()
 	PlayerColor:SetWangs( false )
 	PlayerColor:SetSize( ModelSizeX - 10, 80 )
 	PlayerColor.NextConVarCheck = SysTime()
-	PlayerColor:SetVector( Vector( GetConVarString( "cl_playercolor" ) ) )
+	PlayerColor:SetVector( Vector( GetConVarString( "gmt_playercolor" ) ) )
 	PlayerColor.ValueChanged = function()
-		RunConsoleCommand( "cl_playercolor", tostring( PlayerColor:GetVector() ) )
+		RunConsoleCommand( "gmt_playercolor", tostring( PlayerColor:GetVector() ) )
 		RunConsoleCommand( "gmt_updateplayercolor" )
 	end
 
 	local function UpdateFromConvars()
-		PlayerColor:SetVector( Vector( GetConVarString( "cl_playercolor" ) ) )
+		PlayerColor:SetVector( Vector( GetConVarString( "gmt_playercolor" ) ) )
 	end
 
 	PlayerColor.OnActivePanelChanged = function() timer.Simple( 0.1, UpdateFromConvars ) end

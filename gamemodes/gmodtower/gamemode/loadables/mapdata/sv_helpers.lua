@@ -98,6 +98,9 @@ function AddEntity( class, pos, ang )
 	e:SetPos( pos )
 	e:SetAngles( ang or Angle(0,0,0) )
 	e:Spawn()
+
+	return e
+
 end
 
 function AddTheaterPreview( loc, ang, key, w, h )

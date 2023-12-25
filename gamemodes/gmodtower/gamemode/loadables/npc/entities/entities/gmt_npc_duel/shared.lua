@@ -5,3 +5,4 @@ ENT.AdminSpawnable	= true
 
 ENT.Model		= Model( "models/Humans/GMTsui1/male_04.mdl")
 ENT.StoreId 	= GTowerStore.DUEL
+ENT.Description = "Duel money over blood."

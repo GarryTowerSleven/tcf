@@ -42,17 +42,41 @@ hook.Add( "Think", "LogoThink", function()
 
 end )
 
-hook.Add( "ShouldHideHats", "ShouldHideHats", function( ply )
+local LastRain = 0
 
-	if ply:GetNet( "IsChimera" ) then
-		return true
+hook.Add( "Think", "Weather", function()
+
+	if game.GetMap() != "gmt_uch_downtown04" then return end
+
+	if LastRain < CurTime() then
+
+		local effect = EffectData()
+		effect:SetFlags( 1 )
+		util.Effect( "rain", effect )
+
+		LastRain = CurTime() + 0.04
+
 	end
+
+end)
+
+hook.Add( "ShouldHideHats", "ShouldHideHats", function( ply )
 
 	if ply:Team() == TEAM_GHOST && LocalPlayer():Team() != TEAM_GHOST then
 		return true
 	end
 
 end )
+
+hook.Add( "PositionHatOverride", "Hats", function( ent, data, pos, ang, scale, hat )
+
+	if IsValid( ent ) && ent.GetNet && ent:GetNet( "IsChimera" ) then
+
+		hat:SetMaterial()
+
+	end
+
+end)
 
 function GM:DrawLogo( x, y, size )
 	
@@ -210,7 +234,7 @@ end )
 
 hook.Add( "PreDrawHalos", "GhostHalo", function()
 
-	if LocalPlayer():IsGhost() then
+	if LocalPlayer():Team() == TEAM_GHOST || !GAMEMODE:IsPlaying() then
 	
 		if pigglowconvar:GetBool() then
 			for k, ply in pairs( player.GetAll() ) do
@@ -277,12 +301,12 @@ local function GetEyeAttach( ent, attachmentname )
 
 	if attach > 0 then
 		local attach = ent:GetAttachment(attach)
-		return attach.Pos
+		return attach
 	end
 
 end
 
-local function EmitFlames( ent, pos )
+local function EmitFlames( ent, pos, i )
 	
 	if not ent.Emitter then
 		ent.Emitter = ParticleEmitter( pos )
@@ -290,8 +314,8 @@ local function EmitFlames( ent, pos )
 
 	local flare = Vector( CosBetween( -1, 1, RealTime() * 10 ), SinBetween( -2, 2, RealTime() * 10 ), 0 )
 
-	local particle = ent.Emitter:Add( "particles/flamelet" .. math.random( 1 , 5 ), pos + ( VectorRand() * 3 ) )
-	particle:SetVelocity( Vector( 0, 0, 40 ) + flare )
+	local particle = ent.Emitter:Add( "effects/fire_embers" .. math.random( 1 , 2 ), pos + ( VectorRand() * 3 ) )
+	particle:SetVelocity( Vector( 0, 0, 40 ) + flare + ent:GetRight() * 16 * ( i == 2 and 1 or -1 ) )
 	particle:SetDieTime( math.Rand( .5, 1 ) )
 	particle:SetStartAlpha( math.random( 150, 255 ) )
 	particle:SetEndAlpha( 0 )
@@ -300,13 +324,28 @@ local function EmitFlames( ent, pos )
 	particle:SetColor( 255, 255, 255 )
 	particle:SetGravity( Vector( 0, 0, 50 ) )
 
+	local particle = ent.Emitter:Add( "uch/fire", pos + ( VectorRand() * 3 ) )
+	particle:SetVelocity( Vector( 0, 0, 40 ) + flare + ent:GetRight() * 16 * ( i == 2 and 1 or -1 ) )
+	particle:SetDieTime( math.Rand( .5, 1 ) )
+	particle:SetStartAlpha( math.random( 150, 255 ) )
+	particle:SetEndAlpha( 0 )
+	particle:SetStartSize( math.random( 1, 5 ) )
+	particle:SetEndSize( 0 )
+	particle:SetColor( 255, 255, 255 )
+	particle:SetGravity( Vector( 0, 0, 50 ) - ent:GetRight() * 24 * ( i == 2 and 1 or -1 ) )
+	particle:SetRoll( math.random(360) )
+	particle:SetAirResistance( 180 / 2 )
+
 end
 
-local SpriteMat = Material( "sprites/light_ignorez" )
+local SpriteMat = Material( "sprites/glow04_noz" )
+local GlowMat = Material( "sprites/light_ignorez" )
 hook.Add("PostDrawOpaqueRenderables", "UCAngry", function()
 
 	if GAMEMODE:IsLastPigmasks() then
+
 		local uch = GAMEMODE:GetUC()
+
 		if IsValid( uch ) && uch:Alive() then
 
 			local LEye = GetEyeAttach( uch, "L_eye" )
@@ -316,30 +355,25 @@ hook.Add("PostDrawOpaqueRenderables", "UCAngry", function()
 
 			-- Flames
 			if not uch.NextParticle or RealTime() > uch.NextParticle then
-				EmitFlames( uch, LEye )
-				EmitFlames( uch, REye )
+				EmitFlames( uch, LEye.Pos, 1 )
+				EmitFlames( uch, REye.Pos, 2 )
 				uch.NextParticle = RealTime() + 0.05
 			end
 			
 			-- Glow
-			local eyeang = EyeAngles()
-			eyeang:RotateAroundAxis(eyeang:Right(), -90)
-			eyeang:RotateAroundAxis(eyeang:Up(), -90)
-			if util.PixelVisible( LEye, 8, util.GetPixelVisibleHandle() ) then
-				cam.Start3D2D(LEye, eyeang, 3)
-					surface.SetMaterial(SpriteMat)
-					surface.SetDrawColor(255, 0, 0)
-					local size = 12
-					surface.DrawTexturedRect(-size / 2, -size / 4, size, size / 2)
-				cam.End3D2D()
-			end
-			if util.PixelVisible( REye, 8, util.GetPixelVisibleHandle() ) then
-				cam.Start3D2D(REye, eyeang, 3)
-					surface.SetMaterial(SpriteMat)
-					surface.SetDrawColor(255, 0, 0)
-					local size = 12
-					surface.DrawTexturedRect(-size / 2, -size / 4, size, size / 2)
-				cam.End3D2D()
+			for i2 = 1, 2 do
+
+				local att = i2 == 2 and REye || LEye
+				local ang = att.Ang
+
+				render.SetMaterial( SpriteMat )
+
+				for i = -1, 2 do
+
+					local flip = i2 == 1 and -1 or 1
+					render.DrawSprite( att.Pos + ang:Right() * 2 * i + ang:Forward() * 3 - ang:Forward() * ( 1 - ( i / 2 ) ) * ( i2 == 1 && 0 || 4 ), 24, 20 - ( ( i / 2 ) ) * 24, Color( 255, 0, 0 ) )
+				end
+
 			end
 
 		end
@@ -347,3 +381,252 @@ hook.Add("PostDrawOpaqueRenderables", "UCAngry", function()
 	end
 
 end)
+
+local flashlight = 0
+
+hook.Add("PreRender", "Flashlight", function()
+
+	for _, p in ipairs(player.GetAll()) do
+
+		if p != LocalPlayer() && p:GetNet("Flashlight") then
+
+			local light = DynamicLight(p:EntIndex(), true)
+
+			if light then
+
+				local att = p:GetAttachment( 2 )
+				light.pos = att && att.Pos || p:WorldSpaceCenter()
+				light.r = 255
+				light.g = 255
+				light.b = 200
+				light.brightness = 2
+				light.decay = 1000
+				light.size = 256
+				light.dietime = CurTime() + 1
+
+			end
+
+		end
+
+	end
+
+	local ply = LocalPlayer()
+
+	local on = ply:IsGhost() || ply:GetNet( "Flashlight" )
+
+	flashlight = math.Approach( flashlight, on and 1 or 0, FrameTime() * 8 )
+
+	if flashlight == 0 then
+
+		if IsValid( light ) then
+
+			light:Remove()
+
+		end
+	
+		return
+
+	end
+
+	if !IsValid( light ) then
+
+		light = ProjectedTexture()
+		light:SetEnableShadows(true )
+		light:SetTexture( "effects/flashlight/soft" )
+		light:SetFarZ( 1024)
+		light:SetColor( Color(255, 255, 200) )
+	
+	end
+
+	local att = ply:GetAttachment(3) or ply:GetAttachment(1)
+	att.Ang.p = 0
+
+	light:SetPos( ply:IsGhost() && ply:EyePos() || ply:ShouldDrawLocalPlayer() && att.Pos + att.Ang:Forward() * 2 || ply:EyePos() - ply:GetForward() * 4 + ply:GetRight() * 4 - ply:GetUp() * 2 )
+	light:SetAngles( ply:IsGhost() && ply:EyeAngles() || ply:ShouldDrawLocalPlayer() && att.Ang || ply:EyeAngles() )
+	light:SetFOV( ply:IsGhost() && ply:GetFOV() || 65 - 20 * ( 1 - flashlight ) + ( ply:ShouldDrawLocalPlayer() && 20 || 0 ) )
+	light:SetBrightness( ply:IsGhost() && 0.4 || flashlight * 2 )
+	light:Update()
+
+end)
+
+local duck = 0
+local feetang = Angle(0, 0, 0)
+local sat_cache = false
+local sat_build = 0
+
+hook.Add("PostDrawEffects", "Arms", function()
+
+	local ply = LocalPlayer()
+
+	if ply:Team() != TEAM_PIGS then
+
+		if IsValid( arms ) then
+
+			arms:Remove()
+
+		end
+
+		return
+
+	end
+
+	if !IsValid(arms) then
+
+		arms = ClientsideModel( ply:GetModel() )
+		arms:SetNoDraw( true )
+
+		arms:AddCallback( "BuildBonePositions", function()
+			
+			if IsValid( arms ) then
+
+				for i = 0, arms:GetBoneCount() - 1 do
+
+					local name = arms:GetBoneName(i)
+
+					if string.find( name, "Head" ) || string.find( name, "Snout" ) then
+
+						arms:ManipulateBoneScale(i, vector_origin)
+
+					end
+
+				end
+
+			end
+
+		end)
+
+	end
+
+	local sat = ply:GetNet( "HasSaturn" )
+
+	duck = math.Approach( duck, ply:Crouching() && 1 || 0, FrameTime() * 8 )
+	sat_build = math.Approach( sat_build, sat and 1 or 0, FrameTime() * 8 )
+
+	if ply:ShouldDrawLocalPlayer() || !ply:Alive() then return end
+
+	cam.Start3D(nil, nil, nil)
+
+		cam.IgnoreZ(false)
+
+			local pos, ang = EyePos(), EyeAngles()
+			local ang2 = Angle(0, ang.y, 0)
+			local moving = ply:GetVelocity():Length2D() > 1
+
+			local diff = math.abs( math.NormalizeAngle( feetang.y - ang2.y ) ) + ( moving && 25 || 0 )
+			if diff > ( 45 - sat_build * 45 ) || moving then
+				feetang.y = math.ApproachAngle( feetang.y, ang2.y, FrameTime() * ( 128 + ( diff - 45 ) * 16 + ( diff > 70 and 200 or 0 ) or moving and 512 ) )
+			end
+
+			local ang2 = feetang
+			local p = ply:GetPoseParameter( "move_yaw" )
+			local m1, m2 = ply:GetPoseParameterRange( 1 )
+
+			arms:SetSequence( ply:GetSequence() )
+			arms:SetCycle( ply:GetCycle() )
+			arms:SetPoseParameter( "move_yaw", math.Remap( p, 0, 1, m1, m2 ) + 20 * sat_build )
+
+			arms:SetPos( EyePos() - ply:GetCurrentViewOffset() - ang2:Forward() * ( 18 + duck * 8 ) + ang2:Up() * ( ( duck * ( 10 + 2 ) ) + ( ply:IsGhost() && 10 || 4 ) ) )// pos + ang:Forward() * 64 + ang:Up() * -12)
+			arms:SetAngles( ang2 - Angle( 0, sat_build * 20, 0 ) )
+
+			arms:SetModel( ply:GetModel() )
+			arms:SetSkin( ply:GetSkin() )
+			arms:SetBodygroup( 1, ply:GetBodygroup(1) )
+			arms:DrawModel()
+
+			if sat_cache != sat then
+
+				for i = 0, arms:GetBoneCount() - 1 do
+					local name = arms:GetBoneName(i)
+			
+					if string.find( name, "R_" ) || string.find( name, "Rarm" ) then
+						arms:ManipulateBoneScale( i, !sat and Vector( 1, 1, 1 ) || Vector( math.huge, math.huge, math.huge ))
+					end
+				end
+
+				sat_cache = sat
+
+			end
+
+		cam.IgnoreZ(false)
+
+	cam.End3D()
+
+end)
+
+local mats = {}
+
+lightwarp = {}
+
+function lightwarp.SetupMaterial( mat )
+	
+	if !mats[mat] then
+
+		mats[mat] = Material( mat )
+
+	end
+
+	local material = mats[mat]
+
+	material:SetTexture( "$lightwarptexture", "models/uch/warp" )
+	material:SetTexture( "$bumpmap", "models/uch/flat2" )
+	material:SetFloat( "$phong", 1 )
+	material:SetFloat( "$phongexponent", 20 )
+	material:SetFloat( "$phongboost", 0.3 )
+	material:SetVector( "$phongfresnelranges", Vector( 0.3, 1, 8 ) )
+	material:SetFloat( "$rimlight", 1 )
+	material:SetFloat( "$rimlightexponent", 4 )
+	material:SetFloat( "$rimlightboost", 2 )
+	material:SetFloat( "$halflambert", 1 )
+
+end
+
+function lightwarp.Set( arg )
+
+	local type = type( arg )
+
+	if type == "Entity" || type == "Player" || type == "CSEnt" then
+		
+		for _, mat in ipairs( arg:GetMaterials() ) do
+			
+			lightwarp.SetupMaterial( mat )
+
+		end
+
+	elseif type == "string" then
+
+		lightwarp.SetupMaterial( arg )
+		
+	else
+
+		ErrorNoHalt( "Attempted to call lightwarp.Set on invalid type! (" .. type .. ")")
+
+	end
+
+end
+
+hook.Add( "Think", "Lightwarp", function()
+
+	for _, ply in ipairs( player.GetAll() ) do
+		
+		local model = ply:GetModel()
+
+		if ply.Model != model then
+			
+			lightwarp.Set( ply )
+			ply.Model = model
+
+		end
+
+	end
+
+	if !SETUPSATURN then
+		
+		local ent = ClientsideModel("models/uch/saturn.mdl")
+		lightwarp.Set(ent)
+		ent:Remove()
+
+		SETUPSATURN = true
+
+	end
+
+end )

@@ -187,3 +187,27 @@ function RestartAnimation( ply )
 	umsg.End()
 	
 end
+
+hook.Add( "UpdateAnimation", "PlayerTurn", function()
+
+	for _, ply in ipairs( player.GetAll() ) do
+
+		if ply:GetNet( "IsChimera" ) then
+			
+			local ang = ply:EyeAngles()
+
+			ply.TurnAng = ply.TurnAng or ply:EyeAngles()
+			ply.TurnAng.p = 0
+
+			local diff = math.NormalizeAngle(ply.TurnAng.y - ang.y)
+			diff = math.abs(diff)
+
+			ply.TurnAng.y = math.ApproachAngle(ply.TurnAng.y, ang.y, FrameTime() * (8 + diff * 8))
+
+			ply:SetRenderAngles( ply.TurnAng )
+
+		end
+
+	end
+
+end )

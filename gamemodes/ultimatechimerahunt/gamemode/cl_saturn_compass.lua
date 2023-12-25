@@ -16,13 +16,13 @@ function GM:DrawSaturn()
 
 			local dist = LocalPlayer():GetPos():Distance( v:GetPos() )
 
-			if dist <= 250 || dist >= 1024 then return end
+			if dist >= 1024 then continue end
 			local opacity = math.Clamp( 310.526 - ( 0.394737 * dist ), 0, 200 ) // woot mathematica
 
 			if pos.visible then
 
 				local x, y = pos.x, pos.y
-				local size = 64 //math.Clamp( dist / 64, 0, 64 )
+				local size = 64 - math.Clamp( dist / 64, 0, 64 )
 
 				cam.Start2D()
 
@@ -43,6 +43,60 @@ function GM:DrawSaturn()
 	
 end
 
+local lang
+local sprint = 0
+
+function GM:PreDrawEffects()
+
+	local ply = LocalPlayer()
+
+	if !ply:GetNet("HasSaturn") || ply:ShouldDrawLocalPlayer() then
+
+		sprint = 1
+
+		return
+
+	end
+
+	cam.Start3D(EyePos(), EyeAngles(), 54)
+	cam.IgnoreZ(true)
+
+	if !IsValid(mrsaturn) then
+		mrsaturn = ClientsideModel("models/uch/saturn.mdl")
+		mrsaturn:SetNoDraw(true)
+	end
+
+	local vel = LocalPlayer():GetVelocity()
+	local vel2d = vel:Length2D()
+	local l = vel2d / LocalPlayer():GetWalkSpeed()
+
+	local ang = EyeAngles()
+	local ang2 = EyeAngles()
+	local l2 = ang2.p / 90
+
+	lang = lang or ang2
+	lang = LerpAngle(FrameTime() * 24, lang, ang2)
+
+	local diff = lang - ang2
+	diff:Normalize()
+	diff.p = math.Clamp(diff.p, -10, 10)
+	diff.y = math.Clamp(diff.y, -10, 10)
+	diff.r = 0
+
+	sprint = math.Approach(sprint, LocalPlayer():GetNet("IsSprinting") and l > 0.5 && 1 or 0, FrameTime() * 8)
+
+	ang:RotateAroundAxis(ang:Forward(), 20 - diff.y * 0.4)
+	ang:RotateAroundAxis(ang:Up(), 160)
+	ang:RotateAroundAxis(ang:Right(), 2 * l2 + math.sin(CurTime()))
+
+	mrsaturn:SetPos(EyePos() + ang2:Right() * (12 + math.sin(CurTime() * 6) * 0.2 * l) + ang2:Forward() * (40 + l2 * 2) - ang2:Up() * (8 + sprint * 4 + math.sin(CurTime() * 18) * 0.4 * l))
+	mrsaturn:SetAngles(ang - diff * 0.4)
+	mrsaturn:DrawModel()
+
+	cam.IgnoreZ(false)
+	cam.End3D()
+
+end
 
 
 // I don't know what the fuck I'm doing - so fuck this code.  Feel free to make this work!

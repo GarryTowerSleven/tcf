@@ -487,7 +487,7 @@ function meta:InvRemove( slot, force )
 	local GiveMoney = Item:SellPrice()
 
 	if GiveMoney > 0 and !force then
-		self:AddMoney( GiveMoney )
+		self:AddMoney( GiveMoney, nil, nil, nil, "Sold (" .. Item.Name .. ")" )
 		self:Msg2( T("InventorySold", Item.Name), "storage" )
 	else
 		self:Msg2( T("InventoryDiscard", Item.Name), "storage" )

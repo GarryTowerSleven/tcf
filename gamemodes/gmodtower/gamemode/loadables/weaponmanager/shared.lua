@@ -68,6 +68,8 @@ function playerMeta:GiveTempWeapon( weaponclass, ammo, removeon, location )
 	if !self.TempWeapons then self.TempWeapons = {} end
 	table.insert( self.TempWeapons, weapon )
 
+	return self:GetWeapon( weaponclass ) || self:GetActiveWeapon()
+
 end
 
 function playerMeta:RemoveTempWeapon( weapon )

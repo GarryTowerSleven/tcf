@@ -5,3 +5,4 @@ ENT.AdminSpawnable	= true
 
 ENT.Model		= Model( "models/Humans/GMTsui1/Female_04.mdl" )
 ENT.StoreId 	= GTowerStore.HAT
+ENT.Description = "Hats, masks, and glasses."

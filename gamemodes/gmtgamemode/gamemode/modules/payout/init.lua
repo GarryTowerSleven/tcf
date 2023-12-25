@@ -30,7 +30,7 @@ function Payout( ply )
 	if MACHINIMA then return end
 
 	if !TestingMode:GetBool() then
-		ply:AddMoney( money, true )
+		ply:AddMoney( money, true, nil, nil, "Payouts" )
 	else
 		ply:Msg2("GMC not available on testing server. You would have earned "..money)
 	end

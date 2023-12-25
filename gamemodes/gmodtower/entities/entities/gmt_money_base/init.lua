@@ -25,7 +25,7 @@ function ENT:Touch( ply )
     if not IsValid(ply) or not ply:IsPlayer() then return end
 	
     ply:EmitSound( self.PickupSound )
-	ply:AddMoney( self.MoneyValue )
+	ply:AddMoney( self.MoneyValue, nil, nil, nil, "gmt_money Entity" )
 
     self:Remove()
 

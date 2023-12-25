@@ -84,7 +84,7 @@ function PANEL:Think()
 
 	if Life < self.MovingTime then
 
-		local PosX = Lerp( Bezel( Life / self.MovingTime ), ScrW(), CenterX )
+		local PosX = Lerp( math.ease.OutCubic( Life / self.MovingTime ), -self:GetWide(), CenterX )
 
 		self:SetPos( PosX, PosY )
 
@@ -95,7 +95,7 @@ function PANEL:Think()
 	elseif Life < self.MovingTime + self.StayTime + self.MovingTime then
 
 		local MovingLife = Life - self.MovingTime - self.StayTime
-		local PosX = Lerp( Bezel( MovingLife / self.MovingTime ), CenterX, 0 - self:GetWide() )
+		local PosX = Lerp( math.ease.InCubic( MovingLife / self.MovingTime ), CenterX, ScrW() )
 
 		self:SetPos( PosX, PosY )
 

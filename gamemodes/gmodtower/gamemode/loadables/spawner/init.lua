@@ -23,7 +23,7 @@ concommand.Add( "gmt_bucket_print", function( ply )
 end )*/
 
 Enabled = IsHoliday
-EnabledConvar = CreateConVar( "gmt_spawner_enabled", "1", { FCVAR_NONE }, "0", "1" )
+EnabledConvar = CreateConVar( "gmt_spawner_enabled", "1" )
 
 cvars.AddChangeCallback( "gmt_spawner_enabled", function( _, old, new )
 
@@ -54,6 +54,9 @@ NextTime = NextTime or -1
 StartTime = StartTime or 0
 NextDelay = 60 * math.random( 15, 30 )
 ActiveLength = 60 * 3
+LastSpawn = 0
+NextSpawn = { 8, 15 }
+Rarity = Rarity || {}
 
 Positions = {
     Vector(303.9, 2454.8, 192.03),
@@ -118,10 +121,46 @@ end
 
 hook.Add( "Initialize", "SpawnerInit", Initialize )
 
+hook.Add( "PlayerInitialSpawn", "SpawnerRarity", function(ply)
+
+    Rarity[ply:SteamID64()] = Rarity[ply:SteamID64()] || 1
+
+end )
+
+local meta = FindMetaTable( "Player" )
+
+function meta:GetRarity()
+
+    return Rarity[self:SteamID64()]
+
+end
+
+function meta:SetRarity( rarity )
+
+    Rarity[self:SteamID64()] = math.Clamp( rarity, 0, 1 )
+
+end
+
 function Start()
 
     Active = true
     StartTime = CurTime()
+
+    if IsChristmas then
+
+        BroadcastLua( [[ surface.PlaySound( "player/sleigh_bells/tf_xmas_sleigh_bells_20.wav" ) ]] )
+        GTowerChat.AddChat( "Presents have appeared around the tower!", Color( 208, 251, 255), "Server" )
+
+        for i = 1, 4 do
+            
+            LastSpawn = 0
+            Think()
+
+        end
+
+        return
+
+    end
 
     GTowerChat.AddChat( T( "SpawnerHalloweenStart" ), Color( 255, 140, 0, 255 ), "Server" )
 
@@ -133,6 +172,14 @@ function End()
     Active = false
 
     Cleanup()
+
+    if IsChristmas then
+
+        GTowerChat.AddChat( "The presents have disappeared...", Color( 208, 251, 255), "Server" )
+
+        return
+
+    end
 
     GTowerChat.AddChat( T( "SpawnerHalloweenEnd" ), Color( 255, 140, 0, 255 ), "Server" )
 
@@ -186,11 +233,27 @@ function Think()
 
     end
 
+    if LastSpawn > CurTime() then return end
+
+    for _, ply in ipairs( player.GetAll() ) do
+        
+        ply:SetRarity( ply:GetRarity() + 0.1 )
+
+    end
+
+    LastSpawn = CurTime() + math.random( NextSpawn[1], NextSpawn[2] )
+
     local ent = ents.Create( SpawnEntity )
     ent:SetPos( pos )
     ent:Spawn()
 
     table.uinsert( Entities, ent )
+
+    if IsChristmas then
+
+        sound.Play( "misc/jingle_bells/jingle_bells_nm_0" .. math.random( 5 ) .. ".wav", pos, 70 )
+
+    end
 
 end
 

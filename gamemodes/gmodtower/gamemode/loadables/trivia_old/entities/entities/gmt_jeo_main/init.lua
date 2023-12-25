@@ -453,7 +453,7 @@ function ENT:EndGame()
 
 		local ply = winners[ i ].Player
 		
-		ply:AddMoney( money )
+		ply:AddMoney( money, nil, nil, nil, "TriviaWin" )
 		
 		--ply:SetAchivement( ACHIVEMENTS.TRIVIAMASTER, 1 )
 		ply:AddAchievement( ACHIVEMENTS.MILLIONAIRE, 1 )

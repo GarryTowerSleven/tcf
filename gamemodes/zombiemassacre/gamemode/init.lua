@@ -138,7 +138,7 @@ hook.Add( "PlayerSpawn", "Weapon_Give", function( ply )
 	end
 
 	// Set player model
-	hook.Call( "PlayerSetModel", GAMEMODE, ply )
+	self.BaseClass:PlayerSpawn(ply)
 
 	ply:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 	ply:ConCommand( "zm_comboclear" )

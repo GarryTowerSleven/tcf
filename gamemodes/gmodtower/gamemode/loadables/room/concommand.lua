@@ -192,7 +192,7 @@ function StartParty( ply, flags )
 
 	if roomid == 0 then return end
 
-	ply:AddMoney(-250)
+	ply:AddMoney(-250, nil, nil, nil, "PartyFee")
 
 	local Timestamp = os.time()
 	local TimeString = os.date( "%H:%M:%S - %d/%m/%Y" , Timestamp )
@@ -200,9 +200,9 @@ function StartParty( ply, flags )
 
 	ply:SetNWBool( "GRoomParty", true )
 
-	ply.NextParty = CurTime() + (60*3)
+	ply.NextParty = CurTime() + (60*5)
 
-	timer.Simple( 60*2, function()
+	timer.Simple( 60*5, function()
 		if IsValid(ply) && ply:GetNWBool( "GRoomParty" ) then
 			ply:SetNWBool( "GRoomParty", false )
 			ply:Msg2( T( "RoomPartyEnded" ), "condo" )
@@ -272,6 +272,9 @@ end
 
 concommand.Add( "gmt_buybankslots", function( ply, cmd, args )
 	local amount = tonumber( args[1] ) or 0
+
+	amount = math.floor( amount )
+
 	if amount > 0 then
 		local cost = (amount * GTowerItems.BankSlotWorth)
 
@@ -283,14 +286,14 @@ concommand.Add( "gmt_buybankslots", function( ply, cmd, args )
 			if (GTowerItems.MaxBankCount - ply:BankLimit()) > 0 then
 				local newAmount = (GTowerItems.MaxBankCount - ply:BankLimit())
 				ply:SetMaxBank( ply:BankLimit() + amount )
-				ply:AddMoney( -cost )
+				ply:AddMoney( -cost, nil, nil, nil, "TrunkSlots" )
 				ply:Msg2("You've paid for " .. newAmount .. " slots instead of " .. Amount .. " due to reaching the max amount of Trunk slots.")
 			else
 				ply:Msg2("You've reached the max amount of Trunk slots.")
 			end
 		else
 			ply:SetMaxBank( ply:BankLimit() + amount )
-			ply:AddMoney( -cost )
+			ply:AddMoney( -cost, nil, nil, nil, "TrunkSlots" )
 		end
 	end
 end )

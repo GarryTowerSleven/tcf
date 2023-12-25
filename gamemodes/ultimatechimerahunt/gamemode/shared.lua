@@ -49,6 +49,7 @@ plynet.Register( "Int", "TimesRoared" )
 plynet.Register( "Float", "Sprint" )
 plynet.Register( "Bool", "IsSprinting" )
 //plynet.Register( "Bool", "IsSwimming" )
+plynet.Register( "Bool", "Flashlight" )
 
 /* Animations */
 plynet.Register( "Float", "PlaybackRate", { default = 1 } )
@@ -101,7 +102,7 @@ MUSIC_MRSATURN = 8
 
 GM.Music = {
 	[MUSIC_WAITING] = { "UCH/newmusic/waiting/waiting_music", 13 },
-	[MUSIC_ROUND] = { "UCH/newmusic/round/round_music", 9 },
+	[MUSIC_ROUND] = { "UCH/newmusic/round/round_music", 10 },
 	[MUSIC_ENDROUND] = {
 
 		Chimera =  {
@@ -120,7 +121,7 @@ GM.Music = {
 	},
 	[MUSIC_SPAWN] = {
 
-		Chimera = Sound( "UCH/newmusic/spawn/chimera_spawn.wav" ),
+		Chimera = Sound( "UCH/newmusic/spawn/chimera_spawn.mp3" ),
 
 		Pigmask = {
 

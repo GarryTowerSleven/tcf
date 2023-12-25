@@ -50,7 +50,7 @@ function soundscape.GetMusicSoundscape(loc)
 
 	-- First, see if there's a soundscape defined for the current specific location
 	local scape = soundscape.IsDefined("music_" .. location.Name) and "music_" .. location.Name or nil 
-	scape = scape and string.lower(scape) or nil 
+	scape = scape and scape or nil 
 
 	-- if it's registered, return
 	if not isEmpty(scape) then return scape end
@@ -78,6 +78,16 @@ function soundscape.GetMusicSoundscape(loc)
 
 	-- Just use default methods to find the soundscape
  	scape = Location.GetGroup(loc)
+
+	if IsChristmas then
+
+		if scape == "pool" then
+
+			scape = "lakeside"
+
+		end
+
+	end
 
 	-- Return what we've got
 	return (scape and soundscape.IsDefined("music_" .. scape) ) and string.lower("music_" .. scape) or nil
@@ -132,6 +142,7 @@ hook.Add( "GTowerOpenStore", "PlayStoreMusic", function()
 	//print( "open" )
 
 	if not Enabled:GetBool() then return end
+	if GTowerStore.StoreId == GTowerStore.MERCHANT then return end
 
 	soundscape.StopChannel("music")
 	soundscape.Play("music_store", "music")
@@ -210,9 +221,8 @@ soundscape.Register("music_lobby",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/lobby1.mp3", 220 },
-			{ "gmodtower/music/lobby2.mp3", 294 },
-			{ "gmodtower/music/lobby3.mp3", 240 },
+			{ "gmodtower/music/christmas/lobby1_fix.mp3" },
+			{ "gmodtower/music/christmas/lobby2.mp3" },
 
 			// halloween
 			// { "gmodtower/music/halloween/lobby1.mp3", 189 },
@@ -233,8 +243,7 @@ soundscape.Register("music_lobbyroof",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/lobbyroof.mp3", 94 },
-			{ "gmodtower/music/lobbyroof2.mp3", 196 },
+			{ "gmodtower/music/christmas/roof1.mp3" }
 
 			// halloween
 			// { "gmodtower/music/halloween/roof.mp3", 65 },
@@ -254,7 +263,7 @@ soundscape.Register("music_eplaza",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/plaza.mp3", 221 },
+			{ "gmodtower/music/christmas/entertainment1.mp3" },
 		},
 	},
 })
@@ -267,12 +276,12 @@ soundscape.Register("music_gamemodeports",
 	-- Select a random song to play every once in a while
 	{
 		type = "playlist",
+		volume = 0.125,
 		time = {60 * 0.5, 60 * 2}, -- Play the next song 0.5 to 2 minutes after the song ends
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/gamemodes1.mp3", 122 },
-			{ "gmodtower/music/gamemodes2.mp3", 108 },
+			{ "gmodtower/music/christmas/store2.mp3" },
 		},
 	},
 })
@@ -289,8 +298,8 @@ soundscape.Register("music_suites",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/suite1.mp3", 282 },
-			{ "gmodtower/music/suite2.mp3", 197 },
+			{ "gmodtower/music/christmas/suite1.mp3" },
+			{ "gmodtower/music/christmas/suite2.mp3" },
 
 			// { "gmodtower/music/halloween/suite1.mp3", 163 },
 		},
@@ -337,8 +346,7 @@ soundscape.Register("music_lakeside",
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/lakeside.mp3", 140 },
-			{ "gmodtower/music/lakeside2.mp3", 215 },
+			{ "gmodtower/music/christmas/lake1.mp3" },
 		},
 	},
 })
@@ -371,12 +379,31 @@ soundscape.Register("music_store",
 		type = "playlooping",
 		volume = 1,
 		-- All sounds are in a table format of {soundpath, soundlength}
-		sound = { Sound( "gmodtower/music/store.mp3" ), 174 },
+		sound = { Sound( "gmodtower/music/christmas/store1.mp3" ) },
 
 		// halloween
 		// sound = { Sound( "gmodtower/music/halloween/store.mp3" ), 63 },
 	},
 })
+
+soundscape.Register("music_Lakeside Cabin",
+{
+	-- Tell the soundscape system that when this is usually removed and faded out, keep it alive
+	idle = false,
+
+	-- Select a random song to play every once in a while
+	{
+		type = "playlooping",
+		volume = 0.25,
+		-- All sounds are in a table format of {soundpath, soundlength}
+		sound = { Sound( "gmodtower/music/merchant.mp3" ), 10 },
+
+		// halloween
+		// sound = { Sound( "gmodtower/music/halloween/store.mp3" ), 63 },
+	},
+})
+
+soundscape.Register("music_merchant", {} )
 
 -- Mute any music in the theater
 soundscape.Register("music_theater_inside", {} )
@@ -396,15 +423,27 @@ soundscape.Register("music_casino", {
 
 		-- Override the sound selector function with our own
 		sounds = {
-			{ "gmodtower/music/casino1.mp3", 281 },
-			{ "gmodtower/music/casino2.mp3", 251 },
-			{ "gmodtower/music/casino3.mp3", 308 }
+			{ "gmodtower/music/christmas/casino1.mp3" },
+			{ "gmodtower/music/christmas/casino2.mp3" },
 		},
 	},
 })
 
 -- Mute any music in the bar
-soundscape.Register("music_bar", {})
+soundscape.Register("music_bar", {
+	-- Tell the soundscape system that when this is usually removed and faded out, keep it alive
+	idle = false,
+	
+	-- Select a random song to play every once in a while
+	{
+		type = "playlooping",
+		volume = 1,
+		-- All sounds are in a table format of {soundpath, soundlength}
+		sound = {
+			Sound( "gmodtower/music/bar.mp3" ), 147
+		},
+	},
+})
 
 -- Mute any music in narnia
 soundscape.Register("music_narnia", {})

@@ -8,7 +8,7 @@ cvars.AddChangeCallback( "gmt_playermodel", function()
 	RunConsoleCommand( "gmt_updateplayermodel" )
 end )
 
-cvars.AddChangeCallback("cl_playercolor", function()
+cvars.AddChangeCallback("gmt_playercolor", function()
     RunConsoleCommand( "gmt_updateplayercolor" )
 end )
 

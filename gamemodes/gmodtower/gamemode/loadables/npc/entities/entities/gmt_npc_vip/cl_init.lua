@@ -2,9 +2,10 @@ include('shared.lua')
 
 ENT.NPCExpression = "blank"
 
+ENT.Offset = -3.5
 ENT.Hat = "models/gmod_tower/aviators.mdl"
 ENT.HatOffset = {
-	Pos = Vector( 2.9, 0, 1.25 ),
+	Pos = Vector( -1.25, 0, -3 ),
 	Ang = Angle( 0, 0, 0 ),
 	Scale = .9,
 }

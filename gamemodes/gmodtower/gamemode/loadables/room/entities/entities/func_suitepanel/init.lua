@@ -41,7 +41,7 @@ function ENT:SetupPlayer()
 	if IsValid( self.JB ) then return end
 	if Location.GetSuiteID( self:Location() ) <= 0 then return end
 
-	self.JB = ents.Create("gmt_jukebox")
+	self.JB = ents.Create("gmt_jukebox_suite")
 	self.JB:SetPos(self:GetPos() + self:GetForward() * 32)
 	self.JB:Spawn()
 	self.JB:SetSolid(SOLID_NONE)

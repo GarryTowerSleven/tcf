@@ -19,6 +19,27 @@ GTowerAchievements:Add( ACHIEVEMENTS.HALLOWEENGHOST, {
 	Group = 20
 })
 
+GTowerAchievements:Add( ACHIEVEMENTS.SANTASHELPER, {
+	Name = "Santa's Helper", 
+	Description = "Holiday: Buy 30 presents.", 
+	Value = 30,
+	Group = 20
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.NICELIST, {
+	Name = "Nice List", 
+	Description = "Holiday: Collect 30 presents.", 
+	Value = 30,
+	Group = 20
+})
+
+GTowerAchievements:Add( ACHIEVEMENTS.FROSTBITE, {
+	Name = "Frostbite", 
+	Description = "Holiday: Snowball 20 people.", 
+	Value = 20,
+	Group = 20
+})
+
 --[[GTowerAchievements:Add( ACHIEVEMENTS.HALLOWEENSURVIVOR, {
 	Name = "Last Survivor", 
 	Description = "Halloween: Survive and discover the ride.", 

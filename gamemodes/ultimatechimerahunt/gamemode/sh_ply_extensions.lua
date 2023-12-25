@@ -40,10 +40,6 @@ function meta:SetupModel()
 	self:SetModel2( "models/UCH/pigmask.mdl" )
 	self:SetRankModels()
 	self:SetBodygroup( 4, 1 )
-
-	if SERVER then
-		Hats.UpdateWearables( self )
-	end
 	
 end
 
@@ -62,7 +58,7 @@ function meta:Squeal( ent )
 	if self:Team() != TEAM_PIGS then return end
 
 	local ent = ent or self
-	ent:EmitSound( "UCH/pigs/squeal" .. tostring( math.random( 1, 3 ) ) .. ".wav", 92, math.random( 90, 105 ) )
+	ent:EmitSound( "UCH/pigs/squeal" .. tostring( math.random( 2, 3 ) ) .. ".wav", 92, math.random( 90, 110 ) )
 
 end
 
@@ -79,14 +75,23 @@ function meta:ResetVars()
 	self:SetNet( "Sprint", 1 )
 	self:SetNet( "IsSprinting", false )
 	self:SetNet( "IsStunned", false )
+	self:SetNet( "Flashlight", false )
+	self.SaturnHit = false
 
 	/* Reset Pig Stuff */
 	self:StopTaunting()
 	self:UnScare()
 	self:SetNet( "IsPancake", false )
+	self:SetMaterial()
+	self:Freeze( false )
+	self:SetSolid( SOLID_BBOX )
+	
+	BroadcastLua([[local ent = ents.GetByIndex(]] .. self:EntIndex() .. [[) if IsValid(ent) then ent:DisableMatrix("RenderMultiply") end]])
 	
 	/* Set Rank */
-	self:SetNet( "Rank", self:GetNet( "NextRank" ) )
+	if self:IsPig() then
+		self:SetNet( "Rank", self:GetNet( "NextRank" ) )
+	end
 
 	if self:IsPig() && self:GetNet( "Rank" ) == RANK_CAPTAIN && ( Hats.IsWearing( self, "hatfedorahat" ) or Hats.IsWearing( self, "FedoraAlternative" ) ) then
 		self:SetAchievement( ACHIEVEMENTS.UCHBROTHER, 1 )
@@ -130,6 +135,17 @@ function meta:MovementKeyDown()
 	end
 	
 	return false
+
+end
+
+function GM:StartCommand( ply, cmd )
+
+	if !ply:GetNet( "IsChimera" ) && ply:GetNet( "IsStunned" ) then
+
+		cmd:SetForwardMove( 0 )
+		cmd:SetSideMove( 0 )
+
+	end
 
 end
 
@@ -183,7 +199,7 @@ if SERVER then
 
 		if CurTime() >= self.LastSnort then
 			
-			self:EmitSound( "UCH/pigs/snort" .. tostring( math.random( 1, 4 ) ) .. ".wav", 75, math.random( 90, 105 ) )
+			self:EmitSound( "UCH/pigs/snort" .. tostring( math.random( 1, 4 ) ) .. ".wav", 75, math.random( 90, 110 ) )
 
 			local num = math.Rand( 6, 9 )
 
@@ -201,7 +217,7 @@ if SERVER then
 
 		local spd, cspd = 175, .3
 
-		if GAMEMODE:IsPlaying() && GAMEMODE:GetUC() == self then
+		if GAMEMODE:GetUC() == self then
 			spd, cspd = 112, 1
 		end
 
@@ -238,10 +254,6 @@ if SERVER then
 
 		else
 			self:SetupSpeeds()
-		end
-		
-		if self:GetNet( "IsStunned" ) && !self:GetNet( "IsChimera" ) then
-			self:SetSpeed( 0 )
 		end
 
 	end

@@ -34,11 +34,11 @@ end
 
 function ENT:OnTakeDamage( dmginfo )
 
-	local r, g, b = self:GetColor()
+	local color = self:GetColor()
 	
 	local effectdata = EffectData()
 		effectdata:SetOrigin( self:GetPos() )
-		effectdata:SetStart( Vector( r, g, b ) )
+		effectdata:SetStart( Vector( color.r, color.g, color.b ) )
 		effectdata:SetFlags(self.Sound and 1 or 0)
 	util.Effect( "piggy_pop", effectdata )
 	

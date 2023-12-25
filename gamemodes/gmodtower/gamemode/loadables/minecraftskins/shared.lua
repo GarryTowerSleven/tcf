@@ -2,7 +2,7 @@ mcmdl = "models/player/mcsteve.mdl"
 
 local function MinecraftSkinUpdated( ply, old, new )
 
-	if CLIENT and old != new then
+	if CLIENT then
 
 		local skinname = new
 
@@ -28,6 +28,10 @@ if CLIENT then
 	
 		local old = net.ReadString()
 		local new = net.ReadString()
+
+		if ply.OldSkin == new then return end
+
+		ply.OldSkin = new
 	
 		MinecraftSkinUpdated( ply, old, new )
 	end )

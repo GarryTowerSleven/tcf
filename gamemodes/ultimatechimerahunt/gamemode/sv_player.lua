@@ -3,6 +3,7 @@ function GM:PlayerDeath( ply, wep, killer )
 	self:DoKillNotice( ply )
 
 	ply:AddDeaths( 1 )
+	ply:SetNet( "Flashlight", false )
 
 	if ply:Team() == TEAM_PIGS then
 
@@ -17,9 +18,9 @@ function GM:PlayerDeath( ply, wep, killer )
 			ply:StopTaunting()
 		end
 
-		if ply:FlashlightIsOn() then
+		/*if ply:FlashlightIsOn() then
 			ply:Flashlight()
-		end
+		end*/
 		
 		if ply:GetNet("HasSaturn") then
 		
@@ -35,6 +36,7 @@ function GM:PlayerDeath( ply, wep, killer )
 			local effectdata = EffectData()
 				effectdata:SetOrigin( ply:GetPos() )
 				effectdata:SetStart( Vector( r, g, b ) )
+				effectdata:SetFlags( 1 )
 			util.Effect( "piggy_pop", effectdata )
 	
 			ply:SetNet("IsPancake",false)
@@ -61,6 +63,7 @@ function GM:PlayerDeath( ply, wep, killer )
 	end
 
 	if ply:GetNet("IsChimera") then
+		ply:SetMaterial( "models/uch/uchimera/stgnewporkultimatechimera_body2" )
 		ply:CreateBirdProp()
 		ply:CreateRagdoll()
 	end
@@ -87,6 +90,8 @@ end
 
 function GM:PlayerSwitchFlashlight( ply, SwitchOn )
 
+	if !ply:Alive() then return end
+
 	if !ply:IsAdmin() then
 		if !ply.FlashLightTime then ply.FlashLightTime = 0 end
 		if ply.FlashLightTime > CurTime() then return false end
@@ -98,9 +103,14 @@ function GM:PlayerSwitchFlashlight( ply, SwitchOn )
 		umsg.Start( "SwitchLight" )
 			umsg.Entity( ply )
 		umsg.End()
+
+		local light = ply:GetNet( "Flashlight" )
+
+		ply:SetNet( "Flashlight", !light )
+		ply:EmitSound( "vo/taunts/engy/taunt_engineer_lounge_button_press.mp3", 70, light and 130 or 140, 1, CHAN_WEAPON )
 	end
 
-    return ply:Team() == TEAM_PIGS
+    return false // ply:Team() == TEAM_PIGS
 
 end
 
@@ -153,6 +163,8 @@ function GM:EntityTakeDamage( ent, dmg )
 end
 
 function GM:PlayerDeathSound() return true end
+
+function GM:AllowPlayerPickup() return false end
 
 function GM:GetFallDamage( ply, vel )
 	

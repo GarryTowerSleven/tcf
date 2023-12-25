@@ -7,7 +7,7 @@ local SMALLFONT = "GTowerSkySmall"
 local s = 1.8
 surface.CreateFont( FONT, { font = "Oswald", size = 144*s, weight = 400 } )
 surface.CreateFont( SMALLFONT, { font = "Oswald", size = 64*s, weight = 400 } )
-
+surface.CreateFont( SMALLFONT .. 2, { font = "Oswald", size = 32*s, weight = 400 } )
 
 
 function ENT:Initialize()
@@ -81,6 +81,24 @@ function ENT:TextChanged( id )
 	
 end
 
+local orlok = "orlok"
+
+function getOrlok()
+	
+	steamworks.RequestPlayerInfo( "76561198066597995", function( name )
+
+		orlok = name
+	
+	end )
+
+end
+
+hook.Add( "InitPostEntity", "Orlok", function()
+
+	getOrlok()
+
+end )
+
 function ENT:DrawTranslucent()
 
 	// Aim the screen forward
@@ -97,12 +115,63 @@ function ENT:DrawTranslucent()
 	// Start the fun
 	cam.Start3D2D( pos, ang, 0.5/s )
 		
-		surface.SetFont( FONT )
-		surface.SetTextColor( self.TColor.r, self.TColor.g, self.TColor.b, self.TColor.a )
-		surface.SetTextPos( self.NegativeX, self.PositiveY )
-		surface.DrawText( self.StrText )
-		
-		self:DrawExtra()
+		if self.StrText == "Party Suite" then
+
+			surface.SetFont( FONT )
+			local tw, th = surface.GetTextSize("Party ")
+			surface.SetTextColor( self.TColor.r, self.TColor.g, self.TColor.b, self.TColor.a )
+			surface.SetTextPos( tw + self.NegativeX, self.PositiveY )
+			surface.DrawText( "Suite" )
+			draw.WaveyText( "Party", FONT, self.NegativeX, self.NegativeY, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM, 4, 4, 1, 24 )
+			
+			self:DrawExtra()
+
+		else
+
+			surface.SetFont( FONT )
+			surface.SetTextColor( self.TColor.r, self.TColor.g, self.TColor.b, self.TColor.a )
+			surface.SetTextPos( self.NegativeX, self.PositiveY )
+			surface.DrawText( self.StrText )
+			
+			self:DrawExtra()
+
+			if self.StrText == "Casino" then
+
+				draw.SimpleText( orlok .. "'s", "GTowerSkySmall2", 0, self.PositiveY + 8, color_white, TEXT_ALIGN_CENTER)
+
+			end
+
+			if string.StartsWith( self.StrText, "Suites " ) then
+
+				local count = string.Split( table.concat( string.Split( self.StrText, " " ), "", 2 ), "-" )
+
+				local rooms = {}
+
+				for i = count[1], count[2] do
+					
+					local room = GTowerRooms.Rooms[i]
+
+					if IsValid( room.Owner ) then
+						
+						table.insert( rooms, i .. ". " .. ( IsValid( room.Owner ) && room.Owner:Nick() || "No One!" ) )
+
+					end
+					
+				end
+
+				if #rooms == 0 then
+
+					draw.SimpleText( "No one has a suite!", "GTowerSkySmall2", 0, 0, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+
+				end
+
+				for _, str in ipairs(rooms) do
+					draw.SimpleText( str, "GTowerSkySmall2", 0, 48 * ( _ - 1 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+				end
+
+			end
+
+		end
 		
 	cam.End3D2D()
 	

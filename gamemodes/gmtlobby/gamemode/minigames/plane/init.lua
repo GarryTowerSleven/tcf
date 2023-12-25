@@ -154,7 +154,7 @@ function HookOnDeath( pl, inf, attacker )
 	end
 
 	if InGame( pl ) && InGame( attacker ) && IsValid( attacker ) && attacker:IsPlayer() && attacker != pl then
-		attacker:AddMoney( 5 )
+		attacker:AddMoney( 5, nil, nil, nil, "EventPlane" )
 		attacker:AddAchievement( ACHIEVEMENTS.MGREDBARON, 1 )
 		attacker._PlaneKills = attacker._PlaneKills + 1
 		TotalMoneyEarned = TotalMoneyEarned + 5

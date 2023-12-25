@@ -192,8 +192,27 @@ function GM:CalcMainActivity( ply, velocity )
 
 end
 
-function GM:HandlePlayerLanding( ply, velocity, WasOnGround ) 
-	// Removes Max's DUMB ASS LANDING ANIMATION THAT LOOKS LIKE SHIT
+function GM:HandlePlayerLanding( ply, velocity, WasOnGround )
+
+	if ( ply:GetMoveType() == MOVETYPE_NOCLIP ) then return end
+
+	if ( ply:IsOnGround() && !WasOnGround ) then
+		ply:AnimRestartGesture( GESTURE_SLOT_JUMP, ACT_LAND, true )
+	end
+
+end
+
+function GM:HandlePlayerVaulting( ply, velocity, plyTable )
+
+	if ( !plyTable ) then plyTable = ply:GetTable() end
+
+	if ( ( !IsLobby || !ply:GetNet( "IsJetpackOn" ) ) && velocity:LengthSqr() < 1000000 ) then return end
+	if ( ply:IsOnGround() ) then return end
+
+	plyTable.CalcIdeal = ACT_MP_SWIM
+
+	return true
+
 end
 
 function GM:HandlePlayerJumping( ply, velocity )

@@ -39,6 +39,7 @@ AddPlayerModel( "infected", "models/player/virusi.mdl", nil, true ) -- for virus
 AddPlayerModel( "minigolf", "models/sunabouzu/golf_ball.mdl", nil, true ) -- minigolf!
 AddPlayerModel( "uchghost", "models/uch/mghost.mdl", nil, true ) -- uch
 AddPlayerModel( "uchpigmask", "models/uch/pigmask.mdl", nil, true ) -- uch
+AddPlayerModel( "uchchimera", "models/uch/uchimeragm.mdl", nil, true ) -- uch
 
 // Public Use
 // ============================
@@ -50,7 +51,8 @@ AddPlayerModel( "shaun", "models/player/shaun.mdl" )
 AddPlayerModel( "isaac", "models/player/security_suit.mdl" )
 AddPlayerModel( "midna", "models/player/midna.mdl" )
 AddPlayerModel( "sunabouzu", "models/player/Sunabouzu.mdl" )
-AddPlayerModel( "zoey", "models/player/zoey.mdl" )
+AddPlayerModel( "zoey", "models/player/survivor_teenangst.mdl" )
+AddPlayerModel( "ellis", "models/player/survivor_mechanic.mdl" )
 AddPlayerModel( "sniper", "models/player/robber.mdl" )
 AddPlayerModel( "spacesuit", "models/player/spacesuit.mdl" )
 AddPlayerModel( "scarecrow", "models/player/scarecrow.mdl" )

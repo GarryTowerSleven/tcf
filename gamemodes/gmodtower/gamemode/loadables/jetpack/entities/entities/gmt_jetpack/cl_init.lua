@@ -104,6 +104,7 @@ function ENT:DrawFireAttchment( att, ply, seed )
 	local jetpackstart = ply:GetNet("JetpackStart") or 0
 	local tdiff = (CurTime() - jetpackstart)
 	local Scale = math.Clamp(tdiff * 2, 0, 1 )
+	local c = ply:GetPlayerColor()
 	
 	if ply:GetVelocity().z > 100 and tdiff <= 0.1 then
 		Scale = 1
@@ -134,6 +135,7 @@ function ENT:DrawFireAttchment( att, ply, seed )
 		vNormal = Up * -1
 	end
 	
+	matFire:SetVector( "$color2", c )
 	render.SetMaterial( matFire )
 	
 	render.StartBeam( 3 )
@@ -162,6 +164,7 @@ function ENT:DrawFireAttchment( att, ply, seed )
 		
 	render.SetMaterial( matSprite )
 	render.DrawSprite( vOffset, Scale * 32, Scale * 32, Color( 255, 0, 0, 128) )
+	matFire:SetVector( "$color2", Vector(1, 1, 1) )
 
 	if not Location.IsEquippablesNotAllowed( ply:Location() ) then
 		self:DrawSmoke( vOffset, Scale, vNormal )
@@ -207,9 +210,6 @@ function ENT:DrawSmoke( pos, scale, normal )
 	local scale = self:GetOwner():GetModelScale()
 	local sprite = self:GetOwner():GetNet("JetpackTexture")
 	local color = self:GetOwner():GetPlayerColor() * 255
-	if CLIENT and self:GetOwner() == LocalPlayer() then
-		color = Vector( self:GetOwner():GetInfo( "cl_playercolor" ) ) * 255
-	end
 	
 	for i=1, 2 do
 
@@ -235,10 +235,10 @@ function ENT:DrawSmoke( pos, scale, normal )
 					particle:SetVelocity( VectorRand() * 40 + self:GetOwner():GetVelocity() + normal * 250 ) 
 					particle:SetLifeTime( 0 ) 
 					particle:SetDieTime( math.Rand( 0.3, 0.6 ) ) 
-					particle:SetStartAlpha( math.Rand( 80, 120 ) ) 
+					particle:SetStartAlpha( math.Rand( 80, 120 ) / 2 ) 
 					particle:SetEndAlpha( 0 ) 
-					particle:SetStartSize( math.random( 5, 10 ) * scale ) 
-					particle:SetEndSize( math.random( 20, 35 ) * scale ) 
+					particle:SetStartSize( math.random( 5, 10 ) * scale / 2 ) 
+					particle:SetEndSize( math.random( 20, 35 ) * scale / 2 ) 
 
 					local dark = math.Rand( 0, 150 )
 					particle:SetColor( dark, dark, dark ) 
@@ -262,7 +262,7 @@ function ENT:DrawSmoke( pos, scale, normal )
 				particle:SetEndAlpha( 0 ) 
 				particle:SetStartSize( math.random( 6, 12 ) * scale ) 
 				particle:SetEndSize( 1 ) 
-				particle:SetColor( math.Rand( 150, 255 ), math.Rand( 100, 150 ), 100 )
+				particle:SetColor( color.r, color.g, color.b )
 				particle:SetAirResistance( 50 )
 			end
 

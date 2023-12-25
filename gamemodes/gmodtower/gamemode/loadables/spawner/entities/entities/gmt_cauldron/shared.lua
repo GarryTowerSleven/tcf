@@ -113,7 +113,7 @@ function ENT:TakeCandy( ply )
 	elseif rnd <= .5 then
 		self:GiveItem( ply, table.Random(pumpkins) )
 	else
-		ply:AddMoney( math.random( 10, 100 ) )
+		ply:AddMoney( math.random( 10, 100 ), nil, nil, nil, "Cauldron" )
 	end
 
 	//ply:Msg2( "You can throw another candy into the cauldron in 2 minutes." )

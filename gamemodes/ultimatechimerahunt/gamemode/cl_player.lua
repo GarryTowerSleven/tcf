@@ -1,6 +1,6 @@
 function GM:ShouldDrawLocalPlayer()
 	
-	if ( LocalPlayer():GetNet( "IsChimera" ) && LocalPlayer():Alive() ) || LocalPlayer():GetNet( "IsTaunting" ) || LocalPlayer():GetNet( "IsScared" ) then
+	if ( LocalPlayer():GetNet( "IsChimera" ) && LocalPlayer():Alive() ) then
 		return true
 	end
 	
@@ -98,12 +98,17 @@ function GM:InputMouseApply( cmd, x, y, ang )
 
 end
 
+local lvec
+
 local function ThirdPersonCamera( ply, pos, ang, fov, dis )
 
 	local view = {}
-	
+
+	lvec = lvec or pos
+	lvec = LerpVector( FrameTime() * 24, lvec, pos )
+
 	local dir = ang:Forward()
-	local tr = util.QuickTrace( pos, ( dir * -dis ), player.GetAll())
+	local tr = util.QuickTrace( lvec, ( dir * -dis ), player.GetAll())
 	
 	local trpos = tr.HitPos
 	
@@ -148,7 +153,12 @@ local function ThirdPersonCamera( ply, pos, ang, fov, dis )
 
 end
 
+local zoom = 0
+local vb = CreateClientConVar("gmt_uch_viewbob", "1", true)
+
 function GM:CalcView( ply, pos, ang, fov )
+
+	local shake = pos - ply:EyePos()
 
 	if ply:IsGhost() then
 
@@ -166,17 +176,28 @@ function GM:CalcView( ply, pos, ang, fov )
 	end
 	
 	local tang = ply.TauntAng
+	local scared = ply:GetNet("IsScared")
 
-	if ply:GetNet( "IsTaunting" ) || ply:GetNet( "IsRoaring" ) then
+	zoom = math.Approach( zoom, ( scared || ply:GetNet( "IsTaunting" )) && 1 || 0, FrameTime() * 8 )
+
+	local rawr = ply:GetNet( "IsRoaring" )
+
+	if rawr || zoom != 0 then
 		
-		TauntAngSafeGuard( ply )
-		tang = ply.TauntAng
+		if !scared then
+			TauntAngSafeGuard( ply )
+			tang = ply.TauntAng
+		else
+			ply.Scared = true
+		end
+
+		local scared = ply.Scared
 
 		local view = {}
 		
-		local dir = tang:Forward()
+		local dir = ( scared and ang or tang ):Forward()
 		
-		local tr = util.QuickTrace( pos, ( dir * -115 ), player.GetAll() )
+		local tr = util.QuickTrace( pos, ( dir * ( ( -115 * ( rawr and 1 or zoom ) ) + ( scared and 15 or 0 ) ) ), player.GetAll() )
 
 		local trpos = tr.HitPos
 		
@@ -184,11 +205,13 @@ function GM:CalcView( ply, pos, ang, fov )
 			trpos = ( trpos + ( dir * 20 ) )
 		end
 		
-		view.origin = trpos
+		view.origin = trpos + shake
 		
-		view.angles = ( ply:GetShootPos() - trpos):Angle()
+		view.angles = scared and ang or ( ply:GetShootPos() - trpos ):Angle()
 		
 		view.fov = fov
+
+		view.drawviewer = zoom >= 0.3
 
 		return view
 		
@@ -206,10 +229,8 @@ function GM:CalcView( ply, pos, ang, fov )
 			ply.TauntAng = nil
 			
 		end
-		
-		if ply:GetNet( "IsScared" ) then
-			return ThirdPersonCamera( ply, ply:EyePos(), ang, fov, 100 )
-		end
+
+		ply.Scared = false
 		
 	end
 	
@@ -238,7 +259,20 @@ function GM:CalcView( ply, pos, ang, fov )
 		
 	end
 
-	return { ply, pos, ang, fov }
+	local vb2 = vb:GetFloat()
+	if vb2 > 0 then
+		local vel = LocalPlayer():GetVelocity()
+		local vel2d = vel:Length2D()
+		local l = vel2d / LocalPlayer():GetWalkSpeed()
+		l = l * vb2
+
+		local roll = vel:Dot(ang:Right())
+		pos = pos + ang:Up() * math.sin(CurTime() * 16) * 0.2 * l
+		ang:RotateAroundAxis(ang:Forward(), roll * 0.01)
+		ang:RotateAroundAxis(ang:Up(), math.sin(CurTime() * 8) * 0.04 * l)
+		ang:RotateAroundAxis(ang:Right(), math.sin(CurTime() * 6) * 0.02 * l)
+		return { ply, origin = pos, angles = ang, fov }
+	end
 
 end
 

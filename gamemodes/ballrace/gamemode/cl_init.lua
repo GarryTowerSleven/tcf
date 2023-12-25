@@ -407,7 +407,7 @@ function GM:CalcView( ply, origin, angles, fov )
 
 		tilt = LerpAngle(FrameTime() * 4, tilt, tilta)
 		view.angles = view.angles + tilt
-		view.origin = view.origin + angles:Up() * tilt.p * 2 + angles:Right() * tilt.r * 0.4
+		view.origin = view.origin + angles:Up() * tilt.p * 2 * dist / 128 + angles:Right() * tilt.r * 0.4
 	end
 
 	if FIRSTPERSON then

@@ -447,7 +447,7 @@ function PLAYERAVATAR:ClearPlayer()
 end
 
 function PLAYERAVATAR:Think()
-	if self.Player && self.Player:GetNWBool( "Upgraded" ) then
+	if IsValid( self.Player ) && self.Player:GetNWBool( "Upgraded" ) then
 		self:SetColor( Color( 0, 255, 0, 255 ) )
 	else
 		self:SetColor( Color( 255, 255, 255, 255 ) )

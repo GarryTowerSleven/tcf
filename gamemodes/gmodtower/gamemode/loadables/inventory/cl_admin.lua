@@ -23,6 +23,7 @@ GTowerItems.Categories =
 	{ Internal = "trophy",	Friendly = "Trophies" },
 	{ Internal = "weapon",	Friendly = "Weapons" },
 	{ Internal = "uncat",	Friendly = "Misc" },
+	{ Internal = "all", Friendly = "All" }
 }
 
 local function GetItem( panel )
@@ -66,7 +67,8 @@ function GTowerItems:AddGUIItem( v )
 
 	end
 
-	local tab = self.AdminBankGUI.Tabs.List[ cate ]
+	for i = 1, 2 do
+	local tab = self.AdminBankGUI.Tabs.List[ i == 2 && "all" || cate ]
 
 	local Vgui = vgui.Create("GTowerInvItem")
 
@@ -95,6 +97,7 @@ function GTowerItems:AddGUIItem( v )
 
 	if !IsValid(tab) then return end
 	tab:AddItem( Vgui )
+end
 
 
 end
@@ -140,7 +143,7 @@ function GTowerItems:OpenAdmin()
 		return a.Name < b.Name
 	end )
 
-	for _, v in ipairs ( self.SortedItems ) do
+	for _, v in pairs ( self.Items ) do
 		self:AddGUIItem( v )
 	end
 

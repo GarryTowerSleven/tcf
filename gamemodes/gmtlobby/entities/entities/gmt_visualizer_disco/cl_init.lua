@@ -41,10 +41,21 @@ function ENT:OnRemove()
     end
 end
 
+hook.Add( "Think", "Disco", function() 
+
+    if DISCO && (!IsValid(DISCO) || !DISCO:GetStream()) then
+        DISCO = nil
+    end
+
+end )
+
 function ENT:Think()
     if self:Location() != LocalPlayer():Location() then return self:OnRemove() end
+
     local Stream = self:GetStream()
     if !Stream then return end
+
+    DISCO = self
 
     // Lasers
     if CurTime() > self.NextRandomLazers || self.NextScale > 0.4 && (!self.NextBass || self.NextBass < CurTime()) then
@@ -201,24 +212,7 @@ hook.Add("Think", "DiscoBall", function()
 	local ft = LastThink and SysTime() - LastThink or 0
 	LastThink = SysTime()
 
-    local mp2 = Location.GetMediaPlayersInLocation(LocalPlayer():Location())[1]
-    local mp2
-    DISCO = false // Location.GetSuiteID(LocalPlayer():Location()) != 0
-
-	if mp then
-		for _, b in ipairs(ents.FindByClass(("gmt_visualizer_disco"))) do
-			if b:Location() == LocalPlayer():Location() then
-				DISCO = b
-			end
-		end
-	end
-
-    for _, m in ipairs(Location.GetMediaPlayersInLocation(LocalPlayer():Location())) do
-        // print(m, m.Entity, m.Entity:GetClass(), !mp)
-        if m.Entity && m.Entity:GetClass() == "gmt_jukebox" || !mp then
-            mp2 = m
-        end
-    end
+    local mp2 = MediaPlayer.GetVisualizer(LocalPlayer():Location())
 
     mp = nil
 
@@ -240,38 +234,6 @@ hook.Add("Think", "DiscoBall", function()
     url = string.Split(url, "[")
     url = table.concat(url, "[", 2)
     url = string.sub(url, 1, string.len(url) - 1)
-
-    if RHYTHM && string.StartsWith(url, "http") then
-        if st != url || !IsValid(station2) && (!lasts || lasts < CurTime()) then
-            if station2 then
-                station2:Stop()
-                station2 = nil
-            end
-
-            sound.PlayURL(url, "noplay noblock", function(s)
-                station2 = s
-            end)
-
-            lasts = CurTime() + 8
-            played = false
-            st = url
-        elseif IsValid(station2) then
-            if !played then
-                station2:SetTime(mp:GetTime() + 4, true)
-                station2:Play()
-                station2:SetVolume(0.001)
-                justadded = 0
-                played = true
-            else
-                if !t || math.abs(mp:GetTime() - t) > 8 then
-                    t = mp:GetTime()
-                    played = false
-                else
-                    t = mp:GetTime()
-                end
-            end
-        end
-    end
 
     local m = 0
 
@@ -349,90 +311,6 @@ hook.Add("Think", "t", function()
         end
     else
         jumptogg = false
-    end
-
-    if !RHYTHM then
-        if IsValid(station2) then
-            station2:Stop()
-        end
-
-        return
-    end
-
-    local fft = {}
-    if !IsValid(station2) then return end
-    station2:FFT(fft, FFT_2048)
-    if #fft <= 0 then return end
-    local b = 0
-
-    for i = 1, 40 do
-        b = b + fft[i]
-    end
-
-    b = b / 40
-    if !IsValid(station) then return end
-    local t = station:GetTime()
-    if justadded && justadded > t then return end
-
-    if b * sens < 0.7 then
-        sens = sens + FrameTime() * 2
-    else
-        sens = sens - FrameTime() * 24
-    end
-
-    sens = math.min(sens, 20)
-
-    if b * sens > 0.7 && (!delay[2] || delay[2] < t) then
-        // chat.AddText("DOWN!")
-        LocalPlayer():EmitSound("buttons/button01.wav")
-        table.insert(keys[2], {t + 4, b * sens})
-        delay[2] = t + 0.1
-        sens = sens - FrameTime() * 24
-    end
-
-    local m = 0
-
-    for i = 600, 800 do
-        m = m + fft[i]
-    end
-
-    m = m / 300
-    local m4 = 0
-
-    for i = 40, 800 do
-        m4 = m4 + fft[i]
-    end
-
-    if sens == 20 then
-        b = b + m4
-
-        if b > 2 && (!delay[2] || delay[2] < t) then
-            chat.AddText("DOWN!")
-            LocalPlayer():EmitSound("buttons/button01.wav")
-            table.insert(keys[2], {t + 4, b})
-            delay[2] = t + 0.2
-        end
-    end
-
-    if CLIENT then return end
-
-    if m * 4000 > 2 && (!delay[1] || delay[1] < t) then
-        if m * 4000 > 2 then
-            table.insert(keys[m4 > 0.8 && 1 || 1], {t + 4})
-            delay[1] = t + 0.2
-        end
-
-        if m4 > 1.2 && (!delay[3] || delay[3] < t) then
-            table.insert(keys[3], {t + 4})
-            delay[3] = t + 0.2
-        end
-
-        justadded = t + 0.001
-    end
-
-    if m4 * 0.8 > 1 && (!delay[3] || delay[3] < t) then
-        table.insert(keys[3], {t + 4})
-        delay[3] = t + 0.2
     end
 end)
 

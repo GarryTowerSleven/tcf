@@ -49,7 +49,12 @@ function GM:PlayerSpawn( ply )
 
 	ply:SetTeam(1)
 
-	local col = ply:GetInfo( "cl_playercolor" )
+	local col = ply:GetInfo( "gmt_playercolor" )
+
+	if col == "-1 -1 -1" then
+		col = ply:GetInfo( "cl_playercolor" )
+	end
+
 	ply:SetPlayerColor( Vector( col ) )
 	ply:SetCustomCollisionCheck(true)
 	ply:SetNoCollideWithTeammates(true)
@@ -58,6 +63,85 @@ function GM:PlayerSpawn( ply )
 	hook.Call( "PlayerSetModel", GAMEMODE, ply )
 
 end
+
+local snowball = ITEMS.weapon_snowball1
+
+hook.Add( "LoadInventory", "Snowballs", function()
+
+	snowball = ITEMS.weapon_snowball1
+
+end )
+
+hook.Add( "Think", "PlayerSnow", function()
+
+	for _, ply in ipairs( player.GetAll() ) do
+		
+		if ply:KeyDown( IN_USE ) then
+			if !ply.GrabbingSnow then
+
+				local tr = util.QuickTrace( ply:EyePos(), ply:GetAimVector() * 96, ply )
+				
+				if tr.MatType == MAT_SNOW then
+					
+					local ItemID = GTowerItems:Get( snowball )
+
+					if !ItemID || !GTowerItems:NewItemSlot( ply ):Allow( ItemID, true ) then
+						
+						ply:Msg2( "You can't fit anymore items!" )
+
+					elseif ply:HasItemById( snowball, true ) then
+
+						ply:Msg2( "You already have snowball(s)!")
+
+					elseif ply:HasItemById( snowball ) then
+
+						ply:Msg2( "You already have snowball(s) in your trunk!")
+
+					else
+
+						ply.SnowTime = CurTime() + 1
+						ply:Msg2( "Grabbing snow..." )
+
+					end
+					// TODO: Network Bar
+
+				end
+
+				ply.GrabbingSnow = true
+
+			end
+
+		else
+
+			if ply.SnowTime then
+
+				// TODO: Network no bar
+				ply.SnowTime = nil
+
+			end
+
+			ply.GrabbingSnow = false
+
+		end
+
+		if ply.SnowTime && ply.SnowTime < CurTime() then
+
+			local ItemID = GTowerItems:Get( snowball )
+
+			if !ItemID || !GTowerItems:NewItemSlot( ply ):Allow( ItemID, true ) then
+				ply:Msg2( "You can't fit anymore items!" )
+				return
+			end
+
+			ply:InvGiveItem(snowball)
+			ply:Msg2( "You grabbed 3 snowballs!" )
+			ply.SnowTime = nil
+
+		end
+
+	end
+
+end )
 
 hook.Add( "PlayerSpawn", "UCHMilestoneFix", function(ply)
 	local list = ply:GetEquipedItems()
@@ -115,7 +199,7 @@ function GM:PlayerShouldTakeDamage( ply, attacker )
 		return false
 	end
 
-	return false // attacker:IsAdmin()
+	return IsValid( attacker ) && attacker:IsAdmin()
 
 end
 

@@ -7,7 +7,6 @@ function ENT:Initialize()
 
 	self.NextParticle = CurTime() + 0.15
 
-	self.csModel = ClientsideModel("models/props_combine/breenbust.mdl")
 	self:DrawShadow(false)
 
 		if IsValid( self ) then
@@ -22,6 +21,11 @@ function ENT:Initialize()
 end
 
 function ENT:Draw()
+
+	if !IsValid(self.csModel) then
+		self.csModel = ClientsideModel("models/props_combine/breenbust.mdl")
+	end
+
 	local bananaAngle = (CurTime() * 75) % 360
 	local bananaHeight = math.sin(CurTime() * 1) * 1.5
 
@@ -34,8 +38,15 @@ function ENT:Draw()
 end
 
 function ENT:OnRemove()
-	self.csModel:Remove()
+
+	if IsValid( self.csModel ) then
+		
+		self.csModel:Remove()
+
+	end
+
 end
+
 function ENT:Think()
 
 	self.Color = colorutil.Rainbow(200)

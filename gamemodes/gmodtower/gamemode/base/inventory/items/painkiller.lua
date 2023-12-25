@@ -7,7 +7,7 @@ ITEM.UniqueInventory = false
 ITEM.DrawModel = true
 ITEM.CanUse = true
 
-ITEM.StoreId = 8
+ITEM.StoreId = GTowerStore.BATHROOM
 ITEM.StorePrice = 15
 
 if SERVER then

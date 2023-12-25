@@ -9,6 +9,8 @@ ENT.StoreId 	= GTowerStore.VIP
 ENT.AnimMale		= Model( "models/player/gmt_shared.mdl" )
 ENT.AnimFemale		= Model( "models/player/gmt_shared.mdl" ) -- temp hack
 
+ENT.Description = "VIP Exclusive items."
+
 function ENT:CanUse( ply )
 	if ply.IsVIP and ply:IsVIP() then
 		return true, "TALK"

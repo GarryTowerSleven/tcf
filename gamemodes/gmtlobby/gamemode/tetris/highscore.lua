@@ -37,7 +37,7 @@ _G.hook.Add("TetrisEnd", "SQLTetrisGetHighScore", function( ply, ent )
 		if Points > 500 then
 			Money = Money + 200
 		end
-		ply:AddMoney( Money )
+		ply:AddMoney( Money, nil, nil, nil, "Tetris" )
 	end
 
 	if tonumber(Points) > tonumber(PlyPoints) then

@@ -49,7 +49,7 @@ end
 
 function ENT:UpdatePetName()
 	local ply = self:GetOwner()
-	if IsValid( ply ) then
+	if IsValid( ply ) && ply:IsPlayer() then
 		self:SetPetName( string.sub(ply:GetInfo("gmt_petname"),1,15) )
 	end
 end
@@ -128,7 +128,7 @@ function ENT:EmotionThink()
 	if IsValid(owner) then self:UpdatePetName() end
 
 	if self:GetEmotionID() != Pets.GetIDFromEmotion( "Rolling" ) then
-		if ( IsValid( owner ) && owner:IsRabbit() ) then
+		if ( IsValid( owner ) && owner:IsPlayer() && owner:IsRabbit() ) then
 			self:SetEmotion( "Rabbit" )
 		else
 			self:SetEmotion( "Happy" )

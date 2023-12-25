@@ -404,6 +404,33 @@ GTowerItems.RegisterItem( "UCHPig", {
 		if UCHAnim && SERVER then
 			UCHAnim.ClearPlayer( self.Ply )
 		end
+	end,
+
+	ExtraMenuItems = function ( item, menu )
+		local ranks = {
+			"Ensign", "Captain", "Major", "Colonel"
+		}
+
+		local ranks2 = {
+			["Ensign"] = 0,
+			["Captain"] = 1,
+			["Major"] = 2,
+			["Colonel"] = 3
+		}
+
+		local current = GetConVar( "gmt_uch_skin" ):GetInt() || 0
+
+		table.insert( menu, {
+			[ "Name" ] = "Set Rank",
+			[ "function" ] = function()
+				Derma_StringRequest(
+					"Pigmask Rank",
+					"Please enter a rank.\n - Ensign - Captain - Major - Colonel -",
+					ranks[current] || "",
+					function(text) text = ( ranks2[text] || text ) GetConVar( "gmt_uch_skin" ):SetInt( tonumber(text) ) end
+				)
+			end
+		} )
 	end
 
 })

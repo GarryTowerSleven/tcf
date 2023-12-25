@@ -95,7 +95,7 @@ function GM:PlayerSpawn( ply )
 
   ply:SetNoDraw( true )
 
-	local PlyCol = ply:GetInfo("cl_playercolor")
+	local PlyCol = ply:GetInfo("gmt_playercolor")
 
 	ply:SetNWVector( "PlyColor", (Vector( PlyCol ) * 255) )
 
@@ -214,7 +214,7 @@ end
 
 function GM:Think()
 	for k,v in pairs(player.GetAll()) do
-		local PlyCol = v:GetInfo("cl_playercolor")
+		local PlyCol = v:GetInfo("gmt_playercolor")
 		v:SetNWVector( "PlyColor", (Vector( PlyCol ) * 255) )
 	end
 

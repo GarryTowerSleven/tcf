@@ -6,10 +6,10 @@ end
 
 local sprint_minimum = .2
 
-function meta:CanRechargeSprint()
+function meta:CanRechargeSprint( time )
 
-	if self:GetNet( "IsChimera" ) && self:IsOnGround() && !self:GetNet( "IsRoaring" ) && !self:GetNet( "IsBiting" ) && !self:GetNet( "IsStunned" ) then
-		return true
+	if self:GetNet( "IsChimera" ) && ( !self:IsOnGround() || self:GetNet( "IsRoaring" ) || self:GetNet( "IsBiting" ) || self:GetNet( "IsStunned" ) ) then
+		return false
 	end
 
 	if self:GetNet( "IsStunned" ) then
@@ -20,7 +20,7 @@ function meta:CanRechargeSprint()
 		return false
 	end
 
-	if !self.SprintCooldown && ( self:Alive() && !self:GetNet( "IsChimera" ) ) then
+	if time || !self.SprintCooldown && ( self:Alive() ) then
 		return true
 	end
 
@@ -87,6 +87,7 @@ if SERVER then
 
 			if ply.SprintCooldown && ply.SprintCooldown < CurTime() then
 				ply.SprintCooldown = nil
+				ply:SetNet( "Sprint", 0.01 )
 			end
 
 			if ply:GetNet( "IsChimera" ) then
@@ -106,6 +107,14 @@ if SERVER then
 
 	function meta:HandleSprinting()  //when they're actually sprinting
 
+		if self:GetNet( "Sprint" ) <= 0 then //you're all out man!
+
+			if !self:CanRechargeSprint( true ) then
+				self.SprintCooldown = CurTime() + 1
+			end
+
+		end
+
 		if self:GetNet( "IsSprinting" ) then
 
 			local drain = GAMEMODE.SprintDrain
@@ -120,15 +129,13 @@ if SERVER then
 				drain = drain - ( .005 * ( self:GetNet( "Rank" ) / 4 ) )
 			end
 
+			drain = FrameTime() * drain * 50
+
 			self:SetNet( "Sprint", math.Clamp( self:GetNet( "Sprint" ) - drain, 0, 1 ) )
 
 			if self:GetNet( "Sprint" ) <= 0 then //you're all out man!
 
 				self:SetNet( "IsSprinting", false )
-
-				if !self.SprintCooldown then
-					self.SprintCooldown = CurTime() + 1
-				end
 
 				self:SetupSpeeds()
 
@@ -147,13 +154,12 @@ if SERVER then
 				else
 
 					local num = .00075
-					if self:Crouching() then
-						num = .02
-					end
 
 					recharge = recharge + ( num * ( self:GetNet( "Rank" ) / 4 ) )
 
 				end
+
+				recharge = FrameTime() * recharge * 50
 
 				self:SetNet( "Sprint", math.Clamp( self:GetNet( "Sprint" ) + recharge, 0, 1 ) )
 

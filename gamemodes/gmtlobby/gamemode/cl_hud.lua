@@ -425,6 +425,9 @@ local function PaintJetpack( x, y, w, h, scale )
 
 end
 
+local snow = {}
+local lastsnow = 0
+
 local function PaintInfo( scale, sx, sy, scrw, scrh )
 
     local main_width, main_height = 256, 128
@@ -478,6 +481,42 @@ local function PaintInfo( scale, sx, sy, scrw, scrh )
         draw.SimpleText( event_string, "GTowerHUD_Location", main_x + ((45 + 1) * scale), main_y + ((120 + 1) * scale), color_black )
         draw.SimpleText( event_string, "GTowerHUD_Location", main_x + (45 * scale), main_y + (120 * scale), color_white )    
         
+    end
+
+    if IsChristmas then
+
+        local x, y = main_x + main_width / 4.1, main_y + main_height / 2.75
+        local w, h = main_width, main_height
+
+        render.SetScissorRect( x, y, x + w, y + h / 1.75, true )
+
+        for _, snowflake in ipairs(snow) do
+    
+            draw.RoundedBox( 0, math.Round( snowflake.x ), math.Round( snowflake.y ), snowflake.w, snowflake.w, snowflake.color )
+    
+            snowflake.x = snowflake.x + snowflake.vel.x * FrameTime()
+            snowflake.y = snowflake.y + snowflake.vel.y * FrameTime()
+    
+            if snowflake.y > y + h || snowflake.x > w then
+    
+                table.remove( snow, _ )
+    
+            end
+    
+        end
+    
+        if lastsnow < SysTime() then
+    
+            table.insert( snow, {
+                x = math.random( x, w ), y = y, w = 2, color = Color( 255, 255, 255, 100 ), vel = { x = math.Rand( -2, 2 ), y = 24 }
+            })
+    
+            lastsnow = SysTime() + math.Rand( 0.1, 0.2 )
+    
+        end
+
+        render.SetScissorRect( 0, 0, 0, 0, false )
+
     end
 
 end

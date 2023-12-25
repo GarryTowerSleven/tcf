@@ -33,7 +33,7 @@ function Register( id, file, data, map )
 
 	// For looping music tracks
 	data.Loops = data.Loops or false // Does this song loop?
-	data.Length = data.Length or 30 // Length of the song (for looping)
+	data.Length = data.Length or SoundDuration( data.File .. ( data.Ext || ".mp3" ) ) or 30 // Length of the song (for looping)
 
 	// For randomized music tracks
 	data.Num = data.Num or 1 // How many tracks are there to randomly select

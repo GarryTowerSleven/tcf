@@ -33,6 +33,17 @@ function GM:Initialize()
 	timer.Simple(.1, function() GAMEMODE:CacheStuff() end)
 	
 	//self:SetState( 1 ) /* multiserver state */
+
+end
+
+function GM:InitPostEntity()
+
+	// Temporary Hack!!!
+	if game.GetMap() == "gmt_uch_downtown04" then
+		for _, e in ipairs(ents.FindByClass("*soundscape*")) do
+			e:Remove()
+		end
+	end
 	
 end
 

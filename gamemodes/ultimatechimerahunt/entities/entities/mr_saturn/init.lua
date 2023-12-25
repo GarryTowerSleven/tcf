@@ -1,650 +1,373 @@
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
-AddCSLuaFile( "SCHED.lua" )
 include( "shared.lua" )
-include( "schedules.lua" )
 
 function ENT:Initialize()
-
-	self:SetModel( self.Model )
-
+	self:SetModel( "models/uch/saturn.mdl" )
 	self:PhysicsInit( SOLID_VPHYSICS )
-	self:SetMoveType( MOVETYPE_VPHYSICS )
-	self:SetSolid( SOLID_VPHYSICS )
+	self:PhysWake()
 
-	self:SetColor( Color(255, 255, 255, 255) )
-	construct.SetPhysProp( nil, self, 0, nil, { GravityToggle = true, Material = "ice" } )
-	self.ShootNoise = 0
-	self.Walking = false
-	self.WalkAngle = Angle( 0, 0, 0 )
-	self.LastStep = 0
-	self.CanGrav = true
-	self.CurrentEndFunc = nil
-	self.WallCheck = 0
-	self.ShouldWalk = true //We just spawned, we should start out walking
-	self.WalkTimeMin = .5
-	self.WalkTimeMax = .9
-	self:SetupSchedules()
-	
-	if !self.SpawnWithHat then
+	construct.SetPhysProp( nil, self, 0, nil, { Material = "ice" })
+	self:StartMotionController()
 
-		local rnd = math.random( 1, 12 ) //Mr. Saturn gets a hat almost as often as TF2 players do ( hurf durf never )
-		if rnd == 1 then
+	self.LastThink = 0
+	self.LastJump = 0
+	self.LastRandom = 0
+	self.TargetPos = self:GetPos()
+	self.GroundTime = 0
+	self.Balloons = {}
 
-			local rndhat = math.random( 1, #MrSaturnHatTable ) //So many choices!
-			self:SetHat( rndhat )
+	self.Nav = ents.Create( "mr_saturn_navigator" )
+	self.Nav:SetPos( self:GetPos() )
+	self.Nav:Spawn()
+end
+
+function ENT:Think()
+
+	local phys = self:GetPhysicsObject()
+
+	if self.LastThink < CurTime() then
+
+		local pos, ang = self:GetPos(), self:GetAngles()
+		local onground = util.QuickTrace( self:GetPos(), Vector(0, 0, -24), self ).Hit
+
+		// AI
+		if !IsValid( self.Pig ) || self.Pig:Team() != TEAM_PIGS then
+			self.Pig = team.GetPlayers( TEAM_PIGS )
+			self.Pig = self.Pig[math.random( 1, #self.Pig )]
+		end
+
+		if IsValid(self.Pig) && self:GetPos():DistToSqr( self.Pig:GetPos() ) > (512 * 512) && !self.Reached then
+			self.TargetPos = self.Pig:GetPos()
+		else
+			self.Reached = true
+
+			if self.LastRandom < CurTime() || pos:DistToSqr( self.TargetPos ) < (64 * 64) then
+				self.TargetPos = table.Random( navmesh.GetAllNavAreas() ):GetRandomPoint() // self:GetPos() + Vector(math.random(-200, 200), math.random(-200, 200), 0)
+				self.LastRandom = CurTime() + 8
+			end
+		end
+
+		if !onground then
+
+			self.GroundTime = CurTime() + 1
 
 		end
 
+		// Stuck
+		local down = math.abs( ang.p ) > 24 && 1 || math.abs( ang.r ) > 24 && 2 || 0
+
+		if ( down == 1 || down == 2 ) && onground then
+			self.LastJump = self.LastJump or CurTime() + 1
+
+		elseif !onground && self.LastJump && self.LastJump > CurTime() then
+			self.LastJump = CurTime() + 0.2
+		else
+			self.LastJump = nil
+		end
+
+		// Nav
+		self.Nav:SetPos( self:GetPos() )
+
+		if self.PosCache != self.TargetPos then
+
+			self.Nav.Path:Compute( self.Nav, self.TargetPos )
+			self.Segments = self.Nav.Path:GetAllSegments()
+			self.PosCache = self.TargetPos
+
+		end
+
+		local flying = #self.Balloons > 0
+
+		phys:EnableGravity( !flying )
+
+		if flying then
+			
+			phys:ApplyForceCenter( Vector( 0, 0, 256 ) )
+
+		elseif self.Segments then
+
+			if self.Segments[1] && self:GetPos():Distance( self.Segments[1].pos ) < 64 then
+				table.remove(self.Segments, 1)
+			end
+
+			self.MoveTo = #self.Segments > 2 && self.Segments[1] && self.Segments[1].pos || self.TargetPos
+
+			local tang = ( self.MoveTo - phys:GetPos() ):Angle()
+
+			phys:ApplyForceCenter( tang:Forward() * 184 * ( 1 - math.Clamp( phys:GetVelocity():Length2D() / 184, 0, 1 ) ) )
+
+		end
+
+		self.LastThink = CurTime() + 0.1
 	end
 
-	local phys = self:GetPhysicsObject()
-	if phys:IsValid() then
-		phys:Wake()
-	end
-	
-	local eff = EffectData()
-		eff:SetOrigin( self:GetPos() )
-		eff:SetEntity( self )
-	util.Effect( "saturn_spawn", eff )
+	// Animation
+	self:ResetSequence( self:LookupSequence( "walk" ) )
+	self:SetPlaybackRate( math.Clamp( phys:GetVelocity():Length2D() / 256, 0, 1 ) * 4 )
 
-	self:StartMotionController()
-	
+	self:NextThink( CurTime() )
+	return true
 end
 
-function ENT:SetHat( num, skin )
+function ENT:PhysicsSimulate( phys, ft )
 
-	if num < 0 || num > #MrSaturnHatTable then
-		print( "INVALID SATURN HAT! : " .. tostring( num ) )
+	// Due to a bug within Garry's Mod, Mr. Saturn will become a landmine if he is left sleeping.
+	phys:Wake()
+
+	if self.LastJump && self.LastJump < CurTime() then
+
+		local shadow = {}
+		shadow.secondstoarrive = 0.1
+		shadow.pos = self:GetPos()
+		shadow.angle = self:GetAngles()
+		shadow.angle.p = 0
+		shadow.angle.r = 0
+		shadow.maxangular = 256
+		shadow.maxangulardamp = 1000
+		shadow.maxspeed = 0
+		shadow.maxspeeddamp = 10000
+		shadow.dampfactor = 0
+		shadow.teleportdistance = 200
+		shadow.deltatime = ft
+	
+		phys:ComputeShadowControl( shadow )
+
 		return
+
 	end
-	
-	skin = skin or 1
-	
-	if MrSaturnHatTable[num].body then
-		self:SetBodygroup( 1, 1 )
-	end
-	
-	timer.Simple( .1, function()
-		umsg.Start( "SaturnHat" )
-			umsg.Entity( self )
-			umsg.Long( num )
-			umsg.Long( skin )
-		umsg.End()
-	end )
+
+	if !self.MoveTo || self.GroundTime > CurTime() then return end
+
+	local tang = ( self.MoveTo - phys:GetPos() ):Angle()
+
+	local shadow = {}
+	shadow.secondstoarrive = 0.1
+	shadow.pos = vector_origin
+	shadow.angle = tang
+	shadow.angle.p = 0
+	shadow.angle.r = 0
+	shadow.maxangular = 2048
+	shadow.maxangulardamp = 10000
+	shadow.maxspeed = 0
+	shadow.maxspeeddamp = 0
+	shadow.dampfactor = 1
+	shadow.teleportdistance = 0
+	shadow.deltatime = ft
+
+	phys:ComputeShadowControl( shadow )
 
 end
 
-function ENT:FeetPlanted()
+function ENT:OnRemove()
 
-	local trace = util.TraceLine( {
-		start = self:GetPos(),
-		endpos = self:GetPos() + ( ( self:GetUp() * -1 ) * 16 ),
-		filter = self
-	} )
+	if IsValid( self.Nav ) then
 
-	if trace.Hit && trace.Entity && !trace.Entity:IsPlayer() && !trace.Entity:IsNPC() then
-		return true
-	else
-		return false
+		self.Nav:Remove()
+
+	end
+
+	self:PopBalloons()
+
+end
+
+function ENT:CreateBalloons()
+
+	for i = 1, math.random( 4, 8 ) do
+		
+		timer.Simple( i * 0.4, function()
+		
+			if IsValid( self ) then
+
+				local ent = ents.Create( "saturn_balloon" )
+				ent:SetPos( self:GetPos() + Vector( 0, 0, 8 ) )
+				ent:SetCollisionGroup( COLLISION_GROUP_PASSABLE_DOOR )
+				ent:SetColor( Color( 255, 0, 100 ) )
+				ent:SetForce( 1024 )
+				ent:Spawn()
+
+				ent.Sound = i <= 2
+
+				constraint.NoCollide( ent, self, 0, 0 )
+				constraint.Rope( ent, self, 0, 0, vector_origin, vector_origin, 32, 32, 0, 0.2, "cable/cable2", false, color_white )
+
+				table.insert( self.Balloons, ent )
+
+			end
+		
+		end )
+
 	end
 
 end
 
-function ENT:TouchingGround()
+function ENT:PopBalloons()
 
-	if self:FeetPlanted() then return false end
+	for _, ent in ipairs( self.Balloons ) do
 
-	local trace = util.TraceLine( {
-		start = self:GetPos(),
-		endpos = ( self:GetPos() + Vector( 0, 0, -16 ) ),
-		filter = self
-	} )
+		ent:OnTakeDamage( )
 
-	if trace.Hit && trace.Entity && !trace.Entity:IsPlayer() && !trace.Entity:IsNPC() then
-		return true
-	else
-		return false
+	end
+
+	table.Empty( self.Balloons )
+
+end
+
+function ENT:Scare()
+
+	if #self.Balloons == 0 && !self.IsScared then
+
+		self.IsScared = true
+
+		self:CreateBalloons()
+		self:EmitSound( "uch/saturn/saturn_hit.wav", 80, 130 )
+		self:GetPhysicsObject():AddVelocity( Vector( 0, 0, 256 ) )
+
+		timer.Simple( math.random( 8, 12 ), function()
+		
+			if IsValid( self ) then
+
+				self:PopBalloons()
+				self.IsScared = false
+
+			end
+
+		end )
+
 	end
 
 end
 
 function ENT:PhysicsCollide( data, phys )
 
-	if data.Speed >= 65 then
+	if data.Speed >= 75 && data.DeltaTime > 0.2 then
 
-		if data.Speed <= 400 && data.DeltaTime > 0.2 then
-			self:EmitSound( "UCH/saturn/saturn_collide.wav" )
+		self:EmitSound( "uch/saturn/saturn_collide.wav" )
+
+	end
+
+	if data.Speed >= 400 then
+
+		if data.DeltaTime > 0.2 then
+		
+			self:EmitSound( "uch/saturn/saturn_hit.wav", 80, math.random( 80, 120 ) )
+		
 		end
 
-		if data.Speed > 400 then
+		self:StopMotionController()
 
-			if data.DeltaTime > 0.2 then
-				self:EmitSound( "UCH/saturn/saturn_hit.wav", 80, math.random( 80, 120 ) )
+		local LastSpeed = math.max( data.OurOldVelocity:Length(), data.Speed )
+		local NewVelocity = phys:GetVelocity()
+		NewVelocity:Normalize()
+	
+		LastSpeed = math.max( NewVelocity:Length(), LastSpeed )
+	
+		local TargetVelocity = NewVelocity * LastSpeed * 0.75
+	
+		phys:SetVelocity( TargetVelocity )
+
+		local effect = EffectData()
+		effect:SetOrigin( data.HitPos )
+		effect:SetNormal( data.HitNormal )
+		effect:SetFlags( 0 )
+		util.Effect( "saturn_stars", effect )
+
+		local ent = data.HitEntity
+		local ply = self:GetOwner()
+
+		if !self.Hit && IsValid( ply ) && IsValid( ent ) && ent:IsPlayer() && ent:GetNet( "IsChimera" ) && GAMEMODE:IsPlaying() then
+
+			self.Hit = true
+
+			if !ent.SaturnHit then
+
+				ent.SaturnHit = true
+				ent:Stun()
+				ply:AddAchievement( ACHIEVEMENTS.UCHBESTFRIEND, 1 )
+
+			else
+
+				ent.SaturnKill = true
+				ent.SaturnThrower = ply
+				ent.SaturnHit = false
+
+				ply:SetNet( "KilledWithSaturn", true )
+				ply:AddFrags( 1 )
+				ply:RankUp()
+				ply:EmitSound( "uch/saturn/saturn_superwin.wav" )
+				ply:AddAchievement( ACHIEVEMENTS.UCHHOMERUN, 1 )
+
+				ent:Kill()
+
 			end
-
-			self:StopMotionController()
-			construct.SetPhysProp( nil, self, 0, nil, { GravityToggle = true, Material = "metal_bouncy" } )
 			
-			//garry's sent_ball bounce
-			local oldvel = data.OurOldVelocity:Length()
-			local newvel = phys:GetVelocity()
-			newvel:Normalize()
-			local vel = ( newvel * oldvel ) * 0.75
-			phys:SetVelocity( vel )
-
-		else
-			self:StartMotionController()
-		end
-		
-		self:HitChimera( data.HitEntity, data.HitNormal )
-		
-		local eff = EffectData()
-			eff:SetOrigin( data.HitPos )
-			eff:SetNormal( data.HitNormal )
-		util.Effect( "saturn_stars", eff )
-
-	end
-
-	if self.Descending then
-		self.SCHEDTime = 0
-	end
-
-end
-
-function ENT:OnTakeDamage( dmg )
-
-	self:TakePhysicsDamage( dmg )
-	self.Walking = false
-	self.SCHEDTime = 0
-	self.ShouldWalk = true
-
-	if dmg:IsExplosionDamage() then
-
-		local rnd = math.random( 1, 10 )
-
-		if rnd == 1 then
-			local pos = self:GetPos() + Vector( 0, 0, 25 )
-
-			local ef = EffectData()
-				ef:SetStart( Vector( 255, 200, 175 ) )
-				ef:SetOrigin( pos )
-				ef:SetScale( 1 )
-				util.Effect( "piggy_pop", ef )
-				util.Effect( "piggy_pop", ef )
-				util.Effect( "piggy_pop", ef )
-				ef:SetStart( Vector( 255, 0, 0 ) )
-			util.Effect( "piggy_pop", ef )
-
-			self:EmitSound( "UCH/saturn/saturn_hit.wav", 80, math.random( 35, 60 ) )
-			self:Remove()
-
-		end
-
-	end
-
-	if !dmg:IsBulletDamage() then
-
-		self:EmitSound( "UCH/saturn/saturn_hit.wav", 80, math.random( 80, 120 ) )
-
-	else
-
-		if CurTime() >= self.ShootNoise then
-			self.ShootNoise = CurTime() + .4
-			self:EmitSound( "UCH/saturn/saturn_hit.wav", 80, math.random( 80, 120 ) )
-		end
-
-	end
-
-end
-
-function ENT:MakeBalloon( force, length, offset )
-
-	local balloon_count = math.Clamp( (2*(#player.GetAll()-1)), 1, 20 )
-
-	local i = 0
-	--for i=1,balloon_count do
-	if timer.Exists( "BalloonSpawn" ) then return end
-
-	timer.Create( "BalloonSpawn", 0.8, balloon_count, function()
-		local balloon = ents.Create( "saturn_balloon" )
-
-		balloon:SetPos( self:GetPos() + Vector( 0, 0, length ) )
-		
-		balloon:Spawn()
-		
-		balloon:SetCollisionGroup( COLLISION_GROUP_PASSABLE_DOOR )
-		balloon:SetRenderMode( RENDERMODE_TRANSALPHA )
-		balloon:SetColor( Color(250, 0, 100, 255) )
-		balloon:SetForce( force )
-		
-		local ent1, ent2 = self, balloon
-		
-		local bone = self:LookupBone( "nose1" )
-		local bpos, bang = self:GetBonePosition( bone )
-		local bone1, bone2 = 0, 0
-		
-		bpos = bpos + offset
-		
-		local pos1, pos2 = bpos, balloon:GetPos()
-		pos1 = self:WorldToLocal( pos1 )
-		pos2 = balloon:WorldToLocal( pos2 )
-		
-		local length = length
-		
-		local forcelimit, width, material, rigid = 0, .1, "cable/cable2", false
-		
-		constraint.Rope( ent1, ent2, bone1, bone2, pos1, pos2, length, 0, forcelimit, width, material, rigid )
-		
-		self.Balloon = balloon
-		i = i + 1
-		if i == balloon_count then
-			timer.Destroy( "BalloonSpawn" )
-		end
-	end )
-
-end
-
-function ENT:RemoveBalloon()
-	for _, v in ipairs( ents.FindByClass( "saturn_balloon" ) ) do
-		v:TakeDamage( 1 )
-	end
-	/*if IsValid( self.Balloon ) then
-		self.Balloon:TakeDamage( 1 ) // *pop*
-		self.Balloon = nil
-	end*/
-
-end
-
-function ENT:GetUpSC()
-
-	local shadow = {}
-	shadow.secondstoarrive = math.Rand( .2, .4 )
-	shadow.pos = self:GetPos()
-	shadow.angle = self:GetAngles()
-	shadow.angle.p = 0
-	shadow.angle.r = 0
-	shadow.maxangular = 5000
-	shadow.maxangulardamp = 10000
-	shadow.maxspeed = 0
-	shadow.maxspeeddamp = 0
-	shadow.dampfactor = 1
-	shadow.teleportdistance = 0
-	shadow.deltatime = delta
-	return shadow
-
-end
-
-function ENT:DoAnimations()
-
-	local anim = "idle"
-
-	if self.Idling || ( IsValid( self.PlayerSaturn ) && self.Walking ) then
-		anim = "idle2"
-	end
-
-	if self.Turning then
-		anim = "walk"
-		self:SetPlaybackRate( .8 )
-	end
-
-	if self.ShouldSpaz then //We're being held...
-		anim = "walk" //walking takes priority
-		self:SetPlaybackRate( 5 )
-	end
-
-	local vel = self:GetVelocity():Length()
-	if self:FeetPlanted() && vel >= 15 then
-		local chk = ( vel * .02 )
-		chk = math.Clamp( chk, .025, 4 )
-		anim = "walk"
-		self:SetPlaybackRate( chk )
-	end
-
-	anim = self:LookupSequence( anim )
-	self:ResetSequence( anim )
-
-end
-
-function ENT:ResetGetUp()
-
-	self.ShouldGetUp = false
-	self.CanGetUp = false
-	timer.Destroy( tostring( self ) .. "GetUpTimer" )
-
-end
-
-function ENT:Scare()
-
-	self.IsScared = true
-	self:StartFly() // force him to fly
-	
-	local endfly = math.random( 18, 20 )
-	self.SCHEDTime = CurTime() + endfly
-
-	timer.Simple( endfly, function() if IsValid(self) then self:EndFly() end end )
-	
-end
-
-function ENT:Think()
-
-	if self:WaterLevel() >= 1 then //We are in water
-
-		construct.SetPhysProp( nil, self, 0, nil, {GravityToggle = true, Material = "rubber"} )
-		local anim = self:LookupSequence( "walk" )
-		self:SetPlaybackRate( 5 )
-		self:ResetSequence( anim )
-		self:GetPhysicsObject():ApplyForceCenter( Vector( 0, 0, 100 ) )
-		self:NextThink( CurTime() )
-		return true
-	
-	end
-
-	if ( self.Fishing || self.Flying ) && !IsValid( self.Balloon ) then
-
-		self.Balloon = nil
-		self.ShouldWalk = true
-		self.SCHEDTime = 0
-
-	end
-	
-	self:DoAnimations()
-	
-	local phys = self:GetPhysicsObject()
-	if !phys:IsValid() then
-		return
-	end
-	
-	//schedule stuff
-	local vel = self:GetVelocity():Length()
-	local angvel = phys:GetAngleVelocity():Length()
-	local pos, fwd = self:GetPos(), self:GetForward()
-	
-	local timeleft = ( self.SCHEDTime - CurTime() )
-	
-	if self.Flying && IsValid( self.Balloon ) then
-
-		if timeleft <= 6 then
-			self.Descending = true //going down!
-		end
-
-		if self.FlyCheck && self:TouchingGround() then
-			self.SCHEDTime = 0
-			self.CanGetUp = true
-		end
-
-		local num = 30
-		local vel = Vector( 0, 0, 0 )
-		local fwd = self:GetUp()
-		local right = self:GetRight()
-		local back, left = ( fwd * -1 ), ( right * -1 )
-
-		vel = fwd
-		num = 2
-
-		local phys = self.Balloon:GetPhysicsObject()
-		if phys:IsValid() then
-			vel.z = 0
-			phys:ApplyForceCenter( ( vel * num ) )
-		end
-
-	end
-	
-	if self.Descending && IsValid( self.Balloon ) then
-		self.Balloon:SetForce( 122 )
-	end
-	
-	local u = phys:GetAngles():Up()
-	if u.z > .9 then
-	
-		if self.Walking then
-			local num = 100
-	
-			local vel = ( fwd * num )
-			if self:IsOnFire() then
-				vel = ( vel * 2.5 ) //GO NUTS!!!!1
-			end
-			phys:ApplyForceCenter( vel )
-		end
-		
-		self:ResetGetUp()
-		
-		local pos, fwd = self:GetPos(), self:GetForward()
-
-		//Hop check
-		local tr = util.QuickTrace( ( pos + Vector( 0, 0, -7 ) ), ( fwd * 16 ), self )
-		local chk = ( ( pos + Vector( 0, 0, 16 ) ) + ( fwd * 16 ) )
-		chk = util.PointContents( chk )
-		if tr.HitWorld then
-			if chk != CONTENTS_SOLID then
-				phys:ApplyForceCenter( Vector( 0, 0, 300 ) )
-				timer.Simple( .25, function()
-					if IsValid( self ) then
-						phys:ApplyForceCenter( ( fwd * 100 ) )
-					end
-				end )
-			end
-		end
-
-		//Turn Check
-		local tr = util.QuickTrace( ( pos + Vector( 0, 0, -7 ) ), ( fwd * 128 ), self )
-		local chk = ( ( pos + Vector( 0, 0, 16 ) ) + ( fwd * 128 ) )
-		chk = util.PointContents( chk )
-		if tr.HitWorld && chk == CONTENTS_SOLID && !IsValid( self.PlayerSaturn ) then //You're walking into a wall man...
-
-			if CurTime() >= self.WallCheck then
-				self.WallCheck = ( CurTime() + 1 )
-				self.WalkTimeMin = .1
-				self.WalkTimeMax = .1
-				self.WalkAngle.y = ( self.WalkAngle.y + 180 ) //away from the wall, son
-			end
-
-		else
-
-			local mn, mx = .5, .9
-			if IsValid( self.PlayerSaturn ) then
-				mn, mx = .1, .3
-			end
-			self.WalkTimeMin = mn
-			self.WalkTimeMax = mx
-
-		end
-		
-	else //We're knocked over
-
-		local vel = self:GetVelocity():Length()
-		local angvel = phys:GetAngleVelocity():Length()
-		if self:TouchingGround() && !self.ShouldGetUp && vel <= 30 && angvel <= 200 && !self.Fishing && !self.Sitting then
-			self.ShouldGetUp = true
-			timer.Create( tostring( self ) .. "GetUpTimer", math.random( 3, 6 ), 1, function()
-				if IsValid( self ) then
-					self.CanGetUp = true
-					self.ShouldGetUp = false
-					self:EmitSound( "UCH/saturn/saturn_getup.wav", 60, 100 )
-				end
-			end )
-		end
-
-	end
-
-	if ( self:FeetPlanted() && vel <= 100 && angvel <= 75 ) || self.Fishing || self.Sitting || self.Flying then
-		self:RandomSchedule()
-	end
-
-	if !self:FeetPlanted() then
-		self.ShouldWalk = true
-	end
-
-	self:NextThink( CurTime() )
-	return true
-
-end
-
-function ENT:PhysicsSimulate( phys, delta )
-
-	phys:Wake()
-	if self:WaterLevel() >= 1 then
-		return
-	end
-	//Simulated friction, since we need to use ice as our physprop ( it negates the collsion dust )
-	local forward, right = 0
-	local vel = phys:GetVelocity()
-	local forwardvel = phys:GetAngles():Forward():Dot( vel )
-	local rightvel = phys:GetAngles():Right():Dot( vel )
-	local spd = vel:Length()
-	
-	local wlkchk = phys:GetAngles():Up().z
-	if self.Walking && wlkchk > .9 then
-		phys:ComputeShadowControl( self:WalkSC( delta ) )
-	end
-
-	if self.CanGetUp then
-		phys:ComputeShadowControl( self:GetUpSC( delta ) )
-	end
-
-	if self.Fishing || self.Sitting then
-		phys:ComputeShadowControl( self:FishSC( delta ) )
-	end
-
-	if self.Flying then
-		phys:ComputeShadowControl( self:FlySC( delta ) )
-	end
-
-	//We be rollin, they laughin
-	if self:TouchingGround() || spd >= 200 then
-		construct.SetPhysProp( nil, self, 0, nil, {GravityToggle = true, Material = "rubber"} )
-	end
-	
-	//We're firmly planted on the ground
-	if self:FeetPlanted() then
-
-		if spd < 200 && wlkchk > .9 then
-			construct.SetPhysProp( nil, self, 0, nil, {GravityToggle = true, Material = "ice"} )
-			forward = ( forwardvel * .25 ) * -1
-			right = ( rightvel * .25 )
-			if self.Fishing || self.Sitting then
-				self:SetLocalVelocity( Vector( 0, 0, 0 ) )
-				phys:ApplyForceCenter( Vector( 0, 0, 400 ) )
-			end
 		end
 
 	else
 
-		if self.Walking && !self.CanGetUp then
-			if self.CurrentEndFunc then
-				local f, err = pcall( self.CurrentEndFunc, self )
-				if !f then
-					print( "ERROR: " .. err )
-					return
-				end
-			end
-			self.Walking = false
-			self.SCHEDTime = 0
-		end
+		self:StartMotionController()
 
 	end
-	
-	local linear = ( Vector( forward, right, 0 ) * delta * 1000 )
-	
-	return Vector( 0, 0, 0 ), linear, SIM_LOCAL_ACCELERATION
+
 end
 
 function ENT:Explode()
 
-	local ef = EffectData()
-	local pos = ( self:GetPos() + Vector( 0, 0, 25 ) )
-	ef:SetStart( Vector( 255, 200, 175 ) )
-	ef:SetOrigin( pos )
-	ef:SetScale( 1 )
-	util.Effect( "piggy_pop", ef )
-	util.Effect( "piggy_pop", ef )
-	util.Effect( "piggy_pop", ef )
-	ef:SetStart( Vector( 255, 0, 0 ) )
-	util.Effect( "piggy_pop", ef )
-	self:EmitSound( "UCH/saturn/saturn_hit.wav", 80, math.random( 35, 60 ) )
-	self:Remove()
+	self:EmitSound( "uch/saturn/saturn_hit.wav", 80, 80 )
 
-end
+	local effect = EffectData()
+	effect:SetOrigin( self:GetPos() )
+	effect:SetStart( Vector( 255, 200, 175 ) )
 
-function ENT:OnRemove()
+	for i = 1, 6 do
 
-	self:RemoveBalloon()
-	GAMEMODE:NewSaturn()
+		if i == 6 then
+			
+			effect:SetStart( Vector( 255, 0, 0 ) )
+
+		end
+
+		util.Effect( "piggy_pop", effect )
+	end
 
 end
 
 function ENT:Use( ply )
 
-	if self.IsScared || !ply:IsPig() || ply:GetNet("IsScared") || ply:GetNet("IsTaunting") || ply:GetNet("HasSaturn") || ply.GrabTime && ply.GrabTime > CurTime() then return end
+	if #self.Balloons > 0 || !ply:IsPig() || ply:GetNet( "IsScared" ) || ply:GetNet( "IsTaunting" ) || ply:GetNet( "HasSaturn" ) || ply.GrabTime && ply.GrabTime > CurTime() then return end
 
-	self:EmitSound( "UCH/saturn/saturn_pickup.wav", 80, 100 )
+	self:EmitSound( "uch/saturn/saturn_pickup.wav", 80 )
 	self:Remove()
-	ply:SetNet("HasSaturn",true)
-	
+
+	ply:SetNet( "HasSaturn", true )
+	ply.GrabTime = CurTime() + 0.5
+
 	local ent = ents.Create( "saturn_held" )
-	if IsValid( ent ) then
+	ent:SetPos( ply:GetPos() )
+	ent:SetParent( ply )
+	ent:SetOwner( ply )
+	ent:Spawn()
 
-		ent:SetPos( ply:GetPos() )
-		ent:SetOwner( ply )
-		ent:SetParent( ply )
-		ent:Spawn()
-	
-		ply.HeldSaturn = ent
-
-	end
-
-	ply.GrabTime = CurTime() + .5
-	
-end
-
-function ENT:HitChimera( uc, norm )
-
-	local ply = self:GetOwner()
-
-	if IsValid( uc ) && uc.GetNet && uc:GetNet("IsChimera") && IsValid( ply ) && !self.IsScared && GAMEMODE:IsPlaying() then
-
-		if !uc.SaturnHit then
-			uc.SaturnHit = 1
-			ply:AddAchievement( ACHIEVEMENTS.UCHBESTFRIEND, 1 )
-			uc:Stun()
-		else
-			uc.SaturnHit = uc.SaturnHit + 1
-		end
-
-		if uc.SaturnHit == 2 then
-
-			uc.SaturnKill = true
-			uc.SaturnThrower = ply
-			//uc.SaturnHit = nil
-
-			ply:SetNet( "KilledWithSaturn", true )
-			
-			timer.Simple(0.1, function()
-			
-				if IsValid( uc ) then
-					uc:Kill()
-					uc.SaturnHit = nil
-				end
-				
-				if IsValid( ply ) then
-					ply:AddFrags( 1 )
-					ply:RankUp()
-					ply:EmitSound( "UCH/saturn/saturn_superwin.wav" )
-
-					ply:AddAchievement( ACHIEVEMENTS.UCHHOMERUN, 1 )
-				end	
-				
-			end )
-
-		end
-	
-		local eff = EffectData()
-			eff:SetOrigin( uc:GetPos() )
-			eff:SetNormal( norm )
-		util.Effect( "chimera_stars", eff )
-
-	end
-
-	self:SetOwner( NULL )
+	ply.HeldSaturn = ent
 
 end
+
+local ENT2 = {}
+
+ENT2.Type = "nextbot"
+ENT2.Base = "base_nextbot"
+
+function ENT2:Initialize()
+	self:SetNoDraw(true)
+	self:SetSolid(SOLID_NONE)
+
+	self.Path = Path( "Follow" )
+end
+
+function ENT2:Think()
+	if self.TPos then
+		self.Path:Compute( self, self.TPos )
+	end
+end
+
+scripted_ents.Register(ENT2, "mr_saturn_navigator")

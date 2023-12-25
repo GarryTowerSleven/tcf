@@ -13,7 +13,7 @@ function ENT:Use( ply )
 		return
 	end
 
-	ply:AddMoney( self.MoneyValue )
+	ply:AddMoney( self.MoneyValue, nil, nil, nil, "MoneyNPC" )
 	ply._MoneyCooldown = CurTime() + self.CoolDown
 
 	/*if ( ply._MoneyCooldown && ply._MoneyCooldown > CurTime() ) then

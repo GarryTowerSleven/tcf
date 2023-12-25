@@ -116,7 +116,7 @@ hook.Add( "PlayerInitialSpawn", "PlayerSetup", PlayerSetup )
 hook.Add( "PlayerSpawn", "whee", function( ply )
 
 	ply:SetNoDraw(true)
-	hook.Call( "PlayerSetModel", GAMEMODE, ply )
+	GAMEMODE.BaseClass:PlayerSpawn(ply)
 
 end )
 

@@ -59,6 +59,11 @@ function ENT:Draw()
 	cam.End3D2D()
 
 	self:DrawModel()
+
+	if IsValid( self.Hat ) then
+		self.Hat:DrawModel()
+	end
+
 end
 
 function ENT:OnRemove()
@@ -83,14 +88,9 @@ function ENT:Think()
 		pos = pos + ( self:GetUp() * hat.pos.z )
 		ang = ang + hat.ang
 
-		hat:SetPos(pos)
-		hat:SetAngles(ang)
-
-		if LocalPlayer():GetPos():DistToSqr( self:GetPos() ) > 500000 then
-			hat:SetNoDraw( true )
-		else
-			hat:SetNoDraw( false )
-		end
+		hat:SetPos( pos )
+		hat:SetAngles( ang )
+		hat:SetParent( self )
 
 	end
 
@@ -101,9 +101,7 @@ end
 
 function ENT:SetCLHat( num, skin )
 
-	local snum = math.random( 0, 1 )
-	if skin then snum = skin end
-
+	skin = skin == 99 and false or skin
 	local rndhat = MrSaturnHatTable[num]
 	local hat = ClientsideModel( rndhat.mdl, RENDERGROUP_OPAQUE )
 	hat.pos = rndhat.pos
@@ -114,7 +112,8 @@ function ENT:SetCLHat( num, skin )
 	hat:SetCollisionGroup( COLLISION_GROUP_NONE )
 	hat.IsSaturnHat = true
 	hat:Spawn()
-	hat:SetSkin(snum)
+	hat:SetSkin( skin or math.random( hat:SkinCount() ) )
+	hat:SetNoDraw( true )
 
 	self.Hat = hat
 

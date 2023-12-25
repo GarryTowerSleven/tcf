@@ -5,6 +5,10 @@ if ( IsHalloween ) then
 	table.uinsert( EventPool, "GhostPop" )
 end
 
+if ( IsChristmas ) then
+	table.uinsert( EventPool, "SnowballFight" )
+end
+
 hook.Add( "EventsDelayTime", "MiniGames", function()
 	return math.random( 60 * 15, 60 * 25 )
 end )

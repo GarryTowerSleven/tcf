@@ -110,7 +110,7 @@ function GM:PlayerSpawn( ply )
  	hook.Call( "PlayerLoadout", self, ply )
 
  	// Set player model
- 	hook.Call( "PlayerSetModel", self, ply )
+	self.BaseClass:PlayerSpawn(ply)
 
 	if !ply._HackerAmt then
 		ply._HackerAmt = 0

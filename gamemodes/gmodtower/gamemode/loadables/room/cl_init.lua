@@ -10,12 +10,47 @@ include("room_maps.lua")
 --include("cl_closet.lua")
 include("cl_party.lua")
 
+net.Receive( "GRoom_Update", function()
+
+	local rooms = net.ReadTable()
+
+	for id, room in ipairs( rooms ) do
+		
+		local r = GTowerRooms:Get( id )
+		r.Hats = {}
+
+		r.Owner = room.Owner
+		r.HasOwner = IsValid( room.Owner )
+
+		if r.HasOwner then
+
+			if Hats.List then
+
+				r.Hats[ 0 ] = true
+
+				for i, hat in ipairs( Hats.List ) do
+					
+					// TODO: Network Hats!
+					r.Hats[ i ] = false
+
+				end
+
+			end
+
+		end
+
+		RoomsHats[id] = r.Hats
+		
+	end
+
+end )
+
 usermessage.Hook("GRoom", function(um)
 
     local id = um:ReadChar()
 
     if id == 0 then
-        GTowerRooms:LoadRooms( um )
+        // GTowerRooms:LoadRooms( um )
     elseif id == 1 then
 		GTowerRooms:RemoveOwner( um )
 	elseif id == 2 then

@@ -38,16 +38,6 @@ function MEDIAPLAYER:Think()
 	end
 end
 
-function MEDIAPLAYER:AddListener( ply )
-	BaseClass.AddListener( self, ply )
-
-	for _, mp in ipairs( MediaPlayer.GetAll() ) do
-		if ( mp != self and mp:HasListener( ply ) ) then
-			mp:RemoveListener( ply )
-		end
-	end
-end
-
 /*function MEDIAPLAYER:IsPlayerPrivileged( ply )
 	// always allow admins
 	if ( ply.IsStaff && ply:IsStaff() ) then return true end

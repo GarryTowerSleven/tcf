@@ -5,3 +5,4 @@ ENT.AdminSpawnable	= true
 
 ENT.Model		= Model( "models/Humans/GMTsui1/female_06.mdl")
 ENT.StoreId 	= GTowerStore.BUILDING
+ENT.Description = "Building blocks for your suite."

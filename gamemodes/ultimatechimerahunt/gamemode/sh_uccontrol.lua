@@ -31,6 +31,7 @@ function meta:Stun()
 	self.StunnedTime = CurTime() + stuntime
 	self:SetNet( "IsStunned", true )
 	self:SetNet( "Sprint", 0 )
+	self:StunEffect()
 
 	/*local eff = EffectData()
 		eff:SetEntity( self )
@@ -41,12 +42,24 @@ end
 function meta:StunEffect()
 
 	local effectdata = EffectData()
-		effectdata:SetStart(self:GetPos())
-		effectdata:SetOrigin(self:GetPos())
-		effectdata:SetScale(5)
-		effectdata:SetMagnitude(10)
+	local pos, ang = self:GetBonePosition(36)
+
+	if pos then
+
+		pos = pos + ang:Up() * 4 + ang:Right() * 4
+
+	else
+
+		pos = self:WorldSpaceCenter()
+
+	end
+
+		effectdata:SetOrigin(pos || self:WorldSpaceCenter())
+		effectdata:SetNormal(Angle(math.random(0, 30), math.random(-180, 180), 0):Forward())
+		effectdata:SetScale(stuntime)
+		effectdata:SetFlags(2)
 		effectdata:SetEntity(self)
-	util.Effect("TeslaHitBoxes", effectdata)
+	util.Effect("saturn_stars", effectdata)
 
 end
 
@@ -114,6 +127,43 @@ function meta:FindThingsToBite()
 	return tbl
 	
 end
+
+hook.Add( "StartCommand", "UC_Chimera", function( ply, cmd )
+
+	if ply:GetNet( "IsChimera" ) && ply:Alive() then
+
+		local s = ply:GetNet( "Sprint" )
+
+		if cmd:KeyDown( IN_SPEED ) then
+
+			if s == 0 || ply.Holding then
+
+				cmd:RemoveKey( IN_SPEED )
+				ply:SetNet( "IsSprinting", false )
+				ply.Holding = true
+
+			elseif s > 0.2 then
+
+				ply:SetNet( "IsSprinting", true )
+
+			end
+
+		else
+
+			ply:SetNet( "IsSprinting", false )
+			ply.Holding = false
+
+		end
+
+		if s <= 0.02 && cmd:KeyDown( IN_JUMP ) && !ply:GetNet( "IsStunned" ) then
+
+			cmd:RemoveKey( IN_JUMP )
+
+		end
+
+	end
+
+end)
 
 function meta:WithinRoarDistance( uc )
 
@@ -203,18 +253,41 @@ end
 GM.LastUCThink = 0
 local UCsLastStompPlace = {}
 
-function GM:UCThink()
+function GM:UCThink(uc)
 	
-	if !IsValid( self:GetUC() ) then return end
+	// if !IsValid( self:GetUC() ) then return end
 
-	local uc = self:GetUC()
+	// local uc = self:GetUC()
+
+	local visible = {}
+
+	for _, ply in ipairs( player.GetAll() ) do
+		
+		local pos = uc:WorldSpaceCenter()
+
+		if util.QuickTrace( pos, ply:WorldSpaceCenter() - pos, uc ).Entity == ply then
+
+			table.insert( visible, ply )
+			
+		end
+
+	end
 
 	if uc.StunnedTime then
-		uc:StunEffect()
+		uc.LastStun = uc.LastStun or 0
+
+		if uc.LastStun < CurTime() then
+
+			uc:EmitSound("ambient/energy/spark" .. math.random(6) .. ".wav")
+			uc.LastStun = CurTime() + math.Rand(0.2, 0.8)
+
+		end
+
 		if uc.StunnedTime < CurTime() then
 			uc:SetNet( "IsStunned", false )
 			uc.StunnedTime = nil
 		end
+
 	end
 
 	if uc:GetNet( "IsRoaring" ) && CurTime() >= self.LastUCThink then
@@ -281,7 +354,7 @@ function GM:UCThink()
 		UCsLastStompPlace[ uc:EntIndex() ] = uc:GetPos()
 
 		if uc.PlayStomp && CurTime() >= uc.LastStomp && uc:IsMoving() then
-			uc.LastStomp = CurTime() + .5
+			uc.LastStomp = CurTime() + (uc:GetNet("IsSprinting") && 0.325 || .5)
 			uc.PlayStomp = false
 			uc:Stomp()
 		end
@@ -337,7 +410,9 @@ end
 
 function meta:Stomp()
 
-	self:EmitSound( "UCH/chimera/step.wav", 82, math.random( 94, 105 ) )
+	self.Step = self.Step or 0
+	self.Step = math.fmod(self.Step + 1, 2)
+	self:EmitSound( "UCH/chimera/step" .. (self.Step == 0 and "" or 2) .. "_hd.wav", 82, math.random( 94, 105 ) * ( self:GetNet("IsSprinting") && 1.1 || 1 ) * ( self.Step == 1 && 1.05 || 1 ) )
 	util.ScreenShake( self:GetPos(), 5, 5, .5, ( roardistance * 1.85 ) )
 
 end
@@ -357,8 +432,11 @@ function meta:CanDoubleJump()
 	local numjumps = 1 //how many jumps you're allowed before increasing the required z velocity
 
 	local num = -( 150 - ( add * numjumps ) + ( add * ( self:GetNet( "DoubleJumpNum" ) or 0 ) ) )
+	local penalty = math.Clamp( self:GetNet( "Sprint" ) - ( GAMEMODE.DJumpPenalty * ( 1 + ( self:GetNet( "DoubleJumpNum" ) * .66 ) ) ), 0, 1 )
 
-	if !self:IsOnGround() && ( ( self:GetVelocity().z < num ) || self:GetNet( "FirstDoubleJump" ) ) then
+	local sprint = self:GetNet( "Sprint" )
+
+	if sprint > 0.02 && sprint > penalty && !self:IsOnGround() && ( ( self:GetVelocity().z < num ) || self:GetNet( "FirstDoubleJump" ) ) then
 		return true
 	end
 	
@@ -594,8 +672,8 @@ if SERVER then
 		
 		RestartAnimation( self )
 		
-		self:EmitSound( "UCH/chimera/roar.wav", 82, math.random( 94, 105 ) )
-		util.ScreenShake( self:GetPos(), 5, 5, dur * .96, roardistance * 1.85 )
+		self:EmitSound( "UCH/chimera/roar_hd.wav", 82, math.random( 94, 105 ) )
+		util.ScreenShake( self:GetPos(), 5, 5, dur * .96, roardistance * 1.85, true )
 		
 		timer.Simple( dur * .96, function()
 
@@ -627,7 +705,7 @@ if SERVER then
 		local dur = self:SequenceDuration()
 		RestartAnimation( self )
 	
-		self:EmitSound( "UCH/chimera/bite.wav", 80, math.random( 94, 105 ) )
+		self:EmitSound( "UCH/chimera/bite_hd.wav", 80, math.random( 94, 105 ) )
 	
 		timer.Simple( dur * .98, function()
 			self:SetNet( "IsBiting", false )

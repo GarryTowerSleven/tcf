@@ -23,6 +23,7 @@ function ENT:GetStream()
 	local mp = self:GetFirstMediaPlayerInLocation()
 	if not IsValid( mp ) then return end
 
+	
 	local media = mp:GetMedia()
 	if not IsValid(media) then return end
 

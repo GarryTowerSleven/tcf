@@ -51,14 +51,15 @@ function GM:StartRound()
 
 	globalnet.SetNet("UC", NULL)
 	self:RandomChimera()
-	self:NewSaturn()
+	self.SpawnedSaturn = false
+	self.SaturnSpawn = nil
 
 	for _, v in ipairs( player.GetAll() ) do
 
 		v:UnGhost()
-		self:SetMusic( v, MUSIC_ROUND )
 		v.IsDead = false
 		if !v:GetNet("IsChimera") then v:SetTeam( TEAM_PIGS ) end
+		self:SetMusic( v, MUSIC_ROUND, v:Team() )
 		//v:Freeze( false )
 
 		v:SetFrags( 0 )
@@ -228,6 +229,7 @@ function GM:SetChimera( ply )
 	ply:SetTeam( TEAM_CHIMERA )
 
 	ply.Jumped = false
+	ply.VisibleTime = CurTime() + 30
 end
 
 function GM:CheckGame( ply ) //this function checks if the game should end or not based on the players alive

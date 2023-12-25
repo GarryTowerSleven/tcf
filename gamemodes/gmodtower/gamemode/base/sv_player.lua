@@ -5,17 +5,19 @@
 PlayerRoles = {
 
     // Lead Dev
-    ["STEAM_0:0:1384695"]   = "Lead Developer",	// kity
+    ["STEAM_0:0:38865393"]	= "Lead Developer", //  I WANT OUT
 	
 	// Developers
 	["STEAM_0:1:39916544"]  = "Developer",	// Anoma
 	["STEAM_0:1:124798129"] = "Developer", 	// Amgona
 	["STEAM_0:0:44458854"]  = "Developer",	// Bumpy
-    ["STEAM_0:0:241528576"] = "Developer",  // Scienti[-]
+	["STEAM_0:0:241528576"] = "Developer",  // Scienti[-]
+	["STEAM_0:0:35652170"]  = "Developer",	// Lead
 
 	["STEAM_0:0:90689651"]  = "Developer", // Sonop
 	["STEAM_0:1:97372299"]  = "Developer", // NotGaylien
 	["STEAM_0:0:115320789"]  = "Developer", // Zia
+	//["STEAM_0:0:1384695"]   = "Developer",	// kity
 
 	// Contributor
 	["STEAM_0:0:193442077"] = "Contributor", // Nyantendo
@@ -59,11 +61,13 @@ function meta:SetMoney( amount )
 	return self:SetNet( "Money", math.Clamp( tonumber( amount ), -2147483648, 2147483647 ) )
 end
 
-function meta:AddMoney( amount, nonotify, beziersource, nobezier )
+function meta:AddMoney( amount, nonotify, beziersource, nobezier, source )
 
     amount = math.Round( amount )
 
 	if amount == 0 then return end
+
+	SQLLog( "money", self, amount, source || "Unknown" )
 
 	if amount < 0 then
 		self:TakeMoney( amount, nonotify )
@@ -111,7 +115,7 @@ function meta:TakeMoney( amount, nonotify, beziertarget )
 end
 
 function meta:GiveMoney( amount, nosend, beziersource, nobezier )
-	self:AddMoney( amount, nosend, beziersource, nobezier )
+	self:AddMoney( amount, nosend, beziersource, nobezier, "GiveMoney" )
 end
 
 function meta:Afford( price )
@@ -137,13 +141,13 @@ hook.Add( "PlayerSpawnClient", "JoinMessages", function( ply )
 	
 	if ply._NeedsRewarding and Database.IsConnected() then
 		ply:MsgI( "gmtsmall", "VIPGiveReward" )
-		ply:AddMoney( 1000, true )
+		ply:AddMoney( 1000, true, nil, nil, "VIPGiveReward" )
 		Database.Query( "UPDATE `gm_vip` SET `rewarded` = 1 WHERE `steamid` = '" .. ply:SteamID() .. "';" )
 	end
 	
 	if ply._PendingMoney > 0 then
 		ply:MsgI( "gmtsmall", "VideoPokerRefund", ply._PendingMoney )
-		ply:AddMoney( ply._PendingMoney, true )
+		ply:AddMoney( ply._PendingMoney, true, nil, nil, "VideoPokerRefund" )
 		ply._PendingMoney = 0
 	end
 

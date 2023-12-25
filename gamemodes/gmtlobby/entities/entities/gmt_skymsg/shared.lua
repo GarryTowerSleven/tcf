@@ -51,6 +51,8 @@ ENT.Messages = {
 	[46] = "Smoothie Bar",
 	[47] = "Casino",
 	[48] = {Name = "Bar Fight!", IgnoreTrace = true, Color = Color( 215, 0, 0, 255 ) },
+	[49] = "Mini-golf",
+	[50] = {Name = "Snowball Fight!", IgnoreTrace = true, Color = Color( 215, 255, 255, 255 ) },
 }
 
 // Add to this table to override the current messages
@@ -69,6 +71,7 @@ ENT.OverrideMessages = {
 	[44] = "Suites 10 - 15",
 	[30] = "General Goods",
 	[32] = "",
+	[49] = "Minigolf",
 }
 
 function ENT:PhysicsUpdate()

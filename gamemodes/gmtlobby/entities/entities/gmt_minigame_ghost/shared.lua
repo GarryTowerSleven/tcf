@@ -1,7 +1,5 @@
 AddCSLuaFile()
 
-game.AddParticles( "particles/gmt_halloween.pcf" )
-
 ENT.Type 			= "anim"
 ENT.Base 			= "gmt_minigame_balloon"
 

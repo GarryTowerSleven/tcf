@@ -63,7 +63,7 @@ local function giveItem(ply, item)
     local SellPrice = itemID:SellPrice()
 
     if SellPrice > 0 then
-      ply:AddMoney(SellPrice)
+      ply:AddMoney(SellPrice, nil, nil, nil, "AuctionSellPrice")
     end
 
     for k,v in pairs(player.GetAll()) do
@@ -104,7 +104,7 @@ function EndAuction()
 
   for k,v in pairs(player.GetAll()) do
     if (!v.WonAuction and v:GetNWInt("BetTotal",0) > 0) then
-      v:AddMoney(v:GetNWInt("BetTotal",0),true)
+      v:AddMoney(v:GetNWInt("BetTotal",0),true,nil,nil,"AuctionRefund")
       v:Msg2("[AUCTION] Your money has been refunded.")
     end
   end

@@ -94,7 +94,7 @@ GTowerStore.Stores = {
 		WindowTitle = "Money Giver"
 	},
 	[GTowerStore.HOLIDAY] = {
-		NpcClass = "gmt_presentbag",
+		NpcClass = "gmt_presentsack",
 		WindowTitle = "Happy Holidays!",
 		ModelStore = true,
 	},

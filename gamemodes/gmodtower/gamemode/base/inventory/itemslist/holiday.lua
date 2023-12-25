@@ -195,7 +195,7 @@ RegisterItem("toysmokemachine",{
 	Name = "Fog Machine",
 	Description = "Fog up your place with this smoke machine.",
 	Model = "models/gmod_tower/halloween_fogmachine.mdl",
-	UniqueInventory = false,
+	UniqueInventory = true,
 	DrawModel = true,
 	StoreId = GTowerStore.HALLOWEEN,
 	StorePrice = 3000,
@@ -400,3 +400,13 @@ RegisterItem( "suite_pumpkin_deformed",{
 	DateAdded = 1696741039,
 	IsNew = true,
 } )
+
+// Have a great winter!
+RegisterItem( "coal", {
+	Name = "Lump of Coal",
+	Description = "Looks like someone's been naughty...",
+	Model = "models/props_junk/rock001a.mdl",
+	ModelColor = Color( 24, 24, 24 ),
+	StoreId = GTowerStore.HOLIDAY,
+	StorePrice = 250
+})
