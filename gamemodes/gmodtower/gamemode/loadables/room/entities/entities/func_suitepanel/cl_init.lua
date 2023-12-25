@@ -145,7 +145,7 @@ function ENT:OnRoomLock()
     
 	local Owner = GTowerRooms:RoomOwner( self.RoomId )
 	
-	if Owner then
+	if IsValid( Owner ) then
 		return Owner:GetNet( "RoomLock" )
 	end
 	
