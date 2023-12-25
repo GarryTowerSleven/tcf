@@ -1,5 +1,6 @@
 include("shared.lua")
 
+ENT.WantsTranslucency = true
 local mats = {}
 local light = {
     Material("effects/christmas_bulb"),
@@ -8,8 +9,10 @@ local light = {
 local pos_cache = {}
 local rot_cache = {}
 local ropes = {}
+local LastThink = 0
 
 function ENT:Think()
+    
     if self.Setup then return end
 
     self.Setup = true
@@ -27,7 +30,15 @@ function ENT:Think()
 
 end
 
-ENT.WantsTranslucency = true
+hook.Add( "Think", "Ropes", function()
+    if LastThink > CurTime() then return end
+
+    for _, rope in ipairs(ents.FindByClass("keyframe_rope")) do
+        rope.Setup = false
+    end
+
+    LastThink = CurTime() + 1
+end)
 
 function ENT:DrawTranslucent()
     local _ = self:EntIndex()
