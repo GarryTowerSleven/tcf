@@ -22,6 +22,7 @@ function ENT:DrawTranslucent()
 
 	local pos, ang2 = self:GetBonePosition(1)
 
+	if !pos then return end
 
 
 	ang:RotateAroundAxis( ang:Forward(), 90 )
