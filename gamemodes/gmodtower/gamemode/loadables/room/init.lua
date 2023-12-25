@@ -359,7 +359,7 @@ net.Receive( "SendSuiteName", function( len, ply )
 
 	if Panel then
 		local name = net.ReadString()
-		if name.len > 42 then return end
+		if string.len( name ) > 42 then return end
 
 		Panel:SetText( tostring(name) or "oboy", ply )
 	end
