@@ -107,7 +107,7 @@ hook.Add( "OpenSideMenu", "OpenTheaterControls", function()
 	local playing = mp:GetMedia()
 
 	local media = juke and "Song" or "Video"
-	local admin = mp:IsPlayerPrivileged()
+	local admin = mp:IsPlayerPrivileged( LocalPlayer() )
 
 	local Form = vgui.Create( "DForm" )
 	Form:SetName( juke and "Jukebox" || mp.Entity.PrintName || "Theater" )
