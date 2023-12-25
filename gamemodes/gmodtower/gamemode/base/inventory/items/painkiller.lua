@@ -7,8 +7,8 @@ ITEM.UniqueInventory = false
 ITEM.DrawModel = true
 ITEM.CanUse = true
 
-ITEM.StoreId = 8
-ITEM.StorePrice = GTowerStore.BATHROOM
+ITEM.StoreId = GTowerStore.BATHROOM
+ITEM.StorePrice = 15
 
 if SERVER then
 	function ITEM:OnUse()
