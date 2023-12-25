@@ -6,6 +6,7 @@ local light = {
     Material("effects/christmas_bulb_up")
 }
 local pos_cache = {}
+local rot_cache = {}
 local ropes = {}
 
 function ENT:Think()
@@ -102,7 +103,11 @@ function ENT:DrawTranslucent()
                     // render.DrawSprite(pos, 24, 24, color_white)
 
                     if !roof && dist < 400080 then
-                        local rot = 180 * ( math.fmod(math.floor(seed), 2) == 0 && 1 || 0 ) + util.SharedRandom(seed, -25, 25)
+                        if !rot_cache[seed] then
+                            rot_cache[seed] = 180 * ( math.fmod(math.floor(seed), 2) == 0 && 1 || 0 ) + util.SharedRandom(seed, -25, 25)
+                        end
+
+                        local rot = rot_cache[seed]
                         local ang = pos - EyePos()
                         ang = ang:Angle()
                         ang.p = 0
