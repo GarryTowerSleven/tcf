@@ -38,8 +38,15 @@ function ENT:Draw()
 end
 
 function ENT:OnRemove()
-	self.csModel:Remove()
+
+	if IsValid( self.csModel ) then
+		
+		self.csModel:Remove()
+
+	end
+
 end
+
 function ENT:Think()
 
 	self.Color = colorutil.Rainbow(200)
