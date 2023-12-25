@@ -1,6 +1,6 @@
 ---------------------------------
 ITEM.MaxUses = 20
-ITEM.Name = "Snow! ("..ITEM.MaxUses..")"
+ITEM.Name = "Snow Noisemaker ("..ITEM.MaxUses..")"
 ITEM.ClassName = "gmt_snow"
 ITEM.Description = "Shoot snow all around you!"
 ITEM.Model = "models/weapons/w_snowball.mdl"
@@ -12,7 +12,7 @@ ITEM.Equippable = true
 ITEM.WeaponSafe = true
 
 ITEM.StoreId = GTowerStore.HOLIDAY
-ITEM.StorePrice = 300
+ITEM.StorePrice = 500
 
 function ITEM:OnCreate( data )
 	self.UsesLeft = tonumber( data ) or self.MaxUses
