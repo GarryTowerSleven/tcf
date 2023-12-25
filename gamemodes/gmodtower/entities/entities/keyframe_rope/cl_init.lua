@@ -26,109 +26,104 @@ function ENT:Think()
 
 end
 
-function ENT:Draw()
-    self.RenderTime = SysTime() + 0.1
-end
+ENT.WantsTranslucency = true
 
-hook.Add("PostDrawTranslucentRenderables", "Rope", function(_, sky)
-    if sky then return end
+function ENT:DrawTranslucent()
+    local _ = self:EntIndex()
 
-    for _, rope in ipairs(ents.FindByClass("keyframe_rope")) do
-        if !rope.RenderTime || rope.RenderTime < SysTime() then continue end
-        if rope:GetPos():DistToSqr(EyePos()) > ( 2048 * 2048 ) then continue end
+    if self:GetPos():DistToSqr(EyePos()) > ( 2048 * 2048 ) then return end
 
-        local mat = rope:GetRopeMaterial()
-        mats[mat] = mats[mat] || Material(mat)
-        local mat = mats[mat]
-        local segs = 8
-        local roof = rope:GetRopeStart():WithinAABox(Vector(100, 31, 1575), Vector(1678, 2249, 560))
+    local mat = self:GetRopeMaterial()
+    mats[mat] = mats[mat] || Material(mat)
+    local mat = mats[mat]
+    local segs = 8
+    local roof = self:GetRopeStart():WithinAABox(Vector(100, 31, 1575), Vector(1678, 2249, 560))
 
-        if !ropes[_] then
-            ropes[_] = {}
-            local startpos, endpos = rope:GetRopeStart(), rope:GetRopeEnd()
-            local len = rope:GetRopeLength() / 2
+    if !ropes[_] then
+        ropes[_] = {}
+        local startpos, endpos = self:GetRopeStart(), self:GetRopeEnd()
+        local len = self:GetRopeLength() / 2
 
-            local add = endpos - startpos
-            local spline = {
-                startpos
-            }
+        local add = endpos - startpos
+        local spline = {
+            startpos
+        }
 
-            for i = 1, segs do
-                table.insert(spline, startpos + add * (i / segs) - Vector(0, 0, len * math.sin(i / segs * 3)))
-            end
+        for i = 1, segs do
+            table.insert(spline, startpos + add * (i / segs) - Vector(0, 0, len * math.sin(i / segs * 3)))
+        end
 
-            table.insert(spline, endpoint)
+        table.insert(spline, endpoint)
 
-            for i = 1, segs do
-                local l = i == 1 && 0 || i / segs
-                local lpos = LerpVector(l, rope:GetRopeStart(), rope:GetRopeEnd())
-                lpos = lpos - Vector( 0, 0, (i == 1 || i == segs) && 0 || 64 )
-                local lc = render.GetLightColor(lpos)
+        for i = 1, segs do
+            local l = i == 1 && 0 || i / segs
+            local lpos = LerpVector(l, self:GetRopeStart(), self:GetRopeEnd())
+            lpos = lpos - Vector( 0, 0, (i == 1 || i == segs) && 0 || 64 )
+            local lc = render.GetLightColor(lpos)
 
-                table.insert(ropes[_], {i == 1 && startpos || i == segs && endpos || math.BSplinePoint(l, spline, 1), l, lc})
-            end
+            table.insert(ropes[_], {i == 1 && startpos || i == segs && endpos || math.BSplinePoint(l, spline, 1), l, lc})
+        end
 
-        else
-            local t = SysTime()
-            render.StartBeam(segs)
+    else
+        local t = SysTime()
+        render.StartBeam(segs)
 
-            for _, pos in ipairs(ropes[_]) do
-                render.AddBeam(pos[1], rope:GetRopeWidth(), pos[2], pos[3])
-            end
+        for _, pos in ipairs(ropes[_]) do
+            render.AddBeam(pos[1], self:GetRopeWidth(), pos[2], pos[3])
+        end
 
-            render.SetMaterial(mat)
-            render.EndBeam()
+        render.SetMaterial(mat)
+        render.EndBeam()
 
-            for _2, pos in ipairs(ropes[_]) do
-                local endpos = ropes[_][_2 + 1]
+        for _2, pos in ipairs(ropes[_]) do
+            local endpos = ropes[_][_2 + 1]
 
-                if endpos then
-                    local segs2 = (pos[1] - endpos[1]):Length() / ( roof && 24 || 8 )
+            if endpos then
+                local segs2 = (pos[1] - endpos[1]):Length() / ( roof && 24 || 8 )
 
-                    for i = 1, segs2 do
-                        local seed = rope:EntIndex() .. _2 .. i
-        
-                        if !pos_cache[seed] then
-                            local l = i / segs2
-                            pos_cache[seed] = LerpVector(l, pos[1], endpos[1])
-                        end
+                for i = 1, segs2 do
+                    local seed = self:EntIndex() .. _2 .. i
+    
+                    if !pos_cache[seed] then
+                        local l = i / segs2
+                        pos_cache[seed] = LerpVector(l, pos[1], endpos[1])
+                    end
 
-                        local s = roof && 3 || rope:GetRopeWidth()
-                        local pos = pos_cache[seed]
-                        local dist = pos:DistToSqr( EyePos() )
+                    local s = roof && 3 || self:GetRopeWidth()
+                    local pos = pos_cache[seed]
+                    local dist = pos:DistToSqr( EyePos() )
 
-                        if dist > 1098304 * ( roof && 4 || 2 ) then continue end
+                    if dist > 1098304 * ( roof && 4 || 2 ) then continue end
 
+                    local ang = pos - EyePos()
+                    local dot = EyeVector():Dot(ang) / ang:Length()
+
+                    if dot <= 0 then continue end
+                    // render.DrawSprite(pos, 24, 24, color_white)
+
+                    if !roof && dist < 400080 then
+                        local rot = 180 * ( math.fmod(math.floor(seed), 2) == 0 && 1 || 0 ) + util.SharedRandom(seed, -25, 25)
                         local ang = pos - EyePos()
-                        local dot = EyeVector():Dot(ang) / ang:Length()
-
-                        if dot <= 0 then continue end
-                        // render.DrawSprite(pos, 24, 24, color_white)
-
-                        if !roof && dist < 400080 then
-                            local rot = 180 * ( math.fmod(math.floor(seed), 2) == 0 && 1 || 0 ) + util.SharedRandom(seed, -25, 25)
-                            local ang = pos - EyePos()
-                            ang = ang:Angle()
-                            ang.p = 0
-                            ang.r = 0
-                            ang:RotateAroundAxis(ang:Up(), 180)
-    
-                            local color = HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1)
-    
-                            // render.DrawSprite( pos, 4, 8, color )
-                            render.SetMaterial(light[2])
-                            render.DrawQuadEasy(pos, ang:Forward(), s * 2, s * 8, HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1), rot)
-
-                            continue
-                        end
+                        ang = ang:Angle()
+                        ang.p = 0
+                        ang.r = 0
+                        ang:RotateAroundAxis(ang:Up(), 180)
 
                         local color = HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1)
-                        render.SetMaterial(light[roof && 1 || i % 2 == 1 && 1 || 2])
-                        render.DrawSprite( pos, s * 2, s * 8, color )
-                        //render.DrawQuadEasy(pos, ang:Forward(), s * 2, s * 8, HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1), rot)
+
+                        // render.DrawSprite( pos, 4, 8, color )
+                        render.SetMaterial(light[2])
+                        render.DrawQuadEasy(pos, ang:Forward(), s * 2, s * 8, HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1), rot)
+
+                        continue
                     end
+
+                    local color = HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1)
+                    render.SetMaterial(light[roof && 1 || i % 2 == 1 && 1 || 2])
+                    render.DrawSprite( pos, s * 2, s * 8, color )
+                    //render.DrawQuadEasy(pos, ang:Forward(), s * 2, s * 8, HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1), rot)
                 end
             end
         end
     end
-end)
+end
