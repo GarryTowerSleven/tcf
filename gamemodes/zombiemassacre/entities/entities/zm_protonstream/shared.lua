@@ -98,7 +98,7 @@ if CLIENT then
 		end
 		if ConVarDLights:GetInt() < 1 then return end
 		//Dlights
-		local dlight_start = DynamicLight( self:EntIndex() .. "start" )
+		local dlight_start = DynamicLight( self:EntIndex() )
 		if dlight_start then
 			dlight_start.Pos = self.StartPos
 			dlight_start.r = 255
@@ -110,7 +110,7 @@ if CLIENT then
 			dlight_start.DieTime = CurTime() + .5
 		end
 		if ConVarDLights:GetInt() < 2 then return end
-		local dlight_end = DynamicLight( self:EntIndex() .. "end" )
+		local dlight_end = DynamicLight( self:EntIndex() + 1 )
 		if dlight_end then
 			dlight_end.Pos = self.HitPos
 			dlight_end.r = 255
