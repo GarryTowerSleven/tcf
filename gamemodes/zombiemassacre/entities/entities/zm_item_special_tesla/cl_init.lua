@@ -146,7 +146,7 @@ function ENT:DrawShock( entstart, entend )
 
 		end
 
-		local dlight_end = DynamicLight( self:EntIndex() + 1)
+		local dlight_end = DynamicLight( self:EntIndex() + 1 )
 
 		if dlight_end then
 
