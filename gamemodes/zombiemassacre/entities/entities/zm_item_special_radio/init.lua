@@ -6,13 +6,17 @@ include("shared.lua")
 function ENT:Initialize()
 	self:SetModel(self.Model)
 	timer.Simple( self.RemoveDelay, function()
-		local vPoint = self:GetPos()
-		local effectdata = EffectData()
-		effectdata:SetOrigin( vPoint )
-		util.Effect( "explosion", effectdata )
+		if IsValid( self ) then
+		
+			local vPoint = self:GetPos()
+			local effectdata = EffectData()
+			effectdata:SetOrigin( vPoint )
+			util.Effect( "explosion", effectdata )
 
-		self:EmitSound("gmodtower/zom/weapons/explode"..math.random(3,5)..".wav",80)
-		self:Remove()
+			self:EmitSound("gmodtower/zom/weapons/explode"..math.random(3,5)..".wav",80)
+			self:Remove()
+		
+		end
 	end )
 end
 
