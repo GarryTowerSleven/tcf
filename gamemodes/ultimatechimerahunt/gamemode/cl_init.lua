@@ -234,7 +234,7 @@ end )
 
 hook.Add( "PreDrawHalos", "GhostHalo", function()
 
-	if LocalPlayer():IsGhost() || !GAMEMODE:IsPlaying() then
+	if LocalPlayer():Team() == TEAM_GHOST || !GAMEMODE:IsPlaying() then
 	
 		if pigglowconvar:GetBool() then
 			for k, ply in pairs( player.GetAll() ) do
