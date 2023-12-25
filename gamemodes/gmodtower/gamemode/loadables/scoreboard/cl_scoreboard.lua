@@ -617,7 +617,7 @@ function PLAYERAVATAR:Init()
 	self.SteamProfile:SetText("")
 	self.SteamProfile:SetMouseInputEnabled( true )
 	self.SteamProfile.DoClick = function()
-		if self.Player then
+		if IsValid( self.Player ) then
 			if self.Player:IsHidden() then return end
 			self.Player:ShowProfile()
 		end
@@ -633,7 +633,7 @@ function PLAYERAVATAR:Init()
 	self.Avatar:SetSize( self.Size, self.Size )
 	self.Avatar:SetMouseInputEnabled( false )
 	self.Avatar.OnFrameLoaded = function()
-		if self.Player then
+		if IsValid( self.Player ) then
 			self.Player.HasFrame = true
 		end
 	end
