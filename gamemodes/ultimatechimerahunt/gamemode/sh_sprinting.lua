@@ -126,7 +126,7 @@ if SERVER then
 					drain = drain / 2
 				end
 			else
-				drain = drain - ( .005 * ( self:GetNet( "Rank" ) / 4 ) )
+				drain = drain - ( drain * ( self:GetNet( "Rank" ) / 4 ) ) / 4
 			end
 
 			drain = FrameTime() * drain * 50
@@ -153,9 +153,11 @@ if SERVER then
 					recharge = recharge + .001
 				else
 
+					recharge = recharge / 1.5
+
 					local num = .00075
 
-					recharge = recharge + ( num * ( self:GetNet( "Rank" ) / 4 ) )
+					recharge = recharge + recharge * ( self:GetNet( "Rank" ) / 4 )
 
 				end
 
