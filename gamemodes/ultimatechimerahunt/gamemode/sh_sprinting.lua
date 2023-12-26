@@ -20,7 +20,7 @@ function meta:CanRechargeSprint( time )
 		return false
 	end
 
-	if time || !self.SprintCooldown && ( self:Alive() ) then
+	if !self.SprintCooldown && ( self:Alive() ) then
 		return true
 	end
 
@@ -108,7 +108,7 @@ end
 
 		if self:GetNet( "Sprint" ) <= 0 then //you're all out man!
 
-			if !self:CanRechargeSprint( true ) then
+			if self:CanRechargeSprint( true ) then
 				self.SprintCooldown = CurTime() + 1
 			end
 
@@ -153,8 +153,6 @@ end
 				if self:GetNet( "IsChimera" ) then
 					recharge = recharge + .001
 				else
-
-					recharge = recharge / 1.5
 
 					local num = .00075
 
