@@ -204,7 +204,7 @@ function GTowerChat.DrunkSay( text, bal )
 	// blow up our chat into words.
 	local words = string.Explode( " ", text );
 
-	if ( bal > 20 ) then
+	if ( bal >= 20 ) then
 
 		// swap out some words.
 		local amt = math.Clamp( ( #words / 3 ) * ( bal / 100 ), 1, 10 );
@@ -225,7 +225,7 @@ function GTowerChat.DrunkSay( text, bal )
 		end
 	end
 
-	if ( bal > 35 ) then
+	if ( bal >= 35 ) then
 
 		// inject words
 		local amt = math.Clamp( ( #words / 6 ) * ( bal / 100 ), 1, 10 );
@@ -358,7 +358,7 @@ function meta:Chat( text, type, hidden )
 
 	// Secret Phase.. I'll start the chain soon
 	// Let's change this every so often?
-	if text == "obama in the hills" then
+	if string.lower( text ) == "obama in the hills" then
 		self:SetAchievement( ACHIEVEMENTS.SECRETPHRASE, 1 )
 	end
 
@@ -369,8 +369,9 @@ function meta:Chat( text, type, hidden )
 		// Drunk
 		if Loadables.IsLoaded( "drunk" ) then
 			local bal = self:GetNet( "BAL" ) or 0
-			if bal >= 6 then
+			if bal >= 5 then
 				text = GTowerChat.DrunkSay( text, bal )
+				if bal >= 20
 				//Someone get this guy a therapist
 				self:AddAchievement( ACHIEVEMENTS.TONGUETWISTED, 1 )
 			end
