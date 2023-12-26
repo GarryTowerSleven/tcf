@@ -569,14 +569,15 @@ function lightwarp.SetupMaterial( mat )
 
 	material:SetTexture( "$lightwarptexture", "models/uch/warp" )
 	material:SetTexture( "$bumpmap", "models/uch/flat2" )
-	material:SetFloat( "$phong", 1 )
+
+	if material:GetFloat( "$phong" ) != 1 then return end
+
 	material:SetFloat( "$phongexponent", 20 )
 	material:SetFloat( "$phongboost", 0.3 )
 	material:SetVector( "$phongfresnelranges", Vector( 0.3, 1, 8 ) )
 	material:SetFloat( "$rimlight", 1 )
 	material:SetFloat( "$rimlightexponent", 4 )
 	material:SetFloat( "$rimlightboost", 2 )
-	material:SetFloat( "$halflambert", 1 )
 
 end
 
@@ -613,6 +614,17 @@ hook.Add( "Think", "Lightwarp", function()
 		if ply.Model != model then
 			
 			lightwarp.Set( ply )
+
+			for _, hat in ipairs( ply.CosmeticEquipment ) do
+				
+				if IsValid( hat ) then
+
+					lightwarp.Set( hat )
+
+				end
+
+			end
+
 			ply.Model = model
 
 		end
