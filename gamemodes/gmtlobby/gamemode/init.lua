@@ -250,3 +250,21 @@ hook.Add( "EntityTakeDamage", "NoBurnDamage", function( ent, dmginfo )
 		dmginfo:SetDamage(0)
 	end
 end )
+
+
+local locations = {
+	[21] = true,
+	[60] = true
+}
+
+local pos = Vector( -11199, 12540, 800 )
+
+hook.Add( "SetupPlayerVisibility", "Lakeside", function( ply )
+
+	if locations[ply:Location()] then
+
+		AddOriginToPVS( pos )
+
+	end
+	
+end )
