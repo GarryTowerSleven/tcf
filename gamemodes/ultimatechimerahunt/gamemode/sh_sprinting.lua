@@ -203,7 +203,9 @@ if SERVER then return end
 
 		local a = ply.SprintBarAlpha
 
-		sprintSmooth = math.Approach( sprintSmooth, ply:GetNet( "Sprint" ), FrameTime() )
+		local sprint = ply:GetNet( "Sprint" )
+		local diff = sprintSmooth - sprint
+		sprintSmooth = math.Approach( sprintSmooth, sprint, FrameTime() * ( diff * 10 ) )
 
 		draw.RoundedBox( 0, x, y, w, h, Color( 130, 130, 130, a ) )
 
