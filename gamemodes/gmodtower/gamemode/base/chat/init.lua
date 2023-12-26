@@ -371,9 +371,10 @@ function meta:Chat( text, type, hidden )
 			local bal = self:GetNet( "BAL" ) or 0
 			if bal >= 5 then
 				text = GTowerChat.DrunkSay( text, bal )
-				if bal >= 20
-				//Someone get this guy a therapist
-				self:AddAchievement( ACHIEVEMENTS.TONGUETWISTED, 1 )
+				if bal >= 20 then
+					//Someone get this guy a therapist
+					self:AddAchievement( ACHIEVEMENTS.TONGUETWISTED, 1 )
+				end
 			end
 		end
 	
