@@ -37,6 +37,7 @@ local rules = {
 	"Scripting binds, macros and autoclickers",
 	"Queueing sexually explicit media",
 	"Sexually explicit sprays",
+	"Erotic Roleplay"
 }
 
 local OffsetUp = 106.25
