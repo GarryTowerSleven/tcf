@@ -171,7 +171,7 @@ function DrawTable(table, x, y, font, alpha, xalign, yalign, ent)
 
 	local func = text.wavy && draw.WaveyText || text.rainbow && draw.RainbowText || draw.SimpleText
 
-	if table.blur then
+	if table.glowing then
 	
 		func( text.text, font .. "Glow", x + 1, y + 1, Color( text.color.r, text.color.g, text.color.b, text.color.a / 2 ), xalign, yalign, text.wavy || text.rainbow, false, false, table.rainbow )
 
