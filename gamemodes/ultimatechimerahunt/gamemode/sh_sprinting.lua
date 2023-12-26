@@ -94,7 +94,10 @@ end
 			end
 
 			if ply:GetNet( "IsScared" ) then
-				ply:UpdateSpeeds()
+				if SERVER then
+					ply:UpdateSpeeds()
+				end
+
 				continue
 			end
 
