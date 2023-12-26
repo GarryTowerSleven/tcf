@@ -167,7 +167,10 @@ function ENT:Enter( ply )
 	ply:SetNoDraw( false )
 	if ply.CosmeticEquipment then
 		for k,v in pairs(ply.CosmeticEquipment) do
-			v:SetNoDraw( false )
+			// What the fuck 
+			if IsValid( v ) then
+				v:SetNoDraw( false )
+			end
 		end
 	end
 	constraint.Keepupright( self, Angle( 0, 0, 0 ), self.PhysicsBone, 0 )
@@ -200,7 +203,10 @@ function ENT:Exit( ply )
 	ply:SetNoDraw( false )
 	if ply.CosmeticEquipment then
 		for k,v in pairs(ply.CosmeticEquipment) do
-			v:SetNoDraw( false )
+			// What the fuck 
+			if IsValid( v ) then
+				v:SetNoDraw( false )
+			end
 		end
 	end
 	constraint.RemoveConstraints( self, "Keepupright" )
