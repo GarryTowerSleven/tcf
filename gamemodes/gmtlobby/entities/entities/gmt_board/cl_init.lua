@@ -39,14 +39,6 @@ local rules = {
 	"Sexually explicit sprays",
 }
 
-local content = {
-	"",
-	"Press E on this board to visit our discord",
-	"",
-	"",
-	"https://discord.gg/gmodtower"
-}
-
 local OffsetUp = 106.25
 local OffsetRight = 42
 local OffsetForward = 0
@@ -183,7 +175,7 @@ function ENT:DrawMain()
 
 		for _, rule in ipairs( rules ) do
 
-			draw.SimpleText( "• No " .. rule, "SmallHeaderFont", 0, curX, Color(255,255,255), TEXT_ALIGN_LEFT )
+			draw.SimpleText( _ .. ". No " .. rule, "SmallHeaderFont", 0, curX, Color(255,255,255), TEXT_ALIGN_LEFT )
 
 			curX = curX + 35
 
@@ -197,13 +189,12 @@ function ENT:DrawMain()
 
 		draw.SimpleText( "DISCORD", "SelectMapFont", 200, 0, Color(255,255,255), TEXT_ALIGN_LEFT )
 
-		local curX = 100
-		for _, list in ipairs( content ) do
 
-			draw.SimpleText( list, "SmallHeaderFont", 0, curX, Color(255,255,255), TEXT_ALIGN_LEFT )
-			curX = curX + 35
+			draw.SimpleText( "Press E on this board to visit our discord", "SmallHeaderFont", 0, 100, Color(255,255,255), TEXT_ALIGN_LEFT )
 
-		end
+			local tw = surface.GetTextSize( "or go to " )
+			draw.SimpleText( "or go to ", "SmallHeaderFont", 0, 145, Color(255,255,255), TEXT_ALIGN_LEFT )
+			draw.SimpleText( "discord.gg/gmodtower", "SmallHeaderFont", tw, 145, Color(88,101,242), TEXT_ALIGN_LEFT )
 
 	end
 
