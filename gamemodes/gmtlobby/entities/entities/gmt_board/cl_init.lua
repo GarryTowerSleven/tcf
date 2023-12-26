@@ -182,6 +182,8 @@ function ENT:DrawMain()
 
 		end
 
+		draw.SimpleText( ( #rules + 1 ) .. ". Have fun!", "SmallHeaderFont", 0, curX, Color(255,255,255), TEXT_ALIGN_LEFT )
+
 	end
 
 	// Missing Content
