@@ -369,6 +369,13 @@ GTowerAchievements:Add( ACHIEVEMENTS.TONGUETWISTED, {
 	Value = 1000
 })
 
+GTowerAchievements:Add( ACHIEVEMENTS.DISGUSTING, {
+	Name = "Oh No...", 
+	Description = "Buy something from.. the bathroom attendant.",
+	GMC = 250,
+	Value = 1
+})
+
 // LOGIC OF ACHIEVEMENTS---------------------
 if CLIENT then return end
 
@@ -507,6 +514,10 @@ hook.Add( "StorePurchaseFinish", "PlayerModelAchievement", function( ply, item, 
 
 	if storeid == GTowerStore.BAR && item.Name != "Empty Bottle" then
 		ply:AddAchievement( ACHIEVEMENTS.SMARTINVESTER, money )
+	end
+	
+	if storeid == GTowerStore.BATHROOM then
+		ply:SetAchievement( ACHIEVEMENTS.DISGUSTING, 1 )
 	end
 
 	ply:AddAchievement( ACHIEVEMENTS.HOLEINPOCKET, money )
