@@ -443,8 +443,8 @@ hook.Add("PreRender", "Flashlight", function()
 
 	light:SetPos( ply:IsGhost() && ply:EyePos() || ply:ShouldDrawLocalPlayer() && att.Pos + att.Ang:Forward() * 2 || ply:EyePos() - ply:GetForward() * 4 + ply:GetRight() * 4 - ply:GetUp() * 2 )
 	light:SetAngles( ply:IsGhost() && ply:EyeAngles() || ply:ShouldDrawLocalPlayer() && att.Ang || ply:EyeAngles() )
-	light:SetFOV( ply:IsGhost() && ply:GetFOV() || 65 - 20 * ( 1 - flashlight ) + ( ply:ShouldDrawLocalPlayer() && 20 || 0 ) )
-	light:SetBrightness( ply:IsGhost() && 0.4 || flashlight * 2 )
+	light:SetFOV( ply:IsGhost() && 179 || 65 - 20 * ( 1 - flashlight ) + ( ply:ShouldDrawLocalPlayer() && 20 || 0 ) )
+	light:SetBrightness( ply:IsGhost() && 0.1 || flashlight * 2 )
 	light:Update()
 
 end)
