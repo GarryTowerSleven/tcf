@@ -160,11 +160,11 @@ function SWEP:SecondaryAttack()
 	-- Right handed slap
 	self.ViewModelFlip = true
 
-	self:Slap()
+	self:Slap( self:GetOwner():IsStaff() )
 
 end
 
-function SWEP:Slap()
+function SWEP:Slap( damage )
 	
 	-- Broadcast third person slap
 	self:SlapAnimation()
@@ -194,6 +194,12 @@ function SWEP:Slap()
 				self:SlapWorld()
 			else
 				self:SlapProp(ent, tr)
+			end
+
+			if damage then
+
+				ent:TakeDamage( 20, self:GetOwner(), self )
+
 			end
 
 		else
