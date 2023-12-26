@@ -97,6 +97,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETGRASSWORLD, {
 	Name = "Grass World Secret Banana",
 	Description = "Find the hidden banana on Grass World.",
 	Value = 1,
+	GMC = 750,
 	Group = 6
 	}
 )
