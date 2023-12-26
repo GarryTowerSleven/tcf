@@ -127,9 +127,9 @@ function GM:VirusThink( ply )
 	if NumVirus == 1 then 
 		
 		for k,v in pairs(player.GetAll()) do
-			if ( v:GetNet( "IsVirus" ) && virusDeath >= 2 && v.enraged != true ) then
+			if ( v:GetNet( "IsVirus" ) && virusDeath >= 2 && !v:GetNet( "Enraged" ) ) then
 				
-				v.enraged = true
+				v:SetNet( "Enraged", true )
 				
 				v:SetWalkSpeed( 500 )
 				v:SetRunSpeed( 500 )
@@ -137,7 +137,7 @@ function GM:VirusThink( ply )
 				v:SetHealth( 125 )
 				v:SetNet( "MaxHealth" , 125 )
 				
-			elseif v.enraged == true then
+			elseif v:GetNet( "Enraged" ) then
 			
 				v:SetWalkSpeed( 500 )
 				v:SetRunSpeed( 500 )
@@ -148,9 +148,9 @@ function GM:VirusThink( ply )
 	elseif NumVirus >= 2 then 
 		
 		for _, v in ipairs( player.GetAll() ) do
-			if v:GetNet( "IsVirus" ) || v.enraged == true then
+			if v:GetNet( "IsVirus" ) || v:GetNet( "Enraged" ) then
 				
-				v.enraged = false
+				v:SetNet( "Enraged", false )
 				v:SetWalkSpeed( self.VirusSpeed )
 				v:SetRunSpeed( self.VirusSpeed )
 				

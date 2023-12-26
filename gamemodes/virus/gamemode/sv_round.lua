@@ -74,7 +74,7 @@ function GM:RoundReset()
 	for k,v in pairs( player.GetAll() ) do
 		v:SetTeam( TEAM_PLAYERS )
 		v:SetNet( "IsVirus", false )
-		v.enraged = false
+		v:SetNet( "Enraged", false )
 		
 		self:GiveLoadout( v )
 	end

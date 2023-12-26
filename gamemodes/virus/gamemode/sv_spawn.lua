@@ -73,7 +73,7 @@ function GM:VirusSpawn( ply )
 	ply:SetWalkSpeed( self.VirusSpeed )
 	ply:SetRunSpeed( self.VirusSpeed )
 	
-	if !ply.enraged then
+	if !ply:GetNet( "Enraged" ) then
 		ply:SetHealth( healthScale )
 		ply:SetNet( "MaxHealth" , healthScale )
 	else

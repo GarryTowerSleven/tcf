@@ -22,6 +22,7 @@ SetupGMTGamemode( "Virus", "virus", {
 globalnet.Register( "Int", "MaxRounds" )
 
 plynet.Register( "Bool", "IsVirus" )
+plynet.Register( "Bool", "Enraged" )
 plynet.Register( "Int", "MaxHealth" )
 plynet.Register( "Int", "Rank" )
 
@@ -40,7 +41,9 @@ team.SetUp( TEAM_SPEC, "Waiting", Color( 255, 255, 100, 255 ) )
 
 hook.Add("CalcMainActivity", "Virus", function(ply, vel)
 	if ply:Team() == TEAM_INFECTED then
-		return ACT_HL2MP_RUN_ZOMBIE, -1
+		local d = vel:Dot( ply:GetForward() )
+
+		return ply:GetNet( "Enraged" ) && d > -0.01 && ACT_HL2MP_RUN_ZOMBIE_FAST || ACT_HL2MP_RUN_ZOMBIE, -1
 	end
 end)
 
