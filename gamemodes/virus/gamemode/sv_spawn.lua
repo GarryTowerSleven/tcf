@@ -19,8 +19,6 @@ end
 
 function GM:PlayerInitialSpawn( ply )
 
-	self.BaseClass:PlayerSpawn(ply)
-
 	if SERVER then
 		Hats.UpdateWearables( ply )
 	end
