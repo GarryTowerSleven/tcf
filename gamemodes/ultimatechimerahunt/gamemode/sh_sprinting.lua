@@ -73,12 +73,11 @@ function GM:SprintKeyPress( ply, key ) //pigs sprint
 	
 end
 
-
-if SERVER then
-
 	hook.Add( "Think", "UC_SprintThink", function()
 
 		for _, ply in ipairs( player.GetAll() ) do
+
+			if CLIENT && ply != LocalPlayer() then continue end
 
 			if !ply:Alive() then ply:SetNet( "IsSprinting", false ) continue end
 
@@ -137,6 +136,8 @@ if SERVER then
 
 				self:SetNet( "IsSprinting", false )
 
+				if CLIENT then return end
+
 				self:SetupSpeeds()
 
 				return
@@ -169,11 +170,13 @@ if SERVER then
 
 		end
 
+		if CLIENT then return end
+
 		self:UpdateSpeeds()
 
 	end
 
-else
+if SERVER then return end
 
 	local sprintbar = surface.GetTextureID( "UCH/hud_sprint_bar" )
 	local ucsprintbar = surface.GetTextureID( "UCH/hud_sprint_bar_UC" )
@@ -199,9 +202,8 @@ else
 		end
 
 		local a = ply.SprintBarAlpha
-	
-		local diff = math.abs( sprintSmooth - ply:GetNet( "Sprint", 1 ) )
-		sprintSmooth = math.Approach( sprintSmooth, ply:GetNet( "Sprint", 1 ), FrameTime() * ( diff * 5 ) )
+
+		sprintSmooth = math.Approach( sprintSmooth, ply:GetNet( "Sprint" ), FrameTime() )
 
 		draw.RoundedBox( 0, x, y, w, h, Color( 130, 130, 130, a ) )
 
@@ -219,5 +221,3 @@ else
 		end
 
 	end
-
-end
