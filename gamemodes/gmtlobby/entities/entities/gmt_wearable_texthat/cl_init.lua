@@ -192,7 +192,7 @@ function ENT:DrawText( text, font, x, y, alpha, xalign, yalign )
 
 	if string.StartsWith( text, "{" ) && string.EndsWith( text, "}" ) then
 
-		local table = json[text] || util.JSONToTable( string.Replace( text, "'", "\"" ) )
+		local table = json[text] || util.JSONToTable( string.Replace( string.Replace( text, "'", "\"" ), "`", "'" ) )
 
 		if table then
 
@@ -222,7 +222,7 @@ concommand.Add( "gmt_hat_edit", function()
 		color = Color( 255, 255, 255 )
 	}
 
-	local tab = util.JSONToTable( string.Replace( GetConVar( "gmt_hattext" ):GetString(), "'", "\"" ) )
+	local tab = util.JSONToTable( string.Replace( string.Replace( GetConVar( "gmt_hattext" ):GetString(), "'", "\"" ), "`", "'" ) )
 
 	if tab then
 
@@ -241,7 +241,9 @@ concommand.Add( "gmt_hat_edit", function()
 
 	hat.PaintOver = function()
 
-		DrawTable( table.Copy( text ), hat:GetWide() * 0.5, hat:GetTall() * 0.175, nil, nil, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		local t = table.Copy( text )
+		t.text = string.Replace( t.text, "`", "'" )
+		DrawTable( t, hat:GetWide() * 0.5, hat:GetTall() * 0.175, nil, nil, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 
 	end
 
@@ -254,7 +256,7 @@ concommand.Add( "gmt_hat_edit", function()
 
 	function textentry:OnChange( val )
 
-		text.text = self:GetText()
+		text.text = string.Replace( string.sub( self:GetText(), 1, 32 ), "'", "`" )
 
 	end
 
