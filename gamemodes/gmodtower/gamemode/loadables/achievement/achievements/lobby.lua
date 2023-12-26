@@ -363,7 +363,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.CHATTERBOX, {
 })
 
 GTowerAchievements:Add( ACHIEVEMENTS.TONGUETWISTED, {
-	Name = "Life of the Party", 
+	Name = "Life Of The Party", 
 	Description = "Send 1000 messages in chat while drunk.",
 	GMC = 1000,
 	Value = 1000
