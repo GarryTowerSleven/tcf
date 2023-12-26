@@ -102,8 +102,28 @@ function GM:SpawnSaturn()  //actually spawn him
 	local radius = 50
 
 	local area = table.Random(navmesh.GetAllNavAreas())
+	local areapos
 
-	local pos = area and area:GetRandomPoint() || spawn:GetPos() + Vector( math.random( -radius, radius ), math.random( -radius, radius ), 5 )
+	for i = 1, 128 do
+
+		if areapos then continue end
+		
+		local pos = area:GetRandomPoint() + Vector( 0, 0, 8 )
+
+		if !util.TraceHull({
+			start = pos,
+		endpos = pos,
+		mins = Vector( -16, -16, 0 ),
+		maxs = Vector( 16, 16, 32 )
+		}).Hit then
+
+			areapos = pos
+
+		end
+
+	end
+
+	local pos = areapos || spawn:GetPos() + Vector( math.random( -radius, radius ), math.random( -radius, radius ), 5 )
 	
 	local saturn = ents.Create( "mr_saturn" )
 	if IsValid( saturn ) then
