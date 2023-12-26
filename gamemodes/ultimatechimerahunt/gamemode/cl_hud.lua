@@ -129,6 +129,8 @@ function GM:DrawHUD()
 
 	local c = ply:Team() == TEAM_CHIMERA
 
+	if !c && !ply:Alive() then return end
+
 	if !ply:IsGhost() && ( !IsValid( model ) || model.Entity:GetModel() == ply:GetModel() ) then
 
 		c = string.find( ply:GetModel(), "chimera" )
