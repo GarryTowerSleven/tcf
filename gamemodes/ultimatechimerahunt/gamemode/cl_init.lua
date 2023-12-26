@@ -615,11 +615,15 @@ hook.Add( "Think", "Lightwarp", function()
 			
 			lightwarp.Set( ply )
 
-			for _, hat in ipairs( ply.CosmeticEquipment ) do
-				
-				if IsValid( hat ) then
+			if ply.CosmeticEquipment then
 
-					lightwarp.Set( hat )
+				for _, hat in ipairs( ply.CosmeticEquipment ) do
+					
+					if IsValid( hat ) then
+
+						lightwarp.Set( hat )
+
+					end
 
 				end
 
