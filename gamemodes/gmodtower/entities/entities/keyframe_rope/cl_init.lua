@@ -3,8 +3,16 @@ include("shared.lua")
 ENT.WantsTranslucency = true
 local mats = {}
 local light = {
-    Material("effects/christmas_bulb"),
-    Material("effects/christmas_bulb_up")
+    {
+        Material("effects/christmas_bulb"),
+        Material("effects/christmas_bulb2"),
+        Material("effects/christmas_bulb3"),
+    },
+    {
+        Material("effects/christmas_bulb_up"),
+        Material("effects/christmas_bulb_up2"),
+        Material("effects/christmas_bulb_up3"),
+    }
 }
 local pos_cache = {}
 local rot_cache = {}
@@ -109,30 +117,17 @@ function ENT:DrawTranslucent()
 
                     if dist > 1098304 * ( roof && 4 || 2 ) then continue end
 
-                    if !roof && dist < 400080 then
-                        if !rot_cache[seed] then
-                            rot_cache[seed] = 180 * ( math.fmod(math.floor(seed), 2) == 0 && 1 || 0 ) + util.SharedRandom(seed, -25, 25)
-                        end
-
-                        local rot = rot_cache[seed]
-                        local ang = pos - eyepos
-                        ang = ang:Angle()
-                        ang.p = 0
-                        ang.r = 0
-                        ang:RotateAroundAxis(ang:Up(), 180)
-
-                        local color = HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1)
-
-                        // render.DrawSprite( pos, 4, 8, color )
-                        render.SetMaterial(light[2])
-                        render.DrawQuadEasy(pos, ang:Forward(), s * 2, s * 8, HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1), rot)
-
-                        continue
+                    if !rot_cache[seed] then
+                        local flip = seed % 2 == 1 && 2 || 1
+                        local rand = util.SharedRandom( seed, 1, 3 )
+                        rand = math.Round( rand )
+                        rot_cache[seed] = {light[flip][rand], rand != 1}
                     end
 
                     local color = HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1)
-                    render.SetMaterial(light[roof && 1 || i % 2 == 1 && 1 || 2])
-                    render.DrawSprite( pos, s * 2, s * 8, color )
+                    local rand = rot_cache[seed]
+                    render.SetMaterial(rand[1])
+                    render.DrawSprite( pos, s * (rand[2] && 8 || 2), s * 8, color )
                     //render.DrawQuadEasy(pos, ang:Forward(), s * 2, s * 8, HSVToColor(math.fmod(seed * 9999, 360), 1, math.fmod(math.floor(CurTime() + seed * 0.4), 2) == 0 && 0.2 || 1), rot)
                 end
             end
