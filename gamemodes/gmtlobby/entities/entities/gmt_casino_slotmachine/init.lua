@@ -383,6 +383,8 @@ function ENT:CalcWinnings( random )
 		ply:SetEmotion(EMOTION_SAD, 2)
 	end
 
+	self:SetJackpot( math.min( self:GetJackpot() + math.Round( self.BetAmount / 2 ), 80000 ) )
+
 	// Jackpot
 	if table.concat(random) == "222" then
 		local winnings = math.Round( self:GetJackpot() + self.BetAmount )
@@ -398,7 +400,6 @@ function ENT:CalcWinnings( random )
 		if table.concat(random) == table.concat(combo) then
 			local winnings = math.Round( self.BetAmount * tonumber(x) )
 			self:SendWinnings( ply, winnings )
-			self:SetJackpot( self:GetJackpot() + math.Round( self.BetAmount / 2 ) )
 			return
 		end
 	end
@@ -408,14 +409,12 @@ function ENT:CalcWinnings( random )
 		if random[3] == combo then
 			local winnings = math.Round( self.BetAmount * tonumber(x) )
 			self:SendWinnings( ply, winnings )
-			self:SetJackpot( self:GetJackpot() + math.Round( self.BetAmount / 2 ) )
 			return
 		end
 	end
 
 	// Player lost
 	ply:MsgI( "slots", "SlotsLose" )
-	self:SetJackpot( self:GetJackpot() + math.Round( self.BetAmount / 2 ) )
 
 end
 
