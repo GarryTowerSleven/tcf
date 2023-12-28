@@ -130,7 +130,7 @@ concommand.Add("videopoker_draw", function(ply, cmd, args)
 
         self:SetCredits(self:GetCredits() - self:GetBet())
         self:SetProfit(self:GetProfit() - self:GetBet())        
-        self:SetJackpot( math.min( self:GetJackpot() + self:GetBet(), 80000 ) )
+        self:SetJackpot( self:GetJackpot() + self:GetBet() )
         self:SetState(3)
         self.deck = Cards.Deck()
         self.deck:Shuffle()

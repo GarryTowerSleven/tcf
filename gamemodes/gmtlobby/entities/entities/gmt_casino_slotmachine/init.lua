@@ -383,7 +383,7 @@ function ENT:CalcWinnings( random )
 		ply:SetEmotion(EMOTION_SAD, 2)
 	end
 
-	self:SetJackpot( math.min( self:GetJackpot() + math.Round( self.BetAmount / 2 ), 80000 ) )
+	self:SetJackpot( self:GetJackpot() + math.Round( self.BetAmount / 2 ) )
 
 	// Jackpot
 	if table.concat(random) == "222" then
