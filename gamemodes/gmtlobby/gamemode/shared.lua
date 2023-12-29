@@ -37,16 +37,12 @@ Loadables.Load( {
 	"contentmanager",		-- Alerts players when they're missing a required game or addon
 	"fakeclientmodel",		-- Less-specific version of fakeself for drastic clientmodel modifications
 	"ping",					-- Pings the clients to detect for server crashes
-	"soundscape",			-- Soundscape system
 	"painsounds",			-- Player Voicelines
 	//"emotion",			-- I'm hurting, Gordon!
 
 	-- Items Depend On These
 	---------------------------------------------------------
-	"jetpack",				-- Jetpacks
 	"bonemod",				-- Bone modifications
-	"pet",					-- Pets
-	"cards",				-- Poker module
 	"minecraftskins",		-- Minecraft Steve model skins
 
 	-- Debugging/Tools
@@ -57,18 +53,12 @@ Loadables.Load( {
 	-- UI/Misc
 	---------------------------------------------------------
 	"question",				-- Global voting
-	-- "multicore",			-- Possible Performance Booster
 
 	-- Weapons
 	---------------------------------------------------------
 	"weaponmanager",		-- Manages minigame weapons and such
 	"pvp",					-- PVP weapons
 	"virus",				-- Virus weapons
-
-	-- EXPERIMENTAL
-	---------------------------------------------------------
-	-- "models",			-- Outfits
-	-- "miku",				-- Ghost of Miku
 
 } )
 

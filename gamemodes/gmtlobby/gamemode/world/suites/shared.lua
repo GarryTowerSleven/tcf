@@ -46,7 +46,7 @@ function RecvPlayerRoom(ply, old, new)
 	if SERVER then return end
 
 	if new > 0 then
-		ReceiveOwner(ply, new)
+		GTowerRooms.ReceiveOwner(ply, new)
 	end
 end
 
