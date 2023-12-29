@@ -26,6 +26,30 @@ do
 		MediaPlayer.Register( MEDIAPLAYER )
 		MEDIAPLAYER = nil
 	end
+
+	local path = "services/"
+	local services = {
+		"audiofile"
+	}
+
+	for _, service in ipairs(services) do
+		local clfile = path .. service .. "/cl_init.lua"
+		local svfile = path .. service .. "/init.lua"
+
+		print(clfile)
+
+		SERVICE = {}
+		
+		if SERVER then
+			AddCSLuaFile(clfile)
+			include(svfile)
+		else
+			include(clfile)
+		end 
+
+		MediaPlayer.RegisterService( SERVICE )
+		SERVICE = nil
+	end
 end
 
 local function GMTInitMediaPlayer( MediaPlayer )
