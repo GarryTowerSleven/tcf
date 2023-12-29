@@ -7,6 +7,8 @@ local Database = Database
 
 AddCSLuaFile("cl_init.lua")
 
+module("tetrishighscore")
+
 HighScore = {}
 
 local function HigherPoints( Points )
