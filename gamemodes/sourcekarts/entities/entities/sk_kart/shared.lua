@@ -226,6 +226,20 @@ function ENT:IsOnWater()
 
 end
 
+local mats = {}
+
+function ENT:TimeToDie() -- Chris!
+
+	local tr = self:GetDownTrace()
+
+	if tr.HitSky || mats[tr.HitTexture] then
+
+		return true
+
+	end
+
+end
+
 function ENT:GetTraction( trace )
 	// == SPECIAL CASES ==
 

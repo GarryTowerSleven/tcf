@@ -151,6 +151,10 @@ function ENT:Think()
 			end
 	end
 
+	if self:TimeToDie() then
+		self:GetOwner():SendLua([[RunConsoleCommand("sk_reset")]])
+	end
+
     local phys = self:GetPhysicsObject()
     if IsValid(phys) and phys:IsAsleep() then
       phys:Wake()
