@@ -2,7 +2,7 @@ local logname = "MapData"
 
 module( "MapData", package.seeall )
 
-BaseDir = "gmodtower/gamemode/loadables/mapdata/maps/"
+BaseDir = "gmtlobby/gamemode/world/mapdata/maps/"
 
 function Load( map )
 	local map = map or game.GetMap()
