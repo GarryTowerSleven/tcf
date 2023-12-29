@@ -469,6 +469,7 @@ function SWEP:ShootMelee( dmg, hitworld_sound, hitply_sound, miss_sound, chainsa
 			local effectdata = EffectData()
 
 				effectdata:SetOrigin( trace.HitPos )
+				effectdata:SetNormal( trace.HitNormal )
 
 			util.Effect( "MetalSpark", effectdata, true, true )
 
