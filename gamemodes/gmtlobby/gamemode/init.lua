@@ -6,38 +6,7 @@ util.AddNetworkString("MultiserverJoinRemove")
 
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
-
-AddCSLuaFile("cl_playermenu.lua")
-
-AddCSLuaFile("cl_hud.lua")
-AddCSLuaFile("cl_hud_old.lua")
-AddCSLuaFile("cl_hud_lobby2.lua")
-
-AddCSLuaFile("cl_post_events.lua")
-AddCSLuaFile("cl_scoreboard.lua")
-AddCSLuaFile("cl_hudchat.lua")
-AddCSLuaFile("milestones/uch_animations.lua")
-AddCSLuaFile("milestones/virus_radar.lua")
-
-AddCSLuaFile("cl_tetris.lua")
-
-include("milestones/uch_animations.lua")
 include("shared.lua")
-include("tetris/highscore.lua")
-include("mapchange.lua")
-include("sv_tetris.lua")
-include("sv_hwevent.lua")
-include("sv_commands.lua")
-
--- AddCSLuaFile( "minigames_new/cl_init.lua" )
--- include( "minigames_new/init.lua" )
-
-AddCSLuaFile("sh_events.lua")
-include("sv_events.lua")
-include("sh_events.lua")
-
-include("animation.lua") -- for gmt_force* commands
---include( "interaction.lua" )
 
 CreateConVar("gmt_srvid", 99 )
 

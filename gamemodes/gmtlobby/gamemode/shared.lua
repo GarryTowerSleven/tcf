@@ -9,7 +9,67 @@ IsLobby = true
 
 DeriveGamemode( "gmodtower" )
 
-include("player_class/player_lobby.lua")
+function loadFolder( f, noload )
+
+	f = f .. "/"
+
+	local files, folders = file.Find( f .. "*", "LUA" )
+
+	if !noload then
+
+		f = string.Replace( f, "gmtlobby/gamemode/", "" )
+
+		for _, lua in ipairs( files ) do
+			
+			local type = string.sub( lua, 1, 3 )
+
+			if type == "cl_" then
+
+				if SERVER then
+
+					AddCSLuaFile( f .. lua )
+
+				else
+
+					include( f .. lua )
+
+				end
+
+			elseif type == "sv_" || lua == "init.lua" then
+
+				if SERVER then
+
+					include( f .. lua )
+
+				end
+
+
+			else
+
+				if SERVER then
+
+					AddCSLuaFile( f .. lua )
+
+				end
+
+				include( f .. lua )
+
+
+			end
+
+		end
+
+	end
+
+	for _, folder in ipairs( folders ) do
+		
+		loadFolder( f .. folder )
+
+	end
+
+end
+
+loadFolder( "gmtlobby/gamemode", true )
 
 // temp
 if string.StartsWith( game.GetMap(), "gmt_build0h4" ) then

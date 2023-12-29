@@ -1,18 +1,4 @@
 include("shared.lua")
-include("cl_hud.lua")
-include("cl_hud_old.lua")
-include("cl_hud_lobby2.lua")
-include("cl_hudchat.lua")
-include("cl_playermenu.lua")
-include("cl_post_events.lua")
-include("cl_scoreboard.lua")
-include("milestones/uch_animations.lua")
-include("milestones/virus_radar.lua")
-
-// include( "minigames_new/cl_init.lua" )
-include( "sh_events.lua" )
-
-include("cl_tetris.lua")
 
 EnableParticles = CreateClientConVar( "gmt_enableparticles", "1", true, false )
 

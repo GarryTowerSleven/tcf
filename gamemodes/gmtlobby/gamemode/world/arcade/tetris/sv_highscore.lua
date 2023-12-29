@@ -5,11 +5,7 @@ local math = math
 local pairs = pairs
 local Database = Database
 
-include("network.lua")
-include("chat.lua")
 AddCSLuaFile("cl_init.lua")
-
-module("tetrishighscore")
 
 HighScore = {}
 
