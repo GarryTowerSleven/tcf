@@ -179,8 +179,6 @@ function loadFolder( f, noload, ent )
 
 	end
 
-	if done then return end
-
 	for _, folder in ipairs( folders ) do
 		
 		if folder == "entities" then
@@ -190,6 +188,8 @@ function loadFolder( f, noload, ent )
 			continue
 		
 		end
+
+		if done then continue end
 
 		if dontload[includef .. folder] then continue end
 
