@@ -110,6 +110,8 @@ function loadFolder( f, noload, ent )
 
 	local include = ent && loadEntities || include
 
+	local done
+
 	if !noload then
 
 		local load = {}
@@ -123,6 +125,7 @@ function loadFolder( f, noload, ent )
 			if table.HasValue( files, f ) then
 
 				table.insert(load, f)
+				done = true
 
 			end
 		end
@@ -175,6 +178,8 @@ function loadFolder( f, noload, ent )
 		end
 
 	end
+
+	if done then return end
 
 	for _, folder in ipairs( folders ) do
 		
