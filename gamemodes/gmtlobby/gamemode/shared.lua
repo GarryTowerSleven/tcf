@@ -13,61 +13,31 @@ Loadables.Load( {
 
 	-- Lobby
 	---------------------------------------------------------
-	"soundbrowser",			-- Sound browser
-	--"bassemitstream",		-- Emit stream (radios)
-	--"ragdollcontroller",	-- Player ragdolling
-	"npc_chat",				-- Chatting NPCs (suite and PVP Battle)
 	"animation",			-- Force animation system
-	--"ambiance",			-- Old Ambient music
-	--"enchant",			-- Player enchantments
-	"trivia",				-- Trivia
-	--"funmeter",			-- Fun Meter (experimental minigame)
 	"spawner",				-- Special spawner (presents and candy)
-
-	-- WIP/Unfinished
-	---------------------------------------------------------
-	--"advertisement",		-- Advertisement system (WIP)
-	--"lscontrol",			-- for live.gmtower.org
-	--"autorestart" 		-- Manages restarting the server every so often (WIP)
-	--"websocket",			-- WebSocket connection for cross-server/web chat
-	--"racing",				-- Silly little minigame (WIP)
-	--"boss",				-- Boss battle (WIP)
-
-	-- Mediaplayer
-	---------------------------------------------------------
-	"mediaplayer",			-- Media player
 
 	-- Base Modules
 	---------------------------------------------------------
-	"inventory",			-- Inventory and items
 	"clientsettings",		-- Client systems (GMC networking, etc.)
 	"clsound",				-- Clientside emitsound sent by serverside actions
 	"group",				-- Group
 	"achievement",			-- Achievements
 	"hacker",				-- Hacker logging
-	"npc",					-- Store NPCs
-	"room",					-- Suite/condo system
 	"scoreboard",			-- Scoreboard
 	"store",				-- Stores
 	"multiserver",			-- Multiserver
 	"location",				-- Location system
-	"seats",				-- Seat manager
 	--"gibsystem",			-- Gibs
 	"thirdperson",			-- Thirdperson
 	"commands",				-- Chat commands (required for emotes)
 	"afk",					-- AFK kicker
-	"drunk", 				-- Drunk system
 	"events",				-- Random events (sales, minigames)
-	"emote",				-- Player emote system (ie. /dance)
-	"duel",					-- Player dueling
 	"legs",					-- First person legs
 	--"arcade",				-- Arcade API
 	"contentmanager",		-- Alerts players when they're missing a required game or addon
 	"fakeclientmodel",		-- Less-specific version of fakeself for drastic clientmodel modifications
 	"ping",					-- Pings the clients to detect for server crashes
 	"soundscape",			-- Soundscape system
-	"theater", 				-- Theater built with the media player
-	"mapdata",				-- Map specific fixes and additions
 	"painsounds",			-- Player Voicelines
 	//"emotion",			-- I'm hurting, Gordon!
 
@@ -78,7 +48,6 @@ Loadables.Load( {
 	"pet",					-- Pets
 	"cards",				-- Poker module
 	"minecraftskins",		-- Minecraft Steve model skins
-	"auction",				-- Auction tables
 
 	-- Debugging/Tools
 	---------------------------------------------------------
@@ -104,21 +73,78 @@ Loadables.Load( {
 } )
 
 local first = {
-	"world/event/minigames"
+	"world/event/minigames",
+	"world/arcade/trivia"
 }
 
+local dontload = {
+	["world/suites/mediaplayer/players"] = true,
+	["world/suites/mediaplayer/services"] = true,
+	["world/theater/player"] = true,
+	["world/mapdata/maps"] = true
+}
 
-function loadFolder( f, noload )
+function loadEntities( f )
+
+	local class = string.Split( f, "/" )
+	local f2 = class[#class]
+	if f2 != "init.lua" && f2 != "cl_init.lua" then return end
+	local type = class[#class - 2]
+	class = string.StripExtension( class[#class - 1] )
+
+	if type == "entities" then
+
+		ENT = {}
+		include( f )
+		scripted_ents.Register( ENT, class )
+		ENT = nil
+
+	elseif type == "weapons" then
+
+		SWEP = {}
+		include( f )
+		weapons.Register( SWEP, class )
+		SWEP = nil
+
+	end
+
+end
+
+function loadFolder( f, noload, ent )
 
 	f = f .. "/"
 
 	local files, folders = file.Find( f .. "*", "LUA" )
 
+	local includef = string.Replace( f, "gmtlobby/gamemode/", "" )
+
+	local include = ent && loadEntities || include
+
 	if !noload then
 
-		local includef = string.Replace( f, "gmtlobby/gamemode/", "" )
+		local load = {}
+		local first = {
+			["init.lua"] = true,
+			["cl_init.lua"] = true,
+			["shared.lua"] = true
+		}
 
-		for _, lua in ipairs( files ) do
+		for f, _ in pairs(first) do
+			if table.HasValue( files, f ) then
+
+				table.insert(load, f)
+
+			end
+		end
+
+		// While it was a good idea to try and not require includes, it ended up being bad.
+		// We'll still load anything that isn't part of a folder (player/sh_animations.lua for example)
+
+		if #load == 0 then
+			table.Add( load, files )
+		end
+
+		for _, lua in ipairs( load ) do
 			
 			local type = string.sub( lua, 1, 3 )
 
@@ -162,7 +188,17 @@ function loadFolder( f, noload )
 
 	for _, folder in ipairs( folders ) do
 		
-		loadFolder( f .. folder )
+		if folder == "entities" then
+			
+			loadFolder( f .. folder, nil, true )
+
+			continue
+		
+		end
+
+		if dontload[includef .. folder] then continue end
+
+		loadFolder( f .. folder, nil, ent )
 
 	end
 

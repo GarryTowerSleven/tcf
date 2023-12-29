@@ -126,24 +126,26 @@ local gradientDown = surface.GetTextureID( "VGUI/gradient_down" )
 
 function DUELSCREEN:Paint( w, h )
 
-	surface.SetDrawColor( Color( 0, 0, 0, 200 ) )
-	surface.DrawRect( 0, 0, self:GetWide(), self:GetTall() )
 
 	surface.SetDrawColor( 0, 0, 0, 255 )
-	surface.DrawRect( 0, 0, ScrW(), 120 )
 
 	surface.SetTexture( gradientDown )
-	surface.DrawTexturedRect( 0, 120, ScrW(), 80 )
+	surface.DrawTexturedRect( 0, 32, ScrW(), ScrH() )
 
-	surface.DrawRect( 0, ScrH() - 120, ScrW(), 120 )
+	surface.DrawRect( 0, 0, ScrW(), 32 )
+
+	surface.SetTexture( gradientDown )
+	surface.DrawTexturedRect( 0, 32, ScrW(), 80 )
+
+	surface.DrawRect( 0, ScrH() - 32, ScrW(), 120 )
 
 	surface.SetTexture( gradientUp )
-	surface.DrawTexturedRect( 0, ScrH() - ( 120 + 80 ), ScrW(), 80 )
+	surface.DrawTexturedRect( 0, ScrH() - ( 32 + 80 ), ScrW(), 80 )
 
 	if self.Player1.x == self.Player1FinalPosX && self.Player2.x == self.Player2FinalPosX then
 		local tx, ty = ScrW() / 2, ScrH() / 2
-		draw.SimpleText( "VS", "DuelExtraLarge", tx + 2, ty + 2, Color( 0, 0, 0, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-		draw.SimpleText( "VS", "DuelExtraLarge", tx, ty, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		draw.SimpleTextOutlined( "VS", "DuelExtraLarge", tx + 2, ty + 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, color_black )
+		
 	end
 
 end

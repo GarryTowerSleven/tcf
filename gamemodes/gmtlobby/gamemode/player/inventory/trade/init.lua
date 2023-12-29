@@ -6,9 +6,9 @@ AddCSLuaFile("shared.lua")
 TRADE_DISABLED = false
 
 include("shared.lua")
-include("trade.lua")
-include("concommand.lua")
-include("log.lua")
+include("sv_trade.lua")
+include("sv_concommand.lua")
+include("sv_log.lua")
 
 local meta = FindMetaTable( "Player" )
 

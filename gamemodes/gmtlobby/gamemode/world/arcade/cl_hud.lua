@@ -1,6 +1,6 @@
 local DEBUG = CreateClientConVar( "gmt_arcade_debug", 0, true )
 local ticketsMat = Material( "gmod_tower/icons/ticket.png" )
-hook.Add( "GTowerHUDPaint", "DrawTickets", function()
+hook.Remove( "GTowerHUDPaint", "DrawTickets", function()
 
 	if !Location.IsArcade( LocalPlayer():Location() ) and !DEBUG:GetBool() then return end
 	local tickets = LocalPlayer():GetTickets()
