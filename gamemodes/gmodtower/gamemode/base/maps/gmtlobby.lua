@@ -102,6 +102,14 @@ Maps.Register( "gmt_build0h4", {
 	DateModified = 1399590414,
 } )
 
+Maps.Register( "gmt_build0c4", {
+	Name = "Christmas '23 Lobby",
+	Desc = "Happy holidays from The Community First! It seems that during our brief shutdown, Christmas cheer and winter storms have overtaken the lobby! Take a walk, breathe in the sights.. and the cold..... But don't let it get you down, there's plenty of presents just for you all around the tower!  ",
+	Author = "PixelTail Games / TCF Team",
+	DateAdded = 1399590414,
+	DateModified = 1399590414,
+} )
+
 Maps.Register( "gmt_halloween2014", {
 	Name = "Halloween 2014",
 	Desc = "Enter the madness.",
