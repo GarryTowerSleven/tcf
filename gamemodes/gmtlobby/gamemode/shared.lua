@@ -63,13 +63,15 @@ Loadables.Load( {
 } )
 
 local first = {
-	"world/event/minigames",
-	"world/arcade/trivia"
+	{ "world/event/minigames", true },
+	"world/event/events",
+	"world/arcade/trivia",
+	{ "world/mediaplayer", true },
 }
 
 local dontload = {
-	["world/suites/mediaplayer/players"] = true,
-	["world/suites/mediaplayer/services"] = true,
+	["world/mediaplayer/players"] = true,
+	["world/mediaplayer/services"] = true,
 	["world/theater/player"] = true,
 	["world/mapdata/maps"] = true
 }
@@ -100,7 +102,7 @@ function loadEntities( f )
 
 end
 
-function loadFolder( f, noload, ent )
+function loadFolder( f, noload, ent, nodone )
 
 	f = f .. "/"
 
@@ -125,7 +127,7 @@ function loadFolder( f, noload, ent )
 			if table.HasValue( files, f ) then
 
 				table.insert(load, f)
-				done = true
+				done = !nodone
 
 			end
 		end
@@ -201,7 +203,16 @@ end
 
 for _, f in ipairs( first ) do
 
-	loadFolder( "gmtlobby/gamemode/" .. f )
+	local nodone
+
+	if istable(f) then
+		
+		nodone = f[2]
+		f = f[1]
+
+	end
+
+	loadFolder( "gmtlobby/gamemode/" .. f, nil, nil, nodone )
 
 end
 
