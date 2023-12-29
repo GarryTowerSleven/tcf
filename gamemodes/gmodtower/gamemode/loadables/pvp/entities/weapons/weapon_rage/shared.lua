@@ -14,15 +14,17 @@ SWEP.Slot			= 0
 SWEP.SlotPos			= 1
 SWEP.Wait = false
 
-SWEP.ViewModel			= "models/weapons/v_pvp_ire.mdl"
-SWEP.WorldModel			= "models/weapons/w_pvp_ire.mdl"
+SWEP.ViewModel			= "models/weapons/c_arms.mdl"
+SWEP.WorldModel			= ""
 SWEP.ViewModelFlip		= false
-SWEP.HoldType			= "melee"
+SWEP.HoldType			= "fist"
 
 SWEP.Primary.Automatic		= true
 SWEP.Primary.UnlimAmmo		= true
 SWEP.Primary.Damage		= {100, 125}
 SWEP.Primary.Delay		= 0.35
+
+SWEP.Secondary = SWEP.Primary
 
 SWEP.CrosshairDisabled	 	= true
 SWEP.FistHit			= 	"GModTower/pvpbattle/Rage/RageHit.wav"
@@ -33,14 +35,46 @@ SWEP.FistHitFlesh		= {	"GModTower/pvpbattle/Rage/RageFlesh1.wav",
 SWEP.FistMiss			= {	"GModTower/pvpbattle/Rage/RageMiss1.wav",
 					"GModTower/pvpbattle/Rage/RageMiss2.wav"  }
 
+SWEP.UseHands = true
+SWEP.ViewModelFOV = 54
+
 util.PrecacheModel( SWEP.ViewModel )
 util.PrecacheModel( SWEP.WorldModel )
+
+function SWEP:SetupDataTables()
+
+	self:NetworkVar( "Int", 0, "Hits" )
+	self:NetworkVar( "Float", 0, "IdleTime" )
+
+end
+
+function SWEP:SendAnim( seq, speed )
+
+	local owner = self:GetOwner()
+
+	if !IsValid( owner ) then return end
+
+	local vm = owner:GetViewModel()
+
+	if IsValid( vm ) then
+
+		speed = speed || 1
+		vm:SendViewModelMatchingSequence( vm:LookupSequence( seq ) )
+		vm:SetPlaybackRate( speed )
+
+		self:SetIdleTime( CurTime() + vm:SequenceDuration( vm:GetSequence() ) / speed )
+
+	end
+
+end
 
 function SWEP:Deploy()
 
 	if SERVER && self.InventoryItem && self.InventoryItem.WeaponDeployed then
 		self.InventoryItem:WeaponDeployed()
 	end
+
+	self:SendAnim( "fists_draw" )
 
 	return true
 
@@ -60,7 +94,9 @@ function SWEP:PrimaryAttack()
 	self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
 
 	self:ShootMelee( self.Primary.Damage, self.FistHit, self.FistHitFlesh, self.FistMiss )
-	
+	self:SendAnim( self:GetHits() % 2 == 1 && "fists_left" || "fists_right", 1.4 )
+	self:SetHits( self:GetHits() + 1 )
+
 	if SERVER then
 		if self.InventoryItem && self.InventoryItem.WeaponFired then
 			self.InventoryItem:WeaponFired()
@@ -69,15 +105,18 @@ function SWEP:PrimaryAttack()
 end
 
 function SWEP:SecondaryAttack()
-	if CLIENT then return end
+	if self:GetNextPrimaryFire() > CurTime() then return end
+	self:PrimaryAttack()
+end
 
-	if !IsLobby or !self.Owner:IsAdmin() then return end
+function SWEP:Think()
 
-	if not IsFirstTimePredicted() then return end
-	if (self.Wait) then return end
-	self.Wait = true
-	timer.Simple(20,function() self.Wait = false end)
-	self.Owner:EmitSound("gmodtower/pvpbattle/rage.mp3")
+	if self:GetIdleTime() < CurTime() then
+
+		self:SendAnim( "fists_idle_01" )
+
+	end
+
 end
 
 function SWEP:Reload()
