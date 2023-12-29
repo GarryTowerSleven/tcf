@@ -132,6 +132,12 @@ function loadFolder( f, noload, ent, nodone )
 			end
 		end
 
+		if #load > 1 then
+
+			table.RemoveByValue( load, "shared.lua" )
+
+		end
+
 		// While it was a good idea to try and not require includes, it ended up being bad.
 		// We'll still load anything that isn't part of a folder (player/sh_animations.lua for example)
 

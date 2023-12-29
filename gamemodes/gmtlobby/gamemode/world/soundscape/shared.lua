@@ -32,7 +32,7 @@ end
 // Loading
 local function Load()
 	local map = "lobby1"
-	local basedir = "gmodtower/gamemode/loadables/soundscape/maps/"
+	local basedir = "gmtlobby/gamemode/world/soundscape/maps/"
 
 	local files = {
 		"cl_soundscape_music.lua",
