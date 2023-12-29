@@ -9,103 +9,6 @@ IsLobby = true
 
 DeriveGamemode( "gmodtower" )
 
-function loadFolder( f, noload )
-
-	f = f .. "/"
-
-	local files, folders = file.Find( f .. "*", "LUA" )
-
-	if !noload then
-
-		f = string.Replace( f, "gmtlobby/gamemode/", "" )
-
-		for _, lua in ipairs( files ) do
-			
-			local type = string.sub( lua, 1, 3 )
-
-			if type == "cl_" then
-
-				if SERVER then
-
-					AddCSLuaFile( f .. lua )
-
-				else
-
-					include( f .. lua )
-
-				end
-
-			elseif type == "sv_" || lua == "init.lua" then
-
-				if SERVER then
-
-					include( f .. lua )
-
-				end
-
-
-			else
-
-				if SERVER then
-
-					AddCSLuaFile( f .. lua )
-
-				end
-
-				include( f .. lua )
-
-
-			end
-
-		end
-
-	end
-
-	for _, folder in ipairs( folders ) do
-		
-		loadFolder( f .. folder )
-
-	end
-
-end
-
-loadFolder( "gmtlobby/gamemode", true )
-
-// temp
-if string.StartsWith( game.GetMap(), "gmt_build0h4" ) then
-	game.AddParticles( "particles/gmt_halloween.pcf" )
-end
-
-function IsHalloweenMap( map )
-	map = map or game.GetMap()
-
-	if IsLobby then
-		return map[11] == "h"
-	end
-
-	return false
-end
-
-IsHalloween = IsHalloweenMap()
-
-function IsChristmasMap( map )
-	map = map or game.GetMap()
-
-	if IsLobby then
-		return map[11] == "c"
-	end
-
-	return false
-end
-
-IsChristmas = IsChristmasMap()
-
-function IsHolidayMap()
-	return IsHalloweenMap() or IsChristmasMap()
-end
-
-IsHoliday = IsHolidayMap()
-
 Loadables.Load( {
 
 	-- Lobby
@@ -199,6 +102,103 @@ Loadables.Load( {
 	-- "miku",				-- Ghost of Miku
 
 } )
+
+function loadFolder( f, noload )
+
+	f = f .. "/"
+
+	local files, folders = file.Find( f .. "*", "LUA" )
+
+	if !noload then
+
+		local includef = string.Replace( f, "gmtlobby/gamemode/", "" )
+
+		for _, lua in ipairs( files ) do
+			
+			local type = string.sub( lua, 1, 3 )
+
+			if type == "cl_" then
+
+				if SERVER then
+
+					AddCSLuaFile( f .. lua )
+
+				else
+
+					include( includef .. lua )
+
+				end
+
+			elseif type == "sv_" || lua == "init.lua" then
+
+				if SERVER then
+
+					include( includef .. lua )
+
+				end
+
+
+			else
+
+				if SERVER then
+
+					AddCSLuaFile( f .. lua )
+
+				end
+
+				include( includef .. lua )
+
+
+			end
+
+		end
+
+	end
+
+	for _, folder in ipairs( folders ) do
+		
+		loadFolder( f .. folder )
+
+	end
+
+end
+
+loadFolder( "gmtlobby/gamemode", true )
+
+// temp
+if string.StartsWith( game.GetMap(), "gmt_build0h4" ) then
+	game.AddParticles( "particles/gmt_halloween.pcf" )
+end
+
+function IsHalloweenMap( map )
+	map = map or game.GetMap()
+
+	if IsLobby then
+		return map[11] == "h"
+	end
+
+	return false
+end
+
+IsHalloween = IsHalloweenMap()
+
+function IsChristmasMap( map )
+	map = map or game.GetMap()
+
+	if IsLobby then
+		return map[11] == "c"
+	end
+
+	return false
+end
+
+IsChristmas = IsChristmasMap()
+
+function IsHolidayMap()
+	return IsHalloweenMap() or IsChristmasMap()
+end
+
+IsHoliday = IsHolidayMap()
 
 function CanPlayerUse( arg1, arg2 )
 
