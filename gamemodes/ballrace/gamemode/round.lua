@@ -161,7 +161,9 @@ function GM:UpdateStatus(disc)
 			if NextMap then
 				if string.StartWith(game.GetMap(),"gmt_ballracer_memories") then
 					for k,v in pairs(player.GetAll()) do v:AddAchievement( ACHIEVEMENTS.BRMEMORIES, 1 ) end
-				end
+				elseif string.StartWith(game.GetMap(),"gmt_ballracer_midori") then
+					for k,v in pairs(player.GetAll()) do v:AddAchievement( ACHIEVEMENTS.BRMIDORI, 1 ) end
+				end 
 				for k,v in pairs(player.GetAll()) do if !v:GetNWBool("Popped") then v:AddAchievement( ACHIEVEMENTS.BRUNPOPABLE, 1 ) end end
 				self:RoundMessage( MSGSHOW_WORLDCOMPLETE )
 			else

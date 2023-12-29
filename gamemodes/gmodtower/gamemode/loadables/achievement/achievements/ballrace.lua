@@ -52,6 +52,7 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRMEMORIES, {
 	Name = "Memories Expert", 
 	Description = "Beat memories twice.", 
 	Value = 2,
+	GMC = 1000,
 	Group = 6
 	}
 )
@@ -196,6 +197,14 @@ GTowerAchievements:Add( ACHIEVEMENTS.BRSECRETFACILE, {
 	Name = "Facile Secret Banana",
 	Description = "Find the hidden banana on Facile.",
 	Value = 1,
+	Group = 6
+	}
+)
+GTowerAchievements:Add( ACHIEVEMENTS.BRMIDORI, {
+	Name = "Midori Expert", 
+	Description = "Beat midori twice.", 
+	Value = 2,
+	GMC = 1500,
 	Group = 6
 	}
 )

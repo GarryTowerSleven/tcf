@@ -284,6 +284,8 @@ ACHIEVEMENTS.CHATTERBOX = 224
 ACHIEVEMENTS.TONGUETWISTED = 225
 ACHIEVEMENTS.DISGUSTING = 226
 
+ACHIEVEMENTS.BRMIDORI = 227
+
 hook.Add("Initialize", "LoadAchivments", function()
 	hook.Call("LoadAchievements")
 
