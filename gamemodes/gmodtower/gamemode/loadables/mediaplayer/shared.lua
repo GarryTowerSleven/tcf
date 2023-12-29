@@ -36,8 +36,6 @@ do
 		local clfile = path .. service .. "/cl_init.lua"
 		local svfile = path .. service .. "/init.lua"
 
-		print(clfile)
-
 		SERVICE = {}
 		
 		if SERVER then
