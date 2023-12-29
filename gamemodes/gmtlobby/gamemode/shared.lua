@@ -103,6 +103,11 @@ Loadables.Load( {
 
 } )
 
+local first = {
+	"world/event/minigames"
+}
+
+
 function loadFolder( f, noload )
 
 	f = f .. "/"
@@ -160,6 +165,12 @@ function loadFolder( f, noload )
 		loadFolder( f .. folder )
 
 	end
+
+end
+
+for _, f in ipairs( first ) do
+
+	loadFolder( "gmtlobby/gamemode/" .. f )
 
 end
 
