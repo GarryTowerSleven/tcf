@@ -246,7 +246,7 @@ function ENT:DrawTranslucent()
 		eyevec.z = 0
 
 		render.DrawQuadEasy(
-			self:GetPos() + offset + self:GetUp() * (7 - math.sin(UnPredictedCurTime() * 4) * 2) + eyevec:Angle():Right() * math.sin(UnPredictedCurTime() * 2) * 4,
+			pos + self:GetUp() * (7 - math.sin(UnPredictedCurTime() * 4) * 2) + eyevec:Angle():Right() * math.sin(UnPredictedCurTime() * 2) * 4,
 			eyevec,
 			(64/2) + sin*4,
 			(32/2) + sin*4,
