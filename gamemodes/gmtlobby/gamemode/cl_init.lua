@@ -142,32 +142,6 @@ hook.Add("CalcView", "GMTViewBob", function( ply, origin, angle, fov)
 
 end )
 
-hook.Add( "UpdateAnimation", "PlayerTurn", function( ply, vel )
-
-		local ang = ply:EyeAngles()
-
-		ply.TurnAng = ply.TurnAng or ply:EyeAngles()
-		ply.TurnAng.p = 0
-
-		local diff = math.NormalizeAngle( ply.TurnAng.y - ang.y )
-
-		ply:SetPoseParameter( "head_yaw", -diff )
-		ply:SetPoseParameter( "aim_yaw", -diff )
-
-		diff = math.abs( diff )
-
-		local moving = vel:Length2D() > 1
-
-		if diff > 45 || moving then
-			ply.TurnAng.y = math.ApproachAngle( ply.TurnAng.y, ang.y, FrameTime() * ( 8 + ( moving && 24 || diff - 45 ) * 24 ) )
-		end
-
-		if ply:GetNWBool("dancing") then return end
-
-		ply:SetRenderAngles( ply.TurnAng )
-
-end )
-
 function GM:HUDWeaponPickedUp() return false end
 function GM:HUDItemPickedUp() return false end
 function GM:HUDAmmoPickedUp() return false end
