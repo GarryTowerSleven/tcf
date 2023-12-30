@@ -2,7 +2,7 @@ module("minigames", package.seeall )
 
 do
 
-	local MiniGames = file.FindDir( "gmtlobby/gamemode/minigames/*", "LUA" )
+	local MiniGames = file.FindDir( "gmtlobby/gamemode/world/event/minigames/*", "LUA" )
 
 	if SERVER then
 		MsgC( color_green, "\n[Minigames] Loading Minigames...\n")
