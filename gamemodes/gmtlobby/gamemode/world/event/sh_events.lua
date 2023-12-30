@@ -1,4 +1,4 @@
-local files, _ = file.Find( "gmtlobby/gamemode/events/*.lua", "LUA" )
+local files, _ = file.Find( "gmtlobby/gamemode/world/event/events/*.lua", "LUA" )
 
 for _, v in ipairs( files ) do
 

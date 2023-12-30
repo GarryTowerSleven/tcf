@@ -1,3 +1,7 @@
+AddCSLuaFile( "sh_events.lua" )
+
+include( "sh_events.lua" )
+include( "sv_events.lua" )
 
 local EventSound = "gmodtower/misc/notifyevent.wav"
 if time.IsChristmas() then EventSound = "gmodtower/music/christmas/eventnotify.mp3" end

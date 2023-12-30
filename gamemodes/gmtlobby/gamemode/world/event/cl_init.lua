@@ -1,3 +1,5 @@
+include( "sh_events.lua" )
+
 module("minievent", package.seeall )
 
 local DrawTimer = CreateClientConVar( "gmt_draweventtimer", 1, true, false )
