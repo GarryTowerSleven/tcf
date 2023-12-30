@@ -45,7 +45,6 @@ Loadables.Load( {
 
 	-- UI/Misc
 	---------------------------------------------------------
-	"question",				-- Global voting
 	"gibsystem",			-- Gibs
 
 	-- Weapons

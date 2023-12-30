@@ -13,7 +13,6 @@ function SetupGMTGamemode( name, folder, settings )
 			"achievement",
 			"scoreboard",
 			"afk",
-			"question",
 			"minecraftskins",
 		}
 		if settings.Loadables then
