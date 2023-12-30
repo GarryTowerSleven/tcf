@@ -23,16 +23,13 @@ Loadables.Load( {
 	"achievement",			-- Achievements
 	"hacker",				-- Hacker logging
 	"scoreboard",			-- Scoreboard
-	"store",				-- Stores
 	"multiserver",			-- Multiserver
-	"location",				-- Location system
-	--"gibsystem",			-- Gibs
+	"gibsystem",			-- Gibs
 	"afk",					-- AFK kicker
-	"events",				-- Random events (sales, minigames)
 	"legs",					-- First person legs
 	"ping",					-- Pings the clients to detect for server crashes
 	"painsounds",			-- Player Voicelines
-	//"emotion",			-- I'm hurting, Gordon!
+	"emotion",				-- I'm hurting, Gordon!
 
 	-- Items Depend On These
 	---------------------------------------------------------
@@ -45,7 +42,6 @@ Loadables.Load( {
 
 	-- UI/Misc
 	---------------------------------------------------------
-	"gibsystem",			-- Gibs
 
 	-- Weapons
 	---------------------------------------------------------
@@ -56,7 +52,7 @@ Loadables.Load( {
 
 local first = {
 	{ "world/event/minigames", true },
-	"world/event/events",
+	{ "world/event/events", true },
 	"world/arcade/trivia",
 	{ "world/mediaplayer", true },
 }
