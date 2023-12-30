@@ -51,6 +51,7 @@ Loadables.Load( {
 } )
 
 local first = {
+	"world/location",
 	{ "world/event/minigames", true },
 	{ "world/event/events", true },
 	"world/arcade/trivia",
