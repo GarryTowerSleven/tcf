@@ -14,7 +14,6 @@ Loadables.Load( {
 	-- Lobby
 	---------------------------------------------------------
 	"animation",			-- Force animation system
-	"spawner",				-- Special spawner (presents and candy)
 
 	-- Base Modules
 	---------------------------------------------------------
@@ -28,21 +27,15 @@ Loadables.Load( {
 	"multiserver",			-- Multiserver
 	"location",				-- Location system
 	--"gibsystem",			-- Gibs
-	"thirdperson",			-- Thirdperson
-	"commands",				-- Chat commands (required for emotes)
 	"afk",					-- AFK kicker
 	"events",				-- Random events (sales, minigames)
 	"legs",					-- First person legs
-	--"arcade",				-- Arcade API
-	"contentmanager",		-- Alerts players when they're missing a required game or addon
-	"fakeclientmodel",		-- Less-specific version of fakeself for drastic clientmodel modifications
 	"ping",					-- Pings the clients to detect for server crashes
 	"painsounds",			-- Player Voicelines
 	//"emotion",			-- I'm hurting, Gordon!
 
 	-- Items Depend On These
 	---------------------------------------------------------
-	"bonemod",				-- Bone modifications
 	"minecraftskins",		-- Minecraft Steve model skins
 
 	-- Debugging/Tools
@@ -53,10 +46,10 @@ Loadables.Load( {
 	-- UI/Misc
 	---------------------------------------------------------
 	"question",				-- Global voting
+	"gibsystem",			-- Gibs
 
 	-- Weapons
 	---------------------------------------------------------
-	"weaponmanager",		-- Manages minigame weapons and such
 	"pvp",					-- PVP weapons
 	"virus",				-- Virus weapons
 
