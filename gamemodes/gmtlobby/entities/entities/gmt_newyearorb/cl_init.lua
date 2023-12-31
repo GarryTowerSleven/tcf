@@ -59,7 +59,7 @@ function ENT:DrawTranslucent()
 
 	local timeLeft = self:TimeToNewYear()
 
-	if ( timeLeft <= 0 or timeLeft >= 86,400 ) then
+	if ( timeLeft <= 0 or timeLeft >= 86400 ) then
 		self:SetText( "   HAPPY NEW YEAR!!!   " )
 	else
 		local friendlyTime = {
