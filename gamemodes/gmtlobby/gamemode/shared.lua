@@ -28,11 +28,15 @@ end
 
 IsHalloween = IsHalloweenMap()
 
+local ChristmasMaps = {
+	"gmt_build0c3",
+	"gmt_build0c4",
+}
 function IsChristmasMap( map )
 	map = map or game.GetMap()
 
-	if IsLobby then
-		return map[11] == "c"
+	if IsLobby && table.HasValue( ChristmasMaps, map ) then
+		return true
 	end
 
 	return false
