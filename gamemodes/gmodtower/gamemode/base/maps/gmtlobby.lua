@@ -110,6 +110,14 @@ Maps.Register( "gmt_build0c4", {
 	DateModified = 1399590414,
 } )
 
+Maps.Register( "gmt_build0c4a", {
+	Name = "Winter '24 Lobby",
+	Desc = "As the holidays and new years have passed us by, snow has begun to pile up even more around the Tower, and a cold winter night has come to greet us.",
+	Author = "PixelTail Games / TCF Team",
+	DateAdded = 1399590414,
+	DateModified = 1399590414,
+} )
+
 Maps.Register( "gmt_halloween2014", {
 	Name = "Halloween 2014",
 	Desc = "Enter the madness.",
