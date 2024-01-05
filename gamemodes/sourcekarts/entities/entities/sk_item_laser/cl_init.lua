@@ -119,7 +119,7 @@ function ENT:DrawTranslucent()
 	end
 
 	//Dlights
-	local dlight_start = DynamicLight( self:EntIndex() .. "start" )
+	local dlight_start = DynamicLight( self:EntIndex() )
 	if dlight_start then
 		dlight_start.Pos = self.StartPos
 		dlight_start.r = 255
