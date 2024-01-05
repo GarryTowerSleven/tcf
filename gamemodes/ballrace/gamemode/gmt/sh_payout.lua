@@ -71,10 +71,9 @@ function GAMEMODE:GiveMoney()
 
 		if ply:Team() == TEAM_COMPLETED && GAMEMODE.PreviousState != STATE_PLAYINGBONUS then
 			payout.Give( ply, "Completed" )
-		end
-
-		if GAMEMODE.PreviousState == STATE_PLAYING && !ply:GetNWBool("Died") then
-			payout.Give( ply, "NoDeath" )
+			if !ply:GetNWBool("Died") then
+				payout.Give( ply, "NoDeath" )
+			end
 		end
 
 		if ply:GetNWBool("PressedButton") then
