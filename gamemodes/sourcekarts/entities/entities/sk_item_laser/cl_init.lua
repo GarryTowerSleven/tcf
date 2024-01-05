@@ -105,7 +105,7 @@ function ENT:DrawTranslucent()
 			self.LastDecal = RealTime() + 0.01
 		end
 
-		local dlight_end = DynamicLight( self:EntIndex() .. "end" )
+		local dlight_end = DynamicLight( self:EntIndex() )
 		if dlight_end then
 			dlight_end.Pos = self.HitPos
 			dlight_end.r = 255
