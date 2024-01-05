@@ -248,7 +248,7 @@ GTowerItems.RegisterItem( "JumpShoes", {
 	Tradable = true,
 
 	StoreId = 22,
-	StorePrice = 10000,
+	StorePrice = 3500,
 	NewItem = true,
 
 	EquippableEntity = true,
