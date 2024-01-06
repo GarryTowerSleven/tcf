@@ -918,14 +918,14 @@ RegisterModel(
 	"models/player/reimupc.mdl",
 	"reimu",
 	15000 )
-	
+--[[ Weight painting sucks. Awful. I don't know, think about it.	
 RegisterModel(
 	"mdl_mae",
 	"Mae Borowski",
 	"Everything sucks forever.",
 	"models/custom/asterisk/nitw/mae/mae_pm.mdl",
 	"mae",
-	30000 )
+	30000 )--]]
 	
 --[[ Has buggy arms
 RegisterModel(
