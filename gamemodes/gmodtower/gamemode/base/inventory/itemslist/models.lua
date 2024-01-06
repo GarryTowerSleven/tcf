@@ -925,7 +925,7 @@ RegisterModel(
 	"Everything sucks forever.",
 	"models/custom/asterisk/nitw/mae/mae_pm.mdl",
 	"mae",
-	20000 )
+	30000 )
 	
 --[[ Has buggy arms
 RegisterModel(
