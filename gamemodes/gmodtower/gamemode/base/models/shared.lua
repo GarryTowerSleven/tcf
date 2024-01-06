@@ -140,6 +140,7 @@ AddPlayerModel( "david", "models/player/dwecqihoodie.mdl" )
 AddPlayerModel( "raiden", "models/raiden/raiden.mdl" )
 AddPlayerModel( "reimu", "models/player/reimupc.mdl" )
 AddPlayerModel( "hatman", "models/player/hatman.mdl" )
+AddPlayerModel( "mae", "models/luria/night_in_the_woods/playermodels/mae.mdl" )
 --AddPlayerModel( "ornstein", "models/nikout/darksouls2/characters/olddragonslayer.mdl" )
 
 // Remove bad playermodels

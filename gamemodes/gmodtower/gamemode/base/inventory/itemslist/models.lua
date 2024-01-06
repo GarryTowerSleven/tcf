@@ -919,6 +919,14 @@ RegisterModel(
 	"reimu",
 	15000 )
 	
+RegisterModel(
+	"mdl_mae",
+	"Mae Borowski",
+	"Everything sucks forever.",
+	"models/luria/night_in_the_woods/playermodels/mae.mdl",
+	"mae",
+	20000 )
+	
 --[[ Has buggy arms
 RegisterModel(
 	"mdl_hunk",
