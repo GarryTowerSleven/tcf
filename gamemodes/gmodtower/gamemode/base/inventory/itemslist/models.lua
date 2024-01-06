@@ -907,7 +907,7 @@ RegisterModel(
 	"mdl_raiden",
 	"Raiden",
 	"I feel like some kind of legendary mercenary.",
-	"models/player/raiden.mdl",
+	"models/raiden/raiden.mdl",
 	"raiden",
 	10000 )
 	
