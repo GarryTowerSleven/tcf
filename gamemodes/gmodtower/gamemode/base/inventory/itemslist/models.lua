@@ -923,7 +923,7 @@ RegisterModel(
 	"mdl_mae",
 	"Mae Borowski",
 	"Everything sucks forever.",
-	"models/luria/night_in_the_woods/playermodels/mae.mdl",
+	"models/custom/asterisk/nitw/mae/mae_pm.mdl",
 	"mae",
 	20000 )
 	
