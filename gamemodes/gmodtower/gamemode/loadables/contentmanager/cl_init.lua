@@ -3,11 +3,13 @@ include( "shared.lua" )
 
 //local enableNotice = CreateClientConVar( "gmt_notice_workshop", 1, true, false )
 
+WorkshopNotice   = CreateClientConVar( "gmt_notice_workshop", "1", true, false, nil, 0, 1 )
+
 module( "contentmanager", package.seeall )
 
 //HasGMTContent = FileReport.HasFile( "addons/GMT2_Base/sound/GModTower/music/award.wav" )
 RequiredModels = {
-	[240] = "models/props/cs_militia/wood_table.mdl",
+	[240] = "models/props/de_piranesi/pi_bench.mdl",
 	[440] = "models/props_trainyard/beer_keg001.mdl"
 }
 
@@ -45,6 +47,22 @@ end
 
 // Check for workshop items
 HasAllWorkshop = true
+
+modelsToCheck = {
+    ["Base"] = { "models/gmt_money/fifty.mdl","models/gmod_tower/plant/largebush01.mdl"},
+    ["Lobby"] = { "models/func_touchpanel/terminal04.mdl","models/gmod_tower/propper/bar_elev.mdl"},
+    ["Minigolf"] = { "models/props/gmt_minigolf_moon/light_sphere.mdl","models/gmod_tower/golftriangleflag.mdl"},
+    ["PVP Battle"] = { "models/gmod_tower/future_doorframe.mdl","models/weapons/v_pvp_ire.mdl"},
+    ["SK"] = { "models/gmt_turnright.mdl","models/gmod_tower/sourcekarts/flux.mdl"},
+    ["UCH"] = { "models/uch/mghost.mdl","models/uch/pigmask.mdl"},
+    ["Virus"] = { "models/gmod_tower/facility/gmt_facilitydoor.mdl","models/weapons/v_vir_snp.mdl"},
+    ["ZM"] = { "models/weapons/w_flamethro.mdl","models/zom/dog.mdl"},
+    ["Ballrace"] = { "models/gmod_tower/ballcrate.mdl","models/props_memories/memories_levelend.mdl"},
+    ["TCF Base"] = { "models/player/miku.mdl" },
+    ["TCF Lobby"] = { "models/weapons/v_watch.mdl" },
+    ["TCF Ballrace"] = { "models/pikauch/ballrace/ringblock.mdl", "models/gmod_tower/balls/midori/midori_island01.mdl" },
+    ["TCF PVP"] = { "models/map_detail/elmtree.mdl" },
+}
 
 for name, models in pairs( modelsToCheck ) do
 
@@ -97,16 +115,24 @@ hook.Add( "HUDPaint", "ContentNotice", function()
 				end
 			end
 
-			message = "It appears that you are missing the required " .. string.Pluralize( "game", #MissingGames ) .. ": " .. gamesmissing .. "\n" ..
-					  "Please mount the "  .. string.Pluralize( "game", #MissingGames ) .. " and restart to remove errors."
+			message = "Alert: It appears that you are missing the required " .. string.Pluralize( "game", #MissingGames ) .. ": " .. gamesmissing .. "\n" ..
+					  "Please mount the "  .. string.Pluralize( "game", #MissingGames ) .. " and restart your game to remove errors."
 
 		end
 
-		// Missing GMT Content!
-		if !HasAllWorkshop then
-			if !message then message = "" end
-			message = message .. "\nAlert: GMT workshop content is not installed, is outdated, or manual content is out of date!\n " ..
-								"Please subscribe to all at http://content.gtower.net/ and restart."
+		if WorkshopNotice:GetBool() then 
+			
+			// Missing GMT Content!
+			if !HasAllWorkshop then
+				if !message then 
+					message = "Alert: GMT workshop content is not installed, is outdated, or manual content is out of date!\n " ..
+					"Please subscribe to all at http://content.gtower.net/ and restart your game to remove errors." 
+				else
+				message = message .. "\nIt also seems that GMT workshop content is not installed, is outdated, or manual content is out of date!\n " ..
+									 "Please subscribe to all at http://content.gtower.net/ and restart your game to remove errors."
+				end
+			end
+			
 		end
 
 		if message then

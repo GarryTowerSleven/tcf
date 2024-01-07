@@ -21,6 +21,8 @@ CrosshairConvar         = CreateClientConVar( "gmt_hud_crosshair", "1", true, fa
 CrosshairAlwaysConvar   = CreateClientConVar( "gmt_hud_crosshair_always", "1", true, false, nil, 0, 1 )
 CrosshairActionConvar   = CreateClientConVar( "gmt_hud_crosshair_action", "1", true, false, nil, 0, 1 )
 
+ContentNotice   = CreateClientConVar( "gmt_notice", "1", true, false, nil, 0, 1 )
+
 STYLE_DEFAULT = 1
 STYLE_LOBBY2 = 2
 
@@ -590,12 +592,14 @@ function PaintLobby1()
 
 end
 
-/*function GTowerHUD.DrawNotice( title, message )
+function GTowerHUD.DrawNotice( title, message )
 
     // TODO: hud hook and gradient ver
 
-    if !GTowerHUD.Notice.Enabled:GetBool() then return end
+    //if !GTowerHUD.Notice.Enabled:GetBool() then return end
 
+	if not ContentNotice:GetBool() then return end
+	
     -- Handle notice
     local w, h = ScrW() / 2, ScrH() / 2
     h = ( h * 2 ) - 150
@@ -612,7 +616,7 @@ end
     -- Draw text
     draw.DrawText( message or "", "GTowerHudCSubText", w, h + 30, Color( 255, 255, 255, 255 ), 1 )
 
-end*/
+end
 
 function Paint()
 
