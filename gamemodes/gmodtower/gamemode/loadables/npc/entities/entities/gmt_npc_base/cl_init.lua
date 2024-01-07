@@ -151,6 +151,9 @@ function ENT:Draw()
 		else
 
 			local att = self:GetAttachment( 1 )
+			
+			if !IsValid(att) then return end
+			
 			self.HatModel:SetPos( att.Pos + att.Ang:Forward() * pos.x + att.Ang:Right() * pos.y + att.Ang:Up() * pos.z )
 			self.HatModel:SetAngles( att.Ang + ang )
 			self.HatModel:SetModelScale( self.HatOffset.Scale )
