@@ -140,6 +140,9 @@ AddPlayerModel( "david", "models/player/dwecqihoodie.mdl" )
 AddPlayerModel( "raiden", "models/raiden/raiden.mdl" )
 AddPlayerModel( "reimu", "models/player/reimupc.mdl" )
 AddPlayerModel( "hatman", "models/player/hatman.mdl" )
+AddPlayerModel( "mae", "models/custom/asterisk/nitw/mae/mae_pm.mdl" )
+AddPlayerModel( "vibri", "models/player/pyroteknik/vibri.mdl" )
+AddPlayerModel( "beat", "models/player/captainpawn/beat.mdl" )
 --AddPlayerModel( "ornstein", "models/nikout/darksouls2/characters/olddragonslayer.mdl" )
 
 // Remove bad playermodels
@@ -169,6 +172,7 @@ ScaledModels = {
 	["models/player/red.mdl"] = 0.85,
 	["models/player/martymcfly.mdl"] = 0.85,
 	["models/player/hhp227/kilik.mdl"] = 1.05,
+	["models/custom/asterisk/nitw/mae/mae_pm.mdl"] = 1.10,
 
 	["models/player/redrabbit2.mdl"] = 0.65,
 	["models/player/redrabbit3.mdl"] = 0.65,

@@ -167,6 +167,31 @@ function InFront( pos, ent )
 	return (pos - ent:GetPos()):DotProduct( ent:GetForward() ) > 0
 end
 
+local registry do
+    local oldFindMetaTable = OldFindMetaTable or FindMetaTable
+
+    registry = setmetatable({}, {
+        __index = function(obj, key)
+            local tab = oldFindMetaTable(key)
+
+            if tab then
+                obj[key] = tab
+                return tab
+            end
+        end
+    })
+end
+
+function debug.getregistry()
+    return registry
+end
+
+OldFindMetaTable = OldFindMetaTable or FindMetaTable
+
+function FindMetaTable(name)
+    return registry[name]
+end
+
 if CLIENT then
 
 	usermessage.Hook( "UTL", function ( um )

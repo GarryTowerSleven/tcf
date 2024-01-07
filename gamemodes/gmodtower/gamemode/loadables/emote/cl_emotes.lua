@@ -18,8 +18,9 @@ Commands = {
 	[13] = "taunt",
 	[14] = "cheer",
 	[15] = "flail",
-	[16] = "laugh",
-	[17] = "suicide",
+	[16] = "crane",
+	[17] = "laugh",
+	[18] = "suicide",
 }
 
 SitAnims = {

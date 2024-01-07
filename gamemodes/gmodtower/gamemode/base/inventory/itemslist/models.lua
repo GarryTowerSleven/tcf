@@ -918,6 +918,31 @@ RegisterModel(
 	"models/player/reimupc.mdl",
 	"reimu",
 	15000 )
+
+--[[ Weight painting sucks. Awful. I don't know, think about it.	
+RegisterModel(
+	"mdl_mae",
+	"Mae Borowski",
+	"Everything sucks forever.",
+	"models/custom/asterisk/nitw/mae/mae_pm.mdl",
+	"mae",
+	30000 )--]]
+	
+RegisterModel(
+	"mdl_vibri",
+	"Vibri",
+	"The coolest bunny on the block.",
+	"models/player/pyroteknik/vibri.mdl",
+	"vibri",
+	30000 )
+	
+RegisterModel(
+	"mdl_beat",
+	"Beat",
+	"UNDERSTAND- UNDERSTAND- THE CONCEPT- THE CONCEPT OF LOVE!",
+	"models/player/captainpawn/beat.mdl",
+	"beat",
+	23000 )
 	
 --[[ Has buggy arms
 RegisterModel(

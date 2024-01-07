@@ -146,13 +146,13 @@ function GTowerChat.CheckSpam(pl, msg)
 	end
 
 	if pl.spamcount >= 2 && !pl:IsAdmin() then
-		return true, "You're repeating yourself"
+		return true, "You're repeating yourself."
 	end
 
-	pl.msgaverage = (msgaverage + math.Clamp(CurTime() - lastmsgtime, 0, 2)) / 2
+	pl.msgaverage = (msgaverage + math.Clamp(CurTime() - lastmsgtime, 0, 2.5)) / 2
 
-	if pl.msgaverage < 1 && !pl:IsAdmin() then
-		return true, "Slow down"
+	if pl.msgaverage < 1.75 && !pl:IsAdmin() then
+		return true, "Slow down!"
 	end
 
 	return false

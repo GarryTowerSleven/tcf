@@ -607,7 +607,7 @@ function SETTINGSCATEGORYTAB:CreateContents( tab )
 		self:Header( "Notifications" )
 		if IsLobby then
 			self:CheckBox( "Enable Missing Content Notice", "gmt_notice" )
-			--self:CheckBox( "Enable Missing Workshop Notice", "gmt_notice_workshop" )
+			self:CheckBox( "Enable Missing Workshop Notice", "gmt_notice_workshop", "gmt_notice" )
 			self:CheckBox( "Enable Auto Reconnect", "gmt_notice_reconnect" )
 
 			self:Divider()

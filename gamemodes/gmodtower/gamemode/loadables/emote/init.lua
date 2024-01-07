@@ -35,6 +35,7 @@ local Grammar = {
 	["cheer"] = "cheers.",
 	["flail"] = "flails.",
 	["laugh"] = "laughs.",
+	["crane"] = "is ready for a fight.",
 	["suicide"] = "couldn't handle life anymore.",
 	["lay"] = "lays down.",
 	["robot"] = "does the robot.",
@@ -66,6 +67,7 @@ Commands = {
 	[17] = {"lay", "", 0},
 	[18] = {"sit", "", 0},
 	[19] = {"lounge", "", 0},
+	[20] = {"crane", "pers", 3},
 }
 
 table.insert(Commands, 10, {"dancesync", "dancesync", 1})
