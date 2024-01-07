@@ -934,7 +934,7 @@ RegisterModel(
 	"The coolest bunny on the block.",
 	"models/player/pyroteknik/vibri.mdl",
 	"vibri",
-	50000 )
+	30000 )
 	
 --[[ Has buggy arms
 RegisterModel(
