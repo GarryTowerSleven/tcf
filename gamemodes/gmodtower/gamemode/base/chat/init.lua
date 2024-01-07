@@ -133,7 +133,7 @@ end )
 function GTowerChat.CheckSpam(pl, msg)
 	local lastmsg = pl.lastmsg or ""
 	local count = pl.spamcount or 0
-	local msgaverage = pl.msgaverage or 0
+	local msgaverage = pl.msgaverage or 1
 	local lastmsgtime = pl.lastmsgtime or 0
 
 	pl.lastmsg = string.lower(msg)
@@ -150,8 +150,8 @@ function GTowerChat.CheckSpam(pl, msg)
 	end
 
 	pl.msgaverage = (msgaverage + math.Clamp(CurTime() - lastmsgtime, 0, 3)) / 2
-
-	if pl.msgaverage < 1.5 && !pl:IsAdmin() then
+	print(pl.msgaverage)
+	if pl.msgaverage < 1.75 && !pl:IsAdmin() then
 		return true, "Slow down!"
 	end
 
