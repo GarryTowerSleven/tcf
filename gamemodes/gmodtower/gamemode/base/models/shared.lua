@@ -142,6 +142,7 @@ AddPlayerModel( "reimu", "models/player/reimupc.mdl" )
 AddPlayerModel( "hatman", "models/player/hatman.mdl" )
 AddPlayerModel( "mae", "models/custom/asterisk/nitw/mae/mae_pm.mdl" )
 AddPlayerModel( "vibri", "models/player/pyroteknik/vibri.mdl" )
+AddPlayerModel( "beat", "models/player/captainpawn/beat.mdl" )
 --AddPlayerModel( "ornstein", "models/nikout/darksouls2/characters/olddragonslayer.mdl" )
 
 // Remove bad playermodels

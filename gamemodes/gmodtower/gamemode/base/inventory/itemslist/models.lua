@@ -936,6 +936,14 @@ RegisterModel(
 	"vibri",
 	30000 )
 	
+RegisterModel(
+	"mdl_beat",
+	"Beat",
+	"UNDERSTAND- UNDERSTAND- THE CONCEPT- THE CONCEPT OF LOVE!",
+	"models/player/captainpawn/beat.mdl",
+	"beat",
+	23000 )
+	
 --[[ Has buggy arms
 RegisterModel(
 	"mdl_hunk",
