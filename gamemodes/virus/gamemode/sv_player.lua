@@ -214,6 +214,10 @@ function GM:Infect( ply, infector )
 	PostEvent( ply, "adrenaline_off" )
 
 	ply:SetDSP( 1 ) // turn off adrenaline dsp
+	
+	if ply._FlashlightEnabled then
+		ply:Flashlight( false )
+	end
 
 	net.Start( "Infect" )
 		net.WriteEntity( ply )
@@ -307,6 +311,17 @@ function GM:AllowPlayerPickup( ply, ent )
 
 	return false
 
+end
+
+function GM:PlayerSwitchFlashlight(ply, enabled	)
+
+	if ply._FlashlightEnabled == false && ply:GetNet( "IsVirus" ) || self:GetState() == STATE_WAITING || self:GetState() == STATE_INTERMISSION then 
+		return false
+	end
+
+	ply._FlashlightEnabled = enabled
+	
+	return true
 end
 
 function GM:PlayerShouldTakeDamage( victim, attacker )
