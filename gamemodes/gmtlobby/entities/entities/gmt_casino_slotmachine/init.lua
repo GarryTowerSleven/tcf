@@ -241,12 +241,16 @@ function ENT:Use( ply )
 
 	if !self:IsInUse() then
 
-		self:SetupVehicle( ply )
+		if !ply:GetNet( "AFK" ) then
+			self:SetupVehicle( ply )
 
-		if !IsValid(self.chair) then return end -- just making sure...
+			if !IsValid(self.chair) then return end -- just making sure...
 
-		ply.LastBetTime = CurTime()
-		self:SendPlaying( ply )
+			ply.LastBetTime = CurTime()
+			self:SendPlaying( ply )
+		else
+			ply:Msg2('You cannot play Slots while AFK.')
+		end
 
 	else
 		return
