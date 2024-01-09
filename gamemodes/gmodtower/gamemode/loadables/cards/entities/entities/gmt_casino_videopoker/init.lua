@@ -376,6 +376,18 @@ function ENT:Use(ply)
     end
 end
 
+function ENT:Think()
+
+	// Player Idling Check
+	if self:IsInUse() then
+		ply = self:GetPlayer
+		if ply:GetNet( "AFK" ) then
+			ply:ExitVehicle()
+			ply:Msg2('You have been ejected for being AFK!')
+		end
+	end
+	
+end
 function ENT:BroadcastJackpot(ply, winnings)
 
     GTowerChat.AddChat( T( "VideoPokerJackpotAll", string.upper( ply:Name() ), string.FormatNumber( winnings * 2) ), Color( 255, 200, 0 ), "Server" )

@@ -84,28 +84,32 @@ function ENT:Use( activator, caller )
 	local prize
 	local gmc_earn
 	if IsValid( caller ) and caller:IsPlayer() then
-		if self:GetState() == 0 && caller.IsSpinning != true  then
-			if caller:Afford( self.Cost ) then
-				caller.IsSpinning = true
-				caller:TakeMoney( self.Cost, false, self )
-				caller:AddAchievement( ACHIEVEMENTS.BORNTOSPIN, 1 )
+		if self:GetState() == 0 && caller.IsSpinning != true then
+			if !caller:GetNet( "AFK" ) then 
+				if caller:Afford( self.Cost ) then
+					caller.IsSpinning = true
+					caller:TakeMoney( self.Cost, false, self )
+					caller:AddAchievement( ACHIEVEMENTS.BORNTOSPIN, 1 )
 
-				self:SetSpinTime(self.SpinDuration)
-				self:SetState(4)
+					self:SetSpinTime(self.SpinDuration)
+					self:SetState(4)
 
-				self:SetTarget( tonumber(self:SpinRoll()) - 1 )
-				self:SetUser(caller)
-				prize = self:GetTarget() + 1
-				timer.Simple( self.SpinDuration + self.ExtraSettleTime, function()
-					self:SetState(0)
-					self:SetUser(NULL)
-					if IsValid( caller ) then
-						caller.IsSpinning = false
-						self:PayOut(caller,prize)
-					end
-				end)
+					self:SetTarget( tonumber(self:SpinRoll()) - 1 )
+					self:SetUser(caller)
+					prize = self:GetTarget() + 1
+					timer.Simple( self.SpinDuration + self.ExtraSettleTime, function()
+						self:SetState(0)
+						self:SetUser(NULL)
+						if IsValid( caller ) then
+							caller.IsSpinning = false
+							self:PayOut(caller,prize)
+						end
+					end)
+				else
+					caller:Msg2('[Spinner] You cannot spin, you do not have enough GMC.')
+				end
 			else
-				caller:Msg2('[Spinner] You cannot spin, you do not have enough GMC.')
+				caller:Msg2('[Spinner] You cannot spin, you are currently AFK.')
 			end
 		elseif caller.IsSpinning == true then
 			caller:Msg2( "[Spinner] You cannot spin, you are already spinning a wheel." )

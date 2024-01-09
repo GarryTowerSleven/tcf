@@ -105,10 +105,19 @@ function ENT:Think()
 	end
 
 	// Player Idling Check
-	if ( self.LastSpin + (60*3) < CurTime() ) && self:IsInUse() then
+	if self:IsInUse() then
 		local ply = self:GetPlayer()
-		ply:ExitVehicle()
-		// GAMEMODE:PlayerMessage( ply, "Slots", "You have been ejected due to idling!" )
+		
+		if ply:GetNet( "AFK" ) then
+			ply:ExitVehicle()
+			ply:Msg2('You have been ejected for being AFK!')
+		end
+		
+		if ( self.LastSpin + (60*3) < CurTime() ) then
+			ply:ExitVehicle()
+			ply:Msg2('You have been ejected due to idling!')
+		end
+		
 	end
 
 	if ( self.Jackpot && self.Jackpot < CurTime() ) then
