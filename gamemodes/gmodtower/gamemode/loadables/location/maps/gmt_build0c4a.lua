@@ -11,14 +11,14 @@ Add( 1, {
 Add( 53, {
     Name = "Train Station",
     Group = "trainstation",
-    Min = Vector(1408,-4271,-323),
+    Min = Vector(1408,-4460,-323),
     Max = Vector(1867,-3040,75),
     Priority = 0,
 } )
 Add( 47, {
     Name = "Train Station",
     Group = "trainstation",
-    Min = Vector(28,-4271,-323),
+    Min = Vector(28,-4460,-323),
     Max = Vector(447,-3040,75),
     Priority = 0,
 } )
@@ -358,7 +358,7 @@ Add( 56, {
 Add( 57, {
     Name = "Lakeside",
     Group = "lakeside",
-    Min = Vector(-12258,9145,-300),
+    Min = Vector(-12258,9145,-320),
     Max = Vector(-9000,11860,742),
     Priority = 0,
 } )
