@@ -114,7 +114,7 @@ end
 
 function EVENT:SpawnerThink()
 
-    local smashers = self:ParticipantCount() or 1
+    local smashers = self:ParticipantCount() or 0
 
     if smashers == 0 then
         return
