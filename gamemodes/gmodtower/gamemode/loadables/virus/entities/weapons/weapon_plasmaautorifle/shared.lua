@@ -90,9 +90,9 @@ SWEP.IronZoomFOV	 		= 50
 
 
 
-SWEP.OverHeatTime			= 2.5
+SWEP.OverHeatTime			= 2
 
-SWEP.CoolDownTime 			= 2
+SWEP.CoolDownTime 			= 2.5
 
 SWEP.ExponentDelay 			= 0.75
 
