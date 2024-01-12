@@ -1,11 +1,11 @@
 EventPool = EventPool or { "StoreSale", "ChainsawBattle", "FistFight", "BalloonPop", "ObamaSmash" }
 
-if ( IsHalloween ) then
+/*if ( IsHalloween ) then
 	table.RemoveByValue( EventPool, "BalloonPop" )
 	table.uinsert( EventPool, "GhostPop" )
-end
+end*/
 
-if ( IsChristmas ) then
+if ( string.StartWith( game.GetMap(), "gmt_build0c" ) then
 	table.uinsert( EventPool, "SnowballFight" )
 end
 
