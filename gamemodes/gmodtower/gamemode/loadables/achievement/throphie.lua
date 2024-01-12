@@ -49,33 +49,39 @@ concommand.Add("gmt_resettrophies", function( ply, cmd, args )
 		return
 	end
 	
-	if ply._TrophiesReset && ply._TrophiesReset > CurTime() then
-		return
-	end
+	local roomid = ply:GetNet("RoomID")
 	
-	ply._TrophiesReset = CurTime() + 1.0
+	if roomid && roomid > 0 then
 	
-	local TrophiesGiven = 0
-	
-	for k, Achievement in pairs( GTowerAchievements.Achievements ) do
+		if ply._TrophiesReset && ply._TrophiesReset > CurTime() then
+			return
+		end
 		
-		if ply:Achived( k ) && Achievement.GiveItem then
+		ply._TrophiesReset = CurTime() + 1.0
+		
+		local TrophiesGiven = 0
+		
+		for k, Achievement in pairs( GTowerAchievements.Achievements ) do
 			
-			local ItemId = GTowerItems:FindByFile( Achievement.GiveItem )
-			
-			if !ply:HasItemById( ItemId ) then 
+			if ply:Achived( k ) && Achievement.GiveItem then
 				
-				local Item = GTowerItems:CreateById( ItemId , ply ) 
-				local Slot = GTowerItems:NewItemSlot( ply, "-2" ) //In the bank!
+				local ItemId = GTowerItems:FindByFile( Achievement.GiveItem )
 				
-				if Item then
-				
-					Slot:FindUnusedSlot( Item, true )
+				if !ply:HasItemById( ItemId ) then 
 					
-					if Slot:IsValid() then
-						Slot:Set( Item )	
-						Slot:ItemChanged()
-						TrophiesGiven = TrophiesGiven + 1
+					local Item = GTowerItems:CreateById( ItemId , ply ) 
+					local Slot = GTowerItems:NewItemSlot( ply, "-2" ) //In the bank!
+					
+					if Item then
+					
+						Slot:FindUnusedSlot( Item, true )
+						
+						if Slot:IsValid() then
+							Slot:Set( Item )	
+							Slot:ItemChanged()
+							TrophiesGiven = TrophiesGiven + 1
+						end
+						
 					end
 					
 				end
@@ -83,15 +89,17 @@ concommand.Add("gmt_resettrophies", function( ply, cmd, args )
 			end
 			
 		end
-		
-	end
 
-	if TrophiesGiven > 0 then
+		if TrophiesGiven > 0 then
+			
+			umsg.Start("GTAchRest", ply )
+				umsg.Char( TrophiesGiven )
+			umsg.End()
+			
+		end
 		
-		umsg.Start("GTAchRest", ply )
-			umsg.Char( TrophiesGiven )
-		umsg.End()
-		
+	else
+		ply:Msg2("Please check into a suite before running this command.")
 	end
 
 end )
