@@ -97,7 +97,7 @@ function GM:CleanUpMap()
 			end
 		end
 
-		self:LockProps()
+		//self:LockProps()
 
 	end
 	
