@@ -78,8 +78,6 @@ timer.Create("CheckAfkKickerPlayerThink", 1.0, 0, function()
 		else
 			ShouldKick = false
 		end
-	else
-		ShouldKick = true
 	end
 
 end )
@@ -125,10 +123,10 @@ hook.Add( "PlayerThink", "AFKPlayerThink", function( ply )
 		Set( ply, true )
 	end
 	
-	if ply.AFK && ShouldKick && !ply:IsStaff() then
-		if IsLobby then
+	if ply.AFK && !ply:IsStaff() then
+		if IsLobby && ShouldKick then
 			ply:Kick("You have been kicked to free slots due to being AFK while the server is near max players.")
-		else
+		elseif !IsLobby then
 			ply:Kick("You have been kicked for being AFK. Type 'retry' in console if you'd like to rejoin.")
 		end
 	end
