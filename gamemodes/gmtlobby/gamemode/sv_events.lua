@@ -5,7 +5,7 @@ EventPool = EventPool or { "StoreSale", "ChainsawBattle", "FistFight", "BalloonP
 	table.uinsert( EventPool, "GhostPop" )
 end*/
 
-if ( string.StartWith( game.GetMap(), "gmt_build0c" ) then
+if string.StartWith( game.GetMap(), "gmt_build0c" ) then
 	table.uinsert( EventPool, "SnowballFight" )
 end
 
