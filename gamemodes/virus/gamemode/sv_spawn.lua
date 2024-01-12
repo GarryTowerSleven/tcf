@@ -88,6 +88,11 @@ function GM:VirusSpawn( ply )
 	
 	if ( !ply:Alive() ) then
 		ply:Spawn()
+	elseif ply.FirstInfected then
+		ply.Flame = true
+		ply:SetNWBool("Flame", true)
+
+		ply:EmitSound( "ambient/fire/ignite.wav", 75, 95, 1, CHAN_AUTO )
 	end
 	
 	if SERVER then
@@ -96,7 +101,7 @@ function GM:VirusSpawn( ply )
 	PostEvent( ply, "infection_on" )
 
 	timer.Simple( 2, function()
-		if IsValid( ply ) && ply:Alive() then
+		if IsValid( ply ) && ply:Alive() && ply.Flame != true then
 			/*local pos = ply:GetPos( ) + Vector( 0, 0, 50 )
 
 			//flame OOOONNN!!
