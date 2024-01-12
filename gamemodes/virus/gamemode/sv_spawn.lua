@@ -88,18 +88,21 @@ function GM:VirusSpawn( ply )
 	
 	if ( !ply:Alive() ) then
 		ply:Spawn()
-	elseif ply.FirstInfected then
-		ply.Flame = true
-		ply:SetNWBool("Flame", true)
-
-		ply:EmitSound( "ambient/fire/ignite.wav", 75, 95, 1, CHAN_AUTO )
 	end
 	
 	if SERVER then
 		Hats.UpdateWearables( ply )
 	end
 	PostEvent( ply, "infection_on" )
+	
+	if ply == self.FirstInfected && ply.FirstSpawn == true then	
+		ply.Flame = true
+		ply:SetNWBool("Flame", true)
 
+		ply:EmitSound( "ambient/fire/ignite.wav", 75, 95, 1, CHAN_AUTO )
+		ply.FirstSpawn = false
+	end
+	
 	timer.Simple( 2, function()
 		if IsValid( ply ) && ply:Alive() && ply.Flame != true then
 			/*local pos = ply:GetPos( ) + Vector( 0, 0, 50 )

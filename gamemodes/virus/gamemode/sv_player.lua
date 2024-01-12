@@ -132,6 +132,7 @@ function GM:RandomInfect()
 	self.FirstInfected = infected
 	
 	self:Infect(infected)
+	infected.FirstSpawn = true
 	
 	if #plycount > 1 then
 		GAMEMODE.LastInfected = infected
