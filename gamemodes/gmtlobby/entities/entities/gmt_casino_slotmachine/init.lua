@@ -265,7 +265,7 @@ concommand.Add( "slotm_spin", function( ply, cmd, args )
 	if ply.LastBetTime >= CurTime() then return end
 
 	local bet = tonumber(args[1]) or 10
-	bet = math.Clamp( bet, 10, 1000 )
+	bet = math.Clamp( bet, 10, 100 )
 
 	local ent = ply.SlotMachine
 
