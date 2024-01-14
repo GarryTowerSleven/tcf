@@ -1,6 +1,7 @@
 hook.Add( "PlayerCanHearPlayersVoice", "GMTAdminAllTalk", function(listener, talker)
 
 	if talker._Muted then return false end
+	if Friends.IsBlocked( listener, talker ) then return false end
 	if talker._AllTalk then return true, false end
 	
     if not IsLobby then return true end
