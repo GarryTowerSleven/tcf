@@ -341,6 +341,9 @@ function ENT:DrawMessage( a )
 		if owner:GetNWString("RoomName") != "" then
 			draw.SimpleText( owner:GetNWString("RoomName"), "SuiteNameFont", -190+2, -250+2, Color( 0, 0, 0 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 			draw.SimpleText( owner:GetNWString("RoomName"), "SuiteNameFont", -190, -250, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		else
+			draw.SimpleText( "SUITE", "SuiteNameFont", -190+2, -250+2, Color( 0, 0, 0 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.SimpleText( "SUITE", "SuiteNameFont", -190, -250, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		end
 
 		if owner:GetNWBool("GRoomParty") then

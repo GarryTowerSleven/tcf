@@ -105,10 +105,19 @@ function ENT:Think()
 	end
 
 	// Player Idling Check
-	if ( self.LastSpin + (60*3) < CurTime() ) && self:IsInUse() then
+	if self:IsInUse() then
 		local ply = self:GetPlayer()
-		ply:ExitVehicle()
-		// GAMEMODE:PlayerMessage( ply, "Slots", "You have been ejected due to idling!" )
+		
+		if ply:GetNet( "AFK" ) then
+			ply:ExitVehicle()
+			ply:Msg2('You have been ejected for being AFK!')
+		end
+		
+		if ( self.LastSpin + (60*3) < CurTime() ) then
+			ply:ExitVehicle()
+			ply:Msg2('You have been ejected due to idling!')
+		end
+		
 	end
 
 	if ( self.Jackpot && self.Jackpot < CurTime() ) then
@@ -232,12 +241,16 @@ function ENT:Use( ply )
 
 	if !self:IsInUse() then
 
-		self:SetupVehicle( ply )
+		if !ply:GetNet( "AFK" ) then
+			self:SetupVehicle( ply )
 
-		if !IsValid(self.chair) then return end -- just making sure...
+			if !IsValid(self.chair) then return end -- just making sure...
 
-		ply.LastBetTime = CurTime()
-		self:SendPlaying( ply )
+			ply.LastBetTime = CurTime()
+			self:SendPlaying( ply )
+		else
+			ply:Msg2('You cannot play Slots while AFK.')
+		end
 
 	else
 		return
@@ -252,7 +265,7 @@ concommand.Add( "slotm_spin", function( ply, cmd, args )
 	if ply.LastBetTime >= CurTime() then return end
 
 	local bet = tonumber(args[1]) or 10
-	bet = math.Clamp( bet, 10, 1000 )
+	bet = math.Clamp( bet, 10, 100 )
 
 	local ent = ply.SlotMachine
 

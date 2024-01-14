@@ -55,9 +55,10 @@ function NotifyJoin( ply )
 
 end
 
+/* This seems to get overridden
 hook.Add( "PlayerCanHearPlayersVoice", "BlockedVoices", function( listener, talker )
 	if ( Friends.IsBlocked( listener, talker ) ) then return false end
-end )
+end )*/
 
 net.Receive( "FriendStatus", function( len, ply )
 

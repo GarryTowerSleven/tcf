@@ -225,6 +225,9 @@ ChairOffsets = {
 	["models/gmod_tower/aigik/casino_stool.mdl"] = {
 		{ Pos = Vector(0, 0, 30), Ang = Angle(0, 90, 0) },
 	},
+	["models/props_c17/chair_kleiner03a.mdl"] = {
+		{ Pos = Vector(0, 0, 40), Ang = Angle(0, 0, 0) },
+	},
 }
 
 NotRight = {	
@@ -239,6 +242,7 @@ NotRight = {
 	["models/props_vtmb/hotelchair.mdl"]			= 180,
 	["models/haxxer/me2_props/illusive_chair.mdl"]	= 90,
 	["models/haxxer/me2_props/reclining_chair.mdl"]	= 0,
+	["models/props_c17/chair_kleiner03a.mdl"] = 90,
 }
 
 NotRight2 = {	

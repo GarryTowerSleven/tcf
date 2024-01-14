@@ -1,6 +1,7 @@
 hook.Add( "PlayerCanHearPlayersVoice", "GMTAdminAllTalk", function(listener, talker)
 
 	if talker._Muted then return false end
+	if Friends.IsBlocked( listener, talker ) then return false end
 	if talker._AllTalk then return true, false end
 	
     if not IsLobby then return true end
@@ -19,13 +20,13 @@ hook.Add( "PlayerCanHearPlayersVoice", "GMTAdminAllTalk", function(listener, tal
 	
 end )
 
-
+/* For Now
 hook.Add( "Location", "LocationVoiceLock", function( ply, loc ) 
 
 	if Location.Is( loc, "Dev HQ" ) then
 		ply._VoiceLockedToLocation = true
 	else
 		ply._VoiceLockedToLocation = false
-	end
+	end/*
 
-end )
+end )*/

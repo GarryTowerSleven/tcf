@@ -66,7 +66,7 @@ if ChatCommands then
 	end )
 end
 
-timer.Create("CheckAfkKickerPlayerThink", 10.0, 0, function()
+timer.Create("CheckAfkKickerPlayerThink", 1.0, 0, function()
 
 	if IsLobby then
 		local MaxSlots = GetMaxSlots()
@@ -123,8 +123,12 @@ hook.Add( "PlayerThink", "AFKPlayerThink", function( ply )
 		Set( ply, true )
 	end
 	
-	if IsLobby && ply.AFK && ShouldKick && !ply:IsStaff() then
-		ply:Kick("You have been kicked to free slots due to being AFK while the server is near max players")
+	if ply.AFK && !ply:IsStaff() then
+		if IsLobby && ShouldKick then
+			ply:Kick("You have been kicked to free slots due to being AFK while the server is near max players.")
+		elseif !IsLobby then
+			ply:Kick("You have been kicked for being AFK. Type 'retry' in console if you'd like to rejoin.")
+		end
 	end
 end )
 

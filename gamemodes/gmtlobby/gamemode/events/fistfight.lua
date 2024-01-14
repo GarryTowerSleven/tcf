@@ -117,4 +117,19 @@ function EVENT:End()
 	
 end
 
+function EVENT:PlayerDeath( victim, attacker )
+    
+    if not self.Participants[ victim ] then return end
+
+    if attacker != victim and IsValid( attacker ) and attacker:IsPlayer() then
+
+		attacker:AddMoney( self.MoneyOnKill, nil, nil, nil, "EventFistFight" )
+		attacker:AddAchievement( ACHIEVEMENTS.MGFIGHTER, 1 )
+
+        self.TotalMoney = self.TotalMoney + self.MoneyOnKill
+
+    end
+
+end
+
 minievent.Register( "FistFight", EVENT )

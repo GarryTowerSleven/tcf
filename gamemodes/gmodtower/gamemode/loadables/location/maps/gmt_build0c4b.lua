@@ -59,13 +59,6 @@ Add( 43, {
     Max = Vector(2050,-500,3465),
     Priority = 0,
 } )
-Add( 7, {
-    Name = "Dev HQ",
-    Group = "devhq",
-    Min = Vector(430,-2830,2500 ),
-    Max = Vector(702,-2570,2700),
-    Priority = 1,
-} )
 
 // THEATER
 Add( 41, {
@@ -84,9 +77,30 @@ Add( 42, {
 } )
 Add( 49, {
     Name = "Super Secret",
-    Group = "olddevhq",
+    Group = "secretarea",
     Min = Vector(-553,-1344,0),
-    Max = Vector(-215,-1016,801),
+    Max = Vector(-215,-1005,801),
+	Priority = 1,
+} )
+Add( 87, {
+    Name = "Dev HQ Elevator",
+    Group = "devhqelev",
+    Min = Vector(-500,-1005,-1700),
+    Max = Vector(-340,-850,345),
+	Priority = 2,
+} )
+Add( 7, {
+    Name = "Dev HQ",
+    Group = "devhq",
+    Min = Vector(-1350,-2300,-1525),
+    Max = Vector(1100,-1005,-1300),
+	Priority = 1,
+} )
+Add( 89, {
+    Name = "Nightmare",
+    Group = "nightmare",
+    Min = Vector(4500,-6915,-1500),
+    Max = Vector(5800,-6315,-1100),
 	Priority = 1,
 } )
 Add( 46, {

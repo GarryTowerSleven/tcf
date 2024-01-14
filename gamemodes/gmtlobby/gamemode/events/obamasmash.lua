@@ -7,37 +7,37 @@ EVENT.Weapon = "weapon_crowbar"
 
 EVENT.Locations = {
 
-    [ Location.GetIDByName( "Suites" ) ] = {
-        limit = 50,
-        pos = {
-            min = Vector( 4911, -10543, 4100 ),
-            max = Vector( 4184, -9816, 4100 ),    
-        },
-    },
+	[ Location.GetIDByName( "Suites" ) ] = {
+		limit = 50,
+		pos = {
+			min = Vector( 4911, -10543, 4100 ),
+			max = Vector( 4184, -9816, 4100 ),    
+		},
+	},
 
-    [ Location.GetIDByName( "Lobby" ) ] = {
+	[ Location.GetIDByName( "Lobby" ) ] = {
         limit = 100,
         pos = {
             min = Vector( 344, -2125, 64 ),
             max = Vector( 1627, -968, 64 ),    
         },
     },
-
-    [ Location.GetIDByName( "Entertainment Plaza" ) ] = {
-        limit = 75,
-        pos = {
-            min = Vector( 675, 200, 50 ),
-            max = Vector( 1175, 1600, 50 ),    
-        },
-    },
-
-    [ Location.GetIDByName( "Gamemode Ports" ) ] = {
-        limit = 50,
-        pos = {
-            min = Vector( 10000, 10260, 6657 ),
-            max = Vector( 11020, 10985, 6657 ),    
-        },
-    },
+	
+	[ Location.GetIDByName( "Entertainment Plaza" ) ] = {
+		limit = 75,
+		pos = {
+			min = Vector( 675, 200, 50 ),
+			max = Vector( 1175, 1600, 50 ),    
+		},
+	},
+	
+	[ Location.GetIDByName( "Gamemode Ports" ) ] = {
+		limit = 50,
+		pos = {
+			min = Vector( 10000, 10260, 6657 ),
+			max = Vector( 11020, 10985, 6657 ),    
+		},
+	},
 
 }
 
@@ -80,7 +80,10 @@ function EVENT:CreateEntity( pos )
     for _, v in ipairs( near ) do
         
         if IsValid( v ) then
-            return
+			//????
+			if v:GetClass() != "keyframe_rope" then
+				return
+			end
         end
 
     end
