@@ -20,13 +20,13 @@ hook.Add( "PlayerCanHearPlayersVoice", "GMTAdminAllTalk", function(listener, tal
 	
 end )
 
-
+/* For Now
 hook.Add( "Location", "LocationVoiceLock", function( ply, loc ) 
 
 	if Location.Is( loc, "Dev HQ" ) then
 		ply._VoiceLockedToLocation = true
 	else
 		ply._VoiceLockedToLocation = false
-	end
+	end/*
 
-end )
+end )*/
