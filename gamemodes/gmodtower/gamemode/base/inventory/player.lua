@@ -486,16 +486,20 @@ function meta:InvRemove( slot, force )
 
 	local GiveMoney = Item:SellPrice()
 
-	if GiveMoney > 0 and !force then
-		self:AddMoney( GiveMoney, nil, nil, nil, "Sold (" .. Item.Name .. ")" )
-		self:Msg2( T("InventorySold", Item.Name), "storage" )
-	else
-		self:Msg2( T("InventoryDiscard", Item.Name), "storage" )
-	end
-
 	ItemSlot:Remove()
 	ItemSlot:ItemChanged()
 
+	if !ItemSlot:Get() then
+		if GiveMoney > 0 and !force then
+			self:AddMoney( GiveMoney, nil, nil, nil, "Sold (" .. Item.Name .. ")" )
+			self:Msg2( T("InventorySold", Item.Name), "storage" )
+		else
+			self:Msg2( T("InventoryDiscard", Item.Name), "storage" )
+		end
+	else
+		self:Msg2( "Huh... something weird happened! Maybe the server broke!.. Or maybe you're just a silly little bug finder." )
+	end
+	
 	hook.Call("InvRemove", GAMEMODE, ItemSlot )
 
 end
