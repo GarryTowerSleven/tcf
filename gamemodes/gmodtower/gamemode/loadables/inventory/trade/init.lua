@@ -3,7 +3,7 @@ AddCSLuaFile("cl_gui.lua")
 AddCSLuaFile("cl_item.lua")
 AddCSLuaFile("shared.lua")
 
-TRADE_DISABLED = false
+TRADE_DISABLED = true
 
 include("shared.lua")
 include("trade.lua")
