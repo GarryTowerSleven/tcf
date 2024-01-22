@@ -228,6 +228,10 @@ function meta:InvGrabEnt( ent, slot )
 		end
 	end
 
+	if self.Selling then
+		self:Msg2( "Nice try." )
+		return
+	end
 
 	ItemSlot:Set( Item )
 	ItemSlot:ItemChanged()
@@ -345,6 +349,11 @@ function meta:DropItem( slot, aim, rotation, shoot )
 		return
 	end
 
+	if self.Selling then
+		self:Msg2( "Nice try." )
+		return
+	end
+	
 	//Return false so it does nothng
 	local DropEnt = Item:OnDrop()
 	local VarType = type( DropEnt )
@@ -474,6 +483,8 @@ function meta:InvRemove( slot, force )
 
 	local ItemSlot = GTowerItems:NewItemSlot( self, slot )
 
+	self.Selling = true
+
 	if !ItemSlot || !ItemSlot:IsValid() || !ItemSlot:CanManage() then
 		return
 	end
@@ -497,9 +508,10 @@ function meta:InvRemove( slot, force )
 			self:Msg2( T("InventoryDiscard", Item.Name), "storage" )
 		end
 	else
-		self:Msg2( "Huh... something weird happened! Maybe the server broke!.. Or maybe you're just a silly little bug finder." )
+		self:Msg2( "Huh... something weird happened! Maybe the server broke!.. Or maybe you're just a bug finder." )
 	end
 	
+	self.Selling = false
 	hook.Call("InvRemove", GAMEMODE, ItemSlot )
 
 end
