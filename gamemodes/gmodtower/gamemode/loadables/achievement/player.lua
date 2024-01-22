@@ -68,7 +68,7 @@ function meta:SetAchievement( id, value, add )
 		end
 		
 		self:EmitSound( "gmodtower/music/award_hd.mp3", 100, 100 )
-		self:AddMoney( ( Achievement.GMC or 500 ) )
+		self:AddMoney( ( Achievement.GMC or 500 ), nil, nil, nil, "Achievement" )
 
 		local SanitizedName = string.SafeChatName(self:Name())
 
