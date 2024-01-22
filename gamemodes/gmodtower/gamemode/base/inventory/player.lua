@@ -230,7 +230,7 @@ function meta:InvGrabEnt( ent, slot )
 
 	if self.Selling then
 		self:Msg2( "Nice try." )
-		SQLLog('exploit', .. self:SteamID() .. " caught on selling check 1." )
+		SQLLog('exploit', self:SteamID() .. " caught on selling check 1." )
 		return
 	end
 
@@ -270,7 +270,7 @@ function meta:InvSwap( slot1, slot2 )
 	end
 
 	if self.Grabbed then
-		SQLLog('exploit', .. self:SteamID() .. " caught on swap check." )
+		SQLLog('exploit', self:SteamID() .. " caught on swap check." )
 		return
 	end
 	
@@ -362,7 +362,7 @@ function meta:DropItem( slot, aim, rotation, shoot )
 
 	if self.Selling then
 		self:Msg2( "Nice try." )
-		SQLLog('exploit', .. self:SteamID() .. " caught on selling check 2." )
+		SQLLog('exploit', self:SteamID() .. " caught on selling check 2." )
 		return
 	end
 	
