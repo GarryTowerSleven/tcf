@@ -3,13 +3,16 @@ module( "Admins", package.seeall )
 
 List = {
 
-	//["STEAM_0:0:1384695"]	= true, -- kity
+	["STEAM_0:0:1384695"]	= true, -- kity
 
 	["STEAM_0:0:38865393"]	= true, -- boXy
 	["STEAM_0:1:124798129"]	= true, -- AmGona
 	["STEAM_0:1:39916544"]	= true, -- Anomaladox
 	["STEAM_0:0:44458854"]	= true, -- Bumpy
 	["STEAM_0:0:35652170"]  = true, -- Lead
+	["STEAM_0:0:241528576"]	= true, -- Scienti[-]
+	["STEAM_0:1:51961500"]	= true, -- Patapancakes
+	["STEAM_0:1:93126701"]	= true, -- Witchdagger
 
 }
 
@@ -33,7 +36,6 @@ ListModerator = {
 	["STEAM_0:0:69447790"]	= true, -- Oliver Ward
 	["STEAM_0:0:52342461"]	= true, -- Willy Bonka
 	["STEAM_0:0:55259712"]	= true, -- Espy
-	["STEAM_0:0:241528576"]	= true, -- Scienti[-]
 	["STEAM_0:1:4313984"]	= true, -- Master
 
 }

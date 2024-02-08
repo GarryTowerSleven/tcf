@@ -5,19 +5,22 @@
 PlayerRoles = {
 
     // Lead Dev
-    ["STEAM_0:0:38865393"]	= "Lead Developer", //  I WANT OUT
-	
+	["STEAM_0:0:35652170"]  = "Lead Developer",	// Lead
+	["STEAM_0:0:241528576"] = "Lead Developer",  // Scienti[-]
+
 	// Developers
 	["STEAM_0:1:39916544"]  = "Developer",	// Anoma
 	["STEAM_0:1:124798129"] = "Developer", 	// Amgona
 	["STEAM_0:0:44458854"]  = "Developer",	// Bumpy
-	["STEAM_0:0:241528576"] = "Developer",  // Scienti[-]
-	["STEAM_0:0:35652170"]  = "Developer",	// Lead
 
+
+	["STEAM_0:0:38865393"]	= "Developer", //  you got out :3
 	["STEAM_0:0:90689651"]  = "Developer", // Sonop
 	["STEAM_0:1:97372299"]  = "Developer", // NotGaylien
 	["STEAM_0:0:115320789"]  = "Developer", // Zia
-	//["STEAM_0:0:1384695"]   = "Developer",	// kity
+	["STEAM_0:0:1384695"]   = "Developer",	// kity
+	["STEAM_0:1:51961500"]	= "Developer", -- Patapancakes
+	["STEAM_0:1:93126701"]	= "Developer", -- Witchdagger
 
 	// Contributor
 	["STEAM_0:0:193442077"] = "Contributor", // Nyantendo
