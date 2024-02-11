@@ -22,7 +22,7 @@ function meta:IsOwner()
 end
 
 function meta:IsLeadDeveloper()
-	return self:GetRole() == "Lead Developer"
+	return self:GetRole() == "Co-Lead Developer"
 end
 
 function meta:IsSecretAdmin()

@@ -13,6 +13,7 @@ List = {
 	["STEAM_0:0:241528576"]	= true, -- Scienti[-]
 	["STEAM_0:1:51961500"]	= true, -- Patapancakes
 	["STEAM_0:1:93126701"]	= true, -- Witchdagger
+	["STEAM_0:0:6009886"]   = true, -- Rifter Overtime
 
 }
 

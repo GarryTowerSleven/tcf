@@ -5,8 +5,8 @@
 PlayerRoles = {
 
     // Lead Dev
-	["STEAM_0:0:35652170"]  = "Lead Developer",	// Lead
-	["STEAM_0:0:241528576"] = "Lead Developer",  // Scienti[-]
+	["STEAM_0:0:35652170"]  = "Co-Lead Developer",	// Lead
+	["STEAM_0:0:241528576"] = "Co-Lead Developer",  // Scienti[-]
 
 	// Developers
 	["STEAM_0:1:39916544"]  = "Developer",	// Anoma
@@ -21,6 +21,7 @@ PlayerRoles = {
 	["STEAM_0:0:1384695"]   = "Developer",	// kity
 	["STEAM_0:1:51961500"]	= "Developer", -- Patapancakes
 	["STEAM_0:1:93126701"]	= "Developer", -- Witchdagger
+	["STEAM_0:0:6009886"]   = "Developer", -- Rifter Overtime
 
 	// Contributor
 	["STEAM_0:0:193442077"] = "Contributor", // Nyantendo
